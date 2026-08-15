@@ -1,0 +1,19 @@
+{
+  "app_name": "哈基米交易",
+  "display_name": "哈基米交易 v2",
+  "version": "v2",
+  "internal_version": "2.0.0-alpha",
+  "entry": "hakimi_trade_desktop.py",
+  "local_url": "http://127.0.0.1:8765/",
+  "markets": {
+    "crypto": ["BTC", "ETH", "DOGE"],
+    "crypto_market_types": ["spot", "usdt_perpetual_swap"],
+    "stocks": ["AAPL", "MSFT", "NVDA", "TSLA", "MSTR", "SPY", "QQQ"]
+  },
+  "safety": {
+    "live_trading_default": false,
+    "live_trading_hard_block": true,
+    "ai_auto_apply": false
+  },
+  "software_targets": ["windows_desktop_launcher", "pyinstaller_exe"]
+}

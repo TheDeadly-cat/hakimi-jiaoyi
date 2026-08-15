@@ -1,0 +1,52 @@
+{
+  "name": "okx_auto_quant_bot",
+  "mode": "paper",
+  "market": "crypto",
+  "symbol": "BTC-USDT",
+  "timeframe": "1h",
+  "initial_cash": 10000,
+  "data": {
+    "provider": "okx",
+    "history_limit": 500,
+    "csv_path": "",
+    "cache_dir": "runtime/cache",
+    "use_cache": true
+  },
+  "strategy": {
+    "name": "dual_ma",
+    "params": {
+      "fast_window": 20,
+      "slow_window": 60,
+      "position_pct": 0.25,
+      "take_profit_pct": 0.08,
+      "stop_loss_pct": 0.03
+    }
+  },
+  "risk": {
+    "max_position_pct": 0.35,
+    "max_single_loss_pct": 0.03,
+    "max_daily_loss_pct": 0.05,
+    "max_leverage": 2,
+    "min_cash_pct": 0.05
+  },
+  "execution": {
+    "broker": "paper",
+    "exchange": "okx",
+    "fee_rate": 0.0008,
+    "slippage_pct": 0.0005,
+    "poll_seconds": 5,
+    "live_trading_enabled": false
+  },
+  "optimizer": {
+    "metric": "sharpe_ratio",
+    "grid": {
+      "fast_window": [10, 20, 30],
+      "slow_window": [50, 80, 120],
+      "stop_loss_pct": [0.02, 0.03, 0.05]
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "log_dir": "runtime/logs"
+  }
+}

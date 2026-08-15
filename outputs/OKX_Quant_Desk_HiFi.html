@@ -1,0 +1,1409 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OKX Quant Desk 高保真原型</title>
+  <style>
+    :root {
+      --bg: #f3f5f7;
+      --surface: #ffffff;
+      --surface-2: #f8fafc;
+      --ink: #18202a;
+      --text: #27313d;
+      --muted: #6b7480;
+      --line: #dde3ea;
+      --line-strong: #c9d2dd;
+      --green: #08835f;
+      --green-2: #e0f4ec;
+      --blue: #2169b5;
+      --blue-2: #e3efff;
+      --amber: #9a650b;
+      --amber-2: #fff2ce;
+      --red: #be3f42;
+      --red-2: #ffe5e5;
+      --violet: #6e55b7;
+      --violet-2: #eee9ff;
+      --shadow: 0 16px 44px rgba(22, 32, 48, 0.08);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+      letter-spacing: 0;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: #151b22;
+      color: #eef3f8;
+      padding: 18px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 8px;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(8, 131, 95, 0.95), rgba(33, 105, 181, 0.94)),
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.8), transparent 34%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    }
+
+    .brand strong {
+      display: block;
+      color: #ffffff;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .brand span {
+      display: block;
+      color: #93a1b1;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .nav a {
+      min-height: 42px;
+      padding: 10px 11px;
+      border-radius: 8px;
+      color: #b9c4d1;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .nav a::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #485462;
+      flex: 0 0 auto;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: #242c36;
+      color: #ffffff;
+    }
+
+    .nav a.active::before {
+      background: #24b18a;
+      box-shadow: 0 0 0 4px rgba(36, 177, 138, 0.16);
+    }
+
+    .sidebar-card {
+      margin-top: auto;
+      border-radius: 8px;
+      background: #222a34;
+      border: 1px solid #303a46;
+      padding: 13px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .sidebar-card b {
+      font-size: 13px;
+      color: #ffffff;
+    }
+
+    .sidebar-card p {
+      margin: 0;
+      color: #aeb9c5;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .main {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .topbar {
+      height: 70px;
+      background: rgba(243, 245, 247, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 26px;
+    }
+
+    .top-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(8, 131, 95, 0.12);
+      flex: 0 0 auto;
+    }
+
+    .top-title h1 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top-title span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      min-height: 30px;
+      padding: 6px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .chip::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--line-strong);
+    }
+
+    .chip.green {
+      color: var(--green);
+      background: var(--green-2);
+      border-color: #b9e4d4;
+    }
+
+    .chip.green::before {
+      background: var(--green);
+    }
+
+    .chip.amber {
+      color: var(--amber);
+      background: var(--amber-2);
+      border-color: #ead08e;
+    }
+
+    .chip.amber::before {
+      background: #c58a16;
+    }
+
+    .btn {
+      min-height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface);
+      color: var(--ink);
+      padding: 8px 12px;
+      font-weight: 700;
+      cursor: default;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+    .btn.primary {
+      border-color: var(--green);
+      background: var(--green);
+      color: #ffffff;
+    }
+
+    .btn.danger {
+      border-color: var(--red);
+      background: var(--red);
+      color: #ffffff;
+    }
+
+    .btn.blue {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #ffffff;
+    }
+
+    .icon {
+      width: 16px;
+      height: 16px;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .icon.pause {
+      grid-template-columns: 4px 4px;
+      gap: 3px;
+    }
+
+    .icon.pause::before,
+    .icon.pause::after {
+      content: "";
+      height: 13px;
+      border-radius: 2px;
+      background: currentColor;
+    }
+
+    .icon.play {
+      width: 0;
+      height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 12px solid currentColor;
+    }
+
+    .icon.check {
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .icon.check::after {
+      content: "";
+      position: absolute;
+      width: 7px;
+      height: 4px;
+      border-left: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(-45deg);
+      left: 3px;
+      top: 3px;
+    }
+
+    .content {
+      padding: 24px 26px 42px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.95fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .panel.pad {
+      padding: 16px;
+    }
+
+    .panel-head {
+      padding: 16px 16px 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .panel-title {
+      min-width: 0;
+    }
+
+    .panel-title h2,
+    .panel-title h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 17px;
+    }
+
+    .panel-title p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .account-strip {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 112px;
+      display: grid;
+      align-content: space-between;
+      gap: 10px;
+    }
+
+    .metric label {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .metric strong {
+      color: var(--ink);
+      font-size: 25px;
+      line-height: 1.15;
+    }
+
+    .metric small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .positive {
+      color: var(--green);
+    }
+
+    .negative {
+      color: var(--red);
+    }
+
+    .chart-wrap {
+      padding: 8px 16px 16px;
+    }
+
+    .chart {
+      height: 278px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(8, 131, 95, 0.09), rgba(255, 255, 255, 0) 55%),
+        repeating-linear-gradient(0deg, transparent, transparent 45px, rgba(221, 227, 234, 0.65) 46px),
+        repeating-linear-gradient(90deg, transparent, transparent 82px, rgba(221, 227, 234, 0.65) 83px),
+        #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .chart .axis {
+      position: absolute;
+      right: 12px;
+      top: 14px;
+      display: grid;
+      gap: 36px;
+      color: #8a95a3;
+      font-size: 11px;
+      text-align: right;
+    }
+
+    .chart-badge {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--line);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .guide-card {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .progress {
+      display: grid;
+      gap: 10px;
+    }
+
+    .progress-row {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      min-height: 42px;
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--green-2);
+      color: var(--green);
+      border: 1px solid #b9e4d4;
+    }
+
+    .progress-row.pending .step-dot {
+      background: #eef2f6;
+      color: #7a8491;
+      border-color: var(--line);
+    }
+
+    .progress-row strong {
+      display: block;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .progress-row span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.78fr);
+      gap: 16px;
+    }
+
+    .wide-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .strategy-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .strategy {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 196px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      background: #ffffff;
+    }
+
+    .strategy.active {
+      border-color: #8fd6bf;
+      box-shadow: 0 0 0 3px rgba(8, 131, 95, 0.08);
+    }
+
+    .strategy-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .strategy h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 16px;
+    }
+
+    .strategy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .tag {
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #eef2f6;
+      color: #5c6673;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .tag.green {
+      color: var(--green);
+      background: var(--green-2);
+    }
+
+    .tag.blue {
+      color: var(--blue);
+      background: var(--blue-2);
+    }
+
+    .tag.amber {
+      color: var(--amber);
+      background: var(--amber-2);
+    }
+
+    .tag.red {
+      color: var(--red);
+      background: var(--red-2);
+    }
+
+    .form-card {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .input,
+    .select {
+      min-height: 40px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: #ffffff;
+      padding: 9px 11px;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .risk-panel {
+      border: 1px solid #b9e4d4;
+      background: var(--green-2);
+      border-radius: 8px;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .risk-panel.amber {
+      border-color: #ead08e;
+      background: var(--amber-2);
+    }
+
+    .risk-panel h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .risk-panel p {
+      margin: 0;
+      color: #43505e;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .table th,
+    .table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .table th {
+      color: var(--muted);
+      font-weight: 800;
+      background: #f8fafc;
+    }
+
+    .table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .mini-chart {
+      height: 118px;
+      border-radius: 8px;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(221, 227, 234, 0.75) 29px),
+        #ffffff;
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .mini-chart svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 76px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: var(--surface-2);
+    }
+
+    .event time {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .event strong {
+      display: block;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .event span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .safety-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .safety {
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      padding: 14px;
+      min-height: 140px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .safety b {
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .safety p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .bar {
+      height: 9px;
+      border-radius: 999px;
+      background: #e7ecf1;
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--green);
+    }
+
+    .bar.amber > span {
+      background: #c58a16;
+    }
+
+    .bar.red > span {
+      background: var(--red);
+    }
+
+    .footer-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .mono {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    @media (max-width: 1180px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+      }
+
+      .nav {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .sidebar-card {
+        margin-top: 0;
+      }
+
+      .hero,
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .account-strip,
+      .strategy-list,
+      .wide-grid,
+      .safety-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 740px) {
+      .topbar {
+        height: auto;
+        position: static;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px;
+      }
+
+      .content {
+        padding: 16px;
+      }
+
+      .nav,
+      .account-strip,
+      .strategy-list,
+      .wide-grid,
+      .safety-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .event {
+        grid-template-columns: 1fr;
+      }
+
+      .panel-head {
+        flex-direction: column;
+      }
+
+      .chart {
+        height: 230px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo"></div>
+        <div>
+          <strong>OKX Quant Desk</strong>
+          <span>本地量化交易工作台</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="active" href="#dashboard">总览</a>
+        <a href="#onboarding">新手流程</a>
+        <a href="#account">账户</a>
+        <a href="#strategy">策略</a>
+        <a href="#backtest">回测</a>
+        <a href="#paper">模拟盘</a>
+        <a href="#risk">风控</a>
+        <a href="#review">复盘</a>
+      </nav>
+
+      <div class="sidebar-card">
+        <b>当前保护</b>
+        <p>实盘未开启，合约杠杆锁定，单策略资金上限为 10%，全部订单需通过风控。</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="top-title">
+          <span class="status-dot"></span>
+          <div>
+            <h1>模拟盘工作台</h1>
+            <span>BTC-USDT、ETH-USDT、SOL-USDT 行情同步中</span>
+          </div>
+        </div>
+        <div class="top-actions">
+          <span class="chip green">模拟盘</span>
+          <span class="chip amber">新手保护</span>
+          <button class="btn">
+            <span class="icon check"></span>
+            连接正常
+          </button>
+          <button class="btn danger">
+            <span class="icon pause"></span>
+            暂停全部
+          </button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="hero" id="dashboard">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <h2>账户与策略总览</h2>
+                <p>先看风险，再看收益；默认使用虚拟资金运行。</p>
+              </div>
+              <button class="btn primary">
+                <span class="icon play"></span>
+                启动模拟策略
+              </button>
+            </div>
+
+            <div class="account-strip">
+              <div class="metric">
+                <label>模拟权益 <span class="positive">+1.64%</span></label>
+                <strong>10,164.20</strong>
+                <small>USDT，今日 +82.40</small>
+              </div>
+              <div class="metric">
+                <label>资金占用 <span>低</span></label>
+                <strong>18%</strong>
+                <small>上限 30%，仍有余量</small>
+              </div>
+              <div class="metric">
+                <label>运行策略 <span>2 个</span></label>
+                <strong>2 / 5</strong>
+                <small>均线趋势、现货网格</small>
+              </div>
+              <div class="metric">
+                <label>风险状态 <span class="positive">正常</span></label>
+                <strong>低风险</strong>
+                <small>无异常订单或连接延迟</small>
+              </div>
+            </div>
+
+            <div class="chart-wrap">
+              <div class="chart" aria-label="账户权益曲线">
+                <span class="chart-badge">净值 +164.20 USDT</span>
+                <div class="axis"><span>10,220</span><span>10,120</span><span>10,020</span><span>9,920</span></div>
+                <svg viewBox="0 0 880 278" preserveAspectRatio="none">
+                  <path d="M0 210 L70 205 L130 218 L190 198 L255 204 L320 174 L380 188 L445 155 L510 162 L575 136 L645 142 L710 112 L780 122 L880 84 L880 278 L0 278 Z" fill="rgba(8,131,95,0.13)"></path>
+                  <path d="M0 210 L70 205 L130 218 L190 198 L255 204 L320 174 L380 188 L445 155 L510 162 L575 136 L645 142 L710 112 L780 122 L880 84" fill="none" stroke="#08835f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M0 236 L80 228 L160 236 L240 224 L320 230 L400 213 L480 219 L560 202 L640 207 L720 190 L800 196 L880 176" fill="none" stroke="#2169b5" stroke-width="2" stroke-dasharray="8 8"></path>
+                  <circle cx="710" cy="112" r="6" fill="#ffffff" stroke="#08835f" stroke-width="4"></circle>
+                  <circle cx="780" cy="122" r="6" fill="#ffffff" stroke="#2169b5" stroke-width="4"></circle>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel guide-card" id="onboarding">
+            <div class="panel-title">
+              <h2>新手流程</h2>
+              <p>每一步完成后才进入下一步，避免直接上实盘。</p>
+            </div>
+            <div class="progress">
+              <div class="progress-row">
+                <span class="step-dot">1</span>
+                <div><strong>连接 OKX API</strong><span>只读和交易权限已检查</span></div>
+                <span class="tag green">完成</span>
+              </div>
+              <div class="progress-row">
+                <span class="step-dot">2</span>
+                <div><strong>选择策略模板</strong><span>均线趋势已选中</span></div>
+                <span class="tag green">完成</span>
+              </div>
+              <div class="progress-row">
+                <span class="step-dot">3</span>
+                <div><strong>完成历史回测</strong><span>最大回撤 -7.4%</span></div>
+                <span class="tag green">完成</span>
+              </div>
+              <div class="progress-row">
+                <span class="step-dot">4</span>
+                <div><strong>模拟盘观察</strong><span>第 3 天，还需 4 天</span></div>
+                <span class="tag amber">进行中</span>
+              </div>
+              <div class="progress-row pending">
+                <span class="step-dot">5</span>
+                <div><strong>小额实盘</strong><span>完成观察期后解锁</span></div>
+                <span class="tag">未开放</span>
+              </div>
+            </div>
+            <div class="risk-panel amber">
+              <h3>实盘入口已锁定</h3>
+              <p>模拟盘不足 7 天时，只能查看实盘预览，不能启动真实资金交易。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-grid" id="account">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <h2>账户连接</h2>
+                <p>API 信息加密保存，不需要提现权限。</p>
+              </div>
+              <span class="chip green">权限安全</span>
+            </div>
+            <div class="form-card">
+              <div class="form-grid">
+                <div class="field">
+                  <label>API Key</label>
+                  <div class="input mono">okx_live_••••••••••12</div>
+                </div>
+                <div class="field">
+                  <label>Secret Key</label>
+                  <div class="input mono">••••••••••••••••</div>
+                </div>
+                <div class="field">
+                  <label>Passphrase</label>
+                  <div class="input mono">••••••••</div>
+                </div>
+                <div class="field">
+                  <label>运行环境</label>
+                  <div class="select">Demo Trading <span>模拟盘</span></div>
+                </div>
+              </div>
+              <div class="footer-actions">
+                <span class="hint">提现权限：未开启；IP 白名单：建议开启。</span>
+                <button class="btn blue">重新测试连接</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel pad">
+            <div class="panel-title">
+              <h2>持仓摘要</h2>
+              <p>实盘关闭时仅显示模拟持仓。</p>
+            </div>
+            <table class="table">
+              <thead>
+                <tr><th>交易对</th><th>仓位</th><th>盈亏</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>BTC-USDT</td><td>10%</td><td class="positive">+1.2%</td></tr>
+                <tr><td>ETH-USDT</td><td>8%</td><td class="negative">-0.4%</td></tr>
+                <tr><td>SOL-USDT</td><td>0%</td><td>未持仓</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel" id="strategy">
+          <div class="panel-head">
+            <div class="panel-title">
+              <h2>策略模板</h2>
+              <p>模板以“适合什么行情”和“最坏情况是什么”为核心。</p>
+            </div>
+            <button class="btn primary">新建策略</button>
+          </div>
+          <div class="strategy-list">
+            <article class="strategy active">
+              <div class="strategy-top">
+                <h3>均线趋势</h3>
+                <span class="tag green">已选择</span>
+              </div>
+              <p>短期均线突破长期均线时入场，适合趋势行情。</p>
+              <div class="mini-chart">
+                <svg viewBox="0 0 240 118" preserveAspectRatio="none">
+                  <path d="M0 88 L35 84 L70 90 L105 72 L140 78 L175 50 L210 42 L240 26" fill="none" stroke="#08835f" stroke-width="4"></path>
+                  <path d="M0 96 L40 92 L80 86 L120 80 L160 70 L200 64 L240 56" fill="none" stroke="#2169b5" stroke-width="2"></path>
+                </svg>
+              </div>
+              <div class="tag-row"><span class="tag green">新手可用</span><span class="tag blue">趋势</span><span class="tag">低频</span></div>
+            </article>
+
+            <article class="strategy">
+              <div class="strategy-top">
+                <h3>现货网格</h3>
+                <span class="tag amber">中风险</span>
+              </div>
+              <p>在价格区间内分批买卖，适合震荡行情。</p>
+              <div class="mini-chart">
+                <svg viewBox="0 0 240 118" preserveAspectRatio="none">
+                  <path d="M0 60 L30 42 L60 70 L90 46 L120 74 L150 52 L180 78 L210 56 L240 68" fill="none" stroke="#2169b5" stroke-width="4"></path>
+                  <path d="M0 36 H240 M0 84 H240" fill="none" stroke="#c58a16" stroke-width="2" stroke-dasharray="6 6"></path>
+                </svg>
+              </div>
+              <div class="tag-row"><span class="tag blue">震荡</span><span class="tag">现货</span><span class="tag amber">需止损</span></div>
+            </article>
+
+            <article class="strategy">
+              <div class="strategy-top">
+                <h3>定投策略</h3>
+                <span class="tag green">低风险</span>
+              </div>
+              <p>固定周期买入主流币，适合长期配置。</p>
+              <div class="mini-chart">
+                <svg viewBox="0 0 240 118" preserveAspectRatio="none">
+                  <path d="M20 82 L55 76 L90 70 L125 63 L160 58 L195 48 L230 42" fill="none" stroke="#6e55b7" stroke-width="4"></path>
+                  <circle cx="35" cy="79" r="5" fill="#6e55b7"></circle>
+                  <circle cx="88" cy="70" r="5" fill="#6e55b7"></circle>
+                  <circle cx="143" cy="60" r="5" fill="#6e55b7"></circle>
+                  <circle cx="198" cy="48" r="5" fill="#6e55b7"></circle>
+                </svg>
+              </div>
+              <div class="tag-row"><span class="tag green">简单</span><span class="tag">长期</span><span class="tag">无杠杆</span></div>
+            </article>
+
+            <article class="strategy">
+              <div class="strategy-top">
+                <h3>RSI 反转</h3>
+                <span class="tag red">高风险</span>
+              </div>
+              <p>低位尝试反弹，高位落袋；单边行情容易失效。</p>
+              <div class="mini-chart">
+                <svg viewBox="0 0 240 118" preserveAspectRatio="none">
+                  <path d="M0 44 L30 76 L60 88 L90 46 L120 30 L150 74 L180 92 L210 58 L240 36" fill="none" stroke="#be3f42" stroke-width="4"></path>
+                  <path d="M0 32 H240 M0 88 H240" fill="none" stroke="#c9d2dd" stroke-width="2"></path>
+                </svg>
+              </div>
+              <div class="tag-row"><span class="tag red">短线</span><span class="tag">反转</span><span class="tag amber">严格止损</span></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <h2>策略配置</h2>
+                <p>新手模式只开放必要参数。</p>
+              </div>
+              <span class="chip green">无杠杆</span>
+            </div>
+            <div class="form-card">
+              <div class="form-grid">
+                <div class="field">
+                  <label>交易对</label>
+                  <div class="select">BTC-USDT <span>主流币</span></div>
+                </div>
+                <div class="field">
+                  <label>资金比例</label>
+                  <div class="input">10%</div>
+                  <span class="hint">新手单策略建议不超过 10%。</span>
+                </div>
+                <div class="field">
+                  <label>短期均线</label>
+                  <div class="input">20</div>
+                </div>
+                <div class="field">
+                  <label>长期均线</label>
+                  <div class="input">60</div>
+                </div>
+                <div class="field">
+                  <label>止损</label>
+                  <div class="input">3%</div>
+                </div>
+                <div class="field">
+                  <label>K 线周期</label>
+                  <div class="select">4h <span>低频</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel pad">
+            <div class="panel-title">
+              <h2>风险预览</h2>
+              <p>当前配置允许进入回测和模拟盘。</p>
+            </div>
+            <div class="risk-panel">
+              <h3>预估单笔最大亏损：30 USDT</h3>
+              <p>资金占用 10%，止损 3%，无杠杆。震荡行情可能连续亏损。</p>
+            </div>
+            <table class="table">
+              <tbody>
+                <tr><td>适合行情</td><td>趋势行情</td></tr>
+                <tr><td>主要风险</td><td>横盘反复止损</td></tr>
+                <tr><td>下单频率</td><td>低</td></tr>
+              </tbody>
+            </table>
+            <button class="btn primary">开始回测</button>
+          </div>
+        </section>
+
+        <section class="wide-grid" id="backtest">
+          <div class="panel pad">
+            <div class="panel-title">
+              <h2>回测结果</h2>
+              <p>过去 180 天，含手续费和滑点。</p>
+            </div>
+            <div class="account-strip" style="grid-template-columns: 1fr; padding: 0; margin-top: 14px;">
+              <div class="metric"><label>总收益率 <span class="positive">通过</span></label><strong>+18.6%</strong><small>最大回撤 -7.4%</small></div>
+              <div class="metric"><label>胜率 <span>中等</span></label><strong>54%</strong><small>最大连续亏损 4 次</small></div>
+            </div>
+          </div>
+
+          <div class="panel pad">
+            <div class="panel-title">
+              <h2>回测曲线</h2>
+              <p>净值、买点和卖点。</p>
+            </div>
+            <div class="mini-chart" style="height: 230px; margin-top: 14px;">
+              <svg viewBox="0 0 360 230" preserveAspectRatio="none">
+                <path d="M0 184 L40 170 L80 178 L120 142 L160 150 L200 112 L240 124 L280 86 L320 92 L360 54 L360 230 L0 230 Z" fill="rgba(33,105,181,0.11)"></path>
+                <path d="M0 184 L40 170 L80 178 L120 142 L160 150 L200 112 L240 124 L280 86 L320 92 L360 54" fill="none" stroke="#2169b5" stroke-width="4"></path>
+                <circle cx="120" cy="142" r="5" fill="#08835f"></circle>
+                <circle cx="240" cy="124" r="5" fill="#be3f42"></circle>
+              </svg>
+            </div>
+          </div>
+
+          <div class="panel pad">
+            <div class="panel-title">
+              <h2>新手解读</h2>
+              <p>结果可以进入模拟盘，但不代表未来收益。</p>
+            </div>
+            <div class="risk-panel amber" style="margin-top: 14px;">
+              <h3>建议继续模拟观察</h3>
+              <p>回测交易次数 42 次，手续费影响 1.1%，风险可控但需要真实行情验证。</p>
+            </div>
+            <button class="btn blue" style="margin-top: 14px;">进入模拟盘</button>
+          </div>
+        </section>
+
+        <section class="section-grid" id="paper">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <h2>模拟盘运行</h2>
+                <p>真实行情，虚拟资金；实盘入口仍锁定。</p>
+              </div>
+              <span class="chip amber">第 3 天 / 7 天</span>
+            </div>
+            <div class="timeline">
+              <div class="event">
+                <time>10:40</time>
+                <div><strong>均线趋势买入 BTC-USDT</strong><span>MA20 上穿 MA60，仓位 10%，止损 3%</span></div>
+                <span class="tag green">持仓中</span>
+              </div>
+              <div class="event">
+                <time>13:20</time>
+                <div><strong>现货网格卖出 ETH-USDT</strong><span>触达上方网格，完成一次波动收益</span></div>
+                <span class="tag green">+8.2 USDT</span>
+              </div>
+              <div class="event">
+                <time>15:05</time>
+                <div><strong>风控检查通过</strong><span>无重复下单，无行情延迟，无 API 异常</span></div>
+                <span class="tag blue">正常</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel pad">
+            <div class="panel-title">
+              <h2>实盘解锁检查</h2>
+              <p>小额实盘需要全部通过。</p>
+            </div>
+            <table class="table">
+              <tbody>
+                <tr><td>模拟观察 7 天</td><td><span class="tag amber">未完成</span></td></tr>
+                <tr><td>最大回撤小于 10%</td><td><span class="tag green">通过</span></td></tr>
+                <tr><td>止损已开启</td><td><span class="tag green">通过</span></td></tr>
+                <tr><td>资金占用小于 10%</td><td><span class="tag green">通过</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel" id="risk">
+          <div class="panel-head">
+            <div class="panel-title">
+              <h2>风控中心</h2>
+              <p>风控是实盘下单前的最后一道门。</p>
+            </div>
+            <button class="btn danger">
+              <span class="icon pause"></span>
+              全局熔断
+            </button>
+          </div>
+          <div class="safety-grid">
+            <div class="safety">
+              <b>每日最大亏损</b>
+              <p>当前 0.8%，阈值 3%。达到阈值后自动暂停全部策略。</p>
+              <div class="bar"><span style="width: 27%;"></span></div>
+            </div>
+            <div class="safety">
+              <b>单策略资金</b>
+              <p>均线趋势 10%，现货网格 8%，均在新手上限内。</p>
+              <div class="bar"><span style="width: 60%;"></span></div>
+            </div>
+            <div class="safety">
+              <b>连续亏损</b>
+              <p>当前连续亏损 1 次，达到 4 次自动暂停该策略。</p>
+              <div class="bar amber"><span style="width: 25%;"></span></div>
+            </div>
+            <div class="safety">
+              <b>API 状态</b>
+              <p>连接正常，最近一次订单同步延迟 180ms。</p>
+              <div class="bar"><span style="width: 12%;"></span></div>
+            </div>
+            <div class="safety">
+              <b>行情延迟</b>
+              <p>WebSocket 正常，行情延迟低于暂停阈值。</p>
+              <div class="bar"><span style="width: 18%;"></span></div>
+            </div>
+            <div class="safety">
+              <b>合约杠杆</b>
+              <p>合约功能锁定，新手模式默认不开放高杠杆。</p>
+              <div class="bar red"><span style="width: 0%;"></span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-grid" id="review">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <h2>交易复盘</h2>
+                <p>每笔交易都记录原因和结果。</p>
+              </div>
+              <span class="chip green">今日正常</span>
+            </div>
+            <table class="table">
+              <thead>
+                <tr><th>交易</th><th>触发原因</th><th>结果</th><th>复盘提示</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>买入 BTC</td><td>MA20 上穿 MA60</td><td class="positive">+1.2%</td><td>趋势信号不是最低点信号</td></tr>
+                <tr><td>卖出 ETH</td><td>触达网格上沿</td><td class="positive">+8.2</td><td>网格赚的是波动收益</td></tr>
+                <tr><td>暂停 SOL</td><td>回测样本不足</td><td>无交易</td><td>样本不够时不进入实盘</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel pad">
+            <div class="panel-title">
+              <h2>今日结论</h2>
+              <p>继续模拟观察，暂不建议开启实盘。</p>
+            </div>
+            <div class="risk-panel" style="margin-top: 14px;">
+              <h3>表现稳定，但观察期不足</h3>
+              <p>无风控事件，盈利主要来自 BTC 趋势策略。建议至少完成 7 天模拟，再考虑小资金实盘。</p>
+            </div>
+            <button class="btn primary" style="margin-top: 14px;">导出复盘报告</button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

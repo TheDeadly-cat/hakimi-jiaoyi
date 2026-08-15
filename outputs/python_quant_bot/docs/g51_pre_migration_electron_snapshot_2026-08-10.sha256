@@ -1,0 +1,10 @@
+# hakimi-g51-pre-migration-electron-snapshot-v1
+# generated_at=2026-08-10
+# canonical_line=relative_path<TAB>bytes<TAB>sha256<LF>
+# scope=reviewed Electron package metadata required to execute the migrated quote-guard checks
+# excluded=node_modules,.env*,config.local.json,runtime*,databases,caches,logs,screenshots,credentials,secrets
+# file_count=2
+# aggregate_sha256=1c460d2c7fe3ba97ca2a899afc1faecc2d42620c5633660b7d31dbb43b10b3f6
+# reconciliation_manifest_sha256=a5f334142f991558de5f0db40e4e4c0df5305f69f37e4636c4f38f0bd28029d5
+outputs/hakimi_trade_electron/package-lock.json	16477	9687b06eaf7b6ea73881f8bf811ecd7d5e643286a4771c45cf518e6c4e6f9024
+outputs/hakimi_trade_electron/package.json	799	69a9b8a0760689a27208ae453f00e38a312b18ba4cb90c5ea6bb67ef690b43d7

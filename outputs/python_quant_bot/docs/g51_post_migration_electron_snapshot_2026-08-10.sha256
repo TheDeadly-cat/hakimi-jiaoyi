@@ -1,0 +1,7 @@
+# hakimi-g51-post-migration-electron-snapshot-v1
+# generated_at=2026-08-10
+# canonical_line=relative_path<TAB>bytes<TAB>sha256<LF>
+# file_count=2
+# aggregate_sha256=7602a5e3fd5fe9aae4ef9c0a58a4b0d3940816a7369cc3736c7568dda7ff7f48
+outputs/hakimi_trade_electron/package.json	968	54770abb4a3adbc2a90cb30cd4ed3edc6294a6b9f7fbd89e6c4eeac86b929296
+outputs/hakimi_trade_electron/package-lock.json	16477	9687b06eaf7b6ea73881f8bf811ecd7d5e643286a4771c45cf518e6c4e6f9024

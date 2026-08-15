@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OKX Quant Desk</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true"></div>
+        <div>
+          <strong>OKX Quant Desk</strong>
+          <span>本地量化交易工作台</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="主导航">
+        <a class="active" href="#dashboard" data-view="dashboard">首页</a>
+        <a href="#exchange" data-view="exchange">交易台</a>
+        <a href="#strategy-market" data-view="strategy-market">策略广场</a>
+        <a href="#strategy-compare" data-view="strategy-compare">策略对比</a>
+        <a href="#automation" data-view="automation">自动交易</a>
+        <a href="#market" data-view="market">市场数据</a>
+        <a href="#history" data-view="history">交易历史</a>
+      </nav>
+
+      <div class="side-card">
+        <b>新手保护已开启</b>
+        <p>当前软件只运行模拟盘。真实下单入口已锁定，不会动用你的 OKX 真实资金。</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="top-title">
+          <span class="live-dot" aria-hidden="true"></span>
+          <div>
+            <h1>模拟盘工作台</h1>
+            <span id="healthText">正在检查本地服务...</span>
+          </div>
+        </div>
+        <div class="top-actions">
+          <span class="chip green" id="modeChip">模拟盘</span>
+          <span class="chip amber" id="guardChip">新手保护</span>
+          <button class="btn" id="testAccountBtn" type="button">测试连接</button>
+          <button class="btn danger" id="pauseAllBtn" type="button">暂停全部</button>
+        </div>
+      </header>
+
+      <div class="notice" id="notice" role="status"></div>
+
+      <section class="hero app-section" id="dashboard" data-title="总览">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>账户与策略总览</h2>
+              <p>先看风险，再看收益；默认使用虚拟资金运行。</p>
+            </div>
+            <button class="btn primary" id="startPaperBtn" type="button">启动模拟策略</button>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric">
+              <label>模拟权益 <span id="equityChange">+1.64%</span></label>
+              <strong id="equityValue">--</strong>
+              <small id="dailyPnl">今日 --</small>
+            </article>
+            <article class="metric">
+              <label>资金占用 <span>低</span></label>
+              <strong id="allocationValue">--</strong>
+              <small>新手上限 30%</small>
+            </article>
+            <article class="metric">
+              <label>运行状态 <span id="runningMini">未运行</span></label>
+              <strong id="strategyCount">0 / 5</strong>
+              <small id="strategyName">等待启动</small>
+            </article>
+            <article class="metric">
+              <label>风险状态 <span>正常</span></label>
+              <strong id="riskLevel">--</strong>
+              <small>所有下单先过风控</small>
+            </article>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-toolbar">
+              <span id="chartTitle">BTC-USDT 模拟行情</span>
+              <select id="symbolSelect">
+                <option>BTC-USDT</option>
+                <option>ETH-USDT</option>
+                <option>SOL-USDT</option>
+              </select>
+            </div>
+            <svg id="marketChart" viewBox="0 0 900 280" preserveAspectRatio="none" aria-label="行情图"></svg>
+          </div>
+        </div>
+
+        <aside class="panel guide-panel">
+          <div class="panel-head compact">
+            <div>
+              <h2>新手流程</h2>
+              <p>完成模拟盘观察后再考虑实盘。</p>
+            </div>
+          </div>
+          <div class="steps">
+            <div class="step done"><b>1</b><span>连接 OKX API</span><em id="accountStep">未连接</em></div>
+            <div class="step done"><b>2</b><span>选择策略模板</span><em>均线趋势</em></div>
+            <div class="step done"><b>3</b><span>完成历史回测</span><em id="backtestStep">待回测</em></div>
+            <div class="step current"><b>4</b><span>模拟盘观察</span><em id="paperStep">第 3 天</em></div>
+            <div class="step locked"><b>5</b><span>小额实盘</span><em>未开放</em></div>
+          </div>
+          <div class="risk-note amber">
+            <b>实盘入口已锁定</b>
+            <p>当前版本用于策略验证和模拟交易。接入真实下单前，需要先完成更多风控测试。</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="app-section exchange-terminal" id="exchange" data-title="实时交易台">
+        <div class="exchange-head panel">
+          <div>
+            <h2>实时交易台</h2>
+            <p>仿交易所工作台布局：价格、盘口、成交、图表、模拟下单和自动策略同屏查看。</p>
+          </div>
+          <div class="exchange-symbols">
+            <button class="symbol-tab active" type="button" data-terminal-symbol="BTC-USDT">BTC-USDT</button>
+            <button class="symbol-tab" type="button" data-terminal-symbol="ETH-USDT">ETH-USDT</button>
+            <button class="symbol-tab" type="button" data-terminal-symbol="SOL-USDT">SOL-USDT</button>
+            <button class="symbol-tab" type="button" data-terminal-symbol="BTC-USDT-SWAP">BTC 永续</button>
+          </div>
+        </div>
+
+        <div class="exchange-layout">
+          <aside class="panel market-watch">
+            <div class="panel-head compact">
+              <div>
+                <h2>市场</h2>
+                <p>点击切换交易台品种。</p>
+              </div>
+            </div>
+            <div id="terminalWatchRows" class="watch-list"></div>
+          </aside>
+
+          <div class="panel trading-chart-panel">
+            <div class="terminal-pricebar">
+              <div>
+                <span id="terminalSymbol">BTC-USDT</span>
+                <strong id="terminalPrice">--</strong>
+                <em id="terminalChange">--</em>
+              </div>
+              <div>
+                <span id="terminalSource">等待连接</span>
+                <small id="terminalUpdated">--</small>
+              </div>
+            </div>
+            <div class="terminal-stats">
+              <span>指数价 <b id="indexPrice">--</b></span>
+              <span>标记价 <b id="markPrice">--</b></span>
+              <span>资金费率 <b id="fundingRate">--</b></span>
+              <span>持仓量 <b id="openInterest">--</b></span>
+            </div>
+            <div class="chart-modebar">
+              <button class="chart-mode active" type="button" data-chart-mode="line">分时</button>
+              <button class="chart-mode" type="button" data-chart-mode="candle">K线</button>
+              <button class="chart-mode" type="button" data-chart-mode="depth">深度</button>
+              <span>周期</span>
+              <button class="timeframe active" type="button" data-terminal-timeframe="1m">1m</button>
+              <button class="timeframe" type="button" data-terminal-timeframe="5m">5m</button>
+              <button class="timeframe" type="button" data-terminal-timeframe="15m">15m</button>
+              <button class="timeframe" type="button" data-terminal-timeframe="1h">1H</button>
+              <button class="timeframe" type="button" data-terminal-timeframe="4h">4H</button>
+            </div>
+            <svg id="terminalChart" viewBox="0 0 980 420" preserveAspectRatio="none" aria-label="实时价格图"></svg>
+            <div class="terminal-tabs">
+              <span class="tag green">1 秒刷新</span>
+              <span class="tag">实盘下单锁定</span>
+              <span class="tag amber">模拟交易</span>
+            </div>
+          </div>
+
+          <aside class="panel orderbook-panel">
+            <div class="panel-head compact">
+              <div>
+                <h2>盘口</h2>
+                <p>买卖盘深度。</p>
+              </div>
+            </div>
+            <div class="book-head"><span>价格</span><span>数量</span><span>累计</span></div>
+            <div id="askRows" class="book-list asks"></div>
+            <div class="mid-price" id="midPrice">--</div>
+            <div id="bidRows" class="book-list bids"></div>
+          </aside>
+
+          <aside class="panel order-ticket">
+            <div class="panel-head compact">
+              <div>
+                <h2>模拟下单</h2>
+                <p>真实下单入口未开放。</p>
+              </div>
+            </div>
+            <label>方向
+              <select id="ticketSide">
+                <option value="long">买入 / 做多</option>
+                <option value="short">卖出 / 做空</option>
+              </select>
+            </label>
+            <label>订单类型
+              <select id="ticketOrderType">
+                <option value="limit">限价</option>
+                <option value="market">市价</option>
+                <option value="trigger">计划委托</option>
+              </select>
+            </label>
+            <label>保证金模式
+              <select id="marginMode">
+                <option value="cross">全仓</option>
+                <option value="isolated">逐仓</option>
+              </select>
+            </label>
+            <label>杠杆倍数
+              <select id="leverageSelect">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option selected>5</option>
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+                <option>100</option>
+                <option>125</option>
+              </select>
+            </label>
+            <label>价格
+              <input id="ticketPrice" type="number" value="0" />
+            </label>
+            <label>数量
+              <input id="ticketSize" type="number" value="0.01" step="0.001" />
+            </label>
+            <div class="ticket-percent">
+              <button type="button" data-ticket-pct="25">25%</button>
+              <button type="button" data-ticket-pct="50">50%</button>
+              <button type="button" data-ticket-pct="75">75%</button>
+              <button type="button" data-ticket-pct="100">100%</button>
+            </div>
+            <label>止盈价
+              <input id="takeProfitPrice" type="number" value="0" />
+            </label>
+            <label>止损价
+              <input id="stopLossPrice" type="number" value="0" />
+            </label>
+            <div class="ticket-summary">
+              <span>可用模拟资金 <b>10,000 USDT</b></span>
+              <span>订单价值 <b id="orderValue">--</b></span>
+              <span>预估保证金 <b id="marginNeeded">--</b></span>
+            </div>
+            <button class="btn primary" type="button" id="paperOrderBtn">提交模拟单</button>
+            <div class="risk-note amber">
+              <b>真实交易锁定</b>
+              <p>这里目前只会记录模拟动作，不会提交 OKX 订单。</p>
+            </div>
+          </aside>
+
+          <div class="panel tape-panel">
+            <div class="panel-head compact">
+              <div>
+                <h2>实时成交</h2>
+                <p>最新成交流。</p>
+              </div>
+            </div>
+            <table>
+              <thead><tr><th>时间</th><th>方向</th><th>价格</th><th>数量</th></tr></thead>
+              <tbody id="terminalTrades"><tr><td colspan="4">等待成交</td></tr></tbody>
+            </table>
+          </div>
+
+          <div class="panel positions-panel">
+            <div class="panel-head compact">
+              <div>
+                <h2>持仓 / 委托 / 策略</h2>
+                <p>模拟持仓和自动策略决策。</p>
+              </div>
+            </div>
+            <table>
+              <thead><tr><th>品种</th><th>策略</th><th>状态</th><th>锚点</th><th>最近动作</th></tr></thead>
+              <tbody id="terminalPositions"><tr><td colspan="5">等待自动策略</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel app-section" id="market" data-title="OKX 行情">
+        <div class="panel-head">
+          <div>
+            <h2>OKX 真实行情</h2>
+            <p>展示 OKX 公开接口返回的现货、永续合约和交割合约行情。无法联网时自动回退到模拟数据。</p>
+          </div>
+          <div class="button-row">
+            <select id="marketTypeSelect">
+              <option value="SPOT">现货</option>
+              <option value="SWAP">永续合约</option>
+              <option value="FUTURES">交割合约</option>
+            </select>
+            <button class="btn blue" id="refreshMarketBtn" type="button">刷新行情</button>
+          </div>
+        </div>
+        <div class="market-status">
+          <span class="chip" id="marketSourceChip">数据源检查中</span>
+          <span id="marketUpdatedAt">等待更新</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>品种</th>
+              <th>类型</th>
+              <th>最新价</th>
+              <th>24h 涨跌</th>
+              <th>买一/卖一</th>
+              <th>24h 高低</th>
+              <th>24h 成交</th>
+            </tr>
+          </thead>
+          <tbody id="marketRows"><tr><td colspan="7">正在加载 OKX 行情...</td></tr></tbody>
+        </table>
+        <div class="instrument-box">
+          <div class="panel-head compact">
+            <div>
+              <h2>合约与币种信息</h2>
+              <p>用于查看最小下单量、价格精度、合约面值等基础信息。</p>
+            </div>
+            <button class="btn" id="refreshInstrumentsBtn" type="button">刷新列表</button>
+          </div>
+          <table>
+            <thead>
+              <tr><th>品种</th><th>状态</th><th>计价/结算</th><th>最小数量</th><th>价格精度</th><th>合约信息</th></tr>
+            </thead>
+            <tbody id="instrumentRows"><tr><td colspan="6">等待加载</td></tr></tbody>
+          </table>
+        </div>
+        <div class="history-import-box">
+          <div class="panel-head compact">
+            <div>
+              <h2>历史数据导入</h2>
+              <p>从 OKX 导入多年 K 线数据，用于策略对比和回测。逐笔成交级全量历史后续单独做数据源。</p>
+            </div>
+          </div>
+          <div class="history-import-form">
+            <label>品种
+              <select id="historySymbol">
+                <option>BTC-USDT</option>
+                <option>ETH-USDT</option>
+                <option>SOL-USDT</option>
+                <option>BTC-USDT-SWAP</option>
+              </select>
+            </label>
+            <label>周期
+              <select id="historyTimeframe">
+                <option value="1m">1m</option>
+                <option value="5m">5m</option>
+                <option value="15m">15m</option>
+                <option value="1h" selected>1H</option>
+                <option value="4h">4H</option>
+                <option value="1d">1D</option>
+              </select>
+            </label>
+            <label>年限
+              <select id="historyYears">
+                <option value="1">1 年</option>
+                <option value="3">3 年</option>
+                <option value="5">5 年</option>
+                <option value="10">10 年</option>
+              </select>
+            </label>
+            <button class="btn primary" id="importHistoryBtn" type="button">导入历史 K 线</button>
+          </div>
+          <div class="history-import-status" id="historyImportStatus">尚未导入。</div>
+          <table>
+            <thead><tr><th>文件</th><th>大小</th><th>更新时间</th></tr></thead>
+            <tbody id="historyFiles"><tr><td colspan="3">暂无历史数据文件</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel app-section" id="strategy-market" data-title="策略广场">
+        <div class="panel-head">
+          <div>
+            <h2>策略广场</h2>
+            <p>这里不是单纯配置参数，而是像交易所产品区一样选择适合当前行情的交易策略。</p>
+          </div>
+          <button class="btn blue" id="refreshStrategyMarketBtn" type="button">刷新策略</button>
+        </div>
+        <div class="strategy-market-grid" id="strategyMarketGrid"></div>
+      </section>
+
+      <section class="panel app-section" id="strategy-compare" data-title="策略对比">
+        <div class="panel-head">
+          <div>
+            <h2>策略对比</h2>
+            <p>选择一个交易品种，比较不同策略在当前行情里的表现和风险，决定采用哪一个。</p>
+          </div>
+          <div class="button-row">
+            <select id="compareSymbol">
+              <option>BTC-USDT</option>
+              <option>ETH-USDT</option>
+              <option>SOL-USDT</option>
+              <option>BTC-USDT-SWAP</option>
+            </select>
+            <select id="compareTimeframe">
+              <option value="1m">1m</option>
+              <option value="5m">5m</option>
+              <option value="15m">15m</option>
+              <option value="1h">1H</option>
+              <option value="4h">4H</option>
+            </select>
+            <button class="btn primary" id="runCompareBtn" type="button">比较策略</button>
+          </div>
+        </div>
+        <div class="compare-summary">
+          <article class="metric">
+            <label>当前品种</label>
+            <strong id="comparePair">--</strong>
+            <small id="compareSource">等待比较</small>
+          </article>
+          <article class="metric">
+            <label>市场趋势</label>
+            <strong id="compareTrend">--</strong>
+            <small>按最近行情估算</small>
+          </article>
+          <article class="metric">
+            <label>波动率</label>
+            <strong id="compareVolatility">--</strong>
+            <small>用于判断网格/反转适配度</small>
+          </article>
+          <article class="metric">
+            <label>推荐策略</label>
+            <strong id="compareBest">--</strong>
+            <small>可一键采用</small>
+          </article>
+        </div>
+        <div class="strategy-rank-list" id="strategyRankList"></div>
+      </section>
+
+      <section class="panel app-section" id="history" data-title="交易历史">
+        <div class="panel-head">
+          <div>
+            <h2>交易历史</h2>
+            <p>这里集中放置对实时交易帮助较少，但后续复盘、审计和管理仍然需要的内容。</p>
+          </div>
+          <span class="chip amber">归档视图</span>
+        </div>
+        <div class="history-tabs">
+          <button class="history-tab active" type="button" data-history-target="account">账户</button>
+          <button class="history-tab" type="button" data-history-target="backtest">回测</button>
+          <button class="history-tab" type="button" data-history-target="paper">模拟盘</button>
+          <button class="history-tab" type="button" data-history-target="risk">风控</button>
+          <button class="history-tab" type="button" data-history-target="review">复盘</button>
+        </div>
+        <div class="history-note">
+          <b>说明</b>
+          <p>这些模块仍然保留，用于查看记录、复盘和安全设置；日常交易主要使用“交易台、策略广场、策略对比、自动交易”。</p>
+        </div>
+      </section>
+
+      <section class="two-col app-section" id="account" data-title="账户连接">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>账户连接</h2>
+              <p>这里先保存掩码信息，只做本地演示连接，不发送到外部服务器。</p>
+            </div>
+            <span class="chip green" id="accountStatus">本地安全</span>
+          </div>
+          <form class="form-grid" id="accountForm">
+            <label>
+              <span>API Key</span>
+              <input name="apiKey" placeholder="可先填 demo-api-key" value="demo-api-key" autocomplete="off" />
+            </label>
+            <label>
+              <span>运行环境</span>
+              <select name="environment">
+                <option value="demo">OKX 模拟盘</option>
+                <option value="live">实盘预览，仍不下单</option>
+              </select>
+            </label>
+            <label class="checkline">
+              <input type="checkbox" name="tradePermission" />
+              <span>我已理解交易权限只用于后续实盘，当前不会真实下单</span>
+            </label>
+            <div class="form-actions">
+              <button class="btn blue" type="submit">保存并测试</button>
+              <span id="accountHint">提现权限不需要，也不建议开启。</span>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel pad">
+          <h2>持仓摘要</h2>
+          <table>
+            <thead><tr><th>交易对</th><th>仓位</th><th>盈亏</th></tr></thead>
+            <tbody id="positionRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="two-col app-section" id="strategy" data-title="策略配置">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>策略配置</h2>
+              <p>新手模式只开放必要参数。</p>
+            </div>
+            <span class="chip green">无杠杆</span>
+          </div>
+          <div class="template-grid" id="strategyTemplates"></div>
+          <form class="form-grid" id="strategyForm">
+            <input type="hidden" name="templateId" value="ma_trend" />
+            <label>
+              <span>交易对</span>
+              <select name="symbol">
+                <option>BTC-USDT</option>
+                <option>ETH-USDT</option>
+                <option>SOL-USDT</option>
+              </select>
+            </label>
+            <label>
+              <span>资金比例</span>
+              <input name="allocationPct" type="number" min="1" max="30" step="1" value="10" />
+            </label>
+            <label>
+              <span>短期均线</span>
+              <input name="shortMa" type="number" min="3" max="200" step="1" value="20" />
+            </label>
+            <label>
+              <span>长期均线</span>
+              <input name="longMa" type="number" min="4" max="400" step="1" value="60" />
+            </label>
+            <label>
+              <span>止损比例</span>
+              <input name="stopLossPct" type="number" min="0.5" max="30" step="0.5" value="3" />
+            </label>
+            <label>
+              <span>K 线周期</span>
+              <select name="timeframe">
+                <option>1h</option>
+                <option selected>4h</option>
+                <option>1d</option>
+              </select>
+            </label>
+            <div class="form-actions">
+              <button class="btn primary" type="submit">保存策略</button>
+              <button class="btn" id="runBacktestBtn" type="button">开始回测</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel pad">
+          <h2>风险预览</h2>
+          <div class="risk-note" id="strategyRiskNote">
+            <b>配置安全</b>
+            <p>资金占用 10%，无杠杆，止损已开启。</p>
+          </div>
+          <table>
+            <tbody>
+              <tr><td>预估单笔最大亏损</td><td id="estimatedLoss">30 USDT</td></tr>
+              <tr><td>主要风险</td><td>震荡行情反复止损</td></tr>
+              <tr><td>实盘状态</td><td>锁定</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="two-col app-section" id="automation" data-title="自动交易">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>全自动交易引擎</h2>
+              <p>按不同品种、不同策略和不同锚点自动做模拟决策；真实下单仍锁定。</p>
+            </div>
+            <div class="button-row">
+              <button class="btn primary" id="startAutomationBtn" type="button">启动自动模拟</button>
+              <button class="btn" id="stopAutomationBtn" type="button">停止</button>
+              <button class="btn blue" id="runAutomationTickBtn" type="button">立即判断一次</button>
+            </div>
+          </div>
+          <div class="automation-live">
+            <article class="metric">
+              <label>BTC 实时价格 <span id="btcSource">等待</span></label>
+              <strong id="btcLivePrice">--</strong>
+              <small id="btcLiveChange">持续刷新中</small>
+            </article>
+            <article class="metric">
+              <label>自动状态 <span id="automationMode">模拟</span></label>
+              <strong id="automationRunning">未运行</strong>
+              <small>真实下单入口锁定</small>
+            </article>
+            <article class="metric">
+              <label>刷新频率</label>
+              <strong><span id="refreshSecondsLabel">5</span>s</strong>
+              <small>BTC 价格和自动判断使用</small>
+            </article>
+          </div>
+          <div class="anchor-editor">
+            <div class="panel-head compact">
+              <div>
+                <h2>交易锚点</h2>
+                <p>每个品种可独立设置策略、中心锚点、上方突破锚点、下方防守锚点。</p>
+              </div>
+              <button class="btn blue" id="saveAnchorsBtn" type="button">保存锚点</button>
+            </div>
+            <div id="anchorRows" class="anchor-rows"></div>
+          </div>
+          <table>
+            <thead>
+              <tr><th>时间</th><th>品种</th><th>策略</th><th>动作</th><th>价格</th><th>原因</th></tr>
+            </thead>
+            <tbody id="decisionRows"><tr><td colspan="6">暂无自动决策</td></tr></tbody>
+          </table>
+        </div>
+
+        <aside class="panel pad">
+          <h2>盘面资讯</h2>
+          <p>按当前自动交易品种筛选相关新闻。资讯只做参考，不直接触发真实交易。</p>
+          <div class="button-row news-actions">
+            <button class="btn" id="refreshNewsBtn" type="button">刷新资讯</button>
+            <span class="chip" id="newsSourceChip">等待</span>
+          </div>
+          <div class="news-list" id="newsList"></div>
+        </aside>
+      </section>
+
+      <section class="panel app-section" id="backtest" data-title="回测中心">
+        <div class="panel-head">
+          <div>
+            <h2>回测中心</h2>
+            <p>回测会纳入手续费，重点看最大回撤和连续亏损。</p>
+          </div>
+          <button class="btn blue" id="backtestAgainBtn" type="button">重新回测</button>
+        </div>
+        <div class="backtest-grid">
+          <article class="metric">
+            <label>总收益率</label>
+            <strong id="returnPct">--</strong>
+            <small id="finalEquity">等待回测</small>
+          </article>
+          <article class="metric">
+            <label>最大回撤</label>
+            <strong id="drawdownPct">--</strong>
+            <small>越低越适合新手</small>
+          </article>
+          <article class="metric">
+            <label>胜率</label>
+            <strong id="winRatePct">--</strong>
+            <small id="tradeCount">交易次数 --</small>
+          </article>
+          <article class="metric">
+            <label>手续费影响</label>
+            <strong id="feeImpact">--</strong>
+            <small id="losingStreak">连续亏损 --</small>
+          </article>
+        </div>
+        <div class="chart-card">
+          <div class="chart-toolbar">
+            <span>回测净值曲线</span>
+            <span id="backtestNote">请先点击开始回测</span>
+          </div>
+          <svg id="equityChart" viewBox="0 0 900 260" preserveAspectRatio="none" aria-label="回测曲线"></svg>
+        </div>
+        <table>
+          <thead><tr><th>时间</th><th>方向</th><th>价格</th><th>原因</th><th>盈亏</th></tr></thead>
+          <tbody id="tradeRows"><tr><td colspan="5">暂无回测交易</td></tr></tbody>
+        </table>
+      </section>
+
+      <section class="two-col app-section" id="paper" data-title="模拟盘">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>模拟盘</h2>
+              <p>真实界面流程，虚拟资金运行。</p>
+            </div>
+            <div class="button-row">
+              <button class="btn primary" id="paperTickBtn" type="button">推进一次行情</button>
+              <button class="btn" id="resumeDemoBtn" type="button">恢复模拟</button>
+            </div>
+          </div>
+          <div class="timeline" id="paperEvents"></div>
+        </div>
+
+        <div class="panel pad">
+          <h2>实盘解锁检查</h2>
+          <table>
+            <tbody id="unlockRows"></tbody>
+          </table>
+          <div class="risk-note amber">
+            <b>小额实盘暂未开放</b>
+            <p>等模拟盘、异常处理、真实 OKX 连接全部测试稳定后再打开。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel app-section" id="risk" data-title="风控中心">
+        <div class="panel-head">
+          <div>
+            <h2>风控中心</h2>
+            <p>所有交易动作都必须先经过风控检查。</p>
+          </div>
+          <span class="chip amber" id="pauseState">未暂停</span>
+        </div>
+        <div class="risk-grid" id="riskCards"></div>
+      </section>
+
+      <section class="two-col app-section" id="review" data-title="交易复盘">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>交易复盘</h2>
+              <p>新手要知道每笔交易为什么发生。</p>
+            </div>
+            <button class="btn" id="exportReviewBtn" type="button">生成复盘文本</button>
+          </div>
+          <table>
+            <thead><tr><th>交易</th><th>触发原因</th><th>结果</th><th>复盘提示</th></tr></thead>
+            <tbody id="reviewRows"></tbody>
+          </table>
+        </div>
+
+        <div class="panel pad">
+          <h2>今日结论</h2>
+          <div class="risk-note" id="reviewSummary">
+            <b>继续观察</b>
+            <p>等待模拟盘运行满 7 天后，再考虑小资金实盘。</p>
+          </div>
+          <textarea id="reviewText" readonly placeholder="点击生成复盘文本"></textarea>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

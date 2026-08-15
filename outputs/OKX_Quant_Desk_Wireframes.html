@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OKX Quant Desk 原型线框图</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --ink: #20242c;
+      --muted: #6d7480;
+      --line: #d9dde5;
+      --soft: #eef1f5;
+      --accent: #0a8f6a;
+      --accent-soft: #dff5ed;
+      --warn: #b7791f;
+      --warn-soft: #fff5db;
+      --danger: #c43d3d;
+      --danger-soft: #ffe6e6;
+      --blue: #2e6fbb;
+      --blue-soft: #e4f0ff;
+      --shadow: 0 12px 30px rgba(19, 28, 43, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      line-height: 1.45;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 248px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: #171b22;
+      color: #f5f7fb;
+      padding: 22px 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      padding: 0 8px;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #18a77d, #2e6fbb);
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 17px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav a {
+      color: #cbd2dc;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 7px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav a.active,
+    .nav a:hover {
+      color: #ffffff;
+      background: #252b35;
+    }
+
+    .nav small {
+      color: #87909d;
+      font-size: 11px;
+    }
+
+    .side-note {
+      margin-top: 24px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #222832;
+      color: #cbd2dc;
+      font-size: 12px;
+    }
+
+    .main {
+      min-width: 0;
+    }
+
+    .topbar {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: rgba(246, 247, 249, 0.92);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      backdrop-filter: blur(8px);
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 30px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .pill.safe {
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-color: #bce8d7;
+    }
+
+    .pill.warn {
+      color: var(--warn);
+      background: var(--warn-soft);
+      border-color: #f3d99a;
+    }
+
+    .button {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      min-height: 36px;
+      padding: 8px 12px;
+      border-radius: 7px;
+      font-weight: 600;
+      cursor: default;
+      font-size: 14px;
+    }
+
+    .button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .button.danger {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: #ffffff;
+    }
+
+    .content {
+      padding: 26px 28px 48px;
+      display: grid;
+      gap: 28px;
+    }
+
+    .section {
+      display: grid;
+      gap: 14px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    .section h2 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .section p {
+      color: var(--muted);
+      margin: 4px 0 0;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .metric {
+      display: grid;
+      gap: 8px;
+      min-height: 116px;
+    }
+
+    .metric label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .metric strong {
+      font-size: 25px;
+      letter-spacing: 0;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .placeholder {
+      min-height: 230px;
+      border: 1px dashed #b7bfcb;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(46, 111, 187, 0.08), transparent),
+        repeating-linear-gradient(0deg, #ffffff, #ffffff 35px, #f5f7fa 36px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      text-align: center;
+      padding: 18px;
+      font-size: 14px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .flow-step {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 90px;
+      display: grid;
+      align-content: start;
+      gap: 6px;
+    }
+
+    .flow-step b {
+      font-size: 14px;
+    }
+
+    .flow-step small {
+      color: var(--muted);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .table th,
+    .table td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .table th {
+      color: var(--muted);
+      font-weight: 600;
+      background: #f8f9fb;
+    }
+
+    .strategy-card {
+      min-height: 190px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .strategy-card h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .strategy-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background: var(--soft);
+      border-radius: 999px;
+      color: #59616d;
+      font-size: 12px;
+      padding: 5px 8px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .input {
+      min-height: 40px;
+      border-radius: 7px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      padding: 10px 11px;
+      color: var(--ink);
+    }
+
+    .helper {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .risk-band {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #bce8d7;
+      background: var(--accent-soft);
+    }
+
+    .risk-band.warn {
+      border-color: #f3d99a;
+      background: var(--warn-soft);
+    }
+
+    .risk-band.danger {
+      border-color: #ffc6c6;
+      background: var(--danger-soft);
+    }
+
+    .mobile-note {
+      display: none;
+    }
+
+    @media (max-width: 1080px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+      }
+
+      .nav {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .side-note {
+        display: none;
+      }
+
+      .flow,
+      .cols-4,
+      .cols-3,
+      .cols-2,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        position: static;
+        height: auto;
+        padding: 18px;
+        align-items: flex-start;
+        gap: 14px;
+        flex-direction: column;
+      }
+
+      .content {
+        padding: 18px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .top-actions {
+        flex-wrap: wrap;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .mobile-note {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div>
+          <div class="brand-name">OKX Quant Desk</div>
+          <small>新手友好量化工作台</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="active" href="#dashboard">仪表盘 <small>首页</small></a>
+        <a href="#onboarding">新手引导 <small>流程</small></a>
+        <a href="#account">账户连接 <small>API</small></a>
+        <a href="#strategies">策略模板 <small>选择</small></a>
+        <a href="#builder">策略配置 <small>参数</small></a>
+        <a href="#backtest">回测中心 <small>验证</small></a>
+        <a href="#paper">模拟盘 <small>练习</small></a>
+        <a href="#live">实盘监控 <small>小额</small></a>
+        <a href="#risk">风控中心 <small>安全</small></a>
+        <a href="#review">复盘记录 <small>学习</small></a>
+      </nav>
+
+      <div class="side-note">
+        默认进入模拟盘；所有策略启动前必须先看风险预览和回测结果。
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1>产品原型线框图</h1>
+          <p class="mobile-note">这些区块代表第一版页面结构，不是最终视觉稿。</p>
+        </div>
+        <div class="top-actions">
+          <span class="pill safe">模拟盘模式</span>
+          <span class="pill warn">新手保护开启</span>
+          <button class="button danger">暂停全部策略</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="section" id="dashboard">
+          <div class="section-head">
+            <div>
+              <h2>1. 首页仪表盘</h2>
+              <p>第一屏回答：是否在交易、当前盈亏、是否有风险。</p>
+            </div>
+            <button class="button primary">连接 OKX</button>
+          </div>
+
+          <div class="grid cols-4">
+            <div class="card metric">
+              <label>账户权益</label>
+              <strong>10,000.00 USDT</strong>
+              <span>模拟资金，未动用真实资产</span>
+            </div>
+            <div class="card metric">
+              <label>今日盈亏</label>
+              <strong>+82.40 USDT</strong>
+              <span>来自 2 个模拟策略</span>
+            </div>
+            <div class="card metric">
+              <label>运行策略</label>
+              <strong>2 / 5</strong>
+              <span>均线趋势、现货网格</span>
+            </div>
+            <div class="card metric">
+              <label>风险等级</label>
+              <strong>低</strong>
+              <span>单策略资金占用小于 10%</span>
+            </div>
+          </div>
+
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>权益曲线</h3>
+              <div class="placeholder">这里展示账户净值曲线、今日盈亏和关键风险标记</div>
+            </div>
+            <div class="card">
+              <h3>当前持仓</h3>
+              <table class="table">
+                <thead>
+                  <tr><th>交易对</th><th>策略</th><th>仓位</th><th>浮动盈亏</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>BTC-USDT</td><td>均线趋势</td><td>10%</td><td>+1.2%</td></tr>
+                  <tr><td>ETH-USDT</td><td>现货网格</td><td>8%</td><td>-0.4%</td></tr>
+                  <tr><td>SOL-USDT</td><td>未启用</td><td>0%</td><td>-</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="onboarding">
+          <div>
+            <h2>2. 新手引导</h2>
+            <p>把复杂流程拆成可以放心完成的 5 步。</p>
+          </div>
+          <div class="flow">
+            <div class="flow-step"><b>选择经验</b><small>纯新手 / 有经验 / 高级</small></div>
+            <div class="flow-step"><b>风险说明</b><small>不承诺收益，先学会控制亏损</small></div>
+            <div class="flow-step"><b>连接账户</b><small>建议只开读取和交易权限</small></div>
+            <div class="flow-step"><b>先跑模拟</b><small>默认观察 7 天</small></div>
+            <div class="flow-step"><b>小额实盘</b><small>确认后再使用真实资金</small></div>
+          </div>
+        </section>
+
+        <section class="section" id="account">
+          <div class="section-head">
+            <div>
+              <h2>3. 账户连接页</h2>
+              <p>重点是安全感：权限检查、提现权限提醒、模拟盘优先。</p>
+            </div>
+            <span class="pill safe">权限正常</span>
+          </div>
+          <div class="grid cols-2">
+            <div class="card">
+              <div class="form-grid">
+                <div class="field">
+                  <label>API Key</label>
+                  <div class="input">••••••••••••••••</div>
+                </div>
+                <div class="field">
+                  <label>Secret Key</label>
+                  <div class="input">••••••••••••••••</div>
+                </div>
+                <div class="field">
+                  <label>Passphrase</label>
+                  <div class="input">••••••••</div>
+                </div>
+                <div class="field">
+                  <label>运行环境</label>
+                  <div class="input">模拟盘 Demo Trading</div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="risk-band">
+                <div>
+                  <b>安全建议</b>
+                  <p>不需要开启提现权限。实盘前先完成模拟盘观察。</p>
+                </div>
+                <button class="button">测试连接</button>
+              </div>
+              <table class="table">
+                <tbody>
+                  <tr><td>读取余额</td><td>已开启</td></tr>
+                  <tr><td>交易权限</td><td>已开启</td></tr>
+                  <tr><td>提现权限</td><td>未开启，推荐</td></tr>
+                  <tr><td>IP 白名单</td><td>建议开启</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="strategies">
+          <div>
+            <h2>4. 策略模板页</h2>
+            <p>先给新手可理解的模板，不从代码开始。</p>
+          </div>
+          <div class="grid cols-4">
+            <div class="card strategy-card">
+              <h3>均线趋势</h3>
+              <p>适合 BTC、ETH 的趋势行情。信号清楚，但震荡时容易反复止损。</p>
+              <div class="tag-row"><span class="tag">新手可用</span><span class="tag">趋势</span><span class="tag">低频</span></div>
+              <button class="button primary">配置策略</button>
+            </div>
+            <div class="card strategy-card">
+              <h3>现货网格</h3>
+              <p>适合震荡行情。价格跌破区间后可能长期浮亏。</p>
+              <div class="tag-row"><span class="tag">震荡</span><span class="tag">现货</span><span class="tag">中风险</span></div>
+              <button class="button">配置策略</button>
+            </div>
+            <div class="card strategy-card">
+              <h3>定投策略</h3>
+              <p>适合长期配置 BTC、ETH。不追求择时，重在纪律执行。</p>
+              <div class="tag-row"><span class="tag">长期</span><span class="tag">简单</span><span class="tag">低风险</span></div>
+              <button class="button">配置策略</button>
+            </div>
+            <div class="card strategy-card">
+              <h3>RSI 反转</h3>
+              <p>适合短周期超买超卖判断。单边行情必须严格止损。</p>
+              <div class="tag-row"><span class="tag">短线</span><span class="tag">反转</span><span class="tag">高风险</span></div>
+              <button class="button">配置策略</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="builder">
+          <div>
+            <h2>5. 策略配置页</h2>
+            <p>新手模式只暴露必要参数，高级参数收起。</p>
+          </div>
+          <div class="grid cols-2">
+            <div class="card">
+              <div class="form-grid">
+                <div class="field">
+                  <label>交易对</label>
+                  <div class="input">BTC-USDT</div>
+                  <span class="helper">建议先选择流动性较好的主流币。</span>
+                </div>
+                <div class="field">
+                  <label>资金比例</label>
+                  <div class="input">10%</div>
+                  <span class="helper">新手单策略建议不超过账户 10%。</span>
+                </div>
+                <div class="field">
+                  <label>短期均线</label>
+                  <div class="input">20</div>
+                  <span class="helper">用于判断近期价格趋势。</span>
+                </div>
+                <div class="field">
+                  <label>长期均线</label>
+                  <div class="input">60</div>
+                  <span class="helper">用于过滤短期噪音。</span>
+                </div>
+                <div class="field">
+                  <label>止损</label>
+                  <div class="input">3%</div>
+                  <span class="helper">达到亏损线时自动退出。</span>
+                </div>
+                <div class="field">
+                  <label>运行模式</label>
+                  <div class="input">模拟盘</div>
+                  <span class="helper">默认不使用真实资金。</span>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h3>风险预览</h3>
+              <div class="risk-band">
+                <div><b>当前配置风险较低</b><p>资金占用 10%，无杠杆，止损已开启。</p></div>
+                <span class="pill safe">可回测</span>
+              </div>
+              <table class="table">
+                <tbody>
+                  <tr><td>预估单笔最大亏损</td><td>约 30 USDT</td></tr>
+                  <tr><td>策略适合行情</td><td>趋势上涨或下跌</td></tr>
+                  <tr><td>主要风险</td><td>震荡行情反复交易</td></tr>
+                </tbody>
+              </table>
+              <button class="button primary">开始回测</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="backtest">
+          <div class="section-head">
+            <div>
+              <h2>6. 回测中心</h2>
+              <p>不只看收益率，更要看回撤、手续费和连续亏损。</p>
+            </div>
+            <button class="button primary">重新回测</button>
+          </div>
+          <div class="grid cols-3">
+            <div class="card metric"><label>总收益率</label><strong>+18.6%</strong><span>过去 180 天</span></div>
+            <div class="card metric"><label>最大回撤</label><strong>-7.4%</strong><span>新手可接受范围内</span></div>
+            <div class="card metric"><label>胜率</label><strong>54%</strong><span>盈利交易占比</span></div>
+          </div>
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>回测曲线</h3>
+              <div class="placeholder">这里展示净值曲线、买卖点、最大回撤区域</div>
+            </div>
+            <div class="card">
+              <h3>新手解读</h3>
+              <div class="risk-band warn">
+                <div><b>收益不错，但仍需模拟观察</b><p>回测不能代表未来，建议先模拟盘运行 7 天。</p></div>
+                <span class="pill warn">需观察</span>
+              </div>
+              <table class="table">
+                <tbody>
+                  <tr><td>交易次数</td><td>42 次，频率适中</td></tr>
+                  <tr><td>手续费影响</td><td>约降低收益 1.1%</td></tr>
+                  <tr><td>最大连续亏损</td><td>4 次</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="paper">
+          <div>
+            <h2>7. 模拟盘页面</h2>
+            <p>真实行情、虚拟资金，让用户先练习再实盘。</p>
+          </div>
+          <div class="grid cols-4">
+            <div class="card metric"><label>模拟运行</label><strong>第 3 天</strong><span>建议至少 7 天</span></div>
+            <div class="card metric"><label>模拟权益</label><strong>10,164</strong><span>USDT</span></div>
+            <div class="card metric"><label>模拟盈亏</label><strong>+1.64%</strong><span>未使用真实资金</span></div>
+            <div class="card metric"><label>实盘资格</label><strong>未解锁</strong><span>观察期不足</span></div>
+          </div>
+          <div class="card">
+            <table class="table">
+              <thead>
+                <tr><th>时间</th><th>策略</th><th>动作</th><th>原因</th><th>结果</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>10:40</td><td>均线趋势</td><td>买入 BTC</td><td>MA20 上穿 MA60</td><td>持仓中</td></tr>
+                <tr><td>13:20</td><td>现货网格</td><td>卖出 ETH</td><td>触达上方网格</td><td>+8.2 USDT</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="live">
+          <div class="section-head">
+            <div>
+              <h2>8. 实盘监控页</h2>
+              <p>小额实盘才开放，危险操作二次确认。</p>
+            </div>
+            <span class="pill warn">当前未启用实盘</span>
+          </div>
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>实盘启动检查</h3>
+              <table class="table">
+                <tbody>
+                  <tr><td>模拟盘观察 7 天</td><td>未完成</td></tr>
+                  <tr><td>最大回撤小于阈值</td><td>通过</td></tr>
+                  <tr><td>止损已开启</td><td>通过</td></tr>
+                  <tr><td>资金占比小于 10%</td><td>通过</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <h3>实盘持仓</h3>
+              <div class="placeholder">启用实盘后展示真实持仓、订单状态、浮动盈亏和手动平仓入口</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="risk">
+          <div>
+            <h2>9. 风控中心</h2>
+            <p>所有实盘订单必须先经过风控中心。</p>
+          </div>
+          <div class="grid cols-3">
+            <div class="card">
+              <h3>账户风控</h3>
+              <table class="table">
+                <tbody>
+                  <tr><td>每日最大亏损</td><td>3%</td></tr>
+                  <tr><td>总资金使用上限</td><td>30%</td></tr>
+                  <tr><td>连续亏损暂停</td><td>4 次</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <h3>策略风控</h3>
+              <table class="table">
+                <tbody>
+                  <tr><td>单策略资金上限</td><td>10%</td></tr>
+                  <tr><td>最大订单频率</td><td>每 5 分钟 1 次</td></tr>
+                  <tr><td>止损关闭</td><td>需二次确认</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <h3>异常处理</h3>
+              <table class="table">
+                <tbody>
+                  <tr><td>行情延迟</td><td>暂停策略</td></tr>
+                  <tr><td>API 失败</td><td>暂停并通知</td></tr>
+                  <tr><td>剧烈波动</td><td>进入保护模式</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="review">
+          <div>
+            <h2>10. 复盘记录页</h2>
+            <p>让新手知道每笔交易为什么发生，而不是只看盈亏。</p>
+          </div>
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>今日复盘</h3>
+              <div class="risk-band">
+                <div><b>整体表现稳定</b><p>2 个策略运行正常，无风控事件。建议继续模拟观察。</p></div>
+                <span class="pill safe">继续观察</span>
+              </div>
+              <table class="table">
+                <tbody>
+                  <tr><td>今日总盈亏</td><td>+82.40 USDT</td></tr>
+                  <tr><td>贡献最大策略</td><td>均线趋势</td></tr>
+                  <tr><td>亏损最大策略</td><td>现货网格</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <h3>交易解释</h3>
+              <table class="table">
+                <thead>
+                  <tr><th>交易</th><th>触发原因</th><th>用户可学到</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>买入 BTC</td><td>短期均线上穿长期均线</td><td>趋势信号不是最低点信号</td></tr>
+                  <tr><td>卖出 ETH</td><td>价格到达网格上沿</td><td>网格赚的是波动收益</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

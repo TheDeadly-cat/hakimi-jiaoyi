@@ -1,0 +1,21 @@
+{
+  "schema_version": "strategy-hypothesis-preregistration-v2",
+  "hypothesis_id": "replace-with-new-hypothesis-id",
+  "research_generation": "replace-with-new-generation",
+  "strategy_ids": [
+    "replace_with_registered_strategy_id"
+  ],
+  "mechanism_family": "replace with the mechanism family",
+  "hypothesis_statement": "State the causal market behavior this mechanism is expected to capture and the conditions under which it should appear.",
+  "novelty_statement": "Explain why this is not a parameter retune of trend_pullback or squeeze_breakout and what mechanism is materially different.",
+  "mechanism_specific_failure_conditions": [
+    {
+      "condition_id": "replace_with_condition_id",
+      "evidence_stage": "DEVELOPMENT_SELECTION",
+      "metric": "median_validation_excess_return_pct",
+      "operator": "LTE",
+      "threshold": 0.0,
+      "required_action": "BLOCK_RESEARCH"
+    }
+  ]
+}

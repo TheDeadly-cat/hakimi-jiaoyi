@@ -1,0 +1,976 @@
+{
+  "account": {
+    "connected": true,
+    "apiKeyMasked": "demo-a••••••-key",
+    "environment": "demo",
+    "readPermission": true,
+    "tradePermission": false,
+    "withdrawPermission": false,
+    "ipWhitelist": "建议开启",
+    "lastTestAt": "2026-06-15T17:54:56.976Z"
+  },
+  "dashboard": {
+    "equity": 10361.8,
+    "dailyPnl": 280,
+    "allocation": 18,
+    "riskLevel": "低风险"
+  },
+  "strategy": {
+    "templateId": "ma_trend",
+    "name": "均线趋势",
+    "symbol": "BTC-USDT",
+    "shortMa": 20,
+    "longMa": 60,
+    "allocationPct": 10,
+    "stopLossPct": 3,
+    "takeProfitPct": 0,
+    "timeframe": "4h",
+    "mode": "paper"
+  },
+  "market": {
+    "source": "mock",
+    "instType": "SPOT",
+    "updatedAt": "2026-06-15T17:55:44.247Z"
+  },
+  "paper": {
+    "running": false,
+    "day": 7,
+    "equity": 10361.8,
+    "events": [
+      {
+        "time": "00:18",
+        "title": "已暂停全部策略",
+        "detail": "全局风控触发，模拟盘和未来实盘任务均停止下单",
+        "result": "已暂停",
+        "tone": "red"
+      },
+      {
+        "time": "00:18",
+        "title": "已暂停全部策略",
+        "detail": "全局风控触发，模拟盘和未来实盘任务均停止下单",
+        "result": "已暂停",
+        "tone": "red"
+      },
+      {
+        "time": "11:25",
+        "title": "均线趋势 更新模拟权益",
+        "detail": "按最新行情重新估算持仓盈亏",
+        "result": "+6.8 USDT",
+        "tone": "green"
+      },
+      {
+        "time": "11:25",
+        "title": "均线趋势 更新模拟权益",
+        "detail": "按最新行情重新估算持仓盈亏",
+        "result": "+6.8 USDT",
+        "tone": "green"
+      },
+      {
+        "time": "11:25",
+        "title": "均线趋势 更新模拟权益",
+        "detail": "按最新行情重新估算持仓盈亏",
+        "result": "+6.8 USDT",
+        "tone": "green"
+      },
+      {
+        "time": "11:25",
+        "title": "均线趋势 更新模拟权益",
+        "detail": "按最新行情重新估算持仓盈亏",
+        "result": "+6.8 USDT",
+        "tone": "green"
+      },
+      {
+        "time": "11:25",
+        "title": "均线趋势 更新模拟权益",
+        "detail": "按最新行情重新估算持仓盈亏",
+        "result": "+6.8 USDT",
+        "tone": "green"
+      },
+      {
+        "time": "11:25",
+        "title": "均线趋势 更新模拟权益",
+        "detail": "按最新行情重新估算持仓盈亏",
+        "result": "+6.8 USDT",
+        "tone": "green"
+      }
+    ]
+  },
+  "risk": {
+    "paused": true,
+    "liveLocked": true,
+    "dailyLossPct": 0.8,
+    "dailyLossLimitPct": 3,
+    "strategyCapitalPct": 10,
+    "totalCapitalPct": 18,
+    "maxCapitalPct": 30,
+    "losingStreak": 1,
+    "losingStreakLimit": 4,
+    "apiLatencyMs": 180,
+    "marketLatencyMs": 260,
+    "leverageLocked": true
+  },
+  "automation": {
+    "running": false,
+    "dryRun": true,
+    "refreshSeconds": 5,
+    "liveTradingLocked": true,
+    "profiles": [
+      {
+        "symbol": "BTC-USDT",
+        "templateId": "ma_trend",
+        "anchorPrice": 67000,
+        "upperAnchor": 69000,
+        "lowerAnchor": 65000,
+        "maxCapitalPct": 8,
+        "positionSide": "flat",
+        "status": "触发",
+        "enabled": true
+      },
+      {
+        "symbol": "ETH-USDT",
+        "templateId": "anti_martingale",
+        "anchorPrice": 3500,
+        "upperAnchor": 3650,
+        "lowerAnchor": 3350,
+        "maxCapitalPct": 6,
+        "positionSide": "flat",
+        "status": "趋势跟随",
+        "enabled": true
+      },
+      {
+        "symbol": "SOL-USDT",
+        "templateId": "spot_grid",
+        "anchorPrice": 150,
+        "upperAnchor": 162,
+        "lowerAnchor": 138,
+        "maxCapitalPct": 5,
+        "positionSide": "flat",
+        "status": "网格卖出区",
+        "enabled": true
+      }
+    ],
+    "decisions": [
+      {
+        "time": "2026-06-15T17:46:55.145Z",
+        "symbol": "BTC-USDT",
+        "strategy": "均线趋势",
+        "action": "模拟买入",
+        "price": 1033361913.6415,
+        "reason": "价格突破上方锚点 69000",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:46:57.656Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "模拟顺势加仓",
+        "price": 587913460.4705,
+        "reason": "价格突破上方锚点 3650，反马丁策略跟随盈利方向",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:47:00.172Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "模拟网格卖出",
+        "price": 320678354.9777,
+        "reason": "价格触达网格上沿 162",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:46:39.188Z",
+        "symbol": "BTC-USDT",
+        "strategy": "均线趋势",
+        "action": "采用策略",
+        "price": 0,
+        "reason": "已将 均线趋势 设为当前 BTC-USDT 的候选策略",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:46:38.971Z",
+        "symbol": "BTC-USDT",
+        "strategy": "均线趋势",
+        "action": "采用策略",
+        "price": 0,
+        "reason": "已将 均线趋势 设为当前 BTC-USDT 的候选策略",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:52.834Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:55.345Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:57.854Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:47.818Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:50.320Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:52.834Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:42.819Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:45.329Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:47.834Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:37.820Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:40.320Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:42.821Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:32.832Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:35.348Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:37.851Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:27.825Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:30.332Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:32.833Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:22.814Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:25.314Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:27.827Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:17.814Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:20.324Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:22.830Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:12.816Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:15.323Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:17.830Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:07.483Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:09.993Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:12.506Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:02.489Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:04.998Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:07.498Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:57.496Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:00.007Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:12:02.522Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:52.482Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:54.982Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:57.497Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:47.497Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:49.999Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:52.513Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:42.483Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:44.983Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:47.498Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:37.480Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:39.985Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:42.499Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:32.490Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:34.994Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:37.496Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:27.474Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:29.982Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:32.496Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:22.466Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:24.978Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:27.481Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:17.476Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:19.979Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:22.482Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:12.476Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:14.979Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:17.482Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:07.488Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:09.992Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:12.492Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:02.477Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:04.976Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:07.495Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:10:57.468Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:10:59.979Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:11:02.493Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:10:52.479Z",
+        "symbol": "BTC-USDT",
+        "strategy": "利弗莫尔突破",
+        "action": "等待",
+        "price": 67057.757,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:10:54.979Z",
+        "symbol": "ETH-USDT",
+        "strategy": "反马丁",
+        "action": "等待",
+        "price": 3513.3641,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      },
+      {
+        "time": "2026-06-15T17:10:57.483Z",
+        "symbol": "SOL-USDT",
+        "strategy": "现货网格",
+        "action": "等待",
+        "price": 149.8025,
+        "reason": "价格未触发锚点条件",
+        "source": "mock",
+        "dryRun": true
+      }
+    ]
+  },
+  "review": {
+    "summary": "表现稳定，但观察期不足，建议继续模拟观察。",
+    "rows": [
+      [
+        "买入 BTC",
+        "MA20 上穿 MA60",
+        "+1.2%",
+        "趋势信号不是最低点信号"
+      ],
+      [
+        "卖出 ETH",
+        "触达网格上沿",
+        "+8.2 USDT",
+        "网格赚的是波动收益"
+      ],
+      [
+        "暂停 SOL",
+        "回测样本不足",
+        "无交易",
+        "样本不够时不进入实盘"
+      ]
+    ]
+  }
+}

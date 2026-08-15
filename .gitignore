@@ -1,0 +1,44 @@
+# Python runtime artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Local runtime logs and temporary browser profiles
+*.log
+runtime_logs/
+.tmp-edge-profile/
+
+# Frontend / Electron caches
+node_modules/
+.npm-cache/
+.electron-cache/
+
+# Local QA screenshots generated during browser checks
+outputs/python_quant_bot/exchange_terminal/static/qa-*.png
+
+# Local secrets must stay outside the repository
+.env
+.env.*
+*.local
+
+# Local Codex runtime and attachment caches
+.codex/
+.codex-remote-attachments/
+runtime/
+
+# Project build/runtime artifacts inside outputs
+outputs/*/runtime/
+outputs/*/node_modules/
+outputs/*/.npm-cache/
+outputs/*/.electron-cache/
+outputs/*/__pycache__/
+outputs/*/runtime/**
+outputs/*/cache/
+outputs/*/logs/
+outputs/*/server*.log
+outputs/*/*.sqlite
+outputs/*/*.sqlite-shm
+outputs/*/*.sqlite-wal
+
+# Local validation outputs
+work/validation_receipts/

@@ -1,0 +1,906 @@
+﻿{
+    "schema_version":  "hakimi-g51-reconciliation-manifest-v1",
+    "generated_at":  "2026-08-10",
+    "saved_project_root":  "C:/Users/Administrator/Documents/哈基米v2交易/outputs/python_quant_bot",
+    "g51_source_root":  "C:/Users/Administrator/Documents/哈基米v2交易-g50-dev/outputs/python_quant_bot",
+    "scope":  "source and documentation only",
+    "excluded":  [
+                     ".env*",
+                     "config.local.json",
+                     "runtime*",
+                     "node_modules",
+                     "__pycache__",
+                     "credentials",
+                     "secrets"
+                 ],
+    "saved_file_count":  206,
+    "g51_file_count":  232,
+    "difference_count":  80,
+    "added_count":  26,
+    "changed_count":  54,
+    "saved_only_count":  0,
+    "entries":  [
+                    {
+                        "path":  "DEV_BASELINE.md",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "27ff41ef36a63ff8fde95719b4fe745a113cc3f7463038a3f37c1222b9420b60",
+                                    "bytes":  1261
+                                }
+                    },
+                    {
+                        "path":  "docs/g50_daily_swing_hypothesis.md",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "957f39682dde99e8532eebfa7196f4105616f33ba3ec89a29d67c59d16b06251",
+                                    "bytes":  3190
+                                }
+                    },
+                    {
+                        "path":  "docs/g50_research_governance.md",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "b9883fa34faa4208c4d1095d81e55d53c326f6c3c239ccc523c0e4bd0601b605",
+                                    "bytes":  1973
+                                }
+                    },
+                    {
+                        "path":  "docs/g51_squeeze_breakout_development_preregistration.md",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "6ad1c860e2e5a5867ca90285d615c8d4ca3f553f5fce4661bc204593a16a6d8c",
+                                    "bytes":  3501
+                                }
+                    },
+                    {
+                        "path":  "docs/project_status.md",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "6287e20eb8bfe4c7f4ec7e98b35e930c4d5d698f22e977ea24a642a21d5113a9",
+                                        "bytes":  173884
+                                    },
+                        "g51":  {
+                                    "sha256":  "e9ab5cdda65c6253a651a92f2eaa9bd3f832ae1424326336a454ad41de923457",
+                                    "bytes":  195006
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/config.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "5d7fd79ce15e9361081313813a2c48e4f11c71ba04371008de8645e12e8becc2",
+                                        "bytes":  13234
+                                    },
+                        "g51":  {
+                                    "sha256":  "8447e8eb21629adfaaf58ce5e6dd590cc498c6b13184d560f772c24644c1a122",
+                                    "bytes":  13824
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/market_data/candle_contract.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "644512be07aaa55e09428376137ed342e5ec9c78925841635ef2b3223d9ea2ac",
+                                        "bytes":  1045
+                                    },
+                        "g51":  {
+                                    "sha256":  "1980a1d29111f1c964637a776a5b7960b7ae2b80a1bfcc7e4fb59dc67a3b0cab",
+                                    "bytes":  1071
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/market_data/stock_candles_io.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "de92155e86d3abd2de9c3d65cc4dc75b314844e9b19cc67c74b068e04cae33a2",
+                                        "bytes":  62829
+                                    },
+                        "g51":  {
+                                    "sha256":  "ca128b07d8425a17ff611173d4941b1ed4caf46c65b2b46fce339766e74eb7b6",
+                                    "bytes":  68196
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/market_data/stocks.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "40c77990b8dd8901d5dba418df1136d6e7bdae60444410d6c1d9890e015020bf",
+                                        "bytes":  3290
+                                    },
+                        "g51":  {
+                                    "sha256":  "067f0cc755027fb53ae1292e12d0abed3f2c8e85dfb277d7de49b7336a3cc176",
+                                    "bytes":  3684
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/server.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "18fa952a7a432096aadf3a64984cacbc05b895ed2fa467955bfecc9e5fb6594e",
+                                        "bytes":  571773
+                                    },
+                        "g51":  {
+                                    "sha256":  "63dcb96dc6417ce62b00fcd85b2abdecb79338095df8dc6e1822ba0360a70fc9",
+                                    "bytes":  578941
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/audit_log.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "0efee81aa0286441f9b1222d533fb0f8bc8938a3fc5813beec59c19cec5ad5ea",
+                                        "bytes":  8561
+                                    },
+                        "g51":  {
+                                    "sha256":  "5d4d5b553f59f2240cc6f04114b2899f5cae792aa5215a0d563ba308dbdb99e1",
+                                    "bytes":  8923
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/backtest_engine.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "2f82a395baf5e22d6b917d9d512add6059cb7f80da43d2ec545eeca4fa031b22",
+                                        "bytes":  38503
+                                    },
+                        "g51":  {
+                                    "sha256":  "65eb82e94557d2cae1dafda7ed8fbf554ff31c5bc265094ff27e3cc9aee1647e",
+                                    "bytes":  41760
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/corporate_action_ledger.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "bc27225ed47bcc3a0c15bcec0a056b3065cb89311d9bfc7fa0d3ae620ce1538a",
+                                        "bytes":  36130
+                                    },
+                        "g51":  {
+                                    "sha256":  "1d8eb28a35d9b65b964b5fd2583303f2c4948791e153dd59e1d7718fe653c638",
+                                    "bytes":  36450
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/http_contract.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "348605056992099d4227bd19af88606ed76071487904828b953202cab684143d",
+                                        "bytes":  2188
+                                    },
+                        "g51":  {
+                                    "sha256":  "681f3d4745a1869eb27ad73003b45e472b0214cfa10750323324e4939837f1d9",
+                                    "bytes":  2837
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/internal_backtest_readiness.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "978cd0fc0455866358fee34598c3929a23aa517d48c65c3801cd59bf6ecf8284",
+                                    "bytes":  18906
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/market_data_revision_ledger.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "a715aba91d9d588abfb9beed5eeb98b81a56084b80efb9d94f86dfe32f97eee4",
+                                        "bytes":  59054
+                                    },
+                        "g51":  {
+                                    "sha256":  "3b9b5eba55f1e12604a4d06dc4a0b11c6a0341e7f81d5ba62991a5a175d61f6b",
+                                    "bytes":  59574
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/market_history_store.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "5043c4421782f870e686f2d3494b6a764eed7781ccb8cc06aab466f3d9fa9212",
+                                    "bytes":  34063
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/mutation_journal.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "7450e7fd811cf8f55b9566b319fe875f531f9e6f38c409b1c815d538bdee506e",
+                                        "bytes":  6581
+                                    },
+                        "g51":  {
+                                    "sha256":  "5d5163a652221d25a9c4fce21be944ca3583cc64375906a07f69ca9a236b561f",
+                                    "bytes":  7112
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/paper_account.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "baf810ead536c172b960d2120c4b74638a5affd4e056e045da3b1daa55417c29",
+                                        "bytes":  86063
+                                    },
+                        "g51":  {
+                                    "sha256":  "566159159b9a44f986198a4ba9b70ee8ef8e05de880b1ef66ee4c1775babde1b",
+                                    "bytes":  96477
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/paper_executor.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "8628ea68bf180741de7f9b8cc395fc7a370b3a1552c44f76f12412aa976dc929",
+                                        "bytes":  39374
+                                    },
+                        "g51":  {
+                                    "sha256":  "6cb4a00d707d4c3b275ba0e4b67e93f1d65df4c01a960098cadc62a107665305",
+                                    "bytes":  54651
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/paper_ledger.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "4fa0fa07997bef66a321728272744ce48567244e5bb5394a93ad0522dd0f8d5e",
+                                        "bytes":  45673
+                                    },
+                        "g51":  {
+                                    "sha256":  "817fc49b8cea2f254972dec71be7d901364bbd682fee0be150f51127846b1541",
+                                    "bytes":  54600
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/paper_order_contract.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "a153587c09f38d01ce61ec7795d6c2263fe0714f17a9e46d709e06aee66a770b",
+                                        "bytes":  9405
+                                    },
+                        "g51":  {
+                                    "sha256":  "12f14e3028d36e723229272d641d08f9d6a315391ceda1be2bf347dabd0a41ad",
+                                    "bytes":  11328
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/paper_strategy_clock.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "ce14d51f29fd62878098975e6884011f40532e97771ea5ccab7b3476d0f7017b",
+                                        "bytes":  5314
+                                    },
+                        "g51":  {
+                                    "sha256":  "b29756a42537ce353462201ae321112380af984c04d26a96842366bac4d5f91d",
+                                    "bytes":  4754
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/portfolio_backtest.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "094f63e79f2ee2c2e742451c4cc8cee233c019e5efc0dc6f79d9ed3e8cb1f7bb",
+                                        "bytes":  89289
+                                    },
+                        "g51":  {
+                                    "sha256":  "296a5d1f0091abfa9140a2df87177b43f49796df986803b4e908b57b7f01ca6c",
+                                    "bytes":  89357
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/portfolio_execution_rehearsal.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "ddc3162c9a7493c6c6ffdb505f2ac63d6d0f0b5cd47aa01683078a2a03ecd349",
+                                        "bytes":  29318
+                                    },
+                        "g51":  {
+                                    "sha256":  "616cb8456b082a428e83190bf9dd89f8a50d49e5c6e0c97d089e592a6ed88269",
+                                    "bytes":  29577
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/portfolio_experiment.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "ad0ab6fdaf4aa6a183cf79aa036bf425753e6d7c38125429cc2149c4f112479f",
+                                        "bytes":  52992
+                                    },
+                        "g51":  {
+                                    "sha256":  "1aa8cf44c0ea9036c034c8dfd12b1efb05236a1f7b926eb7423d12aa6b2893b7",
+                                    "bytes":  53653
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/portfolio_forward_watchdog.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "d5900eef4aa0b081835afa6c3969732a61e7a569e2a8919731e1ee9a04b2ee9f",
+                                        "bytes":  13659
+                                    },
+                        "g51":  {
+                                    "sha256":  "0bc13a0e2d7daaa5754c7621d21d5affbcab0043961ee83ef545498c7c7b2f66",
+                                    "bytes":  14083
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/portfolio_paper_account.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "2900e41c75dfb0d2f61a8418363d7ddec867f04fd4312b48b30abb071abc3c6f",
+                                        "bytes":  36871
+                                    },
+                        "g51":  {
+                                    "sha256":  "ebe867e8a6a806df3c43987ad87bf11f03db21c0fffedb9dfb6333be26cc7129",
+                                    "bytes":  37288
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/research_bridge.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "c37783407dbc07f83528501c62c3cb3eebf00d32076c7f1a9925306ef438c8a4",
+                                        "bytes":  6438
+                                    },
+                        "g51":  {
+                                    "sha256":  "bb1e6252e9aa5375100dba6586c2eb8e4e349fe20ac3756011592e127ed7cee5",
+                                    "bytes":  6806
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/risk_service.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "b032e4263a7ae91acf702c5a403b44ff433b85924882831e7f8c7a4a0889a883",
+                                        "bytes":  33455
+                                    },
+                        "g51":  {
+                                    "sha256":  "f2462079f2c0b70a29b402b946ab3edccb58f7a63014e3f4916214c9063105c6",
+                                    "bytes":  60393
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/sqlite_runtime.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "bbe2984710293a447d3f71b437fda8bc6cc77e30f323a5ab4e76685440cb376b",
+                                    "bytes":  1037
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/strategy_benchmark.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "c616f9a7c1236b56241130ebe1fe6999e88e1a05c77fe204a340a627b6c50b78",
+                                        "bytes":  18772
+                                    },
+                        "g51":  {
+                                    "sha256":  "53d897ca3bd98408c20ae12fd4271b95a98746ff6abbd84b2ce7c6bd7e6c3e53",
+                                    "bytes":  21185
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/strategy_data_admission.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "0a9c4b7d5c90e722100cb8ba120ed2eef5484654218b6e4c593c683b2ff534d8",
+                                    "bytes":  15637
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/strategy_matrix_evidence.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "941cc9b3eb944561f7b0541f17b7566cd74df68d768555a99131b7eaa0a59ac3",
+                                        "bytes":  7524
+                                    },
+                        "g51":  {
+                                    "sha256":  "a9cfbdff995e6608f600cc2798a624b6dd38237e3757179a9df09fb65b761945",
+                                    "bytes":  24525
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/strategy_matrix_protocol.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "e4ad86dfef8aea55cbe72413360982ede335f7ddbe2f3a5b2902a6d9ccf06891",
+                                    "bytes":  61880
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/strategy_pipeline.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "183f02215914e7c8b94e0b9acf93b047be0a73522da2ec98d356679eb158ba76",
+                                        "bytes":  34040
+                                    },
+                        "g51":  {
+                                    "sha256":  "02dcc1f1ad211c8128bb939645b2947c8920a1ec6a86f74de22694d724da754d",
+                                    "bytes":  38514
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/strategy_quality.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "38aeb7d22c31bce6b1b0c1245c43ba983c26621e37425b91f576020617fe8b65",
+                                        "bytes":  12567
+                                    },
+                        "g51":  {
+                                    "sha256":  "4e9cb5aded8e9fe6bbedf5d19d6ca7396ad8aa2454575210a27e04172c3c9c79",
+                                    "bytes":  12933
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/strategy_research.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "e1b4a2e50ea93675f6d122a5a5185e58a1ce233591f0ccaa1e7ce94dfee54efb",
+                                        "bytes":  20376
+                                    },
+                        "g51":  {
+                                    "sha256":  "560b91d2c16e4693298d52587d2041fbafbba7cc2fcefb2af2fac80a72089f02",
+                                    "bytes":  22660
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/strategy_research_evidence.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "c7626cb8d89d991992b16133eccc501ff787314e44476cb8ec3ca30ec1faf16b",
+                                    "bytes":  33211
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/strategy_risk_profiles.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "7e1599cee79025051ab7f162ab6057b1b47f7c2313e7eee6afdcf02e2475a6f1",
+                                        "bytes":  2003
+                                    },
+                        "g51":  {
+                                    "sha256":  "a2fa18b55bb6b5242d9bb81a1c134cb29c437e5cd9526832d3d537ad82baa481",
+                                    "bytes":  2049
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/services/strategy_signals.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "96741f7b1885ec1ac1dab021b6469f28e993c3e4165e89f3fb678bf4b4a31653",
+                                        "bytes":  18176
+                                    },
+                        "g51":  {
+                                    "sha256":  "3eb0a770305fa2a05aa552d341cb3a42859805176abe0e865c180168e8013703",
+                                    "bytes":  29459
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/static/app.js",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "ec6b7cd64048b71a20909ec9cdb4cf4704cb3d410c4b3ed6789b64c2b410b3b3",
+                                        "bytes":  498459
+                                    },
+                        "g51":  {
+                                    "sha256":  "b860e3f17d0d7df09271517eb596493d2afef2361adcb3b27b056dbc5b706835",
+                                    "bytes":  511619
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/static/index.html",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "f37611adcde203efbf8a3d588f18e82d44c9504f13d0060741cdb6d4ba475ce2",
+                                        "bytes":  75504
+                                    },
+                        "g51":  {
+                                    "sha256":  "488e7ab9b84f962a0c806d3cdd868367818bba0f0c9c7d040aee40c135d2f4cf",
+                                    "bytes":  75669
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/static/stock_quote_guard.js",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "f5b2b9f55a111fa94386415ab85f1f01d06ed599e0b5a82b95ee32aca735497c",
+                                    "bytes":  3943
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/static/stock_quote_guard.test.js",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "be96a8ed2e81ce4603c33666dbb780c46640f218949183de55940636e04a2ee1",
+                                    "bytes":  2665
+                                }
+                    },
+                    {
+                        "path":  "exchange_terminal/static/styles.css",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "dc33c371f62c69f638b41f3956cc7c71a89b7c98677cc49f7b6972477ff70d59",
+                                        "bytes":  187706
+                                    },
+                        "g51":  {
+                                    "sha256":  "a9698e93e424817ea73ec5674476a86d41fa4d7f6ba90b5a774ada713c8d6842",
+                                    "bytes":  187907
+                                }
+                    },
+                    {
+                        "path":  "run_internal_backtest_readiness.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "03b2764fa4ae543535fb70dea8765b255fd9950e6ac630cf2ee73b4c927fb955",
+                                    "bytes":  4700
+                                }
+                    },
+                    {
+                        "path":  "run_internal_portfolio_research.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "a4c9b5f3de4e5523d421963bd162f0b2103b8a63ad57f17c41a91dda048d901f",
+                                        "bytes":  65598
+                                    },
+                        "g51":  {
+                                    "sha256":  "65739c3df9922f45d15dc5d6f8847e7e0429b052a3216d9a18c0ed17de1737c7",
+                                    "bytes":  68644
+                                }
+                    },
+                    {
+                        "path":  "run_internal_strategy_matrix.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "aee1c09bea4905a5cf0eb2fd47cc3b383597138312708acc56897ed9de5cafd5",
+                                        "bytes":  26185
+                                    },
+                        "g51":  {
+                                    "sha256":  "ae482c986279b02907f15eb5c5c16818c8382343ae5df17f95e309182ab754b8",
+                                    "bytes":  47286
+                                }
+                    },
+                    {
+                        "path":  "run_internal_strategy_research.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "771efc7dfea4ba63b004391f595ebed10c90fd67918e6f913dfbeae43e1e2b3b",
+                                        "bytes":  31667
+                                    },
+                        "g51":  {
+                                    "sha256":  "0f9089564173b89cdb18924c0a3c597742b247cecf359a20dbfbbf9cd6371c85",
+                                    "bytes":  52512
+                                }
+                    },
+                    {
+                        "path":  "run_portfolio_data_admission_audit.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "64025418a85317a291322b9f4f31e1c356a4d66e4691c51a276fb2129a2e8488",
+                                        "bytes":  4008
+                                    },
+                        "g51":  {
+                                    "sha256":  "f3e2a14865e5db0a4ec354e1e891965cc04464b1ad5c9994d8a15a824f4939d1",
+                                    "bytes":  4214
+                                }
+                    },
+                    {
+                        "path":  "run_portfolio_forward_scheduler.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "6e299f77857a06ef994d96b3a645d5bb628c3d902ea973e2ec34cfcddf8e466f",
+                                        "bytes":  11195
+                                    },
+                        "g51":  {
+                                    "sha256":  "994ec9b7ed4ad66eab4793d328a0b1dbfccbf2d8fb9566456c5fd3f1865a91ec",
+                                    "bytes":  11251
+                                }
+                    },
+                    {
+                        "path":  "run_portfolio_forward_watchdog.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "e01c95ead145fa1bf30f1c270736c4cf99d027dc09c4568592ce52ec60288412",
+                                        "bytes":  6277
+                                    },
+                        "g51":  {
+                                    "sha256":  "62ccbe02a51b638d30c8586b1a0bd9a7998a3c63f76a9b03f0360951326f2ca3",
+                                    "bytes":  7549
+                                }
+                    },
+                    {
+                        "path":  "run_portfolio_reference_data_intake.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "2359c40aadc99a11d8cdacf42655295745963d08bb53ffca3cd0d4cd9d64ec84",
+                                        "bytes":  7549
+                                    },
+                        "g51":  {
+                                    "sha256":  "af5bc312abe8d92663f9a21f8a98fe20852c58b5ff7c96958af4b4a664e63d29",
+                                    "bytes":  7628
+                                }
+                    },
+                    {
+                        "path":  "run_portfolio_runtime_task.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "d9d7df197f646f65e73d10f1956e84eb82dc62566beae97696cb4fd892448aee",
+                                    "bytes":  2188
+                                }
+                    },
+                    {
+                        "path":  "run_preregister_strategy_matrix.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "11fa6d66e309d8685d9b3b0726b89b9753a4ac8a2631cf2cec9f85263a0628d2",
+                                    "bytes":  6916
+                                }
+                    },
+                    {
+                        "path":  "run_preregister_strategy_research.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "a17c04e0b3f1d34f37ba161c254517319c9acc43bdb08161f8b04d002c4fe121",
+                                    "bytes":  7073
+                                }
+                    },
+                    {
+                        "path":  "tests/test_backtest_engine.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "4a7df4384eb8e516114be79dc628daba8353425cb2dcdb076fd1b37e35172657",
+                                        "bytes":  24609
+                                    },
+                        "g51":  {
+                                    "sha256":  "45b7795bedaf802a0da13b8a644e120d7f1713c7efa02389ab1d966a6ed77447",
+                                    "bytes":  28030
+                                }
+                    },
+                    {
+                        "path":  "tests/test_core_services.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "c1b4a8fbe1cd823db30300aa2e8d8477cb4b5ab95fb906d9ba8496deacf0f0be",
+                                        "bytes":  131409
+                                    },
+                        "g51":  {
+                                    "sha256":  "55ee68902d0545da3ba4f45e34ee73aaed3438bea24e90b827c222a6e942d7c4",
+                                    "bytes":  178449
+                                }
+                    },
+                    {
+                        "path":  "tests/test_direct_server_imports.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "e7e362634978f989c26fce0c90290c1e278952cd32472b8df3f1e0bfc48e271b",
+                                        "bytes":  1222
+                                    },
+                        "g51":  {
+                                    "sha256":  "ba507ef7ed5aafbcc431d731bd810f8a41da5dd77acd948fae21cf800c0ce801",
+                                    "bytes":  1370
+                                }
+                    },
+                    {
+                        "path":  "tests/test_internal_backtest_readiness.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "b226af30c15e9951e26164c8bddfbd2877f7b91f83d25a789a9bbabfb4598c16",
+                                    "bytes":  7788
+                                }
+                    },
+                    {
+                        "path":  "tests/test_market_history_cache.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "f3bf0e705fb8e457e4bad2ec7b19995f79a84bcdd107a8961056ecfe8538db49",
+                                        "bytes":  2210
+                                    },
+                        "g51":  {
+                                    "sha256":  "8f5efb2e17a349ba23d1ca2cee1a4f1a0c684e8a70a4731d94796b591cd90b5a",
+                                    "bytes":  4752
+                                }
+                    },
+                    {
+                        "path":  "tests/test_market_history_store.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "c50ff677f79568ecb676ead7b3c154ee8de9ea1947e4acc3d2c6b27bcb41c74c",
+                                    "bytes":  15084
+                                }
+                    },
+                    {
+                        "path":  "tests/test_paper_strategy_clock.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "3283cb1ca0cfb47d96e27b0fbe3ea0d308f8c8ca7a51dbdfd8693af9de414a4c",
+                                        "bytes":  34300
+                                    },
+                        "g51":  {
+                                    "sha256":  "4f6496fe6be96d3a58916edb2fa1b05a8d5800063b3a5efa6c3a58acff0c66d6",
+                                    "bytes":  33937
+                                }
+                    },
+                    {
+                        "path":  "tests/test_portfolio_execution_rehearsal.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "bcc1fc9babc1e2e9f8ca4f907cfefc74a084cfa30728c68b3fbbefc2becf9134",
+                                        "bytes":  5523
+                                    },
+                        "g51":  {
+                                    "sha256":  "66d71fc537385a10364b5506122907097c33ad038ccc1bc996571048cbdc669f",
+                                    "bytes":  8347
+                                }
+                    },
+                    {
+                        "path":  "tests/test_portfolio_forward_watchdog.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "8450d1ef5a97b18e6a93a5fd7466f640f9fa5363e97a1c29b8f03694b5344ed4",
+                                        "bytes":  7740
+                                    },
+                        "g51":  {
+                                    "sha256":  "612508f7ca70113b901291ab68ce2ab39c2a44ff547abddd277b11c5b9f996f7",
+                                    "bytes":  8821
+                                }
+                    },
+                    {
+                        "path":  "tests/test_portfolio_research_entrypoint.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "3404bacb54471b060935d884617a3320576438884ca08766794b89f23ea3ae88",
+                                        "bytes":  7303
+                                    },
+                        "g51":  {
+                                    "sha256":  "ed92c114c5075bf26bdb97d2bba1c504ac618bcd31e4b27a1ef1ceadb1b2d0d3",
+                                    "bytes":  10227
+                                }
+                    },
+                    {
+                        "path":  "tests/test_portfolio_runtime_task.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "72f222bb46f429dc0ea38ff1d8f872b5bb4486b9ff3686ac8dd7db51586f05e8",
+                                    "bytes":  2795
+                                }
+                    },
+                    {
+                        "path":  "tests/test_runtime_sqlite_read_only.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "f8d34057aa197a289f2ba4ca479bdf44eeb060f121081e40cd1ad81c61623cb3",
+                                    "bytes":  7213
+                                }
+                    },
+                    {
+                        "path":  "tests/test_stock_candle_quality.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "7bd2a952a1c0245905786c51b20a6417da5f51785bd8b4891c4d7e0126546746",
+                                        "bytes":  20629
+                                    },
+                        "g51":  {
+                                    "sha256":  "d373db35b045fafc435e4e7e3b66b11536f83c60d386f122e1757911c66bbc7a",
+                                    "bytes":  21986
+                                }
+                    },
+                    {
+                        "path":  "tests/test_stock_symbol_classification.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "0e23b1f65d3183630d4850925eb9b3335eb0599097d7e4ee4cb7637dbe32cef2",
+                                    "bytes":  1308
+                                }
+                    },
+                    {
+                        "path":  "tests/test_strategy_benchmark.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "ea1e247228f1d80edc294d0b3231970144f14af82e05236dbe9c00d7ab62acda",
+                                        "bytes":  11935
+                                    },
+                        "g51":  {
+                                    "sha256":  "b1077c6e567207c31e8f60f9c6a766272e44200194b5eabc2cae4fc6e07088ff",
+                                    "bytes":  25935
+                                }
+                    },
+                    {
+                        "path":  "tests/test_strategy_data_admission.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "83a26e63d0d8c2070ad8efd7ad7d4d77e46a1ca90602a125868197702afa2315",
+                                    "bytes":  6021
+                                }
+                    },
+                    {
+                        "path":  "tests/test_strategy_matrix_protocol.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "73d5aea1d8899f5e027e11428b61f2dd5f51a6d828fe271837bf11a671529996",
+                                    "bytes":  11863
+                                }
+                    },
+                    {
+                        "path":  "tests/test_strategy_matrix_runner.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "2059f7dd33f7e17edbf6ff1463f5beb79df39972eb0724d1e13153a6a8bf38a9",
+                                    "bytes":  17440
+                                }
+                    },
+                    {
+                        "path":  "tests/test_strategy_research.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "cfa3d6b8c5a58d81959e914026b6fdf7137a36cb0d2ea3d58574f4ca947bffeb",
+                                        "bytes":  8263
+                                    },
+                        "g51":  {
+                                    "sha256":  "5a3144b375f443dddd4aac901eefec22da4d496356eb7174ae8d090594f1bd6c",
+                                    "bytes":  10860
+                                }
+                    },
+                    {
+                        "path":  "tests/test_strategy_research_runner.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "b925e267b26a103bb8ea1b33fb728c5e52b2c28048603f8335978296aa54c640",
+                                    "bytes":  23065
+                                }
+                    },
+                    {
+                        "path":  "tests/test_strategy_risk_profiles.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "73f8539a9fb1717a32a7bc74baedcd34d28e5e2d12bfa50133e09d77143174dc",
+                                        "bytes":  1787
+                                    },
+                        "g51":  {
+                                    "sha256":  "21aee1b090099b0b56409049a54b465005b74d0441ca6e8c10e985dda10179ed",
+                                    "bytes":  2817
+                                }
+                    },
+                    {
+                        "path":  "tests/test_strategy_signals.py",
+                        "status":  "CHANGED",
+                        "current":  {
+                                        "sha256":  "3aa827c4b5b0a3accb46e1509a4a8c857e02f33ba5256fc5b34392393e2bd4b9",
+                                        "bytes":  6771
+                                    },
+                        "g51":  {
+                                    "sha256":  "c0e7e61716503ba22c9f6dc880add4aea919d77f816a18acd61b01313a776448",
+                                    "bytes":  14794
+                                }
+                    },
+                    {
+                        "path":  "verify_strategy_research_report.py",
+                        "status":  "ADDED_IN_G51",
+                        "current":  null,
+                        "g51":  {
+                                    "sha256":  "94512e24e760c74e94098974ec7fe7b8dff7e875f3a29027eeb614fe2096fa79",
+                                    "bytes":  1336
+                                }
+                    }
+                ]
+}

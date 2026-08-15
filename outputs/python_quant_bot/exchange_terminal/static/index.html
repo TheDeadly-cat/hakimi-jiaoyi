@@ -1,0 +1,1999 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>哈基米交易 v2</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./styles.css?v=20260814-single-look-contract-1">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="market-rail">
+      <div class="brand-row">
+        <div class="brand-mark">Q</div>
+        <div>
+          <div class="brand-name">哈基米交易</div>
+          <div class="brand-sub">MARKET RADAR</div>
+        </div>
+      </div>
+
+      <div class="workspace-nav" id="workspaceRail">
+        <button class="active" data-workspace-focus=".ticker-header">
+          <span>01</span><strong>行情工作台</strong><em>K线 / 盘口 / 异动</em>
+        </button>
+        <button data-workspace-focus=".strategy-desk">
+          <span>02</span><strong>策略研究</strong><em>仅研究 / 模拟验证</em>
+        </button>
+        <button data-workspace-focus=".orders-panel">
+          <span>03</span><strong>模拟记录</strong><em>订单 / 条件 / 复盘</em>
+        </button>
+        <button data-workspace-focus=".history-panel">
+          <span>04</span><strong>数据记录</strong><em>账本 / 导出 / 日志</em>
+        </button>
+      </div>
+
+      <details id="marketRailDisclosure" class="market-rail-disclosure" open>
+        <summary id="marketRailDisclosureSummary" aria-controls="marketRailDisclosureContent">
+          <span class="market-rail-disclosure-label">市场选择</span>
+          <strong id="marketRailDisclosureCurrent">AAPL · 股票</strong>
+          <span class="market-rail-disclosure-toggle" aria-hidden="true">
+            <span class="market-rail-disclosure-closed-copy">展开</span>
+            <span class="market-rail-disclosure-open-copy">收起</span>
+          </span>
+        </summary>
+        <div id="marketRailDisclosureContent" class="market-rail-disclosure-content">
+          <div class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <input id="marketSearch" aria-label="搜索市场" placeholder="搜索 BTC / ETH / NVDA / AAPL">
+          </div>
+
+          <div class="market-tabs" id="marketCategoryTabs" role="group" aria-label="市场分类">
+            <button class="active" data-category="all">全部</button>
+            <button data-category="spot">现货</button>
+            <button data-category="swap">永续</button>
+            <button data-category="stocks">股票</button>
+          </div>
+
+          <div class="rail-section-title">自选市场</div>
+          <div id="marketList" class="market-list"></div>
+        </div>
+      </details>
+
+      <div class="rail-section-title">研究账户</div>
+      <div class="account-strip">
+        <div>
+          <span>模拟权益</span>
+          <strong id="railEquity">10,000.00 USDT</strong>
+        </div>
+        <div>
+          <span>策略状态</span>
+          <strong id="strategyState">待启动</strong>
+        </div>
+        <div>
+          <span>风控模式</span>
+          <strong>硬保护墙</strong>
+        </div>
+      </div>
+    </aside>
+
+    <main class="terminal">
+      <section class="shell-titlebar">
+        <div class="shell-title-main">
+          <div class="shell-app-icon">H</div>
+          <div>
+            <strong>哈基米交易 v2</strong>
+            <span>策略验证 + 模拟交易 + 风险审计</span>
+          </div>
+        </div>
+        <div class="shell-tabs" id="workspaceTabs">
+          <button class="active" data-workspace-focus=".ticker-header">行情</button>
+          <button data-workspace-focus=".strategy-desk">策略</button>
+          <button data-workspace-focus=".orders-panel">模拟</button>
+          <button data-workspace-focus=".account-center-grid">账户</button>
+          <button data-workspace-focus=".system-grid">系统</button>
+        </div>
+        <div class="shell-meta">
+          <span id="shellDataSource">本地行情</span>
+          <span id="shellGuardState">实盘锁定</span>
+        </div>
+      </section>
+
+      <section class="desktop-statusbar">
+        <div class="statusbar-left">
+          <strong>哈基米交易 v2</strong>
+          <span id="desktopClock">--:--:--</span>
+          <span id="desktopSession">本地终端</span>
+        </div>
+        <button id="commandOpen" class="command-trigger">搜索 / 命令</button>
+        <div class="interface-switch" id="interfaceModeSwitch">
+          <button class="active" data-interface-view="platform">交易总控</button>
+          <button data-interface-view="trade">行情</button>
+          <button data-interface-view="marketai">AI分析</button>
+          <button data-interface-view="bot">策略研究</button>
+          <button data-interface-view="research">异动雷达</button>
+          <button data-interface-view="system">系统</button>
+          <button data-interface-view="all">全部</button>
+        </div>
+        <div class="statusbar-right">
+          <div class="mode-switch" id="desktopModeSwitch">
+            <button class="active" data-desktop-mode="PAPER">模拟</button>
+            <button data-desktop-mode="WATCH">观察</button>
+            <button data-desktop-mode="LOCKED">实盘锁定</button>
+          </div>
+          <div class="status-select">
+            <span>行情源</span>
+            <select id="quoteSourceSelect">
+              <option value="AUTO">自动</option>
+              <option value="OKX">OKX</option>
+              <option value="FUTU">Futu</option>
+            </select>
+          </div>
+          <div class="status-pill"><i id="okxStatusLamp"></i><span>OKX</span><strong id="okxStatusText">检查中</strong></div>
+          <div class="status-pill"><i id="futuStatusLamp"></i><span>Futu</span><strong id="futuStatusText">检查中</strong></div>
+          <div class="status-pill"><i id="paperStatusLamp"></i><span>模拟盘</span><strong id="paperStatusText">待启动</strong></div>
+          <div class="status-pill"><i id="riskStatusLamp"></i><span>风控</span><strong id="desktopRiskText">--</strong></div>
+          <button id="desktopRefresh" class="status-action">刷新</button>
+          <button id="desktopFutuSetup" class="status-action">富途</button>
+        </div>
+      </section>
+
+      <nav class="module-bar" id="moduleNav">
+        <button class="active" data-focus=".ticker-header">行情台</button>
+        <button data-focus=".strategy-desk">策略</button>
+        <button data-focus=".orders-panel">模拟</button>
+        <button data-focus=".account-center-grid">账户</button>
+        <button data-focus=".history-panel">数据</button>
+        <button data-focus=".system-grid">系统</button>
+      </nav>
+
+      <section id="interfaceFocusBanner" class="interface-focus-banner"></section>
+
+      <section id="platformControlCenter" class="platform-control-center" aria-label="研究证据与权限控制中心">
+        <header class="platform-control-head">
+          <div>
+            <span>研究证据与权限边界</span>
+            <strong>交易总控</strong>
+            <em>行情、自然前向、策略和纯规划证据分开核验；任何通过都不会授予模拟或实盘权限。</em>
+          </div>
+          <div class="platform-control-actions">
+            <button id="platformValidate" type="button" title="只核对已有证据，不触发回测或参数搜索">核对当前证据</button>
+            <button id="platformOpenStrategy" class="ghost-button" type="button">策略工作台</button>
+            <button id="platformRefresh" class="ghost-button" type="button" title="刷新交易总控">刷新</button>
+          </div>
+        </header>
+
+        <section id="platformAuthoritySummary" class="platform-authority-summary" aria-label="研究与交易权限边界">
+          <div class="platform-authority-allowed">
+            <span>当前可做</span>
+            <strong id="platformAuthorityAllowed">策略研究 · 行情核验 · 自然前向观察 · 小资金纯规划</strong>
+          </div>
+          <div class="platform-authority-forbidden">
+            <span>当前不可做</span>
+            <strong id="platformAuthorityForbidden">模拟运行（未授权）· 实盘下单（永久硬锁）</strong>
+          </div>
+        </section>
+
+        <section
+          id="platformEvidenceAttributionSpine"
+          class="platform-evidence-attribution-spine"
+          aria-labelledby="platformEvidenceAttributionTitle"
+          aria-describedby="platformCandidateAttributionRelation"
+          data-relation-status="UNKNOWN"
+          data-frozen-candidate-hash=""
+          data-forward-candidate-hash=""
+          data-hypothesis-hash=""
+        >
+          <header>
+            <span>证据归属</span>
+            <strong id="platformEvidenceAttributionTitle">先核对是否同一候选，再解读收益与前向观察</strong>
+          </header>
+          <div role="list" aria-label="冻结组合、自然前向与策略假设归属">
+            <div role="listitem">
+              <span>冻结组合候选</span>
+              <strong id="platformFrozenCandidateAttribution">冻结组合归属未核验</strong>
+            </div>
+            <div role="listitem">
+              <span>当前自然前向候选</span>
+              <strong id="platformForwardCandidateAttribution">当前自然前向归属未核验</strong>
+              <small id="platformCandidateAttributionRelation" role="status" aria-live="polite" aria-atomic="true">候选归属未核验 · 禁止合并解读</small>
+            </div>
+            <div role="listitem">
+              <span>当前策略 / 事前假设</span>
+              <strong id="platformStrategyAttribution">当前策略未核验 · 事前假设归属未核验 · 与组合候选未建立白名单绑定</strong>
+            </div>
+            <div class="platform-attribution-identity" role="listitem">
+              <details id="platformEvidenceAttributionDetails">
+                <summary>完整归属标识 · 展开核对</summary>
+                <dl aria-label="经证据合同核验的完整归属标识">
+                  <div>
+                    <dt>冻结组合候选 hash</dt>
+                    <dd><code id="platformFrozenCandidateHash">未核验</code></dd>
+                  </div>
+                  <div>
+                    <dt>自然前向候选 hash</dt>
+                    <dd><code id="platformForwardCandidateHash">未核验</code></dd>
+                  </div>
+                  <div>
+                    <dt>事前假设 hash</dt>
+                    <dd><code id="platformHypothesisHash">未核验</code></dd>
+                  </div>
+                </dl>
+              </details>
+            </div>
+          </div>
+        </section>
+
+        <div class="platform-status-grid">
+          <div id="platformStrategyCard" class="platform-status-block flat">
+            <span>策略流水线</span>
+            <strong id="platformStrategyStatus">未开始</strong>
+            <em id="platformStrategyDetail">尚无已登记研究证据；新机制需先预注册</em>
+          </div>
+          <div id="platformPaperCard" class="platform-status-block flat">
+            <span>模拟账户</span>
+            <strong id="platformPaperStatus">待机</strong>
+            <em id="platformPaperDetail">等待账户快照</em>
+          </div>
+          <div id="platformRiskCard" class="platform-status-block flat">
+            <span>统一风控</span>
+            <strong id="platformRiskStatus">检查中</strong>
+            <em id="platformRiskDetail">所有执行路径统一预检</em>
+          </div>
+          <div id="platformDataCard" class="platform-status-block flat">
+            <span>行情服务</span>
+            <strong id="platformDataStatus">检查中</strong>
+            <em id="platformDataDetail">服务健康、来源与缓存</em>
+          </div>
+          <div id="platformLedgerCard" class="platform-status-block flat">
+            <span>账本与回放</span>
+            <strong id="platformLedgerStatus">检查中</strong>
+            <em id="platformLedgerDetail">SQLite 重启恢复与事件血缘</em>
+          </div>
+          <div id="platformForwardCard" class="platform-status-block flat">
+            <span>组合前向观察</span>
+            <strong id="platformForwardStatus">检查中</strong>
+            <em id="platformForwardDetail">外部时钟、调度和自然样本</em>
+          </div>
+          <div id="platformAuditCard" class="platform-status-block protected">
+            <span>实盘保护墙</span>
+            <strong>永久锁定</strong>
+            <em id="platformAuditDetail">SQLite 审计初始化中</em>
+          </div>
+        </div>
+
+        <div class="platform-control-body">
+          <section id="platformMarketTruthCenter" class="platform-data-truth-band" aria-labelledby="platformMarketTruthTitle" aria-describedby="platformTruthEvidenceGap platformTruthPermissions" data-market-status="UNKNOWN">
+            <div class="platform-band-head">
+              <strong id="platformMarketTruthTitle" role="heading" aria-level="2">行情真值中心</strong>
+              <div class="platform-band-tools">
+                <span id="platformTruthPermissions">仅行情证据 · 不代表策略有效或交易授权</span>
+                <span id="platformTruthStatus" role="status" aria-live="polite" aria-atomic="true" title="原始状态 UNKNOWN">行情证据不足 · 等待可信快照</span>
+              </div>
+            </div>
+            <div class="platform-data-truth-strip">
+              <div class="platform-truth-gap"><span>当前证据缺口 · 仅研究</span><strong id="platformTruthEvidenceGap">下一条尚缺证据：活动标的、报价来源、K 线来源与新鲜度证据 · 仅核行情，不生成策略结论或订单</strong></div>
+              <div><span>活动标的</span><strong id="platformTruthSymbol">--</strong></div>
+              <div><span>报价来源</span><strong id="platformTruthQuoteSource">等待快照</strong></div>
+              <div><span>K线来源</span><strong id="platformTruthCandleSource">等待快照</strong></div>
+              <div><span>新鲜度</span><strong id="platformTruthFreshness">UNKNOWN</strong></div>
+              <div><span>最后完成K线</span><strong id="platformTruthLastCompleted">--</strong></div>
+            </div>
+          </section>
+
+          <section
+            id="platformForwardObservationCenter"
+            class="platform-forward-observation-band"
+            aria-labelledby="platformForwardObservationTitle"
+            aria-describedby="platformForwardLocalSourceBinding platformForwardEvidenceGap platformForwardStatisticalMaturity platformForwardPermissions"
+            data-forward-status="UNKNOWN"
+            data-forward-operational-status="UNKNOWN"
+            data-forward-maturity-status="BLOCK"
+            data-forward-source-status="NOT_AVAILABLE"
+          >
+            <div class="platform-band-head">
+              <strong id="platformForwardObservationTitle" role="heading" aria-level="2">增量前向观察</strong>
+              <div class="platform-band-tools">
+                <span id="platformForwardObservationStatus" role="status" aria-live="polite" aria-atomic="true" title="原始状态 UNKNOWN">自然前向证据不足</span>
+              </div>
+            </div>
+            <div class="platform-forward-observation-strip" role="list" aria-label="自然前向来源、缺口、成熟度、权限与只读观察收据">
+              <div class="platform-forward-source" role="listitem">
+                <span>本地归档覆盖 · SOURCE</span>
+                <strong id="platformForwardLocalSourceBinding" data-raw-status="NOT_AVAILABLE">未取得本地归档覆盖 · 不作来源覆盖结论</strong>
+                <small id="platformForwardLocalSourceDetail">仅本地归档跨工件绑定 · 不证明外部真实性或盈利 · 覆盖计数不可核验</small>
+              </div>
+              <div class="platform-forward-gap" role="listitem">
+                <span>下一条尚缺证据 · 仅观察</span>
+                <strong id="platformForwardEvidenceGap">下一条尚缺证据：候选、只读调度与首个可信观察证据 · 仅观察，不补写旧样本；不授予模拟或实盘权限</strong>
+                <dl
+                  id="platformForwardEvidenceLedger"
+                  class="platform-forward-evidence-ledger"
+                  aria-label="自然前向运行、统计成熟度与权限边界"
+                  data-operational-status="UNKNOWN"
+                  data-maturity-status="BLOCK"
+                  data-source-binding-status="NOT_AVAILABLE"
+                >
+                  <div>
+                    <dt>首次联合到期决策</dt>
+                    <dd>
+                      <strong id="platformForwardStatisticalMaturity">统计来源、首次到期决策或绑定不可核验 · 不使用判定</strong>
+                      <small id="platformForwardStatisticalProgress">结果 0/0 · 调仓 0/0 · 结算 0 · 观察 0 · 首次到期决策未核验</small>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>研究与权限边界</dt>
+                    <dd><strong id="platformForwardPermissions">只读观察 · 模拟未授权 · 实盘永久硬锁</strong></dd>
+                  </div>
+                  <div>
+                    <dt>运行状态</dt>
+                    <dd><strong id="platformForwardOperationalTruth">自然前向证据不足</strong></dd>
+                  </div>
+                </dl>
+              </div>
+              <div role="listitem"><span>最新完成日线</span><strong id="platformForwardLatestBar">--</strong></div>
+              <div role="listitem"><span>最后已计入</span><strong id="platformForwardLastAccounted">--</strong></div>
+              <div role="listitem"><span>当前待处理</span><strong id="platformForwardPendingDates">UNKNOWN</strong></div>
+              <div role="listitem"><span>本轮处理</span><strong id="platformForwardProcessedCount">--</strong></div>
+              <div role="listitem"><span>安全跳过</span><strong id="platformForwardSkippedCount">--</strong></div>
+              <div role="listitem"><span>下一次检查</span><strong id="platformForwardNextCheck">--</strong></div>
+              <div class="platform-forward-observation-detail" role="listitem">
+                <details id="platformForwardObservationDetails">
+                  <summary>
+                    <span class="platform-forward-receipt-closed-copy">最近已验证观察 · 展开只读收据</span>
+                    <span class="platform-forward-receipt-open-copy">最近已验证观察 · 收起只读收据</span>
+                  </summary>
+                  <small id="platformForwardObservationReceipt">最近观察不可验证 · 已隐藏</small>
+                </details>
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="platformSmallCapitalPlanCenter"
+            class="platform-small-capital-plan-band"
+            aria-labelledby="platformSmallCapitalPlanTitle"
+            aria-describedby="platformSmallCapitalEvidenceGap platformSmallCapitalPlanPermissions"
+            data-plan-status="UNKNOWN"
+          >
+            <div class="platform-band-head">
+              <strong id="platformSmallCapitalPlanTitle" role="heading" aria-level="2">100–200 美元小资金纯规划</strong>
+              <div class="platform-band-tools">
+                <span id="platformSmallCapitalPlanStatus" role="status" aria-live="polite" aria-atomic="true" title="原始状态 UNKNOWN">纯规划证据不足</span>
+                <span id="platformSmallCapitalPlanPermissions">只读规划 · 不充值 · 不下单 · 模拟未授权 · 实盘永久硬锁</span>
+              </div>
+            </div>
+            <div class="platform-small-capital-plan-strip" role="list" aria-label="纯规划约束与待核验证据">
+              <div class="platform-small-capital-gap" role="listitem">
+                <span>下一条尚缺证据 · 仅研究</span>
+                <strong id="platformSmallCapitalEvidenceGap">下一条尚缺证据：尚未核验 · 仅研究，不生成订单</strong>
+              </div>
+              <div class="platform-small-capital-budget" role="listitem">
+                <span>规划封套 · 非账户余额</span>
+                <strong id="platformSmallCapitalBudget">USD 100–200 · 名义封套</strong>
+              </div>
+              <div class="platform-small-capital-order" role="listitem">
+                <span>单笔规划上限 · 不生成订单</span>
+                <strong id="platformSmallCapitalSingleOrder">--</strong>
+              </div>
+              <div role="listitem"><span>示例日内约束 · 非授权</span><strong id="platformSmallCapitalDailyGuard">--</strong></div>
+              <div role="listitem"><span>示例停止观察条件</span><strong id="platformSmallCapitalCircuitBreaker">--</strong></div>
+              <div class="platform-small-capital-rules" role="listitem">
+                <span>活动标的公开规则 · 待核验项并列</span>
+                <strong id="platformSmallCapitalInstrumentRules">Tick -- · Lot -- · Min --</strong>
+                <small id="platformSmallCapitalRuleEvidence">来源 -- · 抓取 -- · Hash -- · 费率未核验</small>
+              </div>
+              <div class="platform-small-capital-quantity" role="listitem">
+                <details id="platformSmallCapitalQuantityDetails">
+                  <summary>数量与可见深度参考 · 展开只读证据</summary>
+                  <small id="platformSmallCapitalQuantityPreview">等待可信报价、公开深度与 lot/minSz</small>
+                </details>
+              </div>
+            </div>
+          </section>
+
+          <section class="platform-pipeline-band" aria-labelledby="platformPipelineTitle">
+            <div class="platform-band-head">
+              <strong id="platformPipelineTitle" role="heading" aria-level="2">研究证据与权限阶段</strong>
+              <span id="platformPipelineRun" aria-live="polite">尚无已登记研究证据 · 不授予模拟或实盘权限</span>
+            </div>
+            <div id="platformPipelineStages" class="platform-pipeline-stages" role="list" aria-label="研究证据与权限阶段列表"></div>
+          </section>
+
+          <section class="platform-execution-band">
+            <div class="platform-band-head">
+              <strong>模拟订单生命周期</strong>
+              <div class="platform-band-tools">
+                <span id="platformExecutorSummary">0 笔订单</span>
+                <button id="platformReplayLatest" class="ghost-button" type="button" disabled>回放最近订单</button>
+              </div>
+            </div>
+            <div id="platformExecutorStates" class="platform-executor-states"></div>
+            <div class="platform-ledger-strip">
+              <div><span>重启恢复</span><strong id="platformLedgerRestart">检查中</strong></div>
+              <div><span>账本版本</span><strong id="platformLedgerVersion">0</strong></div>
+              <div><span>幂等写入</span><strong id="platformMutationStatus">检查中</strong></div>
+            </div>
+            <div id="platformReplayResult" class="platform-replay-result">
+              <div class="platform-replay-empty">产生模拟订单后可校验完整事件链</div>
+            </div>
+          </section>
+
+          <section class="platform-audit-band">
+            <div class="platform-band-head">
+              <strong>最近审计事件</strong>
+              <span>统一 SQLite 事件链</span>
+            </div>
+            <div class="platform-audit-head"><span>时间</span><span>事件</span><span>标的</span><span>状态</span></div>
+            <div id="platformAuditRows" class="platform-audit-rows"></div>
+          </section>
+        </div>
+      </section>
+
+      <div id="commandOverlay" class="command-overlay hidden">
+        <div class="command-panel">
+          <div class="command-head">
+            <strong>全局搜索</strong>
+            <span>市场 / 模块 / 系统动作</span>
+          </div>
+          <input id="commandInput" placeholder="输入 BTC、AAPL、策略、富途、风控..." autocomplete="off">
+          <div id="commandResults" class="command-results"></div>
+        </div>
+      </div>
+
+      <header class="ticker-header">
+        <div class="symbol-block">
+          <div class="symbol-main" id="activeSymbol">BTC-USDT</div>
+          <div class="symbol-meta">现货 / 永续 / 股票 · 哈基米交易 v2</div>
+        </div>
+        <div class="price-block">
+          <div class="last-price" id="lastPrice">--</div>
+          <div class="price-change" id="priceChange">--</div>
+        </div>
+        <div class="ticker-grid">
+          <div><span>24h 高</span><strong id="high24h">--</strong></div>
+          <div><span>24h 低</span><strong id="low24h">--</strong></div>
+          <div><span id="vol24hLabel">24h 成交额</span><strong id="vol24h">--</strong></div>
+          <div><span>买一 / 卖一</span><strong id="bidAsk">--</strong></div>
+          <div><span>连接</span><strong id="connectionState">初始化</strong></div>
+        </div>
+      </header>
+
+      <section id="marketWorkflowStrip" class="market-workflow-strip">
+        <div class="workflow-item primary">
+          <span>标的</span>
+          <strong id="workflowSymbol">--</strong>
+          <em id="workflowMarket">等待行情</em>
+        </div>
+        <div id="workflowDataCard" class="workflow-item flat">
+          <span>数据</span>
+          <strong id="workflowDataState">--</strong>
+          <em id="workflowDataDetail">等待快照</em>
+        </div>
+        <div id="workflowTrendCard" class="workflow-item flat">
+          <span>走势</span>
+          <strong id="workflowTrendState">--</strong>
+          <em id="workflowTrendDetail">等待K线</em>
+        </div>
+        <div id="workflowAnomalyCard" class="workflow-item flat">
+          <span>异动</span>
+          <strong id="workflowAnomalyState">--</strong>
+          <em id="workflowAnomalyDetail">等待雷达</em>
+        </div>
+        <div id="workflowEvidenceCard" class="workflow-item flat">
+          <span>证据</span>
+          <strong id="workflowEvidenceState">--</strong>
+          <em id="workflowEvidenceDetail">观察 / 仅研究</em>
+        </div>
+        <div id="workflowActionCard" class="workflow-item flat">
+          <span>下一步</span>
+          <strong id="workflowActionState">仅研究</strong>
+          <em id="workflowActionDetail">不作为实盘指令</em>
+        </div>
+        <div class="workflow-actions">
+          <button id="workflowRefreshRadar" type="button">刷新雷达</button>
+          <button id="workflowOpenEvidence" type="button">打开证据</button>
+          <button id="workflowAskAi" type="button">带入AI</button>
+        </div>
+      </section>
+
+      <section class="market-ticker-panel">
+        <div class="panel-title">
+          <strong>全市场实时价格</strong>
+          <span id="marketTickerState">后台刷新</span>
+        </div>
+        <div class="market-ticker-head"><span>标的</span><span>最新价</span><span>24h</span><span>成交额</span><span>买 / 卖</span></div>
+        <div id="marketTickerRows" class="market-ticker-list"></div>
+      </section>
+
+      <section class="opportunity-panel">
+        <div class="panel-title">
+          <strong>多标的研究扫描</strong>
+          <span><button id="refreshScanner" class="inline-button">刷新研究扫描</button><button id="pushScannerNotice" class="inline-button">写入研究提醒</button></span>
+        </div>
+        <div id="scannerSummary" class="scanner-summary">等待研究扫描</div>
+        <div class="scanner-head"><span>标的</span><span>扫描分数</span><span>24h变化</span><span>位置</span><span>模型线索</span><span>风险观察</span><span>观察理由</span></div>
+        <div id="scannerRows" class="scanner-list" role="list" aria-label="多标的研究扫描列表"></div>
+      </section>
+
+      <section class="workspace-grid">
+        <section id="aiRoomCommandPanel" class="ai-room-command-panel">
+          <div class="ai-room-hero">
+            <span>AI 研究室</span>
+            <strong id="aiRoomTitle">AAPL 研究会议</strong>
+            <em id="aiRoomMeta">仅观察 / 仅研究 / 仅模拟盘验证</em>
+          </div>
+          <div class="ai-room-symbol-control">
+            <label>
+              <span>标的代码</span>
+              <input id="aiRoomSymbolInput" type="text" autocomplete="off" value="AAPL" placeholder="AAPL / NVDA / HK.00700 / BTC-USDT">
+              <div id="aiRoomSymbolSuggestions" class="ai-room-symbol-suggestions"></div>
+            </label>
+            <button id="aiRoomLoadSymbol">载入</button>
+            <button id="aiRoomStartMeeting">会议</button>
+            <button id="aiRoomFocusKeys" class="ghost-button">AI接入</button>
+          </div>
+          <div class="ai-room-quick-symbols">
+            <button data-ai-room-symbol="AAPL">AAPL</button>
+            <button data-ai-room-symbol="NVDA">NVDA</button>
+            <button data-ai-room-symbol="MSFT">MSFT</button>
+            <button data-ai-room-symbol="TSLA">TSLA</button>
+            <button data-ai-room-symbol="MU">MU</button>
+            <button data-ai-room-symbol="HK.00700">HK.00700</button>
+            <button data-ai-room-symbol="BTC-USDT">BTC</button>
+          </div>
+          <div id="aiRoomTopSnapshot" class="ai-room-top-snapshot">
+            <div><span>趋势结构</span><strong>--</strong><em>等待走势驾驶舱</em></div>
+            <div><span>多空估计</span><strong>--</strong><em>当前样本估计，不是保证</em></div>
+            <div><span>关键位置</span><strong>--</strong><em>等待支撑压力</em></div>
+            <div><span>下一步</span><strong>等待确认</strong><em>观察 / 仅研究</em></div>
+          </div>
+        </section>
+        <section class="chart-panel">
+          <div class="panel-toolbar">
+            <div class="tab-group" id="timeframeTabs">
+              <button data-bar="1m">分时</button>
+              <button data-bar="5m">5m</button>
+              <button data-bar="15m">15m</button>
+              <button data-bar="30m">30m</button>
+              <button data-bar="1H">1h</button>
+              <button data-bar="4H">4h</button>
+              <button class="active" data-bar="1Dutc">1D</button>
+            </div>
+            <div class="tab-group stock-session-tabs hidden" id="stockSessionTabs">
+              <button class="active" data-stock-session="all">全部</button>
+              <button data-stock-session="pre">盘前</button>
+              <button data-stock-session="regular">盘中</button>
+              <button data-stock-session="post">盘后</button>
+              <button data-stock-session="overnight">夜盘</button>
+            </div>
+            <div class="toolbar-actions">
+              <button id="toggleChartMode">K线</button>
+              <button id="loadLocalHistory">本地历史</button>
+              <button id="toggleMA" class="active">MA</button>
+              <button id="toggleBollinger">BOLL</button>
+              <button id="toggleVolume" class="active">VOL</button>
+              <button id="toggleSignals" class="active">信号</button>
+              <button id="drawCursor" class="active" data-draw-tool="cursor">光标</button>
+              <button id="drawTrend" data-draw-tool="trend">趋势线</button>
+              <button id="drawHorizontal" data-draw-tool="horizontal">水平线</button>
+              <button id="drawFib" data-draw-tool="fib">斐波</button>
+              <button id="toggleVolumeProfile">VP</button>
+              <button id="autoChartMarks">自动标注</button>
+              <button id="toggleReplay">回放</button>
+              <button id="analyzeChartAi">AI图析</button>
+              <button id="clearDrawings">清除</button>
+            </div>
+          </div>
+          <div id="chartQualityStrip" class="chart-quality-strip flat">
+            <div><span>数据源</span><strong id="chartQualitySource">--</strong></div>
+            <div><span>新鲜度</span><strong id="chartQualityFreshness">--</strong></div>
+            <div><span>模式</span><strong id="chartQualityMode">--</strong></div>
+            <div><span>风险提示</span><strong id="chartQualityWarning">等待行情数据</strong></div>
+          </div>
+          <div id="liveSourceBar" class="live-source-bar flat">
+            <div id="liveSourceBarFutu" class="live-source-item flat">
+              <span>Futu OpenD</span>
+              <strong id="liveFutuState">检测中</strong>
+              <em id="liveFutuDetail">股票实时、盘口和扩展时段依赖本机 OpenD</em>
+            </div>
+            <div id="liveSourceBarCandle" class="live-source-item flat">
+              <span>K线源</span>
+              <strong id="liveCandleState">等待K线</strong>
+              <em id="liveCandleDetail">优先真实源，失败时显示缓存和延迟</em>
+            </div>
+            <div id="liveSourceBarNews" class="live-source-item flat">
+              <span>新闻 / 财报</span>
+              <strong id="liveNewsState">本地摘要</strong>
+              <em id="liveNewsDetail">外部新闻和财报日历异步补充</em>
+            </div>
+          </div>
+          <canvas id="priceChart" width="1100" height="560"></canvas>
+          <div id="chartTooltip" class="chart-tooltip hidden"></div>
+          <div id="chartAiBox" class="chart-ai-box hidden"></div>
+          <div class="chart-footer">
+            <span id="chartStatus">等待行情数据</span>
+            <div id="chartStrategyOverlay" class="chart-strategy-overlay"></div>
+            <span id="chartRange">--</span>
+          </div>
+        </section>
+
+        <aside class="right-stack">
+          <section class="book-panel">
+            <div class="panel-title">
+              <strong>盘口</strong>
+              <span id="bookSpread">spread --</span>
+            </div>
+            <div id="bookPressureBar" class="book-pressure-bar">
+              <span class="bid-pressure" style="width:50%"></span>
+              <span class="ask-pressure" style="width:50%"></span>
+            </div>
+            <div id="microSignal" class="micro-signal">微观盘面等待数据</div>
+            <div id="bookStrategyHint" class="book-strategy-hint">策略锚点等待分析</div>
+            <div class="book-head"><span>价格</span><span>数量</span><span>累计</span></div>
+            <div id="asks" class="book-list asks"></div>
+            <div class="mid-price" id="midPrice">--</div>
+            <div id="bids" class="book-list bids"></div>
+          </section>
+
+          <section class="trades-panel">
+            <div class="panel-title">
+              <strong>实时成交</strong>
+              <span id="tradeCount">0</span>
+            </div>
+            <div id="tradeTapeFilters" class="trade-tape-filters">
+              <button class="active" data-trade-filter="ALL">全部</button>
+              <button data-trade-filter="BUY">买盘</button>
+              <button data-trade-filter="SELL">卖盘</button>
+              <button data-trade-filter="LARGE">大单</button>
+            </div>
+            <div id="tradeTapeSummary" class="trade-tape-summary">
+              <span>买盘 --</span><span>卖盘 --</span><span>大单 --</span>
+            </div>
+            <div class="trade-head"><span>价格</span><span>数量</span><span>时间</span></div>
+            <div id="trades" class="trade-list"></div>
+          </section>
+        </aside>
+
+        <aside class="market-ai-panel">
+          <div class="panel-title">
+            <strong>行情AI分析</strong>
+            <span id="marketAiState">等待提问</span>
+          </div>
+          <div class="market-ai-snapshot" id="marketAiSnapshot">
+            <div><span>标的</span><strong>--</strong></div>
+            <div><span>K线</span><strong>--</strong></div>
+            <div><span>画线</span><strong>--</strong></div>
+            <div><span>价格</span><strong>--</strong></div>
+          </div>
+          <div id="marketAiProviderStrip" class="market-ai-provider-strip">
+            <div><span>GPT</span><strong>WAIT</strong></div>
+            <div><span>DeepSeek</span><strong>WAIT</strong></div>
+            <div><span>豆包</span><strong>WAIT</strong></div>
+            <div><span>GLM</span><strong>WAIT</strong></div>
+          </div>
+          <div id="marketAiReadiness" class="market-ai-readiness">AI 接入状态读取中。界面输入只进内存；OpenAI 可从本机忽略文件安全载入。</div>
+          <div class="market-ai-form">
+            <textarea id="marketAiQuestion" placeholder="向AI提问：当前标的是趋势延续、回调还是反转？多空证据分别是什么？"></textarea>
+            <div>
+              <button id="runMarketAiAnalysis">双AI分析</button>
+              <button id="refreshMarketAiSnapshot" class="ghost-button">刷新快照</button>
+            </div>
+          </div>
+          <div id="marketAiLocal" class="market-ai-local">等待K线、成交量、画线和价格快照。</div>
+          <div class="market-ai-reports">
+            <article class="market-ai-report deepseek">
+              <header>
+                <strong>DeepSeek 第一遍</strong>
+                <span id="marketAiDeepSeekBadge">等待</span>
+              </header>
+              <div id="marketAiDeepSeekReport">点击“双AI分析”后显示初评。</div>
+            </article>
+            <article class="market-ai-report gpt">
+              <header>
+                <strong>GPT 第二遍复核</strong>
+                <span id="marketAiGptBadge">等待</span>
+              </header>
+              <div id="marketAiGptReport">DeepSeek 初评完成后交给 GPT 做二次复核。</div>
+            </article>
+          </div>
+          <section class="trading-agents-panel">
+            <div class="trading-agents-head">
+              <div>
+                <strong>AI 研究员聊天室</strong>
+                <span id="tradingAgentsState">等待随机分配研究身份</span>
+              </div>
+              <button id="runTradingAgentsRoom">启动讨论室</button>
+            </div>
+            <div id="tradingAgentsProviders" class="trading-agents-providers"></div>
+            <div class="runtime-key-panel">
+              <div class="runtime-key-head">
+                <strong>本机 AI 接入</strong>
+                <span id="runtimeKeyState">环境接入 + 运行时内存</span>
+              </div>
+              <div class="runtime-key-note">
+                OpenAI 可从本机忽略文件载入；在这里手动粘贴的其他密钥只进入当前后端进程内存，刷新不显示明文，重启自动失效。
+              </div>
+              <div class="runtime-key-grid">
+                <label><span>GPT</span><input id="runtimeOpenAIKey" type="password" autocomplete="off" placeholder="OPENAI / GPT Key"></label>
+                <label><span>DeepSeek</span><input id="runtimeDeepSeekKey" type="password" autocomplete="off" placeholder="DeepSeek Key"></label>
+                <label><span>豆包 Ark</span><input id="runtimeDoubaoKey" type="password" autocomplete="off" placeholder="豆包 Ark Key"></label>
+                <label><span>GLM Ark</span><input id="runtimeGlmKey" type="password" autocomplete="off" placeholder="GLM / 智谱 Ark Key"></label>
+                <label><span>通用 Ark</span><input id="runtimeArkKey" type="password" autocomplete="off" placeholder="可选：豆包/GLM共用"></label>
+                <button id="saveRuntimeKeys">载入内存</button>
+                <button id="clearRuntimeKeys">清空</button>
+              </div>
+              <div id="runtimeKeyRows" class="runtime-key-rows"></div>
+            </div>
+            <div id="tradingAgentsFinal" class="trading-agents-final">选择股票或币种后，启动多 AI 研究员会议。输出仅用于观察、研究和模拟盘验证。</div>
+            <div id="tradingAgentCards" class="trading-agent-card-grid"></div>
+            <div class="trading-agents-subtitle">聊天室 · 随机研究身份 · 后发言者回应前序观点</div>
+            <div id="tradingAgentDebateRows" class="trading-agent-debate-list"></div>
+            <div class="ai-room-chat-composer">
+              <textarea id="aiRoomQuestionInput" placeholder="继续追问研究员会议：比如只讨论日线波段、财报风险、半导体联动、支撑压力或等待条件。"></textarea>
+              <button id="aiRoomAskMeeting">发送</button>
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <section class="bottom-grid">
+        <section class="strategy-desk">
+          <div class="panel-title">
+            <strong>策略研究台</strong>
+            <span>研究证据与模拟规划并列，真实下单继续硬锁</span>
+          </div>
+          <div class="strategy-command-strip">
+            <div><span>研究状态</span><strong id="strategyCommandStatus">等待研究观察</strong></div>
+            <div><span>研究方向</span><strong id="strategyCommandDirection">方向未形成</strong></div>
+            <div><span>模拟参数（只读）</span><strong id="strategyCommandOrder">仅供规划 · 市价 / 全仓</strong></div>
+            <div><span>风控证据</span><strong id="strategyCommandRisk">等待分析</strong></div>
+            <div><span>模型估计（未校准）</span><strong id="strategyCommandProbability">--</strong></div>
+          </div>
+          <div id="botReadinessPanel" class="bot-readiness-panel"></div>
+          <div class="strategy-preset-panel">
+            <div class="preset-head">
+              <strong>策略参数模板</strong>
+              <span id="strategyPresetHint">验证档固定 1x / 现价 / 全仓；参数变更后必须重新回测</span>
+            </div>
+            <div id="strategyPresetCards" class="strategy-preset-cards"></div>
+          </div>
+          <div class="strategy-layout">
+            <div>
+              <label>策略模板</label>
+              <select id="strategySelect"></select>
+            </div>
+            <div>
+              <label>模式</label>
+              <select id="runMode">
+                <option>模拟盘</option>
+                <option>观察模式</option>
+                <option disabled>实盘需二次授权</option>
+              </select>
+            </div>
+            <div>
+              <label>杠杆倍数（验证档）</label>
+              <input id="leverageInput" type="number" min="1" max="1" value="1" readonly title="当前因果回测与模拟验证固定为 1x">
+            </div>
+            <div>
+              <label>单次仓位</label>
+              <input id="positionInput" type="number" min="1" max="100" value="25">
+            </div>
+            <div>
+              <label>保证金</label>
+              <select id="marginMode">
+                <option value="CROSS">全仓</option>
+                <option value="ISOLATED">逐仓</option>
+              </select>
+            </div>
+            <div>
+              <label>策略方向</label>
+              <select id="directionMode">
+                <option value="LONG_ONLY">只做多</option>
+                <option value="SHORT_ONLY">只做空</option>
+              </select>
+            </div>
+            <div>
+              <label>委托类型</label>
+              <select id="strategyOrderType">
+                <option value="CURRENT">现价</option>
+              </select>
+            </div>
+            <button id="armStrategy">启动模拟策略</button>
+            <button id="stopStrategy" class="ghost-button">停止</button>
+            <button id="resetPaper" class="ghost-button">重置</button>
+          </div>
+          <div class="strategy-risk-layout">
+            <div>
+              <label>风控来源</label>
+              <select id="riskSource">
+                <option value="AI">AI推荐</option>
+                <option value="MANUAL">手动</option>
+              </select>
+            </div>
+            <div>
+              <label>数值方式</label>
+              <select id="riskValueMode">
+                <option value="PRICE">固定价格</option>
+                <option value="PCT">百分比</option>
+              </select>
+            </div>
+            <div>
+              <label>止盈</label>
+              <input id="takeProfitInput" type="number" min="0" step="0.1" placeholder="AI自动">
+            </div>
+            <div>
+              <label>止损</label>
+              <input id="stopLossInput" type="number" min="0" step="0.1" placeholder="AI自动">
+            </div>
+            <label class="toggle-line">
+              <input id="trailingTakeEnabled" type="checkbox">
+              <span>移动止盈</span>
+            </label>
+            <div>
+              <label>回撤%</label>
+              <input id="trailingTakePct" type="number" min="0.05" step="0.05" value="1.5">
+            </div>
+            <label class="toggle-line">
+              <input id="trailingStopEnabled" type="checkbox">
+              <span>移动止损</span>
+            </label>
+            <div>
+              <label>跟踪%</label>
+              <input id="trailingStopPct" type="number" min="0.05" step="0.05" value="1">
+            </div>
+            <label class="toggle-line">
+              <input id="reduceOnly" type="checkbox">
+              <span>只减仓</span>
+            </label>
+            <button id="analyzeStrategy">AI分析</button>
+            <div id="strategyAnalysis" class="strategy-analysis">等待策略分析</div>
+          </div>
+          <div id="aiAnalysisCards" class="ai-analysis-cards"></div>
+          <div class="manual-trade-layout">
+            <div>
+              <label>模拟干预仓位</label>
+              <input id="manualQty" type="number" min="1" max="100" value="25">
+            </div>
+            <div>
+              <label>模拟委托</label>
+              <select id="manualOrderType">
+                <option value="MARKET">市价</option>
+                <option value="CURRENT">现价</option>
+                <option value="IOC">IOC</option>
+                <option value="FOK">FOK</option>
+              </select>
+            </div>
+            <div>
+              <label>限价</label>
+              <input id="manualLimitPrice" type="number" min="0" step="0.1" placeholder="市价可空">
+            </div>
+            <button id="manualBuy" class="trade-button buy">模拟买入 / 开多</button>
+            <button id="manualSell" class="trade-button sell">模拟卖出 / 开空</button>
+            <button id="manualClose" class="trade-button close">模拟平仓</button>
+          </div>
+          <div id="strategyCards" class="strategy-cards"></div>
+        </section>
+
+        <section class="positions-panel">
+          <div class="panel-title">
+            <strong>资产 / 持仓</strong>
+            <span>本地模拟</span>
+          </div>
+          <div class="position-table">
+            <div class="position-row header"><span>标的</span><span>方向</span><span>数量</span><span>盈亏</span></div>
+            <div id="positionRows"></div>
+          </div>
+        </section>
+      </section>
+
+      <section class="automation-grid">
+        <section class="orders-panel">
+          <div class="panel-title">
+            <strong>模拟订单流</strong>
+            <span>
+              <select id="orderFilter" class="mini-select">
+                <option value="ALL">全部</option>
+                <option value="BUY">买入</option>
+                <option value="ADD">加仓</option>
+                <option value="SELL">卖出</option>
+                <option value="SHORT">开空</option>
+                <option value="COVER">平空</option>
+              </select>
+              <em id="orderSummary">0 笔</em>
+            </span>
+          </div>
+          <div class="order-head"><span>时间</span><span>方向</span><span>价格</span><span>数量</span><span>原因</span></div>
+          <div id="orderRows" class="order-list"></div>
+        </section>
+
+        <section class="signals-panel">
+          <div class="panel-title">
+            <strong>策略信号流</strong>
+            <span id="signalSummary">等待策略</span>
+          </div>
+          <div id="strategyExplainPanel" class="strategy-explain-panel evidence-neutral" role="note" aria-label="策略解释、失效条件与权限边界">
+            <div class="explain-no-trade" data-evidence-role="failure" role="status" aria-live="polite" aria-atomic="true">
+              <span>失效与禁做条件</span>
+              <strong>失效与禁做条件尚未核验</strong>
+            </div>
+            <div class="explain-permission">
+              <span>权限边界</span>
+              <strong>研究解释 · 非订单 · 不授予模拟或实盘权限</strong>
+            </div>
+            <div class="explain-main">
+              <span>研究状态</span>
+              <strong>尚无研究结论</strong>
+              <em>方向未形成 · 模型估计未校准</em>
+            </div>
+            <div class="explain-why">
+              <span>证据解释</span>
+              <strong>等待策略、图表、成本与风险证据。</strong>
+              <em>盘口与成交分布仅作描述性观察，不与策略方向合并，也不产生订单。</em>
+            </div>
+            <div class="explain-evidence">
+              <small>等待策略、图表、成本与风险证据。</small>
+            </div>
+          </div>
+          <div id="signalRows" class="signal-list"></div>
+        </section>
+
+        <section class="risk-panel">
+          <div class="panel-title">
+            <strong>风险中心</strong>
+            <span id="riskState">正常</span>
+          </div>
+          <div class="risk-metrics">
+            <div><span>现金</span><strong id="cashMetric">--</strong></div>
+            <div><span>未实现盈亏</span><strong id="unrealizedMetric">--</strong></div>
+            <div><span>已实现盈亏</span><strong id="realizedMetric">--</strong></div>
+            <div><span>回撤</span><strong id="drawdownMetric">--</strong></div>
+            <div><span>保证金占用</span><strong id="marginMetric">--</strong></div>
+            <div><span>预估强平价</span><strong id="liqMetric">--</strong></div>
+            <div><span>模型估计（未校准）</span><strong id="profitProbabilityMetric">--</strong></div>
+            <div><span>研究规划 TP · 非订单</span><strong id="takeProfitMetric">--</strong></div>
+            <div><span>研究规划 SL · 非订单</span><strong id="stopLossMetric">--</strong></div>
+            <div><span>保证金</span><strong id="marginModeMetric">--</strong></div>
+            <div><span>移动风控</span><strong id="trailingMetric">--</strong></div>
+            <div><span>风控引擎</span><strong id="riskEngineMetric">--</strong></div>
+          </div>
+          <canvas id="equityChart" width="360" height="140"></canvas>
+        </section>
+      </section>
+
+      <section class="strategy-detail-grid">
+        <section class="strategy-detail-panel">
+          <div class="panel-title">
+            <strong>策略详情</strong>
+            <span id="strategyDetailTitle">--</span>
+          </div>
+          <div id="strategyDetail" class="strategy-detail"></div>
+        </section>
+
+        <section class="order-history-panel">
+          <div class="panel-title">
+            <strong>订单历史</strong>
+            <span id="historyOrderSummary">最近成交</span>
+          </div>
+          <div id="historyOrderRows" class="history-order-list"></div>
+        </section>
+      </section>
+
+      <section class="pro-grid">
+        <section class="conditional-panel">
+          <div class="panel-title">
+            <strong>条件委托</strong>
+            <span>模拟触发</span>
+          </div>
+          <div class="conditional-form">
+            <select id="conditionSide">
+              <option value="BUY">买入触发</option>
+              <option value="SELL">卖出触发</option>
+            </select>
+            <select id="conditionOrderType">
+              <option value="MARKET">市价</option>
+              <option value="CURRENT">现价</option>
+              <option value="IOC">IOC</option>
+              <option value="FOK">FOK</option>
+              <option value="OCO">OCO止盈止损</option>
+            </select>
+            <input id="conditionPrice" type="number" min="0" step="0.1" placeholder="触发价格">
+            <input id="conditionLimitPrice" type="number" min="0" step="0.1" placeholder="限价">
+            <input id="conditionTpPrice" type="number" min="0" step="0.1" placeholder="止盈价">
+            <input id="conditionSlPrice" type="number" min="0" step="0.1" placeholder="止损价">
+            <select id="conditionTimeInForce">
+              <option value="GTC">GTC</option>
+              <option value="IOC">IOC</option>
+              <option value="FOK">FOK</option>
+            </select>
+            <input id="conditionQty" type="number" min="1" max="100" value="25" placeholder="仓位%">
+            <input id="conditionBatchPlan" placeholder="分批建仓 30/30/40">
+            <input id="conditionTpPlan" placeholder="分批止盈 30/30/40">
+            <input id="conditionNote" placeholder="备注">
+            <label class="condition-toggle"><input id="conditionReduceOnly" type="checkbox"><span>只减仓</span></label>
+            <button id="addCondition">添加</button>
+          </div>
+          <div id="orderEstimate" class="order-estimate">等待委托估算</div>
+          <div class="condition-head"><span>状态</span><span>方向</span><span>类型</span><span>触发价</span><span>止盈/止损</span><span>仓位</span><span>备注</span><span>操作</span></div>
+          <div id="conditionRows" class="condition-list"></div>
+        </section>
+
+        <section class="derivatives-panel">
+          <div class="panel-title">
+            <strong>合约行情中心</strong>
+            <span id="derivativeState">BTC-USDT-SWAP</span>
+          </div>
+          <div class="contract-metrics">
+            <div><span>现货最新</span><strong id="contractSpot">--</strong></div>
+            <div><span>永续最新</span><strong id="swapLast">--</strong></div>
+            <div><span>指数价格</span><strong id="indexPrice">--</strong></div>
+            <div><span>标记价格</span><strong id="markPrice">--</strong></div>
+            <div><span>资金费率</span><strong id="fundingRate">--</strong></div>
+            <div><span>年化资金</span><strong id="fundingAnnualized">--</strong></div>
+            <div><span>下次结算</span><strong id="fundingTime">--</strong></div>
+            <div><span>未平仓量</span><strong id="openInterest">--</strong></div>
+            <div><span>基差</span><strong id="basisMetric">--</strong></div>
+            <div><span>现货/合约差</span><strong id="spotSwapBasis">--</strong></div>
+            <div><span>合约乘数</span><strong id="contractValue">--</strong></div>
+            <div><span>最小单位</span><strong id="contractTickLot">--</strong></div>
+          </div>
+          <div id="fundingHistory" class="funding-list"></div>
+          <div class="leverage-ladder">
+            <span>1x</span><span>2x</span><span>3x</span><span>5x</span><span>10x</span>
+          </div>
+        </section>
+
+        <section class="stock-panel">
+          <div class="panel-title">
+            <strong>股票观察</strong>
+            <span><button id="refreshFutuStatus" class="inline-button">富途端口</button><em id="stockState">股票研究</em></span>
+          </div>
+          <div class="futu-strip">
+            <div><span>FutuOpenD</span><strong id="futuOpenDState">--</strong></div>
+            <div><span>端口</span><strong id="futuPortState">--</strong></div>
+            <div><span>数据源</span><strong id="futuSourceState">--</strong></div>
+            <div><span>实盘</span><strong id="futuTradeState">阻断</strong></div>
+          </div>
+          <div id="futuGuideRows" class="futu-guide"></div>
+          <div class="stock-head"><span>股票</span><span>最新</span><span>日内</span><span>成交量</span><span>来源</span></div>
+          <div id="stockRows" class="stock-list"></div>
+          <div class="futu-deep">
+            <div class="futu-deep-title">
+              <strong>富途增强</strong>
+              <span><button id="refreshFutuDeep" class="inline-button">刷新</button><em id="futuDeepState">选择股票后读取</em></span>
+            </div>
+            <div id="futuDeepSummary" class="futu-deep-summary">展示快照、扩展时段、盘口、逐笔、资金流和资金分布。</div>
+            <div id="futuDeepMetrics" class="futu-deep-metrics"></div>
+            <div class="futu-deep-columns">
+              <div>
+                <h4>盘口深度</h4>
+                <div id="futuOrderBookRows" class="futu-deep-list"></div>
+              </div>
+              <div>
+                <h4>资金流</h4>
+                <div id="futuCapitalRows" class="futu-deep-list"></div>
+              </div>
+              <div>
+                <h4>逐笔成交</h4>
+                <div id="futuTickerRows" class="futu-deep-list"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="market-intel-panel">
+          <div class="panel-title">
+            <strong>市场情报</strong>
+            <span id="marketIntelState">等待刷新</span>
+          </div>
+          <div class="intel-summary">
+            <strong id="intelBias">--</strong>
+            <span id="intelSummary">根据实时行情、合约和资金费率自动生成盘面提醒</span>
+          </div>
+          <div class="intel-metrics">
+            <div><span>情绪分</span><strong id="intelScore">--</strong></div>
+            <div><span>12h趋势</span><strong id="intelTrend">--</strong></div>
+            <div><span>24h振幅</span><strong id="intelRange">--</strong></div>
+            <div><span>资金费率</span><strong id="intelFunding">--</strong></div>
+          </div>
+          <div class="intel-actions">
+            <button id="refreshIntel">刷新</button>
+            <button id="pushIntelNotice">写入通知</button>
+          </div>
+          <div id="marketIntelRows" class="market-intel-list"></div>
+        </section>
+
+        <section class="deepseek-panel">
+          <div class="panel-title">
+            <strong>DeepSeek Pro 研究员</strong>
+            <span id="deepseekState">未连接</span>
+          </div>
+          <div class="deepseek-summary">
+            <strong id="deepseekHeadline">等待 V4 Pro 分析</strong>
+            <span id="deepseekSummary">用于高频研究、市场机会扫描和策略解释；不直接下实盘订单。</span>
+          </div>
+          <div class="deepseek-actions">
+            <button id="deepseekAnalyze">深度分析当前标的</button>
+            <button id="deepseekScan">扫描市场机会</button>
+            <button id="deepseekReview">平台体检</button>
+          </div>
+          <div class="deepseek-metrics">
+            <div><span>模型</span><strong id="deepseekModel">--</strong></div>
+            <div><span>思考</span><strong id="deepseekThinking">--</strong></div>
+            <div><span>方向</span><strong id="deepseekDirection">--</strong></div>
+            <div><span>置信</span><strong id="deepseekConfidence">--</strong></div>
+            <div><span>架构分</span><strong id="deepseekArchitecture">--</strong></div>
+          </div>
+          <div id="deepseekRows" class="deepseek-list"></div>
+        </section>
+
+        <section class="strategy-lab-panel">
+          <div class="panel-title">
+            <strong>策略实验室</strong>
+            <span id="strategyLabSummary">参数规划候选 · 仅研究</span>
+          </div>
+          <div class="lab-actions">
+            <button id="runStrategyLab">生成参数组</button>
+            <span id="strategyRegime">等待开发期环境观察</span>
+          </div>
+          <div id="strategyLabEvidence" class="strategy-lab-evidence evidence-neutral" role="note" aria-label="策略实验室稳健性证据边界">
+            <section class="strategy-evidence-band provenance" aria-labelledby="strategyEvidenceSourceHeading">
+              <header><span aria-hidden="true" data-band-code="source">源</span><h3 id="strategyEvidenceSourceHeading">来源与当前性</h3></header>
+              <div><span>证据模式</span><strong>即时启发式规划 · 未形成冻结研究证据</strong></div>
+              <div><span>冻结来源</span><strong>冻结来源未核验</strong></div>
+              <div><span>实现身份</span><strong>策略信号实现：未核验</strong></div>
+              <div><span>时效边界</span><strong>数据新鲜度与报告年龄门槛：未核验</strong></div>
+              <div><span>研究假设</span><strong>事前研究假设：未核验</strong></div>
+              <div class="strategy-search-lineage-row" data-evidence-role="search-lineage" data-raw-status="UNKNOWN"><span>检索谱系</span><strong>检索谱系：未核验</strong></div>
+            </section>
+            <section class="strategy-evidence-band robustness" aria-labelledby="strategyEvidenceRobustnessHeading">
+              <header><span aria-hidden="true" data-band-code="robustness">稳</span><h3 id="strategyEvidenceRobustnessHeading">完整性与稳健性</h3></header>
+              <div><span>研究覆盖</span><strong>研究覆盖未核验</strong></div>
+              <div class="strategy-post-selection-group" role="group" aria-label="冻结后历史复算，历史回测，不是自然前向">
+                <span>冻结后历史复算 · 非自然前向</span>
+                <strong>冻结后历史复算：未核验 · 非自然前向</strong>
+                <div><span>冻结 TEST · 历史重放</span><strong>冻结 TEST 历史复算：未核验 · 非盈利证明</strong></div>
+                <div><span>单次历史留出 · 非自然前向</span><strong>单次历史留出：未核验 · 非自然前向 · 非盈利证明</strong></div>
+              </div>
+              <div><span>参数平台</span><strong>未核验</strong></div>
+              <div><span>成本压力</span><strong>未核验</strong></div>
+              <div><span>时间切片</span><strong>未核验</strong></div>
+            </section>
+            <section class="strategy-evidence-band invalidation" aria-labelledby="strategyEvidenceInvalidationHeading">
+              <header><span aria-hidden="true" data-band-code="invalidation">止</span><h3 id="strategyEvidenceInvalidationHeading">失效与权限边界</h3></header>
+              <div class="strategy-preregistered-gate-group" role="group" aria-label="开发期机制门与未来未到期条件">
+                <div><span>事前研究门禁</span><strong>事前研究门禁：未核验</strong></div>
+                <div><span>开发期机制条件</span><strong>开发期机制条件：未核验</strong></div>
+                <section class="strategy-condition-ledger" data-ledger-kind="mechanism" aria-labelledby="strategyMechanismLedgerHeading">
+                  <h4 id="strategyMechanismLedgerHeading">开发期机制判据账页</h4>
+                  <dl class="strategy-condition-list">
+                    <div class="strategy-condition-row" data-raw-status="UNKNOWN">
+                      <dt><code>未核验</code></dt>
+                      <dd>
+                        <span class="strategy-condition-predicate">结构化机制判据尚未连接</span>
+                        <span class="strategy-condition-observation">观测 --</span>
+                        <span class="strategy-condition-outcome">未形成结论</span>
+                        <small class="strategy-condition-boundary">不选参、不授权</small>
+                      </dd>
+                    </div>
+                  </dl>
+                </section>
+                <div><span>未来标准条件 · 非通过</span><strong>未来标准条件：未核验 · 未评估、非通过</strong></div>
+                <section class="strategy-condition-ledger" data-ledger-kind="future" aria-labelledby="strategyFutureLedgerHeading">
+                  <h4 id="strategyFutureLedgerHeading">未来条件到期账页</h4>
+                  <dl class="strategy-condition-list">
+                    <div class="strategy-condition-row" data-raw-status="UNKNOWN">
+                      <dt><code>未核验</code></dt>
+                      <dd>
+                        <span class="strategy-condition-predicate">单次新鲜留出 / 自然前向成熟度</span>
+                        <span class="strategy-condition-outcome">未评估、非通过</span>
+                        <small class="strategy-condition-boundary">到期边界尚未连接</small>
+                      </dd>
+                    </div>
+                  </dl>
+                </section>
+              </div>
+              <div><span>当前失效证据</span><strong>失效条件与证据缺口：未核验</strong></div>
+              <div><span>事前失效条件</span><strong>事前失效条件：未核验</strong></div>
+              <small>开发期分只作描述，不选参、不证明盈利；模拟未授权，实盘永久硬锁</small>
+            </section>
+          </div>
+          <div class="lab-head"><span>规划候选</span><span>仓位封套</span><span>目标区</span><span>失效区</span><span>开发期分</span><span>说明</span></div>
+          <div id="strategyLabRows" class="strategy-lab-list"></div>
+          <div class="param-panel">
+            <div class="param-title">策略参数面板</div>
+            <div id="strategyParamRows" class="param-list"></div>
+          </div>
+          <div class="war-room-actions">
+            <button id="refreshWarRoom">策略研究室</button>
+            <span id="strategyWarSummary">等待研究室</span>
+          </div>
+          <div id="strategyWarCards" class="strategy-war-cards"></div>
+          <div class="war-room-brief">
+            <div class="playbook-panel">
+              <div class="war-room-title">策略画像</div>
+              <div id="strategyPlaybookCards" class="playbook-grid"></div>
+            </div>
+            <div class="anchor-panel">
+              <div class="war-room-title">研究锚点</div>
+              <div id="strategyAnchorRows" class="anchor-list"></div>
+            </div>
+            <div class="execution-panel">
+              <div class="war-room-title">条件解释</div>
+              <div id="strategyExecutionLog" class="execution-log"></div>
+            </div>
+          </div>
+          <div class="war-room-grid">
+            <div>
+              <div class="war-room-title">决策矩阵</div>
+              <div id="strategyWarMatrix" class="war-room-list"></div>
+            </div>
+            <div>
+              <div class="war-room-title">观察区间</div>
+              <div id="strategyWarEntry" class="war-room-list"></div>
+            </div>
+            <div>
+              <div class="war-room-title">退出风控</div>
+              <div id="strategyWarExit" class="war-room-list"></div>
+            </div>
+          </div>
+          <div class="war-room-grid lower">
+            <div>
+              <div class="war-room-title">禁交易条件</div>
+              <div id="strategyWarNoTrade" class="war-room-list"></div>
+            </div>
+            <div>
+              <div class="war-room-title">研究流程</div>
+              <div id="strategyWarTimeline" class="war-room-list"></div>
+            </div>
+            <div>
+              <div class="war-room-title">候选策略</div>
+              <div id="strategyWarTop" class="war-room-list"></div>
+            </div>
+          </div>
+          <div class="compare-actions">
+            <button id="runStrategyCompare">并行观察</button>
+            <span id="strategyCompareSummary">等待开发期多策略观察</span>
+          </div>
+          <div class="compare-head"><span>策略</span><span>研究结论</span><span>未校准估计</span><span>开发期分</span><span>解释</span></div>
+          <div id="strategyCompareRows" class="strategy-compare-list"></div>
+          <div class="doctor-actions">
+            <button id="runStrategyDoctor">策略体检</button>
+            <span id="strategyDoctorSummary">等待体检</span>
+          </div>
+          <div id="strategyDoctorScores" class="doctor-score-grid"></div>
+          <div id="strategyDoctorLifecycle" class="doctor-lifecycle"></div>
+          <div class="strategy-evidence-head">
+            <strong>研究证据路径</strong>
+            <span>状态只作描述 · 不授予模拟或实盘权限</span>
+          </div>
+          <div id="strategyReleasePipeline" class="release-pipeline"></div>
+          <div class="doctor-head"><span>检查项</span><span>状态</span><span>评分</span><span>说明</span></div>
+          <div id="strategyDoctorRows" class="doctor-list"></div>
+          <div class="doctor-head callbacks"><span>模块</span><span>映射</span><span>状态</span></div>
+          <div id="strategyCallbackRows" class="callback-list"></div>
+          <div class="bot-center-actions">
+            <button id="refreshBotCenter">研究机器人观察台</button>
+            <span id="botCenterSummary">等待研究机器人观察台</span>
+          </div>
+          <div id="botLayerRows" class="bot-layer-grid"></div>
+          <div class="bot-head"><span>机器人</span><span>类型</span><span>研究状态</span><span>开发期分</span><span>适用市场 / 研究缺口</span></div>
+          <div id="botBlueprintRows" class="bot-blueprint-list"></div>
+          <div class="scheduler-actions">
+            <button id="refreshBotScheduler">研究角色调度</button>
+            <span id="botSchedulerSummary">等待研究角色观察台</span>
+            <button id="releaseBotOwner" class="ghost-button">释放研究角色</button>
+          </div>
+          <div class="scheduler-head"><span>机器人</span><span>研究角色</span><span>开发期分</span><span>研究状态</span><span>研究动作 / 说明</span></div>
+          <div id="botSchedulerRows" class="scheduler-list"></div>
+          <div id="botSchedulerConflicts" class="scheduler-conflicts"></div>
+          <div class="allocation-head"><span>研究桶</span><span>比例</span><span>研究草案 / 说明</span></div>
+          <div id="botAllocationRows" class="allocation-list"></div>
+          <div class="gap-head"><span>缺口</span><span>优先级</span><span>说明</span></div>
+          <div id="botGapRows" class="gap-list"></div>
+          <section
+            id="internalBacktestPackBoundary"
+            class="internal-backtest-pack-boundary"
+            aria-labelledby="internalBacktestQualityTitle"
+            aria-describedby="internalBacktestQualityStatus internalBacktestQualityFailures internalBacktestMaturityCue internalBacktestQualityBoundary internalBacktestQualitySource"
+            data-supported-schema-couplings="portfolio-internal-backtest-pack-v4=>backtest-return-quality-v2;portfolio-internal-backtest-pack-v5=>backtest-return-quality-v3;portfolio-internal-backtest-pack-v6=>backtest-return-quality-v3=>portfolio-backtest-forward-promotion-summary-v2"
+            data-snapshot-schema="portfolio-backtest-return-quality-snapshot-v3"
+            data-noncurrent-snapshot-schema="portfolio-backtest-return-quality-snapshot-v4"
+            data-connection-status="CHECKING"
+          >
+            <strong id="internalBacktestQualityTitle" role="heading" aria-level="3">历史冻结组合收益质量</strong>
+            <dl
+              id="internalBacktestEvidenceCue"
+              class="internal-backtest-evidence-cue"
+              aria-label="冻结收益证据解读闸门"
+              data-read-order="source-gap-maturity-permission-returns"
+              data-evidence-gap-kind="SOURCE"
+            >
+              <dt data-gate-step="01 SOURCE">证据判定</dt>
+              <dd id="internalBacktestQualityStatus">来源与合同未核验 · 当前数字不可用</dd>
+              <dt data-gate-step="02 GAP">下一条可信证据</dt>
+              <dd id="internalBacktestQualityFailures">先补冻结来源：固定快照、冻结时间与内容指纹需同时可核验</dd>
+              <dt data-gate-step="03 MATURITY">首次联合到期决策</dt>
+              <dd id="internalBacktestMaturityCue" class="internal-backtest-maturity-layer" data-raw-status="UNKNOWN">
+                <span id="internalBacktestMaturityText">首次到期决策未核验 · 收益期 --/-- · 实际调仓 --/--</span>
+                <small id="internalBacktestMaturitySourceBinding" data-raw-status="NOT_AVAILABLE">本地归档覆盖：未取得本地归档覆盖 · 不作来源覆盖结论</small>
+                <small id="internalBacktestMaturitySourceBindingDetail">仅本地归档跨工件绑定 · 不证明外部真实性或盈利 · 覆盖计数不可核验</small>
+              </dd>
+              <dt data-gate-step="04 PERMISSION">研究与权限边界</dt>
+              <dd id="internalBacktestQualityBoundary">独立只读证据 · 不覆盖交互开发回测 · 模拟未授权 · 实盘永久硬锁</dd>
+            </dl>
+            <div
+              id="internalBacktestAttributionSpine"
+              class="internal-backtest-attribution-spine"
+              role="list"
+              aria-label="冻结组合、自然前向与策略假设归属"
+              data-relation-status="UNKNOWN"
+              data-frozen-candidate-hash=""
+              data-forward-candidate-hash=""
+              data-hypothesis-hash=""
+            >
+              <div role="listitem">
+                <span>冻结组合候选</span>
+                <strong id="internalBacktestFrozenCandidate">冻结组合归属未核验</strong>
+              </div>
+              <div role="listitem">
+                <span>当前自然前向候选</span>
+                <strong id="internalBacktestCurrentForwardCandidate">当前自然前向归属未核验</strong>
+                <small id="internalBacktestCandidateRelation" role="status">候选归属未核验 · 禁止合并解读</small>
+              </div>
+              <div role="listitem">
+                <span>当前策略 / 事前假设</span>
+                <strong id="internalBacktestStrategyAttribution">当前策略未核验 · 事前假设归属未核验 · 与组合候选未建立白名单绑定</strong>
+              </div>
+            </div>
+            <small id="internalBacktestQualitySource">冻结来源未核验</small>
+            <div class="internal-backtest-quality-grid" role="list" aria-label="证据解读闸门之后的冻结历史收益描述">
+              <div role="listitem"><span>策略 / 基准 / 重算超额</span><strong id="internalBacktestQualityReturns">-- / -- / --</strong></div>
+              <div role="listitem"><span>成本口径 / 成本后收益</span><strong id="internalBacktestQualityCosts">未核验 / --</strong></div>
+              <div role="listitem"><span>压力最差 / 最大回撤</span><strong id="internalBacktestQualityRisk">-- / --</strong></div>
+              <div role="listitem"><span>样本 / 时间证据</span><strong id="internalBacktestQualitySample">-- / 未核验</strong></div>
+            </div>
+            <details id="internalBacktestQualityStages" class="internal-backtest-quality-detail" data-connection-status="CHECKING">
+              <summary>展开验证段 / 测试段来源与样本</summary>
+              <div class="internal-backtest-stage-grid" role="list" aria-label="冻结收益质量阶段来源">
+                <div role="listitem">
+                  <span>验证段</span>
+                  <strong id="internalBacktestQualityValidation" data-raw-status="UNKNOWN">验证段来源未核验</strong>
+                  <small id="internalBacktestQualityValidationDetail">验证段依据、样本和统计主张未核验</small>
+                </div>
+                <div role="listitem">
+                  <span>测试段</span>
+                  <strong id="internalBacktestQualityTest" data-raw-status="UNKNOWN">测试段来源未核验</strong>
+                  <small id="internalBacktestQualityTestDetail">测试段依据、样本和统计主张未核验</small>
+                </div>
+              </div>
+            </details>
+            <details id="internalBacktestForwardEvidence" class="internal-backtest-quality-detail internal-backtest-forward-detail" data-connection-status="CHECKING">
+              <summary>展开首次到期决策、后续描述与人工复核边界</summary>
+              <div class="internal-backtest-forward-spine" role="list" aria-label="冻结包自然前向晋级证据">
+                <div role="listitem">
+                  <span>证据状态</span>
+                  <strong id="internalBacktestForwardStatus" data-raw-status="UNKNOWN">自然前向晋级证据未核验</strong>
+                </div>
+                <div role="listitem">
+                  <span>首次联合到期决策</span>
+                  <strong id="internalBacktestForwardMaturity" data-raw-status="UNKNOWN">收益期 --/-- · 实际调仓 --/--</strong>
+                </div>
+                <div role="listitem">
+                  <span>Pack 核验范围</span>
+                  <strong id="internalBacktestForwardBoundary">首次到期决策未核验 · 后续样本仅可描述 · 未重载数据库 · 未独立重放结算链</strong>
+                </div>
+              </div>
+              <small id="internalBacktestForwardSource">首次到期决策与风险指纹未核验</small>
+            </details>
+          </section>
+          <div class="backtest-actions">
+            <button id="runBacktest">生成开发回测</button>
+            <button id="freezeBacktest" class="ghost-button">冻结研究快照</button>
+            <span id="backtestSummary">尚无开发回测证据 · 模拟未授权 · 实盘永久硬锁</span>
+          </div>
+          <div class="backtest-evidence-head">
+            <strong id="backtestEvidenceTitle" role="heading" aria-level="3">开发回测收益证据</strong>
+            <span id="btEvidenceBoundary">开发回测 · 非盈利证明 · 模拟未授权 · 实盘永久硬锁</span>
+          </div>
+          <div id="backtestEvidenceLedger" class="backtest-metrics backtest-evidence-ledger" role="list" aria-labelledby="backtestEvidenceTitle" data-result-status="UNKNOWN">
+            <div class="backtest-return-primary" role="listitem">
+              <span>策略累计收益 · 开发回测</span>
+              <strong id="btReturn">累计收益未提供</strong>
+              <small id="btReturnBasis">尚无可解释的开发回测结果</small>
+            </div>
+            <div role="listitem">
+              <span>基准与超额</span>
+              <strong id="btBenchmark">基准收益未提供</strong>
+              <small id="btExcess">超额收益不可计算</small>
+            </div>
+            <div role="listitem">
+              <span>成本假设与计入口径</span>
+              <strong id="btCosts">费率未提供 · 滑点未提供</strong>
+              <small>成本未明确计入时，不得把结果视为净收益</small>
+            </div>
+            <div role="listitem">
+              <span>最大回撤 · 历史路径风险</span>
+              <strong id="btDrawdown">最大回撤未提供</strong>
+              <small>不是止损承诺或未来风险上限</small>
+            </div>
+            <div role="listitem">
+              <span>样本、闭合交易与时间证据</span>
+              <strong id="btSample">样本量未提供</strong>
+              <small id="btTrades">闭合交易数未提供</small>
+              <small id="btTemporal" data-raw-status="UNKNOWN" title="原始时间证据状态 UNKNOWN">样本外证据未核验</small>
+            </div>
+            <div role="listitem">
+              <span>次级统计 · 仅辅助</span>
+              <strong id="btAnnual">年化收益未提供</strong>
+              <small>胜率 <b id="btWinRate">胜率未提供</b> · 夏普 <b id="btSharpe">夏普未提供</b></small>
+            </div>
+          </div>
+          <div class="backtest-evidence-head backtest-robustness-head">
+            <strong>稳健性与成本证据</strong>
+            <span>固定参数时间切片 · 不等同真正 walk-forward · 不授予模拟或实盘权限</span>
+          </div>
+          <div id="backtestRobustnessLedger" class="backtest-robustness-ledger" role="list" aria-label="开发回测稳健性与成本证据" data-result-status="UNKNOWN">
+            <div class="backtest-robustness-item" role="listitem">
+              <span>时间证据模式</span>
+              <strong id="btRobustnessMode">时间稳健性证据未核验</strong>
+            </div>
+            <div class="backtest-robustness-item" role="listitem" data-raw-status="UNKNOWN">
+              <span>验证 / 测试切片</span>
+              <strong id="btRobustnessTemporal">验证/测试时间切片未提供</strong>
+            </div>
+            <div class="backtest-robustness-item" role="listitem" data-raw-status="UNKNOWN">
+              <span>固定参数折叠</span>
+              <strong id="btRobustnessFolds">固定参数折叠未提供</strong>
+            </div>
+            <div class="backtest-robustness-item" role="listitem" data-raw-status="UNKNOWN">
+              <span>成本压力</span>
+              <strong id="btRobustnessCosts">成本压力未提供</strong>
+            </div>
+            <div class="backtest-robustness-item" role="listitem" data-raw-status="UNKNOWN">
+              <span>风险控制参数表面</span>
+              <strong id="btRobustnessParameter">风险控制参数表面未提供 · 策略信号参数平台未连接</strong>
+            </div>
+            <div class="backtest-robustness-item" role="listitem" data-raw-status="UNKNOWN">
+              <span>因果 / 前视</span>
+              <strong id="btRobustnessCausal">因果/前视检查未提供</strong>
+            </div>
+            <small id="btRobustnessFailures">稳健性失败条件/证据缺口未核验</small>
+          </div>
+          <details id="btRiskSurfaceDetails" class="backtest-risk-surface" data-raw-status="UNKNOWN">
+            <summary>
+              <span>展开风险控制局部敏感性</span>
+              <small>同一历史数据 · 仓位 / 止盈 / 止损 · 非策略信号参数</small>
+            </summary>
+            <div class="backtest-risk-surface-spine" role="list" aria-label="开发期风险控制参数表面证据">
+              <div role="listitem">
+                <span>表面判断</span>
+                <strong id="btRiskSurfaceStatus">风险控制参数表面未核验</strong>
+              </div>
+              <div role="listitem">
+                <span>网格覆盖</span>
+                <strong id="btRiskSurfaceCoverage">同数据开发网格覆盖未核验</strong>
+              </div>
+              <div role="listitem">
+                <span>局部邻域</span>
+                <strong id="btRiskSurfaceNeighborhood">局部邻域未核验</strong>
+              </div>
+            </div>
+            <p>只描述既有 100 格风险控制网格的局部敏感性；不校正选择偏差、不验证策略信号参数、不替代冻结研究报告或自然前向证据。</p>
+          </details>
+          <div class="optimizer-evidence-head">
+            <strong>开发期参数比较</strong>
+            <span>候选排序不构成盈利证明或交易授权</span>
+          </div>
+          <div class="optimizer-panel">
+            <div>
+              <span>开发期均衡候选</span>
+              <strong id="btBestPlan">--</strong>
+              <em id="btBestMeta">等待候选比较</em>
+            </div>
+            <div>
+              <span>开发期低回撤候选</span>
+              <strong id="btSafePlan">--</strong>
+              <em id="btSafeMeta">等待候选比较</em>
+            </div>
+            <div>
+              <span>开发期最高收益候选</span>
+              <strong id="btReturnPlan">--</strong>
+              <em id="btReturnMeta">等待候选比较 · 选择偏差未校正</em>
+            </div>
+          </div>
+          <div class="optimizer-notes" id="btOptimizerNotes">等待开发期参数候选比较；收益选择偏差未校正</div>
+          <div id="backtestGateRows" class="backtest-gate-list"></div>
+          <div id="backtestReproRows" class="backtest-repro-list"></div>
+          <div class="segment-head"><span>阶段</span><span>区间</span><span>开发收益</span><span>回撤</span><span>夏普</span><span>状态</span></div>
+          <div id="btSegmentRows" class="segment-list"></div>
+          <div class="backtest-head"><span>排名</span><span>仓位</span><span>止盈%</span><span>止损%</span><span>开发收益</span><span>回撤</span><span>分数</span></div>
+          <div id="backtestRows" class="backtest-list"></div>
+        </section>
+
+        <section class="leaderboard-panel">
+          <div class="panel-title">
+              <strong>开发期策略比较</strong>
+              <span>本地 BTC 日线 · 仅描述，不选参</span>
+          </div>
+          <div id="leaderboardRows" class="leaderboard-list"></div>
+        </section>
+
+        <section class="api-panel">
+          <div class="panel-title">
+            <strong>API 接入</strong>
+            <span>实盘预留</span>
+          </div>
+          <div class="api-grid">
+            <div><span>交易所</span><strong>OKX</strong></div>
+            <div><span>行情</span><strong class="up">Public</strong></div>
+            <div><span>实盘</span><strong id="liveAuthState" class="flat">未授权</strong></div>
+            <div><span>API Key</span><strong id="apiKeyState">环境变量</strong></div>
+          </div>
+          <div class="api-form">
+            <input id="apiKeyEnv" value="OKX_API_KEY">
+            <input id="secretEnv" value="OKX_SECRET">
+            <input id="passwordEnv" value="OKX_PASSWORD">
+            <button id="saveApiConfig">保存映射</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="history-panel">
+        <div class="panel-title">
+          <strong>往期日线价格库</strong>
+          <span id="historySummary">读取中</span>
+        </div>
+        <div class="history-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>日期</th>
+                <th>开盘</th>
+                <th>最高</th>
+                <th>最低</th>
+                <th>收盘</th>
+                <th>成交量</th>
+              </tr>
+            </thead>
+            <tbody id="historyRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="research-panel">
+        <div class="panel-title">
+          <strong>行情研究面板</strong>
+          <span><button id="refreshResearch" class="inline-button">刷新</button></span>
+        </div>
+        <div id="researchSummary" class="research-summary">等待研究数据</div>
+        <div class="anomaly-workbench" id="anomalyWorkbench">
+          <div class="anomaly-head">
+            <div>
+              <strong>行情异动雷达</strong>
+              <span id="anomalyRadarSummary">等待扫描放量、急涨急跌、突破/跌破、波动率、资金费率、OI、股票/币种联动。</span>
+            </div>
+            <div class="anomaly-actions">
+              <button id="refreshAnomalyRadar" class="ghost-button">刷新雷达</button>
+              <button id="pushAnomalyNotice" class="ghost-button">推送提醒</button>
+              <button id="anomalyToAi" class="ghost-button">带入AI行情</button>
+            </div>
+          </div>
+          <div id="anomalyRadarCards" class="anomaly-card-grid"></div>
+          <div id="researchDataQualityCards" class="research-data-quality-grid"></div>
+          <div class="anomaly-control-grid">
+            <div class="anomaly-event-panel">
+              <div class="research-title">
+                <span>异动事件库</span>
+                <button id="refreshAnomalyEvents" class="mini-button">刷新</button>
+              </div>
+              <div id="anomalyEventSummary" class="anomaly-control-summary">等待异动事件入库</div>
+              <div id="anomalyEventRows" class="anomaly-event-rows">等待雷达扫描</div>
+            </div>
+            <div class="stock-source-control-panel">
+              <div class="research-title">
+                <span>数据源总控</span>
+                <button id="refreshSourceControl" class="mini-button">刷新</button>
+              </div>
+              <div id="stockSourceControlSummary" class="anomaly-control-summary">等待当前标的数据源状态</div>
+              <div id="stockSourceControlCards" class="stock-source-card-grid"></div>
+              <div id="stockSourceControlRows" class="stock-source-rows">等待数据源检查</div>
+            </div>
+          </div>
+          <div class="anomaly-layout">
+            <div class="anomaly-list-panel">
+              <div class="research-title anomaly-list-title">
+                <span>实时异动列表</span>
+                <div id="anomalyFilterBar" class="anomaly-filter-bar" aria-label="异动筛选">
+                  <button class="active" data-anomaly-filter="all">全部</button>
+                  <button data-anomaly-filter="changes">新增增强</button>
+                  <button data-anomaly-filter="priority">A/B队列</button>
+                  <button data-anomaly-filter="review">数据待核</button>
+                </div>
+              </div>
+              <div class="anomaly-row-head">
+                <span>优先级</span>
+                <span>标的</span><span>评分</span><span>方向</span><span>联动主题</span><span>下一步</span>
+              </div>
+              <div id="anomalyRows" class="anomaly-rows">等待雷达数据</div>
+            </div>
+            <div class="trend-cockpit-panel">
+              <div class="research-title">走势分析驾驶舱</div>
+              <div id="trendCockpitCards" class="trend-cockpit-cards"></div>
+              <div id="trendCockpitSummary" class="trend-cockpit-summary">等待当前标的走势快照</div>
+            </div>
+          </div>
+          <div class="anomaly-detail-grid">
+            <div>
+              <div class="research-title">异动证据链</div>
+              <div id="anomalyDetailCards" class="anomaly-detail-cards"></div>
+              <div id="anomalyEvidenceRows" class="anomaly-evidence-list"></div>
+            </div>
+            <div>
+              <div class="research-title">异动解释 AI Prompt</div>
+              <pre id="anomalyPromptPreview" class="anomaly-prompt-preview">等待选择异动标的</pre>
+            </div>
+          </div>
+        </div>
+        <div class="research-focus" id="researchFocusPanel">
+          <div class="research-focus-head">
+            <div>
+              <strong id="researchFocusTitle">当前标的研究档案</strong>
+              <span id="researchFocusBrief">等待当前标的研究快照</span>
+            </div>
+            <button id="openResearchInAi" class="ghost-button">带入AI行情</button>
+          </div>
+          <div id="researchFocusCards" class="research-focus-cards"></div>
+          <div class="research-focus-body">
+            <div>
+              <div class="research-title">研究检查项</div>
+              <div id="researchChecklistRows" class="research-checklist"></div>
+            </div>
+            <div>
+              <div class="research-title">常用AI问题</div>
+              <div id="researchPromptRows" class="research-prompts"></div>
+            </div>
+          </div>
+        </div>
+        <div id="stockResearchPanel" class="stock-research-panel hidden">
+          <div class="stock-research-head">
+            <div>
+              <strong>股票专项研究</strong>
+              <span id="stockResearchSummary">等待股票研究数据</span>
+            </div>
+            <span id="stockResearchMode">仅研究 / 模拟验证</span>
+          </div>
+          <div id="stockResearchBriefCards" class="stock-research-brief-grid"></div>
+          <div id="stockResearchThesis" class="stock-research-thesis">等待价格、新闻、财报、行业联动和异常成交证据。</div>
+          <div id="stockStaleAlert" class="stock-stale-alert hidden"></div>
+          <div id="stockQualityRows" class="stock-quality-grid"></div>
+          <div id="stockDailySwingRows" class="stock-daily-swing-grid"></div>
+          <div id="stockCatalystRadar" class="stock-catalyst-radar"></div>
+          <div id="stockChainRows" class="stock-chain-grid"></div>
+          <div id="stockResearchMemo" class="stock-research-memo"></div>
+          <div class="stock-research-grid">
+            <div>
+              <div class="research-title">盘前 / 盘中 / 盘后</div>
+              <div id="stockSessionRows" class="stock-research-list"></div>
+            </div>
+            <div>
+              <div class="research-title">财报 / 估值 / 风险</div>
+              <div id="stockCalendarRows" class="stock-research-list"></div>
+            </div>
+            <div>
+              <div class="research-title">行业联动</div>
+              <div id="stockLinkageRows" class="stock-research-list"></div>
+            </div>
+            <div>
+              <div class="research-title">异常成交</div>
+              <div id="stockUnusualRows" class="stock-research-list"></div>
+            </div>
+          </div>
+        </div>
+        <div id="stockEvidencePanel" class="stock-evidence-panel hidden">
+          <div class="stock-evidence-head">
+            <div>
+              <strong>股票证据摘要</strong>
+              <span id="stockEvidenceSummary">等待 Futu 盘口、逐笔、资金流和估值数据</span>
+            </div>
+            <span>观察 / 仅研究 / 仅模拟验证</span>
+          </div>
+          <div id="stockEvidenceCards" class="stock-evidence-grid"></div>
+          <div id="stockEvidenceRows" class="stock-evidence-list"></div>
+        </div>
+        <div class="research-grid">
+          <div>
+            <div class="research-title">新闻流</div>
+            <div id="researchNewsRows" class="research-list"></div>
+          </div>
+          <div>
+            <div class="research-title">事件日历</div>
+            <div id="researchEventRows" class="research-list"></div>
+          </div>
+          <div>
+            <div class="research-title">热点/涨跌/成交额</div>
+            <div id="researchMoverRows" class="research-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="account-center-grid">
+        <section class="account-center-panel">
+          <div class="panel-title">
+            <strong>账户中心</strong>
+            <span id="accountSummary">模拟账户</span>
+          </div>
+          <div id="assetRows" class="asset-list"></div>
+        </section>
+
+        <section class="transfer-panel">
+          <div class="panel-title">
+            <strong>资产划转</strong>
+            <span>本地账本</span>
+          </div>
+          <div class="transfer-form">
+            <select id="transferAsset">
+              <option value="USDT">USDT</option>
+              <option value="BTC">BTC</option>
+              <option value="ETH">ETH</option>
+            </select>
+            <select id="transferSource">
+              <option value="wallet">资金账户</option>
+              <option value="trading">交易账户</option>
+              <option value="funding">理财账户</option>
+            </select>
+            <select id="transferTarget">
+              <option value="trading">交易账户</option>
+              <option value="wallet">资金账户</option>
+              <option value="funding">理财账户</option>
+            </select>
+            <input id="transferAmount" type="number" min="0" step="0.01" value="100">
+            <button id="transferAssetButton">划转</button>
+          </div>
+          <div id="transferRows" class="transfer-list"></div>
+        </section>
+
+        <section class="guardian-panel">
+          <div class="panel-title">
+            <strong>策略守护</strong>
+            <span id="guardianState">STOPPED</span>
+          </div>
+          <div class="guardian-actions">
+            <button id="guardianStart">启动守护</button>
+            <button id="guardianStop">停止守护</button>
+            <button id="guardianEmergencyStop" class="danger-button">一键急停</button>
+          </div>
+          <div class="guardian-metrics">
+            <div><span>心跳</span><strong id="guardianHeartbeat">--</strong></div>
+            <div><span>巡检次数</span><strong id="guardianCycles">0</strong></div>
+            <div><span>最后价格</span><strong id="guardianLastPrice">--</strong></div>
+            <div><span>最后动作</span><strong id="guardianLastAction">--</strong></div>
+            <div><span>最后权益</span><strong id="guardianLastEquity">--</strong></div>
+            <div><span>异常信息</span><strong id="guardianLastError">--</strong></div>
+          </div>
+          <div id="guardianMessage" class="guardian-message">策略守护未启动</div>
+        </section>
+
+        <section class="notification-panel">
+          <div class="panel-title">
+            <strong>通知中心</strong>
+            <span><button id="markNotificationsRead" class="inline-button">全部已读</button></span>
+          </div>
+          <div id="notificationRows" class="notification-list"></div>
+        </section>
+      </section>
+
+      <section class="system-grid">
+        <section class="config-center-panel">
+          <div class="panel-title">
+            <strong>全局配置总控</strong>
+            <span id="configCenterState">等待检查</span>
+          </div>
+          <div class="config-center-head">
+            <div><span>开发检查分</span><strong id="configScore">--</strong></div>
+            <div><span>实盘边界</span><strong id="configLiveWall">--</strong></div>
+            <div><span>AI研究配置</span><strong id="configAiPair">--</strong></div>
+            <div><span>行情来源</span><strong id="configDataMode">--</strong></div>
+            <button id="refreshFullConfig">刷新配置</button>
+            <button id="applyFullConfigPreset">写入研究优先配置</button>
+          </div>
+          <div id="configSummary" class="config-summary">仅研究配置观察 · 模拟未授权 · 实盘永久硬锁。</div>
+          <div id="configCenterCards" class="config-card-grid"></div>
+          <div class="config-action-row">
+            <button id="configOpenMarketAi">AI行情</button>
+            <button id="configOpenResearch">研究档案</button>
+            <button id="configRefreshData">数据可靠性</button>
+          </div>
+          <div class="config-check-head"><span>检查项</span><span>状态</span><span>说明</span></div>
+          <div id="configChecklistRows" class="config-check-list"></div>
+        </section>
+
+        <section class="v2-platform-panel">
+          <div class="panel-title">
+            <strong>哈基米交易 v2 控制中心</strong>
+            <span id="v2PlatformState">加载中</span>
+          </div>
+          <div class="v2-platform-head">
+            <div><span>版本</span><strong id="v2Version">--</strong></div>
+            <div><span>健康评分</span><strong id="v2Score">--</strong></div>
+            <div><span>实盘状态</span><strong id="v2LiveWall">--</strong></div>
+            <div><span>高风险模块</span><strong id="v2HighRisk">--</strong></div>
+            <button id="refreshV2Platform">刷新 V2</button>
+          </div>
+          <div class="v2-summary" id="v2Summary">等待平台状态</div>
+          <div class="v2-competitive" id="v2CompetitiveRows"></div>
+          <div class="v2-lanes" id="v2Lanes"></div>
+          <div class="six-lane-actions">
+            <strong>六路线总控</strong>
+            <span id="sixLaneSummary">等待路线状态</span>
+          </div>
+          <div id="sixLaneRows" class="six-lane-list"></div>
+          <div class="v2-module-list" id="v2ModuleRows"></div>
+          <div class="data-quality-actions">
+            <button id="refreshDataReliability">数据可靠性</button>
+            <span id="dataReliabilitySummary">等待数据源体检</span>
+          </div>
+          <div class="data-quality-head"><span>数据源</span><span>状态</span><span>延迟</span><span>新鲜度</span><span>说明 / 下一步</span></div>
+          <div id="dataReliabilityRows" class="data-quality-list"></div>
+          <div class="adapter-actions">
+            <button id="refreshMarketAdapters">刷新适配器</button>
+            <span id="marketAdapterSummary">等待 adapter 状态</span>
+          </div>
+          <div class="adapter-head"><span>Adapter</span><span>状态</span><span>评分</span><span>能力 / 安全边界</span></div>
+          <div id="marketAdapterRows" class="adapter-list"></div>
+          <div class="cache-backfill-actions">
+            <button id="runDataBackfill">补全缓存</button>
+            <span id="dataCacheSummary">等待历史缓存状态</span>
+          </div>
+          <div class="cache-backfill-head"><span>标的</span><span>状态</span><span>K线</span><span>区间</span><span>下一步</span></div>
+          <div id="dataCacheRows" class="cache-backfill-list"></div>
+        </section>
+
+        <section class="settings-panel">
+          <div class="panel-title">
+            <strong>系统设置</strong>
+            <span>本地保存</span>
+          </div>
+          <div class="settings-form">
+            <label>
+              <span>主题</span>
+              <select id="themeSelect">
+                <option value="dark">黑底白字</option>
+                <option value="blue">蓝底白字</option>
+                <option value="light">白底黑字</option>
+              </select>
+            </label>
+            <label>
+              <span>界面密度</span>
+              <select id="densitySelect">
+                <option value="compact">紧凑</option>
+                <option value="standard">标准</option>
+              </select>
+            </label>
+            <label>
+              <span>行情刷新秒数</span>
+              <input id="refreshSeconds" type="number" min="3" max="60" value="8">
+            </label>
+            <label>
+              <span>启动模块</span>
+              <select id="startModule">
+                <option value=".ticker-header">行情台</option>
+                <option value=".strategy-desk">策略</option>
+                <option value=".orders-panel">订单</option>
+                <option value=".history-panel">数据</option>
+                <option value=".account-center-grid">账户</option>
+                <option value=".system-grid">系统</option>
+              </select>
+            </label>
+            <label>
+              <span>布局预设</span>
+              <select id="layoutPreset">
+                <option value="classic">经典交易</option>
+                <option value="focus">行情专注</option>
+                <option value="analysis">策略分析</option>
+              </select>
+            </label>
+            <button id="saveTerminalSettings">保存设置</button>
+          </div>
+        </section>
+
+        <section class="daemon-panel">
+          <div class="panel-title">
+            <strong>后台守护入口</strong>
+            <span id="daemonState">本地模拟</span>
+          </div>
+          <div class="daemon-actions">
+            <button id="daemonPrepare">准备后台任务</button>
+            <button id="daemonOpenLogs">查看日志</button>
+          </div>
+          <div class="daemon-copy">
+            后续会把策略守护升级为独立后台进程；当前这里先作为启动、日志和状态入口。
+          </div>
+        </section>
+
+        <section class="ledger-panel">
+          <div class="panel-title">
+            <strong>终端事件</strong>
+            <span id="ledgerSummary">最近记录</span>
+          </div>
+          <div id="ledgerRows" class="ledger-list"></div>
+        </section>
+      </section>
+
+      <section class="productivity-grid">
+        <section class="export-panel">
+          <div class="panel-title">
+            <strong>数据导出</strong>
+            <span id="exportState">等待操作</span>
+          </div>
+          <div class="export-actions">
+            <button id="exportOrders">导出订单 CSV</button>
+            <button id="exportLedger">导出事件 CSV</button>
+          </div>
+          <div id="exportPath" class="export-path">导出文件将保存到 runtime/exports</div>
+        </section>
+
+        <section class="strategy-market-panel">
+          <div class="panel-title">
+            <strong>策略市场</strong>
+            <span id="strategyMarketSummary">本地模板</span>
+          </div>
+          <div id="strategyMarketRows" class="strategy-market-list"></div>
+          <div class="robot-profile-actions">
+            <button id="refreshRobotProfiles">机器人研究档案</button>
+            <span id="robotProfileSummary">等待研究评估</span>
+          </div>
+          <div class="robot-profile-head"><span>机器人</span><span>策略 / 研究结论</span><span>开发期分</span><span>研究状态</span><span>观察条件 / 缺口</span></div>
+          <div id="robotProfileRows" class="robot-profile-list"></div>
+        </section>
+
+        <section class="code-worker-panel">
+          <div class="panel-title">
+            <strong>DeepSeek 开发助手</strong>
+            <span id="codeWorkerState">草稿模式</span>
+          </div>
+          <div class="code-worker-form">
+            <textarea id="codeWorkerTask" placeholder="整理开发任务、生成说明、起草测试或重构计划。"></textarea>
+            <select id="codeWorkerMode">
+              <option value="draft">代码草稿</option>
+              <option value="explain">解释整理</option>
+              <option value="refactor_plan">重构计划</option>
+              <option value="test_draft">测试草稿</option>
+            </select>
+            <button id="runCodeWorker">交给 DeepSeek</button>
+            <button id="refreshCodeWorker" class="ghost-button">刷新</button>
+          </div>
+          <div id="codeWorkerRows" class="code-worker-list"></div>
+        </section>
+
+        <section class="shortcut-panel">
+          <div class="panel-title">
+            <strong>快捷键</strong>
+            <span>工作台导航</span>
+          </div>
+          <div class="shortcut-list">
+            <div><kbd>1</kbd><span>行情台</span></div>
+            <div><kbd>2</kbd><span>策略</span></div>
+            <div><kbd>3</kbd><span>订单</span></div>
+            <div><kbd>4</kbd><span>账户</span></div>
+            <div><kbd>5</kbd><span>数据</span></div>
+            <div><kbd>6</kbd><span>系统</span></div>
+            <div><kbd>T</kbd><span>切换主题</span></div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="./chart_quality.js?v=20260801-market-session-32"></script>
+  <script src="./chart_controller.js?v=20260810-refresh-coordinator-1"></script>
+  <script src="./stock_quote_guard.js?v=20260811-stock-quote-context-1"></script>
+  <script src="./evidence_presentation.js?v=20260814-single-look-contract-1"></script>
+  <script src="./app.js?v=20260814-single-look-contract-1"></script>
+</body>
+</html>
+
+
+
+
+
