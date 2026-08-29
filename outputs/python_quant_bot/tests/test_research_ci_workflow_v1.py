@@ -38,6 +38,22 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
         self.assertIn("python -m pip check", workflow)
         self.assertNotIn("pip install --upgrade", workflow)
 
+    def test_windows_long_paths_are_enabled_before_checkout(self) -> None:
+        workflow = self.workflow()
+        long_paths_step = (
+            "      - name: Enable Windows Git long paths before checkout\n"
+            "        working-directory: ${{ github.workspace }}\n"
+            "        run: git config --global core.longpaths true"
+        )
+        checkout_step = "      - name: Check out source without persisted credentials"
+        self.assertEqual(
+            workflow.count("git config --global core.longpaths true"),
+            1,
+        )
+        self.assertIn(long_paths_step, workflow)
+        self.assertLess(workflow.index(long_paths_step), workflow.index(checkout_step))
+        self.assertNotIn("core.longpaths false", workflow)
+
     def test_workflow_runs_only_explicit_contract_consumers(self) -> None:
         workflow = self.workflow()
         modules = [

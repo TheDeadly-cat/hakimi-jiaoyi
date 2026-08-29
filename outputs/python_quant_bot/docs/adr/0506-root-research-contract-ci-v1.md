@@ -2,9 +2,11 @@
 
 ## Status
 
-Accepted as a repository-level source contract. Remote execution evidence is
-separate and remains unavailable until a commit containing this workflow is
-pushed and GitHub Actions creates a run.
+Accepted as a repository-level source contract. The first remote run,
+`33257858701`, failed before source materialization because Windows Git could not
+create two tracked long-path files. That run is failure evidence, not contract
+test evidence. This revision adds the bounded checkout prerequisite; its remote
+status remains separate until a later run completes.
 
 ## Context
 
@@ -17,12 +19,14 @@ was consumed by repository CI.
 
 Add `.github/workflows/research-contracts.yml` with the following fixed scope:
 
-1. Activate only for relevant pushes, pull requests, or explicit manual dispatch.
-2. Grant only `contents: read` and disable persisted checkout credentials.
-3. Use Python 3.14 and the exact `requirements.research.lock` closure.
-4. Run `pip check`, the deterministic identity verifier, and eleven explicit
+1. In the ephemeral Windows runner, enable Git long-path handling from the empty
+   workspace before checkout.
+2. Activate only for relevant pushes, pull requests, or explicit manual dispatch.
+3. Grant only `contents: read` and disable persisted checkout credentials.
+4. Use Python 3.14 and the exact `requirements.research.lock` closure.
+5. Run `pip check`, the deterministic identity verifier, and eleven explicit
    research contract modules.
-5. Use a 15-minute timeout and cancel superseded runs for the same ref.
+6. Use a 15-minute timeout and cancel superseded runs for the same ref.
 
 The action major versions are `actions/checkout@v7` and
 `actions/setup-python@v7`. They are source workflow dependencies, not application
@@ -32,6 +36,9 @@ runtime dependencies, and remain independently reviewable in this file.
 
 - No schedule, secret reference, cache, service, browser, dashboard, package
   publication, or deployment step exists.
+- Long-path enablement does not omit, rename, sparse-checkout, or otherwise avoid
+  any tracked source file; it only permits checkout to materialize the committed
+  tree on the ephemeral Windows runner.
 - The workflow does not invoke `run_bot.py`, any paper/live path, or an order path.
 - Unit tests use synthetic/in-memory fixtures and contract-only consumers. They
   are not a formal backtest, frozen-OOS result, cost-stress result, or profit proof.
@@ -44,17 +51,18 @@ runtime dependencies, and remain independently reviewable in this file.
 
 1. Pin the active dependency closure (ADR0505).
 2. Add the deterministic identity verifier (ADR0505).
-3. Add a root workflow that consumes both without invoking product entrypoints.
-4. Add a static adversarial contract that prevents future authority expansion.
-5. Obtain a separate remote run before making any CI status claim.
+3. Enable Windows Git long paths before checkout without broadening credentials.
+4. Add a root workflow that consumes both without invoking product entrypoints.
+5. Add a static adversarial contract that prevents future authority expansion.
+6. Obtain a separate remote run before making any CI status claim.
 
 ## Local acceptance target
 
 - Python syntax for the new contract test: PASS.
 - Targeted contract suite including CI, migration, and frozen-evaluation contracts:
-  89/89 PASS.
+  90/90 PASS.
 - Deterministic input verifier: 8/8 PASS.
-- Workflow static authority matrix: 3/3 PASS.
+- Workflow static authority and checkout matrix: 4/4 PASS.
 - `git diff --check`: PASS.
-- GitHub service-side YAML ingestion and execution remain NOT_RUN/UNKNOWN until
-  this workflow is separately authorized for commit/push and GitHub creates a run.
+- Remote run `33257858701` is FAIL at checkout and ran no contract tests. The
+  corrected revision remains UNKNOWN until a separate run completes.

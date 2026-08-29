@@ -8635,3 +8635,16 @@ Authority remains unchanged:
   PASS, affected Python syntax 3/3 PASS, verifier 8/8 PASS, and diff check PASS.
 - No real-data backtest, formal blind test, service, browser, scheduler,
   paper/live, order, or publication action was executed.
+
+## 2026-08-29 ADR0506 Windows checkout compatibility correction
+
+- First remote run `33257858701` failed before tests because checkout could not
+  materialize two tracked long-path files on the Windows runner.
+- The workflow now enables Git `core.longpaths` once from the empty workspace
+  before checkout. It does not omit, rename, or sparse-checkout source files.
+- The CI contract locks the exact command, workspace, and pre-checkout ordering;
+  research-only permissions and all execution-authority locks remain unchanged.
+- Local acceptance target: workflow matrix 4/4 PASS, targeted contracts 90/90
+  PASS, affected syntax 1/1 PASS, verifier 8/8 PASS, and diff check PASS.
+- The failed run is not test evidence. Corrected remote CI status remains UNKNOWN
+  until a separate GitHub Actions run completes.

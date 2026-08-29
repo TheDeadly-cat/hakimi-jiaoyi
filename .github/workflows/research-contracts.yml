@@ -39,6 +39,10 @@ jobs:
         shell: pwsh
         working-directory: outputs/python_quant_bot
     steps:
+      - name: Enable Windows Git long paths before checkout
+        working-directory: ${{ github.workspace }}
+        run: git config --global core.longpaths true
+
       - name: Check out source without persisted credentials
         uses: actions/checkout@v7
         with:
