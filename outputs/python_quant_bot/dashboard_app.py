@@ -7,7 +7,14 @@ from typing import Any
 import pandas as pd
 import streamlit as st
 
-from exchange_terminal.domain.contracts import build_product_capability_catalog
+from _canonical_source import activate_canonical_source
+
+
+activate_canonical_source()
+
+from hakimi_research.product_capabilities import (  # noqa: E402
+    build_product_capability_catalog,
+)
 from quant_bot.backtest import BacktestEngine
 from quant_bot.config import BotConfig
 from quant_bot.data import build_data_provider

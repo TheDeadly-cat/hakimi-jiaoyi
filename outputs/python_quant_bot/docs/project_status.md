@@ -8906,3 +8906,57 @@ Authority remains unchanged:
   verifier 8/8 PASS; JSON 3/3 PASS; `git diff --check` PASS.
 - No market-data backtest, performance run, service, browser, schedule, paper,
   live, order, or publication workflow was executed by this slice.
+
+## 2026-08-29 ADR0506 root research contract CI
+
+- Added the first root `.github/workflows/research-contracts.yml` consumer for
+  the exact research lock and deterministic input verifier.
+- Workflow authority is limited to `contents: read`; checkout credentials are
+  not persisted. There is no schedule, secret, cache, service, browser, product
+  entrypoint, publication, paper/live, or order step.
+- Local acceptance: Python syntax 1/1 PASS, targeted contracts 89/89 PASS,
+  deterministic verifier 8/8 PASS, workflow authority matrix 3/3 PASS, and
+  `git diff --check` PASS.
+- GitHub service-side YAML ingestion and CI execution remain NOT_RUN/UNKNOWN
+  until this workflow is separately authorized for commit/push and a run exists.
+
+## 2026-08-29 ADR0507 canonical product capability source migration
+
+- Moved the only capability-v1/product-capability-catalog-v1 implementation to
+  repository-root `src/hakimi_research`; active CLI/dashboard consumers now import
+  it directly.
+- The old `exchange_terminal.domain.contracts` path is an identity-preserving
+  compatibility export and contains no duplicate migrated definitions.
+- Consumer-first acceptance target: migration matrix 5/5 PASS, targeted contracts
+  89/89 PASS, affected Python syntax 8/8 PASS, verifier 8/8 PASS, and
+  `git diff --check` PASS.
+- This is one production-boundary migration, not a whole-project source move. All
+  research-only and execution-authority locks remain unchanged.
+
+## 2026-08-29 ADR0508 canonical CLI entrypoint
+
+- Moved all CLI command logic to `src/hakimi_research/cli.py`; root
+  `hakimi-research.ps1` invokes `python -m hakimi_research` as the documented
+  Windows entrypoint.
+- Legacy `run_bot.py` contains no command definitions and re-exports canonical
+  objects by identity. Default config, report, and manifest context paths remain
+  bound to the existing project root.
+- Acceptance target: CLI adversarial matrix 5/5 PASS, targeted contracts 89/89
+  PASS, affected Python syntax 7/7 PASS, PowerShell parser 1/1 PASS, verifier 8/8
+  PASS, and `git diff --check` PASS.
+- No service, browser, network task, scheduler, formal backtest, paper/live,
+  order, or publication action was invoked.
+
+## 2026-08-29 ADR0509 frozen evaluation and cost stress report
+
+- Added dormant pure-library protocol/report contracts for exact
+  Train/Purge/Validation/Embargo/Frozen Test partitions, fixed 1x/2x/3x costs,
+  and CASH/ENGINE_BUY_AND_HOLD benchmarks.
+- Every nested run binds the ADR0509 protocol hash and role through ADR0504 and
+  must pass its verifier. Aggregate authority remains permanently false.
+- The report remains BLOCK because blindness, external preregistration chronology,
+  single consumption, and natural-forward evidence are not proven.
+- Acceptance target: adversarial matrix 12/12 PASS, targeted contracts 89/89
+  PASS, affected Python syntax 3/3 PASS, verifier 8/8 PASS, and diff check PASS.
+- No real-data backtest, formal blind test, service, browser, scheduler,
+  paper/live, order, or publication action was executed.

@@ -73,26 +73,26 @@ http://127.0.0.1:8765
 
 启动脚本会自动寻找 Python 3.14、3.13、3.12、3.11。如果仍然找不到 Python，通常是安装后没有重启终端，或安装时没有勾选 `Add python.exe to PATH`。
 
-在项目目录运行：
+在仓库根目录通过唯一 canonical 入口运行：
 
 ```powershell
-cd outputs\python_quant_bot
-C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe run_bot.py backtest --config config.example.json
+.\hakimi-research.ps1 backtest
 ```
 
 查看内置策略：
 
 ```powershell
-C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe run_bot.py list-strategies
+.\hakimi-research.ps1 list-strategies
 ```
 
 查看机器可读能力目录：
 
 ```powershell
-C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe run_bot.py capabilities
+.\hakimi-research.ps1 capabilities
 ```
 
-CLI 只展示 Supported 命令。历史 `paper` 和 `optimize` 函数保留为兼容门禁，
+CLI 只展示 Supported 命令。旧 `run_bot.py` 只保留 canonical 对象的兼容导出；
+历史 `paper` 和 `optimize` 函数保留为兼容门禁，
 但状态为 Archived，不能通过环境变量重新开启。
 
 ## 配置文件
@@ -123,6 +123,11 @@ order entry 为 Disabled。遗留 `PaperBroker` 类只作为确定性历史成�
 walk-forward、purge / embargo、成本压力测试和参数稳定性分析。在这些证据闭合前，
 不增加更多交易策略，不开放 paper/live，也不扩张订单型 UI。
 
+`frozen-evaluation-protocol-v1` 与 `frozen-evaluation-report-v1` 已作为 dormant
+纯库候选落地：固定 Train/Purge/Validation/Embargo/Frozen Test、三档成本和两个
+基准，但明确 BLOCK 于盲测、外部预登记、单次消费和自然前向证明。它尚未进入 CLI，
+也不能被描述为正式盲测、盈利证明或 current 晋级证据。
+
 交易所终端说明见 `docs/exchange_terminal.md`。
 
 ## 自定义策略
@@ -145,23 +150,17 @@ class MyStrategy(StrategyBase):
 ## 目录结构
 
 ```text
-python_quant_bot
-├─ run_bot.py
-├─ config.example.json
-├─ requirements.txt
-└─ quant_bot
-   ├─ config.py
-   ├─ models.py
-   ├─ indicators.py
-   ├─ data.py
-   ├─ execution.py
-   ├─ risk.py
-   ├─ engine.py
-   ├─ optimizer.py        # archived compatibility only
-   ├─ reporting.py
-   └─ strategies
-      ├─ base.py
-      └─ templates.py
+repository root
+├─ hakimi-research.ps1       # canonical Windows CLI
+├─ src\hakimi_research
+│  ├─ __main__.py            # python -m hakimi_research
+│  ├─ cli.py                 # only CLI implementation
+│  └─ product_capabilities.py
+└─ outputs\python_quant_bot
+   ├─ run_bot.py             # compatibility export only
+   ├─ config.example.json
+   ├─ requirements.research.lock
+   └─ quant_bot              # pending consumer-first migration
 ```
 
 ## 当前证据边界
@@ -177,8 +176,16 @@ python_quant_bot
 - pointer-v2 保持原字段与哈希合同，不自动重发。
 - 自然前向 single-look 链保持不变。
 
-核心源码当前仍位于 `outputs/python_quant_bot`。迁移正式源码、归档历史原型和
-建立基础 CI 属于后续 P0 切片；在消费者和导入路径迁移完成前不会直接移动目录。
+大部分历史源码当前仍位于 `outputs/python_quant_bot`。首个完整生产边界
+`product-capability-catalog-v1` 已迁到根 `src/hakimi_research`；CLI 与 dashboard
+直接消费 canonical 模块，旧 domain 路径只保留对象身份一致的兼容出口。其余源码
+迁移和历史原型归档仍需逐消费者完成，不能把这一窄迁移描述成全项目搬迁。
+
+根级 `.github/workflows/research-contracts.yml` 提供最小研究合同 CI：只安装
+`requirements.research.lock`、检查确定性输入身份并运行显式合同模块，同时覆盖
+根 `src/**` canonical source。它不引用
+密钥、不启动产品入口，也不授予 paper/live/order 权限。只有远端实际运行才能
+证明 CI 状态；本地存在或语法检查不能称为 CI green。
 
 ## Reproducible research identity
 
