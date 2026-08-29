@@ -22,6 +22,7 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
         self.assertIn('working-directory: outputs/python_quant_bot', workflow)
         self.assertIn('persist-credentials: false', workflow)
         self.assertEqual(workflow.count('- "src/**"'), 2)
+        self.assertEqual(workflow.count('- ".gitattributes"'), 2)
         self.assertIn('PYTHONPATH: "${{ github.workspace }}/src"', workflow)
         self.assertNotIn("schedule:", workflow)
         self.assertNotIn("secrets.", workflow)

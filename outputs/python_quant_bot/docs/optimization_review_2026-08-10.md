@@ -8648,3 +8648,17 @@ Authority remains unchanged:
   PASS, affected syntax 1/1 PASS, verifier 8/8 PASS, and diff check PASS.
 - The failed run is not test evidence. Corrected remote CI status remains UNKNOWN
   until a separate GitHub Actions run completes.
+
+## 2026-08-29 ADR0505 canonical fixture byte identity correction
+
+- Remote run `33258057373` reached the deterministic verifier but failed both
+  input digests before the unittest suite. The config lock described a local CRLF
+  worktree rather than canonical repository bytes.
+- Root `.gitattributes` now fixes config, dataset, and expected-result fixtures to
+  LF and is itself a CI activation path. Dataset content and digest are unchanged.
+- Canonical config SHA-256 is now
+  `5ded5c5f350bcfbd42eb5a782e9064024f9c5a34bc9d20b113ab121de9fda82f`.
+- Local acceptance target: affected syntax 2/2 PASS, contracts 90/90 PASS,
+  verifier 8/8 PASS, fixture LF matrix 3/3 PASS, and diff check PASS.
+- No real-data backtest or execution path was invoked. Corrected remote status
+  remains UNKNOWN until a separate Actions run completes.

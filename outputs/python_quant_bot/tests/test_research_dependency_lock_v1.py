@@ -12,8 +12,10 @@ from quant_bot.experiment_manifest import build_local_experiment_context
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = PROJECT_ROOT.parents[1]
 LOCK_PATH = PROJECT_ROOT / "requirements.research.lock"
 EXAMPLE_ROOT = PROJECT_ROOT / "examples" / "deterministic_experiment"
+ATTRIBUTES_PATH = REPO_ROOT / ".gitattributes"
 
 
 def _sha256(path: Path) -> str:
@@ -49,6 +51,24 @@ class ResearchDependencyLockV1Tests(unittest.TestCase):
         expected = json.loads(
             (EXAMPLE_ROOT / "expected_result.json").read_text(encoding="utf-8")
         )
+        attributes = [
+            line
+            for line in ATTRIBUTES_PATH.read_text(encoding="utf-8").splitlines()
+            if line
+        ]
+        self.assertEqual(
+            attributes,
+            [
+                "outputs/python_quant_bot/examples/deterministic_experiment/"
+                "config.json text eol=lf",
+                "outputs/python_quant_bot/examples/deterministic_experiment/"
+                "dataset.csv text eol=lf",
+                "outputs/python_quant_bot/examples/deterministic_experiment/"
+                "expected_result.json text eol=lf",
+            ],
+        )
+        for name in ("config.json", "dataset.csv", "expected_result.json"):
+            self.assertNotIn(b"\r", (EXAMPLE_ROOT / name).read_bytes())
         self.assertEqual(expected["dataset_sha256"], _sha256(EXAMPLE_ROOT / "dataset.csv"))
         self.assertEqual(expected["config_sha256"], _sha256(EXAMPLE_ROOT / "config.json"))
         with (EXAMPLE_ROOT / "dataset.csv").open(

@@ -6,7 +6,9 @@ Accepted as a repository-level source contract. The first remote run,
 `33257858701`, failed before source materialization because Windows Git could not
 create two tracked long-path files. That run is failure evidence, not contract
 test evidence. This revision adds the bounded checkout prerequisite; its remote
-status remains separate until a later run completes.
+status remains separate until a later run completes. Run `33258057373` then
+reached the deterministic verifier and exposed a platform-dependent config
+digest; ADR0505 now fixes the fixture byte contract at LF.
 
 ## Context
 
@@ -22,6 +24,7 @@ Add `.github/workflows/research-contracts.yml` with the following fixed scope:
 1. In the ephemeral Windows runner, enable Git long-path handling from the empty
    workspace before checkout.
 2. Activate only for relevant pushes, pull requests, or explicit manual dispatch.
+   The root `.gitattributes` is an explicit relevant path.
 3. Grant only `contents: read` and disable persisted checkout credentials.
 4. Use Python 3.14 and the exact `requirements.research.lock` closure.
 5. Run `pip check`, the deterministic identity verifier, and eleven explicit
@@ -39,6 +42,8 @@ runtime dependencies, and remain independently reviewable in this file.
 - Long-path enablement does not omit, rename, sparse-checkout, or otherwise avoid
   any tracked source file; it only permits checkout to materialize the committed
   tree on the ephemeral Windows runner.
+- CI activation includes the exact fixture byte-normalization contract, so a
+  `.gitattributes` change cannot silently bypass the verifier.
 - The workflow does not invoke `run_bot.py`, any paper/live path, or an order path.
 - Unit tests use synthetic/in-memory fixtures and contract-only consumers. They
   are not a formal backtest, frozen-OOS result, cost-stress result, or profit proof.
@@ -64,5 +69,6 @@ runtime dependencies, and remain independently reviewable in this file.
 - Deterministic input verifier: 8/8 PASS.
 - Workflow static authority and checkout matrix: 4/4 PASS.
 - `git diff --check`: PASS.
-- Remote run `33257858701` is FAIL at checkout and ran no contract tests. The
-  corrected revision remains UNKNOWN until a separate run completes.
+- Remote run `33257858701` is FAIL at checkout. Run `33258057373` is FAIL at the
+  old deterministic verifier and ran no unittest contract suite. The corrected
+  revision remains UNKNOWN until a separate run completes.

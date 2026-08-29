@@ -1,0 +1,3 @@
+outputs/python_quant_bot/examples/deterministic_experiment/config.json text eol=lf
+outputs/python_quant_bot/examples/deterministic_experiment/dataset.csv text eol=lf
+outputs/python_quant_bot/examples/deterministic_experiment/expected_result.json text eol=lf

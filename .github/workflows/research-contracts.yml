@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - ".gitattributes"
       - ".github/workflows/research-contracts.yml"
       - "outputs/python_quant_bot/**"
       - "src/**"
@@ -12,6 +13,7 @@ on:
     branches:
       - main
     paths:
+      - ".gitattributes"
       - ".github/workflows/research-contracts.yml"
       - "outputs/python_quant_bot/**"
       - "src/**"
