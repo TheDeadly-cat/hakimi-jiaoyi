@@ -1,6 +1,6 @@
 {
-  "name": "okx_auto_quant_bot",
-  "mode": "paper",
+  "name": "hakimi_research_platform",
+  "mode": "backtest",
   "market": "crypto",
   "symbol": "BTC-USDT",
   "timeframe": "1h",
@@ -30,20 +30,11 @@
     "min_cash_pct": 0.05
   },
   "execution": {
-    "broker": "paper",
     "exchange": "okx",
     "fee_rate": 0.0008,
     "slippage_pct": 0.0005,
     "poll_seconds": 5,
     "live_trading_enabled": false
-  },
-  "optimizer": {
-    "metric": "sharpe_ratio",
-    "grid": {
-      "fast_window": [10, 20, 30],
-      "slow_window": [50, 80, 120],
-      "stop_loss_pct": [0.02, 0.03, 0.05]
-    }
   },
   "logging": {
     "level": "INFO",

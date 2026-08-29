@@ -10,6 +10,8 @@ from exchange_terminal.domain.contracts import (
     CapabilityContract,
     MarketDataEnvelope,
     MarketDataSourceManifest,
+    ProductCapabilityCatalog,
+    build_product_capability_catalog,
     build_research_only_capability,
 )
 
@@ -62,6 +64,24 @@ class DomainContractsFailClosedV1Tests(unittest.TestCase):
             with self.subTest(overrides=overrides):
                 with self.assertRaisesRegex(ValueError, "capability_contract_"):
                     CapabilityContract(**overrides)
+
+    def test_product_capability_catalog_rejects_status_and_binding_drift(self) -> None:
+        catalog = build_product_capability_catalog().to_dict()
+        self.assertEqual(catalog["capabilities"]["historical_backtest"], "Supported")
+        self.assertEqual(catalog["capabilities"]["parameter_optimization"], "Archived")
+        self.assertEqual(catalog["capabilities"]["paper_execution"], "Archived")
+        self.assertEqual(catalog["capabilities"]["live_execution"], "Archived")
+        self.assertEqual(catalog["capabilities"]["order_entry"], "Disabled")
+        invalid = (
+            {"product_mode": "paper"},
+            {"capability_statuses": (("historical_backtest", "Supported"),)},
+            {"cli_bindings": (("backtest", "paper_execution"),)},
+            {"schema_version": "product-capability-catalog-v2"},
+        )
+        for overrides in invalid:
+            with self.subTest(overrides=overrides):
+                with self.assertRaisesRegex(ValueError, "product_capability_catalog_"):
+                    ProductCapabilityCatalog(**overrides)
 
     def test_manifest_requires_canonical_counts_flags_hash_and_schema(self) -> None:
         self.assertEqual(self._manifest().to_dict()["dataset_hash"], "a" * 64)

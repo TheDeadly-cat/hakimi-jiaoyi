@@ -1,0 +1,17 @@
+{
+  "contract_version": "deterministic-research-example-result-v1",
+  "result_kind": "INPUT_IDENTITY_ONLY",
+  "status": "EXPECTED_INPUTS_VERIFIED",
+  "dataset_sha256": "0a76f74772bd9830428684d90bd72578ce828ef47b04102dedead3135a80e23a",
+  "config_sha256": "efc3db26d8bdc0fd2da27cf16ff136fd97ea09b1a6cdc958184a5f6c61a0aa30",
+  "data_rows": 40,
+  "performance_metrics_included": false,
+  "ranking_input_allowed": false,
+  "authority": {
+    "parameter_selection": false,
+    "paper": false,
+    "live": false,
+    "order": false,
+    "profitability_proof": false
+  }
+}

@@ -12,6 +12,7 @@ from quant_bot.models import Portfolio, Signal
 class StrategyBase:
     params: dict[str, Any] = field(default_factory=dict)
     name: str = "base"
+    version: str = "v1"
 
     def get(self, key: str, default: Any) -> Any:
         return self.params.get(key, default)

@@ -19,6 +19,7 @@ from quant_bot.execution import PaperBroker, build_broker
 from quant_bot.models import Action, Order, Portfolio, Signal
 from quant_bot.risk import RiskManager
 from quant_bot.strategies.base import StrategyBase
+from exchange_terminal.domain.contracts import build_product_capability_catalog
 
 
 def price_frame(count: int = 140) -> pd.DataFrame:
@@ -225,7 +226,7 @@ class QuantBotBacktestTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "Live trading hard wall"):
             build_broker(config)
 
-    def test_config_loader_forces_paper_even_when_file_requests_live(self) -> None:
+    def test_config_loader_forces_backtest_even_when_file_requests_live(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             path = Path(temp_dir) / "unsafe.json"
             path.write_text(
@@ -234,14 +235,22 @@ class QuantBotBacktestTests(unittest.TestCase):
             )
             config = BotConfig.from_file(path)
 
-        self.assertEqual(config.mode, "paper")
+        self.assertEqual(config.mode, "backtest")
         self.assertEqual(config.execution.broker, "paper")
         self.assertFalse(config.execution.live_trading_enabled)
 
-    def test_legacy_dashboard_has_no_live_toggle_or_ccxt_selector(self) -> None:
+    def test_legacy_dashboard_exposes_research_only_surfaces(self) -> None:
         source = (PROJECT_ROOT / "dashboard_app.py").read_text(encoding="utf-8")
         self.assertNotIn("允许实盘下单", source)
         self.assertNotIn('["paper", "ccxt"]', source)
+        self.assertNotIn("ParameterOptimizer", source)
+        self.assertNotIn("TradingEngine", source)
+        self.assertNotIn("run_optimizer", source)
+        self.assertNotIn("run_paper_cycles", source)
+        self.assertEqual(
+            build_product_capability_catalog().schema_version,
+            "product-capability-catalog-v1",
+        )
 
 
 if __name__ == "__main__":

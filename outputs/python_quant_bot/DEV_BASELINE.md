@@ -9315,3 +9315,36 @@ Authority remains unchanged:
 - Protected frontend hashes remain unchanged: `styles.css` `ee6a5ae746142e32df768fe3261746f66c2b1a902e38b85fa9c0ecc4ce7bdc2a`; `app.js` `9bf55162aff8d7a233804557c91605c801b92f515b2835978c05e2d1f3ef9210`; `evidence_presentation.js` `9822b147c583d29fc7c6d4866d73a0015914e2971458239ab3d1d1c2ff39e409`; `strict_canonical_json_v1.js` `6bd330faa256140e54a5c067c7292d55bba4cc29f83cd583cb7bf463b6e3ab39`.
 - Preserved contracts: single-look chain unchanged; legacy pack-v5 public reads remain UNKNOWN; pointer-v2 remains no-reissue; UI semantics remain SOURCE -> GAP -> MATURITY -> PERMISSION.
 - Non-authority: no market data, backtest, service, browser, scheduler, paper/live task, or publication was run. This is not profitability, readiness, persistence, or trading authorization evidence.
+
+## 2026-08-29 ADR0503 product capability catalog v1
+
+- Scope: P0 product-positioning and consumer alignment only; no runtime, market data, backtest, optimizer, paper/live, service, browser, scheduler, or publication path was invoked.
+- Decision: preserve exact wire `capability-v1`; add typed `product-capability-catalog-v1` with Supported, Experimental, Disabled, Archived, and Planned semantics.
+- Consumer closure: CLI choices derive from the catalog; legacy paper/optimize functions remain fail-closed but are not advertised; Streamlit is reduced to capability boundary, historical backtest, research report, and local log surfaces; README and example configuration now describe `backtest` research mode.
+- Validation: targeted Python syntax 8/8 PASS; architecture/capability/legacy-CLI/backtest contracts 50/50 PASS; example JSON 1/1 PASS; unchanged Electron backend capability contract 1/1 PASS.
+- Preserved contracts: single-look chain unchanged; legacy pack-v5 public reads remain UNKNOWN; pointer-v2 remains no-reissue; UI semantics remain SOURCE -> GAP -> MATURITY -> PERMISSION.
+- Non-authority: capability status and tests do not prove profitability, strategy maturity, paper authorization, live permission, or release readiness.
+
+## 2026-08-29 ADR0504 reproducible experiment manifest v1
+
+- Scope: pure report-level reproducibility and ranking-input gating for historical BacktestReport; no formal backtest task, market-data access, service, browser, scheduler, DB, paper/live, or publication was run.
+- Existing evidence reused: FULL_OHLCV data hash, parameter/risk/source fingerprints, execution-model binding, portfolio experiment field semantics, and exact research authority locks.
+- Implementation: every report now carries Git commit/cleanliness, dependency lock hash/pinning, strategy version, config/data hashes, sample interval, cost models, seed, runtime, evaluation role/protocol, source run hash, result hash, deterministic experiment ID, and manifest hash.
+- Fail-closed gate: dirty or unidentified Git state and unpinned dependencies BLOCK reproducibility; TRAIN/UNCLASSIFIED or unverified protocol evidence blocks ranking input; parameter selection, paper/live/order authority, and profitability proof remain false.
+- Validation: cumulative targeted Python syntax 13/13 PASS; architecture/capability/legacy-CLI/backtest/manifest contracts 59/59 PASS; example JSON 1/1 PASS; unchanged Electron capability contract 1/1 PASS; diff check PASS.
+- Preserved contracts: single-look chain unchanged; legacy pack-v5 public reads remain UNKNOWN; pointer-v2 remains no-reissue; UI semantics remain SOURCE -> GAP -> MATURITY -> PERMISSION.
+
+## 2026-08-29 ADR0505 research lock and deterministic example
+
+- Added `requirements.research.lock` as the exact five-package dependency closure
+  for the active local historical-backtest CLI; optional desktop/exchange/broker
+  dependencies remain outside its claim.
+- `reproducible-experiment-manifest-v1` now prefers the scoped research lock.
+  Missing identity, dirty Git state, or non-exact dependencies still BLOCK.
+- Added a synthetic local-only deterministic example whose expected result is
+  input-identity-only and contains no performance metrics; all authority fields
+  remain false.
+- Acceptance: Python syntax 15/15 PASS; targeted contracts 64/64 PASS; example
+  verifier 8/8 PASS; JSON 3/3 PASS; `git diff --check` PASS.
+- No market-data backtest, performance run, service, browser, schedule, paper,
+  live, order, or publication workflow was executed by this slice.

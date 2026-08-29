@@ -1,9 +1,17 @@
 from __future__ import annotations
 
+from pathlib import Path
 import unittest
 
+import run_bot
 from exchange_terminal.application.health_contract import build_runtime_health_payload
-from exchange_terminal.domain.contracts import build_research_only_capability
+from exchange_terminal.domain.contracts import (
+    build_product_capability_catalog,
+    build_research_only_capability,
+)
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
 class ResearchOnlyArchitectureTests(unittest.TestCase):
@@ -54,6 +62,30 @@ class ResearchOnlyArchitectureTests(unittest.TestCase):
         self.assertTrue(capability["research_only"])
         self.assertFalse(capability["paper_allowed"])
         self.assertFalse(capability["live_allowed"])
+
+    def test_product_capability_catalog_drives_cli_and_readme(self) -> None:
+        catalog = build_product_capability_catalog().to_dict()
+        self.assertEqual(catalog["schema_version"], "product-capability-catalog-v1")
+        self.assertEqual(
+            catalog["cli_commands"],
+            {
+                "backtest": "Supported",
+                "capabilities": "Supported",
+                "list-strategies": "Supported",
+                "optimize": "Archived",
+                "paper": "Archived",
+            },
+        )
+        self.assertEqual(
+            run_bot.supported_cli_commands(),
+            ("backtest", "capabilities", "list-strategies"),
+        )
+        self.assertEqual(catalog["authority"], build_research_only_capability().to_dict())
+        readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
+        for capability, status in catalog["capabilities"].items():
+            self.assertIn(f"| `{capability}` | {status} |", readme)
+        self.assertNotIn("run_bot.py paper", readme)
+        self.assertNotIn("run_bot.py optimize", readme)
 
 
 if __name__ == "__main__":

@@ -55,7 +55,7 @@ class LoggingConfig:
 @dataclass
 class BotConfig:
     name: str = "quant_bot"
-    mode: str = "paper"
+    mode: str = "backtest"
     market: str = "crypto"
     symbol: str = "BTC-USDT"
     timeframe: str = "1h"
@@ -75,7 +75,7 @@ class BotConfig:
         execution.live_trading_enabled = False
         return cls(
             name=raw.get("name", "quant_bot"),
-            mode="paper",
+            mode="backtest",
             market=raw.get("market", "crypto"),
             symbol=raw.get("symbol", "BTC-USDT"),
             timeframe=raw.get("timeframe", "1h"),

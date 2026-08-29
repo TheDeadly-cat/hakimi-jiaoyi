@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 import hashlib
 import inspect
 import json
@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 
 from quant_bot.config import BotConfig
+from quant_bot.experiment_manifest import build_reproducible_experiment_manifest
 from quant_bot.execution import PaperBroker
 from quant_bot.models import Action, Fill, Order, Portfolio, Signal
 from quant_bot.risk import RiskManager
@@ -34,6 +35,7 @@ class BacktestReport:
     ambiguous_intrabar_count: int
     execution_model: str
     reproducibility: dict
+    experiment_manifest: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         return {
@@ -50,14 +52,24 @@ class BacktestReport:
             "ambiguous_intrabar_count": self.ambiguous_intrabar_count,
             "execution_model": self.execution_model,
             "reproducibility": self.reproducibility,
+            "experiment_manifest": self.experiment_manifest,
         }
 
 
 class BacktestEngine:
-    def __init__(self, config: BotConfig, strategy: StrategyBase, risk_manager: RiskManager):
+    def __init__(
+        self,
+        config: BotConfig,
+        strategy: StrategyBase,
+        risk_manager: RiskManager,
+        experiment_context: dict | None = None,
+    ):
         self.config = config
         self.strategy = strategy
         self.risk = risk_manager
+        self.experiment_context = (
+            dict(experiment_context) if type(experiment_context) is dict else {}
+        )
         self.broker = PaperBroker(config.execution.fee_rate, config.execution.slippage_pct)
 
     def run(self, data: pd.DataFrame) -> BacktestReport:
@@ -183,7 +195,7 @@ class BacktestEngine:
         closed = [fill for fill in fills if fill.action.value == "SELL"]
         wins = [fill for fill in closed if fill.pnl > 0]
         win_rate = len(wins) / len(closed) if closed else 0.0
-        return BacktestReport(
+        report = BacktestReport(
             total_return=round(total_return, 6),
             annualized_return=round(annualized_return, 6),
             max_drawdown=round(max_drawdown, 6),
@@ -198,6 +210,20 @@ class BacktestEngine:
             execution_model=EXECUTION_MODEL_VERSION,
             reproducibility=reproducibility,
         )
+        result_payload = report.to_dict()
+        result_payload.pop("experiment_manifest", None)
+        report.experiment_manifest = build_reproducible_experiment_manifest(
+            result_payload=result_payload,
+            reproducibility=reproducibility,
+            strategy_name=self.strategy.name,
+            strategy_version=str(getattr(self.strategy, "version", "") or ""),
+            symbol=self.config.symbol,
+            timeframe=self.config.timeframe,
+            fee_rate=self.config.execution.fee_rate,
+            slippage_pct=self.config.execution.slippage_pct,
+            context=self.experiment_context,
+        )
+        return report
 
     def _validate_numeric_configuration(self) -> None:
         risk_contract = asdict(self.config.risk)
@@ -301,19 +327,53 @@ class BacktestEngine:
         code_fingerprint = hashlib.sha256(inspect.getsource(type(self.strategy)).encode("utf-8")).hexdigest()
         risk_payload = json.dumps(asdict(self.config.risk), ensure_ascii=True, sort_keys=True, separators=(",", ":"), default=str)
         risk_hash = hashlib.sha256(risk_payload.encode("utf-8")).hexdigest()
+        strategy_version = str(getattr(self.strategy, "version", "") or "")
+        random_seed = self.experiment_context.get("random_seed", 0)
+        if type(random_seed) is not int:
+            random_seed = 0
+        config_payload = {
+            "mode": self.config.mode,
+            "market": self.config.market,
+            "symbol": self.config.symbol,
+            "timeframe": self.config.timeframe,
+            "initial_cash": float(self.config.initial_cash),
+            "strategy": {
+                "name": self.strategy.name,
+                "version": strategy_version,
+                "params": self.strategy.params,
+            },
+            "risk": asdict(self.config.risk),
+            "execution": {
+                "fee_rate": self.config.execution.fee_rate,
+                "slippage_pct": self.config.execution.slippage_pct,
+                "execution_model": EXECUTION_MODEL_VERSION,
+            },
+        }
+        config_hash = hashlib.sha256(
+            json.dumps(
+                config_payload,
+                ensure_ascii=True,
+                sort_keys=True,
+                separators=(",", ":"),
+                default=str,
+            ).encode("utf-8")
+        ).hexdigest()
         run_payload = {
             "symbol": self.config.symbol,
             "market": self.config.market,
             "timeframe": self.config.timeframe,
             "strategy": self.strategy.name,
+            "strategy_version": strategy_version,
             "data_hash": data_hash,
             "param_hash": param_hash,
             "code_fingerprint": code_fingerprint,
             "initial_cash": float(self.config.initial_cash),
             "risk_hash": risk_hash,
+            "config_hash": config_hash,
             "fee_rate": self.config.execution.fee_rate,
             "slippage_pct": self.config.execution.slippage_pct,
             "execution_model": EXECUTION_MODEL_VERSION,
+            "random_seed": random_seed,
         }
         run_hash = hashlib.sha256(
             json.dumps(run_payload, ensure_ascii=True, sort_keys=True, separators=(",", ":"), default=str).encode("utf-8")
@@ -324,9 +384,14 @@ class BacktestEngine:
             "data_hash": data_hash,
             "param_hash": param_hash,
             "risk_hash": risk_hash,
+            "config_hash": config_hash,
             "strategy_code_fingerprint": code_fingerprint,
             "run_hash": run_hash,
             "execution_model": EXECUTION_MODEL_VERSION,
+            "strategy_version": strategy_version,
+            "random_seed": random_seed,
+            "data_start": str(data.index[0]),
+            "data_end": str(data.index[-1]),
         }
 
     def _bars_per_year(self) -> int:

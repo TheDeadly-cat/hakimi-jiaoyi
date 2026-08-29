@@ -1,20 +1,40 @@
-# Python Quant Bot
+# Hakimi Jiaoyi Research Platform
 
-Python Quant Bot 是一个自动化、策略驱动的量化交易机器人系统。它的核心不是人工点买卖，而是由策略算法自动生成交易信号，经过风控系统校验后，由执行层完成模拟盘或实盘交易。
+Hakimi Jiaoyi 是本地、离线优先、research-only 的量化策略研究与风险评估平台。
+它用于验证数据、运行历史回测、审阅研究证据和导出报告，不代表策略盈利，
+也不提供模拟盘、实盘、订单输入或自动参数选择权限。
 
-当前版本默认使用模拟盘执行器，真实下单接口保持关闭。接入交易所 API 前，请先完成足够的回测、模拟盘和风控验证。
+## 产品能力真相源
 
-## 已实现模块
+运行时权威边界仍由 `exchange_terminal.domain.contracts` 中的
+`capability-v1` 提供；同一模块中的 `product-capability-catalog-v1` 负责
+Supported / Experimental / Disabled / Archived 产品状态。CLI 和旧图形控制台
+直接消费该目录，README 一致性由定向合同测试锁定。
 
-- 策略引擎：双均线、网格、布林带、MACD、RSI、动量策略
-- 标准策略接口：可新增自定义策略
-- 数据层：OKX 公共 K 线、历史 K 线缓存、CSV、本地合成行情兜底
-- 指标层：SMA、EMA、Bollinger、MACD、RSI、Momentum
-- 回测系统：收益率、年化收益、最大回撤、胜率、夏普比率
-- 参数寻优：网格化参数组合搜索
-- 自动执行层：7x24 运行循环、模拟盘成交、可选 ccxt 实盘适配
-- 风控系统：单笔亏损、单日亏损熔断、仓位比例限制
-- 监控与日志：交易日志、权益曲线、异常日志
+| 能力 | 状态 |
+| --- | --- |
+| `product_capability_catalog` | Supported |
+| `market_data_research` | Supported |
+| `historical_backtest` | Supported |
+| `research_reporting` | Supported |
+| `strategy_catalog` | Supported |
+| `local_research_terminal` | Experimental |
+| `parameter_optimization` | Archived |
+| `paper_execution` | Archived |
+| `live_execution` | Archived |
+| `order_entry` | Disabled |
+
+这些状态不构成盈利、成熟度、paper 或 live 授权。`capability-v1` 继续固定为
+`product_mode=research_only`、`research_only=true`、`paper_allowed=false`、
+`live_allowed=false`。
+
+## 已支持研究模块
+
+- 市场数据研究：OKX 公共历史数据、显式 CSV 和数据来源证据
+- 历史回测：确定性 OHLCV 回放、手续费和滑点假设、权益与风险报告
+- 策略目录：查看内置规则策略，不自动选择或晋级参数
+- 研究报告：本地结果审阅与导出
+- 风险边界：历史场景中的仓位、亏损与回撤限制
 
 ## 快速运行
 
@@ -30,9 +50,10 @@ Python Quant Bot 是一个自动化、策略驱动的量化交易机器人系统
 http://127.0.0.1:8765
 ```
 
-这是当前优先推进的主界面，包含实时价格、全市场实时价格面板、可悬停/拖动/缩放的K线、当前K线跟价更新、指标叠加、盘口、成交、市场分类、软件式导航、快捷键、马丁/反马丁/利弗莫尔等策略执行台、AI止盈止损建议、盈利概率估算、策略详情、条件委托、模拟盘订单流、订单历史、订单筛选、账户中心、资产划转、通知中心、系统设置、主题切换、终端事件、数据导出、策略市场、策略守护、后台守护入口、持仓、保证金、预估强平价、风险中心、合约信息、资金费率历史、策略排行榜和 BTC 往期价格库。
+这是 Experimental 本地研究界面。价格、信号、相关性、回测和自然前向证据
+只用于研究，不是订单建议、盈利证明或交易权限。
 
-图形控制台：
+旧 Streamlit 历史研究控制台：
 
 ```powershell
 .\start_dashboard.bat
@@ -59,29 +80,26 @@ cd outputs\python_quant_bot
 C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe run_bot.py backtest --config config.example.json
 ```
 
-模拟盘自动运行一次循环：
-
-```powershell
-C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe run_bot.py paper --config config.example.json --cycles 5
-```
-
-参数寻优：
-
-```powershell
-C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe run_bot.py optimize --config config.example.json
-```
-
 查看内置策略：
 
 ```powershell
 C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe run_bot.py list-strategies
 ```
 
+查看机器可读能力目录：
+
+```powershell
+C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe run_bot.py capabilities
+```
+
+CLI 只展示 Supported 命令。历史 `paper` 和 `optimize` 函数保留为兼容门禁，
+但状态为 Archived，不能通过环境变量重新开启。
+
 ## 配置文件
 
 见 `config.example.json`。控制台会自动生成 `config.local.json` 保存本机配置。核心字段：
 
-- `mode`: `paper` 或 `live`
+- `mode`: 固定为 `backtest`
 - `market`: `crypto`、`stock`、`futures`
 - `data.provider`: `okx`、`csv`、`synthetic`
 - `data.cache_dir`: 历史行情缓存目录
@@ -89,48 +107,21 @@ C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\
 - `strategy.name`: 内置策略名称
 - `strategy.params`: 策略参数
 - `risk`: 风控参数
-- `execution`: 执行层配置
+- `execution`: 历史成交费用和滑点假设，不连接账户
 
-## 实盘说明
+## 归档能力说明
 
-实盘建议使用 ccxt：
-
-```powershell
-pip install ccxt
-```
-
-然后在配置中设置：
-
-```json
-{
-  "mode": "live",
-  "execution": {
-    "broker": "ccxt",
-    "exchange": "okx"
-  }
-}
-```
-
-API Key 请使用环境变量提供，不要写入配置文件：
-
-- `OKX_API_KEY`
-- `OKX_SECRET`
-- `OKX_PASSWORD`
-
-当前代码会阻止在没有明确配置和风控校验时进行实盘交易。
-
-控制台里的“模拟盘”会强制使用 `paper` 执行器，不会因为配置切到 `live` 而触发真实资金下单。
+parameter optimization、paper execution 和 live execution 均为 Archived，
+order entry 为 Disabled。遗留 `PaperBroker` 类只作为确定性历史成交模拟器存在，
+不代表产品提供 paper 账户或 paper 自动执行。任何配置中的 live/ccxt 请求都会
+被 fail-closed 边界覆盖。
 
 ## 软件化路线
 
-当前形态是“Python 自动交易机器人 + 本地网页控制台”。后续可以继续升级为：
-
-- 后台机器人常驻运行
-- 控制台只负责配置、回测、监控、日志
-- 使用 PyInstaller 或桌面壳打包为 Windows 软件
-- 单独增加更严格的实盘授权页和 API Key 管理
-
-平台选择说明见 `docs/platform_selection.md`。当前建议第一阶段优先接 OKX，富途牛牛作为第二阶段股票交易适配器。
+当前形态是“本地研究平台 + 历史回测与证据审阅界面”。下一阶段优先建设
+可复现实验清单、数据质量合同、明确基准、Train / Validation / Frozen Test、
+walk-forward、purge / embargo、成本压力测试和参数稳定性分析。在这些证据闭合前，
+不增加更多交易策略，不开放 paper/live，也不扩张订单型 UI。
 
 交易所终端说明见 `docs/exchange_terminal.md`。
 
@@ -166,9 +157,37 @@ python_quant_bot
    ├─ execution.py
    ├─ risk.py
    ├─ engine.py
-   ├─ optimizer.py
+   ├─ optimizer.py        # archived compatibility only
    ├─ reporting.py
    └─ strategies
       ├─ base.py
       └─ templates.py
 ```
+
+## 当前证据边界
+
+- 每份历史回测自动生成 `reproducible-experiment-manifest-v1`，绑定 Git、依赖、
+  数据、配置、策略版本、区间、成本、随机种子、运行时和结果哈希。
+- 脏工作树、未锁依赖或缺失 Git 身份会明确 BLOCK；TRAIN/UNCLASSIFIED 结果不能
+  进入 ranking input。
+- 回测结果不是盈利证明。
+- 参数、排行榜或 AI 输出不能自动晋级策略。
+- paper 和 live 永久未授权，订单入口关闭。
+- legacy pack-v5 的公共读取保持 UNKNOWN。
+- pointer-v2 保持原字段与哈希合同，不自动重发。
+- 自然前向 single-look 链保持不变。
+
+核心源码当前仍位于 `outputs/python_quant_bot`。迁移正式源码、归档历史原型和
+建立基础 CI 属于后续 P0 切片；在消费者和导入路径迁移完成前不会直接移动目录。
+
+## Reproducible research identity
+
+The active historical-backtest CLI uses `requirements.research.lock`, an exact
+five-package runtime closure. `quant_bot.experiment_manifest` hashes this scoped
+lock before the broad optional dependency inventory.
+
+`examples/deterministic_experiment` is a synthetic, local-only identity fixture.
+Its verifier checks source-controlled input hashes and permanent authority locks
+without network access, cache use, services, or a strategy backtest. A pass is
+not strategy evidence, a performance claim, ranking permission, or trading
+authority.

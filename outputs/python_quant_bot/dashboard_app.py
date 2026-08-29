@@ -7,14 +7,12 @@ from typing import Any
 import pandas as pd
 import streamlit as st
 
+from exchange_terminal.domain.contracts import build_product_capability_catalog
 from quant_bot.backtest import BacktestEngine
 from quant_bot.config import BotConfig
 from quant_bot.data import build_data_provider
-from quant_bot.engine import TradingEngine
-from quant_bot.execution import build_broker
+from quant_bot.experiment_manifest import build_local_experiment_context
 from quant_bot.logging_setup import setup_logging
-from quant_bot.models import Portfolio
-from quant_bot.optimizer import ParameterOptimizer
 from quant_bot.reporting import save_json_report
 from quant_bot.risk import RiskManager
 from quant_bot.strategies.templates import STRATEGY_REGISTRY, build_strategy
@@ -31,6 +29,7 @@ CONFIG_PATH = APP_DIR / "config.local.json"
 RUNTIME_DIR = APP_DIR / "runtime"
 REPORT_DIR = RUNTIME_DIR / "reports"
 LOG_PATH = RUNTIME_DIR / "logs" / "bot.log"
+CAPABILITY_CATALOG = build_product_capability_catalog().to_dict()
 
 
 STRATEGY_DEFAULTS: dict[str, dict[str, Any]] = {
@@ -93,8 +92,8 @@ def read_config() -> dict[str, Any]:
     if CONFIG_TEMPLATE_PATH.exists():
         return json.loads(CONFIG_TEMPLATE_PATH.read_text(encoding="utf-8"))
     return {
-        "name": "okx_auto_quant_bot",
-        "mode": "paper",
+        "name": "hakimi_research_platform",
+        "mode": "backtest",
         "market": "crypto",
         "symbol": "BTC-USDT",
         "timeframe": "1h",
@@ -108,8 +107,8 @@ def write_config(raw: dict[str, Any]) -> None:
 
 def build_config_from_ui(raw: dict[str, Any]) -> dict[str, Any]:
     st.sidebar.header("运行配置")
-    raw["mode"] = "paper"
-    st.sidebar.info("运行模式：模拟盘。实盘真实下单永久锁定。")
+    raw["mode"] = "backtest"
+    st.sidebar.info("运行模式：历史研究。paper、live 与订单入口均已归档或禁用。")
     raw["market"] = st.sidebar.selectbox("市场", ["crypto", "stock", "futures"], index=["crypto", "stock", "futures"].index(raw.get("market", "crypto")))
     raw["symbol"] = st.sidebar.text_input("交易标的", raw.get("symbol", "BTC-USDT"))
     raw["timeframe"] = st.sidebar.selectbox("周期", ["1m", "5m", "15m", "1h", "4h", "1d"], index=["1m", "5m", "15m", "1h", "4h", "1d"].index(raw.get("timeframe", "1h")))
@@ -137,9 +136,9 @@ def build_config_from_ui(raw: dict[str, Any]) -> dict[str, Any]:
     risk["min_cash_pct"] = st.sidebar.slider("最低现金保留", 0.0, 0.5, float(risk.get("min_cash_pct", 0.05)), 0.01)
 
     execution = raw.setdefault("execution", {})
-    st.sidebar.header("执行")
+    st.sidebar.header("历史成交假设")
     execution["broker"] = "paper"
-    st.sidebar.caption("执行器：paper（本地模拟）")
+    st.sidebar.caption("内部确定性成交模型；不连接账户，不提交订单。")
     execution["exchange"] = st.sidebar.text_input("交易所", execution.get("exchange", "okx"))
     execution["fee_rate"] = st.sidebar.number_input("手续费率", min_value=0.0, max_value=0.02, value=float(execution.get("fee_rate", 0.0008)), step=0.0001, format="%.4f")
     execution["slippage_pct"] = st.sidebar.number_input("滑点", min_value=0.0, max_value=0.02, value=float(execution.get("slippage_pct", 0.0005)), step=0.0001, format="%.4f")
@@ -185,13 +184,12 @@ def strategy_params_form(name: str, existing: dict[str, Any]) -> dict[str, Any]:
     return params
 
 
-def load_stack(config: BotConfig, with_broker: bool = False):
+def load_stack(config: BotConfig):
     setup_logging(config.logging.log_dir, config.logging.level)
     provider = build_data_provider(config)
     strategy = build_strategy(config.strategy.name, config.strategy.params)
     risk = RiskManager(config.risk)
-    broker = build_broker(config) if with_broker else None
-    return provider, strategy, risk, broker
+    return provider, strategy, risk
 
 
 def show_price_chart(data: pd.DataFrame) -> None:
@@ -221,40 +219,23 @@ def show_price_chart(data: pd.DataFrame) -> None:
 
 
 def run_backtest(config: BotConfig) -> dict[str, Any]:
-    provider, strategy, risk, _broker = load_stack(config, with_broker=False)
+    provider, strategy, risk = load_stack(config)
     data = provider.get_history(config.symbol, config.timeframe, config.data.history_limit)
-    report = BacktestEngine(config=config, strategy=strategy, risk_manager=risk).run(data)
+    report = BacktestEngine(
+        config=config,
+        strategy=strategy,
+        risk_manager=risk,
+        experiment_context=build_local_experiment_context(APP_DIR),
+    ).run(data)
     report_data = report.to_dict()
-    output = save_json_report(report_data, str(REPORT_DIR), f"backtest_{config.strategy.name}_{config.symbol}")
+    output = save_json_report(
+        report_data,
+        str(REPORT_DIR),
+        f"backtest_{config.strategy.name}_{config.symbol}",
+        artifact_id=str(report.experiment_manifest.get("experiment_id") or ""),
+    )
     report_data["report_path"] = str(output)
     return report_data
-
-
-def run_optimizer(config: BotConfig) -> dict[str, Any]:
-    provider, _strategy, risk, _broker = load_stack(config, with_broker=False)
-    data = provider.get_history(config.symbol, config.timeframe, config.data.history_limit)
-    result = ParameterOptimizer(config=config, risk_manager=risk).run(data)
-    output = save_json_report(result, str(REPORT_DIR), f"optimize_{config.strategy.name}_{config.symbol}")
-    result["report_path"] = str(output)
-    return result
-
-
-def run_paper_cycles(config: BotConfig, cycles: int) -> dict[str, Any]:
-    config.mode = "paper"
-    config.execution.broker = "paper"
-    config.execution.live_trading_enabled = False
-    provider, strategy, risk, broker = load_stack(config, with_broker=True)
-    if broker is None:
-        raise RuntimeError("broker is required for paper trading")
-    engine = TradingEngine(config=config, data_provider=provider, strategy=strategy, risk_manager=risk, broker=broker)
-    engine.run(cycles=cycles)
-    price = engine.last_price or 0.0
-    return {
-        "last_price": round(price, 4),
-        "cash": round(engine.portfolio.cash, 2),
-        "position_qty": round(engine.portfolio.position_qty, 8),
-        "equity": round(engine.portfolio.equity(price), 2) if price else round(engine.portfolio.cash, 2),
-    }
 
 
 def metric_row(report: dict[str, Any]) -> None:
@@ -296,8 +277,8 @@ def show_logs() -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="Python Quant Bot", layout="wide")
-    st.title("Python Quant Bot")
+    st.set_page_config(page_title="Hakimi Research Platform", layout="wide")
+    st.title("Hakimi Research Platform")
 
     raw = build_config_from_ui(read_config())
     if st.sidebar.button("保存配置", use_container_width=True):
@@ -308,15 +289,13 @@ def main() -> None:
     write_config(raw)
     config = BotConfig.from_file(CONFIG_PATH)
 
-    st.info("当前仅支持回测与模拟盘，实盘下单入口已从配置、界面和执行器三层移除。")
+    st.info("本界面只用于历史研究。结果不是盈利证明，paper/live 与订单入口均未授权。")
 
-    overview_tab, backtest_tab, optimize_tab, paper_tab, reports_tab, logs_tab = st.tabs([
-        "总览",
-        "回测",
-        "参数寻优",
-        "模拟盘",
-        "报告",
-        "日志",
+    overview_tab, backtest_tab, reports_tab, logs_tab = st.tabs([
+        "能力边界",
+        "历史回测",
+        "研究报告",
+        "本地日志",
     ])
 
     with overview_tab:
@@ -335,11 +314,16 @@ def main() -> None:
             st.metric("策略", config.strategy.name)
             st.metric("运行模式", config.mode)
             st.metric("行情源", config.data.provider)
-            if not data.empty:
-                strategy = build_strategy(config.strategy.name, config.strategy.params)
-                signal = strategy.generate_signal(data, portfolio=Portfolio(cash=config.initial_cash))
-                st.metric("策略信号", signal.action.value)
-                st.caption(signal.reason)
+        st.subheader("产品能力目录")
+        st.dataframe(
+            [
+                {"capability": capability, "status": status}
+                for capability, status in CAPABILITY_CATALOG["capabilities"].items()
+            ],
+            use_container_width=True,
+            hide_index=True,
+        )
+        st.caption("SOURCE -> GAP -> MATURITY -> PERMISSION；能力状态不代表收益或交易授权。")
 
     with backtest_tab:
         if st.button("运行回测", use_container_width=True):
@@ -352,35 +336,8 @@ def main() -> None:
             show_report(st.session_state["last_backtest"])
             st.caption(st.session_state["last_backtest"].get("report_path", ""))
 
-    with optimize_tab:
-        if st.button("运行参数寻优", use_container_width=True):
-            with st.spinner("参数寻优运行中"):
-                try:
-                    st.session_state["last_optimize"] = run_optimizer(config)
-                except Exception as exc:
-                    st.error(f"参数寻优失败：{exc}")
-        if "last_optimize" in st.session_state:
-            result = st.session_state["last_optimize"]
-            st.json(result.get("best", {}), expanded=True)
-            rows = pd.DataFrame(result.get("results", []))
-            if not rows.empty:
-                st.dataframe(rows, use_container_width=True, hide_index=True)
-            st.caption(result.get("report_path", ""))
-
-    with paper_tab:
-        cycles = st.slider("运行轮数", 1, 50, 5)
-        if st.button("启动模拟盘循环", use_container_width=True):
-            with st.spinner("模拟盘运行中"):
-                try:
-                    st.session_state["last_paper"] = run_paper_cycles(config, cycles)
-                except Exception as exc:
-                    st.error(f"模拟盘运行失败：{exc}")
-        if "last_paper" in st.session_state:
-            cols = st.columns(4)
-            for col, (key, value) in zip(cols, st.session_state["last_paper"].items()):
-                col.metric(key, value)
-
     with reports_tab:
+        st.caption("历史研究结果仅供复核，不代表策略成熟、盈利或交易权限。")
         files = latest_report_files()
         if not files:
             st.info("暂无报告")

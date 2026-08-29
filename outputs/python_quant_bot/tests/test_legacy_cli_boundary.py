@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from contextlib import redirect_stdout
 import io
+import json
 import os
 from pathlib import Path
 import sys
@@ -76,6 +77,22 @@ class LegacyCliBoundaryTests(unittest.TestCase):
                 os.chdir(temp_dir)
                 with patch.object(sys, "argv", ["run_bot.py", "list-strategies"]), redirect_stdout(io.StringIO()):
                     run_bot.main()
+                self.assertFalse((Path(temp_dir) / "runtime").exists())
+            finally:
+                os.chdir(previous)
+
+    def test_capabilities_command_is_machine_readable_and_side_effect_free(self) -> None:
+        previous = Path.cwd()
+        with tempfile.TemporaryDirectory() as temp_dir:
+            try:
+                os.chdir(temp_dir)
+                output = io.StringIO()
+                with patch.object(sys, "argv", ["run_bot.py", "capabilities"]), redirect_stdout(output):
+                    run_bot.main()
+                payload = json.loads(output.getvalue())
+                self.assertEqual(payload["schema_version"], "product-capability-catalog-v1")
+                self.assertEqual(payload["cli_commands"]["paper"], "Archived")
+                self.assertEqual(payload["cli_commands"]["optimize"], "Archived")
                 self.assertFalse((Path(temp_dir) / "runtime").exists())
             finally:
                 os.chdir(previous)
