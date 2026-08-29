@@ -71,8 +71,11 @@ change any single-look evidence-chain contract.
 - `git diff --check`: PASS.
 
 Remote run `33258057373` is FAIL at the old byte-identity verifier and ran no
-unittest contract suite. The corrected revision remains UNKNOWN until a separate
-run completes.
+unittest contract suite. Corrected commit
+`a0c12bbf57e29333c31722e02552f700aa4a91f9` completed remote run
+`33258396382` with SUCCESS, including the 8/8 verifier and 90/90 explicit
+contracts. This is CI contract evidence only, not performance or authority
+evidence.
 
 The dataset SHA-256 is
 `0a76f74772bd9830428684d90bd72578ce828ef47b04102dedead3135a80e23a` and the

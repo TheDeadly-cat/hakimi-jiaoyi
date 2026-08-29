@@ -9427,5 +9427,8 @@ Authority remains unchanged:
   `5ded5c5f350bcfbd42eb5a782e9064024f9c5a34bc9d20b113ab121de9fda82f`.
 - Local acceptance target: affected syntax 2/2 PASS, contracts 90/90 PASS,
   verifier 8/8 PASS, fixture LF matrix 3/3 PASS, and diff check PASS.
-- No real-data backtest or execution path was invoked. Corrected remote status
-  remains UNKNOWN until a separate Actions run completes.
+- Corrected commit `a0c12bbf57e29333c31722e02552f700aa4a91f9` completed
+  remote run `33258396382` with SUCCESS, including verifier 8/8 and explicit
+  contracts 90/90.
+- No real-data backtest or execution path was invoked. Remote CI success is not
+  profitability, formal blind-test, paper/live, order, or release authority.

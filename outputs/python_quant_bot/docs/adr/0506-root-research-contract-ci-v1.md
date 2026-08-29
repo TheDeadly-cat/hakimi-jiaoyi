@@ -70,5 +70,7 @@ runtime dependencies, and remain independently reviewable in this file.
 - Workflow static authority and checkout matrix: 4/4 PASS.
 - `git diff --check`: PASS.
 - Remote run `33257858701` is FAIL at checkout. Run `33258057373` is FAIL at the
-  old deterministic verifier and ran no unittest contract suite. The corrected
-  revision remains UNKNOWN until a separate run completes.
+  old deterministic verifier and ran no unittest contract suite. Corrected
+  commit `a0c12bbf57e29333c31722e02552f700aa4a91f9` completed run
+  `33258396382` with SUCCESS, including the verifier and 90/90 explicit
+  contracts. That status grants no performance or execution authority.
