@@ -128,6 +128,11 @@ walk-forward、purge / embargo、成本压力测试和参数稳定性分析。�
 基准，但明确 BLOCK 于盲测、外部预登记、单次消费和自然前向证明。它尚未进入 CLI，
 也不能被描述为正式盲测、盈利证明或 current 晋级证据。
 
+`frozen-evaluation-markdown-v1` 在验证上述 JSON 后提供确定性、无文件写入的
+SOURCE -> GAP -> MATURITY -> PERMISSION 可读投影。它展示固定成本和 benchmark
+观测，同时明确标出尚未绑定到 ADR0509 的 walk-forward、参数稳定性、multiple-
+testing lineage、市场状态切片和尾部分布指标；它不是新的晋级门或执行入口。
+
 交易所终端说明见 `docs/exchange_terminal.md`。
 
 ## 自定义策略

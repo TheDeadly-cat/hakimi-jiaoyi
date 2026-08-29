@@ -26,6 +26,7 @@ from quant_bot.strategies.templates import build_strategy  # noqa: E402
 
 PROTOCOL_SCHEMA_VERSION = "frozen-evaluation-protocol-v1"
 REPORT_SCHEMA_VERSION = "frozen-evaluation-report-v1"
+MARKDOWN_REPORT_VERSION = "frozen-evaluation-markdown-v1"
 EVIDENCE_SCOPE = (
     "LOCAL_FIXED_SPLIT_RESEARCH_ONLY_NOT_BLIND_NOT_NATURAL_FORWARD_"
     "NO_SINGLE_CONSUMPTION_PROOF"
@@ -56,6 +57,13 @@ STRUCTURAL_BLOCKERS = [
     "SINGLE_CONSUMPTION_NOT_ENFORCED",
     "NOT_NATURAL_FORWARD_EVIDENCE",
 ]
+STANDARD_REPORT_COVERAGE_GAPS = (
+    "WALK_FORWARD_NOT_BOUND_TO_ADR0509",
+    "PARAMETER_STABILITY_NOT_BOUND_TO_ADR0509",
+    "MULTIPLE_TESTING_LINEAGE_NOT_BOUND_TO_ADR0509",
+    "MARKET_REGIME_SLICES_NOT_BOUND_TO_ADR0509",
+    "TAIL_AND_DISTRIBUTION_METRICS_NOT_AVAILABLE",
+)
 
 
 def _require_native_json(value: Any, *, path: str = "root") -> None:
@@ -644,3 +652,182 @@ def verify_frozen_evaluation_report(
     ):
         raise ValueError("frozen_evaluation_report_hash_invalid")
     return True
+
+
+def _markdown_cell(value: Any, *, field: str) -> str:
+    if type(value) is not str or not value:
+        raise ValueError(f"frozen_evaluation_markdown_{field}_invalid")
+    return (
+        value.replace("\\", "\\\\")
+        .replace("|", "\\|")
+        .replace("`", "\\`")
+        .replace("\r", " ")
+        .replace("\n", " ")
+    )
+
+
+def _markdown_metric(result: dict[str, Any], field: str) -> float:
+    value = result.get(field)
+    if type(value) not in {int, float} or type(value) is bool:
+        raise ValueError(f"frozen_evaluation_markdown_{field}_invalid")
+    parsed = float(value)
+    if not math.isfinite(parsed):
+        raise ValueError(f"frozen_evaluation_markdown_{field}_invalid")
+    return parsed
+
+
+def _markdown_observation_row(record: dict[str, Any], *, benchmark: bool) -> str:
+    result = record["result"]
+    trades = result.get("trades")
+    if type(trades) is not int or type(trades) is bool or trades < 0:
+        raise ValueError("frozen_evaluation_markdown_trades_invalid")
+    ambiguous = result.get("ambiguous_intrabar_count")
+    if type(ambiguous) is not int or type(ambiguous) is bool or ambiguous < 0:
+        raise ValueError("frozen_evaluation_markdown_ambiguous_intrabar_count_invalid")
+    identity = (
+        _markdown_cell(record["benchmark_id"], field="benchmark_id")
+        if benchmark
+        else _markdown_cell(record["scenario_id"], field="scenario_id")
+    )
+    role = _markdown_cell(record["role"], field="role")
+    return " | ".join([
+        "",
+        role,
+        identity,
+        format(_markdown_metric(record, "fee_rate"), ".6f"),
+        format(_markdown_metric(record, "slippage_pct"), ".6f"),
+        f"{_markdown_metric(result, 'total_return') * 100:.4f}%",
+        f"{_markdown_metric(result, 'annualized_return') * 100:.4f}%",
+        format(_markdown_metric(result, "sharpe_ratio"), ".4f"),
+        f"{_markdown_metric(result, 'max_drawdown') * 100:.4f}%",
+        format(_markdown_metric(result, "final_equity"), ".4f"),
+        format(_markdown_metric(result, "total_fees"), ".4f"),
+        str(trades),
+        f"{_markdown_metric(result, 'win_rate') * 100:.4f}%",
+        str(ambiguous),
+        "",
+    ])
+
+
+def render_frozen_evaluation_markdown(
+    report: dict[str, Any],
+    protocol: dict[str, Any],
+    data: pd.DataFrame,
+    config: BotConfig,
+) -> str:
+    """Render verified ADR0509 evidence without writing or granting authority."""
+
+    verify_frozen_evaluation_report(report, protocol, data, config)
+    role_order = {"TRAIN": 0, "VALIDATION": 1, "FROZEN_TEST": 2}
+    scenario_order = {"BASE": 0, "DOUBLE_COST": 1, "TRIPLE_COST": 2}
+    benchmark_order = {"CASH": 0, "ENGINE_BUY_AND_HOLD": 1}
+    strategy_runs = sorted(
+        report["strategy_runs"],
+        key=lambda item: (
+            role_order[item["role"]],
+            scenario_order[item["scenario_id"]],
+        ),
+    )
+    benchmark_runs = sorted(
+        report["benchmark_runs"],
+        key=lambda item: (
+            role_order[item["role"]],
+            benchmark_order[item["benchmark_id"]],
+        ),
+    )
+    dataset = protocol["dataset"]
+    source_config = protocol["config"]
+    strategy = protocol["strategy"]
+    quality = report["quality_gate"]
+    lines = [
+        "# Hakimi Frozen Evaluation Report",
+        "",
+        f"Renderer: `{MARKDOWN_REPORT_VERSION}`",
+        "",
+        "## SOURCE",
+        "",
+        f"- Report ID: `{_markdown_cell(report['report_id'], field='report_id')}`",
+        f"- Report SHA-256: `{_markdown_cell(report['report_hash'], field='report_hash')}`",
+        f"- Protocol ID: `{_markdown_cell(protocol['protocol_id'], field='protocol_id')}`",
+        f"- Protocol SHA-256: `{_markdown_cell(protocol['protocol_hash'], field='protocol_hash')}`",
+        f"- Dataset SHA-256: `{_markdown_cell(dataset['dataset_hash'], field='dataset_hash')}`",
+        f"- Config SHA-256: `{_markdown_cell(source_config['config_hash'], field='config_hash')}`",
+        f"- Strategy: `{_markdown_cell(strategy['name'], field='strategy_name')}`",
+        f"- Strategy version: `{_markdown_cell(strategy['version'], field='strategy_version')}`",
+        f"- Parameter SHA-256: `{_markdown_cell(strategy['params_hash'], field='params_hash')}`",
+        f"- Symbol: `{_markdown_cell(source_config['symbol'], field='symbol')}`",
+        f"- Timeframe: `{_markdown_cell(source_config['timeframe'], field='timeframe')}`",
+        f"- Dataset rows: `{dataset['row_count']}`",
+        f"- Dataset interval: `{_markdown_cell(dataset['start_time'], field='start_time')}` to `{_markdown_cell(dataset['end_time'], field='end_time')}`",
+        "",
+        "| Partition | Rows | Start | End |",
+        "| --- | ---: | --- | --- |",
+    ]
+    for window in protocol["partition_plan"]["windows"]:
+        lines.append(
+            "| "
+            + " | ".join([
+                _markdown_cell(window["name"], field="partition_name"),
+                str(window["row_count"]),
+                _markdown_cell(window["start_time"], field="partition_start"),
+                _markdown_cell(window["end_time"], field="partition_end"),
+            ])
+            + " |"
+        )
+    lines.extend([
+        "",
+        "## GAP",
+        "",
+        f"- Quality gate: `{_markdown_cell(quality['status'], field='quality_status')}`",
+        "- Structural blockers:",
+    ])
+    lines.extend(
+        f"  - `{_markdown_cell(blocker, field='blocker')}`"
+        for blocker in quality["blockers"]
+    )
+    lines.append("- Standard-report coverage gaps:")
+    lines.extend(f"  - `{gap}`" for gap in STANDARD_REPORT_COVERAGE_GAPS)
+    lines.extend([
+        "",
+        "## MATURITY",
+        "",
+        f"- Evidence scope: `{_markdown_cell(report['evidence_scope'], field='evidence_scope')}`",
+        f"- Nested reproducibility checks complete: `{str(quality['nested_experiment_reproducibility_pass']).lower()}`",
+        "- Frozen Test is blind: `false`",
+        "- Frozen Test single consumption proven: `false`",
+        "- Natural-forward evidence: `false`",
+        "",
+        "### Registered strategy observations",
+        "",
+        "| Role | Cost scenario | Fee rate | Slippage | Total return | Annualized return | Sharpe | Max drawdown | Final equity | Total fees | Trades | Win rate | Ambiguous intrabar |",
+        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ])
+    lines.extend(
+        _markdown_observation_row(record, benchmark=False)
+        for record in strategy_runs
+    )
+    lines.extend([
+        "",
+        "### Fixed benchmark observations",
+        "",
+        "| Role | Benchmark | Fee rate | Slippage | Total return | Annualized return | Sharpe | Max drawdown | Final equity | Total fees | Trades | Win rate | Ambiguous intrabar |",
+        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ])
+    lines.extend(
+        _markdown_observation_row(record, benchmark=True)
+        for record in benchmark_runs
+    )
+    lines.extend([
+        "",
+        "## PERMISSION",
+        "",
+        "| Capability | Allowed |",
+        "| --- | --- |",
+    ])
+    lines.extend(f"| `{name}` | `false` |" for name in AUTHORITY_LOCK)
+    lines.extend([
+        "",
+        "This is descriptive research evidence only. It is not a profitability claim, a formal blind-test result, or permission for paper, live, or order execution.",
+        "",
+    ])
+    return "\n".join(lines)

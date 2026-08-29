@@ -2,9 +2,10 @@
 
 ## Status
 
-Accepted locally as a complete pure-library producer/consumer candidate. It is
-not exposed by the current CLI and is not current on GitHub until separately
-authorized, committed, pushed, and consumed by a passing remote CI run.
+The base producer/verifier is current on GitHub and was consumed by successful
+remote research-contract CI run `33258500942`. The deterministic Markdown
+renderer extension is accepted locally but remains unpublished. Neither surface
+is exposed by the current CLI.
 
 ## Context
 
@@ -29,6 +30,9 @@ Add `src/hakimi_research/frozen_evaluation.py` with two exact contracts:
    FROZEN_TEST at all three costs, and both benchmarks on both OOS roles.
 6. Every nested run carries the exact protocol hash/role and must pass the
    existing reproducible-experiment-manifest-v1 verifier.
+7. `frozen-evaluation-markdown-v1` renders only a verified report, normalizes run
+   order, performs no file I/O, and presents SOURCE -> GAP -> MATURITY ->
+   PERMISSION without adding a new evidence or authority schema.
 
 ## Calibrated evidence scope
 
@@ -47,7 +51,9 @@ authority to false. No result is promoted by this contract.
 2. Verify partition, dataset, config, strategy, benchmark, and cost identity.
 3. Build the standard report using fresh strategy/risk instances per run.
 4. Verify every nested ADR0504 manifest and aggregate report hash.
-5. Keep the library dormant until the root CI checkpoint and a separate CLI
+5. Render a deterministic human-readable projection that names coverage gaps
+   rather than treating the JSON matrix as a complete research conclusion.
+6. Keep the library dormant until a separate CLI
    activation decision.
 
 ## Adversarial matrix
@@ -56,13 +62,15 @@ The contract rejects boolean or short counts, missing gaps, count mismatch,
 duplicate/non-timezone indexes, invalid OHLC geometry, data/config drift,
 partition resealing, result tampering, authority resealing, incomplete run
 matrices, and any attempt to treat a nested Frozen Test PASS as selection or
-execution authority.
+execution authority. The renderer additionally rejects unverified inputs and
+normalizes otherwise valid run ordering; it never renders READY or a positive
+permission field.
 
 ## Local acceptance target
 
-- Frozen evaluation adversarial matrix: 12/12 PASS.
-- Targeted research contracts: 89/89 PASS.
-- Python syntax for three affected files: 3/3 PASS.
+- Frozen evaluation and renderer adversarial matrix: 14/14 PASS.
+- Targeted research contracts: 92/92 PASS.
+- Python syntax for two affected code files: 2/2 PASS.
 - Deterministic input verifier: 8/8 PASS.
 - `git diff --check`: PASS.
 - No real-data backtest, formal blind test, service, browser, scheduler,

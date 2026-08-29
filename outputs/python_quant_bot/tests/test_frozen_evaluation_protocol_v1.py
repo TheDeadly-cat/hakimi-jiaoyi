@@ -18,8 +18,11 @@ activate_canonical_source()
 from hakimi_research.frozen_evaluation import (  # noqa: E402
     AUTHORITY_LOCK,
     EVIDENCE_SCOPE,
+    MARKDOWN_REPORT_VERSION,
+    STANDARD_REPORT_COVERAGE_GAPS,
     build_frozen_evaluation_protocol,
     build_frozen_evaluation_report,
+    render_frozen_evaluation_markdown,
     verify_frozen_evaluation_protocol,
     verify_frozen_evaluation_report,
 )
@@ -209,6 +212,94 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
         tampered["strategy_runs"][0]["result"]["final_equity"] += 1.0
         with self.assertRaisesRegex(ValueError, "strategy_run_verification_failed|report_hash_invalid"):
             verify_frozen_evaluation_report(tampered, self.protocol, self.frame, self.config)
+
+    def test_markdown_report_is_deterministic_neutral_and_complete(self) -> None:
+        rendered = render_frozen_evaluation_markdown(
+            self.report,
+            self.protocol,
+            self.frame,
+            self.config,
+        )
+        self.assertEqual(
+            rendered,
+            render_frozen_evaluation_markdown(
+                self.report,
+                self.protocol,
+                self.frame,
+                self.config,
+            ),
+        )
+        self.assertIn(f"Renderer: `{MARKDOWN_REPORT_VERSION}`", rendered)
+        for section in ("## SOURCE", "## GAP", "## MATURITY", "## PERMISSION"):
+            self.assertEqual(rendered.count(section), 1)
+        for gap in STANDARD_REPORT_COVERAGE_GAPS:
+            self.assertIn(f"`{gap}`", rendered)
+        self.assertIn(self.report["report_hash"], rendered)
+        self.assertIn(self.protocol["protocol_hash"], rendered)
+        for identity in (
+            "BASE",
+            "DOUBLE_COST",
+            "TRIPLE_COST",
+            "CASH",
+            "ENGINE_BUY_AND_HOLD",
+        ):
+            self.assertEqual(rendered.count(f"| FROZEN_TEST | {identity} |"), 1)
+        self.assertIn("| `paper` | `false` |", rendered)
+        self.assertIn("| `live` | `false` |", rendered)
+        self.assertIn("| `order` | `false` |", rendered)
+        self.assertNotIn("READY", rendered)
+        self.assertTrue(rendered.endswith("\n"))
+
+    def test_markdown_report_verifies_input_and_normalizes_run_order(self) -> None:
+        baseline = render_frozen_evaluation_markdown(
+            self.report,
+            self.protocol,
+            self.frame,
+            self.config,
+        )
+        reordered = deepcopy(self.report)
+        reordered["strategy_runs"].reverse()
+        reordered["benchmark_runs"].reverse()
+        core = {
+            key: value
+            for key, value in reordered.items()
+            if key not in {"report_id", "report_hash"}
+        }
+        reordered["report_hash"] = canonical_payload_hash(core)
+        reordered["report_id"] = f"hfer-{reordered['report_hash'][:20]}"
+        self.assertTrue(
+            verify_frozen_evaluation_report(
+                reordered,
+                self.protocol,
+                self.frame,
+                self.config,
+            )
+        )
+        normalized = render_frozen_evaluation_markdown(
+            reordered,
+            self.protocol,
+            self.frame,
+            self.config,
+        )
+        self.assertNotEqual(reordered["report_hash"], self.report["report_hash"])
+        self.assertNotEqual(normalized, baseline)
+        self.assertEqual(
+            normalized.replace(reordered["report_hash"], self.report["report_hash"])
+            .replace(reordered["report_id"], self.report["report_id"]),
+            baseline,
+        )
+        tampered = deepcopy(self.report)
+        tampered["strategy_runs"][0]["result"]["final_equity"] += 1.0
+        with self.assertRaisesRegex(
+            ValueError,
+            "strategy_run_verification_failed|report_hash_invalid",
+        ):
+            render_frozen_evaluation_markdown(
+                tampered,
+                self.protocol,
+                self.frame,
+                self.config,
+            )
 
     def test_resealed_authority_escalation_is_rejected_and_cli_stays_dormant(self) -> None:
         tampered = deepcopy(self.report)

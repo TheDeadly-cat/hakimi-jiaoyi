@@ -8990,3 +8990,17 @@ Authority remains unchanged:
   contracts 90/90.
 - No real-data backtest or execution path was invoked. Remote CI success is not
   profitability, formal blind-test, paper/live, order, or release authority.
+
+## 2026-08-29 ADR0509 deterministic standard report renderer
+
+- A pure in-memory PoC proved ADR0509 produced a verified BLOCK JSON matrix but
+  had no human-readable consumer despite `research_reporting=Supported`.
+- Added `frozen-evaluation-markdown-v1` inside the existing ADR0509 boundary;
+  it verifies first, normalizes run order, performs no I/O, and renders neutral
+  SOURCE -> GAP -> MATURITY -> PERMISSION sections.
+- The report exposes fixed cost and benchmark observations while naming unbound
+  walk-forward, parameter stability, multiplicity, regime, and tail-metric gaps.
+- Acceptance target: renderer matrix 14/14 PASS, targeted contracts 92/92 PASS,
+  affected syntax 2/2 PASS, verifier 8/8 PASS, and diff check PASS.
+- The renderer remains CLI-dormant and grants no ranking, parameter selection,
+  profitability, paper/live, or order authority.
