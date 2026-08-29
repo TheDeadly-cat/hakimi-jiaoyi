@@ -11,6 +11,7 @@ import time
 from typing import Any
 
 from exchange_terminal import server
+from exchange_terminal.application.market_data_envelope import consume_market_data_payloads
 from exchange_terminal.market_data.candle_contract import candle_is_complete
 from exchange_terminal.services.backtest_engine import EXECUTION_MODEL_VERSION, causal_prefix_invariance_check, prepare_backtest_dataset
 from exchange_terminal.services.market_regime import (
@@ -39,6 +40,7 @@ from exchange_terminal.services.strategy_matrix_evidence import (
     verify_strategy_matrix_report,
 )
 from exchange_terminal.services.strategy_matrix_protocol import (
+    STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION,
     StrategyMatrixRegistrationStore,
     audit_strategy_matrix_holdout_exposure,
     build_strategy_matrix_completion,
@@ -351,7 +353,9 @@ def load_payloads(
     dataset_lineage_prefix: str = "",
     require_frozen_revision: bool = False,
     manifest_role: str = "",
+    manifest_timeframe: str = "",
     capture_alignment_input: bool = False,
+    require_market_data_envelope: bool = False,
 ) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
     raw_payloads = {
         symbol: server.backtest_market_rows(
@@ -361,6 +365,12 @@ def load_payloads(
         )
         for symbol in symbols
     }
+    raw_payloads = consume_market_data_payloads(
+        raw_payloads,
+        expected_timeframe=manifest_timeframe or "1D",
+        required=require_market_data_envelope,
+        require_complete=require_market_data_envelope,
+    )
     aligned, alignment = align_completed_daily_payloads(
         raw_payloads,
         max_endpoint_skew_days=3,
@@ -393,8 +403,14 @@ def load_payloads(
         aligned if alignment["status"] == "PASS" else raw_payloads,
         require_frozen_revision=require_frozen_revision,
     )
-    if manifest_role:
-        manifests = [{**item, "role": manifest_role} for item in manifests]
+    if manifest_timeframe and manifest_timeframe != "1D":
+        raise ValueError("strategy_matrix_manifest_timeframe_invalid")
+    if manifest_role or manifest_timeframe:
+        manifests = [{
+            **item,
+            **({"role": manifest_role} if manifest_role else {}),
+            **({"timeframe": manifest_timeframe} if manifest_timeframe else {}),
+        } for item in manifests]
     if alignment["status"] == "BLOCK":
         alignment_blockers = [f"batch_alignment:{item}" for item in alignment.get("blockers") or []]
         for manifest in manifests:
@@ -615,6 +631,14 @@ def build_matrix_dataset_snapshot(
     return snapshot
 
 
+def _legacy_matrix_runner_protocol_ownership_blockers(
+    protocol: dict[str, Any],
+) -> list[str]:
+    if protocol.get("schema_version") == STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION:
+        return ["strategy_matrix_legacy_runner_protocol_v5_not_owned"]
+    return []
+
+
 def build_formal_strategy_matrix_report(
     payload: dict[str, Any],
     *,
@@ -622,6 +646,9 @@ def build_formal_strategy_matrix_report(
     claim: dict[str, Any],
     completion: dict[str, Any],
 ) -> dict[str, Any]:
+    ownership_blockers = _legacy_matrix_runner_protocol_ownership_blockers(protocol)
+    if ownership_blockers:
+        raise ValueError(ownership_blockers[0])
     report = dict(payload)
     holdout_exposure_audit = dict(claim.get("holdout_exposure_audit") or {})
     governance = {
@@ -708,6 +735,17 @@ def finalize_formal_strategy_matrix_result(
     payload: dict[str, Any],
     completion_clock: dict[str, Any],
 ) -> dict[str, Any]:
+    ownership_blockers = _legacy_matrix_runner_protocol_ownership_blockers(protocol)
+    if ownership_blockers:
+        return {
+            "ok": False,
+            "status": "BLOCK",
+            "blockers": ownership_blockers,
+            "required_runner": "NESTED_VARIANT_RESEARCH",
+            "research_only": True,
+            "paper_authorized": False,
+            "live_order_allowed": False,
+        }
     anticipated_completion = build_strategy_matrix_completion(
         protocol=protocol,
         claim=claim,
@@ -852,6 +890,17 @@ def recover_formal_strategy_matrix_result(
         }
     protocol = dict(registration.get("protocol") or {})
     claim = dict(registration.get("claim") or {})
+    ownership_blockers = _legacy_matrix_runner_protocol_ownership_blockers(protocol)
+    if ownership_blockers:
+        return {
+            "ok": False,
+            "status": "BLOCK",
+            "blockers": ownership_blockers,
+            "required_runner": "NESTED_VARIANT_RESEARCH",
+            "research_only": True,
+            "paper_authorized": False,
+            "live_order_allowed": False,
+        }
     if str(protocol.get("registration_id") or "") != str(registration_id or ""):
         return {
             "ok": False,
@@ -1051,6 +1100,19 @@ def main() -> int:
         if output.exists():
             raise SystemExit(f"formal matrix output already exists: {output}")
         protocol = dict(registration.get("protocol") or {})
+        ownership_blockers = _legacy_matrix_runner_protocol_ownership_blockers(protocol)
+        if ownership_blockers:
+            raise SystemExit(json.dumps({
+                "error": "matrix_runner_protocol_not_owned",
+                "status": "BLOCK",
+                "blockers": ownership_blockers,
+                "required_runner": "NESTED_VARIANT_RESEARCH",
+                "data_loaded": False,
+                "registration_claimed": False,
+                "research_only": True,
+                "paper_authorized": False,
+                "live_order_allowed": False,
+            }, ensure_ascii=False))
         frozen_spec = dict(protocol.get("batch_spec") or {})
         frozen_risk = dict(frozen_spec.get("risk") or {})
         build_arguments = {

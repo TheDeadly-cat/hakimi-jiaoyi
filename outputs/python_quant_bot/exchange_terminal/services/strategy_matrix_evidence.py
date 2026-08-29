@@ -514,7 +514,7 @@ def verify_strategy_matrix_report(report: dict[str, Any] | Any) -> dict[str, Any
     completion.
     """
 
-    return verify_strategy_matrix_evidence(
+    verification = verify_strategy_matrix_evidence(
         report,
         strategy_id="",
         strategy_params={},
@@ -524,6 +524,18 @@ def verify_strategy_matrix_report(report: dict[str, Any] | Any) -> dict[str, Any
         now_ms=0,
         _report_only=True,
     )
+    report_map = report if isinstance(report, dict) else {}
+    governance = report_map.get("research_governance")
+    governance_map = governance if isinstance(governance, dict) else {}
+    protocol = governance_map.get("protocol")
+    protocol_map = protocol if isinstance(protocol, dict) else {}
+    if protocol_map.get("schema_version") == "strategy-matrix-protocol-v5":
+        verification = dict(verification)
+        blockers = list(verification.get("blockers") or [])
+        blockers.append("matrix_report_schema7_cannot_consume_protocol_v5")
+        verification["status"] = "BLOCK"
+        verification["blockers"] = sorted(set(blockers))
+    return verification
 
 
 def latest_strategy_matrix_evidence(

@@ -81,8 +81,15 @@ from .strategy_preregistered_failure_admission import (
     build_strategy_preregistered_failure_admission_v2,
     verify_strategy_preregistered_failure_admission_v3_receipt,
 )
+from .strategy_correlation_multiplicity_report import (
+    verify_strategy_correlation_multiplicity_report_evidence,
+)
+from .strategy_correlation_research_evidence import (
+    build_strategy_correlation_research_multiplicity_evidence_from_selection,
+)
 from .strategy_research_search_lineage import (
     STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION,
+    STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION_V2,
     verify_strategy_research_search_lineage,
 )
 
@@ -100,10 +107,22 @@ STRATEGY_RESEARCH_REPORT_SCHEMA_VERSION = (
 STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION = (
     STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
 )
+STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION = (
+    STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION_V2
+)
+FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS = frozenset({
+    STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
+})
+COST_STRESS_BOUND_REPORT_SCHEMA_VERSIONS = frozenset({
+    *COST_STRESS_BOUND_REPORT_SCHEMA_VERSIONS,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
+})
 PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSIONS = frozenset({
     PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
 })
 SUPPORTED_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS = frozenset({
     LEGACY_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSION,
@@ -118,6 +137,7 @@ SUPPORTED_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS = frozenset({
     PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
 })
 LEGACY_STRATEGY_RESEARCH_SELECTION_CELL_EVIDENCE_SCHEMA_VERSION = (
     "strategy-research-selection-cell-evidence-v2"
@@ -138,6 +158,7 @@ SELECTION_CELL_EVIDENCE_V4_REPORT_SCHEMA_VERSIONS = frozenset({
 })
 SELECTION_CELL_EVIDENCE_V5_REPORT_SCHEMA_VERSIONS = frozenset({
     *FIXED_CHRONOLOGICAL_SLICE_EVIDENCE_V2_REPORT_SCHEMA_VERSIONS,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
 })
 REPLAYED_SELECTION_REPORT_SCHEMA_VERSIONS = (
     SELECTION_CELL_EVIDENCE_V5_REPORT_SCHEMA_VERSIONS
@@ -147,6 +168,7 @@ POST_SELECTION_REPLAY_REPORT_SCHEMA_VERSIONS = frozenset({
     PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
 })
 HYPOTHESIS_BOUND_REPORT_SCHEMA_VERSIONS = frozenset({
     HYPOTHESIS_PREREGISTRATION_REPORT_SCHEMA_VERSION,
@@ -157,6 +179,7 @@ HYPOTHESIS_BOUND_REPORT_SCHEMA_VERSIONS = frozenset({
     PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
 })
 IMPLEMENTATION_MANIFEST_REPORT_SCHEMA_VERSIONS = frozenset({
     IMPLEMENTATION_MANIFEST_REPORT_SCHEMA_VERSION,
@@ -168,6 +191,7 @@ IMPLEMENTATION_MANIFEST_REPORT_SCHEMA_VERSIONS = frozenset({
     PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
 })
 STRATEGY_RESEARCH_WORKFLOW = "NESTED_VARIANT_RESEARCH"
 
@@ -186,6 +210,78 @@ def _native_finite(value: Any) -> bool:
         and isinstance(value, (int, float))
         and math.isfinite(float(value))
     )
+
+
+def verify_strategy_research_correlation_multiplicity(
+    report: dict[str, Any] | Any,
+) -> dict[str, Any]:
+    payload = _mapping(report)
+    blockers: list[str] = []
+    evidence = _mapping(payload.get("correlation_multiplicity_evidence"))
+    governance = _mapping(payload.get("research_governance"))
+    protocol = _mapping(governance.get("protocol"))
+    evidence_verification = verify_strategy_correlation_multiplicity_report_evidence(
+        evidence,
+        protocol=protocol,
+    )
+    blockers.extend(
+        f"research_correlation_evidence:{item}"
+        for item in evidence_verification.get("blockers") or []
+    )
+
+    snapshot = _mapping(payload.get("dataset_snapshot"))
+    selection_payloads: dict[str, dict[str, Any]] = {}
+    for item in _sequence(snapshot.get("datasets")):
+        if not isinstance(item, dict) or item.get("role") != "SELECTION":
+            continue
+        symbol = str(item.get("symbol") or "").strip().upper()
+        if not symbol or symbol in selection_payloads:
+            blockers.append("research_correlation_dataset_identity_invalid")
+            continue
+        selection_payloads[symbol] = {
+            "source": str(item.get("source") or ""),
+            "rows": list(item.get("rows") or []),
+        }
+    selection_manifests = [
+        dict(item)
+        for item in _sequence(payload.get("dataset_manifest"))
+        if isinstance(item, dict) and item.get("role") == "SELECTION"
+    ]
+    expected: dict[str, Any] = {}
+    try:
+        expected = build_strategy_correlation_research_multiplicity_evidence_from_selection(
+            protocol,
+            selection_payloads,
+            selection_manifests,
+            _mapping(payload.get("selection_alignment")),
+            [
+                dict(item)
+                for item in _sequence(payload.get("selection_cells"))
+                if isinstance(item, dict)
+            ],
+            [
+                dict(item)
+                for item in _sequence(payload.get("validation_rankings"))
+                if isinstance(item, dict)
+            ],
+        )
+    except (KeyError, TypeError, ValueError):
+        blockers.append("research_correlation_semantic_replay_blocked")
+    if expected and expected != evidence:
+        blockers.append("research_correlation_evidence_semantic_mismatch")
+    summary = _mapping(payload.get("summary"))
+    if summary.get("correlation_multiplicity_artifact_status") != evidence.get("status"):
+        blockers.append("research_correlation_summary_artifact_status_mismatch")
+    if summary.get("correlation_multiplicity_decision_status") != evidence.get("decision_status"):
+        blockers.append("research_correlation_summary_decision_status_mismatch")
+    return {
+        "status": "PASS" if not blockers else "BLOCK",
+        "decision_status": str(evidence.get("decision_status") or "BLOCK"),
+        "evidence_hash": str(evidence.get("evidence_hash") or "") or None,
+        "blockers": list(dict.fromkeys(blockers)),
+        "paper_authorized": False,
+        "live_order_allowed": False,
+    }
 
 
 def _native_nonnegative_int(value: Any) -> bool:
@@ -300,6 +396,13 @@ def strategy_research_result_hash(report: dict[str, Any] | Any) -> str:
     ):
         result_payload["preregistered_failure_admission"] = _mapping(
             payload.get("preregistered_failure_admission")
+        )
+    if (
+        payload.get("schema_version")
+        == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION
+    ):
+        result_payload["correlation_multiplicity_evidence"] = _mapping(
+            payload.get("correlation_multiplicity_evidence")
         )
     return canonical_hash(result_payload)
 
@@ -1345,6 +1448,7 @@ def _verify_research_semantics(
         PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+        STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
     }:
         blockers.extend(_verify_current_batch_spec_contract(batch_spec))
     variants = [dict(item) for item in _sequence(batch_spec.get("variants")) if isinstance(item, dict)]
@@ -1631,7 +1735,7 @@ def _verify_research_semantics(
         blockers.append("research_selection_cell_coverage_mismatch")
 
     ranking_trial_count = len(variants)
-    if report_schema_version == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION:
+    if report_schema_version in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS:
         lineage_verification = verify_strategy_research_search_lineage(
             batch_spec.get("search_lineage"),
             expected_search_family_id=str(
@@ -1695,6 +1799,7 @@ def _verify_research_semantics(
         PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+        STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
     }:
         if not parameter_stability_present:
             blockers.append("research_parameter_stability_missing")
@@ -1710,15 +1815,25 @@ def _verify_research_semantics(
             )
             if parameter_stability != expected_stability:
                 blockers.append("research_parameter_stability_semantic_mismatch")
+    expected_candidate_rankings = expected_rankings
+    if report_schema_version == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION:
+        correlation_verification = verify_strategy_research_correlation_multiplicity(
+            report
+        )
+        if (
+            correlation_verification.get("status") != "PASS"
+            or correlation_verification.get("decision_status") != "PASS"
+        ):
+            expected_candidate_rankings = []
     expected_validation_candidates = freeze_validation_candidates(
-        expected_rankings,
+        expected_candidate_rankings,
         max_candidates=int(batch_spec.get("max_test_candidates") or 0),
     )
     if _sequence(report.get("validation_candidates")) != expected_validation_candidates:
         blockers.append("research_validation_candidates_semantic_mismatch")
     expected_admission: dict[str, Any] = {}
     if report_schema_version in PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSIONS:
-        if report_schema_version == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION:
+        if report_schema_version in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS:
             governance = _mapping(report.get("research_governance"))
             admission_verification = (
                 verify_strategy_preregistered_failure_admission_v3_receipt(
@@ -2112,6 +2227,13 @@ def verify_strategy_research_report(
         blockers.append(
             "research_legacy_schema_has_preregistered_failure_admission"
         )
+    if report_schema_version == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION:
+        if not isinstance(report.get("correlation_multiplicity_evidence"), dict):
+            blockers.append(
+                "research_field_type_invalid:correlation_multiplicity_evidence"
+            )
+    elif "correlation_multiplicity_evidence" in report:
+        blockers.append("research_legacy_schema_has_correlation_multiplicity_evidence")
     if (
         report.get("research_only") is not True
         or report.get("paper_authorized") is not False
@@ -2191,7 +2313,7 @@ def verify_strategy_research_report(
             expected_schema_version=(
                 STRATEGY_HYPOTHESIS_PREREGISTRATION_SCHEMA_VERSION_V3
                 if report_schema_version
-                == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION
+                in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS
                 else (
                     STRATEGY_HYPOTHESIS_PREREGISTRATION_SCHEMA_VERSION_V2
                     if report_schema_version
@@ -2222,7 +2344,7 @@ def verify_strategy_research_report(
         ):
             blockers.append("research_legacy_schema_has_hypothesis_contract")
 
-    if report_schema_version == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION:
+    if report_schema_version in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS:
         lineage_verification = verify_strategy_research_search_lineage(
             batch_spec.get("search_lineage"),
             expected_search_family_id=str(
@@ -2396,7 +2518,23 @@ def verify_strategy_research_report(
         if summary.get(field) != expected:
             blockers.append(f"research_summary_count_mismatch:{field}")
     admission = _mapping(report.get("preregistered_failure_admission"))
-    if report_schema_version == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION:
+    correlation_multiplicity_verification = (
+        verify_strategy_research_correlation_multiplicity(report)
+        if report_schema_version
+        == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION
+        else {
+            "status": "NOT_REQUIRED",
+            "decision_status": "NOT_REQUIRED",
+            "evidence_hash": None,
+            "blockers": [],
+            "paper_authorized": False,
+            "live_order_allowed": False,
+        }
+    )
+    blockers.extend(
+        correlation_multiplicity_verification.get("blockers") or []
+    )
+    if report_schema_version in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS:
         admission_verification = (
             verify_strategy_preregistered_failure_admission_v3_receipt(
                 admission,
@@ -2466,6 +2604,7 @@ def verify_strategy_research_report(
         "hypothesis_preregistration_verification": hypothesis_verification,
         "search_lineage_verification": lineage_verification,
         "preregistered_failure_admission_verification": admission_verification,
+        "correlation_multiplicity_verification": correlation_multiplicity_verification,
         "preregistered_failure_admission_status": (
             str(admission.get("status") or "BLOCK")
             if report_schema_version

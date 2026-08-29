@@ -9,6 +9,8 @@ from quant_bot.models import Action, Fill, Order, Portfolio
 
 logger = logging.getLogger(__name__)
 LIVE_TRADING_HARD_BLOCK = True
+_LOCAL_EXECUTION_MODES = frozenset({"paper", "backtest"})
+_LOCAL_EXECUTION_BROKERS = frozenset({"paper"})
 
 
 class BrokerBase:
@@ -134,10 +136,24 @@ class CcxtBroker(BrokerBase):
         raise RuntimeError("Live trading hard wall is enabled. No exchange order implementation is present.")
 
 
+def _canonical_selector(value: object, *, field_name: str) -> str:
+    if not isinstance(value, str) or not value:
+        raise ValueError(f"Execution {field_name} must be a non-empty string.")
+    if value != value.strip():
+        raise ValueError(f"Execution {field_name} must not contain surrounding whitespace.")
+    return value.lower()
+
+
 def build_broker(config: BotConfig) -> BrokerBase:
-    broker = config.execution.broker.lower()
-    if broker == "ccxt" or config.mode == "live":
-        if LIVE_TRADING_HARD_BLOCK:
-            raise RuntimeError("Live trading hard wall is enabled. Only paper and backtest modes are allowed.")
-        return CcxtBroker(config)
+    mode = _canonical_selector(config.mode, field_name="mode")
+    broker = _canonical_selector(config.execution.broker, field_name="broker")
+    live_trading_enabled = config.execution.live_trading_enabled
+    if not isinstance(live_trading_enabled, bool):
+        raise ValueError("Execution live_trading_enabled must be boolean.")
+    if mode == "live" or broker == "ccxt" or live_trading_enabled:
+        raise RuntimeError("Live trading hard wall is enabled. Only paper and backtest modes are allowed.")
+    if mode not in _LOCAL_EXECUTION_MODES:
+        raise ValueError(f"Unsupported execution mode: {config.mode!r}.")
+    if broker not in _LOCAL_EXECUTION_BROKERS:
+        raise ValueError(f"Unsupported execution broker: {config.execution.broker!r}.")
     return PaperBroker(config.execution.fee_rate, config.execution.slippage_pct)

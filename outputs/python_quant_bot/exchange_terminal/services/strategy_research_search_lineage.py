@@ -9,10 +9,17 @@ from typing import Any
 STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION = (
     "strategy-research-search-lineage-v1"
 )
+STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION_V2 = (
+    "strategy-research-search-lineage-v2"
+)
 STRATEGY_RESEARCH_PRIOR_TRIALS_SCHEMA_VERSION = (
     "strategy-research-prior-trials-v1"
 )
+STRATEGY_RESEARCH_PRIOR_TRIALS_SCHEMA_VERSION_V2 = (
+    "strategy-research-prior-trials-v2"
+)
 STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION = 14
+STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION_V2 = 16
 STRATEGY_RESEARCH_REGISTRY_ANCHOR_SCHEMA_VERSION = (
     "strategy-research-registry-anchor-v1"
 )
@@ -47,7 +54,11 @@ def _positive_int(value: Any, error: str) -> int:
     return value
 
 
-def _prior_registration(value: Any) -> dict[str, Any]:
+def _prior_registration(
+    value: Any,
+    *,
+    max_report_schema_version: int = STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION,
+) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError("strategy_search_prior_registration_type_invalid")
     expected_fields = {
@@ -85,7 +96,7 @@ def _prior_registration(value: Any) -> dict[str, Any]:
     if (
         isinstance(report_schema_version, bool)
         or not isinstance(report_schema_version, int)
-        or not 3 <= report_schema_version <= STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+        or not 3 <= report_schema_version <= max_report_schema_version
     ):
         raise ValueError("strategy_search_prior_report_schema_invalid")
     current_trials = _positive_int(
@@ -108,11 +119,14 @@ def _prior_registration(value: Any) -> dict[str, Any]:
     }
 
 
-def build_strategy_research_search_lineage(
+def _build_strategy_research_search_lineage(
     *,
     search_family_id: Any,
     prior_registrations: list[dict[str, Any]] | Any,
     current_trial_count: Any,
+    lineage_schema_version: str,
+    prior_trials_schema_version: str,
+    max_prior_report_schema_version: int,
 ) -> dict[str, Any]:
     """Build the exact pre-selection cumulative-search snapshot for one run.
 
@@ -128,7 +142,13 @@ def build_strategy_research_search_lineage(
     )
     if not isinstance(prior_registrations, list):
         raise ValueError("strategy_search_prior_registrations_invalid")
-    prior = [_prior_registration(item) for item in prior_registrations]
+    prior = [
+        _prior_registration(
+            item,
+            max_report_schema_version=max_prior_report_schema_version,
+        )
+        for item in prior_registrations
+    ]
     registration_ids = [item["registration_id"] for item in prior]
     protocol_hashes = [item["protocol_hash"] for item in prior]
     event_hashes = [item["registered_event_hash"] for item in prior]
@@ -146,13 +166,13 @@ def build_strategy_research_search_lineage(
             raise ValueError("strategy_search_prior_cumulative_chain_invalid")
 
     prior_trials_content = {
-        "schema_version": STRATEGY_RESEARCH_PRIOR_TRIALS_SCHEMA_VERSION,
+        "schema_version": prior_trials_schema_version,
         "scope": "GLOBAL_REGISTERED_STRATEGY_RESEARCH",
         "registrations": prior,
     }
     parent = prior[-1] if prior else None
     content = {
-        "schema_version": STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION,
+        "schema_version": lineage_schema_version,
         "status": "PREREGISTERED",
         "search_family_id": family_id,
         "trial_count_scope": "GLOBAL_REGISTERED_STRATEGY_RESEARCH",
@@ -181,6 +201,42 @@ def build_strategy_research_search_lineage(
         "live_order_allowed": False,
     }
     return {**content, "lineage_hash": canonical_hash(content)}
+
+
+def build_strategy_research_search_lineage(
+    *,
+    search_family_id: Any,
+    prior_registrations: list[dict[str, Any]] | Any,
+    current_trial_count: Any,
+) -> dict[str, Any]:
+    return _build_strategy_research_search_lineage(
+        search_family_id=search_family_id,
+        prior_registrations=prior_registrations,
+        current_trial_count=current_trial_count,
+        lineage_schema_version=STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION,
+        prior_trials_schema_version=STRATEGY_RESEARCH_PRIOR_TRIALS_SCHEMA_VERSION,
+        max_prior_report_schema_version=(
+            STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+        ),
+    )
+
+
+def build_strategy_research_search_lineage_v2(
+    *,
+    search_family_id: Any,
+    prior_registrations: list[dict[str, Any]] | Any,
+    current_trial_count: Any,
+) -> dict[str, Any]:
+    return _build_strategy_research_search_lineage(
+        search_family_id=search_family_id,
+        prior_registrations=prior_registrations,
+        current_trial_count=current_trial_count,
+        lineage_schema_version=STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION_V2,
+        prior_trials_schema_version=STRATEGY_RESEARCH_PRIOR_TRIALS_SCHEMA_VERSION_V2,
+        max_prior_report_schema_version=(
+            STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION_V2
+        ),
+    )
 
 
 def verify_strategy_research_search_lineage(
@@ -229,7 +285,13 @@ def verify_strategy_research_search_lineage(
 
     if expected_prior_registrations is not None and normalized_family and normalized_current:
         try:
-            expected = build_strategy_research_search_lineage(
+            builder = (
+                build_strategy_research_search_lineage_v2
+                if payload.get("schema_version")
+                == STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION_V2
+                else build_strategy_research_search_lineage
+            )
+            expected = builder(
                 search_family_id=normalized_family,
                 prior_registrations=expected_prior_registrations,
                 current_trial_count=normalized_current,
@@ -269,7 +331,10 @@ def verify_strategy_research_search_lineage(
         content = {key: value for key, value in payload.items() if key != "lineage_hash"}
         if (
             payload.get("schema_version")
-            != STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION
+            not in {
+                STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION,
+                STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION_V2,
+            }
             or payload.get("status") != "PREREGISTERED"
             or payload.get("trial_count_scope")
             != "GLOBAL_REGISTERED_STRATEGY_RESEARCH"
@@ -534,9 +599,13 @@ def verify_strategy_research_registry_anchor(
 __all__ = [
     "STRATEGY_RESEARCH_REGISTRY_ANCHOR_SCHEMA_VERSION",
     "STRATEGY_RESEARCH_PRIOR_TRIALS_SCHEMA_VERSION",
+    "STRATEGY_RESEARCH_PRIOR_TRIALS_SCHEMA_VERSION_V2",
     "STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION",
+    "STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION_V2",
     "STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION",
+    "STRATEGY_RESEARCH_SEARCH_LINEAGE_SCHEMA_VERSION_V2",
     "build_strategy_research_search_lineage",
+    "build_strategy_research_search_lineage_v2",
     "build_strategy_research_registry_anchor",
     "canonical_hash",
     "normalize_search_family_id",

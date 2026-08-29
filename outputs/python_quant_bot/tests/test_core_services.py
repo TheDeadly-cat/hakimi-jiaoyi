@@ -2588,6 +2588,12 @@ class CoreServiceTests(unittest.TestCase):
         self.assertIn("/api/strategy/pipeline", MUTATION_PATHS)
         self.assertEqual(allowed_web_origin("http://127.0.0.1:8765"), "http://127.0.0.1:8765")
         self.assertEqual(allowed_web_origin("http://127.0.0.1:8767"), "http://127.0.0.1:8767")
+        self.assertEqual(allowed_web_origin("http://localhost:8767"), "http://localhost:8767")
+        self.assertEqual(allowed_web_origin("http://[::1]:8767"), "http://[::1]:8767")
+        self.assertEqual(allowed_web_origin("https://127.0.0.1:8767"), "")
+        self.assertEqual(allowed_web_origin("http://127.0.0.1:8767/path"), "")
+        self.assertEqual(allowed_web_origin("http://127.0.0.1"), "")
+        self.assertEqual(allowed_web_origin("http://127.0.0.1:99999"), "")
         self.assertEqual(allowed_web_origin("https://example.invalid"), "")
         self.assertEqual(payload_to_query({"enabled": True, "params": {"fast": 20}, "empty": None}), {
             "enabled": "true",

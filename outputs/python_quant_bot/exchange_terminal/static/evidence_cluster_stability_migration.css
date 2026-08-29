@@ -1,0 +1,321 @@
+.csmp {
+  --csmp-ink: #18211f;
+  --csmp-muted: #68716c;
+  --csmp-paper: #f4f0e5;
+  --csmp-line: #c8c0b0;
+  --csmp-sealed: #1c7567;
+  --csmp-guarded: #b56b2f;
+  --csmp-gap: #9c4939;
+  --csmp-lock: #46504c;
+  position: relative;
+  overflow: hidden;
+  color: var(--csmp-ink);
+  border: 1px solid color-mix(in srgb, var(--csmp-line) 84%, #fff);
+  border-radius: 18px;
+  background:
+    linear-gradient(90deg, transparent 0 49.8%, rgba(24, 33, 31, 0.035) 49.8% 50.2%, transparent 50.2%),
+    repeating-linear-gradient(0deg, rgba(24, 33, 31, 0.028) 0 1px, transparent 1px 23px),
+    radial-gradient(circle at 88% 4%, rgba(28, 117, 103, 0.13), transparent 28%),
+    var(--csmp-paper);
+  box-shadow: 0 18px 48px rgba(32, 39, 36, 0.12);
+  font-family: "IBM Plex Sans", "Aptos", "Segoe UI", sans-serif;
+  animation: csmp-reveal 420ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.csmp::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  content: "";
+  background: linear-gradient(var(--csmp-sealed) 0 42%, var(--csmp-guarded) 42% 59%, var(--csmp-gap) 59% 78%, var(--csmp-lock) 78%);
+}
+
+.csmp[data-state="EVIDENCE_BLOCKED"]::before {
+  background: linear-gradient(var(--csmp-sealed) 0 34%, var(--csmp-gap) 34% 78%, var(--csmp-lock) 78%);
+}
+
+.csmp[data-variant="protocol-v9"]::before {
+  background: linear-gradient(var(--csmp-sealed) 0 48%, var(--csmp-guarded) 48% 66%, var(--csmp-gap) 66% 82%, var(--csmp-lock) 82%);
+}
+
+.csmp[data-variant="protocol-v9"] {
+  background:
+    linear-gradient(90deg, transparent 0 49.8%, rgba(24, 33, 31, 0.035) 49.8% 50.2%, transparent 50.2%),
+    repeating-linear-gradient(0deg, rgba(24, 33, 31, 0.028) 0 1px, transparent 1px 23px),
+    radial-gradient(circle at 88% 4%, rgba(181, 107, 47, 0.15), transparent 29%),
+    var(--csmp-paper);
+}
+
+.csmp-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 0.35fr);
+  gap: 28px;
+  align-items: start;
+  padding: 30px 32px 24px 36px;
+  border-bottom: 1px solid var(--csmp-line);
+}
+
+.csmp-eyebrow,
+.csmp-calibration__label span,
+.csmp-flow__key,
+.csmp-stamp span {
+  margin: 0;
+  color: var(--csmp-muted);
+  font-family: "IBM Plex Mono", "Cascadia Mono", monospace;
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.csmp h2 {
+  max-width: 720px;
+  margin: 8px 0 7px;
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: clamp(1.7rem, 3vw, 2.45rem);
+  font-weight: 650;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.csmp-subtitle {
+  max-width: 700px;
+  margin: 0;
+  color: var(--csmp-muted);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.csmp-stamp {
+  justify-self: end;
+  width: min(100%, 286px);
+  padding: 13px 15px;
+  border: 1px solid var(--csmp-lock);
+  background: rgba(244, 240, 229, 0.86);
+  box-shadow: 5px 5px 0 rgba(70, 80, 76, 0.13);
+  transform: rotate(0.55deg);
+}
+
+.csmp-stamp strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--csmp-guarded);
+  font-family: "IBM Plex Mono", "Cascadia Mono", monospace;
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.csmp[data-state="EVIDENCE_BLOCKED"] .csmp-stamp strong,
+.csmp[data-state="UNKNOWN"] .csmp-stamp strong {
+  color: var(--csmp-gap);
+}
+
+.csmp-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0 18px 0 22px;
+  border-bottom: 1px solid var(--csmp-line);
+}
+
+.csmp-flow__step {
+  position: relative;
+  min-width: 0;
+  padding: 22px 18px 21px;
+  border-right: 1px solid var(--csmp-line);
+}
+
+.csmp-flow__step:last-child { border-right: 0; }
+
+.csmp-flow__index {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  color: rgba(24, 33, 31, 0.2);
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 1.4rem;
+}
+
+.csmp-flow__step strong,
+.csmp-flow__step small { display: block; }
+
+.csmp-flow__step strong {
+  margin-top: 9px;
+  font-size: 0.93rem;
+}
+
+.csmp-flow__step small {
+  margin-top: 4px;
+  color: var(--csmp-muted);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.csmp-flow__step[data-tone="sealed"] strong { color: var(--csmp-sealed); }
+.csmp-flow__step[data-tone="guarded"] strong { color: var(--csmp-guarded); }
+.csmp-flow__step[data-tone="gap"] strong { color: var(--csmp-gap); }
+.csmp-flow__step[data-tone="locked"] strong { color: var(--csmp-lock); }
+
+.csmp-calibration {
+  position: relative;
+  padding: 24px 32px 29px 36px;
+}
+
+.csmp-calibration::after {
+  position: absolute;
+  top: 80px;
+  right: 32px;
+  left: 36px;
+  height: 2px;
+  content: "";
+  background: linear-gradient(90deg, var(--csmp-sealed), var(--csmp-guarded) 50%, var(--csmp-gap) 72%, var(--csmp-lock));
+  transform-origin: left;
+  animation: csmp-calibrate 560ms 120ms ease-out both;
+}
+
+.csmp-calibration__label {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+  margin-bottom: 17px;
+}
+
+.csmp-calibration__label strong {
+  color: var(--csmp-muted);
+  font-size: 0.77rem;
+  font-weight: 600;
+}
+
+.csmp-rail {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.csmp-rail__stop {
+  position: relative;
+  min-width: 0;
+  padding-right: 12px;
+}
+
+.csmp-rail__line { display: none; }
+
+.csmp-rail__node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 2px solid var(--csmp-sealed);
+  border-radius: 4px 12px 4px 12px;
+  color: var(--csmp-sealed);
+  background: var(--csmp-paper);
+  font-family: "IBM Plex Mono", "Cascadia Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 800;
+  box-shadow: 0 0 0 4px rgba(244, 240, 229, 0.92);
+}
+
+.csmp-rail__stop[data-tone="guarded"] .csmp-rail__node {
+  border-color: var(--csmp-guarded);
+  color: var(--csmp-guarded);
+}
+
+.csmp-rail__stop[data-tone="gap"] .csmp-rail__node {
+  border-style: dashed;
+  border-color: var(--csmp-gap);
+  color: var(--csmp-gap);
+}
+
+.csmp-rail__stop[data-tone="locked"] .csmp-rail__node,
+.csmp-rail__stop[data-tone="unknown"] .csmp-rail__node {
+  border-style: dashed;
+  border-color: var(--csmp-lock);
+  color: var(--csmp-lock);
+}
+
+.csmp-rail__copy {
+  display: block;
+  margin-top: 11px;
+}
+
+.csmp-rail__copy strong,
+.csmp-rail__copy small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.csmp-rail__copy strong {
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+
+.csmp-rail__copy small,
+.csmp-rail__order {
+  color: var(--csmp-muted);
+  font-family: "IBM Plex Mono", "Cascadia Mono", monospace;
+  font-size: 0.61rem;
+  letter-spacing: 0.04em;
+}
+
+.csmp-rail__copy small { margin-top: 3px; }
+.csmp-rail__order { display: block; margin-top: 8px; }
+
+.csmp-foot {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 32px 13px 36px;
+  color: #f6f2e8;
+  background: var(--csmp-ink);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+}
+
+.csmp-lock {
+  width: 9px;
+  height: 9px;
+  border: 2px solid #d4a26f;
+  border-radius: 2px;
+  box-shadow: 0 -5px 0 -2px var(--csmp-ink), 0 -5px 0 0 #d4a26f;
+}
+
+@media (max-width: 760px) {
+  .csmp-head { grid-template-columns: 1fr; padding: 24px 22px 20px 27px; }
+  .csmp-stamp { justify-self: start; width: auto; transform: none; }
+  .csmp-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-left: 5px; }
+  .csmp-flow__step:nth-child(2) { border-right: 0; }
+  .csmp-flow__step:nth-child(-n + 2) { border-bottom: 1px solid var(--csmp-line); }
+  .csmp-calibration { padding: 22px 20px 24px 27px; }
+  .csmp-calibration::after { display: none; }
+  .csmp-rail { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 24px; }
+  .csmp-foot { align-items: flex-start; padding-left: 27px; }
+}
+
+@media (max-width: 440px) {
+  .csmp-flow { grid-template-columns: 1fr; }
+  .csmp-flow__step { border-right: 0; border-bottom: 1px solid var(--csmp-line); }
+  .csmp-flow__step:last-child { border-bottom: 0; }
+  .csmp-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .csmp-calibration__label { align-items: flex-start; flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .csmp,
+  .csmp-calibration::after { animation: none; }
+}
+
+@keyframes csmp-reveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes csmp-calibrate {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}

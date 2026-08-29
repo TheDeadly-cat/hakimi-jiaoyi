@@ -4973,10 +4973,10 @@ assert.ok(indexSource.includes('id="internalBacktestForwardMaturity"'));
 assert.ok(indexSource.includes('id="internalBacktestForwardBoundary"'));
 assert.ok(indexSource.includes("展开首次到期决策、后续描述与人工复核边界"));
 assert.ok(indexSource.includes("首次到期决策未核验 · 后续样本仅可描述"));
-assert.ok(indexSource.includes("styles.css?v=20260814-single-look-contract-1"));
-assert.ok(indexSource.includes("evidence_presentation.js?v=20260814-single-look-contract-1"));
-assert.ok(indexSource.includes("app.js?v=20260814-single-look-contract-1"));
-assert.equal((indexSource.match(/20260814-single-look-contract-1/g) || []).length, 3);
+assert.ok(indexSource.includes("styles.css?v=20260822-evidence-calibration-rail-2"));
+assert.ok(indexSource.includes("evidence_presentation.js?v=20260821-correlation-multiplicity-ledger-1"));
+assert.ok(indexSource.includes("app.js?v=20260821-correlation-multiplicity-ledger-1"));
+assert.equal((indexSource.match(/20260821-correlation-multiplicity-ledger-1/g) || []).length, 2);
 assert.ok(!indexSource.includes("20260814-forward-local-source-binding-1"));
 assert.ok(!indexSource.includes("20260814-schema14-search-lineage-1"));
 assert.ok(!indexSource.includes("20260814-evidence-reading-gate-1"));
@@ -5712,4 +5712,81 @@ assert.ok(strategyAnalysisSource.includes('class="flat"'));
 assert.ok(strategyAnalysisSource.includes("evidence-neutral"));
 assert.ok(!strategyAnalysisSource.includes('class="up"'));
 assert.ok(!strategyAnalysisSource.includes('class="down"'));
+
+const correlationUnknownPayload = {
+  absolute_pearson_threshold: 0.75,
+  cluster_count: null,
+  cluster_vote_rule: "ALL_MEMBERS_PASS_ONE_VOTE_PER_CLUSTER",
+  cross_cluster_conflict_count: null,
+  current_admission_allowed: false,
+  current_report_schema_bound: false,
+  current_writer_activation_allowed: false,
+  external_authenticity_proven: false,
+  first_gap_category: "INPUT_INTEGRITY",
+  formal_registry_bound: false,
+  full_manifest_reverified: false,
+  gate_status: "UNKNOWN",
+  interpretation: "DESCRIPTIVE_CORRELATION_INDEPENDENCE_ONLY",
+  lane: "UNKNOWN",
+  live_order_allowed: false,
+  lookback_observations: 60,
+  minimum_pair_overlap: 40,
+  next_evidence_required: "FORMAL_PROTOCOL_BINDING_AND_NEW_REPORT_SCHEMA",
+  pair_count: null,
+  paper_authorized: false,
+  parameter_selection_allowed: false,
+  passing_cluster_count: null,
+  performance_claim_allowed: false,
+  preregistered_cutoff_bound: false,
+  profitability_proven: false,
+  replay_scope: "LOCAL_FROZEN_COMPLETED_DAILY_CLOSE_REPLAY_NOT_EXTERNAL_AUTHENTICITY",
+  required_cluster_votes: null,
+  required_price_rows: 61,
+  schema_version: "strategy-correlation-cluster-public-summary-v1",
+  source_status: "UNKNOWN",
+  status: "UNKNOWN",
+};
+const correlationUnknown = evidence.strategyCorrelationClusterSummaryPresentation(correlationUnknownPayload);
+assert.equal(correlationUnknown.valid, true);
+assert.equal(correlationUnknown.rawStatus, "UNKNOWN");
+assert.ok(correlationUnknown.permissionText.includes("实盘永久硬锁"));
+const correlationPassPayload = {
+  ...correlationUnknownPayload,
+  cluster_count: 3,
+  cross_cluster_conflict_count: 0,
+  first_gap_category: null,
+  gate_status: "PASS",
+  lane: "RAW_EXCESS",
+  pair_count: 6,
+  passing_cluster_count: 2,
+  required_cluster_votes: 2,
+  source_status: "VERIFIED_LOCAL_REPLAY",
+  status: "DESCRIPTIVE_PASS",
+};
+const correlationPass = evidence.strategyCorrelationClusterSummaryPresentation(correlationPassPayload);
+assert.equal(correlationPass.valid, true);
+assert.equal(correlationPass.rawStatus, "DESCRIPTIVE_PASS");
+assert.ok(correlationPass.maturityText.includes("2 / 2"));
+assert.equal(evidence.strategyCorrelationClusterSummaryPresentation({
+  ...correlationPassPayload,
+  paper_authorized: true,
+}).rawStatus, "UNKNOWN");
+assert.equal(evidence.strategyCorrelationClusterSummaryPresentation({
+  ...correlationPassPayload,
+  symbol: "SHOULD_NOT_BE_PUBLIC",
+}).rawStatus, "UNKNOWN");
+const boundaryWithCorrelation = evidence.strategyLabEvidencePresentation({
+  evidence_contract: strategyLabBoundaryContract,
+  correlation_cluster_summary: correlationUnknownPayload,
+});
+assert.equal(boundaryWithCorrelation.valid, true);
+const strategyLabRenderStart = appSource.indexOf("function renderStrategyLabEvidence(");
+const strategyLabRenderEnd = appSource.indexOf("async function loadStrategyResearchEvidence(", strategyLabRenderStart);
+const strategyLabRenderSource = appSource.slice(strategyLabRenderStart, strategyLabRenderEnd);
+assert.ok(strategyLabRenderSource.includes('class="strategy-correlation-ledger"'));
+assert.ok(strategyLabRenderSource.includes("SOURCE"));
+assert.ok(strategyLabRenderSource.includes("GAP"));
+assert.ok(strategyLabRenderSource.includes("MATURITY"));
+assert.ok(strategyLabRenderSource.includes("PERMISSION"));
+assert.ok(styleSource.includes(".strategy-correlation-flow"));
 console.log("evidence_presentation.test.js: PASS");

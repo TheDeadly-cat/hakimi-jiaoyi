@@ -175,6 +175,7 @@ def robustness(candidate_hash: str) -> dict[str, object]:
     def result(label: str) -> dict[str, object]:
         return {
             "label": label,
+            "run_hash": f"synthetic-robustness-run:{label}",
             "ok": True,
             "total_return_pct": 5.0,
             "max_drawdown_pct": 8.0,

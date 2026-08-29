@@ -5159,7 +5159,96 @@ body.theme-light .war-room-row.top-strategy:hover {
   letter-spacing: 0.01em;
 }
 
+.strategy-correlation-ledger {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  border: 1px solid rgba(128, 146, 142, 0.24);
+  border-radius: 8px;
+  background:
+    linear-gradient(118deg, rgba(42, 194, 204, 0.07), transparent 44%),
+    repeating-linear-gradient(90deg, transparent 0 23px, rgba(128, 146, 142, 0.025) 24px);
+}
+
+.strategy-correlation-ledger > header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 11px 8px;
+  border-bottom: 1px solid rgba(128, 146, 142, 0.18);
+}
+
+.strategy-correlation-ledger > header span,
+.strategy-correlation-ledger > header strong {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.strategy-correlation-ledger > header strong {
+  color: var(--muted);
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-weight: 600;
+}
+
+.strategy-correlation-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.strategy-correlation-flow li {
+  min-width: 0;
+  min-height: 82px;
+  padding: 10px 11px;
+  border-right: 1px solid rgba(128, 146, 142, 0.16);
+}
+
+.strategy-correlation-flow li:last-child {
+  border-right: 0;
+}
+
+.strategy-correlation-flow span {
+  display: block;
+  margin-bottom: 7px;
+  color: rgba(166, 186, 181, 0.72);
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+.strategy-correlation-flow strong {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.strategy-correlation-ledger > small {
+  display: block;
+  padding: 8px 11px 9px;
+  border-top: 1px solid rgba(128, 146, 142, 0.14);
+  color: rgba(166, 186, 181, 0.64);
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
 @media (max-width: 720px) {
+  .strategy-correlation-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .strategy-correlation-flow li:nth-child(2) {
+    border-right: 0;
+  }
+
+  .strategy-correlation-flow li:nth-child(-n + 2) {
+    border-bottom: 1px solid rgba(128, 146, 142, 0.16);
+  }
+
   .lab-head,
   .strategy-lab-row {
     grid-template-columns: minmax(70px, 0.9fr) repeat(4, minmax(58px, 0.75fr)) minmax(130px, 1.6fr);
@@ -11836,5 +11925,562 @@ body .backtest-metrics.backtest-evidence-ledger > div {
   .chart-panel .toolbar-actions button {
     padding: 0 2px;
     font-size: 10px;
+  }
+}
+
+/* Correlation uncertainty ledger: a compact confidence-interval annotation
+   inside the existing evidence band, not a nested dashboard card. */
+.strategy-uncertainty-ledger {
+  --uncertainty-accent: var(--accent, #238b7d);
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  border-inline-start: 3px solid color-mix(
+    in srgb,
+    var(--uncertainty-accent) 74%,
+    transparent
+  );
+  background:
+    linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--uncertainty-accent) 9%, transparent),
+      transparent 42%
+    );
+}
+
+.strategy-uncertainty-ledger::after {
+  content: "95% CI";
+  position: absolute;
+  inset-block-start: 0.7rem;
+  inset-inline-end: 0.75rem;
+  padding: 0.18rem 0.42rem;
+  border: 1px solid color-mix(
+    in srgb,
+    var(--uncertainty-accent) 38%,
+    transparent
+  );
+  border-radius: 999px;
+  color: color-mix(in srgb, var(--uncertainty-accent) 82%, currentColor);
+  font: 700 0.64rem/1 ui-monospace, "Cascadia Mono", monospace;
+  letter-spacing: 0.08em;
+}
+
+.strategy-uncertainty-ledger > header {
+  padding-inline-end: 4.5rem;
+}
+
+.strategy-uncertainty-ledger [data-stage] strong,
+.strategy-uncertainty-ledger > small {
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.strategy-uncertainty-ledger[data-raw-status="OBSERVED_UNCERTAINTY_BLOCK"] {
+  --uncertainty-accent: var(--warning, #b7791f);
+}
+
+/* Multiplicity ledger: the segmented top rail represents one family alpha
+   budget distributed across cross-cluster comparisons. */
+.strategy-multiplicity-ledger {
+  --multiplicity-accent: var(--accent, #238b7d);
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  border-inline-start: 3px solid color-mix(
+    in srgb,
+    var(--multiplicity-accent) 76%,
+    transparent
+  );
+  background:
+    linear-gradient(
+      108deg,
+      color-mix(in srgb, var(--multiplicity-accent) 8%, transparent),
+      transparent 46%
+    );
+}
+
+.strategy-multiplicity-ledger::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 auto;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--multiplicity-accent) 72%, transparent) 0 8%,
+    transparent 8% 10%
+  );
+  pointer-events: none;
+}
+
+.strategy-multiplicity-ledger::after {
+  content: "FWER 95%";
+  position: absolute;
+  inset-block-start: 0.7rem;
+  inset-inline-end: 0.75rem;
+  padding: 0.18rem 0.42rem;
+  border: 1px solid color-mix(
+    in srgb,
+    var(--multiplicity-accent) 38%,
+    transparent
+  );
+  border-radius: 999px;
+  color: color-mix(in srgb, var(--multiplicity-accent) 82%, currentColor);
+  font: 700 0.64rem/1 ui-monospace, "Cascadia Mono", monospace;
+  letter-spacing: 0.08em;
+}
+
+.strategy-multiplicity-ledger > header {
+  padding-inline-end: 5.2rem;
+}
+
+.strategy-multiplicity-ledger [data-stage] strong,
+.strategy-multiplicity-ledger > small {
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.strategy-multiplicity-ledger[data-raw-status="OBSERVED_FAMILY_WISE_BLOCK"] {
+  --multiplicity-accent: var(--warning, #b7791f);
+}
+
+/* Evidence calibration rail
+   A reading instrument, not a progress meter or readiness indicator. */
+.platform-control-center.evidence-calibrated {
+  --calibration-surface: #0b171b;
+  --calibration-plane: #102329;
+  --calibration-ink: #e1ece9;
+  --calibration-source: #58aa9d;
+  --calibration-gap: #d19a49;
+  --calibration-maturity: #7897a7;
+  --calibration-permission: #b9c8cc;
+  position: relative;
+  isolation: isolate;
+  color: var(--calibration-ink);
+  font-family: "Segoe UI Variable Text", "Aptos", sans-serif;
+  background:
+    linear-gradient(
+      color-mix(in srgb, var(--line) 28%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--line) 28%, transparent) 1px,
+      transparent 1px
+    ),
+    color-mix(in srgb, var(--bg) 94%, var(--calibration-plane) 6%);
+  background-size: 24px 24px;
+}
+
+body.view-platform .platform-control-center.evidence-calibrated {
+  grid-template-rows: auto auto auto auto auto minmax(0, 1fr);
+}
+
+.evidence-calibrated .platform-control-head {
+  position: relative;
+  min-height: 108px;
+  padding: 22px 24px 20px 28px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      98deg,
+      color-mix(in srgb, var(--calibration-source) 10%, var(--panel)),
+      var(--panel) 42%,
+      color-mix(in srgb, var(--calibration-maturity) 7%, var(--panel))
+    );
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--calibration-maturity) 30%,
+    var(--line)
+  );
+}
+
+.evidence-calibrated .platform-control-head::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--calibration-source) 0 7px,
+    transparent 7px 11px
+  );
+}
+
+.evidence-calibrated .platform-control-head > div:first-child > span {
+  color: var(--calibration-source);
+  font: 700 10px/1.2 "Cascadia Mono", "Consolas", monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.evidence-calibrated .platform-control-head strong {
+  color: var(--calibration-ink);
+  font-family: "Bahnschrift SemiCondensed", "Arial Narrow", sans-serif;
+  font-size: clamp(27px, 2.4vw, 38px);
+  font-stretch: condensed;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.evidence-calibrated .platform-control-head em {
+  max-width: 76ch;
+  color: color-mix(in srgb, var(--calibration-ink) 66%, var(--muted));
+  line-height: 1.55;
+}
+
+.evidence-calibrated .platform-control-actions button {
+  min-height: 34px;
+  border-color: color-mix(
+    in srgb,
+    var(--calibration-maturity) 38%,
+    var(--line)
+  );
+  border-radius: 2px;
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: 11px;
+}
+
+.evidence-calibrated .platform-control-actions button:first-child {
+  background: color-mix(
+    in srgb,
+    var(--calibration-source) 18%,
+    var(--panel-2)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--calibration-source) 55%,
+    var(--line)
+  );
+  color: var(--calibration-ink);
+}
+
+.evidence-calibrated button:focus-visible,
+.evidence-calibrated summary:focus-visible {
+  outline: 2px solid var(--calibration-gap);
+  outline-offset: 3px;
+}
+
+.evidence-calibration-rail {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.36fr) minmax(0, 1.64fr);
+  min-width: 0;
+  background: color-mix(in srgb, var(--panel) 90%, var(--calibration-plane) 10%);
+  border-bottom: 1px solid color-mix(
+    in srgb,
+    var(--calibration-maturity) 30%,
+    var(--line)
+  );
+  animation: evidence-calibration-enter 320ms ease-out both;
+}
+
+.evidence-calibration-legend {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 15px 20px 14px 28px;
+  border-right: 1px solid color-mix(
+    in srgb,
+    var(--calibration-maturity) 30%,
+    var(--line)
+  );
+}
+
+.evidence-calibration-legend span,
+.evidence-calibration-rail li > span {
+  color: var(--stage-accent, var(--calibration-source));
+  font: 700 10px/1.2 "Cascadia Mono", "Consolas", monospace;
+  letter-spacing: 0.12em;
+}
+
+.evidence-calibration-legend strong {
+  color: var(--calibration-ink);
+  font-family: "Bahnschrift SemiCondensed", "Arial Narrow", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.evidence-calibration-legend small {
+  color: var(--calibration-gap);
+  font: 600 10px/1.35 "Cascadia Mono", "Consolas", monospace;
+}
+
+.evidence-calibration-rail ol {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evidence-calibration-rail ol::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 auto;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--calibration-permission) 45%, transparent) 0 1px,
+    transparent 1px 8px
+  );
+  pointer-events: none;
+}
+
+.evidence-calibration-rail li {
+  --stage-accent: var(--calibration-maturity);
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 76px;
+  padding: 15px 16px 13px;
+  background: linear-gradient(
+    110deg,
+    color-mix(in srgb, var(--stage-accent) 8%, transparent),
+    transparent 56%
+  );
+  border-right: 1px solid color-mix(
+    in srgb,
+    var(--stage-accent) 22%,
+    var(--line)
+  );
+}
+
+.evidence-calibration-rail li:last-child {
+  border-right: 0;
+}
+
+.evidence-calibration-rail li::after {
+  content: "";
+  position: absolute;
+  inset: auto 16px 0;
+  height: 2px;
+  background: var(--stage-accent);
+  opacity: 0.68;
+}
+
+.evidence-calibration-rail [data-calibration-stage="source"] {
+  --stage-accent: var(--calibration-source);
+}
+
+.evidence-calibration-rail [data-calibration-stage="gap"] {
+  --stage-accent: var(--calibration-gap);
+}
+
+.evidence-calibration-rail [data-calibration-stage="maturity"] {
+  --stage-accent: var(--calibration-maturity);
+}
+
+.evidence-calibration-rail [data-calibration-stage="permission"] {
+  --stage-accent: var(--calibration-permission);
+}
+
+.evidence-calibration-rail li strong {
+  min-width: 0;
+  color: var(--calibration-ink);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.evidence-calibration-rail li small {
+  min-width: 0;
+  color: color-mix(in srgb, var(--calibration-ink) 58%, var(--muted));
+  font-size: 10px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.evidence-calibrated .platform-authority-summary {
+  background: color-mix(in srgb, var(--line) 74%, transparent);
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--calibration-maturity) 24%,
+    var(--line)
+  );
+}
+
+.evidence-calibrated .platform-authority-summary > div {
+  position: relative;
+  padding-left: 22px;
+  background: color-mix(in srgb, var(--panel) 95%, var(--calibration-plane) 5%);
+}
+
+.evidence-calibrated .platform-authority-summary > div::before {
+  content: "";
+  position: absolute;
+  inset: 12px auto 12px 12px;
+  width: 2px;
+  background: var(--calibration-source);
+}
+
+.evidence-calibrated .platform-authority-summary > .platform-authority-forbidden::before {
+  background: var(--calibration-gap);
+}
+
+.evidence-calibrated .platform-evidence-attribution-spine,
+.evidence-calibrated .platform-status-grid,
+.evidence-calibrated .platform-control-body {
+  border-color: color-mix(
+    in srgb,
+    var(--calibration-maturity) 25%,
+    var(--line)
+  );
+}
+
+.evidence-calibrated .platform-data-truth-band,
+.evidence-calibrated .platform-forward-observation-band,
+.evidence-calibrated .platform-small-capital-plan-band,
+.evidence-calibrated .platform-pipeline-band,
+.evidence-calibrated .platform-execution-band,
+.evidence-calibrated .platform-audit-band {
+  box-shadow: inset 0 1px 0 color-mix(
+    in srgb,
+    var(--calibration-ink) 4%,
+    transparent
+  );
+}
+
+body.theme-light .platform-control-center.evidence-calibrated {
+  --calibration-surface: #e8efed;
+  --calibration-plane: #dbe7e4;
+  --calibration-ink: #15272b;
+  --calibration-source: #1f7067;
+  --calibration-gap: #96631e;
+  --calibration-maturity: #4d6b79;
+  --calibration-permission: #53666b;
+}
+
+@keyframes evidence-calibration-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .evidence-calibration-rail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .evidence-calibration-legend {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: baseline;
+    padding: 12px 16px;
+    border-right: 0;
+    border-bottom: 1px solid color-mix(
+      in srgb,
+      var(--calibration-maturity) 28%,
+      var(--line)
+    );
+  }
+
+  .evidence-calibration-rail ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .evidence-calibration-rail li:nth-child(2) {
+    border-right: 0;
+  }
+
+  .evidence-calibration-rail li:nth-child(-n + 2) {
+    border-bottom: 1px solid color-mix(
+      in srgb,
+      var(--calibration-maturity) 22%,
+      var(--line)
+    );
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .evidence-calibrated .platform-control-head {
+    align-items: stretch;
+    min-height: 0;
+    padding: 16px 14px 14px 18px;
+  }
+
+  .evidence-calibrated .platform-control-head strong {
+    font-size: 29px;
+  }
+
+  .evidence-calibrated .platform-control-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .evidence-calibrated .platform-control-actions button {
+    width: 100%;
+    min-width: 0;
+    padding-inline: 6px;
+  }
+
+  .evidence-calibrated .platform-authority-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .evidence-calibration-legend {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .evidence-calibration-legend strong {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .evidence-calibration-rail ol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .evidence-calibration-rail li,
+  .evidence-calibration-rail li:nth-child(2) {
+    min-height: 64px;
+    border-right: 0;
+    border-bottom: 1px solid color-mix(
+      in srgb,
+      var(--stage-accent) 22%,
+      var(--line)
+    );
+  }
+
+  .evidence-calibration-rail li:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .evidence-calibration-rail {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .platform-control-center.evidence-calibrated,
+  .evidence-calibration-rail,
+  .evidence-calibration-legend,
+  .evidence-calibration-rail li,
+  .evidence-calibrated .platform-authority-summary > div {
+    border-color: CanvasText;
+    forced-color-adjust: auto;
+  }
+
+  .evidence-calibration-rail li::after,
+  .evidence-calibrated .platform-control-head::before,
+  .evidence-calibrated .platform-authority-summary > div::before {
+    background: CanvasText;
   }
 }

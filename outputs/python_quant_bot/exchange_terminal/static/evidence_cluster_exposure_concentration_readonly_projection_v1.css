@@ -1,0 +1,280 @@
+.cluster-concentration-plate-v1 {
+  --ccp-ink: #13282d;
+  --ccp-muted: #5f7172;
+  --ccp-canvas: #e7eeea;
+  --ccp-sheet: #f5f8f4;
+  --ccp-grid: #c4d0ca;
+  --ccp-tide: #0d6670;
+  --ccp-rust: #b34e34;
+  --ccp-marker: #d3a73b;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--ccp-ink) 18%, transparent);
+  border-radius: 8px 28px 8px 28px;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 17px, rgba(19, 40, 45, 0.025) 18px 19px),
+    var(--ccp-sheet);
+  box-shadow: 0 22px 56px rgba(19, 40, 45, 0.12);
+  color: var(--ccp-ink);
+  font-family: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+}
+
+.cluster-concentration-plate-v1::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  background: var(--ccp-muted);
+  content: "";
+}
+
+.cluster-concentration-plate-v1.is-blocked::before { background: var(--ccp-rust); }
+.cluster-concentration-plate-v1.is-observed::before { background: var(--ccp-tide); }
+
+.cluster-concentration-plate-v1__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 30px 19px;
+  border-bottom: 1px dashed var(--ccp-grid);
+}
+
+.cluster-concentration-plate-v1__header span,
+.cluster-concentration-plate-v1 footer span {
+  color: var(--ccp-muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.67rem;
+  letter-spacing: 0.09em;
+}
+
+.cluster-concentration-plate-v1__header h3 {
+  margin: 5px 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.35rem, 2.6vw, 2.15rem);
+  line-height: 1.08;
+}
+
+.cluster-concentration-plate-v1__header > strong {
+  align-self: flex-start;
+  padding: 7px 11px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: var(--ccp-muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+}
+
+.cluster-concentration-plate-v1.is-blocked .cluster-concentration-plate-v1__header > strong { color: var(--ccp-rust); }
+.cluster-concentration-plate-v1.is-observed .cluster-concentration-plate-v1__header > strong { color: var(--ccp-tide); }
+
+.cluster-concentration-plate-v1__body {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(420px, 1.2fr);
+  gap: 26px;
+  padding: 25px 30px;
+}
+
+.cluster-concentration-plate-v1__instrument {
+  position: relative;
+  min-height: 236px;
+  overflow: hidden;
+  border: 1px solid var(--ccp-grid);
+  border-radius: 18px 4px 18px 4px;
+  background:
+    linear-gradient(90deg, rgba(13, 102, 112, 0.08), transparent 58%),
+    repeating-linear-gradient(0deg, transparent 0 26px, rgba(19, 40, 45, 0.06) 27px 28px),
+    var(--ccp-canvas);
+}
+
+.cluster-concentration-plate-v1__instrument > b {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: var(--ccp-muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+}
+
+.dominance-track {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  left: 20px;
+  height: 18px;
+  overflow: hidden;
+  border: 1px solid var(--ccp-grid);
+  border-radius: 999px;
+  background: var(--ccp-sheet);
+}
+
+.dominance-track i {
+  display: block;
+  width: 58%;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--ccp-tide) 0 12px, #32838a 13px 18px);
+}
+
+.is-blocked .dominance-track i {
+  width: 76%;
+  background: repeating-linear-gradient(90deg, var(--ccp-rust) 0 12px, #cc735b 13px 18px);
+}
+
+.hhi-dial {
+  position: absolute;
+  top: 88px;
+  left: 50%;
+  width: 128px;
+  height: 128px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(from 210deg, var(--ccp-tide) 0 50%, var(--ccp-marker) 50% 54%, rgba(245, 248, 244, 0.92) 54% 100%);
+  box-shadow: inset 0 0 0 13px var(--ccp-sheet), 0 12px 28px rgba(19, 40, 45, 0.15);
+  transform: translateX(-50%);
+}
+
+.is-blocked .hhi-dial {
+  background: conic-gradient(from 210deg, var(--ccp-rust) 0 68%, var(--ccp-marker) 68% 73%, rgba(245, 248, 244, 0.92) 73% 100%);
+}
+
+.hhi-dial strong {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.35rem;
+}
+
+.hhi-dial em {
+  position: absolute;
+  right: -72px;
+  bottom: 8px;
+  color: var(--ccp-muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.55rem;
+  font-style: normal;
+  line-height: 1.2;
+}
+
+.cluster-concentration-plate-v1__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--ccp-grid);
+  border-radius: 4px 16px 4px 16px;
+  background: var(--ccp-grid);
+}
+
+.cluster-concentration-plate-v1__metrics div {
+  min-height: 94px;
+  padding: 16px;
+  background: rgba(245, 248, 244, 0.96);
+}
+
+.cluster-concentration-plate-v1__metrics dt {
+  color: var(--ccp-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+
+.cluster-concentration-plate-v1__metrics dd {
+  margin: 8px 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.25rem, 2.3vw, 1.9rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.cluster-concentration-plate-v1__flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0 30px 23px;
+  list-style: none;
+}
+
+.cluster-concentration-plate-v1__flow li {
+  min-height: 80px;
+  padding: 13px;
+  border: 1px solid var(--ccp-grid);
+  border-right: 0;
+  background: rgba(231, 238, 234, 0.55);
+}
+
+.cluster-concentration-plate-v1__flow li:first-child { border-radius: 12px 0 0 4px; }
+.cluster-concentration-plate-v1__flow li:last-child { border-right: 1px solid var(--ccp-grid); border-radius: 0 4px 12px 0; }
+.cluster-concentration-plate-v1__flow span { color: var(--ccp-tide); font-family: "IBM Plex Mono", monospace; font-size: 0.64rem; }
+.cluster-concentration-plate-v1__flow strong { display: block; margin-top: 7px; font-size: 0.76rem; line-height: 1.35; overflow-wrap: anywhere; }
+
+.cluster-concentration-plate-v1__ledger {
+  margin: 0 30px 22px;
+  border-top: 1px dashed var(--ccp-grid);
+}
+
+.cluster-concentration-plate-v1__ledger summary {
+  padding: 12px 2px 10px;
+  cursor: pointer;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+}
+
+.cluster-concentration-plate-v1__ledger summary:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--ccp-marker) 72%, transparent);
+  outline-offset: 4px;
+}
+
+.cluster-concentration-plate-v1__ledger ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cluster-concentration-plate-v1__ledger li { padding: 10px 11px; border-left: 3px solid var(--ccp-marker); background: rgba(231, 238, 234, 0.72); }
+.cluster-concentration-plate-v1__ledger li span { display: block; color: var(--ccp-muted); font-family: "IBM Plex Mono", monospace; font-size: 0.57rem; overflow-wrap: anywhere; }
+.cluster-concentration-plate-v1__ledger li strong { display: block; margin-top: 4px; font-size: 0.74rem; }
+
+.cluster-concentration-plate-v1 footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 30px 16px;
+  border-top: 1px solid var(--ccp-grid);
+  background: rgba(19, 40, 45, 0.04);
+}
+
+.cluster-concentration-plate-v1 footer strong { color: var(--ccp-muted); font-size: 0.7rem; font-weight: 520; }
+
+@media (max-width: 760px) {
+  .cluster-concentration-plate-v1__body { grid-template-columns: 1fr; }
+  .cluster-concentration-plate-v1__flow { grid-template-columns: 1fr 1fr; }
+  .cluster-concentration-plate-v1__ledger ul { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 460px) {
+  .cluster-concentration-plate-v1__header { flex-direction: column; }
+  .cluster-concentration-plate-v1__header,
+  .cluster-concentration-plate-v1__body,
+  .cluster-concentration-plate-v1__flow,
+  .cluster-concentration-plate-v1__ledger,
+  .cluster-concentration-plate-v1 footer { padding-inline: 18px; margin-inline: 0; }
+  .cluster-concentration-plate-v1__metrics,
+  .cluster-concentration-plate-v1__flow { grid-template-columns: 1fr; }
+  .cluster-concentration-plate-v1 footer { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hhi-dial,
+  .dominance-track i { animation: concentration-instrument-rise 520ms cubic-bezier(0.2, 0.72, 0.24, 1) both; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cluster-concentration-plate-v1 *,
+  .cluster-concentration-plate-v1 *::before,
+  .cluster-concentration-plate-v1 *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+@keyframes concentration-instrument-rise {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; }
+}

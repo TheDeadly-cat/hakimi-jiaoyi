@@ -1,0 +1,246 @@
+.hakimi-strata-card-v7 {
+  --strata-ink: #182426;
+  --strata-muted: #667274;
+  --strata-paper: #f2efe7;
+  --strata-line: #c9c3b5;
+  --strata-accent: #1d5b63;
+  --strata-gap: #9a642e;
+  position: relative;
+  overflow: hidden;
+  color: var(--strata-ink);
+  border: 1px solid var(--strata-line);
+  border-left: 8px solid var(--strata-accent);
+  border-radius: 18px 4px 18px 4px;
+  padding: clamp(20px, 3vw, 36px);
+  background:
+    linear-gradient(90deg, rgba(29, 91, 99, 0.07) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(rgba(29, 91, 99, 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
+    var(--strata-paper);
+  box-shadow: 0 20px 50px rgba(24, 36, 38, 0.12);
+  font-family: "IBM Plex Sans Condensed", "Aptos Narrow", sans-serif;
+}
+
+.hakimi-strata-card-v7::before {
+  content: "STRATA / 07";
+  position: absolute;
+  top: 12px;
+  right: -34px;
+  padding: 5px 42px;
+  color: #f8f6ef;
+  background: var(--strata-ink);
+  font: 700 10px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.16em;
+  transform: rotate(32deg);
+}
+
+.hakimi-strata-card-v7__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding-right: 32px;
+}
+
+.hakimi-strata-card-v7__header p,
+.hakimi-strata-card-v7__header h2,
+.hakimi-strata-card-v7__summary,
+.hakimi-strata-card-v7 ul,
+.hakimi-strata-card-v7 ol,
+.hakimi-strata-card-v7 dl,
+.hakimi-strata-card-v7 dd {
+  margin: 0;
+}
+
+.hakimi-strata-card-v7__header p {
+  margin-bottom: 9px;
+  color: var(--strata-accent);
+  font: 700 11px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.13em;
+}
+
+.hakimi-strata-card-v7__header h2 {
+  max-width: 680px;
+  font-family: "Fraunces", "Georgia", serif;
+  font-size: clamp(28px, 4vw, 50px);
+  font-weight: 650;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.hakimi-strata-card-v7__status {
+  flex: none;
+  border: 1px solid currentColor;
+  padding: 8px 11px;
+  color: var(--strata-gap);
+  background: rgba(242, 239, 231, 0.86);
+  font: 700 11px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.1em;
+}
+
+.hakimi-strata-card-v7[data-tone="bounded"] .hakimi-strata-card-v7__status {
+  color: var(--strata-accent);
+}
+
+.hakimi-strata-card-v7__summary {
+  max-width: 780px;
+  margin-top: 18px;
+  color: var(--strata-muted);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.hakimi-strata-card-v7__metrics,
+.hakimi-strata-card-v7__dimensions,
+.hakimi-strata-card-v7__stages {
+  list-style: none;
+  padding: 0;
+}
+
+.hakimi-strata-card-v7__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 28px !important;
+  border: 1px solid var(--strata-line);
+  background: var(--strata-line);
+}
+
+.hakimi-strata-card-v7__metric {
+  display: grid;
+  min-height: 112px;
+  align-content: space-between;
+  gap: 7px;
+  padding: 15px;
+  background: rgba(248, 246, 239, 0.94);
+}
+
+.hakimi-strata-card-v7__metric span,
+.hakimi-strata-card-v7__metric small,
+.hakimi-strata-card-v7__dimension dt,
+.hakimi-strata-card-v7__dimension > small {
+  color: var(--strata-muted);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.hakimi-strata-card-v7__metric strong {
+  color: var(--strata-ink);
+  font: 650 clamp(24px, 3vw, 36px)/1 "Fraunces", "Georgia", serif;
+}
+
+.hakimi-strata-card-v7__dimensions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+  margin-top: 12px !important;
+}
+
+.hakimi-strata-card-v7__dimension {
+  padding: 16px;
+  border: 1px solid var(--strata-line);
+  background: rgba(248, 246, 239, 0.78);
+}
+
+.hakimi-strata-card-v7__dimension header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.hakimi-strata-card-v7__dimension header strong {
+  font: 700 13px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.hakimi-strata-card-v7__dimension header span {
+  border: 1px solid var(--strata-gap);
+  padding: 4px 7px;
+  color: var(--strata-gap);
+  font: 700 10px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.hakimi-strata-card-v7__dimension header span[data-state="pass"] {
+  border-color: var(--strata-accent);
+  color: var(--strata-accent);
+}
+
+.hakimi-strata-card-v7__dimension dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.hakimi-strata-card-v7__dimension dl div {
+  border-top: 2px solid var(--strata-line);
+  padding-top: 8px;
+}
+
+.hakimi-strata-card-v7__dimension dd {
+  margin-top: 4px;
+  font: 650 20px/1 "Fraunces", "Georgia", serif;
+}
+
+.hakimi-strata-card-v7__dimension > small {
+  display: block;
+  margin-top: 14px;
+  font-family: "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.hakimi-strata-card-v7__stages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 28px !important;
+  border-top: 2px solid var(--strata-ink);
+}
+
+.hakimi-strata-card-v7__stage {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px 10px;
+  min-width: 0;
+  padding: 13px 12px 0 0;
+}
+
+.hakimi-strata-card-v7__stage span,
+.hakimi-strata-card-v7__stage strong,
+.hakimi-strata-card-v7__stage b {
+  font: 700 10px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.06em;
+}
+
+.hakimi-strata-card-v7__stage span { color: var(--strata-muted); }
+.hakimi-strata-card-v7__stage b { color: var(--strata-accent); }
+.hakimi-strata-card-v7__stage small {
+  grid-column: 1 / -1;
+  overflow-wrap: anywhere;
+  color: var(--strata-muted);
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.hakimi-strata-card-v7__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 24px;
+  padding-top: 12px;
+  border-top: 1px solid var(--strata-line);
+  color: var(--strata-muted);
+  font: 600 10px/1.4 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+@media (max-width: 760px) {
+  .hakimi-strata-card-v7__metrics,
+  .hakimi-strata-card-v7__stages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hakimi-strata-card-v7__header { display: grid; }
+  .hakimi-strata-card-v7__status { justify-self: start; }
+}
+
+@media (max-width: 480px) {
+  .hakimi-strata-card-v7 { border-left-width: 5px; padding: 18px 14px; }
+  .hakimi-strata-card-v7__metrics,
+  .hakimi-strata-card-v7__stages { grid-template-columns: 1fr; }
+  .hakimi-strata-card-v7__metric { min-height: 92px; }
+  .hakimi-strata-card-v7__footer { display: grid; }
+}

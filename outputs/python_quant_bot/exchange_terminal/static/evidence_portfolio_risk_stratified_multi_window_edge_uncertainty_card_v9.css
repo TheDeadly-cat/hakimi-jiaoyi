@@ -1,0 +1,370 @@
+.hakimi-edge-card-v9 {
+  --edge-ink: #17222d;
+  --edge-muted: #65717a;
+  --edge-paper: #f1eee6;
+  --edge-raised: #fbf8ef;
+  --edge-line: #c7c0b2;
+  --edge-blue: #28566e;
+  --edge-copper: #ad5c36;
+  --edge-slate: #68747b;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--edge-ink);
+  border: 1px solid var(--edge-line);
+  border-radius: 28px 4px 28px 4px;
+  padding: clamp(22px, 3.4vw, 42px);
+  background:
+    radial-gradient(circle at 88% 9%, rgba(40, 86, 110, 0.13) 0 2px, transparent 3px),
+    repeating-radial-gradient(circle at 88% 9%, transparent 0 27px, rgba(40, 86, 110, 0.055) 28px 29px),
+    linear-gradient(112deg, transparent 0 64%, rgba(173, 92, 54, 0.055) 64% 65%, transparent 65%),
+    linear-gradient(180deg, var(--edge-raised), var(--edge-paper));
+  box-shadow: 0 26px 70px rgba(23, 34, 45, 0.15);
+  font-family: "IBM Plex Sans Condensed", "Aptos Narrow", sans-serif;
+  animation: hakimi-edge-v9-enter 500ms cubic-bezier(0.16, 0.8, 0.22, 1) both;
+}
+
+.hakimi-edge-card-v9::before {
+  content: "EDGE / 09";
+  position: absolute;
+  z-index: -1;
+  right: clamp(18px, 4vw, 52px);
+  bottom: -0.14em;
+  color: rgba(23, 34, 45, 0.045);
+  font: 700 clamp(64px, 13vw, 150px)/0.8 "Cormorant Garamond", Georgia, serif;
+  letter-spacing: -0.07em;
+}
+
+.hakimi-edge-card-v9::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-top: 7px solid var(--edge-blue);
+  pointer-events: none;
+}
+
+.hakimi-edge-card-v9[data-tone="blocked"]::after { border-top-color: var(--edge-copper); }
+.hakimi-edge-card-v9[data-tone="unknown"]::after { border-top-color: var(--edge-slate); }
+
+.hakimi-edge-card-v9__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 24px;
+}
+
+.hakimi-edge-card-v9__header p {
+  margin: 0 0 10px;
+  color: var(--edge-blue);
+  font: 700 10px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.18em;
+}
+
+.hakimi-edge-card-v9[data-tone="blocked"] .hakimi-edge-card-v9__header p {
+  color: var(--edge-copper);
+}
+
+.hakimi-edge-card-v9__header h2 {
+  max-width: 760px;
+  margin: 0;
+  font: 650 clamp(30px, 4.7vw, 58px)/0.94 "Cormorant Garamond", Georgia, serif;
+  letter-spacing: -0.035em;
+}
+
+.hakimi-edge-card-v9__status {
+  border: 1px solid currentColor;
+  padding: 10px 13px;
+  color: var(--edge-blue);
+  background: rgba(251, 248, 239, 0.84);
+  font: 750 10px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+
+.hakimi-edge-card-v9[data-tone="blocked"] .hakimi-edge-card-v9__status { color: var(--edge-copper); }
+.hakimi-edge-card-v9[data-tone="unknown"] .hakimi-edge-card-v9__status { color: var(--edge-slate); }
+
+.hakimi-edge-card-v9__summary {
+  max-width: 840px;
+  margin: 18px 0 0;
+  color: var(--edge-muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.hakimi-edge-card-v9__bridge {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(260px, 1.2fr);
+  align-items: center;
+  gap: clamp(22px, 4vw, 52px);
+  margin-top: 30px;
+  padding: clamp(18px, 2.4vw, 28px);
+  border: 1px solid var(--edge-line);
+  border-left: 6px solid var(--edge-blue);
+  background: rgba(251, 248, 239, 0.76);
+}
+
+.hakimi-edge-card-v9__bridge[data-state="blocked"] { border-left-color: var(--edge-copper); }
+.hakimi-edge-card-v9__bridge[data-state="unknown"] { border-left-color: var(--edge-slate); }
+
+.hakimi-edge-card-v9__rail {
+  display: grid;
+  grid-template-columns: 42px 1fr 42px;
+  align-items: center;
+  gap: 10px;
+}
+
+.hakimi-edge-card-v9__rail span {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 2px solid var(--edge-blue);
+  border-radius: 50%;
+  background: var(--edge-raised);
+  font: 800 12px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.hakimi-edge-card-v9__bridge[data-state="blocked"] .hakimi-edge-card-v9__rail span {
+  border-color: var(--edge-copper);
+}
+
+.hakimi-edge-card-v9__rail i {
+  position: relative;
+  display: block;
+  height: 2px;
+  background: var(--edge-blue);
+}
+
+.hakimi-edge-card-v9__rail i::before,
+.hakimi-edge-card-v9__rail i::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--edge-blue);
+  border-radius: 50%;
+  background: var(--edge-paper);
+  transform: translateY(-50%);
+}
+
+.hakimi-edge-card-v9__rail i::before { left: 24%; }
+.hakimi-edge-card-v9__rail i::after { right: 24%; }
+.hakimi-edge-card-v9__bridge[data-state="blocked"] .hakimi-edge-card-v9__rail i { background: var(--edge-copper); }
+.hakimi-edge-card-v9__bridge[data-state="blocked"] .hakimi-edge-card-v9__rail i::before,
+.hakimi-edge-card-v9__bridge[data-state="blocked"] .hakimi-edge-card-v9__rail i::after { border-color: var(--edge-copper); }
+
+.hakimi-edge-card-v9__bridge small,
+.hakimi-edge-card-v9__bridge p {
+  color: var(--edge-muted);
+  font: 650 10px/1.35 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.06em;
+}
+
+.hakimi-edge-card-v9__bridge strong {
+  display: block;
+  margin-top: 7px;
+  font: 650 clamp(28px, 4vw, 46px)/0.95 "Cormorant Garamond", Georgia, serif;
+}
+
+.hakimi-edge-card-v9__bridge p { margin: 8px 0 0; overflow-wrap: anywhere; }
+
+.hakimi-edge-card-v9__metrics,
+.hakimi-edge-card-v9__signals,
+.hakimi-edge-card-v9__dimensions,
+.hakimi-edge-card-v9__stages {
+  list-style: none;
+  padding: 0;
+}
+
+.hakimi-edge-card-v9__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 14px 0 0;
+  border: 1px solid var(--edge-line);
+  background: var(--edge-line);
+}
+
+.hakimi-edge-card-v9__metric {
+  display: grid;
+  min-height: 116px;
+  align-content: space-between;
+  gap: 9px;
+  padding: 16px;
+  background: rgba(251, 248, 239, 0.94);
+  animation: hakimi-edge-v9-rise 430ms ease-out both;
+}
+
+.hakimi-edge-card-v9__metric:nth-child(2) { animation-delay: 55ms; }
+.hakimi-edge-card-v9__metric:nth-child(3) { animation-delay: 110ms; }
+.hakimi-edge-card-v9__metric:nth-child(4) { animation-delay: 165ms; }
+
+.hakimi-edge-card-v9__metric span,
+.hakimi-edge-card-v9__metric small,
+.hakimi-edge-card-v9__dimension dt,
+.hakimi-edge-card-v9__dimension > small {
+  color: var(--edge-muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.hakimi-edge-card-v9__metric strong {
+  font: 650 clamp(26px, 3vw, 40px)/1 "Cormorant Garamond", Georgia, serif;
+}
+
+.hakimi-edge-card-v9__signals {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin: 12px 0 0;
+}
+
+.hakimi-edge-card-v9__signal {
+  display: grid;
+  gap: 7px;
+  padding: 12px 13px;
+  border: 1px solid var(--edge-line);
+  background: rgba(241, 238, 230, 0.8);
+}
+
+.hakimi-edge-card-v9__signal span { color: var(--edge-muted); font-size: 11px; }
+.hakimi-edge-card-v9__signal strong {
+  color: var(--edge-blue);
+  font: 750 10px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.05em;
+}
+.hakimi-edge-card-v9__signal[data-state="blocked"] strong { color: var(--edge-copper); }
+
+.hakimi-edge-card-v9__dimensions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 12px;
+  margin: 25px 0 0;
+}
+
+.hakimi-edge-card-v9__dimension {
+  padding: 16px;
+  border: 1px solid var(--edge-line);
+  background: rgba(251, 248, 239, 0.7);
+}
+
+.hakimi-edge-card-v9__dimension header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.hakimi-edge-card-v9__dimension header strong {
+  font: 700 12px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.hakimi-edge-card-v9__dimension header span {
+  border: 1px solid var(--edge-copper);
+  padding: 4px 7px;
+  color: var(--edge-copper);
+  font: 700 10px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.hakimi-edge-card-v9__dimension header span[data-state="pass"] {
+  border-color: var(--edge-blue);
+  color: var(--edge-blue);
+}
+
+.hakimi-edge-card-v9__dimension dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.hakimi-edge-card-v9__dimension dl div { border-top: 2px solid var(--edge-line); padding-top: 8px; }
+.hakimi-edge-card-v9__dimension dd {
+  margin: 4px 0 0;
+  font: 650 22px/1 "Cormorant Garamond", Georgia, serif;
+}
+.hakimi-edge-card-v9__dimension > small {
+  display: block;
+  margin-top: 14px;
+  font-family: "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.hakimi-edge-card-v9__stages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 30px 0 0;
+  border-top: 2px solid var(--edge-ink);
+}
+
+.hakimi-edge-card-v9__stage {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px 10px;
+  min-width: 0;
+  padding: 13px 12px 0 0;
+}
+
+.hakimi-edge-card-v9__stage span,
+.hakimi-edge-card-v9__stage strong,
+.hakimi-edge-card-v9__stage b {
+  font: 700 10px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.055em;
+}
+
+.hakimi-edge-card-v9__stage span { color: var(--edge-muted); }
+.hakimi-edge-card-v9__stage b { color: var(--edge-blue); }
+.hakimi-edge-card-v9__stage:last-child b { color: var(--edge-copper); }
+.hakimi-edge-card-v9__stage small {
+  grid-column: 1 / -1;
+  overflow-wrap: anywhere;
+  color: var(--edge-muted);
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.hakimi-edge-card-v9__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 25px;
+  padding-top: 12px;
+  border-top: 1px solid var(--edge-line);
+  color: var(--edge-muted);
+  font: 600 10px/1.45 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+@keyframes hakimi-edge-v9-enter {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hakimi-edge-v9-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 860px) {
+  .hakimi-edge-card-v9__header { grid-template-columns: 1fr; }
+  .hakimi-edge-card-v9__status { justify-self: start; }
+  .hakimi-edge-card-v9__bridge { grid-template-columns: 1fr; }
+  .hakimi-edge-card-v9__metrics,
+  .hakimi-edge-card-v9__signals,
+  .hakimi-edge-card-v9__stages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 540px) {
+  .hakimi-edge-card-v9 { padding: 20px 14px; border-radius: 20px 3px 20px 3px; }
+  .hakimi-edge-card-v9__metrics,
+  .hakimi-edge-card-v9__signals,
+  .hakimi-edge-card-v9__stages { grid-template-columns: 1fr; }
+  .hakimi-edge-card-v9__metric { min-height: 94px; }
+  .hakimi-edge-card-v9__footer { display: grid; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hakimi-edge-card-v9,
+  .hakimi-edge-card-v9__metric { animation: none; }
+}

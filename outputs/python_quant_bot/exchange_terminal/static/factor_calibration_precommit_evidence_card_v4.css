@@ -1,0 +1,482 @@
+.fcpc4-card {
+  --fcpc4-ink: #17272c;
+  --fcpc4-paper: #f2f0e7;
+  --fcpc4-paper-deep: #ddd9cc;
+  --fcpc4-mineral: #2a6f7b;
+  --fcpc4-amber: #c18a2d;
+  --fcpc4-oxide: #b64a35;
+  --fcpc4-sage: #5e7866;
+  --fcpc4-line: rgba(23, 39, 44, 0.18);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: min(100%, 1160px);
+  padding: clamp(20px, 4vw, 48px);
+  color: var(--fcpc4-ink);
+  border: 1px solid var(--fcpc4-line);
+  border-radius: 4px 4px 28px 4px;
+  background:
+    radial-gradient(circle at 84% 16%, rgba(42, 111, 123, 0.1), transparent 23%),
+    repeating-linear-gradient(90deg, transparent 0 35px, rgba(23, 39, 44, 0.035) 35px 36px),
+    linear-gradient(145deg, #faf8f1 0%, var(--fcpc4-paper) 58%, var(--fcpc4-paper-deep) 100%);
+  box-shadow: 0 30px 82px rgba(23, 39, 44, 0.15);
+  font-family: "IBM Plex Mono", "JetBrains Mono", "Courier New", monospace;
+  animation: fcpc4-arrive 600ms cubic-bezier(0.18, 0.82, 0.22, 1) both;
+}
+
+.fcpc4-card::before {
+  content: "06";
+  position: absolute;
+  z-index: -1;
+  right: -0.04em;
+  bottom: -0.2em;
+  color: rgba(23, 39, 44, 0.034);
+  font-family: "Bodoni Moda", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(11rem, 29vw, 25rem);
+  line-height: 0.78;
+  letter-spacing: -0.08em;
+}
+
+.fcpc4-card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 12px;
+  border: 1px solid rgba(23, 39, 44, 0.055);
+  border-radius: 2px 2px 19px 2px;
+  pointer-events: none;
+}
+
+.fcpc4-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 30px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--fcpc4-line);
+}
+
+.fcpc4-eyebrow,
+.fcpc4-subtitle,
+.fcpc4-note,
+.fcpc4-provenance {
+  margin: 0;
+}
+
+.fcpc4-eyebrow {
+  color: var(--fcpc4-oxide);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+
+.fcpc4-title {
+  max-width: 820px;
+  margin: 9px 0 10px;
+  font-family: "Bodoni Moda", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(2.05rem, 5.4vw, 4.9rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.052em;
+}
+
+.fcpc4-subtitle {
+  color: rgba(23, 39, 44, 0.62);
+  font-size: 0.66rem;
+  letter-spacing: 0.115em;
+}
+
+.fcpc4-stamp {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+  min-width: 150px;
+  padding-left: 20px;
+  border-left: 3px solid var(--fcpc4-mineral);
+}
+
+.fcpc4-stamp-index,
+.fcpc4-band-range,
+.fcpc4-lag-index,
+.fcpc4-provenance {
+  color: rgba(23, 39, 44, 0.48);
+  font-size: 0.6rem;
+  letter-spacing: 0.11em;
+}
+
+.fcpc4-state {
+  padding: 8px 10px;
+  border: 1px solid currentColor;
+  background: rgba(242, 240, 231, 0.76);
+  font-size: 0.68rem;
+  letter-spacing: 0.075em;
+}
+
+.fcpc4-card[data-state="EVIDENCE_BLOCK"] .fcpc4-state {
+  color: var(--fcpc4-oxide);
+}
+
+.fcpc4-card[data-state="UNKNOWN"] .fcpc4-state {
+  color: rgba(23, 39, 44, 0.58);
+}
+
+.fcpc4-rail-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 31px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--fcpc4-ink);
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+}
+
+.fcpc4-rail-detail {
+  color: rgba(23, 39, 44, 0.52);
+  text-align: right;
+}
+
+.fcpc4-horizon {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34px minmax(0, 1fr);
+  min-width: 0;
+  margin-bottom: 18px;
+}
+
+.fcpc4-band {
+  min-width: 0;
+  border-bottom: 1px solid var(--fcpc4-line);
+}
+
+.fcpc4-band-baseline {
+  border-left: 1px solid var(--fcpc4-line);
+}
+
+.fcpc4-band-omnibus {
+  border-right: 1px solid var(--fcpc4-line);
+}
+
+.fcpc4-band-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--fcpc4-line);
+  background: rgba(250, 248, 241, 0.6);
+}
+
+.fcpc4-band-label,
+.fcpc4-coverage,
+.fcpc4-aperture-label,
+.fcpc4-ceiling,
+.fcpc4-axis-index,
+.fcpc4-axis-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.fcpc4-band-baseline .fcpc4-band-label {
+  color: var(--fcpc4-mineral);
+}
+
+.fcpc4-band-omnibus .fcpc4-band-label {
+  color: var(--fcpc4-amber);
+}
+
+.fcpc4-band-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.fcpc4-tooth {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: 7px;
+  min-height: 142px;
+  padding: 18px 14px;
+  border-right: 1px solid var(--fcpc4-line);
+  background: rgba(250, 248, 241, 0.5);
+  animation: fcpc4-tooth-rise 500ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.fcpc4-tooth:last-child {
+  border-right: 0;
+}
+
+.fcpc4-tooth::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 14px;
+  width: 2px;
+  height: 45%;
+  background: currentColor;
+}
+
+.fcpc4-tooth-lag-1,
+.fcpc4-tooth-lag-2,
+.fcpc4-tooth-lag-3 {
+  color: var(--fcpc4-mineral);
+}
+
+.fcpc4-tooth-lag-4,
+.fcpc4-tooth-lag-5,
+.fcpc4-tooth-lag-6 {
+  color: var(--fcpc4-amber);
+}
+
+.fcpc4-tooth-lag-1 { animation-delay: 55ms; }
+.fcpc4-tooth-lag-2 { animation-delay: 95ms; }
+.fcpc4-tooth-lag-3 { animation-delay: 135ms; }
+.fcpc4-tooth-lag-4 { animation-delay: 205ms; }
+.fcpc4-tooth-lag-5 { animation-delay: 245ms; }
+.fcpc4-tooth-lag-6 { animation-delay: 285ms; }
+
+.fcpc4-lag-index {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.fcpc4-lag {
+  font-family: "Bodoni Moda", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(1.35rem, 2.5vw, 2.05rem);
+  font-weight: 500;
+  line-height: 0.95;
+}
+
+.fcpc4-coverage {
+  overflow-wrap: anywhere;
+  color: rgba(23, 39, 44, 0.56);
+  line-height: 1.35;
+}
+
+.fcpc4-guard-seam {
+  display: grid;
+  place-items: center;
+  color: var(--fcpc4-paper);
+  background:
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.08) 0 5px, transparent 5px 10px),
+    var(--fcpc4-ink);
+}
+
+.fcpc4-guard-copy {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.fcpc4-aperture {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px 22px;
+  width: min(100%, 680px);
+  min-height: 146px;
+  margin: 0 auto 30px;
+  padding: 24px clamp(26px, 5vw, 54px);
+  color: var(--fcpc4-paper);
+  border: 1px solid rgba(242, 240, 231, 0.2);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 74% 30%, rgba(193, 138, 45, 0.22), transparent 31%),
+    var(--fcpc4-ink);
+  box-shadow:
+    inset 0 0 0 9px rgba(242, 240, 231, 0.045),
+    0 18px 38px rgba(23, 39, 44, 0.16);
+  animation: fcpc4-aperture-open 620ms 170ms cubic-bezier(0.18, 0.82, 0.22, 1) both;
+}
+
+.fcpc4-aperture-value {
+  grid-row: span 2;
+  font-family: "Bodoni Moda", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(3rem, 7vw, 5.7rem);
+  font-weight: 500;
+  line-height: 0.78;
+  letter-spacing: -0.045em;
+}
+
+.fcpc4-ceiling {
+  align-self: end;
+  color: rgba(242, 240, 231, 0.68);
+}
+
+.fcpc4-axes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--fcpc4-line);
+  border-bottom: 1px solid var(--fcpc4-line);
+}
+
+.fcpc4-axis {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 7px 11px;
+  min-width: 0;
+  padding: 18px 15px;
+  border-right: 1px solid var(--fcpc4-line);
+}
+
+.fcpc4-axis:last-child {
+  border-right: 0;
+}
+
+.fcpc4-axis-index {
+  grid-row: span 2;
+  color: var(--fcpc4-oxide);
+}
+
+.fcpc4-axis-label {
+  color: rgba(23, 39, 44, 0.5);
+}
+
+.fcpc4-axis-state {
+  overflow-wrap: anywhere;
+  font-size: 0.71rem;
+  line-height: 1.38;
+}
+
+.fcpc4-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 24px;
+  padding-top: 22px;
+}
+
+.fcpc4-note {
+  max-width: 830px;
+  color: rgba(23, 39, 44, 0.74);
+  font-size: 0.71rem;
+  line-height: 1.67;
+}
+
+.fcpc4-provenance {
+  white-space: nowrap;
+}
+
+@keyframes fcpc4-arrive {
+  from { opacity: 0; transform: translateY(14px) scale(0.995); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fcpc4-tooth-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fcpc4-aperture-open {
+  from { opacity: 0; transform: scaleX(0.88); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+@media (max-width: 880px) {
+  .fcpc4-header,
+  .fcpc4-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .fcpc4-stamp {
+    justify-items: start;
+    width: fit-content;
+  }
+
+  .fcpc4-horizon {
+    grid-template-columns: 1fr;
+  }
+
+  .fcpc4-guard-seam {
+    min-height: 28px;
+  }
+
+  .fcpc4-guard-copy {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .fcpc4-band-baseline,
+  .fcpc4-band-omnibus {
+    border-right: 1px solid var(--fcpc4-line);
+    border-left: 1px solid var(--fcpc4-line);
+  }
+
+  .fcpc4-axes {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .fcpc4-axis:nth-child(2) {
+    border-right: 0;
+  }
+
+  .fcpc4-axis:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--fcpc4-line);
+  }
+
+  .fcpc4-provenance {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 500px) {
+  .fcpc4-card {
+    padding: 18px;
+    border-radius: 4px 4px 19px 4px;
+  }
+
+  .fcpc4-rail-label {
+    display: grid;
+  }
+
+  .fcpc4-rail-detail {
+    text-align: left;
+  }
+
+  .fcpc4-band-grid,
+  .fcpc4-axes {
+    grid-template-columns: 1fr;
+  }
+
+  .fcpc4-tooth {
+    min-height: 96px;
+    border-right: 0;
+    border-bottom: 1px solid var(--fcpc4-line);
+  }
+
+  .fcpc4-tooth:last-child {
+    border-bottom: 0;
+  }
+
+  .fcpc4-aperture {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    border-radius: 34px;
+    text-align: center;
+  }
+
+  .fcpc4-aperture-value {
+    grid-row: auto;
+  }
+
+  .fcpc4-axis,
+  .fcpc4-axis:nth-child(2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--fcpc4-line);
+  }
+
+  .fcpc4-axis:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fcpc4-card,
+  .fcpc4-tooth,
+  .fcpc4-aperture {
+    animation: none;
+  }
+}

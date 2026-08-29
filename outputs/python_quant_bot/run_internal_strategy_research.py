@@ -62,6 +62,7 @@ from exchange_terminal.services.strategy_research_evidence import (
     LEGACY_STRATEGY_RESEARCH_SELECTION_CELL_EVIDENCE_SCHEMA_VERSION,
     STRATEGY_RESEARCH_REPORT_SCHEMA_VERSION,
     STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
     STRATEGY_RESEARCH_SELECTION_CELL_EVIDENCE_SCHEMA_VERSION,
     STRATEGY_RESEARCH_WORKFLOW,
     POST_SELECTION_REPLAY_REPORT_SCHEMA_VERSIONS,
@@ -73,6 +74,9 @@ from exchange_terminal.services.strategy_research_evidence import (
     strategy_research_test_cell_hash,
     strategy_research_test_cell_hash_for_report,
     verify_strategy_research_report,
+)
+from exchange_terminal.services.strategy_correlation_research_evidence import (
+    build_strategy_correlation_research_multiplicity_evidence_from_selection,
 )
 from exchange_terminal.services.strategy_frozen_evaluation_replay import (
     FROZEN_EVALUATION_REPLAY_REPORT_SCHEMA_VERSION,
@@ -146,6 +150,14 @@ from run_internal_strategy_matrix import (
 DEFAULT_SELECTION_SYMBOLS = ["AAPL", "NVDA", "MSFT", "MU", "WDC", "BTC-USDT"]
 DEFAULT_HOLDOUT_SYMBOLS = ["QQQ", "ETH-USDT"]
 RESEARCH_WORKFLOW = STRATEGY_RESEARCH_WORKFLOW
+FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS = frozenset({
+    STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
+})
+COST_STRESS_BOUND_REPORT_SCHEMA_VERSIONS = frozenset({
+    *COST_STRESS_BOUND_REPORT_SCHEMA_VERSIONS,
+    STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
+})
 
 
 def build_research_batch_spec(
@@ -206,6 +218,7 @@ def build_research_batch_spec(
         PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+        STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
     }:
         raise ValueError("unsupported strategy research report schema")
     sealed_hypothesis: dict[str, Any] | None = None
@@ -217,6 +230,7 @@ def build_research_batch_spec(
         PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+        STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
     }:
         verification = verify_strategy_hypothesis_preregistration(
             hypothesis_preregistration,
@@ -225,7 +239,7 @@ def build_research_batch_spec(
             expected_schema_version=(
                 STRATEGY_HYPOTHESIS_PREREGISTRATION_SCHEMA_VERSION_V3
                 if report_schema_version
-                == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION
+                in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS
                 else (
                     STRATEGY_HYPOTHESIS_PREREGISTRATION_SCHEMA_VERSION_V2
                     if report_schema_version
@@ -306,7 +320,7 @@ def build_research_batch_spec(
     ):
         raise ValueError("max_test_candidates must be within the strategy count")
     sealed_search_lineage: dict[str, Any] | None = None
-    if report_schema_version == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION:
+    if report_schema_version in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS:
         lineage_verification = verify_strategy_research_search_lineage(
             search_lineage,
             expected_search_family_id=str(
@@ -1261,6 +1275,33 @@ def _prepared_verification(
     )
 
 
+def _publish_formal_strategy_research_pointer_if_authorized(
+    *,
+    report_dir: Path,
+    output: Path,
+    report: dict[str, Any],
+) -> dict[str, Any]:
+    if (
+        report.get("schema_version")
+        == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION
+    ):
+        return {
+            "status": "NOT_AUTHORIZED",
+            "published": False,
+            "reason": "schema16_current_pointer_not_authorized",
+            "current_writer_activation_allowed": False,
+            "current_admission_allowed": False,
+            "paper_authorized": False,
+            "live_order_allowed": False,
+            "blockers": [],
+        }
+    return _publish_verified_strategy_research_pointer(
+        report_dir=report_dir,
+        output=output,
+        report=report,
+    )
+
+
 def finalize_formal_strategy_research_result(
     *,
     registration_store: StrategyMatrixRegistrationStore,
@@ -1390,12 +1431,15 @@ def finalize_formal_strategy_research_result(
             "blockers": list(final_publication.get("blockers") or []),
             "final_publication": final_publication,
         }
-    pointer_publication = _publish_verified_strategy_research_pointer(
+    pointer_publication = _publish_formal_strategy_research_pointer_if_authorized(
         report_dir=report_dir,
         output=output,
         report=report,
     )
-    if pointer_publication.get("published") is not True:
+    if (
+        pointer_publication.get("published") is not True
+        and pointer_publication.get("status") != "NOT_AUTHORIZED"
+    ):
         return {
             "ok": False,
             "status": "POINTER_RECOVERY_REQUIRED",
@@ -1537,12 +1581,15 @@ def recover_formal_strategy_research_result(
             "blockers": list(final_publication.get("blockers") or []),
             "final_publication": final_publication,
         }
-    pointer_publication = _publish_verified_strategy_research_pointer(
+    pointer_publication = _publish_formal_strategy_research_pointer_if_authorized(
         report_dir=report_dir,
         output=output,
         report=report,
     )
-    if pointer_publication.get("published") is not True:
+    if (
+        pointer_publication.get("published") is not True
+        and pointer_publication.get("status") != "NOT_AUTHORIZED"
+    ):
         return {
             "ok": False,
             "status": "POINTER_RECOVERY_REQUIRED",
@@ -1587,11 +1634,12 @@ def main() -> int:
         choices=(
             STRATEGY_RESEARCH_REPORT_SCHEMA_VERSION,
             STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+            STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
         ),
         default=None,
         help=(
             "Formal registry preflight declaration; defaults to schema 14. "
-            "Development remains schema 13."
+            "Schema 16 is explicit multiplicity research; development remains schema 13."
         ),
     )
     args = parser.parse_args()
@@ -1663,7 +1711,7 @@ def main() -> int:
     if formal_mode:
         if (
             requested_report_schema_version
-            == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION
+            in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS
         ):
             canonical_preflight = verify_strategy_research_canonical_registry_path(
                 raw_registry_path,
@@ -1720,7 +1768,7 @@ def main() -> int:
         }
         if (
             requested_report_schema_version
-            == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION
+            in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS
         ):
             store_arguments["canonical_runtime_root"] = runtime_dir
         registration_store = StrategyMatrixRegistrationStore(**store_arguments)
@@ -1875,7 +1923,7 @@ def main() -> int:
         protocol = dict(claim_result.get("protocol") or {})
         claim = dict(claim_result.get("claim") or {})
         started_at_ms = int(claim.get("started_at_ms") or 0)
-        if report_schema_version == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION:
+        if report_schema_version in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS:
             live_lineage = registration_store.verify_search_lineage_live(
                 args.registration_id
             )
@@ -1940,8 +1988,17 @@ def main() -> int:
             if report_schema_version in REPLAYED_SELECTION_REPORT_SCHEMA_VERSIONS
             else ""
         ),
+        manifest_timeframe=(
+            "1D"
+            if report_schema_version
+            == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION
+            else ""
+        ),
         capture_alignment_input=(
             report_schema_version in REPLAYED_SELECTION_REPORT_SCHEMA_VERSIONS
+        ),
+        require_market_data_envelope=(
+            report_schema_version == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION
         ),
     )
     selection_schedule = build_calendar_split_schedule(selection_payloads)
@@ -2045,8 +2102,38 @@ def main() -> int:
         validation_rankings,
         frozen_variants=variants,
     )
+    correlation_multiplicity_evidence: dict[str, Any] = {}
+    candidate_rankings = validation_rankings
+    if (
+        report_schema_version
+        == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION
+    ):
+        try:
+            correlation_multiplicity_evidence = (
+                build_strategy_correlation_research_multiplicity_evidence_from_selection(
+                    protocol,
+                    selection_payloads,
+                    selection_manifests,
+                    selection_alignment,
+                    selection_cells,
+                    validation_rankings,
+                )
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            raise SystemExit(json.dumps({
+                "error": "research_correlation_multiplicity_evidence_blocked",
+                "status": "BLOCK",
+                "blockers": [str(exc)],
+                "test_rows_evaluated": False,
+                "holdout_data_loaded": False,
+                "research_only": True,
+                "paper_authorized": False,
+                "live_order_allowed": False,
+            }, ensure_ascii=False)) from exc
+        if correlation_multiplicity_evidence.get("decision_status") != "PASS":
+            candidate_rankings = []
     validation_candidates = freeze_validation_candidates(
-        validation_rankings,
+        candidate_rankings,
         max_candidates=int(batch_spec["max_test_candidates"]),
     )
     preregistered_failure_admission: dict[str, Any] = {}
@@ -2054,8 +2141,9 @@ def main() -> int:
         PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+        STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
     }:
-        if report_schema_version == STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION:
+        if report_schema_version in FORMAL_SINGLE_USE_REPORT_SCHEMA_VERSIONS:
             if not formal_mode or registration_store is None:
                 raise SystemExit(
                     "schema 14 admission requires the live canonical registry"
@@ -2146,6 +2234,15 @@ def main() -> int:
                 "CONFIRMATION"
                 if report_schema_version in REPLAYED_SELECTION_REPORT_SCHEMA_VERSIONS
                 else ""
+            ),
+            manifest_timeframe=(
+                "1D"
+                if report_schema_version
+                == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION
+                else ""
+            ),
+            require_market_data_envelope=(
+                report_schema_version == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION
             ),
         )
         if (
@@ -2339,6 +2436,7 @@ def main() -> int:
         PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
         STRATEGY_RESEARCH_FORMAL_REPORT_SCHEMA_VERSION,
+        STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION,
     }:
         payload["preregistered_failure_admission"] = preregistered_failure_admission
         payload["summary"]["preregistered_failure_admission_status"] = str(
@@ -2346,6 +2444,19 @@ def main() -> int:
         )
         payload["summary"]["preregistered_failure_admitted_candidates"] = len(
             preregistered_failure_admission.get("admitted_variant_ids") or []
+        )
+    if (
+        report_schema_version
+        == STRATEGY_RESEARCH_MULTIPLICITY_REPORT_SCHEMA_VERSION
+    ):
+        payload["correlation_multiplicity_evidence"] = (
+            correlation_multiplicity_evidence
+        )
+        payload["summary"]["correlation_multiplicity_artifact_status"] = str(
+            correlation_multiplicity_evidence.get("status") or "BLOCK"
+        )
+        payload["summary"]["correlation_multiplicity_decision_status"] = str(
+            correlation_multiplicity_evidence.get("decision_status") or "BLOCK"
         )
     payload["batch_run_hash"] = strategy_research_result_hash(payload)
     if formal_mode:

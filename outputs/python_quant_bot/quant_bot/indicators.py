@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import numpy as np
 import pandas as pd
 
 
@@ -31,8 +30,12 @@ def rsi(close: pd.Series, window: int = 14) -> pd.Series:
     delta = close.diff()
     gain = delta.clip(lower=0).rolling(window=window, min_periods=window).mean()
     loss = (-delta.clip(upper=0)).rolling(window=window, min_periods=window).mean()
-    rs = gain / loss.replace(0, np.nan)
-    return 100 - (100 / (1 + rs))
+    zero_loss = loss.eq(0)
+    zero_gain = gain.eq(0)
+    rs = gain / loss.mask(zero_loss)
+    value = 100 - (100 / (1 + rs))
+    value = value.mask(zero_loss & gain.gt(0), 100.0)
+    return value.mask(zero_loss & zero_gain, 50.0)
 
 
 def momentum(close: pd.Series, window: int = 20) -> pd.Series:

@@ -1,0 +1,183 @@
+{
+  "acceptance_contract": {
+    "browser_global": "HakimiPortfolioCorrelationAdmissionEffectiveBudgetCrossRuntimeConsumerParityAcceptanceV1",
+    "fixture_input_mode": "SEALED_SYNTHETIC_THREE_STATE_ARGUMENT_ONLY",
+    "host_binding": null,
+    "output_mode": "HASH_ONLY_ACCEPTANCE_RECEIPT",
+    "raw_state_documents_embedded": false,
+    "registration_input_mode": "SEALED_IN_MEMORY_ARGUMENT_ONLY",
+    "schema_version": "portfolio-correlation-admission-effective-budget-cross-runtime-consumer-parity-acceptance-receipt-v1",
+    "static_fingerprint": "20260824-portfolio-correlation-admission-effective-budget-cross-runtime-consumer-parity-acceptance-v1-unbound-lock-1"
+  },
+  "activation_order": [
+    "VERIFY_EXACT_ADR0310_CONSUMER_PREREGISTRATION",
+    "VERIFY_ADR0313_PARITY_REGISTRATION",
+    "VERIFY_SYNTHETIC_THREE_STATE_FIXTURE",
+    "BUILD_ISOLATED_JAVASCRIPT_RESULTS",
+    "VERIFY_THREE_STATE_PARITY_ACCEPTANCE_RECEIPT",
+    "DECLARE_HOST_BINDINGS_IN_SEPARATE_VERSION",
+    "RUN_AUTHORIZED_BROWSER_REVIEW_BEFORE_ANY_MOUNT",
+    "CONSIDER_CURRENT_ONLY_BY_SEPARATE_EXPLICIT_DECISION"
+  ],
+  "authority": {
+    "acceptance_execution_allowed": false,
+    "app_import_allowed": false,
+    "browser_execution_allowed": false,
+    "current_admission_allowed": false,
+    "dom_mount_allowed": false,
+    "endpoint_registration_allowed": false,
+    "html_script_binding_allowed": false,
+    "javascript_module_binding_allowed": false,
+    "live_order_allowed": false,
+    "paper_authorized": false,
+    "python_provider_binding_allowed": false,
+    "route_registration_allowed": false,
+    "stylesheet_link_binding_allowed": false,
+    "writer_allowed": false
+  },
+  "blockers": [
+    "PARITY_ACCEPTANCE_RECEIPT_NOT_YET_BOUND",
+    "PYTHON_PROVIDER_UNBOUND",
+    "JAVASCRIPT_HOST_MODULE_UNBOUND",
+    "HOST_SCRIPT_STYLESHEET_ROUTE_ENDPOINT_AND_MOUNT_UNBOUND",
+    "AUTHORIZED_BROWSER_REVIEW_NOT_RUN",
+    "CURRENT_ACTIVATION_NOT_AUTHORIZED",
+    "PAPER_AND_LIVE_PERMISSION_NOT_AUTHORIZED"
+  ],
+  "consumer_contracts": [
+    {
+      "adr_path": "docs/adr/0311-portfolio-correlation-admission-effective-budget-hash-envelope-source-consumer-v1.md",
+      "adr_sha256": "06f2385cd3a302c5311f6685afb917e81f184ccaec79fca228a19dad86a23558",
+      "consumer_id": "portfolio-correlation-admission-effective-budget-hash-envelope-source-v1",
+      "host_binding": null,
+      "implementation_path": "exchange_terminal/services/portfolio_correlation_admission_effective_budget_hash_envelope_source_consumer_v1.py",
+      "implementation_sha256": "ec7de6b7dfdd30d4c29d9156551fd62525516a48e52cfc2cd945acc7b959eeca",
+      "role": "HASH_ONLY_IN_MEMORY_ENVELOPE_SOURCE",
+      "runtime": "PYTHON",
+      "schema_version": "portfolio-correlation-admission-effective-budget-hash-envelope-source-consumer-result-v1",
+      "static_fingerprint": "20260824-portfolio-correlation-admission-effective-budget-hash-envelope-source-consumer-v1-isolated-lock-1",
+      "test_path": "tests/test_portfolio_correlation_admission_effective_budget_hash_envelope_source_consumer_v1.py",
+      "test_sha256": "3ff87343beccd2f22d95be20e989886fbde6539a29d81a4730d56ab552addc92"
+    },
+    {
+      "adr_path": "docs/adr/0312-portfolio-correlation-admission-effective-budget-inspection-consumer-v1.md",
+      "adr_sha256": "e4ab75bf5ac2579843668ec97bfa9cf22ea01e8b63e36f1fb577ce5f6763a718",
+      "browser_global": "HakimiPortfolioCorrelationAdmissionEffectiveBudgetInspectionConsumerV1",
+      "consumer_id": "portfolio-correlation-admission-effective-budget-inspection-bridge-v1",
+      "fixture_canonical_hash": "3cc4e1a759ef01fe4b8e5441250e307ee0fad9d0b6023608987c50e97da9ea0b",
+      "fixture_path": "tests/fixtures/portfolio_correlation_admission_effective_budget_hash_envelope_source_consumer_v1.json",
+      "fixture_sha256": "b25be196152f370101bc43cf61e065308761d3070c4edb4656ffd00ad287dbe7",
+      "host_script": null,
+      "host_stylesheet": null,
+      "implementation_path": "exchange_terminal/static/evidence_portfolio_correlation_admission_effective_budget_inspection_consumer_v1.js",
+      "implementation_sha256": "7ea19bbcf27a40657623f2f1a5b503e3b834939d4e08519a4455d95b3255b5e6",
+      "mount_slot": null,
+      "role": "VERIFY_EXTRACT_AND_BUILD_UNMOUNTED_INSPECTION_BRIDGE",
+      "runtime": "JAVASCRIPT",
+      "schema_version": "portfolio-correlation-admission-effective-budget-inspection-consumer-result-v1",
+      "static_fingerprint": "20260824-portfolio-correlation-admission-effective-budget-inspection-consumer-v1-isolated-lock-1",
+      "test_path": "exchange_terminal/static/evidence_portfolio_correlation_admission_effective_budget_inspection_consumer_v1.test.js",
+      "test_sha256": "2fa4f1b2f9abc044e483ca66f3fd3decce10287d18646353b9b7e72b28df680f"
+    }
+  ],
+  "consumer_pair_hash": "e5aa8d8b0b1ee3ab24891b1323edcbafca72203dd265d218f82eaa8f3789b578",
+  "consumer_preregistration": {
+    "host_binding_required": false,
+    "javascript_consumer_contract_hash": "1966892253b987f98ae8e8814692ec6f94387d2f9191ca7416447802382bbb8f",
+    "python_consumer_contract_hash": "fd402270f5c03c5225201f9df8768859b398cc1912658a0880f367ff7afc882a",
+    "registration_hash": "4cc6352fb4083d8589d656481ecfd8fe3a33d6bba44bac6383ce2ca1f6d72987"
+  },
+  "decision": "THREE_STATE_PYTHON_JAVASCRIPT_CONSUMER_PARITY_REGISTERED_ACCEPTANCE_HOST_BROWSER_DOM_CURRENT_PAPER_AND_LIVE_UNBOUND",
+  "facts": {
+    "acceptance_executed": false,
+    "browser_executed": false,
+    "consumer_preregistration_hash_pinned": true,
+    "dom_mounted": false,
+    "host_bindings_declared": false,
+    "javascript_consumer_source_pinned": true,
+    "profitability_proven": false,
+    "python_consumer_source_pinned": true,
+    "runtime_mutations_performed": false,
+    "synthetic_fixture_pinned": true,
+    "three_state_parity_registered": true
+  },
+  "host_plan": {
+    "browser_review_receipt": null,
+    "endpoint": null,
+    "host_script": null,
+    "host_stylesheet": null,
+    "javascript_module": null,
+    "mount_slot": null,
+    "python_provider": null,
+    "route": null
+  },
+  "parity_matrix": [
+    {
+      "bridge_status_label": "LOCAL ALIGNMENT",
+      "extraction_receipt_hash": "b2991d361f45421a59ceb6980692ecb892bfc60bc41c2691c7f2ac980d6804b3",
+      "javascript_result_hash": "5e88bb5f5ce875ef2a8b22315487e26a7069a3a16da936461c5f2602b7a23390",
+      "javascript_status": "KNOWN",
+      "markup_hash": "b7f8be93a4cc11bfdd97436f748ab5c673f086b4c4ae980f55e5effbff84a734",
+      "presentation_hash": "55e67227c3ad29378d06b5bb8f29db5b3b20981a988f69cadf074298b49c4e5d",
+      "python_envelope_hash": "2bafa66dbb13a0bfe4e927edd91129003177fed0b2f4bc2e788d793b597803c3",
+      "python_result_hash": "4271f49558382127bb0e1e737ca080686c305907e60e0b5514aded14a98e7b96",
+      "python_status": "KNOWN",
+      "source_hash_policy": "EXACT_64_HEX",
+      "state": "KNOWN"
+    },
+    {
+      "bridge_status_label": "SOURCE UNKNOWN",
+      "extraction_receipt_hash": "14aacd9131f3d8c9131ba4e116d0eb52be26a0e110624b5b89df5e1be8c1e778",
+      "javascript_result_hash": "4c438a0de624b03c54d4dbb78a10c9ec3b93ca7deadcbea875d28c00e4d87e15",
+      "javascript_status": "UNKNOWN",
+      "markup_hash": "57441de8a2b73e502c68ac51bcd923cf65699f7b66a970ba2512321aab74cdac",
+      "presentation_hash": "9efdb0d85e5176a92ae4acb35686573b7cb769553d031015ed403817c349c2c5",
+      "python_envelope_hash": "a5136b988cf6baed8f1009b786828c855c493935e5ff9af570e110834972993c",
+      "python_result_hash": "6c67f3e287102d467c5a22f3ff57a2130a40654c7ee994cc560bba4673b04273",
+      "python_status": "UNKNOWN",
+      "source_hash_policy": "ALL_NULL",
+      "state": "UNKNOWN"
+    },
+    {
+      "bridge_status_label": null,
+      "extraction_receipt_hash": null,
+      "javascript_result_hash": "cb4d03284f25cd05a58563d63ef2a6cf51ce9ebe541ba6fb9d5f795f21e9fabc",
+      "javascript_status": "BLOCKED",
+      "markup_hash": null,
+      "presentation_hash": null,
+      "python_envelope_hash": null,
+      "python_result_hash": "a762ed471125031bf15ed39290b8a6e778454dfa68f07500a473d60f0b8fe9f3",
+      "python_status": "BLOCKED",
+      "source_hash_policy": "ALL_NULL",
+      "state": "BLOCKED"
+    }
+  ],
+  "parity_matrix_hash": "5ca94940147858aff54a658568f61b453e19ee5ff6468d68c6657e8249a74a61",
+  "parity_policy": {
+    "blocked_source_hash_policy": "ALL_NULL",
+    "known_bridge_status_label": "LOCAL ALIGNMENT",
+    "known_source_hash_policy": "EXACT_64_HEX",
+    "known_unknown_markup_must_differ": true,
+    "python_to_javascript_mapping": {
+      "BLOCKED": "BLOCKED",
+      "KNOWN": "KNOWN",
+      "UNKNOWN": "UNKNOWN"
+    },
+    "raw_source_evidence_embedded": false,
+    "ready_word_allowed": false,
+    "state_order": [
+      "KNOWN",
+      "UNKNOWN",
+      "BLOCKED"
+    ],
+    "status_mapping_hash": "f0332296b3370e75810d172cbc261b13327e25f8b77f0d7f9c83d80df7bd3014",
+    "unknown_bridge_status_label": "SOURCE UNKNOWN",
+    "unknown_source_hash_policy": "ALL_NULL"
+  },
+  "parity_registration_hash": "5870b0bb4729b37a8638600c04fffdfbf45f5240f9c6f613cb3401431bffb394",
+  "registration_id": "portfolio-correlation-admission-effective-budget-cross-runtime-consumer-parity-v1",
+  "registration_state": "THREE_STATE_CROSS_RUNTIME_CONSUMER_PARITY_REGISTERED_UNBOUND",
+  "schema_version": "portfolio-correlation-admission-effective-budget-cross-runtime-consumer-parity-registration-v1",
+  "static_fingerprint": "20260824-portfolio-correlation-admission-effective-budget-cross-runtime-consumer-parity-registration-v1-unbound-lock-1",
+  "status": "BLOCKED"
+}

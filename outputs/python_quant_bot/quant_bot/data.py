@@ -99,7 +99,7 @@ class OkxPublicDataProvider(MarketDataProvider):
     base_url = "https://www.okx.com"
 
     def __init__(self, fallback: MarketDataProvider | None = None, cache_dir: str = "runtime/cache", use_cache: bool = True):
-        self.fallback = fallback or SyntheticDataProvider()
+        self.fallback = fallback
         self.cache_dir = Path(cache_dir)
         self.use_cache = use_cache
         if self.use_cache:
@@ -200,9 +200,24 @@ class OkxPublicDataProvider(MarketDataProvider):
             if len(real_data) >= limit:
                 return real_data.tail(limit)
 
-            prefix = self.fallback.get_history(symbol, timeframe, limit - len(real_data))
-            return pd.concat([prefix, real_data]).sort_index().tail(limit)
+            if self.fallback is not None:
+                missing = limit - len(real_data)
+                logger.warning(
+                    "Insufficient real OKX history for %s %s: got %d, need %d. Using fallback for %d rows.",
+                    symbol, timeframe, len(real_data), limit, missing
+                )
+                prefix = self.fallback.get_history(symbol, timeframe, missing)
+                return pd.concat([prefix, real_data]).sort_index().tail(limit)
+            logger.warning(
+                "Insufficient real OKX history for %s %s: got %d, need %d; synthetic fallback is disabled.",
+                symbol, timeframe, len(real_data), limit
+            )
+            raise RuntimeError(
+                f"Insufficient real OKX history for {symbol} {timeframe}: got {len(real_data)}, need {limit}."
+            )
 
+        if self.fallback is None:
+            raise RuntimeError("No real OKX data and synthetic fallback is disabled.")
         return self.fallback.get_history(symbol, timeframe, limit)
 
 
@@ -212,4 +227,6 @@ def build_data_provider(config: BotConfig) -> MarketDataProvider:
         return OkxPublicDataProvider(cache_dir=config.data.cache_dir, use_cache=config.data.use_cache)
     if provider == "csv":
         return CsvDataProvider(config.data.csv_path)
-    return SyntheticDataProvider()
+    if provider == "synthetic":
+        raise RuntimeError("Synthetic market data is test-only and cannot be selected by product configuration.")
+    raise ValueError(f"Unsupported market data provider: {provider}")

@@ -6,7 +6,8 @@ import math
 from typing import Any
 
 
-PORTFOLIO_ROBUSTNESS_SCHEMA_VERSION = "portfolio-robustness-diagnostic-v2"
+PORTFOLIO_ROBUSTNESS_SCHEMA_VERSION = "portfolio-robustness-diagnostic-v3"
+PORTFOLIO_ROBUSTNESS_IDENTITY_CONTRACT_VERSION = "portfolio-robustness-identity-v1"
 
 
 def _canonical_hash(payload: Any) -> str:
@@ -24,6 +25,20 @@ def _number(value: Any, default: float = 0.0) -> float:
     return parsed if math.isfinite(parsed) else default
 
 
+def _finite_number(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return None
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    return parsed if math.isfinite(parsed) else None
+
+
+def _canonical_nonempty_text(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip()) and value == value.strip()
+
+
 def _nonnegative_integer(value: Any) -> int | None:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         return None
@@ -31,6 +46,148 @@ def _nonnegative_integer(value: Any) -> int | None:
     if not math.isfinite(parsed) or parsed < 0 or not parsed.is_integer():
         return None
     return int(parsed)
+
+
+def _diagnostic_rows(value: Any, *, name: str) -> tuple[list[dict[str, Any]], list[str]]:
+    if not isinstance(value, list):
+        return [], [f"{name}_not_list"]
+    rows: list[dict[str, Any]] = []
+    labels: list[str] = []
+    run_hashes: list[str] = []
+    issues: list[str] = []
+    for index, item in enumerate(value):
+        if not isinstance(item, dict):
+            issues.append(f"{name}[{index}]_not_object")
+            continue
+        rows.append(item)
+        label = item.get("label")
+        run_hash = item.get("run_hash")
+        if not _canonical_nonempty_text(label):
+            issues.append(f"{name}[{index}]_label_invalid")
+        else:
+            labels.append(str(label))
+        if not _canonical_nonempty_text(run_hash):
+            issues.append(f"{name}[{index}]_run_hash_invalid")
+        else:
+            run_hashes.append(str(run_hash))
+    if len(labels) != len(set(labels)):
+        issues.append(f"{name}_labels_not_unique")
+    if len(run_hashes) != len(set(run_hashes)):
+        issues.append(f"{name}_run_hashes_not_unique")
+    return rows, issues
+
+
+def _positive_result(item: dict[str, Any], *, bounded_drawdown: bool = False) -> bool:
+    total_return = _finite_number(item.get("total_return_pct"))
+    if (
+        item.get("ok") is not True
+        or item.get("schedule_status") != "PASS"
+        or total_return is None
+        or total_return <= 0
+    ):
+        return False
+    if not bounded_drawdown:
+        return True
+    drawdown = _finite_number(item.get("max_drawdown_pct"))
+    return drawdown is not None and 0.0 <= drawdown < 15.0
+
+
+def _derive_robustness_facts(
+    *,
+    candidate_hash: Any,
+    dataset_hash: Any,
+    parameter_results: Any,
+    ablation_results: Any,
+    capital_results: Any,
+    candidate_verification: Any,
+) -> dict[str, Any]:
+    parameter_rows, parameter_issues = _diagnostic_rows(
+        parameter_results,
+        name="parameter_results",
+    )
+    ablation_rows, ablation_issues = _diagnostic_rows(
+        ablation_results,
+        name="ablation_results",
+    )
+    capital_rows, capital_issues = _diagnostic_rows(
+        capital_results,
+        name="capital_results",
+    )
+    contract_issues = [*parameter_issues, *ablation_issues, *capital_issues]
+    if len(parameter_rows) != 7:
+        contract_issues.append("parameter_results_count_not_7")
+    if len(ablation_rows) < 4:
+        contract_issues.append("ablation_results_count_below_4")
+    capital_labels = {str(item.get("label") or "") for item in capital_rows}
+    for required_label in ("CAPITAL_100K", "CAPITAL_1M"):
+        if required_label not in capital_labels:
+            contract_issues.append(f"capital_results_missing:{required_label}")
+
+    parameter_ok = [
+        item for item in parameter_rows
+        if _positive_result(item, bounded_drawdown=True)
+    ]
+    ablation_ok = [item for item in ablation_rows if _positive_result(item)]
+    capital_by_label = {str(item.get("label") or ""): item for item in capital_rows}
+    negative_ablation_symbols = [
+        str(item.get("removed_symbol") or item.get("label") or "")
+        for item in ablation_rows
+        if not _positive_result(item)
+    ]
+    baseline_capital = capital_by_label.get("CAPITAL_100K") or {}
+    million_capital = capital_by_label.get("CAPITAL_1M") or {}
+    checks = {
+        "candidate_hash_present": _canonical_nonempty_text(candidate_hash),
+        "dataset_hash_present": _canonical_nonempty_text(dataset_hash),
+        "candidate_verification_pass": (
+            isinstance(candidate_verification, dict)
+            and candidate_verification.get("status") == "PASS"
+        ),
+        "diagnostic_identity_contract_pass": not contract_issues,
+        "parameter_neighborhood_positive_at_least_5_of_7": (
+            len(parameter_ok) >= 5 and len(parameter_rows) == 7
+        ),
+        "universe_ablation_positive_at_least_75_pct": (
+            len(ablation_rows) >= 4
+            and len(ablation_ok) / len(ablation_rows) >= 0.75
+        ),
+        "baseline_capital_positive": _positive_result(baseline_capital),
+        "million_capital_positive_without_partial_fills": (
+            _positive_result(million_capital)
+            and _nonnegative_integer(million_capital.get("partial_fill_count")) == 0
+        ),
+        "all_diagnostics_ok": all(
+            item.get("ok") is True
+            for item in [*parameter_rows, *ablation_rows, *capital_rows]
+        ),
+        "all_diagnostics_follow_schedule": all(
+            item.get("schedule_status") == "PASS"
+            for item in [*parameter_rows, *ablation_rows, *capital_rows]
+        ),
+    }
+    return {
+        "checks": checks,
+        "contract_issues": contract_issues,
+        "warnings": [
+            f"single_symbol_ablation_non_positive:{symbol}"
+            for symbol in negative_ablation_symbols
+        ],
+        "parameter_summary": {
+            "case_count": len(parameter_rows),
+            "positive_bounded_count": len(parameter_ok),
+        },
+        "ablation_summary": {
+            "case_count": len(ablation_rows),
+            "positive_count": len(ablation_ok),
+            "positive_ratio": (
+                round(len(ablation_ok) / len(ablation_rows), 6)
+                if ablation_rows else 0.0
+            ),
+        },
+        "parameter_rows": parameter_rows,
+        "ablation_rows": ablation_rows,
+        "capital_rows": capital_rows,
+    }
 
 
 def fixed_parameter_stress_cases(spec: dict[str, Any]) -> list[dict[str, Any]]:
@@ -73,65 +230,35 @@ def build_robustness_assessment(
     created_at: str = "",
     candidate_verification: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    parameter_ok = [
-        item for item in parameter_results
-        if item.get("ok") is True
-        and item.get("schedule_status") == "PASS"
-        and _number(item.get("total_return_pct")) > 0
-        and _number(item.get("max_drawdown_pct"), 100.0) < 15.0
-    ]
-    ablation_ok = [
-        item for item in ablation_results
-        if item.get("ok") is True
-        and item.get("schedule_status") == "PASS"
-        and _number(item.get("total_return_pct")) > 0
-    ]
-    capital_by_label = {str(item.get("label") or ""): item for item in capital_results}
-    negative_ablation_symbols = [
-        str(item.get("removed_symbol") or item.get("label") or "")
-        for item in ablation_results
-        if item.get("ok") is not True or _number(item.get("total_return_pct")) <= 0
-    ]
-    checks = {
-        "candidate_hash_present": bool(candidate_hash),
-        "dataset_hash_present": bool(dataset_hash),
-        "candidate_verification_pass": (candidate_verification or {}).get("status") == "PASS",
-        "parameter_neighborhood_positive_at_least_5_of_7": len(parameter_ok) >= 5 and len(parameter_results) == 7,
-        "universe_ablation_positive_at_least_75_pct": bool(ablation_results) and len(ablation_ok) / len(ablation_results) >= 0.75,
-        "baseline_capital_positive": _number((capital_by_label.get("CAPITAL_100K") or {}).get("total_return_pct")) > 0,
-        "million_capital_positive_without_partial_fills": (
-            _number((capital_by_label.get("CAPITAL_1M") or {}).get("total_return_pct")) > 0
-            and _nonnegative_integer((capital_by_label.get("CAPITAL_1M") or {}).get("partial_fill_count")) == 0
-        ),
-        "all_diagnostics_follow_schedule": all(
-            item.get("schedule_status") == "PASS"
-            for item in [*parameter_results, *ablation_results, *capital_results]
-        ),
-    }
+    facts = _derive_robustness_facts(
+        candidate_hash=candidate_hash,
+        dataset_hash=dataset_hash,
+        parameter_results=parameter_results,
+        ablation_results=ablation_results,
+        capital_results=capital_results,
+        candidate_verification=candidate_verification,
+    )
+    checks = facts["checks"]
     payload = {
         "schema_version": PORTFOLIO_ROBUSTNESS_SCHEMA_VERSION,
+        "identity_contract_version": PORTFOLIO_ROBUSTNESS_IDENTITY_CONTRACT_VERSION,
         "status": "ROBUSTNESS_PASS" if all(checks.values()) else "ROBUSTNESS_BLOCK",
         "candidate_hash": str(candidate_hash or ""),
         "dataset_hash": str(dataset_hash or ""),
         "created_at": str(created_at or ""),
-        "candidate_verification": dict(candidate_verification or {}),
+        "candidate_verification": (
+            dict(candidate_verification)
+            if isinstance(candidate_verification, dict)
+            else {}
+        ),
         "checks": checks,
-        "warnings": [
-            f"single_symbol_ablation_non_positive:{symbol}"
-            for symbol in negative_ablation_symbols
-        ],
-        "parameter_summary": {
-            "case_count": len(parameter_results),
-            "positive_bounded_count": len(parameter_ok),
-        },
-        "ablation_summary": {
-            "case_count": len(ablation_results),
-            "positive_count": len(ablation_ok),
-            "positive_ratio": round(len(ablation_ok) / len(ablation_results), 6) if ablation_results else 0.0,
-        },
-        "parameter_results": parameter_results,
-        "ablation_results": ablation_results,
-        "capital_results": capital_results,
+        "contract_issues": facts["contract_issues"],
+        "warnings": facts["warnings"],
+        "parameter_summary": facts["parameter_summary"],
+        "ablation_summary": facts["ablation_summary"],
+        "parameter_results": facts["parameter_rows"],
+        "ablation_results": facts["ablation_rows"],
+        "capital_results": facts["capital_rows"],
         "diagnostic_only": True,
         "parameter_selection_allowed": False,
         "manual_review_required": True,
@@ -143,11 +270,26 @@ def build_robustness_assessment(
 
 
 def verify_robustness_report(report: dict[str, Any], *, candidate_hash: str) -> dict[str, Any]:
+    if not isinstance(report, dict):
+        return {
+            "schema_version": PORTFOLIO_ROBUSTNESS_SCHEMA_VERSION,
+            "identity_contract_version": PORTFOLIO_ROBUSTNESS_IDENTITY_CONTRACT_VERSION,
+            "status": "BLOCK",
+            "blockers": ["robustness_report_object_required"],
+            "expected_hash": "",
+            "paper_authorized": False,
+            "live_order_allowed": False,
+        }
     payload = dict(report or {})
     expected_hash = str(payload.pop("robustness_hash", "") or "")
     blockers: list[str] = []
     if str(report.get("schema_version") or "") != PORTFOLIO_ROBUSTNESS_SCHEMA_VERSION:
         blockers.append("robustness_schema_invalid")
+    if (
+        str(report.get("identity_contract_version") or "")
+        != PORTFOLIO_ROBUSTNESS_IDENTITY_CONTRACT_VERSION
+    ):
+        blockers.append("robustness_identity_contract_version_invalid")
     if str(report.get("status") or "") != "ROBUSTNESS_PASS":
         blockers.append("robustness_status_not_passed")
     if str(report.get("candidate_hash") or "") != str(candidate_hash or ""):
@@ -156,7 +298,35 @@ def verify_robustness_report(report: dict[str, Any], *, candidate_hash: str) -> 
         blockers.append("robustness_hash_mismatch")
     if report.get("paper_authorized") is not False or report.get("live_order_allowed") is not False:
         blockers.append("robustness_report_has_execution_authority")
+    if (
+        report.get("diagnostic_only") is not True
+        or report.get("parameter_selection_allowed") is not False
+        or report.get("manual_review_required") is not True
+    ):
+        blockers.append("robustness_diagnostic_authority_invalid")
+    facts = _derive_robustness_facts(
+        candidate_hash=report.get("candidate_hash"),
+        dataset_hash=report.get("dataset_hash"),
+        parameter_results=report.get("parameter_results"),
+        ablation_results=report.get("ablation_results"),
+        capital_results=report.get("capital_results"),
+        candidate_verification=report.get("candidate_verification"),
+    )
+    if report.get("checks") != facts["checks"]:
+        blockers.append("robustness_checks_mismatch")
+    if report.get("contract_issues") != facts["contract_issues"]:
+        blockers.append("robustness_contract_issues_mismatch")
+    if report.get("warnings") != facts["warnings"]:
+        blockers.append("robustness_warnings_mismatch")
+    if report.get("parameter_summary") != facts["parameter_summary"]:
+        blockers.append("robustness_parameter_summary_mismatch")
+    if report.get("ablation_summary") != facts["ablation_summary"]:
+        blockers.append("robustness_ablation_summary_mismatch")
+    if not all(facts["checks"].values()):
+        blockers.append("robustness_derived_checks_not_passed")
     return {
+        "schema_version": PORTFOLIO_ROBUSTNESS_SCHEMA_VERSION,
+        "identity_contract_version": PORTFOLIO_ROBUSTNESS_IDENTITY_CONTRACT_VERSION,
         "status": "PASS" if not blockers else "BLOCK",
         "blockers": blockers,
         "expected_hash": expected_hash,

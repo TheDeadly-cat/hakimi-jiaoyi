@@ -1,0 +1,395 @@
+.fcpc3-card {
+  --fcpc3-ink: #18262c;
+  --fcpc3-paper: #f3efe3;
+  --fcpc3-paper-deep: #e6dfcf;
+  --fcpc3-oxide: #a6482d;
+  --fcpc3-tide: #176e75;
+  --fcpc3-ochre: #a9781e;
+  --fcpc3-line: rgba(24, 38, 44, 0.19);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: min(100%, 1080px);
+  padding: clamp(20px, 4vw, 46px);
+  color: var(--fcpc3-ink);
+  border: 1px solid var(--fcpc3-line);
+  border-radius: 6px 6px 24px 6px;
+  background:
+    radial-gradient(circle at 87% 12%, rgba(169, 120, 30, 0.13), transparent 24%),
+    linear-gradient(90deg, rgba(24, 38, 44, 0.04) 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(rgba(24, 38, 44, 0.04) 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(142deg, #faf7ee 0%, var(--fcpc3-paper) 58%, var(--fcpc3-paper-deep) 100%);
+  box-shadow: 0 28px 74px rgba(24, 38, 44, 0.14);
+  font-family: "IBM Plex Mono", "JetBrains Mono", "Courier New", monospace;
+  animation: fcpc3-arrive 560ms cubic-bezier(0.18, 0.82, 0.22, 1) both;
+}
+
+.fcpc3-card::before {
+  content: "03";
+  position: absolute;
+  z-index: -1;
+  right: -0.035em;
+  bottom: -0.22em;
+  color: rgba(24, 38, 44, 0.035);
+  font-family: "Bodoni Moda", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(10rem, 28vw, 23rem);
+  line-height: 0.8;
+  letter-spacing: -0.08em;
+}
+
+.fcpc3-card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 12px;
+  border: 1px solid rgba(24, 38, 44, 0.055);
+  border-radius: 2px 2px 16px 2px;
+  pointer-events: none;
+}
+
+.fcpc3-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 28px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--fcpc3-line);
+}
+
+.fcpc3-eyebrow,
+.fcpc3-subtitle,
+.fcpc3-note,
+.fcpc3-provenance {
+  margin: 0;
+}
+
+.fcpc3-eyebrow {
+  color: var(--fcpc3-oxide);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+
+.fcpc3-title {
+  max-width: 760px;
+  margin: 9px 0 8px;
+  font-family: "Bodoni Moda", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(2.1rem, 5.8vw, 5rem);
+  font-weight: 500;
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+}
+
+.fcpc3-subtitle {
+  color: rgba(24, 38, 44, 0.61);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+}
+
+.fcpc3-stamp {
+  display: grid;
+  justify-items: end;
+  gap: 9px;
+  min-width: 142px;
+  padding-left: 18px;
+  border-left: 3px solid var(--fcpc3-oxide);
+}
+
+.fcpc3-stamp-index {
+  color: rgba(24, 38, 44, 0.48);
+  font-size: 0.61rem;
+  letter-spacing: 0.11em;
+}
+
+.fcpc3-state {
+  padding: 8px 10px;
+  border: 1px solid currentColor;
+  background: rgba(243, 239, 227, 0.72);
+  font-size: 0.68rem;
+  letter-spacing: 0.075em;
+}
+
+.fcpc3-card[data-state="EVIDENCE_BLOCK"] .fcpc3-state {
+  color: var(--fcpc3-oxide);
+}
+
+.fcpc3-card[data-state="UNKNOWN"] .fcpc3-state {
+  color: rgba(24, 38, 44, 0.58);
+}
+
+.fcpc3-rail-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 30px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--fcpc3-ink);
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+}
+
+.fcpc3-rail-detail {
+  color: rgba(24, 38, 44, 0.52);
+  text-align: right;
+}
+
+.fcpc3-comb {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(112px, 0.78fr)) minmax(220px, 1.55fr);
+  gap: 10px;
+  margin: 0 0 30px;
+}
+
+.fcpc3-tooth,
+.fcpc3-aggregate {
+  min-height: 132px;
+  border: 1px solid var(--fcpc3-line);
+  border-top: 0;
+}
+
+.fcpc3-tooth {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: 7px;
+  padding: 17px;
+  background: rgba(250, 247, 238, 0.68);
+  animation: fcpc3-tooth-drop 480ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.fcpc3-tooth::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 17px;
+  width: 2px;
+  height: 42%;
+  background: currentColor;
+}
+
+.fcpc3-tooth-lag-1 {
+  color: var(--fcpc3-oxide);
+  animation-delay: 70ms;
+}
+
+.fcpc3-tooth-lag-2 {
+  color: var(--fcpc3-tide);
+  animation-delay: 130ms;
+}
+
+.fcpc3-tooth-lag-3 {
+  color: var(--fcpc3-ochre);
+  animation-delay: 190ms;
+}
+
+.fcpc3-lag-index {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: rgba(24, 38, 44, 0.32);
+  font-size: 0.62rem;
+}
+
+.fcpc3-lag {
+  font-family: "Bodoni Moda", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(1.55rem, 3vw, 2.2rem);
+  font-weight: 500;
+  line-height: 0.95;
+}
+
+.fcpc3-coverage,
+.fcpc3-aggregate-label,
+.fcpc3-ceiling,
+.fcpc3-axis-index,
+.fcpc3-axis-label {
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.fcpc3-aggregate {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-content: center;
+  gap: 9px 18px;
+  padding: 20px 24px;
+  color: var(--fcpc3-paper);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.045), transparent 46%),
+    var(--fcpc3-ink);
+}
+
+.fcpc3-aggregate-value {
+  grid-row: span 2;
+  font-family: "Bodoni Moda", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(2.7rem, 6vw, 4.8rem);
+  font-weight: 500;
+  line-height: 0.78;
+  letter-spacing: -0.045em;
+}
+
+.fcpc3-ceiling {
+  align-self: end;
+  color: rgba(243, 239, 227, 0.68);
+}
+
+.fcpc3-axes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--fcpc3-line);
+  border-bottom: 1px solid var(--fcpc3-line);
+}
+
+.fcpc3-axis {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 7px 11px;
+  min-width: 0;
+  padding: 17px 15px;
+  border-right: 1px solid var(--fcpc3-line);
+}
+
+.fcpc3-axis:last-child {
+  border-right: 0;
+}
+
+.fcpc3-axis-index {
+  grid-row: span 2;
+  color: var(--fcpc3-oxide);
+}
+
+.fcpc3-axis-label {
+  color: rgba(24, 38, 44, 0.5);
+}
+
+.fcpc3-axis-state {
+  overflow-wrap: anywhere;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.fcpc3-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 24px;
+  padding-top: 21px;
+}
+
+.fcpc3-note {
+  max-width: 790px;
+  color: rgba(24, 38, 44, 0.74);
+  font-size: 0.72rem;
+  line-height: 1.65;
+}
+
+.fcpc3-provenance {
+  color: rgba(24, 38, 44, 0.43);
+  font-size: 0.59rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+@keyframes fcpc3-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fcpc3-tooth-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 780px) {
+  .fcpc3-header,
+  .fcpc3-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .fcpc3-stamp {
+    justify-items: start;
+    width: fit-content;
+  }
+
+  .fcpc3-comb {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .fcpc3-aggregate {
+    grid-column: 1 / -1;
+  }
+
+  .fcpc3-axes {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .fcpc3-axis:nth-child(2) {
+    border-right: 0;
+  }
+
+  .fcpc3-axis:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--fcpc3-line);
+  }
+
+  .fcpc3-provenance {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 460px) {
+  .fcpc3-card {
+    padding: 18px;
+    border-radius: 4px 4px 18px 4px;
+  }
+
+  .fcpc3-rail-label {
+    display: grid;
+  }
+
+  .fcpc3-rail-detail {
+    text-align: left;
+  }
+
+  .fcpc3-comb,
+  .fcpc3-axes {
+    grid-template-columns: 1fr;
+  }
+
+  .fcpc3-tooth {
+    min-height: 104px;
+  }
+
+  .fcpc3-aggregate {
+    grid-column: auto;
+  }
+
+  .fcpc3-axis,
+  .fcpc3-axis:nth-child(2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--fcpc3-line);
+  }
+
+  .fcpc3-axis:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fcpc3-card,
+  .fcpc3-tooth {
+    animation: none;
+  }
+}

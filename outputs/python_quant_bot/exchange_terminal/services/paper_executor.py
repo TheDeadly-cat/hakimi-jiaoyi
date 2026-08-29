@@ -466,11 +466,22 @@ class PaperExecutor:
         return "|".join(parts)
 
     @staticmethod
-    def _report_from_order(order: dict[str, Any], *, idempotent_replay: bool = False) -> dict[str, Any]:
+    def _report_from_order(
+        order: dict[str, Any],
+        *,
+        idempotent_replay: bool = False,
+        replay_authorization_request_id: str | None = None,
+    ) -> dict[str, Any]:
         raw_report = order.get("execution_report")
         if not isinstance(raw_report, dict):
             raise ValueError("paper_order_contract_execution_report_invalid")
         report = deepcopy(raw_report)
+        stored_risk_request_id = order.get("risk_request_id")
+        clean_replay_request_id = (
+            replay_authorization_request_id
+            if isinstance(replay_authorization_request_id, str)
+            else None
+        )
         return {
             **report,
             "order_id": order.get("order_id"),
@@ -486,7 +497,15 @@ class PaperExecutor:
             "reduce_only": order.get("reduce_only"),
             "lifecycle_state": order.get("state"),
             "transitions": deepcopy(list(order.get("transitions") or [])),
-            "risk_request_id": order.get("risk_request_id"),
+            "risk_request_id": stored_risk_request_id,
+            "replay_authorization_request_id": (
+                clean_replay_request_id if idempotent_replay else None
+            ),
+            "risk_authorization_rotated": bool(
+                idempotent_replay
+                and clean_replay_request_id is not None
+                and clean_replay_request_id != stored_risk_request_id
+            ),
             "market_snapshot_id": order.get("market_snapshot_id"),
             "signal_id": order.get("signal_id"),
             "idempotency_key": order.get("idempotency_key"),
@@ -638,6 +657,8 @@ class PaperExecutor:
             or len(request_id.strip()) > MAX_RISK_REQUEST_ID_LENGTH
         ):
             blockers.append("risk_request_id_invalid")
+        elif request_id != request_id.strip():
+            blockers.append("risk_request_id_noncanonical")
         if risk_result.get("allowed") is not True:
             blockers.append("risk_not_allowed")
         if risk_result.get("paper_order_allowed") is not True:
@@ -918,6 +939,11 @@ class PaperExecutor:
                         idempotency_key=idempotency_key,
                         allow_expired=True,
                     )
+                    replay_request_id = (
+                        clean_risk_result.get("request_id")
+                        if isinstance(clean_risk_result, dict)
+                        else None
+                    )
                     if replay_blockers:
                         return self._authorization_rejected(
                             side=side,
@@ -940,7 +966,11 @@ class PaperExecutor:
                             existing["execution_report"] = incomplete
                             self._transition(existing, "REJECTED", incomplete["note"])
                         existing = self._persist_or_resolve(existing)
-                    return self._report_from_order(existing, idempotent_replay=True)
+                    return self._report_from_order(
+                        existing,
+                        idempotent_replay=True,
+                        replay_authorization_request_id=replay_request_id,
+                    )
 
             authorization_blockers = self._risk_authorization_blockers(
                 risk_result=clean_risk_result,
@@ -963,7 +993,7 @@ class PaperExecutor:
                     blockers=authorization_blockers,
                 )
 
-            risk_request_id = str(clean_risk_result.get("request_id") or "")
+            risk_request_id = str(clean_risk_result.get("request_id") or "").strip()
             existing_risk_order_id = self._risk_requests.get(risk_request_id)
             if not existing_risk_order_id and self.risk_request_loader:
                 try:
@@ -1133,7 +1163,11 @@ class PaperExecutor:
                     blockers=["risk_authorization_already_consumed"],
                 )
             if persisted_order is not order:
-                return self._report_from_order(persisted_order, idempotent_replay=True)
+                return self._report_from_order(
+                    persisted_order,
+                    idempotent_replay=True,
+                    replay_authorization_request_id=risk_request_id,
+                )
             report = self._report_from_order(order)
             if len(self._orders) > self.max_orders:
                 oldest = next(iter(self._orders))

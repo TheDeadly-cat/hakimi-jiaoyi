@@ -1,6 +1,14 @@
 const path = require("path");
 
 const RUNTIME_BUILD_SCHEMA_VERSION = "hakimi-runtime-build-v1";
+const CAPABILITY_SCHEMA_VERSION = "capability-v1";
+const CAPABILITY_FIELDS = [
+  "live_allowed",
+  "paper_allowed",
+  "product_mode",
+  "research_only",
+  "schema_version",
+];
 
 function parseBackendHealthResponse(response) {
   if (!response || response.statusCode !== 200 || typeof response.body !== "string") return null;
@@ -12,11 +20,40 @@ function parseBackendHealthResponse(response) {
   }
 }
 
+function isExactResearchOnlyCapability(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const fields = Object.keys(value).sort();
+  return JSON.stringify(fields) === JSON.stringify(CAPABILITY_FIELDS)
+    && value.schema_version === CAPABILITY_SCHEMA_VERSION
+    && value.product_mode === "research_only"
+    && value.research_only === true
+    && value.paper_allowed === false
+    && value.live_allowed === false;
+}
+
+function hasLegacyAuthorityClaim(payload, runtime) {
+  const legacyFields = [
+    [payload, "paper_authorized"],
+    [payload, "paper_order_allowed"],
+    [payload, "automated_paper_order_allowed"],
+    [payload, "live_order_allowed"],
+    [runtime, "paper_authorized"],
+    [runtime, "live_order_allowed"],
+  ];
+  return legacyFields.some(([container, key]) => (
+    container
+    && Object.prototype.hasOwnProperty.call(container, key)
+    && container[key] !== false
+  ));
+}
+
 function classifyBackendHealth(payload) {
   if (!payload || typeof payload !== "object") {
     return { healthy: false, reachable: false, status: "OFFLINE", reason: "health_unavailable" };
   }
+
   const runtime = payload.runtime_build;
+
   if (!runtime || typeof runtime !== "object") {
     return { healthy: false, reachable: true, status: "RESTART_REQUIRED", reason: "runtime_contract_missing" };
   }
@@ -26,13 +63,17 @@ function classifyBackendHealth(payload) {
   if (runtime.status !== "PASS" || runtime.restart_required !== false) {
     return { healthy: false, reachable: true, status: "RESTART_REQUIRED", reason: "runtime_source_drift" };
   }
-  if (
-    payload.paper_authorized !== false ||
-    payload.live_order_allowed !== false ||
-    runtime.paper_authorized !== false ||
-    runtime.live_order_allowed !== false
-  ) {
+  if (hasLegacyAuthorityClaim(payload, runtime)) {
     return { healthy: false, reachable: true, status: "UNSAFE", reason: "execution_authority_invalid" };
+  }
+  if (
+    !isExactResearchOnlyCapability(payload.capability)
+    || !isExactResearchOnlyCapability(runtime.capability)
+  ) {
+    return { healthy: false, reachable: true, status: "RESTART_REQUIRED", reason: "capability_contract_missing_or_invalid" };
+  }
+  if (!CAPABILITY_FIELDS.every((field) => payload.capability[field] === runtime.capability[field])) {
+    return { healthy: false, reachable: true, status: "RESTART_REQUIRED", reason: "capability_contract_mismatch" };
   }
   if (payload.ok !== true) {
     return { healthy: false, reachable: true, status: "UNHEALTHY", reason: "health_not_ok" };
@@ -69,7 +110,7 @@ function buildVerifiedBackendStopScript({ port, serverPath }) {
     "$owner=Get-CimInstance Win32_Process -Filter \"ProcessId=$($listener.OwningProcess)\"",
     "if (-not $owner) { throw 'Backend port owner is unavailable' }",
     "$exe=[IO.Path]::GetFileName([string]$owner.ExecutablePath).ToLowerInvariant()",
-    "$command=([string]$owner.CommandLine).Replace('\\','/').ToLowerInvariant()",
+    "$command=([string]$owner.CommandLine).Replace('\\\\','/').ToLowerInvariant()",
     `$expected=${powershellQuote(expected)}`,
     "$relative='exchange_terminal/server.py'",
     "if (-not $exe.StartsWith('python') -or (-not $command.Contains($expected) -and -not $command.Contains($relative))) { throw 'Port owner is not the Hakimi Python backend' }",
@@ -81,6 +122,7 @@ function buildVerifiedBackendStopScript({ port, serverPath }) {
 }
 
 module.exports = {
+  CAPABILITY_SCHEMA_VERSION,
   RUNTIME_BUILD_SCHEMA_VERSION,
   buildVerifiedBackendStopScript,
   classifyBackendHealth,

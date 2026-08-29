@@ -1,0 +1,258 @@
+.factor-calibration-evidence-card {
+  --cal-paper: #f4efe3;
+  --cal-paper-deep: #e7decb;
+  --cal-ink: #1f2a2b;
+  --cal-muted: #66706d;
+  --cal-line: rgba(31, 42, 43, 0.2);
+  --cal-teal: #2f6f68;
+  --cal-copper: #a35f34;
+  --cal-red: #9a3f36;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--cal-ink);
+  border: 1px solid var(--cal-line);
+  border-radius: 28px 8px 28px 8px;
+  padding: clamp(1rem, 2.4vw, 2rem);
+  font-family: "Bahnschrift", "Aptos Display", sans-serif;
+  background:
+    radial-gradient(circle at 86% 10%, rgba(47, 111, 104, 0.14), transparent 28%),
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(31, 42, 43, 0.045) 31px 32px),
+    linear-gradient(135deg, var(--cal-paper) 0%, #fbf8f0 55%, var(--cal-paper-deep) 100%);
+  box-shadow: 0 22px 60px rgba(45, 39, 28, 0.14);
+  animation: factor-calibration-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.factor-calibration-evidence-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 7px;
+  background: linear-gradient(var(--cal-teal), var(--cal-copper), var(--cal-red));
+}
+
+.factor-calibration-evidence-card * {
+  box-sizing: border-box;
+}
+
+.factor-calibration-evidence-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.factor-calibration-evidence-card__eyebrow,
+.factor-calibration-evidence-card__section-title,
+.factor-calibration-axis__label,
+.factor-calibration-evidence-card__metric-label,
+.factor-calibration-evidence-card__hash-label {
+  margin: 0;
+  color: var(--cal-muted);
+  font: 700 0.68rem/1.2 "Cascadia Mono", "IBM Plex Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.factor-calibration-evidence-card__title {
+  max-width: 720px;
+  margin: 0.25rem 0 0;
+  font: 720 clamp(1.65rem, 4vw, 3.25rem)/0.98 "Bahnschrift Condensed", "Aptos Display", sans-serif;
+  letter-spacing: -0.035em;
+}
+
+.factor-calibration-evidence-card__dek {
+  max-width: 720px;
+  margin: 0.7rem 0 0;
+  color: var(--cal-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.factor-calibration-evidence-card__stamp {
+  flex: 0 0 auto;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: var(--cal-copper);
+  font: 800 0.72rem/1 "Cascadia Mono", monospace;
+  letter-spacing: 0.08em;
+}
+
+.factor-calibration-evidence-card[data-evidence-state="OBSERVED_CALIBRATION_MATCH"] .factor-calibration-evidence-card__stamp {
+  color: var(--cal-teal);
+}
+
+.factor-calibration-evidence-card[data-evidence-state="OBSERVED_CALIBRATION_BLOCK"] .factor-calibration-evidence-card__stamp {
+  color: var(--cal-red);
+}
+
+.factor-calibration-evidence-card__axes {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--cal-line);
+  border-bottom: 1px solid var(--cal-line);
+}
+
+.factor-calibration-axis {
+  min-width: 0;
+  padding: 1rem;
+  border-right: 1px solid var(--cal-line);
+}
+
+.factor-calibration-axis:last-child {
+  border-right: 0;
+}
+
+.factor-calibration-axis__state {
+  display: block;
+  overflow: hidden;
+  margin-top: 0.45rem;
+  color: var(--cal-copper);
+  font: 760 0.88rem/1.2 "Bahnschrift SemiCondensed", sans-serif;
+  text-overflow: ellipsis;
+}
+
+.factor-calibration-axis__detail {
+  margin: 0.55rem 0 0;
+  color: var(--cal-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.factor-calibration-evidence-card__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.factor-calibration-evidence-card__calibration,
+.factor-calibration-evidence-card__blockers {
+  padding: 1rem;
+  border: 1px solid var(--cal-line);
+  border-radius: 4px 18px 4px 18px;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.factor-calibration-evidence-card__window {
+  margin: 0.55rem 0 1rem;
+  font: 650 0.92rem/1.4 "Cascadia Mono", monospace;
+}
+
+.factor-calibration-evidence-card__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.factor-calibration-evidence-card__metric {
+  min-width: 0;
+  padding-top: 0.75rem;
+  border-top: 3px solid var(--cal-teal);
+}
+
+.factor-calibration-evidence-card__metric-value {
+  overflow: hidden;
+  margin: 0.35rem 0 0;
+  font: 760 clamp(1rem, 2.2vw, 1.5rem)/1 "Bahnschrift SemiCondensed", sans-serif;
+  text-overflow: ellipsis;
+}
+
+.factor-calibration-evidence-card__blocker-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.factor-calibration-evidence-card__blocker {
+  overflow-wrap: anywhere;
+  padding: 0.55rem 0.65rem;
+  border-left: 3px solid var(--cal-red);
+  background: rgba(154, 63, 54, 0.08);
+  font: 650 0.7rem/1.35 "Cascadia Mono", monospace;
+}
+
+.factor-calibration-evidence-card__provenance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.factor-calibration-evidence-card__hash {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--cal-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.factor-calibration-evidence-card__hash-value {
+  color: var(--cal-teal);
+  font: 650 0.68rem/1 "Cascadia Mono", monospace;
+}
+
+@keyframes factor-calibration-enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 720px) {
+  .factor-calibration-evidence-card__axes,
+  .factor-calibration-evidence-card__body {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .factor-calibration-axis:nth-child(2) {
+    border-right: 0;
+  }
+
+  .factor-calibration-axis:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--cal-line);
+  }
+
+  .factor-calibration-evidence-card__calibration {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 420px) {
+  .factor-calibration-evidence-card {
+    border-radius: 18px 5px 18px 5px;
+  }
+
+  .factor-calibration-evidence-card__header {
+    display: block;
+  }
+
+  .factor-calibration-evidence-card__stamp {
+    display: inline-block;
+    margin-top: 0.9rem;
+  }
+
+  .factor-calibration-evidence-card__axes,
+  .factor-calibration-evidence-card__body,
+  .factor-calibration-evidence-card__metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .factor-calibration-axis,
+  .factor-calibration-axis:nth-child(2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--cal-line);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .factor-calibration-evidence-card {
+    animation: none;
+  }
+}

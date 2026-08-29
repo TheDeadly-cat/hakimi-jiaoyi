@@ -1,0 +1,310 @@
+.strategy-cluster-ticket-policy-v1 {
+  --ticket-ink: #13282d;
+  --ticket-muted: #5f7172;
+  --ticket-sheet: #f5f8f4;
+  --ticket-grid: #c4d0ca;
+  --ticket-tide: #0d6670;
+  --ticket-rust: #b34e34;
+  --ticket-marker: #d3a73b;
+  position: relative;
+  overflow: hidden;
+  margin-top: 14px;
+  color: var(--ticket-ink);
+  border: 1px solid var(--ticket-grid);
+  border-radius: 18px 3px 18px 3px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 31px, rgba(19, 40, 45, 0.035) 31px 32px),
+    var(--ticket-sheet);
+  box-shadow: 0 16px 34px rgba(19, 40, 45, 0.09);
+}
+
+.strategy-cluster-ticket-policy-v1::after {
+  content: "POLICY / V1";
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  color: rgba(19, 40, 45, 0.42);
+  font: 700 9px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.14em;
+  pointer-events: none;
+}
+
+.strategy-cluster-ticket-policy-v1 > summary {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.34fr) minmax(180px, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 60px;
+  padding: 13px 104px 13px 16px;
+  cursor: pointer;
+  list-style: none;
+  background: rgba(231, 238, 234, 0.78);
+}
+
+.strategy-cluster-ticket-policy-v1 > summary::-webkit-details-marker {
+  display: none;
+}
+
+.strategy-cluster-ticket-policy-v1 > summary::before {
+  content: "+";
+  display: inline-grid;
+  grid-column: 3;
+  grid-row: 1;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  color: var(--ticket-tide);
+  border: 1px solid currentColor;
+  font: 700 15px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.strategy-cluster-ticket-policy-v1[open] > summary::before {
+  content: "−";
+}
+
+.strategy-cluster-ticket-policy-v1 > summary:focus-visible {
+  outline: 3px solid rgba(13, 102, 112, 0.34);
+  outline-offset: -3px;
+}
+
+.strategy-cluster-ticket-policy-v1 > summary span,
+.strategy-cluster-ticket-policy-v1 > summary strong,
+.strategy-cluster-ticket-policy-v1 > summary small {
+  overflow-wrap: anywhere;
+}
+
+.strategy-cluster-ticket-policy-v1 > summary span {
+  color: var(--ticket-tide);
+  font: 700 11px/1.35 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.08em;
+}
+
+.strategy-cluster-ticket-policy-v1 > summary strong {
+  font: 650 15px/1.35 "IBM Plex Sans Condensed", "Aptos Narrow", sans-serif;
+}
+
+.strategy-cluster-ticket-policy-v1 > summary small {
+  grid-column: 1 / 3;
+  color: var(--ticket-muted);
+  font: 600 11px/1.35 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.strategy-cluster-ticket-policy-v1__body {
+  display: grid;
+  gap: 16px;
+  padding: 18px 16px 16px;
+  border-top: 1px solid var(--ticket-grid);
+}
+
+.strategy-cluster-ticket-policy-v1__diagram {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto minmax(150px, 0.62fr);
+  align-items: center;
+  gap: clamp(12px, 3vw, 28px);
+}
+
+.strategy-cluster-ticket-policy-v1__nodes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 14px;
+  border: 1px dashed var(--ticket-tide);
+  background: rgba(13, 102, 112, 0.055);
+}
+
+.strategy-cluster-ticket-policy-v1__nodes span {
+  padding: 9px 10px;
+  text-align: center;
+  border: 1px solid var(--ticket-grid);
+  background: var(--ticket-sheet);
+  font: 700 11px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.strategy-cluster-ticket-policy-v1__nodes small {
+  grid-column: 1 / -1;
+  color: var(--ticket-muted);
+  text-align: center;
+  font: 600 10px/1.35 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.strategy-cluster-ticket-policy-v1__operator {
+  color: var(--ticket-tide);
+  font: 700 25px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.strategy-cluster-ticket-policy-v1__ticket {
+  display: grid;
+  min-height: 88px;
+  place-content: center;
+  gap: 3px;
+  padding: 13px 22px;
+  color: #f5f8f4;
+  text-align: center;
+  background: var(--ticket-tide);
+  clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 9px), calc(100% - 9px) 100%, 9px 100%, 0 calc(100% - 9px), 0 9px);
+}
+
+.strategy-cluster-ticket-policy-v1__ticket b {
+  font: 700 30px/0.95 "Fraunces", Georgia, serif;
+}
+
+.strategy-cluster-ticket-policy-v1__ticket span,
+.strategy-cluster-ticket-policy-v1__ticket small {
+  font-family: "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.strategy-cluster-ticket-policy-v1__ticket span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.strategy-cluster-ticket-policy-v1__ticket small {
+  font-size: 10px;
+  line-height: 1.35;
+  opacity: 0.76;
+}
+
+.strategy-cluster-ticket-policy-v1__stages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 1px;
+  list-style: none;
+  background: var(--ticket-grid);
+}
+
+.strategy-cluster-ticket-policy-v1__stages li {
+  display: grid;
+  min-width: 0;
+  gap: 6px;
+  padding: 11px;
+  border-top: 3px solid var(--ticket-tide);
+  background: var(--ticket-sheet);
+}
+
+.strategy-cluster-ticket-policy-v1__stages li[data-stage="gap"],
+.strategy-cluster-ticket-policy-v1__stages li[data-stage="permission"] {
+  border-top-color: var(--ticket-rust);
+}
+
+.strategy-cluster-ticket-policy-v1__stages li[data-stage="maturity"] {
+  border-top-color: var(--ticket-marker);
+}
+
+.strategy-cluster-ticket-policy-v1__stages span,
+.strategy-cluster-ticket-policy-v1__stages strong {
+  overflow-wrap: anywhere;
+  font-family: "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.strategy-cluster-ticket-policy-v1__stages span {
+  color: var(--ticket-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.strategy-cluster-ticket-policy-v1__stages strong {
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.strategy-cluster-ticket-policy-v1__body > p {
+  margin: 0;
+  color: var(--ticket-muted);
+  font: 600 12px/1.6 "IBM Plex Sans Condensed", "Aptos Narrow", sans-serif;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .strategy-cluster-ticket-policy-v1 > summary::before {
+    transition: color 160ms ease, background-color 160ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strategy-cluster-ticket-policy-v1,
+  .strategy-cluster-ticket-policy-v1 * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .strategy-cluster-ticket-policy-v1 {
+    border-color: CanvasText;
+    background: Canvas;
+    box-shadow: none;
+  }
+
+  .strategy-cluster-ticket-policy-v1::after,
+  .strategy-cluster-ticket-policy-v1 > summary::before {
+    color: CanvasText;
+  }
+
+  .strategy-cluster-ticket-policy-v1 > summary,
+  .strategy-cluster-ticket-policy-v1__nodes,
+  .strategy-cluster-ticket-policy-v1__nodes span,
+  .strategy-cluster-ticket-policy-v1__stages li {
+    color: CanvasText;
+    border-color: CanvasText;
+    background: Canvas;
+  }
+
+  .strategy-cluster-ticket-policy-v1__stages {
+    background: CanvasText;
+  }
+
+  .strategy-cluster-ticket-policy-v1__ticket {
+    color: CanvasText;
+    border: 2px solid CanvasText;
+    background: Canvas;
+    clip-path: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .strategy-cluster-ticket-policy-v1 > summary {
+    grid-template-columns: 1fr auto;
+    padding-right: 14px;
+  }
+
+  .strategy-cluster-ticket-policy-v1 > summary strong,
+  .strategy-cluster-ticket-policy-v1 > summary small {
+    grid-column: 1;
+  }
+
+  .strategy-cluster-ticket-policy-v1 > summary::before {
+    grid-column: 2;
+    grid-row: 1 / 4;
+  }
+
+  .strategy-cluster-ticket-policy-v1::after {
+    display: none;
+  }
+
+  .strategy-cluster-ticket-policy-v1__diagram {
+    grid-template-columns: 1fr;
+  }
+
+  .strategy-cluster-ticket-policy-v1__operator {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+
+  .strategy-cluster-ticket-policy-v1__stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 430px) {
+  .strategy-cluster-ticket-policy-v1__nodes,
+  .strategy-cluster-ticket-policy-v1__stages {
+    grid-template-columns: 1fr;
+  }
+
+  .strategy-cluster-ticket-policy-v1__nodes small {
+    grid-column: 1;
+  }
+}

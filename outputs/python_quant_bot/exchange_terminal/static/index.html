@@ -1,11 +1,13 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>哈基米交易 v2</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./styles.css?v=20260814-single-look-contract-1">
+  <link rel="stylesheet" href="./styles.css?v=20260822-evidence-calibration-rail-2">
+  <link rel="stylesheet" href="./strategy_correlation_cluster_ticket_policy_v1.css?v=20260825-cluster-ticket-policy-a11y-2">
+  <link rel="stylesheet" href="./terminal_visual_polish_v1.css?v=20260825-terminal-visual-polish-1">
 </head>
 <body>
   <div class="app-shell">
@@ -149,7 +151,7 @@
 
       <section id="interfaceFocusBanner" class="interface-focus-banner"></section>
 
-      <section id="platformControlCenter" class="platform-control-center" aria-label="研究证据与权限控制中心">
+      <section id="platformControlCenter" class="platform-control-center evidence-calibrated" aria-label="研究证据与权限控制中心">
         <header class="platform-control-head">
           <div>
             <span>研究证据与权限边界</span>
@@ -162,6 +164,36 @@
             <button id="platformRefresh" class="ghost-button" type="button" title="刷新交易总控">刷新</button>
           </div>
         </header>
+
+        <div class="evidence-calibration-rail" aria-labelledby="evidenceCalibrationTitle" aria-describedby="evidenceCalibrationNote">
+          <div class="evidence-calibration-legend">
+            <span>证据校准刻度</span>
+            <strong id="evidenceCalibrationTitle">从事实到权限</strong>
+            <small id="evidenceCalibrationNote">阅读顺序 · 非就绪评分</small>
+          </div>
+          <ol aria-label="证据校准四步阅读顺序">
+            <li data-calibration-stage="source">
+              <span>01 · SOURCE</span>
+              <strong>先核对来源</strong>
+              <small>来源、时点、归属</small>
+            </li>
+            <li data-calibration-stage="gap">
+              <span>02 · GAP</span>
+              <strong>再保留缺口</strong>
+              <small>未知项不得被补写</small>
+            </li>
+            <li data-calibration-stage="maturity">
+              <span>03 · MATURITY</span>
+              <strong>单独评估成熟度</strong>
+              <small>样本与证据链分开核验</small>
+            </li>
+            <li data-calibration-stage="permission">
+              <span>04 · PERMISSION</span>
+              <strong>最后判定权限</strong>
+              <small>研究通过不产生交易授权</small>
+            </li>
+          </ol>
+        </div>
 
         <section id="platformAuthoritySummary" class="platform-authority-summary" aria-label="研究与交易权限边界">
           <div class="platform-authority-allowed">
@@ -1149,6 +1181,45 @@
             <section class="strategy-evidence-band robustness" aria-labelledby="strategyEvidenceRobustnessHeading">
               <header><span aria-hidden="true" data-band-code="robustness">稳</span><h3 id="strategyEvidenceRobustnessHeading">完整性与稳健性</h3></header>
               <div><span>研究覆盖</span><strong>研究覆盖未核验</strong></div>
+              <section class="strategy-correlation-ledger" data-evidence-role="correlation-cluster" data-raw-status="UNKNOWN" aria-labelledby="strategyCorrelationLedgerHeading">
+                <header><span>跨标的独立性</span><strong>未核验</strong></header>
+                <ol class="strategy-correlation-flow">
+                  <li data-stage="source"><span>SOURCE</span><strong>本地冻结完成日收盘复算：未核验</strong></li>
+                  <li data-stage="gap"><span>GAP</span><strong>输入完整性、事前截止日与正式协议绑定尚未闭合</strong></li>
+                  <li data-stage="maturity"><span>MATURITY</span><strong>独立簇票：-- / --</strong></li>
+                  <li data-stage="permission"><span>PERMISSION</span><strong>仅研究描述 · 不选参 · 模拟未授权 · 实盘永久硬锁</strong></li>
+                </ol>
+                <details id="strategyClusterTicketPolicyV1" class="strategy-cluster-ticket-policy-v1" open>
+                  <summary aria-controls="strategyClusterTicketPolicyBodyV1" aria-describedby="strategyClusterTicketPolicyBoundaryV1">
+                    <span>相关簇计票规则</span>
+                    <strong>同簇多标的只计 1 张结构票</strong>
+                    <small>策略规则说明 · 非实时结果</small>
+                  </summary>
+                  <div id="strategyClusterTicketPolicyBodyV1" class="strategy-cluster-ticket-policy-v1__body">
+                    <div class="strategy-cluster-ticket-policy-v1__diagram" role="img" aria-label="同一相关簇内两个标的折叠为一张结构票">
+                      <div class="strategy-cluster-ticket-policy-v1__nodes">
+                        <span>标的甲</span>
+                        <span>标的乙</span>
+                        <small>同一相关簇</small>
+                      </div>
+                      <span class="strategy-cluster-ticket-policy-v1__operator" aria-hidden="true">→</span>
+                      <div class="strategy-cluster-ticket-policy-v1__ticket">
+                        <b>1</b>
+                        <span>STRUCTURAL TICKET</span>
+                        <small>仅结构计数</small>
+                      </div>
+                    </div>
+                    <ol class="strategy-cluster-ticket-policy-v1__stages" aria-label="相关簇计票治理阶段">
+                      <li data-stage="source"><span>SOURCE</span><strong>ADR0365 投影合同</strong></li>
+                      <li data-stage="gap"><span>GAP</span><strong>fresh 投影证据未完成</strong></li>
+                      <li data-stage="maturity"><span>MATURITY</span><strong>仅预登记</strong></li>
+                      <li data-stage="permission"><span>PERMISSION</span><strong>未授权</strong></li>
+                    </ol>
+                    <p id="strategyClusterTicketPolicyBoundaryV1">重复标的或同簇多标的不会膨胀独立票数；本规则不产生预算、仓位、信号、订单或盈利结论。</p>
+                  </div>
+                </details>
+                <small id="strategyCorrelationLedgerHeading">固定 60 个完成日收益、绝对 Pearson 阈值 0.75；当前不形成准入结论</small>
+              </section>
               <div class="strategy-post-selection-group" role="group" aria-label="冻结后历史复算，历史回测，不是自然前向">
                 <span>冻结后历史复算 · 非自然前向</span>
                 <strong>冻结后历史复算：未核验 · 非自然前向</strong>
@@ -1988,8 +2059,8 @@
   <script src="./chart_quality.js?v=20260801-market-session-32"></script>
   <script src="./chart_controller.js?v=20260810-refresh-coordinator-1"></script>
   <script src="./stock_quote_guard.js?v=20260811-stock-quote-context-1"></script>
-  <script src="./evidence_presentation.js?v=20260814-single-look-contract-1"></script>
-  <script src="./app.js?v=20260814-single-look-contract-1"></script>
+  <script src="./evidence_presentation.js?v=20260821-correlation-multiplicity-ledger-1"></script>
+  <script src="./app.js?v=20260821-correlation-multiplicity-ledger-1"></script>
 </body>
 </html>
 

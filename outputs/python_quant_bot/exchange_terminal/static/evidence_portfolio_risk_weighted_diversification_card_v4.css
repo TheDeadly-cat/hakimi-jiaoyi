@@ -1,0 +1,257 @@
+.prwd-v4 {
+  --prwd-paper: #f1eee4;
+  --prwd-paper-warm: #e6ddca;
+  --prwd-ink: #14272a;
+  --prwd-muted: #687174;
+  --prwd-blue: #1b6d7a;
+  --prwd-rust: #c24f32;
+  --prwd-sand: #d6a84f;
+  --prwd-rule: rgba(20, 39, 42, 0.18);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(20, 39, 42, 0.24);
+  border-radius: 6px 30px 6px 30px;
+  padding: clamp(1.1rem, 2.8vw, 2.5rem);
+  color: var(--prwd-ink);
+  background:
+    linear-gradient(90deg, rgba(27, 109, 122, 0.055) 1px, transparent 1px),
+    linear-gradient(rgba(27, 109, 122, 0.055) 1px, transparent 1px),
+    radial-gradient(circle at 84% 14%, rgba(214, 168, 79, 0.27), transparent 25%),
+    linear-gradient(138deg, var(--prwd-paper), #faf7ef 54%, var(--prwd-paper-warm));
+  background-size: 28px 28px, 28px 28px, auto, auto;
+  box-shadow: 0 24px 62px rgba(41, 48, 44, 0.14);
+  font-family: "IBM Plex Mono", "Cascadia Code", monospace;
+}
+
+.prwd-v4::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: auto -8% -38% auto;
+  width: 22rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(27, 109, 122, 0.18);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2.2rem rgba(27, 109, 122, 0.045), 0 0 0 4.4rem rgba(194, 79, 50, 0.035);
+}
+
+.prwd-v4__header,
+.prwd-v4__footer,
+.prwd-v4__lead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+.prwd-v4__kicker,
+.prwd-v4__metric p,
+.prwd-v4__metric span,
+.prwd-v4__stage p,
+.prwd-v4__footer span {
+  margin: 0;
+  color: var(--prwd-muted);
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.prwd-v4 h2 {
+  max-width: 17ch;
+  margin: 0.4rem 0 0;
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(1.9rem, 4.5vw, 3.8rem);
+  font-weight: 620;
+  letter-spacing: -0.052em;
+  line-height: 0.94;
+}
+
+.prwd-v4__hash {
+  flex: 0 0 auto;
+  border: 1px solid var(--prwd-rule);
+  border-radius: 999px;
+  padding: 0.52rem 0.78rem;
+  background: rgba(255, 255, 255, 0.46);
+  color: var(--prwd-muted);
+  font-size: 0.64rem;
+  letter-spacing: 0.09em;
+}
+
+.prwd-v4__lead {
+  align-items: center;
+  margin: 1.45rem 0 1.25rem;
+  padding: 1rem 0 1.25rem;
+  border-block: 1px solid var(--prwd-rule);
+}
+
+.prwd-v4__lead > p {
+  max-width: 60ch;
+  margin: 0;
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(1.02rem, 2vw, 1.32rem);
+  line-height: 1.48;
+}
+
+.prwd-v4__dial {
+  --effective-ratio: 0%;
+  display: grid;
+  flex: 0 0 auto;
+  width: 5.5rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(var(--prwd-blue) var(--effective-ratio), rgba(20, 39, 42, 0.11) 0);
+  box-shadow: inset 0 0 0 0.58rem rgba(250, 247, 239, 0.96);
+}
+
+.prwd-v4--concentrated .prwd-v4__dial {
+  background: conic-gradient(var(--prwd-rust) var(--effective-ratio), rgba(20, 39, 42, 0.11) 0);
+}
+
+.prwd-v4__dial span {
+  color: var(--prwd-muted);
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.prwd-v4__metrics {
+  display: grid;
+  grid-template-columns: 1.15fr 1.35fr 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.prwd-v4__metric {
+  min-width: 0;
+  border: 1px solid var(--prwd-rule);
+  border-radius: 4px 18px 4px 18px;
+  padding: 0.95rem;
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.prwd-v4__metric strong {
+  display: block;
+  overflow-wrap: anywhere;
+  margin: 0.55rem 0 0.35rem;
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(1.45rem, 3vw, 2.5rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 630;
+  line-height: 0.95;
+}
+
+.prwd-v4__metric:nth-child(2) strong { color: var(--prwd-blue); }
+.prwd-v4--concentrated .prwd-v4__metric:nth-child(2) strong { color: var(--prwd-rust); }
+
+.prwd-v4__blockers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+}
+
+.prwd-v4__blockers code {
+  border: 1px solid rgba(194, 79, 50, 0.35);
+  border-radius: 999px;
+  padding: 0.35rem 0.58rem;
+  background: rgba(194, 79, 50, 0.07);
+  color: #8a3928;
+  font-size: 0.62rem;
+}
+
+.prwd-v4__rail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 1.3rem;
+}
+
+.prwd-v4__stage {
+  min-width: 0;
+  border-top: 3px solid var(--prwd-blue);
+  padding: 0.85rem 0.25rem 0.45rem;
+  animation: prwd-v4-enter 460ms both;
+  animation-delay: calc(var(--stage-index) * 75ms);
+}
+
+.prwd-v4__stage--gap { border-color: var(--prwd-rust); }
+.prwd-v4__stage--locked { border-color: var(--prwd-ink); }
+.prwd-v4__stage--clear { border-color: var(--prwd-sand); }
+
+.prwd-v4__stage > span {
+  color: var(--prwd-rust);
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-size: 1.05rem;
+}
+
+.prwd-v4__stage strong {
+  display: block;
+  overflow-wrap: anywhere;
+  margin: 0.65rem 0 0.5rem;
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(0.98rem, 1.4vw, 1.18rem);
+  line-height: 1.05;
+}
+
+.prwd-v4__stage code {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--prwd-muted);
+  font-size: 0.61rem;
+  line-height: 1.42;
+}
+
+.prwd-v4__footer {
+  align-items: center;
+  margin-top: 1.2rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--prwd-rule);
+}
+
+.prwd-v4__footer p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--prwd-muted);
+  font-size: 0.66rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.prwd-v4[data-contract-state="UNKNOWN"] { filter: saturate(0.35); }
+
+@keyframes prwd-v4-enter {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 820px) {
+  .prwd-v4__metrics,
+  .prwd-v4__rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 520px) {
+  .prwd-v4 { border-radius: 5px 20px 5px 20px; padding: 1rem; }
+  .prwd-v4__header,
+  .prwd-v4__footer,
+  .prwd-v4__lead { flex-direction: column; }
+  .prwd-v4__hash { align-self: flex-start; }
+  .prwd-v4__dial { width: 4.8rem; }
+  .prwd-v4__metrics,
+  .prwd-v4__rail { grid-template-columns: 1fr; }
+  .prwd-v4__footer p { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prwd-v4__stage { animation: none; }
+}
+
+@media (forced-colors: active) {
+  .prwd-v4,
+  .prwd-v4__metric,
+  .prwd-v4__blockers code { border: 1px solid CanvasText; background: Canvas; color: CanvasText; }
+  .prwd-v4__dial { background: Canvas; border: 2px solid CanvasText; box-shadow: none; }
+}

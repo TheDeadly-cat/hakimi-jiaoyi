@@ -4,6 +4,8 @@ from copy import deepcopy
 import math
 from typing import Any
 
+from .strategy_correlation_cluster_projection import build_correlation_cluster_public_summary
+
 
 _AUTHORITY_FIELDS = {
     "automatic_paper_activation_allowed",
@@ -147,8 +149,13 @@ def build_strategy_lab_projection(
     """Expose strategy-lab output as a descriptive planning artifact only."""
 
     source = report if isinstance(report, dict) else {}
+    correlation_cluster_summary = build_correlation_cluster_public_summary(
+        source.get("correlation_cluster_replayed_gate")
+    )
     projected, sanitized_paths = _sanitize(source)
     payload = dict(projected)
+    payload.pop("correlation_cluster_replayed_gate", None)
+    payload["correlation_cluster_summary"] = correlation_cluster_summary
     payload["rows"] = [
         _project_planning_row(row)
         for row in (projected.get("rows") if isinstance(projected.get("rows"), list) else [])
@@ -202,3 +209,102 @@ def build_strategy_lab_projection(
 
 
 __all__ = ["build_strategy_lab_projection"]
+
+
+# Consumer-first uncertainty projection. The existing projection remains the source
+# for every legacy field; this wrapper only adds a redacted summary and removes
+# raw uncertainty sidecars before a public payload can leave the service layer.
+from exchange_terminal.services.strategy_correlation_uncertainty_projection import (
+    build_strategy_correlation_uncertainty_public_summary,
+)
+
+_build_strategy_lab_projection_without_uncertainty = build_strategy_lab_projection
+
+
+def _drop_raw_correlation_uncertainty(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {
+            key: _drop_raw_correlation_uncertainty(item)
+            for key, item in value.items()
+            if key != "correlation_uncertainty_audit"
+        }
+    if isinstance(value, list):
+        return [_drop_raw_correlation_uncertainty(item) for item in value]
+    return value
+
+
+def build_strategy_lab_projection(
+    report: dict[str, Any] | None,
+) -> dict[str, Any]:
+    source_audit = (
+        report.get("correlation_uncertainty_audit")
+        if isinstance(report, dict)
+        else None
+    )
+    legacy_projection = _build_strategy_lab_projection_without_uncertainty(report)
+    public_projection = _drop_raw_correlation_uncertainty(legacy_projection)
+    public_projection["correlation_uncertainty_summary"] = (
+        build_strategy_correlation_uncertainty_public_summary(source_audit)
+    )
+    return public_projection
+
+
+# Consumer-first multiplicity projection. Protocol-v5 remains owned by the
+# nested research runner; this wrapper only emits a redacted aggregate and
+# recursively removes raw family evidence from the public strategy-lab payload.
+from exchange_terminal.services.strategy_correlation_multiplicity_projection import (
+    build_strategy_correlation_multiplicity_public_summary,
+)
+
+_build_strategy_lab_projection_without_multiplicity = build_strategy_lab_projection
+_RAW_MULTIPLICITY_FIELDS = {
+    "correlation_multiplicity_evidence",
+    "multiplicity_evidence",
+    "multiplicity_audit",
+    "family_binding_assessment",
+}
+
+
+def _drop_raw_correlation_multiplicity(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {
+            key: _drop_raw_correlation_multiplicity(item)
+            for key, item in value.items()
+            if key not in _RAW_MULTIPLICITY_FIELDS
+        }
+    if isinstance(value, list):
+        return [_drop_raw_correlation_multiplicity(item) for item in value]
+    return value
+
+
+def build_strategy_lab_projection(
+    report: dict[str, Any] | None,
+) -> dict[str, Any]:
+    source = report if isinstance(report, dict) else {}
+    governance = (
+        source.get("research_governance")
+        if isinstance(source.get("research_governance"), dict)
+        else {}
+    )
+    protocol = (
+        governance.get("protocol")
+        if isinstance(governance.get("protocol"), dict)
+        else {}
+    )
+    legacy_source = (
+        None
+        if source.get("schema_version") == 16
+        else report
+    )
+    legacy_projection = _build_strategy_lab_projection_without_multiplicity(
+        legacy_source
+    )
+    public_projection = _drop_raw_correlation_multiplicity(legacy_projection)
+    public_projection["correlation_multiplicity_summary"] = (
+        build_strategy_correlation_multiplicity_public_summary(
+            source.get("correlation_multiplicity_evidence"),
+            protocol=protocol,
+            report_schema_version=source.get("schema_version"),
+        )
+    )
+    return public_projection

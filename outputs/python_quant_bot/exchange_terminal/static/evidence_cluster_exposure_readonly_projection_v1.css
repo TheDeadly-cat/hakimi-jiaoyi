@@ -1,0 +1,443 @@
+.cluster-exposure-plate-v1 {
+  --cep-ink: #13282d;
+  --cep-muted: #5f7172;
+  --cep-canvas: #e7eeea;
+  --cep-sheet: #f5f8f4;
+  --cep-grid: #c4d0ca;
+  --cep-tide: #0d6670;
+  --cep-rust: #b34e34;
+  --cep-marker: #d3a73b;
+  --cep-line: color-mix(in srgb, var(--cep-ink) 18%, transparent);
+  position: relative;
+  overflow: hidden;
+  color: var(--cep-ink);
+  border: 1px solid var(--cep-line);
+  border-radius: 26px 9px 26px 9px;
+  background:
+    linear-gradient(90deg, transparent 31px, rgba(13, 102, 112, 0.08) 32px, transparent 33px),
+    linear-gradient(rgba(19, 40, 45, 0.035) 1px, transparent 1px),
+    var(--cep-sheet);
+  background-size: auto, 100% 28px, auto;
+  box-shadow: 0 22px 55px rgba(19, 40, 45, 0.12);
+  font-family: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+  isolation: isolate;
+}
+
+.cluster-exposure-plate-v1::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: var(--cep-muted);
+  content: "";
+}
+
+.cluster-exposure-plate-v1.is-blocked::before {
+  background: var(--cep-rust);
+}
+
+.cluster-exposure-plate-v1.is-observed::before {
+  background: var(--cep-tide);
+}
+
+.cluster-exposure-plate-v1__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 28px 18px 34px;
+  border-bottom: 1px dashed var(--cep-grid);
+}
+
+.cluster-exposure-plate-v1__header span,
+.cluster-exposure-plate-v1__footer span {
+  color: var(--cep-muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.cluster-exposure-plate-v1__header h3 {
+  max-width: 720px;
+  margin: 5px 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.35rem, 2.6vw, 2.15rem);
+  font-weight: 650;
+  line-height: 1.08;
+}
+
+.cluster-exposure-plate-v1__header > strong {
+  flex: 0 0 auto;
+  padding: 7px 11px 6px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: var(--cep-muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+}
+
+.cluster-exposure-plate-v1.is-blocked .cluster-exposure-plate-v1__header > strong {
+  color: var(--cep-rust);
+}
+
+.cluster-exposure-plate-v1.is-observed .cluster-exposure-plate-v1__header > strong {
+  color: var(--cep-tide);
+}
+
+.cluster-exposure-plate-v1__body {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(320px, 1.1fr);
+  gap: 28px;
+  padding: 24px 28px 22px 34px;
+}
+
+.cluster-exposure-plate-v1__map {
+  position: relative;
+  min-height: 220px;
+  overflow: hidden;
+  border: 1px solid var(--cep-grid);
+  border-radius: 50% 50% 18px 18px / 62% 62% 18px 18px;
+  background:
+    radial-gradient(circle at 50% 58%, rgba(13, 102, 112, 0.14) 0 19%, transparent 20%),
+    repeating-radial-gradient(circle at 50% 58%, transparent 0 26px, rgba(19, 40, 45, 0.08) 27px 28px),
+    var(--cep-canvas);
+}
+
+.cluster-exposure-plate-v1.is-blocked .cluster-exposure-plate-v1__map {
+  background:
+    radial-gradient(circle at 50% 58%, rgba(179, 78, 52, 0.17) 0 19%, transparent 20%),
+    repeating-radial-gradient(circle at 50% 58%, transparent 0 26px, rgba(179, 78, 52, 0.11) 27px 28px),
+    var(--cep-canvas);
+}
+
+.cluster-exposure-plate-v1__orbit {
+  position: absolute;
+  inset: 20% 18% 14%;
+  border: 1px dashed var(--cep-tide);
+  border-radius: 50%;
+  transform: rotate(-7deg);
+}
+
+.cluster-exposure-plate-v1__node {
+  position: absolute;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 2px solid var(--cep-sheet);
+  border-radius: 50%;
+  background: var(--cep-ink);
+  box-shadow: 0 0 0 1px var(--cep-ink);
+  color: var(--cep-sheet);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  font-style: normal;
+  z-index: 2;
+}
+
+.cluster-exposure-plate-v1__node.node-a {
+  top: 25%;
+  left: 17%;
+}
+
+.cluster-exposure-plate-v1__node.node-b {
+  top: 17%;
+  right: 18%;
+}
+
+.cluster-exposure-plate-v1__cluster {
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  width: 106px;
+  height: 106px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cep-tide);
+  border-radius: 50%;
+  background: conic-gradient(from 215deg, var(--cep-tide) 0 64%, var(--cep-marker) 64% 68%, rgba(245, 248, 244, 0.9) 68% 100%);
+  box-shadow: inset 0 0 0 10px var(--cep-sheet), 0 10px 30px rgba(19, 40, 45, 0.14);
+  color: var(--cep-ink);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.63rem;
+  line-height: 1.15;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.cluster-exposure-plate-v1.is-blocked .cluster-exposure-plate-v1__cluster {
+  border-color: var(--cep-rust);
+  background: conic-gradient(from 215deg, var(--cep-rust) 0 78%, var(--cep-marker) 78% 83%, rgba(245, 248, 244, 0.9) 83% 100%);
+}
+
+.cluster-exposure-plate-v1__cap {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 4px 7px;
+  border-top: 2px solid var(--cep-marker);
+  color: var(--cep-muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.58rem;
+  font-style: normal;
+  letter-spacing: 0.05em;
+}
+
+.cluster-exposure-plate-v1__metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--cep-grid);
+  border-radius: 15px 4px 15px 4px;
+  background: var(--cep-grid);
+}
+
+.cluster-exposure-plate-v1__metrics div {
+  min-height: 92px;
+  padding: 17px 18px;
+  background: rgba(245, 248, 244, 0.96);
+}
+
+.cluster-exposure-plate-v1__metrics dt {
+  color: var(--cep-muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+}
+
+.cluster-exposure-plate-v1__metrics dd {
+  margin: 7px 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.45rem, 3vw, 2.25rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.cluster-exposure-plate-v1__flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0 28px 24px 34px;
+  list-style: none;
+}
+
+.cluster-exposure-plate-v1__flow li {
+  position: relative;
+  min-height: 82px;
+  padding: 14px 14px 12px;
+  border-block: 1px solid var(--cep-grid);
+  border-right: 1px solid var(--cep-grid);
+  background: rgba(231, 238, 234, 0.56);
+}
+
+.cluster-exposure-plate-v1__flow li:first-child {
+  border-left: 1px solid var(--cep-grid);
+  border-radius: 12px 0 0 4px;
+}
+
+.cluster-exposure-plate-v1__flow li:last-child {
+  border-radius: 0 4px 12px 0;
+}
+
+.cluster-exposure-plate-v1__flow li:not(:last-child)::after {
+  position: absolute;
+  top: 50%;
+  right: -6px;
+  width: 11px;
+  height: 11px;
+  border-top: 1px solid var(--cep-grid);
+  border-right: 1px solid var(--cep-grid);
+  background: var(--cep-canvas);
+  content: "";
+  transform: translateY(-50%) rotate(45deg);
+  z-index: 2;
+}
+
+.cluster-exposure-plate-v1__flow span {
+  display: block;
+  color: var(--cep-tide);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+}
+
+.cluster-exposure-plate-v1__flow strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 0.78rem;
+  font-weight: 560;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.cluster-exposure-plate-v1__ledger {
+  margin: 0 28px 22px 34px;
+  border-top: 1px dashed var(--cep-grid);
+}
+
+.cluster-exposure-plate-v1__ledger summary {
+  padding: 12px 2px 10px;
+  color: var(--cep-ink);
+  cursor: pointer;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+
+.cluster-exposure-plate-v1__ledger summary:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--cep-marker) 72%, transparent);
+  outline-offset: 4px;
+}
+
+.cluster-exposure-plate-v1__ledger ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0 0 4px;
+  list-style: none;
+}
+
+.cluster-exposure-plate-v1__ledger li {
+  padding: 10px 11px;
+  border-left: 3px solid var(--cep-marker);
+  background: rgba(231, 238, 234, 0.72);
+}
+
+.cluster-exposure-plate-v1__ledger li span,
+.cluster-exposure-plate-v1__ledger li strong {
+  display: block;
+}
+
+.cluster-exposure-plate-v1__ledger li span {
+  color: var(--cep-muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.58rem;
+  overflow-wrap: anywhere;
+}
+
+.cluster-exposure-plate-v1__ledger li strong {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  font-weight: 560;
+}
+
+.cluster-exposure-plate-v1__footer {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 12px 18px;
+  align-items: center;
+  padding: 14px 28px 16px 34px;
+  border-top: 1px solid var(--cep-grid);
+  background: rgba(19, 40, 45, 0.04);
+}
+
+.cluster-exposure-plate-v1__footer strong {
+  justify-self: end;
+  color: var(--cep-muted);
+  font-size: 0.72rem;
+  font-weight: 520;
+}
+
+@media (max-width: 720px) {
+  .cluster-exposure-plate-v1__body {
+    grid-template-columns: 1fr;
+  }
+
+  .cluster-exposure-plate-v1__flow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cluster-exposure-plate-v1__flow li:nth-child(2) {
+    border-radius: 0 12px 4px 0;
+  }
+
+  .cluster-exposure-plate-v1__flow li:nth-child(3) {
+    border-left: 1px solid var(--cep-grid);
+    border-radius: 4px 0 0 12px;
+  }
+
+  .cluster-exposure-plate-v1__ledger ul,
+  .cluster-exposure-plate-v1__footer {
+    grid-template-columns: 1fr;
+  }
+
+  .cluster-exposure-plate-v1__footer strong {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 430px) {
+  .cluster-exposure-plate-v1 {
+    border-radius: 18px 6px 18px 6px;
+  }
+
+  .cluster-exposure-plate-v1__header,
+  .cluster-exposure-plate-v1__body {
+    padding-inline: 22px 16px;
+  }
+
+  .cluster-exposure-plate-v1__header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cluster-exposure-plate-v1__flow,
+  .cluster-exposure-plate-v1__ledger,
+  .cluster-exposure-plate-v1__footer {
+    margin-inline: 0;
+    padding-inline: 22px 16px;
+  }
+
+  .cluster-exposure-plate-v1__flow,
+  .cluster-exposure-plate-v1__metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .cluster-exposure-plate-v1__flow li,
+  .cluster-exposure-plate-v1__flow li:first-child,
+  .cluster-exposure-plate-v1__flow li:last-child,
+  .cluster-exposure-plate-v1__flow li:nth-child(2),
+  .cluster-exposure-plate-v1__flow li:nth-child(3) {
+    border: 1px solid var(--cep-grid);
+    border-radius: 6px;
+  }
+
+  .cluster-exposure-plate-v1__flow li:not(:last-child)::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cluster-exposure-plate-v1__cluster,
+  .cluster-exposure-plate-v1__node {
+    animation: cluster-exposure-rise 540ms cubic-bezier(0.2, 0.72, 0.24, 1) both;
+  }
+
+  .cluster-exposure-plate-v1__node.node-b {
+    animation-delay: 90ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cluster-exposure-plate-v1 *,
+  .cluster-exposure-plate-v1 *::before,
+  .cluster-exposure-plate-v1 *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes cluster-exposure-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+  }
+}

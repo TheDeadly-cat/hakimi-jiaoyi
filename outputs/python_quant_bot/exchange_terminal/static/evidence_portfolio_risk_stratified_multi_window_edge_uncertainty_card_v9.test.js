@@ -1,0 +1,396 @@
+"use strict";
+
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const strictCanonical = require("./strict_canonical_json_v1.js");
+const card = require(
+  "./evidence_portfolio_risk_stratified_multi_window_edge_uncertainty_card_v9.js"
+);
+const consumer = require(
+  "./evidence_portfolio_risk_stratified_multi_window_edge_uncertainty_consumer_fixture_v9.js"
+);
+
+const PRESENTATION_HASH = "a".repeat(64);
+const PRESENTATION_V8_HASH = "b".repeat(64);
+const ADAPTER_V7_HASH = "c".repeat(64);
+const ADAPTER_V8_HASH = "d".repeat(64);
+const EDGE_GATE_HASH = "e".repeat(64);
+const STABILITY_GATE_HASH = "f".repeat(64);
+const PARTITION_HASH = "1".repeat(64);
+const TRADE_IDENTITY_HASH = "2".repeat(64);
+const PRESENTATION_IMPLEMENTATION_HASH =
+  "5fb7af67366913016c79236419f9b8df356a6b809ec876e0c312a67a4839b132";
+const STRICT_IMPLEMENTATION_HASH =
+  "cb0217d9143f41b288eccf396d6385e54c422ec88afa82de88fb52c6476bc412";
+const HTTP_BLOCKERS = [
+  "HTTP_CANDIDATE_V9_UNREGISTERED",
+  "PRESENTATION_V9_CONSUMER_NOT_REGISTERED",
+  "CURRENT_ADMISSION_LOCKED",
+  "UI_NOT_MOUNTED",
+];
+const PRESENTATION_BLOCKERS = [
+  "PRESENTATION_V9_CONSUMER_NOT_REGISTERED",
+  "HTTP_CANDIDATE_V9_NOT_DEFINED",
+  "UI_NOT_MOUNTED",
+  "CURRENT_ADMISSION_LOCKED",
+];
+
+function authority() {
+  return {
+    consumer_activation_allowed: false,
+    current_admission_allowed: false,
+    descriptive_only: true,
+    live_order_allowed: false,
+    paper_authorized: false,
+    presentation_mount_allowed: false,
+    route_registration_allowed: false,
+    runtime_gate_activation_allowed: false,
+    writer_allowed: false,
+  };
+}
+
+function payload(mode = "clear") {
+  const blocked = mode === "block";
+  return strictCanonical.sealDocument({
+    authority: authority(),
+    decision: "EXACT_PRESENTATION_V9_PROJECTED_AUTHORITY_UNCHANGED",
+    edge_uncertainty_summary: {
+      blocked_pair_count: blocked ? 1 : 0,
+      cluster_partition_hash: PARTITION_HASH,
+      confidence_z_micros: 1644854,
+      correlation_floor_micros: 700000,
+      insufficient_sample_pair_count: blocked ? 1 : 0,
+      maximum_confidence_upper_correlation_micros: blocked ? 1000000 : 682384,
+      observed_breach_pair_count: 0,
+      uncertainty_overlap_pair_count: blocked ? 1 : 0,
+      verified_pair_count: 2,
+    },
+    facts: {
+      adapter_v8_exactly_verified: true,
+      edge_uncertainty_summary_projected: true,
+      matrices_embedded: false,
+      multi_window_summary_projected: true,
+      positions_embedded: false,
+      presentation_v8_exactly_verified: true,
+      profitability_proven: false,
+      runtime_consumer_bound: false,
+      source_documents_embedded: false,
+      ui_mounted: false,
+      verification_contexts_embedded: false,
+    },
+    gaps: {
+      adapter_v8_blocker_count: blocked ? 1 : 0,
+      edge_uncertainty_blocker_count: blocked ? 1 : 0,
+      http_candidate_blocker_count: HTTP_BLOCKERS.length,
+      http_candidate_blockers: HTTP_BLOCKERS.slice(),
+      local_blocker_count: blocked ? 1 : 0,
+      presentation_blocker_count: PRESENTATION_BLOCKERS.length,
+      presentation_blockers: PRESENTATION_BLOCKERS.slice(),
+    },
+    local_decision: {
+      adapter_v7_decision: "PASS_MULTI_WINDOW",
+      adapter_v7_status: "PASS",
+      adapter_v8_decision: blocked ? "BLOCK_EDGE_UNCERTAINTY" : "PASS_EDGE_UNCERTAINTY",
+      adapter_v8_status: blocked ? "BLOCK" : "PASS",
+      edge_gate_v1_decision: blocked ? "BLOCK_EDGE_UNCERTAINTY" : "PASS_EDGE_UNCERTAINTY",
+      edge_gate_v1_status: blocked ? "BLOCK" : "PASS",
+      joint_decision: blocked ? "BLOCK_EDGE_UNCERTAINTY" : "PASS_LOCAL_RESEARCH",
+      joint_status: blocked ? "BLOCK" : "PASS",
+      presentation_v8_joint_decision: "PASS_MULTI_WINDOW_LOCAL_RESEARCH",
+      presentation_v8_joint_status: "PASS",
+      stability_gate_v2_decision: "PASS_REGISTERED_WINDOWS",
+      stability_gate_v2_status: "PASS",
+    },
+    multi_window_summary: {
+      anchor_window_id: "anchor-2026w34",
+      any_registered_window_blocked: false,
+      cluster_partition_stable: true,
+      minimum_conservative_weighted_effective_strata_count: "2",
+      registered_window_count: 3,
+      strata_topology_stable: true,
+      verified_window_count: 3,
+      worst_window_maximum_active_stratum_gross_pct: "40",
+    },
+    risk_summary: {
+      active_dimension_count: 1,
+      conservative_weighted_effective_strata_count: "2",
+      dimension_results: [{
+        active_stratum_count: 2,
+        dimension_id: "asset-family",
+        diversification_status: "PASS",
+        dominant_stratum_id: "family-a",
+        dominant_stratum_share_of_active_gross_pct: "50",
+        gross_limit_status: "PASS",
+        maximum_stratum_gross_pct: "25",
+        over_limit_stratum_count: 0,
+        status: "PASS",
+        weighted_effective_strata_count: "2",
+      }],
+      maximum_active_stratum_gross_pct: "25",
+      total_active_gross_pct: "50",
+      v2_weighted_effective_cluster_count: "2",
+      weighted_diversification_gate_applied: true,
+    },
+    schema_version: card.PAYLOAD_SCHEMA_VERSION,
+    source: {
+      adapter_v7_hash: ADAPTER_V7_HASH,
+      adapter_v8_hash: ADAPTER_V8_HASH,
+      cluster_partition_hash: PARTITION_HASH,
+      edge_gate_v1_hash: EDGE_GATE_HASH,
+      presentation_v8_hash: PRESENTATION_V8_HASH,
+      presentation_v9_hash: PRESENTATION_HASH,
+      stability_gate_v2_hash: STABILITY_GATE_HASH,
+      state: "EXACT_PRESENTATION_V8_AND_ADAPTER_V8",
+      trade_identity_hash: TRADE_IDENTITY_HASH,
+    },
+    stages: [
+      { axis: "SOURCE", detail: "EXACT_PRESENTATION_V8_AND_ADAPTER_V8", state: "KNOWN" },
+      { axis: "GAP", detail: blocked ? "EDGE_UNCERTAINTY_BLOCK_PRESENT" : "GOVERNANCE_GAPS_REMAIN", state: blocked ? "OPEN" : "CLEAR_WITH_GOVERNANCE_GAPS" },
+      { axis: "MATURITY", detail: "UNMOUNTED_HTTP_CANDIDATE_V9", state: "CANDIDATE_ONLY" },
+      { axis: "PERMISSION", detail: "NO_ROUTE_MOUNT_CURRENT_PAPER_OR_LIVE_AUTHORITY", state: "UNAUTHORIZED" },
+    ],
+    status: "BLOCK",
+  }, "payload_hash");
+}
+
+function response(mode = "clear") {
+  if (mode === "unknown") {
+    return strictCanonical.sealDocument({
+      authority: authority(),
+      blockers: HTTP_BLOCKERS.concat(["PRESENTATION_V9_SOURCE_UNKNOWN"]),
+      facts: {
+        context_contract_valid: true,
+        presentation_v9_exactly_verified: false,
+        profitability_proven: false,
+        request_contract_valid: true,
+        result_available: false,
+        route_registered: false,
+        runtime_mutations_performed: false,
+        source_contract_known: false,
+        transport_registered: false,
+        ui_mounted: false,
+      },
+      interface_status: "UNREGISTERED_CANDIDATE",
+      lineage: {
+        presentation_v9_hash: null,
+        presentation_v9_implementation_sha256: PRESENTATION_IMPLEMENTATION_HASH,
+        presentation_v9_schema_version:
+          "strategy-correlation-cluster-portfolio-risk-stratified-multi-window-edge-uncertainty-presentation-v9",
+        presentation_v9_static_fingerprint:
+          "20260823-stratified-multi-window-edge-uncertainty-presentation-v9-unmounted-lock-1",
+        strict_canonical_implementation_sha256: STRICT_IMPLEMENTATION_HASH,
+      },
+      payload: null,
+      schema_version: card.RESPONSE_SCHEMA_VERSION,
+      state: "UNKNOWN",
+      static_fingerprint: card.RESPONSE_STATIC_FINGERPRINT,
+    }, "response_hash");
+  }
+  const blocked = mode === "block";
+  return strictCanonical.sealDocument({
+    authority: authority(),
+    blockers: HTTP_BLOCKERS.concat(blocked
+      ? ["LOCAL_RESEARCH_GATE_BLOCKED", "CROSS_CLUSTER_EDGE_UNCERTAINTY_GATE_BLOCKED"]
+      : []),
+    facts: {
+      context_contract_valid: true,
+      presentation_v9_exactly_verified: true,
+      profitability_proven: false,
+      request_contract_valid: true,
+      result_available: true,
+      route_registered: false,
+      runtime_mutations_performed: false,
+      source_contract_known: true,
+      transport_registered: false,
+      ui_mounted: false,
+    },
+    interface_status: "UNREGISTERED_CANDIDATE",
+    lineage: {
+      presentation_v9_hash: PRESENTATION_HASH,
+      presentation_v9_implementation_sha256: PRESENTATION_IMPLEMENTATION_HASH,
+      presentation_v9_schema_version:
+        "strategy-correlation-cluster-portfolio-risk-stratified-multi-window-edge-uncertainty-presentation-v9",
+      presentation_v9_static_fingerprint:
+        "20260823-stratified-multi-window-edge-uncertainty-presentation-v9-unmounted-lock-1",
+      strict_canonical_implementation_sha256: STRICT_IMPLEMENTATION_HASH,
+    },
+    payload: payload(mode),
+    schema_version: card.RESPONSE_SCHEMA_VERSION,
+    state: "KNOWN_BLOCKED",
+    static_fingerprint: card.RESPONSE_STATIC_FINGERPRINT,
+  }, "response_hash");
+}
+
+function resealResponse(altered) {
+  delete altered.response_hash;
+  return strictCanonical.sealDocument(altered, "response_hash");
+}
+
+test("known edge clear remains outer blocked and permission neutral", () => {
+  const source = response("clear");
+  const view = card.buildPortfolioRiskStratifiedMultiWindowEdgeUncertaintyViewModelV9(source);
+  assert.equal(card.verifyStratifiedMultiWindowEdgeUncertaintyCandidateResponseV9(source), true);
+  assert.equal(view.contract_state, "KNOWN_BLOCKED");
+  assert.equal(view.status_label, "LOCAL CLEAR / OUTER BLOCK");
+  assert.equal(view.edge.blocked_count, 0);
+  assert.equal(view.stages[3].state, "UNAUTHORIZED");
+  assert.equal(Object.isFrozen(view), true);
+});
+
+test("edge uncertainty block remains visible without authority promotion", () => {
+  const view = card.buildPortfolioRiskStratifiedMultiWindowEdgeUncertaintyViewModelV9(
+    response("block")
+  );
+  assert.equal(view.status_label, "LOCAL BLOCK / OUTER BLOCK");
+  assert.equal(view.edge.blocked, true);
+  assert.equal(view.signals[0].state, "BLOCK PRESENT");
+  assert.match(view.summary, /not counted as independent evidence/);
+});
+
+test("exact unknown candidate hides every partial aggregate", () => {
+  const source = response("unknown");
+  const view = card.buildPortfolioRiskStratifiedMultiWindowEdgeUncertaintyViewModelV9(source);
+  assert.equal(card.verifyStratifiedMultiWindowEdgeUncertaintyCandidateResponseV9(source), true);
+  assert.equal(view.contract_state, "UNKNOWN");
+  assert.equal(view.edge, null);
+  assert.equal(view.window, null);
+  assert.deepEqual(view.metrics, []);
+  assert.deepEqual(view.signals, []);
+  assert.deepEqual(view.dimensions, []);
+});
+
+test("substituted response hash fails closed", () => {
+  const altered = structuredClone(response("clear"));
+  altered.response_hash = "0".repeat(64);
+  assert.equal(card.verifyStratifiedMultiWindowEdgeUncertaintyCandidateResponseV9(altered), false);
+  assert.equal(
+    card.buildPortfolioRiskStratifiedMultiWindowEdgeUncertaintyViewModelV9(altered).contract_state,
+    "UNKNOWN"
+  );
+});
+
+test("extra edge field is rejected after resealing", () => {
+  const altered = structuredClone(response("clear"));
+  altered.payload.edge_uncertainty_summary.hidden_pair = true;
+  delete altered.payload.payload_hash;
+  altered.payload = strictCanonical.sealDocument(altered.payload, "payload_hash");
+  assert.equal(
+    card.verifyStratifiedMultiWindowEdgeUncertaintyCandidateResponseV9(
+      resealResponse(altered)
+    ),
+    false
+  );
+});
+
+test("edge micros reject floats and impossible bounds", () => {
+  const floatAltered = structuredClone(response("clear"));
+  floatAltered.payload.edge_uncertainty_summary.correlation_floor_micros = 700000.5;
+  delete floatAltered.payload.payload_hash;
+  assert.throws(
+    () => strictCanonical.sealDocument(floatAltered.payload, "payload_hash"),
+    /finite non-negative-zero integers/
+  );
+
+  const altered = structuredClone(response("clear"));
+  altered.payload.edge_uncertainty_summary.maximum_confidence_upper_correlation_micros = 1000001;
+  delete altered.payload.payload_hash;
+  altered.payload = strictCanonical.sealDocument(altered.payload, "payload_hash");
+  assert.equal(
+    card.verifyStratifiedMultiWindowEdgeUncertaintyCandidateResponseV9(
+      resealResponse(altered)
+    ),
+    false
+  );
+});
+
+test("forged authority and outer pass cannot be promoted", () => {
+  const altered = structuredClone(response("clear"));
+  altered.authority.paper_authorized = true;
+  altered.payload.status = "PASS";
+  delete altered.payload.payload_hash;
+  altered.payload = strictCanonical.sealDocument(altered.payload, "payload_hash");
+  assert.equal(
+    card.verifyStratifiedMultiWindowEdgeUncertaintyCandidateResponseV9(
+      resealResponse(altered)
+    ),
+    false
+  );
+});
+
+test("renderer escapes adversarial anchor and dimension labels", () => {
+  const altered = structuredClone(response("clear"));
+  altered.payload.risk_summary.dimension_results[0].dominant_stratum_id =
+    '<img src=x onerror="dominant">';
+  altered.payload.risk_summary.dimension_results[0].dimension_id = '<svg onload="dimension">';
+  delete altered.payload.payload_hash;
+  altered.payload = strictCanonical.sealDocument(altered.payload, "payload_hash");
+  const markup = card.renderPortfolioRiskStratifiedMultiWindowEdgeUncertaintyCardV9(
+    resealResponse(altered)
+  );
+  assert.doesNotMatch(markup, /<img\b|<svg\b/i);
+  assert.doesNotMatch(markup, /<[^>]+\son(?:error|load)\s*=/i);
+  assert.match(markup, /&lt;img/);
+  assert.match(markup, /&lt;svg/);
+});
+
+test("rendered language stays neutral and explicitly outer blocked", () => {
+  const markup = card.renderPortfolioRiskStratifiedMultiWindowEdgeUncertaintyCardV9(
+    response("clear")
+  );
+  assert.match(markup, /LOCAL CLEAR \/ OUTER BLOCK/);
+  assert.match(markup, /NO_ROUTE_MOUNT_CURRENT_PAPER_OR_LIVE_AUTHORITY/);
+  assert.doesNotMatch(markup, /\bREADY\b|profit guaranteed|execution enabled/i);
+});
+
+test("source to permission stage order remains fixed", () => {
+  const view = card.buildPortfolioRiskStratifiedMultiWindowEdgeUncertaintyViewModelV9(
+    response("clear")
+  );
+  assert.deepEqual(view.stages.map((stage) => stage.axis), [
+    "SOURCE", "GAP", "MATURITY", "PERMISSION",
+  ]);
+  assert.equal(view.stages[2].state, "CANDIDATE_ONLY");
+  assert.equal(view.stages[3].state, "UNAUTHORIZED");
+});
+
+test("consumer fixture remains sealed descriptor-only and unmounted", () => {
+  const source = response("clear");
+  const descriptor =
+    consumer.buildPortfolioRiskStratifiedMultiWindowEdgeUncertaintyConsumerFixtureV9(
+      source
+    );
+  assert.equal(
+    consumer.verifyPortfolioRiskStratifiedMultiWindowEdgeUncertaintyConsumerFixtureV9(
+      descriptor,
+      source
+    ),
+    true
+  );
+  assert.equal(descriptor.status, "BLOCK");
+  assert.equal(descriptor.mount.mode, "UNMOUNTED");
+  assert.equal(descriptor.mount.mount_api_exposed, false);
+  assert.equal(descriptor.mount.browser_executed, false);
+  assert.equal(descriptor.facts.edge_uncertainty_summary_visible, true);
+  assert.equal(descriptor.facts.local_clear_is_not_permission, true);
+  assert.equal(descriptor.authority.paper_authorized, false);
+  assert.equal(descriptor.authority.live_order_allowed, false);
+});
+
+test("fixture pins stylesheet and candidate implementation without mounting", () => {
+  const descriptor =
+    consumer.buildPortfolioRiskStratifiedMultiWindowEdgeUncertaintyConsumerFixtureV9(
+      response("block")
+    );
+  assert.equal(
+    descriptor.presentation.stylesheet_asset,
+    "evidence_portfolio_risk_stratified_multi_window_edge_uncertainty_card_v9.css"
+  );
+  assert.equal(
+    consumer.EXPECTED_HTTP_CANDIDATE_IMPLEMENTATION_SHA256,
+    "329aa276701063ba6625a7cedac495c82bd9b264dfd273043067ce1f6065d394"
+  );
+  assert.equal(descriptor.mount.dom_target, null);
+  assert.equal(descriptor.mount.selector, null);
+  assert.equal(descriptor.facts.edge_block_visible, true);
+  assert.equal(descriptor.facts.browser_visual_review_performed, false);
+});

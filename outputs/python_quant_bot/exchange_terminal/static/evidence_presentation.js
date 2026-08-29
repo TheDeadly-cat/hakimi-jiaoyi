@@ -1030,6 +1030,15 @@
   }
 
   function strategyLabEvidencePresentation(payload = {}) {
+    if (
+      payload
+      && typeof payload === "object"
+      && !Array.isArray(payload)
+      && Object.prototype.hasOwnProperty.call(payload, "correlation_cluster_summary")
+    ) {
+      payload = { ...payload };
+      delete payload.correlation_cluster_summary;
+    }
     const emptyConditionRows = Object.freeze([]);
     const empty = Object.freeze({
       valid: false,
@@ -4712,6 +4721,492 @@
     });
   }
 
+  function strategyCorrelationClusterSummaryPresentation(input = {}) {
+    const unknown = () => Object.freeze({
+      valid: false,
+      rawStatus: "UNKNOWN",
+      rawSourceStatus: "UNKNOWN",
+      rawLane: "UNKNOWN",
+      statusText: "未核验",
+      sourceText: "本地冻结完成日收盘复算：未核验",
+      gapText: "输入完整性、事前截止日与正式协议绑定尚未闭合",
+      maturityText: "独立簇票：-- / --",
+      permissionText: "仅研究描述 · 不选参 · 模拟未授权 · 实盘永久硬锁",
+      detailText: "固定 60 个完成日收益、绝对 Pearson 阈值 0.75；当前不形成准入结论",
+    });
+    const expectedKeys = [
+      "absolute_pearson_threshold",
+      "cluster_count",
+      "cluster_vote_rule",
+      "cross_cluster_conflict_count",
+      "current_admission_allowed",
+      "current_report_schema_bound",
+      "current_writer_activation_allowed",
+      "external_authenticity_proven",
+      "first_gap_category",
+      "formal_registry_bound",
+      "full_manifest_reverified",
+      "gate_status",
+      "interpretation",
+      "lane",
+      "live_order_allowed",
+      "lookback_observations",
+      "minimum_pair_overlap",
+      "next_evidence_required",
+      "pair_count",
+      "paper_authorized",
+      "parameter_selection_allowed",
+      "passing_cluster_count",
+      "performance_claim_allowed",
+      "preregistered_cutoff_bound",
+      "profitability_proven",
+      "replay_scope",
+      "required_cluster_votes",
+      "required_price_rows",
+      "schema_version",
+      "source_status",
+      "status",
+    ];
+    if (!input || typeof input !== "object" || Array.isArray(input)) return unknown();
+    const inputKeys = Object.keys(input);
+    if (
+      inputKeys.length !== expectedKeys.length
+      || !expectedKeys.every((key) => Object.prototype.hasOwnProperty.call(input, key))
+    ) return unknown();
+
+    const authorityKeys = [
+      "current_admission_allowed",
+      "current_report_schema_bound",
+      "current_writer_activation_allowed",
+      "external_authenticity_proven",
+      "formal_registry_bound",
+      "full_manifest_reverified",
+      "live_order_allowed",
+      "paper_authorized",
+      "parameter_selection_allowed",
+      "performance_claim_allowed",
+      "preregistered_cutoff_bound",
+      "profitability_proven",
+    ];
+    const fixedContractValid = input.schema_version === "strategy-correlation-cluster-public-summary-v1"
+      && input.lookback_observations === 60
+      && input.required_price_rows === 61
+      && input.minimum_pair_overlap === 40
+      && input.absolute_pearson_threshold === 0.75
+      && input.cluster_vote_rule === "ALL_MEMBERS_PASS_ONE_VOTE_PER_CLUSTER"
+      && input.replay_scope === "LOCAL_FROZEN_COMPLETED_DAILY_CLOSE_REPLAY_NOT_EXTERNAL_AUTHENTICITY"
+      && input.interpretation === "DESCRIPTIVE_CORRELATION_INDEPENDENCE_ONLY"
+      && input.next_evidence_required === "FORMAL_PROTOCOL_BINDING_AND_NEW_REPORT_SCHEMA"
+      && authorityKeys.every((key) => input[key] === false);
+    const statusValid = ["UNKNOWN", "DESCRIPTIVE_PASS", "DESCRIPTIVE_BLOCK"].includes(input.status);
+    const gapCategoryValid = input.first_gap_category === null
+      || (typeof input.first_gap_category === "string" && /^[A-Z][A-Z0-9_]{0,63}$/.test(input.first_gap_category));
+    if (!fixedContractValid || !statusValid || !gapCategoryValid) return unknown();
+
+    const countKeys = [
+      "cluster_count",
+      "passing_cluster_count",
+      "required_cluster_votes",
+      "cross_cluster_conflict_count",
+      "pair_count",
+    ];
+    if (input.status === "UNKNOWN") {
+      const unknownValid = input.source_status === "UNKNOWN"
+        && input.gate_status === "UNKNOWN"
+        && input.lane === "UNKNOWN"
+        && input.first_gap_category === "INPUT_INTEGRITY"
+        && countKeys.every((key) => input[key] === null);
+      if (!unknownValid) return unknown();
+      return Object.freeze({ ...unknown(), valid: true });
+    }
+
+    const countsValid = countKeys.every((key) => Number.isInteger(input[key]) && input[key] >= 0)
+      && input.cluster_count >= 2
+      && input.required_cluster_votes === Math.ceil(input.cluster_count * 0.6)
+      && input.passing_cluster_count <= input.cluster_count
+      && input.required_cluster_votes <= input.cluster_count;
+    const replayValid = input.source_status === "VERIFIED_LOCAL_REPLAY"
+      && ["RAW_EXCESS", "RISK_ADJUSTED"].includes(input.lane)
+      && countsValid;
+    const passValid = input.status === "DESCRIPTIVE_PASS"
+      && input.gate_status === "PASS"
+      && input.passing_cluster_count >= input.required_cluster_votes
+      && input.cross_cluster_conflict_count === 0;
+    const blockValid = input.status === "DESCRIPTIVE_BLOCK"
+      && input.gate_status === "BLOCK"
+      && (
+        input.passing_cluster_count < input.required_cluster_votes
+        || input.cross_cluster_conflict_count > 0
+      );
+    if (!replayValid || (!passValid && !blockValid)) return unknown();
+
+    const descriptivePass = input.status === "DESCRIPTIVE_PASS";
+    return Object.freeze({
+      valid: true,
+      rawStatus: input.status,
+      rawSourceStatus: input.source_status,
+      rawLane: input.lane,
+      statusText: descriptivePass ? "描述性未阻断" : "描述性阻断",
+      sourceText: "本地冻结完成日收盘已直接复算 · 不证明外部真实性",
+      gapText: descriptivePass
+        ? "正式截止日、注册表与新报告 schema 尚未绑定"
+        : "本地复算先有相关簇阻断；正式协议绑定仍未闭合",
+      maturityText: `独立簇票 ${input.passing_cluster_count} / ${input.required_cluster_votes} · 共 ${input.cluster_count} 簇`,
+      permissionText: "仅研究描述 · 不选参 · 模拟未授权 · 实盘永久硬锁",
+      detailText: `固定 ${input.lookback_observations} 个完成日收益 · |Pearson| >= ${input.absolute_pearson_threshold.toFixed(2)} 视为高相关`,
+    });
+  }
+
+  const SUMMARY_FIELDS = [
+    "absolute_pearson_threshold",
+    "ambiguous_cross_cluster_count",
+    "confidence_level",
+    "confirmed_high_cross_cluster_count",
+    "cross_cluster_pair_count",
+    "current_admission_allowed",
+    "current_writer_activation_allowed",
+    "effective_sample_method",
+    "evidence_scope",
+    "external_authenticity_proven",
+    "gap_category",
+    "insufficient_effective_sample_pair_count",
+    "live_order_allowed",
+    "lookback_observations",
+    "maturity",
+    "minimum_effective_observations",
+    "minimum_pair_overlap",
+    "pair_count",
+    "paper_authorized",
+    "parameter_selection_allowed",
+    "performance_claim_allowed",
+    "permission",
+    "profitability_proven",
+    "required_price_rows",
+    "required_source_schema_version",
+    "requires_new_report_schema",
+    "schema_version",
+    "status",
+    "uncertainty_policy",
+  ].sort();
+
+  const FIXED_VALUES = {
+    schema_version: "strategy-correlation-uncertainty-public-summary-v1",
+    required_source_schema_version: "strategy-correlation-uncertainty-audit-v2",
+    evidence_scope: "REDACTED_LOCAL_CORRELATION_UNCERTAINTY",
+    uncertainty_policy: "FISHER_Z_95_WITH_LAG1_EFFECTIVE_N_DESCRIPTIVE_V1",
+    effective_sample_method: "LAG1_AUTOCORRELATION_PRODUCT_CLIPPED_V1",
+    lookback_observations: 60,
+    required_price_rows: 61,
+    minimum_pair_overlap: 40,
+    minimum_effective_observations: 12,
+    confidence_level: 0.95,
+    absolute_pearson_threshold: 0.75,
+    maturity: "DESCRIPTIVE_ONLY",
+    permission: "RESEARCH_ONLY",
+    external_authenticity_proven: false,
+    profitability_proven: false,
+    performance_claim_allowed: false,
+    parameter_selection_allowed: false,
+    requires_new_report_schema: true,
+    current_writer_activation_allowed: false,
+    current_admission_allowed: false,
+    paper_authorized: false,
+    live_order_allowed: false,
+  };
+
+  const COUNT_FIELDS = [
+    "pair_count",
+    "cross_cluster_pair_count",
+    "confirmed_high_cross_cluster_count",
+    "ambiguous_cross_cluster_count",
+    "insufficient_effective_sample_pair_count",
+  ];
+
+  function exactFields(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+    const keys = Object.keys(value).sort();
+    return keys.length === SUMMARY_FIELDS.length
+      && keys.every((key, index) => key === SUMMARY_FIELDS[index]);
+  }
+
+  function fixedValuesMatch(value) {
+    return Object.entries(FIXED_VALUES).every(
+      ([key, expected]) => value[key] === expected
+    );
+  }
+
+  function unknownPresentation(valid) {
+    return {
+      valid,
+      contractConnected: valid,
+      rawStatus: "UNKNOWN",
+      rawGapCategory: "SOURCE_INVALID",
+      statusText: valid ? "来源未连接" : "未核验",
+      sourceText: "相关性不确定性审计：未核验",
+      gapText: "有效样本、区间分类与事前协议绑定尚未闭合",
+      maturityText: "跨簇 pair：-- / -- · 有效样本门槛：12",
+      permissionText: "仅研究描述 · 不选参 · 模拟未授权 · 实盘永久硬锁",
+      detailText: "公共投影只接受聚合计数；symbol、相关系数、区间与 Hash 不进入页面",
+    };
+  }
+
+  function gapCategoryFor(value) {
+    const categories = [];
+    if (value.confirmed_high_cross_cluster_count > 0) {
+      categories.push("CROSS_CLUSTER_CONFIRMED_HIGH");
+    }
+    if (value.ambiguous_cross_cluster_count > 0) {
+      categories.push("CROSS_CLUSTER_AMBIGUOUS");
+    }
+    if (value.insufficient_effective_sample_pair_count > 0) {
+      categories.push("EFFECTIVE_SAMPLE_INSUFFICIENT");
+    }
+    if (categories.length > 1) return "MULTIPLE_CROSS_CLUSTER_UNCERTAINTY_GAPS";
+    if (categories.length === 1) return categories[0];
+    return value.status === "OBSERVED_UNCERTAINTY_BLOCK"
+      ? "SOURCE_EVIDENCE_BLOCK"
+      : "NONE_OBSERVED";
+  }
+
+  function gapText(category) {
+    const labels = {
+      NONE_OBSERVED: "当前聚合未观察到跨簇区间阻断 · 仍非外部真实性",
+      CROSS_CLUSTER_CONFIRMED_HIGH: "跨簇高相关区间已确认 · 需要重新预登记",
+      CROSS_CLUSTER_AMBIGUOUS: "相关区间跨越阈值 · 不确定性不能按低相关处理",
+      EFFECTIVE_SAMPLE_INSUFFICIENT: "有效样本不足 · 不能形成低相关描述",
+      MULTIPLE_CROSS_CLUSTER_UNCERTAINTY_GAPS: "存在多类跨簇不确定性缺口",
+      SOURCE_EVIDENCE_BLOCK: "来源审计阻断 · 需要补齐冻结证据",
+    };
+    return labels[category] || "不确定性分类未核验";
+  }
+
+  function strategyCorrelationUncertaintySummaryPresentation(value) {
+    if (!exactFields(value) || !fixedValuesMatch(value)) {
+      return unknownPresentation(false);
+    }
+    if (value.status === "UNKNOWN") {
+      const unknownShape = value.gap_category === "SOURCE_INVALID"
+        && COUNT_FIELDS.every((field) => value[field] === null);
+      return unknownPresentation(unknownShape);
+    }
+    if (![
+      "OBSERVED_NO_UNCERTAINTY_BLOCK",
+      "OBSERVED_UNCERTAINTY_BLOCK",
+    ].includes(value.status)) {
+      return unknownPresentation(false);
+    }
+    if (!COUNT_FIELDS.every(
+      (field) => Number.isInteger(value[field]) && value[field] >= 0
+    )) {
+      return unknownPresentation(false);
+    }
+    if (value.cross_cluster_pair_count > value.pair_count) {
+      return unknownPresentation(false);
+    }
+    const blockingCount = value.confirmed_high_cross_cluster_count
+      + value.ambiguous_cross_cluster_count
+      + value.insufficient_effective_sample_pair_count;
+    if (blockingCount > value.cross_cluster_pair_count) {
+      return unknownPresentation(false);
+    }
+    if (
+      value.status === "OBSERVED_NO_UNCERTAINTY_BLOCK"
+      && blockingCount !== 0
+    ) {
+      return unknownPresentation(false);
+    }
+    const expectedGap = gapCategoryFor(value);
+    if (value.gap_category !== expectedGap) {
+      return unknownPresentation(false);
+    }
+    const observedBlock = value.status === "OBSERVED_UNCERTAINTY_BLOCK";
+    return {
+      valid: true,
+      contractConnected: true,
+      rawStatus: value.status,
+      rawGapCategory: value.gap_category,
+      statusText: observedBlock
+        ? "存在不确定性证据缺口"
+        : "未观察到不确定性阻断",
+      sourceText: "冻结价格复算 · 95% Fisher-z · lag-1 有效样本",
+      gapText: gapText(value.gap_category),
+      maturityText: "跨簇 pair "
+        + value.cross_cluster_pair_count + " / " + value.pair_count
+        + " · 高相关 " + value.confirmed_high_cross_cluster_count
+        + " · 模糊 " + value.ambiguous_cross_cluster_count
+        + " · 样本不足 " + value.insufficient_effective_sample_pair_count,
+      permissionText: "仅研究描述 · 不选参 · 模拟未授权 · 实盘永久硬锁",
+      detailText: "60 个完成日收益 · 61 根收盘 · 最小重叠 40"
+        + " · 有效样本门槛 12 · |r| 阈值 0.75",
+    };
+  }
+
+  const MULTIPLICITY_SUMMARY_FIELDS = [
+    "current_admission_allowed",
+    "current_report_schema_bound",
+    "current_writer_activation_allowed",
+    "decision_status",
+    "evidence_scope",
+    "expected_family_size",
+    "external_authenticity_proven",
+    "familywise_alpha",
+    "familywise_confidence_level",
+    "familywise_method",
+    "formal_registry_bound",
+    "gap_category",
+    "live_order_allowed",
+    "maturity",
+    "observed_family_size",
+    "paper_authorized",
+    "parameter_selection_allowed",
+    "per_pair_alpha",
+    "performance_claim_allowed",
+    "permission",
+    "profitability_proven",
+    "required_matrix_report_schema_version",
+    "required_report_schema_version",
+    "required_source_schema_version",
+    "requires_current_consumer_activation",
+    "schema_version",
+    "status",
+  ].sort();
+
+  const MULTIPLICITY_FIXED_VALUES = {
+    schema_version: "strategy-correlation-multiplicity-public-summary-v1",
+    required_source_schema_version:
+      "strategy-correlation-multiplicity-report-evidence-v1",
+    required_report_schema_version: 16,
+    required_matrix_report_schema_version: 8,
+    evidence_scope: "REDACTED_LOCAL_CORRELATION_MULTIPLICITY",
+    familywise_method: "BONFERRONI_TWO_SIDED_95_FWER_CROSS_CLUSTER_V1",
+    familywise_confidence_level: 0.95,
+    familywise_alpha: 0.05,
+    maturity: "DESCRIPTIVE_ONLY",
+    permission: "RESEARCH_ONLY",
+    external_authenticity_proven: false,
+    profitability_proven: false,
+    performance_claim_allowed: false,
+    parameter_selection_allowed: false,
+    formal_registry_bound: false,
+    current_report_schema_bound: false,
+    requires_current_consumer_activation: true,
+    current_writer_activation_allowed: false,
+    current_admission_allowed: false,
+    paper_authorized: false,
+    live_order_allowed: false,
+  };
+
+  function multiplicityUnknownPresentation(valid) {
+    return {
+      valid,
+      contractConnected: valid,
+      rawStatus: "UNKNOWN",
+      rawGapCategory: "SOURCE_INVALID",
+      statusText: valid ? "来源未连接" : "未核验",
+      sourceText: "Schema16 family evidence：未核验",
+      gapText: "事前 family size、Bonferroni 调整与来源重放尚未闭合",
+      maturityText: "跨簇 family：-- / -- · 单 pair α：--",
+      permissionText: "仅研究描述 · 不选参 · 模拟未授权 · 实盘永久硬锁",
+      detailText: "只公开 family 聚合；symbol、pair、protocol 与 Hash 不进入页面",
+    };
+  }
+
+  function multiplicityGapText(category) {
+    const labels = {
+      NONE_OBSERVED: "Bonferroni family 未观察到聚合阻断 · 仍非外部真实性",
+      CORRELATION_GATE_BLOCK: "相关簇基础门禁阻断 · family 结论不可推进",
+      UNCERTAINTY_BLOCK: "单 pair 区间仍有不确定性 · family 校正继续阻断",
+      FAMILY_WISE_MULTIPLICITY_BLOCK:
+        "family-wise 校正后仍有跨簇缺口 · 需要重登记或补证据",
+      SOURCE_DECISION_BLOCK: "来源 decision 不一致 · family 结论未核验",
+    };
+    return labels[category] || "family-wise gap 未核验";
+  }
+
+  function strategyCorrelationMultiplicitySummaryPresentation(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) {
+      return multiplicityUnknownPresentation(false);
+    }
+    const keys = Object.keys(value).sort();
+    if (
+      keys.length !== MULTIPLICITY_SUMMARY_FIELDS.length
+      || !keys.every(
+        (key, index) => key === MULTIPLICITY_SUMMARY_FIELDS[index]
+      )
+      || !Object.entries(MULTIPLICITY_FIXED_VALUES).every(
+        ([key, expected]) => value[key] === expected
+      )
+    ) {
+      return multiplicityUnknownPresentation(false);
+    }
+    if (value.status === "UNKNOWN") {
+      const unknownShape = value.decision_status === null
+        && value.expected_family_size === null
+        && value.observed_family_size === null
+        && value.per_pair_alpha === null
+        && value.gap_category === "SOURCE_INVALID";
+      return multiplicityUnknownPresentation(unknownShape);
+    }
+    if (![
+      "OBSERVED_NO_FAMILY_WISE_BLOCK",
+      "OBSERVED_FAMILY_WISE_BLOCK",
+    ].includes(value.status)) {
+      return multiplicityUnknownPresentation(false);
+    }
+    if (
+      !Number.isInteger(value.expected_family_size)
+      || value.expected_family_size <= 0
+      || value.observed_family_size !== value.expected_family_size
+      || typeof value.per_pair_alpha !== "number"
+      || !Number.isFinite(value.per_pair_alpha)
+      || Math.abs(
+        value.per_pair_alpha
+          - MULTIPLICITY_FIXED_VALUES.familywise_alpha
+            / value.expected_family_size
+      ) > 1e-15
+    ) {
+      return multiplicityUnknownPresentation(false);
+    }
+    const decisionPass = value.decision_status === "PASS";
+    const decisionBlock = value.decision_status === "BLOCK";
+    if (
+      (!decisionPass && !decisionBlock)
+      || (decisionPass
+        && (
+          value.status !== "OBSERVED_NO_FAMILY_WISE_BLOCK"
+          || value.gap_category !== "NONE_OBSERVED"
+        ))
+      || (decisionBlock
+        && (
+          value.status !== "OBSERVED_FAMILY_WISE_BLOCK"
+          || ![
+            "CORRELATION_GATE_BLOCK",
+            "UNCERTAINTY_BLOCK",
+            "FAMILY_WISE_MULTIPLICITY_BLOCK",
+            "SOURCE_DECISION_BLOCK",
+          ].includes(value.gap_category)
+        ))
+    ) {
+      return multiplicityUnknownPresentation(false);
+    }
+    return {
+      valid: true,
+      contractConnected: true,
+      rawStatus: value.status,
+      rawGapCategory: value.gap_category,
+      statusText: decisionBlock
+        ? "family-wise 证据存在缺口"
+        : "family-wise 未观察到阻断",
+      sourceText: "Schema16 冻结选择重放 · 事前 family 登记",
+      gapText: multiplicityGapText(value.gap_category),
+      maturityText: "跨簇 family "
+        + value.observed_family_size + " / " + value.expected_family_size
+        + " · 单 pair α " + value.per_pair_alpha.toFixed(6),
+      permissionText: "仅研究描述 · 不选参 · 模拟未授权 · 实盘永久硬锁",
+      detailText: "95% family-wise · Bonferroni · schema8 consumer dormant",
+    };
+  }
+
   return Object.freeze({
     AUTHORITY_SUMMARY,
     PERMISSION_PRESENTATIONS,
@@ -4727,6 +5222,9 @@
     researchEvidenceStatusPresentation,
     smallCapitalEvidenceGapPresentation,
     statusPresentation,
+    strategyCorrelationClusterSummaryPresentation,
+    strategyCorrelationMultiplicitySummaryPresentation,
+    strategyCorrelationUncertaintySummaryPresentation,
     strategyLabEvidencePresentation,
     strategyEvidencePresentation,
     strategySourceTextPresentation,

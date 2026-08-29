@@ -30,6 +30,7 @@ EXECUTION_AUTHORITY_FIELDS = frozenset({
     "can_trade",
     "direction_signal_allowed",
     "execution_allowed",
+    "live_authorized",
     "live_order_allowed",
     "live_ready",
     "paper_authorized",

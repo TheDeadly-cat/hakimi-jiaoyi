@@ -1,0 +1,270 @@
+.fpm-lockboard {
+  --fpm-graphite: #16282e;
+  --fpm-petrol: #174c58;
+  --fpm-cyan: #3a9bb0;
+  --fpm-ice: #e8f1f3;
+  --fpm-steel: #a6bbc1;
+  --fpm-orange: #ee8a35;
+  --fpm-red: #b55258;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(1.1rem, 2.7vw, 2.2rem);
+  color: var(--fpm-graphite);
+  border: 1px solid rgba(23, 76, 88, 0.42);
+  clip-path: polygon(0 18px, 18px 0, calc(100% - 38px) 0, 100% 38px, 100% 100%, 0 100%);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 23px, rgba(23, 76, 88, 0.045) 23px 24px),
+    radial-gradient(circle at 12% 6%, rgba(58, 155, 176, 0.2), transparent 30%),
+    linear-gradient(135deg, #f7fafb 0%, var(--fpm-ice) 58%, #d9e6e9 100%);
+  box-shadow: 0 28px 64px rgba(22, 40, 46, 0.15);
+}
+
+.fpm-lockboard::before,
+.fpm-lockboard::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  background: repeating-linear-gradient(var(--fpm-petrol) 0 9px, transparent 9px 15px);
+  opacity: 0.24;
+}
+
+.fpm-lockboard::before { left: 0.55rem; }
+.fpm-lockboard::after { right: 0.55rem; }
+
+.fpm-lockboard__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.fpm-lockboard__heading { max-width: 58rem; }
+
+.fpm-lockboard__eyebrow,
+.fpm-lockboard__route,
+.fpm-lockboard__label,
+.fpm-lockboard__value,
+.fpm-lockboard__index,
+.fpm-lockboard__gap-label,
+.fpm-lockboard__next {
+  font-family: "Cascadia Code", "Lucida Console", monospace;
+}
+
+.fpm-lockboard__eyebrow {
+  margin: 0 0 0.8rem;
+  color: var(--fpm-petrol);
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.17em;
+}
+
+.fpm-lockboard__title {
+  max-width: 19ch;
+  margin: 0;
+  font-family: "Agency FB", "Bahnschrift SemiCondensed", "Arial Narrow", sans-serif;
+  font-size: clamp(2.15rem, 5vw, 5.2rem);
+  font-weight: 780;
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.fpm-lockboard__lead {
+  max-width: 68ch;
+  margin: 1rem 0 0;
+  font-family: Cambria, Constantia, serif;
+  font-size: clamp(0.96rem, 1.4vw, 1.15rem);
+  line-height: 1.55;
+}
+
+.fpm-lockboard__seal {
+  position: relative;
+  min-width: 10rem;
+  padding: 1.1rem 0.9rem;
+  color: var(--fpm-orange);
+  border: 2px solid currentColor;
+  font-family: "Agency FB", "Bahnschrift SemiCondensed", "Arial Narrow", sans-serif;
+  font-size: clamp(1rem, 2vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-align: center;
+  transform: rotate(-2deg);
+}
+
+.fpm-lockboard__seal::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px dashed currentColor;
+}
+
+.fpm-lockboard[data-tone="blocked"] .fpm-lockboard__seal { color: var(--fpm-red); }
+.fpm-lockboard[data-tone="absent"] .fpm-lockboard__seal,
+.fpm-lockboard[data-tone="unknown"] .fpm-lockboard__seal { color: #687d83; }
+
+.fpm-lockboard__route {
+  margin: clamp(1.6rem, 3vw, 2.7rem) 0 0.7rem;
+  color: #557078;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.fpm-lockboard__track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 0.34rem;
+  padding: 0.8rem 0 1rem;
+}
+
+.fpm-lockboard__track::before {
+  content: "";
+  position: absolute;
+  top: 1.55rem;
+  right: 3%;
+  left: 3%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--fpm-cyan) 0 19%, var(--fpm-steel) 19% 100%);
+}
+
+.fpm-lockboard__cell {
+  position: relative;
+  min-height: 11.2rem;
+  padding: 2.35rem 0.62rem 0.8rem;
+  border: 1px solid rgba(23, 76, 88, 0.14);
+  border-top: 4px solid var(--fpm-steel);
+  background: rgba(247, 250, 251, 0.72);
+  animation: fpm-lock 440ms both;
+  animation-delay: calc(var(--fpm-index) * 48ms);
+}
+
+.fpm-lockboard__cell[data-tone="held"] { border-top-color: var(--fpm-cyan); }
+.fpm-lockboard__cell[data-tone="blocked"] { border-top-color: var(--fpm-red); }
+.fpm-lockboard__cell[data-tone="locked"] { border-top-color: var(--fpm-orange); }
+
+.fpm-lockboard__cell[data-key="REOPEN"] {
+  margin-left: 0.55rem;
+  box-shadow: -0.65rem 0 0 var(--fpm-ice), -0.72rem 0 0 var(--fpm-orange);
+}
+
+.fpm-lockboard__index {
+  position: absolute;
+  top: -0.25rem;
+  left: 0.5rem;
+  display: grid;
+  width: 1.7rem;
+  height: 1.7rem;
+  place-items: center;
+  color: white;
+  background: var(--fpm-graphite);
+  font-size: 0.58rem;
+  clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);
+}
+
+.fpm-lockboard__label {
+  margin: 0;
+  min-height: 2.2em;
+  color: #5c747b;
+  font-size: 0.56rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+}
+
+.fpm-lockboard__value {
+  margin: 0.65rem 0 0;
+  min-height: 2.4em;
+  font-size: clamp(0.67rem, 0.9vw, 0.84rem);
+  font-weight: 780;
+  line-height: 1.16;
+}
+
+.fpm-lockboard__detail {
+  margin: 0.7rem 0 0;
+  color: #596e74;
+  font-family: Cambria, Constantia, serif;
+  font-size: 0.69rem;
+  line-height: 1.34;
+}
+
+.fpm-lockboard__session-gap {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.9rem;
+  align-items: center;
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  color: var(--fpm-orange);
+  border-right: 4px solid currentColor;
+  border-left: 4px solid currentColor;
+  background: repeating-linear-gradient(135deg, rgba(238, 138, 53, 0.12) 0 8px, transparent 8px 16px);
+}
+
+.fpm-lockboard__gap-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+}
+
+.fpm-lockboard__gap-note {
+  color: #526a71;
+  font-family: Cambria, Constantia, serif;
+  font-size: 0.8rem;
+}
+
+.fpm-lockboard__footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.48fr);
+  gap: 0.8rem;
+}
+
+.fpm-lockboard__next,
+.fpm-lockboard__permission {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(23, 76, 88, 0.16);
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.fpm-lockboard__next {
+  color: var(--fpm-petrol);
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
+.fpm-lockboard__permission {
+  color: #526a71;
+  font-family: Cambria, Constantia, serif;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+@keyframes fpm-lock {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 980px) {
+  .fpm-lockboard__track { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+  .fpm-lockboard__track::before { display: none; }
+  .fpm-lockboard__cell[data-key="REOPEN"] { margin-left: 0; box-shadow: none; }
+}
+
+@media (max-width: 620px) {
+  .fpm-lockboard { clip-path: none; padding: 1rem; }
+  .fpm-lockboard__header,
+  .fpm-lockboard__footer { grid-template-columns: 1fr; }
+  .fpm-lockboard__seal { justify-self: start; }
+  .fpm-lockboard__track { grid-template-columns: 1fr; }
+  .fpm-lockboard__cell { min-height: auto; }
+  .fpm-lockboard__session-gap { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fpm-lockboard__cell { animation: none; }
+}

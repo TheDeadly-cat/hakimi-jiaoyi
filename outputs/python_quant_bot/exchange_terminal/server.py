@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+try:
+    from application.market_data_envelope import attach_market_data_envelope
+except ModuleNotFoundError:  # Package import path.
+    from exchange_terminal.application.market_data_envelope import attach_market_data_envelope
+
 import argparse
 import base64
 import csv
@@ -7,6 +12,7 @@ import hashlib
 import hmac
 import io
 import json
+import ipaddress
 import math
 import mimetypes
 import os
@@ -16,6 +22,7 @@ import socket
 import sqlite3
 import threading
 import time
+import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -140,6 +147,7 @@ try:
     )
     from services.strategy_validation import chronological_folds, summarize_cost_sensitivity, summarize_walk_forward, temporal_data_split
     from services.strict_json_artifact import StrictJsonArtifactError, parse_strict_json_object
+    from interfaces.http.health import build_research_disabled_response, build_health_response_from_runtime
 except ModuleNotFoundError:
     from exchange_terminal.services.anomaly_outcomes import anomaly_outcome_summary, evaluate_anomaly_outcome
     from exchange_terminal.services.anomaly_progression import annotate_anomaly_progression, anomaly_progression_summary
@@ -248,6 +256,7 @@ except ModuleNotFoundError:
     )
     from exchange_terminal.services.strategy_validation import chronological_folds, summarize_cost_sensitivity, summarize_walk_forward, temporal_data_split
     from exchange_terminal.services.strict_json_artifact import StrictJsonArtifactError, parse_strict_json_object
+    from exchange_terminal.interfaces.http.health import build_research_disabled_response, build_health_response_from_runtime
 
 try:
     from config import (
@@ -660,8 +669,18 @@ def ensure_runtime() -> None:
 
 def read_json(path: Path, default: Any) -> Any:
     try:
-        if path.exists():
+        if not path.exists():
+            return default
+        try:
             return json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            backup = path.with_suffix(f"{path.suffix}.bak")
+            if backup.exists():
+                try:
+                    return json.loads(backup.read_text(encoding="utf-8"))
+                except Exception:
+                    return default
+            return default
     except Exception:
         return default
     return default
@@ -693,7 +712,44 @@ def read_optional_portfolio_forward_status_artifact(
 
 def write_json(path: Path, payload: Any) -> None:
     ensure_runtime()
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    clean_payload = clean_json_value(payload)
+    serialized = json.dumps(clean_payload, ensure_ascii=False, indent=2, sort_keys=True)
+    with _json_guard:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        backup_path = path.with_suffix(f"{path.suffix}.bak")
+        if path.exists():
+            try:
+                shutil.copy2(path, backup_path)
+            except Exception:
+                pass
+        temp_path = path.with_suffix(f"{path.suffix}.tmp")
+        temp_file: Path | None = None
+        try:
+            with tempfile.NamedTemporaryFile("w", encoding="utf-8", delete=False, dir=str(path.parent)) as handle:
+                handle.write(serialized)
+                handle.flush()
+                try:
+                    os.fsync(handle.fileno())
+                except OSError:
+                    pass
+                temp_file = Path(handle.name)
+            os.replace(temp_file, path)
+            try:
+                _ = json.loads(path.read_text(encoding="utf-8"))
+            except Exception as exc:
+                raise RuntimeError("written json is corrupt") from exc
+        except Exception:
+            if temp_file is not None and temp_file.exists():
+                try:
+                    temp_file.unlink()
+                except Exception:
+                    pass
+            if path.exists() and backup_path.exists():
+                try:
+                    shutil.copy2(backup_path, path)
+                except Exception:
+                    pass
+            raise
 
 
 def portfolio_forward_status_snapshot() -> dict[str, Any]:
@@ -1839,8 +1895,42 @@ PAPER_EXECUTOR = PaperExecutor(
 EVENT_BUS.publish("runtime_ready", {"service": "exchange_terminal", "paper_symbol": PAPER_ACCOUNT.symbol}, source="server")
 
 CLIENT_DISCONNECT_ERRORS = (BrokenPipeError, ConnectionResetError, ConnectionAbortedError)
+
+
+LOCAL_LOOPBACK_HOSTS = frozenset({"127.0.0.1", "::1", "localhost", "::ffff:127.0.0.1"})
+
+
 def allowed_cors_origin(handler: BaseHTTPRequestHandler) -> str:
     return allowed_web_origin(handler.headers.get("Origin"))
+
+
+def is_loopback_host(host: str) -> bool:
+    clean = str(host or "").strip()
+    if clean.lower() in LOCAL_LOOPBACK_HOSTS:
+        return True
+    try:
+        return ipaddress.ip_address(clean).is_loopback
+    except ValueError:
+        return False
+
+
+def block_non_loopback_client(handler: BaseHTTPRequestHandler) -> bool:
+    client_host = str(getattr(handler, "client_address", [""])[0] or "").strip()
+    if is_loopback_host(client_host):
+        return False
+    handler.send_response(403)
+    handler.send_header("Content-Type", "application/json; charset=utf-8")
+    handler.send_header("Cache-Control", "no-store")
+    handler.end_headers()
+    handler.wfile.write(json.dumps({
+        "ok": False,
+        "error": "local requests only",
+        "live_order_allowed": False,
+    }, ensure_ascii=False).encode("utf-8"))
+    return True
+
+
+_json_guard = threading.Lock()
 
 
 def json_response(handler: BaseHTTPRequestHandler, payload: dict[str, Any], status: int = 200) -> None:
@@ -1856,6 +1946,10 @@ def json_response(handler: BaseHTTPRequestHandler, payload: dict[str, Any], stat
         handler.send_response(status)
         handler.send_header("Content-Type", "application/json; charset=utf-8")
         handler.send_header("Cache-Control", "no-store")
+        handler.send_header("X-Content-Type-Options", "nosniff")
+        handler.send_header("X-Frame-Options", "DENY")
+        handler.send_header("Referrer-Policy", "no-referrer")
+        handler.send_header("Cross-Origin-Opener-Policy", "same-origin")
         cors_origin = allowed_cors_origin(handler)
         if cors_origin:
             handler.send_header("Access-Control-Allow-Origin", cors_origin)
@@ -3794,7 +3888,7 @@ def backtest_market_rows(symbol: str, limit: int, dataset_lineage_id: str = "") 
             "paper_authorized": False,
             "live_order_allowed": False,
         }
-        return {
+        return attach_market_data_envelope({
             "ok": bool(rows),
             "symbol": text,
             "source": source,
@@ -3808,7 +3902,7 @@ def backtest_market_rows(symbol: str, limit: int, dataset_lineage_id: str = "") 
             "trading_status_events": list(payload.get("trading_status_events") or []),
             "rows": rows[-limit:],
             "warning": payload.get("warning") or payload.get("error") or "",
-        }
+        }, symbol=text, timeframe="1D")
 
     spot_symbol = text.replace("-SWAP", "")
     source_limit = max(int(limit) + 2, 3)
@@ -3853,7 +3947,7 @@ def backtest_market_rows(symbol: str, limit: int, dataset_lineage_id: str = "") 
         cache_manifest=dict(cached.get("manifest") or {}),
         cache_admitted=bool(cached_rows),
     )
-    return {
+    return attach_market_data_envelope({
         "ok": bool(rows),
         "symbol": text,
         "source": source,
@@ -3861,7 +3955,7 @@ def backtest_market_rows(symbol: str, limit: int, dataset_lineage_id: str = "") 
         "market_history_evidence": market_history_evidence,
         "rows": rows,
         "warning": "; ".join(dict.fromkeys(item for item in warning_parts if item)) if rows else "no market history available",
-    }
+    }, symbol=text, timeframe="1D")
 
 
 def chart_candle_payload_row(row: dict[str, Any]) -> dict[str, Any]:
@@ -11718,6 +11812,8 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self) -> None:
+        if block_non_loopback_client(self):
+            return
         parsed = urllib.parse.urlparse(self.path)
         query = {key: values[-1] for key, values in urllib.parse.parse_qs(parsed.query).items()}
         if parsed.path.startswith("/api/"):
@@ -11754,6 +11850,8 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
         self.handle_static(parsed.path)
 
     def do_POST(self) -> None:
+        if block_non_loopback_client(self):
+            return
         parsed = urllib.parse.urlparse(self.path)
         if parsed.path not in POST_API_PATHS | MUTATION_PATHS:
             json_response(self, {"ok": False, "error": "not found"}, 404)
@@ -11766,9 +11864,6 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                 "paper_authorized": False,
                 "live_order_allowed": False,
             }, 423)
-            return
-        if self.client_address[0] not in {"127.0.0.1", "::1"}:
-            json_response(self, {"ok": False, "error": "local requests only"}, 403)
             return
         origin = str(self.headers.get("Origin") or "").strip()
         if origin and not allowed_cors_origin(self):
@@ -11888,24 +11983,21 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
             if path == "/api/health":
                 runtime_build = RUNTIME_BUILD_GUARD.snapshot()
                 paper = PAPER_ACCOUNT.snapshot(0.0)
-                runtime_risk = risk_engine_snapshot()
-                json_response(self, {
-                    "ok": runtime_build.get("status") == "PASS",
+                runtime_build = {
                     "time": int(time.time() * 1000),
-                    "runtime_build": runtime_build,
-                    "read_only": RUNTIME_READ_ONLY,
-                    "runtime_mutations_allowed": not RUNTIME_READ_ONLY,
-                    "paper_authorized": runtime_risk.get("paper_authorized") is True,
-                    "binding_authorized": runtime_risk.get("binding_authorized") is True,
-                    "paper_order_allowed": runtime_risk.get("paper_order_allowed") is True,
-                    "automated_paper_order_allowed": runtime_risk.get("automated_paper_order_allowed") is True,
-                    "paper_armed": paper.get("armed") is True,
-                    "live_trading_hard_block": LIVE_TRADING_HARD_BLOCK is True,
-                    "guardian_worker_running": bool(
-                        GUARDIAN_SERVICE.thread and GUARDIAN_SERVICE.thread.is_alive()
+                    **runtime_build,
+                }
+                json_response(
+                    self,
+                    build_health_response_from_runtime(
+                        runtime_build,
+                        paper,
+                        read_only=RUNTIME_READ_ONLY,
+                        runtime_mutations_allowed=not RUNTIME_READ_ONLY,
+                        live_trading_hard_block=LIVE_TRADING_HARD_BLOCK is True,
+                        guardian_worker_running=bool(GUARDIAN_SERVICE.thread and GUARDIAN_SERVICE.thread.is_alive()),
                     ),
-                    "live_order_allowed": False,
-                })
+                )
                 return
             if path == "/api/platform/control-center":
                 json_response(self, platform_control_center_snapshot(
@@ -12566,8 +12658,11 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                     research_panel(query.get("symbol", "BTC-USDT"))
                 ))
                 return
-            if path == "/api/paper/snapshot":
-                json_response(self, {"ok": True, "paper": PAPER_ACCOUNT.snapshot(pct(query.get("price", "0")))})
+            if path.startswith("/api/paper/"):
+                if path == "/api/paper/snapshot":
+                    json_response(self, {"ok": True, "paper": PAPER_ACCOUNT.snapshot(pct(query.get("price", "0")))})
+                else:
+                    json_response(self, build_research_disabled_response(PAPER_ACCOUNT.snapshot(pct(query.get("price", "0")))), 423)
                 return
             if path == "/api/paper/arm":
                 price = pct(query.get("price", "0"))
@@ -13033,6 +13128,12 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    normalized_host = str(args.host or "").strip().lower()
+    if normalized_host == "localhost":
+        args.host = "127.0.0.1"
+        normalized_host = "127.0.0.1"
+    if normalized_host not in LOCAL_LOOPBACK_HOSTS:
+        raise SystemExit("Only loopback hosts are allowed. Use --host 127.0.0.1, --host ::1, or --host localhost.")
     try:
         server = ExclusiveThreadingHTTPServer((args.host, args.port), ExchangeTerminalHandler)
     except OSError as exc:

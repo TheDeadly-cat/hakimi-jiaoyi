@@ -26,6 +26,9 @@ from .trusted_clock import verify_trusted_clock_attestation
 
 PORTFOLIO_FORWARD_SCHEMA_VERSION = "portfolio-forward-validation-v3"
 ACTIVE_CANDIDATE_SCHEMA_VERSION = "active-portfolio-candidate-v3"
+ACTIVE_CANDIDATE_DATASET_BINDING_VERSION = "active-candidate-dataset-binding-v1"
+ACTIVE_CANDIDATE_REPLACEMENT_GATE_VERSION = "active-candidate-replacement-gate-v1"
+ACTIVE_CANDIDATE_VERIFIER_INPUT_CONTRACT_VERSION = "active-candidate-verifier-input-v1"
 RETIRED_CANDIDATE_REGISTRY_SCHEMA_VERSION = "retired-portfolio-candidate-v1"
 CANDIDATE_RETIREMENT_RECEIPT_SCHEMA_VERSION = "portfolio-candidate-retirement-v1"
 DEFAULT_ACTIVE_CANDIDATE_FILE = "active_portfolio_candidate.json"
@@ -87,6 +90,23 @@ def _atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
 
 
 def verify_active_candidate_activation(registry: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(registry, dict):
+        return {
+            "input_contract_version": ACTIVE_CANDIDATE_VERIFIER_INPUT_CONTRACT_VERSION,
+            "status": "BLOCK",
+            "blockers": ["active_candidate_registry_object_required"],
+            "activated_at": 0,
+            "candidate_hash": "",
+            "dataset_binding_version": "",
+            "replacement_gate_version": "",
+            "registry_hash": "",
+            "clock_attestation": {},
+            "clock_verification": {"status": "BLOCK"},
+            "experiment_completion_receipt": {},
+            "experiment_completion_verification": {"status": "BLOCK"},
+            "paper_authorized": False,
+            "live_order_allowed": False,
+        }
     pointer = dict(registry or {})
     blockers: list[str] = []
     expected_hash = str(pointer.get("registry_hash") or "")
@@ -98,24 +118,50 @@ def verify_active_candidate_activation(registry: dict[str, Any]) -> dict[str, An
         blockers.append("active_candidate_registry_status_invalid")
     if not expected_hash or _canonical_hash(hash_payload) != expected_hash:
         blockers.append("active_candidate_registry_hash_mismatch")
+    dataset_binding_version = str(pointer.get("dataset_binding_version") or "")
+    if (
+        dataset_binding_version
+        and dataset_binding_version != ACTIVE_CANDIDATE_DATASET_BINDING_VERSION
+    ):
+        blockers.append("active_candidate_dataset_binding_version_invalid")
+    replacement_gate_version = str(pointer.get("replacement_gate_version") or "")
+    if (
+        replacement_gate_version
+        and replacement_gate_version != ACTIVE_CANDIDATE_REPLACEMENT_GATE_VERSION
+    ):
+        blockers.append("active_candidate_replacement_gate_version_invalid")
     if not str(pointer.get("candidate_hash") or ""):
         blockers.append("active_candidate_hash_missing")
-    clock = dict(pointer.get("activation_clock_attestation") or {})
+    raw_clock = pointer.get("activation_clock_attestation")
+    if not isinstance(raw_clock, dict):
+        blockers.append("activation_clock_attestation_object_required")
+        clock: dict[str, Any] = {}
+    else:
+        clock = dict(raw_clock)
     clock_verification = verify_trusted_clock_attestation(clock)
     if clock_verification.get("status") != "PASS":
         blockers.extend(
             f"activation_clock:{item}"
             for item in clock_verification.get("blockers") or ["attestation_blocked"]
         )
-    activated_at = int(pointer.get("activated_at") or 0)
-    attested_at = int(clock.get("attested_now_ms") or 0)
-    if activated_at <= 0:
+    activated_at_contract = _nonnegative_integer(pointer.get("activated_at"))
+    activated_at = activated_at_contract if activated_at_contract is not None else 0
+    attested_at_contract = _nonnegative_integer(clock.get("attested_now_ms"))
+    attested_at = attested_at_contract if attested_at_contract is not None else 0
+    if activated_at_contract is None or activated_at <= 0:
         blockers.append("candidate_activated_at_invalid")
-    if abs(activated_at - attested_at) > 5_000:
+    if attested_at_contract is None or attested_at <= 0:
+        blockers.append("candidate_activation_clock_attested_time_invalid")
+    elif activated_at > 0 and abs(activated_at - attested_at) > 5_000:
         blockers.append("candidate_activation_clock_mismatch")
     if str(pointer.get("activation_clock_attestation_hash") or "") != str(clock.get("attestation_hash") or ""):
         blockers.append("candidate_activation_clock_hash_mismatch")
-    completion = dict(pointer.get("experiment_completion_receipt") or {})
+    raw_completion = pointer.get("experiment_completion_receipt")
+    if not isinstance(raw_completion, dict):
+        blockers.append("experiment_completion_receipt_object_required")
+        completion: dict[str, Any] = {}
+    else:
+        completion = dict(raw_completion)
     completion_verification = verify_experiment_completion_receipt(completion)
     if completion_verification.get("status") != "PASS":
         blockers.extend(
@@ -135,10 +181,13 @@ def verify_active_candidate_activation(registry: dict[str, Any]) -> dict[str, An
     if authority_violations(pointer):
         blockers.append("active_candidate_registry_contains_execution_authority")
     return {
+        "input_contract_version": ACTIVE_CANDIDATE_VERIFIER_INPUT_CONTRACT_VERSION,
         "status": "PASS" if not blockers else "BLOCK",
         "blockers": list(dict.fromkeys(blockers)),
         "activated_at": activated_at,
         "candidate_hash": str(pointer.get("candidate_hash") or ""),
+        "dataset_binding_version": dataset_binding_version,
+        "replacement_gate_version": replacement_gate_version,
         "registry_hash": expected_hash,
         "clock_attestation": clock,
         "clock_verification": clock_verification,
@@ -684,6 +733,44 @@ def activate_portfolio_candidate(
     robustness: dict[str, Any] = {}
     robustness_raw = b""
     robustness_file = Path(robustness_path).absolute()
+    existing_registry_raw = b""
+    existing_registry: dict[str, Any] = {}
+    existing_registry_status = ""
+    existing_registry_activation_verification: dict[str, Any] = {}
+    registry_preexisting = registry.exists() or registry.is_symlink()
+    if registry_preexisting:
+        try:
+            existing_registry_raw, existing_registry = _read_json_artifact(
+                registry,
+                byte_limit=artifact_limits["registry"],
+                size_limit_blocker="active_candidate_registry_size_limit_exceeded",
+            )
+        except ValueError as exc:
+            blockers.append(f"existing_active_candidate_registry_unavailable:{exc}")
+        existing_registry_status = str(existing_registry.get("status") or "")
+        if existing_registry_status == "ACTIVE_RESEARCH_CANDIDATE":
+            existing_registry_activation_verification = verify_active_candidate_activation(
+                existing_registry
+            )
+            if existing_registry_activation_verification.get("status") != "PASS":
+                blockers.extend(
+                    f"existing_active_candidate:{item}"
+                    for item in existing_registry_activation_verification.get("blockers")
+                    or ["activation_invalid"]
+                )
+        elif existing_registry_status == "NO_ACTIVE_RESEARCH_CANDIDATE":
+            retirement_verification = verify_retired_candidate_registry(
+                existing_registry,
+                report_dir=registry.parent,
+            )
+            if retirement_verification.get("status") != "PASS":
+                blockers.extend(
+                    f"existing_retirement:{item}"
+                    for item in retirement_verification.get("blockers")
+                    or ["retirement_invalid"]
+                )
+        elif existing_registry:
+            blockers.append("existing_active_candidate_registry_status_invalid")
     try:
         candidate_raw, candidate = _read_json_artifact(
             path,
@@ -727,16 +814,30 @@ def activate_portfolio_candidate(
         blockers.append("robustness_report_filename_invalid")
     if authority_violations(robustness):
         blockers.append("robustness_report_has_execution_authority")
-    activation_clock = dict(activation_clock_attestation or {})
+    if not isinstance(activation_clock_attestation, dict):
+        blockers.append("activation_clock_attestation_object_required")
+        activation_clock: dict[str, Any] = {}
+    else:
+        activation_clock = dict(activation_clock_attestation)
     activation_clock_verification = verify_trusted_clock_attestation(activation_clock)
     if activation_clock_verification.get("status") != "PASS":
         blockers.extend(
             f"activation_clock:{item}"
             for item in activation_clock_verification.get("blockers") or ["attestation_blocked"]
         )
-    if abs(int(activated_at or 0) - int(activation_clock.get("attested_now_ms") or 0)) > 5_000:
+    clean_activated_at = _nonnegative_integer(activated_at)
+    if clean_activated_at is None or clean_activated_at <= 0:
+        blockers.append("activation_timestamp_invalid")
+    attested_now = _nonnegative_integer(activation_clock.get("attested_now_ms"))
+    if attested_now is None or attested_now <= 0:
+        blockers.append("activation_clock_attested_time_invalid")
+    elif clean_activated_at is not None and clean_activated_at > 0 and abs(clean_activated_at - attested_now) > 5_000:
         blockers.append("activation_clock_timestamp_mismatch")
-    experiment_completion = dict(experiment_completion_receipt or {})
+    if not isinstance(experiment_completion_receipt, dict):
+        blockers.append("experiment_completion_receipt_object_required")
+        experiment_completion: dict[str, Any] = {}
+    else:
+        experiment_completion = dict(experiment_completion_receipt)
     experiment_completion_verification = verify_completion_against_candidate(
         experiment_completion,
         candidate,
@@ -756,6 +857,49 @@ def activate_portfolio_candidate(
             f"experiment_artifact:{item}"
             for item in experiment_artifact_verification.get("blockers") or ["artifact_blocked"]
         )
+    if existing_registry_status == "ACTIVE_RESEARCH_CANDIDATE" and not blockers:
+        exact_replay = (
+            str(existing_registry.get("candidate_hash") or "")
+            == str(candidate.get("candidate_hash") or "")
+            and str(existing_registry.get("candidate_file") or "") == path.name
+            and str(existing_registry.get("candidate_file_sha256") or "")
+            == hashlib.sha256(candidate_raw).hexdigest()
+            and str(existing_registry.get("robustness_file") or "") == robustness_file.name
+            and str(existing_registry.get("robustness_file_sha256") or "")
+            == hashlib.sha256(robustness_raw).hexdigest()
+            and str(existing_registry.get("robustness_hash") or "")
+            == str(robustness.get("robustness_hash") or "")
+            and str(existing_registry.get("experiment_completion_receipt_hash") or "")
+            == str(experiment_completion.get("receipt_hash") or "")
+        )
+        if exact_replay:
+            loaded_existing = load_active_portfolio_candidate(
+                registry.parent,
+                registry_path=registry,
+            )
+            if loaded_existing.get("status") == "PASS":
+                return {
+                    "ok": True,
+                    "status": "ALREADY_ACTIVE",
+                    "registry": existing_registry,
+                    "registry_path": str(registry),
+                    "candidate_verification": verification,
+                    "robustness_verification": robustness_verification,
+                    "activation_clock_verification": existing_registry_activation_verification.get(
+                        "clock_verification",
+                        {},
+                    ),
+                    "experiment_completion_verification": experiment_completion_verification,
+                    "experiment_artifact_verification": experiment_artifact_verification,
+                    "paper_authorized": False,
+                    "live_order_allowed": False,
+                }
+            blockers.extend(
+                f"existing_active_candidate_load:{item}"
+                for item in loaded_existing.get("blockers") or ["load_invalid"]
+            )
+        else:
+            blockers.append("active_candidate_replacement_requires_retirement")
     if blockers:
         return {
             "ok": False,
@@ -775,12 +919,14 @@ def activate_portfolio_candidate(
         "candidate_file": path.name,
         "candidate_file_sha256": hashlib.sha256(candidate_raw).hexdigest(),
         "candidate_hash": str(candidate.get("candidate_hash") or ""),
+        "dataset_binding_version": ACTIVE_CANDIDATE_DATASET_BINDING_VERSION,
+        "replacement_gate_version": ACTIVE_CANDIDATE_REPLACEMENT_GATE_VERSION,
         "dataset_hash": str(candidate.get("dataset_hash") or ""),
         "dataset_last": str(candidate.get("dataset_last") or ""),
         "robustness_file": robustness_file.name,
         "robustness_file_sha256": hashlib.sha256(robustness_raw).hexdigest(),
         "robustness_hash": str(robustness.get("robustness_hash") or ""),
-        "activated_at": int(activated_at),
+        "activated_at": int(clean_activated_at or 0),
         "activation_clock_attestation_hash": str(activation_clock.get("attestation_hash") or ""),
         "activation_clock_attestation": activation_clock,
         "experiment_completion_receipt_hash": str(experiment_completion.get("receipt_hash") or ""),
@@ -791,6 +937,31 @@ def activate_portfolio_candidate(
         "live_order_allowed": False,
     }
     payload["registry_hash"] = _canonical_hash(payload)
+    if registry_preexisting:
+        try:
+            current_registry_raw, _ = _read_json_artifact(
+                registry,
+                byte_limit=artifact_limits["registry"],
+                size_limit_blocker="active_candidate_registry_size_limit_exceeded",
+            )
+            registry_unchanged = current_registry_raw == existing_registry_raw
+        except ValueError:
+            registry_unchanged = False
+    else:
+        registry_unchanged = not registry.exists() and not registry.is_symlink()
+    if not registry_unchanged:
+        return {
+            "ok": False,
+            "status": "BLOCK",
+            "blockers": ["active_candidate_registry_changed_during_activation"],
+            "candidate_verification": verification,
+            "robustness_verification": robustness_verification,
+            "activation_clock_verification": activation_clock_verification,
+            "experiment_completion_verification": experiment_completion_verification,
+            "experiment_artifact_verification": experiment_artifact_verification,
+            "paper_authorized": False,
+            "live_order_allowed": False,
+        }
     _atomic_write_json(registry, payload)
     return {
         "ok": True,
@@ -899,6 +1070,10 @@ def load_active_portfolio_candidate(
     verification = verify_frozen_portfolio_candidate(candidate) if candidate else {"status": "BLOCK", "blockers": ["candidate_unavailable"]}
     if candidate and str(candidate.get("candidate_hash") or "") != str(pointer.get("candidate_hash") or ""):
         blockers.append("active_candidate_hash_mismatch")
+    if candidate and str(candidate.get("dataset_hash") or "") != str(pointer.get("dataset_hash") or ""):
+        blockers.append("active_candidate_dataset_hash_mismatch")
+    if candidate and str(candidate.get("dataset_last") or "") != str(pointer.get("dataset_last") or ""):
+        blockers.append("active_candidate_dataset_last_mismatch")
     if verification.get("status") != "PASS":
         blockers.extend(f"candidate:{item}" for item in verification.get("blockers") or ["verification_failed"])
     experiment_completion_verification = verify_completion_against_candidate(

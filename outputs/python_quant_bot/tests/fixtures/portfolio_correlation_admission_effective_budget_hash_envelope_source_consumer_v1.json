@@ -1,0 +1,463 @@
+{
+  "blocked_result": {
+    "authority": {
+      "browser_execution_allowed": false,
+      "current_admission_allowed": false,
+      "dom_mount_allowed": false,
+      "endpoint_registration_allowed": false,
+      "host_import_allowed": false,
+      "live_order_allowed": false,
+      "network_allowed": false,
+      "paper_authorized": false,
+      "payload_provider_binding_allowed": false,
+      "route_registration_allowed": false,
+      "runtime_delivery_allowed": false,
+      "storage_allowed": false,
+      "writer_allowed": false
+    },
+    "blockers": [
+      "CONSUMER_PREREGISTRATION_NOT_EXACT",
+      "PYTHON_CONSUMER_CONTRACT_NOT_EXACT",
+      "PYTHON_CONSUMER_NOT_UNBOUND",
+      "PAYLOAD_SOURCE_PROVIDER_UNBOUND",
+      "HOST_IMPORT_ROUTE_AND_ENDPOINT_UNBOUND",
+      "BROWSER_EXECUTION_AND_DOM_MOUNT_UNAUTHORIZED",
+      "CURRENT_ACTIVATION_NOT_AUTHORIZED",
+      "PAPER_AND_LIVE_PERMISSION_NOT_AUTHORIZED"
+    ],
+    "consumer_id": "portfolio-correlation-admission-effective-budget-hash-envelope-source-v1",
+    "consumer_result_hash": "a762ed471125031bf15ed39290b8a6e778454dfa68f07500a473d60f0b8fe9f3",
+    "envelope": null,
+    "envelope_hash": null,
+    "facts": {
+      "adapter_failed": false,
+      "adapter_invoked": false,
+      "browser_executed": false,
+      "consumer_gate_exact": false,
+      "dom_mounted": false,
+      "envelope_verified": false,
+      "input_documents_embedded": false,
+      "profitability_proven": false,
+      "runtime_mutations_performed": false
+    },
+    "gate": {
+      "adapter_registration_exact": true,
+      "consumer_preregistration_exact": false,
+      "python_consumer_contract_exact": false,
+      "python_consumer_unbound": false
+    },
+    "reason_code": "CONSUMER_GATE_REJECTED_NO_ADAPTER_INVOCATION",
+    "required_contracts": {
+      "adapter_registration_hash": "4c6eb60d842611d2babaf072527fe93d2a68f67bc6a7c2658b80fd1b9f07f4cb",
+      "consumer_preregistration_hash": "4cc6352fb4083d8589d656481ecfd8fe3a33d6bba44bac6383ce2ca1f6d72987",
+      "delivery_payload_schema_version": "portfolio-correlation-admission-effective-budget-presentation-payload-v1",
+      "delivery_schema_version": "portfolio-correlation-admission-effective-budget-in-memory-delivery-envelope-v1",
+      "delivery_static_fingerprint": "20260823-portfolio-correlation-admission-effective-budget-in-memory-delivery-v1-lock-1",
+      "python_consumer_contract_hash": "fd402270f5c03c5225201f9df8768859b398cc1912658a0880f367ff7afc882a"
+    },
+    "schema_version": "portfolio-correlation-admission-effective-budget-hash-envelope-source-consumer-result-v1",
+    "source_hashes": {
+      "admission_v2_hash": null,
+      "binding_hash": null,
+      "effective_budget_v3_hash": null,
+      "presentation_payload_hash": null
+    },
+    "static_fingerprint": "20260824-portfolio-correlation-admission-effective-budget-hash-envelope-source-consumer-v1-isolated-lock-1",
+    "status": "BLOCKED",
+    "transport": {
+      "endpoint": null,
+      "mode": "IN_MEMORY_RETURN_ONLY",
+      "network_used": false,
+      "payload_source_provider": null,
+      "route": null,
+      "storage_used": false
+    }
+  },
+  "fixture_schema_version": "portfolio-correlation-admission-effective-budget-cross-runtime-consumer-fixture-v1",
+  "known_result": {
+    "authority": {
+      "browser_execution_allowed": false,
+      "current_admission_allowed": false,
+      "dom_mount_allowed": false,
+      "endpoint_registration_allowed": false,
+      "host_import_allowed": false,
+      "live_order_allowed": false,
+      "network_allowed": false,
+      "paper_authorized": false,
+      "payload_provider_binding_allowed": false,
+      "route_registration_allowed": false,
+      "runtime_delivery_allowed": false,
+      "storage_allowed": false,
+      "writer_allowed": false
+    },
+    "blockers": [
+      "PAYLOAD_SOURCE_PROVIDER_UNBOUND",
+      "HOST_IMPORT_ROUTE_AND_ENDPOINT_UNBOUND",
+      "BROWSER_EXECUTION_AND_DOM_MOUNT_UNAUTHORIZED",
+      "CURRENT_ACTIVATION_NOT_AUTHORIZED",
+      "PAPER_AND_LIVE_PERMISSION_NOT_AUTHORIZED"
+    ],
+    "consumer_id": "portfolio-correlation-admission-effective-budget-hash-envelope-source-v1",
+    "consumer_result_hash": "4271f49558382127bb0e1e737ca080686c305907e60e0b5514aded14a98e7b96",
+    "envelope": {
+      "authority": {
+        "browser_execution_allowed": false,
+        "current_admission_allowed": false,
+        "descriptive_only": true,
+        "dom_access_allowed": false,
+        "endpoint_registration_allowed": false,
+        "live_order_allowed": false,
+        "paper_authorized": false,
+        "render_allowed": false,
+        "route_registration_allowed": false,
+        "runtime_delivery_allowed": false,
+        "ui_mount_allowed": false,
+        "writer_allowed": false
+      },
+      "consumer_contract": {
+        "envelope_schema_version": "portfolio-correlation-admission-effective-budget-in-memory-delivery-envelope-v1",
+        "function_exports": [
+          "verifyPortfolioCorrelationAdmissionEffectiveBudgetPresentationPayloadV1",
+          "verifyPortfolioCorrelationAdmissionEffectiveBudgetInMemoryDeliveryEnvelopeV1",
+          "extractPortfolioCorrelationAdmissionEffectiveBudgetPresentationPayloadV1",
+          "buildPortfolioCorrelationAdmissionEffectiveBudgetPayloadExtractionReceiptV1",
+          "verifyPortfolioCorrelationAdmissionEffectiveBudgetPayloadExtractionReceiptV1"
+        ],
+        "host_script": null,
+        "host_slot": null,
+        "host_stylesheet": null,
+        "javascript_global": "HakimiPortfolioCorrelationAdmissionEffectiveBudgetInMemoryDeliveryV1",
+        "module_format": "UMD_COMMONJS",
+        "payload_schema_version": "portfolio-correlation-admission-effective-budget-presentation-payload-v1",
+        "payload_source_provider": null,
+        "receipt_schema_version": "portfolio-correlation-admission-effective-budget-payload-extraction-receipt-v1",
+        "tier_order": [
+          "INPUT_SNAPSHOT",
+          "ADMISSION_V2_EXACT",
+          "EFFECTIVE_BUDGET_V3_EXACT",
+          "CROSS_SOURCE_BINDING",
+          "ADMISSION_V2_DECISION",
+          "EFFECTIVE_BUDGET_V3_DECISION",
+          "PERMISSION"
+        ]
+      },
+      "delivery_envelope_hash": "2bafa66dbb13a0bfe4e927edd91129003177fed0b2f4bc2e788d793b597803c3",
+      "delivery_state": "EXACT_IN_MEMORY",
+      "facts": {
+        "binding_exactly_verified": true,
+        "browser_executed": false,
+        "dom_accessed": false,
+        "payload_projected": true,
+        "profitability_proven": false,
+        "runtime_mutations_performed": false,
+        "source_documents_embedded": false
+      },
+      "presentation_payload": {
+        "admission_v2_status": "PASS",
+        "binding_status": "PASS",
+        "blockers": [],
+        "checks": {
+          "admission_v2_decision_pass": true,
+          "admission_v2_exact": true,
+          "complete_link_audit_hash_bound": true,
+          "complete_link_gate_hash_bound": true,
+          "correlation_preregistration_hash_bound": true,
+          "cross_source_hashes_exact": true,
+          "effective_budget_v3_decision_pass": true,
+          "effective_budget_v3_exact": true,
+          "evidence_has_no_execution_authority": true,
+          "input_snapshot_exact": true,
+          "report_universe_hash_bound": true,
+          "shared_correlation_matrix_snapshot": true,
+          "strata_hash_chain_bound": true,
+          "strategy_identity_bound": true
+        },
+        "effective_budget_v3_status": "PASS",
+        "facts": {
+          "binding_exactly_verified": true,
+          "hash_only_projection": true,
+          "positions_embedded": false,
+          "profitability_proven": false,
+          "raw_symbol_lists_embedded": false,
+          "source_documents_embedded": false,
+          "strategy_identity_embedded": false
+        },
+        "first_blocking_tier": null,
+        "permissions": {
+          "browser_execution_allowed": false,
+          "current_admission_allowed": false,
+          "dom_access_allowed": false,
+          "live_order_allowed": false,
+          "paper_authorized": false,
+          "render_allowed": false
+        },
+        "presentation_payload_hash": "2904c0b668dd2768ef5f48031ce08e97144dfe9285b51411f9c92b2b769f412d",
+        "schema_version": "portfolio-correlation-admission-effective-budget-presentation-payload-v1",
+        "source": {
+          "admission_v2_hash": "6eb549653bbbcf4537be3135b5fe8b56707e42d03e4c30a4539c80e9562f5e84",
+          "binding_hash": "ecf1cb9f88b38a208188b5a0ce44b3c563b8a9822100ae4eec6af3c8d6c8791d",
+          "complete_link_audit_hash": "73dd31baf1b646386f6a28544e3a64b3a3f9925e93130569a22295b891c479e9",
+          "complete_link_gate_hash": "6927b00e02994101af7c58452cbe91517e6436e2db3eecc5a3a6f4d3d505e67b",
+          "correlation_matrix_hash": "37f430aefe01d30c655c96bdff35a5703b46adaca484894f8689c9e9da3f71de",
+          "correlation_preregistration_hash": "4914f44c5e5337c557b5d5518e3e98672baa5b968403dfbeab99f2ad3348402b",
+          "effective_budget_v3_hash": "28db73f75e3393e00b6ebae8953bb6d2c7f574834a11dc6b3acf34de518daef4",
+          "proposal_scope_hash": "85c180124abc65bf15dab1f5e45b08ce8fe8f4a30ed89d5ef7ec06245f013aab",
+          "report_universe_contract_hash": "2166ac34623b89d2a9fa639f2e7111b155ecfd31146c3d2b52ac49d4083ee672",
+          "strata_gate_hash": "1b4bda72b10d017a8bae1e6e724e5107371e853f76d1c10e608c3a97f2b3eb44",
+          "strata_registration_hash": "f3dffe02ff199c27b8122012acf481d1f818f951fadfca95550c431ae7f6f77f",
+          "strategy_identity_hash": "5c4ec0e147ec677726863058d984b08b88ca4986ffb72d193e5eaab42a218c96"
+        },
+        "static_fingerprint": "20260823-portfolio-correlation-admission-effective-budget-in-memory-delivery-v1-lock-1",
+        "status": "KNOWN",
+        "tiers": [
+          {
+            "detail": "EXACT_JSON_SNAPSHOT",
+            "state": "PASS",
+            "tier": "INPUT_SNAPSHOT"
+          },
+          {
+            "detail": "EXACT_REBUILD",
+            "state": "PASS",
+            "tier": "ADMISSION_V2_EXACT"
+          },
+          {
+            "detail": "EXACT_REBUILD",
+            "state": "PASS",
+            "tier": "EFFECTIVE_BUDGET_V3_EXACT"
+          },
+          {
+            "detail": "ONE_SHARED_HASH_CHAIN",
+            "state": "PASS",
+            "tier": "CROSS_SOURCE_BINDING"
+          },
+          {
+            "detail": "PASS",
+            "state": "PASS",
+            "tier": "ADMISSION_V2_DECISION"
+          },
+          {
+            "detail": "PASS",
+            "state": "PASS",
+            "tier": "EFFECTIVE_BUDGET_V3_DECISION"
+          },
+          {
+            "detail": "LOCKED",
+            "state": "PASS",
+            "tier": "PERMISSION"
+          }
+        ]
+      },
+      "provenance": {
+        "admission_v2_hash": "6eb549653bbbcf4537be3135b5fe8b56707e42d03e4c30a4539c80e9562f5e84",
+        "binding_hash": "ecf1cb9f88b38a208188b5a0ce44b3c563b8a9822100ae4eec6af3c8d6c8791d",
+        "binding_schema_version": "portfolio-correlation-admission-effective-budget-binding-v1",
+        "binding_static_fingerprint": "20260823-portfolio-correlation-admission-effective-budget-binding-v1-lock-1",
+        "effective_budget_v3_hash": "28db73f75e3393e00b6ebae8953bb6d2c7f574834a11dc6b3acf34de518daef4",
+        "presentation_payload_hash": "2904c0b668dd2768ef5f48031ce08e97144dfe9285b51411f9c92b2b769f412d"
+      },
+      "reason_code": "EXACT_BINDING_PROJECTED",
+      "schema_version": "portfolio-correlation-admission-effective-budget-in-memory-delivery-envelope-v1",
+      "static_fingerprint": "20260823-portfolio-correlation-admission-effective-budget-in-memory-delivery-v1-lock-1",
+      "status": "KNOWN",
+      "transport": {
+        "endpoint": null,
+        "mode": "IN_MEMORY_JSON_DOCUMENT",
+        "network_used": false,
+        "persisted": false,
+        "route": null,
+        "storage_used": false
+      }
+    },
+    "envelope_hash": "2bafa66dbb13a0bfe4e927edd91129003177fed0b2f4bc2e788d793b597803c3",
+    "facts": {
+      "adapter_failed": false,
+      "adapter_invoked": true,
+      "browser_executed": false,
+      "consumer_gate_exact": true,
+      "dom_mounted": false,
+      "envelope_verified": true,
+      "input_documents_embedded": false,
+      "profitability_proven": false,
+      "runtime_mutations_performed": false
+    },
+    "gate": {
+      "adapter_registration_exact": true,
+      "consumer_preregistration_exact": true,
+      "python_consumer_contract_exact": true,
+      "python_consumer_unbound": true
+    },
+    "reason_code": "EXACT_CONSUMER_GATE_KNOWN_ENVELOPE_RETURNED",
+    "required_contracts": {
+      "adapter_registration_hash": "4c6eb60d842611d2babaf072527fe93d2a68f67bc6a7c2658b80fd1b9f07f4cb",
+      "consumer_preregistration_hash": "4cc6352fb4083d8589d656481ecfd8fe3a33d6bba44bac6383ce2ca1f6d72987",
+      "delivery_payload_schema_version": "portfolio-correlation-admission-effective-budget-presentation-payload-v1",
+      "delivery_schema_version": "portfolio-correlation-admission-effective-budget-in-memory-delivery-envelope-v1",
+      "delivery_static_fingerprint": "20260823-portfolio-correlation-admission-effective-budget-in-memory-delivery-v1-lock-1",
+      "python_consumer_contract_hash": "fd402270f5c03c5225201f9df8768859b398cc1912658a0880f367ff7afc882a"
+    },
+    "schema_version": "portfolio-correlation-admission-effective-budget-hash-envelope-source-consumer-result-v1",
+    "source_hashes": {
+      "admission_v2_hash": "6eb549653bbbcf4537be3135b5fe8b56707e42d03e4c30a4539c80e9562f5e84",
+      "binding_hash": "ecf1cb9f88b38a208188b5a0ce44b3c563b8a9822100ae4eec6af3c8d6c8791d",
+      "effective_budget_v3_hash": "28db73f75e3393e00b6ebae8953bb6d2c7f574834a11dc6b3acf34de518daef4",
+      "presentation_payload_hash": "2904c0b668dd2768ef5f48031ce08e97144dfe9285b51411f9c92b2b769f412d"
+    },
+    "static_fingerprint": "20260824-portfolio-correlation-admission-effective-budget-hash-envelope-source-consumer-v1-isolated-lock-1",
+    "status": "KNOWN",
+    "transport": {
+      "endpoint": null,
+      "mode": "IN_MEMORY_RETURN_ONLY",
+      "network_used": false,
+      "payload_source_provider": null,
+      "route": null,
+      "storage_used": false
+    }
+  },
+  "synthetic_only": true,
+  "unknown_result": {
+    "authority": {
+      "browser_execution_allowed": false,
+      "current_admission_allowed": false,
+      "dom_mount_allowed": false,
+      "endpoint_registration_allowed": false,
+      "host_import_allowed": false,
+      "live_order_allowed": false,
+      "network_allowed": false,
+      "paper_authorized": false,
+      "payload_provider_binding_allowed": false,
+      "route_registration_allowed": false,
+      "runtime_delivery_allowed": false,
+      "storage_allowed": false,
+      "writer_allowed": false
+    },
+    "blockers": [
+      "SOURCE_ENVELOPE_UNKNOWN",
+      "PAYLOAD_SOURCE_PROVIDER_UNBOUND",
+      "HOST_IMPORT_ROUTE_AND_ENDPOINT_UNBOUND",
+      "BROWSER_EXECUTION_AND_DOM_MOUNT_UNAUTHORIZED",
+      "CURRENT_ACTIVATION_NOT_AUTHORIZED",
+      "PAPER_AND_LIVE_PERMISSION_NOT_AUTHORIZED"
+    ],
+    "consumer_id": "portfolio-correlation-admission-effective-budget-hash-envelope-source-v1",
+    "consumer_result_hash": "6c67f3e287102d467c5a22f3ff57a2130a40654c7ee994cc560bba4673b04273",
+    "envelope": {
+      "authority": {
+        "browser_execution_allowed": false,
+        "current_admission_allowed": false,
+        "descriptive_only": true,
+        "dom_access_allowed": false,
+        "endpoint_registration_allowed": false,
+        "live_order_allowed": false,
+        "paper_authorized": false,
+        "render_allowed": false,
+        "route_registration_allowed": false,
+        "runtime_delivery_allowed": false,
+        "ui_mount_allowed": false,
+        "writer_allowed": false
+      },
+      "consumer_contract": {
+        "envelope_schema_version": "portfolio-correlation-admission-effective-budget-in-memory-delivery-envelope-v1",
+        "function_exports": [
+          "verifyPortfolioCorrelationAdmissionEffectiveBudgetPresentationPayloadV1",
+          "verifyPortfolioCorrelationAdmissionEffectiveBudgetInMemoryDeliveryEnvelopeV1",
+          "extractPortfolioCorrelationAdmissionEffectiveBudgetPresentationPayloadV1",
+          "buildPortfolioCorrelationAdmissionEffectiveBudgetPayloadExtractionReceiptV1",
+          "verifyPortfolioCorrelationAdmissionEffectiveBudgetPayloadExtractionReceiptV1"
+        ],
+        "host_script": null,
+        "host_slot": null,
+        "host_stylesheet": null,
+        "javascript_global": "HakimiPortfolioCorrelationAdmissionEffectiveBudgetInMemoryDeliveryV1",
+        "module_format": "UMD_COMMONJS",
+        "payload_schema_version": "portfolio-correlation-admission-effective-budget-presentation-payload-v1",
+        "payload_source_provider": null,
+        "receipt_schema_version": "portfolio-correlation-admission-effective-budget-payload-extraction-receipt-v1",
+        "tier_order": [
+          "INPUT_SNAPSHOT",
+          "ADMISSION_V2_EXACT",
+          "EFFECTIVE_BUDGET_V3_EXACT",
+          "CROSS_SOURCE_BINDING",
+          "ADMISSION_V2_DECISION",
+          "EFFECTIVE_BUDGET_V3_DECISION",
+          "PERMISSION"
+        ]
+      },
+      "delivery_envelope_hash": "a5136b988cf6baed8f1009b786828c855c493935e5ff9af570e110834972993c",
+      "delivery_state": "UNKNOWN",
+      "facts": {
+        "binding_exactly_verified": false,
+        "browser_executed": false,
+        "dom_accessed": false,
+        "payload_projected": false,
+        "profitability_proven": false,
+        "runtime_mutations_performed": false,
+        "source_documents_embedded": false
+      },
+      "presentation_payload": null,
+      "provenance": {
+        "admission_v2_hash": null,
+        "binding_hash": null,
+        "binding_schema_version": "portfolio-correlation-admission-effective-budget-binding-v1",
+        "binding_static_fingerprint": "20260823-portfolio-correlation-admission-effective-budget-binding-v1-lock-1",
+        "effective_budget_v3_hash": null,
+        "presentation_payload_hash": null
+      },
+      "reason_code": "BINDING_UNKNOWN",
+      "schema_version": "portfolio-correlation-admission-effective-budget-in-memory-delivery-envelope-v1",
+      "static_fingerprint": "20260823-portfolio-correlation-admission-effective-budget-in-memory-delivery-v1-lock-1",
+      "status": "UNKNOWN",
+      "transport": {
+        "endpoint": null,
+        "mode": "IN_MEMORY_JSON_DOCUMENT",
+        "network_used": false,
+        "persisted": false,
+        "route": null,
+        "storage_used": false
+      }
+    },
+    "envelope_hash": "a5136b988cf6baed8f1009b786828c855c493935e5ff9af570e110834972993c",
+    "facts": {
+      "adapter_failed": false,
+      "adapter_invoked": true,
+      "browser_executed": false,
+      "consumer_gate_exact": true,
+      "dom_mounted": false,
+      "envelope_verified": true,
+      "input_documents_embedded": false,
+      "profitability_proven": false,
+      "runtime_mutations_performed": false
+    },
+    "gate": {
+      "adapter_registration_exact": true,
+      "consumer_preregistration_exact": true,
+      "python_consumer_contract_exact": true,
+      "python_consumer_unbound": true
+    },
+    "reason_code": "EXACT_CONSUMER_GATE_UNKNOWN_ENVELOPE_RETURNED",
+    "required_contracts": {
+      "adapter_registration_hash": "4c6eb60d842611d2babaf072527fe93d2a68f67bc6a7c2658b80fd1b9f07f4cb",
+      "consumer_preregistration_hash": "4cc6352fb4083d8589d656481ecfd8fe3a33d6bba44bac6383ce2ca1f6d72987",
+      "delivery_payload_schema_version": "portfolio-correlation-admission-effective-budget-presentation-payload-v1",
+      "delivery_schema_version": "portfolio-correlation-admission-effective-budget-in-memory-delivery-envelope-v1",
+      "delivery_static_fingerprint": "20260823-portfolio-correlation-admission-effective-budget-in-memory-delivery-v1-lock-1",
+      "python_consumer_contract_hash": "fd402270f5c03c5225201f9df8768859b398cc1912658a0880f367ff7afc882a"
+    },
+    "schema_version": "portfolio-correlation-admission-effective-budget-hash-envelope-source-consumer-result-v1",
+    "source_hashes": {
+      "admission_v2_hash": null,
+      "binding_hash": null,
+      "effective_budget_v3_hash": null,
+      "presentation_payload_hash": null
+    },
+    "static_fingerprint": "20260824-portfolio-correlation-admission-effective-budget-hash-envelope-source-consumer-v1-isolated-lock-1",
+    "status": "UNKNOWN",
+    "transport": {
+      "endpoint": null,
+      "mode": "IN_MEMORY_RETURN_ONLY",
+      "network_used": false,
+      "payload_source_provider": null,
+      "route": null,
+      "storage_used": false
+    }
+  }
+}

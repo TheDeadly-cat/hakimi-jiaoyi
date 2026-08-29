@@ -1,0 +1,108 @@
+.dt-lockboard {
+  --dt-paper: #f2ead7;
+  --dt-paper-deep: #ddd0b3;
+  --dt-ink: #18231f;
+  --dt-ink-soft: #52615a;
+  --dt-line: rgba(24, 35, 31, 0.24);
+  --dt-clear: #3f6b55;
+  --dt-block: #a33d2d;
+  --dt-candidate: #a16a22;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--dt-ink);
+  border: 1px solid rgba(24, 35, 31, 0.42);
+  border-radius: 4px 18px 4px 4px;
+  padding: clamp(1rem, 2.6vw, 2rem);
+  background:
+    linear-gradient(90deg, transparent 49.7%, rgba(24, 35, 31, 0.035) 50%, transparent 50.3%),
+    repeating-linear-gradient(0deg, rgba(24, 35, 31, 0.028) 0 1px, transparent 1px 22px),
+    radial-gradient(circle at 88% 8%, rgba(163, 61, 45, 0.12), transparent 28%),
+    var(--dt-paper);
+  box-shadow: 0 18px 45px rgba(37, 30, 20, 0.13), inset 0 0 0 5px rgba(255, 255, 255, 0.25);
+  font-family: "Noto Serif SC", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+}
+
+.dt-lockboard::before {
+  content: "TAIL RISK / READ ONLY";
+  position: absolute;
+  top: 1.1rem;
+  right: -2.85rem;
+  width: 10rem;
+  padding: 0.28rem 0;
+  transform: rotate(42deg);
+  color: var(--dt-paper);
+  background: var(--dt-ink);
+  text-align: center;
+  font: 700 0.62rem/1 "Cascadia Mono", "IBM Plex Mono", monospace;
+  letter-spacing: 0.12em;
+}
+
+.dt-lockboard__header { max-width: 46rem; }
+.dt-lockboard__eyebrow,
+.dt-lockboard__code,
+.dt-lockboard__label,
+.dt-lockboard__metric-label,
+.dt-lockboard__seal {
+  font-family: "Cascadia Mono", "IBM Plex Mono", monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.dt-lockboard__eyebrow { margin: 0 0 0.55rem; color: var(--dt-ink-soft); font-size: 0.68rem; font-weight: 800; }
+.dt-lockboard__title { margin: 0; max-width: 18ch; font-size: clamp(1.65rem, 4vw, 3rem); line-height: 0.98; font-weight: 650; letter-spacing: -0.035em; }
+.dt-lockboard__detail { margin: 0.85rem 0 0; max-width: 58ch; color: var(--dt-ink-soft); font-size: 0.92rem; line-height: 1.55; }
+
+.dt-lockboard__circuit {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: clamp(1.5rem, 4vw, 2.7rem);
+}
+.dt-lockboard__circuit::before { content: ""; position: absolute; top: 1.22rem; left: 8%; right: 8%; height: 2px; background: var(--dt-line); z-index: -1; }
+.dt-lockboard__node {
+  min-height: 7.2rem;
+  padding: 0.8rem;
+  border: 1px solid var(--dt-line);
+  background: rgba(250, 246, 235, 0.7);
+  box-shadow: 4px 4px 0 rgba(24, 35, 31, 0.07);
+  animation: dt-seal-rise 520ms both cubic-bezier(.2,.72,.2,1);
+  animation-delay: calc(var(--dt-index) * 75ms);
+}
+.dt-lockboard__node::before { content: ""; display: block; width: 0.72rem; height: 0.72rem; margin: 0.02rem auto 0.78rem; border: 3px solid var(--dt-paper); outline: 1px solid currentColor; border-radius: 50%; background: currentColor; }
+.dt-lockboard__node--clear { color: var(--dt-clear); }
+.dt-lockboard__node--blocked { color: var(--dt-block); }
+.dt-lockboard__node--candidate { color: var(--dt-candidate); }
+.dt-lockboard__node--unknown { color: #68706b; }
+.dt-lockboard__node--not-supplied { color: #7d766a; }
+.dt-lockboard__node--locked { color: var(--dt-ink); background: repeating-linear-gradient(135deg, rgba(24,35,31,.08) 0 4px, rgba(250,246,235,.72) 4px 10px); }
+.dt-lockboard__code { display: block; color: inherit; font-size: 0.62rem; font-weight: 800; }
+.dt-lockboard__label { display: block; margin-top: 0.42rem; color: var(--dt-ink-soft); font-size: 0.58rem; }
+.dt-lockboard__value { display: block; margin-top: 0.62rem; color: var(--dt-ink); font-size: clamp(0.78rem, 1.4vw, 1rem); line-height: 1.25; }
+
+.dt-lockboard__metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin: 1rem 0 0; padding: 1px; background: var(--dt-line); }
+.dt-lockboard__metric { margin: 0; padding: 0.72rem; background: rgba(242, 234, 215, 0.94); }
+.dt-lockboard__metric-label { color: var(--dt-ink-soft); font-size: 0.58rem; }
+.dt-lockboard__metric-value { margin: 0.2rem 0 0; font: 700 1.18rem/1 "Cascadia Mono", monospace; }
+.dt-lockboard__seals { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
+.dt-lockboard__seal { padding: 0.38rem 0.55rem; border: 1px solid var(--dt-line); color: var(--dt-ink-soft); background: rgba(255,255,255,.18); font-size: 0.56rem; font-weight: 800; }
+.dt-lockboard--blocked .dt-lockboard__title { color: var(--dt-block); }
+.dt-lockboard--clear .dt-lockboard__title { color: var(--dt-clear); }
+
+@keyframes dt-seal-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 760px) {
+  .dt-lockboard { border-radius: 3px 12px 3px 3px; }
+  .dt-lockboard__circuit { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dt-lockboard__circuit::before { display: none; }
+  .dt-lockboard__metrics { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 430px) {
+  .dt-lockboard__circuit { grid-template-columns: 1fr; }
+  .dt-lockboard__node { min-height: 5.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dt-lockboard__node { animation: none; }
+}

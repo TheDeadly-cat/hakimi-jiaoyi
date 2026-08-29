@@ -1,0 +1,351 @@
+.factor-precommit-card {
+  --precommit-ink: #172529;
+  --precommit-muted: #667577;
+  --precommit-paper: #edf1ee;
+  --precommit-paper-deep: #dfe7e3;
+  --precommit-line: rgba(23, 37, 41, 0.2);
+  --precommit-cyan: #245c60;
+  --precommit-amber: #9b642d;
+  --precommit-oxide: #8d443c;
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1rem, 2.6vw, 2rem);
+  border: 1px solid var(--precommit-line);
+  border-radius: 3px 24px 3px 24px;
+  color: var(--precommit-ink);
+  background:
+    linear-gradient(90deg, transparent 0 47px, rgba(36, 92, 96, 0.08) 47px 48px, transparent 48px),
+    repeating-linear-gradient(0deg, transparent 0 23px, rgba(23, 37, 41, 0.035) 23px 24px),
+    linear-gradient(137deg, var(--precommit-paper) 0%, #f5f7f3 58%, var(--precommit-paper-deep) 100%);
+  box-shadow: 0 24px 64px rgba(23, 37, 41, 0.16);
+  animation: factor-precommit-enter 540ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.factor-precommit-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 8px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      var(--precommit-cyan) 0 18px,
+      transparent 18px 24px,
+      var(--precommit-amber) 24px 42px,
+      transparent 42px 48px
+    );
+}
+
+.factor-precommit-card[data-evidence-state="BLOCK"]::before {
+  background: repeating-linear-gradient(to bottom, var(--precommit-oxide) 0 18px, transparent 18px 24px);
+}
+
+.factor-precommit-card * {
+  box-sizing: border-box;
+}
+
+.factor-precommit-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 1.15rem;
+  padding-left: 0.35rem;
+}
+
+.factor-precommit-card__eyebrow,
+.factor-precommit-card__section-title,
+.factor-precommit-axis__label,
+.factor-precommit-card__metric-label,
+.factor-precommit-card__hash-label,
+.factor-precommit-card__precommit-label,
+.factor-precommit-card__fold-index {
+  margin: 0;
+  color: var(--precommit-muted);
+  font: 700 0.67rem/1.2 "Cascadia Mono", "IBM Plex Mono", monospace;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.factor-precommit-card__title {
+  max-width: 760px;
+  margin: 0.3rem 0 0;
+  font: 730 clamp(1.75rem, 4vw, 3.35rem)/0.98 "Bahnschrift Condensed", "Aptos Display", sans-serif;
+  letter-spacing: -0.038em;
+}
+
+.factor-precommit-card__dek {
+  max-width: 760px;
+  margin: 0.75rem 0 0;
+  color: var(--precommit-muted);
+  font: 400 0.94rem/1.58 Cambria, Georgia, serif;
+}
+
+.factor-precommit-card__stamp {
+  flex: 0 0 auto;
+  max-width: 190px;
+  padding: 0.72rem 0.85rem;
+  border: 1px solid currentColor;
+  border-radius: 2px 13px 2px 13px;
+  color: var(--precommit-amber);
+  font: 800 0.69rem/1.25 "Cascadia Mono", monospace;
+  letter-spacing: 0.075em;
+  text-align: center;
+}
+
+.factor-precommit-card[data-evidence-state="BOUND_LOCAL_ONLY_STABILITY_GUARDED"] .factor-precommit-card__stamp {
+  color: var(--precommit-cyan);
+}
+
+.factor-precommit-card[data-evidence-state="BLOCK"] .factor-precommit-card__stamp {
+  color: var(--precommit-oxide);
+}
+
+.factor-precommit-card__axes {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--precommit-line);
+}
+
+.factor-precommit-axis {
+  min-width: 0;
+  padding: 0.95rem 1rem;
+  border-right: 1px solid var(--precommit-line);
+}
+
+.factor-precommit-axis:last-child {
+  border-right: 0;
+}
+
+.factor-precommit-axis__state {
+  display: block;
+  overflow: hidden;
+  margin-top: 0.45rem;
+  color: var(--precommit-amber);
+  font: 760 0.84rem/1.22 "Bahnschrift SemiCondensed", sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.factor-precommit-axis__detail {
+  margin: 0.5rem 0 0;
+  color: var(--precommit-muted);
+  font-size: 0.77rem;
+  line-height: 1.45;
+}
+
+.factor-precommit-card__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(275px, 0.75fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.factor-precommit-card__instrument,
+.factor-precommit-card__precommit,
+.factor-precommit-card__blockers {
+  border: 1px solid var(--precommit-line);
+  background: rgba(255, 255, 255, 0.43);
+}
+
+.factor-precommit-card__instrument {
+  padding: 1rem;
+  border-radius: 2px 18px 2px 18px;
+}
+
+.factor-precommit-card__side {
+  display: grid;
+  gap: 1rem;
+}
+
+.factor-precommit-card__precommit,
+.factor-precommit-card__blockers {
+  padding: 0.95rem;
+  border-radius: 2px 13px 2px 13px;
+}
+
+.factor-precommit-card__fold-rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 3px;
+  margin: 0.8rem 0 1rem;
+  padding-top: 0.85rem;
+}
+
+.factor-precommit-card__fold-rail::before {
+  content: "CONTIGUOUS COUNT ORDER";
+  position: absolute;
+  inset: 0 auto auto 0;
+  color: var(--precommit-cyan);
+  font: 700 0.58rem/1 "Cascadia Mono", monospace;
+  letter-spacing: 0.1em;
+}
+
+.factor-precommit-card__fold {
+  min-width: 0;
+  padding: 0.75rem 0.55rem;
+  border-top: 4px solid var(--precommit-cyan);
+  background:
+    linear-gradient(135deg, rgba(36, 92, 96, 0.11), transparent 68%),
+    rgba(255, 255, 255, 0.58);
+}
+
+.factor-precommit-card[data-evidence-state="BLOCK"] .factor-precommit-card__fold {
+  border-top-color: var(--precommit-oxide);
+}
+
+.factor-precommit-card__fold-detail {
+  display: block;
+  overflow: hidden;
+  margin-top: 0.35rem;
+  color: var(--precommit-muted);
+  font: 600 0.58rem/1.2 "Cascadia Mono", monospace;
+  text-overflow: ellipsis;
+}
+
+.factor-precommit-card__metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.factor-precommit-card__metric {
+  min-width: 0;
+  padding: 0.65rem;
+  border-left: 2px solid var(--precommit-cyan);
+  background: rgba(36, 92, 96, 0.055);
+}
+
+.factor-precommit-card__metric-value {
+  overflow: hidden;
+  margin: 0.4rem 0 0;
+  font: 760 clamp(0.95rem, 2vw, 1.35rem)/1 "Bahnschrift SemiCondensed", sans-serif;
+  text-overflow: ellipsis;
+}
+
+.factor-precommit-card__precommit-row {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 0.6rem;
+  margin: 0.65rem 0 0;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--precommit-line);
+}
+
+.factor-precommit-card__precommit-value {
+  overflow-wrap: anywhere;
+  color: var(--precommit-ink);
+  font: 650 0.7rem/1.35 "Cascadia Mono", monospace;
+}
+
+.factor-precommit-card__blocker-list {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.factor-precommit-card__blocker {
+  overflow-wrap: anywhere;
+  padding: 0.5rem 0.6rem;
+  border-left: 3px solid var(--precommit-oxide);
+  background: rgba(141, 68, 60, 0.075);
+  font: 650 0.68rem/1.35 "Cascadia Mono", monospace;
+}
+
+.factor-precommit-card__empty {
+  margin: 0.7rem 0 0;
+  color: var(--precommit-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.factor-precommit-card__provenance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.factor-precommit-card__hash {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  padding: 0.42rem 0.58rem;
+  border: 1px solid var(--precommit-line);
+  border-radius: 2px 10px 2px 10px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.factor-precommit-card__hash-value {
+  color: var(--precommit-cyan);
+  font: 650 0.66rem/1 "Cascadia Mono", monospace;
+}
+
+@keyframes factor-precommit-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 760px) {
+  .factor-precommit-card__axes,
+  .factor-precommit-card__body {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .factor-precommit-axis:nth-child(2) {
+    border-right: 0;
+  }
+
+  .factor-precommit-axis:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--precommit-line);
+  }
+
+  .factor-precommit-card__instrument {
+    grid-column: 1 / -1;
+  }
+
+  .factor-precommit-card__metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 440px) {
+  .factor-precommit-card {
+    border-radius: 16px 3px 16px 3px;
+  }
+
+  .factor-precommit-card__header {
+    display: block;
+  }
+
+  .factor-precommit-card__stamp {
+    display: inline-block;
+    margin-top: 0.85rem;
+  }
+
+  .factor-precommit-card__axes,
+  .factor-precommit-card__body,
+  .factor-precommit-card__metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .factor-precommit-axis,
+  .factor-precommit-axis:nth-child(2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--precommit-line);
+  }
+
+  .factor-precommit-card__fold-rail {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .factor-precommit-card {
+    animation: none;
+  }
+}

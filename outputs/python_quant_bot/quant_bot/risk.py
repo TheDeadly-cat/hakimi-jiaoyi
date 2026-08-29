@@ -9,6 +9,18 @@ from quant_bot.models import Action, Order, Portfolio, Signal
 logger = logging.getLogger(__name__)
 
 
+def _finite_number(value: object, *, label: str) -> float:
+    if isinstance(value, bool):
+        raise ValueError(f"{label} must be a finite number.")
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError(f"{label} must be a finite number.") from exc
+    if not math.isfinite(parsed):
+        raise ValueError(f"{label} must be a finite number.")
+    return parsed
+
+
 class RiskManager:
     def __init__(self, config: RiskConfig):
         self.config = config
@@ -53,14 +65,21 @@ class RiskManager:
         return True
 
     def effective_stop_loss(self, stop_loss_pct: float | None) -> float:
-        max_loss = float(self.config.max_single_loss_pct)
+        try:
+            max_loss = _finite_number(
+                self.config.max_single_loss_pct,
+                label="Maximum single-loss percentage",
+            )
+        except ValueError as exc:
+            raise ValueError("Maximum single-loss percentage must be finite and in [0, 1].") from exc
         if not math.isfinite(max_loss) or not 0 <= max_loss <= 1:
             raise ValueError("Maximum single-loss percentage must be finite and in [0, 1].")
         if stop_loss_pct is None:
             return max_loss
-        parsed_stop = abs(float(stop_loss_pct))
-        if not math.isfinite(parsed_stop):
-            raise ValueError("Stop-loss percentage must be finite.")
+        try:
+            parsed_stop = abs(_finite_number(stop_loss_pct, label="Stop-loss percentage"))
+        except ValueError as exc:
+            raise ValueError("Stop-loss percentage must be finite.") from exc
         return min(parsed_stop, max_loss)
 
     def signal_to_order(
@@ -159,12 +178,47 @@ class RiskManager:
             return Order(symbol=symbol, action=Action.BUY, quantity=quantity, price=price, reason=signal.reason)
         return None
 
-    def enforce_stop_rules(self, symbol: str, portfolio: Portfolio, price: float, stop_loss_pct: float | None, take_profit_pct: float | None) -> Order | None:
-        if portfolio.position_qty <= 0 or portfolio.avg_entry_price <= 0:
+    def enforce_stop_rules(
+        self,
+        symbol: str,
+        portfolio: Portfolio,
+        price: float,
+        stop_loss_pct: float | None,
+        take_profit_pct: float | None,
+    ) -> Order | None:
+        position_qty = _finite_number(
+            portfolio.position_qty,
+            label="Protective-exit position quantity",
+        )
+        avg_entry_price = _finite_number(
+            portfolio.avg_entry_price,
+            label="Protective-exit average entry price",
+        )
+        if position_qty < 0 or avg_entry_price < 0:
+            raise ValueError("Protective exit requires a non-negative position and average entry price.")
+        if position_qty == 0:
             return None
-        pnl_pct = (price - portfolio.avg_entry_price) / portfolio.avg_entry_price
-        if stop_loss_pct is not None and pnl_pct <= -abs(stop_loss_pct):
-            return Order(symbol, Action.SELL, portfolio.position_qty, price, f"stop loss {pnl_pct:.2%}")
-        if take_profit_pct is not None and pnl_pct >= abs(take_profit_pct):
-            return Order(symbol, Action.SELL, portfolio.position_qty, price, f"take profit {pnl_pct:.2%}")
+        if avg_entry_price <= 0:
+            raise ValueError("Protective exit requires a positive average entry price for an open position.")
+
+        parsed_price = _finite_number(price, label="Protective-exit market price")
+        if parsed_price <= 0:
+            raise ValueError("Protective-exit market price must be positive.")
+        effective_stop = self.effective_stop_loss(stop_loss_pct)
+        effective_take_profit: float | None = None
+        if take_profit_pct is not None:
+            try:
+                effective_take_profit = abs(
+                    _finite_number(take_profit_pct, label="Take-profit percentage")
+                )
+            except ValueError as exc:
+                raise ValueError("Take-profit percentage must be finite.") from exc
+
+        pnl_pct = (parsed_price - avg_entry_price) / avg_entry_price
+        if not math.isfinite(pnl_pct):
+            raise ValueError("Protective exit derived a non-finite return percentage.")
+        if pnl_pct <= -effective_stop:
+            return Order(symbol, Action.SELL, position_qty, parsed_price, f"stop loss {pnl_pct:.2%}")
+        if effective_take_profit is not None and pnl_pct >= effective_take_profit:
+            return Order(symbol, Action.SELL, position_qty, parsed_price, f"take profit {pnl_pct:.2%}")
         return None

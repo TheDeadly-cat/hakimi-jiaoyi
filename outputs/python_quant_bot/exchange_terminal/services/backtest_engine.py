@@ -16,9 +16,12 @@ except ModuleNotFoundError:
 from .market_calendar import build_market_calendar_contract, infer_market_calendar
 
 
-DATASET_SCHEMA_VERSION = "backtest-dataset-v4"
+DATASET_SCHEMA_VERSION = "backtest-dataset-v5"
 EXECUTION_MODEL_VERSION = "signal-close-next-open-ohlc-conservative-v3"
 CAUSAL_AUDIT_VERSION = "causal-prefix-invariance-v2"
+CHECKPOINT_RATIO_CONTRACT_VERSION = "causal-checkpoint-ratios-v1"
+DATASET_IDENTITY_CONTRACT_VERSION = "backtest-dataset-identity-v1"
+TIMEFRAME_CONTRACT_VERSION = "backtest-timeframe-v1"
 
 SignalFunction = Callable[[list[Any], float, bool, float, float], dict[str, Any]]
 SignalFactory = Callable[[list[dict[str, Any]]], SignalFunction]
@@ -71,6 +74,88 @@ def numeric_parameter_contract_issues(
             if name in maximums and numeric > float(maximums[name]):
                 issues.append(f"{name}:above_maximum:{maximums[name]}")
     return issues
+
+
+def _normalize_checkpoint_ratios(checkpoint_ratios: Any) -> tuple[tuple[float, ...], list[str]]:
+    if not isinstance(checkpoint_ratios, (tuple, list)):
+        return (), [f"checkpoint_ratios:not_sequence:{type(checkpoint_ratios).__name__}"]
+    if not checkpoint_ratios:
+        return (), ["checkpoint_ratios:empty"]
+
+    normalized: list[float] = []
+    issues: list[str] = []
+    for index, value in enumerate(checkpoint_ratios):
+        if isinstance(value, bool):
+            issues.append(f"checkpoint_ratios[{index}]:not_numeric")
+            continue
+        try:
+            ratio = float(value)
+        except (TypeError, ValueError, OverflowError):
+            issues.append(f"checkpoint_ratios[{index}]:not_numeric")
+            continue
+        if not math.isfinite(ratio):
+            issues.append(f"checkpoint_ratios[{index}]:not_finite")
+            continue
+        if not 0.0 < ratio < 1.0:
+            issues.append(f"checkpoint_ratios[{index}]:outside_open_unit_interval")
+            continue
+        normalized.append(ratio)
+    return tuple(normalized), issues
+
+
+def _dataset_identity_contract(
+    symbol: Any,
+    source: Any,
+) -> tuple[str, str, list[str]]:
+    issues: list[str] = []
+    clean_symbol = ""
+    clean_source = ""
+    if not isinstance(symbol, str):
+        issues.append("symbol_not_string")
+    else:
+        clean_symbol = symbol.strip().upper()
+        if not clean_symbol:
+            issues.append("symbol_missing")
+        elif symbol != symbol.strip():
+            issues.append("symbol_noncanonical")
+    if not isinstance(source, str):
+        issues.append("source_not_string")
+    else:
+        clean_source = source.strip()
+        if not clean_source:
+            issues.append("source_missing")
+        elif source != clean_source:
+            issues.append("source_noncanonical")
+    return clean_symbol, clean_source, issues
+
+
+def _normalize_timeframe_contract(timeframe: Any) -> tuple[str, list[str]]:
+    if not isinstance(timeframe, str):
+        return "", ["timeframe_not_string"]
+    compact = timeframe.strip().lower().replace(" ", "")
+    if not compact:
+        return "", ["timeframe_missing"]
+    daily_aliases = {
+        "d": "1d",
+        "1d": "1d",
+        "1dutc": "1d",
+        "day": "1d",
+        "daily": "1d",
+    }
+    if compact in daily_aliases:
+        return daily_aliases[compact], []
+    if len(compact) < 2 or compact[-1] not in {"m", "h", "w"}:
+        return "", [f"timeframe_unsupported:{compact}"]
+    try:
+        quantity = float(compact[:-1])
+    except (TypeError, ValueError, OverflowError):
+        return "", [f"timeframe_quantity_not_numeric:{compact}"]
+    if not math.isfinite(quantity):
+        return "", [f"timeframe_quantity_not_finite:{compact}"]
+    if quantity <= 0:
+        return "", [f"timeframe_quantity_not_positive:{compact}"]
+    quantity_text = str(int(quantity)) if quantity.is_integer() else format(quantity, ".12g")
+    return f"{quantity_text}{compact[-1]}", []
 
 
 def _canonical_hash(payload: Any) -> str:
@@ -186,7 +271,13 @@ def prepare_backtest_dataset(
 ) -> dict[str, Any]:
     """Validate and fingerprint every OHLCV row without silently repairing history."""
 
-    market_kind, maximum_allowed_gap_ms = _daily_gap_policy(symbol, market, timeframe)
+    clean_symbol, clean_source, identity_issues = _dataset_identity_contract(symbol, source)
+    normalized_timeframe, timeframe_issues = _normalize_timeframe_contract(timeframe)
+    market_kind, maximum_allowed_gap_ms = _daily_gap_policy(
+        clean_symbol,
+        market,
+        normalized_timeframe,
+    )
     continuity_policy = str(daily_continuity_policy or "").strip().upper()
     continuity_deferred = continuity_policy == "DEFER_TO_PORTFOLIO_LIFECYCLE"
     normalized: list[dict[str, Any]] = []
@@ -291,7 +382,7 @@ def prepare_backtest_dataset(
         )
     ]
     maximum_gap_ms = max((int(item["gap_ms"]) for item in observed_gaps), default=0)
-    source_text = str(source or "").strip()
+    source_text = clean_source
     source_lower = source_text.lower()
     synthetic_source = any(token in source_lower for token in ("quick_preview", "preview_seed", "offline-seed", "synthetic"))
     latest_complete_ts = max(timestamps, default=0)
@@ -306,12 +397,15 @@ def prepare_backtest_dataset(
     market_calendar: dict[str, Any] = {}
     if market_kind == "stock" and normalized and not continuity_deferred:
         market_calendar = build_market_calendar_contract(
-            calendar_name=infer_market_calendar(symbol, source=source_text),
+            calendar_name=infer_market_calendar(clean_symbol, source=source_text),
             start_date=normalized[0]["date"],
             end_date=normalized[-1]["date"],
             observed_dates=normalized_session_dates,
         )
-    blockers: list[str] = []
+    blockers: list[str] = [
+        *[f"dataset_identity_contract:{item}" for item in identity_issues],
+        *[f"timeframe_contract:{item}" for item in timeframe_issues],
+    ]
     warnings: list[str] = []
     if continuity_policy not in {"STRICT", "DEFER_TO_PORTFOLIO_LIFECYCLE"}:
         blockers.append(f"daily_continuity_policy_invalid:{continuity_policy or 'MISSING'}")
@@ -352,9 +446,12 @@ def prepare_backtest_dataset(
     last_ts = timestamps[-1] if timestamps else 0
     manifest = {
         "schema_version": DATASET_SCHEMA_VERSION,
+        "dataset_identity_contract_version": DATASET_IDENTITY_CONTRACT_VERSION,
+        "timeframe_contract_version": TIMEFRAME_CONTRACT_VERSION,
         "hash_scope": "FULL_OHLCV",
-        "symbol": str(symbol or "").upper(),
-        "timeframe": timeframe,
+        "symbol": clean_symbol,
+        "timeframe": str(timeframe or ""),
+        "timeframe_normalized": normalized_timeframe,
         "source": source_text,
         "row_count": len(normalized),
         "input_row_count": len(rows or []),
@@ -805,7 +902,7 @@ def causal_prefix_invariance_check(
     market: str = "crypto",
     timeframe: str = "1D",
     signal_input: str = "CLOSES",
-    checkpoint_ratios: tuple[float, ...] = (0.35, 0.6, 0.8),
+    checkpoint_ratios: tuple[Any, ...] | list[Any] | None = (0.35, 0.6, 0.8),
 ) -> dict[str, Any]:
     numeric_issues = numeric_parameter_contract_issues(
         {
@@ -838,9 +935,29 @@ def causal_prefix_invariance_check(
     if numeric_issues:
         return {
             "version": CAUSAL_AUDIT_VERSION,
+            "checkpoint_ratio_contract_version": CHECKPOINT_RATIO_CONTRACT_VERSION,
             "status": "BLOCK",
             "checks": [],
             "issues": ["numeric_parameter_contract:" + item for item in numeric_issues],
+            "research_only": True,
+            "paper_authorized": False,
+            "live_order_allowed": False,
+        }
+    clean_checkpoint_ratios, checkpoint_ratio_issues = _normalize_checkpoint_ratios(checkpoint_ratios)
+    checkpoint_contract = {
+        "checkpoint_ratio_contract_version": CHECKPOINT_RATIO_CONTRACT_VERSION,
+        "checkpoint_ratios": list(clean_checkpoint_ratios),
+    }
+    if checkpoint_ratio_issues:
+        return {
+            "version": CAUSAL_AUDIT_VERSION,
+            **checkpoint_contract,
+            "status": "BLOCK",
+            "checks": [],
+            "issues": [
+                "checkpoint_ratio_contract:" + item
+                for item in checkpoint_ratio_issues
+            ],
             "research_only": True,
             "paper_authorized": False,
             "live_order_allowed": False,
@@ -859,6 +976,7 @@ def causal_prefix_invariance_check(
     if manifest["status"] != "PASS":
         return {
             "version": CAUSAL_AUDIT_VERSION,
+            **checkpoint_contract,
             "status": "BLOCK",
             "checks": [],
             "issues": ["dataset_integrity_block"],
@@ -867,14 +985,14 @@ def causal_prefix_invariance_check(
 
     available = len(clean_rows) - startup
     checkpoint_counts = sorted({
-        min(len(clean_rows) - 1, startup + max(2, int(available * float(ratio))))
-        for ratio in checkpoint_ratios
-        if 0 < float(ratio) < 1
+        min(len(clean_rows) - 1, startup + max(2, int(available * ratio)))
+        for ratio in clean_checkpoint_ratios
     })
     checkpoint_counts = [count for count in checkpoint_counts if startup + 1 < count < len(clean_rows)]
     if not checkpoint_counts:
         return {
             "version": CAUSAL_AUDIT_VERSION,
+            **checkpoint_contract,
             "status": "BLOCK",
             "checks": [],
             "issues": ["insufficient_rows_for_prefix_checkpoints"],
@@ -913,6 +1031,7 @@ def causal_prefix_invariance_check(
     if not full_report.get("ok"):
         return {
             "version": CAUSAL_AUDIT_VERSION,
+            **checkpoint_contract,
             "status": "BLOCK",
             "checks": [],
             "issues": ["full_backtest_not_runnable"],
@@ -1008,6 +1127,7 @@ def causal_prefix_invariance_check(
 
     return {
         "version": CAUSAL_AUDIT_VERSION,
+        **checkpoint_contract,
         "status": "PASS" if not issues else "BLOCK",
         "checkpoint_count": len(checks),
         "checks": checks,

@@ -1,0 +1,344 @@
+.hakimi-basis-card-v10 {
+  --basis-ink: #172b2c;
+  --basis-muted: #63706d;
+  --basis-paper: #f2efe5;
+  --basis-raised: #fffaf0;
+  --basis-line: #c8c0af;
+  --basis-teal: #176b68;
+  --basis-rust: #a64b2a;
+  --basis-amber: #a67419;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(22px, 3.4vw, 44px);
+  color: var(--basis-ink);
+  border: 1px solid var(--basis-line);
+  border-radius: 3px 30px 3px 30px;
+  background:
+    linear-gradient(90deg, rgba(23, 107, 104, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(23, 107, 104, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 91% 8%, rgba(166, 75, 42, 0.12), transparent 25%),
+    linear-gradient(155deg, var(--basis-raised), var(--basis-paper));
+  background-size: 28px 28px, 28px 28px, auto, auto;
+  box-shadow: 0 26px 72px rgba(23, 43, 44, 0.14);
+  font-family: "IBM Plex Sans Condensed", "Aptos Narrow", sans-serif;
+  animation: hakimi-basis-v10-enter 480ms cubic-bezier(0.16, 0.8, 0.22, 1) both;
+}
+
+.hakimi-basis-card-v10::before {
+  content: "BASIS / 10";
+  position: absolute;
+  z-index: -1;
+  right: clamp(16px, 4vw, 54px);
+  bottom: -0.12em;
+  color: rgba(23, 43, 44, 0.045);
+  font: 700 clamp(58px, 12vw, 144px)/0.82 "Cormorant Garamond", Georgia, serif;
+  letter-spacing: -0.065em;
+}
+
+.hakimi-basis-card-v10::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-left: 8px solid var(--basis-teal);
+  pointer-events: none;
+}
+
+.hakimi-basis-card-v10[data-tone="blocked"]::after { border-left-color: var(--basis-rust); }
+.hakimi-basis-card-v10[data-tone="unknown"]::after { border-left-color: var(--basis-muted); }
+
+.hakimi-basis-card-v10__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 24px;
+}
+
+.hakimi-basis-card-v10__header p {
+  margin: 0 0 10px;
+  color: var(--basis-teal);
+  font: 750 10px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.17em;
+}
+
+.hakimi-basis-card-v10[data-tone="blocked"] .hakimi-basis-card-v10__header p {
+  color: var(--basis-rust);
+}
+
+.hakimi-basis-card-v10__header h2 {
+  max-width: 810px;
+  margin: 0;
+  font: 650 clamp(30px, 4.7vw, 58px)/0.94 "Cormorant Garamond", Georgia, serif;
+  letter-spacing: -0.035em;
+}
+
+.hakimi-basis-card-v10__status {
+  border: 1px solid currentColor;
+  padding: 10px 13px;
+  color: var(--basis-teal);
+  background: rgba(255, 250, 240, 0.86);
+  font: 750 10px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.065em;
+  white-space: nowrap;
+}
+
+.hakimi-basis-card-v10[data-tone="blocked"] .hakimi-basis-card-v10__status { color: var(--basis-rust); }
+.hakimi-basis-card-v10[data-tone="unknown"] .hakimi-basis-card-v10__status { color: var(--basis-muted); }
+
+.hakimi-basis-card-v10__summary {
+  max-width: 850px;
+  margin: 18px 0 0;
+  color: var(--basis-muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.hakimi-basis-card-v10__basis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(190px, 0.65fr);
+  gap: 1px;
+  margin-top: 30px;
+  border: 1px solid var(--basis-line);
+  background: var(--basis-line);
+}
+
+.hakimi-basis-card-v10__basis > div,
+.hakimi-basis-card-v10__basis > aside,
+.hakimi-basis-card-v10__basis[data-state="unknown"] {
+  display: grid;
+  align-content: center;
+  min-height: 132px;
+  padding: clamp(16px, 2.4vw, 26px);
+  background: rgba(255, 250, 240, 0.94);
+}
+
+.hakimi-basis-card-v10__basis p,
+.hakimi-basis-card-v10__basis small,
+.hakimi-basis-card-v10__basis aside span {
+  margin: 0;
+  color: var(--basis-muted);
+  font: 650 10px/1.4 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.055em;
+  overflow-wrap: anywhere;
+}
+
+.hakimi-basis-card-v10__basis strong {
+  margin: 8px 0;
+  font: 650 clamp(34px, 5vw, 56px)/0.9 "Cormorant Garamond", Georgia, serif;
+}
+
+.hakimi-basis-card-v10__basis aside {
+  gap: 9px;
+  border-left: 5px solid var(--basis-amber);
+}
+
+.hakimi-basis-card-v10__basis aside b {
+  color: var(--basis-amber);
+  font: 800 11px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.08em;
+}
+
+.hakimi-basis-card-v10__basis[data-state="blocked"] aside { border-left-color: var(--basis-rust); }
+.hakimi-basis-card-v10__basis[data-state="blocked"] aside b { color: var(--basis-rust); }
+
+.hakimi-basis-card-v10__metrics,
+.hakimi-basis-card-v10__signals,
+.hakimi-basis-card-v10__dimensions,
+.hakimi-basis-card-v10__stages {
+  list-style: none;
+  padding: 0;
+}
+
+.hakimi-basis-card-v10__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 14px 0 0;
+  border: 1px solid var(--basis-line);
+  background: var(--basis-line);
+}
+
+.hakimi-basis-card-v10__metric {
+  display: grid;
+  min-height: 112px;
+  align-content: space-between;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(255, 250, 240, 0.94);
+  animation: hakimi-basis-v10-rise 420ms ease-out both;
+}
+
+.hakimi-basis-card-v10__metric:nth-child(2) { animation-delay: 55ms; }
+.hakimi-basis-card-v10__metric:nth-child(3) { animation-delay: 110ms; }
+.hakimi-basis-card-v10__metric:nth-child(4) { animation-delay: 165ms; }
+
+.hakimi-basis-card-v10__metric span,
+.hakimi-basis-card-v10__metric small,
+.hakimi-basis-card-v10__dimension dt,
+.hakimi-basis-card-v10__dimension > small {
+  color: var(--basis-muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.hakimi-basis-card-v10__metric strong {
+  font: 650 clamp(26px, 3vw, 39px)/1 "Cormorant Garamond", Georgia, serif;
+}
+
+.hakimi-basis-card-v10__signals {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin: 12px 0 0;
+}
+
+.hakimi-basis-card-v10__signal {
+  display: grid;
+  gap: 7px;
+  padding: 12px 13px;
+  border: 1px solid var(--basis-line);
+  background: rgba(242, 239, 229, 0.86);
+}
+
+.hakimi-basis-card-v10__signal span { color: var(--basis-muted); font-size: 11px; }
+.hakimi-basis-card-v10__signal strong {
+  color: var(--basis-teal);
+  font: 750 10px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.045em;
+}
+.hakimi-basis-card-v10__signal[data-state="caution"] strong { color: var(--basis-rust); }
+
+.hakimi-basis-card-v10__dimensions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 12px;
+  margin: 25px 0 0;
+}
+
+.hakimi-basis-card-v10__dimension {
+  padding: 16px;
+  border: 1px solid var(--basis-line);
+  background: rgba(255, 250, 240, 0.72);
+}
+
+.hakimi-basis-card-v10__dimension header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.hakimi-basis-card-v10__dimension header strong {
+  font: 700 12px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.hakimi-basis-card-v10__dimension header span {
+  border: 1px solid var(--basis-rust);
+  padding: 4px 7px;
+  color: var(--basis-rust);
+  font: 700 10px/1 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.hakimi-basis-card-v10__dimension header span[data-state="pass"] {
+  border-color: var(--basis-teal);
+  color: var(--basis-teal);
+}
+
+.hakimi-basis-card-v10__dimension dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.hakimi-basis-card-v10__dimension dl div { border-top: 2px solid var(--basis-line); padding-top: 8px; }
+.hakimi-basis-card-v10__dimension dd {
+  margin: 4px 0 0;
+  font: 650 22px/1 "Cormorant Garamond", Georgia, serif;
+}
+.hakimi-basis-card-v10__dimension > small {
+  display: block;
+  margin-top: 14px;
+  font-family: "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+.hakimi-basis-card-v10__stages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 30px 0 0;
+  border-top: 2px solid var(--basis-ink);
+}
+
+.hakimi-basis-card-v10__stage {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px 10px;
+  min-width: 0;
+  padding: 13px 12px 0 0;
+}
+
+.hakimi-basis-card-v10__stage span,
+.hakimi-basis-card-v10__stage strong,
+.hakimi-basis-card-v10__stage b {
+  font: 700 10px/1.2 "IBM Plex Mono", "Cascadia Mono", monospace;
+  letter-spacing: 0.05em;
+}
+
+.hakimi-basis-card-v10__stage span { color: var(--basis-muted); }
+.hakimi-basis-card-v10__stage b { color: var(--basis-teal); }
+.hakimi-basis-card-v10__stage:last-child b { color: var(--basis-rust); }
+.hakimi-basis-card-v10__stage small {
+  grid-column: 1 / -1;
+  overflow-wrap: anywhere;
+  color: var(--basis-muted);
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.hakimi-basis-card-v10__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 25px;
+  padding-top: 12px;
+  border-top: 1px solid var(--basis-line);
+  color: var(--basis-muted);
+  font: 600 10px/1.45 "IBM Plex Mono", "Cascadia Mono", monospace;
+}
+
+@keyframes hakimi-basis-v10-enter {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hakimi-basis-v10-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 880px) {
+  .hakimi-basis-card-v10__header { grid-template-columns: 1fr; }
+  .hakimi-basis-card-v10__status { justify-self: start; }
+  .hakimi-basis-card-v10__basis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hakimi-basis-card-v10__basis > aside { grid-column: 1 / -1; }
+  .hakimi-basis-card-v10__metrics,
+  .hakimi-basis-card-v10__signals,
+  .hakimi-basis-card-v10__stages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 550px) {
+  .hakimi-basis-card-v10 { padding: 20px 14px; border-radius: 3px 20px 3px 20px; }
+  .hakimi-basis-card-v10__basis,
+  .hakimi-basis-card-v10__metrics,
+  .hakimi-basis-card-v10__signals,
+  .hakimi-basis-card-v10__stages { grid-template-columns: 1fr; }
+  .hakimi-basis-card-v10__basis > aside { grid-column: auto; }
+  .hakimi-basis-card-v10__metric { min-height: 92px; }
+  .hakimi-basis-card-v10__footer { display: grid; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hakimi-basis-card-v10,
+  .hakimi-basis-card-v10__metric { animation: none; }
+}

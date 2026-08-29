@@ -1,19 +1,11 @@
 from __future__ import annotations
 
 import json
+from urllib.parse import urlparse
 from typing import Any
 
 
-LOCAL_WEB_ORIGINS = frozenset({
-    "http://127.0.0.1:8765",
-    "http://localhost:8765",
-    "http://127.0.0.1:8766",
-    "http://localhost:8766",
-    "http://127.0.0.1:8767",
-    "http://localhost:8767",
-    "http://127.0.0.1:8770",
-    "http://localhost:8770",
-})
+LOCAL_LOOPBACK_HOSTS = frozenset({"127.0.0.1", "::1", "localhost"})
 
 LOCAL_CLIENT_HOSTS = frozenset({"127.0.0.1", "::1"})
 
@@ -68,7 +60,29 @@ POST_API_PATHS = frozenset({
 
 def allowed_web_origin(origin: str | None) -> str:
     clean = str(origin or "").strip()
-    return clean if clean in LOCAL_WEB_ORIGINS else ""
+    if not clean:
+        return ""
+    parsed = urlparse(clean)
+    if (
+        parsed.scheme != "http"
+        or parsed.username is not None
+        or parsed.password is not None
+        or parsed.path
+        or parsed.params
+        or parsed.query
+        or parsed.fragment
+    ):
+        return ""
+    host = (parsed.hostname or "").lower()
+    if host not in LOCAL_LOOPBACK_HOSTS:
+        return ""
+    try:
+        port = parsed.port
+    except ValueError:
+        return ""
+    if not (1 <= int(port or 0) <= 65535):
+        return ""
+    return clean
 
 
 def _query_flag_enabled(query: dict[str, str], key: str) -> bool:

@@ -2721,6 +2721,23 @@ function evidenceAttributionSpinePresentation(input = {}) {
   };
 }
 
+function evidenceStrategyCorrelationClusterPresentation(payload = {}) {
+  const presentation = globalThis.HakimiEvidencePresentation;
+  if (presentation?.strategyCorrelationClusterSummaryPresentation) {
+    return presentation.strategyCorrelationClusterSummaryPresentation(payload);
+  }
+  return {
+    valid: false,
+    rawStatus: "UNKNOWN",
+    statusText: "未核验",
+    sourceText: "本地冻结完成日收盘复算：未核验",
+    gapText: "输入完整性、事前截止日与正式协议绑定尚未闭合",
+    maturityText: "独立簇票：-- / --",
+    permissionText: "仅研究描述 · 不选参 · 模拟未授权 · 实盘永久硬锁",
+    detailText: "固定 60 个完成日收益、绝对 Pearson 阈值 0.75；当前不形成准入结论",
+  };
+}
+
 function evidenceStrategyLabPresentation(payload = {}) {
   const presentation = globalThis.HakimiEvidencePresentation;
   if (presentation?.strategyLabEvidencePresentation) {
@@ -12042,6 +12059,7 @@ function renderStrategyLabEvidence(data = {}) {
   const target = $("strategyLabEvidence");
   if (!target) return;
   const evidence = evidenceStrategyLabPresentation(data);
+  const correlation = evidenceStrategyCorrelationClusterPresentation(data?.correlation_cluster_summary);
   target.dataset.connectionStatus = evidence.connectionStatus;
   target.dataset.rawParameterStatus = evidence.rawParameterStatus;
   target.dataset.rawCostStatus = evidence.rawCostStatus;
@@ -12058,6 +12076,7 @@ function renderStrategyLabEvidence(data = {}) {
   target.dataset.rawPostSelectionStatus = evidence.rawPostSelectionStatus;
   target.dataset.rawFrozenTestStatus = evidence.rawFrozenTestStatus;
   target.dataset.rawHoldoutStatus = evidence.rawHoldoutStatus;
+  target.dataset.rawCorrelationClusterStatus = correlation.rawStatus;
   target.title = `${evidence.permissionText}\n${evidence.sourceText}`;
   target.innerHTML = `
     <section class="strategy-evidence-band provenance" aria-labelledby="strategyEvidenceSourceHeading">
@@ -12072,6 +12091,16 @@ function renderStrategyLabEvidence(data = {}) {
     <section class="strategy-evidence-band robustness" aria-labelledby="strategyEvidenceRobustnessHeading">
       <header><span aria-hidden="true" data-band-code="robustness">稳</span><h3 id="strategyEvidenceRobustnessHeading">完整性与稳健性</h3></header>
       <div data-evidence-role="coverage"><span>研究覆盖</span><strong>${escapeHtml(evidence.coverageText)}</strong></div>
+      <section class="strategy-correlation-ledger" data-evidence-role="correlation-cluster" data-raw-status="${escapeHtml(correlation.rawStatus)}" aria-labelledby="strategyCorrelationLedgerHeading">
+        <header><span>跨标的独立性</span><strong>${escapeHtml(correlation.statusText)}</strong></header>
+        <ol class="strategy-correlation-flow">
+          <li data-stage="source"><span>SOURCE</span><strong>${escapeHtml(correlation.sourceText)}</strong></li>
+          <li data-stage="gap"><span>GAP</span><strong>${escapeHtml(correlation.gapText)}</strong></li>
+          <li data-stage="maturity"><span>MATURITY</span><strong>${escapeHtml(correlation.maturityText)}</strong></li>
+          <li data-stage="permission"><span>PERMISSION</span><strong>${escapeHtml(correlation.permissionText)}</strong></li>
+        </ol>
+        <small id="strategyCorrelationLedgerHeading">${escapeHtml(correlation.detailText)}</small>
+      </section>
       <div class="strategy-post-selection-group" data-evidence-role="post-selection" data-raw-status="${escapeHtml(evidence.rawPostSelectionStatus)}" role="group" aria-label="冻结后历史复算，历史回测，不是自然前向">
         <span>冻结后历史复算 · 非自然前向</span>
         <strong>${escapeHtml(evidence.postSelectionText)}</strong>
@@ -13892,3 +13921,172 @@ async function boot() {
 
 boot();
 
+
+;(function attachStrategyCorrelationUncertaintyLedger(root) {
+  "use strict";
+
+  const originalRenderStrategyLabEvidence = renderStrategyLabEvidence;
+
+  function uncertaintyPresentation(value) {
+    const shared = root.HakimiEvidencePresentation;
+    if (
+      shared
+      && typeof shared.strategyCorrelationUncertaintySummaryPresentation === "function"
+    ) {
+      return shared.strategyCorrelationUncertaintySummaryPresentation(value);
+    }
+    return {
+      valid: false,
+      rawStatus: "UNKNOWN",
+      rawGapCategory: "SOURCE_INVALID",
+      statusText: "未核验",
+      sourceText: "相关性不确定性审计：未核验",
+      gapText: "有效样本、区间分类与事前协议绑定尚未闭合",
+      maturityText: "跨簇 pair：-- / -- · 有效样本门槛：12",
+      permissionText: "仅研究描述 · 不选参 · 模拟未授权 · 实盘永久硬锁",
+      detailText: "公共投影只接受聚合计数",
+    };
+  }
+
+  function uncertaintyLedgerHtml(presentation) {
+    const safe = (value) => escapeHtml(String(value || "未核验"));
+    return [
+      '<section class="strategy-correlation-ledger strategy-uncertainty-ledger"',
+      ' data-evidence-role="correlation-uncertainty"',
+      ' data-raw-status="' + safe(presentation.rawStatus) + '"',
+      ' data-gap-category="' + safe(presentation.rawGapCategory) + '"',
+      ' data-contract-valid="' + (presentation.valid ? "true" : "false") + '"',
+      ' aria-labelledby="strategyUncertaintyLedgerHeading" aria-live="polite">',
+      '<header><span id="strategyUncertaintyLedgerHeading">相关性不确定性</span>',
+      '<strong>' + safe(presentation.statusText) + '</strong></header>',
+      '<ol class="strategy-correlation-flow">',
+      '<li data-stage="source"><span>SOURCE</span><strong>'
+        + safe(presentation.sourceText) + '</strong></li>',
+      '<li data-stage="gap"><span>GAP</span><strong>'
+        + safe(presentation.gapText) + '</strong></li>',
+      '<li data-stage="maturity"><span>MATURITY</span><strong>'
+        + safe(presentation.maturityText) + '</strong></li>',
+      '<li data-stage="permission"><span>PERMISSION</span><strong>'
+        + safe(presentation.permissionText) + '</strong></li>',
+      '</ol>',
+      '<small>' + safe(presentation.detailText) + '</small>',
+      '</section>',
+    ].join("");
+  }
+
+  renderStrategyLabEvidence = function renderStrategyLabEvidenceWithUncertainty(
+    data = {}
+  ) {
+    const result = originalRenderStrategyLabEvidence.call(this, data);
+    const host = document.getElementById("strategyLabEvidence");
+    if (!host) return result;
+    const previous = host.querySelector(
+      '[data-evidence-role="correlation-uncertainty"]'
+    );
+    if (previous && typeof previous.remove === "function") previous.remove();
+    const presentation = uncertaintyPresentation(
+      data?.correlation_uncertainty_summary
+    );
+    const html = uncertaintyLedgerHtml(presentation);
+    const clusterLedger = host.querySelector(
+      '[data-evidence-role="correlation-cluster"]'
+    );
+    if (clusterLedger && typeof clusterLedger.insertAdjacentHTML === "function") {
+      clusterLedger.insertAdjacentHTML("afterend", html);
+      return result;
+    }
+    const robustnessBand = host.querySelector(".strategy-evidence-band.robustness");
+    if (robustnessBand && typeof robustnessBand.insertAdjacentHTML === "function") {
+      robustnessBand.insertAdjacentHTML("beforeend", html);
+    }
+    return result;
+  };
+})(typeof window !== "undefined" ? window : globalThis);
+
+
+;(function attachStrategyCorrelationMultiplicityLedger(root) {
+  "use strict";
+
+  const originalRenderStrategyLabEvidence = renderStrategyLabEvidence;
+
+  function multiplicityPresentation(value) {
+    const shared = root.HakimiEvidencePresentation;
+    if (
+      shared
+      && typeof shared.strategyCorrelationMultiplicitySummaryPresentation
+        === "function"
+    ) {
+      return shared.strategyCorrelationMultiplicitySummaryPresentation(value);
+    }
+    return {
+      valid: false,
+      rawStatus: "UNKNOWN",
+      rawGapCategory: "SOURCE_INVALID",
+      statusText: "未核验",
+      sourceText: "Schema16 family evidence：未核验",
+      gapText: "事前 family size、Bonferroni 调整与来源重放尚未闭合",
+      maturityText: "跨簇 family：-- / -- · 单 pair α：--",
+      permissionText: "仅研究描述 · 不选参 · 模拟未授权 · 实盘永久硬锁",
+      detailText: "只公开 family 聚合",
+    };
+  }
+
+  function multiplicityLedgerHtml(presentation) {
+    const safe = (value) => escapeHtml(String(value || "未核验"));
+    return [
+      '<section class="strategy-correlation-ledger strategy-multiplicity-ledger"',
+      ' data-evidence-role="correlation-multiplicity"',
+      ' data-raw-status="' + safe(presentation.rawStatus) + '"',
+      ' data-gap-category="' + safe(presentation.rawGapCategory) + '"',
+      ' data-contract-valid="' + (presentation.valid ? "true" : "false") + '"',
+      ' aria-labelledby="strategyMultiplicityLedgerHeading" aria-live="polite">',
+      '<header><span id="strategyMultiplicityLedgerHeading">相关簇 Family 预算</span>',
+      '<strong>' + safe(presentation.statusText) + '</strong></header>',
+      '<ol class="strategy-correlation-flow">',
+      '<li data-stage="source"><span>SOURCE</span><strong>'
+        + safe(presentation.sourceText) + '</strong></li>',
+      '<li data-stage="gap"><span>GAP</span><strong>'
+        + safe(presentation.gapText) + '</strong></li>',
+      '<li data-stage="maturity"><span>MATURITY</span><strong>'
+        + safe(presentation.maturityText) + '</strong></li>',
+      '<li data-stage="permission"><span>PERMISSION</span><strong>'
+        + safe(presentation.permissionText) + '</strong></li>',
+      '</ol>',
+      '<small>' + safe(presentation.detailText) + '</small>',
+      '</section>',
+    ].join("");
+  }
+
+  renderStrategyLabEvidence = function renderStrategyLabEvidenceWithMultiplicity(
+    data = {}
+  ) {
+    const result = originalRenderStrategyLabEvidence.call(this, data);
+    const host = document.getElementById("strategyLabEvidence");
+    if (!host) return result;
+    const previous = host.querySelector(
+      '[data-evidence-role="correlation-multiplicity"]'
+    );
+    if (previous && typeof previous.remove === "function") previous.remove();
+    const presentation = multiplicityPresentation(
+      data?.correlation_multiplicity_summary
+    );
+    const html = multiplicityLedgerHtml(presentation);
+    const uncertaintyLedger = host.querySelector(
+      '[data-evidence-role="correlation-uncertainty"]'
+    );
+    if (
+      uncertaintyLedger
+      && typeof uncertaintyLedger.insertAdjacentHTML === "function"
+    ) {
+      uncertaintyLedger.insertAdjacentHTML("afterend", html);
+      return result;
+    }
+    const clusterLedger = host.querySelector(
+      '[data-evidence-role="correlation-cluster"]'
+    );
+    if (clusterLedger && typeof clusterLedger.insertAdjacentHTML === "function") {
+      clusterLedger.insertAdjacentHTML("afterend", html);
+    }
+    return result;
+  };
+})(typeof window !== "undefined" ? window : globalThis);

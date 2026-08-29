@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from .canonical_json_hash import canonical_hash
+
 from contextlib import contextmanager
+from copy import deepcopy
 import base64
 import hashlib
 import json
@@ -48,6 +51,7 @@ from .strategy_research_search_lineage import (
     STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION,
     build_strategy_research_registry_anchor,
     build_strategy_research_search_lineage,
+    build_strategy_research_search_lineage_v2,
     normalize_search_family_id,
     verify_strategy_research_registry_anchor,
     verify_strategy_research_search_lineage,
@@ -58,6 +62,50 @@ from .trusted_clock import verify_trusted_clock_attestation
 STRATEGY_MATRIX_PROTOCOL_LEGACY_VERSION = "strategy-matrix-protocol-v1"
 STRATEGY_MATRIX_PROTOCOL_VERSION = "strategy-matrix-protocol-v2"
 STRATEGY_MATRIX_PROTOCOL_ARTIFACT_VERSION = "strategy-matrix-protocol-v3"
+STRATEGY_MATRIX_PROTOCOL_CORRELATION_VERSION = "strategy-matrix-protocol-v4"
+STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION = "strategy-matrix-protocol-v5"
+STRATEGY_CORRELATION_CLUSTER_REPORT_SCHEMA_VERSION = 15
+STRATEGY_CORRELATION_MULTIPLICITY_REPORT_SCHEMA_VERSION = 16
+_STRATEGY_CORRELATION_PROTOCOL_V4_FIELDS = frozenset({
+    "correlation_cluster_protocol_registration",
+    "correlation_cluster_protocol_registration_hash",
+})
+_STRATEGY_MATRIX_PROTOCOL_V4_FIELDS = frozenset({
+    "schema_version",
+    "registration_id",
+    "research_generation",
+    "registry_path",
+    "selection_test_policy",
+    "single_use",
+    "registered_at_ms",
+    "expires_at_ms",
+    "registration_clock_attestation",
+    "batch_spec",
+    "batch_spec_hash",
+    "implementation_manifest",
+    "implementation_fingerprint",
+    "implementation_source_snapshot",
+    "holdout_exposure_audit",
+    "research_only",
+    "paper_authorized",
+    "live_order_allowed",
+    "protocol_artifact",
+    "correlation_cluster_protocol_registration",
+    "correlation_cluster_protocol_registration_hash",
+    "protocol_hash",
+})
+_STRATEGY_CORRELATION_MULTIPLICITY_PROTOCOL_V5_FIELDS = frozenset({
+    "correlation_multiplicity_protocol_registration",
+    "correlation_multiplicity_protocol_registration_hash",
+})
+_STRATEGY_MATRIX_PROTOCOL_V5_FIELDS = frozenset(
+    (_STRATEGY_MATRIX_PROTOCOL_V4_FIELDS - _STRATEGY_CORRELATION_PROTOCOL_V4_FIELDS)
+    | _STRATEGY_CORRELATION_MULTIPLICITY_PROTOCOL_V5_FIELDS
+)
+_STRATEGY_CORRELATION_ALL_PROTOCOL_FIELDS = frozenset(
+    _STRATEGY_CORRELATION_PROTOCOL_V4_FIELDS
+    | _STRATEGY_CORRELATION_MULTIPLICITY_PROTOCOL_V5_FIELDS
+)
 STRATEGY_MATRIX_EXPOSURE_VERSION = "strategy-matrix-exposure-audit-v1"
 STRATEGY_MATRIX_REGISTRY_VERSION = "strategy-matrix-registry-v1"
 STRATEGY_MATRIX_CLAIM_VERSION = "strategy-matrix-single-use-claim-v1"
@@ -77,6 +125,8 @@ _NESTED_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS = frozenset({
     PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION,
+    STRATEGY_CORRELATION_CLUSTER_REPORT_SCHEMA_VERSION,
+    STRATEGY_CORRELATION_MULTIPLICITY_REPORT_SCHEMA_VERSION,
 })
 _HYPOTHESIS_BOUND_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS = frozenset({
     STRATEGY_HYPOTHESIS_PREREGISTRATION_REPORT_SCHEMA_VERSION,
@@ -87,12 +137,14 @@ _HYPOTHESIS_BOUND_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS = frozenset({
     PREREGISTERED_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     MECHANISM_FAILURE_ADMISSION_REPORT_SCHEMA_VERSION,
     STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION,
+    STRATEGY_CORRELATION_CLUSTER_REPORT_SCHEMA_VERSION,
+    STRATEGY_CORRELATION_MULTIPLICITY_REPORT_SCHEMA_VERSION,
 })
-
-
-def canonical_hash(payload: Any) -> str:
-    raw = json.dumps(payload, ensure_ascii=True, sort_keys=True, separators=(",", ":"), default=str)
-    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+_SEARCH_LINEAGE_BOUND_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS = frozenset({
+    STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION,
+    STRATEGY_CORRELATION_CLUSTER_REPORT_SCHEMA_VERSION,
+    STRATEGY_CORRELATION_MULTIPLICITY_REPORT_SCHEMA_VERSION,
+})
 
 
 def _now_ms() -> int:
@@ -615,14 +667,75 @@ def build_strategy_matrix_protocol(
     expires_at_ms: int,
     registry_path: Path | str,
     protocol_artifact: dict[str, Any] | None = None,
+    correlation_cluster_protocol_registration: dict[str, Any] | None = None,
+    correlation_multiplicity_protocol_registration: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    if (
+        correlation_cluster_protocol_registration is not None
+        and correlation_multiplicity_protocol_registration is not None
+    ):
+        raise ValueError("strategy matrix protocol cannot bind v2 and v3 correlation registrations together")
+    if correlation_multiplicity_protocol_registration is not None:
+        from .strategy_correlation_multiplicity_protocol import (
+            STRATEGY_CORRELATION_MULTIPLICITY_PROTOCOL_REGISTRATION_SCHEMA_VERSION,
+            TARGET_REPORT_SCHEMA_VERSION,
+            verify_strategy_correlation_multiplicity_protocol_registration,
+        )
+
+        registration_verification = (
+            verify_strategy_correlation_multiplicity_protocol_registration(
+                correlation_multiplicity_protocol_registration
+            )
+        )
+        if (
+            registration_verification.get("status") != "PASS"
+            or registration_verification.get("registration_status")
+            != "PREREGISTERED"
+        ):
+            raise ValueError("invalid strategy-correlation multiplicity protocol registration")
+        if correlation_multiplicity_protocol_registration.get("schema_version") != (
+            STRATEGY_CORRELATION_MULTIPLICITY_PROTOCOL_REGISTRATION_SCHEMA_VERSION
+        ):
+            raise ValueError("strategy-matrix-protocol-v5 requires correlation registration v3")
+        if protocol_artifact is None:
+            raise ValueError("strategy-matrix-protocol-v5 requires protocol artifact")
+        if batch_spec.get("report_schema_version") != TARGET_REPORT_SCHEMA_VERSION:
+            raise ValueError("strategy-matrix-protocol-v5 requires report schema 16")
+    if correlation_cluster_protocol_registration is not None:
+        from .strategy_correlation_protocol_binding import (
+            STRATEGY_CORRELATION_PROTOCOL_REGISTRATION_SCHEMA_VERSION_V2,
+            verify_strategy_correlation_protocol_registration,
+        )
+
+        registration_verification = verify_strategy_correlation_protocol_registration(
+            correlation_cluster_protocol_registration
+        )
+        if registration_verification.get("status") != "PASS":
+            raise ValueError("invalid strategy-correlation protocol registration")
+        if (
+            correlation_cluster_protocol_registration.get("schema_version")
+            != STRATEGY_CORRELATION_PROTOCOL_REGISTRATION_SCHEMA_VERSION_V2
+        ):
+            raise ValueError("strategy-matrix-protocol-v4 requires correlation registration v2")
+        if protocol_artifact is None:
+            raise ValueError("strategy-matrix-protocol-v4 requires protocol artifact")
+        if batch_spec.get("report_schema_version") != STRATEGY_CORRELATION_CLUSTER_REPORT_SCHEMA_VERSION:
+            raise ValueError("strategy-matrix-protocol-v4 requires report schema 15")
     registered_at_ms = int(registration_clock_attestation.get("attested_now_ms") or 0)
     source_snapshot = build_implementation_source_snapshot(implementation_manifest)
     payload = {
         "schema_version": (
-            STRATEGY_MATRIX_PROTOCOL_ARTIFACT_VERSION
-            if protocol_artifact is not None
-            else STRATEGY_MATRIX_PROTOCOL_VERSION
+            STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION
+            if correlation_multiplicity_protocol_registration is not None
+            else (
+                STRATEGY_MATRIX_PROTOCOL_CORRELATION_VERSION
+                if correlation_cluster_protocol_registration is not None
+                else (
+                    STRATEGY_MATRIX_PROTOCOL_ARTIFACT_VERSION
+                    if protocol_artifact is not None
+                    else STRATEGY_MATRIX_PROTOCOL_VERSION
+                )
+            )
         ),
         "registration_id": str(registration_id or "").strip(),
         "research_generation": str(research_generation or "").strip(),
@@ -644,6 +757,21 @@ def build_strategy_matrix_protocol(
     }
     if protocol_artifact is not None:
         payload["protocol_artifact"] = dict(protocol_artifact)
+    if correlation_cluster_protocol_registration is not None:
+        payload["correlation_cluster_protocol_registration"] = deepcopy(
+            correlation_cluster_protocol_registration
+        )
+        payload["correlation_cluster_protocol_registration_hash"] = str(
+            correlation_cluster_protocol_registration.get("registration_hash") or ""
+        )
+    if correlation_multiplicity_protocol_registration is not None:
+        payload["correlation_multiplicity_protocol_registration"] = deepcopy(
+            correlation_multiplicity_protocol_registration
+        )
+        payload["correlation_multiplicity_protocol_registration_hash"] = str(
+            correlation_multiplicity_protocol_registration.get("registration_hash")
+            or ""
+        )
     payload["protocol_hash"] = canonical_hash(payload)
     return payload
 
@@ -665,9 +793,37 @@ def verify_strategy_matrix_protocol(
     if protocol_schema not in {
         STRATEGY_MATRIX_PROTOCOL_LEGACY_VERSION,
         STRATEGY_MATRIX_PROTOCOL_VERSION,
-    STRATEGY_MATRIX_PROTOCOL_ARTIFACT_VERSION,
+        STRATEGY_MATRIX_PROTOCOL_ARTIFACT_VERSION,
+        STRATEGY_MATRIX_PROTOCOL_CORRELATION_VERSION,
+        STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION,
     }:
         blockers.append("matrix_protocol_schema_invalid")
+    if (
+        protocol_schema not in {
+            STRATEGY_MATRIX_PROTOCOL_CORRELATION_VERSION,
+            STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION,
+        }
+        and any(field in protocol for field in _STRATEGY_CORRELATION_ALL_PROTOCOL_FIELDS)
+    ):
+        blockers.append("matrix_protocol_pre_v4_has_correlation_registration")
+    if (
+        protocol_schema != STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION
+        and any(
+            field in protocol
+            for field in _STRATEGY_CORRELATION_MULTIPLICITY_PROTOCOL_V5_FIELDS
+        )
+    ):
+        blockers.append("matrix_protocol_pre_v5_has_multiplicity_registration")
+    if (
+        protocol_schema == STRATEGY_MATRIX_PROTOCOL_CORRELATION_VERSION
+        and set(protocol) != _STRATEGY_MATRIX_PROTOCOL_V4_FIELDS
+    ):
+        blockers.append("matrix_protocol_v4_fields_invalid")
+    if (
+        protocol_schema == STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION
+        and set(protocol) != _STRATEGY_MATRIX_PROTOCOL_V5_FIELDS
+    ):
+        blockers.append("matrix_protocol_v5_fields_invalid")
     if not str(protocol.get("registration_id") or ""):
         blockers.append("matrix_protocol_registration_id_missing")
     if not str(protocol.get("research_generation") or ""):
@@ -679,7 +835,11 @@ def verify_strategy_matrix_protocol(
         blockers.append("matrix_protocol_single_use_policy_invalid")
     if not expected_hash or canonical_hash(clean) != expected_hash:
         blockers.append("matrix_protocol_hash_invalid")
-    if protocol_schema == STRATEGY_MATRIX_PROTOCOL_ARTIFACT_VERSION:
+    if protocol_schema in {
+        STRATEGY_MATRIX_PROTOCOL_ARTIFACT_VERSION,
+        STRATEGY_MATRIX_PROTOCOL_CORRELATION_VERSION,
+        STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION,
+    }:
         artifact_binding_verification = verify_strategy_research_protocol_artifact_binding(
             protocol.get("protocol_artifact")
         )
@@ -724,11 +884,126 @@ def verify_strategy_matrix_protocol(
         blockers.append("matrix_protocol_clock_timestamp_mismatch")
 
     batch_spec = _mapping(protocol.get("batch_spec"))
+    if any(field in batch_spec for field in _STRATEGY_CORRELATION_ALL_PROTOCOL_FIELDS):
+        blockers.append("matrix_protocol_pre_v4_batch_has_correlation_registration")
     if str(batch_spec.get("schema_version") or "") != "strategy-benchmark-v7":
         blockers.append("matrix_protocol_batch_schema_invalid")
     if str(protocol.get("batch_spec_hash") or "") != canonical_hash(batch_spec):
         blockers.append("matrix_protocol_batch_hash_invalid")
     report_schema_version = batch_spec.get("report_schema_version")
+    if protocol_schema in {
+        STRATEGY_MATRIX_PROTOCOL_CORRELATION_VERSION,
+        STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION,
+    }:
+        from .strategy_correlation_protocol_binding import (
+            STRATEGY_CORRELATION_PROTOCOL_REGISTRATION_SCHEMA_VERSION_V2,
+            verify_strategy_correlation_protocol_registration,
+        )
+
+        if protocol_schema == STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION:
+            from .strategy_correlation_multiplicity_protocol import (
+                STRATEGY_CORRELATION_MULTIPLICITY_PROTOCOL_REGISTRATION_SCHEMA_VERSION,
+                TARGET_MATRIX_REPORT_SCHEMA_VERSION,
+                TARGET_PROTOCOL_SCHEMA_VERSION,
+                TARGET_REPORT_SCHEMA_VERSION,
+                verify_strategy_correlation_multiplicity_protocol_registration,
+            )
+
+            multiplicity_registration = protocol.get(
+                "correlation_multiplicity_protocol_registration"
+            )
+            multiplicity_registration_verification = (
+                verify_strategy_correlation_multiplicity_protocol_registration(
+                    multiplicity_registration
+                )
+            )
+            blockers.extend(
+                f"matrix_protocol_multiplicity_registration:{item}"
+                for item in multiplicity_registration_verification.get("blockers") or []
+            )
+            multiplicity_registration_map = _mapping(multiplicity_registration)
+            if multiplicity_registration_map.get("schema_version") != (
+                STRATEGY_CORRELATION_MULTIPLICITY_PROTOCOL_REGISTRATION_SCHEMA_VERSION
+            ):
+                blockers.append("matrix_protocol_multiplicity_registration_v3_required")
+            if multiplicity_registration_map.get("status") != "PREREGISTERED":
+                blockers.append("matrix_protocol_multiplicity_registration_not_preregistered")
+            if str(protocol.get("correlation_multiplicity_protocol_registration_hash") or "") != str(
+                multiplicity_registration_map.get("registration_hash") or ""
+            ):
+                blockers.append("matrix_protocol_multiplicity_registration_hash_mismatch")
+            if (
+                multiplicity_registration_map.get("target_protocol_schema_version")
+                != TARGET_PROTOCOL_SCHEMA_VERSION
+                or multiplicity_registration_map.get("target_report_schema_version")
+                != TARGET_REPORT_SCHEMA_VERSION
+                or multiplicity_registration_map.get("target_matrix_report_schema_version")
+                != TARGET_MATRIX_REPORT_SCHEMA_VERSION
+            ):
+                blockers.append("matrix_protocol_multiplicity_registration_target_mismatch")
+            correlation_registration = multiplicity_registration_map.get(
+                "source_protocol_registration"
+            )
+            expected_report_schema_version = TARGET_REPORT_SCHEMA_VERSION
+        else:
+            correlation_registration = protocol.get(
+                "correlation_cluster_protocol_registration"
+            )
+            expected_report_schema_version = (
+                STRATEGY_CORRELATION_CLUSTER_REPORT_SCHEMA_VERSION
+            )
+        correlation_registration_verification = (
+            verify_strategy_correlation_protocol_registration(correlation_registration)
+        )
+        blockers.extend(
+            f"matrix_protocol_correlation_registration:{item}"
+            for item in correlation_registration_verification.get("blockers") or []
+        )
+        if _mapping(correlation_registration).get("schema_version") != (
+            STRATEGY_CORRELATION_PROTOCOL_REGISTRATION_SCHEMA_VERSION_V2
+        ):
+            blockers.append("matrix_protocol_correlation_registration_v2_required")
+        correlation_registration_map = _mapping(correlation_registration)
+        observed_correlation_registration_hash = (
+            str(multiplicity_registration_map.get("source_registration_hash") or "")
+            if protocol_schema == STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION
+            else str(
+                protocol.get("correlation_cluster_protocol_registration_hash") or ""
+            )
+        )
+        if observed_correlation_registration_hash != str(
+            correlation_registration_map.get("registration_hash") or ""
+        ):
+            blockers.append("matrix_protocol_correlation_registration_hash_mismatch")
+        if report_schema_version != expected_report_schema_version:
+            blockers.append("matrix_protocol_correlation_report_schema_invalid")
+        preregistration = _mapping(correlation_registration_map.get("preregistration"))
+        registered_symbols = sorted(
+            str(item or "") for item in _sequence(preregistration.get("symbols"))
+        )
+        batch_symbols = sorted(
+            str(item or "") for item in _sequence(batch_spec.get("selection_symbols"))
+        )
+        if registered_symbols != batch_symbols:
+            blockers.append("matrix_protocol_correlation_symbols_mismatch")
+        batch_strategies = {
+            str(item or "") for item in _sequence(batch_spec.get("strategies"))
+        }
+        batch_variant_pairs = {
+            (
+                str(_mapping(item).get("strategy_id") or ""),
+                str(_mapping(item).get("variant_id") or ""),
+            )
+            for item in _sequence(batch_spec.get("variants"))
+        }
+        for evaluation in _sequence(correlation_registration_map.get("evaluations")):
+            evaluation_map = _mapping(evaluation)
+            strategy_id = str(evaluation_map.get("strategy_id") or "")
+            variant_id = str(evaluation_map.get("variant_id") or "")
+            if strategy_id not in batch_strategies:
+                blockers.append("matrix_protocol_correlation_strategy_mismatch")
+            if (strategy_id, variant_id) not in batch_variant_pairs:
+                blockers.append("matrix_protocol_correlation_variant_mismatch")
     variants_value = batch_spec.get("variants")
     variant_count = len(variants_value) if isinstance(variants_value, list) else 0
     search_lineage_present = "search_lineage" in batch_spec
@@ -751,12 +1026,12 @@ def verify_strategy_matrix_protocol(
             for item in search_lineage_verification.get("blockers") or []
         )
     if (
-        report_schema_version == STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+        report_schema_version in _SEARCH_LINEAGE_BOUND_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS
         and not search_lineage_present
     ):
         blockers.append("matrix_protocol_search_lineage_required")
     if (
-        report_schema_version == STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+        report_schema_version in _SEARCH_LINEAGE_BOUND_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS
         and batch_spec.get("workflow") != "NESTED_VARIANT_RESEARCH"
     ):
         blockers.append("matrix_protocol_search_lineage_workflow_invalid")
@@ -766,14 +1041,14 @@ def verify_strategy_matrix_protocol(
             blockers.append("matrix_protocol_research_report_schema_invalid")
         if (
             report_schema_version
-            == STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+            in _SEARCH_LINEAGE_BOUND_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS
             and Path(registry_path).name
             != STRATEGY_RESEARCH_CANONICAL_REGISTRY_BASENAME
         ):
             blockers.append("matrix_protocol_search_lineage_registry_noncanonical")
         if (
             report_schema_version
-            != STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+            not in _SEARCH_LINEAGE_BOUND_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS
             and search_lineage_present
         ):
             blockers.append("matrix_protocol_legacy_report_has_search_lineage")
@@ -790,7 +1065,7 @@ def verify_strategy_matrix_protocol(
                 expected_schema_version=(
                     STRATEGY_HYPOTHESIS_PREREGISTRATION_SCHEMA_VERSION_V3
                     if report_schema_version
-                    == STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+                    in _SEARCH_LINEAGE_BOUND_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS
                     else (
                         STRATEGY_HYPOTHESIS_PREREGISTRATION_SCHEMA_VERSION_V2
                         if report_schema_version
@@ -809,7 +1084,7 @@ def verify_strategy_matrix_protocol(
                 blockers.append("matrix_protocol_hypothesis_hash_binding_mismatch")
             if (
                 report_schema_version
-                == STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+                in _SEARCH_LINEAGE_BOUND_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS
             ):
                 search_lineage_verification = (
                     verify_strategy_research_search_lineage(
@@ -983,7 +1258,10 @@ def _verify_required_strategy_research_protocol_artifact(
             "paper_authorized": False,
             "live_order_allowed": False,
         }
-    if protocol.get("schema_version") != STRATEGY_MATRIX_PROTOCOL_ARTIFACT_VERSION:
+    if protocol.get("schema_version") not in {
+        STRATEGY_MATRIX_PROTOCOL_ARTIFACT_VERSION,
+        STRATEGY_MATRIX_PROTOCOL_MULTIPLICITY_VERSION,
+    }:
         return {
             "status": "BLOCK",
             "blockers": ["matrix_protocol_artifact_binding_required"],
@@ -998,7 +1276,7 @@ def _strategy_research_lineage_claim_required(protocol: dict[str, Any]) -> bool:
     return (
         batch_spec.get("workflow") == "NESTED_VARIANT_RESEARCH"
         and batch_spec.get("report_schema_version")
-        == STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+        in _SEARCH_LINEAGE_BOUND_STRATEGY_RESEARCH_REPORT_SCHEMA_VERSIONS
     )
 
 
@@ -1593,7 +1871,7 @@ class StrategyMatrixRegistrationStore:
                 isinstance(prior_report_schema_version, bool)
                 or not isinstance(prior_report_schema_version, int)
                 or not 3 <= prior_report_schema_version
-                <= STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+                <= STRATEGY_CORRELATION_MULTIPLICITY_REPORT_SCHEMA_VERSION
             ):
                 blockers.append(
                     f"strategy_search_prior_report_schema_invalid:{registration_id}"
@@ -1651,7 +1929,16 @@ class StrategyMatrixRegistrationStore:
                 "live_order_allowed": False,
             }
         try:
-            lineage = build_strategy_research_search_lineage(
+            lineage_builder = (
+                build_strategy_research_search_lineage_v2
+                if any(
+                    int(item.get("report_schema_version") or 0)
+                    > STRATEGY_RESEARCH_SEARCH_LINEAGE_REPORT_SCHEMA_VERSION
+                    for item in prior
+                )
+                else build_strategy_research_search_lineage
+            )
+            lineage = lineage_builder(
                 search_family_id=family_id,
                 prior_registrations=prior,
                 current_trial_count=current_trial_count,
