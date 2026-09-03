@@ -50,6 +50,9 @@ examples/**/*.lock text eol=lf
 examples/**/*.md text eol=lf
 src/hakimi_research/**/*.py text eol=lf
 
+# Frozen manifests bind this source's exact mixed-EOL bytes; keep text diff/merge only.
+src/hakimi_research/risk.py -text diff merge -whitespace
+
 # Immutable historical/reference snapshots preserve identity-bound whitespace.
 archive/historical_research/adr0529_execution.py -whitespace
 examples/deterministic_frozen_benchmark_v1/expected_report.md -whitespace
