@@ -1,0 +1,51 @@
+{
+  "authority": {
+    "blind_test_complete": false,
+    "formal_inference_authorized": false,
+    "live_authorized": false,
+    "order_entry_authorized": false,
+    "paper_authorized": false,
+    "profitability_proven": false,
+    "ranking_authorized": false
+  },
+  "benchmark_control_bundle_sha256": "89ce8c8589ae5e59010f92f6e33f3a8270867162e51d8eb6ab18cca43fc8f1ec",
+  "benchmark_control_projection_sha256": "9edb76ad020537d32977e692ce693b63db6c652d5b825870348d6261eef4411b",
+  "benchmark_control_to_recorded_v14_identity_alignment_proven": false,
+  "candidate_only": true,
+  "contract_version": "deterministic-strategy-research-dossier-manifest-v2",
+  "control_rebuild_required_for_semantic_revalidation": true,
+  "current_activation": false,
+  "dependency_lock": {
+    "fully_pinned": true,
+    "name": "requirements.research.lock",
+    "sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320"
+  },
+  "evidence_gap_reconciliation_sha256": "ddeb4b2431b6975ad087e1a757aacb2b4bb4185f57dcc31382c7f225d7ee0cf4",
+  "expected_receipt_file_sha256": "c9a86529eb161f760b296074040207cdf22731ddb0edf2aeb4c3840099a48f3a",
+  "expected_report_file_sha256": "5a3423d648b5f349ef063046d7059bfad49c334c27ba56cc27722aa538c58c5d",
+  "frozen_cost_stress_projection_sha256": "ec80c64450dcfdeabe2f13d3fe9de92911264510d831f4d99717e2f9f396cfc9",
+  "frozen_distribution_metric_projection_sha256": "a96c85ce0d2c823d59433f95e8fb580f97486800708ea4da8eec6215c91c750e",
+  "frozen_experiment_provenance_projection_sha256": "d623f75a959b14263a46ffbc18f9d4108d1550003b517336e53eafb75e7c02dc",
+  "manifest_sha256": "4b551ca2f091a2fcd075c0493c7c0b937910d556a7578d448dd8d3de56fdfaa2",
+  "maturity": "SYNTHETIC_NON_CURRENT_BENCHMARK_CONTROL_PROJECTION_ONLY",
+  "receipt_schema_version": "deterministic-strategy-research-dossier-receipt-v2",
+  "receipt_sha256": "2338900fa843238a333f7acaf26c00fe55a23bc689ee1f40cc3e3bcc8614b486",
+  "runtime_mutations": false,
+  "source_dossier_v1_receipt_sha256": "be3cefa29335da248d1b5ae70422bde344e3fb8f4f307e903f19ee1cd4d5b270",
+  "source_dossier_v1_reference_file_count": 3,
+  "source_dossier_v1_reference_files": {
+    "expected_receipt.json": "cf343fd7d5b66641bd7e7567280ec67043c2ee6efa9db656febce6c14d63af24",
+    "expected_report.md": "07f0b8f345aa35a76bfd5682aa3f3c0e62e81341d93b5e8da10a0c3ce1ec5f2a",
+    "fixture_manifest.json": "ed89c15e7459b8d824721113f3269fd7db1e9961fade829a3bc67d12c93b8f87"
+  },
+  "source_file_count": 6,
+  "source_files": {
+    "outputs/python_quant_bot/examples/build_deterministic_strategy_research_dossier_v2.py": "ff97648fe8e7d1de90208bea3309285b95131ad1db1b00a203f79d596aae715b",
+    "outputs/python_quant_bot/exchange_terminal/application/deterministic_strategy_research_dossier_v2.py": "335099a65f390b3546163b08fe7c5d38777a0fd91555bee00f197e6f4f4c05b3",
+    "outputs/python_quant_bot/exchange_terminal/application/synthetic_strategy_benchmark_controls_v1.py": "a6720e4deaaecf4122dddf7fc7a6728e681bb1e203d962b36389f23c05f5f274",
+    "outputs/python_quant_bot/exchange_terminal/application/synthetic_strategy_report_bundle_v1.py": "d4b4985306433f98b3a7b6925bc1e1125461e02d5e7de45c69ab459249f6663a",
+    "src/hakimi_research/deterministic_strategy_research_dossier_v1.py": "febe49bc11d1fd23504f74f993153d3eb10ed5a7e0c7f420a82d9164eee2f281",
+    "src/hakimi_research/synthetic_benchmark_controls.py": "df6a8fc7885b2d081ed8a5b390d80a5659e3a84ed087fc35e0798ce63aba48db"
+  },
+  "status": "BLOCK"
+}

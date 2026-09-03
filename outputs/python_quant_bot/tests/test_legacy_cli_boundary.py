@@ -93,6 +93,7 @@ class LegacyCliBoundaryTests(unittest.TestCase):
                 self.assertEqual(payload["schema_version"], "product-capability-catalog-v1")
                 self.assertEqual(payload["cli_commands"]["paper"], "Archived")
                 self.assertEqual(payload["cli_commands"]["optimize"], "Archived")
+                self.assertEqual(payload["cli_commands"]["frozen-benchmark"], "Supported")
                 self.assertFalse((Path(temp_dir) / "runtime").exists())
             finally:
                 os.chdir(previous)

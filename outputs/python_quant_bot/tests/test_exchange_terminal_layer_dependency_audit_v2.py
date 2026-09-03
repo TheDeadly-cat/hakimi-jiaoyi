@@ -70,7 +70,7 @@ class ExchangeTerminalLayerDependencyAuditV2Tests(unittest.TestCase):
         self.assertTrue(self.audit["role_observation"]["interfaces_contains_outward_delivery_adapters"])
 
     def test_current_tree_full_recursive_cross_layer_edges_are_exact(self)->None:
-        self.assertEqual(self.audit["cross_layer_edge_counts"],{"application->domain":2,"interfaces->application":23})
+        self.assertEqual(self.audit["cross_layer_edge_counts"],{"application->domain":1,"interfaces->application":23})
 
     def test_current_tree_has_no_module_cycle_and_clean_domain_infrastructure_direction(self) -> None:
         self.assertEqual(self.audit["module_cycles"], [])
@@ -85,7 +85,7 @@ class ExchangeTerminalLayerDependencyAuditV2Tests(unittest.TestCase):
             self.audit["module_counts"],
             {
                 "domain": 2,
-                "application": 113,
+                "application": 131,
                 "infrastructure": 1,
                 "interfaces": 33,
             },

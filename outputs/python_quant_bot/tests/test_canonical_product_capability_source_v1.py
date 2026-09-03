@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import ast
 import inspect
+import json
 from pathlib import Path
+import subprocess
 import unittest
 
 from _canonical_source import SOURCE_LAYOUT_SCHEMA_VERSION, activate_canonical_source
@@ -12,6 +14,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CANONICAL_MODULE_PATH = REPO_ROOT / "src" / "hakimi_research" / "product_capabilities.py"
 LEGACY_MODULE_PATH = PROJECT_ROOT / "exchange_terminal" / "domain" / "contracts.py"
+NODE_CONTRACT_PATH = REPO_ROOT / "outputs" / "hakimi_trade_electron" / "backend-runtime-contract.js"
 
 activate_canonical_source()
 
@@ -77,6 +80,25 @@ class CanonicalProductCapabilitySourceV1Tests(unittest.TestCase):
             if isinstance(node, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef))
         }
         self.assertTrue(set(MIGRATED_SYMBOLS).issubset(canonical_definitions))
+
+    def test_electron_exact_catalog_matches_canonical_product_truth(self) -> None:
+        script = (
+            "const c=require(process.argv[1]);"
+            "process.stdout.write(JSON.stringify({"
+            "capabilities:c.EXPECTED_PRODUCT_CAPABILITIES,"
+            "cli_commands:c.EXPECTED_CLI_COMMANDS}));"
+        )
+        result = subprocess.run(
+            ["node", "-e", script, str(NODE_CONTRACT_PATH)],
+            check=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+        projection = json.loads(result.stdout)
+        catalog = canonical.build_product_capability_catalog().to_dict()
+        self.assertEqual(projection["capabilities"], catalog["capabilities"])
+        self.assertEqual(projection["cli_commands"], catalog["cli_commands"])
 
 
 if __name__ == "__main__":

@@ -14,8 +14,8 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from quant_bot.backtest import BacktestEngine
-from quant_bot.config import BotConfig
-from quant_bot.execution import PaperBroker, build_broker
+from hakimi_research.config import BotConfig
+from quant_bot.execution import ResearchExecutionSimulator
 from quant_bot.models import Action, Order, Portfolio, Signal
 from quant_bot.risk import RiskManager
 from quant_bot.strategies.base import StrategyBase
@@ -76,7 +76,7 @@ class QuantBotBacktestTests(unittest.TestCase):
         config = self.config()
         report = BacktestEngine(config, OneShotStrategy(), RiskManager(config.risk)).run(frame)
 
-        self.assertEqual(report.execution_model, "signal-close-next-open-ohlc-conservative-v3")
+        self.assertEqual(report.execution_model, "signal-close-next-open-ohlc-volume-cap-v4")
         self.assertEqual(report.fills[0]["signal_time"], str(frame.index[29]))
         self.assertEqual(report.fills[0]["fill_time"], str(frame.index[30]))
         self.assertEqual(report.fills[0]["fill_basis"], "NEXT_BAR_OPEN")
@@ -96,9 +96,9 @@ class QuantBotBacktestTests(unittest.TestCase):
         self.assertEqual(report.ambiguous_intrabar_count, 1)
         self.assertEqual(report.fills[1]["fill_basis"], "INTRABAR_STOP")
 
-    def test_paper_broker_realized_pnl_includes_entry_and_exit_fees(self) -> None:
+    def test_research_execution_simulator_realized_pnl_includes_entry_and_exit_fees(self) -> None:
         portfolio = Portfolio(cash=1_000)
-        broker = PaperBroker(fee_rate=0.01, slippage_pct=0.0)
+        broker = ResearchExecutionSimulator(fee_rate=0.01, slippage_pct=0.0)
         broker.submit_order(Order("AAPL", Action.BUY, 1, 100, "entry"), portfolio)
         fill = broker.submit_order(Order("AAPL", Action.SELL, 1, 100, "exit"), portfolio)
 
@@ -106,9 +106,9 @@ class QuantBotBacktestTests(unittest.TestCase):
         self.assertAlmostEqual(portfolio.realized_pnl, -2.0, places=8)
         self.assertEqual(portfolio.entry_fees, 0.0)
 
-    def test_paper_broker_affordability_includes_the_actual_fee_rate(self) -> None:
+    def test_research_execution_simulator_affordability_includes_the_actual_fee_rate(self) -> None:
         portfolio = Portfolio(cash=1_000)
-        broker = PaperBroker(fee_rate=0.01, slippage_pct=0.0)
+        broker = ResearchExecutionSimulator(fee_rate=0.01, slippage_pct=0.0)
         order = Order("AAPL", Action.BUY, 20, 100, "oversized")
 
         fill = broker.submit_order(order, portfolio)
@@ -118,12 +118,12 @@ class QuantBotBacktestTests(unittest.TestCase):
         self.assertGreaterEqual(portfolio.cash, -1e-9)
         self.assertAlmostEqual(portfolio.cash, 0.0, places=8)
 
-    def test_paper_broker_rejects_unsupported_actions_without_mutating_account(self) -> None:
+    def test_research_execution_simulator_rejects_unsupported_actions_without_mutating_account(self) -> None:
         portfolio = Portfolio(cash=1_000)
         before = Portfolio(**portfolio.__dict__)
 
         with self.assertRaisesRegex(ValueError, "only accepts BUY and SELL"):
-            PaperBroker().submit_order(Order("AAPL", Action.HOLD, 1, 100, "invalid"), portfolio)
+            ResearchExecutionSimulator().submit_order(Order("AAPL", Action.HOLD, 1, 100, "invalid"), portfolio)
 
         self.assertEqual(portfolio, before)
 
@@ -145,7 +145,7 @@ class QuantBotBacktestTests(unittest.TestCase):
         )
 
         self.assertIsNotNone(order)
-        PaperBroker(config.execution.fee_rate, config.execution.slippage_pct).submit_order(order, portfolio)
+        ResearchExecutionSimulator(config.execution.fee_rate, config.execution.slippage_pct).submit_order(order, portfolio)
         self.assertGreaterEqual(portfolio.cash, 500.0 - 1e-8)
 
     def test_halted_risk_still_allows_position_reduction(self) -> None:
@@ -217,27 +217,32 @@ class QuantBotBacktestTests(unittest.TestCase):
         self.assertEqual(len(hashes), 3)
         self.assertTrue(all(report.reproducibility["risk_hash"] for report in reports))
 
-    def test_standalone_live_broker_is_permanently_blocked(self) -> None:
-        config = self.config()
-        config.mode = "live"
-        config.execution.broker = "ccxt"
-        config.execution.live_trading_enabled = True
+    def test_backtest_engine_rejects_non_backtest_execution_authority(self) -> None:
+        cases = (
+            ("paper", "research_simulator", False),
+            ("live", "research_simulator", False),
+            ("backtest", "ccxt", False),
+            ("backtest", "paper", False),
+            ("backtest", "research_simulator", True),
+        )
+        for mode, broker, enabled in cases:
+            with self.subTest(mode=mode, broker=broker, enabled=enabled):
+                config = self.config()
+                config.mode = mode
+                config.execution.broker = broker
+                config.execution.live_trading_enabled = enabled
+                with self.assertRaisesRegex(ValueError, "exact backtest-only"):
+                    BacktestEngine(config, IntrabarConflictStrategy(), RiskManager(config.risk))
 
-        with self.assertRaisesRegex(RuntimeError, "Live trading hard wall"):
-            build_broker(config)
-
-    def test_config_loader_forces_backtest_even_when_file_requests_live(self) -> None:
+    def test_config_loader_rejects_archived_execution_intent(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             path = Path(temp_dir) / "unsafe.json"
             path.write_text(
                 '{"mode":"live","execution":{"broker":"ccxt","live_trading_enabled":true}}',
                 encoding="utf-8",
             )
-            config = BotConfig.from_file(path)
-
-        self.assertEqual(config.mode, "backtest")
-        self.assertEqual(config.execution.broker, "paper")
-        self.assertFalse(config.execution.live_trading_enabled)
+            with self.assertRaisesRegex(ValueError, "Archived execution configuration"):
+                BotConfig.from_file(path)
 
     def test_legacy_dashboard_exposes_research_only_surfaces(self) -> None:
         source = (PROJECT_ROOT / "dashboard_app.py").read_text(encoding="utf-8")

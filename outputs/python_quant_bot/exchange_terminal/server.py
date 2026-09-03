@@ -48,7 +48,7 @@ try:
     from services.event_bus import EventBus
     from services.event_lineage import build_signal_context
     from services.guardian_service import GuardianService
-    from services.http_contract import MUTATION_PATHS, POST_API_PATHS, READABLE_MUTATION_PATHS, allowed_web_origin, payload_to_query, read_only_get_mutation_requested, trusted_refresh_get_allowed
+    from services.http_contract import MUTATION_PATHS, POST_API_PATHS, READABLE_MUTATION_PATHS, allowed_web_origin, archived_execution_route_state, payload_to_query, read_only_get_mutation_requested, trusted_refresh_get_allowed
     from services.instrument_rules import PublicInstrumentRuleService
     from services.forward_artifact_io import (
         MAX_PORTFOLIO_FORWARD_CONTROL_ARTIFACT_BYTES as MAX_PORTFOLIO_FORWARD_RECEIPT_ARTIFACT_BYTES,
@@ -67,11 +67,11 @@ try:
     from services.market_history_store import MarketHistoryStore, build_history_dataset_evidence, fetch_okx_daily_history_pages, normalize_history_candle
     from services.market_regime import classify_market_regime
     from services.mutation_journal import MutationJournal
-    from services.paper_account import PaperAccount, configure_paper_account_runtime
-    from services.paper_executor import ORDER_TYPES, PaperExecutor, simulated_execution_report
-    from services.paper_ledger import PaperLedger
+    from application.archived_paper_runtime import (
+        LEGACY_ORDER_TYPES as ORDER_TYPES,
+        build_archived_paper_runtime,
+    )
     from services.portfolio_experiment import PortfolioExperimentRegistry
-    from services.portfolio_paper_account import PortfolioPaperLedger
     from services.portfolio_forward import load_active_portfolio_candidate
     from services.portfolio_evidence_archive import DEFAULT_BACKUP_STATUS_FILE
     from services.portfolio_forward_projection import build_portfolio_forward_status_projection
@@ -157,7 +157,7 @@ except ModuleNotFoundError:
     from exchange_terminal.services.event_bus import EventBus
     from exchange_terminal.services.event_lineage import build_signal_context
     from exchange_terminal.services.guardian_service import GuardianService
-    from exchange_terminal.services.http_contract import MUTATION_PATHS, POST_API_PATHS, READABLE_MUTATION_PATHS, allowed_web_origin, payload_to_query, read_only_get_mutation_requested, trusted_refresh_get_allowed
+    from exchange_terminal.services.http_contract import MUTATION_PATHS, POST_API_PATHS, READABLE_MUTATION_PATHS, allowed_web_origin, archived_execution_route_state, payload_to_query, read_only_get_mutation_requested, trusted_refresh_get_allowed
     from exchange_terminal.services.instrument_rules import PublicInstrumentRuleService
     from exchange_terminal.services.forward_artifact_io import (
         MAX_PORTFOLIO_FORWARD_CONTROL_ARTIFACT_BYTES as MAX_PORTFOLIO_FORWARD_RECEIPT_ARTIFACT_BYTES,
@@ -176,11 +176,11 @@ except ModuleNotFoundError:
     from exchange_terminal.services.market_history_store import MarketHistoryStore, build_history_dataset_evidence, fetch_okx_daily_history_pages, normalize_history_candle
     from exchange_terminal.services.market_regime import classify_market_regime
     from exchange_terminal.services.mutation_journal import MutationJournal
-    from exchange_terminal.services.paper_account import PaperAccount, configure_paper_account_runtime
-    from exchange_terminal.services.paper_executor import ORDER_TYPES, PaperExecutor, simulated_execution_report
-    from exchange_terminal.services.paper_ledger import PaperLedger
+    from exchange_terminal.application.archived_paper_runtime import (
+        LEGACY_ORDER_TYPES as ORDER_TYPES,
+        build_archived_paper_runtime,
+    )
     from exchange_terminal.services.portfolio_experiment import PortfolioExperimentRegistry
-    from exchange_terminal.services.portfolio_paper_account import PortfolioPaperLedger
     from exchange_terminal.services.portfolio_forward import load_active_portfolio_candidate
     from exchange_terminal.services.portfolio_evidence_archive import DEFAULT_BACKUP_STATUS_FILE
     from exchange_terminal.services.portfolio_forward_projection import build_portfolio_forward_status_projection
@@ -291,10 +291,8 @@ try:
         OPENAI_MODEL,
         PROFILE_FILE,
         PROJECT_DIR,
-        PORTFOLIO_PAPER_DB,
         ROOT_DIR,
         RUNTIME_DIR,
-        STATE_FILE,
         STATIC_DIR,
         STOCK_CANDLE_CACHE_DB,
         STOCK_HISTORY_TIMEOUT,
@@ -307,7 +305,7 @@ try:
         LEDGER_FILE,
     )
 except ModuleNotFoundError:
-    from exchange_terminal.config import (
+    from hakimi_research.terminal_config import (
         ALLOW_STOCK_FALLBACK,
         ALLOW_STOCK_HISTORY_FALLBACK,
         ANOMALY_EVENT_DB,
@@ -339,10 +337,8 @@ except ModuleNotFoundError:
         OPENAI_MODEL,
         PROFILE_FILE,
         PROJECT_DIR,
-        PORTFOLIO_PAPER_DB,
         ROOT_DIR,
         RUNTIME_DIR,
-        STATE_FILE,
         STATIC_DIR,
         STOCK_CANDLE_CACHE_DB,
         STOCK_HISTORY_TIMEOUT,
@@ -371,7 +367,7 @@ try:
         trend_score,
     )
 except ModuleNotFoundError:
-    from exchange_terminal.utils import (
+    from hakimi_research.terminal_utils import (
         average,
         choice,
         clamp,
@@ -387,7 +383,7 @@ except ModuleNotFoundError:
     )
 
 try:
-    from market_data.stocks import (
+    from hakimi_research.stock_metadata import (
         futu_code,
         is_stock_symbol,
         normalize_stock_interval,
@@ -398,7 +394,7 @@ try:
         stock_timezone,
         yahoo_stock_symbol,
     )
-    from market_data.stock_candles import (
+    from hakimi_research.stock_candles import (
         aggregate_stock_rows,
         filter_stock_rows_by_session,
         latest_stock_candle_ts,
@@ -427,8 +423,9 @@ try:
         upsert_stock_candle_cache,
     )
     from market_data.provider_health import provider_call_allowed, provider_health_for_scope, provider_health_snapshot, record_provider_call
-    from market_data.stock_session import with_stock_session_contract
-    from market_data.stock_candle_quality import analyze_stock_candle_series, stock_candle_quality_public
+    from hakimi_research.stock_session import with_stock_session_contract
+    from hakimi_research.stock_candle_quality import analyze_stock_candle_series, stock_candle_quality_public
+    from services.market_calendar import resolve_stock_candle_schedule_attestation
     from market_data.futu import (
         futu_status_snapshot,
         futu_universe_snapshot,
@@ -440,7 +437,7 @@ try:
         read_futu_stock_candles as read_futu_stock_candles_io,
     )
     from market_data.futu_deep import read_futu_deep_stock
-    from market_data.stock_quote_quality import normalize_stock_quote_quality, stock_quote_quarantine_reasons
+    from hakimi_research.stock_quote_quality import normalize_stock_quote_quality, stock_quote_quarantine_reasons
     from market_data.okx import (
         okx_first as okx_first_io,
         okx_rows as okx_rows_io,
@@ -452,7 +449,7 @@ try:
         stock_research_panel as stock_research_panel_io,
     )
 except ModuleNotFoundError:
-    from exchange_terminal.market_data.stocks import (
+    from hakimi_research.stock_metadata import (
         futu_code,
         is_stock_symbol,
         normalize_stock_interval,
@@ -463,7 +460,7 @@ except ModuleNotFoundError:
         stock_timezone,
         yahoo_stock_symbol,
     )
-    from exchange_terminal.market_data.stock_candles import (
+    from hakimi_research.stock_candles import (
         aggregate_stock_rows,
         filter_stock_rows_by_session,
         latest_stock_candle_ts,
@@ -492,8 +489,9 @@ except ModuleNotFoundError:
         upsert_stock_candle_cache,
     )
     from exchange_terminal.market_data.provider_health import provider_call_allowed, provider_health_for_scope, provider_health_snapshot, record_provider_call
-    from exchange_terminal.market_data.stock_session import with_stock_session_contract
-    from exchange_terminal.market_data.stock_candle_quality import analyze_stock_candle_series, stock_candle_quality_public
+    from hakimi_research.stock_session import with_stock_session_contract
+    from hakimi_research.stock_candle_quality import analyze_stock_candle_series, stock_candle_quality_public
+    from exchange_terminal.services.market_calendar import resolve_stock_candle_schedule_attestation
     from exchange_terminal.market_data.futu import (
         futu_status_snapshot,
         futu_universe_snapshot,
@@ -505,7 +503,7 @@ except ModuleNotFoundError:
         read_futu_stock_candles as read_futu_stock_candles_io,
     )
     from exchange_terminal.market_data.futu_deep import read_futu_deep_stock
-    from exchange_terminal.market_data.stock_quote_quality import normalize_stock_quote_quality, stock_quote_quarantine_reasons
+    from hakimi_research.stock_quote_quality import normalize_stock_quote_quality, stock_quote_quarantine_reasons
     from exchange_terminal.market_data.okx import (
         okx_first as okx_first_io,
         okx_rows as okx_rows_io,
@@ -1009,12 +1007,14 @@ def record_runtime_audit(event: dict[str, Any]) -> dict[str, Any]:
     return row
 
 
-PAPER_LEDGER = PaperLedger(
-    db_path=RUNTIME_DIR / "paper_ledger.sqlite3",
-    now_ms=now_ms,
-    audit_writer=record_runtime_audit,
-    read_only=RUNTIME_READ_ONLY,
-)
+(
+    PAPER_ACCOUNT,
+    PAPER_LEDGER,
+    PAPER_EXECUTOR,
+    PORTFOLIO_PAPER_LEDGER,
+    PAPER_RECONCILIATION,
+) = build_archived_paper_runtime()
+
 EVENT_REPLAY = EventReplayService(
     now_ms=now_ms,
     audit_query=lambda **kwargs: AUDIT_LOG.query(**kwargs),
@@ -1730,44 +1730,6 @@ def evaluate_directional_strategy_signal(
     return {"confidence": confidence, **raw}
 
 
-configure_paper_account_runtime(
-    state_file=STATE_FILE,
-    write_json=write_json,
-    append_ledger=append_ledger,
-    choose_strategy=choose_strategy,
-    trade_direction_from_mode=trade_direction_from_mode,
-    analyze_strategy_context=analyze_strategy_context,
-    evaluate_directional_strategy_signal=evaluate_directional_strategy_signal,
-    risk_pretrade_check=lambda *args, **kwargs: risk_pretrade_check(*args, **kwargs),
-    execute_paper_order=lambda *args, **kwargs: execute_paper_order(*args, **kwargs),
-    persist_state=lambda payload, reason, applied_ids: PAPER_LEDGER.save_account(
-        payload,
-        reason,
-        applied_lifecycle_ids=applied_ids,
-    ),
-    order_applied=lambda order_id: PAPER_LEDGER.is_order_applied(order_id),
-)
-PAPER_ACCOUNT = PaperAccount()
-LEGACY_PAPER_STATE = read_json(STATE_FILE, {})
-if RUNTIME_READ_ONLY:
-    PAPER_RECONCILIATION = {
-        "ok": True,
-        "status": "READ_ONLY_SKIPPED",
-        "applied": 0,
-        "read_only": True,
-    }
-else:
-    PAPER_LEDGER.migrate_legacy(LEGACY_PAPER_STATE)
-    PAPER_RECONCILIATION = PAPER_LEDGER.reconcile_account()
-PAPER_ACCOUNT.load(PAPER_LEDGER.load_account() or LEGACY_PAPER_STATE)
-PORTFOLIO_PAPER_LEDGER = PortfolioPaperLedger(
-    db_path=PORTFOLIO_PAPER_DB,
-    now_ms=now_ms,
-    account_id="portfolio-research",
-    read_only=RUNTIME_READ_ONLY,
-)
-if not RUNTIME_READ_ONLY:
-    PORTFOLIO_PAPER_LEDGER.initialize(0.0, simulation_enabled=False)
 PORTFOLIO_REGIME_CACHE: dict[str, dict[str, Any]] = {}
 
 
@@ -1883,14 +1845,6 @@ RISK_SERVICE = RiskService(
     audit_writer=record_runtime_audit,
     data_context_provider=lambda symbol, price, context: MARKET_DATA_SERVICE.execution_context(symbol, price, context),
     portfolio_context_provider=runtime_portfolio_risk_context,
-)
-PAPER_EXECUTOR = PaperExecutor(
-    now_ms=now_ms,
-    audit_writer=record_runtime_audit,
-    history_loader=lambda: PAPER_LEDGER.load_lifecycle_orders(2000),
-    order_writer=lambda order: PAPER_LEDGER.record_lifecycle_order(order),
-    idempotency_loader=lambda key: PAPER_LEDGER.find_by_idempotency_key(key),
-    risk_request_loader=lambda request_id: PAPER_LEDGER.find_by_risk_request_id(request_id),
 )
 EVENT_BUS.publish("runtime_ready", {"service": "exchange_terminal", "paper_symbol": PAPER_ACCOUNT.symbol}, source="server")
 
@@ -4208,9 +4162,21 @@ def market_chart_candles(symbol: str, bar: str = "1m", limit: int = 300, fast: b
         payload = read_stock_candles(text, clean_limit, interval, clean_session, fast, force)
         payload_rows = list(payload.get("rows") or [])
         rows = [chart_candle_payload_row({"ts_ms": row.get("ts"), **row}) for row in payload_rows]
-        candle_quality = analyze_stock_candle_series(payload_rows, minimum_analysis_rows=20) if interval in {"1d", "1dutc"} else {}
+        candle_source = payload.get("origin_source") or payload.get("source") or "stock"
+        candle_quality = analyze_stock_candle_series(
+            payload_rows,
+            symbol=text,
+            interval=interval,
+            source=candle_source,
+            schedule_attestation=resolve_stock_candle_schedule_attestation(
+                benchmark_symbol=text,
+                source=candle_source,
+                rows=payload_rows,
+            ),
+            minimum_analysis_rows=20,
+        ) if interval in {"1d", "1dutc"} else {}
         warning_parts = [str(payload.get("warning") or payload.get("error") or "")]
-        if candle_quality.get("has_break"):
+        if candle_quality.get("status") in {"BLOCK", "REVIEW"}:
             warning_parts.append(str(candle_quality.get("warning") or "日线价格尺度断点待核"))
         warning = " / ".join(dict.fromkeys(item for item in warning_parts if item))
         fallback = payload.get("source") in {"offline-seed", "stock_sqlite_cache", "quote_preview_seed"}
@@ -6807,7 +6773,7 @@ def strategy_doctor(symbol: str, strategy_id: str, price: float = 0.0, direction
         {"stage": "指标", "status": "DONE" if candle_count >= startup else "WAIT", "detail": f"startup_candle_count={startup}，用于降低指标不稳定。"},
         {"stage": "入场/出场", "status": "DONE", "detail": "策略已拆分信号、止盈止损、移动风控和只减仓。"},
         {"stage": "回测/寻优", "status": "READY", "detail": "可运行回测寻优；上线前应比较收益、回撤、胜率、夏普。"},
-        {"stage": "前向模拟", "status": "RUNNING" if PAPER_ACCOUNT.armed and PAPER_ACCOUNT.strategy_id == strategy_id else "READY", "detail": "建议先让模拟盘连续运行，记录每次为什么买/卖/不买。"},
+        {"stage": "ARCHIVED PAPER", "status": "ARCHIVED", "detail": "Paper execution is archived; no execution authority is available."},
         {"stage": "实盘", "status": "BLOCKED", "detail": "实盘硬墙仍开启，未完成审计前不允许真实下单。"},
     ]
     guardrails = [
@@ -8875,22 +8841,40 @@ def market_ai_candles(symbol: str, bar: str, limit: int = 240) -> dict[str, Any]
     clean_symbol = (symbol or "BTC-USDT").upper()
     clean_limit = int(clamp(float(limit), 80, 500))
     clean_bar, source_type = market_ai_bar(clean_symbol, bar)
-    candles: list[dict[str, float]] = []
+    candles: list[dict[str, Any]] = []
     if source_type == "stock":
         payload = read_stock_candles(clean_symbol, clean_limit, clean_bar, "regular")
+        stock_source = payload.get("origin_source") or payload.get("source") or "stock"
         for row in payload.get("rows", []):
             try:
-                candles.append({
+                candle = {
                     "ts": int(row.get("ts") or 0),
                     "open": float(row.get("open") or 0),
                     "high": float(row.get("high") or 0),
                     "low": float(row.get("low") or 0),
                     "close": float(row.get("close") or 0),
                     "volume": float(row.get("volume") or 0),
-                })
+                }
+                if type(row.get("date")) is str:
+                    candle["date"] = row["date"]
+                if type(row.get("complete")) is bool:
+                    candle["complete"] = row["complete"]
+                if type(row.get("source")) is str:
+                    candle["source"] = row["source"]
+                candles.append(candle)
             except Exception:
                 continue
-        return {"source": payload.get("source", "stock"), "bar": clean_bar, "candles": candles[-clean_limit:]}
+        selected = candles[-clean_limit:]
+        return {
+            "source": stock_source,
+            "bar": clean_bar,
+            "candles": selected,
+            "schedule_attestation": resolve_stock_candle_schedule_attestation(
+                benchmark_symbol=clean_symbol,
+                source=stock_source,
+                rows=selected,
+            ),
+        }
 
     rows = okx_rows("/api/v5/market/candles", {"instId": clean_symbol, "bar": clean_bar, "limit": str(clean_limit)})
     for row in reversed(rows):
@@ -8999,10 +8983,49 @@ def local_market_ai_analysis(symbol: str, bar: str, price: float, drawings: list
             source = "frontend_chart"
     candle_quality: dict[str, Any] = {}
     if is_stock_symbol(symbol) and str(bar).lower() in {"1d", "1dutc", "day", "daily"}:
-        candle_quality = analyze_stock_candle_series(candles, minimum_analysis_rows=20)
-        if candle_quality.get("has_break") and not candle_quality.get("analysis_ready"):
+        supplied_schedule = candle_payload.get("schedule_attestation")
+        schedule_attestation = (
+            supplied_schedule
+            if type(supplied_schedule) is dict
+            else resolve_stock_candle_schedule_attestation(
+                benchmark_symbol=symbol,
+                source=source,
+                rows=candles,
+            )
+        )
+        candle_quality = analyze_stock_candle_series(
+            candles,
+            symbol=symbol,
+            interval=str(bar).lower(),
+            source=source,
+            schedule_attestation=schedule_attestation,
+            minimum_analysis_rows=20,
+        )
+        analysis_rows = list(candle_quality.get("analysis_rows") or [])
+        structure_blocked = candle_quality.get("structure_complete") is not True
+        temporal_blocked = (
+            candle_quality.get("temporal_conformance_complete") is not True
+        )
+        completion_blocked = not analysis_rows
+        break_blocked = (
+            candle_quality.get("has_break")
+            and not candle_quality.get("analysis_ready")
+        )
+        if structure_blocked or temporal_blocked or completion_blocked or break_blocked:
             quality_public = stock_candle_quality_public(candle_quality)
-            warning = str(candle_quality.get("warning") or "检测到日线价格尺度断点，需核对复权或拆股口径。")
+            warning = str(
+                candle_quality.get("warning")
+                or "日线 OHLCV、时间戳、顺序或价格尺度未通过质量门禁。"
+            )
+            trend_state = (
+                "K线结构待核"
+                if structure_blocked
+                else "K线时间语义待核"
+                if temporal_blocked
+                else "K线完成状态待核"
+                if completion_blocked
+                else "复权断点待核"
+            )
             return {
                 "ok": False,
                 "analysis_paused": True,
@@ -9010,9 +9033,9 @@ def local_market_ai_analysis(symbol: str, bar: str, price: float, drawings: list
                 "bar": candle_payload.get("bar", bar),
                 "source": source,
                 "price": round(price, 6),
-                "candle_count": len(candles),
-                "trend_state": "复权断点待核",
-                "summary": f"{symbol} 历史日线尺度待核，趋势、振幅、关键价位和多空估计已暂停。",
+                "candle_count": len(analysis_rows),
+                "trend_state": trend_state,
+                "summary": f"{symbol} 历史日线质量待核，趋势、振幅、关键价位和多空估计已暂停。",
                 "long_plan": {"direction": "LONG", "win_rate_pct": 0, "take_profit": 0, "stop_loss": 0},
                 "short_plan": {"direction": "SHORT", "win_rate_pct": 0, "take_profit": 0, "stop_loss": 0},
                 "metrics": {"trend_score": 0, "window_return_pct": 0, "range_pct": 0, "atr": 0, "volatility_pct": 0, "volume_ratio": 0},
@@ -9022,6 +9045,7 @@ def local_market_ai_analysis(symbol: str, bar: str, price: float, drawings: list
                 "shared_snapshot": shared_context,
                 "safe_action": "WAIT / 观察 / 仅研究 / 仅模拟盘验证",
             }
+        candles = analysis_rows
     closes = [float(item["close"]) for item in candles if float(item.get("close") or 0) > 0]
     if price <= 0 and closes:
         price = closes[-1]
@@ -10172,9 +10196,9 @@ def platform_snapshot_for_review() -> dict[str, Any]:
             "deepseek": deepseek_status(),
         },
         "execution": {
-            "paper_only": True,
+            "paper_only": False,
             "live_trading_enabled": False,
-            "order_types": sorted(list(ORDER_TYPES)),
+            "order_types": [],
             "direction_modes": ["LONG_ONLY", "SHORT_ONLY"],
             "current_paper": {
                 "symbol": paper.get("symbol"),
@@ -10480,7 +10504,7 @@ def platform_v2_module_catalog(price: float = 0.0) -> list[dict[str, Any]]:
         {
             "id": "paper_execution",
             "name": "模拟执行引擎",
-            "status": "PROTECTED",
+            "status": "ARCHIVED",
             "maturity": 63,
             "risk": "HIGH",
             "evidence": [f"订单类型 {len(ORDER_TYPES)} 种", paper.get("position_side", "FLAT"), paper.get("risk_status", "--")],
@@ -10545,7 +10569,7 @@ def competitive_redesign_route() -> dict[str, Any]:
             "OpenBB",
         ],
         "next_actions": [
-            "拆出 paper_executor.py，统一模拟成交、手续费、滑点和订单生命周期",
+            "建立 research_execution_rehearsal.py，统一纯内存研究撮合、费用、滑点与生命周期证据",
             "扩展 risk_service.py，让人工单、策略单、条件单和守护进程全部先走 pretrade check",
             "新增 market_data_service.py，统一行情来源、新鲜度、缓存和降级说明",
             "把命令面板升级为运行回测、停止买入、风险解释和数据体检的全局入口",
@@ -10571,7 +10595,7 @@ def platform_v2_overview(price: float = 0.0) -> dict[str, Any]:
     release_lanes = [
         {
             "lane": "P0 风控与执行硬化",
-            "items": ["独立 risk_service", "事件驱动 paper_executor", "全局 kill-switch", "实盘授权双确认"],
+            "items": ["独立 risk_service", "事件驱动 research execution rehearsal", "全局 kill-switch", "实盘授权双确认"],
             "status": "NEXT",
         },
         {
@@ -10618,7 +10642,7 @@ def platform_v2_overview(price: float = 0.0) -> dict[str, Any]:
             "high_risk_count": len(high_risk),
             "partial_count": len(partial),
             "strategy_count": len(STRATEGIES),
-            "order_type_count": len(ORDER_TYPES),
+            "order_type_count": 0,
             "code_worker_drafts": len([row for row in read_code_worker_drafts() if row.get("status") != "ARCHIVED"]),
             "data_reliability_score": data_reliability.get("score"),
             "data_incident_count": len(data_reliability.get("incidents", [])),
@@ -10629,7 +10653,7 @@ def platform_v2_overview(price: float = 0.0) -> dict[str, Any]:
         },
         "next_batch": [
             "拆出 risk_service.py，让所有下单路径先走统一风控",
-            "拆出 paper_executor.py，把撮合、手续费、滑点、资金费率独立出来",
+            "建立 research_execution_rehearsal.py，把纯内存研究撮合、费用、滑点与资金费率假设独立出来",
             "拆出 market_data_service.py，统一实时行情、历史缓存和数据延迟状态",
             "给策略实验室增加策略运行日志：为什么买、为什么不买、为什么卖",
             "把 v2 控制中心作为系统区主入口，后续所有健康检查都汇总到这里",
@@ -11980,6 +12004,22 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
 
     def handle_api(self, path: str, query: dict[str, str]) -> None:
         try:
+            archived_route_state = archived_execution_route_state(
+                str(getattr(self, "command", "GET")), path
+            )
+            if archived_route_state == "BLOCK":
+                json_response(
+                    self,
+                    build_research_disabled_response({
+                        "status": "ARCHIVED",
+                        "armed": False,
+                        "read_only": True,
+                        "paper_authorized": False,
+                        "live_order_allowed": False,
+                    }),
+                    423,
+                )
+                return
             if path == "/api/health":
                 runtime_build = RUNTIME_BUILD_GUARD.snapshot()
                 paper = PAPER_ACCOUNT.snapshot(0.0)
@@ -12658,347 +12698,8 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                     research_panel(query.get("symbol", "BTC-USDT"))
                 ))
                 return
-            if path.startswith("/api/paper/"):
-                if path == "/api/paper/snapshot":
-                    json_response(self, {"ok": True, "paper": PAPER_ACCOUNT.snapshot(pct(query.get("price", "0")))})
-                else:
-                    json_response(self, build_research_disabled_response(PAPER_ACCOUNT.snapshot(pct(query.get("price", "0")))), 423)
-                return
-            if path == "/api/paper/arm":
-                price = pct(query.get("price", "0"))
-                symbol = query.get("symbol", "BTC-USDT")
-                strategy_id = query.get("strategy", "dual_ma")
-                leverage = clamp(pct(query.get("leverage", "1"), 1.0), 1.0, 10.0)
-                position_pct = clamp(pct(query.get("positionPct", "25"), 25.0), 1.0, 100.0)
-                take_profit_pct = clamp(pct(query.get("takeProfitPct", "0"), 0.0), 0.0, 80.0)
-                stop_loss_pct = clamp(pct(query.get("stopLossPct", "0"), 0.0), 0.0, 80.0)
-                risk_config = build_risk_config(query, price)
-                symbol_binding = PAPER_ACCOUNT.symbol_change_check(symbol)
-                if not symbol_binding.get("ok"):
-                    json_response(self, {
-                        "ok": False,
-                        "error": "；".join(symbol_binding.get("blockers") or ["模拟账户标的切换被阻止"]),
-                        "paper": PAPER_ACCOUNT.snapshot(price),
-                        "symbol_binding": symbol_binding,
-                        "live_order_allowed": False,
-                    }, 409)
-                    return
-                capability = strategy_validation_capability(strategy_id)
-                if not capability.get("known") or not capability.get("paper_clock_supported"):
-                    json_response(self, {
-                        "ok": False,
-                        "error": capability.get("paper_blocker") or capability.get("blocker") or "Strategy is not supported by the completed-bar paper clock.",
-                        "paper": PAPER_ACCOUNT.snapshot(price),
-                        "validation_capability": capability,
-                        "live_order_allowed": False,
-                    }, 409)
-                    return
-                pipeline_run = STRATEGY_PIPELINE.latest(symbol, strategy_id)
-                if not pipeline_run:
-                    json_response(self, {
-                        "ok": False,
-                        "error": "Run backtest and strategy doctor before arming paper trading.",
-                        "paper": PAPER_ACCOUNT.snapshot(price),
-                        "pipeline": STRATEGY_PIPELINE.snapshot(),
-                        "live_order_allowed": False,
-                    }, 409)
-                    return
-                requested_params = dict(pipeline_run.get("params") or {})
-                requested_params.update({
-                    "position_pct": round(position_pct, 4),
-                    "take_profit_pct": round(take_profit_pct, 4),
-                    "stop_loss_pct": round(stop_loss_pct, 4),
-                    "leverage": round(leverage, 4),
-                    "direction_mode": str(query.get("directionMode", "LONG_ONLY") or "LONG_ONLY").upper(),
-                })
-                execution_profile = {
-                    "direction_mode": str(query.get("directionMode", "LONG_ONLY") or "LONG_ONLY").upper(),
-                    "risk_source": str(query.get("riskSource", "AI") or "AI").upper(),
-                    "risk_value_mode": str(query.get("riskValueMode", "PRICE") or "PRICE").upper(),
-                    "trailing_take_enabled": flag(query.get("trailingTakeEnabled")),
-                    "trailing_stop_enabled": flag(query.get("trailingStopEnabled")),
-                    "reduce_only": flag(query.get("reduceOnly")),
-                    "leverage": leverage,
-                    "order_type": str(query.get("orderType", "MARKET") or "MARKET").upper(),
-                    "margin_mode": str(query.get("marginMode", "CROSS") or "CROSS").upper(),
-                }
-                pipeline_preview = STRATEGY_PIPELINE.preview_paper_authorization(
-                    pipeline_run["run_id"],
-                    requested_params=requested_params,
-                    execution_profile=execution_profile,
-                )
-                if not pipeline_preview.get("paper_authorized"):
-                    json_response(self, {
-                        "ok": False,
-                        "error": pipeline_preview.get("paper_authorization_reason"),
-                        "paper": PAPER_ACCOUNT.snapshot(price),
-                        "pipeline_run": pipeline_preview,
-                        "live_order_allowed": False,
-                    }, 409)
-                    return
-                estimated_notional = estimate_paper_notional(price, position_pct, leverage)
-                risk_check = risk_pretrade_check(
-                    symbol,
-                    "ARM",
-                    "PAPER",
-                    estimated_notional,
-                    price,
-                    paper_pretrade_context(price, risk_config, leverage=leverage, position_pct=position_pct),
-                )
-                if risk_check.get("allowed") is not True:
-                    json_response(self, {
-                        "ok": False,
-                        "paper": PAPER_ACCOUNT.snapshot(price),
-                        "risk_check": risk_check,
-                        "pipeline_run": pipeline_preview,
-                        "paper_authorization_committed": False,
-                    })
-                    return
-                pipeline_run = STRATEGY_PIPELINE.authorize_paper(
-                    pipeline_run["run_id"],
-                    requested_params=requested_params,
-                    execution_profile=execution_profile,
-                )
-                if not pipeline_run.get("paper_authorized"):
-                    json_response(self, {
-                        "ok": False,
-                        "error": pipeline_run.get("paper_authorization_reason"),
-                        "paper": PAPER_ACCOUNT.snapshot(price),
-                        "pipeline_run": pipeline_run,
-                        "live_order_allowed": False,
-                    }, 409)
-                    return
-                PAPER_ACCOUNT.arm(
-                    symbol,
-                    strategy_id,
-                    leverage,
-                    position_pct,
-                    price,
-                    risk_config,
-                    pipeline_run_id=pipeline_run["run_id"],
-                )
-                paper = PAPER_ACCOUNT.snapshot(price)
-                pipeline_run = record_strategy_paper_snapshot(pipeline_run["run_id"], paper)
-                json_response(self, {"ok": True, "paper": paper, "risk_check": risk_check, "pipeline_run": pipeline_run})
-                return
-            if path == "/api/paper/manual-order":
-                price = pct(query.get("price", "0"))
-                risk_config = build_risk_config(query, price)
-                symbol_binding = PAPER_ACCOUNT.bind_symbol(
-                    query.get("symbol", PAPER_ACCOUNT.symbol),
-                    "manual_order",
-                )
-                if not symbol_binding.get("ok"):
-                    json_response(self, {
-                        "ok": False,
-                        "error": "；".join(symbol_binding.get("blockers") or ["模拟账户标的切换被阻止"]),
-                        "paper": PAPER_ACCOUNT.snapshot(price),
-                        "symbol_binding": symbol_binding,
-                    }, 409)
-                    return
-                quantity_pct = pct(query.get("quantityPct", "25"), 25.0)
-                estimated_notional = estimate_paper_notional(price, quantity_pct, PAPER_ACCOUNT.leverage)
-                requested_side = str(query.get("side", "BUY") or "BUY").upper()
-                position_side = PAPER_ACCOUNT.snapshot(price).get("position_side", "FLAT")
-                execution_side = (
-                    "SELL" if requested_side == "CLOSE" and position_side == "LONG" else
-                    "BUY" if requested_side == "CLOSE" and position_side == "SHORT" else
-                    requested_side
-                )
-                risk_check = risk_pretrade_check(
-                    PAPER_ACCOUNT.symbol,
-                    execution_side,
-                    "PAPER",
-                    estimated_notional,
-                    price,
-                    paper_pretrade_context(
-                        price,
-                        risk_config,
-                        leverage=PAPER_ACCOUNT.leverage,
-                        position_pct=quantity_pct,
-                        order_type=query.get("orderType", PAPER_ACCOUNT.order_type),
-                        limit_price=pct(query.get("limitPrice", "0")),
-                        idempotency_key=query.get("idempotencyKey", ""),
-                    ),
-                )
-                if risk_check.get("allowed") is not True:
-                    paper = PAPER_ACCOUNT.blocked_manual_order("RISK_BLOCK", risk_check.get("reason", "影子风控阻止订单"), price)
-                    json_response(self, {"ok": False, "paper": paper, "risk_check": risk_check})
-                    return
-                PAPER_ACCOUNT.apply_risk_config(risk_config)
-                before_order_ids = {
-                    str(order.get("order_id") or "")
-                    for order in PAPER_ACCOUNT.snapshot(price).get("orders", [])
-                    if isinstance(order, dict)
-                }
-                idempotency_key = str(query.get("idempotencyKey", "") or "")
-                paper = PAPER_ACCOUNT.manual_order(
-                    query.get("side", "BUY"),
-                    price,
-                    quantity_pct,
-                    query.get("orderType", PAPER_ACCOUNT.order_type),
-                    pct(query.get("limitPrice", "0")),
-                    idempotency_key,
-                    pretrade_result=risk_check,
-                )
-                matching_order = next(
-                    (
-                        order for order in reversed(paper.get("orders", []))
-                        if isinstance(order, dict) and (
-                            (idempotency_key and str(order.get("idempotency_key") or "") == idempotency_key)
-                            or (not idempotency_key and str(order.get("order_id") or "") not in before_order_ids)
-                        )
-                    ),
-                    None,
-                )
-                if matching_order is None:
-                    latest_signal = paper.get("signals", [])[-1] if paper.get("signals") else {}
-                    json_response(self, {
-                        "ok": False,
-                        "error": str(latest_signal.get("reason") or risk_check.get("reason") or "Paper order did not produce a fill."),
-                        "paper": paper,
-                        "risk_check": risk_check,
-                        "execution_status": "NO_FILL",
-                    })
-                    return
-                json_response(self, {
-                    "ok": True,
-                    "paper": paper,
-                    "risk_check": risk_check,
-                    "execution_status": str(matching_order.get("match_status") or "FILLED"),
-                    "order": matching_order,
-                })
-                return
-            if path == "/api/paper/stop":
-                pipeline_run_id = PAPER_ACCOUNT.stop()
-                paper = PAPER_ACCOUNT.snapshot(pct(query.get("price", "0")))
-                pipeline_run = None
-                if pipeline_run_id:
-                    pipeline_run = record_strategy_paper_snapshot(pipeline_run_id, paper)
-                json_response(self, {"ok": True, "paper": paper, "pipeline_run": pipeline_run})
-                return
-            if path == "/api/paper/reset":
-                pipeline_run_id = PAPER_ACCOUNT.pipeline_run_id
-                reset_result = PAPER_ACCOUNT.reset()
-                paper = PAPER_ACCOUNT.snapshot(pct(query.get("price", "0")))
-                if not reset_result.get("ok"):
-                    json_response(self, {
-                        "ok": False,
-                        "error": "；".join(reset_result.get("blockers") or ["模拟账户重置被阻止"]),
-                        "paper": paper,
-                        "reset": reset_result,
-                    }, 409)
-                    return
-                pipeline_run = None
-                if pipeline_run_id:
-                    pipeline_run = record_strategy_paper_snapshot(pipeline_run_id, paper)
-                json_response(self, {"ok": True, "paper": paper, "pipeline_run": pipeline_run})
-                return
-            if path == "/api/paper/condition/add":
-                price = pct(query.get("price", "0"))
-                symbol = query.get("symbol", PAPER_ACCOUNT.symbol)
-                side = query.get("side", "BUY")
-                quantity_pct = pct(query.get("quantityPct", "25"), 25.0)
-                reduce_only = flag(query.get("reduceOnly"))
-                symbol_binding = PAPER_ACCOUNT.bind_symbol(symbol, "condition_order")
-                if not symbol_binding.get("ok"):
-                    json_response(self, {
-                        "ok": False,
-                        "error": "；".join(symbol_binding.get("blockers") or ["模拟账户标的切换被阻止"]),
-                        "paper": PAPER_ACCOUNT.snapshot(price),
-                        "symbol_binding": symbol_binding,
-                    }, 409)
-                    return
-                estimated_notional = estimate_paper_notional(price, quantity_pct, PAPER_ACCOUNT.leverage)
-                risk_check = risk_pretrade_check(
-                    symbol,
-                    side,
-                    "PAPER",
-                    estimated_notional,
-                    price,
-                    paper_pretrade_context(
-                        price,
-                        {
-                            "direction_mode": PAPER_ACCOUNT.direction_mode,
-                            "reduce_only": reduce_only,
-                            "conditional_order": True,
-                            "order_type": query.get("orderType", "MARKET"),
-                            "margin_mode": PAPER_ACCOUNT.margin_mode,
-                        },
-                        leverage=PAPER_ACCOUNT.leverage,
-                        position_pct=quantity_pct,
-                    ),
-                )
-                if risk_check.get("allowed") is not True:
-                    paper = PAPER_ACCOUNT.blocked_manual_order("RISK_BLOCK", risk_check.get("reason", "影子风控阻止条件单"), price)
-                    json_response(self, {"ok": False, "paper": paper, "risk_check": risk_check})
-                    return
-                PAPER_ACCOUNT.add_condition(
-                    symbol,
-                    side,
-                    pct(query.get("triggerPrice", "0")),
-                    quantity_pct,
-                    query.get("note", ""),
-                    query.get("orderType", "MARKET"),
-                    pct(query.get("limitPrice", "0")),
-                    reduce_only,
-                    pct(query.get("takeProfitPrice", "0")),
-                    pct(query.get("stopLossPrice", "0")),
-                    query.get("timeInForce", "GTC"),
-                    query.get("batchPlan", ""),
-                    query.get("takeProfitPlan", ""),
-                )
-                json_response(self, {"ok": True, "paper": PAPER_ACCOUNT.snapshot(price), "risk_check": risk_check})
-                return
-            if path == "/api/paper/condition/cancel":
-                PAPER_ACCOUNT.cancel_condition(query.get("id", ""))
+            if path == "/api/paper/snapshot":
                 json_response(self, {"ok": True, "paper": PAPER_ACCOUNT.snapshot(pct(query.get("price", "0")))})
-                return
-            if path == "/api/order/estimate":
-                price = pct(query.get("price", "0"))
-                if price <= 0:
-                    ticker = okx_first("/api/v5/market/ticker", {"instId": query.get("symbol", "BTC-USDT")})
-                    price = pct(ticker.get("last", "0"))
-                json_response(self, {
-                    "ok": True,
-                    "estimate": simulated_execution_report(
-                        query.get("symbol", "BTC-USDT"),
-                        query.get("side", "BUY"),
-                        query.get("orderType", "MARKET"),
-                        price,
-                        pct(query.get("notional", "1000")),
-                        pct(query.get("limitPrice", "0")),
-                    ),
-                })
-                return
-            if path == "/api/paper/evaluate":
-                market = paper_market_cycle_snapshot(PAPER_ACCOUNT.symbol, "paper_http_cycle")
-                price = pct(market.get("price", 0.0))
-                if not market.get("ok") or price <= 0:
-                    json_response(self, {
-                        "ok": False,
-                        "error": "Authoritative market quote is unavailable; paper cycle was not evaluated.",
-                        "paper": PAPER_ACCOUNT.snapshot(),
-                        "market": market,
-                    }, 503)
-                    return
-                PAPER_ACCOUNT.process_strategy_bars(
-                    list(market.get("rows") or []),
-                    source=str(market.get("source") or "unknown"),
-                    price=price,
-                    execution_ready=market.get("execution_ready") is True,
-                )
-                json_response(self, {
-                    "ok": True,
-                    "paper": PAPER_ACCOUNT.evaluate(price),
-                    "market": {
-                        "symbol": market.get("symbol"),
-                        "source": market.get("source"),
-                        "execution_ready": market.get("execution_ready"),
-                        "clock_data_allowed": market.get("clock_data_allowed"),
-                        "snapshot_id": market.get("snapshot_id"),
-                    },
-                })
                 return
             if path == "/api/local/btc-daily":
                 limit = int(query.get("limit", "500"))

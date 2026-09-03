@@ -11,14 +11,14 @@ import unittest
 import pandas as pd
 
 from quant_bot.backtest import BacktestEngine
-from quant_bot.config import BotConfig
-from quant_bot.experiment_manifest import (
+from hakimi_research.config import BotConfig
+from hakimi_research.experiment_manifest import (
     build_reproducible_experiment_manifest,
     canonical_payload_hash,
     verify_reproducible_experiment_manifest,
 )
 from quant_bot.models import Portfolio, Signal
-from quant_bot.reporting import save_json_report
+from hakimi_research.reporting import save_json_report
 from quant_bot.risk import RiskManager
 from quant_bot.strategies.base import StrategyBase
 

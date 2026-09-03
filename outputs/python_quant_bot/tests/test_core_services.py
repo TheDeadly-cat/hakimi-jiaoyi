@@ -18,6 +18,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+import sys as _adr0524_sys
+from pathlib import Path as _Adr0524Path
+
+_ADR0524_SRC_ROOT = _Adr0524Path(__file__).resolve().parents[3] / "src"
+if str(_ADR0524_SRC_ROOT) not in _adr0524_sys.path:
+    _adr0524_sys.path.insert(0, str(_ADR0524_SRC_ROOT))
+
 from exchange_terminal.services.audit_log import AuditLog
 from exchange_terminal.services.backtest_engine import EXECUTION_MODEL_VERSION
 from exchange_terminal.services.event_bus import EventBus
@@ -26,13 +33,7 @@ from exchange_terminal.services.event_replay import EventReplayService
 from exchange_terminal.services.http_contract import MUTATION_PATHS, allowed_web_origin, payload_to_query, read_only_get_mutation_requested, trusted_refresh_get_allowed
 from exchange_terminal.services.market_data_service import MarketDataService
 from exchange_terminal.services.mutation_journal import MutationJournal
-from exchange_terminal.services.paper_account import (
-    PaperAccount,
-    configure_paper_account_runtime,
-    execution_report_contract_errors,
-)
-from exchange_terminal.services.paper_executor import PaperExecutor, simulated_execution_report
-from exchange_terminal.services.paper_ledger import PaperLedger
+from hakimi_research.research_execution_rehearsal import ResearchExecutionRehearsalSimulator, research_execution_report
 from exchange_terminal.services.research_bridge import ResearchBridge
 from exchange_terminal.services.risk_service import (
     RiskService,
@@ -95,7 +96,7 @@ def passing_strategy_data_admission(symbol: str, generated_at: int) -> dict[str,
     )
 
 
-def paper_risk_approval(
+def research_rehearsal_approval(
     request_id: str,
     *,
     symbol: str = "AAPL",
@@ -105,7 +106,7 @@ def paper_risk_approval(
     order_type: str = "MARKET",
     limit_price: float = 0.0,
     checked_at: int = 30,
-    mode: str = "PAPER",
+    mode: str = "RESEARCH_REHEARSAL",
     idempotency_key: str = "",
     reduce_only: bool = False,
     context: dict[str, object] | None = None,
@@ -121,8 +122,10 @@ def paper_risk_approval(
     risk_context.update(dict(context or {}))
     return {
         "allowed": True,
-        "paper_order_allowed": True,
+        "research_rehearsal_allowed": True,
+        "paper_order_allowed": False,
         "live_order_allowed": False,
+        "order_entry_allowed": False,
         "status": "PASS",
         "mode": mode,
         "request_id": request_id,
@@ -135,7 +138,7 @@ def paper_risk_approval(
     }
 
 
-def paper_lifecycle_fill(
+def research_rehearsal_lifecycle_fill(
     order_id: str,
     side: str,
     quantity: float,
@@ -312,21 +315,21 @@ class CoreServiceTests(unittest.TestCase):
 
     def test_limit_orders_never_fake_fill_without_book(self) -> None:
         empty_book = lambda _symbol, _side: []
-        limit = simulated_execution_report("BTC-USDT", "BUY", "LIMIT", 100, 1_000, 99, empty_book, lambda _symbol: 0)
-        ioc = simulated_execution_report("BTC-USDT", "BUY", "IOC", 100, 1_000, 101, empty_book, lambda _symbol: 0)
-        fok = simulated_execution_report("BTC-USDT", "BUY", "FOK", 100, 1_000, 101, empty_book, lambda _symbol: 0)
+        limit = research_execution_report("BTC-USDT", "BUY", "LIMIT", 100, 1_000, 99, empty_book, lambda _symbol: 0)
+        ioc = research_execution_report("BTC-USDT", "BUY", "IOC", 100, 1_000, 101, empty_book, lambda _symbol: 0)
+        fok = research_execution_report("BTC-USDT", "BUY", "FOK", 100, 1_000, 101, empty_book, lambda _symbol: 0)
         self.assertEqual(limit["status"], "WAITING_LIMIT")
         self.assertEqual(ioc["status"], "IOC_CANCELLED")
         self.assertEqual(fok["status"], "REJECTED")
         self.assertEqual(limit["filled_notional"], 0)
 
     def test_post_only_rejects_marketable_price(self) -> None:
-        result = simulated_execution_report("BTC-USDT", "BUY", "POST_ONLY", 100, 1_000, 101, lambda *_: [], lambda _symbol: 0)
+        result = research_execution_report("BTC-USDT", "BUY", "POST_ONLY", 100, 1_000, 101, lambda *_: [], lambda _symbol: 0)
         self.assertEqual(result["status"], "REJECTED")
         self.assertIn("立即成交", result["note"])
 
     def test_quantity_constrained_execution_never_overshoots_reduce_quantity(self) -> None:
-        report = simulated_execution_report(
+        report = research_execution_report(
             "BTC-USDT",
             "SELL",
             "MARKET",
@@ -346,7 +349,7 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(report["funding_charged"], 0)
 
     def test_quantity_rejection_preserves_requested_semantics(self) -> None:
-        report = simulated_execution_report(
+        report = research_execution_report(
             "BTC-USDT",
             "BUY",
             "FOK",
@@ -382,7 +385,7 @@ class CoreServiceTests(unittest.TestCase):
         )
 
         pretrade = build_pretrade_check(risk, "AAPL", "BUY", "PAPER", True)
-        execution = simulated_execution_report("AAPL", "BUY", "MARKET", 100, True)
+        execution = research_execution_report("AAPL", "BUY", "MARKET", 100, True)
 
         self.assertFalse(pretrade["allowed"])
         self.assertFalse(next(row for row in pretrade["checks"] if row["name"] == "notional_positive")["ok"])
@@ -391,7 +394,7 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(execution["filled_qty"], 0)
 
     def test_execution_rejects_non_finite_inputs_and_skips_invalid_book_levels(self) -> None:
-        rejected = simulated_execution_report(
+        rejected = research_execution_report(
             "BTC-USDT",
             "BUY",
             "MARKET",
@@ -399,7 +402,7 @@ class CoreServiceTests(unittest.TestCase):
             math.inf,
             requested_qty=math.nan,
         )
-        filled = simulated_execution_report(
+        filled = research_execution_report(
             "BTC-USDT-SWAP",
             "BUY",
             "MARKET",
@@ -417,7 +420,7 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(filled["funding_rate"], 0)
 
     def test_execution_skips_boolean_book_price_and_size_levels(self) -> None:
-        report = simulated_execution_report(
+        report = research_execution_report(
             "AAPL",
             "BUY",
             "MARKET",
@@ -439,7 +442,7 @@ class CoreServiceTests(unittest.TestCase):
             calls += 1
             raise AssertionError("spot execution must not query swap funding")
 
-        report = simulated_execution_report(
+        report = research_execution_report(
             "BTC-USDT",
             "BUY",
             "MARKET",
@@ -455,7 +458,7 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(report["funding_estimate"], 0)
 
     def test_swap_funding_is_an_estimate_until_a_settlement_event_exists(self) -> None:
-        report = simulated_execution_report(
+        report = research_execution_report(
             "BTC-USDT-SWAP",
             "BUY",
             "MARKET",
@@ -1178,9 +1181,9 @@ class CoreServiceTests(unittest.TestCase):
         self.assertFalse(result["data_realtime"])
         self.assertFalse(result["data_quality"]["can_increase_risk"])
 
-    def test_paper_executor_records_full_lifecycle(self) -> None:
+    def test_research_execution_rehearsal_records_full_lifecycle(self) -> None:
         events: list[dict[str, object]] = []
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 20,
             audit_writer=events.append,
             book_reader=lambda _symbol, _side: [[100, 20]],
@@ -1192,7 +1195,7 @@ class CoreServiceTests(unittest.TestCase):
             order_type="MARKET",
             mark_price=100,
             notional=1_000,
-            risk_result=paper_risk_approval(
+            risk_result=research_rehearsal_approval(
                 "risk-1", symbol="BTC-USDT", notional=1_000, checked_at=20,
             ),
             context={"source": "strategy", "strategy_id": "dual_ma", "run_id": "run-1"},
@@ -1201,16 +1204,16 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual([row["state"] for row in result["transitions"]], ["CREATED", "RISK_CHECKED", "ACCEPTED", "FILLED"])
         self.assertEqual(executor.snapshot()["counts"]["FILLED"], 1)
         self.assertEqual(events[-1]["type"], "paper_order_snapshot")
-        restored = PaperExecutor(
+        restored = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 21,
             history_loader=lambda: [event for event in events if event["type"] == "paper_order_snapshot"],
         )
         self.assertEqual(restored.snapshot()["counts"]["FILLED"], 1)
 
-    def test_paper_executor_returns_isolated_nested_snapshots(self) -> None:
+    def test_research_execution_rehearsal_returns_isolated_nested_snapshots(self) -> None:
         events: list[dict[str, object]] = []
         stored: list[dict[str, object]] = []
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 22,
             audit_writer=events.append,
             order_writer=lambda order: stored.append(order),
@@ -1223,7 +1226,7 @@ class CoreServiceTests(unittest.TestCase):
             order_type="MARKET",
             mark_price=100,
             notional=1_000,
-            risk_result=paper_risk_approval(
+            risk_result=research_rehearsal_approval(
                 "risk-isolation", symbol="AAPL", notional=1_000, checked_at=22,
             ),
         )
@@ -1244,13 +1247,13 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(stored[-1]["execution_report"]["filled_qty"], 10)
         self.assertEqual(events[-1]["order"]["execution_report"]["filled_qty"], 10)
 
-    def test_paper_executor_blocks_after_unresolved_persistence_failure(self) -> None:
+    def test_research_execution_rehearsal_blocks_after_unresolved_persistence_failure(self) -> None:
         events: list[dict[str, object]] = []
 
         def fail_write(_order: dict[str, object]) -> None:
             raise RuntimeError("disk unavailable")
 
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 30,
             audit_writer=events.append,
             order_writer=fail_write,
@@ -1262,7 +1265,7 @@ class CoreServiceTests(unittest.TestCase):
             "order_type": "MARKET",
             "mark_price": 100,
             "notional": 1_000,
-            "risk_result": paper_risk_approval(
+            "risk_result": research_rehearsal_approval(
                 "risk-persistence-failure",
                 symbol="AAPL",
                 notional=1_000,
@@ -1280,7 +1283,7 @@ class CoreServiceTests(unittest.TestCase):
         self.assertIn("paper_order_persistence_failed:RuntimeError", snapshot["restore_blockers"])
         blocked = executor.submit(**{
             **request,
-            "risk_result": paper_risk_approval(
+            "risk_result": research_rehearsal_approval(
                 "risk-after-persistence-failure",
                 symbol="AAPL",
                 notional=1_000,
@@ -1290,8 +1293,8 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(blocked["persistence_status"], "RESTORE_BLOCKED")
         self.assertTrue(any(event.get("type") == "paper_order_persistence_failed" for event in events))
 
-    def test_paper_executor_restores_highest_order_sequence(self) -> None:
-        executor = PaperExecutor(
+    def test_research_execution_rehearsal_restores_highest_order_sequence(self) -> None:
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 42,
             history_loader=lambda: [{
                 "order_id": "paper-42-000150",
@@ -1328,19 +1331,19 @@ class CoreServiceTests(unittest.TestCase):
             order_type="MARKET",
             mark_price=100,
             notional=100,
-            risk_result=paper_risk_approval("risk-sequence", checked_at=42),
+            risk_result=research_rehearsal_approval("risk-sequence", checked_at=42),
         )
 
-        self.assertTrue(str(result["order_id"]).startswith("paper-42-"))
+        self.assertTrue(str(result["order_id"]).startswith("research-rehearsal-42-"))
         self.assertTrue(str(result["order_id"]).endswith("-000151"))
 
-    def test_paper_executor_fails_closed_when_persistent_history_restore_fails(self) -> None:
+    def test_research_execution_rehearsal_fails_closed_when_persistent_history_restore_fails(self) -> None:
         book_calls: list[tuple[str, str]] = []
 
         def failed_history() -> list[dict[str, object]]:
             raise OSError("history unavailable")
 
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 42,
             history_loader=failed_history,
             order_writer=lambda _order: None,
@@ -1363,20 +1366,20 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(executor.snapshot()["order_count"], 0)
         self.assertEqual(executor.snapshot()["restore_status"], "BLOCK")
 
-    def test_paper_executor_fails_closed_on_restored_idempotency_conflict(self) -> None:
+    def test_research_execution_rehearsal_fails_closed_on_restored_idempotency_conflict(self) -> None:
         history = [
             {
-                **paper_lifecycle_fill("paper-42-000001", "BUY", 1, 100, 40),
+                **research_rehearsal_lifecycle_fill("paper-42-000001", "BUY", 1, 100, 40),
                 "idempotency_key": "duplicate",
                 "request_signature": "AAPL|BUY|MARKET|100.00000000|100.00000000|0.00000000|1.00000000",
             },
             {
-                **paper_lifecycle_fill("paper-42-000002", "BUY", 1, 100, 41),
+                **research_rehearsal_lifecycle_fill("paper-42-000002", "BUY", 1, 100, 41),
                 "idempotency_key": "duplicate",
                 "request_signature": "AAPL|BUY|MARKET|100.00000000|100.00000000|0.00000000|1.00000000",
             },
         ]
-        executor = PaperExecutor(now_ms=lambda: 42, history_loader=lambda: history)
+        executor = ResearchExecutionRehearsalSimulator(now_ms=lambda: 42, history_loader=lambda: history)
 
         result = executor.submit(
             symbol="AAPL",
@@ -1388,11 +1391,11 @@ class CoreServiceTests(unittest.TestCase):
         )
 
         self.assertEqual(result["restore_status"], "BLOCK")
-        self.assertIn("paper_order_history_idempotency_conflict", result["restore_blockers"])
+        self.assertIn("research_rehearsal_history_idempotency_conflict", result["restore_blockers"])
         self.assertEqual(executor.snapshot()["order_count"], 0)
 
-    def test_paper_executor_rejects_missing_risk_check(self) -> None:
-        executor = PaperExecutor(now_ms=lambda: 30, book_reader=lambda *_args: [[100, 20]])
+    def test_research_execution_rehearsal_rejects_missing_risk_check(self) -> None:
+        executor = ResearchExecutionRehearsalSimulator(now_ms=lambda: 30, book_reader=lambda *_args: [[100, 20]])
         result = executor.submit(
             symbol="BTC-USDT", side="BUY", order_type="MARKET", mark_price=100,
             notional=1_000, risk_result=None,
@@ -1400,9 +1403,9 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(result["lifecycle_state"], "REJECTED")
         self.assertEqual(result["filled_notional"], 0)
 
-    def test_paper_executor_rejects_string_risk_authorization(self) -> None:
+    def test_research_execution_rehearsal_rejects_string_risk_authorization(self) -> None:
         book_calls: list[tuple[str, str]] = []
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 30,
             book_reader=lambda symbol, side: book_calls.append((symbol, side)) or [[100, 20]],
         )
@@ -1420,9 +1423,9 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(result["filled_notional"], 0)
         self.assertEqual(book_calls, [])
 
-    def test_paper_executor_rejects_non_object_context_without_raising(self) -> None:
+    def test_research_execution_rehearsal_rejects_non_object_context_without_raising(self) -> None:
         book_calls: list[tuple[str, str]] = []
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 30,
             book_reader=lambda symbol, side: book_calls.append((symbol, side)) or [[100, 20]],
         )
@@ -1433,7 +1436,7 @@ class CoreServiceTests(unittest.TestCase):
             order_type="MARKET",
             mark_price=100,
             notional=100,
-            risk_result=paper_risk_approval("risk-context"),
+            risk_result=research_rehearsal_approval("risk-context"),
             context="bad",
         )
 
@@ -1441,9 +1444,9 @@ class CoreServiceTests(unittest.TestCase):
         self.assertIn("execution_context_object_required", result["risk_authorization_blockers"])
         self.assertEqual(book_calls, [])
 
-    def test_paper_executor_binds_risk_approval_to_exact_order(self) -> None:
+    def test_research_execution_rehearsal_binds_risk_approval_to_exact_order(self) -> None:
         book_calls: list[tuple[str, str]] = []
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 30,
             book_reader=lambda symbol, side: book_calls.append((symbol, side)) or [[100, 100]],
         )
@@ -1454,7 +1457,7 @@ class CoreServiceTests(unittest.TestCase):
             order_type="MARKET",
             mark_price=100,
             notional=5_000,
-            risk_result=paper_risk_approval("risk-aapl-small"),
+            risk_result=research_rehearsal_approval("risk-aapl-small"),
         )
 
         self.assertEqual(result["lifecycle_state"], "REJECTED")
@@ -1463,12 +1466,12 @@ class CoreServiceTests(unittest.TestCase):
         ))
         self.assertEqual(book_calls, [])
 
-    def test_paper_executor_rejects_stale_future_and_malformed_authorizations(self) -> None:
-        executor = PaperExecutor(now_ms=lambda: 20_000, book_reader=lambda *_args: [[100, 20]])
+    def test_research_execution_rehearsal_rejects_stale_future_and_malformed_authorizations(self) -> None:
+        executor = ResearchExecutionRehearsalSimulator(now_ms=lambda: 20_000, book_reader=lambda *_args: [[100, 20]])
         approvals = [
-            paper_risk_approval("risk-stale", checked_at=1),
-            paper_risk_approval("risk-future", checked_at=22_000),
-            {**paper_risk_approval("risk-malformed", checked_at=20_000), "checked_at": "20000"},
+            research_rehearsal_approval("risk-stale", checked_at=1),
+            research_rehearsal_approval("risk-future", checked_at=22_000),
+            {**research_rehearsal_approval("risk-malformed", checked_at=20_000), "checked_at": "20000"},
         ]
 
         results = [
@@ -1484,16 +1487,16 @@ class CoreServiceTests(unittest.TestCase):
         self.assertIn("risk_checked_at_invalid", results[2]["risk_authorization_blockers"])
         self.assertEqual(executor.snapshot()["order_count"], 0)
 
-    def test_paper_executor_rejects_unknown_order_type_before_book_read(self) -> None:
+    def test_research_execution_rehearsal_rejects_unknown_order_type_before_book_read(self) -> None:
         book_calls: list[tuple[str, str]] = []
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 30,
             book_reader=lambda symbol, side: book_calls.append((symbol, side)) or [[100, 20]],
         )
 
         result = executor.submit(
             symbol="AAPL", side="BUY", order_type="UNKNOWN", mark_price=100, notional=100,
-            risk_result=paper_risk_approval("risk-unknown"),
+            risk_result=research_rehearsal_approval("risk-unknown"),
         )
 
         self.assertEqual(result["lifecycle_state"], "REJECTED")
@@ -1501,21 +1504,21 @@ class CoreServiceTests(unittest.TestCase):
         self.assertIn("order_type_invalid", result["risk_authorization_blockers"])
         self.assertEqual(book_calls, [])
 
-    def test_paper_executor_rejects_quantity_notional_mismatch(self) -> None:
-        executor = PaperExecutor(now_ms=lambda: 30, book_reader=lambda *_args: [[100, 20]])
+    def test_research_execution_rehearsal_rejects_quantity_notional_mismatch(self) -> None:
+        executor = ResearchExecutionRehearsalSimulator(now_ms=lambda: 30, book_reader=lambda *_args: [[100, 20]])
 
         result = executor.submit(
             symbol="AAPL", side="BUY", order_type="MARKET", mark_price=100,
-            notional=100, requested_qty=2, risk_result=paper_risk_approval("risk-quantity"),
+            notional=100, requested_qty=2, risk_result=research_rehearsal_approval("risk-quantity"),
         )
 
         self.assertEqual(result["lifecycle_state"], "REJECTED")
         self.assertIn("requested_quantity_notional_mismatch", result["risk_authorization_blockers"])
         self.assertEqual(executor.snapshot()["order_count"], 0)
 
-    def test_paper_executor_binds_limit_price_to_risk_approval(self) -> None:
+    def test_research_execution_rehearsal_binds_limit_price_to_risk_approval(self) -> None:
         book_calls: list[tuple[str, str]] = []
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 30,
             book_reader=lambda symbol, side: book_calls.append((symbol, side)) or [[100, 20]],
         )
@@ -1523,7 +1526,7 @@ class CoreServiceTests(unittest.TestCase):
         result = executor.submit(
             symbol="AAPL", side="BUY", order_type="IOC", mark_price=100,
             limit_price=101, notional=100,
-            risk_result=paper_risk_approval(
+            risk_result=research_rehearsal_approval(
                 "risk-limit-binding", order_type="IOC", limit_price=100,
             ),
         )
@@ -1532,19 +1535,19 @@ class CoreServiceTests(unittest.TestCase):
         self.assertIn("risk_limit_price_mismatch", result["risk_authorization_blockers"])
         self.assertEqual(book_calls, [])
 
-    def test_paper_executor_rejects_oversized_risk_request_id(self) -> None:
-        executor = PaperExecutor(now_ms=lambda: 30, book_reader=lambda *_args: [[100, 20]])
+    def test_research_execution_rehearsal_rejects_oversized_risk_request_id(self) -> None:
+        executor = ResearchExecutionRehearsalSimulator(now_ms=lambda: 30, book_reader=lambda *_args: [[100, 20]])
         result = executor.submit(
             symbol="AAPL", side="BUY", order_type="MARKET", mark_price=100, notional=100,
-            risk_result=paper_risk_approval("r" * 161),
+            risk_result=research_rehearsal_approval("r" * 161),
         )
 
         self.assertEqual(result["lifecycle_state"], "REJECTED")
         self.assertIn("risk_request_id_invalid", result["risk_authorization_blockers"])
 
     def test_paper_risk_authorization_is_single_use(self) -> None:
-        executor = PaperExecutor(now_ms=lambda: 30, book_reader=lambda *_args: [[100, 20]])
-        approval = paper_risk_approval("risk-single-use")
+        executor = ResearchExecutionRehearsalSimulator(now_ms=lambda: 30, book_reader=lambda *_args: [[100, 20]])
+        approval = research_rehearsal_approval("risk-single-use")
 
         first = executor.submit(
             symbol="AAPL", side="BUY", order_type="MARKET", mark_price=100,
@@ -1560,8 +1563,8 @@ class CoreServiceTests(unittest.TestCase):
         self.assertIn("risk_authorization_already_consumed", second["risk_authorization_blockers"])
         self.assertEqual(executor.snapshot()["order_count"], 1)
 
-    def test_paper_executor_rejects_oversized_idempotency_key_without_truncation(self) -> None:
-        executor = PaperExecutor(now_ms=lambda: 30, book_reader=lambda *_args: [[100, 20]])
+    def test_research_execution_rehearsal_rejects_oversized_idempotency_key_without_truncation(self) -> None:
+        executor = ResearchExecutionRehearsalSimulator(now_ms=lambda: 30, book_reader=lambda *_args: [[100, 20]])
 
         result = executor.submit(
             symbol="AAPL",
@@ -1577,12 +1580,12 @@ class CoreServiceTests(unittest.TestCase):
         self.assertTrue(result["idempotency_contract_invalid"])
         self.assertEqual(executor.snapshot()["order_count"], 0)
 
-    def test_paper_executor_blocks_malformed_restored_order_before_replay(self) -> None:
-        malformed = paper_lifecycle_fill("paper-30-000001", "BUY", 1, 100, 30)
+    def test_research_execution_rehearsal_blocks_malformed_restored_order_before_replay(self) -> None:
+        malformed = research_rehearsal_lifecycle_fill("paper-30-000001", "BUY", 1, 100, 30)
         malformed["idempotency_key"] = "malformed-history"
         malformed["request_signature"] = "AAPL|BUY|MARKET|100.00000000|100.00000000|0.00000000|1.00000000"
         malformed["execution_report"] = "not-an-object"
-        executor = PaperExecutor(now_ms=lambda: 31, history_loader=lambda: [malformed])
+        executor = ResearchExecutionRehearsalSimulator(now_ms=lambda: 31, history_loader=lambda: [malformed])
 
         result = executor.submit(
             symbol="AAPL",
@@ -1598,8 +1601,8 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(result["lifecycle_state"], "REJECTED")
         self.assertIn("execution_report_invalid", " ".join(result["restore_blockers"]))
 
-    def test_paper_executor_blocks_persistent_orders_without_a_matcher(self) -> None:
-        executor = PaperExecutor(now_ms=lambda: 30, book_reader=lambda *_args: [[99, 20]])
+    def test_research_execution_rehearsal_blocks_persistent_orders_without_a_matcher(self) -> None:
+        executor = ResearchExecutionRehearsalSimulator(now_ms=lambda: 30, book_reader=lambda *_args: [[99, 20]])
 
         result = executor.submit(
             symbol="BTC-USDT",
@@ -1608,7 +1611,7 @@ class CoreServiceTests(unittest.TestCase):
             mark_price=100,
             limit_price=99,
             notional=1_000,
-            risk_result=paper_risk_approval(
+            risk_result=research_rehearsal_approval(
                 "risk-limit", symbol="BTC-USDT", notional=1_000, order_type="LIMIT", limit_price=99,
             ),
         )
@@ -1618,7 +1621,7 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(executor.snapshot()["working_count"], 0)
 
     def test_partial_market_fill_cancels_the_unfilled_remainder(self) -> None:
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 30,
             book_reader=lambda *_args: [[100, 5]],
             funding_rate_reader=lambda _symbol: 0,
@@ -1630,7 +1633,7 @@ class CoreServiceTests(unittest.TestCase):
             order_type="MARKET",
             mark_price=100,
             notional=1_000,
-            risk_result=paper_risk_approval(
+            risk_result=research_rehearsal_approval(
                 "risk-partial", symbol="BTC-USDT", notional=1_000,
             ),
         )
@@ -1641,7 +1644,7 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(result["transitions"][-2]["state"], "PARTIALLY_FILLED")
         self.assertEqual(executor.snapshot()["working_count"], 0)
 
-    def test_paper_executor_cancel_is_persisted_and_restored(self) -> None:
+    def test_research_execution_rehearsal_cancel_is_persisted_and_restored(self) -> None:
         stored: list[dict[str, object]] = []
         original = {
             "order_id": "paper-cancel-1",
@@ -1668,14 +1671,14 @@ class CoreServiceTests(unittest.TestCase):
                 "filled_notional": 0,
             },
         }
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 31,
             history_loader=lambda: [original],
             order_writer=lambda order: stored.append(deepcopy(order)),
         )
 
         cancelled = executor.cancel("paper-cancel-1", "test cancel")
-        restored = PaperExecutor(now_ms=lambda: 32, history_loader=lambda: stored)
+        restored = ResearchExecutionRehearsalSimulator(now_ms=lambda: 32, history_loader=lambda: stored)
 
         self.assertEqual(cancelled["state"], "CANCELLED")
         self.assertEqual(stored[-1]["state"], "CANCELLED")
@@ -1715,237 +1718,14 @@ class CoreServiceTests(unittest.TestCase):
         failed_arm_checks = {row["name"] for row in arm["checks"] if not row["ok"]}
         self.assertTrue({"paper_arm_order_type", "paper_arm_leverage", "paper_arm_direction"}.issubset(failed_arm_checks))
 
-    def test_paper_ledger_restores_account_and_normalized_state(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 31)
-            state = {
-                "cash": 8_000,
-                "short_margin": 0,
-                "realized_pnl": 125,
-                "symbol": "AAPL",
-                "position_qty": 10,
-                "entry_price": 200,
-                "orders": [{"order_id": "paper-1", "time": 30, "symbol": "AAPL", "side": "BUY", "match_status": "FILLED"}],
-                "conditional_orders": [{"id": "condition-1", "symbol": "AAPL", "side": "SELL", "status": "WAITING", "updated_at": 30}],
-                "equity_curve": [{"time": 30, "equity": 10_125}],
-            }
 
-            saved = ledger.save_account(state, reason="test")
-            restored = ledger.load_account()
-            summary = ledger.summary()
 
-            self.assertEqual(saved["version"], 1)
-            self.assertEqual(restored["position_qty"], 10)
-            self.assertEqual(summary["backend"], "sqlite")
-            self.assertEqual(summary["account_version"], 1)
-            self.assertEqual(summary["snapshot_count"], 1)
 
-    def test_paper_ledger_migrates_legacy_funding_estimates_to_charged_semantics(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "paper.sqlite3"
-            ledger = PaperLedger(db_path=path, now_ms=lambda: 31)
-            ledger.record_lifecycle_order({
-                "order_id": "legacy-funding-1",
-                "account_id": "default",
-                "risk_request_id": "risk-legacy-funding-1",
-                "symbol": "BTC-USDT-SWAP",
-                "side": "SELL",
-                "order_type": "MARKET",
-                "mark_price": 100,
-                "limit_price": 0,
-                "requested_notional": 100,
-                "requested_qty": 1,
-                "quantity_constrained": True,
-                "reduce_only": False,
-                "position_side_before": "FLAT",
-                "state": "FILLED",
-                "created_at": 31,
-                "updated_at": 31,
-                "transitions": [{"state": "FILLED", "time": 31, "reason": "legacy"}],
-                "execution_report": {
-                    "status": "FILLED",
-                    "avg_price": 100,
-                    "filled_qty": 1,
-                    "filled_notional": 100,
-                    "fee": 0.05,
-                    "funding_estimate": 9,
-                },
-            })
-            with closing(sqlite3.connect(path)) as connection:
-                connection.execute("UPDATE paper_fills SET funding = 9 WHERE fill_id = 'legacy-funding-1:fill:1'")
-                connection.execute("UPDATE paper_schema SET value = '1' WHERE key = 'schema_version'")
-                connection.commit()
 
-            PaperLedger(db_path=path, now_ms=lambda: 32)
-            with closing(sqlite3.connect(path)) as connection:
-                funding = float(connection.execute(
-                    "SELECT funding FROM paper_fills WHERE fill_id = 'legacy-funding-1:fill:1'"
-                ).fetchone()[0])
-                schema = dict(connection.execute("SELECT key, value FROM paper_schema").fetchall())
 
-            self.assertEqual(funding, 0)
-            self.assertEqual(schema["schema_version"], "4")
-            self.assertEqual(schema["funding_column_semantics"], "charged_only")
 
-    def test_paper_executor_idempotency_survives_restart(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 32)
-
-            def build_executor() -> PaperExecutor:
-                return PaperExecutor(
-                    now_ms=lambda: 32,
-                    book_reader=lambda _symbol, _side: [[100, 20]],
-                    funding_rate_reader=lambda _symbol: 0,
-                    history_loader=lambda: ledger.load_lifecycle_orders(2000),
-                    order_writer=ledger.record_lifecycle_order,
-                    idempotency_loader=ledger.find_by_idempotency_key,
-                )
-
-            kwargs = {
-                "symbol": "BTC-USDT",
-                "side": "BUY",
-                "order_type": "MARKET",
-                "mark_price": 100,
-                "notional": 1_000,
-                "risk_result": paper_risk_approval(
-                    "risk-32",
-                    symbol="BTC-USDT",
-                    notional=1_000,
-                    checked_at=32,
-                    idempotency_key="client-order-1",
-                    context={"market_snapshot_id": "snapshot-32"},
-                ),
-                "context": {"idempotency_key": "client-order-1"},
-            }
-            first = build_executor().submit(**kwargs)
-            replay = build_executor().submit(**kwargs)
-            rotated_risk_replay = build_executor().submit(**{
-                **kwargs,
-                "risk_result": paper_risk_approval(
-                    "risk-32-rotated",
-                    symbol="BTC-USDT",
-                    notional=1_000,
-                    checked_at=32,
-                    idempotency_key="client-order-1",
-                    context={"market_snapshot_id": "snapshot-32-rotated"},
-                ),
-            })
-            conflict = build_executor().submit(**{**kwargs, "notional": 1_500})
-
-            self.assertFalse(first["idempotent_replay"])
-            self.assertTrue(replay["idempotent_replay"])
-            self.assertTrue(rotated_risk_replay["idempotent_replay"])
-            self.assertEqual(first["order_id"], replay["order_id"])
-            self.assertEqual(first["order_id"], rotated_risk_replay["order_id"])
-            self.assertEqual(rotated_risk_replay["risk_request_id"], "risk-32")
-            self.assertEqual(replay["market_snapshot_id"], "snapshot-32")
-            self.assertTrue(conflict["idempotency_conflict"])
-            self.assertEqual(ledger.summary()["order_count"], 1)
-            self.assertEqual(ledger.summary()["fill_count"], 1)
-
-    def test_concurrent_executors_resolve_same_idempotency_key_to_one_fill(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "paper.sqlite3"
-            ledgers = [
-                PaperLedger(db_path=path, now_ms=lambda stamp=stamp: stamp)
-                for stamp in (50, 51)
-            ]
-            executors = []
-            for stamp, ledger in zip((50, 51), ledgers):
-                executors.append(PaperExecutor(
-                    now_ms=lambda stamp=stamp: stamp,
-                    book_reader=lambda _symbol, _side: [[100, 20]],
-                    history_loader=lambda ledger=ledger: ledger.load_lifecycle_orders(2000),
-                    order_writer=ledger.record_lifecycle_order,
-                    idempotency_loader=ledger.find_by_idempotency_key,
-                ))
-            barrier = threading.Barrier(3)
-
-            def submit(index: int) -> dict[str, object]:
-                barrier.wait()
-                return executors[index].submit(
-                    symbol="AAPL",
-                    side="BUY",
-                    order_type="MARKET",
-                    mark_price=100,
-                    notional=1_000,
-                    risk_result=paper_risk_approval(
-                        f"risk-concurrent-{index}",
-                        symbol="AAPL",
-                        notional=1_000,
-                        checked_at=50 + index,
-                        idempotency_key="concurrent-order-1",
-                    ),
-                    context={"idempotency_key": "concurrent-order-1"},
-                )
-
-            with ThreadPoolExecutor(max_workers=2) as pool:
-                futures = [pool.submit(submit, index) for index in range(2)]
-                barrier.wait()
-                results = [future.result(timeout=10) for future in futures]
-
-            self.assertEqual(len({result["order_id"] for result in results}), 1)
-            self.assertEqual(sorted(bool(result["idempotent_replay"]) for result in results), [False, True])
-            self.assertEqual(ledgers[0].summary()["order_count"], 1)
-            self.assertEqual(ledgers[0].summary()["fill_count"], 1)
-
-    def test_paper_ledger_enforces_unique_risk_request_id(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 60)
-            first = paper_lifecycle_fill("risk-order-1", "BUY", 1, 100, 58)
-            second = paper_lifecycle_fill("risk-order-2", "BUY", 1, 100, 59)
-            first["risk_request_id"] = "risk-durable-single-use"
-            second["risk_request_id"] = "risk-durable-single-use"
-
-            ledger.record_lifecycle_order(first)
-            with self.assertRaisesRegex(ValueError, "paper_risk_request_id_conflict"):
-                ledger.record_lifecycle_order(second)
-
-            self.assertEqual(ledger.summary()["order_count"], 1)
-            self.assertEqual(ledger.summary()["fill_count"], 1)
-
-    def test_concurrent_executors_cannot_consume_same_risk_approval_twice(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "paper.sqlite3"
-            ledgers = [PaperLedger(db_path=path, now_ms=lambda: 61) for _ in range(2)]
-            executors = [
-                PaperExecutor(
-                    now_ms=lambda: 61,
-                    book_reader=lambda _symbol, _side: [[100, 20]],
-                    order_writer=ledger.record_lifecycle_order,
-                )
-                for ledger in ledgers
-            ]
-            barrier = threading.Barrier(3)
-
-            def submit(index: int) -> dict[str, object]:
-                key = f"risk-race-{index}"
-                barrier.wait()
-                return executors[index].submit(
-                    symbol="AAPL",
-                    side="BUY",
-                    order_type="MARKET",
-                    mark_price=100,
-                    notional=100,
-                    risk_result=paper_risk_approval(
-                        "risk-race-shared", checked_at=61, idempotency_key=key,
-                    ),
-                    context={"idempotency_key": key},
-                )
-
-            with ThreadPoolExecutor(max_workers=2) as pool:
-                futures = [pool.submit(submit, index) for index in range(2)]
-                barrier.wait()
-                results = [future.result(timeout=10) for future in futures]
-
-            self.assertEqual(sorted(result["lifecycle_state"] for result in results), ["FILLED", "REJECTED"])
-            rejected = next(result for result in results if result["lifecycle_state"] == "REJECTED")
-            self.assertIn("risk_authorization_already_consumed", rejected["risk_authorization_blockers"])
-            self.assertEqual(ledgers[0].summary()["order_count"], 1)
-            self.assertEqual(ledgers[0].summary()["fill_count"], 1)
-
-    def test_paper_executor_idempotency_rejects_amount_to_quantity_semantic_change(self) -> None:
-        executor = PaperExecutor(
+    def test_research_execution_rehearsal_idempotency_rejects_amount_to_quantity_semantic_change(self) -> None:
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 32,
             book_reader=lambda _symbol, _side: [[50, 10]],
         )
@@ -1955,7 +1735,7 @@ class CoreServiceTests(unittest.TestCase):
             "order_type": "MARKET",
             "mark_price": 100,
             "notional": 100,
-            "risk_result": paper_risk_approval(
+            "risk_result": research_rehearsal_approval(
                 "risk-semantic", checked_at=32, idempotency_key="semantic-order-1",
             ),
             "context": {"idempotency_key": "semantic-order-1"},
@@ -1970,7 +1750,7 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(executor.snapshot()["order_count"], 1)
 
     def test_memory_idempotency_fails_closed_after_order_eviction(self) -> None:
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 40,
             max_orders=100,
             book_reader=lambda _symbol, _side: [[100, 20]],
@@ -1984,7 +1764,7 @@ class CoreServiceTests(unittest.TestCase):
                 "order_type": "MARKET",
                 "mark_price": 100,
                 "notional": 100,
-                "risk_result": paper_risk_approval(
+                "risk_result": research_rehearsal_approval(
                     f"risk-eviction-{index}", checked_at=40, idempotency_key=key,
                 ),
                 "context": {"idempotency_key": key},
@@ -2003,7 +1783,7 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(replay["filled_notional"], 0)
         self.assertEqual(executor.snapshot()["order_count"], 100)
 
-    def test_paper_executor_requires_restart_after_failed_persistence(self) -> None:
+    def test_research_execution_rehearsal_requires_restart_after_failed_persistence(self) -> None:
         writes = 0
         stored: list[dict[str, object]] = []
 
@@ -2014,7 +1794,7 @@ class CoreServiceTests(unittest.TestCase):
                 raise OSError("simulated durable store failure")
             stored.append(deepcopy(order))
 
-        executor = PaperExecutor(
+        executor = ResearchExecutionRehearsalSimulator(
             now_ms=lambda: 32,
             book_reader=lambda _symbol, _side: [[100, 20]],
             order_writer=writer,
@@ -2025,7 +1805,7 @@ class CoreServiceTests(unittest.TestCase):
             "order_type": "MARKET",
             "mark_price": 100,
             "notional": 1_000,
-            "risk_result": paper_risk_approval(
+            "risk_result": research_rehearsal_approval(
                 "risk-retry",
                 symbol="BTC-USDT",
                 notional=1_000,
@@ -2047,524 +1827,18 @@ class CoreServiceTests(unittest.TestCase):
         self.assertEqual(executor.snapshot()["persistence_failed_count"], 1)
         self.assertEqual(len(stored), 0)
 
-    def test_paper_ledger_reconciles_quantity_constrained_close_without_funding_charge(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 33)
-            ledger.save_account({
-                "cash": 900,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "symbol": "BTC-USDT-SWAP",
-                "position_qty": 1,
-                "entry_price": 100,
-                "leverage": 1,
-                "orders": [],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 1_000}],
-            }, reason="baseline")
-            executor = PaperExecutor(
-                now_ms=lambda: 33,
-                book_reader=lambda _symbol, _side: [[90, 10]],
-                funding_rate_reader=lambda _symbol: 0.01,
-                order_writer=ledger.record_lifecycle_order,
-            )
-            report = executor.submit(
-                symbol="BTC-USDT-SWAP",
-                side="SELL",
-                order_type="MARKET",
-                mark_price=100,
-                notional=100,
-                requested_qty=1,
-                risk_result=paper_risk_approval(
-                    "risk-close-33",
-                    symbol="BTC-USDT-SWAP",
-                    side="SELL",
-                    checked_at=33,
-                    reduce_only=True,
-                    context={"market_snapshot_id": "snapshot-close-33"},
-                ),
-            )
 
-            reconciled = ledger.reconcile_account()
-            restored = ledger.load_account()
 
-            self.assertEqual(report["filled_qty"], 1)
-            self.assertEqual(report["filled_notional"], 90)
-            self.assertEqual(report["funding_estimate"], 0.9)
-            self.assertEqual(report["funding_charged"], 0)
-            self.assertEqual(reconciled["reconciled"], 1)
-            self.assertEqual(reconciled["blockers"], [])
-            self.assertEqual(restored["position_qty"], 0)
-            self.assertAlmostEqual(restored["cash"], 989.955)
-            self.assertAlmostEqual(restored["realized_pnl"], -10.045)
-            self.assertEqual(restored["orders"][-1]["funding_estimate"], 0.9)
-            self.assertEqual(restored["orders"][-1]["funding_charged"], 0)
-            self.assertTrue(ledger.summary()["restart_ready"])
 
-    def test_paper_ledger_reconciles_fill_after_interrupted_account_commit(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 33)
-            ledger.save_account({
-                "cash": 10_000,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "symbol": "BTC-USDT",
-                "position_qty": 0,
-                "entry_price": 0,
-                "leverage": 1,
-                "orders": [],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 10_000}],
-            }, reason="baseline")
-            executor = PaperExecutor(
-                now_ms=lambda: 33,
-                book_reader=lambda _symbol, _side: [[100, 20]],
-                funding_rate_reader=lambda _symbol: 0,
-                order_writer=ledger.record_lifecycle_order,
-            )
-            report = executor.submit(
-                symbol="BTC-USDT",
-                side="BUY",
-                order_type="MARKET",
-                mark_price=100,
-                notional=1_000,
-                requested_qty=10,
-                risk_result=paper_risk_approval(
-                    "risk-33",
-                    symbol="BTC-USDT",
-                    notional=1_000,
-                    checked_at=33,
-                    context={"market_snapshot_id": "snapshot-33"},
-                ),
-            )
 
-            self.assertEqual(ledger.summary()["pending_settlement_count"], 1)
-            reconciled = ledger.reconcile_account()
-            restored = ledger.load_account()
 
-            self.assertEqual(reconciled["reconciled"], 1)
-            self.assertEqual(restored["position_qty"], 10)
-            self.assertAlmostEqual(restored["cash"], 8_999.5)
-            self.assertEqual(restored["orders"][-1]["order_id"], report["order_id"])
-            self.assertEqual(ledger.summary()["pending_settlement_count"], 0)
-            self.assertTrue(ledger.summary()["restart_ready"])
-            self.assertEqual(ledger.reconcile_account()["reconciled"], 0)
 
-    def test_paper_ledger_reconciles_partial_fill_exactly_once(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 34)
-            ledger.save_account({
-                "cash": 10_000,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "symbol": "AAPL",
-                "position_qty": 0,
-                "entry_price": 0,
-                "leverage": 1,
-                "orders": [],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 10_000}],
-            }, reason="baseline")
-            executor = PaperExecutor(
-                now_ms=lambda: 34,
-                book_reader=lambda _symbol, _side: [[100, 5]],
-                order_writer=ledger.record_lifecycle_order,
-            )
 
-            report = executor.submit(
-                symbol="AAPL",
-                side="BUY",
-                order_type="MARKET",
-                mark_price=100,
-                notional=1_000,
-                risk_result=paper_risk_approval(
-                    "risk-partial-ledger", notional=1_000, checked_at=34,
-                ),
-            )
-            first = ledger.reconcile_account()
-            restored = ledger.load_account()
-            second = ledger.reconcile_account()
 
-            self.assertEqual(report["status"], "PARTIAL")
-            self.assertEqual(first["reconciled"], 1)
-            self.assertEqual(restored["position_qty"], 5)
-            self.assertAlmostEqual(restored["cash"], 9_499.75)
-            self.assertEqual(len(restored["orders"]), 1)
-            self.assertEqual(second["reconciled"], 0)
-            self.assertTrue(ledger.summary()["restart_ready"])
 
-    def test_paper_ledger_stale_reconciliation_cannot_overwrite_newer_settlement(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "paper.sqlite3"
-            stale_ledger = PaperLedger(db_path=path, now_ms=lambda: 35)
-            newer_ledger = PaperLedger(db_path=path, now_ms=lambda: 36)
-            stale_ledger.save_account({
-                "cash": 1_000,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "symbol": "AAPL",
-                "position_qty": 0,
-                "entry_price": 0,
-                "leverage": 1,
-                "orders": [],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 1_000}],
-            }, reason="baseline")
-            stale_ledger.record_lifecycle_order(paper_lifecycle_fill("first-fill", "BUY", 1, 100, 10))
-            original_save = stale_ledger.save_account
-            injected = False
 
-            def interleaved_save(payload: dict[str, object], reason: str = "state_update", **kwargs: object) -> dict[str, object]:
-                nonlocal injected
-                if not injected:
-                    injected = True
-                    newer_ledger.record_lifecycle_order(
-                        paper_lifecycle_fill(
-                            "second-fill",
-                            "BUY",
-                            1,
-                            100,
-                            20,
-                            position_side_before="LONG",
-                        )
-                    )
-                    self.assertEqual(newer_ledger.reconcile_account()["reconciled"], 2)
-                return original_save(payload, reason=reason, **kwargs)
 
-            stale_ledger.save_account = interleaved_save  # type: ignore[method-assign]
-            stale_ledger.reconcile_account()
-            restored = newer_ledger.load_account()
 
-            self.assertEqual(restored["position_qty"], 2)
-            self.assertEqual([order["order_id"] for order in restored["orders"]], ["first-fill", "second-fill"])
-            self.assertEqual(newer_ledger.summary()["pending_settlement_count"], 0)
-            self.assertTrue(newer_ledger.summary()["restart_ready"])
-
-    def test_paper_ledger_never_reports_ok_with_unresolved_applied_identity(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 36)
-            ledger.save_account({
-                "cash": 900,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "position_qty": 1,
-                "entry_price": 100,
-                "symbol": "AAPL",
-                "orders": [{"order_id": "orphaned-applied-fill"}],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 1_000}],
-            }, reason="inconsistent_baseline")
-            ledger.record_lifecycle_order(paper_lifecycle_fill("orphaned-applied-fill", "BUY", 1, 100, 20))
-
-            reconciliation = ledger.reconcile_account()
-
-            self.assertFalse(reconciliation["ok"])
-            self.assertEqual(reconciliation["reconciled"], 0)
-            self.assertEqual(reconciliation["pending"], 1)
-            self.assertTrue(reconciliation["blockers"])
-            self.assertFalse(ledger.summary()["restart_ready"])
-
-    def test_paper_ledger_reconciliation_stops_at_first_unsettleable_fill(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 35)
-            ledger.save_account({
-                "cash": 900,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "symbol": "AAPL",
-                "position_qty": 1,
-                "entry_price": 100,
-                "leverage": 1,
-                "orders": [],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 1_000}],
-            }, reason="baseline")
-            ledger.record_lifecycle_order(paper_lifecycle_fill("first-overclose", "SELL", 2, 100, 10))
-            ledger.record_lifecycle_order(paper_lifecycle_fill("second-buy", "BUY", 1, 100, 20))
-
-            reconciliation = ledger.reconcile_account()
-            restored = ledger.load_account()
-
-            self.assertFalse(reconciliation["ok"])
-            self.assertEqual(reconciliation["reconciled"], 0)
-            self.assertEqual(reconciliation["pending"], 2)
-            self.assertEqual(restored["position_qty"], 1)
-            self.assertEqual(restored["orders"], [])
-            self.assertEqual(ledger.summary()["pending_settlement_count"], 2)
-
-    def test_paper_ledger_reconciliation_rechecks_reduce_only(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 36)
-            ledger.save_account({
-                "cash": 1_000,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "symbol": "AAPL",
-                "position_qty": 0,
-                "entry_price": 0,
-                "leverage": 1,
-                "orders": [],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 1_000}],
-            }, reason="baseline")
-            ledger.record_lifecycle_order(
-                paper_lifecycle_fill("flat-reduce-only", "SELL", 1, 100, 10, reduce_only=True)
-            )
-
-            reconciliation = ledger.reconcile_account()
-            restored = ledger.load_account()
-
-            self.assertFalse(reconciliation["ok"])
-            self.assertEqual(reconciliation["reconciled"], 0)
-            self.assertEqual(restored["position_qty"], 0)
-            self.assertEqual(restored["orders"], [])
-            self.assertEqual(ledger.summary()["pending_settlement_count"], 1)
-
-    def test_paper_ledger_corrupt_lifecycle_payload_blocks_reconciliation_without_crash(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "paper.sqlite3"
-            ledger = PaperLedger(db_path=path, now_ms=lambda: 36)
-            ledger.save_account({
-                "cash": 1_000,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "symbol": "AAPL",
-                "position_qty": 0,
-                "entry_price": 0,
-                "leverage": 1,
-                "orders": [],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 1_000}],
-            }, reason="baseline")
-            order = paper_lifecycle_fill("corrupt-reconcile", "BUY", 1, 100, 20)
-            ledger.record_lifecycle_order(order)
-            order["reduce_only"] = "false"
-            with closing(sqlite3.connect(path)) as connection:
-                connection.execute(
-                    "UPDATE paper_lifecycle_orders SET payload_json = ? WHERE order_id = ?",
-                    (json.dumps(order), "corrupt-reconcile"),
-                )
-                connection.commit()
-
-            reconciliation = ledger.reconcile_account()
-            restored = PaperExecutor(
-                now_ms=lambda: 37,
-                history_loader=lambda: ledger.load_lifecycle_orders(2000),
-            )
-
-            self.assertFalse(reconciliation["ok"])
-            self.assertEqual(reconciliation["reconciled"], 0)
-            self.assertEqual(reconciliation["pending"], 1)
-            self.assertTrue(any("settlement_contract_invalid" in item for item in reconciliation["blockers"]))
-            self.assertEqual(restored.snapshot()["restore_status"], "BLOCK")
-
-    def test_paper_ledger_rejects_non_finite_payloads(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 37)
-            invalid_state = {
-                "cash": math.inf,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "symbol": "AAPL",
-                "position_qty": 0,
-                "entry_price": 0,
-                "orders": [],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": math.inf}],
-            }
-
-            with self.assertRaisesRegex(ValueError, "paper_non_finite_payload"):
-                ledger.save_account(invalid_state, reason="invalid")
-
-            self.assertEqual(ledger.load_account(), {})
-
-    def test_paper_ledger_rejects_boolean_account_and_fill_fields(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 38)
-            invalid_state = {
-                "cash": True,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "symbol": "AAPL",
-                "position_qty": 0,
-                "entry_price": 0,
-                "leverage": 1,
-                "orders": [],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 10_000}],
-            }
-            invalid_order = paper_lifecycle_fill("boolean-fill", "BUY", 1, 100, 38)
-            invalid_order["execution_report"]["filled_qty"] = True
-            invalid_reduce_only = paper_lifecycle_fill("string-reduce-only", "SELL", 1, 100, 38)
-            invalid_reduce_only["reduce_only"] = "false"
-
-            with self.assertRaisesRegex(ValueError, "paper_boolean_numeric_field:cash"):
-                ledger.save_account(invalid_state)
-            with self.assertRaisesRegex(ValueError, "paper_order_contract_report_filled_qty_invalid"):
-                ledger.record_lifecycle_order(invalid_order)
-            with self.assertRaisesRegex(ValueError, "paper_order_contract_reduce_only_invalid"):
-                ledger.record_lifecycle_order(invalid_reduce_only)
-
-    def test_paper_ledger_rejects_inconsistent_fill_arithmetic(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 38)
-            invalid_order = paper_lifecycle_fill("inconsistent-fill", "BUY", 2, 100, 38)
-            invalid_order["execution_report"]["filled_notional"] = 250
-
-            with self.assertRaisesRegex(ValueError, "paper_order_contract_fill_notional_mismatch"):
-                ledger.record_lifecycle_order(invalid_order)
-
-            self.assertIsNone(ledger.get_lifecycle_order("inconsistent-fill"))
-
-    def test_paper_ledger_rejects_rewrite_of_a_settled_fill(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "paper.sqlite3"
-            ledger = PaperLedger(db_path=path, now_ms=lambda: 33)
-            ledger.save_account({
-                "cash": 1_000,
-                "short_margin": 0,
-                "realized_pnl": 0,
-                "symbol": "AAPL",
-                "position_qty": 0,
-                "entry_price": 0,
-                "leverage": 1,
-                "orders": [],
-                "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 1_000}],
-            }, reason="baseline")
-            order = {
-                "order_id": "paper-immutable-1",
-                "account_id": "default",
-                "risk_request_id": "risk-paper-immutable-1",
-                "idempotency_key": "immutable-request-1",
-                "request_signature": "AAPL|BUY|MARKET|100.00000000|100.00000000|0.00000000|1.00000000",
-                "symbol": "AAPL",
-                "side": "BUY",
-                "order_type": "MARKET",
-                "mark_price": 100.0,
-                "limit_price": 0.0,
-                "requested_notional": 100.0,
-                "requested_qty": 1.0,
-                "quantity_constrained": True,
-                "reduce_only": False,
-                "position_side_before": "FLAT",
-                "state": "FILLED",
-                "created_at": 33,
-                "updated_at": 33,
-                "transitions": [
-                    {"state": "CREATED", "time": 33, "reason": "created"},
-                    {"state": "FILLED", "time": 33, "reason": "filled"},
-                ],
-                "execution_report": {
-                    "status": "FILLED",
-                    "avg_price": 100.0,
-                    "filled_qty": 1.0,
-                    "filled_notional": 100.0,
-                    "fee": 0.05,
-                    "funding_estimate": 0.0,
-                    "funding_charged": 0.0,
-                },
-            }
-            ledger.record_lifecycle_order(order)
-            self.assertEqual(ledger.reconcile_account()["reconciled"], 1)
-
-            rewritten = deepcopy(order)
-            rewritten["execution_report"]["fee"] = 0.10
-            with self.assertRaisesRegex(ValueError, "paper_fill_immutable_conflict"):
-                ledger.record_lifecycle_order(rewritten)
-
-            restored = ledger.load_account()
-            stored_order = ledger.get_lifecycle_order("paper-immutable-1")
-            with closing(sqlite3.connect(path)) as connection:
-                stored_fill = connection.execute(
-                    "SELECT quantity, notional FROM paper_fills WHERE fill_id = ?",
-                    ("paper-immutable-1:fill:1",),
-                ).fetchone()
-
-            self.assertEqual(restored["position_qty"], 1)
-            self.assertEqual(stored_order["execution_report"]["filled_qty"], 1)
-            self.assertEqual(tuple(stored_fill), (1.0, 100.0))
-            self.assertTrue(ledger.summary()["restart_ready"])
-
-    def test_event_replay_verifies_market_risk_order_and_fill_lineage(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            root = Path(temp_dir)
-            audit = AuditLog(path=root / "audit.jsonl", ensure_runtime=lambda: root.mkdir(exist_ok=True), now_ms=lambda: 34)
-            ledger = PaperLedger(db_path=root / "paper.sqlite3", now_ms=lambda: 34)
-            audit.append({
-                "type": "market_snapshot",
-                "snapshot_id": "snapshot-34",
-                "symbol": "BTC-USDT",
-                "last": 100,
-                "quality": {"status": "READY", "realtime": True},
-            })
-            audit.append({
-                "type": "risk_pretrade_pass",
-                "request_id": "risk-34",
-                "signal_id": "signal-34",
-                "market_snapshot_id": "snapshot-34",
-                "symbol": "BTC-USDT",
-                "side": "BUY",
-                "mode": "PAPER",
-                "status": "PASS",
-            })
-            executor = PaperExecutor(
-                now_ms=lambda: 34,
-                audit_writer=audit.append,
-                book_reader=lambda _symbol, _side: [[100, 20]],
-                funding_rate_reader=lambda _symbol: 0,
-                order_writer=ledger.record_lifecycle_order,
-            )
-            report = executor.submit(
-                symbol="BTC-USDT",
-                side="BUY",
-                order_type="MARKET",
-                mark_price=100,
-                notional=1_000,
-                requested_qty=10,
-                risk_result=paper_risk_approval(
-                    "risk-34",
-                    symbol="BTC-USDT",
-                    notional=1_000,
-                    checked_at=34,
-                    context={
-                        "signal_id": "signal-34",
-                        "signal_created_at": 33,
-                        "signal_action": "BUY",
-                        "signal_reason": "dual_ma entry",
-                        "market_snapshot_id": "snapshot-34",
-                        "data_quality": {"status": "READY"},
-                    },
-                ),
-                context={"run_id": "run-34", "strategy_id": "dual_ma"},
-            )
-            replay = EventReplayService(
-                now_ms=lambda: 35,
-                audit_query=lambda **kwargs: audit.query(**kwargs),
-                order_loader=ledger.get_lifecycle_order,
-                run_order_loader=ledger.load_run_orders,
-            )
-
-            trace = replay.replay_order(report["order_id"])
-            run_trace = replay.replay_run("run-34")
-            corrupted_order = deepcopy(ledger.get_lifecycle_order(report["order_id"]))
-            corrupted_order["execution_report"]["filled_qty"] = 11
-            corrupted_order["execution_report"]["filled_notional"] = 1_100
-            corrupted_replay = EventReplayService(
-                now_ms=lambda: 35,
-                audit_query=lambda **kwargs: audit.query(**kwargs),
-                order_loader=lambda _order_id: corrupted_order,
-                run_order_loader=lambda _run_id, _limit: [corrupted_order],
-            ).replay_order(report["order_id"])
-
-            self.assertEqual(trace["status"], "PASS")
-            self.assertTrue(all(check["ok"] for check in trace["checks"]))
-            self.assertEqual(trace["signal_id"], "signal-34")
-            self.assertEqual(run_trace["status"], "PASS")
-            self.assertEqual(run_trace["passed_count"], 1)
-            quantity_check = next(check for check in corrupted_replay["checks"] if check["name"] == "fill_quantity_constraint")
-            self.assertFalse(quantity_check["ok"])
-            self.assertEqual(corrupted_replay["status"], "BLOCK")
 
     def test_signal_lineage_is_stable_for_an_idempotent_request(self) -> None:
         first = build_signal_context(
@@ -2600,406 +1874,12 @@ class CoreServiceTests(unittest.TestCase):
             "params": '{"fast": 20}',
         })
 
-    def test_paper_account_close_uses_requested_quantity_and_only_charged_funding(self) -> None:
-        captured: dict[str, object] = {}
 
-        def execute(symbol: str, side: str, order_type: str, mark_price: float, notional: float, limit_price: float, risk: dict[str, object], **kwargs: object) -> dict[str, object]:
-            captured.update(kwargs)
-            quantity = float(kwargs.get("requested_qty") or 0.0)
-            risk_context = dict(risk.get("context") or {})
-            return {
-                "status": "FILLED",
-                "avg_price": 90,
-                "filled_qty": quantity,
-                "filled_notional": quantity * 90,
-                "fee": 0.045,
-                "funding_estimate": 9.0,
-                "funding_charged": 0.0,
-                "slippage_pct": 10.0,
-                "note": "filled",
-                "order_id": "paper-close-quantity-1",
-                "symbol": symbol,
-                "side": side,
-                "order_type": order_type,
-                "mark_price": mark_price,
-                "limit_price": limit_price,
-                "requested_notional": notional,
-                "requested_qty": quantity,
-                "quantity_constrained": True,
-                "reduce_only": True,
-                "lifecycle_state": "FILLED",
-                "persistence_status": "PERSISTED",
-                "risk_request_id": str(risk.get("request_id") or ""),
-                "market_snapshot_id": "snapshot-close-quantity-1",
-                "idempotency_key": str(risk_context.get("idempotency_key") or ""),
-                "idempotent_replay": False,
-            }
 
-        with tempfile.TemporaryDirectory() as temp_dir:
-            configure_paper_account_runtime(
-                state_file=Path(temp_dir) / "paper.json",
-                write_json=lambda *_args: None,
-                append_ledger=lambda *_args: None,
-                choose_strategy=lambda strategy_id: {"id": strategy_id},
-                trade_direction_from_mode=lambda value: value,
-                analyze_strategy_context=lambda *_args, **_kwargs: {},
-                evaluate_directional_strategy_signal=lambda *_args, **_kwargs: {"action": "HOLD"},
-                risk_pretrade_check=lambda *_args, **_kwargs: {
-                    "allowed": True,
-                    "request_id": "risk-close-quantity-1",
-                    "context": dict(_args[-1]),
-                },
-                execute_paper_order=execute,
-                persist_state=lambda *_args: None,
-            )
-            account = PaperAccount()
-            account.symbol = "BTC-USDT-SWAP"
-            account.cash = 900.0
-            account.position_qty = 1.0
-            account.entry_price = 100.0
 
-            result = account.close_long_manual(
-                100,
-                100,
-                "MARKET",
-                0,
-                "test close",
-                idempotency_key="close-quantity-1",
-            )
 
-        self.assertEqual(captured["requested_qty"], 1)
-        self.assertEqual(result["position_qty"], 0)
-        self.assertAlmostEqual(account.cash, 989.955)
-        self.assertAlmostEqual(account.realized_pnl, -10.045)
-        self.assertEqual(account.orders[-1]["funding_estimate"], 9)
-        self.assertEqual(account.orders[-1]["funding_charged"], 0)
 
-    def test_paper_account_does_not_apply_an_idempotent_fill_twice(self) -> None:
-        events: list[dict[str, object]] = []
-        calls = 0
 
-        def execute(symbol: str, side: str, order_type: str, mark_price: float, notional: float, limit_price: float, risk: dict[str, object], **_kwargs: object) -> dict[str, object]:
-            nonlocal calls
-            calls += 1
-            risk_context = dict(risk.get("context") or {})
-            return {
-                "status": "FILLED",
-                "avg_price": 100,
-                "filled_qty": 10,
-                "filled_notional": 1_000,
-                "fee": 0.5,
-                "funding_estimate": 0,
-                "funding_charged": 0,
-                "slippage_pct": 0,
-                "order_id": "paper-idempotent-1",
-                "symbol": symbol,
-                "side": side,
-                "order_type": order_type,
-                "mark_price": mark_price,
-                "limit_price": limit_price,
-                "requested_notional": notional,
-                "requested_qty": 0,
-                "quantity_constrained": False,
-                "reduce_only": False,
-                "lifecycle_state": "FILLED",
-                "persistence_status": "PERSISTED",
-                "risk_request_id": str(risk.get("request_id") or ""),
-                "market_snapshot_id": "snapshot-idempotent-1",
-                "idempotency_key": str(risk_context.get("idempotency_key") or ""),
-                "idempotent_replay": calls > 1,
-            }
-
-        with tempfile.TemporaryDirectory() as temp_dir:
-            configure_paper_account_runtime(
-                state_file=Path(temp_dir) / "paper.json",
-                write_json=lambda *_args: None,
-                append_ledger=events.append,
-                choose_strategy=lambda strategy_id: {"id": strategy_id},
-                trade_direction_from_mode=lambda value: value,
-                analyze_strategy_context=lambda *_args, **_kwargs: {},
-                evaluate_directional_strategy_signal=lambda *_args, **_kwargs: {"action": "HOLD", "reason": "test"},
-                risk_pretrade_check=lambda *_args, **_kwargs: {
-                    "allowed": True,
-                    "request_id": "risk-idempotent-1",
-                    "context": dict(_args[-1]),
-                },
-                execute_paper_order=execute,
-                persist_state=lambda *_args: None,
-            )
-            account = PaperAccount()
-            idle_curve_points = len(account.equity_curve)
-            account.evaluate(100)
-            first = account.open_long_manual(100, 10, "MARKET", 0, "test", idempotency_key="manual-idempotent-1")
-            second = account.open_long_manual(100, 10, "MARKET", 0, "test", idempotency_key="manual-idempotent-1")
-
-        self.assertEqual(first["position_qty"], 10)
-        self.assertEqual(second["position_qty"], 10)
-        self.assertEqual(idle_curve_points, 1)
-        self.assertEqual(len(account.equity_curve), 2)
-        self.assertEqual(len(account.orders), 1)
-        self.assertTrue(any(event.get("type") == "paper_order_idempotent_replay" for event in events))
-
-    def test_paper_account_preserves_single_symbol_binding_and_lock_on_reset(self) -> None:
-        events: list[dict[str, object]] = []
-        with tempfile.TemporaryDirectory() as temp_dir:
-            configure_paper_account_runtime(
-                state_file=Path(temp_dir) / "paper.json",
-                write_json=lambda *_args: None,
-                append_ledger=events.append,
-                choose_strategy=lambda strategy_id: {"id": strategy_id, "name": strategy_id},
-                trade_direction_from_mode=lambda value: value,
-                analyze_strategy_context=lambda *_args, **_kwargs: {},
-                evaluate_directional_strategy_signal=lambda *_args, **_kwargs: {"action": "HOLD"},
-                risk_pretrade_check=lambda *_args, **_kwargs: {"allowed": True},
-                execute_paper_order=lambda *_args, **_kwargs: {},
-                persist_state=lambda *_args: None,
-            )
-            account = PaperAccount()
-            original_lock = account._lock
-            account.position_qty = 1.0
-
-            blocked = account.bind_symbol("AAPL", "test")
-
-            self.assertFalse(blocked["ok"])
-            self.assertEqual(account.symbol, "BTC-USDT")
-            account.position_qty = 0.0
-            changed = account.bind_symbol("AAPL", "test")
-            self.assertTrue(changed["ok"])
-            self.assertTrue(changed["changed"])
-            self.assertEqual(account.symbol, "AAPL")
-            account.armed = True
-            self.assertFalse(account.reset()["ok"])
-            account.armed = False
-            self.assertTrue(account.reset()["ok"])
-            self.assertIs(account._lock, original_lock)
-            self.assertEqual(account.symbol, "BTC-USDT")
-
-        self.assertTrue(any(event.get("type") == "paper_symbol_change_block" for event in events))
-        self.assertTrue(any(event.get("type") == "paper_reset_block" for event in events))
-
-    def test_paper_account_does_not_record_zero_fill_ioc_as_an_order(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            configure_paper_account_runtime(
-                state_file=Path(temp_dir) / "paper.json",
-                write_json=lambda *_args: None,
-                append_ledger=lambda *_args: None,
-                choose_strategy=lambda strategy_id: {"id": strategy_id},
-                trade_direction_from_mode=lambda value: value,
-                analyze_strategy_context=lambda *_args, **_kwargs: {},
-                evaluate_directional_strategy_signal=lambda *_args, **_kwargs: {"action": "HOLD"},
-                risk_pretrade_check=lambda *_args, **_kwargs: {"allowed": True},
-                execute_paper_order=lambda *_args, **_kwargs: {
-                    "status": "IOC_CANCELLED",
-                    "avg_price": 100.0,
-                    "filled_qty": 0.0,
-                    "filled_notional": 0.0,
-                    "fee": 0.0,
-                    "funding_estimate": 0.0,
-                    "slippage_pct": 0.0,
-                    "note": "no fill",
-                },
-                persist_state=lambda *_args: None,
-            )
-            account = PaperAccount()
-            result = account.open_long_manual(100.0, 10.0, "IOC", 100.0, "test")
-
-        self.assertEqual(result["position_side"], "FLAT")
-        self.assertEqual(account.position_qty, 0.0)
-        self.assertEqual(account.orders, [])
-
-    def test_conditional_orders_use_unified_long_short_execution_once(self) -> None:
-        events: list[dict[str, object]] = []
-        sequence = 0
-
-        def execute(
-            symbol: str,
-            side: str,
-            order_type: str,
-            price: float,
-            notional: float,
-            limit_price: float,
-            risk: dict[str, object],
-            *,
-            requested_qty: float = 0.0,
-        ) -> dict[str, object]:
-            nonlocal sequence
-            sequence += 1
-            filled_qty = requested_qty or notional / price
-            risk_context = dict(risk.get("context") or {})
-            return {
-                "status": "FILLED",
-                "avg_price": price,
-                "filled_qty": filled_qty,
-                "filled_notional": filled_qty * price,
-                "fee": 0.0,
-                "funding_estimate": 0.0,
-                "funding_charged": 0.0,
-                "slippage_pct": 0.0,
-                "note": "filled",
-                "order_id": f"condition-fill-{sequence}",
-                "symbol": symbol,
-                "side": side,
-                "order_type": order_type,
-                "mark_price": price,
-                "limit_price": limit_price,
-                "requested_notional": notional,
-                "requested_qty": requested_qty,
-                "quantity_constrained": requested_qty > 0,
-                "reduce_only": risk_context.get("reduce_only") is True,
-                "lifecycle_state": "FILLED",
-                "persistence_status": "PERSISTED",
-                "risk_request_id": str(risk.get("request_id") or ""),
-                "idempotency_key": str(risk_context.get("idempotency_key") or ""),
-                "idempotent_replay": False,
-            }
-
-        def risk_check(*args: object, **_kwargs: object) -> dict[str, object]:
-            context = dict(args[-1])
-            key = str(context.get("idempotency_key") or "condition")
-            return {"allowed": True, "request_id": f"risk-{key}", "context": context}
-
-        with tempfile.TemporaryDirectory() as temp_dir:
-            configure_paper_account_runtime(
-                state_file=Path(temp_dir) / "paper.json",
-                write_json=lambda *_args: None,
-                append_ledger=events.append,
-                choose_strategy=lambda strategy_id: {"id": strategy_id},
-                trade_direction_from_mode=lambda value: value,
-                analyze_strategy_context=lambda *_args, **_kwargs: {},
-                evaluate_directional_strategy_signal=lambda *_args, **_kwargs: {"action": "HOLD"},
-                risk_pretrade_check=risk_check,
-                execute_paper_order=execute,
-                persist_state=lambda *_args: None,
-            )
-            account = PaperAccount()
-            account.direction_mode = "SHORT_ONLY"
-            open_order = account.add_condition("btc-usdt", "SELL", 100.0, 10.0, "条件开空")
-            account.evaluate_conditionals(101.0)
-            account.evaluate_conditionals(101.0)
-
-            self.assertEqual(open_order["status"], "TRIGGERED")
-            self.assertLess(account.position_qty, 0.0)
-            self.assertEqual(len(account.orders), 1)
-            self.assertFalse(account.orders[0]["manual"])
-
-            cover_order = account.add_condition(
-                "BTC-USDT",
-                "BUY",
-                102.0,
-                100.0,
-                "条件平空",
-                reduce_only=True,
-            )
-            account.evaluate_conditionals(101.0)
-
-        self.assertEqual(cover_order["status"], "TRIGGERED")
-        self.assertEqual(account.position_qty, 0.0)
-        self.assertEqual(len(account.orders), 2)
-        self.assertEqual(sequence, 2)
-        self.assertTrue(any(event.get("type") == "condition_triggered" for event in events))
-
-    def test_paper_account_rejects_invalid_manual_and_conditional_size_without_expansion(self) -> None:
-        events: list[dict[str, object]] = []
-        execute_calls = 0
-
-        def execute(*_args: object, **_kwargs: object) -> dict[str, object]:
-            nonlocal execute_calls
-            execute_calls += 1
-            return {}
-
-        with tempfile.TemporaryDirectory() as temp_dir:
-            configure_paper_account_runtime(
-                state_file=Path(temp_dir) / "paper.json",
-                write_json=lambda *_args: None,
-                append_ledger=events.append,
-                choose_strategy=lambda strategy_id: {"id": strategy_id},
-                trade_direction_from_mode=lambda value: value,
-                analyze_strategy_context=lambda *_args, **_kwargs: {},
-                evaluate_directional_strategy_signal=lambda *_args, **_kwargs: {"action": "HOLD"},
-                risk_pretrade_check=lambda *_args, **_kwargs: {"allowed": True},
-                execute_paper_order=execute,
-                persist_state=lambda *_args: None,
-            )
-            account = PaperAccount()
-
-            account.manual_order("UNKNOWN", 100.0, 10.0)
-            account.manual_order("BUY", 100.0, 0.0)
-            with self.assertRaisesRegex(ValueError, "quantity_pct"):
-                account.add_condition("BTC-USDT", "BUY", 100.0, 0.0, "invalid")
-
-            legacy = {
-                "id": "legacy-zero-size",
-                "symbol": "BTC-USDT",
-                "side": "BUY",
-                "order_type": "MARKET",
-                "trigger_price": 100.0,
-                "limit_price": 0.0,
-                "quantity_pct": 0.0,
-                "reduce_only": False,
-                "status": "WAITING",
-            }
-            account.conditional_orders.append(legacy)
-            account.evaluate_conditionals(100.0)
-
-        self.assertEqual(execute_calls, 0)
-        self.assertEqual(account.orders, [])
-        self.assertEqual(legacy["status"], "REJECTED")
-        self.assertIn("contract is invalid", legacy["reject_reason"])
-        self.assertEqual([signal["action"] for signal in account.signals[-2:]], ["REJECT", "REJECT"])
-
-    def test_paper_account_blocks_persistent_condition_orders_at_service_boundary(self) -> None:
-        events: list[dict[str, object]] = []
-        execute_calls = 0
-
-        def execute(*_args: object, **_kwargs: object) -> dict[str, object]:
-            nonlocal execute_calls
-            execute_calls += 1
-            return {}
-
-        with tempfile.TemporaryDirectory() as temp_dir:
-            configure_paper_account_runtime(
-                state_file=Path(temp_dir) / "paper.json",
-                write_json=lambda *_args: None,
-                append_ledger=events.append,
-                choose_strategy=lambda strategy_id: {"id": strategy_id},
-                trade_direction_from_mode=lambda value: value,
-                analyze_strategy_context=lambda *_args, **_kwargs: {},
-                evaluate_directional_strategy_signal=lambda *_args, **_kwargs: {"action": "HOLD"},
-                risk_pretrade_check=lambda *_args, **_kwargs: {"allowed": True},
-                execute_paper_order=execute,
-                persist_state=lambda *_args: None,
-            )
-            account = PaperAccount()
-            with self.assertRaisesRegex(ValueError, "LIMIT/POST_ONLY"):
-                account.add_condition(
-                    "BTC-USDT",
-                    "BUY",
-                    100.0,
-                    10.0,
-                    "unsupported limit",
-                    order_type="LIMIT",
-                    limit_price=99.0,
-                )
-            self.assertEqual(account.conditional_orders, [])
-
-            legacy = {
-                "id": "legacy-limit",
-                "symbol": "BTC-USDT",
-                "side": "BUY",
-                "order_type": "LIMIT",
-                "trigger_price": 100.0,
-                "limit_price": 99.0,
-                "quantity_pct": 10.0,
-                "reduce_only": False,
-                "status": "WAITING_LIMIT",
-            }
-            account.conditional_orders.append(legacy)
-            account.evaluate_conditionals(100.0)
-
-        self.assertEqual(legacy["status"], "REJECTED")
-        self.assertIn("LIMIT/POST_ONLY", legacy["reject_reason"])
-        self.assertEqual(execute_calls, 0)
-        self.assertTrue(any(event.get("type") == "condition_reject" for event in events))
 
     def test_mutation_journal_replays_same_request_and_rejects_key_reuse(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -4554,7 +3434,7 @@ class CoreServiceTests(unittest.TestCase):
         self.assertFalse(next(row for row in stale["checks"] if row["name"] == "risk_snapshot_freshness")["ok"])
 
     def test_quantity_execution_never_exceeds_approved_notional(self) -> None:
-        report = simulated_execution_report(
+        report = research_execution_report(
             "AAPL", "BUY", "MARKET", 100, 100,
             book_reader=lambda *_args: [[1_000_000, 1]],
             requested_qty=1,
@@ -4564,119 +3444,9 @@ class CoreServiceTests(unittest.TestCase):
         self.assertLessEqual(report["filled_notional"], 100)
         self.assertLess(report["filled_qty"], 1)
 
-    def test_paper_ledger_binds_orders_to_one_account_and_rejects_spoofed_settlement(self) -> None:
-        def baseline() -> dict[str, object]:
-            return {
-                "cash": 1_000, "short_margin": 0, "realized_pnl": 0,
-                "symbol": "AAPL", "position_qty": 0, "entry_price": 0,
-                "leverage": 1, "orders": [], "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 1_000}],
-            }
 
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "paper.sqlite3"
-            account_a = PaperLedger(db_path=path, now_ms=lambda: 2, account_id="A")
-            account_b = PaperLedger(db_path=path, now_ms=lambda: 2, account_id="B")
-            account_a.save_account(baseline())
-            account_b.save_account(baseline())
-            order = paper_lifecycle_fill("account-a-fill", "BUY", 1, 100, 1)
-            order.pop("account_id")
-            account_a.record_lifecycle_order(order)
 
-            with self.assertRaisesRegex(ValueError, "paper_settlement_symbol_mismatch"):
-                spoofed = {**baseline(), "orders": [{"order_id": "account-a-fill"}]}
-                account_a.save_account(spoofed, applied_lifecycle_ids=["account-a-fill"])
 
-            results = [account_a.reconcile_account(), account_b.reconcile_account()]
-            self.assertEqual(results[0]["reconciled"], 1)
-            self.assertEqual(results[1]["reconciled"], 0)
-            self.assertEqual(account_a.load_account()["position_qty"], 1)
-            self.assertEqual(account_b.load_account()["position_qty"], 0)
-
-    def test_paper_ledger_stale_position_snapshot_cannot_reverse_position(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            ledger = PaperLedger(db_path=Path(temp_dir) / "paper.sqlite3", now_ms=lambda: 3)
-            ledger.save_account({
-                "cash": 900, "short_margin": 0, "realized_pnl": 0,
-                "symbol": "AAPL", "position_qty": 1, "entry_price": 100,
-                "leverage": 1, "orders": [], "conditional_orders": [],
-                "equity_curve": [{"time": 1, "equity": 1_000}],
-            })
-            ledger.record_lifecycle_order(
-                paper_lifecycle_fill(
-                    "close-long-1", "SELL", 1, 100, 1,
-                    position_side_before="LONG",
-                )
-            )
-            ledger.record_lifecycle_order(
-                paper_lifecycle_fill(
-                    "close-long-2", "SELL", 1, 100, 2,
-                    position_side_before="LONG",
-                )
-            )
-
-            result = ledger.reconcile_account()
-            restored = ledger.load_account()
-
-            self.assertFalse(result["ok"])
-            self.assertEqual(result["reconciled"], 1)
-            self.assertEqual(restored["position_qty"], 0)
-            self.assertEqual(ledger.summary()["pending_settlement_count"], 1)
-
-    def test_account_execution_report_contract_rejects_wrong_identity_and_arithmetic(self) -> None:
-        risk = {"request_id": "risk-account-contract"}
-        report = {
-            "order_id": "paper-account-contract", "symbol": "AAPL", "side": "BUY",
-            "order_type": "MARKET", "mark_price": 100, "limit_price": 0,
-            "requested_notional": 100, "requested_qty": 0,
-            "quantity_constrained": False, "reduce_only": False,
-            "status": "FILLED", "lifecycle_state": "FILLED",
-            "avg_price": 100, "filled_qty": 1, "filled_notional": 100,
-            "fee": 0.05, "funding_charged": 0,
-            "risk_request_id": "risk-account-contract", "idempotency_key": "key-1",
-            "idempotent_replay": False, "persistence_status": "PERSISTED",
-        }
-        common = {
-            "symbol": "AAPL", "side": "BUY", "order_type": "MARKET",
-            "mark_price": 100, "notional": 100, "limit_price": 0,
-            "requested_qty": 0, "reduce_only": False,
-            "idempotency_key": "key-1", "risk_check": risk,
-        }
-
-        self.assertIn(
-            "execution_symbol_mismatch",
-            execution_report_contract_errors({**report, "symbol": "ETH-USDT"}, **common),
-        )
-        self.assertIn(
-            "execution_fill_arithmetic_mismatch",
-            execution_report_contract_errors({**report, "filled_notional": 1}, **common),
-        )
-
-    def test_paper_account_reset_preserves_consumed_order_identity(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            configure_paper_account_runtime(
-                state_file=Path(temp_dir) / "paper.json",
-                write_json=lambda *_args: None,
-                append_ledger=lambda *_args: None,
-                choose_strategy=lambda strategy_id: {"id": strategy_id},
-                trade_direction_from_mode=lambda value: value,
-                analyze_strategy_context=lambda *_args, **_kwargs: {},
-                evaluate_directional_strategy_signal=lambda *_args, **_kwargs: {"action": "HOLD"},
-                risk_pretrade_check=lambda *_args, **_kwargs: {"allowed": False},
-                execute_paper_order=lambda *_args, **_kwargs: {},
-                persist_state=lambda *_args: None,
-            )
-            account = PaperAccount()
-            account._applied_execution_ids.add("historical-order")
-            self.assertTrue(account.reset()["ok"])
-            replay = account.execution_already_applied(
-                {"order_id": "historical-order", "idempotent_replay": True},
-                100,
-            )
-
-        self.assertIsNotNone(replay)
-        self.assertEqual(replay["position_qty"], 0)
-        self.assertEqual(account.orders, [])
 
     def test_event_bus_and_audit_log_are_thread_safe(self) -> None:
         bus = EventBus(now_ms=lambda: 123, max_events=500)

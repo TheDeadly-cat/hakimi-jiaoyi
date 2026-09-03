@@ -15,13 +15,14 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from exchange_terminal.services.corporate_action_ledger import (
     CorporateActionLedger,
-    build_adjustment_evidence,
+    build_adjustment_evidence as _build_adjustment_evidence,
     build_corporate_action_source_evidence,
     build_official_corporate_action_attestation,
     infer_adjustment_basis,
     parse_yahoo_corporate_actions,
     verify_adjustment_evidence,
 )
+from tests._stock_schedule_fixture import build_stock_schedule_fixture
 
 
 def canonical_hash(payload: object) -> str:
@@ -50,6 +51,18 @@ def make_rows(count: int = 40, *, split_index: int = -1) -> list[dict[str, objec
         })
         trading_date += timedelta(days=1)
     return rows
+
+
+def build_adjustment_evidence(**kwargs: object) -> dict[str, object]:
+    rows = kwargs.get("rows")
+    source = kwargs.get("source", "futu")
+    symbol = kwargs.get("symbol", "AAPL")
+    if type(rows) is list and type(source) is str and type(symbol) is str:
+        kwargs.setdefault(
+            "schedule_attestation",
+            build_stock_schedule_fixture(rows, symbol=symbol, source=source),
+        )
+    return _build_adjustment_evidence(**kwargs)  # type: ignore[arg-type,return-value]
 
 
 def official_attestation() -> dict[str, object]:

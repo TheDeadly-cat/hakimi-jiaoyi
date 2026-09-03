@@ -21,6 +21,8 @@ class StockQuoteQualityTests(unittest.TestCase):
                 "open24h": 100,
                 "high24h": 112,
                 "low24h": 99,
+                "bidPx": 109.9,
+                "askPx": 110.1,
                 "change24h_pct": 4.76,
                 "ts": 1_000,
             },
@@ -33,7 +35,7 @@ class StockQuoteQualityTests(unittest.TestCase):
         self.assertEqual(quote["change_basis"], "previous_close")
         self.assertEqual(quote["prevClose"], 105)
         self.assertAlmostEqual(quote["change24h_pct"], 4.76, places=2)
-        self.assertEqual(quote["quote_quality"]["status"], "READY")
+        self.assertEqual(quote["quote_quality"]["status"], "PASS")
 
     def test_missing_previous_close_uses_open_and_degrades(self) -> None:
         quote = normalize_stock_quote_quality(

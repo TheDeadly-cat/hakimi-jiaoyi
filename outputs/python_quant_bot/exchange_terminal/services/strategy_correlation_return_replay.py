@@ -8,10 +8,7 @@ import json
 import math
 from typing import Any
 
-try:
-    from market_data.candle_contract import candle_is_complete
-except ModuleNotFoundError:
-    from exchange_terminal.market_data.candle_contract import candle_is_complete
+from hakimi_research.candle_contract import candle_is_complete
 
 from .execution_authority import authority_violations
 from .strategy_correlation_cluster_gate import (

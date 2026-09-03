@@ -5,10 +5,7 @@ from datetime import date, timedelta
 from statistics import median
 from typing import Any
 
-try:
-    from market_data.candle_contract import candle_is_complete
-except ModuleNotFoundError:
-    from exchange_terminal.market_data.candle_contract import candle_is_complete
+from hakimi_research.candle_contract import candle_is_complete
 from .backtest_engine import numeric_parameter_contract_issues, run_causal_long_only_backtest
 
 

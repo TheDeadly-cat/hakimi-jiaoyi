@@ -10,10 +10,7 @@ import threading
 import time
 from typing import Any, Callable
 
-try:
-    from market_data.candle_contract import explicit_boolean
-except ModuleNotFoundError:
-    from exchange_terminal.market_data.candle_contract import explicit_boolean
+from hakimi_research.candle_contract import explicit_boolean
 
 
 MARKET_HISTORY_STORE_VERSION = "market-history-store-v2"

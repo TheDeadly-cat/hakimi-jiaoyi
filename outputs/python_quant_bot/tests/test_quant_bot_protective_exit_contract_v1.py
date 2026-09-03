@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from quant_bot.config import RiskConfig
+from hakimi_research.config import RiskConfig
 from quant_bot.models import Action, Portfolio
 from quant_bot.risk import RiskManager
 

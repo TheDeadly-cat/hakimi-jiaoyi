@@ -7,7 +7,10 @@ on:
     paths:
       - ".gitattributes"
       - ".github/workflows/research-contracts.yml"
+      - "examples/**"
+      - "hakimi-research.ps1"
       - "outputs/python_quant_bot/**"
+      - "requirements.research.lock"
       - "src/**"
   pull_request:
     branches:
@@ -15,7 +18,10 @@ on:
     paths:
       - ".gitattributes"
       - ".github/workflows/research-contracts.yml"
+      - "examples/**"
+      - "hakimi-research.ps1"
       - "outputs/python_quant_bot/**"
+      - "requirements.research.lock"
       - "src/**"
   workflow_dispatch:
 
@@ -56,13 +62,42 @@ jobs:
           python-version: "3.14"
 
       - name: Install active research dependency closure
+        working-directory: ${{ github.workspace }}
         run: python -m pip install --requirement requirements.research.lock
 
       - name: Check installed dependency consistency
         run: python -m pip check
 
-      - name: Verify deterministic input identity
-        run: python -B examples/deterministic_experiment/verify.py
+      - name: Verify deterministic Frozen OOS benchmark reference
+        working-directory: ${{ github.workspace }}
+        run: python -B -m hakimi_research frozen-benchmark
+
+      - name: Verify deterministic strategy-family benchmark reference
+        working-directory: ${{ github.workspace }}
+        run: python -B -m hakimi_research strategy-family-benchmark
+
+      - name: Verify deterministic strategy-robustness benchmark reference
+        working-directory: ${{ github.workspace }}
+        run: python -B -m hakimi_research strategy-robustness-benchmark
+
+      - name: Verify deterministic strategy statistical-correction reference
+        working-directory: ${{ github.workspace }}
+        run: python -B -m hakimi_research strategy-statistical-correction-benchmark
+
+      - name: Verify deterministic strategy research dossier
+        working-directory: ${{ github.workspace }}
+        run: python -B -m hakimi_research strategy-research-dossier
+
+      - name: Verify Electron research-only capability consumers
+        working-directory: ${{ github.workspace }}
+        run: |
+          node outputs/hakimi_trade_electron/backend-runtime-contract.test.js
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node outputs/hakimi_trade_electron/research-capability-lock.test.js
+
+      - name: Verify neutral market-data research renderer
+        working-directory: ${{ github.workspace }}
+        run: node outputs/python_quant_bot/exchange_terminal/static/market_data_research_projection.test.js
 
       - name: Run research-only contracts
         run: >
@@ -76,5 +111,42 @@ jobs:
           tests.test_research_dependency_lock_v1
           tests.test_research_ci_workflow_v1
           tests.test_canonical_product_capability_source_v1
+          tests.test_canonical_experiment_manifest_source_v1
+          tests.test_canonical_research_config_source_v1
+          tests.test_canonical_research_models_source_v1
+          tests.test_canonical_research_execution_source_v1
+          tests.test_canonical_research_risk_source_v1
+          tests.test_canonical_research_backtest_source_v1
+          tests.test_canonical_research_data_source_v1
+          tests.test_canonical_research_strategies_source_v1
+          tests.test_canonical_research_indicators_source_v1
+          tests.test_canonical_research_logging_reporting_source_v1
           tests.test_canonical_cli_entrypoint_v1
           tests.test_frozen_evaluation_protocol_v1
+          tests.test_fixed_baseline_matrix_v1
+          tests.test_volatility_matched_comparison_v1
+          tests.test_prior_window_volatility_target_baseline_v1
+          tests.test_fixed_parameter_walk_forward_v1
+          tests.test_parameter_stability_matrix_v1
+          tests.test_multiple_testing_ledger_v1
+          tests.test_frozen_market_regime_analysis_v1
+          tests.test_frozen_tail_distribution_analysis_v1
+          tests.test_distribution_evidence_v1
+          tests.test_quant_bot_compatibility_package_v1
+          tests.test_canonical_terminal_utils_source_v1
+          tests.test_canonical_terminal_config_source_v1
+          tests.test_canonical_candle_contract_source_v1
+          tests.test_canonical_stock_data_quality_source_v1
+          tests.test_stock_data_quality_boundary_v2
+          tests.test_stock_candle_temporal_conformance_v1
+          tests.test_market_calendar_attestation_v1
+          tests.test_canonical_stock_candle_structure_source_v1
+          tests.test_canonical_stock_candle_revision_policy_v1
+          tests.test_canonical_market_data_research_projection_v1
+          tests.test_frozen_dataset_governance_v1
+          tests.test_frozen_dataset_calendar_conformance_v1
+          tests.test_frozen_execution_adversity_v1
+          tests.test_frozen_bootstrap_confidence_v1
+          tests.test_stock_market_data_governance_v1
+          tests.test_frozen_statistical_correction_v1
+          tests.test_deterministic_strategy_research_dossier_v1

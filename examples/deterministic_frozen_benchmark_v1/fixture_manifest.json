@@ -1,0 +1,121 @@
+{
+  "authority": {
+    "live": false,
+    "order": false,
+    "paper": false,
+    "parameter_selection": false,
+    "profitability_proof": false,
+    "ranking": false
+  },
+  "benchmarks": [
+    "CASH",
+    "ENGINE_BUY_AND_HOLD",
+    "FIXED_DUAL_MA",
+    "FIXED_BREAKOUT",
+    "HASH_NO_SKILL"
+  ],
+  "claims": {
+    "formal_blind_test": false,
+    "live": false,
+    "natural_forward": false,
+    "order": false,
+    "paper": false,
+    "parameter_selection": false,
+    "profitability": false,
+    "ranking": false,
+    "real_dataset": false
+  },
+  "comparison_methods": [
+    "ENGINE_BUY_AND_HOLD_EX_POST_VOLATILITY_MATCH"
+  ],
+  "contract_version": "deterministic-frozen-benchmark-manifest-v1",
+  "cost_scenarios": [
+    {
+      "multiplier": 1,
+      "scenario_id": "BASE"
+    },
+    {
+      "multiplier": 2,
+      "scenario_id": "DOUBLE_COST"
+    },
+    {
+      "multiplier": 3,
+      "scenario_id": "TRIPLE_COST"
+    }
+  ],
+  "coverage_gaps": [
+    "WALK_FORWARD_REAL_MARKET_AND_LONG_HORIZON_NOT_AVAILABLE",
+    "PARAMETER_STABILITY_ONLY_DUAL_MA_SYNTHETIC_GRID",
+    "MULTIPLE_TESTING_CORRECTIONS_NOT_ESTIMABLE_TWO_SYNTHETIC_FOLDS",
+    "MARKET_REGIME_SLICES_ONLY_SYNTHETIC_FIXED_THRESHOLDS",
+    "TAIL_DISTRIBUTION_ONLY_TEN_SYNTHETIC_OBSERVATIONS"
+  ],
+  "data_rows": 128,
+  "dataset_hash": "1cf5fd0e59082042d42f4b42d4841a5f35f673126b93fca3bda4de46a0fbac35",
+  "dependency_lock": {
+    "fully_pinned": true,
+    "name": "requirements.research.lock",
+    "sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320"
+  },
+  "execution_baseline_methods": [
+    "PRIOR_WINDOW_VOLATILITY_TARGET_BUY_AND_HOLD"
+  ],
+  "expected_markdown_sha256": "6a668a53f32001dfc09f1c2eddda6db30d4fe213db5f313d5aa74cbf9271ddca",
+  "expected_report_sha256": "b6f6081db1caff9cfbcf03cfe55d04107bf5f76fb792ef9b524775ecffb2082a",
+  "git_provenance": "UNBOUND_SOURCE_HASH_ENVELOPE",
+  "input_files": {
+    "config.json": "2ccffa3a09b03fa2103627ddffcdf684551def7fc5020972372566cfbedc71bd",
+    "dataset.csv": "1268f7664e17c6b2ff9da42659a571465e17941af8e7b01a21d938571fe2f7bb",
+    "experiment_context.json": "ce8b37308c1aa23c3546a0a0e1a0d8c334e8b9641a4d94a10b3324ba0aae52db"
+  },
+  "manifest_sha256": "bc364728a79d8fa84c8ad77c87bf391b99edd66036219e08faa2f2682fe42542",
+  "market_regime_policy": "fixed-trailing-market-regime-v1",
+  "maturity": "SYNTHETIC_FIXTURE_ONLY",
+  "multiple_testing_policy": "multiple-testing-lineage-policy-v1",
+  "parameter_stability_method": "dual-ma-fixed-perturbation-matrix-v1",
+  "partition_rows": {
+    "EMBARGO": 4,
+    "FROZEN_TEST": 40,
+    "PURGE": 4,
+    "TRAIN": 40,
+    "VALIDATION": 40
+  },
+  "protocol_hash": "69de4ce1fbb258a12db821f355cf7c82c98453f22c5f8f4a3d2b8ce82e00ee85",
+  "protocol_id": "hfep-69de4ce1fbb258a12db8",
+  "quality_blockers": [
+    "BLIND_HOLDOUT_NOT_PROVEN",
+    "EXTERNAL_PREREGISTRATION_RECEIPT_MISSING",
+    "SINGLE_CONSUMPTION_NOT_ENFORCED",
+    "NOT_NATURAL_FORWARD_EVIDENCE",
+    "NESTED_EXPERIMENT_REPRODUCIBILITY_BLOCK"
+  ],
+  "quality_status": "BLOCK",
+  "report_hash": "d850be4b62ac7252747ccb362096160c8fb82c496d520acdb9e8b90b944c5e76",
+  "report_id": "hfer-d850be4b62ac7252747c",
+  "runtime_contract": "python-3.14",
+  "sample_id": "synthetic-frozen-oos-cost-stress-v1",
+  "source_files": {
+    "src/hakimi_research/backtest.py": "5572b2b33f3e685c8a3f80f35dba1cc700eb68fa3d0593078bb68e2294b0c995",
+    "src/hakimi_research/benchmarks.py": "19e691250f809573d90ca53b3a21838774b3055b9b5b1f5cf28f4f2f859f0dab",
+    "src/hakimi_research/config.py": "a9c89c3ad722f5b5cd0ea175b1c1094198c750546eb53fac9f14f6d34b62f0db",
+    "src/hakimi_research/deterministic_frozen_benchmark.py": "2d35707db590fbfd6e3524565fbfc91fe1bf5cdbce58aceb9dc3ebf7327ded6b",
+    "src/hakimi_research/distribution_evidence.py": "86400580e5fb9b59c2c6b9ea63140aa72f40c527e5f0dc98e2e14ae60713f29a",
+    "src/hakimi_research/execution.py": "9d90388d95cf27e2f16601682cc7a031feec5354f64dabf12d2d303e214a86ef",
+    "src/hakimi_research/experiment_manifest.py": "96566a64ad145a0a0d65d25509aa3c4afd5790cd52453ea2cab583bfbe585d9c",
+    "src/hakimi_research/frozen_distribution.py": "5c40a29872908a89a2599842aadafdc4df58a87a9500a2d4d52f6e514fc28667",
+    "src/hakimi_research/frozen_evaluation.py": "6b516507582158105738be9ec4c55251e46d741aca0679277b8fc8a406ef43cb",
+    "src/hakimi_research/frozen_market_regime.py": "2c001c4b5eef8a7419132a650722969f860bad18269471d59f717a59aa7994bc",
+    "src/hakimi_research/indicators.py": "8599dc1b6f20cad2b2c807424320d2bb73e0aa09439a08083844745c85e76ab9",
+    "src/hakimi_research/models.py": "7617d62a80f1dffb8604aee8d550cf21e36cb96ce26d51fc7ee506ad39475717",
+    "src/hakimi_research/multiple_testing.py": "eaaf438cb05baca2b67278e406d5350bef5e5a8417d8e26555ce4318337341eb",
+    "src/hakimi_research/parameter_stability.py": "3a2e074536b31ac11f6c88b82d5ba911c1519104980caa4520617f09674583a2",
+    "src/hakimi_research/risk.py": "07895205e840c5d9a08edc65b97e19e7d5bc7ee7c827f4e85afe795cab9583e0",
+    "src/hakimi_research/strategies/base.py": "23ba0f9094d69dac47ae08e697d3a540f82bfccc9f1b1e2df79634c4c9e6af67",
+    "src/hakimi_research/strategies/templates.py": "1d1f6428cf5ef0e52d9929b12bd7e9351ebd710c235accc7ff8f057d261498d8",
+    "src/hakimi_research/volatility_comparison.py": "f36e5b4c30149c9c90ed17b99244548675accdb5990cc34dced17a987f9ca708",
+    "src/hakimi_research/volatility_target_baseline.py": "bef4a98ced86fc32f441059d1733ec94562ea9ba0f8a2c0abb21a978af279084",
+    "src/hakimi_research/walk_forward.py": "76efd0f0dde1f613273704b00efa6255feeb12eec57183bfaf20e931fecbc651"
+  },
+  "tail_distribution_policy": "frozen-tail-distribution-policy-v1",
+  "walk_forward_method": "fixed-parameter-walk-forward-v1"
+}

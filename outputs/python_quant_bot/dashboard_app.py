@@ -16,7 +16,7 @@ from hakimi_research.product_capabilities import (  # noqa: E402
     build_product_capability_catalog,
 )
 from quant_bot.backtest import BacktestEngine
-from quant_bot.config import BotConfig
+from hakimi_research.config import BotConfig
 from quant_bot.data import build_data_provider
 from quant_bot.experiment_manifest import build_local_experiment_context
 from quant_bot.logging_setup import setup_logging

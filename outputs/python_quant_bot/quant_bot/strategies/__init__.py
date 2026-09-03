@@ -1,3 +1,31 @@
-from .templates import STRATEGY_REGISTRY, build_strategy
+from hakimi_research.strategies import (
+    STRATEGY_BASE_SCHEMA_VERSION,
+    STRATEGY_REGISTRY,
+    BollingerBandStrategy,
+    DualMovingAverageStrategy,
+    GridStrategy,
+    MacdStrategy,
+    MomentumStrategy,
+    Portfolio,
+    RsiStrategy,
+    Signal,
+    StrategyBase,
+    build_strategy,
+    clone_strategy_params,
+)
 
-__all__ = ["STRATEGY_REGISTRY", "build_strategy"]
+__all__ = [
+    "STRATEGY_BASE_SCHEMA_VERSION",
+    "StrategyBase",
+    "Portfolio",
+    "Signal",
+    "clone_strategy_params",
+    "STRATEGY_REGISTRY",
+    "build_strategy",
+    "DualMovingAverageStrategy",
+    "GridStrategy",
+    "BollingerBandStrategy",
+    "MacdStrategy",
+    "RsiStrategy",
+    "MomentumStrategy",
+]

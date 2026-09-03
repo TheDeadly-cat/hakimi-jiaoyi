@@ -1,21 +1,15 @@
-from __future__ import annotations
+from hakimi_research.strategies.base import (
+    STRATEGY_BASE_SCHEMA_VERSION,
+    Portfolio,
+    Signal,
+    StrategyBase,
+    clone_strategy_params,
+)
 
-from dataclasses import dataclass, field
-from typing import Any
-
-import pandas as pd
-
-from quant_bot.models import Portfolio, Signal
-
-
-@dataclass
-class StrategyBase:
-    params: dict[str, Any] = field(default_factory=dict)
-    name: str = "base"
-    version: str = "v1"
-
-    def get(self, key: str, default: Any) -> Any:
-        return self.params.get(key, default)
-
-    def generate_signal(self, data: pd.DataFrame, portfolio: Portfolio) -> Signal:
-        raise NotImplementedError
+__all__ = [
+    "STRATEGY_BASE_SCHEMA_VERSION",
+    "StrategyBase",
+    "Portfolio",
+    "Signal",
+    "clone_strategy_params",
+]

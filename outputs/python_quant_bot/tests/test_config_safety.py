@@ -24,9 +24,9 @@ class ConfigSafetyTests(unittest.TestCase):
         protected_names = ("OPENAI_API_KEY", "OPENAI_BASE_URL", "OPENAI_MODEL", "GPT_MODEL")
         before = {name: os.environ.get(name) for name in protected_names}
         isolated_modes = (
-            {"HAKIMI_SKIP_LOCAL_AI_ENV": "1", "HAKIMI_RUNTIME_READ_ONLY": "0", "HAKIMI_TEST_MODE": "0"},
-            {"HAKIMI_SKIP_LOCAL_AI_ENV": "0", "HAKIMI_RUNTIME_READ_ONLY": "1", "HAKIMI_TEST_MODE": "0"},
-            {"HAKIMI_SKIP_LOCAL_AI_ENV": "0", "HAKIMI_RUNTIME_READ_ONLY": "0", "HAKIMI_TEST_MODE": "1"},
+            {"HAKIMI_LOAD_LOCAL_AI_ENV": "1", "HAKIMI_SKIP_LOCAL_AI_ENV": "1", "HAKIMI_RUNTIME_READ_ONLY": "0", "HAKIMI_TEST_MODE": "0"},
+            {"HAKIMI_LOAD_LOCAL_AI_ENV": "1", "HAKIMI_SKIP_LOCAL_AI_ENV": "0", "HAKIMI_RUNTIME_READ_ONLY": "1", "HAKIMI_TEST_MODE": "0"},
+            {"HAKIMI_LOAD_LOCAL_AI_ENV": "1", "HAKIMI_SKIP_LOCAL_AI_ENV": "0", "HAKIMI_RUNTIME_READ_ONLY": "0", "HAKIMI_TEST_MODE": "1"},
         )
 
         for environment in isolated_modes:
@@ -39,6 +39,28 @@ class ConfigSafetyTests(unittest.TestCase):
                     config.load_local_ai_env()
 
         self.assertEqual({name: os.environ.get(name) for name in protected_names}, before)
+
+    def test_default_import_policy_returns_before_local_env_path_access(self) -> None:
+        with (
+            patch.dict(os.environ, {"HAKIMI_LOAD_LOCAL_AI_ENV": "0"}, clear=True),
+            patch.object(Path, "is_file", side_effect=AssertionError("local env path was inspected")),
+            patch.object(Path, "read_text", side_effect=AssertionError("local env file was read")),
+        ):
+            self.assertFalse(config.load_local_ai_env())
+
+    def test_explicit_opt_in_loads_only_allowlisted_mock_values(self) -> None:
+        mock_document = (
+            "OPENAI_MODEL=test-model\n"
+            "IGNORED_SECRET=must-not-load\n"
+        )
+        with (
+            patch.dict(os.environ, {"HAKIMI_LOAD_LOCAL_AI_ENV": "1"}, clear=True),
+            patch.object(Path, "is_file", return_value=True),
+            patch.object(Path, "read_text", return_value=mock_document),
+        ):
+            self.assertTrue(config.load_local_ai_env())
+            self.assertEqual(os.environ.get("OPENAI_MODEL"), "test-model")
+            self.assertNotIn("IGNORED_SECRET", os.environ)
 
     def test_external_environment_cannot_disable_live_trading_hard_block(self) -> None:
         environment = os.environ.copy()

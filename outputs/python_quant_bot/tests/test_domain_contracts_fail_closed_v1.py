@@ -68,6 +68,10 @@ class DomainContractsFailClosedV1Tests(unittest.TestCase):
     def test_product_capability_catalog_rejects_status_and_binding_drift(self) -> None:
         catalog = build_product_capability_catalog().to_dict()
         self.assertEqual(catalog["capabilities"]["historical_backtest"], "Supported")
+        self.assertEqual(
+            catalog["capabilities"]["deterministic_frozen_benchmark"],
+            "Supported",
+        )
         self.assertEqual(catalog["capabilities"]["parameter_optimization"], "Archived")
         self.assertEqual(catalog["capabilities"]["paper_execution"], "Archived")
         self.assertEqual(catalog["capabilities"]["live_execution"], "Archived")

@@ -5,11 +5,15 @@ from typing import Any
 
 
 _CAPABILITY_SCHEMA_VERSION = "capability-v1"
-_PRODUCT_CAPABILITY_CATALOG_SCHEMA_VERSION = "product-capability-catalog-v1"
+_PRODUCT_CAPABILITY_CATALOG_SCHEMA_VERSION = "product-capability-catalog-v2"
 _PRODUCT_CAPABILITY_ITEMS = (
     ("product_capability_catalog", "Supported"),
     ("market_data_research", "Supported"),
     ("historical_backtest", "Supported"),
+    ("deterministic_frozen_benchmark", "Supported"),
+    ("deterministic_strategy_family_benchmark", "Supported"),
+    ("deterministic_strategy_robustness_benchmark", "Supported"),
+    ("deterministic_strategy_statistical_correction_benchmark", "Supported"),
     ("research_reporting", "Supported"),
     ("strategy_catalog", "Supported"),
     ("local_research_terminal", "Experimental"),
@@ -20,6 +24,17 @@ _PRODUCT_CAPABILITY_ITEMS = (
 )
 _PRODUCT_CLI_BINDINGS = (
     ("backtest", "historical_backtest"),
+    ("frozen-benchmark", "deterministic_frozen_benchmark"),
+    ("strategy-family-benchmark", "deterministic_strategy_family_benchmark"),
+    (
+        "strategy-robustness-benchmark",
+        "deterministic_strategy_robustness_benchmark",
+    ),
+    (
+        "strategy-statistical-correction-benchmark",
+        "deterministic_strategy_statistical_correction_benchmark",
+    ),
+    ("strategy-research-dossier", "research_reporting"),
     ("capabilities", "product_capability_catalog"),
     ("list-strategies", "strategy_catalog"),
     ("optimize", "parameter_optimization"),

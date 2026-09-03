@@ -10,7 +10,7 @@ const {
   isLoopbackHost,
 } = require("./backend-runtime-contract");
 
-const APP_TITLE = "哈基米交易 v2";
+const APP_TITLE = "哈基米研究 v2";
 const HOST = process.env.HAKIMI_HOST || "127.0.0.1";
 const PORT = Number(process.env.HAKIMI_PORT || 8765);
 const BASE_URL = `http://${HOST}:${PORT}`;
@@ -261,14 +261,14 @@ async function restartBackend() {
 function setAppMenu() {
   const template = [
     {
-      label: "哈基米交易",
+      label: "哈基米研究",
       submenu: [
         { label: "显示窗口", click: showMainWindow },
         { label: "刷新", accelerator: "CmdOrCtrl+R", click: () => mainWindow?.reload() },
         { label: "重启后台", click: restartBackend },
         { label: "启动 FutuOpenD", click: () => startFutuOpenDIfNeeded() },
         { label: "富途配置", click: () => mainWindow?.loadURL(`${BASE_URL}/futu_setup.html`) },
-        { label: "回到交易台", click: () => mainWindow?.loadURL(BASE_URL) },
+        { label: "回到研究台", click: () => mainWindow?.loadURL(BASE_URL) },
         { label: "在浏览器打开", click: () => shell.openExternal(BASE_URL) },
         { type: "separator" },
         { label: "开发者工具", accelerator: "F12", click: () => mainWindow?.webContents.openDevTools({ mode: "detach" }) },
@@ -285,8 +285,8 @@ function createTray() {
   tray = new Tray(ICON_PATH);
   tray.setToolTip(APP_TITLE);
   tray.setContextMenu(Menu.buildFromTemplate([
-    { label: "显示哈基米交易", click: showMainWindow },
-    { label: "回到交易台", click: () => { showMainWindow(); mainWindow?.loadURL(BASE_URL); } },
+    { label: "显示哈基米研究", click: showMainWindow },
+    { label: "回到研究台", click: () => { showMainWindow(); mainWindow?.loadURL(BASE_URL); } },
     { label: "富途配置", click: () => { showMainWindow(); mainWindow?.loadURL(`${BASE_URL}/futu_setup.html`); } },
     { label: "启动 FutuOpenD", click: () => startFutuOpenDIfNeeded() },
     { label: "重启后台", click: restartBackend },
@@ -395,8 +395,6 @@ async function boot() {
   setAppMenu();
   createTray();
   showBootMessage("正在检查本机服务", HEALTH_URL);
-  startFutuOpenDIfNeeded();
-
   const initialHealth = await readBackendHealth();
   if (!initialHealth.healthy) {
     const portOccupied = initialHealth.reachable || await isPortOpen(HOST, PORT, 700);
@@ -420,7 +418,7 @@ async function boot() {
     return;
   }
 
-  showBootMessage("正在打开交易台", BASE_URL);
+  showBootMessage("正在打开研究台", BASE_URL);
   await mainWindow.loadURL(BASE_URL);
   startStatusMonitor();
 }

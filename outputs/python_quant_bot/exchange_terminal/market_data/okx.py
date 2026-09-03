@@ -12,7 +12,7 @@ except ModuleNotFoundError:
     try:
         from ..config import OKX_BASE_URL, OKX_TIMEOUT
     except ImportError:
-        from exchange_terminal.config import OKX_BASE_URL, OKX_TIMEOUT
+        from hakimi_research.terminal_config import OKX_BASE_URL, OKX_TIMEOUT
 
 try:
     from market_data.provider_health import (

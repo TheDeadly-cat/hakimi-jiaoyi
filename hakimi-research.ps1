@@ -2,16 +2,15 @@ $ErrorActionPreference = "Stop"
 
 $repositoryRoot = $PSScriptRoot
 $sourceRoot = Join-Path $repositoryRoot "src"
-$legacyProjectRoot = Join-Path $repositoryRoot "outputs\python_quant_bot"
 $pythonCommand = Get-Command python -ErrorAction Stop
 $previousPythonPath = $env:PYTHONPATH
-$pathItems = @($sourceRoot, $legacyProjectRoot)
+$pathItems = @($sourceRoot)
 if ($previousPythonPath) {
     $pathItems += $previousPythonPath
 }
 
 $env:PYTHONPATH = $pathItems -join [IO.Path]::PathSeparator
-Push-Location -LiteralPath $legacyProjectRoot
+Push-Location -LiteralPath $repositoryRoot
 try {
     & $pythonCommand.Source -B -m hakimi_research @args
     $processExitCode = $LASTEXITCODE
