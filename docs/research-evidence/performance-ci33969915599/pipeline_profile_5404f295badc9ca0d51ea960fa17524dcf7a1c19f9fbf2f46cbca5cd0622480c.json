@@ -1,0 +1,364 @@
+{
+  "decisions_and_results_exact": true,
+  "environment_matches": true,
+  "environment_verified": {
+    "errors": [],
+    "lock_fully_pinned": true,
+    "lock_name": "requirements.research.lock",
+    "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+    "mismatched": [],
+    "missing": [],
+    "packages": {
+      "numpy": {
+        "installed": "2.4.6",
+        "required": "2.4.6"
+      },
+      "pandas": {
+        "installed": "3.0.3",
+        "required": "3.0.3"
+      },
+      "python-dateutil": {
+        "installed": "2.9.0.post0",
+        "required": "2.9.0.post0"
+      },
+      "six": {
+        "installed": "1.17.0",
+        "required": "1.17.0"
+      },
+      "tzdata": {
+        "installed": "2026.2",
+        "required": "2026.2"
+      }
+    },
+    "python_supported": true,
+    "python_version": "3.14.6",
+    "status": "VERIFIED",
+    "verification_scope": "installed_distribution_versions_against_lock"
+  },
+  "execution_hotspots": [
+    {
+      "cumulative_seconds": 10.1269682,
+      "function": "run",
+      "line": 143,
+      "module_file": "experiment.py",
+      "own_seconds": 0.0020570000000000002,
+      "primitive_calls": 1,
+      "total_calls": 1
+    },
+    {
+      "cumulative_seconds": 6.1751746,
+      "function": "run",
+      "line": 1128,
+      "module_file": "backtest.py",
+      "own_seconds": 0.0016207,
+      "primitive_calls": 1,
+      "total_calls": 1
+    },
+    {
+      "cumulative_seconds": 6.047726,
+      "function": "run",
+      "line": 259,
+      "module_file": "backtest.py",
+      "own_seconds": 0.1615533,
+      "primitive_calls": 1,
+      "total_calls": 1
+    },
+    {
+      "cumulative_seconds": 3.5551836000000003,
+      "function": "verify_snapshot",
+      "line": 314,
+      "module_file": "dataset_registry.py",
+      "own_seconds": 0.0001662,
+      "primitive_calls": 2,
+      "total_calls": 2
+    },
+    {
+      "cumulative_seconds": 3.4625781000000004,
+      "function": "build_snapshot",
+      "line": 202,
+      "module_file": "dataset_registry.py",
+      "own_seconds": 0.004613,
+      "primitive_calls": 2,
+      "total_calls": 2
+    },
+    {
+      "cumulative_seconds": 3.4036102,
+      "function": "_build_v1_snapshot",
+      "line": 67,
+      "module_file": "dataset_registry.py",
+      "own_seconds": 0.3050484,
+      "primitive_calls": 2,
+      "total_calls": 2
+    },
+    {
+      "cumulative_seconds": 2.9526841000000004,
+      "function": "guarded",
+      "line": 134,
+      "module_file": "base.py",
+      "own_seconds": 0.0343984,
+      "primitive_calls": 4928,
+      "total_calls": 4928
+    },
+    {
+      "cumulative_seconds": 2.6034724000000002,
+      "function": "generate_signal",
+      "line": 17,
+      "module_file": "templates.py",
+      "own_seconds": 0.0572871,
+      "primitive_calls": 4928,
+      "total_calls": 4928
+    },
+    {
+      "cumulative_seconds": 2.098389,
+      "function": "parse_okx_candle_response",
+      "line": 202,
+      "module_file": "data.py",
+      "own_seconds": 0.0027502000000000004,
+      "primitive_calls": 34,
+      "total_calls": 34
+    },
+    {
+      "cumulative_seconds": 2.0873601,
+      "function": "parse_okx_completed_candle_rows",
+      "line": 71,
+      "module_file": "data.py",
+      "own_seconds": 0.0878082,
+      "primitive_calls": 34,
+      "total_calls": 34
+    },
+    {
+      "cumulative_seconds": 1.82379,
+      "function": "frame",
+      "line": 60,
+      "module_file": "dataset_registry.py",
+      "own_seconds": 5.7e-05,
+      "primitive_calls": 1,
+      "total_calls": 1
+    },
+    {
+      "cumulative_seconds": 1.7855687,
+      "function": "sma",
+      "line": 6,
+      "module_file": "indicators.py",
+      "own_seconds": 0.014309800000000001,
+      "primitive_calls": 9856,
+      "total_calls": 9856
+    },
+    {
+      "cumulative_seconds": 1.6709116000000002,
+      "function": "__getitem__",
+      "line": 1192,
+      "module_file": "indexing.py",
+      "own_seconds": 0.060970300000000005,
+      "primitive_calls": 39733,
+      "total_calls": 39848
+    },
+    {
+      "cumulative_seconds": 1.6373719,
+      "function": "mean",
+      "line": 2586,
+      "module_file": "rolling.py",
+      "own_seconds": 0.0102879,
+      "primitive_calls": 9856,
+      "total_calls": 9856
+    },
+    {
+      "cumulative_seconds": 1.6270840000000002,
+      "function": "mean",
+      "line": 1686,
+      "module_file": "rolling.py",
+      "own_seconds": 0.0182934,
+      "primitive_calls": 9856,
+      "total_calls": 9856
+    },
+    {
+      "cumulative_seconds": 1.6157508,
+      "function": "__getitem__",
+      "line": 385,
+      "module_file": "datetimelike.py",
+      "own_seconds": 0.2860082,
+      "primitive_calls": 29830,
+      "total_calls": 29830
+    },
+    {
+      "cumulative_seconds": 1.6109591,
+      "function": "to_datetime",
+      "line": 687,
+      "module_file": "datetimes.py",
+      "own_seconds": 0.0467619,
+      "primitive_calls": 10002,
+      "total_calls": 10002
+    },
+    {
+      "cumulative_seconds": 1.6044323,
+      "function": "_apply",
+      "line": 538,
+      "module_file": "rolling.py",
+      "own_seconds": 0.0196735,
+      "primitive_calls": 9856,
+      "total_calls": 9856
+    },
+    {
+      "cumulative_seconds": 1.5602092,
+      "function": "_apply_columnwise",
+      "line": 444,
+      "module_file": "rolling.py",
+      "own_seconds": 0.017585100000000003,
+      "primitive_calls": 9856,
+      "total_calls": 9856
+    },
+    {
+      "cumulative_seconds": 1.5054819000000002,
+      "function": "_apply_series",
+      "line": 424,
+      "module_file": "rolling.py",
+      "own_seconds": 0.054356,
+      "primitive_calls": 9856,
+      "total_calls": 9856
+    }
+  ],
+  "execution_model": "signal-close-next-open-ohlc-v6",
+  "live_allowed": false,
+  "measurement_limits": [
+    "Run this command in a fresh process for cold-import timing; repeat commands for independent timing samples.",
+    "Canonical runner time includes its own repeated snapshot checks, frame construction, execution and provenance; no validation was bypassed.",
+    "Canonical save verifies and serializes again; serialization is separately measured rather than removed from the production path.",
+    "Canonical replay includes report verification and another complete runner invocation; inner cumulative hotspot times overlap and must not be summed.",
+    "Optional cProfile instrumented execution time is not comparable to uninstrumented throughput.",
+    "No isolated load or cross-platform performance promise; timing samples do not prove optimization gains.",
+    "Exact result identity includes complete orders, fills, signals and equity. No floating tolerance or threshold rule changed."
+  ],
+  "network_policy": "PYTHON_SOCKET_AUDIT_DENY",
+  "optimization_applied": false,
+  "order_allowed": false,
+  "paper_allowed": false,
+  "platform": "Windows",
+  "profile_instrumentation_enabled": true,
+  "python_version": "3.14.6",
+  "receipt_file": "replay_036fdbe9a30f7a056b5af56a4f1ffaf28473bc345655692fc896003429f73ee5.json",
+  "receipt_hash": "036fdbe9a30f7a056b5af56a4f1ffaf28473bc345655692fc896003429f73ee5",
+  "replay_verified": true,
+  "report_hash": "0057020af1573952919c2d00716e4e6beaf033c3a8e25b21d3f6a219a18ccb94",
+  "research_only": true,
+  "schema_version": "research-pipeline-profile-v1",
+  "scored_bar_count": 4928,
+  "serialized_report_bytes": 2422257,
+  "snapshot_file_sha256": "ee2e9392f66e7c9808002117ac144ccf807c705867b872dcc4b90e9a8b9ad748",
+  "snapshot_id": "829e6c8400fc108f0543353a1aad01660cffa520a466dcfda1e7b9a7afb12f29",
+  "source_identity": {
+    "build_receipt": {
+      "build_definition_sha256": {
+        "pyproject.toml": "c1f0d2f6eabf7b5cad2d73145b8744a64e5a1757bcb1c9bd3a4ae154e9a8e784",
+        "setup.py": "16588d8df29ee30c8a27982e1974e0636dfbed0209e97f8a18533376882fea31"
+      },
+      "content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "file_hashes": {
+        "__init__.py": "776d306d3316b1c999b5f66358405d429518655990aeb79404d27f4d9e492351",
+        "__main__.py": "50bbfc615f094ce403d451e926ecbb47dd26d945cb3da85a63d582fc977893bf",
+        "backtest.py": "6a5b79f2681976f88e55652fa696dc773c5297432057ed58ae1eb68a9a2cfd16",
+        "benchmarks.py": "7d09c35750daf609ba361ecaf9794332321967c679ed397b411bbbecbecca549",
+        "capability_definition.py": "5302422b6b7d028527b287f213bb73b0bc94316045be8d78fa114367be6c13a7",
+        "cli.py": "6f8e885c1e6da38523a7d240dfdc4e996586150fea8d6a62577c2991a1963fe0",
+        "config.py": "3334e51509c66e8a99857d56758cc4fc7741a8e1b32c455483ca9780edaf650d",
+        "contracts/product-capabilities.json": "19aaf37b067fcf0775948fbaa8df0a4271e58fc0357cce0e409d74b10f823026",
+        "contracts/product-capabilities.schema.json": "c276f2f5e92c4676c0a59882e7658329261c84e49054c4d8be3ea46dddd1cf4e",
+        "data.py": "6d101b509666cbd5d52c7c563df4cf976dfb5a41735152947168daa66f9368e2",
+        "dataset_registry.py": "1e5109c3d73818c5ff77f61f4125e3d1a2eaa8e3fa7755329ef3e013819e5d24",
+        "documents.py": "a5a1f3fb4f4dd9a0caa717d7f8777e55e897f21b009c5d1afac4eaf115db29a0",
+        "environment.py": "c502d66f99e525b64f31ae7676ed5b3941a5ce895e87c58ca59ef49a47f3eee5",
+        "execution.py": "4fc9c10b20441213d3d2a472152dfbea2a4a7a497dcb05159e1c0591398adf18",
+        "experiment.py": "6a8140b865a6c338052bd51f70b3475b288079da3bc21acd9f2902c130096589",
+        "experiment_manifest.py": "f669076a4af8dff0465d0863e23ed43ff8e1bd3c157a0b3e4b90f14e6405f817",
+        "experiment_provenance_binding_v1.py": "4d7928af1a37fab0401dbfbb93c81e301b1800be7fdb7e80a8b2a53c2548d7ab",
+        "experiment_provenance_consumer_adapter_v1.py": "ead243788a9e628d0fc38045d08db212fefb001daa76db004c9c9cb7b8aeccc1",
+        "frozen_evaluation.py": "77fa20221b63b5e0bd926c5b03895ac0caac5af1ab90d549d1e98c137b5e6ffb",
+        "health_contract.py": "f7e595f6ade39e26bc252fb03134f4c59869c8511a45b7b9f5019e1f4c16af31",
+        "indicators.py": "68590a9fd40ac8a7f7f1a11584ffd306e7a2738ada6a2347ef2cc50af0702066",
+        "logging_setup.py": "64dcff0c00a4b085dafc2b6e7756847ca240cd6c8f45e55735c673683b9751da",
+        "models.py": "79b32477f41b65203d67d94ee50fd2f04642ff8949d9735224f7b0047a6158f4",
+        "product_capabilities.py": "6be464e0bc8ef247e86f21271651f551dcc2f57b8ca5de6a04d536e4b084a5d0",
+        "reporting.py": "1f03971936079ce39d92746fbc751f59db44d7962967cacd7a07fa09a38baf47",
+        "reporting_legacy_v2.py": "473623a54660bdc7f5bf855686a4874eba9443019a2e127d31fb55a3a8a88eac",
+        "resources/config.example.json": "60f5f74944ba6c6c2e9f5133e9969e0b50f810b20460db420b042da84411095f",
+        "resources/experiment.example.json": "e2f3c4a5d21b262b192f136020b4b3b475ecb19fd70ecf5d5767259c1b1dd75c",
+        "resources/requirements.research.lock": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+        "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+        "runtime-files.json": "d7f5bab68e18e5419c8767e95fa17db18729f8abf9a496f64265ff279adf3762",
+        "source_identity.py": "9c0917594c7323c59df0a551aacfd61865e8f17faf7c41e6c9f63dd4fce9b552",
+        "source_layout.py": "a555521e98e24f1c4f8d8ba67fb97f8b6e27f77f520e0ceb24175a5bf84753ea",
+        "strategies/__init__.py": "b16709c51a0fce1b55acd38f4d5012c0f9d0be65f6a78b4cf0856576982c334b",
+        "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6",
+        "strategies/templates.py": "d96a321738da88ea352f90579120e6010f52386c6749f1b4da80460df9af2575"
+      },
+      "git": {
+        "commit": "a6771ec89603999d55c6193a4fa7846ec3115d40",
+        "status": "CLEAN"
+      },
+      "schema_version": "research-build-source-v1"
+    },
+    "content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+    "file_hashes": {
+      "__init__.py": "776d306d3316b1c999b5f66358405d429518655990aeb79404d27f4d9e492351",
+      "__main__.py": "50bbfc615f094ce403d451e926ecbb47dd26d945cb3da85a63d582fc977893bf",
+      "backtest.py": "6a5b79f2681976f88e55652fa696dc773c5297432057ed58ae1eb68a9a2cfd16",
+      "benchmarks.py": "7d09c35750daf609ba361ecaf9794332321967c679ed397b411bbbecbecca549",
+      "capability_definition.py": "5302422b6b7d028527b287f213bb73b0bc94316045be8d78fa114367be6c13a7",
+      "cli.py": "6f8e885c1e6da38523a7d240dfdc4e996586150fea8d6a62577c2991a1963fe0",
+      "config.py": "3334e51509c66e8a99857d56758cc4fc7741a8e1b32c455483ca9780edaf650d",
+      "contracts/product-capabilities.json": "19aaf37b067fcf0775948fbaa8df0a4271e58fc0357cce0e409d74b10f823026",
+      "contracts/product-capabilities.schema.json": "c276f2f5e92c4676c0a59882e7658329261c84e49054c4d8be3ea46dddd1cf4e",
+      "data.py": "6d101b509666cbd5d52c7c563df4cf976dfb5a41735152947168daa66f9368e2",
+      "dataset_registry.py": "1e5109c3d73818c5ff77f61f4125e3d1a2eaa8e3fa7755329ef3e013819e5d24",
+      "documents.py": "a5a1f3fb4f4dd9a0caa717d7f8777e55e897f21b009c5d1afac4eaf115db29a0",
+      "environment.py": "c502d66f99e525b64f31ae7676ed5b3941a5ce895e87c58ca59ef49a47f3eee5",
+      "execution.py": "4fc9c10b20441213d3d2a472152dfbea2a4a7a497dcb05159e1c0591398adf18",
+      "experiment.py": "6a8140b865a6c338052bd51f70b3475b288079da3bc21acd9f2902c130096589",
+      "experiment_manifest.py": "f669076a4af8dff0465d0863e23ed43ff8e1bd3c157a0b3e4b90f14e6405f817",
+      "experiment_provenance_binding_v1.py": "4d7928af1a37fab0401dbfbb93c81e301b1800be7fdb7e80a8b2a53c2548d7ab",
+      "experiment_provenance_consumer_adapter_v1.py": "ead243788a9e628d0fc38045d08db212fefb001daa76db004c9c9cb7b8aeccc1",
+      "frozen_evaluation.py": "77fa20221b63b5e0bd926c5b03895ac0caac5af1ab90d549d1e98c137b5e6ffb",
+      "health_contract.py": "f7e595f6ade39e26bc252fb03134f4c59869c8511a45b7b9f5019e1f4c16af31",
+      "indicators.py": "68590a9fd40ac8a7f7f1a11584ffd306e7a2738ada6a2347ef2cc50af0702066",
+      "logging_setup.py": "64dcff0c00a4b085dafc2b6e7756847ca240cd6c8f45e55735c673683b9751da",
+      "models.py": "79b32477f41b65203d67d94ee50fd2f04642ff8949d9735224f7b0047a6158f4",
+      "product_capabilities.py": "6be464e0bc8ef247e86f21271651f551dcc2f57b8ca5de6a04d536e4b084a5d0",
+      "reporting.py": "1f03971936079ce39d92746fbc751f59db44d7962967cacd7a07fa09a38baf47",
+      "reporting_legacy_v2.py": "473623a54660bdc7f5bf855686a4874eba9443019a2e127d31fb55a3a8a88eac",
+      "resources/config.example.json": "60f5f74944ba6c6c2e9f5133e9969e0b50f810b20460db420b042da84411095f",
+      "resources/experiment.example.json": "e2f3c4a5d21b262b192f136020b4b3b475ecb19fd70ecf5d5767259c1b1dd75c",
+      "resources/requirements.research.lock": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+      "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+      "runtime-files.json": "d7f5bab68e18e5419c8767e95fa17db18729f8abf9a496f64265ff279adf3762",
+      "source_identity.py": "9c0917594c7323c59df0a551aacfd61865e8f17faf7c41e6c9f63dd4fce9b552",
+      "source_layout.py": "a555521e98e24f1c4f8d8ba67fb97f8b6e27f77f520e0ceb24175a5bf84753ea",
+      "strategies/__init__.py": "b16709c51a0fce1b55acd38f4d5012c0f9d0be65f6a78b4cf0856576982c334b",
+      "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6",
+      "strategies/templates.py": "d96a321738da88ea352f90579120e6010f52386c6749f1b4da80460df9af2575"
+    },
+    "git": {
+      "commit": "",
+      "query_errors": [
+        "not_a_source_checkout"
+      ],
+      "status": "UNKNOWN"
+    },
+    "status": "BUILD_VERIFIED"
+  },
+  "source_matches": true,
+  "spec_file_sha256": "bc52bf90c00499b0f8723f2006915e4e3327190deda0bbf2887952b55cbbc406",
+  "spec_hash": "1cec7e51672e98e0f8784bdf1b33d3af22f15def221a77bedba0440852ba81b5",
+  "timed_stage_sum_seconds": 16.818496499989124,
+  "timings": {
+    "canonical_replay_inclusive_seconds": 4.417744300000777,
+    "import_runtime_seconds": 1.2548113999946509,
+    "replay_receipt_save_seconds": 0.012965299996722024,
+    "report_serialization_seconds": 0.02173680000123568,
+    "report_verify_serialize_atomic_save_seconds": 0.12924139999813633,
+    "research_execution_inclusive_seconds": 10.128110199999355,
+    "saved_report_read_verify_seconds": 0.07776740000554128,
+    "snapshot_read_parse_verify_seconds": 0.7637601999958861,
+    "spec_read_parse_validate_seconds": 0.012359499996819068
+  },
+  "tool_sha256": "d04f2caf83d3c724df6d5a5f7321e55a5764e88977bf0d2a1671073f6c1f9932",
+  "total_observed_seconds": 16.82053569999698
+}

@@ -1,0 +1,38 @@
+{
+  "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+  "execution_permission": {
+    "live_allowed": false,
+    "order_allowed": false,
+    "paper_allowed": false,
+    "research_only": true
+  },
+  "frozen_at_utc": "2026-09-05T13:54:06.594580Z",
+  "observer_sha256": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+  "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+  "schema_version": "forward-observation-plan-v1",
+  "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "spec": {
+    "context_rows": 72,
+    "first_cutoff": "2026-09-05T14:00:00Z",
+    "name": "rsi-flat-forward-20260905",
+    "reference_portfolio": {
+      "avg_entry_price": 0,
+      "cash": 10000,
+      "entry_fees": 0,
+      "position_qty": 0,
+      "realized_pnl": 0
+    },
+    "state_policy": "FLAT_REFERENCE_OBSERVATION",
+    "strategy": {
+      "name": "rsi",
+      "params": {
+        "overbought": 70,
+        "oversold": 30,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "window": 14
+      }
+    }
+  },
+  "strategy_hash": "3ad7290c93424ee307a71e2b5a327f0fa46a88553c0c343805fadb37b1215cdc"
+}

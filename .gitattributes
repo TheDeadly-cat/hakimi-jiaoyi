@@ -88,3 +88,6 @@ archive/historical_research/adr0529_execution.py -text diff merge -whitespace
 archive/historical_research/adr0530_risk.py -text diff merge -whitespace
 archive/historical_research/adr0531_backtest.py -text diff merge -whitespace
 archive/historical_research/adr0532_data.py -text diff merge -whitespace
+
+# Published receipts and their byte-checksum indexes must survive checkout intact.
+docs/research-evidence/** -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol

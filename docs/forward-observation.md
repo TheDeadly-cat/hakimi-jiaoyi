@@ -113,3 +113,31 @@ and Dual MA rules, timing boundaries, explicit backfill, immutable retry/conflic
 source/environment admission, raw/canonical future-data rejection, flat-state
 requirements and replay integrity. Runtime admission is mocked only within these
 unit tests; a separate installed-wheel smoke is required for delivery evidence.
+
+## Hourly deployment driver
+
+`tools/run_forward_cycle.py` is the thin deployment caller. Copy it beside the
+frozen observer and public collector under the runtime directory and invoke it
+with that runtime's installed Python:
+
+```powershell
+& $installedPython -B "$runtimeRoot/tools/run_forward_cycle.py" --deployment "$runtimeRoot/forward/deployment-plans.json" --runtime-root $runtimeRoot
+```
+
+The deployment JSON contains `first_cutoff` and two `plans` entries, each with a
+`plan` file path. Both verified plans must have the same first cutoff, 72 context
+rows, and select Dual MA and RSI respectively. The driver rejects a different
+Python executable and loads the frozen runtime copy of the observer.
+
+Before the first eligible hour it returns `NOT_DUE`. Afterwards it handles only
+the latest completed UTC hour, explicitly calls the frozen public collector once
+for the 72-hour input, observes both plans and replays each record. Per-hour input
+receipts bind both original capture and snapshot bytes. Repeated calls verify and
+reuse those files; they do not refetch or merge a newer input. An incomplete prior
+capture attempt requires investigation instead of an automatic retry or overwrite.
+
+Cycle summaries list earlier hours with missing observation files as
+`prior_absences`; the driver never silently backfills them. Actual ON_TIME/LATE
+classification remains the observer's clock decision. Summary paths are private
+deployment paths. The driver creates no scheduler or persistent process itself;
+the operator separately configures the hourly invocation.

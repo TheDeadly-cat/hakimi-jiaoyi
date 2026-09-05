@@ -1,0 +1,38 @@
+{
+  "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+  "execution_permission": {
+    "live_allowed": false,
+    "order_allowed": false,
+    "paper_allowed": false,
+    "research_only": true
+  },
+  "frozen_at_utc": "2026-09-05T13:54:05.192162Z",
+  "observer_sha256": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+  "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+  "schema_version": "forward-observation-plan-v1",
+  "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "spec": {
+    "context_rows": 72,
+    "first_cutoff": "2026-09-05T14:00:00Z",
+    "name": "dual_ma-flat-forward-20260905",
+    "reference_portfolio": {
+      "avg_entry_price": 0,
+      "cash": 10000,
+      "entry_fees": 0,
+      "position_qty": 0,
+      "realized_pnl": 0
+    },
+    "state_policy": "FLAT_REFERENCE_OBSERVATION",
+    "strategy": {
+      "name": "dual_ma",
+      "params": {
+        "fast_window": 20,
+        "position_pct": 0.25,
+        "slow_window": 60,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.08
+      }
+    }
+  },
+  "strategy_hash": "7fed5426e0d4c9b6bc3a32ab680c43ece19abe333821989edaec0b02441f120c"
+}
