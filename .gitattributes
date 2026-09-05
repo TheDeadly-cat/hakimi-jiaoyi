@@ -1,3 +1,17 @@
 outputs/python_quant_bot/examples/deterministic_experiment/config.json text eol=lf
 outputs/python_quant_bot/examples/deterministic_experiment/dataset.csv text eol=lf
 outputs/python_quant_bot/examples/deterministic_experiment/expected_result.json text eol=lf
+
+# Research receipts bind the exact source and resource bytes, including mixed EOLs.
+# Keep textual review and merge behavior without checkout or staging conversion.
+src/hakimi_research/**/*.py -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+src/hakimi_research/**/*.json -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+src/hakimi_research/**/*.lock -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+requirements.research.lock -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# These already-verified sources include an identity-bound final blank line.
+src/hakimi_research/models.py whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
+src/hakimi_research/strategies/base.py whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
+
+# The generated projection already has canonical LF bytes.
+src/hakimi_research/contracts/product-capabilities.json text eol=lf

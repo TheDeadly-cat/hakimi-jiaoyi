@@ -1,15 +1,22 @@
 # Hakimi Jiaoyi Research Platform
 
+本目录的网页终端是 **Legacy Preview**，保留独立的历史终端核心。
+正式研究 MVP 使用安装后的 `hakimi-research snapshot-import / research / replay / report-show`，
+只接受固定快照与显式实验规约。下文的旧终端启动和 Provider 配置是历史预览说明，
+不能作为正式离线研究、paper/live 权限或桌面发布验收证据。
+
 Hakimi Jiaoyi 是本地、离线优先、research-only 的量化策略研究与风险评估平台。
 它用于验证数据、运行历史回测、审阅研究证据和导出报告，不代表策略盈利，
 也不提供模拟盘、实盘、订单输入或自动参数选择权限。
 
 ## 产品能力真相源
 
-运行时权威边界仍由 `exchange_terminal.domain.contracts` 中的
-`capability-v1` 提供；同一模块中的 `product-capability-catalog-v1` 负责
-Supported / Experimental / Disabled / Archived 产品状态。CLI 和旧图形控制台
-直接消费该目录，README 一致性由定向合同测试锁定。
+产品能力的 canonical 定义位于 `src/hakimi_research/capability_definition.py`。
+`tools/generate_product_capabilities.py` 生成版本受控的 JSON 投影
+`src/hakimi_research/contracts/product-capabilities.json`，供 Node/Electron 消费。
+CI 使用 `--check` 检测投影漂移，并比较 Python 与 Node 的实际输出。两种运行时仍独立锁定
+`capability-v1` 的执行权限，`product-capability-catalog-v2` 提供
+Supported / Experimental / Disabled / Archived 产品状态。
 
 | 能力 | 状态 |
 | --- | --- |
@@ -17,6 +24,9 @@ Supported / Experimental / Disabled / Archived 产品状态。CLI 和旧图形�
 | `market_data_research` | Supported |
 | `historical_backtest` | Supported |
 | `research_reporting` | Supported |
+| `dataset_snapshot_import` | Supported |
+| `research_replay` | Supported |
+| `research_report_read` | Supported |
 | `strategy_catalog` | Supported |
 | `local_research_terminal` | Experimental |
 | `parameter_optimization` | Archived |
@@ -76,7 +86,7 @@ http://127.0.0.1:8765
 在仓库根目录通过唯一 canonical 入口运行：
 
 ```powershell
-.\hakimi-research.ps1 backtest
+.\hakimi-research.ps1 research --snapshot <固定快照.json> --spec <实验规约.json>
 ```
 
 查看内置策略：
@@ -182,9 +192,10 @@ repository root
 - 自然前向 single-look 链保持不变。
 
 大部分历史源码当前仍位于 `outputs/python_quant_bot`。首个完整生产边界
-`product-capability-catalog-v1` 已迁到根 `src/hakimi_research`；CLI 与 dashboard
-直接消费 canonical 模块，旧 domain 路径只保留对象身份一致的兼容出口。其余源码
-迁移和历史原型归档仍需逐消费者完成，不能把这一窄迁移描述成全项目搬迁。
+`product-capability-catalog-v2` 的共享定义和 Python 适配器位于根
+`src/hakimi_research`；CLI 与 dashboard 直接消费 canonical 模块，旧 domain
+路径只保留对象身份一致的兼容出口。其余源码迁移和历史原型归档仍需逐消费者
+完成，不能把这一窄迁移描述成全项目搬迁。
 
 根级 `.github/workflows/research-contracts.yml` 提供最小研究合同 CI：只安装
 `requirements.research.lock`、检查确定性输入身份并运行显式合同模块，同时覆盖

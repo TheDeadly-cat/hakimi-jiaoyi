@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 *.pyo
+build/
+dist/
+*.egg-info/
 
 # Local runtime logs and temporary browser profiles
 *.log
@@ -42,3 +45,6 @@ outputs/*/*.sqlite-wal
 
 # Local validation outputs
 work/validation_receipts/
+
+# Canonical local research artifacts (reports, logs, and caches)
+artifacts/

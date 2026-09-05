@@ -85,6 +85,7 @@ def protocol(frame: pd.DataFrame | None = None, value: BotConfig | None = None) 
         embargo_rows=4,
         frozen_test_rows=40,
         random_seed=17,
+        evidence_kind="SYNTHETIC_REGRESSION_DIAGNOSTIC",
     )
 
 
@@ -195,6 +196,10 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
         self.assertFalse(self.report["quality_gate"]["frozen_test_is_blind"])
         self.assertFalse(self.report["quality_gate"]["natural_forward_evidence"])
         self.assertIn("SINGLE_CONSUMPTION_NOT_ENFORCED", self.report["quality_gate"]["blockers"])
+        self.assertEqual(self.report["interpretation"]["classification"], "SYNTHETIC_REGRESSION_DIAGNOSTIC")
+        self.assertFalse(self.report["interpretation"]["formal_confirmation"])
+        self.assertFalse(self.report["interpretation"]["source_hash_is_statistical_evidence"])
+        self.assertFalse(self.report["interpretation"]["zero_fills_prove_execution_behavior"])
 
     def test_frozen_nested_pass_cannot_grant_parameter_selection(self) -> None:
         frozen = [
@@ -202,8 +207,9 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
         ]
         self.assertTrue(all(item["experiment_manifest"]["status"] == "PASS" for item in frozen))
         self.assertTrue(
-            all(item["experiment_manifest"]["ranking_gate"]["input_allowed"] for item in frozen)
+            all(item["experiment_manifest"]["ranking_gate"]["input_allowed"] is False for item in frozen)
         )
+        self.assertTrue(all("frozen_result_not_rankable" in item["experiment_manifest"]["ranking_gate"]["blockers"] for item in frozen))
         self.assertFalse(self.report["authority"]["parameter_selection"])
         self.assertFalse(self.report["authority"]["ranking"])
 
@@ -248,7 +254,21 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
         self.assertIn("| `live` | `false` |", rendered)
         self.assertIn("| `order` | `false` |", rendered)
         self.assertNotIn("READY", rendered)
+        self.assertIn("SYNTHETIC_REGRESSION_DIAGNOSTIC", rendered)
+        self.assertIn("not estimable (SHORT_SAMPLE)", rendered)
+        self.assertIn("not estimable (NO_COMPLETED_ROUND_TRIPS)", rendered)
+        self.assertIn("Fills | Completed round trips", rendered)
+        self.assertIn("zero-fill row covers cash/no-action behavior only", rendered)
         self.assertTrue(rendered.endswith("\n"))
+
+    def test_resealed_confirmation_claim_is_rejected(self) -> None:
+        changed = deepcopy(self.report)
+        changed["interpretation"]["formal_confirmation"] = True
+        core = {key: value for key, value in changed.items() if key not in {"report_id", "report_hash"}}
+        changed["report_hash"] = canonical_payload_hash(core)
+        changed["report_id"] = f"hfer-{changed['report_hash'][:20]}"
+        with self.assertRaisesRegex(ValueError, "interpretation_invalid"):
+            verify_frozen_evaluation_report(changed, self.protocol, self.frame, self.config)
 
     def test_markdown_report_verifies_input_and_normalizes_run_order(self) -> None:
         baseline = render_frozen_evaluation_markdown(

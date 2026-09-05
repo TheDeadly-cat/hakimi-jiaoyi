@@ -1,0 +1,107 @@
+{
+  "$schema": "./product-capabilities.schema.json",
+  "definition_schema_version": "product-capability-definition-v1",
+  "catalog": {
+    "schema_version": "product-capability-catalog-v2",
+    "product_mode": "research_only",
+    "authority": {
+      "schema_version": "capability-v1",
+      "product_mode": "research_only",
+      "research_only": true,
+      "paper_allowed": false,
+      "live_allowed": false
+    },
+    "capabilities": [
+      {
+        "name": "product_capability_catalog",
+        "status": "Supported"
+      },
+      {
+        "name": "market_data_research",
+        "status": "Supported"
+      },
+      {
+        "name": "historical_backtest",
+        "status": "Supported"
+      },
+      {
+        "name": "research_reporting",
+        "status": "Supported"
+      },
+      {
+        "name": "dataset_snapshot_import",
+        "status": "Supported"
+      },
+      {
+        "name": "research_replay",
+        "status": "Supported"
+      },
+      {
+        "name": "research_report_read",
+        "status": "Supported"
+      },
+      {
+        "name": "strategy_catalog",
+        "status": "Supported"
+      },
+      {
+        "name": "local_research_terminal",
+        "status": "Experimental"
+      },
+      {
+        "name": "parameter_optimization",
+        "status": "Archived"
+      },
+      {
+        "name": "paper_execution",
+        "status": "Archived"
+      },
+      {
+        "name": "live_execution",
+        "status": "Archived"
+      },
+      {
+        "name": "order_entry",
+        "status": "Disabled"
+      }
+    ],
+    "cli_bindings": [
+      {
+        "command": "snapshot-import",
+        "capability": "dataset_snapshot_import"
+      },
+      {
+        "command": "research",
+        "capability": "historical_backtest"
+      },
+      {
+        "command": "replay",
+        "capability": "research_replay"
+      },
+      {
+        "command": "report-show",
+        "capability": "research_report_read"
+      },
+      {
+        "command": "backtest",
+        "capability": "historical_backtest"
+      },
+      {
+        "command": "capabilities",
+        "capability": "product_capability_catalog"
+      },
+      {
+        "command": "list-strategies",
+        "capability": "strategy_catalog"
+      },
+      {
+        "command": "optimize",
+        "capability": "parameter_optimization"
+      },
+      {
+        "command": "paper",
+        "capability": "paper_execution"
+      }
+    ]
+  }
+}

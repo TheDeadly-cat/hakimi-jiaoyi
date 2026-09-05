@@ -1,11 +1,23 @@
 # 哈基米交易 v2 Electron 桌面壳
 
-这是哈基米交易 v2 的桌面包装层。它不重写交易终端，而是用 Electron 承载当前本机网页应用。
+这是 **Legacy Preview** 桌面包装层，不属于正式研究 MVP 的发布范围。
+正式入口是安装后的 `hakimi-research snapshot-import / research / replay / report-show`。
+桌面仍承载旧终端及其 `signal-close-next-open-ohlc-conservative-v3` 核心；
+其结果不能冒充正式 `ExperimentRunner` 报告或与其混合比较。
+
+桌面启动的后端强制 `HAKIMI_RUNTIME_READ_ONLY=1`，不自动启动 FutuOpenD，
+移除了 Futu 管理菜单。已有后台只有明确只读、未启动 guardian、未 armed 才可接入。
+下列历史功能清单仅用于识别旧界面，不构成当前可用性或发布验收声明。
+
+产品能力由 `src/hakimi_research/capability_definition.py` 定义，生成
+`src/hakimi_research/contracts/product-capabilities.json` 投影供 Electron 读取。
+Electron 对 `product-capability-catalog-v2` 和永久 research-only 权限做独立、
+严格、失败关闭的校验；目录缺失或任何 paper/live/order 权限升级都不会被视为健康。
 
 - 自动检查 `http://127.0.0.1:8765/api/health`
 - 如果后台未启动，自动拉起 `outputs/python_quant_bot/exchange_terminal/server.py`
 - 后台就绪后加载 `http://127.0.0.1:8765/`
-- 自动尝试启动本机 `FutuOpenD.exe`
+- 不自动启动本机 `FutuOpenD.exe`
 - 只允许一个哈基米交易窗口运行
 - 记住窗口大小、位置和最大化状态
 - 托盘常驻，可快速显示窗口、回到交易台、打开富途配置、重启后台
@@ -40,7 +52,8 @@ npm.cmd start
 
 ## 自检
 
-开发界面时可以用调试端口跑一次自动检查：
+仅未打包的开发构建允许用调试端口跑自动检查；监听限定为 loopback，
+不设置通配来源。发布构建忽略该变量并移除相关调试开关，也关闭开发者工具：
 
 ```powershell
 $env:HAKIMI_DEBUG_PORT="9333"
@@ -59,7 +72,10 @@ npm.cmd run smoke
 
 当前版本负责桌面包装、启动管理和窗口体验。交易逻辑、富途接入、OKX 行情、策略和风控仍在 Python 后台中。
 
-真实交易仍保持阻断，默认只用于行情、策略研究和模拟执行。
+真实交易与 paper 执行持续阻断；默认只读。
+导航只允许当前本机 HTTP origin 和固定 boot 文件；外链只允许无凭据的 HTTPS。
+新窗口在已受保护的当前窗口内处理，不创建不受导航规则约束的子窗口。
+管理路由清单及退出首发注册表的范围见 `../../docs/research-consumer-boundary.md`。
 
 关闭窗口默认会隐藏到系统托盘。要完全退出，请从顶部菜单或托盘菜单选择“退出”。
 

@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
+import json
+import subprocess
 import unittest
 
 
@@ -10,80 +13,184 @@ WORKFLOW_PATH = REPO_ROOT / ".github" / "workflows" / "research-contracts.yml"
 
 class ResearchCiWorkflowV1Tests(unittest.TestCase):
     @classmethod
-    def workflow(cls) -> str:
-        return WORKFLOW_PATH.read_text(encoding="utf-8")
+    def setUpClass(cls) -> None:
+        cls.workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
+        cls.jobs = cls.workflow.split("\njobs:\n", 1)[1]
 
-    def test_root_workflow_has_read_only_bounded_activation(self) -> None:
-        workflow = self.workflow()
-        self.assertTrue(WORKFLOW_PATH.is_file())
-        self.assertIn("name: Research Contracts", workflow)
-        self.assertIn("permissions:\n  contents: read", workflow)
-        self.assertIn("timeout-minutes: 15", workflow)
-        self.assertIn('working-directory: outputs/python_quant_bot', workflow)
-        self.assertIn('persist-credentials: false', workflow)
-        self.assertEqual(workflow.count('- "src/**"'), 2)
-        self.assertEqual(workflow.count('- ".gitattributes"'), 2)
-        self.assertIn('PYTHONPATH: "${{ github.workspace }}/src"', workflow)
-        self.assertNotIn("schedule:", workflow)
-        self.assertNotIn("secrets.", workflow)
-
-    def test_workflow_uses_locked_current_toolchain(self) -> None:
-        workflow = self.workflow()
-        self.assertEqual(workflow.count("uses: actions/checkout@v7"), 1)
-        self.assertEqual(workflow.count("uses: actions/setup-python@v7"), 1)
-        self.assertIn('python-version: "3.14"', workflow)
-        self.assertIn(
-            "python -m pip install --requirement requirements.research.lock",
-            workflow,
-        )
-        self.assertIn("python -m pip check", workflow)
-        self.assertNotIn("pip install --upgrade", workflow)
-
-    def test_windows_long_paths_are_enabled_before_checkout(self) -> None:
-        workflow = self.workflow()
-        long_paths_step = (
-            "      - name: Enable Windows Git long paths before checkout\n"
-            "        working-directory: ${{ github.workspace }}\n"
-            "        run: git config --global core.longpaths true"
-        )
-        checkout_step = "      - name: Check out source without persisted credentials"
+    def test_seven_failure_domains_are_independent_and_gate_requires_them_all(self) -> None:
+        job_ids = re.findall(r"^  ([a-z][a-z0-9-]+):\s*$", self.jobs, re.MULTILINE)
         self.assertEqual(
-            workflow.count("git config --global core.longpaths true"),
-            1,
+            job_ids,
+            [
+                "python-contracts",
+                "deterministic-references",
+                "legacy-reference-replay",
+                "mvp-contracts",
+                "electron-capability-contract",
+                "market-data-renderer",
+                "package-install-smoke",
+                "research-required",
+            ],
         )
-        self.assertIn(long_paths_step, workflow)
-        self.assertLess(workflow.index(long_paths_step), workflow.index(checkout_step))
-        self.assertNotIn("core.longpaths false", workflow)
+        domains, gate = self.jobs.split("  research-required:\n", 1)
+        self.assertNotIn("\n    needs:", domains)
+        self.assertNotIn("\n    if:", domains)
+        self.assertIn("if: ${{ always() }}", gate)
+        needed_jobs = re.findall(r"^      - ([a-z][a-z0-9-]+)$", gate, re.MULTILINE)
+        self.assertEqual(needed_jobs, job_ids[:-1])
+        self.assertIn("RESEARCH_CI_NEEDS: ${{ toJSON(needs) }}", gate)
+        self.assertIn("run: node tools/research-ci-gate.js", gate)
+        result = subprocess.run(
+            ["node", "-e", "process.stdout.write(JSON.stringify(require('./tools/research-ci-gate').REQUIRED_JOBS))"],
+            cwd=REPO_ROOT, capture_output=True, text=True, check=True,
+        )
+        self.assertEqual(json.loads(result.stdout), needed_jobs)
 
-    def test_workflow_runs_only_explicit_contract_consumers(self) -> None:
-        workflow = self.workflow()
-        modules = [
+    def test_workflow_triggers_for_every_change_without_path_filters(self) -> None:
+        triggers = self.workflow.split("\npermissions:", 1)[0]
+        self.assertNotRegex(triggers, r"(?m)^\s+paths(?:-ignore)?:")
+        self.assertIn("  pull_request:\n", triggers)
+        self.assertIn("  push:\n", triggers)
+
+    def test_workflow_is_read_only_and_does_not_persist_checkout_credentials(self) -> None:
+        self.assertIn("permissions:\n  contents: read", self.workflow)
+        self.assertEqual(self.workflow.count("uses: actions/checkout@v7"), 9)
+        self.assertEqual(self.workflow.count("persist-credentials: false"), 9)
+        self.assertEqual(self.workflow.count("uses: actions/setup-python@v7"), 5)
+        self.assertEqual(self.workflow.count("uses: actions/setup-node@v7"), 5)
+        for forbidden in (
+            "permissions:\n  contents: write",
+            "pull_request_target:",
+            "Start-Process",
+            "server.py",
+            "workflow_run:",
+            "continue-on-error:",
+        ):
+            self.assertNotIn(forbidden, self.workflow)
+
+    def test_python_jobs_install_the_canonical_package_without_path_injection(self) -> None:
+        self.assertNotIn("PYTHONPATH", self.workflow)
+        self.assertEqual(
+            self.workflow.count(
+                "python -m pip install --requirement requirements.research.lock"
+            ),
+            4,
+        )
+        self.assertEqual(
+            self.workflow.count("python -m pip install --no-deps --editable ."),
+            3,
+        )
+        self.assertEqual(
+            self.workflow.count("python -m pip install --no-deps ."),
+            0,
+        )
+        self.assertEqual(self.workflow.count("python -m pip check"), 4)
+        self.assertIn("python -B tools/generate_product_capabilities.py --check", self.workflow)
+
+    def test_mvp_job_discovers_all_new_root_behavior_tests(self) -> None:
+        mvp_job = self.jobs.split("  mvp-contracts:\n", 1)[1].split(
+            "  electron-capability-contract:\n", 1,
+        )[0]
+        self.assertIn('python -B -m unittest discover -s tests -p "test_*.py" -v', mvp_job)
+        self.assertNotIn("working-directory: outputs", mvp_job)
+
+    def test_python_contract_job_runs_the_complete_pr_fa_suite(self) -> None:
+        python_job = self.jobs.split(
+            "  python-contracts:\n",
+            1,
+        )[1].split("  deterministic-references:\n", 1)[0]
+        expected_modules = (
             "tests.test_exchange_terminal_layer_dependency_audit_v2",
             "tests.test_research_only_architecture",
             "tests.test_domain_contracts_fail_closed_v1",
             "tests.test_legacy_cli_boundary",
             "tests.test_quant_bot_backtest",
+            "tests.test_quant_bot_protective_exit_contract_v1",
             "tests.test_reproducible_experiment_manifest_v1",
+            "tests.test_backtest_reproducibility_builder_v1",
             "tests.test_research_dependency_lock_v1",
             "tests.test_research_ci_workflow_v1",
             "tests.test_canonical_product_capability_source_v1",
             "tests.test_canonical_cli_entrypoint_v1",
             "tests.test_frozen_evaluation_protocol_v1",
-        ]
-        self.assertEqual(workflow.count("python -B -m unittest"), 1)
-        self.assertIn("python -B examples/deterministic_experiment/verify.py", workflow)
-        for module in modules:
-            self.assertEqual(workflow.count(module), 1)
-        for forbidden in (
-            "run_bot.py",
-            "dashboard_app.py",
-            "uvicorn",
-            "streamlit run",
-            "live_trading_enabled",
-            "paper_trading",
-            "git push",
+            "tests.test_canonical_research_core_source_v1",
+            "tests.test_canonical_research_config_source_v1",
+            "tests.test_canonical_research_data_source_v1",
+            "tests.test_canonical_research_models_source_v1",
+            "tests.test_canonical_research_strategy_base_hardening_v1",
+            "tests.test_canonical_research_backtest_source_v1",
+            "tests.test_canonical_research_execution_source_v1",
+            "tests.test_canonical_research_risk_source_v1",
+            "tests.test_package_metadata_v1",
+            "tests.test_research_management_boundary",
+        )
+        for module in expected_modules:
+            with self.subTest(module=module):
+                self.assertEqual(python_job.count(module), 1)
+
+    def test_current_reference_job_uses_current_resources_and_history_is_separate(self) -> None:
+        self.assertIn(
+            "python -B examples/deterministic_experiment/verify.py",
+            self.workflow,
+        )
+        self.assertIn(
+            "python -B -m unittest tests.test_frozen_evaluation_protocol_v1",
+            self.workflow,
+        )
+        for future_command in (
+            "frozen-benchmark",
+            "strategy-family-benchmark",
+            "strategy-robustness-benchmark",
+            "strategy-statistical-correction-benchmark",
+            "strategy-research-dossier",
         ):
-            self.assertNotIn(forbidden, workflow)
+            self.assertNotIn(future_command, self.workflow)
+        historical = self.jobs.split("  legacy-reference-replay:\n", 1)[1].split("  mvp-contracts:\n", 1)[0]
+        self.assertIn("ref: 4fb6d191b282ea9a0d7136f4b94a9e9d49642178", historical)
+        self.assertIn("tools/run_legacy_reference_checks.py", historical)
+        harness = (REPO_ROOT / "tools/run_legacy_reference_checks.py").read_text(encoding="utf-8")
+        for historical_command in ("frozen-benchmark", "strategy-family-benchmark", "strategy-robustness-benchmark", "strategy-statistical-correction-benchmark", "strategy-research-dossier"):
+            self.assertIn(historical_command, harness)
+        self.assertIn('"current_core_equivalence": False', harness)
+
+    def test_node_jobs_use_only_contracts_available_at_pr_c(self) -> None:
+        self.assertIn(
+            "node outputs/hakimi_trade_electron/backend-runtime-contract.test.js",
+            self.workflow,
+        )
+        self.assertIn(
+            "node outputs/python_quant_bot/exchange_terminal/static/chart_controller.test.js",
+            self.workflow,
+        )
+        self.assertIn(
+            "node outputs/python_quant_bot/exchange_terminal/static/evidence_presentation.test.js",
+            self.workflow,
+        )
+        self.assertNotIn("research-capability-lock.test.js", self.workflow)
+        self.assertNotIn("market_data_research_projection.test.js", self.workflow)
+        self.assertIn("run: node tools/research-ci-gate.test.js", self.workflow)
+
+    def test_package_smoke_runs_outside_the_checkout(self) -> None:
+        package_job = self.jobs.split(
+            "  package-install-smoke:\n",
+            1,
+        )[1]
+        self.assertIn("run: python tools/verify_wheel.py", package_job)
+        self.assertNotIn("--editable", package_job)
+        self.assertTrue((REPO_ROOT / "tools" / "verify_wheel.py").is_file())
+        self.assertIn("os: [windows-latest, ubuntu-latest]", package_job)
+        self.assertIn("fail-fast: false", package_job)
+
+    def test_stacked_pull_requests_trigger_and_later_steps_collect_evidence(self) -> None:
+        pull_request = self.workflow.split("  pull_request:\n", 1)[1].split(
+            "  workflow_dispatch:",
+            1,
+        )[0]
+        self.assertNotIn("branches:", pull_request)
+        self.assertGreaterEqual(
+            self.workflow.count("if: ${{ !cancelled() }}"),
+            2,
+        )
 
 
 if __name__ == "__main__":

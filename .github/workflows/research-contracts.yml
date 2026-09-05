@@ -4,19 +4,7 @@ on:
   push:
     branches:
       - main
-    paths:
-      - ".gitattributes"
-      - ".github/workflows/research-contracts.yml"
-      - "outputs/python_quant_bot/**"
-      - "src/**"
   pull_request:
-    branches:
-      - main
-    paths:
-      - ".gitattributes"
-      - ".github/workflows/research-contracts.yml"
-      - "outputs/python_quant_bot/**"
-      - "src/**"
   workflow_dispatch:
 
 permissions:
@@ -27,22 +15,89 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  contract-only:
-    name: Research-only contract suite
+  python-contracts:
+    name: Python contracts
     runs-on: windows-latest
     timeout-minutes: 15
     env:
       PIP_DISABLE_PIP_VERSION_CHECK: "1"
       PIP_NO_INPUT: "1"
       PYTHONDONTWRITEBYTECODE: "1"
-      PYTHONPATH: "${{ github.workspace }}/src"
     defaults:
       run:
         shell: pwsh
-        working-directory: outputs/python_quant_bot
     steps:
       - name: Enable Windows Git long paths before checkout
-        working-directory: ${{ github.workspace }}
+        run: git config --global core.longpaths true
+
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up locked Python runtime
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Set up Node for cross-language capability projection tests
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Install active research dependency closure
+        run: python -m pip install --requirement requirements.research.lock
+
+      - name: Install canonical research package
+        run: python -m pip install --no-deps --editable .
+
+      - name: Check installed dependency consistency
+        run: python -m pip check
+
+      - name: Check generated projection against canonical Python capability source
+        run: python -B tools/generate_product_capabilities.py --check
+
+      - name: Run complete research-only Python contracts
+        working-directory: outputs/python_quant_bot
+        run: >
+          python -B -m unittest
+          tests.test_exchange_terminal_layer_dependency_audit_v2
+          tests.test_research_only_architecture
+          tests.test_domain_contracts_fail_closed_v1
+          tests.test_legacy_cli_boundary
+          tests.test_quant_bot_backtest
+          tests.test_quant_bot_protective_exit_contract_v1
+          tests.test_reproducible_experiment_manifest_v1
+          tests.test_backtest_reproducibility_builder_v1
+          tests.test_research_dependency_lock_v1
+          tests.test_research_ci_workflow_v1
+          tests.test_canonical_product_capability_source_v1
+          tests.test_canonical_cli_entrypoint_v1
+          tests.test_frozen_evaluation_protocol_v1
+          tests.test_canonical_research_core_source_v1
+          tests.test_canonical_research_config_source_v1
+          tests.test_canonical_research_data_source_v1
+          tests.test_canonical_research_models_source_v1
+          tests.test_canonical_research_strategy_base_hardening_v1
+          tests.test_canonical_research_backtest_source_v1
+          tests.test_canonical_research_execution_source_v1
+          tests.test_canonical_research_risk_source_v1
+          tests.test_package_metadata_v1
+          tests.test_research_management_boundary
+
+  deterministic-references:
+    name: Deterministic references
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PIP_NO_INPUT: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Enable Windows Git long paths before checkout
         run: git config --global core.longpaths true
 
       - name: Check out source without persisted credentials
@@ -58,23 +113,230 @@ jobs:
       - name: Install active research dependency closure
         run: python -m pip install --requirement requirements.research.lock
 
+      - name: Install canonical research package
+        run: python -m pip install --no-deps --editable .
+
       - name: Check installed dependency consistency
         run: python -m pip check
 
       - name: Verify deterministic input identity
+        working-directory: outputs/python_quant_bot
         run: python -B examples/deterministic_experiment/verify.py
 
-      - name: Run research-only contracts
-        run: >
-          python -B -m unittest
-          tests.test_exchange_terminal_layer_dependency_audit_v2
-          tests.test_research_only_architecture
-          tests.test_domain_contracts_fail_closed_v1
-          tests.test_legacy_cli_boundary
-          tests.test_quant_bot_backtest
-          tests.test_reproducible_experiment_manifest_v1
-          tests.test_research_dependency_lock_v1
-          tests.test_research_ci_workflow_v1
-          tests.test_canonical_product_capability_source_v1
-          tests.test_canonical_cli_entrypoint_v1
-          tests.test_frozen_evaluation_protocol_v1
+      - name: Verify existing frozen evaluation protocol
+        if: ${{ !cancelled() }}
+        working-directory: outputs/python_quant_bot
+        run: python -B -m unittest tests.test_frozen_evaluation_protocol_v1
+
+  legacy-reference-replay:
+    name: Historical developer reference replay
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PIP_NO_INPUT: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Enable Windows Git long paths before checkout
+        run: git config --global core.longpaths true
+
+      - name: Check out current verification harness without credentials
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Check out immutable historical source and reference resources
+        uses: actions/checkout@v7
+        with:
+          ref: 4fb6d191b282ea9a0d7136f4b94a9e9d49642178
+          path: .legacy-reference-source
+          persist-credentials: false
+
+      - name: Set up locked Python runtime
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Set up Node runtime
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Install active research dependency closure
+        run: python -m pip install --requirement requirements.research.lock
+
+      - name: Check installed dependency consistency
+        run: python -m pip check
+
+      - name: Replay five historical references and strict historical consumers
+        run: python -B tools/run_legacy_reference_checks.py --legacy-root .legacy-reference-source --output-dir "${{ runner.temp }}/legacy-reference-evidence"
+
+  mvp-contracts:
+    name: Offline research MVP contracts
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PIP_NO_INPUT: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Enable Windows Git long paths before checkout
+        run: git config --global core.longpaths true
+
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up locked Python runtime
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install active research dependency closure
+        run: python -m pip install --requirement requirements.research.lock
+
+      - name: Install canonical research package
+        run: python -m pip install --no-deps --editable .
+
+      - name: Check installed dependency consistency
+        run: python -m pip check
+
+      - name: Run every root MVP behavior test
+        run: python -B -m unittest discover -s tests -p "test_*.py" -v
+
+  electron-capability-contract:
+    name: Electron capability contract
+    runs-on: windows-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Enable Windows Git long paths before checkout
+        run: git config --global core.longpaths true
+
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node runtime
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Verify backend capability contract
+        run: node outputs/hakimi_trade_electron/backend-runtime-contract.test.js
+
+      - name: Verify aggregate gate rejects missing and unsuccessful checks
+        if: ${{ !cancelled() }}
+        run: node tools/research-ci-gate.test.js
+
+      - name: Verify desktop navigation and release debug boundaries
+        if: ${{ !cancelled() }}
+        run: node outputs/hakimi_trade_electron/desktop-security-policy.test.js
+
+  market-data-renderer:
+    name: Market-data renderer
+    runs-on: windows-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Enable Windows Git long paths before checkout
+        run: git config --global core.longpaths true
+
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node runtime
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Verify existing market-data chart controller
+        run: node outputs/python_quant_bot/exchange_terminal/static/chart_controller.test.js
+
+      - name: Verify existing neutral evidence presentation
+        if: ${{ !cancelled() }}
+        run: node outputs/python_quant_bot/exchange_terminal/static/evidence_presentation.test.js
+
+  package-install-smoke:
+    name: Package install smoke
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    env:
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PIP_NO_INPUT: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Enable Windows Git long paths before checkout
+        run: git config --global core.longpaths true
+
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up locked Python runtime
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install wheel build tools
+        run: python -m pip install "setuptools>=77" wheel
+
+      - name: Build wheel and verify fresh installation outside checkout
+        run: python tools/verify_wheel.py
+
+  research-required:
+    name: Research required gate
+    if: ${{ always() }}
+    needs:
+      - python-contracts
+      - deterministic-references
+      - legacy-reference-replay
+      - mvp-contracts
+      - electron-capability-contract
+      - market-data-renderer
+      - package-install-smoke
+    runs-on: windows-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Enable Windows Git long paths before checkout
+        run: git config --global core.longpaths true
+
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node runtime
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Require exact success from every mandatory check
+        env:
+          RESEARCH_CI_NEEDS: ${{ toJSON(needs) }}
+        run: node tools/research-ci-gate.js
