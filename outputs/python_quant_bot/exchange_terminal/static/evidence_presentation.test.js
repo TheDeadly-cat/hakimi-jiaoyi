@@ -44,6 +44,8 @@ print(json.dumps({
       HAKIMI_TEST_MODE: "1",
       HAKIMI_SKIP_LOCAL_AI_ENV: "1",
       PYTHONDONTWRITEBYTECODE: "1",
+      // Match Node's UTF-8 decoder even on Windows runners using cp1252.
+      PYTHONIOENCODING: "utf-8",
     },
   }));
 }
@@ -147,6 +149,7 @@ print(json.dumps({
       HAKIMI_TEST_MODE: "1",
       HAKIMI_SKIP_LOCAL_AI_ENV: "1",
       PYTHONDONTWRITEBYTECODE: "1",
+      PYTHONIOENCODING: "utf-8",
     },
   }));
 }
