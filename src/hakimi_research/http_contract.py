@@ -11,6 +11,19 @@ LOCAL_LOOPBACK_HOSTS = frozenset({"127.0.0.1", "::1", "localhost"})
 
 LOCAL_CLIENT_HOSTS = frozenset({"127.0.0.1", "::1"})
 
+# Outside the research MVP. Retired handlers remain for history, but are not
+# registered and the dispatcher rejects them before reading request bodies.
+RETIRED_MANAGEMENT_PATHS = frozenset({
+    "/api/ai/deepseek/code-worker/run",
+    "/api/ai/deepseek/code-worker/archive",
+    "/api/ai/deepseek/code-worker/drafts",
+    "/api/ai/runtime-keys",
+    "/api/ai/runtime-keys/clear",
+    "/api/futu/configure",
+    "/api/futu/verify-code",
+    "/api/futu/enable-telnet",
+})
+
 MUTATION_PATHS = frozenset({
     "/api/strategy/backtest",
     "/api/strategy/doctor",
@@ -23,8 +36,6 @@ MUTATION_PATHS = frozenset({
     "/api/export/ledger",
     "/api/config/full/apply",
     "/api/config/api/save",
-    "/api/ai/deepseek/code-worker/run",
-    "/api/ai/deepseek/code-worker/archive",
     "/api/data/cache/backfill",
     "/api/profile/transfer",
     "/api/profile/notifications/read",
@@ -49,13 +60,8 @@ READABLE_MUTATION_PATHS = frozenset({"/api/strategy/pipeline"})
 
 POST_API_PATHS = frozenset({
     "/api/stocks/data-audit",
-    "/api/futu/configure",
-    "/api/futu/verify-code",
-    "/api/futu/enable-telnet",
     "/api/ai/market/dual-analysis",
     "/api/ai/trading-agents/discuss",
-    "/api/ai/runtime-keys",
-    "/api/ai/runtime-keys/clear",
     "/api/integration/trading-analysis/research-summaries",
 })
 

@@ -35,8 +35,8 @@ from typing import Any, Callable
 from zoneinfo import ZoneInfo
 
 
-RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_RUNTIME_READ_ONLY") or "").strip().lower() in {
-    "1", "true", "yes", "on",
+RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_RUNTIME_READ_ONLY") or "1").strip().lower() not in {
+    "0", "false", "no", "off",
 }
 
 try:
@@ -48,7 +48,7 @@ try:
     from services.event_bus import EventBus
     from services.event_lineage import build_signal_context
     from services.guardian_service import GuardianService
-    from services.http_contract import MUTATION_PATHS, POST_API_PATHS, READABLE_MUTATION_PATHS, allowed_web_origin, archived_execution_route_state, payload_to_query, read_only_get_mutation_requested, trusted_refresh_get_allowed
+    from services.http_contract import RETIRED_MANAGEMENT_PATHS, MUTATION_PATHS, POST_API_PATHS, READABLE_MUTATION_PATHS, allowed_web_origin, archived_execution_route_state, payload_to_query, read_only_get_mutation_requested, trusted_refresh_get_allowed
     from services.instrument_rules import PublicInstrumentRuleService
     from services.forward_artifact_io import (
         MAX_PORTFOLIO_FORWARD_CONTROL_ARTIFACT_BYTES as MAX_PORTFOLIO_FORWARD_RECEIPT_ARTIFACT_BYTES,
@@ -157,7 +157,7 @@ except ModuleNotFoundError:
     from exchange_terminal.services.event_bus import EventBus
     from exchange_terminal.services.event_lineage import build_signal_context
     from exchange_terminal.services.guardian_service import GuardianService
-    from exchange_terminal.services.http_contract import MUTATION_PATHS, POST_API_PATHS, READABLE_MUTATION_PATHS, allowed_web_origin, archived_execution_route_state, payload_to_query, read_only_get_mutation_requested, trusted_refresh_get_allowed
+    from exchange_terminal.services.http_contract import RETIRED_MANAGEMENT_PATHS, MUTATION_PATHS, POST_API_PATHS, READABLE_MUTATION_PATHS, allowed_web_origin, archived_execution_route_state, payload_to_query, read_only_get_mutation_requested, trusted_refresh_get_allowed
     from exchange_terminal.services.instrument_rules import PublicInstrumentRuleService
     from exchange_terminal.services.forward_artifact_io import (
         MAX_PORTFOLIO_FORWARD_CONTROL_ARTIFACT_BYTES as MAX_PORTFOLIO_FORWARD_RECEIPT_ARTIFACT_BYTES,
@@ -11841,6 +11841,9 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         query = {key: values[-1] for key, values in urllib.parse.parse_qs(parsed.query).items()}
         if parsed.path.startswith("/api/"):
+            if parsed.path in RETIRED_MANAGEMENT_PATHS:
+                json_response(self, {"ok": False, "error": "not found"}, 404)
+                return
             if not trusted_refresh_get_allowed(
                 parsed.path,
                 query,
@@ -12003,6 +12006,9 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
             json_response(self, {"ok": False, "error": str(exc)}, 500)
 
     def handle_api(self, path: str, query: dict[str, str]) -> None:
+        if path in RETIRED_MANAGEMENT_PATHS:
+            json_response(self, {"ok": False, "error": "not found"}, 404)
+            return
         try:
             archived_route_state = archived_execution_route_state(
                 str(getattr(self, "command", "GET")), path
