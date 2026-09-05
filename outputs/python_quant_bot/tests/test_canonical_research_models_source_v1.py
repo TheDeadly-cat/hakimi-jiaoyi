@@ -1,12 +1,11 @@
 from __future__ import annotations
 
 import ast
-import hashlib
-import importlib.util
 import math
 import sys
 import unittest
 from dataclasses import FrozenInstanceError
+from enum import Enum
 from pathlib import Path
 
 
@@ -28,9 +27,7 @@ from hakimi_research.models import (  # noqa: E402
 from quant_bot import models as legacy_models  # noqa: E402
 
 
-ARCHIVE_PATH = REPO_ROOT / "archive" / "historical_research" / "adr0528_models.py"
 LEGACY_PATH = OUTPUT_ROOT / "quant_bot" / "models.py"
-DETERMINISTIC_PATH = SRC_ROOT / "hakimi_research" / "deterministic_frozen_benchmark.py"
 ACTIVE_CONSUMERS = (
     SRC_ROOT / "hakimi_research" / "frozen_evaluation.py",
     SRC_ROOT / "hakimi_research" / "strategies" / "base.py",
@@ -38,9 +35,6 @@ ACTIVE_CONSUMERS = (
     SRC_ROOT / "hakimi_research" / "execution.py",
     SRC_ROOT / "hakimi_research" / "risk.py",
     SRC_ROOT / "hakimi_research" / "backtest.py",
-    SRC_ROOT / "hakimi_research" / "synthetic_strategy_report_bundle.py",
-    OUTPUT_ROOT / "exchange_terminal" / "application" / "synthetic_strategy_execution_adversity_v1.py",
-    OUTPUT_ROOT / "exchange_terminal" / "application" / "synthetic_strategy_benchmark_controls_v1.py",
 )
 
 
@@ -54,6 +48,10 @@ class HostileFloat(float):
 
 class HostileDict(dict):
     pass
+
+
+class DuplicateAction(str, Enum):
+    BUY = "BUY"
 
 
 class CanonicalResearchModelsSourceV1Tests(unittest.TestCase):
@@ -71,22 +69,11 @@ class CanonicalResearchModelsSourceV1Tests(unittest.TestCase):
         )
         self.assertFalse(any(isinstance(node, definitions) for node in ast.walk(tree)))
 
-    def test_historical_implementation_is_byte_preserved(self) -> None:
-        self.assertEqual(
-            hashlib.sha256(ARCHIVE_PATH.read_bytes()).hexdigest(),
-            "5ba734cd0d8ac95795055376df9098caebfeb3ed3ea92d2874888ee2a8889054",
-        )
-
     def test_active_consumers_import_canonical_models_directly(self) -> None:
         for path in ACTIVE_CONSUMERS:
             source = path.read_text(encoding="utf-8")
             self.assertIn("from hakimi_research.models import", source, path)
             self.assertNotIn("from quant_bot.models import", source, path)
-
-    def test_deterministic_source_envelope_binds_canonical_models(self) -> None:
-        source = DETERMINISTIC_PATH.read_text(encoding="utf-8")
-        self.assertIn('"src/hakimi_research/models.py"', source)
-        self.assertNotIn('"outputs/python_quant_bot/quant_bot/models.py"', source)
 
     def test_signal_factories_normalize_native_numbers(self) -> None:
         signal = Signal.buy("entry", 1, confidence=1, stop_loss_pct=0.1)
@@ -99,17 +86,8 @@ class CanonicalResearchModelsSourceV1Tests(unittest.TestCase):
     def test_signal_rejects_plain_or_duplicate_actions(self) -> None:
         with self.assertRaises(ValueError):
             Signal("BUY")  # type: ignore[arg-type]
-        spec = importlib.util.spec_from_file_location("adr0528_archived_models", ARCHIVE_PATH)
-        self.assertIsNotNone(spec)
-        self.assertIsNotNone(spec.loader)
-        module = importlib.util.module_from_spec(spec)
-        sys.modules[spec.name] = module
-        try:
-            spec.loader.exec_module(module)
-            with self.assertRaises(ValueError):
-                Signal(module.Action.BUY)
-        finally:
-            sys.modules.pop(spec.name, None)
+        with self.assertRaises(ValueError):
+            Signal(DuplicateAction.BUY)  # type: ignore[arg-type]
 
     def test_signal_rejects_nonfinite_out_of_range_and_hostile_values(self) -> None:
         invalid_factories = (

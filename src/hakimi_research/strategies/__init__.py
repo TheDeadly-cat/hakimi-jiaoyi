@@ -1,33 +1,12 @@
-from hakimi_research.strategies.base import (
-    STRATEGY_BASE_SCHEMA_VERSION,
-    Portfolio,
-    Signal,
-    StrategyBase,
-    clone_strategy_params,
-)
-from hakimi_research.strategies.templates import (
-    STRATEGY_REGISTRY,
-    BollingerBandStrategy,
-    DualMovingAverageStrategy,
-    GridStrategy,
-    MacdStrategy,
-    MomentumStrategy,
-    RsiStrategy,
-    build_strategy,
-)
+"""Lazy public exports keep benchmark subclasses independent of registration."""
 
-__all__ = [
-    "STRATEGY_BASE_SCHEMA_VERSION",
-    "StrategyBase",
-    "Portfolio",
-    "Signal",
-    "clone_strategy_params",
-    "STRATEGY_REGISTRY",
-    "build_strategy",
-    "DualMovingAverageStrategy",
-    "GridStrategy",
-    "BollingerBandStrategy",
-    "MacdStrategy",
-    "RsiStrategy",
-    "MomentumStrategy",
-]
+__all__ = ["STRATEGY_REGISTRY", "build_strategy"]
+
+
+def __getattr__(name: str):
+    if name in __all__:
+        from . import templates
+        return getattr(templates, name)
+    raise AttributeError(name)
+
+__all__ = ["STRATEGY_REGISTRY", "build_strategy"]

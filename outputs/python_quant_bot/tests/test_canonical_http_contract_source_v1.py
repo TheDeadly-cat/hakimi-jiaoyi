@@ -29,6 +29,7 @@ class CanonicalHttpContractSourceV1Tests(unittest.TestCase):
         "MUTATION_PATHS",
         "POST_API_PATHS",
         "READABLE_MUTATION_PATHS",
+        "RETIRED_MANAGEMENT_PATHS",
         "allowed_web_origin",
         "archived_execution_route_state",
         "payload_to_query",
@@ -66,6 +67,7 @@ class CanonicalHttpContractSourceV1Tests(unittest.TestCase):
             server.archived_execution_route_state,
             canonical.archived_execution_route_state,
         )
+        self.assertIs(server.RETIRED_MANAGEMENT_PATHS, canonical.RETIRED_MANAGEMENT_PATHS)
 
 
 if __name__ == "__main__":

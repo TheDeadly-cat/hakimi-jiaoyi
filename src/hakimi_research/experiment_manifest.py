@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import json
-import math
 import platform
+from hakimi_research.environment import build_runtime_provenance, git_state
 from pathlib import Path
 import re
 import subprocess
@@ -15,7 +15,7 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _GIT_SHA_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
 _EXPERIMENT_ID_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{0,127}$")
 _EVALUATION_ROLES = frozenset({"UNCLASSIFIED", "TRAIN", "VALIDATION", "FROZEN_TEST"})
-_RANKING_ROLES = frozenset({"VALIDATION", "FROZEN_TEST"})
+_RANKING_ROLES = frozenset({"VALIDATION"})
 _MANIFEST_FIELDS = frozenset({
     "schema_version",
     "status",
@@ -53,27 +53,9 @@ _MANIFEST_FIELDS = frozenset({
     "result_is_profitability_proof",
     "manifest_hash",
 })
-_NATIVE_PATH_TYPE = type(Path())
-
-
-def _is_exact_native_json(value: Any) -> bool:
-    if value is None or type(value) in (bool, int, str):
-        return True
-    if type(value) is float:
-        return math.isfinite(value)
-    if type(value) is list:
-        return all(_is_exact_native_json(item) for item in value)
-    if type(value) is dict:
-        return all(
-            type(key) is str and _is_exact_native_json(item)
-            for key, item in value.items()
-        )
-    return False
 
 
 def canonical_payload_hash(payload: Any) -> str:
-    if not _is_exact_native_json(payload):
-        return ""
     try:
         encoded = json.dumps(
             payload,
@@ -96,8 +78,6 @@ def _valid_sha256(value: Any) -> bool:
 
 
 def _requirements_fully_pinned(text: str) -> bool:
-    if type(text) is not str:
-        return False
     requirements = [
         line.strip()
         for line in text.splitlines()
@@ -110,7 +90,7 @@ def _requirements_fully_pinned(text: str) -> bool:
     )
 
 
-def _git_output(root: Path, *arguments: str) -> str:
+def _git_output(root: Path, *arguments: str) -> str | None:
     try:
         completed = subprocess.run(
             ["git", *arguments],
@@ -121,56 +101,43 @@ def _git_output(root: Path, *arguments: str) -> str:
             timeout=3,
         )
     except (OSError, subprocess.SubprocessError):
-        return ""
-    return completed.stdout.strip() if completed.returncode == 0 else ""
+        return None
+    return completed.stdout.strip() if completed.returncode == 0 else None
 
 
-def build_local_experiment_context(project_root: str | Path) -> dict[str, Any]:
-    if type(project_root) is str:
-        if not project_root or project_root != project_root.strip():
-            raise ValueError("experiment_manifest_project_root_invalid")
-        root = Path(project_root).resolve()
-    elif type(project_root) is _NATIVE_PATH_TYPE:
-        root = project_root.resolve()
-    else:
-        raise ValueError("experiment_manifest_project_root_exact_native_required")
-    git_commit_sha = _git_output(root, "rev-parse", "HEAD")
-    git_status = _git_output(root, "status", "--porcelain", "--untracked-files=normal")
-    git_worktree_clean = bool(git_commit_sha) and not git_status
-
+def build_local_experiment_context(project_root: str | Path | None = None) -> dict[str, Any]:
+    from hakimi_research.source_layout import REPOSITORY_ROOT, CANONICAL_DEPENDENCY_LOCK
+    root = Path(project_root).resolve() if project_root is not None else REPOSITORY_ROOT
     dependency_path = next(
         (
             candidate
             for candidate in (
-                root / "requirements.research.lock",
-                root / "requirements.lock",
-                root / "requirements.txt",
+                *((root / "requirements.research.lock", root / "requirements.lock", root / "requirements.txt") if root is not None else ()),
+                CANONICAL_DEPENDENCY_LOCK,
             )
             if candidate.is_file()
         ),
         None,
     )
-    dependency_lock_hash = ""
-    dependency_lock_fully_pinned = False
-    dependency_lock_name = ""
-    if dependency_path is not None:
-        dependency_bytes = dependency_path.read_bytes()
-        dependency_text = dependency_bytes.decode("utf-8", errors="strict")
-        dependency_lock_hash = hashlib.sha256(dependency_bytes).hexdigest()
-        dependency_lock_fully_pinned = _requirements_fully_pinned(dependency_text)
-        dependency_lock_name = dependency_path.name
+    provenance = build_runtime_provenance(root, dependency_lock=dependency_path or CANONICAL_DEPENDENCY_LOCK)
+    state = provenance["source_identity"]["git"]
+    lock = provenance["dependency_lock"]
+    git_commit_sha = state["commit"]
+    git_worktree_clean = (state["status"] == "CLEAN") if state["status"] != "UNKNOWN" else None
 
     return {
         "git_commit_sha": git_commit_sha,
         "git_worktree_clean": git_worktree_clean,
-        "dependency_lock_hash": dependency_lock_hash,
-        "dependency_lock_fully_pinned": dependency_lock_fully_pinned,
-        "dependency_lock_name": dependency_lock_name,
+        "git_worktree_status": state["status"],
+        "dependency_lock_hash": lock["sha256"],
+        "dependency_lock_fully_pinned": lock["fully_pinned"],
+        "dependency_lock_name": lock["name"],
         "random_seed": 0,
         "runtime_version": f"{platform.python_implementation()} {platform.python_version()}",
         "evaluation_role": "UNCLASSIFIED",
         "evaluation_protocol_hash": "",
         "evaluation_protocol_verified": False,
+        "provenance": provenance,
     }
 
 
@@ -243,6 +210,8 @@ def _ranking_blockers(document: dict[str, Any], blockers: list[str]) -> list[str
     role = document.get("evaluation_role")
     if role == "TRAIN":
         ranking_blockers.append("training_result_not_rankable")
+    elif role == "FROZEN_TEST":
+        ranking_blockers.append("frozen_result_not_rankable")
     elif role not in _RANKING_ROLES:
         ranking_blockers.append("evaluation_role_not_rankable")
     if role in _RANKING_ROLES:
@@ -265,26 +234,7 @@ def build_reproducible_experiment_manifest(
     slippage_pct: float,
     context: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    if type(result_payload) is not dict or not _is_exact_native_json(result_payload):
-        raise ValueError("experiment_manifest_result_payload_exact_native_required")
-    if type(reproducibility) is not dict or not _is_exact_native_json(reproducibility):
-        raise ValueError("experiment_manifest_reproducibility_exact_native_required")
-    for field, value in (
-        ("strategy_name", strategy_name),
-        ("strategy_version", strategy_version),
-        ("symbol", symbol),
-        ("timeframe", timeframe),
-    ):
-        if type(value) is not str:
-            raise ValueError(f"experiment_manifest_{field}_exact_str_required")
-    for field, value in (("fee_rate", fee_rate), ("slippage_pct", slippage_pct)):
-        if type(value) not in (int, float) or not math.isfinite(float(value)):
-            raise ValueError(f"experiment_manifest_{field}_exact_finite_number_required")
-    if context is not None and (
-        type(context) is not dict or not _is_exact_native_json(context)
-    ):
-        raise ValueError("experiment_manifest_context_exact_native_required")
-    clean_context = dict(context) if context is not None else {}
+    clean_context = dict(context) if type(context) is dict else {}
     result_hash = canonical_payload_hash(result_payload)
     source_run_hash = reproducibility.get("run_hash")
     identity_hash = canonical_payload_hash({
@@ -372,13 +322,9 @@ def verify_reproducible_experiment_manifest(
     manifest: Any,
     result_payload: Any,
 ) -> bool:
-    if (
-        type(manifest) is not dict
-        or not _is_exact_native_json(manifest)
-        or set(manifest) != _MANIFEST_FIELDS
-    ):
+    if type(manifest) is not dict or set(manifest) != _MANIFEST_FIELDS:
         return False
-    if type(result_payload) is not dict or not _is_exact_native_json(result_payload):
+    if type(result_payload) is not dict:
         return False
     if manifest.get("result_hash") != canonical_payload_hash(result_payload):
         return False

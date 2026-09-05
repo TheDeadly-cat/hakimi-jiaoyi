@@ -11,14 +11,14 @@ import unittest
 import pandas as pd
 
 from quant_bot.backtest import BacktestEngine
-from hakimi_research.config import BotConfig
-from hakimi_research.experiment_manifest import (
+from quant_bot.config import BotConfig
+from quant_bot.experiment_manifest import (
     build_reproducible_experiment_manifest,
     canonical_payload_hash,
     verify_reproducible_experiment_manifest,
 )
 from quant_bot.models import Portfolio, Signal
-from hakimi_research.reporting import save_json_report
+from quant_bot.reporting import save_json_report
 from quant_bot.risk import RiskManager
 from quant_bot.strategies.base import StrategyBase
 
@@ -84,7 +84,8 @@ class ReproducibleExperimentManifestV1Tests(unittest.TestCase):
         report = self.report(self.context())
         manifest = report.experiment_manifest
         self.assertEqual(manifest["status"], "PASS")
-        self.assertTrue(manifest["ranking_gate"]["input_allowed"])
+        self.assertFalse(manifest["ranking_gate"]["input_allowed"])
+        self.assertIn("frozen_result_not_rankable", manifest["ranking_gate"]["blockers"])
         self.assertFalse(manifest["parameter_selection_allowed"])
         self.assertFalse(manifest["paper_authorized"])
         self.assertFalse(manifest["live_order_allowed"])
@@ -130,6 +131,19 @@ class ReproducibleExperimentManifestV1Tests(unittest.TestCase):
         manifest = self.report(self.context(evaluation_role="TRAIN")).experiment_manifest
         self.assertEqual(manifest["status"], "PASS")
         self.assertIn("training_result_not_rankable", manifest["ranking_gate"]["blockers"])
+
+    def test_validation_identity_binding_remains_separate_from_selection_authority(self) -> None:
+        manifest = self.report(self.context(evaluation_role="VALIDATION")).experiment_manifest
+        self.assertEqual(manifest["status"], "PASS")
+        self.assertTrue(manifest["ranking_gate"]["input_allowed"])
+        self.assertFalse(manifest["parameter_selection_allowed"])
+
+    def test_resealed_frozen_ranking_admission_is_rejected(self) -> None:
+        report = self.report(self.context())
+        manifest = deepcopy(report.experiment_manifest)
+        manifest["ranking_gate"] = {"status": "PASS", "input_allowed": True, "blockers": []}
+        manifest["manifest_hash"] = canonical_payload_hash({key: value for key, value in manifest.items() if key != "manifest_hash"})
+        self.assertFalse(verify_reproducible_experiment_manifest(manifest, self.result_payload(report)))
 
     def test_result_tamper_invalidates_manifest(self) -> None:
         report = self.report(self.context())

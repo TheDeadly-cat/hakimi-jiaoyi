@@ -1,15 +1,7 @@
-"""Compatibility imports for canonical deterministic JSON reporting."""
+from _canonical_source import activate_canonical_source
 
-from hakimi_research.reporting import (
-    RESEARCH_JSON_REPORT_SCHEMA_VERSION,
-    plan_json_report_path,
-    render_json_report,
-    save_json_report,
-)
+activate_canonical_source()
 
-__all__ = [
-    "RESEARCH_JSON_REPORT_SCHEMA_VERSION",
-    "plan_json_report_path",
-    "render_json_report",
-    "save_json_report",
-]
+from hakimi_research.reporting import save_json_report  # noqa: E402
+
+__all__ = ["save_json_report"]

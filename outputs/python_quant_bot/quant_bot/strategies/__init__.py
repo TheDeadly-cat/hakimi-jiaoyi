@@ -1,31 +1,7 @@
-from hakimi_research.strategies import (
-    STRATEGY_BASE_SCHEMA_VERSION,
-    STRATEGY_REGISTRY,
-    BollingerBandStrategy,
-    DualMovingAverageStrategy,
-    GridStrategy,
-    MacdStrategy,
-    MomentumStrategy,
-    Portfolio,
-    RsiStrategy,
-    Signal,
-    StrategyBase,
-    build_strategy,
-    clone_strategy_params,
-)
+from _canonical_source import activate_canonical_source
 
-__all__ = [
-    "STRATEGY_BASE_SCHEMA_VERSION",
-    "StrategyBase",
-    "Portfolio",
-    "Signal",
-    "clone_strategy_params",
-    "STRATEGY_REGISTRY",
-    "build_strategy",
-    "DualMovingAverageStrategy",
-    "GridStrategy",
-    "BollingerBandStrategy",
-    "MacdStrategy",
-    "RsiStrategy",
-    "MomentumStrategy",
-]
+activate_canonical_source()
+
+from hakimi_research.strategies import STRATEGY_REGISTRY, build_strategy  # noqa: E402
+
+__all__ = ["STRATEGY_REGISTRY", "build_strategy"]

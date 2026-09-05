@@ -225,7 +225,7 @@ class _RiskManagerCore:
         return None
 
 
-RISK_ENGINE_SCHEMA_VERSION = "research-risk-engine-v1"
+RISK_ENGINE_SCHEMA_VERSION = "research-risk-engine-v2"
 
 
 @dataclass(frozen=True)
@@ -339,6 +339,35 @@ def _snapshot_config(config: RiskConfig) -> _RiskConfigSnapshot:
 class RiskManager(_RiskManagerCore):
     def __init__(self, config: RiskConfig):
         super().__init__(_snapshot_config(config))  # type: ignore[arg-type]
+
+    def describe_semantics(self) -> dict:
+        """Expose actual controls without implying account loss guarantees."""
+        return {
+            "schema_version": RISK_ENGINE_SCHEMA_VERSION,
+            "stop_loss": {
+                "config_key": "max_single_loss_pct",
+                "meaning": "MAXIMUM_STOP_PRICE_DISTANCE_FROM_AVERAGE_ENTRY",
+                "maximum_price_distance_pct": self.config.max_single_loss_pct,
+                "requested_and_effective_values": "PER_BUY_SIGNAL_IN_SIGNALS_LEDGER",
+                "account_loss_guarantee": False,
+                "gap_slippage_and_capacity_can_exceed_distance": True,
+            },
+            "daily_loss": {
+                "config_key": "max_daily_loss_pct",
+                "meaning": "NEW_BUY_ADMISSION_HALT_FROM_UTC_DAY_START_EQUITY",
+                "threshold_pct": self.config.max_daily_loss_pct,
+                "continuous_position_liquidation": False,
+                "hold_and_sell_remain_available": True,
+            },
+            "leverage": {
+                "requested": self.config.max_leverage, "effective": 1.0,
+                "supported": False,
+                "policy": "SPOT_CASH_ONLY_REQUEST_NOT_APPLIED",
+                "borrowing_margin_and_liquidation": "UNSUPPORTED",
+            },
+            "max_position_pct": self.config.max_position_pct,
+            "min_cash_pct": self.config.min_cash_pct,
+        }
 
     def __setattr__(self, name: str, value: object) -> None:
         if name == "config":

@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import logging
 import math
 import time
 import urllib.parse
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
@@ -24,6 +26,263 @@ TIMEFRAME_MS = {
     "4h": 4 * 60 * 60_000,
     "1d": 24 * 60 * 60_000,
 }
+
+OKX_COMPLETED_CANDLE_SCHEMA_VERSION = "okx-completed-candle-filter-v1"
+OKX_CANDLE_SOURCE_RECEIPT_SCHEMA_VERSION = "okx-candle-source-receipt-v1"
+OKX_SPOT_VOLUME_UNIT = "base_currency"
+_OKX_CANDLE_FIELDS = (
+    "ts",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "volume_currency",
+    "volume_quote",
+    "confirm",
+)
+_OKX_CANDLE_ENDPOINTS = frozenset(
+    {
+        "/api/v5/market/candles",
+        "/api/v5/market/history-candles",
+    }
+)
+_OKX_REQUEST_FIELDS = frozenset({"instId", "bar", "limit", "after", "before"})
+
+
+def _require_okx_spot_symbol(symbol: object) -> str:
+    if type(symbol) is not str:
+        raise ValueError("research_data_okx_spot_symbol_exact_str_required")
+    parts = symbol.split("-")
+    if (
+        len(parts) != 2
+        or any(
+            not part
+            or not part.isascii()
+            or not part.isalnum()
+            or part != part.upper()
+            for part in parts
+        )
+    ):
+        raise ValueError("research_data_okx_spot_symbol_required")
+    return symbol
+
+
+def parse_okx_completed_candle_rows(
+    rows: list,
+) -> tuple[pd.DataFrame, dict[str, object]]:
+    """Parse exact OKX candle rows and exclude every uncompleted candle."""
+
+    if type(rows) is not list:
+        raise ValueError("research_data_okx_rows_exact_list_required")
+    source_rows: list[list[str]] = []
+    candles: list[dict[str, object]] = []
+    rejected_uncompleted = 0
+    for row in rows:
+        if type(row) is not list or len(row) != len(_OKX_CANDLE_FIELDS):
+            raise ValueError("research_data_okx_candle_exact_nine_field_row_required")
+        if any(type(value) is not str for value in row):
+            raise ValueError("research_data_okx_candle_exact_string_fields_required")
+        if any(not value or value != value.strip() for value in row):
+            raise ValueError("research_data_okx_candle_canonical_string_fields_required")
+        exact_row = list(row)
+        if not exact_row[0].isascii() or not exact_row[0].isdigit():
+            raise ValueError("research_data_okx_candle_timestamp_invalid")
+        source_rows.append(exact_row)
+        confirm = exact_row[8]
+        if confirm == "0":
+            rejected_uncompleted += 1
+            continue
+        if confirm != "1":
+            raise ValueError("research_data_okx_candle_confirm_invalid")
+        try:
+            candle = {
+                "time": pd.to_datetime(int(exact_row[0]), unit="ms", utc=True),
+                "open": float(exact_row[1]),
+                "high": float(exact_row[2]),
+                "low": float(exact_row[3]),
+                "close": float(exact_row[4]),
+                "volume": float(exact_row[5]),
+            }
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ValueError("research_data_okx_candle_numeric_field_invalid") from exc
+        candles.append(candle)
+
+    source_rows_sha256 = hashlib.sha256(
+        json.dumps(
+            source_rows,
+            ensure_ascii=True,
+            separators=(",", ":"),
+        ).encode("ascii")
+    ).hexdigest()
+    receipt: dict[str, object] = {
+        "schema_version": OKX_COMPLETED_CANDLE_SCHEMA_VERSION,
+        "source_field_order": list(_OKX_CANDLE_FIELDS),
+        "source_row_count": len(source_rows),
+        "accepted_complete_row_count": len(candles),
+        "rejected_uncompleted_row_count": rejected_uncompleted,
+        "rejection_reasons": (
+            ["OKX_CANDLE_UNCOMPLETED"] if rejected_uncompleted else []
+        ),
+        "complete_only": True,
+        "volume_unit": OKX_SPOT_VOLUME_UNIT,
+        "source_rows_sha256": source_rows_sha256,
+    }
+    if not candles:
+        frame = pd.DataFrame(
+            {
+                column: pd.Series(dtype="float64")
+                for column in ("open", "high", "low", "close", "volume")
+            },
+            index=pd.DatetimeIndex([], tz="UTC", name="time"),
+        )
+        return frame, receipt
+    frame = pd.DataFrame(reversed(candles)).set_index("time").sort_index()
+    return validate_market_data_frame(frame), receipt
+
+
+def _canonical_utc_time(value: object, *, label: str) -> str:
+    if type(value) is not str or not value or value != value.strip() or not value.endswith("Z"):
+        raise ValueError(f"research_data_{label}_canonical_utc_required")
+    try:
+        parsed = datetime.fromisoformat(value[:-1] + "+00:00")
+    except ValueError as exc:
+        raise ValueError(f"research_data_{label}_canonical_utc_required") from exc
+    if parsed.tzinfo is None or parsed.utcoffset() != timezone.utc.utcoffset(parsed):
+        raise ValueError(f"research_data_{label}_canonical_utc_required")
+    return value
+
+
+def _canonical_okx_request(
+    endpoint: object,
+    params: object,
+) -> tuple[str, dict[str, str | int], str]:
+    if type(endpoint) is not str or endpoint not in _OKX_CANDLE_ENDPOINTS:
+        raise ValueError("research_data_okx_candle_endpoint_invalid")
+    if type(params) is not dict:
+        raise ValueError("research_data_okx_candle_params_exact_dict_required")
+    if any(type(key) is not str for key in params):
+        raise ValueError("research_data_okx_candle_param_key_exact_str_required")
+    keys = set(params)
+    if (
+        not {"instId", "bar", "limit"}.issubset(keys)
+        or not keys.issubset(_OKX_REQUEST_FIELDS)
+        or {"after", "before"}.issubset(keys)
+    ):
+        raise ValueError("research_data_okx_candle_params_shape_invalid")
+    symbol = _require_okx_spot_symbol(params["instId"])
+    bar = params["bar"]
+    if type(bar) is not str or bar not in _OKX_BAR_MAP.values():
+        raise ValueError("research_data_okx_candle_bar_invalid")
+    limit = params["limit"]
+    if type(limit) is not int or limit <= 0 or limit > 300:
+        raise ValueError("research_data_okx_candle_limit_invalid")
+    canonical: dict[str, str | int] = {
+        "instId": symbol,
+        "bar": bar,
+        "limit": limit,
+    }
+    for cursor in ("after", "before"):
+        if cursor not in params:
+            continue
+        value = params[cursor]
+        if type(value) is not int or value <= 0:
+            raise ValueError("research_data_okx_candle_cursor_invalid")
+        canonical[cursor] = value
+    timeframe = next(
+        key for key, value in _OKX_BAR_MAP.items() if value == bar
+    )
+    return endpoint, canonical, timeframe
+
+
+def _reject_json_constant(_value: str) -> None:
+    raise ValueError("research_data_okx_response_nonfinite_rejected")
+
+
+def parse_okx_candle_response(
+    raw_response: bytes,
+    *,
+    endpoint: str,
+    params: dict[str, str | int],
+    retrieved_at: str,
+) -> tuple[pd.DataFrame, dict[str, object]]:
+    """Bind an exact OKX response envelope to its completed-candle projection."""
+
+    if type(raw_response) is not bytes or not raw_response:
+        raise ValueError("research_data_okx_raw_response_exact_nonempty_bytes_required")
+    if len(raw_response) > 8 * 1024 * 1024:
+        raise ValueError("research_data_okx_raw_response_size_limit_exceeded")
+    exact_endpoint, exact_params, timeframe = _canonical_okx_request(
+        endpoint,
+        params,
+    )
+    exact_retrieved_at = _canonical_utc_time(
+        retrieved_at,
+        label="okx_retrieved_at",
+    )
+    try:
+        payload = json.loads(
+            raw_response.decode("utf-8"),
+            parse_constant=_reject_json_constant,
+        )
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError("research_data_okx_response_json_invalid") from exc
+    if type(payload) is not dict or set(payload) != {"code", "msg", "data"}:
+        raise ValueError("research_data_okx_response_envelope_invalid")
+    if type(payload["code"]) is not str or payload["code"] != "0":
+        raise ValueError("research_data_okx_response_code_not_success")
+    if type(payload["msg"]) is not str:
+        raise ValueError("research_data_okx_response_message_exact_str_required")
+    if type(payload["data"]) is not list:
+        raise ValueError("research_data_okx_response_data_exact_list_required")
+    frame, row_receipt = parse_okx_completed_candle_rows(payload["data"])
+    core: dict[str, object] = {
+        "schema_version": OKX_CANDLE_SOURCE_RECEIPT_SCHEMA_VERSION,
+        "endpoint": exact_endpoint,
+        "params": exact_params,
+        "retrieved_at": exact_retrieved_at,
+        "raw_response_sha256": hashlib.sha256(raw_response).hexdigest(),
+        "raw_response_size": len(raw_response),
+        "market": "crypto_spot",
+        "instrument_type": "SPOT",
+        "symbol": exact_params["instId"],
+        "timeframe": timeframe,
+        "row_receipt": row_receipt,
+        "research_only": True,
+        "paper_allowed": False,
+        "live_allowed": False,
+    }
+    receipt_hash = hashlib.sha256(
+        json.dumps(
+            core,
+            ensure_ascii=True,
+            allow_nan=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode("ascii")
+    ).hexdigest()
+    return frame, {**core, "source_receipt_hash": receipt_hash}
+
+
+def verify_okx_candle_source_receipt(
+    receipt: object,
+    raw_response: bytes,
+    *,
+    endpoint: str,
+    params: dict[str, str | int],
+    retrieved_at: str,
+) -> bool:
+    if type(receipt) is not dict:
+        raise ValueError("research_data_okx_source_receipt_exact_dict_required")
+    _frame, expected = parse_okx_candle_response(
+        raw_response,
+        endpoint=endpoint,
+        params=params,
+        retrieved_at=retrieved_at,
+    )
+    if receipt != expected:
+        raise ValueError("research_data_okx_source_receipt_verification_failed")
+    return True
 
 
 def _okx_bar_core(timeframe: str) -> str:
@@ -106,8 +365,11 @@ class _OkxPublicDataProviderCore(MarketDataProvider):
             self.cache_dir.mkdir(parents=True, exist_ok=True)
 
     def _cache_path(self, symbol: str, timeframe: str) -> Path:
-        safe_symbol = symbol.replace("/", "-").replace(":", "-")
-        return self.cache_dir / f"{safe_symbol}_{timeframe}.csv"
+        safe_symbol = _require_okx_spot_symbol(symbol)
+        return self.cache_dir / (
+            f"{safe_symbol}_{timeframe}_"
+            f"{OKX_COMPLETED_CANDLE_SCHEMA_VERSION}.csv"
+        )
 
     def _load_cache(self, symbol: str, timeframe: str) -> pd.DataFrame:
         if not self.use_cache:
@@ -141,21 +403,11 @@ class _OkxPublicDataProviderCore(MarketDataProvider):
         return payload.get("data", [])
 
     def _rows_to_frame(self, rows: list) -> pd.DataFrame:
-        candles = []
-        for row in reversed(rows):
-            candles.append({
-                "time": pd.to_datetime(int(row[0]), unit="ms", utc=True),
-                "open": float(row[1]),
-                "high": float(row[2]),
-                "low": float(row[3]),
-                "close": float(row[4]),
-                "volume": float(row[5] or 0),
-            })
-        if not candles:
-            return pd.DataFrame(columns=["open", "high", "low", "close", "volume"])
-        return pd.DataFrame(candles).set_index("time").sort_index()
+        frame, _receipt = parse_okx_completed_candle_rows(rows)
+        return frame
 
     def _fetch_page(self, endpoint: str, symbol: str, timeframe: str, limit: int, after: int | None = None) -> pd.DataFrame:
+        symbol = _require_okx_spot_symbol(symbol)
         params: dict[str, str | int] = {
             "instId": symbol,
             "bar": okx_bar(timeframe),
@@ -497,7 +749,10 @@ class OkxPublicDataProvider(_OkxPublicDataProviderCore):
     def _rows_to_frame(self, rows: list) -> pd.DataFrame:
         if type(rows) is not list:
             _data_fail("research_data_okx_rows_exact_list_required")
-        return validate_market_data_frame(super()._rows_to_frame(rows))
+        frame = super()._rows_to_frame(rows)
+        if frame.empty:
+            return frame
+        return validate_market_data_frame(frame)
 
     def get_history(self, symbol: str, timeframe: str, limit: int) -> pd.DataFrame:
         exact_symbol, exact_timeframe, exact_limit = _validate_request(
@@ -536,6 +791,8 @@ def build_data_provider(config: BotConfig) -> MarketDataProvider:
     if provider == "csv":
         return CsvDataProvider(config.data.csv_path)
     if provider == "okx":
+        if config.market != "crypto_spot":
+            _data_fail("research_data_okx_crypto_spot_market_required")
         return OkxPublicDataProvider(
             cache_dir=config.data.cache_dir,
             use_cache=config.data.use_cache,
@@ -549,6 +806,9 @@ def build_data_provider(config: BotConfig) -> MarketDataProvider:
 
 __all__ = [
     "MARKET_DATA_SCHEMA_VERSION",
+    "OKX_COMPLETED_CANDLE_SCHEMA_VERSION",
+    "OKX_CANDLE_SOURCE_RECEIPT_SCHEMA_VERSION",
+    "OKX_SPOT_VOLUME_UNIT",
     "MarketDataProvider",
     "CsvDataProvider",
     "OkxPublicDataProvider",
@@ -557,4 +817,7 @@ __all__ = [
     "okx_bar",
     "validate_market_data_frame",
     "market_data_fingerprint",
+    "parse_okx_completed_candle_rows",
+    "parse_okx_candle_response",
+    "verify_okx_candle_source_receipt",
 ]

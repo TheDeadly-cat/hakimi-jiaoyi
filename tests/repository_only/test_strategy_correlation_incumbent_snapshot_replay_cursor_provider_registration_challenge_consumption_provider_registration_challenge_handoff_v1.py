@@ -14,7 +14,7 @@ from exchange_terminal.application import (
     strategy_correlation_incumbent_snapshot_replay_cursor_provider_registration_challenge_consumption_provider_preregistration_v1 as preregistration,
 )
 from exchange_terminal.application import (
-    strategy_correlation_incumbent_snapshot_replay_cursor_provider_registration_challenge_consumption_provider_registration_challenge_handoff_v1 as handoff,
+    challenge_consumption_provider_registration_handoff_v1 as handoff,
 )
 from exchange_terminal.application import (
     strategy_correlation_incumbent_snapshot_replay_cursor_provider_registration_challenge_consumption_provider_registration_challenge_signed_source_v1 as challenge,
@@ -203,7 +203,7 @@ class ChallengeConsumptionProviderRegistrationChallengeHandoffV1Tests(
             ],
         }
         kwargs.update(overrides)
-        return handoff.evaluate_challenge_consumption_provider_registration_challenge_handoff_v1(
+        return handoff.evaluate_challenge_consumption_provider_registration_handoff_v1(
             self.challenge_evidence
             if challenge_evidence is None
             else challenge_evidence,
@@ -463,7 +463,7 @@ class ChallengeConsumptionProviderRegistrationChallengeHandoffV1Tests(
             ],
         }
         self.assertTrue(
-            handoff.verify_challenge_consumption_provider_registration_challenge_handoff_v1(
+            handoff.verify_challenge_consumption_provider_registration_handoff_v1(
                 evidence,
                 *evaluation_args,
                 expected_handoff_evidence_hash=evidence[
@@ -475,7 +475,7 @@ class ChallengeConsumptionProviderRegistrationChallengeHandoffV1Tests(
         mutated = deepcopy(evidence)
         mutated["facts"]["challenge_freshness_verified"] = True
         self.assertFalse(
-            handoff.verify_challenge_consumption_provider_registration_challenge_handoff_v1(
+            handoff.verify_challenge_consumption_provider_registration_handoff_v1(
                 mutated,
                 *evaluation_args,
                 expected_handoff_evidence_hash=evidence[

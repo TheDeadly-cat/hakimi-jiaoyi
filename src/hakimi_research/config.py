@@ -121,7 +121,7 @@ class RiskConfig:
     max_position_pct: float = 0.35
     max_single_loss_pct: float = 0.03
     max_daily_loss_pct: float = 0.05
-    max_leverage: float = 2.0
+    max_leverage: float = 1.0
     min_cash_pct: float = 0.05
 
     def __post_init__(self) -> None:

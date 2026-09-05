@@ -85,7 +85,7 @@ class ExchangeTerminalLayerDependencyAuditV2Tests(unittest.TestCase):
             self.audit["module_counts"],
             {
                 "domain": 2,
-                "application": 131,
+                "application": 132,
                 "infrastructure": 1,
                 "interfaces": 33,
             },

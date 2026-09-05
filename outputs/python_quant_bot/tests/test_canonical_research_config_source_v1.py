@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import ast
-import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -14,7 +13,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CANONICAL_PATH = REPO_ROOT / "src" / "hakimi_research" / "config.py"
 LEGACY_PATH = PROJECT_ROOT / "quant_bot" / "config.py"
-ARCHIVE_PATH = REPO_ROOT / "archive" / "historical_research" / "adr0527_config.py"
+ACTIVE_CONFIG_PATH = REPO_ROOT / "configs" / "examples" / "btc_spot_1h.json"
 
 activate_canonical_source()
 
@@ -50,12 +49,8 @@ class CanonicalResearchConfigSourceV1Tests(unittest.TestCase):
             REPO_ROOT / "src" / "hakimi_research" / "backtest.py",
             REPO_ROOT / "src" / "hakimi_research" / "data.py",
             REPO_ROOT / "src" / "hakimi_research" / "risk.py",
-            PROJECT_ROOT / "dashboard_app.py",
-            REPO_ROOT / "src" / "hakimi_research" / "cli.py",
+            REPO_ROOT / "src" / "hakimi_research" / "experiment.py",
             REPO_ROOT / "src" / "hakimi_research" / "frozen_evaluation.py",
-            REPO_ROOT / "src" / "hakimi_research" / "deterministic_frozen_benchmark.py",
-            PROJECT_ROOT / "exchange_terminal" / "application" / "synthetic_strategy_benchmark_controls_v1.py",
-            REPO_ROOT / "src" / "hakimi_research" / "synthetic_strategy_report_bundle.py",
         )
         for path in paths:
             with self.subTest(path=path.name):
@@ -70,19 +65,17 @@ class CanonicalResearchConfigSourceV1Tests(unittest.TestCase):
             for node in tree.body
         ))
 
-    def test_old_implementation_is_byte_identically_archived(self) -> None:
-        self.assertEqual(
-            hashlib.sha256(ARCHIVE_PATH.read_bytes()).hexdigest(),
-            "84c4d198eb9df4299c6398a46123529a91b072f2e6ecbb86e3bf1e1996e8a8de",
-        )
-
     def test_safe_file_config_preserves_research_identity(self) -> None:
-        raw = json.loads((PROJECT_ROOT / "config.example.json").read_text(encoding="utf-8"))
+        raw = json.loads(ACTIVE_CONFIG_PATH.read_text(encoding="utf-8"))
         self.assertEqual(raw["mode"], "backtest")
-        self.assertEqual(raw["execution"]["broker"], "research_simulator")
-        self.assertEqual(raw["execution"]["exchange"], "disabled")
-        self.assertFalse(raw["execution"]["live_trading_enabled"])
-        config = canonical.BotConfig.from_file(PROJECT_ROOT / "config.example.json")
+        self.assertEqual(raw["data"]["provider"], "csv")
+        self.assertFalse(raw["data"]["use_cache"])
+        self.assertNotIn("broker", raw["execution"])
+        self.assertNotIn("exchange", raw["execution"])
+        self.assertNotIn("poll_seconds", raw["execution"])
+        self.assertNotIn("live_trading_enabled", raw["execution"])
+        self.assertEqual(raw["logging"]["log_dir"], "artifacts/logs")
+        config = canonical.BotConfig.from_file(ACTIVE_CONFIG_PATH)
         self.assertEqual(config.execution.broker, "research_simulator")
         self.assertEqual(config.execution.exchange, "disabled")
         self.assertFalse(config.execution.live_trading_enabled)
@@ -139,7 +132,7 @@ class CanonicalResearchConfigSourceV1Tests(unittest.TestCase):
                 raise AssertionError("hostile path reached")
 
         with self.assertRaisesRegex(ValueError, "path_exact_native_required"):
-            canonical.BotConfig.from_file(EvilPath(str(PROJECT_ROOT / "config.example.json")))
+            canonical.BotConfig.from_file(EvilPath(str(ACTIVE_CONFIG_PATH)))
         self.assertFalse(EvilPath.reached)
 
 

@@ -26,12 +26,8 @@ from hakimi_research.frozen_evaluation import (  # noqa: E402
     verify_frozen_evaluation_protocol,
     verify_frozen_evaluation_report,
 )
-from hakimi_research.config import BotConfig  # noqa: E402
-from hakimi_research.experiment_manifest import canonical_payload_hash  # noqa: E402
-from hakimi_research.dataset_governance import (  # noqa: E402
-    SCHEMA_VERSION as DATASET_GOVERNANCE_SCHEMA_VERSION,
-    canonical_dataset_governance_hash,
-)
+from quant_bot.config import BotConfig  # noqa: E402
+from quant_bot.experiment_manifest import canonical_payload_hash  # noqa: E402
 
 
 def synthetic_frame() -> pd.DataFrame:
@@ -79,54 +75,17 @@ def context() -> dict:
     }
 
 
-def dataset_governance() -> dict:
-    return {
-        "schema_version": DATASET_GOVERNANCE_SCHEMA_VERSION,
-        "dataset_id": "synthetic-protocol-test-v1",
-        "source": {
-            "provider_id": "deterministic-test-fixture",
-            "source_kind": "SYNTHETIC_FIXTURE",
-            "retrieved_at": "2026-08-31T00:00:00Z",
-            "source_manifest_sha256": "c" * 64,
-        },
-        "time": {
-            "timezone": "UTC",
-            "trading_calendar": "SYNTHETIC_DAILY",
-            "bar_timestamp_semantics": "PERIOD_END",
-            "session_policy": "SYNTHETIC_FIXED_DAILY",
-        },
-        "adjustment": {
-            "basis": "NOT_APPLICABLE",
-            "corporate_action_source": "NOT_APPLICABLE",
-            "dividend_treatment": "NOT_APPLICABLE",
-        },
-        "population": {
-            "policy": "SYNTHETIC_FIXED_SINGLE_INSTRUMENT",
-            "survivorship_bias_status": "NOT_APPLICABLE",
-            "delisting_policy": "NOT_APPLICABLE",
-            "universe_snapshot_sha256": canonical_dataset_governance_hash(
-                ["SYNTH-001"]
-            ),
-        },
-        "limitations": [
-            "NOT_REAL_MARKET_DATA",
-            "SYNTHETIC_FIXTURE_ONLY",
-        ],
-    }
-
-
 def protocol(frame: pd.DataFrame | None = None, value: BotConfig | None = None) -> dict:
     return build_frozen_evaluation_protocol(
         frame if frame is not None else synthetic_frame(),
         value if value is not None else config(),
-        dataset_governance=dataset_governance(),
-        experiment_context=context(),
         train_rows=40,
         purge_rows=4,
         validation_rows=40,
         embargo_rows=4,
         frozen_test_rows=40,
         random_seed=17,
+        evidence_kind="SYNTHETIC_REGRESSION_DIAGNOSTIC",
     )
 
 
@@ -145,70 +104,8 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
 
     def test_protocol_is_deterministic_and_exactly_verifiable(self) -> None:
         self.assertEqual(self.protocol, protocol(self.frame, self.config))
-        self.assertTrue(verify_frozen_evaluation_protocol(
-            self.protocol,
-            self.frame,
-            self.config,
-            experiment_context=context(),
-        ))
+        self.assertTrue(verify_frozen_evaluation_protocol(self.protocol, self.frame, self.config))
         self.assertEqual(self.protocol["evidence_scope"], EVIDENCE_SCOPE)
-
-    def test_experiment_context_is_preregistered_and_external(self) -> None:
-        expected_context = {**context(), "random_seed": 17}
-        binding = self.protocol["experiment_context"]
-        self.assertEqual(binding["schema_version"], "frozen-experiment-context-v1")
-        self.assertEqual(binding["context"], expected_context)
-        self.assertEqual(
-            binding["context_hash"],
-            canonical_payload_hash(expected_context),
-        )
-
-        changed_context = {**context(), "runtime_version": "python-foreign"}
-        with self.assertRaisesRegex(
-            ValueError,
-            "protocol_verification_failed",
-        ):
-            verify_frozen_evaluation_protocol(
-                self.protocol,
-                self.frame,
-                self.config,
-                experiment_context=changed_context,
-            )
-        with self.assertRaisesRegex(
-            ValueError,
-            "protocol_verification_failed",
-        ):
-            build_frozen_evaluation_report(
-                self.protocol,
-                self.frame,
-                self.config,
-                experiment_context=changed_context,
-            )
-
-        resealed = deepcopy(self.protocol)
-        resealed["experiment_context"]["context"]["runtime_version"] = (
-            "python-resealed"
-        )
-        resealed["experiment_context"]["context_hash"] = canonical_payload_hash(
-            resealed["experiment_context"]["context"]
-        )
-        core = {
-            key: value
-            for key, value in resealed.items()
-            if key not in {"protocol_id", "protocol_hash"}
-        }
-        resealed["protocol_hash"] = canonical_payload_hash(core)
-        resealed["protocol_id"] = f"hfep-{resealed['protocol_hash'][:20]}"
-        with self.assertRaisesRegex(
-            ValueError,
-            "protocol_verification_failed",
-        ):
-            verify_frozen_evaluation_protocol(
-                resealed,
-                self.frame,
-                self.config,
-                experiment_context=context(),
-            )
 
     def test_partition_order_and_gaps_are_exact(self) -> None:
         windows = self.protocol["partition_plan"]["windows"]
@@ -225,21 +122,13 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
         )
         self.assertEqual(
             [item["benchmark_id"] for item in self.protocol["benchmarks"]],
-            [
-                "CASH",
-                "ENGINE_BUY_AND_HOLD",
-                "FIXED_DUAL_MA",
-                "FIXED_BREAKOUT",
-                "HASH_NO_SKILL",
-            ],
+            ["CASH", "ENGINE_BUY_AND_HOLD"],
         )
 
     def test_partition_types_totals_and_minimums_fail_closed(self) -> None:
         kwargs = dict(
             data=self.frame,
             config=self.config,
-            dataset_governance=dataset_governance(),
-            experiment_context=context(),
             train_rows=40,
             purge_rows=4,
             validation_rows=40,
@@ -274,9 +163,9 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
         changed_config = deepcopy(self.config)
         changed_config.execution.fee_rate = 0.002
         with self.assertRaisesRegex(ValueError, "protocol_verification_failed"):
-            verify_frozen_evaluation_protocol(self.protocol, changed_data, self.config, experiment_context=context())
+            verify_frozen_evaluation_protocol(self.protocol, changed_data, self.config)
         with self.assertRaisesRegex(ValueError, "protocol_verification_failed"):
-            verify_frozen_evaluation_protocol(self.protocol, self.frame, changed_config, experiment_context=context())
+            verify_frozen_evaluation_protocol(self.protocol, self.frame, changed_config)
 
     def test_resealed_partition_protocol_is_rejected(self) -> None:
         tampered = deepcopy(self.protocol)
@@ -287,34 +176,17 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
         tampered["protocol_hash"] = canonical_payload_hash(core)
         tampered["protocol_id"] = f"hfep-{tampered['protocol_hash'][:20]}"
         with self.assertRaisesRegex(ValueError, "protocol_verification_failed"):
-            verify_frozen_evaluation_protocol(tampered, self.frame, self.config, experiment_context=context())
+            verify_frozen_evaluation_protocol(tampered, self.frame, self.config)
 
     def test_report_has_complete_role_cost_and_benchmark_matrix(self) -> None:
         self.assertTrue(
-            verify_frozen_evaluation_report(self.report, self.protocol, self.frame, self.config, experiment_context=context())
+            verify_frozen_evaluation_report(self.report, self.protocol, self.frame, self.config)
         )
         self.assertEqual(len(self.report["strategy_runs"]), 7)
-        self.assertEqual(len(self.report["benchmark_runs"]), 30)
-        self.assertEqual(len(self.report["volatility_target_benchmark_runs"]), 6)
-        self.assertEqual(len(self.report["walk_forward_runs"]), 6)
-        self.assertEqual(len(self.report["parameter_stability_runs"]), 42)
-        for record in [
-            *self.report["strategy_runs"],
-            *self.report["benchmark_runs"],
-            *self.report["volatility_target_benchmark_runs"],
-            *self.report["walk_forward_runs"],
-            *self.report["parameter_stability_runs"],
-        ]:
+        self.assertEqual(len(self.report["benchmark_runs"]), 4)
+        for record in [*self.report["strategy_runs"], *self.report["benchmark_runs"]]:
             manifest = record["experiment_manifest"]
-            expected_manifest_role = (
-                "UNCLASSIFIED"
-                if record["run_kind"] in {
-                    "FIXED_PARAMETER_WALK_FORWARD",
-                    "PARAMETER_STABILITY_OBSERVATION",
-                }
-                else record["role"]
-            )
-            self.assertEqual(manifest["evaluation_role"], expected_manifest_role)
+            self.assertEqual(manifest["evaluation_role"], record["role"])
             self.assertEqual(manifest["evaluation_protocol_hash"], self.protocol["protocol_hash"])
             self.assertTrue(manifest["evaluation_protocol_verified"])
 
@@ -324,6 +196,10 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
         self.assertFalse(self.report["quality_gate"]["frozen_test_is_blind"])
         self.assertFalse(self.report["quality_gate"]["natural_forward_evidence"])
         self.assertIn("SINGLE_CONSUMPTION_NOT_ENFORCED", self.report["quality_gate"]["blockers"])
+        self.assertEqual(self.report["interpretation"]["classification"], "SYNTHETIC_REGRESSION_DIAGNOSTIC")
+        self.assertFalse(self.report["interpretation"]["formal_confirmation"])
+        self.assertFalse(self.report["interpretation"]["source_hash_is_statistical_evidence"])
+        self.assertFalse(self.report["interpretation"]["zero_fills_prove_execution_behavior"])
 
     def test_frozen_nested_pass_cannot_grant_parameter_selection(self) -> None:
         frozen = [
@@ -331,8 +207,9 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
         ]
         self.assertTrue(all(item["experiment_manifest"]["status"] == "PASS" for item in frozen))
         self.assertTrue(
-            all(item["experiment_manifest"]["ranking_gate"]["input_allowed"] for item in frozen)
+            all(item["experiment_manifest"]["ranking_gate"]["input_allowed"] is False for item in frozen)
         )
+        self.assertTrue(all("frozen_result_not_rankable" in item["experiment_manifest"]["ranking_gate"]["blockers"] for item in frozen))
         self.assertFalse(self.report["authority"]["parameter_selection"])
         self.assertFalse(self.report["authority"]["ranking"])
 
@@ -340,7 +217,7 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
         tampered = deepcopy(self.report)
         tampered["strategy_runs"][0]["result"]["final_equity"] += 1.0
         with self.assertRaisesRegex(ValueError, "strategy_run_verification_failed|report_hash_invalid"):
-            verify_frozen_evaluation_report(tampered, self.protocol, self.frame, self.config, experiment_context=context())
+            verify_frozen_evaluation_report(tampered, self.protocol, self.frame, self.config)
 
     def test_markdown_report_is_deterministic_neutral_and_complete(self) -> None:
         rendered = render_frozen_evaluation_markdown(
@@ -348,7 +225,6 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
             self.protocol,
             self.frame,
             self.config,
-        experiment_context=context(),
         )
         self.assertEqual(
             rendered,
@@ -357,7 +233,6 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
                 self.protocol,
                 self.frame,
                 self.config,
-            experiment_context=context(),
             ),
         )
         self.assertIn(f"Renderer: `{MARKDOWN_REPORT_VERSION}`", rendered)
@@ -367,34 +242,33 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
             self.assertIn(f"`{gap}`", rendered)
         self.assertIn(self.report["report_hash"], rendered)
         self.assertIn(self.protocol["protocol_hash"], rendered)
-        strategy_section = rendered.split(
-            "### Registered strategy observations",
-            maxsplit=1,
-        )[1].split("### Fixed benchmark observations", maxsplit=1)[0]
-        for scenario_id in ("BASE", "DOUBLE_COST", "TRIPLE_COST"):
-            self.assertEqual(
-                strategy_section.count(f"| FROZEN_TEST | {scenario_id} |"),
-                1,
-            )
-        for benchmark_id in (
+        for identity in (
+            "BASE",
+            "DOUBLE_COST",
+            "TRIPLE_COST",
             "CASH",
             "ENGINE_BUY_AND_HOLD",
-            "FIXED_DUAL_MA",
-            "FIXED_BREAKOUT",
-            "HASH_NO_SKILL",
         ):
-            for scenario_id in ("BASE", "DOUBLE_COST", "TRIPLE_COST"):
-                self.assertEqual(
-                    rendered.count(
-                        f"| FROZEN_TEST | {benchmark_id} | {scenario_id} |"
-                    ),
-                    1,
-                )
+            self.assertEqual(rendered.count(f"| FROZEN_TEST | {identity} |"), 1)
         self.assertIn("| `paper` | `false` |", rendered)
         self.assertIn("| `live` | `false` |", rendered)
         self.assertIn("| `order` | `false` |", rendered)
         self.assertNotIn("READY", rendered)
+        self.assertIn("SYNTHETIC_REGRESSION_DIAGNOSTIC", rendered)
+        self.assertIn("not estimable (SHORT_SAMPLE)", rendered)
+        self.assertIn("not estimable (NO_COMPLETED_ROUND_TRIPS)", rendered)
+        self.assertIn("Fills | Completed round trips", rendered)
+        self.assertIn("zero-fill row covers cash/no-action behavior only", rendered)
         self.assertTrue(rendered.endswith("\n"))
+
+    def test_resealed_confirmation_claim_is_rejected(self) -> None:
+        changed = deepcopy(self.report)
+        changed["interpretation"]["formal_confirmation"] = True
+        core = {key: value for key, value in changed.items() if key not in {"report_id", "report_hash"}}
+        changed["report_hash"] = canonical_payload_hash(core)
+        changed["report_id"] = f"hfer-{changed['report_hash'][:20]}"
+        with self.assertRaisesRegex(ValueError, "interpretation_invalid"):
+            verify_frozen_evaluation_report(changed, self.protocol, self.frame, self.config)
 
     def test_markdown_report_verifies_input_and_normalizes_run_order(self) -> None:
         baseline = render_frozen_evaluation_markdown(
@@ -402,7 +276,6 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
             self.protocol,
             self.frame,
             self.config,
-        experiment_context=context(),
         )
         reordered = deepcopy(self.report)
         reordered["strategy_runs"].reverse()
@@ -420,7 +293,6 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
                 self.protocol,
                 self.frame,
                 self.config,
-                experiment_context=context(),
             )
         )
         normalized = render_frozen_evaluation_markdown(
@@ -428,7 +300,6 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
             self.protocol,
             self.frame,
             self.config,
-        experiment_context=context(),
         )
         self.assertNotEqual(reordered["report_hash"], self.report["report_hash"])
         self.assertNotEqual(normalized, baseline)
@@ -448,23 +319,19 @@ class FrozenEvaluationProtocolV1Tests(unittest.TestCase):
                 self.protocol,
                 self.frame,
                 self.config,
-            experiment_context=context(),
             )
 
-    def test_resealed_authority_escalation_is_rejected_and_only_canonical_fixture_activates(self) -> None:
+    def test_resealed_authority_escalation_is_rejected_and_cli_stays_dormant(self) -> None:
         tampered = deepcopy(self.report)
         tampered["authority"]["paper"] = True
         core = {key: value for key, value in tampered.items() if key not in {"report_id", "report_hash"}}
         tampered["report_hash"] = canonical_payload_hash(core)
         tampered["report_id"] = f"hfer-{tampered['report_hash'][:20]}"
         with self.assertRaisesRegex(ValueError, "report_binding_invalid"):
-            verify_frozen_evaluation_report(tampered, self.protocol, self.frame, self.config, experiment_context=context())
+            verify_frozen_evaluation_report(tampered, self.protocol, self.frame, self.config)
         cli_source = (REPO_ROOT / "src" / "hakimi_research" / "cli.py").read_text(encoding="utf-8")
         self.assertNotIn("frozen-evaluate", cli_source)
         self.assertNotIn("build_frozen_evaluation_report", cli_source)
-        self.assertIn("frozen-benchmark", cli_source)
-        self.assertIn("verify_deterministic_frozen_benchmark_reference", cli_source)
-        self.assertNotIn("build_synthetic_strategy_benchmark_report_v", cli_source)
 
 
 if __name__ == "__main__":

@@ -57,3 +57,34 @@ src/hakimi_research/risk.py -text diff merge -whitespace
 archive/historical_research/adr0529_execution.py -whitespace
 examples/deterministic_frozen_benchmark_v1/expected_report.md -whitespace
 examples/deterministic_frozen_benchmark_v2/expected_report.md -whitespace
+
+# Current MVP identity-preserving overrides.
+outputs/python_quant_bot/examples/deterministic_experiment/config.json text eol=lf
+outputs/python_quant_bot/examples/deterministic_experiment/dataset.csv text eol=lf
+outputs/python_quant_bot/examples/deterministic_experiment/expected_result.json text eol=lf
+
+# Research receipts bind the exact source and resource bytes, including mixed EOLs.
+# Keep textual review and merge behavior without checkout or staging conversion.
+src/hakimi_research/**/*.py -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+src/hakimi_research/**/*.json -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+src/hakimi_research/**/*.lock -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+requirements.research.lock -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# These already-verified sources include an identity-bound final blank line.
+src/hakimi_research/models.py whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
+src/hakimi_research/strategies/base.py whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
+
+# The generated projection already has canonical LF bytes.
+src/hakimi_research/contracts/product-capabilities.json text eol=lf
+
+# Recovered original identity-bound archive bytes; never normalize these copies.
+archive/legacy_paper/tests/test_core_services_before_paper_persistence_archive.py -text diff merge -whitespace
+archive/historical_research/adr0587_stock_data_quality_boundary_v2.py -text diff merge -whitespace
+archive/historical_research/adr0587_stock_candle_quality_v4.py -text diff merge -whitespace
+archive/historical_research/adr0588_stock_candle_quality_v5.py -text diff merge -whitespace
+archive/historical_research/adr0527_config.py -text diff merge -whitespace
+archive/historical_research/adr0528_models.py -text diff merge -whitespace
+archive/historical_research/adr0529_execution.py -text diff merge -whitespace
+archive/historical_research/adr0530_risk.py -text diff merge -whitespace
+archive/historical_research/adr0531_backtest.py -text diff merge -whitespace
+archive/historical_research/adr0532_data.py -text diff merge -whitespace

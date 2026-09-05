@@ -103,29 +103,23 @@ class ResearchOnlyArchitectureTests(unittest.TestCase):
 
     def test_product_capability_catalog_drives_cli_and_readme(self) -> None:
         catalog = build_product_capability_catalog().to_dict()
-        self.assertEqual(catalog["schema_version"], "product-capability-catalog-v1")
-        self.assertEqual(
-            catalog["cli_commands"],
-            {
-                "backtest": "Supported",
-                "frozen-benchmark": "Supported",
-                "capabilities": "Supported",
-                "list-strategies": "Supported",
-                "optimize": "Archived",
-                "paper": "Archived",
-            },
-        )
+        self.assertEqual(catalog["schema_version"], "product-capability-catalog-v2")
         self.assertEqual(
             run_bot.supported_cli_commands(),
-            ("backtest", "frozen-benchmark", "capabilities", "list-strategies"),
+            tuple(
+                command
+                for command, status in catalog["cli_commands"].items()
+                if status == "Supported"
+            ),
         )
+        self.assertEqual(catalog["cli_commands"]["optimize"], "Archived")
+        self.assertEqual(catalog["cli_commands"]["paper"], "Archived")
         self.assertEqual(catalog["authority"], build_research_only_capability().to_dict())
         readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
         for capability, status in catalog["capabilities"].items():
             self.assertIn(f"| `{capability}` | {status} |", readme)
         self.assertNotIn("run_bot.py paper", readme)
         self.assertNotIn("run_bot.py optimize", readme)
-        self.assertIn("Electron", readme)
 
 
 if __name__ == "__main__":

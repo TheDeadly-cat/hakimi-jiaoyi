@@ -1,8 +1,7 @@
-"""Compatibility imports for canonical research logging."""
+from _canonical_source import activate_canonical_source
 
-from hakimi_research.logging_setup import (
-    RESEARCH_LOGGING_SCHEMA_VERSION,
-    setup_logging,
-)
+activate_canonical_source()
 
-__all__ = ["RESEARCH_LOGGING_SCHEMA_VERSION", "setup_logging"]
+from hakimi_research.logging_setup import setup_logging  # noqa: E402
+
+__all__ = ["setup_logging"]

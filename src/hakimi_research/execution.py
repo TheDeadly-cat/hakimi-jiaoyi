@@ -131,10 +131,10 @@ class ResearchExecutionSimulator:
             if available_volume is None:
                 _fail("research_execution_available_volume_required")
             volume = _finite_native_number(available_volume, label="available_volume")
-            if volume <= 0:
-                _fail("research_execution_positive_available_volume_required")
+            if volume < 0:
+                _fail("research_execution_nonnegative_available_volume_required")
             capacity_quantity = volume * self.max_volume_participation_rate
-            if not math.isfinite(capacity_quantity) or capacity_quantity <= 0:
+            if not math.isfinite(capacity_quantity) or capacity_quantity < 0:
                 _fail("research_execution_volume_capacity_invalid")
 
         fill_price = order_price * (
@@ -158,7 +158,7 @@ class ResearchExecutionSimulator:
         reason = "NONE"
         if executable <= 0:
             status = "REJECTED"
-            reason = zero_reason
+            reason = "VOLUME_CAPACITY_UNAVAILABLE" if capacity_quantity == 0 else zero_reason
         elif (
             self.minimum_executable_quantity is not None
             and executable < self.minimum_executable_quantity
@@ -313,7 +313,7 @@ class ResearchExecutionSimulator:
                 _fail("ResearchExecutionSimulator sell fill would create an invalid account state.")
             new_cash = max(0.0, new_cash)
             new_position_qty = max(0.0, new_position_qty)
-            if new_position_qty <= 1e-12:
+            if new_position_qty == 0:
                 new_position_qty = 0.0
                 new_avg_entry_price = 0.0
                 new_entry_fees = 0.0

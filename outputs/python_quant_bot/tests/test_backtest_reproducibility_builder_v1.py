@@ -54,14 +54,18 @@ def _build(
 
 
 class BacktestReproducibilityBuilderV1Tests(unittest.TestCase):
-    def test_public_builder_preserves_pre_extraction_identity(self) -> None:
+    def test_score_start_accounting_versions_identity_without_overwriting_v1_evidence(self) -> None:
         expected, delegated = _build(synthetic_frame(), config(), context())
 
         self.assertEqual(expected, delegated)
-        self.assertEqual(
+        self.assertNotEqual(
             canonical_payload_hash(expected),
             BASELINE_REPRODUCIBILITY_HASH,
         )
+        self.assertEqual(expected["scoring"]["metric_semantics_version"], "research-accounting-score-start-v2")
+        self.assertEqual(expected["execution_model"], "signal-close-next-open-ohlc-v5")
+        repeated, _ = _build(synthetic_frame(), config(), context())
+        self.assertEqual(expected, repeated)
 
     def test_all_identity_inputs_are_rebuilt_without_running_backtest(self) -> None:
         base_frame = synthetic_frame()

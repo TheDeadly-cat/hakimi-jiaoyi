@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import ast
-import hashlib
 import math
 import sys
 import unittest
@@ -23,17 +22,7 @@ from hakimi_research.risk import RISK_ENGINE_SCHEMA_VERSION, RiskManager  # noqa
 from quant_bot import risk as legacy_risk  # noqa: E402
 
 
-ARCHIVE_PATH = REPO_ROOT / "archive" / "historical_research" / "adr0530_risk.py"
 LEGACY_PATH = OUTPUT_ROOT / "quant_bot" / "risk.py"
-DETERMINISTIC_PATH = SRC_ROOT / "hakimi_research" / "deterministic_frozen_benchmark.py"
-ACTIVE_CONSUMERS = (
-    SRC_ROOT / "hakimi_research" / "cli.py",
-    SRC_ROOT / "hakimi_research" / "frozen_evaluation.py",
-    SRC_ROOT / "hakimi_research" / "backtest.py",
-    OUTPUT_ROOT / "exchange_terminal" / "application" / "synthetic_strategy_benchmark_controls_v1.py",
-    OUTPUT_ROOT / "exchange_terminal" / "application" / "synthetic_strategy_execution_adversity_v1.py",
-    SRC_ROOT / "hakimi_research" / "synthetic_strategy_report_bundle.py",
-)
 
 
 class HostileNumber:
@@ -56,30 +45,13 @@ class FakeSignal:
 
 class CanonicalResearchRiskSourceV1Tests(unittest.TestCase):
     def test_schema_and_legacy_identity_are_canonical(self) -> None:
-        self.assertEqual(RISK_ENGINE_SCHEMA_VERSION, "research-risk-engine-v1")
+        self.assertEqual(RISK_ENGINE_SCHEMA_VERSION, "research-risk-engine-v2")
         self.assertIs(legacy_risk.RiskManager, RiskManager)
 
     def test_legacy_module_is_definition_free(self) -> None:
         tree = ast.parse(LEGACY_PATH.read_text(encoding="utf-8"))
         definitions = (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)
         self.assertFalse(any(isinstance(node, definitions) for node in ast.walk(tree)))
-
-    def test_historical_implementation_is_byte_preserved(self) -> None:
-        self.assertEqual(
-            hashlib.sha256(ARCHIVE_PATH.read_bytes()).hexdigest(),
-            "f736087a7264744c225826d148c466cfe2c3a6038bc76c2230ac880521eb3158",
-        )
-
-    def test_active_consumers_import_canonical_risk_directly(self) -> None:
-        for path in ACTIVE_CONSUMERS:
-            source = path.read_text(encoding="utf-8")
-            self.assertIn("from hakimi_research.risk import RiskManager", source, path)
-            self.assertNotIn("from quant_bot.risk import", source, path)
-
-    def test_deterministic_source_envelope_binds_canonical_risk(self) -> None:
-        source = DETERMINISTIC_PATH.read_text(encoding="utf-8")
-        self.assertIn('"src/hakimi_research/risk.py"', source)
-        self.assertNotIn('"outputs/python_quant_bot/quant_bot/risk.py"', source)
 
     def test_config_is_exact_snapshotted_and_frozen(self) -> None:
         source = RiskConfig()

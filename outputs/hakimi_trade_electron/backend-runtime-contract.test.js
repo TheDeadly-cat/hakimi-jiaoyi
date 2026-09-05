@@ -1,13 +1,18 @@
 const assert = require("assert");
+const fs = require("fs");
 const path = require("path");
 const {
   CAPABILITY_SCHEMA_VERSION,
+  EXPECTED_CLI_COMMANDS,
+  EXPECTED_PRODUCT_CAPABILITIES,
+  PRODUCT_CAPABILITY_DEFINITION_PATH,
   PRODUCT_CAPABILITY_CATALOG_SCHEMA_VERSION,
   RUNTIME_BUILD_SCHEMA_VERSION,
   buildVerifiedBackendStopScript,
   classifyBackendHealth,
   classifyBackendHealthResponse,
   isLoopbackHost,
+  validateProductCapabilityDefinition,
 } = require("./backend-runtime-contract");
 
 function currentHealth(overrides = {}) {
@@ -21,37 +26,16 @@ function currentHealth(overrides = {}) {
   const productCapabilityCatalog = {
     schema_version: PRODUCT_CAPABILITY_CATALOG_SCHEMA_VERSION,
     product_mode: "research_only",
-    capabilities: {
-      product_capability_catalog: "Supported",
-      market_data_research: "Supported",
-      historical_backtest: "Supported",
-      deterministic_frozen_benchmark: "Supported",
-      deterministic_strategy_family_benchmark: "Supported",
-      deterministic_strategy_robustness_benchmark: "Supported",
-      deterministic_strategy_statistical_correction_benchmark: "Supported",
-      research_reporting: "Supported",
-      strategy_catalog: "Supported",
-      local_research_terminal: "Experimental",
-      parameter_optimization: "Archived",
-      paper_execution: "Archived",
-      live_execution: "Archived",
-      order_entry: "Disabled",
-    },
-    cli_commands: {
-      backtest: "Supported",
-      "frozen-benchmark": "Supported",
-      "strategy-family-benchmark": "Supported",
-      "strategy-robustness-benchmark": "Supported",
-      "strategy-statistical-correction-benchmark": "Supported",
-      capabilities: "Supported",
-      "list-strategies": "Supported",
-      optimize: "Archived",
-      paper: "Archived",
-    },
+    capabilities: { ...EXPECTED_PRODUCT_CAPABILITIES },
+    cli_commands: { ...EXPECTED_CLI_COMMANDS },
     authority: capability,
   };
   return {
     ok: true,
+    read_only: true,
+    runtime_mutations_allowed: false,
+    guardian_worker_running: false,
+    paper_armed: false,
     paper_authorized: false,
     paper_order_allowed: false,
     automated_paper_order_allowed: false,
@@ -77,8 +61,45 @@ assert.deepStrictEqual(classifyBackendHealth(null), {
   status: "OFFLINE",
   reason: "health_unavailable",
 });
+const capabilityDefinition = JSON.parse(
+  fs.readFileSync(PRODUCT_CAPABILITY_DEFINITION_PATH, "utf8"),
+);
+const unsafeAuthority = structuredClone(capabilityDefinition);
+unsafeAuthority.catalog.authority.paper_allowed = true;
+assert.throws(
+  () => validateProductCapabilityDefinition(unsafeAuthority),
+  /product_capability_definition_authority_invalid/,
+);
+const numericAuthority = structuredClone(capabilityDefinition);
+numericAuthority.catalog.authority.paper_allowed = 0;
+assert.throws(
+  () => validateProductCapabilityDefinition(numericAuthority),
+  /product_capability_definition_authority_invalid/,
+);
+const unsafeCapability = structuredClone(capabilityDefinition);
+unsafeCapability.catalog.capabilities.find(
+  ({ name }) => name === "paper_execution",
+).status = "Supported";
+assert.throws(
+  () => validateProductCapabilityDefinition(unsafeCapability),
+  /product_capability_definition_execution_lock_invalid/,
+);
+const unsafeBinding = structuredClone(capabilityDefinition);
+unsafeBinding.catalog.cli_bindings.find(
+  ({ command }) => command === "paper",
+).capability = "historical_backtest";
+assert.throws(
+  () => validateProductCapabilityDefinition(unsafeBinding),
+  /product_capability_definition_archived_cli_lock_invalid/,
+);
 assert.strictEqual(classifyBackendHealth({ ok: true }).status, "RESTART_REQUIRED");
 assert.strictEqual(classifyBackendHealth(currentHealth()).healthy, true);
+for (const override of [
+  { read_only: false }, { read_only: undefined }, { runtime_mutations_allowed: true },
+  { guardian_worker_running: true }, { paper_armed: true },
+]) {
+  assert.equal(classifyBackendHealth(currentHealth(override)).reason, "read_only_preview_required");
+}
 assert.strictEqual(classifyBackendHealth(currentHealth({ capability: undefined })).status, "RESTART_REQUIRED");
 assert.deepStrictEqual(
   classifyBackendHealth(currentHealth({ product_capability_catalog: undefined })),
@@ -145,12 +166,8 @@ assert.strictEqual(isLoopbackHost("localhost"), true);
 assert.strictEqual(isLoopbackHost("192.0.2.1"), false);
 
 const serverPath = path.join("C:\\workspace", "python_quant_bot", "exchange_terminal", "server.py");
-const stopScript = buildVerifiedBackendStopScript({ port: 8765, serverPath });
-assert.match(stopScript, /LocalPort 8765/);
-assert.match(stopScript, /StartsWith\('python'\)/);
-assert.match(stopScript, /exchange_terminal\/server\.py/);
-assert.match(stopScript, /Stop-Process/);
-assert.throws(() => buildVerifiedBackendStopScript({ port: 0, serverPath }), /Invalid backend port/);
-assert.throws(() => buildVerifiedBackendStopScript({ port: 8765, serverPath: "C:\\other.py" }), /Invalid backend server path/);
+assert.throws(() => buildVerifiedBackendStopScript({ port: 8765, serverPath }), /process termination is disabled/);
+assert.throws(() => buildVerifiedBackendStopScript({ port: 0, serverPath }), /process termination is disabled/);
+assert.throws(() => buildVerifiedBackendStopScript({ port: 8765, serverPath: "C:\\other.py" }), /process termination is disabled/);
 
 console.log("backend runtime contract tests passed");

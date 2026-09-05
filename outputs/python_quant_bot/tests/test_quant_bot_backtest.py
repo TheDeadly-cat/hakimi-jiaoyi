@@ -76,7 +76,10 @@ class QuantBotBacktestTests(unittest.TestCase):
         config = self.config()
         report = BacktestEngine(config, OneShotStrategy(), RiskManager(config.risk)).run(frame)
 
-        self.assertEqual(report.execution_model, "signal-close-next-open-ohlc-volume-cap-v4")
+        self.assertEqual(report.execution_model, "signal-close-next-open-ohlc-v5")
+        self.assertEqual(report.to_dict()["metric_semantics_version"], "research-accounting-score-start-v2")
+        self.assertEqual(report.equity_curve[0]["point"], "INITIAL")
+        self.assertEqual(report.equity_curve[0]["equity"], config.initial_cash)
         self.assertEqual(report.fills[0]["signal_time"], str(frame.index[29]))
         self.assertEqual(report.fills[0]["fill_time"], str(frame.index[30]))
         self.assertEqual(report.fills[0]["fill_basis"], "NEXT_BAR_OPEN")
@@ -254,9 +257,7 @@ class QuantBotBacktestTests(unittest.TestCase):
         self.assertNotIn("run_paper_cycles", source)
         self.assertEqual(
             build_product_capability_catalog().schema_version,
-            "product-capability-catalog-v1",
+            "product-capability-catalog-v2",
         )
-
-
 if __name__ == "__main__":
     unittest.main()

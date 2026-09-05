@@ -1,3 +1,7 @@
+from _canonical_source import activate_canonical_source
+
+activate_canonical_source()
+
 from hakimi_research.strategies.base import (
     STRATEGY_BASE_SCHEMA_VERSION,
     Portfolio,

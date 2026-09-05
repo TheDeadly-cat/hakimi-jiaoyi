@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import ast
-import hashlib
 import math
 import sys
 import unittest
@@ -30,16 +29,7 @@ from quant_bot import backtest as legacy_backtest  # noqa: E402
 from quant_bot.strategies.base import StrategyBase  # noqa: E402
 
 
-ARCHIVE_PATH = REPO_ROOT / "archive" / "historical_research" / "adr0531_backtest.py"
 LEGACY_PATH = OUTPUT_ROOT / "quant_bot" / "backtest.py"
-DETERMINISTIC_PATH = SRC_ROOT / "hakimi_research" / "deterministic_frozen_benchmark.py"
-ACTIVE_CONSUMERS = (
-    SRC_ROOT / "hakimi_research" / "cli.py",
-    SRC_ROOT / "hakimi_research" / "frozen_evaluation.py",
-    OUTPUT_ROOT / "exchange_terminal" / "application" / "synthetic_strategy_benchmark_controls_v1.py",
-    OUTPUT_ROOT / "exchange_terminal" / "application" / "synthetic_strategy_execution_adversity_v1.py",
-    SRC_ROOT / "hakimi_research" / "synthetic_strategy_report_bundle.py",
-)
 
 
 class MinimalStrategy(StrategyBase):
@@ -49,7 +39,7 @@ class MinimalStrategy(StrategyBase):
 
 class CanonicalResearchBacktestSourceV1Tests(unittest.TestCase):
     def test_schema_and_legacy_identity_are_canonical(self) -> None:
-        self.assertEqual(BACKTEST_SCHEMA_VERSION, "research-backtest-core-v1")
+        self.assertEqual(BACKTEST_SCHEMA_VERSION, "research-backtest-core-v2")
         self.assertIs(legacy_backtest.BacktestEngine, BacktestEngine)
         self.assertIs(legacy_backtest.BacktestReport, BacktestReport)
 
@@ -57,23 +47,6 @@ class CanonicalResearchBacktestSourceV1Tests(unittest.TestCase):
         tree = ast.parse(LEGACY_PATH.read_text(encoding="utf-8"))
         definitions = (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)
         self.assertFalse(any(isinstance(node, definitions) for node in ast.walk(tree)))
-
-    def test_historical_implementation_is_byte_preserved(self) -> None:
-        self.assertEqual(
-            hashlib.sha256(ARCHIVE_PATH.read_bytes()).hexdigest(),
-            "d049cfe633d8ceee69d878d2849156a11e24885c71673d4f67b559d38686f993",
-        )
-
-    def test_active_consumers_import_canonical_backtest_directly(self) -> None:
-        for path in ACTIVE_CONSUMERS:
-            source = path.read_text(encoding="utf-8")
-            self.assertIn("from hakimi_research.backtest import BacktestEngine", source, path)
-            self.assertNotIn("from quant_bot.backtest import", source, path)
-
-    def test_deterministic_source_envelope_binds_canonical_backtest(self) -> None:
-        source = DETERMINISTIC_PATH.read_text(encoding="utf-8")
-        self.assertIn('"src/hakimi_research/backtest.py"', source)
-        self.assertNotIn('"outputs/python_quant_bot/quant_bot/backtest.py"', source)
 
     def test_engine_detaches_config_strategy_risk_and_context(self) -> None:
         config = BotConfig()

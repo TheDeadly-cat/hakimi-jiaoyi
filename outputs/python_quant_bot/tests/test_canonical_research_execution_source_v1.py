@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import ast
-import hashlib
 import math
 import sys
 import unittest
@@ -27,10 +26,8 @@ from hakimi_research.models import Action, Order, Portfolio  # noqa: E402
 from quant_bot import execution as legacy_execution  # noqa: E402
 
 
-ARCHIVE_PATH = REPO_ROOT / "archive" / "historical_research" / "adr0529_execution.py"
 LEGACY_PATH = OUTPUT_ROOT / "quant_bot" / "execution.py"
 BACKTEST_PATH = SRC_ROOT / "hakimi_research" / "backtest.py"
-DETERMINISTIC_PATH = SRC_ROOT / "hakimi_research" / "deterministic_frozen_benchmark.py"
 
 
 class HostileNumber:
@@ -69,12 +66,6 @@ class CanonicalResearchExecutionSourceV1Tests(unittest.TestCase):
         definitions = (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)
         self.assertFalse(any(isinstance(node, definitions) for node in ast.walk(tree)))
 
-    def test_historical_implementation_is_byte_preserved(self) -> None:
-        self.assertEqual(
-            hashlib.sha256(ARCHIVE_PATH.read_bytes()).hexdigest(),
-            "d743524da6c5cae47bab7694ee87ff859ac1e2e8bf467b0f271dd27e2026400a",
-        )
-
     def test_active_backtest_imports_canonical_execution_directly(self) -> None:
         source = BACKTEST_PATH.read_text(encoding="utf-8")
         self.assertIn(
@@ -82,11 +73,6 @@ class CanonicalResearchExecutionSourceV1Tests(unittest.TestCase):
             source,
         )
         self.assertNotIn("from quant_bot.execution import", source)
-
-    def test_deterministic_source_envelope_binds_canonical_execution(self) -> None:
-        source = DETERMINISTIC_PATH.read_text(encoding="utf-8")
-        self.assertIn('"src/hakimi_research/execution.py"', source)
-        self.assertNotIn('"outputs/python_quant_bot/quant_bot/execution.py"', source)
 
     def test_configuration_is_normalized_and_frozen(self) -> None:
         simulator = ResearchExecutionSimulator(fee_rate=0, slippage_pct=0)

@@ -1,4 +1,8 @@
-from hakimi_research.strategies.templates import (
+from _canonical_source import activate_canonical_source
+
+activate_canonical_source()
+
+from hakimi_research.strategies.templates import (  # noqa: E402
     STRATEGY_REGISTRY,
     BollingerBandStrategy,
     DualMovingAverageStrategy,
@@ -10,12 +14,12 @@ from hakimi_research.strategies.templates import (
 )
 
 __all__ = [
-    "STRATEGY_REGISTRY",
-    "build_strategy",
     "DualMovingAverageStrategy",
     "GridStrategy",
     "BollingerBandStrategy",
     "MacdStrategy",
     "RsiStrategy",
     "MomentumStrategy",
+    "STRATEGY_REGISTRY",
+    "build_strategy",
 ]

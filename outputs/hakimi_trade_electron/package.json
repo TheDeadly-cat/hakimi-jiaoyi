@@ -2,12 +2,12 @@
   "name": "hakimi-trade-v2-desktop",
   "version": "2.1.0",
   "private": true,
-  "description": "Research-only desktop shell for the local Hakimi quantitative validation platform.",
+  "description": "Hakimi Trade v2 desktop shell for the local Python trading terminal.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dev": "electron .",
-    "check": "node --check main.js && node --check backend-runtime-contract.js && node backend-runtime-contract.test.js && node research-capability-lock.test.js && node --check electron-smoke-runtime.js && node --check smoke-test.js && node --check chart-switch-smoke.js && node --check ..\\python_quant_bot\\exchange_terminal\\static\\chart_quality.js && node --check ..\\python_quant_bot\\exchange_terminal\\static\\chart_controller.js && node ..\\python_quant_bot\\exchange_terminal\\static\\chart_controller.test.js && node --check ..\\python_quant_bot\\exchange_terminal\\static\\stock_quote_guard.js && node ..\\python_quant_bot\\exchange_terminal\\static\\stock_quote_guard.test.js && node --check ..\\python_quant_bot\\exchange_terminal\\static\\evidence_presentation.js && node ..\\python_quant_bot\\exchange_terminal\\static\\evidence_presentation.test.js",
+    "check": "node --check main.js && node --check desktop-security-policy.js && node desktop-security-policy.test.js && node --check backend-runtime-contract.js && node backend-runtime-contract.test.js && node --check electron-smoke-runtime.js && node --check smoke-test.js && node --check chart-switch-smoke.js && node --check ..\\python_quant_bot\\exchange_terminal\\static\\chart_quality.js && node --check ..\\python_quant_bot\\exchange_terminal\\static\\chart_controller.js && node ..\\python_quant_bot\\exchange_terminal\\static\\chart_controller.test.js && node --check ..\\python_quant_bot\\exchange_terminal\\static\\stock_quote_guard.js && node ..\\python_quant_bot\\exchange_terminal\\static\\stock_quote_guard.test.js && node --check ..\\python_quant_bot\\exchange_terminal\\static\\evidence_presentation.js && node ..\\python_quant_bot\\exchange_terminal\\static\\evidence_presentation.test.js",
     "test:evidence": "node ..\\python_quant_bot\\exchange_terminal\\static\\evidence_presentation.test.js",
     "smoke": "node smoke-test.js",
     "chart-smoke": "node chart-switch-smoke.js"

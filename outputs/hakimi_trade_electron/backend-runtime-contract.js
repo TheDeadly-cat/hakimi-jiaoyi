@@ -1,42 +1,38 @@
+const fs = require("fs");
 const path = require("path");
 
 const RUNTIME_BUILD_SCHEMA_VERSION = "hakimi-runtime-build-v1";
-const CAPABILITY_SCHEMA_VERSION = "capability-v1";
+const PRODUCT_CAPABILITY_DEFINITION_PATH = path.resolve(
+  __dirname,
+  "..",
+  "..",
+  "src",
+  "hakimi_research",
+  "contracts",
+  "product-capabilities.json",
+);
+const DEFINITION_SCHEMA_VERSION = "product-capability-definition-v1";
 const PRODUCT_CAPABILITY_CATALOG_SCHEMA_VERSION = "product-capability-catalog-v2";
-const CAPABILITY_FIELDS = [
-  "live_allowed",
-  "paper_allowed",
-  "product_mode",
-  "research_only",
-  "schema_version",
-];
-const EXPECTED_PRODUCT_CAPABILITIES = {
-  product_capability_catalog: "Supported",
-  market_data_research: "Supported",
-  historical_backtest: "Supported",
-  deterministic_frozen_benchmark: "Supported",
-  deterministic_strategy_family_benchmark: "Supported",
-  deterministic_strategy_robustness_benchmark: "Supported",
-  deterministic_strategy_statistical_correction_benchmark: "Supported",
-  research_reporting: "Supported",
-  strategy_catalog: "Supported",
-  local_research_terminal: "Experimental",
+const CAPABILITY_SCHEMA_VERSION = "capability-v1";
+const SAFE_CAPABILITY_NAME = /^[a-z][a-z0-9_]*$/;
+const SAFE_CLI_COMMAND = /^[a-z][a-z0-9-]*$/;
+const ALLOWED_STATUSES = new Set(["Supported", "Experimental", "Archived", "Disabled"]);
+const LOCKED_AUTHORITY = {
+  schema_version: CAPABILITY_SCHEMA_VERSION,
+  product_mode: "research_only",
+  research_only: true,
+  paper_allowed: false,
+  live_allowed: false,
+};
+const LOCKED_CAPABILITY_STATUSES = {
   parameter_optimization: "Archived",
   paper_execution: "Archived",
   live_execution: "Archived",
   order_entry: "Disabled",
 };
-const EXPECTED_CLI_COMMANDS = {
-  backtest: "Supported",
-  "frozen-benchmark": "Supported",
-  "strategy-family-benchmark": "Supported",
-  "strategy-robustness-benchmark": "Supported",
-  "strategy-statistical-correction-benchmark": "Supported",
-  "strategy-research-dossier": "Supported",
-  capabilities: "Supported",
-  "list-strategies": "Supported",
-  optimize: "Archived",
-  paper: "Archived",
+const LOCKED_CLI_BINDINGS = {
+  optimize: "parameter_optimization",
+  paper: "paper_execution",
 };
 
 function canonicalJson(value) {
@@ -54,6 +50,125 @@ function sameExactJson(left, right) {
   return JSON.stringify(canonicalJson(left)) === JSON.stringify(canonicalJson(right));
 }
 
+function hasExactFields(value, fields) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const keys = Object.keys(value);
+  return keys.length === fields.length
+    && fields.every((field) => Object.prototype.hasOwnProperty.call(value, field));
+}
+
+function validateProductCapabilityDefinition(raw) {
+  if (!hasExactFields(raw, ["$schema", "definition_schema_version", "catalog"])) {
+    throw new Error("product_capability_definition_shape_invalid");
+  }
+  if (raw.$schema !== "./product-capabilities.schema.json") {
+    throw new Error("product_capability_definition_schema_reference_invalid");
+  }
+  if (raw.definition_schema_version !== DEFINITION_SCHEMA_VERSION) {
+    throw new Error("product_capability_definition_version_invalid");
+  }
+
+  const catalog = raw.catalog;
+  if (!hasExactFields(catalog, [
+    "schema_version",
+    "product_mode",
+    "authority",
+    "capabilities",
+    "cli_bindings",
+  ])) {
+    throw new Error("product_capability_definition_catalog_shape_invalid");
+  }
+  if (catalog.schema_version !== PRODUCT_CAPABILITY_CATALOG_SCHEMA_VERSION) {
+    throw new Error("product_capability_definition_catalog_version_invalid");
+  }
+  if (catalog.product_mode !== "research_only") {
+    throw new Error("product_capability_definition_product_mode_invalid");
+  }
+  if (!sameExactJson(catalog.authority, LOCKED_AUTHORITY)) {
+    throw new Error("product_capability_definition_authority_invalid");
+  }
+
+  if (!Array.isArray(catalog.capabilities) || catalog.capabilities.length === 0) {
+    throw new Error("product_capability_definition_capabilities_invalid");
+  }
+  const capabilityItems = catalog.capabilities.map((item) => {
+    if (!hasExactFields(item, ["name", "status"])) {
+      throw new Error("product_capability_definition_capability_shape_invalid");
+    }
+    if (typeof item.name !== "string" || !SAFE_CAPABILITY_NAME.test(item.name)) {
+      throw new Error("product_capability_definition_capability_name_invalid");
+    }
+    if (typeof item.status !== "string" || !ALLOWED_STATUSES.has(item.status)) {
+      throw new Error("product_capability_definition_capability_status_invalid");
+    }
+    return [item.name, item.status];
+  });
+  const capabilityNames = new Set(capabilityItems.map(([name]) => name));
+  if (capabilityNames.size !== capabilityItems.length) {
+    throw new Error("product_capability_definition_capability_duplicate");
+  }
+  const capabilities = Object.fromEntries(capabilityItems);
+  for (const [name, expectedStatus] of Object.entries(LOCKED_CAPABILITY_STATUSES)) {
+    if (capabilities[name] !== expectedStatus) {
+      throw new Error("product_capability_definition_execution_lock_invalid");
+    }
+  }
+
+  if (!Array.isArray(catalog.cli_bindings) || catalog.cli_bindings.length === 0) {
+    throw new Error("product_capability_definition_cli_bindings_invalid");
+  }
+  const cliBindings = catalog.cli_bindings.map((item) => {
+    if (!hasExactFields(item, ["command", "capability"])) {
+      throw new Error("product_capability_definition_cli_binding_shape_invalid");
+    }
+    if (typeof item.command !== "string" || !SAFE_CLI_COMMAND.test(item.command)) {
+      throw new Error("product_capability_definition_cli_command_invalid");
+    }
+    if (typeof item.capability !== "string" || !capabilityNames.has(item.capability)) {
+      throw new Error("product_capability_definition_cli_capability_invalid");
+    }
+    return [item.command, item.capability];
+  });
+  const commandNames = new Set(cliBindings.map(([command]) => command));
+  if (commandNames.size !== cliBindings.length) {
+    throw new Error("product_capability_definition_cli_command_duplicate");
+  }
+  const bindings = Object.fromEntries(cliBindings);
+  for (const [command, expectedCapability] of Object.entries(LOCKED_CLI_BINDINGS)) {
+    if (bindings[command] !== expectedCapability) {
+      throw new Error("product_capability_definition_archived_cli_lock_invalid");
+    }
+  }
+
+  return {
+    authority: Object.freeze({ ...catalog.authority }),
+    capabilities: Object.freeze(capabilities),
+    cliBindings: Object.freeze(cliBindings.map((item) => Object.freeze([...item]))),
+  };
+}
+
+function loadProductCapabilityDefinition(
+  definitionPath = PRODUCT_CAPABILITY_DEFINITION_PATH,
+) {
+  let raw;
+  try {
+    raw = JSON.parse(fs.readFileSync(definitionPath, "utf8"));
+  } catch (error) {
+    throw new Error("product_capability_definition_unreadable", { cause: error });
+  }
+  return validateProductCapabilityDefinition(raw);
+}
+
+const PRODUCT_CAPABILITY_DEFINITION = Object.freeze(loadProductCapabilityDefinition());
+const EXPECTED_CAPABILITY = PRODUCT_CAPABILITY_DEFINITION.authority;
+const CAPABILITY_FIELDS = Object.freeze(Object.keys(EXPECTED_CAPABILITY).sort());
+const EXPECTED_PRODUCT_CAPABILITIES = PRODUCT_CAPABILITY_DEFINITION.capabilities;
+const EXPECTED_CLI_COMMANDS = Object.freeze(Object.fromEntries(
+  PRODUCT_CAPABILITY_DEFINITION.cliBindings.map(([command, capability]) => (
+    [command, EXPECTED_PRODUCT_CAPABILITIES[capability]]
+  )),
+));
+
 function parseBackendHealthResponse(response) {
   if (!response || response.statusCode !== 200 || typeof response.body !== "string") return null;
   try {
@@ -68,11 +183,7 @@ function isExactResearchOnlyCapability(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const fields = Object.keys(value).sort();
   return JSON.stringify(fields) === JSON.stringify(CAPABILITY_FIELDS)
-    && value.schema_version === CAPABILITY_SCHEMA_VERSION
-    && value.product_mode === "research_only"
-    && value.research_only === true
-    && value.paper_allowed === false
-    && value.live_allowed === false;
+    && sameExactJson(value, EXPECTED_CAPABILITY);
 }
 
 function isExactResearchOnlyProductCatalog(value) {
@@ -128,6 +239,10 @@ function classifyBackendHealth(payload) {
   if (hasLegacyAuthorityClaim(payload, runtime)) {
     return { healthy: false, reachable: true, status: "UNSAFE", reason: "execution_authority_invalid" };
   }
+  if (payload.read_only !== true || payload.runtime_mutations_allowed !== false
+      || payload.guardian_worker_running !== false || payload.paper_armed !== false) {
+    return { healthy: false, reachable: true, status: "RESTART_REQUIRED", reason: "read_only_preview_required" };
+  }
   if (
     !isExactResearchOnlyCapability(payload.capability)
     || !isExactResearchOnlyCapability(runtime.capability)
@@ -164,41 +279,15 @@ function isLoopbackHost(host) {
   return ["127.0.0.1", "localhost", "::1"].includes(String(host || "").trim().toLowerCase());
 }
 
-function powershellQuote(value) {
-  return `'${String(value).replace(/'/g, "''")}'`;
-}
-
-function buildVerifiedBackendStopScript({ port, serverPath }) {
-  const cleanPort = Number(port);
-  if (!Number.isInteger(cleanPort) || cleanPort < 1 || cleanPort > 65535) {
-    throw new Error("Invalid backend port");
-  }
-  const expected = path.resolve(String(serverPath || "")).replace(/\\/g, "/").toLowerCase();
-  if (!expected.endsWith("/exchange_terminal/server.py")) {
-    throw new Error("Invalid backend server path");
-  }
-  return [
-    "$ErrorActionPreference='Stop'",
-    `$listener=Get-NetTCPConnection -State Listen -LocalPort ${cleanPort} -ErrorAction SilentlyContinue | Select-Object -First 1`,
-    "if (-not $listener) { exit 0 }",
-    "$owner=Get-CimInstance Win32_Process -Filter \"ProcessId=$($listener.OwningProcess)\"",
-    "if (-not $owner) { throw 'Backend port owner is unavailable' }",
-    "$exe=[IO.Path]::GetFileName([string]$owner.ExecutablePath).ToLowerInvariant()",
-    "$command=([string]$owner.CommandLine).Replace('\\\\','/').ToLowerInvariant()",
-    `$expected=${powershellQuote(expected)}`,
-    "$relative='exchange_terminal/server.py'",
-    "if (-not $exe.StartsWith('python') -or (-not $command.Contains($expected) -and -not $command.Contains($relative))) { throw 'Port owner is not the Hakimi Python backend' }",
-    "Stop-Process -Id ([int]$listener.OwningProcess) -ErrorAction Stop",
-    "$deadline=(Get-Date).AddSeconds(8)",
-    `do { Start-Sleep -Milliseconds 100; $remaining=Get-NetTCPConnection -State Listen -LocalPort ${cleanPort} -ErrorAction SilentlyContinue | Select-Object -First 1 } while ($remaining -and (Get-Date) -lt $deadline)`,
-    "if ($remaining) { throw 'Hakimi backend port did not close' }",
-  ].join("; ");
+function buildVerifiedBackendStopScript(_options) {
+  throw new Error("Port-based process termination is disabled");
 }
 
 module.exports = {
   CAPABILITY_SCHEMA_VERSION,
   EXPECTED_CLI_COMMANDS,
   EXPECTED_PRODUCT_CAPABILITIES,
+  PRODUCT_CAPABILITY_DEFINITION_PATH,
   PRODUCT_CAPABILITY_CATALOG_SCHEMA_VERSION,
   RUNTIME_BUILD_SCHEMA_VERSION,
   buildVerifiedBackendStopScript,
@@ -206,5 +295,7 @@ module.exports = {
   classifyBackendHealthResponse,
   isLoopbackHost,
   isExactResearchOnlyProductCatalog,
+  loadProductCapabilityDefinition,
   parseBackendHealthResponse,
+  validateProductCapabilityDefinition,
 };

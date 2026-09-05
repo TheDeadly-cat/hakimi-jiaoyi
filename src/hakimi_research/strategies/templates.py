@@ -7,7 +7,8 @@ import pandas as pd
 
 from hakimi_research.indicators import bollinger, macd, momentum, rsi, sma
 from hakimi_research.models import Portfolio, Signal
-from hakimi_research.strategies.base import StrategyBase, clone_strategy_params
+from hakimi_research.benchmarks import CashBenchmarkStrategy, BuyAndHoldBenchmarkStrategy
+from hakimi_research.strategies.base import StrategyBase
 
 
 class DualMovingAverageStrategy(StrategyBase):
@@ -283,6 +284,8 @@ class MomentumStrategy(StrategyBase):
 
 
 STRATEGY_REGISTRY: dict[str, Type[StrategyBase]] = {
+    "cash": CashBenchmarkStrategy,
+    "buy_and_hold": BuyAndHoldBenchmarkStrategy,
     "dual_ma": DualMovingAverageStrategy,
     "grid": GridStrategy,
     "bollinger": BollingerBandStrategy,
@@ -296,33 +299,3 @@ def build_strategy(name: str, params: dict | None = None) -> StrategyBase:
     if name not in STRATEGY_REGISTRY:
         raise ValueError(f"Unknown strategy: {name}. Available: {sorted(STRATEGY_REGISTRY)}")
     return STRATEGY_REGISTRY[name](params=params or {})
-from types import MappingProxyType as _MappingProxyType
-
-
-_BUILD_STRATEGY_CORE = build_strategy
-_STRATEGY_REGISTRY_CORE = dict(STRATEGY_REGISTRY)
-STRATEGY_REGISTRY = _MappingProxyType(_STRATEGY_REGISTRY_CORE)
-
-
-def build_strategy(name: str, params: dict | None = None) -> StrategyBase:
-    if type(name) is not str:
-        raise ValueError("research_strategy_name_exact_str_required")
-    if not name:
-        raise ValueError(f"Unknown strategy: {name}. Available: {sorted(STRATEGY_REGISTRY)}")
-    cloned_params = clone_strategy_params(params, allow_nonfinite=True)
-    strategy = _BUILD_STRATEGY_CORE(name, cloned_params)
-    if not isinstance(strategy, StrategyBase):
-        raise ValueError("research_strategy_registry_result_invalid")
-    return strategy
-
-
-__all__ = [
-    "STRATEGY_REGISTRY",
-    "build_strategy",
-    "DualMovingAverageStrategy",
-    "GridStrategy",
-    "BollingerBandStrategy",
-    "MacdStrategy",
-    "RsiStrategy",
-    "MomentumStrategy",
-]
