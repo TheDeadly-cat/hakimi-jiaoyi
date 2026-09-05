@@ -56,7 +56,7 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
         self.assertIn("permissions:\n  contents: read", self.workflow)
         self.assertEqual(self.workflow.count("uses: actions/checkout@v7"), 9)
         self.assertEqual(self.workflow.count("persist-credentials: false"), 9)
-        self.assertEqual(self.workflow.count("uses: actions/setup-python@v7"), 5)
+        self.assertEqual(self.workflow.count("uses: actions/setup-python@v7"), 6)
         self.assertEqual(self.workflow.count("uses: actions/setup-node@v7"), 5)
         for forbidden in (
             "permissions:\n  contents: write",
@@ -95,17 +95,17 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
             self.workflow.count(
                 "python -m pip install --requirement requirements.research.lock"
             ),
-            4,
+            5,
         )
         self.assertEqual(
             self.workflow.count("python -m pip install --no-deps --editable ."),
-            3,
+            4,
         )
         self.assertEqual(
             self.workflow.count("python -m pip install --no-deps ."),
             0,
         )
-        self.assertEqual(self.workflow.count("python -m pip check"), 4)
+        self.assertEqual(self.workflow.count("python -m pip check"), 5)
         self.assertIn("python -B tools/generate_product_capabilities.py --check", self.workflow)
 
     def test_mvp_job_discovers_all_new_root_behavior_tests(self) -> None:

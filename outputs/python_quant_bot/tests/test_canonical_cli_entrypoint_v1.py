@@ -44,7 +44,7 @@ class CanonicalCliEntrypointV1Tests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             desired = Path(temporary) / "independent-artifacts"
             with patch.dict(os.environ, {"HAKIMI_RESEARCH_HOME": str(desired)}):
-                self.assertEqual(canonical_cli.default_artifact_root(), desired)
+                self.assertEqual(canonical_cli.default_artifact_root(), desired.resolve())
                 self.assertFalse(desired.exists())
 
     def test_canonical_cli_has_no_legacy_runtime_import_or_path_activation(self) -> None:
