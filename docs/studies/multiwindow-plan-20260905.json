@@ -1,0 +1,180 @@
+{
+  "confirmation_evaluation": false,
+  "context_hours": 72,
+  "cost_factors": [
+    1,
+    2,
+    3
+  ],
+  "declared_at": "2026-09-05",
+  "fee_rate": 0.0008,
+  "initial_cash": 10000,
+  "input_end_exclusive": "2026-09-01T00:00:00Z",
+  "input_start": "2023-01-01T00:00:00Z",
+  "interpretation": [
+    "2023-2024 is development history; 2025 through July2026 is chronological historical validation, not a blinded confirmation set.",
+    "August2026 was previously examined and is retained as explicitly seen history.",
+    "The first72hours in2023 are context only. Every later window receives72priorhours.",
+    "BuyHold25pct matches the strategies requested starting allocation, not subsequent achieved exposure or entry time. Actual exposure is separately measured.",
+    "Window returns reset capital and positions and are not a continuous deployable equity curve.",
+    "All240cells, losses, inactive strategies, failed and unavailable windows remain visible. No parameter search or winner selection."
+  ],
+  "live_allowed": false,
+  "methods": [
+    {
+      "label": "cash",
+      "name": "cash",
+      "params": {}
+    },
+    {
+      "label": "buy_hold_full",
+      "name": "buy_and_hold",
+      "params": {
+        "target_position_pct": 1
+      }
+    },
+    {
+      "label": "buy_hold_25pct",
+      "name": "buy_and_hold",
+      "params": {
+        "target_position_pct": 0.25
+      }
+    },
+    {
+      "label": "dual_ma",
+      "name": "dual_ma",
+      "params": {
+        "fast_window": 20,
+        "position_pct": 0.25,
+        "slow_window": 60,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.08
+      }
+    },
+    {
+      "label": "rsi",
+      "name": "rsi",
+      "params": {
+        "overbought": 70,
+        "oversold": 30,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "window": 14
+      }
+    }
+  ],
+  "missing_window_policy": "RETAIN_ALL_CELLS_AS_UNAVAILABLE_NO_SHORTENING",
+  "name": "btc-usdt-spot-1h-fixed-history-20260905",
+  "order_allowed": false,
+  "paper_allowed": false,
+  "parameter_selection": false,
+  "portfolio_initialization": "RESET_FLAT_10000_EACH_WINDOW",
+  "research_only": true,
+  "risk": {
+    "max_daily_loss_pct": 0.05,
+    "max_leverage": 1,
+    "max_position_pct": 0.35,
+    "max_single_loss_pct": 0.03,
+    "min_cash_pct": 0.05
+  },
+  "schema_version": "multiwindow-study-plan-v1",
+  "slippage_pct": 0.0005,
+  "windows": [
+    {
+      "score_end": "2023-04-01T00:00:00Z",
+      "score_start": "2023-01-04T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q1"
+    },
+    {
+      "score_end": "2023-07-01T00:00:00Z",
+      "score_start": "2023-04-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q2"
+    },
+    {
+      "score_end": "2023-10-01T00:00:00Z",
+      "score_start": "2023-07-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q3"
+    },
+    {
+      "score_end": "2024-01-01T00:00:00Z",
+      "score_start": "2023-10-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q4"
+    },
+    {
+      "score_end": "2024-04-01T00:00:00Z",
+      "score_start": "2024-01-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q1"
+    },
+    {
+      "score_end": "2024-07-01T00:00:00Z",
+      "score_start": "2024-04-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q2"
+    },
+    {
+      "score_end": "2024-10-01T00:00:00Z",
+      "score_start": "2024-07-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q3"
+    },
+    {
+      "score_end": "2025-01-01T00:00:00Z",
+      "score_start": "2024-10-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q4"
+    },
+    {
+      "score_end": "2025-04-01T00:00:00Z",
+      "score_start": "2025-01-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q1"
+    },
+    {
+      "score_end": "2025-07-01T00:00:00Z",
+      "score_start": "2025-04-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q2"
+    },
+    {
+      "score_end": "2025-10-01T00:00:00Z",
+      "score_start": "2025-07-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q3"
+    },
+    {
+      "score_end": "2026-01-01T00:00:00Z",
+      "score_start": "2025-10-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q4"
+    },
+    {
+      "score_end": "2026-04-01T00:00:00Z",
+      "score_start": "2026-01-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2026-Q1"
+    },
+    {
+      "score_end": "2026-07-01T00:00:00Z",
+      "score_start": "2026-04-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2026-Q2"
+    },
+    {
+      "score_end": "2026-08-01T00:00:00Z",
+      "score_start": "2026-07-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2026-07"
+    },
+    {
+      "score_end": "2026-09-01T00:00:00Z",
+      "score_start": "2026-08-01T00:00:00Z",
+      "split": "PREVIOUSLY_VIEWED_HISTORY",
+      "window_id": "2026-08-seen"
+    }
+  ]
+}

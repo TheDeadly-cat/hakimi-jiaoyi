@@ -9,14 +9,14 @@ from typing import Any
 
 try:
     from config import ALLOW_STOCK_FALLBACK, FUTU_HOST, FUTU_PORT, LIVE_TRADING_HARD_BLOCK, STOCK_MARKETS
-    from market_data.stock_session import with_stock_session_contract
-    from market_data.stocks import normalize_stock_interval, stock_meta, stock_timezone
+    from hakimi_research.stock_session import with_stock_session_contract
+    from hakimi_research.stock_metadata import normalize_stock_interval, stock_meta, stock_timezone
     from utils import now_ms, pct
 except ModuleNotFoundError:
-    from exchange_terminal.config import ALLOW_STOCK_FALLBACK, FUTU_HOST, FUTU_PORT, LIVE_TRADING_HARD_BLOCK, STOCK_MARKETS
-    from exchange_terminal.market_data.stock_session import with_stock_session_contract
-    from exchange_terminal.market_data.stocks import normalize_stock_interval, stock_meta, stock_timezone
-    from exchange_terminal.utils import now_ms, pct
+    from hakimi_research.terminal_config import ALLOW_STOCK_FALLBACK, FUTU_HOST, FUTU_PORT, LIVE_TRADING_HARD_BLOCK, STOCK_MARKETS
+    from hakimi_research.stock_session import with_stock_session_contract
+    from hakimi_research.stock_metadata import normalize_stock_interval, stock_meta, stock_timezone
+    from hakimi_research.terminal_utils import now_ms, pct
 
 
 FUTU_STATUS_CACHE: dict[str, Any] = {"time": 0, "online": False, "message": "unchecked"}
@@ -210,16 +210,16 @@ def futu_history_window(symbol: str, interval: str, limit: int) -> tuple[str, st
 
 
 def parse_futu_time_key(value: Any, symbol: str) -> int:
-    text = str(value or "").strip()
+    text = value.strip() if type(value) is str else ""
     if not text:
-        return now_ms()
+        return 0
     for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d"):
         try:
             dt = datetime.strptime(text, fmt)
             return int(dt.replace(tzinfo=stock_timezone(symbol)).timestamp() * 1000)
-        except Exception:
+        except ValueError:
             continue
-    return now_ms()
+    return 0
 
 
 def normalize_futu_quote(row: dict[str, Any], symbol: str) -> dict[str, Any]:

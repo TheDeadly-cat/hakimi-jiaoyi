@@ -12,11 +12,30 @@ if str(PYTHON_QUANT_ROOT) not in sys.path:
 
 from exchange_terminal.market_data.stock_session import build_stock_session_contract
 from exchange_terminal.market_data.stocks import stock_timezone
+from hakimi_research.market_calendar import build_market_schedule_attestation
 
 
 def timestamp(symbol: str, value: str) -> int:
     local = datetime.strptime(value, "%Y-%m-%d %H:%M:%S").replace(tzinfo=stock_timezone(symbol))
     return int(local.timestamp() * 1000)
+
+
+def schedule(session_date: str) -> dict[str, object]:
+    return build_market_schedule_attestation(
+        calendar_name="XNYS",
+        timezone_name="America/New_York",
+        coverage_start=session_date,
+        coverage_end=session_date,
+        source_class="DETERMINISTIC_TEST_FIXTURE",
+        source_name="stock-session-contract-test",
+        source_version="1",
+        sessions=[{
+            "date": session_date,
+            "open_utc": f"{session_date}T13:30:00+00:00",
+            "close_utc": f"{session_date}T20:00:00+00:00",
+            "early_close": False,
+        }],
+    )
 
 
 class StockSessionContractTests(unittest.TestCase):
@@ -35,6 +54,7 @@ class StockSessionContractTests(unittest.TestCase):
             },
             market_state="AFTER_HOURS_BEGIN",
             now_ms_value=now,
+            schedule_attestation=schedule("2026-07-31"),
         )
 
         self.assertEqual(result["phase"], "post")
@@ -63,6 +83,7 @@ class StockSessionContractTests(unittest.TestCase):
             "AAPL",
             {"source": "yahoo", "last": 200, "ts": now - 30_000},
             now_ms_value=now,
+            schedule_attestation=schedule("2026-07-31"),
         )
 
         self.assertEqual(result["phase"], "regular")
@@ -70,18 +91,21 @@ class StockSessionContractTests(unittest.TestCase):
         self.assertFalse(result["provider_confirmed"])
         self.assertFalse(result["execution_eligible"])
 
-    def test_regular_session_can_be_execution_eligible_for_paper_only(self) -> None:
+    def test_regular_session_never_grants_execution_authority(self) -> None:
         now = timestamp("AAPL", "2026-07-31 11:00:00")
         result = build_stock_session_contract(
             "AAPL",
             {"source": "futu", "last": 205, "ts": now - 500, "sec_status": "NORMAL"},
             market_state="MORNING",
             now_ms_value=now,
+            schedule_attestation=schedule("2026-07-31"),
         )
 
         self.assertEqual(result["status"], "LIVE_SESSION")
         self.assertTrue(result["regular_open"])
-        self.assertTrue(result["execution_eligible"])
+        self.assertFalse(result["execution_eligible"])
+        self.assertFalse(result["execution_authority"])
+        self.assertEqual(result["safe_action"], "SOURCE -> GAP -> MATURITY -> PERMISSION")
 
 
 if __name__ == "__main__":

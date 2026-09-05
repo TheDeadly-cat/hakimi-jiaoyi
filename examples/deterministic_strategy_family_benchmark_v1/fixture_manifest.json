@@ -1,0 +1,67 @@
+{
+  "authority": {
+    "blind_test_complete": false,
+    "live_authorized": false,
+    "order_entry_authorized": false,
+    "paper_authorized": false,
+    "profitability_proven": false
+  },
+  "bundle_schema_version": "synthetic-strategy-report-bundle-v2",
+  "bundle_sha256": "941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f",
+  "claims": {
+    "formal_blind_test": false,
+    "live": false,
+    "order": false,
+    "paper": false,
+    "parameter_selection": false,
+    "profitability": false,
+    "ranking": false,
+    "real_dataset": false
+  },
+  "contract_version": "deterministic-strategy-family-benchmark-manifest-v1",
+  "dataset_sha256": "920583bc43df033eec001af19c015c8d189e9955e60fa0963998f7ed71043226",
+  "dependency_bound_run_count": 32,
+  "dependency_lock": {
+    "fully_pinned": true,
+    "name": "requirements.research.lock",
+    "sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320"
+  },
+  "ensemble_status": "GAP",
+  "executed_run_count": 32,
+  "expected_bundle_file_sha256": "e0b3893b77a6b3f6640d37e205bc8445d5ffaada6323a90b7b1360cde370d8f3",
+  "expected_markdown_file_sha256": "d1573611b20758feef2af5dbc4a7cb5ee53668c5704e34f3cbf47d6469eeada6",
+  "family_report_counts": {
+    "ENSEMBLE": 0,
+    "RANGE": 3,
+    "TREND": 3
+  },
+  "fixture_sha256": "a26547635389ad47f5dc5422027ea9a9d1ad3838e367b7c6cc9728617c45ddd0",
+  "gaps": [
+    "REAL_MARKET_DATA_NOT_USED",
+    "FORMAL_FROZEN_BLIND_TEST_NOT_EXECUTED",
+    "WALK_FORWARD_NOT_EXECUTED",
+    "PARAMETER_STABILITY_NOT_EXECUTED",
+    "MULTIPLE_TESTING_NOT_EXECUTED",
+    "ENSEMBLE_STRATEGY_NOT_IMPLEMENTED",
+    "SOURCE_COMMIT_NOT_BOUND_FOR_UNCOMMITTED_SLICE"
+  ],
+  "git_clean_run_count": 0,
+  "manifest_sha256": "be58735b01f3b14a6123ae677308bcb5df15f70d3bbdd41b41bd0c649af7da98",
+  "maturity": "SYNTHETIC_BASELINE_ONLY",
+  "plan_sha256": "9556d6fdfdeb1dc13a12fe92765e4b27fde8d65efb37eaab2f923deff4c9a84f",
+  "source_files": {
+    "src/hakimi_research/backtest.py": "dd7c6885919a9fca76a37fac688cb58a7b16bef87dc9653a9d40275a37adb342",
+    "src/hakimi_research/config.py": "a9c89c3ad722f5b5cd0ea175b1c1094198c750546eb53fac9f14f6d34b62f0db",
+    "src/hakimi_research/deterministic_strategy_family_benchmark.py": "64602df5ecfb888cc1e3b9f7bfef4fafec63af8b1d9b764646230763034ab4ea",
+    "src/hakimi_research/distribution_evidence.py": "0be3e1a60902559805c4a924ca17b894555aa5ae66cff5944a0b68ce29afc5b4",
+    "src/hakimi_research/execution.py": "91891a365babb72f8a57d6e86c879b3de63241c5c04bad939b14da190a36510c",
+    "src/hakimi_research/experiment_manifest.py": "96566a64ad145a0a0d65d25509aa3c4afd5790cd52453ea2cab583bfbe585d9c",
+    "src/hakimi_research/indicators.py": "8599dc1b6f20cad2b2c807424320d2bb73e0aa09439a08083844745c85e76ab9",
+    "src/hakimi_research/models.py": "7617d62a80f1dffb8604aee8d550cf21e36cb96ce26d51fc7ee506ad39475717",
+    "src/hakimi_research/risk.py": "07895205e840c5d9a08edc65b97e19e7d5bc7ee7c827f4e85afe795cab9583e0",
+    "src/hakimi_research/strategies/base.py": "23ba0f9094d69dac47ae08e697d3a540f82bfccc9f1b1e2df79634c4c9e6af67",
+    "src/hakimi_research/strategies/templates.py": "1d1f6428cf5ef0e52d9929b12bd7e9351ebd710c235accc7ff8f057d261498d8",
+    "src/hakimi_research/strategy_family_inventory.py": "a8f7bb02be4d049aad83d7d896f75ec9c1fa0bb1d7a1ebe99a901bf1ab9c661c",
+    "src/hakimi_research/synthetic_strategy_report_bundle.py": "46786bb3f4c9aa832741a7bff2e60a05329f879e90d99cf4c7fe2f577c64ae30"
+  }
+}

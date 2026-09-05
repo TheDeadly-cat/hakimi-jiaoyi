@@ -27,15 +27,15 @@ class LegacyCliBoundaryTests(unittest.TestCase):
         return argparse.Namespace(config="config.example.json", cycles=1)
 
     def test_environment_cannot_enable_legacy_paper(self) -> None:
-        with patch.dict(os.environ, {"HAKIMI_LEGACY_PAPER_ENABLED": "true"}), patch.object(
-            run_bot, "load_stack", side_effect=AssertionError("stack must not load")
+        with patch.dict(os.environ, {"HAKIMI_LEGACY_PAPER_ENABLED": "true"}), patch(
+            "hakimi_research.experiment.ExperimentRunner.run", side_effect=AssertionError("runner must not run")
         ):
             with self.assertRaisesRegex(RuntimeError, "permanently disabled"):
                 run_bot.command_paper(self.args())
 
     def test_environment_cannot_enable_legacy_optimize(self) -> None:
-        with patch.dict(os.environ, {"HAKIMI_LEGACY_OPTIMIZE_ENABLED": "true"}), patch.object(
-            run_bot, "load_stack", side_effect=AssertionError("stack must not load")
+        with patch.dict(os.environ, {"HAKIMI_LEGACY_OPTIMIZE_ENABLED": "true"}), patch(
+            "hakimi_research.experiment.ExperimentRunner.run", side_effect=AssertionError("runner must not run")
         ):
             with self.assertRaisesRegex(RuntimeError, "permanently disabled"):
                 run_bot.command_optimize(self.args())
@@ -49,6 +49,13 @@ class LegacyCliBoundaryTests(unittest.TestCase):
         ))
         with self.assertRaisesRegex(RuntimeError, "test-only"):
             build_data_provider(config)
+
+    def test_formal_cli_rejects_legacy_provider_config_before_any_io(self) -> None:
+        with patch("urllib.request.urlopen", side_effect=AssertionError("network forbidden")) as network:
+            with redirect_stdout(io.StringIO()), self.assertRaises(SystemExit) as stopped:
+                run_bot.main(["backtest", "--config", "config.example.json"])
+            self.assertEqual(stopped.exception.code, 1)
+            network.assert_not_called()
 
     def test_partial_okx_history_fails_instead_of_returning_implicit_data(self) -> None:
         index = pd.date_range("2026-01-01", periods=2, freq="D", tz="UTC")
@@ -90,7 +97,7 @@ class LegacyCliBoundaryTests(unittest.TestCase):
                 with patch.object(sys, "argv", ["run_bot.py", "capabilities"]), redirect_stdout(output):
                     run_bot.main()
                 payload = json.loads(output.getvalue())
-                self.assertEqual(payload["schema_version"], "product-capability-catalog-v1")
+                self.assertEqual(payload["schema_version"], "product-capability-catalog-v2")
                 self.assertEqual(payload["cli_commands"]["paper"], "Archived")
                 self.assertEqual(payload["cli_commands"]["optimize"], "Archived")
                 self.assertFalse((Path(temp_dir) / "runtime").exists())

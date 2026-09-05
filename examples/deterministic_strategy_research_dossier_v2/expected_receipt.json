@@ -1,0 +1,2719 @@
+{
+  "authority": {
+    "blind_test_complete": false,
+    "formal_inference_authorized": false,
+    "live_authorized": false,
+    "order_entry_authorized": false,
+    "paper_authorized": false,
+    "profitability_proven": false,
+    "ranking_authorized": false
+  },
+  "benchmark_control_ids": [
+    "cash",
+    "buy_and_hold",
+    "simple_ma",
+    "simple_breakout",
+    "hash_no_skill_median",
+    "volatility_matched_buy_and_hold"
+  ],
+  "benchmark_control_projection": {
+    "additional_backtest_run_count": 18,
+    "authority": {
+      "blind_test_complete": false,
+      "formal_inference_authorized": false,
+      "live_authorized": false,
+      "order_entry_authorized": false,
+      "paper_authorized": false,
+      "profitability_proven": false,
+      "ranking_authorized": false
+    },
+    "benchmark_control_ids": [
+      "cash",
+      "buy_and_hold",
+      "simple_ma",
+      "simple_breakout",
+      "hash_no_skill_median",
+      "volatility_matched_buy_and_hold"
+    ],
+    "candidate_only": true,
+    "control_rebuild_performed": true,
+    "control_run_identities": [
+      {
+        "control_id": "simple_ma",
+        "control_kind": "SIMPLE_MOVING_AVERAGE"
+      },
+      {
+        "control_id": "simple_breakout",
+        "control_kind": "SIMPLE_BREAKOUT"
+      },
+      {
+        "control_id": "hash_no_skill_00",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_01",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_02",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_03",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_04",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_05",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_06",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_07",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_08",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_09",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_10",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_11",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_12",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_13",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_14",
+        "control_kind": "HASH_NO_SKILL"
+      },
+      {
+        "control_id": "hash_no_skill_15",
+        "control_kind": "HASH_NO_SKILL"
+      }
+    ],
+    "control_to_recorded_v14_identity_alignment_proven": false,
+    "current_activation": false,
+    "equal_volatility_projection_executable": false,
+    "no_skill_distribution": {
+      "distribution_sha256": "add246983ca057843fdefcb5b1650fcdffa8dbb893a693758c676ac676a4f6b2",
+      "path_count": 16,
+      "summary": {
+        "maximum": "0.013688000000000001",
+        "median_type7": "-0.015769999999999999",
+        "minimum": "-0.045753000000000002",
+        "q25_type7": "-0.027351",
+        "q75_type7": "-0.0088564999999999998",
+        "summary_sha256": "eda0c28744042010d8e0a96ad397ae6d0d6598efbd2cc313b0ff6e7cb6a6f1af"
+      }
+    },
+    "projection_sha256": "9edb76ad020537d32977e692ce693b63db6c652d5b825870348d6261eef4411b",
+    "runtime_mutations": false,
+    "schema_version": "deterministic-strategy-benchmark-control-projection-v1",
+    "source_baseline_bundle_sha256": "a74cdbf982b2919912cf6dc12de0c445b486a63b61b60ed71e8ce60942a347b7",
+    "source_control_bundle_sha256": "89ce8c8589ae5e59010f92f6e33f3a8270867162e51d8eb6ab18cca43fc8f1ec",
+    "source_control_plan_sha256": "a4d35d7f5f9b7f5f70b5fa930cf8f1bc9816b61df84282b01b87f2425d510b54",
+    "source_control_receipt": {
+      "additional_backtest_run_count": 18,
+      "authority": {
+        "blind_test_complete": false,
+        "formal_inference_authorized": false,
+        "live_authorized": false,
+        "order_entry_authorized": false,
+        "paper_authorized": false,
+        "profitability_proven": false
+      },
+      "bundle_sha256": "89ce8c8589ae5e59010f92f6e33f3a8270867162e51d8eb6ab18cca43fc8f1ec",
+      "direct_control_run_count": 2,
+      "executed_analysis_count": 13,
+      "executed_run_count": 18,
+      "gaps": [
+        "EQUAL_VOLATILITY_PROJECTION_NOT_EXECUTABLE",
+        "FORMAL_FROZEN_BLIND_TEST_GAP",
+        "NO_FORMAL_INFERENCE_AUTHORITY",
+        "NO_SKILL_16_PATH_SYNTHETIC_DISTRIBUTION_ONLY",
+        "REAL_DATASET_GAP",
+        "REGISTERED_STRATEGIES_NOT_CONTROL_BENCHMARKS",
+        "SIMPLE_CONTROL_PARAMETERS_NOT_OPTIMISED",
+        "VOLATILITY_PROJECTION_FINANCING_AND_MARGIN_NOT_MODELLED"
+      ],
+      "maturity": "SYNTHETIC_BENCHMARK_CONTROLS_ONLY",
+      "no_skill_path_count": 16,
+      "runtime_mutations": false,
+      "schema_version": "synthetic-strategy-benchmark-controls-receipt-v1",
+      "source_reused_run_count": 32,
+      "state": "OBSERVED_WITH_GAPS",
+      "status": "BLOCK",
+      "strategy_comparison_count": 6,
+      "volatility_projection_count": 6
+    },
+    "source_reused_run_count": 32,
+    "status": "BLOCK",
+    "strategy_control_comparisons": [
+      {
+        "comparison_sha256": "7eb37b39323a40e353820b8bdbf65e1d2fd1f5198e82ffe8356396e26a3250f9",
+        "control_total_returns": {
+          "buy_and_hold": "-0.010914999999999999",
+          "cash": "0",
+          "hash_no_skill_median": "-0.015769999999999999",
+          "simple_breakout": "-0.019099999999999999",
+          "simple_ma": "0.0030790000000000001",
+          "volatility_matched_buy_and_hold": "-0.0053857770301771746"
+        },
+        "strategy_frozen_total_return": "-0.0010939999999999999",
+        "strategy_id": "bollinger",
+        "strategy_minus_control_return_deltas": {
+          "buy_and_hold": "0.0098209999999999999",
+          "cash": "-0.0010939999999999999",
+          "hash_no_skill_median": "0.014676",
+          "simple_breakout": "0.018005999999999998",
+          "simple_ma": "-0.0041729999999999996",
+          "volatility_matched_buy_and_hold": "0.0042917770301771751"
+        }
+      },
+      {
+        "comparison_sha256": "f0dc9f0665968d596b1ad497c825586aead10eaa8e4de1af0560bf35e413aaf4",
+        "control_total_returns": {
+          "buy_and_hold": "-0.010914999999999999",
+          "cash": "0",
+          "hash_no_skill_median": "-0.015769999999999999",
+          "simple_breakout": "-0.019099999999999999",
+          "simple_ma": "0.0030790000000000001",
+          "volatility_matched_buy_and_hold": "-0.0020062522948709471"
+        },
+        "strategy_frozen_total_return": "-0.007796",
+        "strategy_id": "dual_ma",
+        "strategy_minus_control_return_deltas": {
+          "buy_and_hold": "0.0031189999999999994",
+          "cash": "-0.007796",
+          "hash_no_skill_median": "0.0079739999999999985",
+          "simple_breakout": "0.011303999999999998",
+          "simple_ma": "-0.010874999999999999",
+          "volatility_matched_buy_and_hold": "-0.0057897477051290528"
+        }
+      },
+      {
+        "comparison_sha256": "b1e5a4582c03cefea755be7004109e809042f9ab1580c7c77c4e40cab5d60d4f",
+        "control_total_returns": {
+          "buy_and_hold": "-0.010914999999999999",
+          "cash": "0",
+          "hash_no_skill_median": "-0.015769999999999999",
+          "simple_breakout": "-0.019099999999999999",
+          "simple_ma": "0.0030790000000000001",
+          "volatility_matched_buy_and_hold": "-0.012670307909605327"
+        },
+        "strategy_frozen_total_return": "-0.032833000000000001",
+        "strategy_id": "grid",
+        "strategy_minus_control_return_deltas": {
+          "buy_and_hold": "-0.021918",
+          "cash": "-0.032833000000000001",
+          "hash_no_skill_median": "-0.017063000000000002",
+          "simple_breakout": "-0.013733000000000002",
+          "simple_ma": "-0.035911999999999999",
+          "volatility_matched_buy_and_hold": "-0.020162692090394674"
+        }
+      },
+      {
+        "comparison_sha256": "a76807c21c7d94099c88440a212238a591df246935312394d6d96d1c169b108d",
+        "control_total_returns": {
+          "buy_and_hold": "-0.010914999999999999",
+          "cash": "0",
+          "hash_no_skill_median": "-0.015769999999999999",
+          "simple_breakout": "-0.019099999999999999",
+          "simple_ma": "0.0030790000000000001",
+          "volatility_matched_buy_and_hold": "-0.010242836017230417"
+        },
+        "strategy_frozen_total_return": "-0.0081419999999999999",
+        "strategy_id": "macd",
+        "strategy_minus_control_return_deltas": {
+          "buy_and_hold": "0.0027729999999999994",
+          "cash": "-0.0081419999999999999",
+          "hash_no_skill_median": "0.0076279999999999994",
+          "simple_breakout": "0.010957999999999999",
+          "simple_ma": "-0.011221",
+          "volatility_matched_buy_and_hold": "0.0021008360172304168"
+        }
+      },
+      {
+        "comparison_sha256": "45f0604729da7a8e90d069f4958d034d44f567b7f24f25ac58e9a898a912b37c",
+        "control_total_returns": {
+          "buy_and_hold": "-0.010914999999999999",
+          "cash": "0",
+          "hash_no_skill_median": "-0.015769999999999999",
+          "simple_breakout": "-0.019099999999999999",
+          "simple_ma": "0.0030790000000000001",
+          "volatility_matched_buy_and_hold": "-0.011935796892718398"
+        },
+        "strategy_frozen_total_return": "-0.020062",
+        "strategy_id": "momentum",
+        "strategy_minus_control_return_deltas": {
+          "buy_and_hold": "-0.0091470000000000006",
+          "cash": "-0.020062",
+          "hash_no_skill_median": "-0.0042920000000000007",
+          "simple_breakout": "-0.00096200000000000105",
+          "simple_ma": "-0.023141000000000002",
+          "volatility_matched_buy_and_hold": "-0.0081262031072816023"
+        }
+      },
+      {
+        "comparison_sha256": "f04861ea9e6e05b973ffc127722a1866c1e206635ddd7471549d659acaa7c376",
+        "control_total_returns": {
+          "buy_and_hold": "-0.010914999999999999",
+          "cash": "0",
+          "hash_no_skill_median": "-0.015769999999999999",
+          "simple_breakout": "-0.019099999999999999",
+          "simple_ma": "0.0030790000000000001",
+          "volatility_matched_buy_and_hold": "-0.0073539540411908799"
+        },
+        "strategy_frozen_total_return": "0.012435999999999999",
+        "strategy_id": "rsi",
+        "strategy_minus_control_return_deltas": {
+          "buy_and_hold": "0.023350999999999997",
+          "cash": "0.012435999999999999",
+          "hash_no_skill_median": "0.028205999999999998",
+          "simple_breakout": "0.031535999999999995",
+          "simple_ma": "0.009356999999999999",
+          "volatility_matched_buy_and_hold": "0.019789954041190879"
+        }
+      }
+    ],
+    "volatility_matched_projections": [
+      {
+        "executable_claim": false,
+        "projected_annualised_sample_volatility": "0.012587731185391415",
+        "projection_sha256": "2a7f867c538ff6d4df4fb3046bcea2370d2ff037043c250b54abade832546558",
+        "scaling_multiplier": "0.41050766227045982",
+        "strategy_annualised_sample_volatility": "0.012587731185391415",
+        "strategy_id": "bollinger",
+        "volatility_matched_buy_and_hold_compounded_return": "-0.0053857770301771746"
+      },
+      {
+        "executable_claim": false,
+        "projected_annualised_sample_volatility": "0.0047100986252533337",
+        "projection_sha256": "fec22812746a25677651dabc4ddb4c13bdba808bf02ec2df2b3c118d74e5d32f",
+        "scaling_multiplier": "0.15360445399088252",
+        "strategy_annualised_sample_volatility": "0.0047100986252533337",
+        "strategy_id": "dual_ma",
+        "volatility_matched_buy_and_hold_compounded_return": "-0.0020062522948709471"
+      },
+      {
+        "executable_claim": false,
+        "projected_annualised_sample_volatility": "0.029335995997467147",
+        "projection_sha256": "40f0c39e99d674ca154a29cbca7f650d4c824ef2c64e42a3dd430e19ef2eaea2",
+        "scaling_multiplier": "0.95669751442355233",
+        "strategy_annualised_sample_volatility": "0.029335995997467144",
+        "strategy_id": "grid",
+        "volatility_matched_buy_and_hold_compounded_return": "-0.012670307909605327"
+      },
+      {
+        "executable_claim": false,
+        "projected_annualised_sample_volatility": "0.02378917360112192",
+        "projection_sha256": "21b9ef0b9a0bcba4abafb943912f7df3043f733547eb1c7a636df392e6828ea0",
+        "scaling_multiplier": "0.77580605261702151",
+        "strategy_annualised_sample_volatility": "0.02378917360112192",
+        "strategy_id": "macd",
+        "volatility_matched_buy_and_hold_compounded_return": "-0.010242836017230417"
+      },
+      {
+        "executable_claim": false,
+        "projected_annualised_sample_volatility": "0.027661170623926239",
+        "projection_sha256": "8632933ca4d6f75ea6ab1d89c55aac6634289ece782460a33551710fe14845fe",
+        "scaling_multiplier": "0.90207856533116682",
+        "strategy_annualised_sample_volatility": "0.027661170623926236",
+        "strategy_id": "momentum",
+        "volatility_matched_buy_and_hold_compounded_return": "-0.011935796892718398"
+      },
+      {
+        "executable_claim": false,
+        "projected_annualised_sample_volatility": "0.017143595120521642",
+        "projection_sha256": "672faeca246d79c6137e4e9100ba3531465898617b195a0cc4ef655c31525436",
+        "scaling_multiplier": "0.55908225653912924",
+        "strategy_annualised_sample_volatility": "0.017143595120521642",
+        "strategy_id": "rsi",
+        "volatility_matched_buy_and_hold_compounded_return": "-0.0073539540411908799"
+      }
+    ]
+  },
+  "benchmark_control_to_recorded_v14_identity_alignment_proven": false,
+  "candidate_only": true,
+  "contract_version": "deterministic-strategy-research-dossier-v2",
+  "control_rebuild_required_for_semantic_revalidation": true,
+  "current_activation": false,
+  "data_source": "PURE_SYNTHETIC_REFERENCE_ARTIFACTS",
+  "decision_threshold": null,
+  "evidence_gap_reconciliation": {
+    "component_receipt_identity_verified": true,
+    "component_reference_rebuild_performed": false,
+    "inherited_gap_count": 37,
+    "inherited_gap_ids": [
+      "BENCHMARK_CONTROL_TO_RECORDED_V14_IDENTITY_ALIGNMENT_NOT_PROVEN",
+      "BOOTSTRAP_CONFIDENCE_INTERVAL_NOT_ESTIMATED",
+      "COMPACT_DOSSIER_DOES_NOT_EMBED_V14_REPORT_JSON",
+      "CONTROL_REBUILD_REQUIRED_FOR_SEMANTIC_REVALIDATION",
+      "DEFLATED_SHARPE_RATIO_NOT_ESTIMATED",
+      "ENSEMBLE_STRATEGY_NOT_IMPLEMENTED",
+      "EQUAL_VOLATILITY_PROJECTION_NOT_EXECUTABLE",
+      "FORMAL_FROZEN_BLIND_TEST_GAP",
+      "FORMAL_FROZEN_BLIND_TEST_NOT_EXECUTED",
+      "FROZEN_STABILITY_REUSE_NOT_FORMAL_BLIND_EVIDENCE",
+      "FULL_UNIT_PBO_IDENTIFIED_SET_REMAINS",
+      "FULL_V14_REBUILD_REQUIRED_FOR_SEMANTIC_REVALIDATION",
+      "MARKET_REGIME_ANALYSIS_NOT_EXECUTED",
+      "MULTIPLE_TESTING_NOT_EXECUTED",
+      "NON_CURRENT_DOSSIER_V2_CANDIDATE",
+      "NO_FORMAL_INFERENCE_AUTHORITY",
+      "NO_SKILL_16_PATH_SYNTHETIC_DISTRIBUTION_ONLY",
+      "ODD_THREE_TRIAL_MEDIAN_BOUNDARY_SENSITIVITY",
+      "OVERLAPPING_WALK_FORWARD_WINDOWS_NO_INDEPENDENCE_CLAIM",
+      "PARAMETER_STABILITY_NOT_EXECUTED",
+      "PARTIAL_CSCV_RANK_TIE_GAP",
+      "PARTIAL_PBO_IDENTIFIED_SET_REMAINS",
+      "PROBABILITY_OF_BACKTEST_OVERFITTING_GAP",
+      "PROBABILITY_OF_BACKTEST_OVERFITTING_NOT_ESTIMATED",
+      "REAL_DATASET_GAP",
+      "REAL_MARKET_DATA_NOT_USED",
+      "REGISTERED_STRATEGIES_NOT_CONTROL_BENCHMARKS",
+      "SIMPLE_CONTROL_PARAMETERS_NOT_OPTIMISED",
+      "SOURCE_COMMIT_NOT_BOUND_FOR_UNCOMMITTED_SLICE",
+      "SYNTHETIC_DOSSIER_ONLY",
+      "SYNTHETIC_FIXED_169_OBSERVATION_BOOTSTRAP_ONLY",
+      "THREE_TRIAL_RANK_RESOLUTION_LIMIT",
+      "THREE_TRIAL_SYNTHETIC_DIAGNOSTIC_ONLY",
+      "TIE_AWARE_PBO_IDENTIFIED_SET_SYNTHETIC_ONLY",
+      "TRAILING_OBSERVATION_EXCLUDED_FOR_EQUAL_CSCV_PARTITIONS",
+      "VOLATILITY_PROJECTION_FINANCING_AND_MARGIN_NOT_MODELLED",
+      "WALK_FORWARD_NOT_EXECUTED"
+    ],
+    "projection_sha256": "ddeb4b2431b6975ad087e1a757aacb2b4bb4185f57dcc31382c7f225d7ee0cf4",
+    "reconciliation_is_formal_inference": false,
+    "reconciliation_is_profitability_proof": false,
+    "required_retained_gap_ids": [
+      "FULL_UNIT_PBO_IDENTIFIED_SET_REMAINS",
+      "OVERLAPPING_WALK_FORWARD_WINDOWS_NO_INDEPENDENCE_CLAIM",
+      "PARTIAL_PBO_IDENTIFIED_SET_REMAINS",
+      "PROBABILITY_OF_BACKTEST_OVERFITTING_GAP",
+      "REAL_DATASET_GAP",
+      "REAL_MARKET_DATA_NOT_USED"
+    ],
+    "resolution_checks": {
+      "BOOTSTRAP_CONFIDENCE_INTERVAL_NOT_ESTIMATED": true,
+      "DEFLATED_SHARPE_RATIO_NOT_ESTIMATED": true,
+      "MULTIPLE_TESTING_NOT_EXECUTED": true,
+      "PARAMETER_STABILITY_NOT_EXECUTED": true,
+      "PROBABILITY_OF_BACKTEST_OVERFITTING_NOT_ESTIMATED": true,
+      "WALK_FORWARD_NOT_EXECUTED": true
+    },
+    "resolved_stale_gap_count": 6,
+    "resolved_stale_gap_ids": [
+      "BOOTSTRAP_CONFIDENCE_INTERVAL_NOT_ESTIMATED",
+      "DEFLATED_SHARPE_RATIO_NOT_ESTIMATED",
+      "MULTIPLE_TESTING_NOT_EXECUTED",
+      "PARAMETER_STABILITY_NOT_EXECUTED",
+      "PROBABILITY_OF_BACKTEST_OVERFITTING_NOT_ESTIMATED",
+      "WALK_FORWARD_NOT_EXECUTED"
+    ],
+    "retained_gap_count": 31,
+    "retained_gap_ids": [
+      "BENCHMARK_CONTROL_TO_RECORDED_V14_IDENTITY_ALIGNMENT_NOT_PROVEN",
+      "COMPACT_DOSSIER_DOES_NOT_EMBED_V14_REPORT_JSON",
+      "CONTROL_REBUILD_REQUIRED_FOR_SEMANTIC_REVALIDATION",
+      "ENSEMBLE_STRATEGY_NOT_IMPLEMENTED",
+      "EQUAL_VOLATILITY_PROJECTION_NOT_EXECUTABLE",
+      "FORMAL_FROZEN_BLIND_TEST_GAP",
+      "FORMAL_FROZEN_BLIND_TEST_NOT_EXECUTED",
+      "FROZEN_STABILITY_REUSE_NOT_FORMAL_BLIND_EVIDENCE",
+      "FULL_UNIT_PBO_IDENTIFIED_SET_REMAINS",
+      "FULL_V14_REBUILD_REQUIRED_FOR_SEMANTIC_REVALIDATION",
+      "MARKET_REGIME_ANALYSIS_NOT_EXECUTED",
+      "NON_CURRENT_DOSSIER_V2_CANDIDATE",
+      "NO_FORMAL_INFERENCE_AUTHORITY",
+      "NO_SKILL_16_PATH_SYNTHETIC_DISTRIBUTION_ONLY",
+      "ODD_THREE_TRIAL_MEDIAN_BOUNDARY_SENSITIVITY",
+      "OVERLAPPING_WALK_FORWARD_WINDOWS_NO_INDEPENDENCE_CLAIM",
+      "PARTIAL_CSCV_RANK_TIE_GAP",
+      "PARTIAL_PBO_IDENTIFIED_SET_REMAINS",
+      "PROBABILITY_OF_BACKTEST_OVERFITTING_GAP",
+      "REAL_DATASET_GAP",
+      "REAL_MARKET_DATA_NOT_USED",
+      "REGISTERED_STRATEGIES_NOT_CONTROL_BENCHMARKS",
+      "SIMPLE_CONTROL_PARAMETERS_NOT_OPTIMISED",
+      "SOURCE_COMMIT_NOT_BOUND_FOR_UNCOMMITTED_SLICE",
+      "SYNTHETIC_DOSSIER_ONLY",
+      "SYNTHETIC_FIXED_169_OBSERVATION_BOOTSTRAP_ONLY",
+      "THREE_TRIAL_RANK_RESOLUTION_LIMIT",
+      "THREE_TRIAL_SYNTHETIC_DIAGNOSTIC_ONLY",
+      "TIE_AWARE_PBO_IDENTIFIED_SET_SYNTHETIC_ONLY",
+      "TRAILING_OBSERVATION_EXCLUDED_FOR_EQUAL_CSCV_PARTITIONS",
+      "VOLATILITY_PROJECTION_FINANCING_AND_MARGIN_NOT_MODELLED"
+    ],
+    "robustness_receipt_file_sha256": "f1f317065e12ac5f00867773469bab7270af7903b147cebbc2fdb0ffc4023081",
+    "robustness_receipt_sha256": "73474f772b7e4567aaeed0fcec7f7e1907615787e5d962567272d7a18f7271ea",
+    "robustness_summary": {
+      "completed_evidence": [
+        "WALK_FORWARD_EXECUTED",
+        "PARAMETER_STABILITY_EXECUTED",
+        "MULTIPLE_TESTING_LEDGER_COMPLETE",
+        "BONFERRONI_AND_BH_DIAGNOSTICS_COMPUTED",
+        "DEPENDENCY_LOCK_BOUND_TO_ALL_ROBUSTNESS_RUNS"
+      ],
+      "executed_run_count": 147,
+      "maturity": "SYNTHETIC_ROBUSTNESS_ONLY",
+      "remaining_gaps": [
+        "REAL_MARKET_DATA_NOT_USED",
+        "FORMAL_FROZEN_BLIND_TEST_NOT_EXECUTED",
+        "MARKET_REGIME_ANALYSIS_NOT_EXECUTED",
+        "ENSEMBLE_STRATEGY_NOT_IMPLEMENTED",
+        "SOURCE_COMMIT_NOT_BOUND_FOR_UNCOMMITTED_SLICE",
+        "DEFLATED_SHARPE_RATIO_NOT_ESTIMATED",
+        "PROBABILITY_OF_BACKTEST_OVERFITTING_NOT_ESTIMATED",
+        "BOOTSTRAP_CONFIDENCE_INTERVAL_NOT_ESTIMATED",
+        "OVERLAPPING_WALK_FORWARD_WINDOWS_NO_INDEPENDENCE_CLAIM"
+      ],
+      "schema_version": "deterministic-strategy-robustness-benchmark-receipt-v1",
+      "total_executed_run_count": 179
+    },
+    "runtime_mutations": false,
+    "schema_version": "deterministic-strategy-evidence-gap-reconciliation-v1",
+    "statistical_v3_receipt_file_sha256": "f9972e53c5ab037ea430cc5af6338ea217e2a14479c58bcaf327e5171b6bc172",
+    "statistical_v3_receipt_sha256": "3e917119630fbd5f4335c8b8449ea55d80cc7a3a94194f77428dff24e18ab2a2",
+    "statistical_v3_summary": {
+      "bootstrap_gap_evidence_count": 0,
+      "bootstrap_observed_evidence_count": 6,
+      "bootstrap_replicate_count": 1000,
+      "cscv_pbo_gap_evidence_count": 2,
+      "cscv_pbo_observed_evidence_count": 4,
+      "deflated_sharpe_diagnostic_count": 6,
+      "maturity": "SYNTHETIC_STATISTICAL_REFERENCE_V3_CONSUMER_ONLY",
+      "remaining_gaps": [
+        "ENSEMBLE_STRATEGY_NOT_IMPLEMENTED",
+        "FORMAL_FROZEN_BLIND_TEST_GAP",
+        "FORMAL_FROZEN_BLIND_TEST_NOT_EXECUTED",
+        "FROZEN_STABILITY_REUSE_NOT_FORMAL_BLIND_EVIDENCE",
+        "FULL_REPORT_STATISTICAL_SOURCE_ALIGNMENT_NOT_PROVEN",
+        "FULL_UNIT_PBO_IDENTIFIED_SET_REMAINS",
+        "MARKET_REGIME_ANALYSIS_NOT_EXECUTED",
+        "NO_FORMAL_INFERENCE_AUTHORITY",
+        "ODD_THREE_TRIAL_MEDIAN_BOUNDARY_SENSITIVITY",
+        "OVERLAPPING_WALK_FORWARD_WINDOWS_NO_INDEPENDENCE_CLAIM",
+        "PARTIAL_CSCV_RANK_TIE_GAP",
+        "PARTIAL_PBO_IDENTIFIED_SET_REMAINS",
+        "PROBABILITY_OF_BACKTEST_OVERFITTING_GAP",
+        "REAL_DATASET_GAP",
+        "REAL_MARKET_DATA_NOT_USED",
+        "SOURCE_COMMIT_NOT_BOUND_FOR_UNCOMMITTED_SLICE",
+        "SYNTHETIC_FIXED_169_OBSERVATION_BOOTSTRAP_ONLY",
+        "THREE_TRIAL_RANK_RESOLUTION_LIMIT",
+        "THREE_TRIAL_SYNTHETIC_DIAGNOSTIC_ONLY",
+        "TIE_AWARE_PBO_IDENTIFIED_SET_SYNTHETIC_ONLY",
+        "TRAILING_OBSERVATION_EXCLUDED_FOR_EQUAL_CSCV_PARTITIONS"
+      ],
+      "schema_version": "deterministic-strategy-statistical-correction-benchmark-receipt-v3"
+    },
+    "status": "BLOCK"
+  },
+  "formal_frozen_blind_test_complete": false,
+  "formal_inference_claimed": false,
+  "frozen_cost_stress_projection": {
+    "cost_roles": [
+      "FROZEN_COST_1X",
+      "FROZEN_COST_2X",
+      "FROZEN_COST_3X"
+    ],
+    "expected_fee_rates": [
+      "0.00050000000000000001",
+      "0.001",
+      "0.0015"
+    ],
+    "expected_slippage_rates": [
+      "0.00020000000000000001",
+      "0.00040000000000000002",
+      "0.00060000000000000006"
+    ],
+    "manifest_evaluation_role": "FROZEN_TEST",
+    "observations_are_profitability_proof": false,
+    "projection_sha256": "ec80c64450dcfdeabe2f13d3fe9de92911264510d831f4d99717e2f9f396cfc9",
+    "run_count": 18,
+    "run_ids": [
+      "frozen_1x",
+      "frozen_2x",
+      "frozen_3x"
+    ],
+    "run_rows": [
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.00050000000000000001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "f01dd6f6e8bd4d2fffc041f0f12a2841ec894c71a85b7bfc1acbb0f2a1f2f4b9",
+        "manifest_sha256": "36fabb231d681e5c97e214d2242746d08a83a5f8a3704e990756bed0fd8a4903",
+        "max_drawdown": 0.012664,
+        "max_drawdown_delta_from_1x": 0.0,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "c95173f66e3fa44f8bb77502e6c4f9a4bc0668be39c3eebae7f38518eb8cced3",
+        "run_id": "frozen_1x",
+        "sharpe_ratio": -0.123079,
+        "sharpe_ratio_delta_from_1x": 0.0,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00020000000000000001"
+        },
+        "source_run_sha256": "ddfe552e20620195a5be1094c03a06e7fb03dfa0220d1f376efcacab4715f6bf",
+        "strategy_id": "bollinger",
+        "total_fees": 11.641488,
+        "total_fees_delta_from_1x": 0.0,
+        "total_return": -0.001094,
+        "total_return_delta_from_1x": 0.0
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "caa4e4a1016016a9ebfac79f1236ab7ed391385743449062d3a891427de61217",
+        "manifest_sha256": "3e517cf0f5896406ce2e3dad87d2f83a428eba443dc3fbe36f8e9e299f1a8558",
+        "max_drawdown": 0.013321,
+        "max_drawdown_delta_from_1x": 0.000657,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "90b4d14dc1677e37ffe593ecd063ae8fce8447c6f75bc702c05d284d4711a5a4",
+        "run_id": "frozen_2x",
+        "sharpe_ratio": -0.299457,
+        "sharpe_ratio_delta_from_1x": -0.176378,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00040000000000000002"
+        },
+        "source_run_sha256": "1cac83f612eb48f0e081dd64912c636744a73501f306e591ab19ec786e4979dd",
+        "strategy_id": "bollinger",
+        "total_fees": 23.266497,
+        "total_fees_delta_from_1x": 11.625009,
+        "total_return": -0.002635,
+        "total_return_delta_from_1x": -0.001541
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.0015"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "1d2842b60ac4724c98f5072067b9ca2713f195f988e559f5418e410fc8a5469b",
+        "manifest_sha256": "a2e3a01096cf81eb908d915953ce14ced24dcca2ae16de9ebd8b711c32f6fa88",
+        "max_drawdown": 0.013977,
+        "max_drawdown_delta_from_1x": 0.001313,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "c35e2288e4bead6d78c8c87f6ed4ccc7e73967590d7aa0d7d30e075b46a13252",
+        "run_id": "frozen_3x",
+        "sharpe_ratio": -0.46897,
+        "sharpe_ratio_delta_from_1x": -0.345891,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00060000000000000006"
+        },
+        "source_run_sha256": "f22a2ad7095164cf2d6a94811033cada52a53dcf128dd7c59cf58766fc7b124d",
+        "strategy_id": "bollinger",
+        "total_fees": 34.875044,
+        "total_fees_delta_from_1x": 23.233556,
+        "total_return": -0.004173,
+        "total_return_delta_from_1x": -0.003079
+      },
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.00050000000000000001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "ed4f73bc878b8f3fae4a924287c2bf4b2b3182c13b3dbf4d1d2b34eaa16ce8f2",
+        "manifest_sha256": "f9b27064feb71b4157b183e392a46f0a668bd4f1a30c04cc0ec0ff2ddcf92b54",
+        "max_drawdown": 0.007796,
+        "max_drawdown_delta_from_1x": 0.0,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "0984db838c59cf33455294c412c188b23c98c335c17ef54e40c2b4e14f24c1a2",
+        "run_id": "frozen_1x",
+        "sharpe_ratio": -2.467717,
+        "sharpe_ratio_delta_from_1x": 0.0,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00020000000000000001"
+        },
+        "source_run_sha256": "54acef00b0990c5a4ec5e8b0c47bcf23660670323c3b8515efc4b882d5972923",
+        "strategy_id": "dual_ma",
+        "total_fees": 2.46275,
+        "total_fees_delta_from_1x": 0.0,
+        "total_return": -0.007796,
+        "total_return_delta_from_1x": 0.0
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "6e7430bc48cf44aec3566407e8f4ee28e03068e6e0eabaac03fbc47e89d4e1c7",
+        "manifest_sha256": "6ad6d1502c690070a63b2aa1a366582c902e27f1cb82fb507f6e9c2250439ced",
+        "max_drawdown": 0.008093,
+        "max_drawdown_delta_from_1x": 0.000297,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "c1f6334a15a5522597bb006d396308bd77020df3300576afb351a8a2898681f5",
+        "run_id": "frozen_2x",
+        "sharpe_ratio": -2.474849,
+        "sharpe_ratio_delta_from_1x": -0.007132,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00040000000000000002"
+        },
+        "source_run_sha256": "08f90ab603c1ec787d447c2826c25a525c25adb15b61a074207edb4771525101",
+        "strategy_id": "dual_ma",
+        "total_fees": 4.926,
+        "total_fees_delta_from_1x": 2.46325,
+        "total_return": -0.008093,
+        "total_return_delta_from_1x": -0.000297
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.0015"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "d2e0f9030945d7d44e8b69cd483a4b082ecd67657d19a1559bf5105111ba3ca1",
+        "manifest_sha256": "4f4328bedb6737039e05e4fc57bc8400d2a639cee546fa961ed4704caa64a016",
+        "max_drawdown": 0.008389,
+        "max_drawdown_delta_from_1x": 0.000593,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "f6a5409bf26487b92209a3c87d0015ddbb2a37f436ecfe30f44d87ab2ca32e87",
+        "run_id": "frozen_3x",
+        "sharpe_ratio": -2.477586,
+        "sharpe_ratio_delta_from_1x": -0.009869,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00060000000000000006"
+        },
+        "source_run_sha256": "508a934d4bfd990f7ec3a1fcbd12fd54879a3f1062bbf8880dc46abcc477b4ca",
+        "strategy_id": "dual_ma",
+        "total_fees": 7.389749,
+        "total_fees_delta_from_1x": 4.926999,
+        "total_return": -0.008389,
+        "total_return_delta_from_1x": -0.000593
+      },
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.00050000000000000001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "a374ca0ff9e9c42e7fc80bf71d10bc97ae5c398765f70417fe8e02c645a5c288",
+        "manifest_sha256": "08552ed86db0eea7ba4bc03226c47686a5f6efde2f93c9d94656d79b11b2403f",
+        "max_drawdown": 0.041644,
+        "max_drawdown_delta_from_1x": 0.0,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "20a63aa97d48f00ae2c27d586aed3bc8e59560ad8ac2eb161c3daaf4b3102bdb",
+        "run_id": "frozen_1x",
+        "sharpe_ratio": -1.677145,
+        "sharpe_ratio_delta_from_1x": 0.0,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00020000000000000001"
+        },
+        "source_run_sha256": "f160c81089ee6e1a4728faea79d1d80b30f5d5a1ca3282d82670dc0e59b95e2d",
+        "strategy_id": "grid",
+        "total_fees": 10.956866,
+        "total_fees_delta_from_1x": 0.0,
+        "total_return": -0.032833,
+        "total_return_delta_from_1x": 0.0
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "7d197703e8adf6103ac607a666d8e9666989f697a78a8c4eac379961a92e6dc5",
+        "manifest_sha256": "f84295078b15ee7632c4ea50f6dbcdb5e82ed9288c1336529d635661d29326f2",
+        "max_drawdown": 0.042686,
+        "max_drawdown_delta_from_1x": 0.001042,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "c321ed0aedb77e26ba03f5e661816e7b20dc4f158d832df94105955adad3ab49",
+        "run_id": "frozen_2x",
+        "sharpe_ratio": -1.738876,
+        "sharpe_ratio_delta_from_1x": -0.061731,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00040000000000000002"
+        },
+        "source_run_sha256": "bb8e1f15a0dcff1a926c3d95d5e3b96dba75d21b2fcb56b2aacad9e729d0e907",
+        "strategy_id": "grid",
+        "total_fees": 21.900771,
+        "total_fees_delta_from_1x": 10.943905,
+        "total_return": -0.034141,
+        "total_return_delta_from_1x": -0.001308
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.0015"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "71e7deba10a5c3445b823b4be38c54ff7e42acd9103870aadde5b0624a5086a6",
+        "manifest_sha256": "5f78a0bb10af7532a6aa16260dbf83669215edf56601a8f9f821fffc1c9aa9e9",
+        "max_drawdown": 0.043743,
+        "max_drawdown_delta_from_1x": 0.002099,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "32e2d4ad03776a9b965ed2163dfbdf3d8374fc3e8c8d35e57234771c6f90b493",
+        "run_id": "frozen_3x",
+        "sharpe_ratio": -1.799709,
+        "sharpe_ratio_delta_from_1x": -0.122564,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00060000000000000006"
+        },
+        "source_run_sha256": "77393b6bcca5e3ea069c04bbdaf0484497187c7b9731ebb7edde4843417d3fc1",
+        "strategy_id": "grid",
+        "total_fees": 32.831727,
+        "total_fees_delta_from_1x": 21.874861,
+        "total_return": -0.035446,
+        "total_return_delta_from_1x": -0.002613
+      },
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.00050000000000000001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "e13693facb336f176619d8ffe2314c2daae941ceaa4c9e3eb214474a66374758",
+        "manifest_sha256": "ffda0ac092fe128a5012d1445f6029850d32b65806b336fc8a046babba78fe50",
+        "max_drawdown": 0.027403,
+        "max_drawdown_delta_from_1x": 0.0,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "c65b1be8f2c004b77f90f03ab691635c256b51cebc642a5f2116bfa74e8985e1",
+        "run_id": "frozen_1x",
+        "sharpe_ratio": -0.499079,
+        "sharpe_ratio_delta_from_1x": 0.0,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00020000000000000001"
+        },
+        "source_run_sha256": "fde06597ae0252a0e9bb3bf6b3bab5e5ef2f01039fa433f4b9be1fb0455b0c8e",
+        "strategy_id": "macd",
+        "total_fees": 14.83485,
+        "total_fees_delta_from_1x": 0.0,
+        "total_return": -0.008142,
+        "total_return_delta_from_1x": 0.0
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "7cff659ff12ce064e950bb451391874652260f8a39fcfe12b4e9a77a8072939c",
+        "manifest_sha256": "2016add2b19925c9519824807d7e4f7322cdbbc8efdb24e6ba73105c0109a680",
+        "max_drawdown": 0.028871,
+        "max_drawdown_delta_from_1x": 0.001468,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "8cdffdffad8d7d997814309cf7f2353c8ef03786ad488aa22f53cf740f4c58c6",
+        "run_id": "frozen_2x",
+        "sharpe_ratio": -0.632588,
+        "sharpe_ratio_delta_from_1x": -0.133509,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00040000000000000002"
+        },
+        "source_run_sha256": "46b16498d4906bef9f929d83b4776d1b10f63e22099607a3d4b28a8a656f7d9f",
+        "strategy_id": "macd",
+        "total_fees": 29.643838,
+        "total_fees_delta_from_1x": 14.808988,
+        "total_return": -0.010222,
+        "total_return_delta_from_1x": -0.00208
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.0015"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "8a18ec02144745de0ec81056d7b0a9725238678fa45c3b925475c09b378b7709",
+        "manifest_sha256": "645953b7e122b4f7e56734cc3dfe16e73485b3cf8478be4372bdbc3411dcab27",
+        "max_drawdown": 0.030397,
+        "max_drawdown_delta_from_1x": 0.002994,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "3dc8f83d44daad54516af2645efab59905207dc1c8ca1725095c492b66b483b0",
+        "run_id": "frozen_3x",
+        "sharpe_ratio": -0.766388,
+        "sharpe_ratio_delta_from_1x": -0.267309,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00060000000000000006"
+        },
+        "source_run_sha256": "62dc861d8d1a30af3829ce03cb4fb65a9ccc658d9a09ea232b6e4b4ed3c80b46",
+        "strategy_id": "macd",
+        "total_fees": 44.427001,
+        "total_fees_delta_from_1x": 29.592151,
+        "total_return": -0.012298,
+        "total_return_delta_from_1x": -0.004156
+      },
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.00050000000000000001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "7f136453c14e47d86355321eaae8e42fb8857974cf74d3aaa85b90dfa49fdd60",
+        "manifest_sha256": "c9927bf9a47dc3cbe3861abe94d1659edf9d47dda785a4e35752d01320b2f51b",
+        "max_drawdown": 0.027788,
+        "max_drawdown_delta_from_1x": 0.0,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "accf6f74a32451f269fedd1b7d5505f5630bb6e95e03c59785070192902fac5e",
+        "run_id": "frozen_1x",
+        "sharpe_ratio": -1.075392,
+        "sharpe_ratio_delta_from_1x": 0.0,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00020000000000000001"
+        },
+        "source_run_sha256": "dfbb3297cc0738c29b0c0a690255ce4f67e867b92608472b64aafd3fc620fb35",
+        "strategy_id": "momentum",
+        "total_fees": 17.307232,
+        "total_fees_delta_from_1x": 0.0,
+        "total_return": -0.020062,
+        "total_return_delta_from_1x": 0.0
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "c0507a361b1235dc5bcfe44ec135a83be766a2e313a5624944e0b6ed49fbfd4c",
+        "manifest_sha256": "0e30d1e3d6f34566c323553e0423dbeada02190aa63f09fe20a5c6ab2bac371b",
+        "max_drawdown": 0.029792,
+        "max_drawdown_delta_from_1x": 0.002004,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "2c2fdfd2493e90963a762dd552ff2e3448f373544e3d83c33317f0a0961fe94f",
+        "run_id": "frozen_2x",
+        "sharpe_ratio": -1.195626,
+        "sharpe_ratio_delta_from_1x": -0.120234,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00040000000000000002"
+        },
+        "source_run_sha256": "89664eee80f6fa782e36dd6fb456abf05cab5c17379cdf18639529412d68a6b5",
+        "strategy_id": "momentum",
+        "total_fees": 34.576912,
+        "total_fees_delta_from_1x": 17.26968,
+        "total_return": -0.02232,
+        "total_return_delta_from_1x": -0.002258
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.0015"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "563570a8744a200cdb7a0b23adb85a72828b44879bb10c86bcb785c30c2dbb34",
+        "manifest_sha256": "e9b8aa838345977b65fcabbe914178077e87c380f2c5207ca11ab40217b42e14",
+        "max_drawdown": 0.031793,
+        "max_drawdown_delta_from_1x": 0.004005,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "79d80c2346219ff208b4d1a9d5a8dbce64ac81bf13136c08131cd0b47f3ffc7d",
+        "run_id": "frozen_3x",
+        "sharpe_ratio": -1.300085,
+        "sharpe_ratio_delta_from_1x": -0.224693,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00060000000000000006"
+        },
+        "source_run_sha256": "6e761de72705c63f77e02f7b498904920184ab4668f4d33dad3cfb726082ef09",
+        "strategy_id": "momentum",
+        "total_fees": 51.809115,
+        "total_fees_delta_from_1x": 34.501883,
+        "total_return": -0.024574,
+        "total_return_delta_from_1x": -0.004512
+      },
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.00050000000000000001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "b829bd1c180765bc5a85a211aad806db210fe300304691bc66a57578ab9db36e",
+        "manifest_sha256": "c560535204df4212fde17eb163578aa7719c671a091778bb82539300528c1e9c",
+        "max_drawdown": 0.019163,
+        "max_drawdown_delta_from_1x": 0.0,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "e02bca5f5c6be99d3fb5a72caf0e722d3a848294ae4a78744e95dbc9bc6f5ab8",
+        "run_id": "frozen_1x",
+        "sharpe_ratio": 1.080379,
+        "sharpe_ratio_delta_from_1x": 0.0,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00020000000000000001"
+        },
+        "source_run_sha256": "872605bc3a783deb4153022862c38c0152149a92ae413169afc48654f49fd6ef",
+        "strategy_id": "rsi",
+        "total_fees": 19.878512,
+        "total_fees_delta_from_1x": 0.0,
+        "total_return": 0.012436,
+        "total_return_delta_from_1x": 0.0
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.001"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "a6d84ddd316660a52ee0db9fbe34a2e2bd96eefdf16e79576d2cca250fc91a7f",
+        "manifest_sha256": "b6c5997b9b1b887a2ae66f0379faad5f2b10f8d6e7519e301f10777e854a1b62",
+        "max_drawdown": 0.020067,
+        "max_drawdown_delta_from_1x": 0.000904,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "195854e17fb5284693df187908287de6169b5c301d2d00efb2171f08ec6ed4f5",
+        "run_id": "frozen_2x",
+        "sharpe_ratio": 0.834663,
+        "sharpe_ratio_delta_from_1x": -0.245716,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00040000000000000002"
+        },
+        "source_run_sha256": "0b78f2bfd740711ecfca0214ab79b291702ab7fe7b170c48b332240daa22fa20",
+        "strategy_id": "rsi",
+        "total_fees": 39.703767,
+        "total_fees_delta_from_1x": 19.825255,
+        "total_return": 0.009741,
+        "total_return_delta_from_1x": -0.002695
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.0015"
+        },
+        "manifest_evaluation_role": "FROZEN_TEST",
+        "manifest_result_sha256": "2d8d8dfb95c5968462671221fd3df0042e65c72701bf0a4fd3eff7dc293d9dc9",
+        "manifest_sha256": "22e3c518d4e7f358faf97b61ee85f19d0c2b21b5b44445210e335dd9def36d52",
+        "max_drawdown": 0.020969,
+        "max_drawdown_delta_from_1x": 0.001806,
+        "reproducibility_classification": "REPRODUCIBILITY_INCOMPLETE",
+        "result_sha256": "7c64753ad2757dd869d439af87987fb5ebc3edcb454a0e2ca434e7c035d0548e",
+        "run_id": "frozen_3x",
+        "sharpe_ratio": 0.596522,
+        "sharpe_ratio_delta_from_1x": -0.483857,
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.00060000000000000006"
+        },
+        "source_run_sha256": "9e0ccb987f2c90e190f91e65b9ff8190a00ab22194ed931446c04c9a45805575",
+        "strategy_id": "rsi",
+        "total_fees": 59.475901,
+        "total_fees_delta_from_1x": 39.597389,
+        "total_return": 0.007053,
+        "total_return_delta_from_1x": -0.005383
+      }
+    ],
+    "schema_version": "deterministic-strategy-frozen-cost-stress-projection-v1",
+    "source_family_bundle_file_sha256": "e0b3893b77a6b3f6640d37e205bc8445d5ffaada6323a90b7b1360cde370d8f3",
+    "strategy_count": 6,
+    "strategy_ids": [
+      "bollinger",
+      "dual_ma",
+      "grid",
+      "macd",
+      "momentum",
+      "rsi"
+    ],
+    "strategy_observations": [
+      {
+        "drawdowns_non_decreasing_observation": true,
+        "fees_non_decreasing_observation": true,
+        "returns_non_increasing_observation": true,
+        "strategy_id": "bollinger"
+      },
+      {
+        "drawdowns_non_decreasing_observation": true,
+        "fees_non_decreasing_observation": true,
+        "returns_non_increasing_observation": true,
+        "strategy_id": "dual_ma"
+      },
+      {
+        "drawdowns_non_decreasing_observation": true,
+        "fees_non_decreasing_observation": true,
+        "returns_non_increasing_observation": true,
+        "strategy_id": "grid"
+      },
+      {
+        "drawdowns_non_decreasing_observation": true,
+        "fees_non_decreasing_observation": true,
+        "returns_non_increasing_observation": true,
+        "strategy_id": "macd"
+      },
+      {
+        "drawdowns_non_decreasing_observation": true,
+        "fees_non_decreasing_observation": true,
+        "returns_non_increasing_observation": true,
+        "strategy_id": "momentum"
+      },
+      {
+        "drawdowns_non_decreasing_observation": true,
+        "fees_non_decreasing_observation": true,
+        "returns_non_increasing_observation": true,
+        "strategy_id": "rsi"
+      }
+    ]
+  },
+  "frozen_distribution_metric_projection": {
+    "concentration_metric_ids": [
+      "top_positive_period_return_share",
+      "positive_period_return_hhi",
+      "top_positive_month_share",
+      "compound_return_without_best_period",
+      "compound_return_without_best_month",
+      "best_fixed_21_period_window",
+      "top_positive_trade_pnl_share",
+      "positive_trade_pnl_hhi",
+      "pnl_without_best_trade"
+    ],
+    "distribution_metric_ids": [
+      "cagr_observation",
+      "annualized_volatility",
+      "sortino_ratio",
+      "calmar_ratio",
+      "max_drawdown",
+      "max_drawdown_duration_periods",
+      "max_drawdown_duration_start",
+      "max_drawdown_duration_end",
+      "profit_factor",
+      "win_rate",
+      "payoff_ratio",
+      "trade_expectancy",
+      "turnover_ratio",
+      "fee_load_ratio",
+      "market_exposure_ratio",
+      "tail_var_95",
+      "tail_cvar_95",
+      "tail_var_99",
+      "tail_cvar_99",
+      "period_return_count",
+      "closed_trade_count"
+    ],
+    "projection_sha256": "a96c85ce0d2c823d59433f95e8fb580f97486800708ea4da8eec6215c91c750e",
+    "schema_version": "deterministic-strategy-frozen-distribution-metric-projection-v1",
+    "source_family_bundle_file_sha256": "e0b3893b77a6b3f6640d37e205bc8445d5ffaada6323a90b7b1360cde370d8f3",
+    "strategy_count": 6,
+    "strategy_ids": [
+      "bollinger",
+      "dual_ma",
+      "grid",
+      "macd",
+      "momentum",
+      "rsi"
+    ],
+    "strategy_metrics": [
+      {
+        "concentration": {
+          "best_fixed_21_period_window": {
+            "candidate_count": 149,
+            "compounded_return": "0.012437516786",
+            "end_index_exclusive": 112,
+            "end_time": "2021-06-26 00:00:00+00:00",
+            "gap_code": null,
+            "start_index": 91,
+            "start_time": "2021-06-05 00:00:00+00:00",
+            "state": "OBSERVED",
+            "window_length": 21
+          },
+          "compound_return_without_best_month": "-0.009386180567",
+          "compound_return_without_best_period": "-0.003307614608",
+          "pnl_without_best_trade": "-14.862710206662",
+          "positive_period_return_hhi": "0.052438749964",
+          "positive_trade_pnl_hhi": "0.059960547436",
+          "top_positive_month_share": "0.742894542726",
+          "top_positive_period_return_share": "0.075056726719",
+          "top_positive_trade_pnl_share": "0.095274162722"
+        },
+        "distribution_evidence_sha256": "c0bdedcdb686cbd3b9f260a9406f726f7ac4687f3bc764a5f89bf3ab954dfa28",
+        "distribution_gaps": [
+          "YEAR_BUCKET_COUNT_LT_2"
+        ],
+        "distribution_status": "PARTIAL",
+        "evaluation_role": "FROZEN_COST_1X",
+        "fixture_id": "deterministic-composite-stock-daily-v1",
+        "metrics": {
+          "annualized_volatility": "0.012587731185",
+          "cagr_observation": "-0.002363",
+          "calmar_ratio": "-0.18659769232",
+          "closed_trade_count": 31,
+          "fee_load_ratio": "0.000499999994",
+          "market_exposure_ratio": "0.405882352941",
+          "max_drawdown": "0.012663607843",
+          "max_drawdown_duration_end": "2021-08-22 00:00:00+00:00",
+          "max_drawdown_duration_periods": 68,
+          "max_drawdown_duration_start": "2021-06-16 00:00:00+00:00",
+          "payoff_ratio": "0.104718956741",
+          "period_return_count": 169,
+          "profit_factor": "0.977376929583",
+          "sortino_ratio": "-0.164605482769",
+          "tail_cvar_95": "0.002344115",
+          "tail_cvar_99": "0.003241383382",
+          "tail_var_95": "0.001674034292",
+          "tail_var_99": "0.003099934859",
+          "trade_expectancy": "-0.093712491569",
+          "turnover_ratio": "2.317897398794",
+          "win_rate": "0.903225806452"
+        },
+        "monthly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021-03",
+            "return": "0"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-04",
+            "return": "0"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-05",
+            "return": "0.002897"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-06",
+            "return": "0.008370749937"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-07",
+            "return": "-0.000369823948"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-08",
+            "return": "-0.011882269383"
+          }
+        ],
+        "monthly_summary": {
+          "count": 6,
+          "maximum": "0.008370749937",
+          "mean": "-0.000164057232",
+          "median": "0",
+          "minimum": "-0.011882269383",
+          "negative_count": 2,
+          "positive_count": 2,
+          "zero_count": 2
+        },
+        "sharpe_ratio": -0.123079,
+        "source_report_sha256": "f274016ed6df32b4555a58a71f3d919d9b456b2a635133a5b70fe64d55f9462d",
+        "strategy_id": "bollinger",
+        "total_return": -0.001094,
+        "yearly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021",
+            "return": "-0.001094"
+          }
+        ],
+        "yearly_summary": {
+          "count": 1,
+          "maximum": "-0.001094",
+          "mean": "-0.001094",
+          "median": "-0.001094",
+          "minimum": "-0.001094",
+          "negative_count": 1,
+          "positive_count": 0,
+          "zero_count": 0
+        }
+      },
+      {
+        "concentration": {
+          "best_fixed_21_period_window": {
+            "candidate_count": 149,
+            "compounded_return": "0",
+            "end_index_exclusive": 21,
+            "end_time": "2021-03-27 00:00:00+00:00",
+            "gap_code": null,
+            "start_index": 0,
+            "start_time": "2021-03-06 00:00:00+00:00",
+            "state": "OBSERVED",
+            "window_length": 21
+          },
+          "compound_return_without_best_month": "-0.007796",
+          "compound_return_without_best_period": "-0.007796",
+          "pnl_without_best_trade": null,
+          "positive_period_return_hhi": null,
+          "positive_trade_pnl_hhi": null,
+          "top_positive_month_share": null,
+          "top_positive_period_return_share": null,
+          "top_positive_trade_pnl_share": null
+        },
+        "distribution_evidence_sha256": "097b7dc9e7537d626506e79c7f4c8b995354ffcc779ba23a3f37224eb64cadc9",
+        "distribution_gaps": [
+          "POSITIVE_MONTH_CONCENTRATION_UNAVAILABLE",
+          "POSITIVE_PERIOD_CONCENTRATION_UNAVAILABLE",
+          "POSITIVE_TRADE_CONCENTRATION_UNAVAILABLE",
+          "PROFIT_FACTOR_AND_PAYOFF_UNDEFINED_ONE_SIDED_TRADES",
+          "YEAR_BUCKET_COUNT_LT_2"
+        ],
+        "distribution_status": "PARTIAL",
+        "evaluation_role": "FROZEN_COST_1X",
+        "fixture_id": "deterministic-composite-stock-daily-v1",
+        "metrics": {
+          "annualized_volatility": "0.004710098625",
+          "cagr_observation": "-0.016773",
+          "calmar_ratio": "-2.151487942535",
+          "closed_trade_count": 1,
+          "fee_load_ratio": "0.00050000001",
+          "market_exposure_ratio": "0.035294117647",
+          "max_drawdown": "0.007796",
+          "max_drawdown_duration_end": "2021-08-22 00:00:00+00:00",
+          "max_drawdown_duration_periods": 13,
+          "max_drawdown_duration_start": "2021-08-10 00:00:00+00:00",
+          "payoff_ratio": null,
+          "period_return_count": 169,
+          "profit_factor": null,
+          "sortino_ratio": "-2.45286772536",
+          "tail_cvar_95": "0.000868773185",
+          "tail_cvar_99": "0.002396768955",
+          "tail_var_95": "0",
+          "tail_var_99": "0.00157375589",
+          "trade_expectancy": "-77.9628469515",
+          "turnover_ratio": "0.492744261972",
+          "win_rate": "0"
+        },
+        "monthly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021-03",
+            "return": "0"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-04",
+            "return": "0"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-05",
+            "return": "0"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-06",
+            "return": "0"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-07",
+            "return": "0"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-08",
+            "return": "-0.007796"
+          }
+        ],
+        "monthly_summary": {
+          "count": 6,
+          "maximum": "0",
+          "mean": "-0.001299333333",
+          "median": "0",
+          "minimum": "-0.007796",
+          "negative_count": 1,
+          "positive_count": 0,
+          "zero_count": 5
+        },
+        "sharpe_ratio": -2.467717,
+        "source_report_sha256": "116628fb6dd8672a6d41646f55cfe7708b450d7af605de168567c6a4fc3368f2",
+        "strategy_id": "dual_ma",
+        "total_return": -0.007796,
+        "yearly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021",
+            "return": "-0.007796"
+          }
+        ],
+        "yearly_summary": {
+          "count": 1,
+          "maximum": "-0.007796",
+          "mean": "-0.007796",
+          "median": "-0.007796",
+          "minimum": "-0.007796",
+          "negative_count": 1,
+          "positive_count": 0,
+          "zero_count": 0
+        }
+      },
+      {
+        "concentration": {
+          "best_fixed_21_period_window": {
+            "candidate_count": 149,
+            "compounded_return": "0.022255745216",
+            "end_index_exclusive": 149,
+            "end_time": "2021-08-02 00:00:00+00:00",
+            "gap_code": null,
+            "start_index": 128,
+            "start_time": "2021-07-12 00:00:00+00:00",
+            "state": "OBSERVED",
+            "window_length": 21
+          },
+          "compound_return_without_best_month": "-0.045636747635",
+          "compound_return_without_best_period": "-0.036827343643",
+          "pnl_without_best_trade": null,
+          "positive_period_return_hhi": "0.029754070704",
+          "positive_trade_pnl_hhi": null,
+          "top_positive_month_share": "1",
+          "top_positive_period_return_share": "0.052762879605",
+          "top_positive_trade_pnl_share": null
+        },
+        "distribution_evidence_sha256": "8c6ec5d7f69ad2a94bf64d01bf2709c165487cba5197f66e5508dee5a207565b",
+        "distribution_gaps": [
+          "POSITIVE_TRADE_CONCENTRATION_UNAVAILABLE",
+          "PROFIT_FACTOR_AND_PAYOFF_UNDEFINED_ONE_SIDED_TRADES",
+          "YEAR_BUCKET_COUNT_LT_2"
+        ],
+        "distribution_status": "PARTIAL",
+        "evaluation_role": "FROZEN_COST_1X",
+        "fixture_id": "deterministic-composite-stock-daily-v1",
+        "metrics": {
+          "annualized_volatility": "0.029335995997",
+          "cagr_observation": "-0.069609",
+          "calmar_ratio": "-1.671531951482",
+          "closed_trade_count": 3,
+          "fee_load_ratio": "0.000500000012",
+          "market_exposure_ratio": "0.623529411765",
+          "max_drawdown": "0.041643834531",
+          "max_drawdown_duration_end": "2021-08-22 00:00:00+00:00",
+          "max_drawdown_duration_periods": 93,
+          "max_drawdown_duration_start": "2021-05-22 00:00:00+00:00",
+          "payoff_ratio": null,
+          "period_return_count": 169,
+          "profit_factor": null,
+          "sortino_ratio": "-2.02968146876",
+          "tail_cvar_95": "0.004408619959",
+          "tail_cvar_99": "0.008221135949",
+          "tail_var_95": "0.003171946619",
+          "tail_var_99": "0.003642869873",
+          "trade_expectancy": "-109.495250857996",
+          "turnover_ratio": "2.205462237012",
+          "win_rate": "0"
+        },
+        "monthly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021-03",
+            "return": "0"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-04",
+            "return": "0"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-05",
+            "return": "-0.012225"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-06",
+            "return": "0.013416010731"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-07",
+            "return": "-0.00275017557"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-08",
+            "return": "-0.031160783512"
+          }
+        ],
+        "monthly_summary": {
+          "count": 6,
+          "maximum": "0.013416010731",
+          "mean": "-0.005453324725",
+          "median": "-0.001375087785",
+          "minimum": "-0.031160783512",
+          "negative_count": 3,
+          "positive_count": 1,
+          "zero_count": 2
+        },
+        "sharpe_ratio": -1.677145,
+        "source_report_sha256": "3374b384464ed7a7c196e5baa390c88943d0949a917cc5cdb82d955f1e4484f5",
+        "strategy_id": "grid",
+        "total_return": -0.032833,
+        "yearly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021",
+            "return": "-0.032833"
+          }
+        ],
+        "yearly_summary": {
+          "count": 1,
+          "maximum": "-0.032833",
+          "mean": "-0.032833",
+          "median": "-0.032833",
+          "minimum": "-0.032833",
+          "negative_count": 1,
+          "positive_count": 0,
+          "zero_count": 0
+        }
+      },
+      {
+        "concentration": {
+          "best_fixed_21_period_window": {
+            "candidate_count": 149,
+            "compounded_return": "0.015361119081",
+            "end_index_exclusive": 149,
+            "end_time": "2021-08-02 00:00:00+00:00",
+            "gap_code": null,
+            "start_index": 128,
+            "start_time": "2021-07-12 00:00:00+00:00",
+            "state": "OBSERVED",
+            "window_length": 21
+          },
+          "compound_return_without_best_month": "-0.014355724104",
+          "compound_return_without_best_period": "-0.011049984392",
+          "pnl_without_best_trade": "-171.940413937154",
+          "positive_period_return_hhi": "0.037428292965",
+          "positive_trade_pnl_hhi": "1",
+          "top_positive_month_share": "0.763123140908",
+          "top_positive_period_return_share": "0.064390401254",
+          "top_positive_trade_pnl_share": "1"
+        },
+        "distribution_evidence_sha256": "ee9c8e6cd653604f72d62bdce685e9d4066562f89b31d58de49f03550f1f5da3",
+        "distribution_gaps": [
+          "YEAR_BUCKET_COUNT_LT_2"
+        ],
+        "distribution_status": "PARTIAL",
+        "evaluation_role": "FROZEN_COST_1X",
+        "fixture_id": "deterministic-composite-stock-daily-v1",
+        "metrics": {
+          "annualized_volatility": "0.023789173601",
+          "cagr_observation": "-0.017514",
+          "calmar_ratio": "-0.639125323269",
+          "closed_trade_count": 6,
+          "fee_load_ratio": "0.000500000011",
+          "market_exposure_ratio": "0.376470588235",
+          "max_drawdown": "0.027403076302",
+          "max_drawdown_duration_end": "2021-08-22 00:00:00+00:00",
+          "max_drawdown_duration_periods": 130,
+          "max_drawdown_duration_start": "2021-04-15 00:00:00+00:00",
+          "payoff_ratio": "2.632218420481",
+          "period_return_count": 169,
+          "profit_factor": "0.526443684096",
+          "sortino_ratio": "-0.563358475398",
+          "tail_cvar_95": "0.004100229969",
+          "tail_cvar_99": "0.011012657399",
+          "tail_var_95": "0.001549580038",
+          "tail_var_99": "0.009006156694",
+          "trade_expectancy": "-13.570578163174",
+          "turnover_ratio": "2.986773033396",
+          "win_rate": "0.166666666667"
+        },
+        "monthly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021-03",
+            "return": "0"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-04",
+            "return": "-0.005726"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-05",
+            "return": "-0.005476357624"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-06",
+            "return": "0.001956860084"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-07",
+            "return": "0.00630422583"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-08",
+            "return": "-0.005167450678"
+          }
+        ],
+        "monthly_summary": {
+          "count": 6,
+          "maximum": "0.00630422583",
+          "mean": "-0.001351453731",
+          "median": "-0.002583725339",
+          "minimum": "-0.005726",
+          "negative_count": 3,
+          "positive_count": 2,
+          "zero_count": 1
+        },
+        "sharpe_ratio": -0.499079,
+        "source_report_sha256": "98f5054df62cb3ec3e65fb957b5361e365520ba9701956391611d5e04ad5ecb7",
+        "strategy_id": "macd",
+        "total_return": -0.008142,
+        "yearly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021",
+            "return": "-0.008142"
+          }
+        ],
+        "yearly_summary": {
+          "count": 1,
+          "maximum": "-0.008142",
+          "mean": "-0.008142",
+          "median": "-0.008142",
+          "minimum": "-0.008142",
+          "negative_count": 1,
+          "positive_count": 0,
+          "zero_count": 0
+        }
+      },
+      {
+        "concentration": {
+          "best_fixed_21_period_window": {
+            "candidate_count": 149,
+            "compounded_return": "0.013771152199",
+            "end_index_exclusive": 118,
+            "end_time": "2021-07-02 00:00:00+00:00",
+            "gap_code": null,
+            "start_index": 97,
+            "start_time": "2021-06-11 00:00:00+00:00",
+            "state": "OBSERVED",
+            "window_length": 21
+          },
+          "compound_return_without_best_month": "-0.031933422361",
+          "compound_return_without_best_period": "-0.022882072918",
+          "pnl_without_best_trade": "-236.768856718612",
+          "positive_period_return_hhi": "0.037905087871",
+          "positive_trade_pnl_hhi": "0.679305926968",
+          "top_positive_month_share": "1",
+          "top_positive_period_return_share": "0.061066741003",
+          "top_positive_trade_pnl_share": "0.799421047162"
+        },
+        "distribution_evidence_sha256": "c2f758d1400b2d972e47bb4765362e6971180939d8eca15f831ecf80fcf7da7f",
+        "distribution_gaps": [
+          "YEAR_BUCKET_COUNT_LT_2"
+        ],
+        "distribution_status": "PARTIAL",
+        "evaluation_role": "FROZEN_COST_1X",
+        "fixture_id": "deterministic-composite-stock-daily-v1",
+        "metrics": {
+          "annualized_volatility": "0.027661170624",
+          "cagr_observation": "-0.042853",
+          "calmar_ratio": "-1.542131200364",
+          "closed_trade_count": 5,
+          "fee_load_ratio": "0.000500000009",
+          "market_exposure_ratio": "0.411764705882",
+          "max_drawdown": "0.027788167433",
+          "max_drawdown_duration_end": "2021-08-22 00:00:00+00:00",
+          "max_drawdown_duration_periods": 158,
+          "max_drawdown_duration_start": "2021-03-18 00:00:00+00:00",
+          "payoff_ratio": "0.275919813613",
+          "period_return_count": 169,
+          "profit_factor": "0.183946542408",
+          "sortino_ratio": "-1.181230391387",
+          "tail_cvar_95": "0.00438190197",
+          "tail_cvar_99": "0.010991183577",
+          "tail_var_95": "0.002010649661",
+          "tail_var_99": "0.003590256226",
+          "trade_expectancy": "-40.123601402446",
+          "turnover_ratio": "3.485233235607",
+          "win_rate": "0.4"
+        },
+        "monthly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021-03",
+            "return": "-0.003012"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-04",
+            "return": "-0.003781389545"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-05",
+            "return": "-0.003272192006"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-06",
+            "return": "0.012263022643"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-07",
+            "return": "-0.007204812256"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-08",
+            "return": "-0.015026817089"
+          }
+        ],
+        "monthly_summary": {
+          "count": 6,
+          "maximum": "0.012263022643",
+          "mean": "-0.003339031376",
+          "median": "-0.003526790776",
+          "minimum": "-0.015026817089",
+          "negative_count": 5,
+          "positive_count": 1,
+          "zero_count": 0
+        },
+        "sharpe_ratio": -1.075392,
+        "source_report_sha256": "1f99b85fa9d925d13006cce5db1951f553ce5f1306200eec7fe52d178ccc0125",
+        "strategy_id": "momentum",
+        "total_return": -0.020062,
+        "yearly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021",
+            "return": "-0.020062"
+          }
+        ],
+        "yearly_summary": {
+          "count": 1,
+          "maximum": "-0.020062",
+          "mean": "-0.020062",
+          "median": "-0.020062",
+          "minimum": "-0.020062",
+          "negative_count": 1,
+          "positive_count": 0,
+          "zero_count": 0
+        }
+      },
+      {
+        "concentration": {
+          "best_fixed_21_period_window": {
+            "candidate_count": 149,
+            "compounded_return": "0.015721946013",
+            "end_index_exclusive": 111,
+            "end_time": "2021-06-25 00:00:00+00:00",
+            "gap_code": null,
+            "start_index": 90,
+            "start_time": "2021-06-04 00:00:00+00:00",
+            "state": "OBSERVED",
+            "window_length": 21
+          },
+          "compound_return_without_best_month": "0.002298301716",
+          "compound_return_without_best_period": "0.008364548129",
+          "pnl_without_best_trade": "119.713544064325",
+          "positive_period_return_hhi": "0.037892558454",
+          "positive_trade_pnl_hhi": "0.251646748459",
+          "top_positive_month_share": "0.305629440925",
+          "top_positive_period_return_share": "0.074693087019",
+          "top_positive_trade_pnl_share": "0.273029861899"
+        },
+        "distribution_evidence_sha256": "efc3e3d8e8a012f44fbfddfcbb9c7d72fdc100e7fd3acc6c9a9b3c756dce8279",
+        "distribution_gaps": [
+          "YEAR_BUCKET_COUNT_LT_2"
+        ],
+        "distribution_status": "PARTIAL",
+        "evaluation_role": "FROZEN_COST_1X",
+        "fixture_id": "deterministic-composite-stock-daily-v1",
+        "metrics": {
+          "annualized_volatility": "0.017143595121",
+          "cagr_observation": "0.027071",
+          "calmar_ratio": "1.412625570345",
+          "closed_trade_count": 5,
+          "fee_load_ratio": "0.000500000008",
+          "market_exposure_ratio": "0.388235294118",
+          "max_drawdown": "0.019163606102",
+          "max_drawdown_duration_end": "2021-05-15 00:00:00+00:00",
+          "max_drawdown_duration_periods": 38,
+          "max_drawdown_duration_start": "2021-04-08 00:00:00+00:00",
+          "payoff_ratio": "0.705560312851",
+          "period_return_count": 169,
+          "profit_factor": "2.822241251406",
+          "sortino_ratio": "1.639189949818",
+          "tail_cvar_95": "0.002570779826",
+          "tail_cvar_99": "0.003998806653",
+          "tail_var_95": "0.001771610465",
+          "tail_var_99": "0.002895164715",
+          "trade_expectancy": "41.485223247301",
+          "turnover_ratio": "3.916919289243",
+          "win_rate": "0.8"
+        },
+        "monthly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021-03",
+            "return": "-0.00133"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-04",
+            "return": "0.010114452221"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-05",
+            "return": "0.006110405632"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-06",
+            "return": "0.009881420978"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-07",
+            "return": "0.00698756249"
+          },
+          {
+            "partial_start": false,
+            "period": "2021-08",
+            "return": "-0.01907712818"
+          }
+        ],
+        "monthly_summary": {
+          "count": 6,
+          "maximum": "0.010114452221",
+          "mean": "0.00211445219",
+          "median": "0.006548984061",
+          "minimum": "-0.01907712818",
+          "negative_count": 2,
+          "positive_count": 4,
+          "zero_count": 0
+        },
+        "sharpe_ratio": 1.080379,
+        "source_report_sha256": "c28bc8cedb60cc54f114da1043da4818dba25d34f22f2ed36f9eb71ad4d70391",
+        "strategy_id": "rsi",
+        "total_return": 0.012436,
+        "yearly_returns": [
+          {
+            "partial_start": true,
+            "period": "2021",
+            "return": "0.012436"
+          }
+        ],
+        "yearly_summary": {
+          "count": 1,
+          "maximum": "0.012436",
+          "mean": "0.012436",
+          "median": "0.012436",
+          "minimum": "0.012436",
+          "negative_count": 0,
+          "positive_count": 1,
+          "zero_count": 0
+        }
+      }
+    ]
+  },
+  "frozen_experiment_provenance_projection": {
+    "blocker_counts": {
+      "git_worktree_not_clean": 18
+    },
+    "field_ids": [
+      "experiment_id",
+      "git_commit_sha",
+      "git_worktree_clean",
+      "strategy_name",
+      "strategy_version",
+      "config_hash",
+      "dataset_hash",
+      "dependency_lock_name",
+      "dependency_lock_hash",
+      "dependency_lock_fully_pinned",
+      "start_time",
+      "end_time",
+      "symbol",
+      "timeframe",
+      "fee_model",
+      "slippage_model",
+      "random_seed",
+      "runtime_version",
+      "result_hash",
+      "source_run_hash",
+      "evaluation_protocol_hash",
+      "evaluation_protocol_verified",
+      "classification",
+      "status",
+      "blockers"
+    ],
+    "native_manifest_verification_count": 18,
+    "projection_sha256": "d623f75a959b14263a46ffbc18f9d4108d1550003b517336e53eafb75e7c02dc",
+    "provenance_is_profitability_proof": false,
+    "reproducibility_complete": false,
+    "rows": [
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "manifest_sha256": "36fabb231d681e5c97e214d2242746d08a83a5f8a3704e990756bed0fd8a4903",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "8f7bbface93c4eab9868780197275c7a30d73cbb561cbe917d082a08a19f3031",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-1b7598a8cea6fe61ad70",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.00050000000000000001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "f01dd6f6e8bd4d2fffc041f0f12a2841ec894c71a85b7bfc1acbb0f2a1f2f4b9",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00020000000000000001"
+          },
+          "source_run_hash": "ddfe552e20620195a5be1094c03a06e7fb03dfa0220d1f376efcacab4715f6bf",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "bollinger",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_1x",
+        "source_result_sha256": "c95173f66e3fa44f8bb77502e6c4f9a4bc0668be39c3eebae7f38518eb8cced3",
+        "strategy_id": "bollinger"
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "manifest_sha256": "3e517cf0f5896406ce2e3dad87d2f83a428eba443dc3fbe36f8e9e299f1a8558",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "8064a2deb42a71da36edf46261a1e94318632f9d9443584e62f1d5d0f02812b6",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-99ef85e54e69e2263348",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "caa4e4a1016016a9ebfac79f1236ab7ed391385743449062d3a891427de61217",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00040000000000000002"
+          },
+          "source_run_hash": "1cac83f612eb48f0e081dd64912c636744a73501f306e591ab19ec786e4979dd",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "bollinger",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_2x",
+        "source_result_sha256": "90b4d14dc1677e37ffe593ecd063ae8fce8447c6f75bc702c05d284d4711a5a4",
+        "strategy_id": "bollinger"
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "manifest_sha256": "a2e3a01096cf81eb908d915953ce14ced24dcca2ae16de9ebd8b711c32f6fa88",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "ec3d63c8ca02f201bf7e854200f233229e158cdd3ae69bc318f4a0302076411c",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-96e9096d4f22baa4f8f1",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.0015"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "1d2842b60ac4724c98f5072067b9ca2713f195f988e559f5418e410fc8a5469b",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00060000000000000006"
+          },
+          "source_run_hash": "f22a2ad7095164cf2d6a94811033cada52a53dcf128dd7c59cf58766fc7b124d",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "bollinger",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_3x",
+        "source_result_sha256": "c35e2288e4bead6d78c8c87f6ed4ccc7e73967590d7aa0d7d30e075b46a13252",
+        "strategy_id": "bollinger"
+      },
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "manifest_sha256": "f9b27064feb71b4157b183e392a46f0a668bd4f1a30c04cc0ec0ff2ddcf92b54",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "0a41e70f1a29bed547ae4ca8db4fa46dddc172bae2ef945aeea2194865984d94",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-1441e996e60de44bac9c",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.00050000000000000001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "ed4f73bc878b8f3fae4a924287c2bf4b2b3182c13b3dbf4d1d2b34eaa16ce8f2",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00020000000000000001"
+          },
+          "source_run_hash": "54acef00b0990c5a4ec5e8b0c47bcf23660670323c3b8515efc4b882d5972923",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "dual_ma",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_1x",
+        "source_result_sha256": "0984db838c59cf33455294c412c188b23c98c335c17ef54e40c2b4e14f24c1a2",
+        "strategy_id": "dual_ma"
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "manifest_sha256": "6ad6d1502c690070a63b2aa1a366582c902e27f1cb82fb507f6e9c2250439ced",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "0561fb21157651c496559b775c13cfefb07d58f428f58386c27998b6f34875db",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-dfb5b13b15b27b3a808e",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "6e7430bc48cf44aec3566407e8f4ee28e03068e6e0eabaac03fbc47e89d4e1c7",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00040000000000000002"
+          },
+          "source_run_hash": "08f90ab603c1ec787d447c2826c25a525c25adb15b61a074207edb4771525101",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "dual_ma",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_2x",
+        "source_result_sha256": "c1f6334a15a5522597bb006d396308bd77020df3300576afb351a8a2898681f5",
+        "strategy_id": "dual_ma"
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "manifest_sha256": "4f4328bedb6737039e05e4fc57bc8400d2a639cee546fa961ed4704caa64a016",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "3e2f51dc26c841bafa918666f675c9b34c53031743742caae141423902820cf5",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-10ff4cd286edcd4de19d",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.0015"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "d2e0f9030945d7d44e8b69cd483a4b082ecd67657d19a1559bf5105111ba3ca1",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00060000000000000006"
+          },
+          "source_run_hash": "508a934d4bfd990f7ec3a1fcbd12fd54879a3f1062bbf8880dc46abcc477b4ca",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "dual_ma",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_3x",
+        "source_result_sha256": "f6a5409bf26487b92209a3c87d0015ddbb2a37f436ecfe30f44d87ab2ca32e87",
+        "strategy_id": "dual_ma"
+      },
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "manifest_sha256": "08552ed86db0eea7ba4bc03226c47686a5f6efde2f93c9d94656d79b11b2403f",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "fb8b936da3e40a7aaa04cb67bdc245f8e42b08f4bd95789b2ee99c0ee785f801",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-782f14bf58b13d50f8e9",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.00050000000000000001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "a374ca0ff9e9c42e7fc80bf71d10bc97ae5c398765f70417fe8e02c645a5c288",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00020000000000000001"
+          },
+          "source_run_hash": "f160c81089ee6e1a4728faea79d1d80b30f5d5a1ca3282d82670dc0e59b95e2d",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "grid",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_1x",
+        "source_result_sha256": "20a63aa97d48f00ae2c27d586aed3bc8e59560ad8ac2eb161c3daaf4b3102bdb",
+        "strategy_id": "grid"
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "manifest_sha256": "f84295078b15ee7632c4ea50f6dbcdb5e82ed9288c1336529d635661d29326f2",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "c8d881bcdb5dcd004d8f174aac851995365f602671793ff0e04ec8e6a836f73b",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-b3769fb8f8e91f7f6a75",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "7d197703e8adf6103ac607a666d8e9666989f697a78a8c4eac379961a92e6dc5",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00040000000000000002"
+          },
+          "source_run_hash": "bb8e1f15a0dcff1a926c3d95d5e3b96dba75d21b2fcb56b2aacad9e729d0e907",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "grid",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_2x",
+        "source_result_sha256": "c321ed0aedb77e26ba03f5e661816e7b20dc4f158d832df94105955adad3ab49",
+        "strategy_id": "grid"
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "manifest_sha256": "5f78a0bb10af7532a6aa16260dbf83669215edf56601a8f9f821fffc1c9aa9e9",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "8391525ff9224d33b4c4f3f02280e9296688e1906ddc51df27b686522f464f89",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-8995d344780115c2b356",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.0015"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "71e7deba10a5c3445b823b4be38c54ff7e42acd9103870aadde5b0624a5086a6",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00060000000000000006"
+          },
+          "source_run_hash": "77393b6bcca5e3ea069c04bbdaf0484497187c7b9731ebb7edde4843417d3fc1",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "grid",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_3x",
+        "source_result_sha256": "32e2d4ad03776a9b965ed2163dfbdf3d8374fc3e8c8d35e57234771c6f90b493",
+        "strategy_id": "grid"
+      },
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "manifest_sha256": "ffda0ac092fe128a5012d1445f6029850d32b65806b336fc8a046babba78fe50",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "8b843d933118cd4590001396343a9f03aa986ba6978a27092246d0f914e7a095",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-58d5e1aea23a96874714",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.00050000000000000001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "e13693facb336f176619d8ffe2314c2daae941ceaa4c9e3eb214474a66374758",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00020000000000000001"
+          },
+          "source_run_hash": "fde06597ae0252a0e9bb3bf6b3bab5e5ef2f01039fa433f4b9be1fb0455b0c8e",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "macd",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_1x",
+        "source_result_sha256": "c65b1be8f2c004b77f90f03ab691635c256b51cebc642a5f2116bfa74e8985e1",
+        "strategy_id": "macd"
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "manifest_sha256": "2016add2b19925c9519824807d7e4f7322cdbbc8efdb24e6ba73105c0109a680",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "1c1cabc0f7e72a694ce5486b2a0e1a981da4249c925046328a36601cee386cde",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-14465fdca41745f5197c",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "7cff659ff12ce064e950bb451391874652260f8a39fcfe12b4e9a77a8072939c",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00040000000000000002"
+          },
+          "source_run_hash": "46b16498d4906bef9f929d83b4776d1b10f63e22099607a3d4b28a8a656f7d9f",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "macd",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_2x",
+        "source_result_sha256": "8cdffdffad8d7d997814309cf7f2353c8ef03786ad488aa22f53cf740f4c58c6",
+        "strategy_id": "macd"
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "manifest_sha256": "645953b7e122b4f7e56734cc3dfe16e73485b3cf8478be4372bdbc3411dcab27",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "13e55b3fafd4ce238ea025d90d2b6efe3ca8ad3b996d668694e77e6cb0476dbc",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-45714e0f6a8480fceaf9",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.0015"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "8a18ec02144745de0ec81056d7b0a9725238678fa45c3b925475c09b378b7709",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00060000000000000006"
+          },
+          "source_run_hash": "62dc861d8d1a30af3829ce03cb4fb65a9ccc658d9a09ea232b6e4b4ed3c80b46",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "macd",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_3x",
+        "source_result_sha256": "3dc8f83d44daad54516af2645efab59905207dc1c8ca1725095c492b66b483b0",
+        "strategy_id": "macd"
+      },
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "manifest_sha256": "c9927bf9a47dc3cbe3861abe94d1659edf9d47dda785a4e35752d01320b2f51b",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "42ef31907084d8820d813b5f25c76e2478f11c3c7c75979246dc7890dc537abf",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-4721244d20b0851509db",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.00050000000000000001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "7f136453c14e47d86355321eaae8e42fb8857974cf74d3aaa85b90dfa49fdd60",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00020000000000000001"
+          },
+          "source_run_hash": "dfbb3297cc0738c29b0c0a690255ce4f67e867b92608472b64aafd3fc620fb35",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "momentum",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_1x",
+        "source_result_sha256": "accf6f74a32451f269fedd1b7d5505f5630bb6e95e03c59785070192902fac5e",
+        "strategy_id": "momentum"
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "manifest_sha256": "0e30d1e3d6f34566c323553e0423dbeada02190aa63f09fe20a5c6ab2bac371b",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "76c9e022a6f4b784eb157bd6428d691dda5ab4f3959c64d8054d4836de0747f0",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-ab2b74d6887acd8cbbfd",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "c0507a361b1235dc5bcfe44ec135a83be766a2e313a5624944e0b6ed49fbfd4c",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00040000000000000002"
+          },
+          "source_run_hash": "89664eee80f6fa782e36dd6fb456abf05cab5c17379cdf18639529412d68a6b5",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "momentum",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_2x",
+        "source_result_sha256": "2c2fdfd2493e90963a762dd552ff2e3448f373544e3d83c33317f0a0961fe94f",
+        "strategy_id": "momentum"
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "manifest_sha256": "e9b8aa838345977b65fcabbe914178077e87c380f2c5207ca11ab40217b42e14",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "177cded0badcdcb37af19c6600649046eea137bbb19d100ecd213ce6b3a2d582",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-517bb9c0d3945b5fa111",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.0015"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "563570a8744a200cdb7a0b23adb85a72828b44879bb10c86bcb785c30c2dbb34",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00060000000000000006"
+          },
+          "source_run_hash": "6e761de72705c63f77e02f7b498904920184ab4668f4d33dad3cfb726082ef09",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "momentum",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_3x",
+        "source_result_sha256": "79d80c2346219ff208b4d1a9d5a8dbce64ac81bf13136c08131cd0b47f3ffc7d",
+        "strategy_id": "momentum"
+      },
+      {
+        "cost_role": "FROZEN_COST_1X",
+        "manifest_sha256": "c560535204df4212fde17eb163578aa7719c671a091778bb82539300528c1e9c",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "dd2c8cf305a551967481dbe0f73e61784088b72e382e886c8d69402fb4d82f60",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-99c3a4f09cc9cbe14545",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.00050000000000000001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "b829bd1c180765bc5a85a211aad806db210fe300304691bc66a57578ab9db36e",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00020000000000000001"
+          },
+          "source_run_hash": "872605bc3a783deb4153022862c38c0152149a92ae413169afc48654f49fd6ef",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "rsi",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_1x",
+        "source_result_sha256": "e02bca5f5c6be99d3fb5a72caf0e722d3a848294ae4a78744e95dbc9bc6f5ab8",
+        "strategy_id": "rsi"
+      },
+      {
+        "cost_role": "FROZEN_COST_2X",
+        "manifest_sha256": "b6c5997b9b1b887a2ae66f0379faad5f2b10f8d6e7519e301f10777e854a1b62",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "1cb44c2f0d4a0a2d0ba8c5689cf0d341f44d6dc5c62aa044a6a2df00a718974c",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-7651003ca5333845f874",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.001"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "a6d84ddd316660a52ee0db9fbe34a2e2bd96eefdf16e79576d2cca250fc91a7f",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00040000000000000002"
+          },
+          "source_run_hash": "0b78f2bfd740711ecfca0214ab79b291702ab7fe7b170c48b332240daa22fa20",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "rsi",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_2x",
+        "source_result_sha256": "195854e17fb5284693df187908287de6169b5c301d2d00efb2171f08ec6ed4f5",
+        "strategy_id": "rsi"
+      },
+      {
+        "cost_role": "FROZEN_COST_3X",
+        "manifest_sha256": "22e3c518d4e7f358faf97b61ee85f19d0c2b21b5b44445210e335dd9def36d52",
+        "provenance": {
+          "blockers": [
+            "git_worktree_not_clean"
+          ],
+          "classification": "REPRODUCIBILITY_INCOMPLETE",
+          "config_hash": "18126b0827cb9c7bffc99b15c2f39654fd7ea5889b6b3165881195a6bba40442",
+          "dataset_hash": "c67ec18da478febe4cf551971ea41192dfe9d4fc8029827e9ddd7f67b36d9287",
+          "dependency_lock_fully_pinned": true,
+          "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "dependency_lock_name": "requirements.research.lock",
+          "end_time": "2021-08-22 00:00:00+00:00",
+          "evaluation_protocol_hash": "6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6",
+          "evaluation_protocol_verified": true,
+          "experiment_id": "hexp-74b41664926513af1314",
+          "fee_model": {
+            "kind": "proportional",
+            "rate": "0.0015"
+          },
+          "git_commit_sha": "0000000000000000000000000000000000000000",
+          "git_worktree_clean": false,
+          "random_seed": 0,
+          "result_hash": "2d8d8dfb95c5968462671221fd3df0042e65c72701bf0a4fd3eff7dc293d9dc9",
+          "runtime_version": "python-3.14",
+          "slippage_model": {
+            "kind": "proportional",
+            "rate": "0.00060000000000000006"
+          },
+          "source_run_hash": "9e0ccb987f2c90e190f91e65b9ff8190a00ab22194ed931446c04c9a45805575",
+          "start_time": "2021-02-04 00:00:00+00:00",
+          "status": "BLOCK",
+          "strategy_name": "rsi",
+          "strategy_version": "v1",
+          "symbol": "SYNTH",
+          "timeframe": "1d"
+        },
+        "run_id": "frozen_3x",
+        "source_result_sha256": "7c64753ad2757dd869d439af87987fb5ebc3edcb454a0e2ca434e7c035d0548e",
+        "strategy_id": "rsi"
+      }
+    ],
+    "run_count": 18,
+    "run_ids": [
+      "frozen_1x",
+      "frozen_2x",
+      "frozen_3x"
+    ],
+    "schema_version": "deterministic-strategy-frozen-experiment-provenance-projection-v1",
+    "source_family_bundle_file_sha256": "e0b3893b77a6b3f6640d37e205bc8445d5ffaada6323a90b7b1360cde370d8f3",
+    "strategy_count": 6,
+    "strategy_ids": [
+      "bollinger",
+      "dual_ma",
+      "grid",
+      "macd",
+      "momentum",
+      "rsi"
+    ],
+    "unique_config_sha256_count": 18,
+    "unique_dataset_sha256_count": 1,
+    "unique_experiment_id_count": 18,
+    "unique_manifest_sha256_count": 18,
+    "unique_result_sha256_count": 18,
+    "unique_source_run_sha256_count": 18
+  },
+  "full_report_alignment_proven": false,
+  "gaps": [
+    "BENCHMARK_CONTROL_TO_RECORDED_V14_IDENTITY_ALIGNMENT_NOT_PROVEN",
+    "COMPACT_DOSSIER_DOES_NOT_EMBED_V14_REPORT_JSON",
+    "CONTROL_REBUILD_REQUIRED_FOR_SEMANTIC_REVALIDATION",
+    "ENSEMBLE_STRATEGY_NOT_IMPLEMENTED",
+    "EQUAL_VOLATILITY_PROJECTION_NOT_EXECUTABLE",
+    "FORMAL_FROZEN_BLIND_TEST_GAP",
+    "FORMAL_FROZEN_BLIND_TEST_NOT_EXECUTED",
+    "FROZEN_STABILITY_REUSE_NOT_FORMAL_BLIND_EVIDENCE",
+    "FULL_UNIT_PBO_IDENTIFIED_SET_REMAINS",
+    "FULL_V14_REBUILD_REQUIRED_FOR_SEMANTIC_REVALIDATION",
+    "MARKET_REGIME_ANALYSIS_NOT_EXECUTED",
+    "NON_CURRENT_DOSSIER_V2_CANDIDATE",
+    "NO_FORMAL_INFERENCE_AUTHORITY",
+    "NO_SKILL_16_PATH_SYNTHETIC_DISTRIBUTION_ONLY",
+    "ODD_THREE_TRIAL_MEDIAN_BOUNDARY_SENSITIVITY",
+    "OVERLAPPING_WALK_FORWARD_WINDOWS_NO_INDEPENDENCE_CLAIM",
+    "PARTIAL_CSCV_RANK_TIE_GAP",
+    "PARTIAL_PBO_IDENTIFIED_SET_REMAINS",
+    "PROBABILITY_OF_BACKTEST_OVERFITTING_GAP",
+    "REAL_DATASET_GAP",
+    "REAL_MARKET_DATA_NOT_USED",
+    "REGISTERED_STRATEGIES_NOT_CONTROL_BENCHMARKS",
+    "SIMPLE_CONTROL_PARAMETERS_NOT_OPTIMISED",
+    "SOURCE_COMMIT_NOT_BOUND_FOR_UNCOMMITTED_SLICE",
+    "SYNTHETIC_DOSSIER_ONLY",
+    "SYNTHETIC_FIXED_169_OBSERVATION_BOOTSTRAP_ONLY",
+    "THREE_TRIAL_RANK_RESOLUTION_LIMIT",
+    "THREE_TRIAL_SYNTHETIC_DIAGNOSTIC_ONLY",
+    "TIE_AWARE_PBO_IDENTIFIED_SET_SYNTHETIC_ONLY",
+    "TRAILING_OBSERVATION_EXCLUDED_FOR_EQUAL_CSCV_PARTITIONS",
+    "VOLATILITY_PROJECTION_FINANCING_AND_MARGIN_NOT_MODELLED"
+  ],
+  "maturity": "SYNTHETIC_NON_CURRENT_BENCHMARK_CONTROL_PROJECTION_ONLY",
+  "profitability_proven": false,
+  "ranking_performed": false,
+  "receipt_sha256": "2338900fa843238a333f7acaf26c00fe55a23bc689ee1f40cc3e3bcc8614b486",
+  "registered_strategy_ids": [
+    "bollinger",
+    "dual_ma",
+    "grid",
+    "macd",
+    "momentum",
+    "rsi"
+  ],
+  "runtime_mutations": false,
+  "schema_version": "deterministic-strategy-research-dossier-receipt-v2",
+  "source_dossier_v1_full_report_alignment_proven": true,
+  "source_dossier_v1_manifest_sha256": "20faeaaeec9fd3cd720b185f7fe6fa4d864971918492d8d297734ed9ec4285eb",
+  "source_dossier_v1_receipt_sha256": "be3cefa29335da248d1b5ae70422bde344e3fb8f4f307e903f19ee1cd4d5b270",
+  "status": "BLOCK"
+}

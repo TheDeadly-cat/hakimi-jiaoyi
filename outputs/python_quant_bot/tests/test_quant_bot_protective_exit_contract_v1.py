@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from quant_bot.config import RiskConfig
+from hakimi_research.config import RiskConfig
 from quant_bot.models import Action, Portfolio
 from quant_bot.risk import RiskManager
 
@@ -124,7 +124,5 @@ class ProtectiveExitContractV1Tests(unittest.TestCase):
         self.assertEqual(order.action, Action.SELL)
         self.assertIn("take profit", order.reason)
         self.assertIsNone(risk.enforce_stop_rules("TEST", flat, 100.0, 0.03, 0.10))
-
-
 if __name__ == "__main__":
     unittest.main()

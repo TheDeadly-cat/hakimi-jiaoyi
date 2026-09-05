@@ -336,7 +336,6 @@ CHECKS = (
             "exchange_terminal/server.py",
             "exchange_terminal/config.py",
             "exchange_terminal/services/risk_service.py",
-            "exchange_terminal/services/paper_executor.py",
             "exchange_terminal/services/market_data_service.py",
             "exchange_terminal/services/backtest_return_quality.py",
             "exchange_terminal/services/backtest_risk_control_surface.py",

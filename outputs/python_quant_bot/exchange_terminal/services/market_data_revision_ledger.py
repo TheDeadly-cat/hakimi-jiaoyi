@@ -13,10 +13,7 @@ from typing import Any, Callable
 
 from .sqlite_runtime import connect_runtime_sqlite, require_runtime_writable
 
-try:
-    from market_data.candle_contract import candle_is_complete
-except ModuleNotFoundError:
-    from exchange_terminal.market_data.candle_contract import candle_is_complete
+from hakimi_research.candle_contract import candle_is_complete
 
 
 MARKET_DATA_REVISION_SCHEMA_VERSION = "market-data-revision-ledger-v9"

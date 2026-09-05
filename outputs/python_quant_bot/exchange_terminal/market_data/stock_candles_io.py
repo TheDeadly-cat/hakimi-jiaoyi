@@ -22,7 +22,7 @@ try:
         STOCK_EXTERNAL_PROVIDER_ORDER,
         STOCK_HISTORY_TIMEOUT,
     )
-    from market_data.stocks import (
+    from hakimi_research.stock_metadata import (
         normalize_stock_interval,
         stock_meta,
         stock_session_from_ts,
@@ -31,7 +31,7 @@ try:
         stock_timezone,
         yahoo_stock_symbol,
     )
-    from market_data.stock_candles import (
+    from hakimi_research.stock_candles import (
         aggregate_stock_rows,
         clean_stock_session,
         filter_stock_rows_by_session,
@@ -45,12 +45,11 @@ try:
         stock_payload_needs_session_refresh,
         with_stock_freshness,
     )
-    from market_data.candle_contract import candle_is_complete
+    from hakimi_research.candle_contract import candle_is_complete
     from market_data.provider_health import provider_call_allowed, record_provider_call
     from services.corporate_action_ledger import (
         CorporateActionLedger,
         build_adjustment_evidence,
-        infer_adjustment_basis,
         parse_yahoo_corporate_actions,
     )
     from services.market_data_revision_ledger import (
@@ -61,7 +60,7 @@ try:
     from services.sqlite_runtime import connect_runtime_sqlite, require_runtime_writable
     from utils import now_ms, pct
 except ModuleNotFoundError:
-    from exchange_terminal.config import (
+    from hakimi_research.terminal_config import (
         CORPORATE_ACTION_DB,
         MARKET_DATA_REVISION_DB,
         RUNTIME_READ_ONLY,
@@ -69,7 +68,7 @@ except ModuleNotFoundError:
         STOCK_EXTERNAL_PROVIDER_ORDER,
         STOCK_HISTORY_TIMEOUT,
     )
-    from exchange_terminal.market_data.stocks import (
+    from hakimi_research.stock_metadata import (
         normalize_stock_interval,
         stock_meta,
         stock_session_from_ts,
@@ -78,7 +77,7 @@ except ModuleNotFoundError:
         stock_timezone,
         yahoo_stock_symbol,
     )
-    from exchange_terminal.market_data.stock_candles import (
+    from hakimi_research.stock_candles import (
         aggregate_stock_rows,
         clean_stock_session,
         filter_stock_rows_by_session,
@@ -92,12 +91,11 @@ except ModuleNotFoundError:
         stock_payload_needs_session_refresh,
         with_stock_freshness,
     )
-    from exchange_terminal.market_data.candle_contract import candle_is_complete
+    from hakimi_research.candle_contract import candle_is_complete
     from exchange_terminal.market_data.provider_health import provider_call_allowed, record_provider_call
     from exchange_terminal.services.corporate_action_ledger import (
         CorporateActionLedger,
         build_adjustment_evidence,
-        infer_adjustment_basis,
         parse_yahoo_corporate_actions,
     )
     from exchange_terminal.services.market_data_revision_ledger import (
@@ -106,7 +104,15 @@ except ModuleNotFoundError:
         build_market_data_snapshot,
     )
     from exchange_terminal.services.sqlite_runtime import connect_runtime_sqlite, require_runtime_writable
-    from exchange_terminal.utils import now_ms, pct
+    from hakimi_research.terminal_utils import now_ms, pct
+
+from hakimi_research.stock_candle_revision_policy import (
+    canonical_adjusted_price as _canonical_adjusted_price,
+    infer_adjustment_basis,
+    prepare_stock_candle_revision_policy,
+    series_adjustment_contract as _series_adjustment_contract,
+    stock_candle_source_priority as _stock_candle_source_priority,
+)
 
 
 STOCK_EXTERNAL_FAILURE_CACHE: dict[str, dict[str, Any]] = {}
@@ -123,33 +129,6 @@ _PROVIDER_OBSERVATION_SCOPES = {"AUTHORITATIVE_FULL", "QUERY_WINDOW"}
 def _canonical_hash(payload: Any) -> str:
     raw = json.dumps(payload, ensure_ascii=True, sort_keys=True, separators=(",", ":"), default=str)
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
-
-
-def _stock_candle_source_priority(source: str) -> int:
-    text = str(source or "").strip().lower()
-    if "futu" in text:
-        return 40
-    if "yahoo_adjusted" in text:
-        return 30
-    if "yahoo" in text:
-        return 20
-    if "stooq" in text:
-        return 10
-    return 0
-
-
-def _series_adjustment_contract(sources: list[str]) -> tuple[str, str]:
-    bases = {infer_adjustment_basis(source) for source in sources if source}
-    if bases and bases <= _COMPATIBLE_FORWARD_ADJUSTED_BASES:
-        basis = (
-            "FORWARD_ADJUSTED_TOTAL_RETURN"
-            if "FORWARD_ADJUSTED_TOTAL_RETURN" in bases
-            else "FORWARD_ADJUSTED_QFQ"
-        )
-        return basis, "EMBEDDED_PROVIDER_CONTRACT"
-    if len(bases) == 1:
-        return next(iter(bases)), "UNKNOWN"
-    return "MIXED_UNVERIFIED", "UNKNOWN"
 
 
 def _read_only_stock_snapshot_attestation(
@@ -223,10 +202,6 @@ def _read_only_stock_snapshot_attestation(
     }
     payload["attestation_hash"] = _canonical_hash(payload)
     return payload
-
-
-def _canonical_adjusted_price(value: float) -> float:
-    return round(float(value), 4)
 
 
 def enrich_stock_series_contract(
@@ -361,19 +336,13 @@ def prepare_stock_candle_cache_rows(
     meta = stock_meta(symbol)
     normalized_interval = stock_cache_interval(interval)
     clean_session = clean_stock_session(session)
+    native_rows = rows if type(rows) is list else []
     normalized = [
-        item for item in (normalize_stock_cache_candle(row, meta["symbol"]) for row in rows)
+        item for item in (normalize_stock_cache_candle(row, meta["symbol"]) for row in native_rows)
         if item and item.get("ts")
     ]
-    result = {
-        "rows": normalized,
-        "chain_linked": False,
-        "price_scale": 1.0,
-        "anchor_date": "",
-        "source": str(source or ""),
-    }
     if normalized_interval not in {"1d", "1dutc"} or not normalized:
-        return result
+        return prepare_stock_candle_revision_policy(normalized, [], source, normalized_interval)
 
     conn = ensure_stock_candle_cache_db()
     try:
@@ -389,76 +358,12 @@ def prepare_stock_candle_cache_rows(
         ).fetchall()]
     finally:
         conn.close()
-    if not existing_rows:
-        return result
-
-    incoming_priority = _stock_candle_source_priority(source)
-    maximum_existing_priority = max(_stock_candle_source_priority(row.get("source", "")) for row in existing_rows)
-    if incoming_priority > maximum_existing_priority:
-        incoming_basis = infer_adjustment_basis(source)
-        existing_bases = {
-            infer_adjustment_basis(str(row.get("source") or ""))
-            for row in existing_rows
-        }
-        if (
-            incoming_basis in _COMPATIBLE_FORWARD_ADJUSTED_BASES
-            and not (existing_bases & _COMPATIBLE_FORWARD_ADJUSTED_BASES)
-        ):
-            result["verified_provider_upgrade"] = True
-            return result
-
-    existing_by_date = {str(row.get("date") or ""): row for row in existing_rows}
-    new_dates = [str(row.get("date") or "") for row in normalized if str(row.get("date") or "") not in existing_by_date]
-    incoming_basis = infer_adjustment_basis(source)
-    compatible_existing = [
-        row for row in existing_rows
-        if infer_adjustment_basis(str(row.get("source") or "")) in _COMPATIBLE_FORWARD_ADJUSTED_BASES
-    ]
-    if incoming_basis not in _COMPATIBLE_FORWARD_ADJUSTED_BASES or len(compatible_existing) != len(existing_rows):
-        if new_dates:
-            raise ValueError("daily_adjustment_basis_incompatible_with_cached_vintage")
-        return result
-
-    ratios: list[tuple[str, float]] = []
-    for row in normalized:
-        trading_date = str(row.get("date") or "")
-        existing = existing_by_date.get(trading_date)
-        incoming_close = float(row.get("close") or 0.0)
-        existing_close = float((existing or {}).get("close") or 0.0)
-        if existing and candle_is_complete(existing, default_if_missing=False) and incoming_close > 0 and existing_close > 0:
-            ratios.append((trading_date, existing_close / incoming_close))
-    if new_dates and not ratios:
-        raise ValueError("daily_adjustment_vintage_has_no_overlap_anchor")
-
-    scale = median([item[1] for item in ratios]) if ratios else 1.0
-    if not 0.02 <= scale <= 50.0:
-        raise ValueError("daily_adjustment_vintage_scale_out_of_range")
-    if ratios:
-        dispersion = max(abs(value / max(scale, 1e-12) - 1.0) for _date, value in ratios)
-        if dispersion > 0.0025:
-            raise ValueError("daily_adjustment_vintage_overlap_is_not_uniform")
-
-    prepared: list[dict[str, Any]] = []
-    for row in normalized:
-        trading_date = str(row.get("date") or "")
-        existing = existing_by_date.get(trading_date)
-        if existing and candle_is_complete(existing, default_if_missing=False):
-            prepared.append({**row, **existing})
-            continue
-        adjusted = dict(row)
-        for field in ("open", "high", "low", "close"):
-            adjusted[field] = _canonical_adjusted_price(float(adjusted[field]) * scale)
-        adjusted["volume"] = float(adjusted.get("volume") or 0.0) / scale
-        prepared.append(adjusted)
-    result.update({
-        "rows": prepared,
-        "chain_linked": bool(new_dates) and abs(scale - 1.0) > 1e-8,
-        "price_scale": scale,
-        "anchor_date": max((item[0] for item in ratios), default=""),
-        "overlap_count": len(ratios),
-        "new_date_count": len(new_dates),
-    })
-    return result
+    return prepare_stock_candle_revision_policy(
+        normalized,
+        existing_rows,
+        source,
+        normalized_interval,
+    )
 
 
 def upsert_stock_candle_cache(
@@ -1346,9 +1251,12 @@ def fetch_stooq_stock_candles(symbol: str, limit: int, normalized_interval: str,
                 continue
             date_text = row.get("Date", "")
             try:
-                ts = int(time.mktime(time.strptime(date_text, "%Y-%m-%d")) * 1000)
-            except Exception:
-                ts = now_ms()
+                local_date = datetime.strptime(date_text, "%Y-%m-%d").replace(
+                    tzinfo=stock_timezone(symbol)
+                )
+                ts = int(local_date.timestamp() * 1000)
+            except (TypeError, ValueError, OverflowError, OSError):
+                continue
             rows.append({
                 "ts": ts,
                 "date": date_text,

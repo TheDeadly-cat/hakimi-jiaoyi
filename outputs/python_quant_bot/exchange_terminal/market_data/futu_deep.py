@@ -6,13 +6,13 @@ from typing import Any
 try:
     from config import FUTU_HOST, FUTU_PORT, LIVE_TRADING_HARD_BLOCK
     from market_data.futu import futu_status_snapshot, import_futu_sdk
-    from market_data.stocks import futu_code, stock_meta
+    from hakimi_research.stock_metadata import futu_code, stock_meta
     from utils import clean_json_value, now_ms, pct
 except ModuleNotFoundError:
-    from exchange_terminal.config import FUTU_HOST, FUTU_PORT, LIVE_TRADING_HARD_BLOCK
+    from hakimi_research.terminal_config import FUTU_HOST, FUTU_PORT, LIVE_TRADING_HARD_BLOCK
     from exchange_terminal.market_data.futu import futu_status_snapshot, import_futu_sdk
-    from exchange_terminal.market_data.stocks import futu_code, stock_meta
-    from exchange_terminal.utils import clean_json_value, now_ms, pct
+    from hakimi_research.stock_metadata import futu_code, stock_meta
+    from hakimi_research.terminal_utils import clean_json_value, now_ms, pct
 
 
 FUTU_DEEP_CACHE: dict[str, dict[str, Any]] = {}

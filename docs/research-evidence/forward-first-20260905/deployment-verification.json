@@ -1,0 +1,67 @@
+{
+  "schema_version": "deployed-forward-first-observation-v1",
+  "cutoff": "2026-09-05T14:00:00Z",
+  "records": [
+    {
+      "strategy": "dual_ma",
+      "plan": "forward_plan_61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c.json",
+      "plan_file_sha256": "c9d7e9bcab55a439758fd733dccce49fb0f976b14a1667b06b33887128a8d4ff",
+      "record": "forward_observation_fcf1aba7f3651f39e2cb73307c1f2f21fd514b950dc836c5565a9aaf52b55329.json",
+      "record_file_sha256": "22e006b4b0e2f3bfd0bc78f7b97279300d12c4e02b4cc9df357395c939895ad1",
+      "record_hash": "279eb471c686fc723f367833ce6239b790da4ac234385a07acf2e7df11d34cab",
+      "signal_available_at": "2026-09-05T14:04:02.249879Z",
+      "timing_status": "ON_TIME",
+      "lateness_seconds": 242.249879,
+      "replay": {
+        "status": "VERIFIED",
+        "record_hash": "279eb471c686fc723f367833ce6239b790da4ac234385a07acf2e7df11d34cab",
+        "original_recorded_at_utc": "2026-09-05T14:04:02.249879Z",
+        "original_timing_status": "ON_TIME",
+        "new_observation_created": false
+      }
+    },
+    {
+      "strategy": "rsi",
+      "plan": "forward_plan_8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5.json",
+      "plan_file_sha256": "f0d7e72a3b4c91e5fbadb4a7ca67025b724d03f39a63c4412a7915bc8258453a",
+      "record": "forward_observation_835eaec1a76e1af226846b78d1f9fec0d6cebc6f083d71b410864af96e5c9a15.json",
+      "record_file_sha256": "d6e5c5f10bc6f9cf5037674c52b46d13d5e6105f018422950690b51ab6d87ae7",
+      "record_hash": "9dff145db6697b6e9605ab3b4636c0f5355867dda309d3f8472c4f76388bb048",
+      "signal_available_at": "2026-09-05T14:04:03.789670Z",
+      "timing_status": "ON_TIME",
+      "lateness_seconds": 243.78967,
+      "replay": {
+        "status": "VERIFIED",
+        "record_hash": "9dff145db6697b6e9605ab3b4636c0f5355867dda309d3f8472c4f76388bb048",
+        "original_recorded_at_utc": "2026-09-05T14:04:03.789670Z",
+        "original_timing_status": "ON_TIME",
+        "new_observation_created": false
+      }
+    }
+  ],
+  "observations": 2,
+  "replays_verified": 2,
+  "actual_account_position_observed": false,
+  "state_policy": "FLAT_REFERENCE_OBSERVATION",
+  "automatic_backfill": false,
+  "raw_market_data_published": false,
+  "immutable_originals_preserved": true,
+  "initial_cycle_note": "First records were created at actual14:04 and copied byte-for-byte into the deployed hourly layout; retries/replay retained the original clocks.",
+  "scheduler": {
+    "name": "哈基米只读前向观察",
+    "kind": "heartbeat",
+    "status": "ACTIVE",
+    "cadence": "Every hour at minute01 on this Windows host",
+    "configuration_sha256": "6abfcb0256d103591e2ae5c370db42c50d6f3789e677866c1ff2ee4f6d1dc438",
+    "first_scheduled_invocation_observed": false
+  },
+  "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "accepted_wheel_sha256": "b93952ddee0d16424292e75e5a3e7b0dfe10ac06d12f1333fa276922d08649fb",
+  "driver_sha256": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b",
+  "limits": [
+    "The computer and app must remain running for scheduled local work.",
+    "Future scheduler reliability is not established by one manually invoked cycle.",
+    "Local clock readings are not externally signed timestamps or proof of clock synchronization.",
+    "Signals use a declared flat reference input and never represent account holdings or orders."
+  ]
+}

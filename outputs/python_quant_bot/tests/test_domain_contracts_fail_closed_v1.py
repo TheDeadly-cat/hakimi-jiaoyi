@@ -76,7 +76,7 @@ class DomainContractsFailClosedV1Tests(unittest.TestCase):
             {"product_mode": "paper"},
             {"capability_statuses": (("historical_backtest", "Supported"),)},
             {"cli_bindings": (("backtest", "paper_execution"),)},
-            {"schema_version": "product-capability-catalog-v2"},
+            {"schema_version": "product-capability-catalog-v3"},
         )
         for overrides in invalid:
             with self.subTest(overrides=overrides):

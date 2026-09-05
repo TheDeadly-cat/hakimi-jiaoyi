@@ -1,0 +1,31 @@
+{
+  "schema_version": "dataset-governance-v1",
+  "dataset_id": "synthetic-frozen-oos-cost-stress-v2",
+  "source": {
+    "provider_id": "deterministic-local-fixture",
+    "source_kind": "SYNTHETIC_FIXTURE",
+    "retrieved_at": "2026-08-31T00:00:00Z",
+    "source_manifest_sha256": "1268f7664e17c6b2ff9da42659a571465e17941af8e7b01a21d938571fe2f7bb"
+  },
+  "time": {
+    "timezone": "UTC",
+    "trading_calendar": "SYNTHETIC_DAILY",
+    "bar_timestamp_semantics": "PERIOD_END",
+    "session_policy": "SYNTHETIC_FIXED_DAILY"
+  },
+  "adjustment": {
+    "basis": "NOT_APPLICABLE",
+    "corporate_action_source": "NOT_APPLICABLE",
+    "dividend_treatment": "NOT_APPLICABLE"
+  },
+  "population": {
+    "policy": "SYNTHETIC_FIXED_SINGLE_INSTRUMENT",
+    "survivorship_bias_status": "NOT_APPLICABLE",
+    "delisting_policy": "NOT_APPLICABLE",
+    "universe_snapshot_sha256": "bc3935936cec4bf6c0ace63a7b3a0dfb1991d175dca88e640d1f0bc5b60a9fd9"
+  },
+  "limitations": [
+    "NOT_REAL_MARKET_DATA",
+    "SYNTHETIC_FIXTURE_ONLY"
+  ]
+}

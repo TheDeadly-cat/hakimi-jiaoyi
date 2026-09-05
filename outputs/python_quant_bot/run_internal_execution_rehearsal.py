@@ -8,6 +8,11 @@ from pathlib import Path
 import time
 from typing import Any
 
+_ADR0524_REPO_ROOT = Path(__file__).resolve().parents[2]
+_ADR0524_SRC_ROOT = _ADR0524_REPO_ROOT / "src"
+if str(_ADR0524_SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ADR0524_SRC_ROOT))
+
 from exchange_terminal.services.portfolio_execution_rehearsal import (
     run_research_report_execution_rehearsal,
 )

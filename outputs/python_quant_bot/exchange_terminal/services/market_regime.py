@@ -6,10 +6,7 @@ import math
 from statistics import fmean, pstdev
 from typing import Any
 
-try:
-    from market_data.candle_contract import candle_is_complete
-except ModuleNotFoundError:
-    from exchange_terminal.market_data.candle_contract import candle_is_complete
+from hakimi_research.candle_contract import candle_is_complete
 
 
 MARKET_REGIME_SCHEMA_VERSION = "causal-market-regime-v1"
