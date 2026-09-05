@@ -322,6 +322,7 @@ jobs:
       PIP_DISABLE_PIP_VERSION_CHECK: "1"
       PIP_NO_INPUT: "1"
       PYTHONDONTWRITEBYTECODE: "1"
+      RESEARCH_REVIEWED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     defaults:
       run:
         shell: pwsh
@@ -343,7 +344,18 @@ jobs:
         run: python -m pip install "setuptools>=77" wheel
 
       - name: Build wheel and verify fresh installation outside checkout
-        run: python tools/verify_wheel.py
+        run: python tools/verify_wheel.py --public-bundle-dir "${{ runner.temp }}/research-release-bundle"
+
+      - name: Upload the exact accepted wheel and sanitized evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: hakimi-research-${{ matrix.os }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/research-release-bundle
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+          overwrite: false
+          include-hidden-files: false
 
   research-required:
     name: Research required gate

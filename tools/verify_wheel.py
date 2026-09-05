@@ -12,11 +12,14 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import platform
 import shutil
 import subprocess
 import sys
 import tempfile
 import venv
+
+from release_wheel_bundle import export_bundle
 
 
 def main() -> None:
@@ -26,6 +29,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--wheelhouse", type=Path)
     parser.add_argument("--work-dir", type=Path)
+    parser.add_argument("--public-bundle-dir", type=Path, help="New directory for the exact accepted wheel and sanitized public evidence")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     if (root / "requirements.research.lock").read_bytes() != (root / "src/hakimi_research/resources/requirements.research.lock").read_bytes():
@@ -93,6 +97,7 @@ def main() -> None:
     if len(wheels) != 1:
         raise RuntimeError("Expected exactly one built research wheel")
     wheel = wheels[0]
+    accepted_wheel_sha256 = hashlib.sha256(wheel.read_bytes()).hexdigest()
     environment = work / "venv"
     venv.EnvBuilder(with_pip=True, system_site_packages=False).create(environment)
     python = environment / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
@@ -132,35 +137,60 @@ def main() -> None:
     # import of the research package. Copy its explicit fixture dependency too.
     # No checkout source or PYTHONPATH is made available to installed commands.
     test_support = {}
-    for relative in ("scripts/reconcile_research_ledger.py",):
+    for relative in ("scripts/reconcile_research_ledger.py", "tools/run_installed_acceptance.py"):
         destination = outside / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(root / relative, destination)
         test_support[relative] = hashlib.sha256(destination.read_bytes()).hexdigest()
     if not list(tests.glob("test_*.py")):
         raise RuntimeError("No MVP tests found for installed-package acceptance")
-    run([str(python), "-m", "unittest", "discover", "-s", str(tests), "-p", "test_*.py", "-v"])
+    test_inputs = {
+        "tests/" + path.relative_to(tests).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in sorted(tests.rglob("*"))
+        if path.is_file() and path.suffix in {".py", ".json"} and "repository_only" not in path.relative_to(tests).parts
+    }
+    test_result_path = work / "installed-test-results.json"
+    run([str(python), str(outside / "tools/run_installed_acceptance.py"), "--tests", str(tests), "--output", str(test_result_path)])
+    test_execution = json.loads(test_result_path.read_text(encoding="utf-8"))
     if identity_module.package_content_identity(root / "src/hakimi_research") != original_identity:
         raise RuntimeError("Source changed during wheel acceptance; rerun on the final source snapshot")
     if any(hashlib.sha256((root / name).read_bytes()).hexdigest() != expected for name, expected in build_inputs.items()):
         raise RuntimeError("Build inputs changed during wheel acceptance; rerun on the final snapshot")
     if any(hashlib.sha256((root / name).read_bytes()).hexdigest() != expected for name, expected in test_support.items()):
         raise RuntimeError("Independent audit support changed during wheel acceptance")
+    if any(hashlib.sha256((root / name).read_bytes()).hexdigest() != expected for name, expected in test_inputs.items()):
+        raise RuntimeError("Test inputs changed during wheel acceptance")
+    if hashlib.sha256(wheel.read_bytes()).hexdigest() != accepted_wheel_sha256:
+        raise RuntimeError("Wheel bytes changed after installation; no accepted artifact can be exported")
     receipt = {
         "schema_version": "research-wheel-acceptance-v1", "status": "PASS",
-        "wheel": str(wheel), "wheel_sha256": hashlib.sha256(wheel.read_bytes()).hexdigest(),
+        "wheel": str(wheel), "wheel_sha256": accepted_wheel_sha256,
         "python": str(python), "outside_directory": str(outside),
         "editable": False, "pythonpath_used": False, "system_site_packages": False,
         "installed_runtime": provenance,
         "source_checkout_unchanged": True,
         "build_inputs_sha256": build_inputs,
         "independent_test_support_sha256": test_support,
+        "test_inputs_sha256": test_inputs,
+        "test_execution": test_execution,
+        "runner_system": platform.system(),
         "tests": sorted(path.name for path in tests.glob("test_*.py")),
         "console_smoke_commands": ["--help", "capabilities", "list-strategies"],
     }
     receipt_path = work / "wheel-acceptance.json"
     receipt_path.write_text(json.dumps(receipt, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
     print(f"Wheel acceptance receipt: {receipt_path}")
+    ci_context = None
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        ci_context = {
+            "checkout_sha": os.environ.get("GITHUB_SHA", ""),
+            "reviewed_head_sha": os.environ.get("RESEARCH_REVIEWED_HEAD_SHA", ""),
+            "run_id": os.environ.get("GITHUB_RUN_ID", ""),
+            "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT", ""),
+        }
+    public_bundle = args.public_bundle_dir.resolve() if args.public_bundle_dir else work / "public-bundle"
+    export_bundle(receipt, public_bundle, ci_context=ci_context)
+    print(f"Sanitized accepted-wheel bundle: {public_bundle}")
 
 
 if __name__ == "__main__":

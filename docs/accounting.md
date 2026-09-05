@@ -115,7 +115,10 @@ any reported estimator is unavailable; otherwise the aggregate is only
 
 ## Execution and shared capacity
 
-The default unlimited approximation is `signal-close-next-open-ohlc-v5`.
+The default unlimited approximation is `signal-close-next-open-ohlc-v6`.
+Opening protection on the position carried into a bar precedes any pending
+signal. The exact event order, cancelled-signal policy and opening target pricing
+are specified in [Execution timing](execution-timing.md).
 A decision based on the previous bar's close is priced at the next bar's open,
 with configured directional slippage and notional fees. Protective exits use
 the OHLC range, resolve simultaneous stop/target hits stop first, and include a
@@ -123,7 +126,7 @@ gap-open stop price when the opening price is already through the stop. This is
 a historical approximation, not an order-book or intrabar-path reconstruction.
 
 If explicitly enabled, volume participation selects the separate model
-`signal-close-next-open-price-ex-post-shared-volume-v5`. It uses the final bar's
+`signal-close-next-open-price-ex-post-shared-volume-v6`. It uses the final bar's
 base-asset volume multiplied by participation as an **ex-post capacity estimate**.
 The next-open price does not imply that the final bar volume was available at the
 open. Fill bases explicitly append `_EX_POST_VOLUME_CAPACITY`, and order records

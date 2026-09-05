@@ -76,7 +76,7 @@ class QuantBotBacktestTests(unittest.TestCase):
         config = self.config()
         report = BacktestEngine(config, OneShotStrategy(), RiskManager(config.risk)).run(frame)
 
-        self.assertEqual(report.execution_model, "signal-close-next-open-ohlc-v5")
+        self.assertEqual(report.execution_model, "signal-close-next-open-ohlc-v6")
         self.assertEqual(report.to_dict()["metric_semantics_version"], "research-accounting-score-start-v2")
         self.assertEqual(report.equity_curve[0]["point"], "INITIAL")
         self.assertEqual(report.equity_curve[0]["equity"], config.initial_cash)

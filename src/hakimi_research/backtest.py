@@ -20,8 +20,8 @@ from hakimi_research.risk import RiskManager
 from hakimi_research.strategies.base import StrategyBase
 
 
-EXECUTION_MODEL_VERSION = "signal-close-next-open-ohlc-v5"
-EX_POST_CAPACITY_MODEL_VERSION = "signal-close-next-open-price-ex-post-shared-volume-v5"
+EXECUTION_MODEL_VERSION = "signal-close-next-open-ohlc-v6"
+EX_POST_CAPACITY_MODEL_VERSION = "signal-close-next-open-price-ex-post-shared-volume-v6"
 METRIC_SEMANTICS_VERSION = "research-accounting-score-start-v2"
 MIN_STATISTICAL_RETURN_OBSERVATIONS = 30
 RESEARCH_BACKTEST_WARMUP_ROWS = 30
@@ -391,11 +391,41 @@ class _BacktestEngineCore:
             if session != active_session:
                 self._risk.reset_day(previous_close_equity)
                 active_session = session
-            order = self._risk.signal_to_order(
-                self._config.symbol, pending_signal, portfolio, open_price,
-                fee_rate=self._config.execution.fee_rate,
-                slippage_pct=self._config.execution.slippage_pct,
-            )
+
+            # Existing protection belongs to the position carried into this bar.
+            # A pending addition must not move its already-triggered threshold.
+            opening_quantity = portfolio.position_qty
+            opening_entry_price = portfolio.avg_entry_price
+            opening_stop = opening_entry_price * (1 - abs(active_stop_loss)) if active_stop_loss is not None else 0.0
+            opening_target = opening_entry_price * (1 + abs(active_take_profit)) if active_take_profit is not None else 0.0
+            opening_protection = None
+            if opening_quantity > 0 and opening_entry_price > 0:
+                if opening_stop and open_price <= opening_stop:
+                    opening_protection = (open_price, "existing position opening stop", "GAP_OPEN")
+                elif opening_target and open_price >= opening_target:
+                    # Keep the declared conservative target price; do not invent
+                    # improvement from a limit crossed at the observed open.
+                    opening_protection = (opening_target, "existing position opening take profit", "OPEN_TARGET")
+            if opening_protection is not None:
+                raw_exit, reason, basis = opening_protection
+                execute(
+                    Order(self._config.symbol, Action.SELL, opening_quantity, raw_exit, reason),
+                    signal_time=fill_time, fill_time=fill_time, basis=basis,
+                )
+                if portfolio.position_qty <= 0:
+                    active_stop_loss = active_take_profit = None
+                # This pending decision predates the protection event. Cancel it
+                # even when capacity rejects or only partly fills the exit. A
+                # fresh close decision may become eligible on the following bar.
+                signal_records[-1]["execution_disposition"] = "CANCELLED_OLD_POSITION_OPEN_PROTECTION"
+                signal_records[-1]["cancelled_at_bar_time"] = fill_time
+                order = None
+            else:
+                order = self._risk.signal_to_order(
+                    self._config.symbol, pending_signal, portfolio, open_price,
+                    fee_rate=self._config.execution.fee_rate,
+                    slippage_pct=self._config.execution.slippage_pct,
+                )
             if order is not None:
                 fill = execute(order, signal_time=pending_signal_time, fill_time=fill_time, basis="NEXT_BAR_OPEN")
                 if fill is not None and order.action is Action.BUY and self._benchmark_policy == STANDARD_RISK_POLICY:
@@ -403,7 +433,11 @@ class _BacktestEngineCore:
                     active_take_profit = pending_signal.take_profit_pct
                 elif portfolio.position_qty <= 0:
                     active_stop_loss = active_take_profit = None
-            if portfolio.position_qty > 0 and portfolio.avg_entry_price > 0:
+            # An opening protective attempt has already used the shared capacity.
+            # Its remainder is not retried against the same bar's OHLC; unchanged
+            # protection remains active for the next bar. Other new/reduced/added
+            # positions are protected intrabar after their ordinary opening fill.
+            if opening_protection is None and portfolio.position_qty > 0 and portfolio.avg_entry_price > 0:
                 stop_price = portfolio.avg_entry_price * (1 - abs(active_stop_loss)) if active_stop_loss is not None else 0.0
                 target_price = portfolio.avg_entry_price * (1 + abs(active_take_profit)) if active_take_profit is not None else 0.0
                 stop_hit = bool(stop_price and (open_price <= stop_price or low <= stop_price))
@@ -519,6 +553,11 @@ class _BacktestEngineCore:
                 **self._risk.describe_semantics(),
                 "execution_policy": self._benchmark_policy,
                 "protective_exits_enabled": self._benchmark_policy == STANDARD_RISK_POLICY,
+                "bar_event_order": "OLD_POSITION_OPEN_PROTECTION_THEN_PENDING_SIGNAL_THEN_INTRABAR_PROTECTION_THEN_CLOSE_MARK",
+                "opening_target_price_policy": "TARGET_PRICE_WITHOUT_ASSUMED_OPEN_IMPROVEMENT",
+                "opening_protection_pending_signal_policy": "CANCEL_PENDING_ON_TRIGGER_EVEN_IF_EXIT_PARTIAL_OR_REJECTED",
+                "opening_protection_remainder_policy": "ONE_ATTEMPT_THIS_BAR_RETAIN_THRESHOLDS_FOR_NEXT_BAR",
+                "same_bar_reentry_policy": "DISALLOWED_AFTER_OPEN_PROTECTION_FRESH_CLOSE_SIGNAL_REQUIRED_FOR_LATER_BAR",
                 "benchmark_policy": "EXPLICIT_NO_STOPS_NO_TARGETS_SINGLE_INITIAL_ATTEMPT" if self._benchmark_policy == BUY_AND_HOLD_POLICY else "NOT_APPLICABLE",
             }, scoring=scoring,
         )

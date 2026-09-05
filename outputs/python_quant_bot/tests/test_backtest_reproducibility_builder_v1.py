@@ -63,7 +63,7 @@ class BacktestReproducibilityBuilderV1Tests(unittest.TestCase):
             BASELINE_REPRODUCIBILITY_HASH,
         )
         self.assertEqual(expected["scoring"]["metric_semantics_version"], "research-accounting-score-start-v2")
-        self.assertEqual(expected["execution_model"], "signal-close-next-open-ohlc-v5")
+        self.assertEqual(expected["execution_model"], "signal-close-next-open-ohlc-v6")
         repeated, _ = _build(synthetic_frame(), config(), context())
         self.assertEqual(expected, repeated)
 

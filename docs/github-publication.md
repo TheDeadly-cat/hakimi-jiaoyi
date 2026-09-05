@@ -1,5 +1,9 @@
 # Integration and GitHub publication
 
+> Historical integration snapshot for the first MVP publication. Current build,
+> CI, branch protection and research evidence are indexed in
+> [CURRENT_STATUS.md](../CURRENT_STATUS.md).
+
 This change integrates the completed Windows CLI MVP from commit
 `c6399410824a40d07c20e7e66b8d8de7584253c8` with the existing
 `codex/research-platform-hardening` branch. The original development history and

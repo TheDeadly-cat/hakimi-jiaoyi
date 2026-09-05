@@ -211,6 +211,15 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
         self.assertTrue((REPO_ROOT / "tools" / "verify_wheel.py").is_file())
         self.assertIn("os: [windows-latest, ubuntu-latest]", package_job)
         self.assertIn("fail-fast: false", package_job)
+        self.assertIn('uses: actions/upload-artifact@v7', package_job)
+        self.assertIn('python tools/verify_wheel.py --public-bundle-dir "${{ runner.temp }}/research-release-bundle"', package_job)
+        self.assertIn('path: ${{ runner.temp }}/research-release-bundle', package_job)
+        self.assertIn('name: hakimi-research-${{ matrix.os }}-${{ github.sha }}-${{ github.run_attempt }}', package_job)
+        self.assertIn('RESEARCH_REVIEWED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}', package_job)
+        self.assertIn('if-no-files-found: error', package_job)
+        self.assertIn('overwrite: false', package_job)
+        self.assertIn('include-hidden-files: false', package_job)
+        self.assertNotIn('if: ${{ always() }}', package_job.split('  research-required:\n', 1)[0])
 
     def test_stacked_pull_requests_trigger_and_later_steps_collect_evidence(self) -> None:
         pull_request = self.workflow.split("  pull_request:\n", 1)[1].split(

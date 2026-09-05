@@ -1,5 +1,7 @@
 # Hakimi Jiaoyi
 
+[当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
+
 本地、可安装、可重放的研究软件。正式 MVP 聚焦 **BTC-USDT 现货 / 1h / 现货与现金 / 固定参数 / CLI**。
 固定快照经唯一的 `ExperimentRunner` 生成账本、指标和来源报告。
 历史模拟不授予 paper、live、账户操作、下单或自动参数选择权限。
@@ -22,9 +24,9 @@ hakimi-research list-strategies
 ```powershell
 python -m pip install "setuptools>=77" wheel
 python -m pip wheel . --no-deps --no-build-isolation --wheel-dir dist
-python -m venv C:\research\hakimi-env
-C:\research\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.2.0-py3-none-any.whl
-Set-Location C:\research
+python -m venv ..\hakimi-research-use\hakimi-env
+..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.2.1-py3-none-any.whl
+Set-Location ..\hakimi-research-use
 .\hakimi-env\Scripts\hakimi-research.exe capabilities
 ```
 
@@ -40,10 +42,10 @@ Set-Location C:\research
 先导入本地采集 JSON，再绑定显式实验规约、运行研究、只读查看和离线重放：
 
 ```powershell
-hakimi-research snapshot-import --capture C:\research\capture.json --output-dir C:\research\artifacts
-hakimi-research research --snapshot C:\research\artifacts\datasets\dataset_<snapshot_id>.json --spec C:\research\experiment.json --output-dir C:\research\artifacts
-hakimi-research report-show --report C:\research\artifacts\reports\research_<report_hash>.json
-hakimi-research replay --snapshot C:\research\artifacts\datasets\dataset_<snapshot_id>.json --report C:\research\artifacts\reports\research_<report_hash>.json --output-dir C:\research\artifacts
+hakimi-research snapshot-import --capture .\capture.json --output-dir .\artifacts
+hakimi-research research --snapshot .\artifacts\datasets\dataset_<snapshot_id>.json --spec .\experiment.json --output-dir .\artifacts
+hakimi-research report-show --report .\artifacts\reports\research_<report_hash>.json
+hakimi-research replay --snapshot .\artifacts\datasets\dataset_<snapshot_id>.json --report .\artifacts\reports\research_<report_hash>.json --output-dir .\artifacts
 ```
 
 尖括号部分需替换为命令打印的完整路径/身份。`backtest` 与 `research` 调用同一个离线 runner，均要求 `--snapshot` 和 `--spec`；旧 `--config` Provider 流程被拒绝。
@@ -52,7 +54,7 @@ hakimi-research replay --snapshot C:\research\artifacts\datasets\dataset_<snapsh
 CSV 导入必须有明确来源、产品/周期/单位、UTC 区间和完成状态声明，不能只靠任意配置贴标签：
 
 ```powershell
-hakimi-research snapshot-import --csv C:\research\candles.csv --metadata C:\research\csv-metadata.json --output-dir C:\research\artifacts
+hakimi-research snapshot-import --csv .\candles.csv --metadata .\csv-metadata.json --output-dir .\artifacts
 ```
 
 修订时可传 `--predecessor <旧快照路径>` 建立版本关系。新数据产生新身份；已有快照和报告不覆盖。相同内容重试幂等，不同内容冲突报错。
@@ -81,7 +83,7 @@ python -c "from importlib.resources import files; from pathlib import Path; Path
 采集是独立源码工具，不由研究或重放调用。需要联网时，由用户明确执行固定公开 GET：
 
 ```powershell
-python tools/collect_btc_snapshot.py --start 2026-08-01T00:00:00Z --end 2026-09-01T00:00:00Z --output-dir C:\research\artifacts
+python tools/collect_btc_snapshot.py --start 2026-08-01T00:00:00Z --end 2026-09-01T00:00:00Z --output-dir .\artifacts
 ```
 
 仅请求 OKX BTC-USDT 现货 1h 历史蜡烛；不使用交易账户凭据、订单路由、回退缓存或自动重试。

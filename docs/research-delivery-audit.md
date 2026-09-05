@@ -1,5 +1,9 @@
 # T0/T1/T3/T7 delivery audit — 2026-09-05
 
+> Historical acceptance snapshot. Commit, CI and installation statements below
+> refer to that snapshot. See [CURRENT_STATUS.md](../CURRENT_STATUS.md) for the
+> current build and evidence; original audit records are preserved.
+
 Scope: the supplied review, the subsequently supplied
 `development_task_outline.md`, and its ZIP README. The ZIP explicitly describes
 formula-level spot checks rather than a full repository or Windows runtime run;
