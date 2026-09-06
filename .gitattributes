@@ -93,13 +93,17 @@ archive/historical_research/adr0532_data.py -text diff merge -whitespace
 docs/research-evidence/** -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
 
 # The forward scheduler pins these deployed bytes in its promotion receipt.
-tools/forward_reliability.py -text diff merge
-docs/studies/forward-reliability-plan-20260906.json -text diff merge
+tools/forward_reliability.py -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/studies/forward-reliability-plan-20260906.json -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
 
 # Study execution and view receipts also identify exact orchestration inputs.
-tools/run_continuous_study.py -text diff merge
-tools/run_strategy_diagnostics.py -text diff merge
-tools/build_research_view.py -text diff merge
-tools/repeat_pipeline_profile.py -text diff merge
-docs/studies/continuous-plan-20260906.json -text diff merge
-docs/studies/strategy-diagnostics-plan-20260906.json -text diff merge
+tools/run_continuous_study.py -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+tools/run_strategy_diagnostics.py -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+tools/build_research_view.py -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/research-view.md -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+tools/repeat_pipeline_profile.py -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/studies/continuous-plan-20260906.json -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/studies/strategy-diagnostics-plan-20260906.json -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# Accepted wheels keep their exact bytes and use binary review/merge semantics.
+docs/research-evidence/**/*.whl binary
