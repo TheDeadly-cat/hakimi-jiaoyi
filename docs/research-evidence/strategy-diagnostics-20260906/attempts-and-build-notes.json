@@ -1,0 +1,47 @@
+{
+  "canonical_replay_budget": 16,
+  "configuration_searches": 0,
+  "configurations_changed_after_variant_results": 0,
+  "live_allowed": false,
+  "notes": [
+    {
+      "description": "Frozen rules and16-cell budget unchanged. Corrected zero-cost benchmark wording: no canonical same-cost buy-hold report exists, so that comparison remains null.",
+      "kind": "PLAN_WORDING_CLARIFICATION_BEFORE_RESULTS"
+    },
+    {
+      "description": "Initial daily-risk-rejection test mistakenly requested illegal zero max-position risk. Replaced fixture with real50percent daily-equity-loss rejection. No runtime rule changed.",
+      "kind": "TEST_FIXTURE_CORRECTION"
+    },
+    {
+      "description": "Initial same-event post-stop reentry counter used first entry event and counted41. Refined counter uses event known at the close before protective exit, including later adds, and counts107. Both33-original-report receipts retained. Refined analysis completed before first D1 historical result. No strategy or budget change.",
+      "initial_receipt_sha256": "3650af820bebd77c60c01a219aa0db4f35537265a24402f2759225efe257df9a",
+      "kind": "ORIGINAL_ANALYSIS_COUNTER_REFINEMENT",
+      "refined_receipt_sha256": "fd76dcd2b64195172ffc977639f270b5be061c2b3dab231f6ce24cc5d553b301"
+    },
+    {
+      "description": "After101-test exact-wheel acceptance, added one opening-protection cancellation/event-consumption test. All12 diagnostic tests passed against that same installed wheel; the original acceptance receipt still truthfully records101.",
+      "kind": "ADDITIONAL_BOUNDARY_TEST"
+    },
+    {
+      "description": "Second isolated venv consumes the same exact wheel. Bounded available-cell batches reuse prior canonical replay receipts and recheck their independent ledger. Unique canonical replay budget remains16; repeated receipt/Decimal checks are not counted as extra independent experiments.",
+      "kind": "REPLAY_SCHEDULING"
+    },
+    {
+      "description": "Thin orchestration code gained diagnostic-counter refinement, stricter plan checks, analysis and bounded replay while primary cells ran. Primary run.json tool_sha256 observes the file at completion, not the module loaded at process start. The installed canonical runtime source and all16 frozen specs remain unchanged; they bind the calculations.",
+      "kind": "ORCHESTRATION_SCOPE"
+    },
+    {
+      "description": "Added exact16-key frozen plan/source/wheel/snapshot/report-spec binding and16 unique replay report/result/source/hash/count checks before final publication. Three focused inert-metadata tests PASS: duplicate/bool/source/snapshot/missing cells, swapped configuration label, duplicate replay and inflated ledger totals. No canonical historical run added.",
+      "kind": "FINAL_MANIFEST_BINDING_REVIEW"
+    },
+    {
+      "description": "First publication review found32 machine_receipt paths in an unpublished public copy. Preserved that copy under ignored artifacts and regenerated an explicitly labelled sanitized public projection. Original private receipt_hash values and full summary file hash are references; new public projection hashes identify only the redacted view. Added one export-privacy test; all4 metadata/export tests pass. Canonical reports, specs, run and replay files remain unchanged.",
+      "kind": "PREPUBLICATION_PRIVACY_CORRECTION"
+    }
+  ],
+  "order_allowed": false,
+  "paper_allowed": false,
+  "primary_budget": 16,
+  "research_only": true,
+  "schema_version": "strategy-diagnostic-attempt-log-v1"
+}

@@ -1,0 +1,31 @@
+{
+  "inspected_at": "2026-09-06T07:58:26.748436+00:00",
+  "order": "DEV_PREFIX_BEHAVIOR_BEFORE_READING_FULL_COMPARATIVE_PERFORMANCE",
+  "plan_hash": "2115cde2317142d3511fae0b4e5a32fc1e136e110f2ceb70adfb4b0c863bd514",
+  "rows": [
+    {
+      "cost_factor": 1,
+      "decisions_inspected": 17473,
+      "entry_intents": 178,
+      "method": "D1",
+      "policy_checks": 178,
+      "report_hash": "9d5387781154bd456304f95eb95faea5a4bb953ef46d1b41c9475689915cf9a3",
+      "scope": "EXISTING_CANONICAL_REPORT_CAUSAL_PREFIX_NO_EXTRA_RESEARCH_RUN_OR_RULE_SELECTION",
+      "score_end_exclusive": "2025-01-01T00:00:00Z",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 1,
+      "decisions_inspected": 17473,
+      "entry_intents": 496,
+      "method": "R1",
+      "policy_checks": 17473,
+      "report_hash": "83ca871cbf7666f82104761889a7f9ea2838c11cfd3ad7be9f4f2d9d027483fc",
+      "scope": "EXISTING_CANONICAL_REPORT_CAUSAL_PREFIX_NO_EXTRA_RESEARCH_RUN_OR_RULE_SELECTION",
+      "score_end_exclusive": "2025-01-01T00:00:00Z",
+      "status": "PASS"
+    }
+  ],
+  "schema_version": "diagnostic-development-prefix-inspection-v1",
+  "scope": "Existing32,064hourcanonicalruns; this is an inspection of2023-2024prefix, no extra research cells and no independent holdout claim."
+}

@@ -1,0 +1,21 @@
+{
+  "changed_runtime_files": [
+    "experiment.py",
+    "strategies/templates.py"
+  ],
+  "new_build_definition_sha256": {
+    "pyproject.toml": "7a04383ac75363943766894b21c9f6ea1098b98ba7db4db926862968a9c7a7ce",
+    "setup.py": "16588d8df29ee30c8a27982e1974e0636dfbed0209e97f8a18533376882fea31"
+  },
+  "new_source_content_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767",
+  "old_source_content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "preserved_files": {
+    "backtest.py": "6a5b79f2681976f88e55652fa696dc773c5297432057ed58ae1eb68a9a2cfd16",
+    "indicators.py": "68590a9fd40ac8a7f7f1a11584ffd306e7a2738ada6a2347ef2cc50af0702066",
+    "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+    "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6"
+  },
+  "schema_version": "diagnostic-runtime-byte-diff-v1",
+  "scope": "Package version0.2.2 adds only versioned strategy-policy admission and template state; execution-v6,risk and simple RSI bytes unchanged.",
+  "unchanged_runtime_files": 34
+}

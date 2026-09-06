@@ -126,6 +126,20 @@ class RsiEventTests(unittest.TestCase):
         for field in ("signals", "orders", "fills", "round_trips", "equity_curve", "accounting", "return_series"):
             self.assertEqual(canonical_bytes(default[field]), canonical_bytes(explicit[field]), field)
 
+    def test_opening_protection_cancels_new_event_intent_without_rearming_it(self):
+        data = frame([100.] * 32 + [95.] * 3)
+        def observed_rsi(close, window):
+            value = 29. if len(close) in {30, 32} else 40. if len(close) == 31 else 20.
+            return pd.Series([value])
+        with patch("hakimi_research.strategies.templates.rsi", side_effect=observed_rsi):
+            report = result(data, "rsi", {"oversold_entry_policy": "ONCE_PER_EVENT"})
+        self.assertEqual(sum(s["action"] == "BUY" for s in report["signals"]), 2)
+        self.assertEqual(sum(f["action"] == "BUY" for f in report["fills"]), 1)
+        cancelled = [s for s in report["signals"] if s.get("execution_disposition") == "CANCELLED_OLD_POSITION_OPEN_PROTECTION"]
+        self.assertEqual(len(cancelled), 1)
+        self.assertEqual(cancelled[0]["action"], "BUY")
+        self.assertEqual(report["open_position_qty"], 0)
+
     def test_future_prices_do_not_change_past_signals_fills_or_equity(self):
         data = frame([140. - i if i < 60 else 80. + (i - 60) for i in range(95)])
         changed = data.copy()
