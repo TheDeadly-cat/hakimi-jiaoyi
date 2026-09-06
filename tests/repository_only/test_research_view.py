@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import datetime, timezone
 import importlib.util
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -181,6 +182,49 @@ class ResearchViewTests(unittest.TestCase):
         self.assertFalse(result["forward_72_hour_window_complete"])
         self.assertTrue(all((self.root / entry["path"]).is_file() and view.sha(self.root / entry["path"]) == entry["file_sha256"]
                             for entry in result["inputs"]))
+
+    def test_build_canonicalizes_root_and_all_paths_for_direct_callers(self):
+        diagnostic_path, _ = self.diagnostics()
+        verification_path = self.folder / "verification.json"
+        self.write(verification_path, {"schema_version": "continuous-history-independent-verification-v1",
+            "status": "PASS", "verified_trajectories": 15, "plan_hash": self.summary["plan_hash"],
+            "receipts": [{"original_report_hash": row["report_hash"], "replay": {"replay_verified": True},
+                          "independent_decimal_ledger": {"status": "PASS"}} for row in self.summary["trajectories"]]})
+        expected = view.build(self.root.resolve(), self.summary_path.resolve(), diagnostic_path.resolve(),
+                              self.forward_path.resolve(), verification_path.resolve(), self.output.resolve(), self.index.resolve())
+        alias_directory = self.root / "alias"
+        alias_directory.mkdir()
+        alias_root = alias_directory / ".."
+        def under(alias, path):
+            return alias / path.relative_to(self.root)
+        actual = view.build(alias_root, self.summary_path.resolve(), under(alias_root, diagnostic_path),
+                            under(alias_root, self.forward_path), verification_path.resolve(),
+                            under(alias_root, self.output), under(alias_root, self.index))
+        self.assertEqual(view.canonical(actual), view.canonical(expected))
+        self.assertEqual(view.sha(self.output), expected["rendered_markdown_sha256"])
+        # The lexical-alias regression above always runs on every OS. Where
+        # Windows supplies a real 8.3 spelling, exercise that spelling as well.
+        if os.name == "nt":
+            import ctypes
+            function = ctypes.windll.kernel32.GetShortPathNameW
+            function.argtypes = (ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint32)
+            function.restype = ctypes.c_uint32
+            buffer = ctypes.create_unicode_buffer(32768)
+            length = function(str(self.root.resolve()), buffer, len(buffer))
+            if 0 < length < len(buffer):
+                short_root = Path(buffer.value)
+                actual = view.build(short_root, under(short_root, self.summary_path), under(short_root, diagnostic_path),
+                                    under(short_root, self.forward_path), under(short_root, verification_path),
+                                    under(short_root, self.output), under(short_root, self.index))
+                self.assertEqual(view.canonical(actual), view.canonical(expected))
+
+    def test_build_resolved_alias_cannot_escape_output_boundary(self):
+        alias_directory = self.root / "alias"
+        alias_directory.mkdir()
+        alias_root = alias_directory / ".."
+        outside = alias_root / ".." / "outside-research-view.md"
+        with self.assertRaisesRegex(ValueError, "view_inputs_and_outputs_must_stay_in_repository"):
+            view.build(alias_root, self.summary_path, None, self.forward_path, None, outside, self.index)
 
     def test_summary_metric_change_rejected_even_when_projection_hash_still_valid(self):
         self.summary["trajectories"][0]["metrics"]["total_return"] = .1

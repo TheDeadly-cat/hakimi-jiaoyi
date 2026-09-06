@@ -479,8 +479,14 @@ def render(continuous, diagnostics, forward, verification, output, inputs_path, 
 
 
 def build(root, continuous_path, diagnostic_path, forward_path, verification_path, output, inputs_path, *, require_complete=False):
+    # Callers can use Windows short names or lexical aliases even without the
+    # CLI. Use one canonical representation for containment and relative links.
+    root, continuous_path, diagnostic_path, forward_path, verification_path, output, inputs_path = (
+        Path(path).resolve() if path is not None else None
+        for path in (root, continuous_path, diagnostic_path, forward_path, verification_path, output, inputs_path)
+    )
     paths = [continuous_path, forward_path] + ([diagnostic_path] if diagnostic_path else []) + ([verification_path] if verification_path else [])
-    if any(not path.resolve().is_relative_to(root.resolve()) for path in paths + [output, inputs_path]):
+    if any(not path.is_relative_to(root) for path in paths + [output, inputs_path]):
         raise ValueError("view_inputs_and_outputs_must_stay_in_repository")
     continuous = load_continuous(continuous_path)
     diagnostics = load_diagnostics(diagnostic_path, continuous, root) if diagnostic_path else None
