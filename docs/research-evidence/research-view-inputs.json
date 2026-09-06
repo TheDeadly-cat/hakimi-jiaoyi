@@ -8,7 +8,7 @@
     "--continuous",
     "docs/research-evidence/continuous-history-20260906/summary_9f66079f3a2adc75106e1a2b0975589191d44adea852dec113b6f6e71dfa8e94.json",
     "--forward",
-    "docs/research-evidence/forward-reliability-20260906/coverage_3bda7c8c93b9b42d627c77fa09c44e05081ec15d317699765c8c486888f1891d.json",
+    "docs/research-evidence/forward-reliability-20260906/coverage_aea0735944562210f26f030380bfe8e031184dfb6689274af39969dc36654c91.json",
     "--output",
     "docs/research-view.md",
     "--inputs-index",
@@ -23,7 +23,7 @@
   "continuous_trajectories": 15,
   "diagnostic_trajectories": 16,
   "forward_72_hour_window_complete": false,
-  "forward_as_of": "2026-09-06T07:33:15.738791Z",
+  "forward_as_of": "2026-09-06T08:52:44.320686Z",
   "generator_sha256": "256f9094b085051391d525e39921354489c2fa92cc1b742a59ad80d27bd8e1fa",
   "inputs": [
     {
@@ -367,9 +367,9 @@
     },
     {
       "family": "forward",
-      "file_sha256": "73a6f042e7d6635c8db0d6dc2582a843ec3e3f0147a0f2d9ebd87a32c2058caa",
+      "file_sha256": "0295e94e63676fa8eadaf176878bc89af84de122e7ebaca46301133d00058b08",
       "kind": "summary",
-      "path": "docs/research-evidence/forward-reliability-20260906/coverage_3bda7c8c93b9b42d627c77fa09c44e05081ec15d317699765c8c486888f1891d.json",
+      "path": "docs/research-evidence/forward-reliability-20260906/coverage_aea0735944562210f26f030380bfe8e031184dfb6689274af39969dc36654c91.json",
       "schema_version": "forward-reliability-coverage-v1"
     },
     {
@@ -395,7 +395,7 @@
   "optimization_applied": false,
   "order_allowed": false,
   "release_status": "AWAITING_MAINTAINER_APPROVAL",
-  "rendered_markdown_sha256": "dc434b08a940bc1c2a4975647a41c18253467321af6ec5d0b11dfa3b13222310",
+  "rendered_markdown_sha256": "dd1baa07e3478dcaa37b298beb91f48931d70ab151dd2b9c4182d11abafef9ce",
   "schema_version": "research-view-inputs-v1",
   "source_versions": {
     "0.2.1": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
