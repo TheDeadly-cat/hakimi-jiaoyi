@@ -1,0 +1,107 @@
+{
+  "cycles": [
+    {
+      "actual_process_ended_at": null,
+      "actual_process_started_at": null,
+      "classification": "SCHEDULED_DRIVER",
+      "cutoff": "2026-09-05T15:00:00Z",
+      "driver_command_id": "exec-6cfcd55f-ebb7-4b8e-bdc5-dee8436e2d30",
+      "driver_elapsed_ms": 5735,
+      "driver_exit_code": 0,
+      "execution_evidence": "PERSISTED_TERMINAL_COMMAND",
+      "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+      "trigger_at": "2026-09-05T15:03:50.057Z",
+      "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+    },
+    {
+      "actual_process_ended_at": null,
+      "actual_process_started_at": null,
+      "classification": "SCHEDULED_DRIVER",
+      "cutoff": "2026-09-05T16:00:00Z",
+      "driver_command_id": "exec-b4cb3cde-a398-4746-83e1-1306d1974b03",
+      "driver_elapsed_ms": 5390,
+      "driver_exit_code": 0,
+      "execution_evidence": "PERSISTED_TERMINAL_COMMAND",
+      "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+      "trigger_at": "2026-09-05T16:02:51.344Z",
+      "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+    },
+    {
+      "actual_process_ended_at": null,
+      "actual_process_started_at": null,
+      "classification": "SCHEDULED_DRIVER",
+      "cutoff": "2026-09-05T17:00:00Z",
+      "driver_command_id": "exec-afd18bea-6dbf-4a68-8eb8-828072c1cc2a",
+      "driver_elapsed_ms": 5922,
+      "driver_exit_code": 0,
+      "execution_evidence": "PERSISTED_TERMINAL_COMMAND",
+      "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+      "trigger_at": "2026-09-05T17:02:52.546Z",
+      "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+    },
+    {
+      "actual_process_ended_at": null,
+      "actual_process_started_at": null,
+      "classification": "SCHEDULED_DRIVER",
+      "cutoff": "2026-09-05T18:00:00Z",
+      "driver_command_id": "exec-d627ba13-9b85-485f-be90-32337d497a83",
+      "driver_elapsed_ms": 8572,
+      "driver_exit_code": 0,
+      "execution_evidence": "PERSISTED_TERMINAL_COMMAND",
+      "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+      "trigger_at": "2026-09-05T18:01:23.595Z",
+      "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+    },
+    {
+      "actual_process_ended_at": null,
+      "actual_process_started_at": null,
+      "classification": "SCHEDULED_DRIVER",
+      "cutoff": "2026-09-05T19:00:00Z",
+      "driver_command_id": "exec-218037d0-d522-4269-97b7-1923648ee88f",
+      "driver_elapsed_ms": 7711,
+      "driver_exit_code": 0,
+      "execution_evidence": "PERSISTED_TERMINAL_COMMAND",
+      "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+      "trigger_at": "2026-09-05T19:01:54.565Z",
+      "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+    },
+    {
+      "actual_process_ended_at": null,
+      "actual_process_started_at": null,
+      "classification": "SCHEDULED_DRIVER",
+      "cutoff": "2026-09-05T20:00:00Z",
+      "driver_command_id": "exec-3d9ae8ff-ac7d-4cc0-bd1b-e347ae6597a1",
+      "driver_elapsed_ms": 6210,
+      "driver_exit_code": 0,
+      "execution_evidence": "PERSISTED_TERMINAL_COMMAND",
+      "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+      "trigger_at": "2026-09-05T20:04:56.075Z",
+      "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+    },
+    {
+      "actual_process_ended_at": null,
+      "actual_process_started_at": null,
+      "classification": "TRIGGER_WITHOUT_EXECUTION_EVIDENCE",
+      "cutoff": "2026-09-06T05:00:00Z",
+      "driver_command_id": null,
+      "driver_elapsed_ms": null,
+      "driver_exit_code": null,
+      "execution_evidence": "NO_EXECUTION_OBSERVED",
+      "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+      "trigger_at": "2026-09-06T05:01:08.022Z",
+      "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+    }
+  ],
+  "excluded_commands": [
+    {
+      "command_id": "exec-430cf24f-d8e1-40c1-b0c5-80244105b94b",
+      "duration_ms": 456,
+      "role": "READ_ONLY_VERIFICATION_NOT_A_SECOND_TRIGGER"
+    }
+  ],
+  "schema_version": "forward-scheduler-history-projection-v1",
+  "scope": "Selected historical scheduler events and terminal executions. Trigger is scheduler event time. Command duration is measured; exact process start/end were unavailable. No inference from turn time or file mtime. Later unlisted hours are not claimed to lack triggers.",
+  "source": "Codex read_thread persisted execution history, independently read by root task on 2026-09-06",
+  "source_entry_count": 8,
+  "source_extraction_sha256": "9383ac983801104f40b2ea1e7cc099b2988ce8fa285d923865d450b8d76e8d9a"
+}

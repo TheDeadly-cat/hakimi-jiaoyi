@@ -1,0 +1,29 @@
+{
+  "schema_version": "forward-reliability-plan-v1",
+  "name": "72 planned hourly flat-reference observations",
+  "selected_at_utc": "2026-09-06T07:22:15.933183Z",
+  "selection_policy": "RETROSPECTIVE_WINDOW_START_WITH_PROSPECTIVE_REMAINDER",
+  "start_cutoff": "2026-09-05T15:00:00Z",
+  "end_cutoff_exclusive": "2026-09-08T15:00:00Z",
+  "planned_hours": 72,
+  "timely_seconds": 300,
+  "scheduled_minute": 1,
+  "state_policy": "FLAT_REFERENCE_OBSERVATION",
+  "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+  "runtime_tools": {
+    "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b",
+    "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+    "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e"
+  },
+  "plans": [
+    {"strategy": "dual_ma", "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c"},
+    {"strategy": "rsi", "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5"}
+  ],
+  "manual_first_cutoff_excluded": "2026-09-05T14:00:00Z",
+  "reference_execution_policy": "FIRST_HOURLY_OPEN_STRICTLY_AFTER_SIGNAL_AVAILABILITY",
+  "missing_policy": "PRESERVE_FIRST_OBSERVED_MISSING; BACKFILL_SEPARATE",
+  "acceptance_policy": "REPORT_ALL_72_ACTUAL_PLANNED_HOURS; NO_ZERO_GAP_OR_PROFITABILITY_CLAIM",
+  "automatic_backfill": false,
+  "order_allowed": false
+}
