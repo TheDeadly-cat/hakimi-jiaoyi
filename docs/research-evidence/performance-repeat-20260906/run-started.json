@@ -1,0 +1,21 @@
+{
+  "plan_hash": "dc63cbc44d424b5edd6af4b4e1648c20e76e9b6a62763032500a39e5be31e494",
+  "process_observation": {
+    "measurement_orchestrator_process_id": 28272,
+    "python_processes": [
+      {
+        "Name": "python.exe",
+        "ParentProcessId": 30008,
+        "ProcessId": 28232
+      },
+      {
+        "Name": "python.exe",
+        "ParentProcessId": 28232,
+        "ProcessId": 28272
+      }
+    ],
+    "status": "OBSERVED"
+  },
+  "research_load_status": "OTHER_RESEARCH_PROCESSES_CONFIRMED_TERMINAL",
+  "started_at": "2026-09-06T08:11:50.017238Z"
+}

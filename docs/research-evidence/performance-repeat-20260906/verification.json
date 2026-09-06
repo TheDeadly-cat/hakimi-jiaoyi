@@ -1,0 +1,28 @@
+{
+  "all_reported_n_median_min_max_recomputed": true,
+  "all_six_match_original_2025Q4_result_identity": true,
+  "cold_fresh_processes": 3,
+  "live_allowed": false,
+  "measured_distribution_version": "0.2.1",
+  "optimization_count": 0,
+  "order_allowed": false,
+  "ordinary_os_and_desktop_load_isolated": false,
+  "original_snapshot_and_spec_bytes_unchanged": true,
+  "os_page_cache_cleared": false,
+  "paper_allowed": false,
+  "performance_not_measured_versions": [
+    "0.2.2"
+  ],
+  "plan_hash": "dc63cbc44d424b5edd6af4b4e1648c20e76e9b6a62763032500a39e5be31e494",
+  "research_only": true,
+  "runtime_cache_added": false,
+  "schema_version": "repeat-pipeline-profile-verification-v1",
+  "source_and_environment_matched_in_all_samples": true,
+  "speedup_claimed": false,
+  "status": "PASS",
+  "summary_file_sha256": "893255483d846390b6aa9c4018ba4a2bcd19fb80ea49444a02d638a7a85e15ee",
+  "verified_canonical_replay_receipts": 6,
+  "verified_full_report_hashes": 6,
+  "verified_profiles": 6,
+  "warm_samples_in_one_preloaded_process": 3
+}
