@@ -16,6 +16,7 @@ from hakimi_research.risk import RiskManager
 from hakimi_research.strategies.templates import build_strategy
 
 SPEC_SCHEMA = "research-experiment-spec-v1"
+DIAGNOSTIC_SPEC_SCHEMA = "research-experiment-spec-v2"
 REPORT_SCHEMA = "research-report-v2"
 _SPEC_FIELDS = {"schema_version", "name", "snapshot_id", "strategy", "score_start", "score_end",
                 "initial_cash", "fee_rate", "slippage_pct", "risk", "end_policy", "purpose"}
@@ -27,6 +28,10 @@ _PARAMS = {
 }
 _COMMON_PARAMS = {"position_pct", "stop_loss_pct"}
 _PARAMS["dual_ma"].add("take_profit_pct")
+_DIAGNOSTIC_PARAMS = {
+    "dual_ma": {"fixed_take_profit_policy": {"FIXED_PCT", "DISABLED"}},
+    "rsi": {"oversold_entry_policy": {"EVERY_OVERSOLD_BAR", "ONCE_PER_EVENT"}},
+}
 
 
 def required_context(name: str, params: dict) -> int:
@@ -61,7 +66,7 @@ class StrategySpec:
     params: dict
 
     def declaration(self) -> dict:
-        return {
+        declaration = {
             "name": self.name, "parameters": self.params,
             "required_context_rows": required_context(self.name, self.params),
             "direction": "CASH_ONLY" if self.name == "cash" else "LONG_CASH",
@@ -74,6 +79,21 @@ class StrategySpec:
                 "EVALUATE_LAST_CONTEXT_CLOSE_THEN_EXECUTE_SIGNAL_AT_FIRST_SCORED_OPEN"),
             "initial_condition_policy": "EXISTING_RULES_UNCHANGED_NO_FORCED_CROSSOVER_OR_EXTRA_TRADES",
         }
+        if "fixed_take_profit_policy" in self.params:
+            declaration["fixed_take_profit_policy"] = self.params["fixed_take_profit_policy"]
+        if "oversold_entry_policy" in self.params:
+            declaration["oversold_entry_policy"] = self.params["oversold_entry_policy"]
+            if self.params["oversold_entry_policy"] == "ONCE_PER_EVENT":
+                declaration["oversold_event_semantics"] = {
+                    "indicator": "SIMPLE_ROLLING_MEAN_RSI_UNCHANGED",
+                    "starts": "FIRST_OBSERVED_RSI_BELOW_OVERSOLD_AFTER_RESET_OR_FRESH_INITIALIZATION",
+                    "ends": "OBSERVED_FINITE_RSI_AT_OR_ABOVE_OVERSOLD",
+                    "intent_consumption": "AT_GENERATION_BEFORE_RISK_ADMISSION_OR_FILL",
+                    "risk_rejection": "CONSUMES_EVENT_OPPORTUNITY",
+                    "protective_exit": "DOES_NOT_RESET_EVENT",
+                    "period_boundary": "DOES_NOT_RESET_EVENT",
+                }
+        return declaration
 
 
 @dataclass(frozen=True)
@@ -84,7 +104,7 @@ class ExperimentSpec:
     def from_document(cls, document: dict):
         # Detached finite JSON prevents caller mutation and implicit coercion.
         value = parse_document(canonical_bytes(document))
-        if (set(value) - {"execution_policy"}) != _SPEC_FIELDS or value["schema_version"] != SPEC_SCHEMA:
+        if (set(value) - {"execution_policy"}) != _SPEC_FIELDS or value["schema_version"] not in {SPEC_SCHEMA, DIAGNOSTIC_SPEC_SCHEMA}:
             raise ValueError("experiment_spec_fields_or_schema_invalid")
         if type(value["name"]) is not str or not value["name"].strip():
             raise ValueError("experiment_name_required")
@@ -103,10 +123,16 @@ class ExperimentSpec:
         if type(name) is not str or name not in _PARAMS or type(params) is not dict:
             raise ValueError("strategy_spec_invalid")
         common = set() if name in {"cash", "buy_and_hold"} else _COMMON_PARAMS
-        if set(params) - _PARAMS[name] - common:
+        policies = _DIAGNOSTIC_PARAMS.get(name, {}) if value["schema_version"] == DIAGNOSTIC_SPEC_SCHEMA else {}
+        if set(params) - _PARAMS[name] - common - set(policies):
             raise ValueError("unknown_strategy_parameter")
-        if any(type(number) not in (int, float) for number in params.values()):
+        if any(type(number) not in (int, float) for key, number in params.items() if key not in policies):
             raise ValueError("strategy_parameters_exact_numbers_required")
+        for key, allowed in policies.items():
+            if key in params and (type(params[key]) is not str or params[key] not in allowed):
+                raise ValueError("strategy_diagnostic_policy_invalid:" + key)
+        if params.get("fixed_take_profit_policy") == "DISABLED" and "take_profit_pct" in params:
+            raise ValueError("disabled_take_profit_requires_omitted_percentage")
         required_context(name, params)
         expected_policy = BUY_AND_HOLD_POLICY if name == "buy_and_hold" else STANDARD_RISK_POLICY
         if value.get("execution_policy", STANDARD_RISK_POLICY) != expected_policy:

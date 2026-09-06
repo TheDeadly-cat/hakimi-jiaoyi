@@ -15,6 +15,11 @@ class DualMovingAverageStrategy(StrategyBase):
     name = "dual_ma"
 
     def generate_signal(self, data: pd.DataFrame, portfolio: Portfolio) -> Signal:
+        take_profit_policy = self.get("fixed_take_profit_policy", "FIXED_PCT")
+        if type(take_profit_policy) is not str or take_profit_policy not in {"FIXED_PCT", "DISABLED"}:
+            raise ValueError("strategy_diagnostic_policy_invalid:fixed_take_profit_policy")
+        if take_profit_policy == "DISABLED" and "take_profit_pct" in self.params:
+            raise ValueError("disabled_take_profit_requires_omitted_percentage")
         raw_fast = self.get("fast_window", 20)
         raw_slow = self.get("slow_window", 60)
         if isinstance(raw_fast, bool) or isinstance(raw_slow, bool):
@@ -51,7 +56,7 @@ class DualMovingAverageStrategy(StrategyBase):
         crossed_up = fast_ma.iloc[-2] <= slow_ma.iloc[-2] and fast_ma.iloc[-1] > slow_ma.iloc[-1]
         crossed_down = fast_ma.iloc[-2] >= slow_ma.iloc[-2] and fast_ma.iloc[-1] < slow_ma.iloc[-1]
         if crossed_up and portfolio.position_qty <= 0:
-            return Signal.buy("fast MA crossed above slow MA", size_pct, stop_loss_pct=self.get("stop_loss_pct", 0.03), take_profit_pct=self.get("take_profit_pct", 0.08))
+            return Signal.buy("fast MA crossed above slow MA", size_pct, stop_loss_pct=self.get("stop_loss_pct", 0.03), take_profit_pct=self.get("take_profit_pct", 0.08) if take_profit_policy == "FIXED_PCT" else None)
         if crossed_down and portfolio.position_qty > 0:
             return Signal.exit("fast MA crossed below slow MA")
         return Signal.hold("no MA crossover")
@@ -208,7 +213,14 @@ class MacdStrategy(StrategyBase):
 class RsiStrategy(StrategyBase):
     name = "rsi"
 
+    def __init__(self, params=None, name="base", version="v1"):
+        super().__init__(params=params, name=name, version=version)
+        self._oversold_event_consumed = False
+
     def generate_signal(self, data: pd.DataFrame, portfolio: Portfolio) -> Signal:
+        entry_policy = self.get("oversold_entry_policy", "EVERY_OVERSOLD_BAR")
+        if type(entry_policy) is not str or entry_policy not in {"EVERY_OVERSOLD_BAR", "ONCE_PER_EVENT"}:
+            raise ValueError("strategy_diagnostic_policy_invalid:oversold_entry_policy")
         close = data["close"]
         window = int(self.get("window", 14))
         raw_oversold = self.get("oversold", 30)
@@ -236,7 +248,15 @@ class RsiStrategy(StrategyBase):
             return Signal.hold("not enough data")
         current = rsi(close, window).iloc[-1]
         size_pct = float(self.get("position_pct", 0.15))
+        if entry_policy == "ONCE_PER_EVENT" and math.isfinite(current) and current >= oversold:
+            self._oversold_event_consumed = False
         if current < oversold:
+            if entry_policy == "ONCE_PER_EVENT":
+                if self._oversold_event_consumed:
+                    return Signal.hold("RSI oversold event entry intent already consumed")
+                # Consume before risk admission. Rejected intents, partial fills,
+                # and protective exits must not create another event opportunity.
+                self._oversold_event_consumed = True
             return Signal.buy(f"RSI oversold: {current:.2f}", size_pct, stop_loss_pct=self.get("stop_loss_pct", 0.04))
         if current > overbought and portfolio.position_qty > 0:
             return Signal.exit(f"RSI overbought: {current:.2f}")
