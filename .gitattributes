@@ -95,3 +95,11 @@ docs/research-evidence/** -text diff merge whitespace=trailing-space,space-befor
 # The forward scheduler pins these deployed bytes in its promotion receipt.
 tools/forward_reliability.py -text diff merge
 docs/studies/forward-reliability-plan-20260906.json -text diff merge
+
+# Study execution and view receipts also identify exact orchestration inputs.
+tools/run_continuous_study.py -text diff merge
+tools/run_strategy_diagnostics.py -text diff merge
+tools/build_research_view.py -text diff merge
+tools/repeat_pipeline_profile.py -text diff merge
+docs/studies/continuous-plan-20260906.json -text diff merge
+docs/studies/strategy-diagnostics-plan-20260906.json -text diff merge

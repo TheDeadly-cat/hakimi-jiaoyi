@@ -1,0 +1,544 @@
+{
+  "accepted_checkout": "a6771ec89603999d55c6193a4fa7846ec3115d40",
+  "accepted_ci_run": 33969915599,
+  "accepted_windows_wheel_sha256": "b93952ddee0d16424292e75e5a3e7b0dfe10ac06d12f1333fa276922d08649fb",
+  "all_history_status": "PREVIOUSLY_VIEWED_HISTORY_NO_NEW_BLIND_CONFIRMATION",
+  "boundary_policy": "CALENDAR_SLICES_ARE_POSTHOC_ONLY_NO_CASH_POSITION_COST_PROTECTION_OR_PENDING_RESET",
+  "chunking": "NONE_ONE_FULL_RUNNER_CALL_PER_TRAJECTORY",
+  "confirmation_evaluation": false,
+  "context_hours": 72,
+  "context_policy": {
+    "initial_context_rows": 72,
+    "per_decision_history": "ENTIRE_INPUT_PREFIX_THROUGH_CURRENT_CLOSE",
+    "recursive_indicators": "NONE_NO_TRUNCATION_OR_RESEEDING_POLICY_INTRODUCED",
+    "rsi": "UNCHANGED_14_SIMPLE_ROLLING_MEAN_GAINS_AND_LOSSES_NOT_WILDER",
+    "sma": "UNCHANGED_FIXED_ROLLING_20_AND_60_SIMPLE_MEANS",
+    "trading_in_context": false
+  },
+  "cost_factors": [
+    1,
+    2,
+    3
+  ],
+  "daily_risk": "UNCHANGED_UTC_DAY_START_PREVIOUS_CLOSE_EQUITY_RESET_ONLY",
+  "end_policy": "MARK_TO_MARKET_NO_FORCED_LIQUIDATION",
+  "fee_rate": 0.0008,
+  "frozen_at": "2026-09-06T07:26:28.567695Z",
+  "initial_cash": 10000,
+  "initialization_count": 1,
+  "input_end_exclusive": "2026-09-01T00:00:00Z",
+  "input_start": "2023-01-01T00:00:00Z",
+  "live_allowed": false,
+  "methods": [
+    {
+      "label": "cash",
+      "name": "cash",
+      "params": {}
+    },
+    {
+      "label": "buy_hold_full",
+      "name": "buy_and_hold",
+      "params": {
+        "target_position_pct": 1
+      }
+    },
+    {
+      "label": "buy_hold_25pct",
+      "name": "buy_and_hold",
+      "params": {
+        "target_position_pct": 0.25
+      }
+    },
+    {
+      "label": "dual_ma",
+      "name": "dual_ma",
+      "params": {
+        "fast_window": 20,
+        "position_pct": 0.25,
+        "slow_window": 60,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.08
+      }
+    },
+    {
+      "label": "rsi",
+      "name": "rsi",
+      "params": {
+        "overbought": 70,
+        "oversold": 30,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "window": 14
+      }
+    }
+  ],
+  "mode": "CONTINUOUS_HISTORY",
+  "optimization_applied": false,
+  "order_allowed": false,
+  "paper_allowed": false,
+  "parameter_selection": false,
+  "parameter_trials": 0,
+  "parents": [
+    {
+      "as_of": "2023-04-01T00:00:00Z",
+      "data_hash": "a16053fc9a95710ff84dd99c25101b31cf38b0d7138f688564b2077ea5a15f45",
+      "end_exclusive": "2023-04-01T00:00:00Z",
+      "file_sha256": "8463ed319894d8c560f309e4df6fecbcaf4d9f20c4c1568a93a7f9279f3be914",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2023-Q1/datasets/dataset_325cdb7a81433fdfdeb8fdf899370a5321b5e72fc5c680a0f5f779c8b22ed900.json",
+      "retrieved_at_max": "2026-09-05T13:25:48.865517Z",
+      "retrieved_at_min": "2026-09-05T13:25:43.782776Z",
+      "snapshot_id": "325cdb7a81433fdfdeb8fdf899370a5321b5e72fc5c680a0f5f779c8b22ed900",
+      "source_receipt_hashes": [
+        "1e065d8034aa968b1defadc5a8be96be5cbb3d34420f17c1c7739e5e63c191dd",
+        "44b47f0f6088ce51eeae8b5026d161ae0cdca1889b7ee16406f60b697d1c9ff0",
+        "ff60493fef7a8bb47f5002f0c502a50085f9581730e4b0d2b2a3d902c9a1bf81",
+        "d46e07c4568597bcf98e1bb3df462ecb31182ca72db46493f3be2800e0daf67a",
+        "f8daf66271990289d0f05896934807fcfc847aa4533711cd3bb57354742c46bc",
+        "59106e14ef23265e95795b3015e74f89f443eb8d75f64752d824ed6ecac72861",
+        "54e783d262acd85318d001c82d6f3b97f76b52e1c39f7c2de75b3208b7fc95a5",
+        "aae45537ed0cd8f751e850c86c321c63d9c675bfb222f601edae7fb94f9ec47d"
+      ],
+      "start": "2023-01-01T00:00:00Z",
+      "window_id": "2023-Q1"
+    },
+    {
+      "as_of": "2023-07-01T00:00:00Z",
+      "data_hash": "fabb9daaf0c26e70f6d6e5b7fadeeb7a8b77bc9ffac6f51289a47faefd081649",
+      "end_exclusive": "2023-07-01T00:00:00Z",
+      "file_sha256": "bab09d756d33003aad2cd99ac9acbf6455a45c3bb234afa70920336d06a69f51",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2023-Q2/datasets/dataset_ab8d8d33bb741e5977d4f32c393bf56bae51e92850ea4f80cea61922215dd0bc.json",
+      "retrieved_at_max": "2026-09-05T13:25:55.810526Z",
+      "retrieved_at_min": "2026-09-05T13:25:50.227630Z",
+      "snapshot_id": "ab8d8d33bb741e5977d4f32c393bf56bae51e92850ea4f80cea61922215dd0bc",
+      "source_receipt_hashes": [
+        "929dad677df096853a79706fbb277729093096c74b98ed6ef3669699a40ed9dc",
+        "29da8b6638661b1e842dae0fadf93f91745afad5d2faaf3806d5a2df3997bf95",
+        "a40891adc6d7990d5ce4ff33a8b7025d32dff7f08358eef355acdc102e73e719",
+        "8d9919fec7719de1744c6a2b5634906381354496eee061424a193f7609bd1084",
+        "0e707c94c7e77f9225dd4e47badb3e6456854a0a57f966a6ff3a9166dee5506a",
+        "7675cb14cb2e2181ea28171e51742d9c0b670bda7fa8950f65cf705b75aacaf4",
+        "91a9ce149ddb115d1d3bfceb2409fec3755ec2a1621ccbafe7649c98a985f47a",
+        "2c9dcd1789cdfc7f0fc28f768265a6a2a5870a8526132af42d33cfb9db25323c"
+      ],
+      "start": "2023-03-29T00:00:00Z",
+      "window_id": "2023-Q2"
+    },
+    {
+      "as_of": "2023-10-01T00:00:00Z",
+      "data_hash": "8e902a0b3af304096f55fdd818ebc7ba650cb7e99526907e0566f8d966713090",
+      "end_exclusive": "2023-10-01T00:00:00Z",
+      "file_sha256": "e4fd7454390eaa06cc7363bfb482d9eae69ec9bc9efdd2fdce8f8017325dbc05",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2023-Q3/datasets/dataset_92320e809c3c8d290e5894a0a32d0646c670ee694795ceaf2589e1bace4f8cc1.json",
+      "retrieved_at_max": "2026-09-05T13:26:03.059207Z",
+      "retrieved_at_min": "2026-09-05T13:25:56.904377Z",
+      "snapshot_id": "92320e809c3c8d290e5894a0a32d0646c670ee694795ceaf2589e1bace4f8cc1",
+      "source_receipt_hashes": [
+        "57ae10f6fe625ec6f71a793e45153a52c7d26fff905ecfb2a1fad8250262ce9e",
+        "3c684194c1549f58ed2c4912191bf906f5d42beb36059503cf0dbaf1e70817f0",
+        "dac18532b6309b2806b86cde417fa27ad2a5d70ff617b1aa45a66eaf59e8779a",
+        "7bcae32950c6abda4183fd7ee9916bd35a913b941661cd3bebc9ed6b11a9778c",
+        "de34149e5a8ad71d940a2e3c1398472fe0196371ced607ff9f164988449c580a",
+        "c77c28f5f105839624f48c287acd77bf6c7830f803a4b57a63666133f8795997",
+        "7d4037b40c414d0f91e440cbd0c144c847d3989d3a043569fb0b33e8c4822372",
+        "684a7f0c361b942695e0f7f68db8064ecbd07f61687f907336a7cfc75e913ae5"
+      ],
+      "start": "2023-06-28T00:00:00Z",
+      "window_id": "2023-Q3"
+    },
+    {
+      "as_of": "2024-01-01T00:00:00Z",
+      "data_hash": "01ec9ef747c137de8085f4efa59494b9b6edcb932e2291ffb9e1860f27480c32",
+      "end_exclusive": "2024-01-01T00:00:00Z",
+      "file_sha256": "2ba253f5a4dad306974800e0d48485fe71d5ce0bb5627ed7720643fecf835370",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2023-Q4/datasets/dataset_a23e455a96779ffc2cb6b11b67906382922b6e90848a65d054699966749b47f1.json",
+      "retrieved_at_max": "2026-09-05T13:26:09.360028Z",
+      "retrieved_at_min": "2026-09-05T13:26:04.105868Z",
+      "snapshot_id": "a23e455a96779ffc2cb6b11b67906382922b6e90848a65d054699966749b47f1",
+      "source_receipt_hashes": [
+        "48be4a668d05fe92892e79ffeeabaa9b1fe24c8a967fa4688073df055d85f97d",
+        "0cfced4e84f22774f778c98134ad0bf73192e3018771182bd3b517bffc84e4dd",
+        "c1edc22649348995f57db82cc85f72e69bee7dd510f50fbf2c3b1705c5d9258f",
+        "c7315b32e49ec3db2adb2e9044f9ff5054826e68bb59450d2b0896b1d679a076",
+        "2c8648c3e37faf9704a9979da0993ab2618f2fd7256d83e3871a68107f11d834",
+        "a1b6de7cc1e6fdfe62b5f72c56879d4467448c47591e42c2633e5129a45a6b3b",
+        "c682c187458d3e2fe18ed786b2c9139a9b834f1dc4f03226ca180366fd8e2e81",
+        "49b7ae657da91b77248f729dcc5047979fe51f38a76be6bfa7722bdd19740239"
+      ],
+      "start": "2023-09-28T00:00:00Z",
+      "window_id": "2023-Q4"
+    },
+    {
+      "as_of": "2024-04-01T00:00:00Z",
+      "data_hash": "f670fd4ed150aa966c59f7984575b61cae45a6c48b0f38f837a9b0bcc5cafbae",
+      "end_exclusive": "2024-04-01T00:00:00Z",
+      "file_sha256": "fd84a5bb350a5e9662317bfdb8c0f12b15b59d759912ec5eaf1fd637df02b016",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2024-Q1/datasets/dataset_a837922bef495482bcc3e474292d204f606bce17a63e71ec736ca05f864e95cf.json",
+      "retrieved_at_max": "2026-09-05T13:26:16.165113Z",
+      "retrieved_at_min": "2026-09-05T13:26:10.477664Z",
+      "snapshot_id": "a837922bef495482bcc3e474292d204f606bce17a63e71ec736ca05f864e95cf",
+      "source_receipt_hashes": [
+        "14722707212924a073687c8f108b0a8e4c2c0c264001cbc94eb7e28b0a3f3b0f",
+        "805ffebaf1ccf159a65ac42cd038bd2c09e2d14dd564800612fab85d48257c80",
+        "b47d4f519ebe21f49fc7f33169252f206c32025b6380baf6efb58bded2526a94",
+        "a3770003f37d6a1e564dbc534d66e43f63774bc3878fbe6f4de0aa1e67eba208",
+        "3ce063c01c74f4cdb98729962b5b4046374e940df71a7e5d6b9b213e0543d60b",
+        "14fb73d867b1ebbb75a8e7abd9eb12e4bfd20ca964d8895388a10b98356e8a50",
+        "e2866f7731ebbd1866ecb331d756f9f3c13395195655cbc2f9ff30e152e01aa8",
+        "6ad81f111799720a217754259f72e7882ecef1efbc16c211187c1c00678cbb19"
+      ],
+      "start": "2023-12-29T00:00:00Z",
+      "window_id": "2024-Q1"
+    },
+    {
+      "as_of": "2024-07-01T00:00:00Z",
+      "data_hash": "37a33890943b9a20334a38ba2ce0164e4b11a66a90c6064bf4fd75a83218aed4",
+      "end_exclusive": "2024-07-01T00:00:00Z",
+      "file_sha256": "da4e88fab1da2761db5a354825e6374782fd95df1dc0424a8da49bdb2d1efc54",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2024-Q2/datasets/dataset_b241d7b222387b4e2d350cebdfce5de44bfd9429af9a2cf677c325639ca2cdfd.json",
+      "retrieved_at_max": "2026-09-05T13:26:25.179858Z",
+      "retrieved_at_min": "2026-09-05T13:26:17.576318Z",
+      "snapshot_id": "b241d7b222387b4e2d350cebdfce5de44bfd9429af9a2cf677c325639ca2cdfd",
+      "source_receipt_hashes": [
+        "2482d595e19f619c38f6a3e6ef73dddce278ce9c48e85e608fa25346d8adc9a4",
+        "030fc45e20ab47d8893c3fb7d6770562ec675eb0bd29f8698f350eb378868f52",
+        "207ae7f0383b99cfb215e823e6d0f2df33993c6009cb779d34a1cfaacb2bbd00",
+        "2baa9510bc64e3f4cecf15063d2b807f6f5348f78b997dcd2b24657f9c10c69a",
+        "33c3c8692805dc8154f691a59715d3d35e14d9cd51ccebf754e4da668fdc0d2f",
+        "f9fa993895fdb6fe522e5316d2d3c54f91e9100a6e128fcd62abaeb517411101",
+        "9665aaed6ba4f576f1cd6b6b5c47c87eb254e36893ae30fa275c6c90808dfc02",
+        "012106019a0af721609b0cbdbe355bf64a4c157e75a244c5fc508a8daee73c04"
+      ],
+      "start": "2024-03-29T00:00:00Z",
+      "window_id": "2024-Q2"
+    },
+    {
+      "as_of": "2024-10-01T00:00:00Z",
+      "data_hash": "92b9a7adb836b27d67602a35485a4c30cda3ddc6d26be96903aacb8072bee205",
+      "end_exclusive": "2024-10-01T00:00:00Z",
+      "file_sha256": "b4d6b251d7d8eedc63a608210812747420997520968f87c9457f19e23fc0b047",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2024-Q3/datasets/dataset_36df3098b2923604e150afe71f2a1fb0c1e20d716af4fdd31ca1447d00ea334b.json",
+      "retrieved_at_max": "2026-09-05T13:26:32.571118Z",
+      "retrieved_at_min": "2026-09-05T13:26:26.377270Z",
+      "snapshot_id": "36df3098b2923604e150afe71f2a1fb0c1e20d716af4fdd31ca1447d00ea334b",
+      "source_receipt_hashes": [
+        "8f6f439a466412e445759d7a5602165a915cada5438ae2bb28beb6a536266f0f",
+        "e759d261377be3fec45732a35f8e2f3a2ac0c0c67ff2b80b332cc746f1242de3",
+        "b4c04f25ddf3881ea9cbed8f80e4b32b57a1ee848ed4059edccca742ee7b8929",
+        "2205ad4956ac9c275ff4a4aabf34ab71aebea23887fdc9c3bbdcc6e562d6d551",
+        "e97bb6cd4b68618274aadada7d4a36546c9d2873ee7caa04ed980d5c2eaee657",
+        "4ff30a6e2d6f64d6999bef99f9a955236004efb86bfdb01bcd68655603ae6ccb",
+        "c985922e57411019b556d7018e038b4b917845cfc02bbd327bef168f9c986103",
+        "d135143beb0443c7f5976f3ad2ab320a24621fb3b3e989c98092b8d54c983bf0"
+      ],
+      "start": "2024-06-28T00:00:00Z",
+      "window_id": "2024-Q3"
+    },
+    {
+      "as_of": "2025-01-01T00:00:00Z",
+      "data_hash": "9aa7fb1a0847ccec2b90ca5807b3584be613294baf1f5ae40c383fff384e9cad",
+      "end_exclusive": "2025-01-01T00:00:00Z",
+      "file_sha256": "cd7bad2f1a93f61a56901db1ef7d381e88340d5b9d6f362d5cf80675520e0640",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2024-Q4/datasets/dataset_fc2061dea6df978dda5b00f61321ab9fad02ea45ce984574ab129d3173f006e8.json",
+      "retrieved_at_max": "2026-09-05T13:26:39.040352Z",
+      "retrieved_at_min": "2026-09-05T13:26:33.629297Z",
+      "snapshot_id": "fc2061dea6df978dda5b00f61321ab9fad02ea45ce984574ab129d3173f006e8",
+      "source_receipt_hashes": [
+        "99cea11f4fa7efb7df968337a0f3e5dc398a861748024bdb9562557b6cb223f2",
+        "140b9971afbdde45ba1e829ff9e933658bc72217e4b2e2e9ead70a5517f2508a",
+        "41fd6eeece7a1c91b1213dfc01e93faa3e7710fbac3e14816ab5a097753895ed",
+        "5cc6f797a4c9531c2d4fec4f00ea6a65cb2aff1a3a2e1bc204071fc55c8b4ecc",
+        "ae5ee94255ccdc3d5d40750870a862f9441da26d67858faa62114f1966aae0b8",
+        "ca866ca9796676632c90a78ca77ce7b3d9d55bcea3df1eba735a05c5796360a4",
+        "54fd7227832503d333a44d4ab5a24ddb52e88e30751f8060283f3986cee81dd4",
+        "b77978919228732aa896ed8e93001cefbe6ad3735d79cf1d164cf958b11551f2"
+      ],
+      "start": "2024-09-28T00:00:00Z",
+      "window_id": "2024-Q4"
+    },
+    {
+      "as_of": "2025-04-01T00:00:00Z",
+      "data_hash": "1e3ed09d824cfed3fe7a521e4aa96569765e9f840a16340be5b043bc99178153",
+      "end_exclusive": "2025-04-01T00:00:00Z",
+      "file_sha256": "b354284c11198cf9e40aa4106a2f3605ac51f4306073d73058f7e305211aab1e",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2025-Q1/datasets/dataset_a504eb44defbe7f26992df45cf05681d3630ea4bb951492ec640f7c6f9fc453f.json",
+      "retrieved_at_max": "2026-09-05T13:26:46.290446Z",
+      "retrieved_at_min": "2026-09-05T13:26:40.503633Z",
+      "snapshot_id": "a504eb44defbe7f26992df45cf05681d3630ea4bb951492ec640f7c6f9fc453f",
+      "source_receipt_hashes": [
+        "0743ff1ef0e9f46b3958ce42abb2717d95ad3e049a8fa60ba915eb5dc79d7d9b",
+        "6725a339806a01246df070c690eaeb7f441409e20bddf9b6e17d9c54cafcec05",
+        "0e0a2d2bd1e16cdbf3e713bae1893e10e4dc2d816a5283edf7e11b2f97543608",
+        "a234e3645bff3ac042b28768799ce24ff1924684f0c950af0b8bbcd396721d3f",
+        "bdc736735baaa5604b95b120209c5224fb3eecf1161d9007ef0ba7d53debbd26",
+        "00f1e1979a1e21647bb322713b7aeafc90af72cf8a7c3957ee018f11eeb998ae",
+        "590c94aabe268036ca9cafd10cce3beef370b7b3d06d03185edcf05dbdbd15cb",
+        "b8c87c1b894f3dccfc78daec80f619216f2ce4f76c65b0aa8ba981387568ca2d"
+      ],
+      "start": "2024-12-29T00:00:00Z",
+      "window_id": "2025-Q1"
+    },
+    {
+      "as_of": "2025-07-01T00:00:00Z",
+      "data_hash": "e3c61080cfb1f378cecab654266b703f0431f0f59c10edb417aa86173f32d4ab",
+      "end_exclusive": "2025-07-01T00:00:00Z",
+      "file_sha256": "46c1b81087c0783d1ba643d5a83cb61eefeb64d1ae8c865ffe00d7b04867f9aa",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2025-Q2/datasets/dataset_f108abf2ebc50524da1ead6cc514b3e1dd786f4d9e1f0f39a1449a9b75bf636f.json",
+      "retrieved_at_max": "2026-09-05T13:26:52.670873Z",
+      "retrieved_at_min": "2026-09-05T13:26:47.419725Z",
+      "snapshot_id": "f108abf2ebc50524da1ead6cc514b3e1dd786f4d9e1f0f39a1449a9b75bf636f",
+      "source_receipt_hashes": [
+        "19647cddb4b25819a94d65fa079b46174ff6ca2a8c3c348e39ef87799917298a",
+        "f7172c37946a2dfe851dae42e3fb548c900ede12e3993100c7fdfe2221b05901",
+        "cdce7729a5935c4c0f7211cc580553d5ee0b3db659dd6b7dba369607ce0112f7",
+        "a63687084159e877d384aa03b7de498faa49c8b899887a2478d8a669487078f8",
+        "3ca0f8f027ecefa96779e260fae6219da74529c59a058b08a3473c93b9ff5ae2",
+        "38b8aaea87309322da185606ba1222564938eb167706e4c2efb8b3eb6bc9a549",
+        "c9792a04104a3a65b4a0628267acf06bb15195615d3688e96366de091e66cb87",
+        "6dd52855ddb4c3a1f588ce98603e760cdcae9e4cf31d32734ea14d0f58c7c0ea"
+      ],
+      "start": "2025-03-29T00:00:00Z",
+      "window_id": "2025-Q2"
+    },
+    {
+      "as_of": "2025-10-01T00:00:00Z",
+      "data_hash": "bdac0e57db2066016a6fc9653dcad02ac7676d251880e66cfc8dba41e2cbd16c",
+      "end_exclusive": "2025-10-01T00:00:00Z",
+      "file_sha256": "d04ec71421412678fe9d27dc659db6964a44c047788c89607287bbe7192848bf",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2025-Q3/datasets/dataset_939127d5a4cb73e6423a6f41bbdab80db903eba07dc99fe6946eb5adbf3dd2a3.json",
+      "retrieved_at_max": "2026-09-05T13:26:59.321992Z",
+      "retrieved_at_min": "2026-09-05T13:26:53.823901Z",
+      "snapshot_id": "939127d5a4cb73e6423a6f41bbdab80db903eba07dc99fe6946eb5adbf3dd2a3",
+      "source_receipt_hashes": [
+        "77c5e4f94fc3b9d04306027ca87bd9987ff0044f3888024730c7cd55a7064452",
+        "53296f2b1c3622ecfaeffeed488e8e39f6f382080193206b767cc695ef599f17",
+        "3e39d29596180fa35e6a1461338e0f6e66898f7b4384c6692a3f968b70721a2f",
+        "2407ad78ad709cbadf1ad9d5d858716d3116f0adb005ccd7a14eed1c90d84c6e",
+        "981fcbd1fcf0ba5f4fdd2cfdf1d206f1ed6447477e1da3228b7377bfcca02ee3",
+        "2f2f41aee6cfb6e831553af5e381a3750a0212556a0c412c0df1c73f12954fdb",
+        "e9669c65e9f13496080808c6a7ccd17f64f7e06264991cb6241e113cd147d210",
+        "d303435fa91c354124c27012a58ff2e22c0e5b333e9b34d23a1da6360f64d06b"
+      ],
+      "start": "2025-06-28T00:00:00Z",
+      "window_id": "2025-Q3"
+    },
+    {
+      "as_of": "2026-01-01T00:00:00Z",
+      "data_hash": "b7969d9dbb5374fe771d463d7f10e32ad008f09c807723910f73283dc07c855c",
+      "end_exclusive": "2026-01-01T00:00:00Z",
+      "file_sha256": "34ff7829b64899283469a525717d9c875a4436a4e0a396b4931c676fb13620ba",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2025-Q4/datasets/dataset_4a8e9dca8180286751454c9a3953a9fd7919512e6c2cb6d0b383ab357030a92f.json",
+      "retrieved_at_max": "2026-09-05T13:27:06.543763Z",
+      "retrieved_at_min": "2026-09-05T13:27:00.451537Z",
+      "snapshot_id": "4a8e9dca8180286751454c9a3953a9fd7919512e6c2cb6d0b383ab357030a92f",
+      "source_receipt_hashes": [
+        "af348b1f0c5bb263317746f5951611b2b5dca3f2a05e937fd425beb82d79ab05",
+        "b22a3302207d1b53ede8abb2f792974ddc1cc1a2c3819167e54d1b3ad1fa8ff4",
+        "7832178369424bcb01b12814f8b945b1a288fb160dff88b13c979d0e4b73f1c4",
+        "56cda20ee03f1c468b890db4ebb8ee3d92a2da1594635d310aa9aab50d5c9b5a",
+        "bc9611db4c3587423b31dcfab670ff7380230f7e6d61d33badc53e4fedb20c18",
+        "32d0a2d2e6332890986033741eb20f054e1b02cc9c38dd33ab0562ba49293abe",
+        "ab84716cfbcd7cab83b739b9312f7cc305cf56c3d86c88f1da8ac7f1220b8038",
+        "f6d9fe34ccf60561a1206346fea3a6d73daddf39deae62b62bba2953f5653960"
+      ],
+      "start": "2025-09-28T00:00:00Z",
+      "window_id": "2025-Q4"
+    },
+    {
+      "as_of": "2026-04-01T00:00:00Z",
+      "data_hash": "2d3b4b28e92bf98400bab7618ce010ca99a083cbc684066202db0ffe8d443c58",
+      "end_exclusive": "2026-04-01T00:00:00Z",
+      "file_sha256": "92cf36b921a783fbf6d6ed982657cc85866a068fa5c1035691b1554fa292114c",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2026-Q1/datasets/dataset_8488a24a4687737a535c8ac39d2bdc9363113ccce512ad46b5087d586bbfea27.json",
+      "retrieved_at_max": "2026-09-05T13:27:13.493608Z",
+      "retrieved_at_min": "2026-09-05T13:27:07.716587Z",
+      "snapshot_id": "8488a24a4687737a535c8ac39d2bdc9363113ccce512ad46b5087d586bbfea27",
+      "source_receipt_hashes": [
+        "add8a5b7f15b2dd8d3ed8ff64ad11ee6a86b2095d1cd1132bf9275d5f9e07b58",
+        "aed0b6ebf1f0b9c93ab516bf45c68ddbf4a91a6d30f4b2c316072e86059ed012",
+        "dbd0ee220957c83bd52545ede2a9fbe45413c3ea26ebf7adac74ad3545fb8e03",
+        "21ffcbf66c9161471392b07992f94feaca7c1887f560ab2a731be1f473bbdbef",
+        "23b924b670c98df5c787fe77521e710aa70b49213609126d5e6da5afb317d3aa",
+        "507694c0ba3c24fe8d16e911b14bd19bdc7b335ad6b55df780b6666232a92b94",
+        "72f78b1f21290ba94aab69ca7848a05db6e32c3236d12c5f2b3dca113b13b790",
+        "d8149df01adaff13ebe53bf4bbfbb51dc47785c4770c380d5967920d176ad490"
+      ],
+      "start": "2025-12-29T00:00:00Z",
+      "window_id": "2026-Q1"
+    },
+    {
+      "as_of": "2026-07-01T00:00:00Z",
+      "data_hash": "6fe9d102ea5b8eebd167fc7af28a438fad39abae45d704421fdd4e369e892d21",
+      "end_exclusive": "2026-07-01T00:00:00Z",
+      "file_sha256": "bc8ebd32e73f74f76ccce4fefe59fea464c4a156d59ea8ceeecffc268e30c352",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2026-Q2/datasets/dataset_f5477e5fbe6104b2d443a7f7b215d4d20ffb5ccfdb20cd1f2fde740f3215dc35.json",
+      "retrieved_at_max": "2026-09-05T13:27:20.484998Z",
+      "retrieved_at_min": "2026-09-05T13:27:14.552210Z",
+      "snapshot_id": "f5477e5fbe6104b2d443a7f7b215d4d20ffb5ccfdb20cd1f2fde740f3215dc35",
+      "source_receipt_hashes": [
+        "6fca40716834bec4f5558570d56d55b0054b8cff528286a0625e5932b9175c09",
+        "49385bf923416a52a68e2b9ca7556dce4c822d8994ca444da0344b19843f10f8",
+        "ad50e05692ec6d45b57e47a14ead1d48d3e920afb8ec0f1d855aaf555a03da73",
+        "a3fa0f078ddd9a7456919453430bd7e0227942c54062f2095c99fb5d330aa97b",
+        "21777fbd66477983eb375cbe67b844f63cfd4b4e82923c324791f9e62d03abda",
+        "a6c3fcecbf06712279e2669bf05a91c8cb9dc9154ec92c94d0624a073d3bc4fb",
+        "ad65f777fc04967357338bdc7d8c3aea622b968ca28e0e9b818da5a4ae81bf65",
+        "64776d1318b6b014e850327117ad5fc845ef5d2c123cd479f2c3a7999aa7a8dc"
+      ],
+      "start": "2026-03-29T00:00:00Z",
+      "window_id": "2026-Q2"
+    },
+    {
+      "as_of": "2026-08-01T00:00:00Z",
+      "data_hash": "c143d83252b17ba7108351030fcfe54cb44a0fba129f3467bb3777d43d049114",
+      "end_exclusive": "2026-08-01T00:00:00Z",
+      "file_sha256": "36e54d133d236c9c29cc1d25d65a77c2430d8f84997eec42bf16b725f9f666b0",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2026-07/datasets/dataset_3c3a2b0aef8aaf2631c98a6f7901b1aa90d2e2163694092c019db838356678ad.json",
+      "retrieved_at_max": "2026-09-05T13:27:23.197327Z",
+      "retrieved_at_min": "2026-09-05T13:27:21.769145Z",
+      "snapshot_id": "3c3a2b0aef8aaf2631c98a6f7901b1aa90d2e2163694092c019db838356678ad",
+      "source_receipt_hashes": [
+        "1dc431696b31204a33cb5cdb410d5a2b955dbccb8d68a247085779a3c9703d2f",
+        "a03ed058a15265942d53f4c8333ad76704432ad57d8934c44885ec189f888635",
+        "e185349c4845d4ff0f3ce348d3a63fd638c7ff9feb45b628be5cb17b54afd0a7"
+      ],
+      "start": "2026-06-28T00:00:00Z",
+      "window_id": "2026-07"
+    },
+    {
+      "as_of": "2026-09-01T00:00:00Z",
+      "data_hash": "05fd8c888e977a7434106831f58929a148c23ddd50d224e8cadf9571c3805893",
+      "end_exclusive": "2026-09-01T00:00:00Z",
+      "file_sha256": "46a72d43c17a3fb5b30b177e75cd63fcefdaa55f84043b3fc642e86255260da5",
+      "path_relative_to_repository": "artifacts/multiwindow-captures-20260905/2026-08-seen/datasets/dataset_12dbd29332d8c5e80413c3b7b1223974e247cc8aad3453cbc18f23caeb1b824a.json",
+      "retrieved_at_max": "2026-09-05T13:27:25.372275Z",
+      "retrieved_at_min": "2026-09-05T13:27:23.943693Z",
+      "snapshot_id": "12dbd29332d8c5e80413c3b7b1223974e247cc8aad3453cbc18f23caeb1b824a",
+      "source_receipt_hashes": [
+        "eb3f4c89cd34d45733e3c1acde91f9da7b51a8baf384f62a6c0b0e93be657139",
+        "954655a950eedb76b92ab8b5046839e837cbb91e6a348f8f1ab354bf4b75a687",
+        "f539b88f3761da15fa3e6410be5fdfbb0e096bb3d4e2819914eca3f334bfd440"
+      ],
+      "start": "2026-07-29T00:00:00Z",
+      "window_id": "2026-08-seen"
+    }
+  ],
+  "planned_trajectories": 15,
+  "portfolio_initialization": "FLAT_10000_ONCE_AT_SCORE_START",
+  "research_only": true,
+  "reset_comparison_windows": [
+    {
+      "score_end": "2023-04-01T00:00:00Z",
+      "score_start": "2023-01-04T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q1"
+    },
+    {
+      "score_end": "2023-07-01T00:00:00Z",
+      "score_start": "2023-04-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q2"
+    },
+    {
+      "score_end": "2023-10-01T00:00:00Z",
+      "score_start": "2023-07-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q3"
+    },
+    {
+      "score_end": "2024-01-01T00:00:00Z",
+      "score_start": "2023-10-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q4"
+    },
+    {
+      "score_end": "2024-04-01T00:00:00Z",
+      "score_start": "2024-01-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q1"
+    },
+    {
+      "score_end": "2024-07-01T00:00:00Z",
+      "score_start": "2024-04-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q2"
+    },
+    {
+      "score_end": "2024-10-01T00:00:00Z",
+      "score_start": "2024-07-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q3"
+    },
+    {
+      "score_end": "2025-01-01T00:00:00Z",
+      "score_start": "2024-10-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q4"
+    },
+    {
+      "score_end": "2025-04-01T00:00:00Z",
+      "score_start": "2025-01-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q1"
+    },
+    {
+      "score_end": "2025-07-01T00:00:00Z",
+      "score_start": "2025-04-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q2"
+    },
+    {
+      "score_end": "2025-10-01T00:00:00Z",
+      "score_start": "2025-07-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q3"
+    },
+    {
+      "score_end": "2026-01-01T00:00:00Z",
+      "score_start": "2025-10-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q4"
+    },
+    {
+      "score_end": "2026-04-01T00:00:00Z",
+      "score_start": "2026-01-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2026-Q1"
+    },
+    {
+      "score_end": "2026-07-01T00:00:00Z",
+      "score_start": "2026-04-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2026-Q2"
+    },
+    {
+      "score_end": "2026-08-01T00:00:00Z",
+      "score_start": "2026-07-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2026-07"
+    },
+    {
+      "score_end": "2026-09-01T00:00:00Z",
+      "score_start": "2026-08-01T00:00:00Z",
+      "split": "PREVIOUSLY_VIEWED_HISTORY",
+      "window_id": "2026-08-seen"
+    }
+  ],
+  "reset_plan_hash": "925206d29125388574c641f14cbec16e9842b1c4f6abaaee6a3ce12cabb2dfab",
+  "reset_run_file_sha256": "76ddb0e4f0b3d1c935606fbbcaa9747959b622ace0d8387b5c8955fff35c14b3",
+  "reset_summary_hash": "63837a36550ea8514d3a8506c7befa00c17c417beaf84ee14396dc3e40b4a9de",
+  "return_reconciliation": "PRODUCT_OF_ADJACENT_BOUNDARY_EQUITY_RATIOS_EQUALS_FINAL_OVER_INITIAL",
+  "risk": {
+    "max_daily_loss_pct": 0.05,
+    "max_leverage": 1,
+    "max_position_pct": 0.35,
+    "max_single_loss_pct": 0.03,
+    "min_cash_pct": 0.05
+  },
+  "schema_version": "continuous-history-plan-v1",
+  "score_end": "2026-09-01T00:00:00Z",
+  "score_start": "2023-01-04T00:00:00Z",
+  "slice_policy": "MONTHS_QUARTERS_AND_EXACT_OLD_RESET_INTERVALS_FROM_SAME_CANONICAL_EQUITY_AND_FILLS",
+  "slippage_pct": 0.0005,
+  "source_content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "source_derivation": "VERIFY_PARENT_RAW_BYTES_DEDUP_EQUAL_CANONICAL_ROWS_DERIVED_CSV_IMPORTED_UNVERIFIED"
+}

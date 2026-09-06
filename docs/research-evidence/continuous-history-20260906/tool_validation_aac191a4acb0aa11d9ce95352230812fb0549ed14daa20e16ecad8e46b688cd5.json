@@ -1,0 +1,19 @@
+{
+  "all_existing_evidence_bytes_unchanged": true,
+  "completed_cell_retry_count": 15,
+  "completed_cell_retry_engine_calls": 0,
+  "live_allowed": false,
+  "order_allowed": false,
+  "original_trajectory_execution_tool_sha256": "5987eab9b4f4b4bcd175b409a91353306fa0e8f3d01c23a763d3beae505b4dc0",
+  "paper_allowed": false,
+  "prefrozen_plan_and_derived_input_binding_verified": true,
+  "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "schema_version": "continuous-tool-validation-v1",
+  "semantic_test_command": "python -B -m unittest discover -s tests/repository_only -p test_continuous_study.py -v",
+  "semantic_test_result_basis": "OBSERVED_EXIT_0_10_TESTS_IN_0.555_SECONDS",
+  "semantic_tests_passed": 10,
+  "status": "PASS",
+  "test_file_sha256": "35a7e6147008bf64da8e9f7185a577afd3874696004020a27dd3b15b3cf59a2b",
+  "tool_change_after_results": "INPUT_AND_FROZEN_PLAN_BINDING_ONLY_NO_ENGINE_OR_METRIC_BEHAVIOR_CHANGE",
+  "tool_sha256": "434a6769c5527215bbc0ed10d6a9df42077514acce0121920ee4d940478aaf28"
+}
