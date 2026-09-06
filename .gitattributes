@@ -91,3 +91,7 @@ archive/historical_research/adr0532_data.py -text diff merge -whitespace
 
 # Published receipts and their byte-checksum indexes must survive checkout intact.
 docs/research-evidence/** -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# The forward scheduler pins these deployed bytes in its promotion receipt.
+tools/forward_reliability.py -text diff merge
+docs/studies/forward-reliability-plan-20260906.json -text diff merge
