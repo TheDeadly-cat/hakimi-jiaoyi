@@ -24,16 +24,23 @@ elapsed denominators; a fraction with an empty denominator is `null`.
 
 An observed `MISSING` entry in an earlier immutable report remains missing.
 Explicit backfill observations are listed separately, even if a later record
-exists. Repeated calls never move a cutoff, rewrite first observation times,
+exists. This also applies if the original driver later records a legitimate
+same-hour `LATE` observation without a backfill flag: its actual timing and
+`backfill=false` remain in the nested observation, while the frozen top-level
+status stays `MISSING`. The coverage `observed_fraction` counts top-level
+`ON_TIME` and `LATE` rows, not all physically present observation files. Later
+file or replay counts can therefore increase without improving that fraction.
+Repeated calls never move a cutoff, rewrite first observation times,
 repair an incomplete capture directory or refill absent input. The wrapper
 always lets the existing driver select its actual current hour. It refuses to
 start the child in the last five minutes of an hour and verifies the returned
 cutoff; clock drift or a different returned hour produces a failed receipt.
 
-At 2026-09-06 07:33 UTC, the window had 17 elapsed cutoffs: **10 ON_TIME, six
-LATE, 18 MISSING and zero FAILED strategy hours** out of 34. There were 110
-future strategy hours. The nine missing hours remain September 5 21:00 through
-September 6 05:00 UTC. The full 72-hour window is still incomplete. See the
+At 2026-09-06 08:52 UTC, the window had 18 elapsed cutoffs: **10 ON_TIME, six
+LATE, 20 MISSING and zero FAILED strategy hours** out of 36. There were 108
+future strategy hours. The ten missing hours are September 5 21:00 through
+September 6 05:00 UTC, plus September 6 08:00 UTC. The full 72-hour window is
+still incomplete. See the
 [current evidence and limitations](research-evidence/forward-reliability-20260906/README.md).
 
 ## Actual scheduling evidence
