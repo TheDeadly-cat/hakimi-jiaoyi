@@ -1,0 +1,20 @@
+{
+  "actual_installed_read_only_replays": 18,
+  "coverage_report_hash": "3bda7c8c93b9b42d627c77fa09c44e05081ec15d317699765c8c486888f1891d",
+  "local_contract_tests": {
+    "errors": 0,
+    "failures": 0,
+    "run": 19,
+    "skips": 0,
+    "success": true
+  },
+  "new_sidecar_deployed_by_this_subtask": false,
+  "original_cycle_files_observed_unchanged_during_report": 54,
+  "original_preservation_evidence": "Before/after SHA256 dictionaries compared equal in the actual installed read-only report invocation, 2026-09-06T07:33Z",
+  "published_original_observation_copies_verified": 18,
+  "scheduled_window_finished": false,
+  "schema_version": "forward-reliability-verification-v1",
+  "sidecar_under_unit_test_sha256": "213e855414e125b419c0153f189b01415bb22d68e0f3f168c21e5014ac4472da",
+  "test_scope": "Local harmless stubs plus real OS-lock subprocess; no market collection, accounts, order execution or scheduled trigger simulated as real evidence",
+  "verified_at_utc": "2026-09-06T07:39:33.828925Z"
+}
