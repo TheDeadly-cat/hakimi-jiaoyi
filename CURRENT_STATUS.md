@@ -12,6 +12,8 @@ PR #1已合并，发布标签固定在`45850899992361970043f2da70e785210025ae9e`
 正式发布入口下载的Windows wheel已在仓库外安装，90项测试与离线研究/重放通过；Linux安装证据来自实际Ubuntu CI任务。
 双平台发布资产与原CI验收件的身份及下载核验见[发布验收记录](docs/research-evidence/release-0.2.1-20260909/README.md)。
 
+[PR #2合并前审查处理](docs/research-evidence/pr2-review-20260909/README.md)补强缓存回放回执与五分钟宽限期校验；40项针对性测试通过，原15份缓存重新核对2,964,940项账本检查，原始研究证据与发布资产不变。
+
 下一阶段见[当前任务状态](docs/next-stage-status.md)。已完成的[15条连续历史轨迹](docs/research-evidence/continuous-history-20260906/README.md)
 仍使用原受验收0.2.1源码，正常成本Dual MA总收益−6.07%、RSI−28.01%；15/15独立重放及账本核对通过。
 这些是同一笔起始资金的持续路径，不是把旧reset-window收益拼接起来。

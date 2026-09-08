@@ -436,6 +436,39 @@ def run(root, plan_path, snapshot_path, output, public):
     return {"summary": str(path), "completed": len(rows)}
 
 
+def validate_replay_receipt(row, plan, method, factor, report, snapshot, report_file_sha256, accounting):
+    """Bind cached and fresh replay evidence identically; recompute ledger evidence."""
+    expected = {"method": method["label"], "cost_factor": factor, "plan_hash": digest(plan),
+                "original_report_hash": report["report_hash"], "report_file_sha256": report_file_sha256}
+    if any(canonical_bytes(row.get(key)) != canonical_bytes(value) for key, value in expected.items()):
+        raise ValueError("continuous_replay_receipt_binding_failed")
+    replayed = row.get("replay", {})
+    if not isinstance(replayed, dict):
+        raise ValueError("continuous_replay_receipt_binding_failed")
+    provenance = replayed.get("replay_provenance", {})
+    source = provenance.get("source_identity", {})
+    environment = provenance.get("environment_verified", {})
+    original_environment = report["evidence"]["environment_verified"]
+    if (replayed.get("schema_version") != "research-replay-receipt-v1"
+            or replayed.get("receipt_hash") != digest({k: v for k, v in replayed.items() if k != "receipt_hash"})
+            or any(replayed.get(key) is not True for key in ("result_matches", "source_matches", "environment_verified", "replay_verified"))
+            or replayed.get("original_report_hash") != report["report_hash"]
+            or replayed.get("original_result_hash") != report["result_hash"]
+            or replayed.get("replayed_result_hash") != report["result_hash"]
+            or replayed.get("snapshot_id") != snapshot.snapshot_id
+            or canonical_bytes(replayed.get("execution_permission")) != canonical_bytes(report["execution_permission"])
+            or source.get("status") != "BUILD_VERIFIED" or source.get("content_sha256") != SOURCE
+            or source.get("file_hashes") != report["evidence"]["source_identity"].get("file_hashes")
+            or digest(source.get("file_hashes")) != SOURCE
+            or environment.get("status") != "VERIFIED" or original_environment.get("status") != "VERIFIED"
+            or environment.get("lock_sha256") != original_environment.get("lock_sha256")
+            or environment.get("packages") != original_environment.get("packages")):
+        raise ValueError("continuous_replay_report_or_runtime_binding_failed")
+    if (accounting.get("status") != "PASS" or accounting.get("failures") != []
+            or canonical_bytes(row.get("independent_decimal_ledger")) != canonical_bytes(accounting)):
+        raise ValueError("continuous_replay_recomputed_accounting_mismatch")
+
+
 def replay_and_reconcile(root, plan_path, snapshot_path, output, public):
     provenance = require_runtime()
     plan, snapshot = require_bound_input(plan_path, snapshot_path, output)
@@ -451,19 +484,18 @@ def replay_and_reconcile(root, plan_path, snapshot_path, output, public):
             if report["spec"] != make_spec(plan, snapshot, method, factor).document or sha(attempt["report_path"]) != attempt["report_file_sha256"]:
                 raise ValueError("replay_original_cell_changed")
             local_path = output / "replay" / f"{key}.json"
-            if local_path.exists():
+            existing = local_path.exists()
+            accounting = ledger.reconcile(report, snapshot.document)
+            if existing:
                 row = read_document(local_path)
-                if row["original_report_hash"] != report["report_hash"] or row["plan_hash"] != digest(plan):
-                    raise ValueError("replay_receipt_changed")
             else:
                 print(json.dumps({"event": "REPLAY_STARTED", "cell": key}), flush=True)
                 checked = replay_report(snapshot, ResearchReport(report))
-                accounting = ledger.reconcile(report, snapshot.document)
-                if not checked["replay_verified"] or accounting["status"] != "PASS":
-                    raise ValueError("continuous_replay_or_accounting_failed")
                 row = {"method": method["label"], "cost_factor": factor, "plan_hash": digest(plan),
                        "original_report_hash": report["report_hash"], "report_file_sha256": sha(attempt["report_path"]),
                        "replay": checked, "independent_decimal_ledger": accounting}
+            validate_replay_receipt(row, plan, method, factor, report, snapshot, attempt["report_file_sha256"], accounting)
+            if not existing:
                 frozen_write(local_path, row)
             rows.append(row)
             print(json.dumps({"event": "REPLAY_VERIFIED", "cell": key, "checks": row["independent_decimal_ledger"]["checks"]}), flush=True)

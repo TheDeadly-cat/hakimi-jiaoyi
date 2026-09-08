@@ -1,6 +1,6 @@
 """Source-contract tests for the read-only Markdown projection, without engines."""
 from copy import deepcopy
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import importlib.util
 import json
 import os
@@ -300,6 +300,85 @@ class ResearchViewTests(unittest.TestCase):
         self.forward["report_hash"] = view.digest({key: value for key, value in self.forward.items() if key != "report_hash"})
         self.write(self.forward_path, self.forward)
         with self.assertRaisesRegex(ValueError, "summary_vs_rows_count_mismatch"):
+            view.load_forward(self.forward_path)
+
+    def forward_during_grace(self, seconds=120, observed=False, failed=False):
+        spec = importlib.util.spec_from_file_location("forward_view_fixture", ROOT / "tools/forward_reliability.py")
+        producer = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(producer)
+        plan = producer.load_plan(ROOT / "docs/studies/forward-reliability-plan-20260906.json")
+        cutoff = producer.timestamp(plan["start_cutoff"])
+        records = []
+        if observed:
+            item = plan["plans"][0]
+            records.append({**item, "cutoff": producer.stamp(cutoff), "backfill": False,
+                "timing_status": "ON_TIME", "signal_available_at": producer.stamp(cutoff + timedelta(seconds=120)),
+                "reference_execution_eligible_at": producer.stamp(cutoff + timedelta(hours=1)),
+                "reference_execution_performed": False})
+        problems = [{**plan["plans"][0], "cutoff": producer.stamp(cutoff), "reason": "conflicting observation"}] if failed else []
+        return producer.build_coverage(plan, records, problems, [], [], cutoff + timedelta(seconds=seconds))
+
+    def write_forward(self, report):
+        report["report_hash"] = view.digest({key: value for key, value in report.items() if key != "report_hash"})
+        self.write(self.forward_path, report)
+
+    def test_forward_producer_future_pending_and_early_success_keep_correct_denominators(self):
+        for seconds, observed, status, elapsed, pending in (
+                (-1, False, "PLANNED", 0, 0), (0, False, "PENDING", 0, 2),
+                (299, False, "PENDING", 0, 2), (300, False, "MISSING", 2, 0),
+                (120, True, "ON_TIME", 0, 1), (300, True, "ON_TIME", 2, 0)):
+            with self.subTest(seconds=seconds, observed=observed):
+                report = self.forward_during_grace(seconds, observed)
+                self.write_forward(report)
+                result = view.load_forward(self.forward_path)["summary"]
+                self.assertEqual(result["rows"][0]["status"], status)
+                self.assertEqual(result["elapsed_strategy_hours"], elapsed)
+                self.assertEqual(result["pending_strategy_hours"], pending)
+
+    def test_forward_active_hour_rejects_resealed_status_changes(self):
+        for observed, statuses in ((False, ("PLANNED", "MISSING", "FAILED", "UNKNOWN")),
+                                   (True, ("PLANNED", "PENDING", "MISSING", "FAILED", "LATE", "UNKNOWN"))):
+            for status in statuses:
+                with self.subTest(observed=observed, status=status):
+                    report = self.forward_during_grace(observed=observed)
+                    row = report["rows"][0]
+                    row["status"] = status
+                    if row["observation"]:
+                        row["observation"]["timing_status"] = status
+                    report["future_strategy_hours"] = sum(row["status"] == "PLANNED" for row in report["rows"])
+                    report["pending_strategy_hours"] = sum(row["status"] == "PENDING" for row in report["rows"])
+                    self.write_forward(report)
+                    with self.assertRaisesRegex(ValueError, "active_hour_misclassified"):
+                        view.load_forward(self.forward_path)
+
+    def test_forward_early_success_cannot_use_a_signal_outside_observed_time(self):
+        for seconds in (-1, 121, 301):
+            with self.subTest(signal_seconds=seconds):
+                report = self.forward_during_grace(observed=True)
+                row = report["rows"][0]
+                available = datetime.fromisoformat(row["cutoff"]) + timedelta(seconds=seconds)
+                row["observation"]["signal_available_at"] = available.isoformat().replace("+00:00", "Z")
+                eligible = available.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
+                row["observation"]["reference_execution_eligible_at"] = eligible.isoformat().replace("+00:00", "Z")
+                self.write_forward(report)
+                with self.assertRaisesRegex(ValueError, "observation_or_signal_timing_mismatch"):
+                    view.load_forward(self.forward_path)
+
+    def test_forward_producer_active_failure_with_observation_stops_view(self):
+        report = self.forward_during_grace(observed=True, failed=True)
+        self.assertEqual(report["rows"][0]["status"], "FAILED")
+        self.assertIsNotNone(report["rows"][0]["observation"])
+        self.assertIsNotNone(report["rows"][0]["failure"])
+        self.write_forward(report)
+        with self.assertRaisesRegex(ValueError, "active_hour_misclassified"):
+            view.load_forward(self.forward_path)
+        self.assertEqual(view.read(self.forward_path)["rows"][0]["status"], "FAILED")
+
+    def test_forward_pending_summary_cannot_hide_active_hours_after_reseal(self):
+        report = self.forward_during_grace()
+        report["pending_strategy_hours"] = 0
+        self.write_forward(report)
+        with self.assertRaisesRegex(ValueError, "summary_denominator_mismatch"):
             view.load_forward(self.forward_path)
 
     def test_forward_planned_hours_cannot_be_counted_as_elapsed(self):

@@ -344,21 +344,29 @@ def load_forward(path):
     for row in rows:
         cutoff = datetime.fromisoformat(row["cutoff"])
         elapsed = as_of >= cutoff + timedelta(seconds=300)
+        observation = row["observation"]
         if row["elapsed"] is not elapsed or not first <= cutoff < end:
             raise ValueError("forward_elapsed_range_mismatch")
         if elapsed:
             if row["status"] not in {"ON_TIME", "LATE", "MISSING", "FAILED"}:
                 raise ValueError("forward_future_status_in_elapsed_denominator")
             counts[row["status"]] += 1
-        elif cutoff > as_of and row["status"] != "PLANNED":
-            raise ValueError("forward_future_hour_misclassified")
-        observation = row["observation"]
+        elif cutoff > as_of:
+            if row["status"] != "PLANNED":
+                raise ValueError("forward_future_hour_misclassified")
+        elif row["status"] != ("ON_TIME" if observation else "PENDING"):
+            # The producer can record a real signal before the deadline;
+            # unobserved active hours are pending, not future or missing.
+            # Conflicting failure/missing evidence during this interval must
+            # stop the view; never relabel that evidence as a success.
+            raise ValueError("forward_active_hour_misclassified")
         if row["status"] in {"ON_TIME", "LATE"} and (not observation or observation["timing_status"] != row["status"]):
             raise ValueError("forward_success_status_without_matching_observation")
         if observation:
             available = datetime.fromisoformat(observation["signal_available_at"])
             eligible = available.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
-            if (observation["cutoff"] != row["cutoff"] or observation["plan_hash"] != row["plan_hash"]
+            if (not cutoff <= available <= as_of
+                    or observation["cutoff"] != row["cutoff"] or observation["plan_hash"] != row["plan_hash"]
                     or observation["reference_execution_performed"] is not False
                     or datetime.fromisoformat(observation["reference_execution_eligible_at"]) != eligible):
                 raise ValueError("forward_observation_or_signal_timing_mismatch")
@@ -366,7 +374,8 @@ def load_forward(path):
     same(counts, value["counts"], "forward_summary_vs_rows_count_mismatch")
     if (value["planned_strategy_hours"] != 144 or value["elapsed_strategy_hours"] != sum(counts.values())
             or value["elapsed_hours"] * 2 != sum(counts.values())
-            or value["future_strategy_hours"] != sum(row["status"] == "PLANNED" for row in rows)):
+            or value["future_strategy_hours"] != sum(row["status"] == "PLANNED" for row in rows)
+            or value["pending_strategy_hours"] != sum(row["status"] == "PENDING" for row in rows)):
         raise ValueError("forward_summary_denominator_mismatch")
     return {"summary": value, "path": path}
 
@@ -400,7 +409,7 @@ def render(continuous, diagnostics, forward, verification, output, inputs_path, 
     scope = continuous["summary"]["plan"]
     lines = ["# 哈基米只读研究视图", "", "当前研究限定为 BTC-USDT 现货 1h、固定规则、历史描述与独立空仓前向信号。账户、paper、live 和订单权限保持关闭。", "",
              "本页是固定证据生成的研究快照；当前发布与版本状态以 " + _link("CURRENT_STATUS.md", output.parent.parent / "CURRENT_STATUS.md", output) + " 为准。", "",
-             "生成时发布状态：等待维护者明确批准合并与持久发布；本视图不执行发布。性能：本轮未应用优化。", "",
+             "本视图不判定或执行版本发布；当前发布状态见上方 CURRENT_STATUS.md。性能：本轮未应用优化。", "",
              "数值从规范 JSON 生成，每个表内数字可点击回查原始投影。百分数显示三位小数，金额显示两位；空值显示不可估计 / 未提供。", "",
              "## 一次初始化的连续历史 · 0.2.1", "",
              f"评分区间 {_link(SCORE_START + ' 至 ' + SCORE_END + '（右端不含）', continuous['path'], output)}，只在起点初始化 {_number(scope['initial_cash'], 'money', continuous['path'], output)} USDT。跨月、季度保留同一条资金与持仓路径。", "",
@@ -539,7 +548,7 @@ def build(root, continuous_path, diagnostic_path, forward_path, verification_pat
              "inputs": entries, "source_versions": SOURCES, "continuous_trajectories": 15,
              "diagnostic_trajectories": 16 if diagnostics else None, "continuous_replay_verified": 15 if verification else None,
              "forward_as_of": forward["summary"]["as_of_utc"], "forward_72_hour_window_complete": forward["summary"]["window_elapsed"],
-             "optimization_applied": False, "release_status": "AWAITING_MAINTAINER_APPROVAL", "order_allowed": False}
+             "optimization_applied": False, "release_status": "SEE_CURRENT_STATUS", "order_allowed": False}
     for name, path in narrative_sources.items():
         entries.append({"family": name, "kind": "reviewed_narrative_source", "path": path.relative_to(root).as_posix(),
                         "file_sha256": sha(path)})

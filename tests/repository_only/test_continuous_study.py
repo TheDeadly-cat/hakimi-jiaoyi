@@ -5,6 +5,7 @@ import math
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import pandas as pd
 
@@ -172,6 +173,133 @@ class ContinuousHistoryTests(unittest.TestCase):
                     rows = [{k: v for k, v in row.items() if k not in {"execution_disposition", "cancelled_at_bar_time"}} for row in output[field] if pd.Timestamp(row[stamp]) < cutoff]
                     values.append(rows)
                 self.assertEqual(values[0], values[1], (method["label"], field))
+
+
+class ContinuousReplayCacheTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        fixture_spec = importlib.util.spec_from_file_location("continuous_replay_fixture", ROOT / "tests/test_experiment_runner.py")
+        fixtures = importlib.util.module_from_spec(fixture_spec)
+        fixture_spec.loader.exec_module(fixtures)
+        cls.snapshot = fixtures.snapshot_fixture()
+        cls.spec = study.ExperimentSpec.from_document(fixtures.spec_fixture(cls.snapshot))
+        cls.report = study.ExperimentRunner().run(cls.snapshot, cls.spec).document
+        cls.source = cls.report["evidence"]["source_identity"]["content_sha256"]
+        ledger_spec = importlib.util.spec_from_file_location("continuous_cache_ledger_fixture", ROOT / "scripts/reconcile_research_ledger.py")
+        cls.ledger = importlib.util.module_from_spec(ledger_spec)
+        ledger_spec.loader.exec_module(cls.ledger)
+        cls.accounting = cls.ledger.reconcile(cls.report, cls.snapshot.document)
+        cls.method = {"label": "dual_ma"}
+        cls.plan = {"methods": [cls.method], "cost_factors": [1]}
+        cls.checked = study.replay_report(cls.snapshot, study.ResearchReport(cls.report))
+        # A repository-only fixture models an installed-source receipt. This is
+        # synthetic validation input, not an installed build acceptance claim.
+        cls.checked["replay_provenance"]["source_identity"]["status"] = "BUILD_VERIFIED"
+        cls.reseal(cls.checked)
+
+    @staticmethod
+    def reseal(replayed):
+        replayed["receipt_hash"] = study.digest({k: v for k, v in replayed.items() if k != "receipt_hash"})
+
+    def receipt(self, file_hash="f" * 64):
+        return {"method": "dual_ma", "cost_factor": 1, "plan_hash": study.digest(self.plan),
+                "original_report_hash": self.report["report_hash"], "report_file_sha256": file_hash,
+                "replay": copy.deepcopy(self.checked), "independent_decimal_ledger": copy.deepcopy(self.accounting)}
+
+    def validate(self, row):
+        with patch.object(study, "SOURCE", self.source):
+            study.validate_replay_receipt(row, self.plan, self.method, 1, self.report,
+                                          self.snapshot, "f" * 64, self.accounting)
+
+    def test_valid_cached_receipt_preserves_original_bytes(self):
+        row = self.receipt()
+        before = canonical_bytes(row)
+        self.validate(row)
+        self.assertEqual(canonical_bytes(row), before)
+
+    def test_false_replay_flags_are_rejected_even_when_resealed(self):
+        for key in ("result_matches", "source_matches", "environment_verified", "replay_verified"):
+            for value in (False, 1, None):
+                with self.subTest(key=key, value=value):
+                    row = self.receipt()
+                    row["replay"][key] = value
+                    self.reseal(row["replay"])
+                    with self.assertRaisesRegex(ValueError, "runtime_binding_failed"):
+                        self.validate(row)
+
+    def test_changed_replay_identity_is_rejected_with_or_without_valid_seal(self):
+        for key in ("original_report_hash", "original_result_hash", "replayed_result_hash", "snapshot_id"):
+            for resealed in (False, True):
+                with self.subTest(key=key, resealed=resealed):
+                    row = self.receipt()
+                    row["replay"][key] = "0" * 64
+                    if resealed:
+                        self.reseal(row["replay"])
+                    with self.assertRaisesRegex(ValueError, "runtime_binding_failed"):
+                        self.validate(row)
+
+    def test_changed_source_environment_and_permissions_cannot_claim_pass(self):
+        paths = [
+            ("replay_provenance", "source_identity", "content_sha256"),
+            ("replay_provenance", "source_identity", "status"),
+            ("replay_provenance", "source_identity", "file_hashes"),
+            ("replay_provenance", "environment_verified", "status"),
+            ("replay_provenance", "environment_verified", "lock_sha256"),
+            ("replay_provenance", "environment_verified", "packages"),
+            ("execution_permission", "order_allowed"),
+        ]
+        for path in paths:
+            with self.subTest(path=path):
+                row = self.receipt()
+                target = row["replay"]
+                for key in path[:-1]:
+                    target = target[key]
+                target[path[-1]] = "changed"
+                self.reseal(row["replay"])
+                with self.assertRaisesRegex(ValueError, "runtime_binding_failed"):
+                    self.validate(row)
+
+    def test_cached_cell_binding_and_recomputed_ledger_are_required(self):
+        for key in ("method", "cost_factor", "plan_hash", "report_file_sha256"):
+            row = self.receipt()
+            row[key] = "changed"
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError, "receipt_binding_failed"):
+                self.validate(row)
+        for key, value in (("status", "FAIL"), ("failures", ["changed"]),
+                           ("checks", self.accounting["checks"] + 1), ("maximum_absolute_numeric_error", "999")):
+            row = self.receipt()
+            row["independent_decimal_ledger"][key] = value
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError, "recomputed_accounting_mismatch"):
+                self.validate(row)
+
+    def test_cached_resume_reconciles_without_engine_or_receipt_overwrite(self):
+        for changed in (False, True):
+            with self.subTest(changed=changed), tempfile.TemporaryDirectory() as directory:
+                output = Path(directory)
+                report_path = study.ResearchReport(self.report).save(output / "reports")
+                file_hash = study.sha(report_path)
+                study.frozen_write(output / "cells/dual_ma-1x.json", {"report_path": str(report_path), "report_file_sha256": file_hash})
+                cached = self.receipt(file_hash)
+                if changed:
+                    cached["independent_decimal_ledger"]["checks"] += 1
+                cached_path = output / "replay/dual_ma-1x.json"
+                study.frozen_write(cached_path, cached)
+                before = cached_path.read_bytes()
+                public = output / "public"
+                with patch.object(study, "SOURCE", self.source), \
+                        patch.object(study, "require_runtime", return_value=self.checked["replay_provenance"]), \
+                        patch.object(study, "require_bound_input", return_value=(self.plan, self.snapshot)), \
+                        patch.object(study, "make_spec", return_value=self.spec), \
+                        patch.object(study, "replay_report", side_effect=AssertionError("cached replay must not rerun engine")):
+                    if changed:
+                        with self.assertRaisesRegex(ValueError, "recomputed_accounting_mismatch"):
+                            study.replay_and_reconcile(ROOT, output / "plan", output / "snapshot", output, public)
+                        self.assertFalse(public.exists())
+                    else:
+                        result = study.replay_and_reconcile(ROOT, output / "plan", output / "snapshot", output, public)
+                        self.assertEqual(result["checks"], self.accounting["checks"])
+                        self.assertEqual(read_document(result["verification"])["status"], "PASS")
+                self.assertEqual(cached_path.read_bytes(), before)
 
 
 if __name__ == "__main__":
