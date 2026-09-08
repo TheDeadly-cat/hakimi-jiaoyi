@@ -1,0 +1,14 @@
+{
+  "actual_started_at": "2026-09-07T15:03:08.639638Z",
+  "attempt_id": "20260907T150308639638Z_7a59d36159d14bfb96bf92cd209933cb",
+  "input_cutoff": "2026-09-07T15:00:00Z",
+  "order_allowed": false,
+  "plan_hash": "f2a02318846a8bd9ed80c667920d9b6c8fc7b27a1b27b70010f9422d0bf0b3d3",
+  "receipt_hash": "32427ca7ba3550c4c5f29a4c44df8263cdbfd90175617e0d62c37d2ecab65da1",
+  "scheduled_trigger_at": "2026-09-07T15:01:00Z",
+  "schema_version": "forward-execution-start-v1",
+  "trigger_at": "2026-09-07T15:02:38.295Z",
+  "trigger_evidence": "CALLER_SUPPLIED_SCHEDULER_EVENT",
+  "trigger_kind": "SCHEDULED",
+  "wrapper_sha256": "213e855414e125b419c0153f189b01415bb22d68e0f3f168c21e5014ac4472da"
+}

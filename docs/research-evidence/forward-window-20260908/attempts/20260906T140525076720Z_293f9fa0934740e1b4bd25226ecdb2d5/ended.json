@@ -1,0 +1,87 @@
+{
+  "actual_ended_at": "2026-09-06T14:05:28.995773Z",
+  "attempt_id": "20260906T140525076720Z_293f9fa0934740e1b4bd25226ecdb2d5",
+  "automatic_backfill": false,
+  "child_ended_at": "2026-09-06T14:05:28.988370Z",
+  "child_started_at": "2026-09-06T14:05:25.274742Z",
+  "classification": "FIRST_ATTEMPT",
+  "exit_code": 0,
+  "input_cutoff": "2026-09-06T14:00:00Z",
+  "new_missing": [],
+  "notification": {
+    "decision": "NOTIFY",
+    "delivery_status": "NOT_RECORDED",
+    "reasons": [
+      "late_observation"
+    ]
+  },
+  "observations": 2,
+  "order_allowed": false,
+  "original_bytes_preserved": true,
+  "plan_hash": "f2a02318846a8bd9ed80c667920d9b6c8fc7b27a1b27b70010f9422d0bf0b3d3",
+  "receipt_hash": "cf5bec9a61c4ed67231e4a2b2d8b22c0e392940c3e87bf47447df4e9558f2973",
+  "records": [
+    {
+      "backfill": false,
+      "bar_close_time": "2026-09-06T14:00:00Z",
+      "cutoff": "2026-09-06T14:00:00Z",
+      "data_received_at": "2026-09-06T14:05:28.307526Z",
+      "data_received_at_evidence": "ORIGINAL_INPUT_RECEIPT_CLOCK",
+      "input_hash": "d218e8179cb2355e51298abbfd4380298570e114242fbc7ec2c4c9862c40ee8c",
+      "lateness_seconds": 328.624316,
+      "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+      "record_file": "forward_observation_3e9b0915946dfed5a5b948f31dadfc5162031617dbee4fe022fd4b8cbe4e0450.json",
+      "record_file_sha256": "e1aebc529903d60b290d3302de9a0845300bb1abcbaaae0f2a87e3584a947090",
+      "record_hash": "3e3b6dd7078c2599731a34a7eae9479c06c14819c644ab8acc40847fa0b00718",
+      "reference_execution_eligible_at": "2026-09-06T15:00:00Z",
+      "reference_execution_performed": false,
+      "reference_execution_policy": "FIRST_HOURLY_OPEN_STRICTLY_AFTER_SIGNAL_AVAILABILITY",
+      "reference_execution_price": null,
+      "signal_available_at": "2026-09-06T14:05:28.624316Z",
+      "signal_available_at_evidence": "ORIGINAL_OBSERVER_CLOCK",
+      "snapshot_id": "4533415746684fc266dbe19fee9a3a3a088081091797dee52434d84541662d89",
+      "strategy": "dual_ma",
+      "timing_status": "LATE"
+    },
+    {
+      "backfill": false,
+      "bar_close_time": "2026-09-06T14:00:00Z",
+      "cutoff": "2026-09-06T14:00:00Z",
+      "data_received_at": "2026-09-06T14:05:28.307526Z",
+      "data_received_at_evidence": "ORIGINAL_INPUT_RECEIPT_CLOCK",
+      "input_hash": "d218e8179cb2355e51298abbfd4380298570e114242fbc7ec2c4c9862c40ee8c",
+      "lateness_seconds": 328.816292,
+      "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+      "record_file": "forward_observation_bd005bd8fb45d86543ab5d44b83bde882ae4d25b8a921a88f87a820cb59f94ae.json",
+      "record_file_sha256": "beec70ed611d1f6f161e744c11636a4740be4a14553da840b5df12e023e8bad2",
+      "record_hash": "a4be1c8fa482e36301a8d00221c1a6f324afe7edb21d7ae1147f455e7bc01570",
+      "reference_execution_eligible_at": "2026-09-06T15:00:00Z",
+      "reference_execution_performed": false,
+      "reference_execution_policy": "FIRST_HOURLY_OPEN_STRICTLY_AFTER_SIGNAL_AVAILABILITY",
+      "reference_execution_price": null,
+      "signal_available_at": "2026-09-06T14:05:28.816292Z",
+      "signal_available_at_evidence": "ORIGINAL_OBSERVER_CLOCK",
+      "snapshot_id": "4533415746684fc266dbe19fee9a3a3a088081091797dee52434d84541662d89",
+      "strategy": "rsi",
+      "timing_status": "LATE"
+    }
+  ],
+  "recovery": false,
+  "replays_verified": 2,
+  "runtime_verification": {
+    "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+    "environment_status": "VERIFIED",
+    "runtime_tools_verified": {
+      "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e",
+      "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+      "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b"
+    },
+    "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+    "source_status": "BUILD_VERIFIED"
+  },
+  "schema_version": "forward-execution-end-v1",
+  "started_receipt_hash": "7eb2addca9687681cc20a736245d9b6c47c5107a0605a06a20de49a71be4b36e",
+  "status": "RECORDED_AND_REPLAYED",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "4139c57eea00a52006bb017730fb4b9eb3ef4ae1e9c73e757ed626427777f4fb"
+}

@@ -1,0 +1,105 @@
+{
+  "actual_ended_at": "2026-09-07T08:44:52.084354Z",
+  "attempt_id": "20260907T084445044487Z_e4e51202b0bd4ff6a7ad606b1ddd4bd7",
+  "automatic_backfill": false,
+  "child_ended_at": "2026-09-07T08:44:52.073419Z",
+  "child_started_at": "2026-09-07T08:44:45.952108Z",
+  "classification": "FIRST_ATTEMPT",
+  "exit_code": 0,
+  "input_cutoff": "2026-09-07T08:00:00Z",
+  "new_missing": [
+    {
+      "cutoff": "2026-09-07T06:00:00Z",
+      "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c"
+    },
+    {
+      "cutoff": "2026-09-07T06:00:00Z",
+      "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5"
+    },
+    {
+      "cutoff": "2026-09-07T07:00:00Z",
+      "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c"
+    },
+    {
+      "cutoff": "2026-09-07T07:00:00Z",
+      "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5"
+    }
+  ],
+  "notification": {
+    "decision": "NOTIFY",
+    "delivery_status": "NOT_RECORDED",
+    "reasons": [
+      "late_observation",
+      "new_missing_strategy_hours"
+    ]
+  },
+  "observations": 2,
+  "order_allowed": false,
+  "original_bytes_preserved": true,
+  "plan_hash": "f2a02318846a8bd9ed80c667920d9b6c8fc7b27a1b27b70010f9422d0bf0b3d3",
+  "receipt_hash": "4aca44444826dc1795554bec387036526a497e278af09976867358c43f879853",
+  "records": [
+    {
+      "backfill": false,
+      "bar_close_time": "2026-09-07T08:00:00Z",
+      "cutoff": "2026-09-07T08:00:00Z",
+      "data_received_at": "2026-09-07T08:44:50.808172Z",
+      "data_received_at_evidence": "ORIGINAL_INPUT_RECEIPT_CLOCK",
+      "input_hash": "a3e383cd9462e5af426aa617a54a6adda472bb8bd0a0d39e46a2dc8043a7fd5c",
+      "lateness_seconds": 2691.27312,
+      "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+      "record_file": "forward_observation_0fbb894f79303a5a4815017177caeb44ba1f59ab5fcc08bfbfb7ca7ceb557325.json",
+      "record_file_sha256": "a31153dba58eae067f179f10df75eb8e8d014b120e6757746401785c8fa2b978",
+      "record_hash": "7c75c6b5b0d840b1fca7077a2f557154f41bf248184062a92cb371d9ba795d3e",
+      "reference_execution_eligible_at": "2026-09-07T09:00:00Z",
+      "reference_execution_performed": false,
+      "reference_execution_policy": "FIRST_HOURLY_OPEN_STRICTLY_AFTER_SIGNAL_AVAILABILITY",
+      "reference_execution_price": null,
+      "signal_available_at": "2026-09-07T08:44:51.273120Z",
+      "signal_available_at_evidence": "ORIGINAL_OBSERVER_CLOCK",
+      "snapshot_id": "455f458391a26f12ffcfa7ba1b1deb793d8d478185b3e1c0acd08c5a0d2330f2",
+      "strategy": "dual_ma",
+      "timing_status": "LATE"
+    },
+    {
+      "backfill": false,
+      "bar_close_time": "2026-09-07T08:00:00Z",
+      "cutoff": "2026-09-07T08:00:00Z",
+      "data_received_at": "2026-09-07T08:44:50.808172Z",
+      "data_received_at_evidence": "ORIGINAL_INPUT_RECEIPT_CLOCK",
+      "input_hash": "a3e383cd9462e5af426aa617a54a6adda472bb8bd0a0d39e46a2dc8043a7fd5c",
+      "lateness_seconds": 2691.71992,
+      "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+      "record_file": "forward_observation_c5b8744b61e9117e7c3057fe1d49c76187564129e9b53ddbe3028575357e69ba.json",
+      "record_file_sha256": "6a881424e24eaf9e46bdaa81d0cb6244d2ac40c02b764788a840dc9cd9a6962c",
+      "record_hash": "063f939f5873279a1ae4aa7cb70bd3803f5953333d4284cd612bb83f77f0b55d",
+      "reference_execution_eligible_at": "2026-09-07T09:00:00Z",
+      "reference_execution_performed": false,
+      "reference_execution_policy": "FIRST_HOURLY_OPEN_STRICTLY_AFTER_SIGNAL_AVAILABILITY",
+      "reference_execution_price": null,
+      "signal_available_at": "2026-09-07T08:44:51.719920Z",
+      "signal_available_at_evidence": "ORIGINAL_OBSERVER_CLOCK",
+      "snapshot_id": "455f458391a26f12ffcfa7ba1b1deb793d8d478185b3e1c0acd08c5a0d2330f2",
+      "strategy": "rsi",
+      "timing_status": "LATE"
+    }
+  ],
+  "recovery": false,
+  "replays_verified": 2,
+  "runtime_verification": {
+    "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+    "environment_status": "VERIFIED",
+    "runtime_tools_verified": {
+      "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e",
+      "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+      "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b"
+    },
+    "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+    "source_status": "BUILD_VERIFIED"
+  },
+  "schema_version": "forward-execution-end-v1",
+  "started_receipt_hash": "2d3127aadcbc810dab3840b32f9ee8124319bc109add4e1f3313ee216d029996",
+  "status": "RECORDED_AND_REPLAYED",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "5b2c7cc0f0b2a7b5970e17c6e266db019f5c83023e3b89f57fe2fa511e769fc2"
+}

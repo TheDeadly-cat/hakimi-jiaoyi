@@ -8,7 +8,7 @@
     "--continuous",
     "docs/research-evidence/continuous-history-20260906/summary_9f66079f3a2adc75106e1a2b0975589191d44adea852dec113b6f6e71dfa8e94.json",
     "--forward",
-    "docs/research-evidence/forward-reliability-20260906/coverage_aea0735944562210f26f030380bfe8e031184dfb6689274af39969dc36654c91.json",
+    "docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
     "--output",
     "docs/research-view.md",
     "--inputs-index",
@@ -22,8 +22,8 @@
   "continuous_replay_verified": 15,
   "continuous_trajectories": 15,
   "diagnostic_trajectories": 16,
-  "forward_72_hour_window_complete": false,
-  "forward_as_of": "2026-09-06T08:52:44.320686Z",
+  "forward_72_hour_window_complete": true,
+  "forward_as_of": "2026-09-08T15:05:31.777052Z",
   "generator_sha256": "256f9094b085051391d525e39921354489c2fa92cc1b742a59ad80d27bd8e1fa",
   "inputs": [
     {
@@ -367,9 +367,9 @@
     },
     {
       "family": "forward",
-      "file_sha256": "0295e94e63676fa8eadaf176878bc89af84de122e7ebaca46301133d00058b08",
+      "file_sha256": "f2738d824582a90fae3efb348117f37ef5ec48d7fbd8e25fdf185131ebb09083",
       "kind": "summary",
-      "path": "docs/research-evidence/forward-reliability-20260906/coverage_aea0735944562210f26f030380bfe8e031184dfb6689274af39969dc36654c91.json",
+      "path": "docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
       "schema_version": "forward-reliability-coverage-v1"
     },
     {
@@ -395,7 +395,7 @@
   "optimization_applied": false,
   "order_allowed": false,
   "release_status": "AWAITING_MAINTAINER_APPROVAL",
-  "rendered_markdown_sha256": "dd1baa07e3478dcaa37b298beb91f48931d70ab151dd2b9c4182d11abafef9ce",
+  "rendered_markdown_sha256": "423bc438e974c5e35599d9884b507474a391a372dbc142794dadb8cffefa857f",
   "schema_version": "research-view-inputs-v1",
   "source_versions": {
     "0.2.1": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",

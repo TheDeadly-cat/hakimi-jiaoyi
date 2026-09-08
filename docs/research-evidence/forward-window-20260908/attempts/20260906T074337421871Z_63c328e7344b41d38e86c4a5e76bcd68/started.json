@@ -1,0 +1,14 @@
+{
+  "actual_started_at": "2026-09-06T07:43:37.421871Z",
+  "attempt_id": "20260906T074337421871Z_63c328e7344b41d38e86c4a5e76bcd68",
+  "input_cutoff": "2026-09-06T07:00:00Z",
+  "order_allowed": false,
+  "plan_hash": "f2a02318846a8bd9ed80c667920d9b6c8fc7b27a1b27b70010f9422d0bf0b3d3",
+  "receipt_hash": "b567e6b013b9c354d8b6a7e1cda7b56d3a7904e43421994c1a645616fc79e2c8",
+  "scheduled_trigger_at": "2026-09-06T07:01:00Z",
+  "schema_version": "forward-execution-start-v1",
+  "trigger_at": null,
+  "trigger_evidence": "UNAVAILABLE",
+  "trigger_kind": "MANUAL",
+  "wrapper_sha256": "213e855414e125b419c0153f189b01415bb22d68e0f3f168c21e5014ac4472da"
+}
