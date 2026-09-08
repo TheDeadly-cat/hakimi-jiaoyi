@@ -7,7 +7,7 @@ import math
 from typing import Any, Callable
 
 from .event_replay import EventReplayService
-from .paper_executor import PaperExecutor
+from hakimi_research.research_execution_rehearsal import ResearchExecutionRehearsalSimulator
 from .portfolio_risk import evaluate_portfolio_risk
 from .risk_service import RiskService, build_risk_snapshot
 
@@ -15,6 +15,34 @@ from .risk_service import RiskService, build_risk_snapshot
 PORTFOLIO_EXECUTION_REHEARSAL_SCHEMA_VERSION = "portfolio-internal-execution-rehearsal-v1"
 SUPPORTED_FEE_RATE = 0.0005
 
+
+def _research_rehearsal_authorization(risk_result: dict[str, object]) -> dict[str, object]:
+    if type(risk_result) is not dict:
+        return {
+            "allowed": False,
+            "blockers": ["risk_result_exact_dict_required"],
+            "research_rehearsal_allowed": False,
+            "mode": "RESEARCH_REHEARSAL",
+            "paper_order_allowed": False,
+            "live_order_allowed": False,
+            "order_entry_allowed": False,
+        }
+    raw_blockers = risk_result.get("blockers", [])
+    blockers = list(raw_blockers) if type(raw_blockers) is list and all(type(item) is str for item in raw_blockers) else ["risk_result_blockers_exact_list_required"]
+    allowed = risk_result.get("allowed") is True and not blockers
+    result = dict(risk_result)
+    result.update(
+        {
+            "allowed": allowed,
+            "blockers": blockers,
+            "research_rehearsal_allowed": allowed,
+            "mode": "RESEARCH_REHEARSAL",
+            "paper_order_allowed": False,
+            "live_order_allowed": False,
+            "order_entry_allowed": False,
+        }
+    )
+    return result
 
 def _canonical_hash(payload: Any) -> str:
     raw = json.dumps(payload, ensure_ascii=True, sort_keys=True, separators=(",", ":"), default=str)
@@ -160,7 +188,7 @@ def run_portfolio_execution_rehearsal(
     _check(checks, "initial_cash", initial_cash > 0, f"initial_cash={initial_cash:.2f}")
     _check(
         checks,
-        "paper_executor_fee_contract",
+        "research_execution_rehearsal_fee_contract",
         abs(fee_rate - SUPPORTED_FEE_RATE) <= 1e-12,
         f"backtest_fee_rate={fee_rate:.8f} / executor_fee_rate={SUPPORTED_FEE_RATE:.8f}",
     )
@@ -287,7 +315,7 @@ def run_portfolio_execution_rehearsal(
             regime=dict(current.get("regime") or {}),
         ),
     )
-    executor = PaperExecutor(
+    executor = ResearchExecutionRehearsalSimulator(
         now_ms=lambda: clock[0],
         audit_writer=lambda event: audit_events.append(deepcopy(event)),
         book_reader=lambda _symbol, _side: [[current["price"], current["quantity"] * 1.000001]],
@@ -403,7 +431,7 @@ def run_portfolio_execution_rehearsal(
             "order_type": "MARKET",
             "mark_price": expected_price,
             "notional": expected_notional,
-            "risk_result": risk,
+            "risk_result": _research_rehearsal_authorization(risk),
             "context": context,
         }
         report = executor.submit(**submit_args)
@@ -521,7 +549,7 @@ def run_portfolio_execution_rehearsal(
     )
     _check(
         checks,
-        "paper_order_lifecycle",
+        "research_rehearsal_lifecycle",
         lifecycle_fill_count == len(source_orders),
         f"filled={lifecycle_fill_count}/{len(source_orders)}",
     )

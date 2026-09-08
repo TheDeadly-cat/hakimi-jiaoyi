@@ -7,26 +7,24 @@ from typing import Any
 
 import pandas as pd
 
-from hakimi_research.source_layout import activate_legacy_project_root
-
-
-activate_legacy_project_root()
-
-from quant_bot.backtest import BacktestEngine  # noqa: E402
-from quant_bot.config import BotConfig  # noqa: E402
-from quant_bot.experiment_manifest import (  # noqa: E402
+from hakimi_research.backtest import BacktestEngine
+from hakimi_research.config import BotConfig
+from hakimi_research.experiment_manifest import (
     canonical_payload_hash,
     verify_reproducible_experiment_manifest,
 )
-from quant_bot.models import Portfolio, Signal  # noqa: E402
-from quant_bot.risk import RiskManager  # noqa: E402
-from quant_bot.strategies.base import StrategyBase  # noqa: E402
-from quant_bot.strategies.templates import build_strategy  # noqa: E402
+from hakimi_research.models import Portfolio, Signal
+from hakimi_research.risk import RiskManager
+from hakimi_research.strategies.base import StrategyBase
+from hakimi_research.strategies.templates import build_strategy
 
 
-PROTOCOL_SCHEMA_VERSION = "frozen-evaluation-protocol-v1"
-REPORT_SCHEMA_VERSION = "frozen-evaluation-report-v1"
-MARKDOWN_REPORT_VERSION = "frozen-evaluation-markdown-v1"
+PROTOCOL_SCHEMA_VERSION = "frozen-evaluation-protocol-v2"
+REPORT_SCHEMA_VERSION = "frozen-evaluation-report-v2"
+MARKDOWN_REPORT_VERSION = "frozen-evaluation-markdown-v2"
+DIAGNOSTIC_KINDS = frozenset({
+    "SYNTHETIC_REGRESSION_DIAGNOSTIC", "UNVERIFIED_FIXED_SPLIT_DIAGNOSTIC",
+})
 EVIDENCE_SCOPE = (
     "LOCAL_FIXED_SPLIT_RESEARCH_ONLY_NOT_BLIND_NOT_NATURAL_FORWARD_"
     "NO_SINGLE_CONSUMPTION_PROOF"
@@ -182,7 +180,10 @@ def build_frozen_evaluation_protocol(
     embargo_rows: int,
     frozen_test_rows: int,
     random_seed: int = 0,
+    evidence_kind: str = "UNVERIFIED_FIXED_SPLIT_DIAGNOSTIC",
 ) -> dict[str, Any]:
+    if type(evidence_kind) is not str or evidence_kind not in DIAGNOSTIC_KINDS:
+        raise ValueError("frozen_evaluation_diagnostic_kind_required")
     counts = {
         "train_rows": train_rows,
         "purge_rows": purge_rows,
@@ -258,6 +259,8 @@ def build_frozen_evaluation_protocol(
             for benchmark_id, version in BENCHMARKS
         ],
         "policy": {
+            "evidence_kind": evidence_kind,
+            "formal_confirmation": False,
             "train_rankable": False,
             "validation_role_only": True,
             "frozen_test_role_only": True,
@@ -312,6 +315,7 @@ def verify_frozen_evaluation_protocol(
             embargo_rows=windows[3]["row_count"],
             frozen_test_rows=windows[4]["row_count"],
             random_seed=protocol["policy"]["random_seed"],
+            evidence_kind=protocol["policy"]["evidence_kind"],
         )
     except (IndexError, KeyError, TypeError) as exc:
         raise ValueError("frozen_evaluation_protocol_shape_invalid") from exc
@@ -477,6 +481,13 @@ def build_frozen_evaluation_report(
         "strategy": dict(protocol["strategy"]),
         "strategy_runs": strategy_runs,
         "benchmark_runs": benchmark_runs,
+        "interpretation": {
+            "classification": protocol["policy"]["evidence_kind"],
+            "formal_confirmation": False,
+            "source_hash_is_statistical_evidence": False,
+            "zero_fills_prove_execution_behavior": False,
+            "nested_manifest_pass_meaning": "DECLARED_IDENTITY_BINDING_ONLY_NOT_INDEPENDENT_REPLAY_OR_ENVIRONMENT_VERIFICATION",
+        },
         "quality_gate": {
             "status": "BLOCK",
             "blockers": blockers,
@@ -516,6 +527,7 @@ def verify_frozen_evaluation_report(
         "strategy",
         "strategy_runs",
         "benchmark_runs",
+        "interpretation",
         "quality_gate",
         "authority",
         "report_id",
@@ -644,6 +656,14 @@ def verify_frozen_evaluation_report(
     }
     if report["quality_gate"] != expected_quality_gate:
         raise ValueError("frozen_evaluation_quality_gate_invalid")
+    if report["interpretation"] != {
+        "classification": protocol["policy"]["evidence_kind"],
+        "formal_confirmation": False,
+        "source_hash_is_statistical_evidence": False,
+        "zero_fills_prove_execution_behavior": False,
+        "nested_manifest_pass_meaning": "DECLARED_IDENTITY_BINDING_ONLY_NOT_INDEPENDENT_REPLAY_OR_ENVIRONMENT_VERIFICATION",
+    }:
+        raise ValueError("frozen_evaluation_interpretation_invalid")
     core = {key: value for key, value in report.items() if key not in {"report_id", "report_hash"}}
     expected_hash = canonical_payload_hash(core)
     if (
@@ -676,11 +696,24 @@ def _markdown_metric(result: dict[str, Any], field: str) -> float:
     return parsed
 
 
+def _markdown_optional_metric(result: dict[str, Any], field: str, *, percent: bool = False) -> str:
+    if field not in result:
+        raise ValueError(f"frozen_evaluation_markdown_{field}_missing")
+    if result[field] is None:
+        reason = result.get("statistical_status", {}).get(field, "UNAVAILABLE")
+        return f"not estimable ({_markdown_cell(reason, field='statistical_reason')})"
+    value = _markdown_metric(result, field)
+    return f"{value * 100:.4f}%" if percent else format(value, ".4f")
+
+
 def _markdown_observation_row(record: dict[str, Any], *, benchmark: bool) -> str:
     result = record["result"]
     trades = result.get("trades")
     if type(trades) is not int or type(trades) is bool or trades < 0:
         raise ValueError("frozen_evaluation_markdown_trades_invalid")
+    round_trips = result.get("round_trip_count")
+    if type(round_trips) is not int or round_trips < 0:
+        raise ValueError("frozen_evaluation_markdown_round_trip_count_invalid")
     ambiguous = result.get("ambiguous_intrabar_count")
     if type(ambiguous) is not int or type(ambiguous) is bool or ambiguous < 0:
         raise ValueError("frozen_evaluation_markdown_ambiguous_intrabar_count_invalid")
@@ -697,13 +730,14 @@ def _markdown_observation_row(record: dict[str, Any], *, benchmark: bool) -> str
         format(_markdown_metric(record, "fee_rate"), ".6f"),
         format(_markdown_metric(record, "slippage_pct"), ".6f"),
         f"{_markdown_metric(result, 'total_return') * 100:.4f}%",
-        f"{_markdown_metric(result, 'annualized_return') * 100:.4f}%",
-        format(_markdown_metric(result, "sharpe_ratio"), ".4f"),
+        _markdown_optional_metric(result, "annualized_return", percent=True),
+        _markdown_optional_metric(result, "sharpe_ratio"),
         f"{_markdown_metric(result, 'max_drawdown') * 100:.4f}%",
         format(_markdown_metric(result, "final_equity"), ".4f"),
         format(_markdown_metric(result, "total_fees"), ".4f"),
         str(trades),
-        f"{_markdown_metric(result, 'win_rate') * 100:.4f}%",
+        str(round_trips),
+        _markdown_optional_metric(result, "win_rate", percent=True),
         str(ambiguous),
         "",
     ])
@@ -740,9 +774,11 @@ def render_frozen_evaluation_markdown(
     strategy = protocol["strategy"]
     quality = report["quality_gate"]
     lines = [
-        "# Hakimi Frozen Evaluation Report",
+        "# Hakimi Fixed Split Diagnostic Report",
         "",
         f"Renderer: `{MARKDOWN_REPORT_VERSION}`",
+        f"Classification: `{_markdown_cell(report['interpretation']['classification'], field='classification')}`",
+        "The Frozen Test role label is a historical partition name; this view is not formal confirmation.",
         "",
         "## SOURCE",
         "",
@@ -796,11 +832,14 @@ def render_frozen_evaluation_markdown(
         "- Frozen Test is blind: `false`",
         "- Frozen Test single consumption proven: `false`",
         "- Natural-forward evidence: `false`",
+        "- Source and result hashes bind declared inputs and outputs; they do not establish statistical validity, installed dependencies, or independent replay.",
+        "- A zero-fill row covers cash/no-action behavior only. It does not demonstrate stop execution, partial fills, or cost sensitivity.",
+        "- Nullable statistics are shown as not estimable with their reason; they are never replaced by numerical zero.",
         "",
         "### Registered strategy observations",
         "",
-        "| Role | Cost scenario | Fee rate | Slippage | Total return | Annualized return | Sharpe | Max drawdown | Final equity | Total fees | Trades | Win rate | Ambiguous intrabar |",
-        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Role | Cost scenario | Fee rate | Slippage | Total return | Annualized return | Sharpe | Max drawdown | Final equity | Total fees | Fills | Completed round trips | Win rate | Ambiguous intrabar |",
+        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ])
     lines.extend(
         _markdown_observation_row(record, benchmark=False)
@@ -810,8 +849,8 @@ def render_frozen_evaluation_markdown(
         "",
         "### Fixed benchmark observations",
         "",
-        "| Role | Benchmark | Fee rate | Slippage | Total return | Annualized return | Sharpe | Max drawdown | Final equity | Total fees | Trades | Win rate | Ambiguous intrabar |",
-        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Role | Benchmark | Fee rate | Slippage | Total return | Annualized return | Sharpe | Max drawdown | Final equity | Total fees | Fills | Completed round trips | Win rate | Ambiguous intrabar |",
+        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ])
     lines.extend(
         _markdown_observation_row(record, benchmark=True)

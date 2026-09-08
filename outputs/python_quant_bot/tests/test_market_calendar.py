@@ -41,6 +41,10 @@ class MarketCalendarTests(unittest.TestCase):
         self.assertEqual(contract["status"], "PASS")
         self.assertEqual(contract["expected_dates"], ["2026-07-02", "2026-07-06"])
         self.assertNotIn("2026-07-03", contract["expected_dates"])
+        self.assertEqual(contract["research_admission_status"], "RESEARCH_ONLY")
+        self.assertEqual(contract["source_class"], "THIRD_PARTY_LIBRARY")
+        self.assertFalse(contract["official_source_verified"])
+        self.assertFalse(contract["external_truth_verified"])
 
     def test_official_calendar_rejects_a_weekend_row(self) -> None:
         contract = build_market_calendar_contract(
@@ -73,6 +77,45 @@ class MarketCalendarTests(unittest.TestCase):
 
         self.assertEqual(contract["provider"], "deterministic_test_fixture")
         self.assertEqual(contract["expected_dates"], ["2026-07-02", "2026-07-03", "2026-07-06"])
+        self.assertEqual(contract["research_admission_status"], "TEST_ONLY")
+
+    def test_duplicate_observed_session_is_not_deduplicated_into_pass(self) -> None:
+        contract = build_market_calendar_contract(
+            calendar_name=TEST_CALENDAR_NAME,
+            start_date="2026-07-02",
+            end_date="2026-07-06",
+            observed_dates=[
+                "2026-07-02",
+                "2026-07-02",
+                "2026-07-03",
+                "2026-07-06",
+            ],
+        )
+
+        self.assertEqual(contract["status"], "BLOCK")
+        self.assertEqual(contract["duplicate_observed_date_count"], 1)
+        self.assertIn("duplicate_observed_dates:1", contract["blockers"])
+
+    def test_early_close_requires_observed_session_window(self) -> None:
+        missing_window = build_market_calendar_contract(
+            calendar_name="XNYS",
+            start_date="2026-11-27",
+            end_date="2026-11-27",
+            observed_dates=["2026-11-27"],
+        )
+        matched = build_market_calendar_contract(
+            calendar_name="XNYS",
+            start_date="2026-11-27",
+            end_date="2026-11-27",
+            observed_dates=["2026-11-27"],
+            observed_sessions=missing_window["schedule"],
+        )
+
+        self.assertEqual(missing_window["status"], "PASS")
+        self.assertFalse(missing_window["early_close_observation_complete"])
+        self.assertIn("early_close_session_window_unobserved", missing_window["warnings"])
+        self.assertEqual(matched["status"], "PASS")
+        self.assertTrue(matched["early_close_observation_complete"])
 
     def test_declared_suspension_keeps_the_market_session_for_valuation(self) -> None:
         contract = align_security_to_market_calendar(

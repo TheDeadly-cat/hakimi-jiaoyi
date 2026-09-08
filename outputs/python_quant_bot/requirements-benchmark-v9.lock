@@ -1,0 +1,17 @@
+# benchmark-research-lock-v1
+# scope=deterministic-synthetic-strategy-benchmark-v9
+# closure_policy=CURRENT_MARKERS_NO_EXTRAS
+# python_implementation=CPython
+# python_version=3.14.6
+# platform_system=Windows
+# platform_release=11
+# platform_machine=AMD64
+# artifact_hashes=ABSENT
+# full_application_scope=FALSE
+numpy==2.4.6
+packaging==26.2
+pandas==3.0.3
+pyarrow==24.0.0
+python-dateutil==2.9.0.post0
+six==1.17.0
+tzdata==2026.2

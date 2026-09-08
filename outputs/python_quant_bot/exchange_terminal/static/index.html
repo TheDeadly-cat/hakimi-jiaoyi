@@ -3,11 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>哈基米交易 v2</title>
+  <title>哈基米研究 v2</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./styles.css?v=20260822-evidence-calibration-rail-2">
   <link rel="stylesheet" href="./strategy_correlation_cluster_ticket_policy_v1.css?v=20260825-cluster-ticket-policy-a11y-2">
   <link rel="stylesheet" href="./terminal_visual_polish_v1.css?v=20260825-terminal-visual-polish-1">
+  <style>
+    [data-archived-capability-surface],
+    [data-archived-capability-control] { display: none !important; }
+    .research-only-boundary-banner {
+      margin: 10px 14px 0;
+      padding: 10px 14px;
+      border: 1px solid rgba(76, 155, 138, .42);
+      background: linear-gradient(90deg, rgba(18, 67, 59, .46), rgba(13, 25, 27, .82));
+      color: #d9f0e9;
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+  </style>
 </head>
 <body>
   <div class="app-shell">
@@ -15,8 +28,8 @@
       <div class="brand-row">
         <div class="brand-mark">Q</div>
         <div>
-          <div class="brand-name">哈基米交易</div>
-          <div class="brand-sub">MARKET RADAR</div>
+          <div class="brand-name">哈基米研究</div>
+          <div class="brand-sub">VALIDATION LAB</div>
         </div>
       </div>
 
@@ -25,10 +38,10 @@
           <span>01</span><strong>行情工作台</strong><em>K线 / 盘口 / 异动</em>
         </button>
         <button data-workspace-focus=".strategy-desk">
-          <span>02</span><strong>策略研究</strong><em>仅研究 / 模拟验证</em>
+          <span>02</span><strong>策略研究</strong><em>仅研究 / 历史验证</em>
         </button>
-        <button data-workspace-focus=".orders-panel">
-          <span>03</span><strong>模拟记录</strong><em>订单 / 条件 / 复盘</em>
+        <button data-workspace-focus=".orders-panel" data-archived-capability-control disabled>
+          <span>03</span><strong>执行已归档</strong><em>只读历史 / 复盘</em>
         </button>
         <button data-workspace-focus=".history-panel">
           <span>04</span><strong>数据记录</strong><em>账本 / 导出 / 日志</em>
@@ -65,7 +78,7 @@
       <div class="rail-section-title">研究账户</div>
       <div class="account-strip">
         <div>
-          <span>模拟权益</span>
+          <span>研究权益快照</span>
           <strong id="railEquity">10,000.00 USDT</strong>
         </div>
         <div>
@@ -84,14 +97,14 @@
         <div class="shell-title-main">
           <div class="shell-app-icon">H</div>
           <div>
-            <strong>哈基米交易 v2</strong>
-            <span>策略验证 + 模拟交易 + 风险审计</span>
+            <strong>哈基米研究 v2</strong>
+            <span>数据核验 + 策略验证 + 风险审计</span>
           </div>
         </div>
         <div class="shell-tabs" id="workspaceTabs">
           <button class="active" data-workspace-focus=".ticker-header">行情</button>
           <button data-workspace-focus=".strategy-desk">策略</button>
-          <button data-workspace-focus=".orders-panel">模拟</button>
+          <button data-workspace-focus=".orders-panel" data-archived-capability-control disabled>执行已归档</button>
           <button data-workspace-focus=".account-center-grid">账户</button>
           <button data-workspace-focus=".system-grid">系统</button>
         </div>
@@ -103,13 +116,13 @@
 
       <section class="desktop-statusbar">
         <div class="statusbar-left">
-          <strong>哈基米交易 v2</strong>
+          <strong>哈基米研究 v2</strong>
           <span id="desktopClock">--:--:--</span>
           <span id="desktopSession">本地终端</span>
         </div>
         <button id="commandOpen" class="command-trigger">搜索 / 命令</button>
         <div class="interface-switch" id="interfaceModeSwitch">
-          <button class="active" data-interface-view="platform">交易总控</button>
+          <button class="active" data-interface-view="platform">研究总控</button>
           <button data-interface-view="trade">行情</button>
           <button data-interface-view="marketai">AI分析</button>
           <button data-interface-view="bot">策略研究</button>
@@ -119,9 +132,9 @@
         </div>
         <div class="statusbar-right">
           <div class="mode-switch" id="desktopModeSwitch">
-            <button class="active" data-desktop-mode="PAPER">模拟</button>
-            <button data-desktop-mode="WATCH">观察</button>
-            <button data-desktop-mode="LOCKED">实盘锁定</button>
+            <button data-desktop-mode="PAPER" data-archived-capability-control disabled>模拟已归档</button>
+            <button class="active" data-desktop-mode="WATCH">研究观察</button>
+            <button data-desktop-mode="LOCKED" data-archived-capability-control disabled>实盘禁用</button>
           </div>
           <div class="status-select">
             <span>行情源</span>
@@ -133,7 +146,7 @@
           </div>
           <div class="status-pill"><i id="okxStatusLamp"></i><span>OKX</span><strong id="okxStatusText">检查中</strong></div>
           <div class="status-pill"><i id="futuStatusLamp"></i><span>Futu</span><strong id="futuStatusText">检查中</strong></div>
-          <div class="status-pill"><i id="paperStatusLamp"></i><span>模拟盘</span><strong id="paperStatusText">待启动</strong></div>
+          <div class="status-pill" data-archived-capability-surface><i id="paperStatusLamp"></i><span>模拟执行</span><strong id="paperStatusText">Archived</strong></div>
           <div class="status-pill"><i id="riskStatusLamp"></i><span>风控</span><strong id="desktopRiskText">--</strong></div>
           <button id="desktopRefresh" class="status-action">刷新</button>
           <button id="desktopFutuSetup" class="status-action">富途</button>
@@ -143,7 +156,7 @@
       <nav class="module-bar" id="moduleNav">
         <button class="active" data-focus=".ticker-header">行情台</button>
         <button data-focus=".strategy-desk">策略</button>
-        <button data-focus=".orders-panel">模拟</button>
+        <button data-focus=".orders-panel" data-archived-capability-control disabled>执行已归档</button>
         <button data-focus=".account-center-grid">账户</button>
         <button data-focus=".history-panel">数据</button>
         <button data-focus=".system-grid">系统</button>
@@ -151,11 +164,15 @@
 
       <section id="interfaceFocusBanner" class="interface-focus-banner"></section>
 
+      <section class="research-only-boundary-banner" role="status">
+        当前产品仅支持本地数据研究、历史回测、确定性 Frozen benchmark、证据审阅与报告导出。参数优化、paper、live 已归档，订单输入已禁用。
+      </section>
+
       <section id="platformControlCenter" class="platform-control-center evidence-calibrated" aria-label="研究证据与权限控制中心">
         <header class="platform-control-head">
           <div>
             <span>研究证据与权限边界</span>
-            <strong>交易总控</strong>
+            <strong>研究总控</strong>
             <em>行情、自然前向、策略和纯规划证据分开核验；任何通过都不会授予模拟或实盘权限。</em>
           </div>
           <div class="platform-control-actions">
@@ -773,12 +790,12 @@
         <section class="strategy-desk">
           <div class="panel-title">
             <strong>策略研究台</strong>
-            <span>研究证据与模拟规划并列，真实下单继续硬锁</span>
+            <span>研究证据与只读规划并列，所有执行能力已归档或禁用</span>
           </div>
           <div class="strategy-command-strip">
             <div><span>研究状态</span><strong id="strategyCommandStatus">等待研究观察</strong></div>
             <div><span>研究方向</span><strong id="strategyCommandDirection">方向未形成</strong></div>
-            <div><span>模拟参数（只读）</span><strong id="strategyCommandOrder">仅供规划 · 市价 / 全仓</strong></div>
+            <div><span>研究参数（只读）</span><strong id="strategyCommandOrder">仅供历史验证</strong></div>
             <div><span>风控证据</span><strong id="strategyCommandRisk">等待分析</strong></div>
             <div><span>模型估计（未校准）</span><strong id="strategyCommandProbability">--</strong></div>
           </div>
@@ -798,9 +815,9 @@
             <div>
               <label>模式</label>
               <select id="runMode">
-                <option>模拟盘</option>
-                <option>观察模式</option>
-                <option disabled>实盘需二次授权</option>
+                <option disabled>模拟盘（Archived）</option>
+                <option selected>观察模式</option>
+                <option disabled>实盘（Archived）</option>
               </select>
             </div>
             <div>
@@ -831,9 +848,9 @@
                 <option value="CURRENT">现价</option>
               </select>
             </div>
-            <button id="armStrategy">启动模拟策略</button>
-            <button id="stopStrategy" class="ghost-button">停止</button>
-            <button id="resetPaper" class="ghost-button">重置</button>
+            <button id="armStrategy" data-archived-capability-control disabled>模拟执行已归档</button>
+            <button id="stopStrategy" class="ghost-button" data-archived-capability-control disabled>停止</button>
+            <button id="resetPaper" class="ghost-button" data-archived-capability-control disabled>重置</button>
           </div>
           <div class="strategy-risk-layout">
             <div>
@@ -882,7 +899,7 @@
             <div id="strategyAnalysis" class="strategy-analysis">等待策略分析</div>
           </div>
           <div id="aiAnalysisCards" class="ai-analysis-cards"></div>
-          <div class="manual-trade-layout">
+          <div class="manual-trade-layout" data-archived-capability-surface>
             <div>
               <label>模拟干预仓位</label>
               <input id="manualQty" type="number" min="1" max="100" value="25">
@@ -909,8 +926,8 @@
 
         <section class="positions-panel">
           <div class="panel-title">
-            <strong>资产 / 持仓</strong>
-            <span>本地模拟</span>
+            <strong>历史资产 / 持仓快照</strong>
+            <span>只读归档</span>
           </div>
           <div class="position-table">
             <div class="position-row header"><span>标的</span><span>方向</span><span>数量</span><span>盈亏</span></div>
@@ -922,7 +939,7 @@
       <section class="automation-grid">
         <section class="orders-panel">
           <div class="panel-title">
-            <strong>模拟订单流</strong>
+            <strong>历史执行事件</strong>
             <span>
               <select id="orderFilter" class="mini-select">
                 <option value="ALL">全部</option>
@@ -1004,15 +1021,15 @@
 
         <section class="order-history-panel">
           <div class="panel-title">
-            <strong>订单历史</strong>
-            <span id="historyOrderSummary">最近成交</span>
+            <strong>历史执行记录</strong>
+            <span id="historyOrderSummary">只读归档</span>
           </div>
           <div id="historyOrderRows" class="history-order-list"></div>
         </section>
       </section>
 
       <section class="pro-grid">
-        <section class="conditional-panel">
+        <section class="conditional-panel" data-archived-capability-surface>
           <div class="panel-title">
             <strong>条件委托</strong>
             <span>模拟触发</span>
@@ -1601,7 +1618,7 @@
             <div><span>实盘</span><strong id="liveAuthState" class="flat">未授权</strong></div>
             <div><span>API Key</span><strong id="apiKeyState">环境变量</strong></div>
           </div>
-          <div class="api-form">
+          <div class="api-form" data-archived-capability-surface>
             <input id="apiKeyEnv" value="OKX_API_KEY">
             <input id="secretEnv" value="OKX_SECRET">
             <input id="passwordEnv" value="OKX_PASSWORD">
@@ -1797,7 +1814,7 @@
           <div id="assetRows" class="asset-list"></div>
         </section>
 
-        <section class="transfer-panel">
+        <section class="transfer-panel" data-archived-capability-surface>
           <div class="panel-title">
             <strong>资产划转</strong>
             <span>本地账本</span>
@@ -1824,7 +1841,7 @@
           <div id="transferRows" class="transfer-list"></div>
         </section>
 
-        <section class="guardian-panel">
+        <section class="guardian-panel" data-archived-capability-surface>
           <div class="panel-title">
             <strong>策略守护</strong>
             <span id="guardianState">STOPPED</span>
@@ -1881,7 +1898,7 @@
 
         <section class="v2-platform-panel">
           <div class="panel-title">
-            <strong>哈基米交易 v2 控制中心</strong>
+            <strong>哈基米研究 v2 控制中心</strong>
             <span id="v2PlatformState">加载中</span>
           </div>
           <div class="v2-platform-head">
@@ -1950,7 +1967,7 @@
               <select id="startModule">
                 <option value=".ticker-header">行情台</option>
                 <option value=".strategy-desk">策略</option>
-                <option value=".orders-panel">订单</option>
+                <option value=".orders-panel" disabled>执行记录（Archived）</option>
                 <option value=".history-panel">数据</option>
                 <option value=".account-center-grid">账户</option>
                 <option value=".system-grid">系统</option>
@@ -1968,7 +1985,7 @@
           </div>
         </section>
 
-        <section class="daemon-panel">
+        <section class="daemon-panel" data-archived-capability-surface>
           <div class="panel-title">
             <strong>后台守护入口</strong>
             <span id="daemonState">本地模拟</span>
@@ -1998,7 +2015,7 @@
             <span id="exportState">等待操作</span>
           </div>
           <div class="export-actions">
-            <button id="exportOrders">导出订单 CSV</button>
+            <button id="exportOrders">导出历史执行 CSV</button>
             <button id="exportLedger">导出事件 CSV</button>
           </div>
           <div id="exportPath" class="export-path">导出文件将保存到 runtime/exports</div>

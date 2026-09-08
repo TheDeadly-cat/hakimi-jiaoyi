@@ -1,0 +1,8 @@
+{
+  "git_commit_sha": "0000000000000000000000000000000000000000",
+  "git_worktree_clean": false,
+  "dependency_lock_hash": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+  "dependency_lock_fully_pinned": true,
+  "dependency_lock_name": "requirements.research.lock",
+  "runtime_version": "python-3.14"
+}

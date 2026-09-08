@@ -4,16 +4,20 @@ const fs = require("fs");
 const http = require("http");
 const net = require("net");
 const path = require("path");
+const { pathToFileURL } = require("url");
+const { configureRemoteDebugging, installNavigationPolicy, stopOwnedBackend } = require("./desktop-security-policy");
 const {
-  buildVerifiedBackendStopScript,
   classifyBackendHealthResponse,
   isLoopbackHost,
 } = require("./backend-runtime-contract");
 
-const APP_TITLE = "哈基米交易 v2";
-const HOST = process.env.HAKIMI_HOST || "127.0.0.1";
+const APP_TITLE = "哈基米研究 · Legacy Preview";
+const HOST = String(process.env.HAKIMI_HOST || "127.0.0.1").trim().toLowerCase();
 const PORT = Number(process.env.HAKIMI_PORT || 8765);
-const BASE_URL = `http://${HOST}:${PORT}`;
+if (!isLoopbackHost(HOST) || !Number.isInteger(PORT) || PORT < 1 || PORT > 65535) {
+  throw new Error("Legacy preview requires a valid loopback host and port");
+}
+const BASE_URL = `http://${HOST === "::1" ? "[::1]" : HOST}:${PORT}`;
 const HEALTH_URL = `${BASE_URL}/api/health`;
 const ROOT_DIR = path.resolve(__dirname, "..");
 const PYTHON_ROOT = path.join(ROOT_DIR, "python_quant_bot");
@@ -44,10 +48,7 @@ if (!singleInstanceLock) {
   app.quit();
 }
 
-if (process.env.HAKIMI_DEBUG_PORT) {
-  app.commandLine.appendSwitch("remote-debugging-port", String(process.env.HAKIMI_DEBUG_PORT));
-  app.commandLine.appendSwitch("remote-allow-origins", "*");
-}
+configureRemoteDebugging(app, process.env);
 
 function request(url, timeoutMs = 1500) {
   return new Promise((resolve, reject) => {
@@ -177,6 +178,7 @@ function startBackend() {
     ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
     {
       cwd: PYTHON_ROOT,
+      env: { ...process.env, HAKIMI_RUNTIME_READ_ONLY: "1" },
       windowsHide: true,
       stdio: ["ignore", "pipe", "pipe"]
     }
@@ -197,43 +199,9 @@ function startBackend() {
 }
 
 function stopBackend() {
-  if (!backendProcess || backendProcess.killed) return;
-  if (!backendStartedByShell) return;
   try {
-    childProcess.spawnSync("taskkill.exe", ["/PID", String(backendProcess.pid), "/T", "/F"], {
-      windowsHide: true,
-      stdio: "ignore"
-    });
-  } catch {
-    try {
-      backendProcess.kill();
-    } catch {}
-  }
-}
-
-function stopVerifiedBackendListener() {
-  if (!isLoopbackHost(HOST)) return false;
-  try {
-    const script = buildVerifiedBackendStopScript({ port: PORT, serverPath: SERVER_PATH });
-    const result = childProcess.spawnSync(
-      "powershell.exe",
-      ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", script],
-      { cwd: PYTHON_ROOT, windowsHide: true, stdio: "pipe", encoding: "utf8", timeout: 12000 }
-    );
-    if (result.status === 0) return true;
-    console.error(`[hakimi-backend] verified stop failed: ${(result.stderr || result.stdout || "unknown").trim()}`);
-  } catch (error) {
-    console.error(`[hakimi-backend] verified stop failed: ${error.message}`);
-  }
-  return false;
-}
-
-function stopBackendCompletely() {
-  stopBackend();
-  const stopped = stopVerifiedBackendListener();
-  backendProcess = null;
-  backendStartedByShell = false;
-  return stopped;
+    return stopOwnedBackend(backendProcess, backendStartedByShell);
+  } catch { return false; }
 }
 
 function showMainWindow() {
@@ -244,18 +212,9 @@ function showMainWindow() {
 }
 
 async function restartBackend() {
-  if (!stopBackendCompletely()) {
-    showBootMessage("无法重启后台", "8765 端口不是可验证的哈基米 Python 服务，请手动检查端口占用。 ");
-    return;
-  }
-  showBootMessage("正在重启后台", "重新启动 Python 行情与策略服务。");
-  startBackend();
-  await waitForPort(HOST, PORT, 18000);
-  if (await isBackendHealthy()) {
-    await mainWindow?.loadURL(BASE_URL);
-  } else {
-    showBootMessage("重启失败", "后台服务没有在预期时间内就绪。");
-  }
+  dialog.showMessageBox(mainWindow, { type: "info", title: APP_TITLE,
+    message: "请在启动后台的终端中手动重启。",
+    detail: "Legacy Preview 不依据端口、进程名称或相对路径结束既有服务。" });
 }
 
 function setAppMenu() {
@@ -266,12 +225,10 @@ function setAppMenu() {
         { label: "显示窗口", click: showMainWindow },
         { label: "刷新", accelerator: "CmdOrCtrl+R", click: () => mainWindow?.reload() },
         { label: "重启后台", click: restartBackend },
-        { label: "启动 FutuOpenD", click: () => startFutuOpenDIfNeeded() },
-        { label: "富途配置", click: () => mainWindow?.loadURL(`${BASE_URL}/futu_setup.html`) },
         { label: "回到交易台", click: () => mainWindow?.loadURL(BASE_URL) },
         { label: "在浏览器打开", click: () => shell.openExternal(BASE_URL) },
         { type: "separator" },
-        { label: "开发者工具", accelerator: "F12", click: () => mainWindow?.webContents.openDevTools({ mode: "detach" }) },
+        ...(!app.isPackaged ? [{ label: "开发者工具", accelerator: "F12", click: () => mainWindow?.webContents.openDevTools({ mode: "detach" }) }] : []),
         { type: "separator" },
         { label: "退出", role: "quit" }
       ]
@@ -287,8 +244,6 @@ function createTray() {
   tray.setContextMenu(Menu.buildFromTemplate([
     { label: "显示哈基米交易", click: showMainWindow },
     { label: "回到交易台", click: () => { showMainWindow(); mainWindow?.loadURL(BASE_URL); } },
-    { label: "富途配置", click: () => { showMainWindow(); mainWindow?.loadURL(`${BASE_URL}/futu_setup.html`); } },
-    { label: "启动 FutuOpenD", click: () => startFutuOpenDIfNeeded() },
     { label: "重启后台", click: restartBackend },
     { type: "separator" },
     { label: "退出", click: () => app.quit() }
@@ -315,6 +270,7 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,
+      devTools: !app.isPackaged,
       webSecurity: true
     }
   });
@@ -324,23 +280,15 @@ function createWindow() {
     mainWindow.show();
   });
 
-  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    const parsed = new URL(url);
-    if (parsed.hostname === HOST && Number(parsed.port || 80) === PORT) {
-      return { action: "allow" };
-    }
-    shell.openExternal(url);
-    return { action: "deny" };
+  mainWindow.on("page-title-updated", (event) => {
+    event.preventDefault();
+    mainWindow.setTitle(APP_TITLE);
   });
 
-  mainWindow.webContents.on("will-navigate", (event, url) => {
-    const parsed = new URL(url);
-    const isLocal = parsed.hostname === HOST && Number(parsed.port || 80) === PORT;
-    const isBoot = parsed.protocol === "file:";
-    if (!isLocal && !isBoot) {
-      event.preventDefault();
-      shell.openExternal(url);
-    }
+  installNavigationPolicy(mainWindow.webContents, {
+    baseUrl: BASE_URL,
+    bootUrl: pathToFileURL(path.join(__dirname, "boot.html")).href,
+    openExternal: (url) => shell.openExternal(url),
   });
 
   mainWindow.on("closed", () => {
@@ -395,18 +343,14 @@ async function boot() {
   setAppMenu();
   createTray();
   showBootMessage("正在检查本机服务", HEALTH_URL);
-  startFutuOpenDIfNeeded();
 
   const initialHealth = await readBackendHealth();
   if (!initialHealth.healthy) {
     const portOccupied = initialHealth.reachable || await isPortOpen(HOST, PORT, 700);
     if (portOccupied) {
-      showBootMessage("正在更新后台", "检测到旧版或源码已变化的本地服务，正在安全重启。");
-      if (!stopVerifiedBackendListener()) {
-        showBootMessage("无法启动", "8765 端口不是可验证的哈基米 Python 服务。");
-        dialog.showErrorBox(APP_TITLE, "端口 8765 已被其他程序占用，未执行自动终止。");
-        return;
-      }
+      showBootMessage("后台不可复用", "端口已有未通过只读合同的服务，请手动处理；未结束任何进程。");
+      dialog.showErrorBox(APP_TITLE, `端口 ${PORT} 已被既有服务占用；未执行自动终止。`);
+      return;
     }
     showBootMessage("正在启动后台", "启动 Python 行情与策略服务。");
     startBackend();

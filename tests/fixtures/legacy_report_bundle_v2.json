@@ -1,0 +1,296 @@
+{
+  "artifact_identity": {
+    "artifact_id": "hexp-cb12f76d19e3300cddba",
+    "filename": "backtest_dual_ma_SYNTH-001_hexp-cb12f76d19e3300cddba.json",
+    "prefix": "backtest_dual_ma_SYNTH-001",
+    "report_schema_version": "research-json-report-v1"
+  },
+  "bundle": {
+    "artifact_identity": {
+      "artifact_id": "hexp-cb12f76d19e3300cddba",
+      "filename": "backtest_dual_ma_SYNTH-001_hexp-cb12f76d19e3300cddba.json",
+      "prefix": "backtest_dual_ma_SYNTH-001",
+      "report_schema_version": "research-json-report-v1"
+    },
+    "bundle_hash": "a9da6ffe3faf74aa473f2e3582a45b92dffb1d3a1a8dd4a286444bc1a7c45cc8",
+    "external_artifact_hash_required": true,
+    "live_order_allowed": false,
+    "order_entry_allowed": false,
+    "paper_authorized": false,
+    "provenance_receipt": {
+      "blockers": [],
+      "candidate_only": true,
+      "candidate_ranking_gate": {
+        "blockers": [
+          "evaluation_role_not_rankable"
+        ],
+        "input_allowed": false,
+        "status": "BLOCK"
+      },
+      "classification": "CANDIDATE_CONSUMER_BOUND",
+      "consumer_identity_hash": "83ff5edfad9b1d3e8e2b5ee39ce3f8d5b95ea6ac25bb0162d13851b4a57989d4",
+      "consumer_kind": "CLI_REPORT_BUNDLE",
+      "consumer_record_hash": "01e90b0c3f2b44c05d578657c115e15e559e3e28908155118d097f3c45533448",
+      "current_activation": false,
+      "fixture_rebuild_performed": false,
+      "live_order_allowed": false,
+      "order_entry_allowed": false,
+      "paper_authorized": false,
+      "provenance_binding": {
+        "binding_version": "experiment-provenance-binding-v1",
+        "blockers": [],
+        "classification": "PROVENANCE_BOUND",
+        "context_hash": "7ab78f14c06a1d9b1673859562832bb0e8ba82e8e0389979c64b3eb72f5e8709",
+        "identity_hash": "5c45d8b615df72452eadb352552eab22489e000b1079dd74e4101cf34925cbe7",
+        "live_order_allowed": false,
+        "manifest_hash": "356f462fe8c74d5e9fb6e42e3ff4164a44944763ed343fd57f3198847f9a20eb",
+        "order_entry_allowed": false,
+        "paper_authorized": false,
+        "parameter_selection_allowed": false,
+        "ranking_gate": {
+          "blockers": [
+            "evaluation_role_not_rankable"
+          ],
+          "input_allowed": false,
+          "status": "BLOCK"
+        },
+        "reproducibility_hash": "8161980cc41ea157c01c98d1d642a0bcbb345f0d0f22e988ad14e9fa9e46a133",
+        "research_only": true,
+        "result_hash": "9768b84be1c53a634b68af2be572a6db7fe25314ae8592ba9da6006be74e3c3c",
+        "result_is_profitability_proof": false,
+        "schema_version": "reproducible-experiment-manifest-v2",
+        "source_experiment_id": "hexp-cb12f76d19e3300cddba",
+        "source_manifest_hash": "151eb800c173865ab6514db505e55592c31598c25d417de9493f15fa681d80a8",
+        "source_manifest_schema_version": "reproducible-experiment-manifest-v1",
+        "status": "PASS"
+      },
+      "receipt_hash": "54feb6ef953f39d69ab14be9dcb104cc5e2d49c63460319a0c020ec78e57b35d",
+      "research_only": true,
+      "result_hash": "9768b84be1c53a634b68af2be572a6db7fe25314ae8592ba9da6006be74e3c3c",
+      "result_is_profitability_proof": false,
+      "runtime_write_performed": false,
+      "schema_version": "experiment-provenance-consumer-adapter-v1",
+      "source_manifest_hash": "151eb800c173865ab6514db505e55592c31598c25d417de9493f15fa681d80a8",
+      "status": "PASS"
+    },
+    "ranking_allowed": false,
+    "report_payload": {
+      "experiment_manifest": {
+        "blockers": [],
+        "classification": "REPRODUCIBILITY_COMPLETE",
+        "config_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "dataset_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "dependency_lock_fully_pinned": true,
+        "dependency_lock_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "dependency_lock_name": "requirements.research.lock",
+        "end_time": "2025-02-01T00:00:00Z",
+        "evaluation_protocol_hash": "",
+        "evaluation_protocol_verified": false,
+        "evaluation_role": "UNCLASSIFIED",
+        "experiment_id": "hexp-cb12f76d19e3300cddba",
+        "fee_model": {
+          "kind": "proportional",
+          "rate": "0.001"
+        },
+        "git_commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "git_worktree_clean": true,
+        "live_order_allowed": false,
+        "manifest_hash": "151eb800c173865ab6514db505e55592c31598c25d417de9493f15fa681d80a8",
+        "order_entry_allowed": false,
+        "paper_authorized": false,
+        "parameter_selection_allowed": false,
+        "random_seed": 7,
+        "ranking_gate": {
+          "blockers": [
+            "evaluation_role_not_rankable"
+          ],
+          "input_allowed": false,
+          "status": "BLOCK"
+        },
+        "research_only": true,
+        "result_hash": "9768b84be1c53a634b68af2be572a6db7fe25314ae8592ba9da6006be74e3c3c",
+        "result_is_profitability_proof": false,
+        "runtime_version": "python-test",
+        "schema_version": "reproducible-experiment-manifest-v1",
+        "slippage_model": {
+          "kind": "proportional",
+          "rate": "0.001"
+        },
+        "source_run_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "start_time": "2025-01-01T00:00:00Z",
+        "status": "PASS",
+        "strategy_name": "dual_ma",
+        "strategy_version": "v1",
+        "symbol": "SYNTH-001",
+        "timeframe": "1d"
+      },
+      "metric": 1.0,
+      "reproducibility": {
+        "config_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "data_end": "2025-02-01T00:00:00Z",
+        "data_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "data_start": "2025-01-01T00:00:00Z",
+        "param_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+        "random_seed": 7,
+        "run_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "strategy_version": "v1"
+      }
+    },
+    "research_only": true,
+    "result_is_profitability_proof": false,
+    "schema_version": "research-json-report-bundle-v2",
+    "trust_model": "SELF_CONTAINED_REQUIRES_EXTERNAL_ARTIFACT_HASH"
+  },
+  "expected_context": {
+    "dependency_lock_fully_pinned": true,
+    "dependency_lock_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "dependency_lock_name": "requirements.research.lock",
+    "git_commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "git_worktree_clean": true,
+    "random_seed": 7,
+    "runtime_version": "python-test"
+  },
+  "expected_manifest_identity": {
+    "evaluation_protocol_hash": "",
+    "evaluation_protocol_verified": false,
+    "evaluation_role": "UNCLASSIFIED",
+    "experiment_id": "hexp-cb12f76d19e3300cddba",
+    "fee_rate": 0.001,
+    "slippage_pct": 0.001,
+    "strategy_name": "dual_ma",
+    "strategy_version": "v1",
+    "symbol": "SYNTH-001",
+    "timeframe": "1d"
+  },
+  "expected_reproducibility": {
+    "config_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "data_end": "2025-02-01T00:00:00Z",
+    "data_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "data_start": "2025-01-01T00:00:00Z",
+    "param_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+    "random_seed": 7,
+    "run_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "strategy_version": "v1"
+  },
+  "receipt": {
+    "blockers": [],
+    "candidate_only": true,
+    "candidate_ranking_gate": {
+      "blockers": [
+        "evaluation_role_not_rankable"
+      ],
+      "input_allowed": false,
+      "status": "BLOCK"
+    },
+    "classification": "CANDIDATE_CONSUMER_BOUND",
+    "consumer_identity_hash": "83ff5edfad9b1d3e8e2b5ee39ce3f8d5b95ea6ac25bb0162d13851b4a57989d4",
+    "consumer_kind": "CLI_REPORT_BUNDLE",
+    "consumer_record_hash": "01e90b0c3f2b44c05d578657c115e15e559e3e28908155118d097f3c45533448",
+    "current_activation": false,
+    "fixture_rebuild_performed": false,
+    "live_order_allowed": false,
+    "order_entry_allowed": false,
+    "paper_authorized": false,
+    "provenance_binding": {
+      "binding_version": "experiment-provenance-binding-v1",
+      "blockers": [],
+      "classification": "PROVENANCE_BOUND",
+      "context_hash": "7ab78f14c06a1d9b1673859562832bb0e8ba82e8e0389979c64b3eb72f5e8709",
+      "identity_hash": "5c45d8b615df72452eadb352552eab22489e000b1079dd74e4101cf34925cbe7",
+      "live_order_allowed": false,
+      "manifest_hash": "356f462fe8c74d5e9fb6e42e3ff4164a44944763ed343fd57f3198847f9a20eb",
+      "order_entry_allowed": false,
+      "paper_authorized": false,
+      "parameter_selection_allowed": false,
+      "ranking_gate": {
+        "blockers": [
+          "evaluation_role_not_rankable"
+        ],
+        "input_allowed": false,
+        "status": "BLOCK"
+      },
+      "reproducibility_hash": "8161980cc41ea157c01c98d1d642a0bcbb345f0d0f22e988ad14e9fa9e46a133",
+      "research_only": true,
+      "result_hash": "9768b84be1c53a634b68af2be572a6db7fe25314ae8592ba9da6006be74e3c3c",
+      "result_is_profitability_proof": false,
+      "schema_version": "reproducible-experiment-manifest-v2",
+      "source_experiment_id": "hexp-cb12f76d19e3300cddba",
+      "source_manifest_hash": "151eb800c173865ab6514db505e55592c31598c25d417de9493f15fa681d80a8",
+      "source_manifest_schema_version": "reproducible-experiment-manifest-v1",
+      "status": "PASS"
+    },
+    "receipt_hash": "54feb6ef953f39d69ab14be9dcb104cc5e2d49c63460319a0c020ec78e57b35d",
+    "research_only": true,
+    "result_hash": "9768b84be1c53a634b68af2be572a6db7fe25314ae8592ba9da6006be74e3c3c",
+    "result_is_profitability_proof": false,
+    "runtime_write_performed": false,
+    "schema_version": "experiment-provenance-consumer-adapter-v1",
+    "source_manifest_hash": "151eb800c173865ab6514db505e55592c31598c25d417de9493f15fa681d80a8",
+    "status": "PASS"
+  },
+  "rendered_bundle_sha256": "bac137bceca9c5cdd345ca2019b2e23fb86cc54b385ae9cb11cc6b22b2763ba1",
+  "report": {
+    "experiment_manifest": {
+      "blockers": [],
+      "classification": "REPRODUCIBILITY_COMPLETE",
+      "config_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "dataset_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "dependency_lock_fully_pinned": true,
+      "dependency_lock_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "dependency_lock_name": "requirements.research.lock",
+      "end_time": "2025-02-01T00:00:00Z",
+      "evaluation_protocol_hash": "",
+      "evaluation_protocol_verified": false,
+      "evaluation_role": "UNCLASSIFIED",
+      "experiment_id": "hexp-cb12f76d19e3300cddba",
+      "fee_model": {
+        "kind": "proportional",
+        "rate": "0.001"
+      },
+      "git_commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "git_worktree_clean": true,
+      "live_order_allowed": false,
+      "manifest_hash": "151eb800c173865ab6514db505e55592c31598c25d417de9493f15fa681d80a8",
+      "order_entry_allowed": false,
+      "paper_authorized": false,
+      "parameter_selection_allowed": false,
+      "random_seed": 7,
+      "ranking_gate": {
+        "blockers": [
+          "evaluation_role_not_rankable"
+        ],
+        "input_allowed": false,
+        "status": "BLOCK"
+      },
+      "research_only": true,
+      "result_hash": "9768b84be1c53a634b68af2be572a6db7fe25314ae8592ba9da6006be74e3c3c",
+      "result_is_profitability_proof": false,
+      "runtime_version": "python-test",
+      "schema_version": "reproducible-experiment-manifest-v1",
+      "slippage_model": {
+        "kind": "proportional",
+        "rate": "0.001"
+      },
+      "source_run_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "start_time": "2025-01-01T00:00:00Z",
+      "status": "PASS",
+      "strategy_name": "dual_ma",
+      "strategy_version": "v1",
+      "symbol": "SYNTH-001",
+      "timeframe": "1d"
+    },
+    "metric": 1.0,
+    "reproducibility": {
+      "config_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "data_end": "2025-02-01T00:00:00Z",
+      "data_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "data_start": "2025-01-01T00:00:00Z",
+      "param_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+      "random_seed": 7,
+      "run_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "strategy_version": "v1"
+    }
+  },
+  "schema_version": "legacy-json-report-contract-fixture-v1",
+  "source_commit": "4fb6d191b282ea9a0d7136f4b94a9e9d49642178"
+}

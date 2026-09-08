@@ -3,7 +3,26 @@ from __future__ import annotations
 import math
 import threading
 from decimal import Decimal, InvalidOperation
+from functools import wraps
 from typing import Any, Callable
+
+from hakimi_research.market_data_research_projection import (
+    build_market_data_research_projection,
+)
+
+
+def _with_market_data_research_projection(
+    method: Callable[..., dict[str, Any]],
+) -> Callable[..., dict[str, Any]]:
+    @wraps(method)
+    def wrapped(*args: Any, **kwargs: Any) -> dict[str, Any]:
+        payload = method(*args, **kwargs)
+        if type(payload) is not dict:
+            raise TypeError("market data truth producer must return a native dict")
+        payload["research_projection"] = build_market_data_research_projection(payload)
+        return payload
+
+    return wrapped
 
 
 def _finite_number(value: Any, default: float = 0.0) -> float:
@@ -609,6 +628,7 @@ class MarketDataService:
                     }
             return self._finalize_batch(payload, clean_consumer, False)
 
+    @_with_market_data_research_projection
     def data_truth(
         self,
         symbol: str,

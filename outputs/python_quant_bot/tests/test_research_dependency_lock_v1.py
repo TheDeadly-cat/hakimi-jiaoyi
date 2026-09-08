@@ -6,6 +6,7 @@ import importlib.util
 import json
 from pathlib import Path
 import re
+import subprocess
 import unittest
 
 from quant_bot.experiment_manifest import build_local_experiment_context
@@ -15,11 +16,23 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = PROJECT_ROOT.parents[1]
 LOCK_PATH = PROJECT_ROOT / "requirements.research.lock"
 EXAMPLE_ROOT = PROJECT_ROOT / "examples" / "deterministic_experiment"
-ATTRIBUTES_PATH = REPO_ROOT / ".gitattributes"
 
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _git_attributes(paths: list[str]) -> dict[str, dict[str, str]]:
+    result = subprocess.run(
+        ["git", "check-attr", "-z", "text", "eol", "diff", "merge", "--", *paths],
+        cwd=REPO_ROOT, capture_output=True, check=True,
+    )
+    fields = result.stdout.decode("utf-8").rstrip("\0").split("\0")
+    attributes: dict[str, dict[str, str]] = {}
+    for offset in range(0, len(fields), 3):
+        path, name, value = fields[offset:offset + 3]
+        attributes.setdefault(path, {})[name] = value
+    return attributes
 
 
 class ResearchDependencyLockV1Tests(unittest.TestCase):
@@ -51,22 +64,15 @@ class ResearchDependencyLockV1Tests(unittest.TestCase):
         expected = json.loads(
             (EXAMPLE_ROOT / "expected_result.json").read_text(encoding="utf-8")
         )
-        attributes = [
-            line
-            for line in ATTRIBUTES_PATH.read_text(encoding="utf-8").splitlines()
-            if line
+        references = [
+            (EXAMPLE_ROOT / name).relative_to(REPO_ROOT).as_posix()
+            for name in ("config.json", "dataset.csv", "expected_result.json")
         ]
-        self.assertEqual(
-            attributes,
-            [
-                "outputs/python_quant_bot/examples/deterministic_experiment/"
-                "config.json text eol=lf",
-                "outputs/python_quant_bot/examples/deterministic_experiment/"
-                "dataset.csv text eol=lf",
-                "outputs/python_quant_bot/examples/deterministic_experiment/"
-                "expected_result.json text eol=lf",
-            ],
-        )
+        references.append("src/hakimi_research/contracts/product-capabilities.json")
+        for path, attributes in _git_attributes(references).items():
+            with self.subTest(reference=path):
+                self.assertEqual(attributes["text"], "set")
+                self.assertEqual(attributes["eol"], "lf")
         for name in ("config.json", "dataset.csv", "expected_result.json"):
             self.assertNotIn(b"\r", (EXAMPLE_ROOT / name).read_bytes())
         self.assertEqual(expected["dataset_sha256"], _sha256(EXAMPLE_ROOT / "dataset.csv"))
@@ -77,6 +83,24 @@ class ResearchDependencyLockV1Tests(unittest.TestCase):
             rows = list(csv.DictReader(handle))
         self.assertEqual(len(rows), expected["data_rows"])
         self.assertEqual(len({row["timestamp"] for row in rows}), len(rows))
+
+    def test_identity_bound_source_and_resources_preserve_exact_bytes(self) -> None:
+        projection = "src/hakimi_research/contracts/product-capabilities.json"
+        paths = [
+            path.relative_to(REPO_ROOT).as_posix()
+            for path in (REPO_ROOT / "src" / "hakimi_research").rglob("*")
+            if path.is_file() and path.suffix in {".py", ".json", ".lock"}
+            and "__pycache__" not in path.parts
+            and path.name != "_build_identity.json"
+            and path.relative_to(REPO_ROOT).as_posix() != projection
+        ]
+        self.assertTrue(paths)
+        paths.append("requirements.research.lock")
+        for path, attributes in _git_attributes(paths).items():
+            with self.subTest(identity_file=path):
+                self.assertEqual(attributes["text"], "unset")
+                self.assertEqual(attributes["diff"], "set")
+                self.assertEqual(attributes["merge"], "set")
 
     def test_example_is_local_only_and_has_no_authority(self) -> None:
         config = json.loads((EXAMPLE_ROOT / "config.json").read_text(encoding="utf-8"))

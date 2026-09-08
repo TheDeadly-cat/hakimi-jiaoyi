@@ -8,10 +8,7 @@ from datetime import date
 from statistics import fmean, median, pstdev
 from typing import Any
 
-try:
-    from market_data.candle_contract import candle_is_complete, explicit_boolean
-except ModuleNotFoundError:
-    from exchange_terminal.market_data.candle_contract import candle_is_complete, explicit_boolean
+from hakimi_research.candle_contract import candle_is_complete, explicit_boolean
 from .backtest_engine import numeric_parameter_contract_issues, prepare_backtest_dataset
 from .corporate_action_ledger import (
     CORPORATE_ACTION_SCHEMA_VERSION,

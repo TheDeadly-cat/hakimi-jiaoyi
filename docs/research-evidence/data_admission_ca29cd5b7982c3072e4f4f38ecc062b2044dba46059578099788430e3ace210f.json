@@ -1,0 +1,318 @@
+{
+  "conflicting_overlap_rows": 0,
+  "global_missing_hours": 0,
+  "original_august_744_rows_match": true,
+  "original_snapshot_id": "fdfeaa4acd2e8bba307901ecbd74b0852e2b15b2ade2d5f14e98e5f7a9eb78af",
+  "overlapping_context_rows_verified_equal": 1080,
+  "plan_sha256": "925206d29125388574c641f14cbec16e9842b1c4f6abaaee6a3ce12cabb2dfab",
+  "raw_market_data_published": false,
+  "schema_version": "multiwindow-data-admission-v1",
+  "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+  "unique_completed_hours": 32136,
+  "windows": [
+    {
+      "data_hash": "a16053fc9a95710ff84dd99c25101b31cf38b0d7138f688564b2077ea5a15f45",
+      "end_exclusive": "2023-04-01T00:00:00Z",
+      "file_sha256": "8463ed319894d8c560f309e4df6fecbcaf4d9f20c4c1568a93a7f9279f3be914",
+      "quality": {
+        "accepted_rows": 2160,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 240,
+        "expected_rows": 2160,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "325cdb7a81433fdfdeb8fdf899370a5321b5e72fc5c680a0f5f779c8b22ed900",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2023-01-01T00:00:00Z",
+      "window_id": "2023-Q1"
+    },
+    {
+      "data_hash": "fabb9daaf0c26e70f6d6e5b7fadeeb7a8b77bc9ffac6f51289a47faefd081649",
+      "end_exclusive": "2023-07-01T00:00:00Z",
+      "file_sha256": "bab09d756d33003aad2cd99ac9acbf6455a45c3bb234afa70920336d06a69f51",
+      "quality": {
+        "accepted_rows": 2256,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 144,
+        "expected_rows": 2256,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "ab8d8d33bb741e5977d4f32c393bf56bae51e92850ea4f80cea61922215dd0bc",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2023-03-29T00:00:00Z",
+      "window_id": "2023-Q2"
+    },
+    {
+      "data_hash": "8e902a0b3af304096f55fdd818ebc7ba650cb7e99526907e0566f8d966713090",
+      "end_exclusive": "2023-10-01T00:00:00Z",
+      "file_sha256": "e4fd7454390eaa06cc7363bfb482d9eae69ec9bc9efdd2fdce8f8017325dbc05",
+      "quality": {
+        "accepted_rows": 2280,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 120,
+        "expected_rows": 2280,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "92320e809c3c8d290e5894a0a32d0646c670ee694795ceaf2589e1bace4f8cc1",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2023-06-28T00:00:00Z",
+      "window_id": "2023-Q3"
+    },
+    {
+      "data_hash": "01ec9ef747c137de8085f4efa59494b9b6edcb932e2291ffb9e1860f27480c32",
+      "end_exclusive": "2024-01-01T00:00:00Z",
+      "file_sha256": "2ba253f5a4dad306974800e0d48485fe71d5ce0bb5627ed7720643fecf835370",
+      "quality": {
+        "accepted_rows": 2280,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 120,
+        "expected_rows": 2280,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "a23e455a96779ffc2cb6b11b67906382922b6e90848a65d054699966749b47f1",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2023-09-28T00:00:00Z",
+      "window_id": "2023-Q4"
+    },
+    {
+      "data_hash": "f670fd4ed150aa966c59f7984575b61cae45a6c48b0f38f837a9b0bcc5cafbae",
+      "end_exclusive": "2024-04-01T00:00:00Z",
+      "file_sha256": "fd84a5bb350a5e9662317bfdb8c0f12b15b59d759912ec5eaf1fd637df02b016",
+      "quality": {
+        "accepted_rows": 2256,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 144,
+        "expected_rows": 2256,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "a837922bef495482bcc3e474292d204f606bce17a63e71ec736ca05f864e95cf",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2023-12-29T00:00:00Z",
+      "window_id": "2024-Q1"
+    },
+    {
+      "data_hash": "37a33890943b9a20334a38ba2ce0164e4b11a66a90c6064bf4fd75a83218aed4",
+      "end_exclusive": "2024-07-01T00:00:00Z",
+      "file_sha256": "da4e88fab1da2761db5a354825e6374782fd95df1dc0424a8da49bdb2d1efc54",
+      "quality": {
+        "accepted_rows": 2256,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 144,
+        "expected_rows": 2256,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "b241d7b222387b4e2d350cebdfce5de44bfd9429af9a2cf677c325639ca2cdfd",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2024-03-29T00:00:00Z",
+      "window_id": "2024-Q2"
+    },
+    {
+      "data_hash": "92b9a7adb836b27d67602a35485a4c30cda3ddc6d26be96903aacb8072bee205",
+      "end_exclusive": "2024-10-01T00:00:00Z",
+      "file_sha256": "b4d6b251d7d8eedc63a608210812747420997520968f87c9457f19e23fc0b047",
+      "quality": {
+        "accepted_rows": 2280,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 120,
+        "expected_rows": 2280,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "36df3098b2923604e150afe71f2a1fb0c1e20d716af4fdd31ca1447d00ea334b",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2024-06-28T00:00:00Z",
+      "window_id": "2024-Q3"
+    },
+    {
+      "data_hash": "9aa7fb1a0847ccec2b90ca5807b3584be613294baf1f5ae40c383fff384e9cad",
+      "end_exclusive": "2025-01-01T00:00:00Z",
+      "file_sha256": "cd7bad2f1a93f61a56901db1ef7d381e88340d5b9d6f362d5cf80675520e0640",
+      "quality": {
+        "accepted_rows": 2280,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 120,
+        "expected_rows": 2280,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "fc2061dea6df978dda5b00f61321ab9fad02ea45ce984574ab129d3173f006e8",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2024-09-28T00:00:00Z",
+      "window_id": "2024-Q4"
+    },
+    {
+      "data_hash": "1e3ed09d824cfed3fe7a521e4aa96569765e9f840a16340be5b043bc99178153",
+      "end_exclusive": "2025-04-01T00:00:00Z",
+      "file_sha256": "b354284c11198cf9e40aa4106a2f3605ac51f4306073d73058f7e305211aab1e",
+      "quality": {
+        "accepted_rows": 2232,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 168,
+        "expected_rows": 2232,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "a504eb44defbe7f26992df45cf05681d3630ea4bb951492ec640f7c6f9fc453f",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2024-12-29T00:00:00Z",
+      "window_id": "2025-Q1"
+    },
+    {
+      "data_hash": "e3c61080cfb1f378cecab654266b703f0431f0f59c10edb417aa86173f32d4ab",
+      "end_exclusive": "2025-07-01T00:00:00Z",
+      "file_sha256": "46c1b81087c0783d1ba643d5a83cb61eefeb64d1ae8c865ffe00d7b04867f9aa",
+      "quality": {
+        "accepted_rows": 2256,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 144,
+        "expected_rows": 2256,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "f108abf2ebc50524da1ead6cc514b3e1dd786f4d9e1f0f39a1449a9b75bf636f",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2025-03-29T00:00:00Z",
+      "window_id": "2025-Q2"
+    },
+    {
+      "data_hash": "bdac0e57db2066016a6fc9653dcad02ac7676d251880e66cfc8dba41e2cbd16c",
+      "end_exclusive": "2025-10-01T00:00:00Z",
+      "file_sha256": "d04ec71421412678fe9d27dc659db6964a44c047788c89607287bbe7192848bf",
+      "quality": {
+        "accepted_rows": 2280,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 120,
+        "expected_rows": 2280,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "939127d5a4cb73e6423a6f41bbdab80db903eba07dc99fe6946eb5adbf3dd2a3",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2025-06-28T00:00:00Z",
+      "window_id": "2025-Q3"
+    },
+    {
+      "data_hash": "b7969d9dbb5374fe771d463d7f10e32ad008f09c807723910f73283dc07c855c",
+      "end_exclusive": "2026-01-01T00:00:00Z",
+      "file_sha256": "34ff7829b64899283469a525717d9c875a4436a4e0a396b4931c676fb13620ba",
+      "quality": {
+        "accepted_rows": 2280,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 120,
+        "expected_rows": 2280,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "4a8e9dca8180286751454c9a3953a9fd7919512e6c2cb6d0b383ab357030a92f",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2025-09-28T00:00:00Z",
+      "window_id": "2025-Q4"
+    },
+    {
+      "data_hash": "2d3b4b28e92bf98400bab7618ce010ca99a083cbc684066202db0ffe8d443c58",
+      "end_exclusive": "2026-04-01T00:00:00Z",
+      "file_sha256": "92cf36b921a783fbf6d6ed982657cc85866a068fa5c1035691b1554fa292114c",
+      "quality": {
+        "accepted_rows": 2232,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 168,
+        "expected_rows": 2232,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "8488a24a4687737a535c8ac39d2bdc9363113ccce512ad46b5087d586bbfea27",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2025-12-29T00:00:00Z",
+      "window_id": "2026-Q1"
+    },
+    {
+      "data_hash": "6fe9d102ea5b8eebd167fc7af28a438fad39abae45d704421fdd4e369e892d21",
+      "end_exclusive": "2026-07-01T00:00:00Z",
+      "file_sha256": "bc8ebd32e73f74f76ccce4fefe59fea464c4a156d59ea8ceeecffc268e30c352",
+      "quality": {
+        "accepted_rows": 2256,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 144,
+        "expected_rows": 2256,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "f5477e5fbe6104b2d443a7f7b215d4d20ffb5ccfdb20cd1f2fde740f3215dc35",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2026-03-29T00:00:00Z",
+      "window_id": "2026-Q2"
+    },
+    {
+      "data_hash": "c143d83252b17ba7108351030fcfe54cb44a0fba129f3467bb3777d43d049114",
+      "end_exclusive": "2026-08-01T00:00:00Z",
+      "file_sha256": "36e54d133d236c9c29cc1d25d65a77c2430d8f84997eec42bf16b725f9f666b0",
+      "quality": {
+        "accepted_rows": 816,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 84,
+        "expected_rows": 816,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "3c3a2b0aef8aaf2631c98a6f7901b1aa90d2e2163694092c019db838356678ad",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2026-06-28T00:00:00Z",
+      "window_id": "2026-07"
+    },
+    {
+      "data_hash": "05fd8c888e977a7434106831f58929a148c23ddd50d224e8cadf9571c3805893",
+      "end_exclusive": "2026-09-01T00:00:00Z",
+      "file_sha256": "46a72d43c17a3fb5b30b177e75cd63fcefdaa55f84043b3fc642e86255260da5",
+      "quality": {
+        "accepted_rows": 816,
+        "complete_only": true,
+        "duplicate_rows": 0,
+        "excluded_outside_range_rows": 84,
+        "expected_rows": 816,
+        "missing_rows": 0,
+        "rejected_uncompleted_rows": 0,
+        "status": "PASS"
+      },
+      "snapshot_id": "12dbd29332d8c5e80413c3b7b1223974e247cc8aad3453cbc18f23caeb1b824a",
+      "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+      "start": "2026-07-29T00:00:00Z",
+      "window_id": "2026-08-seen"
+    }
+  ]
+}

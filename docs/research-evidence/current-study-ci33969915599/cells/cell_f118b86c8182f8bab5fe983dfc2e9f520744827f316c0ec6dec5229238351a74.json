@@ -1,0 +1,277 @@
+{
+  "computation_id": "77393a2e2580ee0ecd58121f9915a339da9b4e8dd837f762781a4d674b9a5c76",
+  "cross_version_comparison": {
+    "changed_record_counts": {
+      "equity_curve": 0,
+      "fills": 0,
+      "orders": 0,
+      "return_series": 0
+    },
+    "changed_records": {
+      "equity_curve": [],
+      "fills": [],
+      "orders": [],
+      "return_series": []
+    },
+    "current_execution_model": "signal-close-next-open-ohlc-v6",
+    "current_report_hash": "021b72e1ee217eb479eeda162caf475f05b5992bd2d6a05f69b90bb9b02b6a48",
+    "current_result_hash": "77393a2e2580ee0ecd58121f9915a339da9b4e8dd837f762781a4d674b9a5c76",
+    "current_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+    "economic_changed_record_counts": {
+      "equity_curve": 0,
+      "fills": 0,
+      "return_series": 0
+    },
+    "economic_path_changed": false,
+    "explanation": "No recorded order/fill/equity/return path changed in this cell. Source/model identity may still differ; this does not establish global version equivalence.",
+    "metric_deltas": {
+      "buy_fees": 0,
+      "exposure_ratio": 0.0,
+      "fill_count": 0,
+      "final_cash": 0.0,
+      "final_equity": 0.0,
+      "max_drawdown": 0.0,
+      "open_position_qty": 0.0,
+      "realized_pnl": 0.0,
+      "round_trip_count": 0,
+      "sell_fees": 0,
+      "total_fees": 0.0,
+      "total_return": 0.0,
+      "unrealized_pnl": 0.0
+    },
+    "old_execution_model": "signal-close-next-open-ohlc-v5",
+    "old_report_hash": "260bb9530dd877a63b4f49afe902ab874ae5b294feb1faac80c5ea3f8256758f",
+    "old_result_hash": "18ccfa69e61e8119b4d94017a7f352f3f62c8eeee03169cedac9d6246c494cf0",
+    "old_source_sha256": "753c2cab0b0b6fd6c41eae3a109342bb5523fd3286bd5e0138265c1163b843e0",
+    "same_spec_and_data": true
+  },
+  "dataset": {
+    "as_of": "2026-09-01T00:00:00Z",
+    "data_hash": "4e9cf6c41c0a27ee5f2bedb5076b53cfbaa2b731f96f418900b5d6c45fe53c66",
+    "dataset_id": "okx-btc-usdt-spot-1h-9cabc4ef840f3563d348d7a9b22954f73d8bc01403819737bdd642ed1da81dfa",
+    "end_exclusive": "2026-09-01T00:00:00Z",
+    "evidence_kind": "PUBLIC_HTTP_CAPTURE",
+    "quality": {
+      "accepted_rows": 744,
+      "complete_only": true,
+      "duplicate_rows": 0,
+      "excluded_outside_range_rows": 156,
+      "expected_rows": 744,
+      "missing_rows": 0,
+      "rejected_uncompleted_rows": 0,
+      "status": "PASS"
+    },
+    "quote_unit": "USDT",
+    "snapshot_id": "fdfeaa4acd2e8bba307901ecbd74b0852e2b15b2ade2d5f14e98e5f7a9eb78af",
+    "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+    "start": "2026-08-01T00:00:00Z",
+    "volume_unit": "base_currency"
+  },
+  "environment_verified": {
+    "errors": [],
+    "lock_fully_pinned": true,
+    "lock_name": "requirements.research.lock",
+    "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+    "mismatched": [],
+    "missing": [],
+    "packages": {
+      "numpy": {
+        "installed": "2.4.6",
+        "required": "2.4.6"
+      },
+      "pandas": {
+        "installed": "3.0.3",
+        "required": "3.0.3"
+      },
+      "python-dateutil": {
+        "installed": "2.9.0.post0",
+        "required": "2.9.0.post0"
+      },
+      "six": {
+        "installed": "1.17.0",
+        "required": "1.17.0"
+      },
+      "tzdata": {
+        "installed": "2026.2",
+        "required": "2026.2"
+      }
+    },
+    "python_supported": true,
+    "python_version": "3.14.6",
+    "status": "VERIFIED",
+    "verification_scope": "installed_distribution_versions_against_lock"
+  },
+  "execution_model": "signal-close-next-open-ohlc-v6",
+  "execution_permission": {
+    "live_allowed": false,
+    "order_allowed": false,
+    "paper_allowed": false,
+    "research_only": true
+  },
+  "fills": [],
+  "ledger_reconciliation": {
+    "checks": 4053,
+    "failures": [],
+    "fill_count": 0,
+    "legacy_report_fee_fields_absent": [],
+    "maximum_absolute_numeric_error": "0",
+    "project_numerical_engine_imported": false,
+    "receipt_sha256": "5eaf9c6dd26e0a450690832840e650f86db5dc2200ec89cc2b66c4ff2d812996",
+    "reconciled_buy_fees": "0",
+    "reconciled_sell_fees": "0",
+    "report_file_sha256": "d693d636f1831078d9820e20bd168fd6011aae854809a92b281e0c18b885fb38",
+    "report_hash": "021b72e1ee217eb479eeda162caf475f05b5992bd2d6a05f69b90bb9b02b6a48",
+    "schema_version": "independent-decimal-ledger-reconciliation-v1",
+    "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+    "score_bars": 672,
+    "snapshot_file_sha256": "0224569ba5ab2a075668e28b154b7e059a83aaa6f7dc440f2b4a097ef5cd1404",
+    "snapshot_id": "fdfeaa4acd2e8bba307901ecbd74b0852e2b15b2ade2d5f14e98e5f7a9eb78af",
+    "status": "PASS"
+  },
+  "metrics": {
+    "buy_fees": 0,
+    "exposure_ratio": 0.0,
+    "fill_count": 0,
+    "final_cash": 10000.0,
+    "final_equity": 10000.0,
+    "max_drawdown": 0.0,
+    "open_position_qty": 0.0,
+    "realized_pnl": 0.0,
+    "round_trip_count": 0,
+    "sell_fees": 0,
+    "total_fees": 0.0,
+    "total_return": 0.0,
+    "unrealized_pnl": 0.0
+  },
+  "orders": [],
+  "reconciliation_script_sha256": "8d319cba9a2ee940abb53a3f4eb2f927977075b081a2d167e46a02f2141a960b",
+  "result_hash": "77393a2e2580ee0ecd58121f9915a339da9b4e8dd837f762781a4d674b9a5c76",
+  "same_version_replay": {
+    "computation_matches": true,
+    "environment_verified": true,
+    "original_file_sha256": "d693d636f1831078d9820e20bd168fd6011aae854809a92b281e0c18b885fb38",
+    "receipt_hash": "af36243869cc1190991ec6bc8f5c57e1082e0170499434cca7736888478c7c0d",
+    "replay_verified": true,
+    "source_matches": true
+  },
+  "schema_version": "research-review-projection-v1",
+  "scope": "Derived review projection. Canonical full report and raw snapshot are preserved locally under their original hashes.",
+  "source_identity": {
+    "build_receipt": {
+      "build_definition_sha256": {
+        "pyproject.toml": "c1f0d2f6eabf7b5cad2d73145b8744a64e5a1757bcb1c9bd3a4ae154e9a8e784",
+        "setup.py": "16588d8df29ee30c8a27982e1974e0636dfbed0209e97f8a18533376882fea31"
+      },
+      "content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "file_hashes": {
+        "__init__.py": "776d306d3316b1c999b5f66358405d429518655990aeb79404d27f4d9e492351",
+        "__main__.py": "50bbfc615f094ce403d451e926ecbb47dd26d945cb3da85a63d582fc977893bf",
+        "backtest.py": "6a5b79f2681976f88e55652fa696dc773c5297432057ed58ae1eb68a9a2cfd16",
+        "benchmarks.py": "7d09c35750daf609ba361ecaf9794332321967c679ed397b411bbbecbecca549",
+        "capability_definition.py": "5302422b6b7d028527b287f213bb73b0bc94316045be8d78fa114367be6c13a7",
+        "cli.py": "6f8e885c1e6da38523a7d240dfdc4e996586150fea8d6a62577c2991a1963fe0",
+        "config.py": "3334e51509c66e8a99857d56758cc4fc7741a8e1b32c455483ca9780edaf650d",
+        "contracts/product-capabilities.json": "19aaf37b067fcf0775948fbaa8df0a4271e58fc0357cce0e409d74b10f823026",
+        "contracts/product-capabilities.schema.json": "c276f2f5e92c4676c0a59882e7658329261c84e49054c4d8be3ea46dddd1cf4e",
+        "data.py": "6d101b509666cbd5d52c7c563df4cf976dfb5a41735152947168daa66f9368e2",
+        "dataset_registry.py": "1e5109c3d73818c5ff77f61f4125e3d1a2eaa8e3fa7755329ef3e013819e5d24",
+        "documents.py": "a5a1f3fb4f4dd9a0caa717d7f8777e55e897f21b009c5d1afac4eaf115db29a0",
+        "environment.py": "c502d66f99e525b64f31ae7676ed5b3941a5ce895e87c58ca59ef49a47f3eee5",
+        "execution.py": "4fc9c10b20441213d3d2a472152dfbea2a4a7a497dcb05159e1c0591398adf18",
+        "experiment.py": "6a8140b865a6c338052bd51f70b3475b288079da3bc21acd9f2902c130096589",
+        "experiment_manifest.py": "f669076a4af8dff0465d0863e23ed43ff8e1bd3c157a0b3e4b90f14e6405f817",
+        "experiment_provenance_binding_v1.py": "4d7928af1a37fab0401dbfbb93c81e301b1800be7fdb7e80a8b2a53c2548d7ab",
+        "experiment_provenance_consumer_adapter_v1.py": "ead243788a9e628d0fc38045d08db212fefb001daa76db004c9c9cb7b8aeccc1",
+        "frozen_evaluation.py": "77fa20221b63b5e0bd926c5b03895ac0caac5af1ab90d549d1e98c137b5e6ffb",
+        "health_contract.py": "f7e595f6ade39e26bc252fb03134f4c59869c8511a45b7b9f5019e1f4c16af31",
+        "indicators.py": "68590a9fd40ac8a7f7f1a11584ffd306e7a2738ada6a2347ef2cc50af0702066",
+        "logging_setup.py": "64dcff0c00a4b085dafc2b6e7756847ca240cd6c8f45e55735c673683b9751da",
+        "models.py": "79b32477f41b65203d67d94ee50fd2f04642ff8949d9735224f7b0047a6158f4",
+        "product_capabilities.py": "6be464e0bc8ef247e86f21271651f551dcc2f57b8ca5de6a04d536e4b084a5d0",
+        "reporting.py": "1f03971936079ce39d92746fbc751f59db44d7962967cacd7a07fa09a38baf47",
+        "reporting_legacy_v2.py": "473623a54660bdc7f5bf855686a4874eba9443019a2e127d31fb55a3a8a88eac",
+        "resources/config.example.json": "60f5f74944ba6c6c2e9f5133e9969e0b50f810b20460db420b042da84411095f",
+        "resources/experiment.example.json": "e2f3c4a5d21b262b192f136020b4b3b475ecb19fd70ecf5d5767259c1b1dd75c",
+        "resources/requirements.research.lock": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+        "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+        "runtime-files.json": "d7f5bab68e18e5419c8767e95fa17db18729f8abf9a496f64265ff279adf3762",
+        "source_identity.py": "9c0917594c7323c59df0a551aacfd61865e8f17faf7c41e6c9f63dd4fce9b552",
+        "source_layout.py": "a555521e98e24f1c4f8d8ba67fb97f8b6e27f77f520e0ceb24175a5bf84753ea",
+        "strategies/__init__.py": "b16709c51a0fce1b55acd38f4d5012c0f9d0be65f6a78b4cf0856576982c334b",
+        "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6",
+        "strategies/templates.py": "d96a321738da88ea352f90579120e6010f52386c6749f1b4da80460df9af2575"
+      },
+      "git": {
+        "commit": "a6771ec89603999d55c6193a4fa7846ec3115d40",
+        "status": "CLEAN"
+      },
+      "schema_version": "research-build-source-v1"
+    },
+    "content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+    "file_hashes": {
+      "__init__.py": "776d306d3316b1c999b5f66358405d429518655990aeb79404d27f4d9e492351",
+      "__main__.py": "50bbfc615f094ce403d451e926ecbb47dd26d945cb3da85a63d582fc977893bf",
+      "backtest.py": "6a5b79f2681976f88e55652fa696dc773c5297432057ed58ae1eb68a9a2cfd16",
+      "benchmarks.py": "7d09c35750daf609ba361ecaf9794332321967c679ed397b411bbbecbecca549",
+      "capability_definition.py": "5302422b6b7d028527b287f213bb73b0bc94316045be8d78fa114367be6c13a7",
+      "cli.py": "6f8e885c1e6da38523a7d240dfdc4e996586150fea8d6a62577c2991a1963fe0",
+      "config.py": "3334e51509c66e8a99857d56758cc4fc7741a8e1b32c455483ca9780edaf650d",
+      "contracts/product-capabilities.json": "19aaf37b067fcf0775948fbaa8df0a4271e58fc0357cce0e409d74b10f823026",
+      "contracts/product-capabilities.schema.json": "c276f2f5e92c4676c0a59882e7658329261c84e49054c4d8be3ea46dddd1cf4e",
+      "data.py": "6d101b509666cbd5d52c7c563df4cf976dfb5a41735152947168daa66f9368e2",
+      "dataset_registry.py": "1e5109c3d73818c5ff77f61f4125e3d1a2eaa8e3fa7755329ef3e013819e5d24",
+      "documents.py": "a5a1f3fb4f4dd9a0caa717d7f8777e55e897f21b009c5d1afac4eaf115db29a0",
+      "environment.py": "c502d66f99e525b64f31ae7676ed5b3941a5ce895e87c58ca59ef49a47f3eee5",
+      "execution.py": "4fc9c10b20441213d3d2a472152dfbea2a4a7a497dcb05159e1c0591398adf18",
+      "experiment.py": "6a8140b865a6c338052bd51f70b3475b288079da3bc21acd9f2902c130096589",
+      "experiment_manifest.py": "f669076a4af8dff0465d0863e23ed43ff8e1bd3c157a0b3e4b90f14e6405f817",
+      "experiment_provenance_binding_v1.py": "4d7928af1a37fab0401dbfbb93c81e301b1800be7fdb7e80a8b2a53c2548d7ab",
+      "experiment_provenance_consumer_adapter_v1.py": "ead243788a9e628d0fc38045d08db212fefb001daa76db004c9c9cb7b8aeccc1",
+      "frozen_evaluation.py": "77fa20221b63b5e0bd926c5b03895ac0caac5af1ab90d549d1e98c137b5e6ffb",
+      "health_contract.py": "f7e595f6ade39e26bc252fb03134f4c59869c8511a45b7b9f5019e1f4c16af31",
+      "indicators.py": "68590a9fd40ac8a7f7f1a11584ffd306e7a2738ada6a2347ef2cc50af0702066",
+      "logging_setup.py": "64dcff0c00a4b085dafc2b6e7756847ca240cd6c8f45e55735c673683b9751da",
+      "models.py": "79b32477f41b65203d67d94ee50fd2f04642ff8949d9735224f7b0047a6158f4",
+      "product_capabilities.py": "6be464e0bc8ef247e86f21271651f551dcc2f57b8ca5de6a04d536e4b084a5d0",
+      "reporting.py": "1f03971936079ce39d92746fbc751f59db44d7962967cacd7a07fa09a38baf47",
+      "reporting_legacy_v2.py": "473623a54660bdc7f5bf855686a4874eba9443019a2e127d31fb55a3a8a88eac",
+      "resources/config.example.json": "60f5f74944ba6c6c2e9f5133e9969e0b50f810b20460db420b042da84411095f",
+      "resources/experiment.example.json": "e2f3c4a5d21b262b192f136020b4b3b475ecb19fd70ecf5d5767259c1b1dd75c",
+      "resources/requirements.research.lock": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+      "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+      "runtime-files.json": "d7f5bab68e18e5419c8767e95fa17db18729f8abf9a496f64265ff279adf3762",
+      "source_identity.py": "9c0917594c7323c59df0a551aacfd61865e8f17faf7c41e6c9f63dd4fce9b552",
+      "source_layout.py": "a555521e98e24f1c4f8d8ba67fb97f8b6e27f77f520e0ceb24175a5bf84753ea",
+      "strategies/__init__.py": "b16709c51a0fce1b55acd38f4d5012c0f9d0be65f6a78b4cf0856576982c334b",
+      "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6",
+      "strategies/templates.py": "d96a321738da88ea352f90579120e6010f52386c6749f1b4da80460df9af2575"
+    },
+    "status": "BUILD_VERIFIED"
+  },
+  "source_report_hash": "021b72e1ee217eb479eeda162caf475f05b5992bd2d6a05f69b90bb9b02b6a48",
+  "spec": {
+    "end_policy": "MARK_TO_MARKET",
+    "execution_policy": "STANDARD_STRATEGY_RISK",
+    "fee_rate": 0.0024000000000000002,
+    "initial_cash": 10000,
+    "name": "btc-spot-1h-cash-base-cost-3x",
+    "purpose": "DESCRIPTIVE_FIXED_PARAMETERS",
+    "risk": {
+      "max_daily_loss_pct": 0.05,
+      "max_leverage": 1,
+      "max_position_pct": 0.35,
+      "max_single_loss_pct": 0.03,
+      "min_cash_pct": 0.05
+    },
+    "schema_version": "research-experiment-spec-v1",
+    "score_end": "2026-09-01T00:00:00Z",
+    "score_start": "2026-08-04T00:00:00Z",
+    "slippage_pct": 0.0015,
+    "snapshot_id": "fdfeaa4acd2e8bba307901ecbd74b0852e2b15b2ade2d5f14e98e5f7a9eb78af",
+    "strategy": {
+      "name": "cash",
+      "params": {}
+    }
+  },
+  "spec_hash": "a8fefab155a9adf1de072d7c0dd867669465eff471c00f079b4d938d9e68ec85"
+}

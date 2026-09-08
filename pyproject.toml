@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hakimi-research"
+version = "0.2.1"
+description = "Local, reproducible, research-only quantitative strategy validation."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy==2.4.6",
+  "pandas==3.0.3",
+  "python-dateutil==2.9.0.post0",
+  "six==1.17.0",
+  "tzdata==2026.2",
+]
+
+[project.scripts]
+hakimi-research = "hakimi_research.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+hakimi_research = ["contracts/*.json", "resources/*.json", "resources/*.lock", "_build_identity.json", "runtime-files.json"]

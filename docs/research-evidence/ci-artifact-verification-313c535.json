@@ -1,0 +1,136 @@
+{
+  "actual_checkout_sha": "a6771ec89603999d55c6193a4fa7846ec3115d40",
+  "artifacts": [
+    {
+      "api_archive_digest": {
+        "reason": "ORIGINAL_ACTIONS_ZIP_NOT_AVAILABLE_AFTER_EXTRACTION",
+        "value": "sha256:091b7b4b71a487103f98b355d3a1554fbd0a56ac7707fbebaf3d39a4a823fc64",
+        "verification": "REMOTE_API_ASSERTED_NOT_RECOMPUTED"
+      },
+      "artifact_id": 9970616610,
+      "artifact_name": "hakimi-research-windows-latest-a6771ec89603999d55c6193a4fa7846ec3115d40-1",
+      "artifact_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/33969915599/artifacts/9970616610",
+      "build_git": {
+        "commit": "a6771ec89603999d55c6193a4fa7846ec3115d40",
+        "status": "CLEAN"
+      },
+      "bundle_file_count": 6,
+      "checksum_entries_verified": 5,
+      "ci_context": {
+        "checkout_sha": "a6771ec89603999d55c6193a4fa7846ec3115d40",
+        "reviewed_head_sha": "313c53505405316774b82cf8b5c4a31b38de7a21",
+        "run_attempt": "1",
+        "run_id": "33969915599",
+        "runner_system": "Windows"
+      },
+      "dependency_evidence_matches_wheel_lock": true,
+      "file_sha256": {
+        "SHA256SUMS.txt": "e87fa22de333c9ff13aca45f9accb1d5a723407714a0471c5f18f45bc29216d9",
+        "dependencies.json": "2a88bd124b0c14c948a321e369eac7f994fef2ef4a6edefe0c725478b5572666",
+        "hakimi_research-0.2.1-py3-none-any.whl": "b93952ddee0d16424292e75e5a3e7b0dfe10ac06d12f1333fa276922d08649fb",
+        "source-build-identity.json": "ec3eab0edbb6b19aaf7cbbb269ebf888cbd378b645e7e60b80d6d57ae97d2888",
+        "test-scope.json": "43ff28d8e0ddea260015f5a9a195dd62ebbbc5b05323ce039ae8202bd3b7661b",
+        "wheel-acceptance.json": "0986c1c999889c8405bf0390bdffb725aff5979a723feaf8504b3de0adcd0e1a"
+      },
+      "installed_test_receipt": {
+        "errors": 0,
+        "expected_failures": 0,
+        "failures": 0,
+        "skipped": 0,
+        "status": "PASS",
+        "tests_run": 90,
+        "unexpected_successes": 0
+      },
+      "package_job": {
+        "id": 101316473796,
+        "name": "Package install smoke (windows-latest)",
+        "observed_conclusion": "success",
+        "observed_status": "completed"
+      },
+      "platform": "windows-latest",
+      "privacy_checks": {
+        "machine_absolute_path_pattern_matches": 0,
+        "public_json_top_level_allowlists_match": true,
+        "scope": "PUBLIC_METADATA_AND_ALL_UNPACKED_WHEEL_MEMBERS_NOT_A_GENERAL_SECRET_CERTIFICATION"
+      },
+      "python_version_from_ci_receipt": "3.14.7",
+      "source_content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "source_file_differences": [],
+      "source_files_verified_against_current_checkout": 36,
+      "wheel_version": "0.2.1"
+    },
+    {
+      "api_archive_digest": {
+        "reason": "ORIGINAL_ACTIONS_ZIP_NOT_AVAILABLE_AFTER_EXTRACTION",
+        "value": "sha256:4a2730c5d3cf8a887f40d64080459f4c24fd929e5a38a156ab22be55ca73dc05",
+        "verification": "REMOTE_API_ASSERTED_NOT_RECOMPUTED"
+      },
+      "artifact_id": 9970609964,
+      "artifact_name": "hakimi-research-ubuntu-latest-a6771ec89603999d55c6193a4fa7846ec3115d40-1",
+      "artifact_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/33969915599/artifacts/9970609964",
+      "build_git": {
+        "commit": "a6771ec89603999d55c6193a4fa7846ec3115d40",
+        "status": "CLEAN"
+      },
+      "bundle_file_count": 6,
+      "checksum_entries_verified": 5,
+      "ci_context": {
+        "checkout_sha": "a6771ec89603999d55c6193a4fa7846ec3115d40",
+        "reviewed_head_sha": "313c53505405316774b82cf8b5c4a31b38de7a21",
+        "run_attempt": "1",
+        "run_id": "33969915599",
+        "runner_system": "Linux"
+      },
+      "dependency_evidence_matches_wheel_lock": true,
+      "file_sha256": {
+        "SHA256SUMS.txt": "d9db06f3ba1d3c216e1e37ff4f404a84edf613c9bb82e05730751759e67b4b0f",
+        "dependencies.json": "2a88bd124b0c14c948a321e369eac7f994fef2ef4a6edefe0c725478b5572666",
+        "hakimi_research-0.2.1-py3-none-any.whl": "ff9ba61bfb1899f26ba16f1f3b6e6d686a191ef742bd26ee017005626de071d9",
+        "source-build-identity.json": "869412cb54d6149981b2b9daf19584b7ad40ee1c720445deae80d58ce3f0170d",
+        "test-scope.json": "8bf94237278c6159d5325d58913bc3d33403f94f575d6d1e298e34fd0dc8f6df",
+        "wheel-acceptance.json": "e0f057e926610792eb290be5c56e28f89157fea2455479971723036eec163429"
+      },
+      "installed_test_receipt": {
+        "errors": 0,
+        "expected_failures": 0,
+        "failures": 0,
+        "skipped": 0,
+        "status": "PASS",
+        "tests_run": 90,
+        "unexpected_successes": 0
+      },
+      "package_job": {
+        "id": 101316473716,
+        "name": "Package install smoke (ubuntu-latest)",
+        "observed_conclusion": "success",
+        "observed_status": "completed"
+      },
+      "platform": "ubuntu-latest",
+      "privacy_checks": {
+        "machine_absolute_path_pattern_matches": 0,
+        "public_json_top_level_allowlists_match": true,
+        "scope": "PUBLIC_METADATA_AND_ALL_UNPACKED_WHEEL_MEMBERS_NOT_A_GENERAL_SECRET_CERTIFICATION"
+      },
+      "python_version_from_ci_receipt": "3.14.7",
+      "source_content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "source_file_differences": [],
+      "source_files_verified_against_current_checkout": 36,
+      "wheel_version": "0.2.1"
+    }
+  ],
+  "checked_at_utc": "2026-09-05T13:55:34.935865+00:00",
+  "execution_permission": {
+    "live_order_allowed": false,
+    "order_entry_allowed": false,
+    "paper_authorized": false,
+    "research_only": true
+  },
+  "repository": "TheDeadly-cat/hakimi-jiaoyi",
+  "reviewed_head_sha": "313c53505405316774b82cf8b5c4a31b38de7a21",
+  "run_id": 33969915599,
+  "schema_version": "research-ci-artifact-verification-v1",
+  "scope": "DOWNLOADED_PACKAGE_ARTIFACTS_AND_CURRENT_RUNTIME_BYTES_ONLY",
+  "source_content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "status": "PASS",
+  "whole_workflow_result": "NOT_ASSERTED_BY_THIS_ARTIFACT_CHECK"
+}

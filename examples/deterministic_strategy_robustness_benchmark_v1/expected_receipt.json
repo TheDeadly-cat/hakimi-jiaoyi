@@ -1,0 +1,68 @@
+{
+  "authority": {
+    "blind_test_complete": false,
+    "live_authorized": false,
+    "order_entry_authorized": false,
+    "paper_authorized": false,
+    "profitability_proven": false
+  },
+  "claims": {
+    "formal_blind_test": false,
+    "live": false,
+    "order": false,
+    "paper": false,
+    "parameter_selection": false,
+    "profitability": false,
+    "ranking": false,
+    "real_dataset": false
+  },
+  "completed_evidence": [
+    "WALK_FORWARD_EXECUTED",
+    "PARAMETER_STABILITY_EXECUTED",
+    "MULTIPLE_TESTING_LEDGER_COMPLETE",
+    "BONFERRONI_AND_BH_DIAGNOSTICS_COMPUTED",
+    "DEPENDENCY_LOCK_BOUND_TO_ALL_ROBUSTNESS_RUNS"
+  ],
+  "evaluation_role_counts": {
+    "FROZEN_TEST": 39,
+    "TRAIN": 54,
+    "VALIDATION": 54
+  },
+  "gaps": [
+    "REAL_MARKET_DATA_NOT_USED",
+    "FORMAL_FROZEN_BLIND_TEST_NOT_EXECUTED",
+    "MARKET_REGIME_ANALYSIS_NOT_EXECUTED",
+    "ENSEMBLE_STRATEGY_NOT_IMPLEMENTED",
+    "SOURCE_COMMIT_NOT_BOUND_FOR_UNCOMMITTED_SLICE",
+    "DEFLATED_SHARPE_RATIO_NOT_ESTIMATED",
+    "PROBABILITY_OF_BACKTEST_OVERFITTING_NOT_ESTIMATED",
+    "BOOTSTRAP_CONFIDENCE_INTERVAL_NOT_ESTIMATED",
+    "OVERLAPPING_WALK_FORWARD_WINDOWS_NO_INDEPENDENCE_CLAIM"
+  ],
+  "git_bound_run_count": 0,
+  "maturity": "SYNTHETIC_ROBUSTNESS_ONLY",
+  "receipt_sha256": "73474f772b7e4567aaeed0fcec7f7e1907615787e5d962567272d7a18f7271ea",
+  "registered_strategy_ids": [
+    "bollinger",
+    "dual_ma",
+    "grid",
+    "macd",
+    "momentum",
+    "rsi"
+  ],
+  "robustness_bundle_sha256": "cf794c8741b24f663700920526e5f0e0bf76706a28cf752cd95fa0bd70eddc84",
+  "robustness_dependency_bound_run_count": 147,
+  "robustness_executed_run_count": 147,
+  "robustness_plan_sha256": "5251a48d21b456ae8b63c976fe90fb8d62b925635cec90c49ef0562591e49370",
+  "robustness_schema_version": "synthetic-strategy-robustness-evidence-v2",
+  "run_reproducibility_ledger_sha256": "6434b4abfa717c96cdb76def63851097689b32c1a33985f86de8a26034f71a4e",
+  "runtime_mutations": false,
+  "schema_version": "deterministic-strategy-robustness-benchmark-receipt-v1",
+  "source_bundle_sha256": "941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f",
+  "source_dependency_bound_run_count": 32,
+  "source_executed_run_count": 32,
+  "source_schema_version": "synthetic-strategy-report-bundle-v2",
+  "status": "BLOCK",
+  "total_dependency_bound_run_count": 179,
+  "total_executed_run_count": 179
+}

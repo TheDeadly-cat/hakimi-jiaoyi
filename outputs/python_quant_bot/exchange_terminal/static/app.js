@@ -1,4 +1,55 @@
-﻿const state = {
+﻿const PRODUCT_CAPABILITY_LOCK = Object.freeze({
+  parameter_optimization: "Archived",
+  paper_execution: "Archived",
+  live_execution: "Archived",
+  order_entry: "Disabled",
+});
+
+const ARCHIVED_CAPABILITY_CONTROLS = Object.freeze({
+  armStrategy: "paper_execution",
+  stopStrategy: "paper_execution",
+  resetPaper: "paper_execution",
+  manualBuy: "order_entry",
+  manualSell: "order_entry",
+  manualClose: "order_entry",
+  addCondition: "order_entry",
+  estimateOrder: "order_entry",
+  saveApiConfig: "live_execution",
+  transferAssetButton: "paper_execution",
+  guardianStart: "paper_execution",
+  guardianStop: "paper_execution",
+  guardianEmergencyStop: "paper_execution",
+  daemonPrepare: "paper_execution",
+});
+
+function blockArchivedCapability(capability, targetId = "chartStatus") {
+  const status = PRODUCT_CAPABILITY_LOCK[capability];
+  if (status !== "Archived" && status !== "Disabled") return false;
+  const message = `${capability} is ${status} in the research-only product`;
+  const target = document.getElementById(targetId);
+  if (target) target.textContent = message;
+  return true;
+}
+
+function applyResearchOnlyCapabilityLock() {
+  Object.entries(ARCHIVED_CAPABILITY_CONTROLS).forEach(([id, capability]) => {
+    const element = document.getElementById(id);
+    if (!element) return;
+    element.disabled = true;
+    element.setAttribute("aria-disabled", "true");
+    element.dataset.capabilityStatus = PRODUCT_CAPABILITY_LOCK[capability];
+    element.title = `${capability}: ${PRODUCT_CAPABILITY_LOCK[capability]}`;
+  });
+  const runMode = document.getElementById("runMode");
+  if (runMode) runMode.value = "观察模式";
+  document.querySelectorAll("#desktopModeSwitch button").forEach((button) => {
+    const allowed = button.dataset.desktopMode === "WATCH";
+    button.disabled = !allowed;
+    button.classList.toggle("active", allowed);
+  });
+}
+
+const state = {
   symbol: "AAPL",
   bar: "1Dutc",
   chartMode: "candles",
@@ -2916,7 +2967,15 @@ function setPlatformBlock(id, status, detail, options = {}) {
   if (em) em.textContent = detail || "--";
 }
 
-const PLATFORM_MARKET_STATUSES = new Set(["READY", "STALE", "UNKNOWN", "BLOCK"]);
+const LEGACY_PLATFORM_MARKET_STATUSES = new Set(["READY", "STALE", "UNKNOWN", "BLOCK"]);
+const PLATFORM_MARKET_MATURITY_STATUSES = new Set([
+  "UNOBSERVED",
+  "BLOCKED",
+  "CURRENT_OBSERVATION",
+  "HISTORICAL_OBSERVATION",
+  "DEGRADED_OBSERVATION",
+]);
+const MARKET_DATA_RESEARCH_PROJECTION_SCHEMA = "market-data-research-projection-v1";
 
 function platformBarIdentity(value) {
   const text = String(value || "").trim().toLowerCase();
@@ -2957,7 +3016,7 @@ function platformTruthTimeText(timestamp, explicit = "") {
   });
 }
 
-function platformMarketTruthView(data = {}, requestContext = null) {
+function legacyPlatformMarketTruthView(data = {}, requestContext = null) {
   const truth = data.market_truth || data.data_health?.data_truth || {};
   const expected = requestContext || platformControlRequestContext();
   const symbol = String(truth.symbol || "").trim().toUpperCase();
@@ -2974,7 +3033,7 @@ function platformMarketTruthView(data = {}, requestContext = null) {
       || (requestedSession && requestedSession !== String(expected.session || "").toLowerCase())
     )
   );
-  let status = PLATFORM_MARKET_STATUSES.has(String(truth.status || "").toUpperCase())
+  let status = LEGACY_PLATFORM_MARKET_STATUSES.has(String(truth.status || "").toUpperCase())
     ? String(truth.status).toUpperCase()
     : "UNKNOWN";
   if (!schemaReady) status = "UNKNOWN";
@@ -3018,15 +3077,110 @@ function platformMarketTruthView(data = {}, requestContext = null) {
   };
 }
 
+function isPlainMarketProjectionRecord(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  try {
+    const prototype = Object.getPrototypeOf(value);
+    return prototype === Object.prototype || prototype === null;
+  } catch (_error) {
+    return false;
+  }
+}
+
+function isNativeMarketProjectionSequence(value) {
+  try {
+    return Array.isArray(value) && Object.getPrototypeOf(value) === Array.prototype;
+  } catch (_error) {
+    return false;
+  }
+}
+
+function platformMarketTruthView(data = {}, requestContext = null) {
+  const legacy = legacyPlatformMarketTruthView(data, requestContext);
+  const truth = data.market_truth || data.data_health?.data_truth || {};
+  const projection = isPlainMarketProjectionRecord(truth)
+    ? truth.research_projection
+    : null;
+  const source = isPlainMarketProjectionRecord(projection?.source) ? projection.source : null;
+  const gap = isPlainMarketProjectionRecord(projection?.gap) ? projection.gap : null;
+  const maturity = isPlainMarketProjectionRecord(projection?.maturity)
+    ? projection.maturity
+    : null;
+  const permission = isPlainMarketProjectionRecord(projection?.permission)
+    ? projection.permission
+    : null;
+  const expectedSequence = ["SOURCE", "GAP", "MATURITY", "PERMISSION"];
+  const permissionKeys = [
+    "paper_authorized",
+    "live_order_allowed",
+    "order_allowed",
+    "ranking_allowed",
+    "parameter_selection_allowed",
+    "profitability_proven",
+  ];
+  const expectedPermissionKeys = ["status", "label", ...permissionKeys];
+  const sequenceValid = isNativeMarketProjectionSequence(projection?.sequence)
+    && projection.sequence.length === expectedSequence.length
+    && projection.sequence.every((item, index) => (
+      typeof item === "string" && item === expectedSequence[index]
+    ));
+  const permissionClosed = permission?.status === "RESEARCH_ONLY"
+    && permissionKeys.every((key) => permission[key] === false)
+    && Object.keys(permission).length === expectedPermissionKeys.length
+    && expectedPermissionKeys.every((key) => Object.hasOwn(permission, key));
+  const projectionValid = isPlainMarketProjectionRecord(projection)
+    && projection.schema_version === MARKET_DATA_RESEARCH_PROJECTION_SCHEMA
+    && sequenceValid
+    && source
+    && ["UNOBSERVED", "PARTIAL", "BOUND"].includes(source.status)
+    && typeof source.label === "string"
+    && gap
+    && ["OPEN", "NONE"].includes(gap.status)
+    && typeof gap.label === "string"
+    && isNativeMarketProjectionSequence(gap.codes)
+    && gap.codes.every((code) => typeof code === "string")
+    && maturity
+    && PLATFORM_MARKET_MATURITY_STATUSES.has(maturity.status)
+    && typeof maturity.label === "string"
+    && permissionClosed
+    && typeof permission.label === "string";
+
+  const legacyBlocked = legacy.status === "BLOCK";
+  const status = projectionValid && !legacyBlocked ? maturity.status : "BLOCKED";
+  const statusLabel = projectionValid && !legacyBlocked ? maturity.label : "已阻断";
+  const sourceLabel = projectionValid ? source.label : "尚未观察";
+  const gapLabel = projectionValid && !legacyBlocked
+    ? gap.label
+    : "证据缺口 1 · 请求身份、结构或投影合同不匹配";
+  const permissionLabel = projectionValid
+    ? permission.label
+    : "仅研究 · 不授予模拟、实盘或订单权限";
+  return {
+    ...legacy,
+    status,
+    statusLabel,
+    statusTone: "neutral",
+    source: sourceLabel,
+    sourceText: sourceLabel,
+    mode: statusLabel,
+    modeText: statusLabel,
+    gap: gapLabel,
+    evidenceGapText: gapLabel,
+    permissionsText: permissionLabel,
+    permissionText: permissionLabel,
+    projectionSchema: projectionValid ? projection.schema_version : "UNKNOWN",
+  };
+}
+
 function renderPlatformMarketTruth(view) {
   const band = $("platformMarketTruthCenter");
   if (band) {
     band.dataset.marketStatus = view.status;
-    band.title = `原始行情证据状态 ${view.status}`;
+    band.title = `行情研究成熟度 ${view.status}`;
   }
   if ($("platformTruthStatus")) {
     $("platformTruthStatus").textContent = view.statusLabel;
-    $("platformTruthStatus").title = `原始状态 ${view.status}`;
+    $("platformTruthStatus").title = `研究成熟度 ${view.status}`;
   }
   if ($("platformTruthPermissions")) $("platformTruthPermissions").textContent = view.permissionsText;
   if ($("platformTruthSymbol")) $("platformTruthSymbol").textContent = view.symbol;
@@ -3044,7 +3198,7 @@ function renderPlatformMarketTruth(view) {
     {
       neutral: true,
       label: cardCopy.label,
-      title: `原始行情状态 ${view.status} · 原始修订状态 ${view.revisionStatus}`,
+      title: `研究成熟度 ${view.status} · 修订状态 ${view.revisionStatus}`,
     },
   );
 }
@@ -10861,6 +11015,7 @@ async function refreshPaper(evaluate = false) {
 }
 
 async function armStrategy() {
+  if (blockArchivedCapability("paper_execution", "strategyAnalysis")) return;
   const readiness = renderBotReadiness();
   if (readiness.blockers.length) {
     const reason = readiness.blockers.map((item) => item.label).join(", ");
@@ -10886,6 +11041,7 @@ async function armStrategy() {
 }
 
 async function stopStrategy() {
+  if (blockArchivedCapability("paper_execution")) return;
   const data = await apiMutation(`/api/paper/stop?price=${encodeURIComponent(state.lastPrice || 0)}`);
   state.paper = data.paper;
   renderPaper();
@@ -10893,6 +11049,7 @@ async function stopStrategy() {
 }
 
 async function resetPaper() {
+  if (blockArchivedCapability("paper_execution")) return;
   const data = await apiMutation(`/api/paper/reset?price=${encodeURIComponent(state.lastPrice || 0)}`);
   state.paper = data.paper;
   renderPaper();
@@ -10936,6 +11093,7 @@ async function loadRiskEngine() {
 }
 
 async function manualPaperOrder(side) {
+  if (blockArchivedCapability("order_entry")) return;
   const price = state.lastPrice || (state.candles[state.candles.length - 1]?.close || 0);
   const quantity = $("manualQty").value || $("positionInput").value || "25";
   const orderType = $("manualOrderType").value || $("strategyOrderType").value || "MARKET";
@@ -11288,6 +11446,7 @@ function syncConditionForm() {
 }
 
 async function addCondition() {
+  if (blockArchivedCapability("order_entry", "orderEstimate")) return;
   const side = $("conditionSide").value;
   const price = $("conditionPrice").value || state.lastPrice || 0;
   const orderType = $("conditionOrderType").value;
@@ -11305,6 +11464,7 @@ async function addCondition() {
 }
 
 async function estimateOrder() {
+  if (blockArchivedCapability("order_entry", "orderEstimate")) return;
   if (!$("conditionSide") || !$("conditionOrderType") || !$("conditionLimitPrice") || !$("conditionQty")) return;
   try {
     const side = $("conditionSide").value || "BUY";
@@ -11322,6 +11482,7 @@ async function estimateOrder() {
 }
 
 async function cancelCondition(id) {
+  if (blockArchivedCapability("order_entry", "orderEstimate")) return;
   const data = await apiMutation(`/api/paper/condition/cancel?id=${encodeURIComponent(id)}&price=${encodeURIComponent(state.lastPrice || 0)}`);
   state.paper = data.paper;
   renderPaper();
@@ -13177,18 +13338,21 @@ function renderNotifications(notifications) {
 }
 
 async function transferAsset() {
+  if (blockArchivedCapability("paper_execution", "accountSummary")) return;
   const data = await apiMutation(`/api/profile/transfer?asset=${encodeURIComponent($("transferAsset").value)}&source=${encodeURIComponent($("transferSource").value)}&target=${encodeURIComponent($("transferTarget").value)}&amount=${encodeURIComponent($("transferAmount").value || "0")}`);
   state.profile = data.profile;
   renderProfile();
 }
 
 async function setGuardian(enabled) {
+  if (blockArchivedCapability("paper_execution", "guardianState")) return;
   const data = await apiMutation(`/api/profile/guardian?enabled=${enabled ? "true" : "false"}`);
   state.profile = data.profile;
   renderProfile();
 }
 
 async function guardianHeartbeat() {
+  if (PRODUCT_CAPABILITY_LOCK.paper_execution === "Archived") return;
   if (!state.profile?.guardian?.enabled) return;
   const data = await apiMutation("/api/profile/guardian/heartbeat");
   state.profile = data.profile;
@@ -13200,6 +13364,7 @@ async function guardianHeartbeat() {
 }
 
 async function guardianEmergencyStop() {
+  if (blockArchivedCapability("paper_execution", "guardianState")) return;
   const price = state.lastPrice || (state.candles[state.candles.length - 1]?.close || 0);
   const data = await apiMutation(`/api/profile/guardian/emergency-stop?price=${encodeURIComponent(price)}&reason=${encodeURIComponent("手动一键急停")}`);
   state.profile = data.profile;
@@ -13258,6 +13423,7 @@ async function saveTerminalSettings() {
 }
 
 async function prepareDaemon() {
+  if (blockArchivedCapability("paper_execution", "daemonState")) return;
   const data = await apiMutation("/api/daemon/prepare");
   state.profile = data.profile;
   $("daemonState").textContent = data.message || "prepared";
@@ -13349,6 +13515,7 @@ function handleShortcut(event) {
 }
 
 async function saveApiConfig() {
+  if (blockArchivedCapability("live_execution", "apiKeyState")) return;
   const data = await apiMutation(`/api/config/api/save?exchange=okx&mode=paper&apiKeyEnv=${encodeURIComponent($("apiKeyEnv").value)}&secretEnv=${encodeURIComponent($("secretEnv").value)}&passwordEnv=${encodeURIComponent($("passwordEnv").value)}`);
   const config = data.config || {};
   const env = config.env_status || {};
@@ -13387,6 +13554,7 @@ async function loadHistoryTable() {
 }
 
 function bindEvents() {
+  applyResearchOnlyCapabilityLock();
   if (!runtime.interactionGuardBound) {
     runtime.interactionGuardBound = true;
     const markUserInteraction = () => {

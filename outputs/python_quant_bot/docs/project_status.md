@@ -9004,3 +9004,2068 @@ Authority remains unchanged:
   affected syntax 2/2 PASS, verifier 8/8 PASS, and diff check PASS.
 - The renderer remains CLI-dormant and grants no ranking, parameter selection,
   profitability, paper/live, or order authority.
+
+## 2026-08-29 ADR0510 validation evidence binding
+
+- Added a dormant canonical validation-evidence-v1 contract and frozen-evaluation-markdown-v2 composition layer.
+- ADR0509 v1 remains unchanged; the new consumer requires and supersedes only its four explicit not-bound markers while retaining the tail/distribution gap.
+- The evidence object preserves failed walk-forward windows, failed multiple-testing trials, failed stability neighbors, and missing market-regime slices instead of dropping them.
+- Exact-native identity and canonical SHA-256 checks fail closed; all profitability, blind-test, paper, live, and order-entry authority fields remain exact false.
+- No legacy formal runner, current CLI/UI, single-look chain, pack-v5 reading, or pointer-v2 behavior is changed.
+
+### ADR0510 formal search-lineage adapter
+
+- Added a dormant application adapter for the existing strategy_research_search_lineage v2 producer.
+- The legacy verifier remains authoritative for the producer artifact; the adapter records both the lineage hash and canonical full-artifact SHA-256.
+- Formal current_trial_count must exactly equal the ADR0510 preregistered trial ledger length.
+- The producer is explicitly treated as count/history evidence, not as proof of individual trial result identities.
+- No runtime producer, formal runner, CLI/UI entrypoint, or trading permission is activated.
+
+### ADR0510 verified formal report trial ledger
+
+- Added a dormant projection from a verify_strategy_research_report PASS artifact to deterministic per-variant receipts.
+- Each receipt binds variant/parameter/implementation identity, selection and test cell run hashes, validation ranking, frozen-test membership, optional test result, and producer batch_run_hash.
+- Execution state is separated from decision_status; observed BLOCK trials and their blockers are retained.
+- ADR0510 v1 requires exactly one already-frozen candidate and refuses zero/multiple candidates instead of making a post-hoc choice.
+- The adapter performs no data load, backtest, formal-runner invocation, pointer update, or permission change.
+
+### ADR0510 tail and distribution evidence
+
+- Added tail-distribution-evidence-v1 as a pure canonical computation over a report-contained equity_curve and fills.
+- The source result path, full source report, selected result, explicit periods_per_year, derived metrics, bucket returns, concentration observations, authority fields, and final evidence are hash-bound.
+- Added annualized volatility, Sortino, Calmar, drawdown duration, Profit Factor, payoff ratio, expectancy, turnover, exposure, historical 95/99 VaR/CVaR, month/year distributions, and best-period/trade concentration observations.
+- Undefined or undersampled metrics remain null with explicit GAP codes and are never coerced to zero.
+- No BacktestEngine, data loader, formal runner, runtime artifact, current pointer, or permission surface is changed.
+
+### Strategy family inventory v1
+
+- Added a hash-bound inventory adapter over the actual STRATEGY_REGISTRY without strategy instantiation or signal generation.
+- RANGE is a mechanism family containing bollinger, grid, and rsi; TREND contains dual_ma, macd, and momentum.
+- No registered Range, Trend, or Ensemble strategy alias exists. Ensemble remains GAP with NO_REGISTERED_ENSEMBLE_STRATEGY.
+- A three-family synthetic report fixture remains BLOCK rather than fabricating Ensemble behavior.
+- Missing, extra, aliased, or non-StrategyBase registry entries fail closed; all trading and profitability authority fields remain false.
+
+## 2026-08-30 pure synthetic strategy baseline bundle v1
+
+- Added a dormant 32-run in-memory report bundle over all six actual registered strategies.
+- Fixed partitions are Train 200 -> Purge 10 -> Validation 180 -> Embargo 10 -> Frozen 200.
+- Each registered strategy runs Train/Validation plus preregistered Frozen 1x/2x/3x fee-and-slippage stress; CASH and BUY_AND_HOLD run on Frozen 1x.
+- Dataset records, partitions, cost contract, runs, distribution evidence, reports, plan, and final bundle are canonical SHA-256 bound.
+- Exact deterministic replay executes the same 32 synthetic runs and requires byte-identical output.
+- Ensemble remains an explicit implementation GAP and no Ensemble report is fabricated.
+- Walk-forward, parameter stability, multiple testing, real data, formal frozen blind-test, dependency-lock, and source-commit evidence remain explicit gaps.
+- Renderer semantics remain SOURCE -> GAP -> MATURITY -> PERMISSION; bundle status is BLOCK and every profitability/trading authority field is false.
+- Targeted contract: 10/10 tests and affected py_compile; pure synthetic memory only, with no runtime artifact or external data access.
+
+## 2026-08-30 pure synthetic robustness evidence v1
+
+- Added a consumer-first extension over a verified synthetic-strategy-report-bundle-v1 source.
+- The plan preregisters 147 pure in-memory runs across six actual registered strategies.
+- Three ordered walk-forward windows use five-bar purge and embargo boundaries; parameter selection uses Validation only and test windows end before the source Frozen partition.
+- Every center and neighbor Train/Validation observation remains in the run ledger, including deterministic failure fields; no failed trial can disappear from the canonical multiple-testing ledger.
+- A three-point Frozen stability batch proves the explicit center parameters reproduce the implicit registered defaults and evaluates two preregistered neighbors without changing the selected center.
+- Every strategy produces and verifies the existing validation-evidence-v1 schema with walk-forward, stability, multiplicity, distribution, lineage, and explicit market-regime gaps.
+- Bonferroni and Benjamini-Hochberg values are synthetic diagnostics only. DSR, PBO, bootstrap intervals, market regimes, real data, formal blind testing, Ensemble, dependency-lock, and source-commit evidence remain GAP.
+- Bundle status remains BLOCK; all profitability, paper, live, and order-entry authority fields remain false.
+- Targeted contract: 10/10 tests and affected py_compile, including exact 147-run replay; no network, cache, database, runtime artifact, formal runner, or trading task.
+
+## Deterministic synthetic benchmark report entrypoint v1 (2026-08-30)
+
+The `synthetic-strategy-benchmark-report-v1` entrypoint composes the already verified Frozen/cost-stress bundle and walk-forward/stability/multiplicity evidence into one reproducible research-only report.
+
+- Entrypoint: `examples/build_synthetic_strategy_benchmark_report_v1.py`
+- Default invocation is a dry plan: `planned_run_count=179`, `executed_run_count=0`, `runtime_mutations=false`.
+- Full execution requires explicit `--execute` and remains pure synthetic/in-memory: 32 Frozen/cost-stress runs plus 147 robustness runs.
+- Plan SHA-256: `d2164df92703f238c6219128debb61d72a34bc94edc9efec59207c998125f65b`.
+- Entrypoint source SHA-256: `b5eec0b7448953a65e9bc532d287632588ce54d5ee8d371d36ae3dbe83e9d107`.
+- Contract test SHA-256: `c9912ea88ea0f1ec279c504087b7757760ea30c453ebd68e32bad5a38ce87cde`.
+- Targeted validation: `py_compile` PASS; entrypoint contract `10/10 PASS` in 12.399 seconds.
+- The verifier binds both preregistered plans, both complete evidence objects, the outer report digest, and the all-false authority contract.
+- Renderer order remains neutral: `SOURCE -> GAP -> MATURITY -> PERMISSION`; status remains `BLOCK`.
+- This evidence is synthetic only. It does not prove profitability, complete a formal Frozen blind test, or authorize paper, live, or order entry.
+- Explicit remaining gaps include real datasets, formal Frozen blind testing, market-regime analysis, dependency/source identities, Ensemble, DSR, PBO, and bootstrap confidence intervals.
+
+## Non-current synthetic benchmark report v2 (2026-08-30)
+
+The `synthetic-strategy-benchmark-report-v2` candidate composes the immutable v1 benchmark report with source-bound market-regime validation. It is not current and does not change any pointer, permission, or v1 identity.
+
+- Entrypoint: `examples/build_synthetic_strategy_benchmark_report_v2.py`.
+- Default invocation is a dry plan: `planned_run_count=179`, `executed_run_count=0`, `planned_market_analysis_count=6`, `additional_backtest_run_count=0`, `runtime_mutations=false`.
+- Plan SHA-256: `e89f08443b31ab597c5cbca89a999858edf478009382c2e9ad310b951466f93c`.
+- Market-regime core SHA-256: `48b0bd0c5643e3b0db1d8aff4978c354bc8ec4f06592ede01dc46baabfac99bd`.
+- Market-regime adapter SHA-256: `744abda3043d625bb03b2893c6df420f6ee3e3ceba1093c552df69132323ef0c`.
+- V2 entrypoint SHA-256: `d068dec6c8ce94d4680084686247bd9a457833161837472b015012bd545f1a4f`.
+- V2 contract test SHA-256: `9dc2fd1df30fd6a227f5114e02da88b206d32f4675d5d7fa1c774bb7be96054a`.
+- Targeted validation: market-regime contract `10/10 PASS` in 14.049 seconds; v2 entrypoint contract `10/10 PASS` in 18.339 seconds; related `py_compile` checks PASS.
+- The fixed causal policy uses a 20-bar trailing window and one-bar label lag. It was not tuned after observing strategy performance.
+- Six strategies produce 18 observed slices across BULL, BEAR, and RANGE. HIGH_VOLATILITY has zero coverage at the preregistered 20% annualized threshold, so six required slices remain GAP.
+- V2 refines the top-level `MARKET_REGIME_ANALYSIS_GAP` to `HIGH_VOLATILITY_REGIME_COVERAGE_GAP` without rewriting the nested v1 source report.
+- Evidence state remains `GAP`; permission status remains `BLOCK`; paper, live, order entry, blind-test completion, and profitability authority remain false.
+- This is synthetic-only evidence. It is not a real-data result, profitability proof, formal Frozen blind test, current-version promotion, or trading authorization.
+
+## Non-current synthetic benchmark report v3 (2026-08-30)
+
+The `synthetic-strategy-benchmark-report-v3` candidate composes the verified non-current v2 report with source-bound paired moving-block bootstrap evidence. It is not current and does not change a pointer, permission, or prior report identity.
+
+- Entrypoint: `examples/build_synthetic_strategy_benchmark_report_v3.py`.
+- Default invocation is a dry plan: `planned_run_count=179`, `executed_run_count=0`, `planned_market_analysis_count=6`, `planned_bootstrap_analysis_count=6`, `additional_backtest_run_count=0`, `runtime_mutations=false`.
+- Plan SHA-256: `6c771706085c8601a669cea85125fd8420383a0d76b898265e1285c698ee4376`.
+- Bootstrap policy is preregistered and deterministic: 169 paired Frozen observations per strategy, block length 5, 1,000 SHA-derived moving-block replicates, and 95% Type-7 linear percentile intervals. It uses no runtime PRNG, performance selection, or post-observation policy tuning.
+- Execution reuses the 179 v2 source runs and six market-regime analyses, performs six bootstrap analyses, and adds zero backtest runs.
+- Bootstrap core SHA-256: `98c13ae78f4e9493a053d0d5a4a35d1e26c890127705c101f82f4931d4f450c5`.
+- Bootstrap adapter SHA-256: `a71aa4c71e36697db0e459a21f654b4f19b9cb2f1347a62d6c51502333ebf19d`.
+- Bootstrap contract test SHA-256: `e45f55ca7cc383fa66a197942d4293613a9644a06ebd5d2d64241f7ae0d3107b`.
+- V3 entrypoint SHA-256: `b20fc259090ea7941d1c304cbd6c197ec0f4aa0aa3a37220213859eb9a8e32cc`.
+- V3 contract test SHA-256: `068caf9e0d08cdf2b79d7f2ca5d48fca12c07cfd51d98a604e123115eddf6d51`.
+- Targeted validation: bootstrap contract `10/10 PASS` in 7.145 seconds; v3 entrypoint contract `10/10 PASS` in 63.739 seconds; affected `py_compile` checks PASS.
+- V3 closes only `BOOTSTRAP_CONFIDENCE_INTERVAL_GAP`. DSR, PBO, real-data, formal Frozen blind-test, HIGH_VOLATILITY coverage, dependency/source identity, and Ensemble gaps remain explicit; `NO_FORMAL_INFERENCE_AUTHORITY` is explicit.
+- Evidence state remains `GAP`; permission status remains `BLOCK`; profitability, formal inference, blind-test completion, paper, live, and order-entry authority remain false.
+- Renderer semantics remain neutral: `SOURCE -> GAP -> MATURITY -> PERMISSION`.
+- The single-look chain remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`; legacy pack-v5 public reading remains UNKNOWN and pointer-v2 is not reissued.
+- This is descriptive synthetic evidence only. It is not a real-data result, significance claim, profitability proof, formal Frozen blind test, current-version promotion, or trading authorization.
+
+## 2026-08-31 - Synthetic benchmark report v4 consumer-only evidence (non-current)
+
+- Scope: `deterministic-synthetic-strategy-benchmark-v4` is a pure in-memory composition consumer. It accepts verified v3, trial-return-matrix-v1, deflated-Sharpe-v1, and CSCV/PBO-v1 artifacts; it does not provide a default backtest runner.
+- Source accounting: 179 logical source runs are reused (32 baseline plus 147 robustness). v4 composition plans and executes 0 backtest runs, adds 0 backtest runs, performs no runtime mutation, and binds the shared v3/matrix baseline plus the shared DSR/PBO matrix by SHA-256.
+- Diagnostic coverage: deflated Sharpe is observed for 6/6 registered strategies. CSCV/PBO is observed for 4/6 and remains GAP for 2/6 because exact rank ties are not arbitrarily resolved; `PARTIAL_CSCV_RANK_TIE_GAP` remains explicit.
+- Validation: targeted `py_compile` PASS; `tests.test_synthetic_strategy_benchmark_report_entrypoint_v4` 12/12 OK in 53.978 seconds. The test fixture reconstructs pure synthetic source artifacts; the v4 composition itself executes 0 backtests.
+- Plan SHA-256: `341e74840d974575d8bd34545088ef2ec70009ead6484436f20ce76294f081c8`.
+- Entrypoint SHA-256: `243c1bfb65d6de1c5e114a24a63e90584a46d7b529be856d605f852fe7eb289c`.
+- Contract-test SHA-256: `394c6fe1b836c8c8d0a40b1a7b96f0e4b47b5371f2c1ff853432d4cbea9fbe6d`.
+- State: `SOURCE=PURE_SYNTHETIC_IN_MEMORY -> GAP -> MATURITY=SYNTHETIC_BENCHMARK_WITH_PARTIAL_REGIME_BOOTSTRAP_DSR_AND_PBO_DIAGNOSTICS -> PERMISSION=BLOCK`.
+- Current-state invariants: v4 remains a non-current candidate. The current single-look chain remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`; legacy pack-v5 remains `UNKNOWN`; pointer-v2 is unchanged and is not reissued.
+- Authority: `blind_test_complete=false`, `formal_inference_authorized=false`, `paper_authorized=false`, `live_authorized=false`, `order_entry_authorized=false`, and `profitability_proven=false`. Synthetic diagnostics do not establish profitability, formal inference, or trading permission.
+
+## 2026-08-31 - Synthetic high-volatility validation and benchmark report v5 (non-current)
+
+- Scope: `synthetic-strategy-high-volatility-validation-v1` adds one preregistered, no-randomness, pure in-memory scenario for the six existing registered strategies and a buy-and-hold benchmark. `deterministic-synthetic-strategy-benchmark-v5` consumes the verified v4 and high-volatility artifacts without changing historical v1-v4 contracts.
+- Fixture identity: 220 daily rows, alternating +6%/-6% simple close returns, fixed OHLC envelope and volume cycle. Dataset SHA-256 is `9e3a21a7b909f09046b64dd9bacd1dbf484b0afa3b74269a35da7efff8f456f9`; fixture SHA-256 is `9c4c4ceafe19829b478fb28970e1fdb64ff59426c3b6b71c622cf6ef3fbe8d6e`.
+- Coverage: all 6 registered strategies have an `OBSERVED` `HIGH_VOLATILITY` target slice with 189 observations each. The historical `HIGH_VOLATILITY_REGIME_COVERAGE_GAP` is replaced only by `HIGH_VOLATILITY_SYNTHETIC_SCENARIO_ONLY`; this is not real-market or formal blind-test coverage.
+- Run accounting: v5 binds 179 inherited logical source runs plus 7 dedicated scenario runs, for 186 logical source runs. v5 composition plans and executes 0 backtest runs, adds 0 backtest runs, and performs no runtime mutation.
+- Validation: targeted `py_compile` PASS; `tests.test_synthetic_strategy_high_volatility_benchmark_v5` 14/14 OK in 87.669 seconds. Tests cover exact execute types, deterministic fixture identity, run/manifest bindings, all-six target coverage, resealed projection and binding tampering, authority escalation, v4/v5 strategy order, gap replacement, and neutral rendering.
+- High-volatility plan SHA-256: `7b34c83b4cfaa33f06d7bd48fbb6952eff99cdb9ae6da38591f784d82319bda1`.
+- Benchmark v5 plan SHA-256: `51e1f847f06e1a3d62f6ddf3be5136fab3d2a50609e5d206138a125d71cdc622`.
+- High-volatility module SHA-256: `489436526f101aaa40ec20e8e5be0742674c8f170fa8320627b1a9b0f35b11f6`.
+- Benchmark v5 module SHA-256: `c3d91d5499185efe819f0faefb53e5e2bca0d36f6ae023b6398e77d71753d8e9`.
+- Contract-test SHA-256: `a14af2178812f67d40d6631cbd048d60ba5c8ba8a62ea804963831b3c77844ad`.
+- State: `SOURCE=PURE_SYNTHETIC_IN_MEMORY -> GAP -> MATURITY=SYNTHETIC_BENCHMARK_WITH_REGIME_BOOTSTRAP_DSR_AND_PARTIAL_PBO_DIAGNOSTICS -> PERMISSION=BLOCK`. PBO rank-tie, real-data, formal-blind-test, source-commit, dependency-lock, and formal-inference gaps remain.
+- Current-state invariants: v5 remains a non-current candidate. The current single-look chain remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`; legacy pack-v5 remains `UNKNOWN`; pointer-v2 is unchanged and is not reissued.
+- Authority: `blind_test_complete=false`, `formal_inference_authorized=false`, `paper_authorized=false`, `live_authorized=false`, `order_entry_authorized=false`, and `profitability_proven=false`. Synthetic scenario coverage does not establish profitability, formal inference, or trading permission.
+
+## 2026-08-31 - Reproducibility provenance gap audit and benchmark report v6 (non-current)
+
+- Scope: `synthetic-strategy-reproducibility-provenance-gap-audit-v1` consumes the verified v5 report, fingerprints 18 preregistered critical source modules, audits the dependency declaration, and recursively deduplicates embedded run manifests and strategy fingerprints. It does not invoke Git, infer worktree cleanliness, or mutate runtime state.
+- Source evidence: the critical-source manifest SHA-256 is `fea6f2ae2ed1dd2964d75e96a93a741e72764942276c3e2c60ee58f3a1595b73`. The audit module SHA-256 is `db0997c68f72bef904a51ce85460ed69d749dbb56aa7a8d4e253a33a322e2b19`; its plan SHA-256 is `ce807ce0cfa9804320ade3b53f2aa8bb25487cac0376db00e637791b0de73620`.
+- Dependency evidence: `requirements.txt` SHA-256 is `9a0efb008cf83e0c8739855cc556220e8e84a593bd8b132018239989f6a75f95`. It contains 15 declarations, only 1 exact pin, and 14 non-exact constraints. It is a dependency specification, not a fully pinned lock file.
+- Audit validation: targeted `py_compile` PASS; `tests.test_synthetic_strategy_reproducibility_provenance_gap_audit_v1` 11/11 OK in 73.670 seconds. A patched `subprocess.run` sentinel proves the audit does not call Git or another subprocess.
+- V6 composition: `deterministic-synthetic-strategy-benchmark-v6` consumes the verified v5 report and its bound provenance audit. It inherits 186 logical source runs, executes 0 composition runs, adds 0 backtest runs, and performs no runtime mutation.
+- V6 bindings cover the v5 report and plan, provenance-audit bundle and plan, critical-source manifest, and dependency-document SHA-256 identities. Exact native JSON types are required before hashing; resealed binding, count, and authority tampering fail closed.
+- V6 plan SHA-256: `c155ecdcc2ae213531603059776db237554189b6d038af6b803c0d55c91d7e38`.
+- V6 entrypoint SHA-256: `332516139ccbaecf85af568f75e49d416d97d5fa2cf0efc76413cb906f371fe3`.
+- V6 contract-test SHA-256: `997de9870ae9e3176e7e73c9703536a93f70270664e4986ab9b300a0aab0409e`.
+- V6 validation: targeted `py_compile` PASS; `tests.test_synthetic_strategy_benchmark_report_entrypoint_v6` 12/12 OK in 92.798 seconds. The fixture deterministically reconstructs the existing pure-synthetic evidence; v6 itself is a zero-run consumer.
+- State: `SOURCE=SYNTHETIC_EVIDENCE_WITH_LOCAL_SOURCE_FILES_READ_ONLY -> GAP -> MATURITY=SYNTHETIC_BENCHMARK_WITH_REGIME_BOOTSTRAP_DSR_PARTIAL_PBO_AND_PROVENANCE_GAP_AUDIT -> PERMISSION=BLOCK`.
+- Explicit provenance gaps remain `SOURCE_COMMIT_SHA_GAP`, `SOURCE_WORKTREE_IDENTITY_REQUIRES_AUTHORIZED_SNAPSHOT`, `DEPENDENCY_LOCK_HASH_GAP`, `DEPENDENCY_LOCK_NOT_FULLY_PINNED`, and `PROVENANCE_AUDIT_NOT_REPRODUCIBILITY_COMPLETION`. A source fingerprint audit is not formal cross-machine reproducibility evidence.
+- Current-state invariants: v6 remains a non-current candidate. The current single-look chain remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`; legacy pack-v5 remains `UNKNOWN`; pointer-v2 is unchanged and is not reissued.
+- Authority: `blind_test_complete=false`, `formal_inference_authorized=false`, `paper_authorized=false`, `live_authorized=false`, `order_entry_authorized=false`, and `profitability_proven=false`. This audit and synthetic report do not establish profitability, formal reproducibility, formal inference, or trading permission.
+
+## 2026-08-31 - Return contribution concentration and benchmark report v7 (non-current)
+
+- Scope: `return-contribution-concentration-diagnostic-v1` consumes each verified preregistered selected-center Frozen return matrix. It computes best-single-period removal, best-synthetic-UTC-calendar-month removal, best-contiguous-21-period-window removal, positive period-return HHI, best closed `SELL`-fill realised-PnL removal, and positive closed-trade-PnL HHI when positive closed trades exist.
+- Source boundary: all diagnostics reuse the existing 147-run robustness matrix. They execute 6 analyses and 0 backtest runs. The selected trial, source rows, return arrays, observation times, source run/results, fill ledger, and diagnostic policy are SHA-256 bound; no parameter or strategy selection is changed.
+- Partial evidence is retained rather than filled: positive period-return HHI is `OBSERVED` for 5/6 strategies and `GAP` for `dual_ma`; positive closed-trade-PnL HHI is `OBSERVED` for 4/6 and `GAP` for `dual_ma` and `grid`. Best closed-trade sensitivity is `OBSERVED` for 6/6.
+- Interpretation boundary: calendar months are synthetic UTC groupings. A closed trade is represented only by realised PnL on a source `SELL` fill under the current simplified execution model; open-position unrealised PnL is not attributed. No decision threshold or formal inference is attached.
+- Concentration plan SHA-256: `93bcd8b02d5a746dcc7f0b57247fd969ec57c686e7220bb8c456c53ba20a0e9a`.
+- Concentration core SHA-256: `12b47597d59cca3fdaa4bc4e7fd99f37b20b27b4594db1ad76b149e1bfdb8050`.
+- Concentration adapter SHA-256: `46a696c1fa93a4dc9962f7cece077b007303d809bc84e77e8f8632d0663b8f9e`.
+- Concentration contract-test SHA-256: `969347b9d9a0c872ab4cc0e2c6d8b60f1c0b82f954c25562be9cdc1c725b9be3`.
+- Concentration validation: targeted `py_compile` PASS; `tests.test_synthetic_strategy_return_contribution_concentration_v1` 12/12 OK in 14.358 seconds. Independent formulas recalculate all six diagnostics; exact replay, partial-GAP projection, native types, resealed tampering, authority escalation, and neutral rendering are covered.
+- V7 composition: `deterministic-synthetic-strategy-benchmark-v7` consumes the verified v6 and concentration artifacts. It requires the concentration source matrix to equal the v6-embedded v4 matrix exactly, preventing the same 147 source runs from being counted as an independent ticket. Logical source runs remain 186; v7 composition executes and adds 0 backtest runs.
+- V7 plan SHA-256: `8f1cfef1f15cd3885b36a73c81bef8ff0f8196da8e3b88d50bc308ef55a591ad`.
+- V7 entrypoint SHA-256: `8cfdeba5b66a81c913bc287778fc6c84fcff0b956719d504c20a77690cc2dc94`.
+- V7 contract-test SHA-256: `f2ff5471187b1b97fadf7cf4c426b16c9ee77cbf709c659ba3153fc72ba6c021`.
+- V7 validation: targeted `py_compile` PASS; `tests.test_synthetic_strategy_benchmark_report_entrypoint_v7` 12/12 OK in 117.137 seconds. Shared-matrix identity, run accounting, gap inheritance, source/count tampering, exact native types, authority denial, and non-current renderer semantics are covered.
+- State: `SOURCE=SYNTHETIC_EVIDENCE_WITH_LOCAL_SOURCE_FILES_READ_ONLY -> GAP -> MATURITY=SYNTHETIC_BENCHMARK_WITH_PROVENANCE_AND_RETURN_CONTRIBUTION_CONCENTRATION_GAPS -> PERMISSION=BLOCK`.
+- Explicit concentration gaps include `CALENDAR_MONTH_SYNTHETIC_ONLY`, `PARTIAL_POSITIVE_PERIOD_RETURN_CONCENTRATION_GAP`, `PARTIAL_POSITIVE_CLOSED_TRADE_CONCENTRATION_GAP`, `OPEN_POSITION_UNREALISED_PNL_NOT_ATTRIBUTED_TO_CLOSED_TRADES`, `TRADE_LEDGER_SYNTHETIC_EXECUTION_MODEL_ONLY`, and `RETURN_CONTRIBUTION_CONCENTRATION_SYNTHETIC_DIAGNOSTIC_ONLY`. Existing real-data, formal-blind-test, source/dependency identity, Ensemble, partial-PBO, and formal-inference gaps remain.
+- Current-state invariants: v7 remains a non-current candidate. The current single-look chain remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`; legacy pack-v5 remains `UNKNOWN`; pointer-v2 is unchanged and is not reissued.
+- Authority: `blind_test_complete=false`, `formal_inference_authorized=false`, `paper_authorized=false`, `live_authorized=false`, `order_entry_authorized=false`, and `profitability_proven=false`. Concentration diagnostics do not establish profitability, formal inference, reproducibility completion, or trading permission.
+
+## 2026-08-31 - Independent benchmark controls and benchmark report v8 (non-current)
+
+- Scope: `synthetic-strategy-benchmark-controls-bundle-v1` adds two fixed independent controls (20-day single moving-average long/cash and 20-day close breakout), 16 SHA-256-derived no-skill paths, six descriptive equal-volatility buy-and-hold projections, and six source-bound strategy/control comparisons. The controls are not inserted into the registered strategy inventory and are not selected by observed performance.
+- No-skill boundary: all 16 paths are retained, the selected path remains `null`, and the distribution uses preregistered Type-7 summary quantiles. No best random path is selected and no formal inference or ranking threshold is attached.
+- Volatility boundary: each equal-volatility buy-and-hold result is an ex-post descriptive projection. It is not an executable strategy and does not model financing, margin, leverage feasibility, liquidity, or order execution.
+- Control source accounting: the control bundle reuses the exact 32-run Frozen/cost-stress baseline and adds 18 independent control backtests under the same Frozen dataset, next-open execution model, and 1x fee/slippage assumptions. It performs 13 derived analyses and reports no runtime mutation.
+- Control plan SHA-256: `a4d35d7f5f9b7f5f70b5fa930cf8f1bc9816b61df84282b01b87f2425d510b54`.
+- Control core SHA-256: `df6a8fc7885b2d081ed8a5b390d80a5659e3a84ed087fc35e0798ce63aba48db`.
+- Control adapter SHA-256: `134f3f842bd611c8daf113af5eb154ce38a9e596b829b8efc9153fd6f2db8b80`.
+- Control contract-test SHA-256: `2e47f3752c8d0e246902a3935e09c4040d66ec5f980e37f6d4a774f4d7147aba`.
+- Control validation: targeted `py_compile` PASS; `tests.test_synthetic_strategy_benchmark_controls_v1` 14/14 OK in 5.626 seconds. The contract covers exact control identity, all retained no-skill paths, equal-volatility projection, source/cost binding, replay, resealed tampering, stable application-layer rejection, denied authority, and neutral rendering.
+- V8 composition: `deterministic-synthetic-strategy-benchmark-v8` accepts only prebuilt verified v7 and control artifacts. It verifies that the controls' 32-run baseline is exactly embedded by v7, then counts `186 inherited + 18 independent controls = 204 logical source runs`; the shared 32-run baseline is not counted again. V8 composition executes 0 backtests and adds 0 backtest runs.
+- V8 plan SHA-256: `c6711f724f2b49712897b3623b256eb713281b3d396535552dcce3d531680317`.
+- V8 entrypoint SHA-256: `257815ce9d9a080a4ed3156780b8a9c020f3bd81341756e7cd08a433774d00f5`.
+- V8 contract-test SHA-256: `bfd77bfc2f1a8f75b175b7c157c5b6fef240cd748a6b7493bbcd3d8593571c95`.
+- V8 validation: targeted `py_compile` PASS; `tests.test_synthetic_strategy_benchmark_report_entrypoint_v8` 12/12 OK in 154.321 seconds. Tests cover the deduplicated 204-run ledger, shared-baseline identity, complete independent-control membership, inherited gaps, exact native types, resealed source/count/binding tampering, denied authority, and neutral non-current rendering.
+- State: `SOURCE=SYNTHETIC_EVIDENCE_WITH_LOCAL_SOURCE_FILES_READ_ONLY -> GAP -> MATURITY=SYNTHETIC_BENCHMARK_WITH_PROVENANCE_CONCENTRATION_AND_INDEPENDENT_CONTROL_GAPS -> PERMISSION=BLOCK`.
+- Current-state invariants: v8 remains a non-current candidate. The current single-look chain remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`; legacy pack-v5 remains `UNKNOWN`; pointer-v2 is unchanged and is not reissued.
+- Authority: `blind_test_complete=false`, `formal_inference_authorized=false`, `paper_authorized=false`, `live_authorized=false`, `order_entry_authorized=false`, and `profitability_proven=false`. Independent synthetic controls and v8 composition do not establish profitability, formal inference, formal blind-test completion, reproducibility completion, or trading permission.
+
+## 2026-08-31 - Tie-aware CSCV/PBO identified sets and benchmark report v9 (non-current)
+
+- Scope: `synthetic-strategy-cscv-pbo-tie-bounds-bundle-v1` consumes the verified CSCV/PBO v1 artifact and retains every IS maximizer, every OOS rank tie, and all 70 symmetric splits for each of six strategies. It never uses a lexical tie-break, drops a split, or substitutes an interval midpoint as a PBO point estimate.
+- Method: each selected candidate receives an OOS rank interval from `1 + count(score < selected)` to `count(score <= selected)`. Rank intervals are aggregated across all IS maximizers, transformed monotonically to logit intervals, and summarized as lower and upper bounds on the nonpositive-logit rate.
+- Evidence: four strategies remain point identified and exactly reproduce their existing v1 rates. `grid` retains an informative conservative identified set of `[48/70, 1]`, with 48 definitely nonpositive and 22 ambiguous splits. `dual_ma` remains honestly uninformative at `[0, 1]`, with all 70 splits crossing zero under admissible tie resolutions.
+- Interpretation boundary: these are descriptive pure-synthetic identified sets, not formal PBO inference. Neither an endpoint nor a midpoint is promoted to a point estimate, decision threshold, profitability claim, or strategy acceptance rule.
+- Source accounting: all 147 trial-matrix source runs are reused. The bounds layer performs six analyses, executes 0 backtests, adds 0 backtest runs, and reports no runtime mutation.
+- Tie-bounds plan SHA-256: `62260c7e73df69ae0efe69858bdf7287aa946ace0803a9c92d9b29e50f878b45`.
+- Tie-bounds core SHA-256: `2fe2392cb50e19efe4df26e6053a9e8932d1f594115fe6f4b730c2d5dff2efdc`.
+- Tie-bounds adapter SHA-256: `414b45415e635893791b2b5404d3d5933e5353899687d7541db511edfaeb500f`.
+- Tie-bounds contract-test SHA-256: `a61da60d427ed5f04883f27b15d6de9abfa1e1816789fe449ef48d28dbcb5aac`.
+- Tie-bounds validation: targeted `py_compile` PASS; `tests.test_synthetic_strategy_cscv_pbo_tie_bounds_v1` 12/12 OK in 17.222 seconds. The contract independently recalculates all 420 split bounds and covers exact point reproduction, partial/full intervals, source binding, exact native types, resealed tampering, replay, denied authority, and neutral rendering.
+- V9 composition: `deterministic-synthetic-strategy-benchmark-v9` accepts only prebuilt verified v8 and tie-bounds artifacts. It proves the bounds' CSCV v1 source bundle is exactly embedded by v8, so the 147 reused runs are not counted again. Logical source runs remain 204; v9 composition executes and adds 0 backtest runs.
+- Gap replacement: `PARTIAL_CSCV_RANK_TIE_GAP` is removed only because precise identified sets now replace discarded tie information. `PARTIAL_PBO_IDENTIFIED_SET_REMAINS`, `FULL_UNIT_PBO_IDENTIFIED_SET_REMAINS`, and `TIE_AWARE_PBO_IDENTIFIED_SET_SYNTHETIC_ONLY` remain explicit.
+- V9 plan SHA-256: `fe0468409bf39bb1d30ebdf1fa08d7bb34aafeff10de37c904ad90ce1c856edb`.
+- V9 entrypoint SHA-256: `b26a9a8a48013177b27433425b25447352a09a0813063feeec65c14ea677e03e`.
+- V9 contract-test SHA-256: `ddf5072f5c354d1ea2ade2dc743a00efc9e7ed6d66994007f7b3deb08989c20f`.
+- V9 validation: targeted `py_compile` PASS; `tests.test_synthetic_strategy_benchmark_report_entrypoint_v9` 12/12 OK in 190.850 seconds. Tests cover shared CSCV identity, zero duplicate counting, 204-run accounting, exact gap replacement, point/partial/full coverage, exact native types, resealed source/count/binding tampering, denied authority, and neutral non-current rendering.
+- State: `SOURCE=SYNTHETIC_EVIDENCE_WITH_LOCAL_SOURCE_FILES_READ_ONLY -> GAP -> MATURITY=SYNTHETIC_BENCHMARK_WITH_INDEPENDENT_CONTROLS_AND_TIE_AWARE_PBO_IDENTIFIED_SET_GAPS -> PERMISSION=BLOCK`.
+- Current-state invariants: v9 remains a non-current candidate. The current single-look chain remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`; legacy pack-v5 remains `UNKNOWN`; pointer-v2 is unchanged and is not reissued.
+- Authority: `blind_test_complete=false`, `formal_inference_authorized=false`, `paper_authorized=false`, `live_authorized=false`, `order_entry_authorized=false`, and `profitability_proven=false`. Tie-aware synthetic bounds and v9 composition do not establish profitability, formal inference, formal blind-test completion, reproducibility completion, or trading permission.
+
+## 2026-08-31 - Benchmark research dependency lock, source envelope, and report v10 (non-current)
+
+- Scope audit: `synthetic-strategy-benchmark-research-lock-audit-bundle-v1` replaces the stale v6-era 18-module provenance view with a SHA-256 envelope over 52 local files covering the v9 runtime import closure plus the audit and v10 consumer. It reads only explicit source and lock paths and does not call Git, subprocesses, pip, installers, or the network.
+- Dependency scope: `requirements-benchmark-v9.lock` contains seven exact `==` pins for the benchmark execution and audit tooling: numpy, packaging, pandas, pyarrow, python-dateutil, six, and tzdata. All seven installed versions match exactly on the declared CPython 3.14.6 / Windows 11 / AMD64 platform.
+- Lock boundary: this is a benchmark-specific, platform-specific version lock. It is not a full-application lock, contains no wheel/sdist artifact hashes, does not cover the five currently absent optional/application dependencies, and has not been proven by a fresh isolated installation on another machine.
+- Source accounting: the audit reuses the existing 204 logical source runs, performs one source/lock/environment analysis, executes 0 backtests, adds 0 backtest runs, and reports no runtime mutation.
+- Dependency lock SHA-256: `2192bea1696a73460d159fd8342cb2d00b5de15d5786f7b3d47fd88b9e2c8e59`.
+- Lock manifest SHA-256: `cdbe5b8b75adda5b7a544911ef5ad015798207c1144dcc0fe4187a82ee19c652`.
+- Source manifest SHA-256: `4eaf21c6dc5778d74be6205184d687f52bd413614306cef32ac2ffff5527f495`.
+- Research-lock audit plan SHA-256: `c1835720c4ce79d3efc6e6c0e2dae013c5b0b0df105d34fde607e4a694365a90`.
+- Research-lock audit source SHA-256: `64deb21751c1c02434cd40056c5b2098a758188772e9fbed263aaded57683acc`.
+- Research-lock audit contract-test SHA-256: `80ec052869e6d1eb9834ceb9aacf63509e82e05d9079939676247e00138a8b63`.
+- V10 composition: `deterministic-synthetic-strategy-benchmark-v10` accepts only prebuilt verified v9 and research-lock audit artifacts. It binds the v9 report, 52-file source manifest, dependency lock, installed resolution, and audit identities without counting the audit's 204 reused runs again. Logical source runs remain 204; v10 composition executes and adds 0 backtest runs.
+- Gap replacement: `DEPENDENCY_LOCK_HASH_GAP` and `DEPENDENCY_LOCK_NOT_FULLY_PINNED` are removed only for the declared benchmark scope. `BENCHMARK_LOCK_PLATFORM_SPECIFIC`, `DEPENDENCY_ARTIFACT_HASH_GAP`, `FULL_APPLICATION_DEPENDENCY_LOCK_GAP`, and `INSTALLED_ENVIRONMENT_MATCH_NOT_FRESH_INSTALL_PROOF` remain explicit, together with source-commit and cross-machine reproducibility gaps.
+- V10 plan SHA-256: `02b9ecee3cdfa88c704921697da010b1668fee59b7471455faebc9874ff3827a`.
+- V10 entrypoint SHA-256: `eac611c2aa1e316454f371d88f3d0fe514b4d9f2352f2b02e3ce439f9233b221`.
+- V10 contract-test SHA-256: `14d0c281367a635745dcb31982a65777fdd5528c2159926637c04496c3e84f7a`.
+- Validation: targeted `py_compile` PASS; research-lock audit plus v10 entrypoint contracts `24/24 OK` in 386.840 seconds. Coverage includes all 52 independent file hashes, lock bytes and pins, installed-version equality, platform identity, no-subprocess enforcement, exact source/report bindings, zero duplicate accounting, resealed tampering, denied authority, replay, and neutral rendering.
+- State: `SOURCE=SYNTHETIC_EVIDENCE_WITH_LOCAL_SOURCE_LOCK_READ_ONLY -> GAP -> MATURITY=SYNTHETIC_BENCHMARK_WITH_RESEARCH_LOCK_AND_REPRODUCIBILITY_GAPS -> PERMISSION=BLOCK`.
+- Current-state invariants: v10 remains a non-current candidate. The current single-look chain remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`; legacy pack-v5 remains `UNKNOWN`; pointer-v2 is unchanged and is not reissued.
+- Authority: `blind_test_complete=false`, `formal_inference_authorized=false`, `paper_authorized=false`, `live_authorized=false`, `order_entry_authorized=false`, and `profitability_proven=false`. A benchmark-scoped version lock and source envelope do not establish fresh-install or cross-machine reproducibility, profitability, formal inference, formal blind-test completion, or trading permission.
+
+## ADR0511 synthetic execution adversity v1 and benchmark report v11 (2026-08-31)
+
+### SOURCE
+- Scope: pure synthetic, in-memory, research-only execution adversity over the already verified benchmark report v10. No market data, service, browser, scheduler, database, runtime state, paper broker, live broker, or order-entry path was used.
+- Consumer-first state: report v11 is a dormant, non-current candidate. The current single-look chain remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`; legacy pack-v5 remains `UNKNOWN`/null and pointer-v2 is unchanged with no automatic reissue.
+- Registered strategy set: `bollinger`, `dual_ma`, `grid`, `macd`, `momentum`, and `rsi`. No Ensemble implementation or strategy expansion was added.
+- Preregistered scenarios: `one_bar_signal_release_delay`, `drop_every_third_actionable_signal`, and `source_fill_adverse_open_2pct`.
+- Logical ledger: 204 source runs plus 18 new synthetic adversity backtests equals 222 total logical runs. The 32 source baseline runs and 147 reused CSCV runs are not double-counted.
+- Provenance correction: the Frozen partition record digest and the BacktestEngine input-data digest remain separate, explicitly named bindings. Delay and deterministic-drop scenarios prove exact input reuse against the source Frozen engine-input digest; adverse-open runs intentionally produce a different input digest while retaining the source partition, run, result, strategy-identity, policy, dependency-lock, and implementation bindings.
+- ADR0511 plan SHA-256: `9de7c4425220e433fbd351c97ea93d2612631301aea35c88c6638fdf9e556b96`.
+- Report v11 plan SHA-256: `51620bc2b38292c1c57dbac9436b3684a20e07fd70c0810a8a846e938a047ce1`.
+- Source extension manifest SHA-256: `ca428ab3a288e90e493c920ed90c80cf68008d0a12767794689099778fec7961`; source module file count: 54.
+- `synthetic_strategy_execution_adversity_v1.py` SHA-256: `a6d0fd509eb7dbc21077abf6b54627d10ede87365427b827fd8f0497246a94f8`.
+- `build_synthetic_strategy_benchmark_report_v11.py` SHA-256: `5df2888e4d70766e6cab053d3e252a2bd940d3ff5064711c913a2c2d96c3bfbc`.
+- `test_synthetic_strategy_execution_adversity_v1.py` SHA-256: `10bdd0050054cb5109a3b74ad7af66c4a2fe12218737417df515b3013ce032da`.
+- `test_synthetic_strategy_benchmark_report_entrypoint_v11.py` SHA-256: `c87c605071a98cdd7749de49ab72c136f838a28f5bac441ffa3905bedd8aebed`.
+- Validation: four-file `py_compile` PASS; ADR0511 targeted contracts 12/12 PASS in 477.157 seconds; report-v11 entrypoint contracts 12/12 PASS in 784.460 seconds; final split matrix 24/24 PASS in 1261.617 seconds.
+
+### GAP
+- The generic `TRADE_LEDGER_SYNTHETIC_EXECUTION_MODEL_ONLY` gap is replaced only for this dormant v11 candidate by explicit observed synthetic delay, deterministic signal-drop, and source-fill adverse-open evidence.
+- Partial fills, volume participation and liquidity capacity, order rejection, cancel/replace, queue position, spread dynamics, and dynamic market impact remain unmodelled.
+- The adverse-open shock is a deterministic synthetic diagnostic, not a calibrated execution or liquidity model. No pass/fail decision threshold is inferred from result deltas.
+- Existing dependency limitations remain: platform-specific exact-version lock, no artifact hashes, no full-application lock, no fresh-install proof, no source commit/worktree identity proof, and no cross-machine reproduction evidence.
+
+### MATURITY
+- Evidence state remains synthetic and descriptive. The narrow implementation closes the previously untested delay/drop/gap-open slice without changing BacktestEngine, current reports, or any execution authority.
+- Deterministic build, exact replay, source-envelope hashing, result-delta reseal rejection, authority-escalation rejection, and neutral renderer contracts passed.
+
+### PERMISSION
+- Profitability proof: false. Formal inference authority: false. Formal blind-test completion: false.
+- Paper authorization: false. Live authorization: false. Order-entry authorization: false.
+- No current activation, pointer reissue, publication, release, or trading permission is created by ADR0511 or report v11.
+## ADR0512 synthetic input pathology gate v1 and benchmark report v12 (2026-08-31)
+
+### SOURCE
+- Scope: pure synthetic, in-memory, research-only preflight diagnostics over the already verified non-current benchmark report v11. No market data, service, browser, scheduler, database, cache, runtime state, paper broker, live broker, or order-entry path was used.
+- Consumer-first state: report v12 is a dormant, non-current candidate. The current single-look chain remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`; legacy pack-v5 remains `UNKNOWN`/null and pointer-v2 is unchanged with no automatic reissue.
+- Existing-boundary audit: targeted source search found no independent missing-interval, OHLC-envelope, or volume-capacity gate in the research core/application layers. `quant_bot.data` remains a provider boundary and BacktestEngine was not modified.
+- Preregistered evaluations: unchanged 200-row Frozen control, one removed internal bar, one OHLC-envelope breach, and one insufficient static-volume-capacity scenario.
+- Static capacity protocol: six fixed registered strategies receive source-bound maximum-position probes derived from synthetic `initial_cash * max_position_pct`; available quantity is bounded by `bar volume * 1% participation`. The mutated volume provides approximately 50% coverage and all six probes fail closed without creating fills or order rejections.
+- Logical ledger: 222 inherited backtest runs plus 0 new backtests remains 222 total logical runs. Four pathology evaluations and six capacity probes are diagnostics, not backtest runs.
+- Core PoC: unchanged input accepted; removed bar produced `MISSING_INTERVAL`; malformed OHLC produced `OHLC_ENVELOPE_VIOLATION`; insufficient volume produced `INSUFFICIENT_STATIC_CAPACITY` with capacity ratio `0.500`.
+- ADR0512 policy SHA-256: `6ed4cce2b58e4e327b4b4068420f4722f2146e4dd282fe9d8a1b583c626c604d`.
+- ADR0512 plan SHA-256: `dce785ddbd08bb0e0b4290265d34d0d1d0b66db69fce16c390f831ba1639fdd7`.
+- Report v12 plan SHA-256: `f57cc6e724b283a520049b2c529a1e43fc1d8c0f2f8e9d9611ca48dbbf76bc26`.
+- Source extension manifest SHA-256: `c71bea48f2c5e3c5a6bd6ff31d4f3c0d899c16c00fbd98f76ef58628731052fe`; source module file count: 57.
+- `synthetic_input_pathology_gate.py` SHA-256: `1c178c1ab6e22cb87714c16f3fab6d5938918a3b4943dba9744f9747b6986280`.
+- `synthetic_strategy_input_pathology_v1.py` SHA-256: `c4d879b333017d44939b59b0d644d3e91bc02bf9aaf5cc5562a4dfc8e742a6d0`.
+- `build_synthetic_strategy_benchmark_report_v12.py` SHA-256: `d4daaaad3ae06ff7d23028bc5f89370d387d5cb1397d4096513974ddfe2f6b1a`.
+- `test_synthetic_strategy_input_pathology_v1.py` SHA-256: `3f03af1f35a09fd6fe82c80144d0403130c9c10b6a7a07f5a72000be92f63d21`.
+- `test_synthetic_strategy_benchmark_report_entrypoint_v12.py` SHA-256: `3ed04b6cd0b174963f8032f7acc2f75cadaf82a7abcafb0da7a4dd0ec4681272`.
+- Validation: five-file `py_compile` PASS; ADR0512 targeted contracts 12/12 PASS in 943.445 seconds; report-v12 entrypoint contracts 12/12 PASS in 1993.163 seconds; final split matrix 24/24 PASS in 2936.608 seconds.
+
+### GAP
+- `LIQUIDITY_CAPACITY_NOT_MODELLED` is replaced only for this dormant v12 candidate by `STATIC_VOLUME_PARTICIPATION_CAPACITY_ONLY` and explicit limitations.
+- Capacity probes use a static synthetic volume-participation upper bound. They are not actual strategy order intents, venue depth, spread, queue, lot-size, market-impact, financing, margin, partial-fill, or rejection models.
+- `PARTIAL_FILL_NOT_MODELLED` and `ORDER_REJECTION_NOT_MODELLED` remain explicit. The gate does not generate an order lifecycle or grant execution capability.
+- Missing-interval and OHLC-envelope evidence is synthetic-only and proves fail-closed preflight behavior, not real-provider data quality or formal frozen blind evidence.
+- Existing gaps remain, including real datasets, fresh-install and cross-machine reproduction, dependency artifact hashes, source commit/worktree identity, formal inference, formal blind testing, and profitability evidence.
+
+### MATURITY
+- Evidence state remains `GAP`; status remains `BLOCK`. Report v12 adds a deterministic preflight gate before research use without changing BacktestEngine, providers, strategies, current reports, or execution authority.
+- Exact replay, source-envelope hashing, native-type rejection, resealed-evaluation tamper rejection, source-binding rejection, run-count rejection, authority-escalation rejection, and neutral renderer contracts passed.
+
+### PERMISSION
+- Profitability proof: false. Formal inference authority: false. Formal blind-test completion: false.
+- Paper authorization: false. Live authorization: false. Order-entry authorization: false.
+- No current activation, pointer reissue, publication, release, or trading permission is created by ADR0512 or report v12.
+## ADR0513 canonical product-capability health projection v1 (2026-08-31)
+
+### SOURCE
+- Current-tree audit: the root README and research-platform README already describe Hakimi Jiaoyi as a local, reproducible, research-only validation platform. The canonical `product-capability-catalog-v1` lives outside `outputs` in `src/hakimi_research/product_capabilities.py`; the legacy domain module re-exports identical objects and does not redefine them.
+- Canonical CLI exposure remains exactly `backtest`, `capabilities`, and `list-strategies`. Legacy `paper` and `optimize` handlers remain Archived fail-closed compatibility guards and are not parser choices; environment variables cannot re-enable them.
+- Closed half-connection: `build_runtime_health_payload` now projects the canonical product catalog at both endpoint and nested runtime-build levels, strips any injected runtime catalog, and also includes the canonical catalog in the research-disabled payload.
+- Electron now validates `product-capability-catalog-v1` in addition to `capability-v1`. It requires exact endpoint/runtime catalog equality, exact authority equality, Supported research commands, Experimental local terminal, Archived optimization/paper/live execution, and Disabled order entry. Missing, malformed, mismatched, or authority-escalated catalogs produce `RESTART_REQUIRED`.
+- Product capability catalog canonical JSON SHA-256: `5cdac8f2218b4b0dbc3c9f523e3cac212549688c443cab07aeec81f28310ab5a`.
+- Canonical `product_capabilities.py` SHA-256: `d1d8f0af42f80d047c97a601ba3045b44e1b36f5d3275a460b8e6b15d776be96`.
+- `health_contract.py` SHA-256: `fbfaf1370c0071243627bb7d8fafcb725e78873c34f27d2acc2f87f3f0ba4b70`.
+- `backend-runtime-contract.js` SHA-256: `91cbd2eac268482be44bafb4df8bfe50816af97182cbc8d0af9eeb577d4aec15`.
+- `backend-runtime-contract.test.js` SHA-256: `5380967c60fa50226526a745bac12399c86ab3e53e291dd53418818a4e628fea`.
+- `test_research_only_architecture.py` SHA-256: `6081aba97df8cd77fba78a558faa6a7c4ff563d440aae49597174a57b5e91c2e`.
+- Research-platform README SHA-256: `e1cb124de82f4f9cee73ab0fdb470257cab8d05e9b791e7dd32052375281d406`.
+- Validation: affected Python `py_compile` PASS; both Node files `node --check` PASS; Node backend runtime contract PASS; four targeted Python modules 23/23 PASS in 0.685 seconds.
+- Cross-language fixture: a real Python health payload was accepted by the Electron classifier as `CURRENT`; resealing its nested catalog with `paper_execution=Supported` was rejected with `product_capability_catalog_missing_or_invalid`.
+
+### GAP
+- This closes the catalog projection and consumer drift gap only. The large server still contains archived paper-oriented implementation and route code behind permanent research-only locks; physical archive/removal remains a separate consumer-by-consumer migration.
+- Electron carries an exact versioned v1 consumer expectation so dangerous capability changes fail closed. A legitimate future catalog change requires an explicit schema/consumer update rather than silent acceptance.
+- No backend service, Electron window, browser, scheduler, runtime directory, market-data request, paper task, or live task was started. Rendered desktop acceptance remains untested.
+- Local contract success does not establish remote CI status, public release readiness, source commit identity, profitability, formal inference, or formal blind-test completion.
+
+### MATURITY
+- The P0 capability-truth boundary is now connected across canonical Python source, CLI, README, backend health projection, research-disabled response, and Electron startup classification.
+- Product state remains research-only. Historical code presence is not represented as a supported capability, and a stale or authority-escalated backend cannot be classified as current by Electron.
+
+### PERMISSION
+- Profitability proof: false. Formal inference authority: false. Formal blind-test completion: false.
+- Parameter optimization capability: Archived. Paper execution capability: Archived. Live execution capability: Archived. Order entry capability: Disabled.
+- Paper authorization: false. Live authorization: false. Order-entry authorization: false.
+- The current single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 identity/no-reissue contract, and all current evidence pointers remain unchanged.
+## ADR0514 catalog-driven archived paper HTTP route guard v1 (2026-08-31)
+
+### SOURCE
+- Current-tree route audit extracted 16 order/paper/live-like string literals from `server.py`. The executable paper mutation surface is the seven registered paths `arm`, `manual-order`, `stop`, `reset`, `condition/add`, `condition/cancel`, and `evaluate`; order replay, export, estimation, and the OKX trade-order token scanner are not execution endpoints.
+- Prior behavior was safe but order-dependent: a generic `/api/paper/*` branch returned 423 before later legacy business branches. No direct route contract proved this dominance.
+- `archived_execution_route_state` now consumes the canonical `product-capability-catalog-v1` and executes at the first line of `handle_api`. Only GET requests for ledger, order lifecycle, portfolio, and snapshot are classified READ_ONLY. Every other method and every other `/api/paper/*` path is BLOCK before PaperAccount mutation logic is reached.
+- Catalog drift is fail-closed. If `paper_execution` is anything other than exact `Archived`, even the four historical GET views are BLOCK.
+- Block responses use the canonical research-disabled projection with an inert Archived snapshot; they do not read a live paper-account snapshot or grant mutation authority.
+- `http_contract.py` SHA-256: `1e55832663b531ab7dfb372d32b550ea7faa05916834e1fb8fb674898d54ee27`.
+- `server.py` SHA-256: `fdd848c53e5acc2686eb18797013621e4ca22ba2dc702090af15c549c78f0a32`.
+- `test_archived_execution_http_route_guard_v1.py` SHA-256: `770d9cd95aa924363979708b6116e164817cdc78f87d7c9065455d919b5efc58`.
+- Research-platform README SHA-256: `201f5e92ad73d01413c5031aadf9713392da1709eb8b22a5cbc279818e7bd934`.
+- Validation: `http_contract.py`, `server.py`, and the new test `py_compile` PASS; archived-route, research-only architecture, and legacy CLI matrices 20/20 PASS in 0.014 seconds.
+- Adversarial coverage: all seven registered paper mutations are BLOCK for GET/POST/PUT/DELETE; unknown, traversal-like, suffixed, and case-drifted paper paths are BLOCK; exact-string aliases are rejected; a catalog tamper to `paper_execution=Supported` cannot enable snapshot or arm.
+
+### GAP
+- Historical PaperAccount, ledger, executor, and unreachable paper business branches remain physically present in `server.py`. Their consumer-by-consumer archive/removal is not completed by this guard.
+- The four READ_ONLY views expose historical research state only. They are not paper execution, paper account authorization, order entry, or strategy promotion.
+- The broader non-paper mutation model and its `RUNTIME_READ_ONLY` deployment setting remain outside ADR0514; this slice establishes a permanent catalog-driven wall specifically for archived paper HTTP paths.
+- No HTTP service, browser, Electron window, runtime directory, database, cache, market-data request, paper task, or live task was started. Actual socket-level route acceptance remains untested.
+- Local static and unit contracts do not establish remote CI, source commit identity, public release readiness, profitability, formal inference, or formal blind-test completion.
+
+### MATURITY
+- The archived paper HTTP boundary no longer depends on the textual order of legacy business branches. Moving a later branch cannot make it reachable without first changing the canonical catalog and the centralized guard contract.
+- Product state remains research-only; historical read views and dormant code are explicitly separated from executable capabilities.
+
+### PERMISSION
+- Parameter optimization capability: Archived. Paper execution capability: Archived. Live execution capability: Archived. Order entry capability: Disabled.
+- Paper authorization: false. Live authorization: false. Order-entry authorization: false. Profitability proof: false.
+- The current single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 identity/no-reissue contract, and all current evidence pointers remain unchanged.
+## ADR0515 legacy paper mutation dispatch removal v1 (2026-08-31)
+
+### SOURCE
+- ADR0514 established a canonical catalog-driven paper HTTP guard before all handler business logic. A current AST audit then identified seven complete legacy mutation dispatch blocks that were permanently unreachable: `arm`, `manual-order`, `stop`, `reset`, `condition/add`, `condition/cancel`, and `evaluate`.
+- The seven exact `handle_api` branches were removed from the formal server source, deleting 319 lines. The edit validated every AST-derived branch start before writing and removed ranges from the end of the file toward the beginning so line movement could not change the selected blocks.
+- `MUTATION_PATHS` intentionally retains the seven legacy paths. Old POST clients therefore continue to receive the canonical Archived 423 response from the first-entry guard instead of reaching business logic or being silently reclassified as supported.
+- The four explicit GET historical views remain: ledger, order lifecycle, portfolio, and snapshot. They remain READ_ONLY research projections and do not create orders, fills, authorization, or runtime mutation.
+- Post-removal `server.py` SHA-256: `5ea64ec7e6fe3bf51ad7e56f8d74b1414ee2f2d87504f3b3f71af55fd74582b9`.
+- Catalog route classifier `http_contract.py` SHA-256: `1e55832663b531ab7dfb372d32b550ea7faa05916834e1fb8fb674898d54ee27`.
+- Upgraded absence contract SHA-256: `1783362f5cdb21ee334cfbc5a8cde20136b98040a41d64c33c61f7835958b4c3`.
+- Research-platform README SHA-256: `bf68f50fca8c93a6f973c22bc977feef0fba271c428434a07cb5e9b5b7acf532`.
+- Validation: `server.py`, `http_contract.py`, and the route test `py_compile` PASS; archived-route, research-only architecture, and legacy CLI matrices 20/20 PASS in 0.014 seconds.
+- The static contract now requires every registered paper mutation to remain in `MUTATION_PATHS`, remain BLOCK for all tested HTTP methods, and have no exact mutation dispatch branch in `server.py`.
+
+### GAP
+- ADR0515 removes the formal HTTP mutation dispatch only. PaperAccount, PaperLedger, PaperExecutor, related services, historical data structures, tests, and the four READ_ONLY views remain in the source tree and are not claimed as archived or deleted.
+- Physical movement into an archive directory requires a separate dependency and consumer inventory. It must not break historical research evidence or silently restore execution through another adapter.
+- The broader non-paper mutation surface and deployment-level `RUNTIME_READ_ONLY` setting remain outside this slice.
+- No HTTP service, browser, Electron window, runtime directory, database, cache, market-data request, paper task, live task, or release process was started.
+- Local syntax and contract passes do not prove socket-level behavior, remote CI status, source commit identity, public release readiness, profitability, formal inference, or formal blind-test completion.
+
+### MATURITY
+- The official server no longer contains paper mutation dispatch code. Re-enabling one of the seven routes now requires an explicit new code addition plus changes to the canonical catalog-driven route guard and its adversarial absence contract.
+- Product state remains local, reproducible, research-only. Historical paper projections are visibly separated from supported execution capabilities.
+
+### PERMISSION
+- Parameter optimization capability: Archived. Paper execution capability: Archived. Live execution capability: Archived. Order entry capability: Disabled.
+- Paper authorization: false. Live authorization: false. Order-entry authorization: false. Profitability proof: false.
+- The current single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 identity/no-reissue contract, and all current evidence pointers remain unchanged.
+## 2026-08-31 - ADR0516 canonical HTTP contract source migration
+
+- Scope: moved the pure HTTP classification contract from the historical `outputs/python_quant_bot/exchange_terminal/services/http_contract.py` owner to `src/hakimi_research/http_contract.py`.
+- Compatibility: the historical module is now declaration-free and re-exports object-identical canonical constants and functions after canonical-source activation.
+- Consumer-first activation: the existing server consumes the canonical `archived_execution_route_state` object through the compatibility path; the route guard test patches the canonical dependency owner.
+- Behavior preserved: four legacy paper GET views remain `READ_ONLY`; all other `/api/paper/` methods and paths remain `BLOCK`; exact-native string aliases are rejected with `TypeError`.
+- Validation: targeted `py_compile` PASS; selected contract and architecture set 29/29 PASS; independent in-memory adversarial matrix 70/70 PASS.
+- Fingerprints: canonical module `aad31b1c0a665b89338d293a28d03354d6b37be064e022c054bfd1d72b506762`; compatibility shim `5a4c58b4d2a58e76dcc1183cf34aee1e0e42d026febef29c7e77854a9b099fa1`; canonical-source test `beed11af1e75c68335f02c32232e423d6bd25afe0656091071a104f640cb7e00`; route guard test `bd949e7d21948dfd800730a5545d082839713e9e486d551d5f5056924d2a1845`; README `c740fb6b984e1429fde9af91ada86fa243322ba95cccdd03761baa51a2b1c206`.
+- Unchanged server fingerprint: `5ea64ec7e6fe3bf51ad7e56f8d74b1414ee2f2d87504f3b3f71af55fd74582b9`.
+- Safety boundary unchanged: paper/live/order/profitability/formal blind-test authority remains false; no runtime, service, scheduler, browser, market-data, backtest, current-report, single-look, legacy pack-v5, or pointer-v2 state was read or changed.
+## 2026-08-31 - ADR0517 canonical runtime health projection source migration
+
+- Scope: moved the deterministic runtime health and disabled-capability payload builders from `outputs/python_quant_bot/exchange_terminal/application/health_contract.py` to `src/hakimi_research/health_contract.py`.
+- Compatibility: the historical application module is declaration-free and re-exports object-identical canonical functions after canonical-source activation.
+- Consumer-first activation: the existing HTTP health adapter consumes the canonical builder objects through the compatibility path; transport and server logic remain outside the root pure contract.
+- Behavior preserved: conflicting input capability fields are removed and replaced by the canonical product capability catalog; descriptive `paper_armed` state never grants paper/live/order authority.
+- Validation: targeted `py_compile` PASS; selected source, capability, architecture, and route contract set 27/27 PASS; independent pure in-memory adversarial matrix 29/29 PASS.
+- Fingerprints: canonical module `ecac0e6321ac2078db6a20d270d6dec19d59f3c7b148816ea42a1974005e6b62`; compatibility shim `ade925a7b2e10f51a660ef7713894ee0ece7c43fedc7bb74e629c76ac9df5aab`; canonical-source test `1f4b97752afc5736abfce51162cac5ba0dfb9757d3d99d5b136f1909b6a9d8ce`; README `7e695eff534dba44cbdf54bf907e03f0360e214f48dfed761f5a44974a5a8c27`.
+- Unchanged consumer fingerprints: HTTP health adapter `9634728e6194e870ee783500f4176518875c0d1c61d9ec059486fd5d6a460497`; server `5ea64ec7e6fe3bf51ad7e56f8d74b1414ee2f2d87504f3b3f71af55fd74582b9`.
+- Safety boundary unchanged: paper/live/order/profitability/formal blind-test authority remains false; no runtime, service, scheduler, browser, market-data, backtest, current-report, single-look, legacy pack-v5, or pointer-v2 state was read or changed.
+## 2026-08-31 - ADR0518 legacy parameter optimizer archival
+
+- Scope: moved the unreachable legacy parameter-grid implementation from `outputs/python_quant_bot/quant_bot/optimizer.py` to `archive/legacy_optimizer/optimizer.py` without changing its bytes.
+- Formal surface removed: `OptimizerConfig`, `BotConfig.optimizer`, and formal `quant_bot.optimizer` module discovery are absent; the package export remains optimizer-free.
+- Fail-closed configuration: `BotConfig.from_file` explicitly rejects `mode: optimize` and every top-level `optimizer` key instead of silently implying those settings are active.
+- Capability truth unchanged: `parameter_optimization` and CLI `optimize` remain `Archived`; fixed-grid research evidence that records `optimizer_used: false` remains descriptive and was not modified.
+- Reachability evidence: targeted formal source scan reports `FORMAL_OPTIMIZER_REFERENCES=0`.
+- Validation: targeted `py_compile` PASS; CLI, config, core backtest, capability, and research-only architecture set 37/37 PASS; independent synthetic adversarial matrix 19/19 PASS.
+- Fingerprints: archived original `fafb2a18deaf71f1f598bdf7205ce4e0a14fff7c42ac7320edc70de951c4337a`; archive README `445baab402c068d653328253d94186936405fd09ae69819e285f4efdfdd3b074`; formal config `84c4d198eb9df4299c6398a46123529a91b072f2e6ecbb86e3bf1e1996e8a8de`; boundary test `39707742a0992d58ec956448b1584e322e012c4d5c925c676d33e4db48aca971`; Python README `0b5329d01fac53356ebd9a8daa3f638786b304410553e76d8ee95bc65e2611c2`.
+- Unchanged authority sources: `run_bot.py` `ca466ae364f5c88a5fbec1eeee040b3322b3368642a6610aceb29e3d61043f55`; canonical product capability module `d1d8f0af42f80d047c97a601ba3045b44e1b36f5d3275a460b8e6b15d776be96`.
+- Safety boundary unchanged: paper/live/order/profitability/formal blind-test authority remains false; `config.local.json`, runtime, service, scheduler, browser, market data, backtests, current reports, single-look, legacy pack-v5, and pointer-v2 state were not read or changed.
+## 2026-08-31 - ADR0519 legacy live adapter archival
+
+- Scope: preserved the complete pre-removal `quant_bot/execution.py` bytes at `archive/legacy_live_adapter/execution_with_ccxt_stub.py`, then removed the retired `CcxtBroker` placeholder from formal source.
+- Dependency reduction: removed unused `ccxt>=4.0` from `requirements.txt` and `requirements-core.txt`; the research and benchmark locks already excluded exchange/broker dependencies.
+- Formal reachability: targeted source scan reports `FORMAL_LIVE_ADAPTER_IMPLEMENTATIONS=0` for Ccxt classes, imports, and order/balance APIs in formal quant and root research source.
+- Hard wall preserved: `build_broker` still rejects live mode, Ccxt broker selectors, true live flags, malformed flags, unknown selectors, and whitespace aliases.
+- Frozen compatibility: `broker="paper"` and `live_trading_enabled=False` remain negative authority/provenance fields because they are part of reproducible Frozen experiment manifests; they do not represent a live adapter.
+- Validation: targeted `py_compile` PASS; broker, config, Frozen, capability, CLI, architecture, and supported backtest set 58/58 PASS; independent synthetic adversarial matrix 21/21 PASS.
+- Fingerprints: archived original `82a4a1e56201fef94a5ce158043c671d9b29463d843e69674bf8914f6c140e03`; archive README `7069bcdd1f5710bef4896f7afec963186b302657077c80cf1bff1bf48420ac8d`; formal execution `f1399e616f761475e4a17a6908c7732088e2e1e28519d43c3c9f58e14962d14e`; full requirements `17c1f85d9d0dfeca162841d58c098eac8b731c57de254aed4006a96c8f771f24`; core requirements `770d31fe0919abb883da9bc5eb643a82645bd3d4db613573d77c2ba1847faf22`; boundary test `d811f6fec272dc3e0c03e14a1cfe44d5e2054e5bfc0a8ec5e7052de371321eba`; Python README `aef94d3c5dde96d15834f93513a464fa1b0e63d6a5a5c29da3dcdc1bb1f63be2`.
+- Unmodified compatibility sources: formal config `84c4d198eb9df4299c6398a46123529a91b072f2e6ecbb86e3bf1e1996e8a8de`; Frozen evaluator `7f12ce155da78325daf97b38c092866ad80dd402d28966a66876a8fd662502d4`.
+- Safety boundary unchanged: paper/live/order/profitability/formal blind-test authority remains false; no environment, local config, runtime, service, scheduler, browser, market data, formal backtest, current report, single-look, legacy pack-v5, or pointer-v2 state was read or changed.
+## 2026-08-31 - ADR0520 legacy quant_bot paper engine archival
+
+- Scope: archived the unreachable continuous `TradingEngine`, the pre-change execution module containing `PaperBroker`, and their dedicated selector/reservation tests under `archive/legacy_paper/` with original bytes preserved.
+- Formal source reduction: removed `quant_bot/engine.py` and its package export; removed `BrokerBase`, `PaperBroker`, and `build_broker` from formal execution source; canonical CLI no longer constructs or returns a broker.
+- Supported behavior retained: the identical in-memory fill arithmetic is now named `ResearchExecutionSimulator` and is used only by BacktestEngine.
+- Authority hardening: BacktestEngine requires exact native `mode="backtest"`, compatibility `broker="paper"`, and `live_trading_enabled is False`; paper/live/Ccxt/case aliases are rejected before simulation construction.
+- Reachability evidence: targeted production scan reports `FORMAL_LEGACY_PAPER_EXECUTION_SYMBOLS=0` across quant_bot, canonical CLI, dashboard, Exchange Terminal, and formal runner source.
+- Validation: targeted `py_compile` PASS; archive, live-boundary, backtest, Frozen, CLI, architecture, and capability set 56/56 PASS; independent pure synthetic adversarial matrix 26/26 PASS.
+- Archived fingerprints: execution snapshot `f1399e616f761475e4a17a6908c7732088e2e1e28519d43c3c9f58e14962d14e`; engine `a896c07c1037ebac4dc745a0a1aeb0a986149f078343930342d2f53572ec2d2a`; reservation test `aa221d62e7e881a48987a2870309a9a55e61c3832d4676b69aff7776b2d047fb`; selector test `fa45a162cd307dcc0b86846359b38e55e1f6bbeeeca3c8a62e13e6b111ef6010`; archive README `07f1030edf57e23f35f2597c412019a0009e667e70717c6ab136eced5b3b8efd`.
+- Formal fingerprints: research execution `615c74b6cf213ea6560e2003910a87fe36a9650975406c205bf74e1d7f00f0aa`; BacktestEngine `add294412cabeae0fa6426ad26e63176e4c21e4e4078a7b3e8b3fc4d2d4ac3a8`; package export `150c5ee828c8dc1a05bcce2d23defbda0cbec14a1e5721a151de785e757298f5`; canonical CLI `c8a70ea801e9e56667bd72423864c8214a486abb0e8d83fb4ade5a376ec5b0ce`; boundary test `6798b440502b8b39c567ca2c1965b00a4280dc76d491bce694d3f01b8b79474a`; Python README `a66b0f758cc0537d41de53384c9c40839a337689bebd9b7f5657d43bc9271bb3`.
+- Remaining scope: Exchange Terminal `PaperAccount`, `PaperLedger`, `PaperExecutor`, portfolio paper persistence, and four read-only compatibility views remain present and require a separate consumer/data-lifecycle archival design; this ADR does not claim their removal.
+- Safety boundary unchanged: paper/live/order/profitability/formal blind-test authority remains false; no environment, local config, runtime, database, cache, log, service, scheduler, browser, market data, formal backtest, current report, single-look, legacy pack-v5, or pointer-v2 state was read or changed.
+
+## ADR0521 archived paper runtime facade and server decoupling (2026-08-31)
+
+- Scope: the Exchange Terminal server now consumes a canonical, immutable archived-paper facade instead of constructing legacy paper account, ledger, executor, reconciliation, or portfolio persistence services.
+- Runtime boundary: server paper-state file reads, legacy state migration, account restore, reconciliation setup, and portfolio-paper SQLite initialization were removed; `SERVER_PAPER_PERSISTENCE_DEPENDENCIES=0`.
+- Compatibility: `GET /api/paper/ledger`, `/api/paper/orders/lifecycle`, `/api/paper/portfolio`, and `/api/paper/snapshot` remain `READ_ONLY`, but return static `ARCHIVED` compatibility views with no execution authority.
+- Fail-closed route: `/api/order/estimate` is `BLOCK` for GET/POST/PUT/PATCH/DELETE, and its network-backed dispatch branch was removed.
+- Neutral presentation: the legacy paper surface reports `ARCHIVED`; it does not report `READY`, paper-only authority, supported order types, profitability, or permission.
+- Residual boundary: legacy paper service modules and their historical tests remain source-only artifacts for a later physical archive slice; ADR0521 does not claim they were deleted.
+- Validation: affected-source `py_compile` PASS; selected contracts 33/33 PASS; independent pure-memory adversarial matrix 72/72 PASS; runtime mutations false.
+- Canonical facade SHA-256: `eaf9a6eba300db7848b1a46d239fa87ce0b2da3e02fd4de1bba8ac38ccf383c7`.
+- Legacy facade shim SHA-256: `9f65bc76da1ba0e9ef3f5db08afbe42b76a0ece49fb696efe4777816dbcd6756`.
+- Canonical HTTP contract SHA-256: `51616abb1bd98ecb31e06983f8e4c9bbf01ab6f056c7a392e354e0bd3e581a84`.
+- Exchange Terminal server SHA-256: `eaa34571fd7077d4248612485a5fbe2050c99bd1cdfd7de65db8c835c9319fc7`.
+- Facade contract test SHA-256: `f520b8572038c59257d247c67f554ff9538dfc0e35e904f74ff018c1d0569a1e`.
+- Route guard test SHA-256: `9636853d7ee083fdd45c6da20447ecd3806e8d94571a81ecbc9638f88245b776`.
+- Python README SHA-256: `7861bd31c2d3994f94ff9d1a9a2ff7c056c9f0fb25a709aa7c9aa17bd11b0da6`.
+- Authority: profitability, paper, live, order, and formal blind-test authority remain false. No `.env`, runtime, DB, cache, log, secret, service, browser, scheduler, release, backtest, G50/G51, or trading task was touched.
+- Continuity: the current report, `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`, legacy pack-v5 `UNKNOWN`, and pointer-v2 no-reissue contract are unchanged.
+
+## ADR0522 Exchange Terminal PaperAccount and clock physical archive (2026-08-31)
+
+- Scope: the retired Exchange Terminal `PaperAccount` and `paper_strategy_clock` were moved byte-for-byte from formal product source into the non-importable `archive/legacy_paper/exchange_terminal_services/` review envelope.
+- Formal boundary: `paper_account.py`, `paper_strategy_clock.py`, and the dedicated clock test are absent from formal source/test paths; the default import graph cannot resolve either legacy module. `FORMAL_PAPER_ACCOUNT_MODULES=0`.
+- Test preservation: the dedicated clock test and the exact pre-edit `test_core_services.py` snapshot were archived. Formal `test_core_services.py` removed only nine methods tied to the retired account plus its single import.
+- Archive identity: `paper_account.py` SHA-256 `656ca2609543e220188b2d13ba641d01a497ac0db7b4a0ba05a8dc7a5d02a428`; `paper_strategy_clock.py` SHA-256 `b0b4be66f4003fc7476ff1f3ace0cc6bc38af54b19fd404087e3deb9433bc24b`.
+- Archived tests: dedicated clock test SHA-256 `cd61c974a6a768d06465d6ed0e781c59a48671fdc8a26045a1cd1603d3e64fb1`; shared pre-archive snapshot SHA-256 `e3e5963b79a04af9be7c2e644fc2f4f1650a7e3395520d46d0f2a2f1098e8c74`.
+- Current formal test SHA-256: `test_core_services.py` `3a1fd3c4cbb3d838c76b6a56baa4fdad967f49937453d75bf9bb7ffedb53feb3`.
+- Boundary contract SHA-256: `test_archived_exchange_terminal_paper_account_source_v1.py` `2aa45751db7d0168049a8f3877e7103bb18f72105ea948b6e46b479df6b762a2`.
+- Documentation SHA-256: archive README `6dd80ceebde5c3c051562683098ffdc5c897b84193a7e1bb5ec858aadf153069`; Python README `2ebcd3b9ea682ab4d65a367d8e6a23500bf8ec9f7e31ca114f92abb139070b5e`.
+- Canonical continuity: immutable archived-paper facade SHA-256 remains `eaf9a6eba300db7848b1a46d239fa87ce0b2da3e02fd4de1bba8ac38ccf383c7`; its reads remain static `ARCHIVED` and writes remain disabled.
+- Validation: affected-source `py_compile` PASS; selected contracts 35/35 PASS; independent read-only/pure-memory adversarial matrix 40/40 PASS; runtime mutations false.
+- Residual boundary: `PaperExecutor`, `PaperLedger`, portfolio paper persistence/activation, paper order contract, and `portfolio_execution_rehearsal` remain formal source pending separate consumer-first archive slices. ADR0522 does not claim they were removed.
+- Authority: profitability, paper, live, order, optimization, and formal blind-test authority remain false. No `.env`, runtime state, DB, log, secret, service, browser, scheduler, release, backtest, G50/G51, or trading task was used.
+- Continuity: UI semantics, the current report, `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`, legacy pack-v5 `UNKNOWN`, and pointer-v2 no-reissue remain unchanged.
+
+## ADR0523 Exchange Terminal paper persistence physical archive (2026-08-31)
+
+- Scope: legacy `PaperLedger`, portfolio paper account, and portfolio paper activation were moved byte-for-byte from formal source into the non-importable `archive/legacy_paper/exchange_terminal_services/` envelope.
+- Formal boundary: the three persistence modules and dedicated portfolio paper test are absent from formal paths and cannot be resolved by the default import graph. `FORMAL_PAPER_PERSISTENCE_MODULES=0`.
+- Archive identity: `paper_ledger.py` SHA-256 `b3380975818f4ab0f190f978cbed528e45903aca1c77168ac6510dd6362752a1`; `portfolio_paper_account.py` `75bfdaa68b1407d1085a7867e4ed0c5383125bafce569d173e245e2c2a84fd06`; `portfolio_paper_activation.py` `ec13b2ae1c5a9362bf810e9eb4917a14ed88117ef292e57907cc2566ac72f1fa`.
+- Test preservation: dedicated portfolio paper test SHA-256 `5b2eb1952b990bf9524833a058995298b66e383363f1365fafcc1597636c870a`; exact pre-edit core snapshot `3a1fd3c4cbb3d838c76b6a56baa4fdad967f49937453d75bf9bb7ffedb53feb3`; exact pre-edit runtime SQLite snapshot `2513b88af119786580d7f376eb0386a3174e45fbd8874e543e00d4429fa1fc57`.
+- Formal test cleanup: `test_core_services.py` removed its single `PaperLedger` import and 21 ledger-backed methods; final SHA-256 `98786da11878c0408da267f613b440072d6750eaa5be486ce4e4c31f63aaed7e`.
+- Non-paper coverage: `test_runtime_sqlite_read_only.py` removed two legacy helpers, five paper-only methods, and three paper imports while retaining the exact eight supported non-paper runtime ledgers plus stock-candle read-only coverage; final SHA-256 `7b9834b83e87f148e739e5562e93662864d3e2c891ec61a1e94ab3de54d12d04`.
+- Boundary contract SHA-256: `test_archived_paper_persistence_source_v1.py` `dfd49cda94212a0abe915bc77a5a8900053a5604ab6fc28092c1577538ea1374`.
+- Documentation SHA-256: archive README `4ad51e5a0630d0bb87b06bb4bf1075f2d9e6de1ef2a912313cfc08438e44aff4`; Python README `d2b0aab1cb77f6146d37fb6c1d34046c3f401a0a8377afe20c1c7729ddbf2079`.
+- Validation: affected-source `py_compile` PASS; selected static/pure-memory contracts 45/45 PASS; independent adversarial matrix 64/64 PASS with `SQLITE_CONNECT_CALLS=0`; runtime mutations false.
+- Validation boundary: the rewritten non-paper runtime SQLite behavior test was not executed because this task forbids DB operations. Its evidence is syntax and AST contract only, not an executed SQLite claim.
+- Residual boundary: `PaperExecutor` SHA-256 `5bedf1cd7125f589a625578175aa6e32533c8bdef6dc22606659d9b0ff94eeb8`, paper order contract `848194ff681ea00a0c554dfe2bec52577a4f382606218828e5b432f4a761b34c`, and portfolio execution rehearsal `cf44be67b2d58603b6097744243d0cec2430759f98eadead04972b6bc54cc164` remain formal source pending research-simulator migration.
+- Authority: profitability, paper, live, order, optimization, and formal blind-test authority remain false. No `.env`, runtime state, DB connection, log, secret, service, browser, scheduler, release, backtest, G50/G51, or trading task was used.
+- Continuity: UI semantics, current report, `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`, legacy pack-v5 `UNKNOWN`, and pointer-v2 no-reissue remain unchanged.
+
+## ADR0523 correction: stale root-runner archive imports removed (2026-08-31)
+
+- Audit finding: after ADR0522/ADR0523 physical archival, `run_internal_portfolio_research.py` still imported five removed account/persistence modules solely for its static source-fingerprint list. Importing that legacy root runner would therefore fail before execution.
+- Repair: removed the five stale imports and five matching `Path(module.__file__)` entries for portfolio paper account, portfolio paper activation, paper account, paper ledger, and paper strategy clock.
+- Residual calibration: `paper_executor`, paper order contract, and portfolio execution rehearsal remain explicit formal dependencies pending ADR0524 canonical research-simulator migration.
+- Regression contract: `test_archived_paper_persistence_source_v1.py` now rejects every stale runner alias.
+- Validation: affected-source `py_compile` PASS; archive boundary contracts 13/13 PASS; independent AST adversarial matrix 14/14 PASS; runtime mutations false.
+- Final runner SHA-256: `243bfbd9655c8da31794e94cfa91521b2a6d535e07fae0fa73a275d83b3bc671`.
+- Final persistence boundary test SHA-256: `68a5b09f16ecdc6a7209b2b578887f5d3770770bfffc525a09872ec86b8b74d1`.
+- Boundary: the runner was not imported or executed; no server, runtime, DB, network, backtest, paper/live, or trading task was used.
+- Continuity: current report, single-look chain, legacy pack-v5 `UNKNOWN`, and pointer-v2 no-reissue remain unchanged.
+
+## ADR0524 research execution rehearsal boundary (2026-08-31)
+
+- Status: local-only. The formal paper execution modules and identity test were archived byte-identically, and active consumers now use the canonical research-only rehearsal boundary.
+- Canonical contracts: `research-execution-rehearsal-v1` and `research-order-lifecycle-v1`; legacy replay compatibility remains explicitly versioned as `paper-lifecycle-v1`.
+- Capability truth: `ALLOW_PAPER = False`, `ALLOW_LIVE = False`, and `ALLOW_ORDER_ENTRY = False`. This slice creates no paper, live, or order-entry authorization.
+- Restore integrity: lifecycle validation failures, including `research_order_lifecycle_contract_*`, retain stable fail-closed blocker reasons instead of degrading to a generic legacy restore error.
+- Targeted evidence: `py_compile` PASS; authorization identity 4/4 PASS; migration 17/17 PASS; archived-source boundary 9/9 PASS; core rehearsal 21/21 PASS; independent adversarial matrix 13/13 PASS.
+- Final SHA-256: `research_execution_rehearsal.py` `449a01c13cfb2b1249c558f95bf983cf50e13a9b93f1db1c7c45e6e9a4854927`; `research_order_lifecycle_contract.py` `d887c3361f8c58f96174d800fd225a650b988040fbb4f481f095332b6e6b153e`; identity test `663221673bc55f2265767cdb70ebcba8f8c719252b82c74272a195d9ca7c1e51`; migration test `a72d31da73ff93b4c952a6b4db358814abf0a444cf86fbbd9ee864a2a09605f4`.
+- Archive SHA-256: executor `5bedf1cd7125f589a625578175aa6e32533c8bdef6dc22606659d9b0ff94eeb8`; lifecycle contract `848194ff681ea00a0c554dfe2bec52577a4f382606218828e5b432f4a761b34c`; identity test `2e7eed00fda06a0d41d88f25ff1302321666c7131a37b30d8a81a34b93321254`.
+- Scope: source-only and pure synthetic/in-memory evidence. No service, browser, scheduler, network provider, runtime data, backtest, optimizer, blind test, paper/live task, or profit claim was used.
+
+## ADR0525 deterministic Frozen OOS reference bundle (2026-08-31)
+
+- Status: local-only. The former 40-row input-identity fixture was removed from the active `outputs` example surface and preserved byte-identically under `archive/historical_research/adr0525_input_identity_v1`.
+- Canonical consumer: the single root CLI now exposes `frozen-benchmark`, bound by the product capability catalog to the Supported research capability `deterministic_frozen_benchmark`. Legacy synthetic report v1-v12 scripts remain dormant and non-current.
+- Reference bundle: `examples/deterministic_frozen_benchmark_v1` contains 128 source-controlled synthetic daily rows, fixed 40/4/40/4/40 TRAIN/PURGE/VALIDATION/EMBARGO/FROZEN_TEST partitions, CASH and ENGINE_BUY_AND_HOLD benchmarks, and BASE/DOUBLE_COST/TRIPLE_COST scenarios.
+- Reproducibility envelope: the fixture manifest binds the Python 3.14 runtime contract, fully pinned research dependency lock, exact source-file hashes, input hashes, protocol hash, report hash, canonical JSON bytes, and neutral Markdown bytes. Git commit provenance remains explicitly `UNBOUND_SOURCE_HASH_ENVELOPE`.
+- Evidence identity: protocol hash `d42510e313c1c1cc6ab2f0f66c2422102565d7d2296fdd91f511fa4453ad5e69`; report hash `c9e533fdba224624cf3d556560563c2da7df403ed2c3600040f6a4e6a8d4cf74`; manifest self-hash `dd3b942842072b90b8261b638cfc7dc0bf5720265e1411ebf5e5ceaff72ab858`.
+- Targeted evidence: `py_compile` PASS; affected CLI/capability/Frozen/lock/CI contracts 54/54 PASS; independent tamper and hostile-type matrix 19/19 PASS; root `hakimi-research.ps1 frozen-benchmark` receipt PASS.
+- Final SHA-256: canonical verifier `38304bd873d886bb6d07f13ef0cd8d565fe5d5ada066caf33066eaf6c20aa7b2`; CLI `d60f07a9e3c6dfe58417996f5bbcac45aa3b23613bd56018f1cebae9ca24a063`; capability catalog `77685e20d64a5d156b8c288fe66bfec8819a34a8eb4f5bd254cef2ecf65b560a`; reference Markdown `2491f99c7af161633a780a5595dfe22a446e64ae5badfd4356013a7228589c5c`.
+- Maturity and permission: `SYNTHETIC_FIXTURE_ONLY`, quality `BLOCK`, formal blind test false, natural-forward false, parameter selection false, ranking false, profitability false, paper false, live false, and order false.
+- Scope: pure synthetic source-controlled reference evidence only. No market provider, old K-line, cache, runtime database, service, browser, scheduler, optimizer, formal blind test, paper/live task, or profit claim was used. The local workflow contract was updated, but remote GitHub Actions status remains UNKNOWN until an actual remote run exists.
+- Existing single-look, legacy pack-v5 UNKNOWN/null, pointer-v2 no-reissue, and current report identities were not changed.
+
+## ADR0526 canonical experiment manifest source and exact-native identity (2026-08-31)
+
+- Status: local-only. The active reproducible experiment-manifest implementation moved from `outputs/python_quant_bot/quant_bot/experiment_manifest.py` to `src/hakimi_research/experiment_manifest.py`; the old path is a definition-free compatibility re-export.
+- Archive: the former implementation is preserved byte-identically as `archive/historical_research/adr0526_experiment_manifest.py`, SHA-256 `9b77e81fd18659a8e39ced8978f5c24c358c85b9c7f1b1e7b49da2e204a60b53`.
+- Proven gap before repair: a dict subclass could expose one `run_hash` while its overridden `.get()` bound another hash into the manifest, and a dict subclass could override `.items()` so `canonical_payload_hash` represented a different visible payload.
+- Repair: canonical hashing, manifest construction, manifest verification, local project-root intake, dependency-lock text intake, and fee/slippage intake now reject non-exact native JSON containers, strings, paths, and numeric subclasses before subclass-controlled methods can run.
+- Consumer-first migration: BacktestEngine, Frozen evaluation, canonical CLI, and the reproducibility provenance audit import `hakimi_research.experiment_manifest` directly. The compatibility module re-exports identical public objects and contains no class or function definitions.
+- Native compatibility: the canonical and archived implementations produce identical native manifests and hashes. ADR0525 protocol hash remains `d42510e313c1c1cc6ab2f0f66c2422102565d7d2296fdd91f511fa4453ad5e69`; report hash remains `c9e533fdba224624cf3d556560563c2da7df403ed2c3600040f6a4e6a8d4cf74`; reference JSON and Markdown byte hashes are unchanged.
+- Updated source envelope: ADR0525 manifest self-hash is `e7991dc3bc384e0ea47aa8192768f9c98095bd5606043fb1c8777cdf60a52876`; fixture manifest file SHA-256 is `2349727c665436bf231cfffc43d4e3e9c8320b76c00aa0d5c0f0ae1d562b4f09`.
+- Targeted evidence: `py_compile` PASS; affected source/manifest/Backtest/Frozen/CLI/lock/CI contracts 72/72 PASS; independent native-parity and hostile-type matrix 20/20 PASS; root `hakimi-research.ps1 frozen-benchmark` receipt PASS.
+- Final SHA-256: canonical manifest `96566a64ad145a0a0d65d25509aa3c4afd5790cd52453ea2cab583bfbe585d9c`; legacy shim `3279f52c2b78db496c53154d9480a1b281713ff82954eede8650b4e472b9cd78`; canonical Frozen evaluator `22ff2ccae725981e8f9c50868757785b082c4c9b1477669b0d3f5bcae72b1fe0`.
+- Authority remains locked: parameter selection false, ranking false unless its existing role/protocol gate independently passes, profitability proof false, paper false, live false, and order-entry false. A manifest PASS is reproducibility metadata only and is not a strategy-quality or profitability claim.
+- Scope: pure synthetic/in-memory and source-identity evidence only. No market provider, old K-line, runtime database, cache, service, browser, scheduler, optimizer, formal blind test, paper/live task, or Git command was used. Remote GitHub Actions status remains UNKNOWN until an actual remote run exists.
+- Existing single-look, legacy pack-v5 UNKNOWN/null, pointer-v2 no-reissue, dormant report v1-v12, and current report identities were not changed.
+
+## ADR0527 canonical research configuration (2026-08-31)
+
+Status: implemented and locally validated as a research-only configuration boundary. This is not profitability evidence, trading permission, formal blind-test evidence, or a public-release decision.
+
+- Pre-fix synthetic PoC proved five false-acceptance/drift cases: `paper` accepted, `live` accepted, research intent silently rewritten to `paper`, non-finite JSON accepted, and unsafe direct construction accepted.
+- Canonical implementation is `src/hakimi_research/config.py` with schema `research-config-v1`. The historical implementation is preserved byte-identically at `archive/historical_research/adr0527_config.py`; `outputs/python_quant_bot/quant_bot/config.py` is now a definition-free compatibility re-export.
+- The default mode remains the neutral research workflow label `backtest`; execution identity is now `broker=research_simulator`, `exchange=disabled`, and `live_trading_enabled=false`.
+- File loading is fail-closed for `paper`, `live`, `optimizer`, synthetic-provider file intent, non-research broker/exchange identity, live enablement, unknown fields, non-finite JSON, non-native JSON values, and hostile path/string subclasses. Explicit in-memory synthetic data remains test-only.
+- Active backtest, data, risk, dashboard, CLI, deterministic benchmark, synthetic benchmark controls, report bundle, and relevant tests consume the canonical source directly. `BacktestEngine` now requires `research_simulator` rather than the misleading `paper` label.
+- Corrected local deterministic reference identities: protocol `2553479d976b254e119ddaa32dc8c4343c7c10ced599510b1f95cb5807878f59`; report `6554dd4bd2bd970c8f51bc0d52f16900d910914e273fcb2f41e00cab89f6a682`; manifest `6de155acb07a7e84ff0a48dc5564c50f726a5bdf59f83e98c25686b9496ded07`. These supersede only the earlier local synthetic ADR0525/ADR0526 reference identities whose configuration hash encoded `paper`; they do not alter natural-forward evidence.
+- Validation: targeted `py_compile` passed. The affected 111-test run initially produced 110 passes and one stale exact `.gitattributes` expectation; after correcting only that expectation, the complete dependency-lock module passed 6/6. No production implementation changed after the initial run.
+- Independent receipt: 11/11 critical checks passed for schema, neutral mode, research simulator identity, disabled exchange, live lock, paper/live/optimizer rejection, paper-broker rejection, live-execution rejection, and hostile string-subclass rejection. Root `hakimi-research.ps1 frozen-benchmark` passed. A prior corrected 28-check command had truncated output and is deliberately not claimed as 28/28 evidence.
+- File SHA-256: canonical config `a9c89c3ad722f5b5cd0ea175b1c1094198c750546eb53fac9f14f6d34b62f0db`; compatibility shim `15e81af817e05051c958e7ee26a65f0c715995890c9c1f480e445f46fa091b6d`; historical archive `84c4d198eb9df4299c6398a46123529a91b072f2e6ecbb86e3bf1e1996e8a8de`; backtest consumer `c83a9ec3767e33435b1414e29f9606bb8122a57683f025f1ac4d898da97b7e71`; deterministic benchmark `c4b6d91c9fa6dcc54dd6fb184a16dbf02111b67505c32cb743e4c2224e6618b0`; example config `fa2789e698babac1fc95a39530c4076341f8e97b44ae3a26d3b1949432214562`.
+- Artifact/test/CI SHA-256: expected JSON `2967a142422e2cb5eb3774013cdfb09c7a5f6dccd2fb5a1e037d1b80accdc0ce`; expected Markdown `d7e0f6da3d18d1c7932eaad467e4d9b6a4c8345de18bacae1235d142d050db32`; fixture manifest `797dd780a0faed9d07ca9799f574e5c836f69a5a58ef56ff5d9c61f6b8cd62a0`; canonical-config test `27cc2d3d127dc311bceb96af81dd864710cf8d6e9a776e81213fbdd18efcbf00`; research-contracts workflow `ab18023f1f3f7809c190ba6e444566d5eec776b357b2670c45a45377d4da5357`.
+- No real market data, old K-line run, G50/G51, profit backtest, formal blind test, service, browser, scheduler, release, or Git operation was used. Remote CI remains `UNKNOWN`; paper/live/order remain false and unauthorized.
+- Current single-look remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`. Legacy pack-v5 public reads remain `UNKNOWN`; pointer-v2 remains unchanged and was not reissued.
+
+## ADR0528 canonical research domain models (2026-08-31)
+
+Status: implemented and locally validated as a research-only domain boundary. This is not profitability evidence, trading permission, formal blind-test evidence, or a public-release decision.
+
+- A pure in-memory pre-fix PoC proved 11 gaps: plain-string actions, non-finite confidence/cash/price, out-of-range size, negative quantity/fee, `is_live=true`, mutable metadata aliasing, and duplicate module Action/Signal identity were all accepted or split.
+- Canonical ownership is now `src/hakimi_research/models.py` with schema `research-domain-models-v1`. The pre-migration implementation is preserved byte-identically at `archive/historical_research/adr0528_models.py`; `outputs/python_quant_bot/quant_bot/models.py` is a definition-free compatibility re-export of the same class objects.
+- `Signal`, `Order`, and `Fill` are frozen value objects. `Portfolio` remains intentionally mutable for the research execution simulator. Exact native strings/numbers/actions, finite values, percentage bounds, positive order/fill quantities and prices, nonnegative fees/account fields, BUY/SELL order/fill actions, and `is_live=false` are enforced at construction.
+- Signal metadata accepts only exact-native acyclic JSON structures to depth 32 and is recursively copied, preventing caller-side alias mutation. String/float/dict subclasses, non-finite metadata, tuples, cycles, and duplicate archived Action identities fail closed.
+- Backtest next-open execution now reconstructs a validated immutable `Order` instead of mutating `order.price`. Execution, risk, backtest, strategy templates/base, frozen evaluation, and the three active synthetic benchmark consumers import the canonical models directly.
+- The deterministic source envelope now binds `src/hakimi_research/models.py`; the legacy output path is no longer an authoritative source input. Protocol identity `protocol.protocol_hash=2553479d976b254e119ddaa32dc8c4343c7c10ced599510b1f95cb5807878f59` and report identity `report.report_hash=6554dd4bd2bd970c8f51bc0d52f16900d910914e273fcb2f41e00cab89f6a682` remain unchanged.
+- The resealed synthetic manifest identities are `canonical_payload_hash(material[manifest])=a9e5d33bf4aa7d92b9e4d8de30f0ce53ecebfcaf90647f77bf7a2f37dde65a88`, embedded `manifest.manifest_sha256=17cf42af7a9b96a73a031dc990917cf14b488bc8b135fc613ae9e70d64933ed8`, and fixture file SHA-256 `f1026f507ebcfaa5bc1a93211fc8d53c1cbbda5ca1dc18d250851704ae407033`.
+- Validation evidence: targeted `py_compile` passed for 14 changed Python files. The first affected run executed 99 tests: 97 passed, one legacy error-message assertion exposed a compatibility wording gap, and one reference check correctly rejected the not-yet-resealed manifest. The wording was corrected and the existing material builder/verifier then resealed and accepted the reference.
+- A follow-up selection executed 45 tests: 44 passed, including both former failure paths. The sole error was dormant `synthetic_strategy_benchmark_report_v6` setup, which still hard-codes preregistered dependency counts `15/14`; ADR0528 changed no requirements declarations. The old v6-v10 chain was not resealed, promoted, or used as current evidence.
+- Independent adversarial receipt passed 38/38, including canonical/legacy identity, valid synthetic execution, metadata detachment, hostile subclasses, duplicate archived Action, non-finite values, live order rejection, invalid order/fill actions, and frozen mutation rejection. Root `hakimi-research.ps1 frozen-benchmark` passed.
+- Core SHA-256: canonical models `7617d62a80f1dffb8604aee8d550cf21e36cb96ce26d51fc7ee506ad39475717`; compatibility shim `6a57df50c577ceb3a7e8fb20dde866c8fae863c410ca3365f14eb85b4637c94a`; historical archive `5ba734cd0d8ac95795055376df9098caebfeb3ed3ea92d2874888ee2a8889054`; backtest consumer `e8038f46aee6292565f0207462c5e4c50b1ff8cefdf539cb5ff054c3bb7173d3`; deterministic builder `3298519f9db2ffd28878b03e52cb6d2b8bf0c8021a802335e32c635ff56cba12`; ADR0528 test `14f4bcbebf25e4e8b4cfbd315b5e8a312c4561238acee5ab1d51ec7061b80f45`; workflow `e1a65a23a779af6c7e3a4281d2d9992be6b7e8f91b56eee58cf8b8472b5100d7`.
+- Expected report JSON SHA-256 remains `2967a142422e2cb5eb3774013cdfb09c7a5f6dccd2fb5a1e037d1b80accdc0ce`; expected Markdown remains `d7e0f6da3d18d1c7932eaad467e4d9b6a4c8345de18bacae1235d142d050db32`. No performance numbers or report conclusions changed.
+- No real market data, old K-line run, G50/G51, profit backtest, formal blind test, service, browser, scheduler, release, or Git operation was used. Remote CI remains `UNKNOWN`; paper/live/order remain false and unauthorized.
+- Current single-look remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`. Legacy pack-v5 public reads remain `UNKNOWN`; pointer-v2 remains unchanged and was not reissued.
+
+## ADR0529 canonical research execution simulator (2026-08-31)
+
+Status: implemented and locally validated as a research-only execution boundary. It is a deterministic simulator, not a paper/live broker, profitability claim, formal blind-test result, or trading permission.
+
+- A pure in-memory pre-fix PoC proved seven gaps: simulator parameters accepted hostile `__float__` conversion, numeric strings, and non-finite values; configuration remained mutable; structural fake orders and portfolios bypassed canonical models; a fake `is_live=true` order executed; and a rejected Fill could leave a partially mutated portfolio.
+- Canonical ownership is now `src/hakimi_research/execution.py` with schema `research-execution-simulator-v1`. The pre-migration source is preserved byte-identically at `archive/historical_research/adr0529_execution.py`; `outputs/python_quant_bot/quant_bot/execution.py` is a definition-free compatibility re-export of the same simulator class.
+- Simulator fee/slippage are exact-native finite values in `[0,1)` and are normalized at construction. The simulator dataclass is frozen, so execution-cost identity cannot drift after creation.
+- `submit_order` requires exact canonical `Order` and `Portfolio` objects, rejects structural fakes/subclasses and any live-order identity, and never invokes subclass-controlled numeric conversion. Mutated portfolio fields are revalidated as exact-native finite values before calculations.
+- Buy/sell calculations now build and validate the immutable `Fill` before committing any portfolio field. Invalid account state, insufficient cash/position, derived overflow, hostile values, or Fill construction failure leave the portfolio unchanged.
+- The active backtest imports `hakimi_research.execution` directly. The deterministic source envelope binds `src/hakimi_research/execution.py` and no longer treats the legacy output path as authoritative.
+- Deterministic protocol and report identities remain unchanged: `protocol.protocol_hash=2553479d976b254e119ddaa32dc8c4343c7c10ced599510b1f95cb5807878f59` and `report.report_hash=6554dd4bd2bd970c8f51bc0d52f16900d910914e273fcb2f41e00cab89f6a682`. Expected report JSON/Markdown bytes and performance content did not change.
+- Resealed synthetic manifest identities are `canonical_payload_hash(material[manifest])=e1e295c40f161209b64484c2a8d0eec64176bad1d5900291fd2fcf1b306e700d`, embedded `manifest.manifest_sha256=5f937e8ddd17f30dfeadff675fb88c94c38f483424ab0008978de744c1987c69`, and fixture file SHA-256 `b23d1c43e8a838f7a38b6342d32e8a57bce6dc3a5f846255b8e513a9176c7f6d`.
+- Validation: targeted `py_compile` passed for 8 changed Python files. The first affected run executed 67 tests: 66 passed; the sole failure was an ADR0528 test inventory that still classified the new legacy execution shim as an active model consumer. Production behavior did not fail.
+- After correcting only that test inventory, the complete ADR0528 model contract passed 14/14, the resealed reference verifier passed, and the dependency-lock module passed 6/6. Independent ADR0529 adversarial coverage passed 45/45, including exact identity, hostile conversion, fake live inputs, invalid mutated state, partial-fill cash bounds, sell semantics, overflow rejection, and atomic failure behavior. Root `hakimi-research.ps1 frozen-benchmark` passed.
+- Core SHA-256: canonical execution `9d90388d95cf27e2f16601682cc7a031feec5354f64dabf12d2d303e214a86ef`; legacy shim `71d233575ef2c2845264093bb60c8f512849e2506f07ebd50f1dbf850ac41e2e`; historical archive `d743524da6c5cae47bab7694ee87ff859ac1e2e8bf467b0f271dd27e2026400a`; backtest consumer `9d9b160811830013e77c139e01914e012245226a4f6e941747840f1db7d4ba99`; deterministic builder `a4e2252d1a3dfe6edad09f792fc8c6273bd2704b5e3ffa6c98323433ce7ffbda`; ADR0529 test `615fa67b76254d08ddd3b0899b4f83f4233b43cdb399aba9a47da81769b0e557`; workflow `d282645bb358b3d1fef18f2d854a47db043f68dce147f49b9d8ab28745f5b0f7`.
+- Expected report JSON SHA-256 remains `2967a142422e2cb5eb3774013cdfb09c7a5f6dccd2fb5a1e037d1b80accdc0ce`; expected Markdown remains `d7e0f6da3d18d1c7932eaad467e4d9b6a4c8345de18bacae1235d142d050db32`.
+- No dormant v6-v10 report chain, real market data, old K-line run, G50/G51, profit backtest, formal blind test, service, browser, scheduler, release, or Git operation was used. Remote CI remains `UNKNOWN`; paper/live/order remain false and unauthorized.
+- Current single-look remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`. Legacy pack-v5 public reads remain `UNKNOWN`; pointer-v2 remains unchanged and was not reissued.
+
+## ADR0530 canonical research risk engine (2026-08-31)
+
+Status: implemented and locally validated as a research-only risk boundary. It preserves the existing sizing/protective-exit algorithms and does not establish profitability, paper/live authority, formal blind-test evidence, or release readiness.
+
+- A pure in-memory pre-fix PoC proved nine gaps: RiskManager retained a mutable external config alias; structural fake config/signal/portfolio objects were accepted; string day baselines and execution costs were converted; hostile `__float__` values were invoked for stops/costs; and external config mutation changed active limits. Existing negative-baseline and invalid daily-equity paths already failed closed and were preserved rather than duplicated.
+- Canonical ownership is now `src/hakimi_research/risk.py` with schema `research-risk-engine-v1`. The pre-migration implementation is preserved byte-identically at `archive/historical_research/adr0530_risk.py`; `outputs/python_quant_bot/quant_bot/risk.py` is a definition-free compatibility re-export of the same RiskManager class.
+- The original sizing, daily-loss, effective-stop, signal-to-order, and protective-exit implementation remains the internal core. The canonical wrapper adds exact-native/canonical boundary validation without replacing those formulas.
+- RiskManager now requires an exact canonical `RiskConfig` and stores a detached frozen limit snapshot. Later mutation of the caller's config cannot alter an active manager, snapshot fields cannot be edited, and config replacement is rejected.
+- `reset_day`, stop thresholds, prices, fee/slippage inputs, symbols, Signal, and Portfolio identities are validated before entering the core. Structural fakes, string/bool aliases, non-finite values, hostile subclasses, and mutated unsafe config values fail closed without invoking subclass-controlled conversion.
+- Invalid `check_daily_loss` equity keeps the existing fail-closed result: no order authority, `False` return, and `trading_halted=true`. The public test hook for `trading_halted` remains available but accepts only exact bool; day baseline assignment accepts only exact finite nonnegative numbers.
+- CLI, frozen evaluation, backtest, and the three active synthetic benchmark consumers import `hakimi_research.risk` directly. The deterministic source envelope now binds `src/hakimi_research/risk.py`, not the legacy output path.
+- Deterministic protocol and report identities remain unchanged: `protocol.protocol_hash=2553479d976b254e119ddaa32dc8c4343c7c10ced599510b1f95cb5807878f59` and `report.report_hash=6554dd4bd2bd970c8f51bc0d52f16900d910914e273fcb2f41e00cab89f6a682`. Expected report JSON/Markdown bytes and performance content did not change.
+- Resealed synthetic manifest identities are `canonical_payload_hash(material[manifest])=f2bb52f201508776dc3ccf4a9a7df3b1b4242fa60c51a19ce020a3ad0e94fb0e`, embedded `manifest.manifest_sha256=30aaaeafe004b7123f4c84dbf1c266bbbf0e7e40544ad32a198eb39deb67585e`, and fixture file SHA-256 `f1987eccad2d0d79f5dac5b2d48cf989c9fb41738f8f45c19407f0dda1fbeeee`.
+- Validation: targeted `py_compile` passed for 11 changed Python files. The first affected run executed 89 tests: 68 passed; 21 failures were exclusively legacy protective-exit regex messages replaced by earlier wrapper errors. No sizing, order, halt, or portfolio-state behavior failed.
+- Exact validation errors were mapped back to the established protective-exit/config wording without weakening the new gates. Protective-exit plus ADR0530 contracts then passed 22/22; reference verifier passed; dependency-lock contracts passed 6/6; independent adversarial coverage passed 64/64; and root `hakimi-research.ps1 frozen-benchmark` passed. Unit fee/slippage are correctly rejected by returning no order, matching the existing fail-closed contract.
+- Core SHA-256: canonical risk `07895205e840c5d9a08edc65b97e19e7d5bc7ee7c827f4e85afe795cab9583e0`; legacy shim `fe52376cdd0c64f7cd32c247f3ed56a914f27b2346d8afda52dffb80bd4ec640`; historical archive `f736087a7264744c225826d148c466cfe2c3a6038bc76c2230ac880521eb3158`; backtest consumer `d049cfe633d8ceee69d878d2849156a11e24885c71673d4f67b559d38686f993`; deterministic builder `071a864211270465b4ab65506e469bdc9fa1d63c4a3fc8477f92c6578dc59c74`; ADR0530 test `84d07bdfe811d93eabc888c023995ebc0035c16a367c0bb140cd08152e29a65f`; workflow `bb1bb599d59de30f6079fa95dd4792e41c720891b50a299649de163d90073c1f`.
+- Expected report JSON SHA-256 remains `2967a142422e2cb5eb3774013cdfb09c7a5f6dccd2fb5a1e037d1b80accdc0ce`; expected Markdown remains `d7e0f6da3d18d1c7932eaad467e4d9b6a4c8345de18bacae1235d142d050db32`.
+- No dormant v6-v10 report chain, real market data, old K-line run, G50/G51, profit backtest, formal blind test, service, browser, scheduler, release, or Git operation was used. Remote CI remains `UNKNOWN`; paper/live/order remain false and unauthorized.
+- Current single-look remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`. Legacy pack-v5 public reads remain `UNKNOWN`; pointer-v2 remains unchanged and was not reissued.
+
+## ADR0531 canonical research backtest core (2026-08-31)
+
+Status: implemented and locally validated as the canonical research BacktestEngine/BacktestReport boundary. This is not profitability evidence, paper/live authority, formal blind-test evidence, or release readiness.
+
+- Pure in-memory pre-fix probes proved eleven integrity gap classes: external config/strategy/risk aliases, nested experiment-context aliasing, structural fake strategy/risk acceptance, mismatched risk limits, replaceable execution dependency, invalid/non-finite report metrics, report nested aliases, and writable report fields. The existing exact backtest-only config authority gate already rejected structural fake config and was preserved.
+- Canonical ownership is now `src/hakimi_research/backtest.py` with schema `research-backtest-core-v1`. The pre-migration implementation is preserved byte-identically at `archive/historical_research/adr0531_backtest.py`; `outputs/python_quant_bot/quant_bot/backtest.py` is a definition-free compatibility re-export of the same Engine and Report classes.
+- The original market-data validation, close-signal/next-open timing, risk calls, execution simulation, intrabar stop-first rule, metric calculations, reproducibility payload, and experiment-manifest construction remain the internal core. The migration changes ownership and integrity boundaries, not those algorithms.
+- Engine construction requires an exact canonical BotConfig, a StrategyBase instance with exact-native JSON params and inspectable identity, an exact canonical RiskManager whose frozen limits match the config, and an exact-native acyclic JSON experiment context. Config, strategy, risk state, and nested context are detached from caller aliases.
+- Engine dependency fields cannot be replaced after construction. Public config/strategy/risk/context views are detached copies; the execution simulator is already frozen. `run` requires an exact pandas DataFrame and operates on a deep copy, protecting caller data from strategy/core mutation.
+- BacktestReport validates finite metrics, nonnegative counts/equity/fees, bounded win rate, exact execution-model text, and exact-native JSON output structures. Mutable inputs and returned views are recursively detached; report fields are frozen after the core's context-local one-time experiment-manifest binding.
+- CLI, frozen evaluation, and the three active synthetic benchmark consumers import `hakimi_research.backtest` directly. The deterministic source envelope now binds `src/hakimi_research/backtest.py`, not the legacy output path.
+- Validation: targeted `py_compile` passed for 13 changed Python files. The first affected run executed 100 tests: 75 passed; 14 errors exposed that the core binds the manifest after initial report construction, and 11 failures were established authority/numeric error-text compatibility. No event timing, fill, metric, or risk calculation assertion failed.
+- A context-local report-build window now permits only the core's manifest binding and seals/deep-copies the report before return. Existing authority/numeric messages were restored without weakening canonical validation. The resulting full targeted set passed 114/114; dependency-lock contracts passed 6/6; independent adversarial coverage passed 54/54; and root `hakimi-research.ps1 frozen-benchmark` passed.
+- Two preliminary independent harness attempts were correctly rejected by existing research gates: one used fewer than the mandatory 31 warmup rows, and one used an interactive strategy class without inspectable source. The finalized matrix used 40 rows and a repository strategy with source provenance.
+- An in-memory canonical-versus-byte-archived Engine comparison found exact parity across 143 BacktestReport performance/execution fields, including returns, drawdown, Sharpe, trades, final equity, equity curves, fills, fees, ambiguity counts, and execution model. The report identity changed only because canonical backtest source provenance is now embedded in each run manifest.
+- Deterministic protocol identity remains `protocol.protocol_hash=2553479d976b254e119ddaa32dc8c4343c7c10ced599510b1f95cb5807878f59`. The resealed report identity is `report.report_hash=8f1a34ddc5bb1cdc65ad74204148be0c801ab1b623b0bae677a9255478deb0e6`; this supersedes the prior local synthetic report identity for code-provenance reasons and does not represent a performance change.
+- Resealed synthetic manifest identities are `canonical_payload_hash(material[manifest])=6c5f0494c41ae0e09f7b7043b7be559282ef53f02db8f54e21f079f0ab827d09`, embedded `manifest.manifest_sha256=f17df582a1ca57f86711eb3dafde0a14d7b878c88ffd44b92d2c2e2011718e5d`, and fixture file SHA-256 `988980a895ac0dbf75e7f56f776a60003b8cd519dfa1dcb728c611d3146577db`.
+- Core SHA-256: canonical backtest `1013439dfc529bcb2096bea7480c8fd06840c65ab39f9f423bdcec35323684be`; legacy shim `5d6c238d12319b08b45c117769e7454b5e02a1584b318327bfdb961a693be89a`; historical archive `d049cfe633d8ceee69d878d2849156a11e24885c71673d4f67b559d38686f993`; deterministic builder `0231c8d01542896a8921bf3d25a13b19dca3886c913c6e5038aa1bacc01746b3`; ADR0531 test `037e37db0a21dc48524dc3c396ebbda1bb86999b84e4c6fa814bb7a0f3753bfb`; workflow `b0653797ec85df5e946405cff810a580c5519b5f0bce860c44acddf51a14d511`.
+- Expected report JSON SHA-256 is now `7354413b7a9290c0da263f94ae6e5ee0effb2f322cd6a204dc4d626c2a4bdee8`; expected Markdown is `e4664ed89d1f5c792a8a52f367667a3095d4b508d426bb1cd98f4f3da9d6b33e`. These changes bind canonical code identity; no new return or profitability number is claimed.
+- No dormant v6-v10 report chain, real market data, old K-line run, G50/G51, profit backtest, formal blind test, service, browser, scheduler, release, or Git operation was used. Remote CI remains `UNKNOWN`; paper/live/order remain false and unauthorized.
+- Current single-look remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`. Legacy pack-v5 public reads remain `UNKNOWN`; pointer-v2 remains unchanged and was not reissued.
+
+## ADR0532 canonical research market-data boundary (2026-08-31)
+
+Status: implemented and locally validated with synthetic/injected data only. This is not real-market data validation, profitability evidence, paper/live authority, formal blind-test evidence, or release readiness.
+
+- Pre-fix pure synthetic probes proved cross-process nondeterminism: three fresh Python processes produced three different 40-row SyntheticDataProvider hashes because timestamps depended on wall-clock time. Additional gaps included bool limits, string/hostile symbol and timeframe aliases, unknown timeframe fallback, empty/subclass CSV paths, structural fake factory config, and unknown OKX timeframe silently mapping to `1H`.
+- Product configuration already rejected `provider=synthetic`; that boundary remains unchanged. Legacy contracts also require explicit injected synthetic fallback to remain test-only and partial OKX history to fail instead of silently substituting data.
+- Canonical ownership is now `src/hakimi_research/data.py` with schema `research-market-data-v1`. The pre-migration implementation is preserved byte-identically at `archive/historical_research/adr0532_data.py`; `outputs/python_quant_bot/quant_bot/data.py` is a definition-free compatibility re-export of the canonical provider, validator, and fingerprint objects.
+- Existing CSV and OKX retrieval/pagination/fallback algorithms remain internal canonical cores. The outer boundary requires exact canonical BotConfig, exact-native provider/request/cache identities, explicit supported timeframes, positive bounded limits, and nonempty CSV paths. Structural config can only preserve the earlier explicit synthetic-denial message; it cannot construct a provider.
+- Every returned frame is copied and validated for required OHLCV columns, numeric non-bool dtypes, finite values, positive prices, nonnegative volume, high/low consistency, timezone-aware UTC index, unique timestamps, and strict ascending order. Invalid data fails closed rather than being silently sorted, coerced, or filled.
+- Test-only SyntheticDataProvider now uses a fixed UTC endpoint, stable SHA-derived symbol/timeframe phase, explicit timeframe frequencies, and no wall-clock/random-process identity. Three independent processes produced the identical canonical fingerprint `a71f55f177503d64df99f8e9336e7adf93fa8f2bd8259cc498e886a86fcd11e0` for `SYNTH/1h/40`.
+- `market_data_fingerprint` binds schema, UTC timestamps, ordered OHLCV columns, and exact float-hex values. Copies produce the same digest; symbol, timeframe, or cell changes produce a different digest.
+- CLI imports `hakimi_research.data` directly. The Frozen OOS benchmark does not call a provider, so the canonical data module was intentionally not added as a false source dependency to that benchmark envelope.
+- Validation: targeted `py_compile` passed for 8 changed Python files. The first affected set executed 47 tests: 45 passed; one failure was a positional-versus-label indexing error in the new test, and one required preservation of the legacy structural synthetic-denial message. No provider algorithm failed.
+- After those two compatibility fixes, canonical data plus legacy CLI contracts passed 20/20; dependency-lock contracts passed 6/6; independent adversarial coverage passed 58/58; and root `hakimi-research.ps1 frozen-benchmark` passed. The legacy OKX test used injected rows only and confirmed that 2 real rows cannot satisfy a requested 3-row history without synthetic fallback.
+- Deterministic Frozen OOS identities remain unchanged from ADR0531: protocol `2553479d976b254e119ddaa32dc8c4343c7c10ced599510b1f95cb5807878f59`, report `8f1a34ddc5bb1cdc65ad74204148be0c801ab1b623b0bae677a9255478deb0e6`, material manifest `6c5f0494c41ae0e09f7b7043b7be559282ef53f02db8f54e21f079f0ab827d09`, and embedded manifest `f17df582a1ca57f86711eb3dafde0a14d7b878c88ffd44b92d2c2e2011718e5d`.
+- Core SHA-256: canonical data `e31b69f682e78ff4313fcbdd8fce17e1f6d52c90288cb53d0f7524a017d9ae39`; legacy shim `6d6bd528212e07b4216a6f5b8d694271f26c25d5ab51730fff6473ad9061bc49`; historical archive `a5d6a66ae22d547f978b30fd3fac8538092e0a7c7127d2a28e1d7c5e9b53e4a1`; CLI consumer `ab4ffcb4d0705f662639e6b2b97c22b70f4d4d8c6d0ce7d8002b7ebcdec9cb35`; ADR0532 test `15238f1d6a0b840818268d5db1fd86685c79a9ce69644494d46ed917ccf1966e`; workflow `3b9416aa4ff50844540da9a868752845567455b3dfa47d0af006a78b2235824f`.
+- Frozen expected report JSON remains `7354413b7a9290c0da263f94ae6e5ee0effb2f322cd6a204dc4d626c2a4bdee8`; expected Markdown remains `e4664ed89d1f5c792a8a52f367667a3095d4b508d426bb1cd98f4f3da9d6b33e`; fixture manifest remains `988980a895ac0dbf75e7f56f776a60003b8cd519dfa1dcb728c611d3146577db`.
+- No real provider request, user CSV read, runtime/cache access, service, browser, scheduler, old K-line run, G50/G51, profit backtest, formal blind test, release, or Git operation was used. Remote data quality and remote CI remain `UNKNOWN`; paper/live/order remain false and unauthorized.
+- Current single-look remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`. Legacy pack-v5 public reads remain `UNKNOWN`; pointer-v2 remains unchanged and was not reissued.
+
+## ADR0533 canonical existing-strategy package (2026-08-31)
+
+Status: implemented and locally validated for the six existing rule templates only. No new strategy or Ensemble was added. This is not profitability evidence, optimization evidence, paper/live authority, formal blind-test evidence, or release readiness.
+
+- Pre-fix pure synthetic PoC proved ten boundary gaps: constructor and nested params aliases, writable params, hostile name/version/get keys, hostile build name/params, build-time nested aliases, mutable global registry replacement, structural fake Portfolio, and DataFrame subclass acceptance.
+- Canonical ownership is now `src/hakimi_research/strategies/{base.py,templates.py,__init__.py}` with base schema `research-strategy-base-v1`. The three pre-migration files are preserved byte-identically as `archive/historical_research/adr0533_strategy_{base,templates,init}.py`; all legacy `quant_bot.strategies` paths are definition-free compatibility re-exports of the same canonical objects.
+- StrategyBase now stores recursively detached exact-native JSON parameter state, exposes detached parameter views, and makes params/name/version plus their private storage read-only after initialization. Registry keys remain exactly `dual_ma`, `grid`, `bollinger`, `macd`, `rsi`, and `momentum`; the registry is a MappingProxyType and contains no `ensemble` entry.
+- StrategyBase `__init_subclass__` wraps every existing/custom strategy method with exact pandas DataFrame and canonical Portfolio gates, deep-copies both inputs, and requires an exact canonical Signal result. Template algorithm method bodies were not edited, so their existing parameter parsing, warmup, entry, exit, and abstain semantics remain authoritative.
+- Generic StrategyBase rejects non-finite params immediately. Existing templates preserve their established algorithm-level error messages by temporarily retaining exact-native NaN/Inf values until `generate_signal`; BacktestEngine independently rejects such non-JSON params before an experiment can run.
+- `build_strategy` preserves the six exact lowercase names and existing unknown-strategy error semantics, but rejects string/dict subclasses and recursively detaches params. Returned objects must be canonical StrategyBase instances.
+- CLI, canonical BacktestEngine, frozen evaluation, strategy inventory, and active synthetic research consumers import `hakimi_research.strategies` directly. The deterministic source envelope now binds both canonical base and template files; the former output template path is no longer authoritative.
+- Validation: targeted `py_compile` passed for 17 changed Python files. The first affected set executed 127 tests: 105 passed; all 22 failures were earlier generic non-finite rejection replacing established template-specific error messages. No valid signal, parameter-domain, backtest, or Frozen OOS assertion failed.
+- After the layered non-finite compatibility fix, the nine strategy/domain modules passed 54/54 and the explicit identity-lock contract passed 10/10. Dependency-lock contracts passed 6/6; independent adversarial coverage passed 46/46; root `hakimi-research.ps1 frozen-benchmark` passed.
+- In-memory canonical-versus-byte-archived template comparison found exact parity across 143 BacktestReport performance/execution fields. Under the same canonical protocol, current and archived template report identities were also equal, proving the algorithm bodies did not drift.
+- Canonical strategy source identity intentionally resealed the deterministic protocol to `21e276fc5c003536c8c6727739d830a04ea6b57308293d062467a3951af61a1b` and report to `ccdd5b69e4e53ecf4173c4671e8bcbda09aba7e47b604d19bc71d59c2278007c`. These supersede prior local synthetic identities for source-provenance reasons and do not represent improved returns.
+- Resealed synthetic manifest identities are `canonical_payload_hash(material[manifest])=2d0cdb5041134430c5481f140154b11d89e6eb9c4638c42cfd9118ee995d7bd7`, embedded `manifest.manifest_sha256=438aeb6e8366545f09915d7e58c5bbfd1a7d30cd29ef05a598684dd00622bdea`, and fixture file SHA-256 `7cc2307ff37bc6035842ba59d91cb1b804738e45e77d9b2781f87830ca9eed17`.
+- Core SHA-256: canonical base `23ba0f9094d69dac47ae08e697d3a540f82bfccc9f1b1e2df79634c4c9e6af67`; canonical templates `21fbfc381872f32bd52fe48cf95ba784cdbd8ba917fabef40bae0c3c445e2908`; canonical package `be4d62ff4b61d800dee7cdf445205460ec37bae891751126817ac5b170c1a366`; historical base `b99fec8939ae0d914b8341b6de3fc5316e89ea799f02ba2136a49544a3869e69`; historical templates `7ce6269e5da960b5315365b076744381fd82c7efadb6e09a1a62c4b7d54c3de6`; historical package `9822754ec67747e39d92aa9d22fc1f2364db231a93c03f96a81e28f73f31b4f2`.
+- ADR0533 test SHA-256 is `92a88b68f102bb9d6603c0a3c6cbc9b1344602165778ff9deef8dc4743c66ec5`; workflow SHA-256 is `8f5a154dfcdd236005922371f23298292927894d648b01f6c7797f506077b373`.
+- Expected report JSON SHA-256 is now `552b53df52a3905cec46859151ce630a1110550187b088e558bedce0236ed4a6`; expected Markdown is `fefeeefae2bad6843ef7984e6171f4565d77eb151b8383a428abaa1fe4ac62c5`. No new performance number or strategy ranking is claimed.
+- No real provider request, user CSV read, runtime/cache access, dormant v6-v10 chain, old K-line run, G50/G51, profit backtest, optimization, formal blind test, service, browser, scheduler, release, or Git operation was used. Remote CI remains `UNKNOWN`; paper/live/order remain false and unauthorized.
+- Current single-look remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`. Legacy pack-v5 public reads remain `UNKNOWN`; pointer-v2 remains unchanged and was not reissued.
+
+## ADR0534 canonical strategy indicators (2026-08-31)
+
+Status: implemented and locally validated as an exact-input indicator boundary for the existing strategies. Indicator migration is not profitability evidence, optimization evidence, paper/live authority, formal blind-test evidence, or release readiness.
+
+- Pre-fix direct-call PoC proved seven gap classes: int-subclass windows, pandas Series subclasses, NaN/Inf price inputs, bool Bollinger multipliers, reversed/equal MACD periods, and zero momentum windows were accepted. Existing bool rolling-window calls already failed inside pandas and were replaced with an explicit boundary.
+- Canonical ownership is now `src/hakimi_research/indicators.py` with schema `research-indicators-v1`. The pre-migration implementation is preserved byte-identically at `archive/historical_research/adr0534_indicators.py`; `outputs/python_quant_bot/quant_bot/indicators.py` is a definition-free compatibility re-export of the same six canonical functions.
+- Original SMA, EMA, Bollinger, MACD, RSI, and momentum calculation bodies remain internal cores. Canonical wrappers require exact nonempty numeric pandas Series, finite inputs, unique ordered indexes, exact positive integer windows, positive finite Bollinger multiplier, and `fast < slow` MACD periods.
+- Inputs are deep-copied and outputs are exact detached pandas Series with unchanged indexes. Infinite outputs are rejected; expected warmup NaN values remain allowed. Existing flat-window RSI semantics remain `50`, as proven by the strategy/indicator contracts.
+- Canonical strategy templates import `hakimi_research.indicators` directly. The deterministic source envelope now binds the canonical indicator file and no longer treats the output path as authoritative.
+- Validation: targeted `py_compile` passed for 8 changed Python files; the complete indicator/strategy/backtest/Frozen OOS set passed 128/128; dependency-lock contracts passed 6/6; independent adversarial coverage passed 55/55; and root `hakimi-research.ps1 frozen-benchmark` passed.
+- An in-memory canonical-versus-byte-archived indicator comparison found exact parity across 143 BacktestReport performance/execution fields. Under the same canonical protocol, report identity was also equal, proving calculation bodies did not drift.
+- Frozen protocol and report identities remain unchanged from ADR0533: protocol `21e276fc5c003536c8c6727739d830a04ea6b57308293d062467a3951af61a1b` and report `ccdd5b69e4e53ecf4173c4671e8bcbda09aba7e47b604d19bc71d59c2278007c`.
+- Resealed synthetic manifest identities are `canonical_payload_hash(material[manifest])=7e743a0f301cf5cf96fbaadb024b72a97dabdeadde249627c98e83cd86096499`, embedded `manifest.manifest_sha256=694d624066fae721145290c2861bd1d0c4eeb31e8b1cf0b1327980654ee45ca0`, and fixture file SHA-256 `3df1782ca8b4dfa4cfbfd328b0337adb4f2d60a60787302dabdd28411fcc73f6`.
+- Core SHA-256: canonical indicators `8599dc1b6f20cad2b2c807424320d2bb73e0aa09439a08083844745c85e76ab9`; legacy shim `acce43d4cfc1b58c9a18551566df40a924e9ea620662623828922d53e3184522`; historical archive `315f02e3858469b61e944f2aac09dca16a5689bec7449e11079131914907b2cc`; canonical templates consumer `1d1f6428cf5ef0e52d9929b12bd7e9351ebd710c235accc7ff8f057d261498d8`; ADR0534 test `31c1ee39f33542a6bfb141c8f3ae2cc7e83df4df328c782f34c735138016bf6f`; workflow `252ff32d614173608334dbd73c44fc2c7431d36500a67eb684ca70f4032568bb`.
+- Expected report JSON remains `552b53df52a3905cec46859151ce630a1110550187b088e558bedce0236ed4a6`; expected Markdown remains `fefeeefae2bad6843ef7984e6171f4565d77eb151b8383a428abaa1fe4ac62c5`. No new performance number or strategy ranking is claimed.
+- No real provider request, user CSV read, runtime/cache access, dormant v6-v10 chain, old K-line run, G50/G51, profit backtest, optimization, formal blind test, service, browser, scheduler, release, or Git operation was used. Remote CI remains `UNKNOWN`; paper/live/order remain false and unauthorized.
+- Current single-look remains `audit-v2/readiness-v3 -> maturity-v3/dashboard-v7 -> pack-v6/evidence-v2 -> snapshot-v4/summary-v2`. Legacy pack-v5 public reads remain `UNKNOWN`; pointer-v2 remains unchanged and was not reissued.
+
+## ADR0535 canonical research logging and deterministic JSON reporting (2026-08-31)
+
+Status: implemented and locally verified. This closes the two remaining output-owned top-level definition modules identified by the ADR0534 inventory. It does not authorize paper, live, order, ranking, parameter selection, or profitability claims.
+
+Audit evidence:
+- Pure in-memory legacy PoC proved unknown logging levels silently fell back while directory and handler effects were reached.
+- Legacy reporting created its directory before rejecting an invalid artifact ID, used wall-clock identity when the ID was empty, accepted path-bearing prefixes, serialized NaN, and accepted payload/prefix subclasses.
+- The old artifact ID check already rejected a str subclass. ADR0535 preserves and strengthens that exact-type boundary rather than claiming it was absent.
+
+Implementation:
+- `src/hakimi_research/logging_setup.py` owns `research-logging-v1`; exact non-empty directory and exact allowlisted uppercase level validation complete before any directory or handler effect.
+- `src/hakimi_research/reporting.py` owns `research-json-report-v1`; it requires recursive exact-native finite JSON, bounded depth, no cycles, a safe filename prefix, and either `hexp-` plus 20 lowercase hexadecimal characters or a 64-character lowercase hexadecimal digest.
+- JSON rendering is sorted, UTF-8 compatible, finite, newline-terminated, deterministic, and independent of wall clock.
+- Report persistence uses exclusive creation. An identical retry is idempotent; an existing path with different content is rejected and never overwritten.
+- CLI and the reproducible experiment consumer import canonical modules first. `outputs/python_quant_bot/quant_bot/logging_setup.py` and `reporting.py` are definition-free compatibility shims.
+- Byte-preserved historical sources are `archive/historical_research/adr0535_logging_setup.py` SHA-256 `64dcff0c00a4b085dafc2b6e7756847ca240cd6c8f45e55735c673683b9751da` and `archive/historical_research/adr0535_reporting.py` SHA-256 `de44f6562f316e9c9e8f9dc4e993bbe5da8586f7deb9b60c1cd3d720bd1b43db`.
+- Consumer-first activation is explicitly listed in the bounded research-contracts workflow. Remote CI remains UNKNOWN because no remote run was queried or claimed.
+
+Validation evidence:
+- Targeted py_compile: initial 9/9 PASS; post-contract correction 2/2 PASS.
+- Targeted logging/reporting, manifest, CLI, CI, and dependency-lock contracts: 42/42 PASS.
+- Independent pure in-memory adversarial matrix: 80/80 PASS with `filesystem_mutations=false`.
+- Deterministic Frozen reference verifier: PASS. Protocol hash remains `21e276fc5c003536c8c6727739d830a04ea6b57308293d062467a3951af61a1b`; report hash remains `ccdd5b69e4e53ecf4173c4671e8bcbda09aba7e47b604d19bc71d59c2278007c`; embedded manifest hash remains `694d624066fae721145290c2861bd1d0c4eeb31e8b1cf0b1327980654ee45ca0`.
+- The first targeted run exposed an over-narrow raw-64-digest rule for the active `hexp-<20 hex>` experiment identity. The validator was corrected to the existing versioned manifest contract, not widened to arbitrary strings.
+
+Unchanged boundaries:
+- The deterministic sample remains synthetic-only, quality status BLOCK, not a formal blind test, not natural-forward evidence, and not profitability proof.
+- `paper=false`, `live=false`, `order=false`, `ranking=false`, and `parameter_selection=false` remain locked.
+- The current single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+- No runtime directory, log file, database, cache, service, scheduler, browser, market-data task, backtest, or trading task was used. The only report write contract exercised a system temporary directory; adversarial checks mocked all filesystem effects.
+## ADR0536 versioned fixed baseline and cost matrix (2026-08-31)
+
+Status: implemented and locally verified. This advances the P0 benchmark-system requirement for the deterministic synthetic Frozen OOS artifact. It does not establish strategy profitability, ranking, parameter-selection authority, paper authority, live authority, or order authority.
+
+Gap proof:
+- A pure in-memory protocol build showed only `CASH` and `ENGINE_BUY_AND_HOLD` were registered.
+- `FIXED_DUAL_MA`, `FIXED_BREAKOUT`, and `HASH_NO_SKILL` were absent even though the project objective requires simple technical and no-skill controls.
+- The former verifier and Markdown order treated two base-cost observations per role as the complete benchmark matrix.
+
+Implementation:
+- `src/hakimi_research/benchmarks.py` owns `fixed-baseline-matrix-v1`.
+- The preregistered matrix is `CASH`, `ENGINE_BUY_AND_HOLD`, fixed 5/20 dual moving average, fixed 20-bar breakout, and SHA-256 timestamp/seed no-skill control.
+- The no-skill control is deterministic and replayable. It does not call an external random source and does not inspect future rows.
+- Frozen protocol schema is now `frozen-evaluation-protocol-v2`; report schema is `frozen-evaluation-report-v2`; Markdown renderer is `frozen-evaluation-markdown-v2`.
+- Protocol benchmark specs bind matrix version, benchmark ID, strategy name, strategy version, exact parameters, and spec hash.
+- Every fixed benchmark runs in VALIDATION and FROZEN_TEST under BASE, DOUBLE_COST, and TRIPLE_COST, producing 30 unique `(role, benchmark, cost scenario)` cells.
+- Every report record binds benchmark spec hash and parameters to the nested reproducibility `param_hash` and protocol random seed.
+- Markdown derives benchmark order from the verified protocol and displays benchmark plus cost-scenario identity.
+- `src/hakimi_research/benchmarks.py` is included in the deterministic source-hash envelope.
+- `VOLATILITY_MATCHED_BASELINE_NOT_AVAILABLE` is explicit. ADR0536 does not mislabel a fixed-exposure strategy as a same-volatility comparator.
+
+Adversarial correction:
+- The independent matrix found that replacing a benchmark result with a native list raised `AttributeError` instead of contract `ValueError`.
+- Strategy and benchmark verifier paths now require exact dict result/manifest containers and exact string identity fields before lookup.
+- Malformed result, manifest, params, role, benchmark ID, and scenario containers are retained as regression cases.
+
+Validation evidence:
+- Targeted py_compile: 6/6 PASS.
+- Frozen protocol, fixed baseline, deterministic reference, CI, backtest-source, strategy-source, and indicator-source contracts: 62/62 PASS.
+- Independent malicious protocol/report/type matrix: 52/52 PASS with `filesystem_mutations=false`.
+- Two independent in-memory material rebuilds: 2/2 byte-equal PASS.
+- Root deterministic Frozen reference verifier: PASS.
+- Protocol hash: `a19a06d0756cd8e75afbb255210866c4b22723bc71002a6981645f563f06e4c7`.
+- Report hash: `f9a88fe7bc1bb37afd0b97a771fdd1108df2f57ddd86adc386face1b70f12126`.
+- Embedded manifest hash: `52a87685634e2d0765e87d396609686170b5b846577e066a6142b576fac8c76a`.
+- Expected JSON file SHA-256: `9c0cca84ff4e9360700c7601c1e2223edd11b687a8854785ee442da151528bab`.
+- Expected Markdown file SHA-256: `91d9626ed515baf46f6bfe65c9e94dcaa1b1529de9cf1d4dca2e5a81c138092b`.
+- Fixture manifest file SHA-256: `44105f66eab0f0dd0fa27e6199427e986c963463fe8a4f3a96b5ff00baafcd8f`.
+
+Unchanged boundaries:
+- The fixture remains 128-row synthetic data, quality status BLOCK, not a formal blind test, not natural-forward evidence, and not profitability proof.
+- `paper=false`, `live=false`, `order=false`, `ranking=false`, `parameter_selection=false`, and `profitability_proof=false` remain locked.
+- The current single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+- No real market data, old K-line task, G50/G51, service, browser, scheduler, database, runtime directory, paper task, live task, or order path was used.
+- Remote CI remains UNKNOWN. No Git operation or publication was performed.
+## ADR0537 ex-post volatility-matched analytical comparator (2026-08-31)
+
+Status: implemented and locally verified. This advances the P0 same-volatility benchmark question without representing an ex-post calculation as an executable strategy. It does not establish profitability, ranking, parameter-selection authority, paper authority, live authority, or order authority.
+
+Gap proof:
+- The v2 deterministic report had six eligible registered-strategy and ENGINE_BUY_AND_HOLD pairs across VALIDATION/FROZEN_TEST and BASE/DOUBLE_COST/TRIPLE_COST.
+- The report contained no volatility-matched comparison producer or records.
+- The fixture manifest explicitly declared `VOLATILITY_MATCHED_BASELINE_NOT_AVAILABLE`.
+
+Implementation:
+- `src/hakimi_research/volatility_comparison.py` owns `ex-post-volatility-matched-comparison-v1` and `ex-post-volatility-match-v1`.
+- The comparison uses each registered strategy run and its ENGINE_BUY_AND_HOLD run from the same role, cost scenario, time grid, initial equity, market, and timeframe.
+- Net-equity simple returns use an explicit initial-equity anchor. Annualized volatility uses sample standard deviation with `ddof=1` and the canonical periods-per-year factor.
+- Buy-hold returns are scaled linearly to the registered strategy's observed volatility. This is an ex-post analytical normalization only, with no execution or portfolio-construction claim.
+- Backtest V2 and the comparator now share one canonical annualization-factor function.
+- Frozen protocol schema is `frozen-evaluation-protocol-v3`; report schema is `frozen-evaluation-report-v3`; Markdown renderer is `frozen-evaluation-markdown-v3`.
+- Protocol method spec binds comparison ID, version, source benchmark, roles, cost scenarios, return definition, volatility estimator, scale policy, analytical interpretation, and spec hash.
+- The report contains six unique `(role, cost scenario)` comparison records. Each record binds strategy and benchmark run hashes plus the method spec hash.
+- The verifier rebuilds every comparison from already verified source runs and rejects missing, duplicate, reordered-identity, method, authority, source, time-grid, equity, or numeric drift.
+- Zero source volatility with nonzero target volatility returns UNKNOWN with a blocker rather than dividing by zero.
+- Markdown uses neutral `OBSERVED`/`UNKNOWN` semantics and explicitly states `ANALYTICAL_ONLY_NOT_TRADABLE`.
+- `VOLATILITY_MATCHED_EXECUTION_BASELINE_NOT_AVAILABLE` remains an explicit GAP. ADR0537 does not claim an executable ex-ante volatility-target strategy exists.
+- `src/hakimi_research/volatility_comparison.py` is included in the deterministic source-hash envelope.
+
+Validation evidence:
+- Targeted py_compile: 6/6 PASS.
+- Backtest, experiment-manifest, canonical source, Frozen protocol, fixed baseline, volatility comparison, deterministic reference, dependency lock, and CI contracts: 93/93 PASS.
+- Independent malicious type/source/protocol/report matrix: 54/54 PASS with `filesystem_mutations=false`.
+- Two independent in-memory material rebuilds: 2/2 byte-equal PASS.
+- Root deterministic Frozen reference verifier: PASS.
+- Protocol hash: `d2b18669876e7662cd86ce8f58eade27d54a72e0e0362473e6472a22787e485e`.
+- Report hash: `c0bb415dc53b2f4c00ddbf42f17ca7180cbb52922246ae91286c1811492e1905`.
+- Embedded manifest hash: `a246f889d0545b4e336bccb0418c95a55472c8172b27b03c54b05e5febcc5cc6`.
+- Expected JSON file SHA-256: `863e9c2067b960c671729a57be0a6e29d9e09e45a0bc66f6235995cfcfcbae81`.
+- Expected Markdown file SHA-256: `3b30ff6fc4efb9e6080f95807202bfae937d304ccd00c7f4ab9c066544ad9034`.
+- Fixture manifest file SHA-256: `08b0460e44a45dba29b86a6de212c36b8b6aa98ce6cd07c417860a489f199d32`.
+
+Unchanged boundaries:
+- The fixture remains 128-row synthetic data, quality status BLOCK, not a formal blind test, not natural-forward evidence, and not profitability proof.
+- Comparison authority locks `tradable=false`, `parameter_selection=false`, `profitability_proof=false`, `paper=false`, `live=false`, and `order=false`.
+- Report authority remains `paper=false`, `live=false`, `order=false`, `ranking=false`, `parameter_selection=false`, and `profitability_proof=false`.
+- The current single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+- No real market data, old K-line task, G50/G51, service, browser, scheduler, database, runtime directory, paper task, live task, or order path was used.
+- Remote CI remains UNKNOWN. No Git operation or publication was performed.
+## ADR0538 prior-window volatility-target research-simulator baseline (2026-08-31)
+
+Status: implemented and locally verified. This closes the explicitly identified missing executable same-risk baseline at research-simulator scope. It does not authorize paper, live, order entry, ranking, parameter selection, or profitability claims.
+
+Gap proof:
+- Pure in-memory inspection proved the current partition plan supports two strictly prior calibration chains: TRAIN to VALIDATION and VALIDATION to FROZEN_TEST.
+- Each calibration role contains 40 rows; after the explicit 30-row Backtest warmup, its 10 active timestamps exactly match the source registered-strategy equity grid.
+- Calibration windows end before their target windows begin, including the existing purge or embargo separation.
+
+Implementation:
+- `src/hakimi_research/volatility_target_baseline.py` owns `prior-window-volatility-target-baseline-v1` and `prior-window-volatility-target-v1`.
+- Backtest V2 exposes `RESEARCH_BACKTEST_WARMUP_ROWS=30`; engine execution and calibration share this exact boundary.
+- VALIDATION exposure is calibrated only from the TRAIN registered-strategy BASE run and TRAIN close returns.
+- FROZEN_TEST exposure is calibrated only from the VALIDATION registered-strategy BASE run and VALIDATION close returns.
+- The formula is `min(1.0, target_prior_strategy_volatility / prior_source_volatility)`.
+- Applied exposure is constrained to `[0,1]`; leverage is forbidden. Zero source volatility with nonzero target volatility becomes UNKNOWN rather than dividing by zero.
+- Calibration binds target role, calibration role, source strategy run hash, source-data hash, active time range, row count, annualization factor, target/source volatility, raw/applied exposure, cap status, blockers, authority, and calibration hash.
+- The calibration factory rejects added fields even when an attacker recomputes the hash, authority/status drift, nonnumeric close data, time-grid drift, invalid exposure, and malformed containers.
+- Frozen protocol schema is `frozen-evaluation-protocol-v4`; report schema is `frozen-evaluation-report-v4`; Markdown renderer is `frozen-evaluation-markdown-v4`.
+- The report contains six unique prior-window volatility-target benchmark runs across VALIDATION/FROZEN_TEST and BASE/DOUBLE_COST/TRIPLE_COST.
+- These runs execute through the same research simulator and nested reproducibility manifest as other fixed benchmarks, but remain permanently unauthorized for paper/live/order use.
+- The six ADR0537 ex-post analytical comparison cells remain present as a separate descriptive layer.
+- `VOLATILITY_MATCHED_EXECUTION_BASELINE_NOT_AVAILABLE` is removed because the research-simulator baseline now exists; this removal does not imply production executability.
+- `src/hakimi_research/volatility_target_baseline.py` is included in the deterministic source-hash envelope.
+
+Validation evidence:
+- Targeted py_compile: 7/7 PASS.
+- Backtest, experiment-manifest, canonical source, Frozen protocol, fixed baseline, ex-post comparison, prior-window execution baseline, deterministic reference, dependency lock, and CI contracts: 101/101 PASS.
+- Independent malicious calibration/type/protocol/report matrix: 53/53 PASS with `filesystem_mutations=false`.
+- Two independent in-memory material rebuilds: 2/2 byte-equal PASS.
+- Root deterministic Frozen reference verifier: PASS.
+- Protocol hash: `6c5ae8cc9897d56abc49f067975395e668f23188d6ff7cf3830b015a3495b457`.
+- Report hash: `aa852ff7c04b6e1f3a387cfd91cb64124566de0cd44c6b9e7c7b8574dbdeeeb7`.
+- Embedded manifest hash: `ef6a8facb4688193e552edf9e56d734f8ed39059dd72a63c6a8483702b65c169`.
+- Expected JSON file SHA-256: `a141687f84cc63b0021ac76b4326040e4c4dc188d12ef187f9f221249094a58e`.
+- Expected Markdown file SHA-256: `1480487918489d7f1375a9cd2b9b61b86ada253604e97ea004fdafc28c7f3680`.
+- Fixture manifest file SHA-256: `f02cc900db6664c6635c12c22110c678ddb3a4dbb75ac436982d082a6f398754`.
+
+Remaining limitations and unchanged boundaries:
+- Calibration uses one fixed prior window per target role. It is not walk-forward aggregation, parameter stability, multiple-testing correction, or real-market validation.
+- The fixture remains 128-row synthetic data, quality status BLOCK, not a formal blind test, not natural-forward evidence, and not profitability proof.
+- Baseline execution scope is `RESEARCH_SIMULATOR_ONLY`; `paper=false`, `live=false`, `order=false`, `parameter_selection=false`, and `profitability_proof=false` remain locked.
+- Report authority remains `paper=false`, `live=false`, `order=false`, `ranking=false`, `parameter_selection=false`, and `profitability_proof=false`.
+- The current single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+- No real market data, old K-line task, G50/G51, service, browser, scheduler, database, runtime directory, paper task, live task, or order path was used.
+- Remote CI remains UNKNOWN. No Git operation or publication was performed.
+## ADR0539 fixed-parameter two-fold walk-forward evidence (2026-08-31)
+
+Status: implemented and locally verified. This closes the missing walk-forward producer for the deterministic synthetic artifact without fitting parameters, selecting strategy versions, admitting ranking input, or authorizing execution.
+
+Gap proof and schedule design:
+- The v4 report had no `walk_forward_runs` field and the fixture declared `WALK_FORWARD_NOT_BOUND_TO_ADR0509`.
+- The 128-row fixture supports two chronological folds with 35 calibration rows, one purge row, and 35 evaluation rows per fold.
+- WF01 uses calibration positions `[0,35)`, purge `[35,36)`, and evaluation `[36,71)`.
+- WF02 uses the prior evaluation window as calibration `[36,71)`, purge `[71,72)`, and evaluation `[72,107)`.
+- Evaluation windows are disjoint. Twenty-one tail rows remain unconsumed.
+- Backtest warmup is 30 rows, leaving five active evaluation observations per fold. This is explicitly low maturity and not long-horizon evidence.
+
+Implementation:
+- `src/hakimi_research/walk_forward.py` owns `fixed-parameter-walk-forward-v1`, `fixed-parameter-walk-forward-schedule-v1`, and `fixed-parameter-walk-forward-summary-v1`.
+- Schedule windows bind row positions, timestamps, row counts, and full-OHLCV hashes. The complete schedule has its own hash and fixed no-authority lock.
+- The strategy parameter source is `FROZEN_PROTOCOL_FIXED_NO_FITTING`; calibration action is `NONE_FIXED_PARAMETERS`.
+- Six runs cover WF01/WF02 and BASE/DOUBLE_COST/TRIPLE_COST.
+- Report role is `WALK_FORWARD_EVAL`, while every nested manifest role is `UNCLASSIFIED`; ranking input is therefore false.
+- The nested manifest also keeps parameter selection, paper, live, and order entry false.
+- The three scenario summaries include every fold without selecting or ranking results. Summary identity and hash are verifier-bound.
+- Frozen protocol schema is `frozen-evaluation-protocol-v5`; report schema is `frozen-evaluation-report-v5`; Markdown renderer is `frozen-evaluation-markdown-v5`.
+- The verifier rebuilds the protocol schedule from source data, checks every fold/cost identity, source-data and parameter hashes, purge/evaluation windows, nested role/ranking locks, run matrix, summary, quality gate, and report hash.
+- `WALK_FORWARD_NOT_BOUND_TO_ADR0509` is replaced by the narrower honest gap `WALK_FORWARD_REAL_MARKET_AND_LONG_HORIZON_NOT_AVAILABLE`.
+- `src/hakimi_research/walk_forward.py` is included in the deterministic source-hash envelope.
+
+Semantic correction during validation:
+- The first generated v5 material reported `walk_forward_fixed_schedule_complete=false` because completion was incorrectly coupled to nested manifest PASS status.
+- Diagnostic evidence showed the nested blocker was the fixture's deliberate `git_worktree_clean=false`, not the `UNCLASSIFIED` role.
+- Final semantics separate structural schedule completeness from nested reproducibility: walk-forward schedule complete is true, nested reproducibility remains false, and overall quality remains BLOCK.
+
+Validation evidence:
+- Targeted py_compile: 5/5 PASS.
+- Backtest, experiment-manifest, canonical source, Frozen protocol, fixed baseline, volatility comparison/target, walk-forward, deterministic reference, dependency lock, and CI contracts: 109/109 PASS.
+- Independent malicious data/schedule/protocol/run/summary matrix: 53/53 PASS with `filesystem_mutations=false`.
+- Two independent in-memory material rebuilds: 2/2 byte-equal PASS.
+- Root deterministic Frozen reference verifier: PASS.
+- Protocol hash: `eeb22c498a39e05af470b26c08ab524a59429d9e4e2a3d69c226e93a74a1ea1e`.
+- Report hash: `a93dda5fd661fc7fa940c4e1debff14a8963d248392603c1f33705ef3c1484c7`.
+- Embedded manifest hash: `2b8fbcf828b75d7b302753621021ace82a7697f05a774ef0b25140db7aaa6c6c`.
+- Expected JSON file SHA-256: `6dc8888d722c013956c48273a211051f149158faf0263754b7f4870f2310b8fd`.
+- Expected Markdown file SHA-256: `8c0ce0a7d6d7880a915a11e543030747bd6e67d59391beef1a1e6fa26eca775f`.
+- Fixture manifest file SHA-256: `2a0f88393dd440acc9ae280549cb589b9fe4f1a098429f3a7bcbbb729d2d8d2a`.
+
+Remaining limitations and unchanged boundaries:
+- This is two-fold, fixed-parameter, synthetic walk-forward evidence. It is not parameter fitting, stability selection, real-market validation, long-horizon evidence, or profitability proof.
+- The fixture remains quality status BLOCK, not a formal blind test and not natural-forward evidence.
+- Walk-forward authority locks parameter selection, ranking, profitability proof, paper, live, and order to false.
+- Report authority remains `paper=false`, `live=false`, `order=false`, `ranking=false`, `parameter_selection=false`, and `profitability_proof=false`.
+- The current single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+- No real market data, old K-line task, G50/G51, service, browser, scheduler, database, runtime directory, paper task, live task, or order path was used.
+- Remote CI remains UNKNOWN. No Git operation or publication was performed.
+## ADR0540 dual-MA fixed parameter-stability matrix (2026-08-31)
+
+Status: implemented and locally verified. This closes the missing parameter-stability producer for the deterministic synthetic dual-MA artifact without running optimization, selecting a cell, ranking results, or changing the frozen center parameters.
+
+Gap proof and preregistration:
+- The v5 report had no `parameter_stability_runs` field and the fixture declared `PARAMETER_STABILITY_NOT_BOUND_TO_ADR0509`.
+- The frozen center is dual-MA with fast window 5, slow window 20, position fraction 0.2, stop fraction 0.03, and take-profit fraction 0.05.
+- The preregistered matrix contains 15 timing-grid cells: fast values 4/5/6 crossed with slow values 16/18/20/22/24.
+- Six one-at-a-time risk cells perturb position, stop, and take-profit fractions by minus 20 percent and plus 20 percent.
+- The resulting 21 parameter sets and cell IDs are unique; the frozen center appears exactly once.
+- Every cell is observed in VALIDATION and FROZEN_TEST under BASE cost, producing 42 runs. No result is used to select or modify parameters.
+
+Implementation:
+- `src/hakimi_research/parameter_stability.py` owns `dual-ma-fixed-perturbation-matrix-v1`, `parameter-stability-cell-v1`, and `parameter-stability-summary-v1`.
+- Every cell binds segment, center flag, perturbation axes, exact parameters, parameter hash, and cell hash.
+- Protocol binds the method spec, frozen base-parameter hash, all cells, method hash, and matrix hash.
+- All runs use report roles VALIDATION/FROZEN_TEST but nested manifest role `UNCLASSIFIED`; ranking input is false.
+- Each run binds cell identity, axes, parameters, cell/method/matrix hashes, source result, and nested reproducibility manifest.
+- Summary retains all 21 cells per role, records center/median/minimum/maximum observations and maximum absolute deviation, but leaves `selected_cell_id=null` and selection/ranking false.
+- Markdown renders separate VALIDATION and FROZEN_TEST timing-grid tables, risk one-at-a-time observations, and a neutral completeness summary.
+- Frozen protocol schema is `frozen-evaluation-protocol-v6`; report schema is `frozen-evaluation-report-v6`; Markdown renderer is `frozen-evaluation-markdown-v6`.
+- Verifier rebuilds the matrix from frozen parameters and rejects cell, parameter, hash, role, nested ranking, matrix, summary, quality, or report drift.
+- `PARAMETER_STABILITY_NOT_BOUND_TO_ADR0509` is replaced by `PARAMETER_STABILITY_ONLY_DUAL_MA_SYNTHETIC_GRID`.
+- `src/hakimi_research/parameter_stability.py` is included in the deterministic source-hash envelope.
+
+Validation evidence:
+- Targeted py_compile: 5/5 PASS.
+- Backtest, experiment-manifest, canonical source, Frozen protocol, benchmark, volatility, walk-forward, parameter-stability, deterministic reference, dependency lock, and CI contracts: 116/116 PASS.
+- Independent malicious base/cell/protocol/run/summary matrix: 58/58 PASS with `filesystem_mutations=false`.
+- Two independent in-memory material rebuilds: 2/2 byte-equal PASS.
+- Root deterministic Frozen reference verifier: PASS.
+- Protocol hash: `046082789faac1509103b84010ade6348f8dfe682332a1ab372bd1cab0897e5e`.
+- Report hash: `8a9820363d2670fe66c978d9e5932f87d462995f46f0c5037d06235480a5851a`.
+- Embedded manifest hash: `1d09a2458a268daff4dc97fe7933bcedd64e5c138d64e8e4e9d04c28e7e1803e`.
+- Expected JSON file SHA-256: `aac51c58bfd4a453812282d8a262c0c792ecef5741dec05c2bf5594b584f670e`.
+- Expected Markdown file SHA-256: `74c89739f4e97bd059309e3660afabf48ff22497f28fc69d1ae5e89c67a38634`.
+- Fixture manifest file SHA-256: `9bfb6332e8277dbef59295f1b07a21141ebcd1860e77d1b7d6ed32feb154158e`.
+
+Remaining limitations and unchanged boundaries:
+- This matrix covers only the synthetic dual-MA fixture. It is not evidence for range, trend, ensemble, other assets, or real markets.
+- It is a local descriptive perturbation matrix, not optimization, probability calibration, parameter selection, or proof of a stable plateau.
+- The fixture remains quality status BLOCK, not a formal blind test, not natural-forward evidence, and not profitability proof.
+- Parameter-stability authority locks selection, ranking, profitability proof, paper, live, and order to false.
+- Report authority remains `paper=false`, `live=false`, `order=false`, `ranking=false`, `parameter_selection=false`, and `profitability_proof=false`.
+- The current single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+- No real market data, old K-line task, G50/G51, service, browser, scheduler, database, runtime directory, paper task, live task, or order path was used.
+- Remote CI remains UNKNOWN. No Git operation or publication was performed.
+## ADR0541 multiple-testing lineage ledger with blocked corrections (2026-08-31)
+
+Status: implemented and locally verified. This closes the missing trial/observation lineage contract while explicitly refusing to fabricate Deflated Sharpe Ratio, Probability of Backtest Overfitting, or bootstrap confidence intervals from insufficient synthetic evidence.
+
+Gap proof:
+- The v6 report had no `multiple_testing_ledger` despite containing 21 parameter cells and 42 retained observations.
+- Twenty-one observations use the synthetic FROZEN_TEST role, but formal Frozen consumption count and single-consumption proof remain unknown/false.
+- The walk-forward evidence contains only two synthetic folds.
+- No cell is selected and no ranking is performed.
+
+Implementation:
+- `src/hakimi_research/multiple_testing.py` owns `multiple-testing-lineage-policy-v1` and `multiple-testing-ledger-v1`.
+- Protocol policy preregisters the trial definition, family source, expected 21 trials, expected 42 observations, required corrections, retention rule, and no-selection/no-ranking locks.
+- Ledger binds the parameter-matrix family hash, all trial IDs, every role/cell observation, parameter hash, source run hash, result hash, experiment ID, stability-summary hash, walk-forward-summary hash, and policy-spec hash.
+- Every observation is verified against its complete nested reproducible manifest. Ranking input and nested evaluation role remain false/UNCLASSIFIED.
+- The ledger records 21 VALIDATION and 21 synthetic FROZEN_TEST observations, two walk-forward folds, all results retained, selected trial null, parameter selection false, and ranking false.
+- Formal Frozen consumption count is UNKNOWN, single consumption is not proven, external preregistration receipt is absent, and rule-change tracking remains unknown.
+- Deflated Sharpe Ratio and PBO are `NOT_ESTIMABLE`; block bootstrap confidence interval is `NOT_COMPUTED`. Every value is null and every status has explicit blockers.
+- Frozen protocol schema is `frozen-evaluation-protocol-v7`; report schema is `frozen-evaluation-report-v7`; Markdown renderer is `frozen-evaluation-markdown-v7`.
+- `MULTIPLE_TESTING_LINEAGE_NOT_BOUND_TO_ADR0509` is replaced by `MULTIPLE_TESTING_CORRECTIONS_NOT_ESTIMABLE_TWO_SYNTHETIC_FOLDS`.
+- `src/hakimi_research/multiple_testing.py` is included in the deterministic source-hash envelope.
+
+Adversarial corrections:
+- Initial standalone review showed a format-valid but cell-inconsistent matrix hash could be accepted. The ledger now recomputes matrix hash from method spec hash and all cells.
+- A format-valid forged run hash could be accepted before nested binding. The ledger now verifies parameter hash, source run hash, result hash, experiment identity, and the full reproducible manifest.
+- Upstream summary hashes were initially bound but not recomputed. Stability and walk-forward summary self-hashes are now verified before ledger construction.
+
+Validation evidence:
+- Targeted py_compile: 5/5 PASS.
+- Backtest, experiment-manifest, canonical source, Frozen protocol, benchmark, volatility, walk-forward, parameter-stability, multiple-testing, deterministic reference, dependency lock, and CI contracts: 124/124 PASS.
+- Independent malicious family/run/policy/ledger/correction matrix: 45/45 PASS with `filesystem_mutations=false`.
+- Two independent in-memory material rebuilds: 2/2 byte-equal PASS.
+- Root deterministic Frozen reference verifier: PASS.
+- Protocol hash: `76701e85d0018436c9d6090eae1956431ac41717f57e171c05954575ec7b8942`.
+- Report hash: `2faf93e0658160ff9a5f3df6a7fa86c56a9ff27513c6590b36e32eec6dda97ff`.
+- Embedded manifest hash: `c24dd110699abf748b150a2c76d7a46d37dfb26e8d373808d0280244163a4a1d`.
+- Expected JSON file SHA-256: `7064e780fd8fa6f1f94d1e36871bd192404d5a82604de980cc0e765a62816612`.
+- Expected Markdown file SHA-256: `507d73d387430bf21d794eb5a11a1ba61fe415f5c37d9ca3040f249382bcad11`.
+- Fixture manifest file SHA-256: `13ddc4af21dbbf4140343ef8e3b6bc7964249ded250271e94c2789cdb0cfb19a`.
+
+Remaining limitations and unchanged boundaries:
+- A complete ledger is not a statistical correction. DSR, PBO, and bootstrap confidence intervals remain unavailable from this short, synthetic, two-fold evidence.
+- Synthetic Frozen observations are not a formal test-consumption receipt and do not prove single consumption.
+- The fixture remains quality status BLOCK, not a formal blind test, not natural-forward evidence, and not profitability proof.
+- Multiple-testing authority locks parameter selection, ranking, profitability proof, paper, live, and order to false.
+- Report authority remains `paper=false`, `live=false`, `order=false`, `ranking=false`, `parameter_selection=false`, and `profitability_proof=false`.
+- The current single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+- No real market data, old K-line task, G50/G51, service, browser, scheduler, database, runtime directory, paper task, live task, or order path was used.
+- Remote CI remains UNKNOWN. No Git operation or publication was performed.
+## ADR0542 - Fixed trailing market-regime analysis (2026-08-31)
+
+- Scope: deterministic, descriptive-only market-regime slices for the current synthetic Frozen OOS artifact; no signal, fitting, selection, ranking, profitability claim, paper, live, or order authority.
+- Architecture: added the Frozen-specific producer `src/hakimi_research/frozen_market_regime.py`; the older standalone `market_regime_evidence.py` remains isolated and unchanged because its 20-bar four-class benchmark contract is not the ADR0509 consumer boundary.
+- Policy: `fixed-trailing-market-regime-v1`; close-only 5-row trailing window; direction thresholds strictly above `0.005` and strictly below `-0.005`; annualized volatility threshold `0.2`; taxonomy `UP/DOWN/RANGE x LOW/HIGH`; classification scope `EX_POST_DESCRIPTIVE_NOT_SIGNAL`.
+- Source binding: each analysis recomputes the Backtest `FULL_OHLCV` frame digest and binds the registered BASE source run, result, experiment manifest, reproducibility run hash, equity curve, exact active time grid, market, timeframe, and initial equity.
+- Coverage: VALIDATION and FROZEN_TEST each retain 10 active observations and all six taxonomy cells. The deterministic fixture places all 10 observations in `UP_LOW` for each role; the other five cells remain explicit `NO_OBSERVATIONS`, not fabricated coverage.
+- Frozen schema: protocol `frozen-evaluation-protocol-v8`; report `frozen-evaluation-report-v8`; renderer `frozen-evaluation-markdown-v8`.
+- Protocol SHA-256: `b1567af407e59b427bd69e36f8fa008665023b9272487900c6a42e316781a36a`.
+- Report SHA-256: `d6ffe688bb28b636c7c7f7d30e7dc21d2661aadbfa18e25f92b3c4329f82e8ac`.
+- Fixture manifest identity SHA-256: `21f7a0fe25dac9c0941a45580c28a373f06507b90b2ba521a1a980d0768de559`; fixture manifest file SHA-256: `d02527f6f12664f715a21866d0ba4c4f180d63a4e57863ca1f5271858c0e7452`.
+- Expected JSON SHA-256: `6d188d146a4dcf2551ffef0e9dbee7358bdc3cee27737e28cc71d77d47d7720e`; expected Markdown SHA-256: `4069520ad79befa4f7efe650fd4a1996ece9f759c4ae5481e2390ce0087caf97`.
+- Producer SHA-256: `b8812e45320050ff6554101875a5b701c581d981ed05d2524ed282f54bad6113`; Frozen evaluator SHA-256: `802d79a1f8a2d8c72c29151f8bcdd43338b16be58f1e290ae46f9c419e53f4e3`; deterministic builder SHA-256: `416d98a83277907ba085a2855a58c808630598a74db9dce9b6fbb8c423ae9fc2`.
+- Validation: affected contract closure `73/73 OK`; independent malicious matrix `40/40 PASS`; py_compile PASS for five affected Python files; independent in-memory rebuild equality `4/4 PASS`; root `python -B -m hakimi_research frozen-benchmark` PASS with all verifier checks true.
+- Broader workflow observation: an intentionally expanded 260-test run produced `256/260` with four failures outside ADR0542. Three are stale/current-tree `exchange_terminal` layer inventory and edge expectations; one is the untouched legacy `outputs/python_quant_bot/quant_bot/backtest.py` canonical-import expectation. ADR0542 did not modify those paths, and this slice does not claim the broad workflow is green.
+- Remaining standard gap: `MARKET_REGIME_SLICES_ONLY_SYNTHETIC_FIXED_THRESHOLDS`.
+- Safety: quality remains `BLOCK`; Frozen Test is not proven blind or single-consumption; natural-forward evidence remains false; paper/live/order remain unauthorized. Existing single-look, legacy pack-v5 UNKNOWN, and pointer-v2 no-reissue contracts are unchanged.
+## ADR0543 - Static layer audit and provenance path closure (2026-08-31)
+
+- Scope: close the four research-workflow residual failures exposed after ADR0542 without changing trading, runtime, or old report authority.
+- Root cause: `synthetic_strategy_reproducibility_provenance_gap_audit_v1.py` dynamically imported 18 preregistered modules only to discover their source files. The pure AST layer auditor correctly blocked this as `DYNAMIC_IMPORT_PRESENT_UNAUDITED`.
+- Production fix: critical-source fingerprinting now resolves fixed module namespaces to workspace source paths and reads bytes directly. It does not execute the fingerprinted modules, call Git, start services, or mutate runtime state.
+- Architecture snapshot: status `CONFORMING_STATIC_GRAPH`; decision `STATIC_LAYER_DEPENDENCY_DIRECTION_CONFORMS`; module counts `domain=2`, `application=131`, `infrastructure=1`, `interfaces=33`; cross-layer edges `application->domain=1`, `interfaces->application=23`; violations empty.
+- Layer source-set SHA-256: `a9c409f601121f6624636c0cef4b2136007e6fe4cbd165c869f39cd462960f08`; layer audit SHA-256: `ab09794b5520e04ac9a35fe7c17fb9e1db3a0b0152645e95c99ef70f0910d235`.
+- Provenance dry plan: 18 source modules, dynamic imports zero, runtime mutations false; plan SHA-256 `2a8f1e496778c5ba4f582058aab6d12885cecc86400ec3f0db27c09588832f1b`; source-manifest SHA-256 `3c4644c94921c50d46e77706a0d27aa8ab01b72a1554bb128b3b36af2189596a`.
+- Canonical boundary: the experiment-manifest consumer test now inspects `src/hakimi_research/backtest.py`, the formal source, instead of treating `outputs/python_quant_bot/quant_bot/backtest.py` as an active implementation. The legacy wrapper remains an unchanged re-export with SHA-256 `5d6c238d12319b08b45c117769e7454b5e02a1584b318327bfdb961a693be89a`.
+- Source SHA-256: provenance producer `eeceb3eba835d3d0c9805a663760bcc651cb932c7703f9e26d1cfb4cd87b083d`; layer audit test `e4cbb3fa3321c609258e65b345392da556af8dc0950e85dfe188871090891690`; canonical manifest test `36cb2d7b7305f628a44694fc04112277c9c736dd035ebdeb25dab6254fe52418`; provenance test `346baa72623f1ff7999d60b147aec2af360ec819122aca3a7c197602e9fcdde6`.
+- Validation: py_compile PASS for four affected Python files; import-blocked provenance dry plan PASS; current research workflow contract selection `260/260 OK` in 23.029 seconds.
+- Dormant evidence boundary: old synthetic v6-v10 report chains were not executed or resealed. No legacy benchmark artifact was promoted to current evidence.
+- Safety: static graph conformance is not host activation or architecture-migration authority. All audit authority fields remain false; paper/live/order remain unauthorized; ADR0542 Frozen quality remains BLOCK.
+## ADR0544 - Frozen partial tail and distribution evidence (2026-08-31)
+
+- Scope: add source-bound tail and distribution fields to the current synthetic Frozen report without claiming that ten observations estimate tail risk or strategy quality.
+- Reuse boundary: retained `tail-distribution-evidence-v1` unchanged and added `frozen-tail-distribution-policy-v1` as an explicit initial-equity adapter. The adapter does not modify or activate dormant synthetic v6-v10 report chains.
+- Input matrix: six registered-strategy analyses covering VALIDATION and FROZEN_TEST across BASE, DOUBLE_COST, and TRIPLE_COST. Every analysis retains exactly 10 active period returns from an explicit partition-row-29 initial-equity anchor.
+- Observed state: all six analyses are `PARTIAL`; closed trades are 0; turnover and market exposure are observed as 0; annualized volatility and max drawdown are observed as 0 for this flat synthetic strategy result.
+- Unknown state: VaR/CVaR 95 and 99 remain null because 10 observations are below the fixed 20/100 minima; Sortino remains null because there is no downside; Calmar remains null because there is no drawdown; trade distribution remains unavailable. No unknown value is zero-filled.
+- Frozen schema: protocol `frozen-evaluation-protocol-v9`; report `frozen-evaluation-report-v9`; renderer `frozen-evaluation-markdown-v9`.
+- Protocol SHA-256: `69de4ce1fbb258a12db821f355cf7c82c98453f22c5f8f4a3d2b8ce82e00ee85`.
+- Report SHA-256: `d850be4b62ac7252747ccb362096160c8fb82c496d520acdb9e8b90b944c5e76`.
+- Fixture manifest identity SHA-256: `bc364728a79d8fa84c8ad77c87bf391b99edd66036219e08faa2f2682fe42542`; fixture manifest file SHA-256: `caa70f6f014053de4d88e23f9aa241f85b46a3349ec9af190c2ff50d29f5f101`.
+- Expected JSON SHA-256: `b6f6081db1caff9cfbcf03cfe55d04107bf5f76fb792ef9b524775ecffb2082a`; expected Markdown SHA-256: `6a668a53f32001dfc09f1c2eddda6db30d4fe213db5f313d5aa74cbf9271ddca`.
+- Source SHA-256: unchanged distribution producer `86400580e5fb9b59c2c6b9ea63140aa72f40c527e5f0dc98e2e14ae60713f29a`; Frozen adapter `5c40a29872908a89a2599842aadafdc4df58a87a9500a2d4d52f6e514fc28667`; market-regime shared frame hash producer `2c001c4b5eef8a7419132a650722969f860bad18269471d59f717a59aa7994bc`; Frozen evaluator `6b516507582158105738be9ec4c55251e46d741aca0679277b8fc8a406ef43cb`; deterministic builder `2d35707db590fbfd6e3524565fbfc91fe1bf5cdbce58aceb9dc3ebf7327ded6b`.
+- Validation: py_compile PASS for six affected Python files; initial focused contracts `40/40 OK`; independent malicious matrix `44/44 PASS`; distribution v1 contracts `12/12 OK`; current research workflow contracts `267/267 OK`; independent rebuild equality `4/4 PASS`; root Frozen verifier PASS with every canonical and authority check true.
+- Remaining standard gap: `TAIL_DISTRIBUTION_ONLY_TEN_SYNTHETIC_OBSERVATIONS`.
+- Safety: quality remains `BLOCK`; formal inference, profitability proof, parameter selection, ranking, signal, paper, live, and order authority remain false. The report is synthetic descriptive evidence only.
+## ADR0545 - P0 product capability and Electron research-only closure (2026-08-31)
+
+- Scope: align the root README, Python platform README, canonical CLI/catalog, Electron health consumer, desktop launch behavior, and active renderer with the research-only product definition.
+- Proven gap: before the fix, a health payload built by canonical `hakimi_research.health_contract` was classified by Electron as `RESTART_REQUIRED/product_capability_catalog_missing_or_invalid` because the Node exact catalog omitted `deterministic_frozen_benchmark` and `frozen-benchmark`.
+- Cross-runtime fix: Electron now expects the exact current `product-capability-catalog-v1`, exports its expected maps, and the canonical Python contract launches Node to require exact equality with the Python catalog. The same canonical health payload now classifies as `CURRENT`.
+- Renderer fix: Archived paper/live/optimization and Disabled order controls are hidden or disabled. Every retained paper/order/account/daemon mutation function has an explicit capability guard before its first network request; read-only snapshots and historical execution records remain available for evidence review.
+- Desktop fix: title and primary navigation use research terminology; execution surfaces are marked Archived; Electron boot no longer automatically starts FutuOpenD or another account gateway. An explicit user menu action remains available only for public quote research.
+- Documentation fix: root and Python READMEs identify `src/hakimi_research/product_capabilities.py` as the formal truth source, describe Frozen v9 as the current synthetic verifier, and place accumulated ADR0510/v1-v5 material under an explicit non-current historical record boundary. Electron README/package now describe a research-only shell.
+- Source SHA-256: root README `b9d6bd6e7ef395cd30bec5e5190615c12e7199fb08c0c271dddf94db46bd7da5`; Python README `285f4c0c08aa2845cb691f316978b3fd84e77207cd89090dadedbd1e2100e15b`; Electron README `17ad4e45971759538069a3494f0c78dd57a0959cfceb6c39780a3fa92d1fd3ad`; Electron main `e0c8ab6d2e5f24295ee8da5a448b91ac8c1e0fa29fbbac876633b1fc2f104caa`.
+- Contract SHA-256: backend runtime consumer `89708a6912549b8974f9ebe8b9e97e492ddd4af57ed5dcb9d6c16eabda667bf7`; renderer HTML `452d2427d59939336aff6ea036d9f613e2d6cbae2c1d6ffe6523c20d4a479a90`; renderer JS `344d536bc1bfa8ec66d303777d0c05401ba36017448e9ea76fd354bceec48c87`; capability-lock test `cce6a198c4c2ea628e05d8202e8d9552932edb56fa27187a56c0a7374fd8ddd3`; canonical parity test `a031dafa264e31c4e83c49a7473f6f38b26253017ef00523648124748f32d02f`.
+- Validation: targeted Node syntax and capability contracts PASS; P0 Python contracts `29/29 OK`; canonical health cross-runtime replay changed from `RESTART_REQUIRED` to `CURRENT`; Electron `npm.cmd run check` PASS including chart, stock quote, and evidence presentation contracts; current research workflow Python selection `268/268 OK`; cross-runtime malicious catalog matrix `10/10 PASS`; root Frozen verifier PASS.
+- CI contract: `.github/workflows/research-contracts.yml` now runs both Electron research-only capability consumers in addition to the Python/Frozen contracts. Local checks do not establish remote Actions green.
+- Residual acceptance boundary: no Electron window, browser, backend service, FutuOpenD, scheduler, or runtime store was started. Browser-rendered UX and interactive acceptance remain unverified.
+- Safety: paper/live/order remain Archived/Disabled and unauthorized. UI research evidence, Node/Python parity, and verifier PASS do not prove profitability, real-data validity, blind testing, or release readiness.
+## ADR0546 - quant_bot compatibility-only package closure (2026-08-31)
+
+- Scope: prove the historical `outputs/python_quant_bot/quant_bot` package contains no remaining formal implementation and prevent future implementation drift back into outputs.
+- Current inventory: 14 exact modules; 0 modules with class/function definitions. Every non-root module imports its preregistered `hakimi_research` canonical target, while the root package is metadata-only.
+- Contract: `quant-bot-compatibility-package-audit-v1` consumes an explicit native module-to-source mapping and performs pure AST inspection. It rejects module additions/removals, formal definitions, lambda/assignment logic, dynamic code, relative or wrong canonical imports, arbitrary top-level statements, syntax errors, and non-native containers.
+- Audit state: status `PASS`; decision `COMPATIBILITY_REEXPORT_PACKAGE_ONLY`; module count 14; violations empty; source-set SHA-256 `f36fd49ba3484dec2f10c070329359a12d928466a6b2db13b533ce03346b001c`; audit SHA-256 `5d57b55b73b5709074d6ea8fbc02de741d74179cd1fa31628a9e5d047342c476`.
+- No-side-effect facts: raw source is not embedded, filesystem I/O is not performed by the evaluator, and wrappers are not imported or executed. Runtime activation and all paper/live/order/optimization authority remain false.
+- Documentation: `outputs/python_quant_bot/README.md` now labels `quant_bot` as `compatibility re-export only` instead of `pending consumer-first migration`, while explicitly retaining Exchange Terminal/static/history as incomplete migration scope.
+- Source SHA-256: audit producer `09ab99103e3848374e399cf24076a7df563c3c6cfd53774df84decb60cbd2570`; contract test `1ff0b9ac42c42f234e4edc0e249b286a90abcac1f5dc37bf93e287e330f52134`; README `c0b01e1a82f118ffa1ca9ff55c0d92deeef34dd793a9c6c348b3c29d4b7ff568`; workflow `178fdce1c937afa10b45d1b675cc2e59918e042f25fa682fd6f0fc2b5a84abba`.
+- Validation: py_compile PASS; focused compatibility/CI contracts `11/11 OK`; independent malicious source matrix `19/19 PASS`; Electron capability consumers PASS; current research workflow Python selection `275/275 OK`; root Frozen verifier PASS.
+- Safety: this proves only the core `quant_bot` package is compatibility-only. It does not prove all code has moved out of outputs, validate browser/runtime behavior, establish real-data evidence, or grant profitability, paper, live, or order authority.
+## ADR0547 - Canonical Exchange Terminal utilities and orphan namespace archive (2026-08-31)
+
+- Scope: complete one active consumer-first Exchange Terminal migration slice and remove a misleading root namespace orphan without claiming the entire terminal has moved.
+- Canonical source: `src/hakimi_research/terminal_utils.py` now owns 12 deterministic utility functions plus `terminal-utils-v1`. The historical `outputs/python_quant_bot/exchange_terminal/utils.py` contains no definitions and re-exports identical canonical objects.
+- Consumer migration: canonical research execution rehearsal, server, stock research, Futu/Futu-deep/Futu-quotes, stock-candles I/O, and stock-candles now import `hakimi_research.terminal_utils` directly. Consumer-set SHA-256 is `c6d90ddd52cca7b5e1373ff4022937b0b89f9c440a5dc1e950476afeb34afefb`.
+- Archive preservation: the original utils implementation is preserved byte-identically at `archive/historical_research/adr0547_exchange_terminal_utils.py` with SHA-256 `a7887e88d1d3b47f0f98b6fbbece79b025215809e765bffff61b20921995ad02`.
+- Namespace cleanup: the sole root `exchange_terminal` ADR0393 orphan had no consumers and no counterpart in the active package. It is preserved byte-identically at `archive/historical_research/adr0393_dual_signature_handoff.py` with SHA-256 `c3568182be093993242c18dcc9099f59b6e18b1fe6a8d08a7c82790c83894ebf`; the now-empty false root namespace was removed.
+- Source SHA-256: canonical utils `e1d29741c4e84b43beaaa1fa49d271aa96d05fbe295c81e795601548d30f02d3`; compatibility wrapper `35b85dc622e83ea391925af91e00e738c9e49576c1b4eb7c108604d9f958c61c`; contract test `fc48a7b8a15b06da5c9ec11d2c6b9e5fe35561608a0726b393e48efd93ab3d41`; server after direct-import migration `0fab20f16d485b2622a6c740ab5681dbf34a2d09693b7bc512d752d68d960ef8`.
+- Validation: py_compile PASS for 11 affected Python files; focused migration/architecture/CI contracts `46/46 OK`; expanded runtime-isolation, config-safety and research workflow selection `285/285 OK`; Electron capability consumers PASS; root Frozen verifier PASS.
+- Boundary: `exchange_terminal/config.py`, `server.py`, market-data implementations, application modules and static renderer remain under outputs and require separate consumer-first slices. Config was not imported during this migration and `.env.local` was not read.
+- Safety: utility migration and archive identity do not authorize runtime mutation, paper, live, order entry, optimization, profitability claims, or release readiness.
+## ADR0548 - Canonical Exchange Terminal config and explicit local-env opt-in (2026-08-31)
+
+- Scope: complete the next consumer-first Exchange Terminal migration slice without importing provider implementations, starting a service, or reading an actual local environment file.
+- Canonical source: `src/hakimi_research/terminal_config.py` now owns `terminal-config-v1`, preserves the historical terminal/workspace/static/runtime path values, and uses neutral `Hakimi Research` application labels. The historical `outputs/python_quant_bot/exchange_terminal/config.py` contains no definitions and re-exports identical canonical objects.
+- Default-no-secret-read contract: `load_local_ai_env()` returns before local-env path access unless `HAKIMI_LOAD_LOCAL_AI_ENV` is explicitly truthy. Skip-local-env, runtime-read-only, and test modes take precedence even when opt-in is truthy. An opted-in read is restricted to `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `OPENAI_MODEL`, and `GPT_MODEL`, and never overwrites an existing process value.
+- Consumer migration: server, stock research, Futu/Futu-deep/Futu-quotes, OKX, stock-candles I/O, and stock-candles now import `hakimi_research.terminal_config` directly. The sorted path-and-file-hash consumer-set SHA-256 is `ef16ff9464d4e153bcad92744b7b38ffa8f2097cdfece1c16a3e93cdf96d05f1`.
+- Archive preservation: the original config implementation is preserved byte-identically at `archive/historical_research/adr0548_exchange_terminal_config.py` with SHA-256 `13c6b13447cf17760678170f6c7934f20da7b58eceffc0ba006b4115676a41f4`.
+- Source SHA-256: canonical config `a56d8e85fa929e6af79deb57612092d3454c2b5f949e918a6eea85ad5f001d62`; compatibility wrapper `ea00cbe2d1b9744f3b415a6240e7d8f5ee38f6f5f1885eca5a84f2f826e3e8f1`; canonical-source contract `de3c34e5aba02fee5dba01399e85e17faa0a01953ff0ba7c6030c4973e174127`; config-safety contract `11b14c3c2ee43e63e2ca4429fb3e38b44dda298b374c89cf7f4aa0f182b35f2a`; server `e4875b77b291357448981565c99e9588d556ecd30392d632d2fd494c4edb37ba`.
+- Documentation and CI SHA-256: Python README `ec3205d40697d619740a18b9ea8b58e17313cc4a6cacabaacfdc4adf453aa877`; workflow `0f9c3329583d5a83dbe13b7305f7fbca827f5163e47a88e3343b4b16fb8d9df2`; workflow contract `63247ffd90444a1c2678fa867d756c8b428e691bccc0269c2135be74d2948cec`.
+- Validation: targeted py_compile PASS; focused config/runtime/architecture contracts `43/43 OK`; independent pure-mock and fresh-process adversarial matrix `15/15 PASS`, with actual local-env reads `0` and runtime mutations `false`; Electron capability consumers PASS; expanded current research workflow selection `293/293 OK`; root Frozen verifier PASS with `PYTHONPATH=src`.
+- Frozen continuity: protocol SHA-256 remains `69de4ce1fbb258a12db821f355cf7c82c98453f22c5f8f4a3d2b8ce82e00ee85`; report SHA-256 remains `d850be4b62ac7252747ccb362096160c8fb82c496d520acdb9e8b90b944c5e76`; manifest identity SHA-256 remains `bc364728a79d8fa84c8ad77c87bf391b99edd66036219e08faa2f2682fe42542`; quality remains `BLOCK`.
+- Boundary: config ownership is canonical, but server and market-data implementations remain under outputs for later slices. Local-env opt-in is only permission to read an allowlisted configuration file; it does not authorize network calls, provider access, service startup, runtime mutation, paper, live, or order behavior.
+- Safety: no actual `.env.local`, runtime store, database, cache, log, provider, browser, scheduler, or trading path was accessed. This slice supplies source and isolation evidence only, not profitability, real-data validity, blind-test maturity, CI-green, or release readiness.
+## ADR0549 - Canonical candle-completeness contract and subclass false-acceptance closure (2026-08-31)
+
+- Scope: move the central candle-completeness primitive out of outputs and close one proven data-trust bypass before migrating larger market-data or server implementations.
+- Proven gap: the pre-fix implementation accepted `str` and `dict` subclasses. A pure-memory read-only PoC made the native value `incomplete` and an empty mapping evaluate as complete by overriding `.strip()`, `__contains__()`, and `.get()`; four subclass-controlled calls occurred.
+- Canonical contract: `src/hakimi_research/candle_contract.py` now owns `candle-completeness-v1`. Only exact native `bool`, `int`, `str`, and `dict` values enter their corresponding acceptance paths; non-native values and non-boolean defaults fail closed before subclass-controlled methods can run.
+- Consumer-first activation: stock candles, stock-candles I/O, backtest engine, market-data revision ledger, market regime, market-history store, portfolio backtest/replay/risk, strategy benchmark, and strategy-correlation return replay import the canonical source directly. The sorted path-and-file-hash consumer-set SHA-256 is `8bb5500d1ff1ea3b35f48a4e7e4e7f1ea1fae48dac81466b35af08821137ba14` for 11 modules.
+- Compatibility and archive: `outputs/python_quant_bot/exchange_terminal/market_data/candle_contract.py` contains no definitions and re-exports identical canonical objects. The original implementation is preserved byte-identically at `archive/historical_research/adr0549_exchange_terminal_candle_contract.py` with SHA-256 `add2f0ab6f18ff122ba1dc04db13ab3def87dc7ff747d519ee04a20d0e89e671`.
+- Source SHA-256: canonical contract `70b9ab1abe885aea420c72ae58e34ceb9b64fabd1ea5d3959e5cdd17263700d2`; compatibility wrapper `7591feb884a4ba4b669284f3826e5376d5e993ac0b35e170a02754cb9c0c5368`; canonical-source contract `8efca4d408f264b36054687975afbe0a3f5fbe3ab44e0a586b24eec274b6c6e5`.
+- CI SHA-256: workflow `0a3a71507b1fdeccdca867f916bc427c9a70d5303ee4771f2efeab461d593cb7`; workflow contract `7bc6b63a0a970cb12e6157f8e8c469927050f5f195da08e5274d0fdd03f79fad`.
+- Validation: in-memory syntax compile `14/14 PASS`; 43 existing targeted contracts passed while the first new-test collection exposed a test-only missing canonical-source activation, which was corrected without changing production behavior; canonical-source contract `8/8 OK`; independent malicious-type matrix `18/18 PASS` with controlled-method calls `0`; Electron capability consumers PASS; expanded current research workflow `301/301 OK`; root Frozen verifier PASS.
+- Frozen continuity: protocol SHA-256 remains `69de4ce1fbb258a12db821f355cf7c82c98453f22c5f8f4a3d2b8ce82e00ee85`; report SHA-256 remains `d850be4b62ac7252747ccb362096160c8fb82c496d520acdb9e8b90b944c5e76`; manifest identity SHA-256 remains `bc364728a79d8fa84c8ad77c87bf391b99edd66036219e08faa2f2682fe42542`; quality remains `BLOCK`.
+- Boundary: this closes only the shared completeness parser. Market-data providers, history-store implementation, portfolio services, and the server still remain under outputs for later consumer-first slices. No result from this synthetic contract proves data correctness, strategy effectiveness, or tradability.
+- Safety: actual local environment files, provider calls, runtime stores, databases, caches, logs, services, browsers, schedulers, and trading paths were not accessed. Paper, live, order, ranking, parameter-selection, and profitability authority remain false.
++## ADR0550 - Canonical stock metadata, session, candle-quality, and quote-quality boundary (2026-08-31)
+
+- Scope: migrate the complete inward dependency closure for the requested time/timezone, candle-structure, and quote-completeness boundary instead of moving a server shell. Four formal modules totaling 21,571 historical source bytes moved out of outputs.
+- Proven gaps: a pure-memory read-only PoC showed a non-native numeric object could turn a zero candle into an admitted row, change an invalid quote from `REVIEW` to `READY`, and make an unavailable session price available. A non-native report mapping could also publish `READY`; five object-controlled methods were invoked before the fix.
+- Versioned canonical sources: `stock-metadata-v1`, `stock-session-v1`, `stock-candle-quality-v1`, and `stock-quote-quality-v1` now live under `src/hakimi_research`. Session depends inward only on canonical stock metadata and the canonical candle boolean contract.
+- Exact-native behavior: public boundaries reject container subclasses and arbitrary numeric/text coercion before `__float__`, `__int__`, `__bool__`, `.upper()`, `.lower()`, `.strip()`, `.get()`, `.items()`, or iterator methods can run. Native numeric strings remain supported where the historical provider contract allowed them.
+- Neutral quality behavior: a clean candle or quote result is `PASS`, an empty candle set is `BLOCK`, anomalies remain `DEGRADED` or `REVIEW`, and no invalid value is promoted by coercion. Session analysis can remain descriptive, but `execution_eligible` and `execution_authority` are permanently false and `safe_action` is `SOURCE -> GAP -> MATURITY -> PERMISSION`.
+- Consumer-first activation: server, Futu, Futu quotes, Futu deep, stock candles, stock-candles I/O, stock research, and corporate-action ledger import the canonical modules directly. The sorted path-and-file-hash consumer-set SHA-256 is `9609b608d8314da087b1d2f8ea9fa5a13d86e17c5b086aab75aa839cd2f449ea` for eight modules.
+- Canonical SHA-256: stock metadata `3288073498b35ab5ffe61fd06cf5a624cde34e6705740cd178e2e90d67c8e356`; stock session `da0bd7f3a01e02c9fb6e13d79ab23f1f86f9326db2706faeb5efec36e01e026b`; candle quality `5514f18ae9f1ea3bde0b93546511613d63b19d021b7accce2b42835a6faf8c05`; quote quality `c3b5fc397ba02d88eae1d099eda7bb088c8cf470d154734e894655193488feb6`. Canonical bundle SHA-256 is `f944449d146ea338fbc399aaafa156e1c6f3dbad458d772b3cfb7db513573ff1`.
+- Compatibility SHA-256: stocks `9944946a377c666f38bed2552310214a8c80baa535fc711b224222afc3400ac4`; session `98bbf030b83eadb920973febf00a71b7bc6d8e35fdd6c1c5b44da58229c4b116`; candle quality `447ce72efd0a12e0401c0479d4b055c46237cc7390ba57a7141a0ef366522a7e`; quote quality `69edeb98fc4193d84e06d032228ab6342a85cc4e2a6d846908c8df5dc27084eb`. Every old path contains no definitions and re-exports identical canonical objects.
+- Archive SHA-256: original stocks `9774debac062c8880ea7034a63d9b55b0a98bf805c741e082335f0c5767e1d5d`; session `7d7b556211415bf938f5619e432969430df875d5bddfe5905075086db6c3a277`; candle quality `78137f385ad885f01ed85ded09d3173df1d2b27ce868481a00903405d185d5b7`; quote quality `d3c8141656f8103d9dbd8a72ea0578fba4c4888b623bd83e7ac15d84803c1628`. All four archives are byte-identical.
+- Contract and CI SHA-256: canonical boundary test `ba415bda5c5c2e08363983688813516828b01499671389515bc20b494e40b6ad`; updated terminal-config lineage test `39963c2a5935ca92fa0f57129e5d134c101963741b14198af640f96cf0c8dab0`; workflow `474b6ee7b37154dca6c6850e049690c50bf840460a2a1cb111a0f7455e768b71`; workflow contract `4d655d055b8872f05ee584fa7a6ea3369a3a5727aab83b3dd0348b9615596c26`.
+- Validation: in-memory syntax compile `17/17 PASS`; read-only direct consumer and contract selection `44/44 OK`; independent malicious-type matrix `23/23 PASS` with controlled-method calls `0`; Electron capability consumers PASS; current research workflow `309/309 OK`; root Frozen verifier PASS.
+- Writable-test boundary: a broader legacy reliability selection was intentionally run with runtime read-only enforced. Fifteen temporary-SQLite cases stopped at missing/read-only databases and one write-path ordering assertion did not activate; these are not counted as passing or as production regressions, and were not rerun writable. One mistakenly changed outer service-status expectation was restored because that server-level `READY` surface is outside this quality-module slice.
+- Frozen continuity: protocol SHA-256 remains `69de4ce1fbb258a12db821f355cf7c82c98453f22c5f8f4a3d2b8ce82e00ee85`; report SHA-256 remains `d850be4b62ac7252747ccb362096160c8fb82c496d520acdb9e8b90b944c5e76`; manifest identity SHA-256 remains `bc364728a79d8fa84c8ad77c87bf391b99edd66036219e08faa2f2682fe42542`; quality remains `BLOCK`.
+- Boundary: stock-candle persistence, provider adapters, market-data service composition, and the server remain under outputs. Existing outer service `READY` terminology was not broadened or promoted by this slice and requires a separate consumer-first product-semantics migration.
+- Safety: no project/runtime database, cache, log, local environment file, provider, service, browser, scheduler, or trading path was read or mutated. Paper, live, order, ranking, parameter-selection, and profitability authority remain false.
++## ADR0551 - Canonical stock-candle structure, completion, and freshness contract (2026-08-31)
+
+- Scope: migrate the complete pure `stock_candles.py` structure/freshness module out of outputs while leaving SQLite persistence, provider calls, and server composition untouched.
+- Proven gaps: a pure-memory read-only PoC used non-native mappings and numeric/text objects to construct a valid cache candle and forge source `futu`, invoking 16 object-controlled methods. A payload with no rows also retained injected `realtime=true` and `in_progress=true`.
+- Canonical contract: `src/hakimi_research/stock_candles.py` now owns `stock-candle-structure-v1`. Public rows, payloads, timestamps, intervals, sessions, OHLCV values, sources, and dates are exact-native before methods or coercion can run.
+- Structural rules: cache admission requires a positive timestamp and close, positive OHLC values, high not below any open/close/low value, low not above any open/close/high value, non-negative volume, and a valid native date when supplied. Invalid rows are omitted or return null rather than being coerced into evidence.
+- Freshness rules: no-row or invalid-container payloads now force `latest_ts=0`, `data_age_ms=null`, `realtime=false`, and `in_progress=false`. Freshness, session-date, stale-warning, and completion functions accept an optional `at_ms` clock for deterministic replay while preserving current callers.
+- Consumer-first activation: server, Futu quote ingestion, and stock-candles I/O import the canonical module directly. The sorted path-and-file-hash consumer-set SHA-256 is `051847477f00d001cccfe50a0717937ece335ebcbeef205e38f2e3ab1f0601b9` for three modules.
+- Compatibility and archive: the old `exchange_terminal/market_data/stock_candles.py` contains no definitions and re-exports identical canonical functions plus the historically visible imported helpers. The original source is preserved byte-identically at `archive/historical_research/adr0551_exchange_terminal_stock_candles.py` with SHA-256 `7c1ad93b225762f283d55e9e1cdb5e2c47afcf0fd946726968ae76b7cafb6bb5`.
+- Source SHA-256: canonical structure contract `0cd57feda7b4b74e04a81b07d8f83b4f14debcfdddd27f1d6ed93b82984c1903`; compatibility wrapper `7f25c0e97d1c5b833662072c4be7632d7705996bfda546668cb55d6b2aa9b601`; canonical-source test `d2087f4388b9242f05bfe455a8eb59e72ff2399ca8082ff883ef9444b0cb8908`.
+- Lineage SHA-256: updated terminal-utils consumer contract `1f5aff9bad15e8d7e6c3a1298fecc15b9344909b427aa2443a7ff4c18621f010`; candle-completeness consumer contract `f424b2462e27094d79cf8417bff34e71393a59c2ffdf544b9153d72ca5ed407e`; stock-quality consumer contract `9957877b2ad572cd6bf0626ea4aa75e7569e5dfac3da717fcbbb3d12a7e2efd2`; deterministic clock test update `4838359908a5fe0423a54b813bf303c1118224b155aa01862fbe4962c67a1dd0`.
+- CI SHA-256: workflow `2ef8c303a0dcf47c44c50ef73bc4de63f5f87d9b29cc00486fdaf4103e7001ec`; workflow contract `34dedd993fee9c1e4c3f5986fe1e178f4bd9f435176b14ecb405188e01daa779`.
+- Validation: in-memory syntax compile `9/9 PASS`; initial targeted selection had 48 passing contracts and one legacy namespace export miss; after restoring the historically visible imported helpers, compatibility/new contract selection `9/9 OK`; independent malicious-type matrix `24/24 PASS` with controlled-method calls `0`; Electron capability consumers PASS; current research workflow `317/317 OK`; root Frozen verifier PASS.
+- Frozen continuity: protocol SHA-256 remains `69de4ce1fbb258a12db821f355cf7c82c98453f22c5f8f4a3d2b8ce82e00ee85`; report SHA-256 remains `d850be4b62ac7252747ccb362096160c8fb82c496d520acdb9e8b90b944c5e76`; manifest identity SHA-256 remains `bc364728a79d8fa84c8ad77c87bf391b99edd66036219e08faa2f2682fe42542`; quality remains `BLOCK`.
+- Boundary: stock-candle persistence and revision logic remain in `stock_candles_io.py`; provider adapters, market-data service composition, and the server remain under outputs. Existing outer service `READY` terminology and writable-runtime tests remain separate migrations.
+- Safety: no project/runtime database, cache, log, local environment file, provider, service, browser, scheduler, or trading path was read or mutated. Realtime is only data provenance, not paper/live/order permission; all trading and profitability authority remains false.
++## ADR0552 - Canonical stock-candle revision and daily-vintage admission policy (2026-08-31)
+
+- Scope: separate the complete pure daily candle revision/admission decision from the 69 KB SQLite/provider infrastructure module. The infrastructure adapter still owns database reads and writes; the canonical policy receives only native incoming and existing rows.
+- Proven gap: the pre-fix pure paths accepted list, text, and numeric subclasses. A read-only PoC used five object-controlled calls to admit a row, rewrite its source as Futu, assign Futu priority, canonicalize an arbitrary price, and claim a forward-adjusted QFQ basis.
+- Canonical policy: `src/hakimi_research/stock_candle_revision_policy.py` owns `stock-candle-revision-policy-v1`, source priority, adjustment-basis inference, series adjustment classification, adjusted-price rounding, and complete daily-vintage merge decisions.
+- Decision coverage: the policy preserves completed overlap rows, computes a median overlap scale, rejects out-of-range or non-uniform scales, rejects incompatible adjustment bases and missing overlap anchors, handles explicit provider upgrades, adjusts new-row OHLCV consistently, and reports chain linkage, anchor date, overlap count, and new-date count.
+- Exact-native boundary: non-native rows, lists, source/interval text, basis text, and numeric values fail before controlled methods. Invalid adjusted prices and rows raise explicit deterministic errors rather than being coerced into revision evidence.
+- Architecture closure: `stock_candles_io.py` now normalizes incoming rows, reads existing rows, closes the connection, and delegates the decision to the canonical policy. `corporate_action_ledger.py` and stock-candles I/O share the exact same canonical `infer_adjustment_basis` object; the three former local policy helper definitions were removed.
+- Consumer-set SHA-256: `d7b0f5c49b87a45e56ac5f6abfabe385ed29f7b5f6b811f89253c069159acbed` for stock-candles I/O and corporate-action ledger.
+- Archive preservation: the complete pre-split `stock_candles_io.py` is preserved byte-identically at `archive/historical_research/adr0552_exchange_terminal_stock_candles_io_pre_policy_split.py` with SHA-256 `d5c635c60910f0772789c3527cdb9cc22227c8540ec9841396a68019ffd315a6`.
+- Source SHA-256: canonical policy `66906b91fcb4d9d1931339033c94aa30fed070062bdcc62e725a83d8f7e7d6d7`; infrastructure adapter `602e66320457d20f65aa35069e7bbe435104527c0a32647bd02cc150c9c0f660`; corporate-action consumer `f1ec69b425e0110a797e69667ab884e669a12994503b88dc3a18fa76b3141bc9`; policy contract `44ef1b665279bb4005101671d5311fed51d5c252355afadc09752437c6c74d6c`.
+- CI SHA-256: workflow `255a11d5185f5af284c8196d64ec93b8faed7f5095c97da9a7143577b308191e`; workflow contract `abb7308084feb30f73d65ae59bb1165768c45155908c08e2f7edc05c1197a53b`.
+- Validation: in-memory syntax compile `5/5 PASS`; focused policy/lineage/runtime contracts `43/43 OK`; independent malicious-type matrix `14/14 PASS` with controlled-method calls `0`, database opens `0`, and runtime mutations `false`; Electron capability consumers PASS; current research workflow `326/326 OK`; root Frozen verifier PASS.
+- Frozen continuity: protocol SHA-256 remains `69de4ce1fbb258a12db821f355cf7c82c98453f22c5f8f4a3d2b8ce82e00ee85`; report SHA-256 remains `d850be4b62ac7252747ccb362096160c8fb82c496d520acdb9e8b90b944c5e76`; manifest identity SHA-256 remains `bc364728a79d8fa84c8ad77c87bf391b99edd66036219e08faa2f2682fe42542`; quality remains `BLOCK`.
+- Boundary: SQLite schema, cache mutation, migration, revision-ledger persistence, provider fetches, and SQL conflict clauses remain infrastructure under outputs. Writable-runtime integration tests were not run or bypassed.
+- Safety: no project/runtime database, cache, log, local environment file, provider, service, browser, scheduler, or trading path was read or mutated. Revision-policy PASS is provenance evidence only and grants no paper, live, order, ranking, parameter-selection, or profitability authority.
+
+### ADR0553 neutral market-data research projection
+
+- Read-only synthetic PoC proved a presentation gap: raw `market-data-truth-v1` could simultaneously report `status=READY`, `mode=REALTIME_READY`, and all execution/paper/live flags false while the public renderer still treated the raw status as a positive presentation state.
+- Canonical boundary: `src/hakimi_research/market_data_research_projection.py` adds `market-data-research-projection-v1` with the exact public sequence `SOURCE -> GAP -> MATURITY -> PERMISSION`. The projection contains no `READY` wording and all paper, live, order, ranking, parameter-selection, and profitability fields remain false.
+- Data governance: a current observation now requires a native truth schema/status/mode, observed snapshot, current observation flag, realtime evidence flag, native quote source, native candle source, and positive completed-candle timestamp. Missing, stale, fallback, quarantined, revision-blocked, malformed-warning, or authority-alias evidence opens an explicit gap and degrades or blocks maturity.
+- Producer-first activation: `MarketDataService.data_truth()` attaches the projection at its single return boundary while preserving the raw schema, status, mode, and existing internal compatibility checks.
+- Consumer activation: the public renderer consumes only the versioned projection, requires the exact permission shape with all authority flags false, and preserves legacy identity/structure `BLOCK` precedence. Raw `READY/REALTIME_READY` remains available only to the existing internal sizing-reference control.
+- Canonical SHA-256: projection `fd3336891b1428ab0c6befc4b8ed59fb106e6cba142fead3085eea18ff257c7c`; producer `67fb39aca595389b3bc694797a66476a3a5fdecaed5653c64abfc8e6b3f76c88`; renderer `7ff3dc97843e83bd543b420360dbad239ebe2b49396534618e4cefa27a5dab12`.
+- Contract SHA-256: Python adversarial contract `add1476519e5e7781d967400538a979b4c978da1c8445299ea2169dfaf3c539b`; Node renderer contract `bb3f14a506f3a2b86d99dc83508974b35fa56e5d7a1dd2b855c7d121e86af835`; evidence consumer contract `43d973a662dde04b3f7e915e91c176c9634f9f268daed42c4c6895406a5e26ab`; workflow `ddb63acf6ad9ff506fdbd244ec70ff3756746c0a6ca59c708385d4aa34dfdf44`.
+- Validation: projection contract 13/13 OK; independent hostile-type/source/authority matrix 15/15 with controlled method calls 0; adjacent quality and CI contracts 42/42 OK; six targeted real `data_truth` producer contracts OK; full read-only workflow 333/333 OK; Node syntax 3/3 PASS; Electron capability locks PASS; both evidence renderer contracts PASS.
+- Frozen non-regression: root Frozen v9 verification remains PASS with protocol hash `69de4ce1fbb258a12db821f355cf7c82c98453f22c5f8f4a3d2b8ce82e00ee85`, report hash `d850be4b62ac7252747ccb362096160c8fb82c496d520acdb9e8b90b944c5e76`, manifest hash `bc364728a79d8fa84c8ad77c87bf391b99edd66036219e08faa2f2682fe42542`, quality `BLOCK`, and all authority/claim flags false.
+- Compatibility: the current single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 field/hash contract and no-reissue rule, and static fingerprint `20260814-single-look-contract-1` are unchanged.
+- Safety: only synthetic/in-memory and static contracts were used. No `.env`, project/runtime database, cache, log, provider, service, browser, scheduler, old K-line, G50/G51, formal blind test, or trading path was read or mutated. PASS is contract evidence only, not browser acceptance, market validation, profitability proof, or paper/live/order authorization.
+
+### ADR0554 Frozen dataset-governance identity binding
+
+- Read-only false-acceptance proof: three identical OHLCV frames with complete, absent, and conflicting governance metadata produced the same v9 protocol hash, the same dataset hash, and all three passed `verify_frozen_evaluation_protocol`. The v9 builder had no governance parameter.
+- Canonical boundary: `src/hakimi_research/dataset_governance.py` adds exact-native `dataset-governance-v1`. It requires and hashes dataset ID, provider/source manifest, UTC retrieval time, timezone, trading calendar, bar timestamp semantics, session policy, adjustment basis, corporate-action/dividend treatment, population policy, survivorship status, delisting policy, universe snapshot, limitations, and immutable dataset/sample binding facts.
+- Frozen migration: protocol/report/Markdown are now `frozen-evaluation-protocol-v10`, `frozen-evaluation-report-v10`, and `frozen-evaluation-markdown-v10`. Governance is a required protocol input; its self-hash is bound into protocol identity, report identity, deterministic manifest, and public Markdown SOURCE evidence.
+- Historical preservation: `examples/deterministic_frozen_benchmark_v1` remains the unchanged historical v9 reference. A contract locks its protocol `69de4ce1fbb258a12db821f355cf7c82c98453f22c5f8f4a3d2b8ce82e00ee85`, report `d850be4b62ac7252747ccb362096160c8fb82c496d520acdb9e8b90b944c5e76`, and manifest `bc364728a79d8fa84c8ad77c87bf391b99edd66036219e08faa2f2682fe42542` identities.
+- Governed reference: `examples/deterministic_frozen_benchmark_v2` is the current synthetic reference. Protocol hash `f50c1441435a03f0e2de9f5da872916a53b67df9d848cc004867f5c0a06e1327`; report hash `3129649cdffa4bb9c96415881923bdae87d85b12c8277141bce9bf7730fb16c5`; governance hash `625b44c3d6104c15a765bf6ce4dfe6079d816479082411c17fc22b6979593020`; manifest identity `30a2ff5a88fbac7db235e61ae2f8f4b076f677574f8e982c92d79e870a4ea4c8`.
+- Source SHA-256: canonical governance `18958ab777b9a660054c7a1b8aff785b1fcde4bce7b54101775b91febe22ea5f`; Frozen v10 `366aee0181ff26bb1b1b4f59d4d30beb4a69a4e56bf0e5634561c60ce97b0728`; deterministic verifier v2 `5817ad6aacc4238b52aed54111aa68105c9e449673287b993c313b73f048d686`.
+- Artifact SHA-256: governance declaration `bf0be90d0d51ae2c72ad74caf4b750a7177ee24105c7c5353bcd6b2c152059aa`; expected JSON `85e4f95c223e803dfcb32cee97f42326c9a914f663ee5b067a3cf1a93a7490e0`; expected Markdown `a9d462afd837fa775dafcf990949a5ac89a9638d6a217bb7d5dda06deac8826c`; fixture manifest file `d6c3f998fb57901adedaaadca1e1b0a3458a68d7d0552577221bd1d81bcbcf34`.
+- Validation: syntax 5/5 PASS; canonical/Frozen focused contracts 21/21 OK; all affected Frozen and dependency contracts 93/93 OK; independent malicious type/semantic matrix 14/14 with controlled method calls 0; full read-only workflow 341/341 OK across 38 modules; root deterministic verifier v2 PASS; Electron and renderer capability contracts PASS.
+- Calibration: governance identity binding proves that a declared source/calendar/adjustment/population contract cannot be silently omitted or changed without changing the Frozen identity. It does not prove that a real provider, calendar, corporate-action master, delisting history, or point-in-time universe declaration is externally true.
+- Compatibility: the current single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue rule, and static fingerprint `20260814-single-look-contract-1` are unchanged. The v10 migration does not grant ranking, parameter selection, paper, live, order, or profitability authority.
+- Safety: only source-controlled synthetic fixture inputs and in-memory/static contracts were used. No `.env`, project/runtime database, cache, log, provider, service, browser, scheduler, old K-line, G50/G51, formal blind test, or trading path was read or mutated. The v2 reference remains `SYNTHETIC_FIXTURE_ONLY`, `real_dataset=false`, quality `BLOCK`, and all authority/claim flags false.
+
+### ADR0555 Frozen dataset calendar conformance
+
+- Read-only false-acceptance proof: a v10 frame that retained 128 unique monotonic UTC rows but introduced one two-day gap still built and verified successfully under a `SYNTHETIC_DAILY` declaration. The accepted protocol contained no calendar-conformance evidence.
+- Canonical boundary: `src/hakimi_research/dataset_calendar_conformance.py` adds exact-native `dataset-calendar-conformance-v1`. For the controlled synthetic daily fixture it derives the complete UTC 24-hour schedule, compares every observed timestamp, and binds observed/expected schedule hashes, counts, missing timestamps, unexpected timestamps, provider identity, and permanent non-authority fields.
+- Real-calendar policy: XNYS, XHKG, and other exchange calendars fail closed with `EXTERNAL_SCHEDULE_ATTESTATION_REQUIRED`. The dynamic `exchange_calendars` adapter under `outputs` is not part of the controlled research dependency lock and is not promoted to canonical Frozen authority.
+- Frozen migration: protocol/report/Markdown are now `frozen-evaluation-protocol-v11`, `frozen-evaluation-report-v11`, and `frozen-evaluation-markdown-v11`; deterministic benchmark/verifier/manifest are v3. Calendar conformance must be `PASS` before a protocol can be built, and its hash is bound into protocol, report, manifest, verifier receipt, and Markdown SOURCE evidence.
+- Current v11 identities: protocol `defa78a8469f5cfffe76b8d3b3cee348c96bc1eedd3be823e2ff821233630aef`; report `25261e1939baf790a0f64ca5e7363adc8aeebd60f1651fe7c939bed3ef2b5829`; calendar conformance `13f8622eb55e4b402d22532c767d3a74091489030ebe1ecdc41de3d014183152`; governance remains `625b44c3d6104c15a765bf6ce4dfe6079d816479082411c17fc22b6979593020`; manifest identity `96524339ac7754572c98028e1df98210fac8f26aaa5572405ce69d4a5013bc18`.
+- Source SHA-256: calendar conformance `352e0f3a68b661312e7f144b67b8d4b8ca1df5fb1b4f24939f20297385f13783`; Frozen v11 `f4a99cc423b2033b085fd49d5719de0e613cf73c64ae7c5081aa3d12ea65398b`; deterministic verifier v3 `e35dd121cdd30d1985b32e3af66638063459e227c30cb5b151c81715a8f72550`.
+- Artifact SHA-256: expected JSON `eb73ca231e1196e3c3e78693d5fb736736bd575b1e836b559af6b3c61a4d3c23`; expected Markdown `1d0f7aed61d9319f68b01f494b225ef02f1267da94cdb60dc69501245d441278`; fixture manifest file `9c1d07a6a4315a50dd45e62a9dfa69536baefef894572b09c3e2e6da3b92390e`.
+- Validation: syntax 4/4 PASS; calendar/governance/Frozen focused contracts 30/30 OK; independent timestamp/type/alias matrix 12/12 with controlled method calls 0; full read-only workflow 349/349 OK across 39 modules; deterministic root verifier v3 PASS; Electron and renderer contracts PASS.
+- History: the full v1/v9 reference directory and its locked identities remain unchanged. ADR0554 v10 hashes document an intermediate unpushed worktree identity; the current v2 derived report/Markdown/manifest files are v11 and no longer carry those v10 hashes.
+- Calibration: this proves exact conformance only for the source-controlled synthetic UTC daily schedule. It does not prove a real exchange holiday calendar, early-close schedule, suspension history, delisting history, or provider attestation.
+- Compatibility and safety: the single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue rule, static fingerprint `20260814-single-look-contract-1`, and all research-only authority locks are unchanged. No network, `.env`, runtime database, cache, log, provider, service, browser, scheduler, old K-line, formal blind test, paper/live/order, or profitability path was used. Quality remains `BLOCK` and `real_dataset=false`.
+
+### ADR0556 Frozen execution-adversity coverage
+
+- Read-only scope proof: the v11 protocol advertised a cost-stress reference but contained only `BASE`, `DOUBLE_COST`, and `TRIPLE_COST` fee/slippage scenarios. It had no one-bar delay, missed-action, adverse-open runs, or `execution_adversity_matrix_complete` quality evidence.
+- Canonical migration: `src/hakimi_research/frozen_execution_adversity.py` extracts the reusable algorithms from the dormant application chain. The old application now imports the canonical one-bar signal-release delay wrapper, every-third actionable-signal drop wrapper, and source-fill-bound 2% adverse-open transform instead of defining duplicates.
+- Preregistered policy: `frozen-execution-adversity-policy-v1` fixes three non-selected scenarios across VALIDATION and FROZEN_TEST, producing six additional runs at the BASE fee/slippage setting. Policy hash `297a86a1d6e99dc6feba97522eeb930f284173bb5e84470cb6d07716d0d84924`.
+- Frozen migration: protocol/report/Markdown are now `frozen-evaluation-protocol-v12`, `frozen-evaluation-report-v12`, and `frozen-evaluation-markdown-v12`; deterministic benchmark/verifier/manifest are v4. Each run binds the source BASE result hash, policy hash, source/stressed dataset hashes, semantic metadata, recomputed result delta, unmodelled gaps, and non-authorizing nested experiment manifest.
+- Semantic verification: delay requires exactly one unreleased terminal signal; deterministic signal drop requires `dropped=actionable//3`; adverse-open events bind source fill time/action and exact directional 2% shock; result deltas are independently recomputed. Resealing an inconsistent delta, metadata, policy permission alias, or dataset binding fails closed.
+- Current identities: protocol `ad49a7ed5692f1a1337d13d9fe954e1535c6ebb6c95a0255f7a9262a25d3e68e`; report `b940602af198336b53df8091453ec173680440c7ef751167d1883b9ef87145ab`; manifest identity `88b40a0a6c979ead05eb294f901ff11d3eed74e618cd31fd4f6a8081350bb99a`; governance and calendar hashes remain unchanged.
+- Source SHA-256: canonical adversity `743461b1ee32e77cb3f1671cbe121c1b6d4630ddef086ecc40aabda2a9b59c9e`; Frozen v12 `0dbebff1b14864cefb35d55b3299388f305e624b103ac2bb9c1eb90d0e578ec0`; deterministic verifier v4 `db882723cdc4c9d44eb4abf8d73f1eb894ccb4f2e75d672b937d1e228a9cb5e7`; legacy consumer `f433d4576cec581c7575f350aab5dadc0a22297dbdd3d4f579109550cded1615`.
+- Artifact SHA-256: expected JSON `80cf1a07cfbeaf33b2d4378dea4951b17e2e03e162a66bda01d759022be1a788`; expected Markdown `27aeab4185222040c7ca997300f67bd722ab42097dd5149354ba92b8bbf389ab`; fixture manifest file `5abc080307b0b7b321eb8a969a808da66e3cf17cd240167388bf379286f29a54`.
+- Validation: syntax 5/5 PASS; focused Frozen contracts 22/22 OK; canonical legacy-consumer identity 4/4 with old report runs 0; independent semantic/type/authority matrix 12/12 with controlled method calls 0; full read-only workflow 357/357 OK across 40 modules; root verifier v4 PASS; Electron and renderer contracts PASS.
+- Remaining execution gaps: partial fills, liquidity/capacity limits, order rejection, and dynamic market impact are explicitly unmodelled. The new scenarios are deterministic synthetic diagnostics without a decision threshold and do not establish execution realism or an advantage.
+- History and safety: ADR0555 v11 identities are an intermediate unpushed worktree identity superseded by v12 current derived artifacts; v1/v9 remains the full historical reference. No old report chain, real data, network, `.env`, runtime database, cache, log, provider, service, browser, scheduler, formal blind test, paper/live/order, or profitability path was used. Quality remains `BLOCK`, `real_dataset=false`, and every authority/claim flag remains false.
+
+### ADR0557 Frozen volume-capacity partial-fill boundary
+
+- Read-only false-acceptance proof: the pre-fix research execution path produced the same full buy-and-hold fill and final equity for a normal-volume frame and a frame with `volume=1e-9`. The low-volume fill exceeded available bar volume by about `9.44894407385121e10` times, proving that OHLCV volume was recorded but not enforced as execution capacity.
+- Target activation audit: the registered dual-moving-average strategy produced zero trades in TRAIN, VALIDATION, and FROZEN_TEST, so all six ADR0556 delay/drop/adverse-open runs were structurally present but behaviorally unobserved. `execution_adversity_matrix_complete=true` is now separate from `execution_adversity_observation_complete=false`, with blocker `EXECUTION_ADVERSITY_TARGET_SOURCE_ACTIVITY_INSUFFICIENT`.
+- Canonical execution boundary: `ResearchExecutionSimulator` is now `research-execution-simulator-v2` and accepts an optional exact-native finite participation rate in `(0, 1]`. The default remains `None`; only explicitly registered research runs apply a one-shot capacity of `available_volume * max_volume_participation_rate` before cash and position caps. Missing, zero, negative, boolean, text, non-finite, or subclass-controlled values fail closed.
+- Backtest binding: the execution model is `signal-close-next-open-ohlc-volume-cap-v4`. Every fill now binds requested quantity, filled quantity, fill ratio, partial-fill status, available volume, participation rate, and capacity quantity. Forced stop/target state is retained when a capacity-constrained exit leaves a residual position.
+- Fixed diagnostic probe: `frozen-liquidity-capacity-probe-v1` preregisters `ENGINE_BUY_AND_HOLD`, BASE costs, VALIDATION and FROZEN_TEST, and a 0.1% bar-volume cap. Both synthetic runs produced one capacity-constrained partial fill. This fixed probe demonstrates mechanism activation only; it is not target-strategy robustness evidence and is not performance-selected.
+- Frozen migration: protocol/report/Markdown are now `frozen-evaluation-protocol-v13`, `frozen-evaluation-report-v13`, and `frozen-evaluation-markdown-v13`; deterministic benchmark/verifier/manifest are v5. The verifier recomputes target observation status, fixed-probe source/result lineage, unchanged dataset identity, result deltas, exact capacity summary, partial-fill semantics, nested research-only authority, and all hashes.
+- Current identities: policy `0f1f3cbe40b2fd80a9319895b30266b544863e2ba0ff76af2ec60b66c38c330f`; protocol `13887e80eb979929ba9f399489ba34c8b61afe6fa6d7cbc796e8cde4d38e00b3`; report `1edded3b4ab6c3ca6efa922c8723d08cd90fbc3235585098a79dcc267ffa087f`; manifest identity `3039e3b13fbd6e8f741efe61255308d40ffe4109a9aaa105201028f8011308d4`; governance and calendar hashes remain unchanged.
+- Source SHA-256: execution `1dca9921fbacfaf354607894eccaa745106cda9f757199ebd9ba93aa2aa8c241`; backtest `bae2fc2b755a63313c355f4fd386019f47f238142fd17a34ca4e7671eda7b48a`; adversity policy `8c405674233ae66fde8fee4b1f6f9a04f88cac3ab9ec8395c42b6c1d55b75352`; Frozen v13 `86dc640e7fd1a6ea74f49df335231e1046ea68e53a3c734d34d2e4c322cc90aa`; deterministic verifier v5 `4dec61b2d40be08d7b72e7f06d41fa8caf443c958b2c58facf565097921c8194`.
+- Contract SHA-256: canonical execution `f28656472a54785371496d497f70167f467cf5a3479b0ccba0d4021cb1165dae`; backtest `4583f20e5b3e43ef6d7d5ae39faf04e6e4fba08e77f1281b14d9c3a6fa4546da`; Frozen adversity `12b0782e5204b472207f98cb2ab42da9396e855179a9b389e9449ea19eee2092`.
+- Artifact SHA-256: expected JSON `71733682624e4a5586850b3e0a7846d126d9e3a9ecb5ccce198a01cf57b03b56`; expected Markdown `c12dfa4cb4f9b297b3dbe4a2120370c36e6c7922daf9d9f89db49ef628dd0db0`; fixture manifest file `e2cb765ebe26927f9a98b29e6d4c05709479b1904560f129fada1da2c9f43db8`.
+- Validation: in-memory syntax compile `8/8 PASS`; focused execution/backtest/Frozen contracts `52/52 OK`; independent synthetic closure confirmed six target runs with zero observed target runs and two fixed probes with two partial fills; full read-only workflow `361/361 OK` across 40 modules; deterministic root verifier v5 PASS; three Node capability/presentation contracts PASS with network calls 0 and runtime mutations false.
+- Remaining execution gaps: partial-fill remainder lifecycle, shared intrabar volume budgets, order rejection, and dynamic market impact remain explicitly unmodelled. The capacity probe uses a fixed synthetic benchmark and cannot establish execution realism, market validity, strategy advantage, profitability, or trading permission.
+- Compatibility and safety: the current single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue rule, and static fingerprint `20260814-single-look-contract-1` are unchanged. No old report chain, real data, network, `.env`, runtime database, cache, log, provider, service, browser, scheduler, old K-line, G50/G51, formal blind test, paper/live/order, or profitability path was used. Quality remains `BLOCK`, `real_dataset=false`, and every authority/claim flag remains false.
+### ADR0558 coherent stock time, candle, and quote quality boundary
+
+- Architecture audit: ADR0550 had already moved `stock_session.py`, `stock_candle_quality.py`, and `stock_quote_quality.py` into `src/hakimi_research`; the three `outputs/.../market_data` files are definition-free compatibility re-exports, and active consumers already import canonical objects. The remaining gap was semantic and partially wired rather than a duplicate implementation boundary.
+- Read-only false-acceptance proof: a Sunday Futu `MORNING` state was accepted as `LIVE_SESSION`; twenty rows with `high < low`, negative volume, false completion, and inconsistent dates were accepted as candle-quality `PASS`; a quote 24 hours in the future with `bidPx > askPx` was accepted as quote-quality `PASS` with age 0. All three public calls reported analysis-usable states before this migration.
+- Shared v2 boundary: `stock-data-quality-boundary-v2` centralizes exact-native finite epoch-millisecond validation, a fixed 5-second future-clock-skew allowance, current/stale/future/invalid observation states, immutable authority locks, and the neutral `SOURCE -> GAP -> MATURITY -> PERMISSION` action. Parameter selection, ranking, paper, live, order, and profitability-proof authority remain false.
+- Session v2: `stock-session-v2` accepts provider confirmation only for known Futu phases, independently derives the symbol-local weekday/fixed-window phase, blocks provider-open versus inferred-closed conflicts as `SESSION_MISMATCH`, blocks future/missing/invalid timestamps as `TIME_INVALID`, and does not label a missing active-session price as live. It exposes timezone, source/inferred phases, time quality, and `exchange_holiday_calendar_attested=false`.
+- Candle v2: `stock-candle-quality-v2` validates every exact dict row before analysis. Timestamp, open/high/low/close, volume, ISO date type, completion/provisional flags, source type, OHLC extrema, non-negative volume, unique timestamps, and strict source order are checked. Any invalid, duplicate, or out-of-order row makes `structure_complete=false`, clears `analysis_rows`, sets `BLOCK`, and prevents silent cleaning into a usable subset. Missing or explicit incomplete-bar evidence remains visible as `DEGRADED`; date/timestamp alignment is explicitly `UNVERIFIED_WITHOUT_SYMBOL_TIMEZONE_CONTRACT` rather than guessed.
+- Quote v2: `stock-quote-quality-v2` binds the shared time assessment, distinguishes valid/one-sided/not-supplied/crossed books, quarantines future or invalid timestamps and crossed books, and degrades missing timestamps, observation time, daily ranges, or two-sided book evidence. A `PASS` now requires complete positive price fields, a valid two-sided book, current independently recomputed time, a non-fallback source, and no quarantine reason.
+- Consumer activation: research unusual-activity and daily-swing consumers stop before calculations when `structure_complete` is false; daily market AI pauses on either structural failure or unresolved scale break; corporate-action evidence adds `stock_candle_structure_quality_block`, so malformed OHLCV cannot obtain `backtest_eligible`. The large server was not refactored; only its existing candle-quality decision point was tightened.
+- Historical preservation: pre-v2 session SHA-256 `da0bd7f3a01e02c9fb6e13d79ab23f1f86f9326db2706faeb5efec36e01e026b`; candle quality `5514f18ae9f1ea3bde0b93546511613d63b19d021b7accce2b42835a6faf8c05`; quote quality `c3b5fc397ba02d88eae1d099eda7bb088c8cf470d154734e894655193488feb6`. They are preserved at `archive/historical_research/adr0558_stock_*_v1.py`.
+- Canonical SHA-256: shared boundary `8239601fab8d6c423c967032c72502d05cffbc094be6a9e61f3ec4a9a0897d22`; session `0f7acd016f2047ee7b2c0c88d9d19378cc075e84347efc5ec6e34fe9d2f3b25d`; candle quality `fb1b0f194b05577a22bb4b979fff1382de15dff81a9bf32704862194e1eca675`; quote quality `ef97a593c6ebeb6a52d23ab439c71ab97488d95f4d6df1f70d4766bc4694bd0f`.
+- Consumer SHA-256: stock research `c3c5a53a62900f1895785d5586e35b4dcd5c6e11db0df5829e7c6603e2534470`; corporate-action ledger `f05c603e0d212252ae9c33f4ec0dbe167a6461e03c02ce2ac22b26d01bceaeda`; server decision point `2f0b67645c7bbfd7f6a8f851eb131aa868295f76b6567d53369359457f4334ba`.
+- Contract and CI SHA-256: canonical migration contract `47a05a79ad3e87ede00ef2d1fdea45be88fe47f60bff762b90d68db3cdb66569`; v2 adversarial boundary `88c8c3be27d586a550cba433551cfef30bf8f23b1973aa67bd68b38352cc8fad`; CI contract `53838820515bdffb0f546fc3f17da19e769e71eb57519ffc2fe8e62da05fade4`; workflow `3c4d2ba1d913402ecbc4f2e0aaea419c9aab4f6905dd08aba01a3d1b17b717ea`.
+- Validation: in-memory syntax compile `12/12 PASS`; focused compatibility and adversarial contracts `46/46 OK`; final canonical/v2 contracts `18/18 OK`; independent closure reproduced all three prior false-acceptance inputs and confirmed `SESSION_MISMATCH`, candle `BLOCK`, quote `REVIEW`, and `backtest_eligible=false`; full read-only workflow `371/371 OK` across 41 modules. Three Node capability/presentation contracts remained PASS with network calls 0 and runtime mutations false.
+- Frozen continuity: deterministic root verification remained PASS through the full workflow. Protocol SHA-256 remains `13887e80eb979929ba9f399489ba34c8b61afe6fa6d7cbc796e8cde4d38e00b3`; report SHA-256 remains `1edded3b4ab6c3ca6efa922c8723d08cd90fbc3235585098a79dcc267ffa087f`; manifest identity remains `3039e3b13fbd6e8f741efe61255308d40ffe4109a9aaa105201028f8011308d4`; quality remains `BLOCK`.
+- Calibration: weekday/fixed-window inference is not an exchange holiday, early-close, suspension, or official calendar attestation. Candle date/timestamp alignment still needs a symbol-timezone and bar-timestamp-semantics contract. Quote/candle PASS proves local structural consistency only, not provider authenticity, market truth, execution realism, profitability, or trading permission.
+- Compatibility and safety: compatibility wrappers retain identical exported objects; the current single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue rule, and static fingerprint `20260814-single-look-contract-1` are unchanged. No network, real provider, `.env`, project/runtime database, cache, log, service, browser, scheduler, old K-line, G50/G51, formal blind test, paper/live/order, or profitability path was used.
+### ADR0559 stock candle temporal conformance and provider-time fail-closed
+
+- Read-only false-acceptance proof: malformed Futu `time_key/update_time` was replaced by `now_ms`; Stooq `2026-08-31` used host-local `time.mktime` and resolved to AAPL local date `2026-08-30`; twenty Futu rows whose declared dates were shifted one day from their timestamps still produced candle-quality `PASS`, `analysis_ready=true`, and corporate-action `backtest_eligible=true`.
+- Canonical migration: candle quality is now `stock-candle-quality-v3` and embeds `stock-candle-temporal-conformance-v1`. Every call must bind exact-native symbol, interval, and source. The report binds canonical symbol, normalized interval, symbol timezone, observed source semantics, invalid temporal rows, permanent authority false, and `exchange_calendar_attested=false`.
+- Date semantics: daily rows pass only when the declared ISO date matches either the UTC date or symbol-local date represented by the timestamp. This accommodates the two controlled provider conventions currently present: Yahoo UTC daily epochs and Futu/Stooq symbol-local daily timestamps. Intraday Yahoo uses UTC date semantics; other registered intraday providers use symbol-local date semantics. Unknown sources, missing context, missing dates, invalid timestamps, or date/timezone mismatches BLOCK and clear `analysis_rows`.
+- Provider fail-closed changes: `parse_futu_time_key` now accepts only an exact native string and returns 0 for missing or malformed provider time instead of fabricating the observation clock; Futu history skips rows with invalid provider timestamps. Stooq daily dates now become epoch milliseconds through `datetime.strptime(...).replace(tzinfo=stock_timezone(symbol))`; malformed dates are skipped instead of replaced with `now_ms`.
+- Consumer activation: both stock research analyses pass symbol/interval/source and stop on structural or temporal failure; market-chart and daily market-AI projections bind the same context and surface BLOCK/REVIEW warnings; corporate-action evidence adds `stock_candle_temporal_quality_block`, preventing date-shifted rows from obtaining backtest eligibility.
+- Historical preservation: the complete ADR0558 candle-quality v2 source is preserved at `archive/historical_research/adr0559_stock_candle_quality_v2.py` with SHA-256 `fb1b0f194b05577a22bb4b979fff1382de15dff81a9bf32704862194e1eca675`.
+- Canonical SHA-256: candle quality v3 `f85a4609b4564a3733573f5169097b5b0e8f965d5f6977d6455bdfd45a2bc7a2`; Futu normalization `d660fd19ef454be570a6b49836b62adbbc1176adfd97d5e5d29390569a79e360`; Futu candle reader `72bfc0f58fde6f91a01d19fe04004b6d2a95a97eb3b7633c2ac667b2470a57b5`; stock-candle infrastructure `e806962035e467ec2cc5b078d704c6e517ffc748dd7d08795d0d7c00e4ea9145`.
+- Consumer SHA-256: stock research `d86365612e2419facb12f0ff7baa5a04035d61bcccbb2fe56dc759be18781a4e`; corporate-action ledger `8e9d216f180cb13609baa832d1cffd781687c03e37ee92eea8e87a93b9f5e012`; server decision points `5a48cf0b7eef2e524b008407cb5225d6f7b53591039ededc7eb05a9aee72745b`.
+- Contract and CI SHA-256: canonical stock-quality contract `c1bf6ff98f136070ca195fe39335d07cfeb46ab4a03d63b5de1c41cc66d51434`; ADR0558 boundary compatibility `37a18c2ae278467b3a9670721b4aeedb6cc688bb9f5fcdc26c200d2fc26a461c`; ADR0559 temporal adversarial contract `67ad7de73fd7253815519a4272fa8ee56a5f3bed906598758d516e266221166b`; CI contract `67669f92293b29cec1ef5fbc0de021310fd51c0e273ba82f6959346dbb208b20`; workflow `5366a90aa1390f6c7d80f01d4848fa4dc7eb6dd2ba8a994950d8503ef3f1eecc`.
+- Validation: in-memory syntax compile `11/11 PASS`; focused stock quality/session/candle/quote/temporal contracts `53/53 OK`; independent repair replay confirmed malformed Futu time 0, twenty shifted rows temporal BLOCK, `backtest_eligible=false`, and valid Yahoo UTC/Futu local daily rows PASS; full read-only research workflow `378/378 OK` across 42 modules; deterministic Frozen root verification PASS; three Node capability/presentation contracts PASS with network calls 0 and runtime mutations false.
+- Adjacent test evidence: an exploratory run of non-CI `test_market_data_reliability` executed 89 tests and reported three failures before the formal workflow. One patches `now_ms` on the compatibility wrapper rather than the canonical module; two use revised close values that violate the existing OHLC structure gate before reaching their intended migration assertions. They are test-harness debt and were not counted as PASS or used to weaken production validation.
+- Boundary deviation: that exploratory adjacent module instantiated SQLite only inside `TemporaryDirectory`; those temporary files were automatically removed. No project or runtime database, cache, log, environment file, provider, service, browser, scheduler, or trading path was read or mutated. The temporary SQLite execution was unintended and is recorded rather than hidden.
+- Frozen continuity: protocol SHA-256 remains `13887e80eb979929ba9f399489ba34c8b61afe6fa6d7cbc796e8cde4d38e00b3`; report SHA-256 remains `1edded3b4ab6c3ca6efa922c8723d08cd90fbc3235585098a79dcc267ffa087f`; manifest identity remains `3039e3b13fbd6e8f741efe61255308d40ffe4109a9aaa105201028f8011308d4`; quality remains `BLOCK`.
+- Calibration and residual gap: temporal PASS proves only local date/timestamp consistency under registered provider conventions. It does not attest exchange holidays, early closes, suspensions, provider authenticity, completeness of missing bars, real market truth, profitability, or trading permission. An official exchange-calendar/schedule attestation remains required before Frozen real-data governance can pass.
+- Compatibility: definition-free wrappers, the current single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue rule, static fingerprint `20260814-single-look-contract-1`, and all paper/live/order locks are unchanged.
+### ADR0560 canonical market schedule attestation and early-close evidence
+
+- Read-only false-acceptance proof: `exchange-session-calendar-v1` converted observed dates to a set, so four observations containing a duplicated session were accepted as a complete three-session calendar. XNYS returned `status=PASS` from `exchange_calendars` without any official-source or external-truth field. Arbitrary identity objects were coerced through `str()`, and the API had no observed session-window input with which to verify early closes.
+- Architecture migration: pure calendar identity, schedule attestation, conformance, hashing, duplicate detection, early-close comparison, authority locks, and session timestamps now live in `src/hakimi_research/market_calendar.py`. `exchange_terminal/services/market_calendar.py` is an explicit optional-library adapter that only obtains a schedule and delegates all contract decisions to canonical source.
+- Versioned contracts: calendar conformance is `exchange-session-calendar-v2`; schedule evidence is `market-schedule-attestation-v1`. Attestations bind exact calendar name, timezone, coverage range, source class/name/version, exact ordered session windows, early-close flags, schedule hash, source-artifact hash, authority false, and attestation hash. Verification rebuilds native shape, enum identity, coverage, ordering, windows, source artifact, schedule, and self-hash; an unknown source-class coherent reseal fails closed.
+- Source maturity: source classes are `DETERMINISTIC_TEST_FIXTURE`, `THIRD_PARTY_LIBRARY`, and `OFFICIAL_EXCHANGE_DOCUMENT`. An official-document declaration cannot self-verify; every current attestation fixes `official_source_verified=false` and `external_truth_verified=false`. Third-party schedules may receive mathematical `status=PASS` and `research_admission_status=RESEARCH_ONLY`, while deterministic schedules are `TEST_ONLY`; neither becomes Frozen real-data authority.
+- Session completeness: observed dates remain ordered list evidence. Invalid, duplicate, missing, extra, or unordered dates BLOCK rather than being silently deduplicated. When observed session windows are supplied, open/close/early-close values are compared exactly against the attested schedule and mismatches BLOCK. If a daily dataset spans an early close but exposes dates only, conformance remains PASS with `early_close_observation_complete=false`, warning `early_close_session_window_unobserved`, and explicit reduced maturity rather than pretending the intraday window was checked.
+- Backtest integration: the dataset manifest is now `backtest-dataset-v6`. It binds calendar research-admission status, source class, official/external truth flags, duplicate count, early-close dates and observation status, session-window mismatches, schedule hash, attestation hash, and calendar blockers. Calendar contract/admission BLOCK continues to fail dataset integrity; research-only third-party schedule evidence remains non-authorizing.
+- Optional dependency boundary: local `requirements.txt` pins `exchange-calendars==4.13.2`, but the controlled `requirements.research.lock` does not include it. Therefore dynamic XNYS/XHKG adapter behavior is adjacent local evidence only; the formal 43-module research workflow tests the pure canonical contract without importing this optional package.
+- Historical preservation: the full pre-migration services calendar is preserved at `archive/historical_research/adr0560_exchange_terminal_market_calendar_v1.py` with SHA-256 `93a26ed32ac6136c27fcb13f0f44b1855e31d6b81760ff57aabab690fd5128bd`.
+- Source SHA-256: canonical calendar `031ad869d8bda4264d5256416dacc99ed398d10aa2a724eae3ae93e2800aae02`; optional adapter `38b772e4881bbb36c501b0bc8e9a1b4c2f0bc724494cbed85902afe73a600c1e`; backtest dataset v6 `22dbd32602dd7657ff4ca3be7696f514d2031ed1676aa56f0bcf91b86592585d`.
+- Contract and CI SHA-256: canonical adversarial contract `891d0e4115dfa4b3841f4342b8ab8c97f1bacfb6b4e644dc346ab0885e4014d5`; adjacent dynamic calendar/lifecycle contract `e0b6fab8eafa6fd19f77d83a3ed6ae7ed83acb08f018f61f04d038eae2195ae2`; CI contract `6779695c1928103809ea80590a7e96ef2179f3747f7223643cb10584827618ff`; workflow `e70373c8fa1844f5ea33f5c42c7905b81ebb6161f33be57e41cf0af2cff8feed`.
+- Validation: in-memory syntax compile `5/5 PASS`; canonical calendar adversarial contract `7/7 OK`; calendar/backtest/scheduler/CI focused collection `77/77 OK`; independent closure confirmed duplicate session BLOCK, early-close mismatch BLOCK, absent intraday window explicitly unobserved, third-party source class visible, official/external truth false, and controlled method calls 0; full read-only workflow `385/385 OK` across 43 modules; deterministic Frozen root verification PASS. Three Node capability/presentation contracts remained PASS with network calls 0 and runtime mutations false.
+- Frozen continuity: protocol SHA-256 remains `13887e80eb979929ba9f399489ba34c8b61afe6fa6d7cbc796e8cde4d38e00b3`; report SHA-256 remains `1edded3b4ab6c3ca6efa922c8723d08cd90fbc3235585098a79dcc267ffa087f`; manifest identity remains `3039e3b13fbd6e8f741efe61255308d40ffe4109a9aaa105201028f8011308d4`; quality remains `BLOCK`.
+- Calibration and residual gap: this proves deterministic schedule structure and observed-date/window conformance only. `exchange_calendars` is not an official exchange source, and no official document was fetched or externally verified. Real Frozen datasets still require a separately trusted source-attestation path; no calendar PASS grants profitability, ranking, parameter selection, paper, live, or order authority.
+- Safety and compatibility: no network, provider, project/runtime database, cache, log, environment file, service, browser, scheduler execution, old K-line, G50/G51, formal blind test, or trading path was used. The current single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue rule, static fingerprint `20260814-single-look-contract-1`, and all authority locks are unchanged.
+## ADR0561 - Frozen paired moving-block Bootstrap confidence binding (2026-08-31)
+
+- Scope: consumer-first binding of the existing canonical `paired-moving-block-bootstrap-confidence-evidence-v1` contract into Frozen evaluation. No protocol partition, strategy, benchmark, cost, execution, market-data, single-look, legacy pack-v5, or pointer-v2 contract changed.
+- Pre-fix synthetic read-only PoC: current Frozen output omitted Bootstrap evidence even though the existing VALIDATION and FROZEN_TEST BASE strategy and `ENGINE_BUY_AND_HOLD` curves were sufficient to construct source-bound evidence. Each role had 9 paired observations, below the preregistered minimum of 60.
+- Implementation: `frozen-evaluation-report-v14` and `frozen-evaluation-markdown-v14` now bind exactly two records keyed by `(VALIDATION|FROZEN_TEST, BASE, ENGINE_BUY_AND_HOLD)`. Records reuse existing result curves and manifest result hashes; they execute no additional backtest. The verifier recomputes canonical evidence and binds dataset, strategy-result, benchmark-result, observation-class, identity uniqueness, matrix completeness, and all-false authority.
+- Fail-closed result: both records are `GAP`, with paired counts `[9, 9]`, executed replicates `0`, intervals `[]`, and gap `INSUFFICIENT_PAIRED_OBSERVATIONS`. The quality gate remains `BLOCK` and adds `BOOTSTRAP_CONFIDENCE_INSUFFICIENT_PAIRED_OBSERVATIONS`. This is missing statistical coverage, not evidence of profitability or permission.
+- Deterministic envelope: benchmark/verifier/manifest advanced to v6. Protocol identity remains `13887e80eb979929ba9f399489ba34c8b61afe6fa6d7cbc796e8cde4d38e00b3`; report identity is `c85c407d5bd7eb19c10d01dfe4ba91f5b0d8f8f29f458622d9134ce62a77cf74`; manifest identity is `b0216b9d98f5737f017f4fdbc6c67992d92666c3fa1176138cbbd6b5b69a39d6`.
+- Verification: changed-file `py_compile` PASS; targeted Frozen Bootstrap plus CI contracts 9/9 OK; deterministic root verifier PASS with all checks true; explicit 44-module formal research workflow 390/390 OK; independent resealed adversarial matrix 11/11 rejected; Electron backend/runtime and capability-lock Node contracts PASS; neutral renderer contract PASS with `NETWORK_CALLS=0` and `RUNTIME_MUTATIONS=false`.
+- Fingerprints: Frozen `b08db071123562f1e63c7f9787c6ee7862a7ec984ba00fa925765e97cc429e80`; deterministic v6 `ab458e7f61c6b337660218f677f9686239c8fac3b2f99bfdc351d56d5e52b99a`; canonical Bootstrap unchanged `98c13ae78f4e9493a053d0d5a4a35d1e26c890127705c101f82f4931d4f450c5`; adversarial contract `4dc8f3befc971508ba38e0d99818c65fda72bf3686a0815a9452226d6be00cd9`; workflow `f3ab17cfda047cc1b7f917079c381ad19301869efbc6a4bcc421b883d461e3f3`.
+- Authority: real-data validation UNKNOWN; formal blind test false; natural-forward false; profitability false; paper/live/order false. Remote CI remains UNKNOWN until an actual remote run is observed.
+
+## ADR0562 - Coherent stock session/candle/quote data-governance boundary (2026-08-31)
+
+- Read-only architecture audit: canonical `stock_session.py`, `stock_candle_quality.py`, and `stock_quote_quality.py` already existed under `src/hakimi_research`. The three `exchange_terminal/market_data` files are definition-free re-export adapters, so no second physical migration or duplicate boundary was created.
+- Pre-fix pure-synthetic PoC proved four real acceptances: a Futu daily row used its UTC date instead of the AAPL local date and still passed; a Futu `MORNING` claim on 2026-09-07 was reported `LIVE_SESSION` with no holiday-calendar attestation; an impossible quote with `open/last > high` by less than 0.5% was reported `PASS`; and `stock_unusual_activity_fast` continued because it checked only `quarantined` rather than `quote_complete`. PoC had `NETWORK_CALLS=0` and `RUNTIME_MUTATIONS=false`.
+- Versioned boundary: shared `stock-market-data-governance-v1`; session `stock-session-v3`; candle quality `stock-candle-quality-v4`; temporal conformance `stock-candle-temporal-conformance-v2`; quote quality `stock-quote-quality-v3`. The lower-level `stock-data-quality-boundary-v2` time/type contract remains compatible.
+- Consumer-first activation: research quote-OHLC fallback now requires exact `quote_complete=true` and non-quarantine before using quote fields. Compatibility import paths remain unchanged and continue to re-export canonical objects.
+- Time/session governance: real-provider daily timestamps are provider-specific. Futu/Stooq/intraday-derived daily rows require symbol-local dates; Yahoo daily rows require UTC dates; only test/synthetic sources retain the explicitly named dual-date fixture rule. Open-session claims require a valid canonical market-schedule attestation covering the local date and matching calendar/timezone; attested non-trading dates conflict with provider-open claims.
+- Claim calibration: structural schedule verification is exposed as `session_schedule_bound`. A deterministic or third-party schedule does not set `session_truth_verified`; external truth, official-source verification, paper, live, and order authority remain false.
+- Quote governance: open must lie exactly inside the reported daily high/low envelope. A regular-session last outside the envelope is quarantined; an out-of-envelope last with unknown/extended scope is degraded and not complete. No 0.5% structural epsilon remains.
+- Validation: changed-file py_compile PASS; focused migration contracts 65/65 OK after migration fixture updates; independent synthetic adversarial matrix 13/13 rejected; explicit 45-module formal research workflow 398/398 OK; final truth-claim calibration then passed affected contracts 34/34. No `test_market_data_reliability`, SQLite/runtime test, service, browser, provider, backtest, scheduler, or trading task was run.
+- Fingerprints: shared boundary `be0e836598c84972cfa538f7f9f4b2dce6ab697ed384b51e13bbbdea8eb968c2`; session `52ba2a97c4fb1fe0ffc492912e8b834aacb757624f375f51c7a05af94ecb56b2`; candle `4ccd9d7bb71d06c2121be8b93926c0e632722e416d58e7de70256ac7468af1a5`; quote `a2ea01edb2ce18bb65860c9635708e667209238c9633e97968dc64f743612135`; consumer `c0a772dd02c4698e4237d174da5990fe6322d5423c5f0a6839d8c86d80588fde`; adversarial contract `307aa0207145c7fde390dd7f894c95e91135ac04114d778713f42f0c59e73e43`; workflow `2aaa54b40725838254c9d33b507e994dc9e261b2559ad42f4c973fcf1161b540`.
+- Preserved boundaries: the Frozen report identity and ADR0561 artifacts were not regenerated; single-look, legacy pack-v5 UNKNOWN, pointer-v2 no-reissue, paper/live/order false, and remote CI UNKNOWN are unchanged.
+
+## ADR0563 - Frozen standard performance diagnostics v1 (2026-09-01)
+
+- Pre-fix schema PoC: canonical `BacktestReport` omitted Sortino, Calmar, maximum drawdown duration, Profit Factor, expectancy, turnover, and market exposure. No canonical performance-diagnostics module existed. The gap was proven by runtime schema introspection with zero network calls and zero additional backtest runs.
+- Implementation: added canonical `standard-performance-diagnostics-v1` and bound exactly six existing registered-strategy results for `VALIDATION/FROZEN_TEST x BASE/DOUBLE_COST/TRIPLE_COST`. Frozen report/Markdown advanced to v15; deterministic benchmark/verifier/manifest advanced to v7. The producer adds no strategy or benchmark run.
+- Observed metrics: equity-curve Sortino when downside observations exist; Calmar when drawdown is nonzero; longest drawdown duration and timestamps; total absolute fill-notional turnover; fee load; gross realized-fill Profit Factor, expectancy, and average win/loss ratio when the required fills exist.
+- Explicit gaps: net closed-trade Profit Factor remains unavailable because entry/exit fees are not attributed to closed trades; market exposure remains unavailable because fills do not carry a timestamped position path. Small or inactive samples are represented by null GAP metrics, never zero-filled values.
+- Deterministic reference: six diagnostic records, 72 total metrics, 60 GAP metrics, quality `BLOCK`. Protocol identity remains `13887e80eb979929ba9f399489ba34c8b61afe6fa6d7cbc796e8cde4d38e00b3`; report identity is `917b3da47fd52329555169b718f598833029b94ec34af1f25ea75eff2fb73690`; manifest identity is `e11bc239fdc0874d1983f18bc3a1afe7fe24ce03a0ce61f6c8ecbd6bf7a3d0ca`.
+- Verification: changed-file py_compile PASS; targeted diagnostics/Bootstrap/CI contracts 16/16 OK; section-boundary regression plus affected contracts 25/25 OK; independent self-hash-resealed adversarial matrix 12/12 rejected; root deterministic verifier PASS with all checks true; explicit 46-module research workflow 405/405 OK.
+- Fingerprints: diagnostics `97caf39b61e54deafb6bd16d1e4725de3e817d36fca41b35c2c2ab6ef06a5f5f`; Frozen `d2df1b4fa4acb0185d49012c162b5c666e3af3d8b4d5fe739cb4122d332ee66a`; deterministic v7 `6cc67bb4986596e1b320edf9c7987d04f7c64c82f92120f48bc1fbde72961aa8`; adversarial contract `e371025ea38083fa27b4c224a36775799f1734c8b37f362e69bee8239e315e2f`; workflow `42127177c4f68397358469a26635058bfe37a5f26b08dd4e208196b0c73f91b1`.
+- Authority: these are descriptive synthetic diagnostics, not formal inference, profitability evidence, ranking permission, real-data validation, natural-forward evidence, or paper/live/order authority. Remote CI remains UNKNOWN. Single-look, legacy pack-v5 UNKNOWN, and pointer-v2 no-reissue are unchanged.
+
+## ADR0564 - Performance-diagnostic execution-semantics correction (2026-09-01)
+
+- Authoritative correction: ADR0563 incorrectly described report fill PnL as gross and market exposure as unavailable. Current Backtest `fill_records` already bind `action` and `fill_time`; each SELL fill PnL is net of the exit fee and its pro-rata share of accumulated entry fees. ADR0564 supersedes those two ADR0563 statements.
+- Pre-fix pure-object PoC proved the diagnostics emitted `REALIZED_FILL_GROSS_PROFIT_FACTOR` and a GAP `MARKET_EXPOSURE_RATIO` despite carrying sufficient execution fields. No network or backtest run was used for this proof.
+- Implementation: canonical diagnostics advanced to v2, Frozen report/Markdown to v16, and deterministic benchmark/verifier/manifest to v8. No BacktestEngine or execution behavior changed.
+- Net realized metrics: Profit Factor, expectancy, and average win/loss now consume SELL fills, including zero-PnL realizations, under the bound `signal-close-next-open-ohlc-volume-cap-v4` execution model.
+- Exposure metric: `END_OF_BAR_MARKET_EXPOSURE_RATIO` reconstructs long position quantity from timestamped BUY/SELL fills at each equity observation. The evidence binds a deterministic position-path SHA-256 and rejects fill times outside the equity curve, invalid actions, and reconstructed oversells. This is end-of-bar observation exposure, not continuous intrabar time exposure.
+- Deterministic reference: six diagnostic records, 66 total metrics, 48 GAP metrics, quality `BLOCK`. Protocol identity remains `13887e80eb979929ba9f399489ba34c8b61afe6fa6d7cbc796e8cde4d38e00b3`; report identity is `38e476e3be80e7afd70cb712b88da6035f38193e9cc2a3b7ecb72b3db3705deb`; manifest identity is `c1df50251c711ee666173938cae1ba4fd7ecfd98de678aa834692247e76b905c`.
+- Verification: changed-file py_compile PASS; targeted diagnostics/Bootstrap/CI contracts 16/16 OK; root deterministic verifier PASS with all checks true; independent execution-semantics adversarial matrix 15/15 rejected; explicit 46-module research workflow 405/405 OK.
+- Fingerprints: diagnostics v2 `189df6e29ff913306d501f6d15be7d5af6443c851b27beb475b930096f96efd1`; Frozen v16 `e0484f752e456cc9eb928f13c19bd7e8cea63e139b08830ad5fc0cd157356fdf`; deterministic v8 `7bb5af37f4a7314f3337b939778e6fd023bc2eeffdb0d9ec13e716dcc98b81a3`; adversarial contract `a85393f7c8f8a6ad4bd83d5fada1e8c0c549ce6b12765ff574366bcb777005d4`.
+- Remaining limits: inactive synthetic runs still cannot estimate net SELL-fill Profit Factor or expectancy; the sample remains too short for statistical confidence. Nothing here proves real-data validity, Alpha, profitability, natural-forward maturity, or paper/live/order permission.
+
+## ADR0565 - Frozen Trial Matrix, DSR, and CSCV-PBO maturity evidence (2026-09-01)
+
+- Pre-fix read-only PoC reused the deterministic report's 42 parameter-stability runs without rerunning a backtest. Both role-specific Trial Matrices built and verified with 21 preregistered trials and 9 aligned period observations. DSR failed its canonical positive-variance precondition for an inactive risk-perturbation trial; CSCV-PBO failed because nine observations cannot support eight CSCV partitions.
+- Implementation: added canonical `frozen-statistical-correction-evidence-v1`. Frozen report/Markdown advanced to v17; deterministic benchmark/verifier/manifest advanced to v9. The wrapper stores only matrix identities and statistical diagnostics, not duplicate copies of all source runs.
+- Source binding: each role consumes all 21 BASE parameter-stability cells; the selected center is the preregistered frozen center under `PREREGISTERED_CENTER_NO_PERFORMANCE_SELECTION`, never an ex-post winner. Dataset, cost model, stability plan, summary, run ledger, matrix, and evidence hashes are bound and recomputed.
+- Current result: VALIDATION and FROZEN_TEST matrices are complete. DSR is GAP with `DSR_TRIAL_RETURN_VARIANCE_NON_POSITIVE`; CSCV-PBO is GAP with `PBO_INSUFFICIENT_OBSERVATIONS_FOR_EIGHT_PARTITIONS`. Additional backtest count is zero. These gaps block estimation rather than producing zero, significance, or acceptance values.
+- Deterministic identity: protocol remains `13887e80eb979929ba9f399489ba34c8b61afe6fa6d7cbc796e8cde4d38e00b3`; report is `5715163ea0e162a6eb82319d6e9a50b7dcdab81fffc6ff873330afe871ea2ac0`; manifest is `d92e3802f659844d248bcddce39cbade6de9afa37be2e8b8d3edb7590ea4a631`; quality remains `BLOCK`.
+- Verification: changed-file py_compile PASS; focused statistical/Frozen/CI contracts 38/38 OK; root deterministic verifier PASS with all checks true; role-scoped self-hash-resealed adversarial matrix 12/12 rejected; explicit 47-module research workflow 412/412 OK.
+- Fingerprints: wrapper `9014744a26087c2cb609b48c023bc81389471ac417ada0b0dbfd243ee1de6565`; Frozen v17 `6d25bce9c1a45fd49e8d3ecdea516533021de85f7bbadd13ef054a68b67ab06e`; deterministic v9 `9f7d868ee0fe204aeb26891401f5408dee2a0edb60e40a77debffc3138b8746f`; adversarial contract `97362906fe204c932e807c6db395ea961167b93bae0ad5a16ede44d266d068e3`; workflow `32a4f22878952f36ff77b16fc1704e0c0029fe3df0686ef3df1c2eef5905d830`.
+- Authority: Trial Matrix completeness is not DSR/PBO estimability. Formal inference, ranking, parameter selection, profitability, real-data validity, paper, live, and order authority remain false; remote CI remains UNKNOWN.
+
+## ADR0566 - canonical return-contribution concentration boundary (2026-09-01)
+
+- Status: implemented and independently contract-validated. This slice supersedes the duplicate ADR0563/ADR0564 top-level performance-diagnostics boundary; it does not supersede their historical audit evidence.
+- Read-only PoC proved eight duplicated concepts across six records between `performance_diagnostics` and `tail-distribution-evidence-v1`. The duplicate producer, top-level report field, verifier/quality/renderer branches, standalone test, and CI module were removed rather than retained as parallel truths.
+- `tail-distribution-evidence-v2` is the single canonical distribution/concentration producer. It adds drawdown-duration endpoints, explicit optional fee-load GAPs, positive-period share/HHI, compound return without the best period, positive-trade PnL HHI, and a fixed 21-period concentration window.
+- Frozen integration: `frozen-distribution-policy-v2`, `frozen-distribution-analysis-v2`, `frozen-evaluation-protocol-v14`, report/Markdown v18, and deterministic reference/verifier/manifest v10.
+- Current synthetic reference remains fail-closed: six concentration records, six `FIXED_21_PERIOD_WINDOW_UNAVAILABLE` GAPs, and zero observed positive-period HHI records because the deterministic return rows are flat. These fields are not zero-filled and do not imply missing risk is absent.
+- Statistical correction remains unchanged in authority and workload: two records, DSR GAP count 2, PBO GAP count 2, additional backtests 0.
+- Deterministic identities: protocol SHA-256 `8c3e21335c7ac53221106bcb19a3a6f38e4292bb34080129878d2798423be254`; report SHA-256 `2d1a1317cfed1f04ea15b1404685e51a3710f92288573f9e360c4d2c3c52e0e4`; manifest SHA-256 `966dfb006d15fbb89be28bbce741e696be5a0b354f5b616f0b2af32a55d3fc5f`.
+- Reference file SHA-256: `expected_report.json` `0cc2d87ed525acb2280694759d3c24da5405a7603f7b5e6e5394d243347f21d2`; `expected_report.md` `7dc6b6247627f83f4a6a199f54f4948c07c394fb0db0b5cb71896da30a8b8a80`; `fixture_manifest.json` `229c5c6c5150174e3f0f6815977531f9fda46f2c304c699c2e0aa00f14a8904f`.
+- Primary implementation SHA-256: `distribution_evidence.py` `0be3e1a60902559805c4a924ca17b894555aa5ae66cff5944a0b68ce29afc5b4`; `frozen_distribution.py` `f92149da4cfb4d7c1b816c6327188cee405b4317828376b3dd9779a95ab0306e`; `frozen_evaluation.py` `9afb512df66f8461e5d22fbe642daa99303712e03f1c6ebeadda15feb4f2a979`; `deterministic_frozen_benchmark.py` `6ac8dee8e9442ab07fae5a735da0402686511ecfd3e45a9b0f7ffe9be52ff47f`.
+- Validation evidence: targeted regression 51/51 PASS; affected protocol regression 28/28 PASS; independent adversarial matrix 12/12 PASS; formal research workflow 419/419 PASS in 57.365 seconds; network calls 0; runtime mutations false; additional backtests 0. Remote CI remains UNKNOWN.
+- Authority remains locked: no profitability claim; no paper/live/order authority; quality remains BLOCK. The current single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+
+## ADR0567 - canonical root dependency and source isolation (2026-09-01)
+
+- Status: implemented and independently contract-validated. Scope is the supported root research commands and deterministic reference path; this is not a claim that Exchange Terminal, desktop assets, or the full historical tree have completed migration.
+- Read-only PoC proved the gap before modification: importing the canonical CLI added `outputs/python_quant_bot` to `sys.path`, while a full deterministic Frozen verification loaded zero modules from that legacy tree. The injection was therefore migration residue, not an active source dependency.
+- `hakimi-research.ps1` now exports only repository `src` plus the caller's prior `PYTHONPATH`, runs from the repository root, and invokes exactly `python -B -m hakimi_research`. Canonical CLI, Frozen evaluation, and deterministic verification no longer call or expose `activate_legacy_project_root`.
+- `requirements.research.lock` moved to the repository root as the single source-controlled research dependency closure. The old lock under `outputs/python_quant_bot` was removed; experiment context, deterministic identity, README, and CI now consume the root lock. Its scope remains the exact five-package active historical-backtest closure, not the optional desktop/exchange/broker/packaging application closure.
+- Root and project README references now point to the current `examples/deterministic_frozen_benchmark_v2` report. The historical v1 fixture remains preserved and is not current.
+- Deterministic source identity advanced to benchmark/verifier/manifest v11. Protocol SHA-256 remains `8c3e21335c7ac53221106bcb19a3a6f38e4292bb34080129878d2798423be254`; report SHA-256 remains `2d1a1317cfed1f04ea15b1404685e51a3710f92288573f9e360c4d2c3c52e0e4`; manifest SHA-256 is now `18b277937c5af8e21acd84854f126e502c0abf0beb05757ba086717a1fa79f1d`.
+- File SHA-256: root lock `2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320`; root launcher `0b494fee5689b8a75a8645b8288f7b4435bff29a5f6b94a2f1de4a6e78b25d97`; `source_layout.py` `affe1c53f251db6b436fdffed6f1013c94c688704caa71519bed3002d43b8899`; `cli.py` `5c441093c03f41043ea9985c3359fb0aa13e148c25eb83f1448803458bf4329e`; deterministic generator `4aea4041cf82ec55f2798a25e732c7307508b3b68bd4aaf1451e90b30cfd472e`; Frozen evaluator `43874422e53da251b594caeb0d50fc5d4f28d3582e8777ba822a4fa0c16d14ae`; generated fixture manifest file `7fae75130dc3b9f8ddd836b52d0b71f04ebd359385b8ccb447fa0ff34cd221a0`.
+- Validation evidence: in-memory syntax 7/7 PASS; targeted canonical-entry/dependency/CI/governance/manifest/backtest contracts 44/44 PASS; root deterministic verifier PASS; independent adversarial matrix 12/12 PASS, including the actual PowerShell launcher from an empty temporary directory with zero writes. Network calls 0, runtime mutations false, additional backtests 0. Remote CI remains UNKNOWN.
+- Authority remains locked: quality `BLOCK`; profitability/paper/live/order/ranking/parameter-selection claims false. The current single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+
+## ADR0568 - zero-activity volatility-match evidence gap (2026-09-01)
+
+- Status: implemented and independently contract-validated. No benchmark category, strategy, parameter search, real dataset, or authority surface was added.
+- Read-only report audit first confirmed that the current Frozen report already contains cash, buy-and-hold, fixed moving-average, fixed breakout, hash no-skill, and volatility-matched controls. The actual defect was semantic: all six registered-strategy target annualized volatilities were `0.0`, yet comparison v1 emitted `scale_factor=0`, zero-filled matched returns, `comparison_status=OBSERVED`, and a complete quality flag.
+- `ex-post-volatility-matched-comparison-v2` and method v2 now preregister an annualized activity floor of `0.000000000001` and `GAP_NOT_ZERO_FILLED`. Target or source volatility at/below the floor yields `comparison_status=GAP`, a stable reason, and `null` scale/matched-return fields. Positive-activity comparisons remain OBSERVED.
+- Frozen quality now separates `volatility_matched_comparison_matrix_complete` from `volatility_matched_comparison_observation_complete`. The deterministic reference has six expected records, matrix complete true, observation complete false, six GAP records, and blocker `VOLATILITY_MATCHED_COMPARISON_OBSERVATION_INCOMPLETE`.
+- Frozen identities advanced to protocol v15, report v19, Markdown v19, and deterministic benchmark/verifier/manifest v12. Protocol SHA-256 is `8d0a94adb56b30adc8ed3026d834f0eb9f7b230687c3c260a282e2ca4da7e31d`; report SHA-256 is `8d8a92a1c008a6a6ac45a6512a3feb45ed241711860563834af1490c10a6ec09`; manifest SHA-256 is `7a72dc9e1eba7cb40ad5800970c401c2719f446e0caa9ab0c5523d884355bb81`.
+- File SHA-256: `volatility_comparison.py` `a24d5ecba72bf4e9733759c8d77021a322a8599aa3f1843f00e74703bc0644e5`; `frozen_evaluation.py` `c741bdd52c1dabd720aa7c015ba1dfb575ddbfb4179456785e2f6313a78e692f`; deterministic generator `d90e50dcd133e449c2661c9a097f1aa0254c48cf32e852e03b3a9bebfc441487`; generated report JSON `acb2e435269bceeaf603d954358acbd61b80385426dd22ab5200ca57164bba2e`; generated Markdown `c874996d4b9132c8e9f247a1f70624ef040290211adc9714953db7c40ed9fb19`; generated fixture manifest `3831e03b7c1442e054b907a1ae33ff553ccaf9ef0b44bfdc2998368efc69e40d`.
+- Validation evidence: in-memory syntax 6/6 PASS; 57 unique affected tests PASS (66 executions because the nine-test comparison module appeared twice in the command); root deterministic verifier PASS with `volatility_matched_comparison_bound=true`; independent adversarial matrix 12/12 PASS. Network calls 0, runtime mutations false, additional real/legacy backtests 0, and statistical-correction additional backtests remain 0. Remote CI remains UNKNOWN.
+- Authority remains locked: quality `BLOCK`; profitability/paper/live/order/ranking/parameter-selection claims false. Blindness, natural-forward, Bootstrap, DSR/PBO, execution-activity, current single-look, legacy pack-v5 UNKNOWN, and pointer-v2 no-reissue semantics are unchanged.
+
+## ADR0569 - source-bound liquidity rejection admission evidence (2026-09-01)
+
+- Status: implemented and independently contract-validated. This is a research-simulator admission decision and derived evidence boundary, not an order state machine, paper capability, live capability, or trading authorization.
+- Read-only audit proved that the existing two liquidity-capacity runs already observed one volume-capped partial fill per role, while `ResearchExecutionSimulator` could only return a Fill and had no structured rejection decision. The standard coverage GAP incorrectly grouped partial fill with the genuinely missing rejection path.
+- `research-execution-simulator-v3` adds `research-execution-admission-v1`, a non-mutating `assess_order` decision and an optional exact-native positive `minimum_executable_quantity`. The default is `None`, so existing Backtest V2 fill behavior is unchanged. When configured, a below-floor order is rejected before portfolio mutation with `MINIMUM_EXECUTABLE_QUANTITY_NOT_MET`.
+- `frozen-execution-adversity-policy-v2` preregisters a fixed source-bound admission probe. It reuses the first BUY fill from each existing VALIDATION/FROZEN_TEST capacity run, applies a `0.000000001` participation rate and `0.001` minimum quantity, records two deterministic REJECTED decisions, and performs no additional backtest run or order submission.
+- Frozen quality now binds two rejection evidence records with matrix complete true, rejection observed true, portfolio mutation false, and all authority fields false. `ORDER_REJECTION_NOT_MODELLED` is no longer an active coverage claim; `EXECUTION_ADVERSITY_PARTIAL_FILL_REMAINDER_LIFECYCLE_NOT_MODELLED`, dynamic market impact, and shared intrabar volume budget remain explicit GAPs.
+- Frozen identities advanced to protocol v16, report v20, Markdown v20, and deterministic benchmark/verifier/manifest v13. Protocol SHA-256 is `fcd29a1f1d419f3b32d6154160f77f6b903843cf2fdfad0e6839ab77ad422edc`; report SHA-256 is `d766449f97f9ac59fc890afdb4cf374325f2f72e3e6e27324f7b5e79834067bd`; manifest SHA-256 is `d98fbb34cb9d0f2200c62f36b7096dac68a6c2b371be00189a42d108c4cdf2a0`.
+- File SHA-256: `execution.py` `91891a365babb72f8a57d6e86c879b3de63241c5c04bad939b14da190a36510c`; `frozen_execution_adversity.py` `faec9b51eae97f2cc03128b2b83286a923c9a1305d0c844ce92f47183053c991`; `frozen_evaluation.py` `39427d8901705b3c5aeb94b83c2c5634725931005bc846c82402b0af5493e873`; deterministic generator `cb7b9fc47656679e5b5304e3de47b8beae8a5e0ac66ae4d268260c5b2810effc`; generated report JSON `059b3532bede0b21eae12621f1487ecad8d5e4293b4456884ee41b7a205c4dab`; generated Markdown `3b97553abeb217c5770f1b4a556e81853a8c439ce09d61d326e2b1fbb678f7ef`; generated fixture manifest `c1da4a4c4260e98047f66d59603d575ef03be50336af49984f59a6928bb004b7`.
+- Validation evidence: in-memory syntax 8/8 PASS; targeted canonical execution, Frozen adversity/protocol, backtest/models, volatility, Bootstrap/statistical, dependency, and governance contracts 102/102 PASS; root verifier PASS with `liquidity_rejection_bound=true`; independent adversarial matrix 12/12 PASS. Real/legacy backtests 0, network calls 0, runtime mutations false, and statistical-correction additional backtests remain 0. Remote CI remains UNKNOWN.
+- Authority remains locked: quality `BLOCK`; profitability/paper/live/order/ranking/parameter-selection claims false. Blindness, natural-forward, source-activity, Bootstrap, DSR/PBO, current single-look, legacy pack-v5 UNKNOWN, and pointer-v2 no-reissue semantics are unchanged.
+
+## ADR0570 - canonical synthetic strategy-family baseline producer (2026-09-01)
+
+- Status: implemented and independently contract-validated. This slice migrates and repairs the existing 32-run pure-synthetic family baseline producer; it does not promote that producer to the advanced Frozen v20 report and does not fabricate an Ensemble strategy.
+- Stage audit proved the current advanced Frozen report covers only `dual_ma`. The canonical registry contains six concrete strategies: RANGE members `bollinger`, `grid`, `rsi`; TREND members `dual_ma`, `macd`, `momentum`; ENSEMBLE has no registered implementation and remains GAP.
+- Read-only PoC proved the existing baseline producer was unusable before any backtest: the canonical registry is an exact read-only `mappingproxy`, while the old Exchange Terminal adapter required an exact `dict` and raised `StrategyFamilyInventoryAdapterError`.
+- `build_current_strategy_family_inventory` now lives in canonical `src/hakimi_research/strategy_family_inventory.py`, requires the exact canonical mappingproxy, validates exact strategy IDs/classes, and rejects registry drift. `synthetic_strategy_report_bundle.py` is now the canonical producer under `src`; the two old Exchange Terminal modules are definition-free identity-preserving re-exports.
+- The previous adapter and bundle implementations are byte-preserved in `archive/historical_research/adr0570_*`. Existing downstream imports, including private helper consumers, retain canonical object identity through the compatibility wrapper.
+- Current functional evidence: the dry plan remains exactly 32 runs with zero execution; explicit `execute=True` produces six registered-strategy reports across TRAIN, VALIDATION, FROZEN 1x/2x/3x plus frozen cash/buy-and-hold controls; exact replay passes. RANGE and TREND each contain three reports; ENSEMBLE contains zero reports with `ENSEMBLE_STRATEGY_NOT_IMPLEMENTED`; bundle status remains BLOCK and all authority fields false.
+- This producer remains `SYNTHETIC_BASELINE_ONLY`. It still declares real-data, formal-blind, Walk-forward, parameter-stability, multiple-testing, dependency-lock, and source-commit gaps. No source-controlled deterministic family-bundle artifact or root CLI verifier was created in this slice.
+- File SHA-256: canonical family inventory `a8f7bb02be4d049aad83d7d896f75ec9c1fa0bb1d7a1ebe99a901bf1ab9c661c`; canonical bundle producer `977517c506013e738194c8fcd9b913051649d8242e3e8a92e8888c03c58b1faa`; adapter wrapper `65a2d3d13265360e6c992e55f24a6b11e0fa23c4b4e55919e8239ffc79a74518`; bundle wrapper `d4b4985306433f98b3a7b6925bc1e1125461e02d5e7de45c69ab459249f6663a`; archived adapter `c8f3e024cf40818001b9c4c45e64db7a5a48be3a69a4fa368845d6418705ac39`; archived bundle `38d23bf00e04eeb7ec8fdc71e011f31ddb4c3e1490c778d3a57290f582cb9a85`.
+- Validation evidence: in-memory syntax 11/11 PASS; family/bundle and canonical backtest/config/models/risk/strategy source contracts 77/77 PASS; bundle 32-run build plus exact replay PASS; research-lock source-envelope plan now binds 53 files with planned/additional backtests 0; independent adversarial matrix 14/14 PASS. Independent matrix executed 32 pure-synthetic bundle runs; real/legacy backtests 0, network calls 0, runtime mutations false. Remote CI remains UNKNOWN.
+- Advanced Frozen v20, its hashes, current single-look chain, legacy pack-v5 UNKNOWN, pointer-v2 no-reissue, and all paper/live/order/ranking/profitability locks were not changed or resealed.
+
+## ADR0571 - deterministic strategy-family reference and root verifier (2026-09-01)
+
+- Status: implemented and independently contract-validated. This creates a source-controlled six-strategy synthetic family reference; it does not replace or reseal advanced Frozen v20 and does not create an Ensemble implementation.
+- `synthetic-strategy-report-bundle-v2` accepts an exact `synthetic-strategy-reference-context-v1`. All 32 nested Backtest manifests now bind the repository-root `requirements.research.lock`, use canonical TRAIN/VALIDATION/FROZEN_TEST manifest roles, and bind the fixture protocol hash. Git remains explicitly untrusted: commit is the zero sentinel, worktree clean is false, and every nested manifest retains `git_worktree_not_clean`.
+- New canonical producer/verifier `deterministic_strategy_family_benchmark.py` binds 13 source files, the root lock, fixture/data/plan identities, expected JSON/Markdown bytes, family counts, gaps, authority, and claims. The checked reference lives in `examples/deterministic_strategy_family_benchmark_v1`.
+- Root command `hakimi-research.ps1 strategy-family-benchmark` is Supported through `product-capability-catalog-v2`. The canonical CLI, legacy CLI export, Electron exact capability consumer, README, `.gitattributes`, and research-contract CI are synchronized.
+- Current deterministic identity: bundle SHA-256 `941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f`; manifest SHA-256 `130948764afd8aa5e1ca43b841c35774cda472f895e4168bcdbaf9f5684dd99f`. The verifier reports 32 executed synthetic runs, 32 dependency-bound nested runs, 0 Git-clean runs, RANGE 3, TREND 3, ENSEMBLE 0/GAP.
+- `DEPENDENCY_LOCK_NOT_BOUND` is removed from the v2 reference gaps. Real data, formal blind testing, Walk-forward, parameter stability, multiple testing, source commit, and Ensemble implementation gaps remain. Status is BLOCK, maturity is `SYNTHETIC_BASELINE_ONLY`, and all authority/claim fields remain false.
+- File SHA-256: canonical bundle `46786bb3f4c9aa832741a7bff2e60a05329f879e90d99cf4c7fe2f577c64ae30`; deterministic verifier `64602df5ecfb888cc1e3b9f7bfef4fafec63af8b1d9b764646230763034ab4ea`; capability source `730b162dd61a2a52135ce9bbb707830ce2ff2d500f0d93d10de73f6bca158dae`; CLI `c17cabddbdcf786b0f8a77a963176e4c99c202eecab3f0a4ce29b94f36f2aa63`; Electron contract `f1e2a21c28c4f9f98c78a1ded4993357692b981ec17680715bbafad80bb75b30`; workflow `faeb3a4cb84c75ea134dbc14f2e39d6ac07bb6c9ba49d5ebd22b02bcb497ca8d`.
+- Reference file SHA-256: `expected_bundle.json` `e0b3893b77a6b3f6640d37e205bc8445d5ffaada6323a90b7b1360cde370d8f3`; `expected_bundle.md` `d1573611b20758feef2af5dbc4a7cb5ee53668c5704e34f3cbf47d6469eeada6`; `fixture_manifest.json` `02cfb6fd17740e38d53ee67bed8e92141d9b2196b71e86e58a158e7e1e9c5bb9`.
+- Validation evidence: in-memory syntax 9/9 PASS; deterministic family, bundle, inventory, CLI, capability, CI, and dependency contracts 48/48 PASS; root family verifier PASS; Node syntax and backend runtime contract PASS; independent adversarial matrix 15/15 PASS. Reference/adversarial rebuilds use only the preregistered 32-run pure-synthetic bundle; real/legacy backtests 0, network calls 0, runtime mutations false. Remote CI remains UNKNOWN.
+- Advanced Frozen v20, current single-look, legacy pack-v5 UNKNOWN, pointer-v2 no-reissue, and profitability/paper/live/order/ranking/parameter-selection locks remain unchanged.
+
+## ADR0572 - canonical v2 synthetic robustness evidence (2026-09-01)
+
+- Read-only gap proof: a valid `synthetic-strategy-report-bundle-v2` with root dependency-lock context was rejected by the legacy robustness consumer as `source bundle did not verify` before any of its 147 robustness runs executed.
+- Source boundary: the implementation now lives at `src/hakimi_research/synthetic_strategy_robustness_evidence.py`; the old `outputs/python_quant_bot/exchange_terminal/application/synthetic_strategy_robustness_evidence_v1.py` path is a definition-free compatibility wrapper. The byte-preserved v1 implementation is archived as `archive/historical_research/adr0572_synthetic_strategy_robustness_evidence_v1.py` with SHA-256 `acf563efb0ffccc259e7753ada4b0ea636b0fe166b69c82e337b21c6cfde2c00`.
+- Version boundary: v1 schema, 147-run plan, downstream imports and neutral renderer remain compatible. The separate v2 contract consumes only verified report-bundle-v2 input and does not auto-promote or rewrite v1 evidence.
+- Reproducibility binding: all 147 v2 robustness observations carry the same dependency-lock hash, dirty-worktree Git sentinel, v2 plan hash and legal evaluation role. The sealed role counts are TRAIN 54, VALIDATION 54 and FROZEN_TEST 39. Dependency-bound runs are 147; commit-bound runs remain 0 because the current slice is uncommitted and uses the all-zero dirty sentinel.
+- Gap semantics: `DEPENDENCY_LOCK_NOT_BOUND` is removed only from v2 robustness evidence. Real-market data, formal Frozen blind execution, source-commit binding, ensemble implementation and remaining statistical gaps stay explicit; status remains `BLOCK`, maturity remains `SYNTHETIC_ROBUSTNESS_ONLY`, and all authority fields remain false.
+- Targeted validation: affected-file `py_compile` PASS; v2 contract 7/7 PASS in 16.063 seconds; v1 compatibility and exact replay 10/10 PASS in 25.978 seconds; canonical/archive boundary 11/11 PASS; independent adversarial matrix 13/13 PASS; v2 replay `EXACT_MATCH`; `runtime_mutations=false`.
+- Evidence identity: canonical module SHA-256 `17a37e7f81c02a2b0e2efa1e0b496016d8a234da1aed3d97e6f5b929c3919e57`; compatibility wrapper SHA-256 `bb1abd97a94ba233c8b7b7d996d080ee6e28ef237a99960047c831f7a76e0bfe`; v2 bundle SHA-256 `16d4e350b212f146fd68578e89d77349ea3bc1ed6e96912e72960012dbea5fc6`; plan SHA-256 `5251a48d21b456ae8b63c976fe90fb8d62b925635cec90c49ef0562591e49370`; run-ledger SHA-256 `526e1e961b6aef00dc7d7ca211d1f406c4661771712b4b406a66247eb31f6232`.
+- Execution boundary: pure deterministic in-memory synthetic data only; no network, provider, real or legacy K-line, G50/G51, service, browser, scheduler, runtime store, order path, paper or live action was used. Remote CI remains `UNKNOWN`.
+- Current-chain boundary: the single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue behavior and all current pointers are unchanged.
+## ADR0573 - compact deterministic strategy robustness reference (2026-09-01)
+
+- Product outcome: `strategy-robustness-benchmark` is now a canonical root command backed by `deterministic_strategy_robustness_benchmark` in the product capability catalog. Python CLI, legacy CLI re-export, Electron exact catalog, root and project READMEs, LF attributes and the local CI contract are synchronized.
+- Reference layout: `examples/deterministic_strategy_robustness_benchmark_v1` contains only `expected_receipt.json`, `expected_receipt.md` and `fixture_manifest.json`. The repository does not store the full 147-run robustness bundle. Verification reconstructs the full evidence in memory and requires exact JSON/Markdown/manifest bytes.
+- Reconstructed scope: 32 source baseline runs plus 147 robustness runs, total 179. All 179 are dependency-lock bound; Git-bound runs remain 0 because the reference intentionally retains the all-zero dirty-worktree sentinel. Robustness roles remain TRAIN 54, VALIDATION 54 and FROZEN_TEST 39.
+- Evidence semantics: status remains `BLOCK`, maturity remains `SYNTHETIC_ROBUSTNESS_ONLY`, and FROZEN_TEST is only a synthetic protocol role. Real-market data, formal blind execution, source-commit binding, ensemble implementation and remaining statistical gaps remain explicit. Profitability, ranking, parameter-selection, paper, live and order claims remain false.
+- Compact identity: receipt self SHA-256 `73474f772b7e4567aaeed0fcec7f7e1907615787e5d962567272d7a18f7271ea`; manifest self SHA-256 `e1ea14ec2162113679ddd897803a5f241f54f63e1750717634883cf38d2e526d`; source bundle SHA-256 `941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f`; robustness bundle SHA-256 `cf794c8741b24f663700920526e5f0e0bf76706a28cf752cd95fa0bd70eddc84`; plan SHA-256 `5251a48d21b456ae8b63c976fe90fb8d62b925635cec90c49ef0562591e49370`; ledger SHA-256 `6434b4abfa717c96cdb76def63851097689b32c1a33985f86de8a26034f71a4e`.
+- File identity: verifier module SHA-256 `6e3966edff6645257e5ec0ce51ef1a8494266c1edd1ed4fea68b08e3a193c522`; expected receipt file SHA-256 `f1f317065e12ac5f00867773469bab7270af7903b147cebbc2fdb0ffc4023081`; expected Markdown SHA-256 `c8a8a6c1857476c19f1b4399f1a1c153aaf34ea7dd70d1a5ee0b7730ab291115`; fixture manifest file SHA-256 `24b493a67b12b263d4202d0d56a960cd92224e5c4b381d0122ae5815242dcfaa`.
+- Targeted validation: affected Python `py_compile` PASS; Node syntax and backend runtime contract PASS; synchronized Python/Node/CLI/LF/CI suite 30/30 PASS in 42.425 seconds; PowerShell root command PASS with exact reference identity; independent temporary-reference adversarial matrix 5/5 PASS.
+- Execution boundary: pure deterministic in-memory synthetic data only. No network, provider, real or legacy K-line, G50/G51, service, browser, scheduler, runtime store, order path, paper or live action was used. Temporary tamper files were automatically removed. Remote CI remains `UNKNOWN`.
+- Current-chain boundary: the single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue behavior and all current pointers remain unchanged.
+- Remaining integration gap: Bootstrap, DSR, CSCV-PBO, market-regime and contribution-concentration consumers still use the legacy v1 robustness/trial-matrix chain. They are not claimed by this reference and require a separate consumer-first migration.
+## ADR0574 - canonical v2 trial-return matrix source binding (2026-09-01)
+
+- Read-only gap proof: the trial-return matrix producer still imported `build_synthetic_strategy_robustness_evidence_with_run_capture_v1`; DSR, CSCV-PBO and contribution-concentration consumers therefore remained on the v1 matrix chain even after ADR0572/0573 established v2 robustness evidence.
+- Source boundary: the implementation now lives at `src/hakimi_research/synthetic_strategy_trial_return_matrix.py`; the old `outputs/python_quant_bot/exchange_terminal/application/synthetic_strategy_trial_return_matrix_v1.py` path is a definition-free compatibility wrapper. The byte-preserved prior implementation is archived at `archive/historical_research/adr0574_synthetic_strategy_trial_return_matrix_v1.py` with SHA-256 `e01d3c4da7e6320aadaece72e1ba52caec18d294746957694654d253ae52ae3a`.
+- Version boundary: v1 plan, bundle, renderer and downstream imports remain compatible. The separate v2 plan accepts only report-bundle-v2 and robustness-evidence-v2 sources and does not switch DSR/PBO or any current pointer.
+- Matrix scope: six strategy matrices retain three preregistered trials each, 18 candidate rows total and 169 observations per trial. Matrix construction reuses the existing 147 robustness runs and adds 0 backtests.
+- Reproducibility binding: the v2 bundle binds the source context, robustness ledger, all 179 source/robustness dependency-bound runs and all 18 matrix candidate manifests. Candidate manifests require the same dependency-lock hash, dirty Git sentinel, robustness plan hash and synthetic FROZEN_TEST role. Git-bound source runs remain 0.
+- Evidence identity: v2 matrix bundle SHA-256 `5081970aa1e3e6a21e959db5ef8b48e9824c34a2d482ad486adaf83fb0de36db`; v2 matrix plan SHA-256 `7cc8b216224a15aae736f022e9ef4d917f97bcc75548e0d66b77edc6ccb77345`; source robustness bundle SHA-256 `cf794c8741b24f663700920526e5f0e0bf76706a28cf752cd95fa0bd70eddc84`; source robustness ledger SHA-256 `6434b4abfa717c96cdb76def63851097689b32c1a33985f86de8a26034f71a4e`.
+- Static identity: canonical producer SHA-256 `bd733a6311c1011f8cb55c4841b7816904b8529e45d32e6771b8a0755053a197`; compatibility wrapper SHA-256 `76c38c360ecaac493e434e388652011d88528f5fe8a612e2faf5e5ba3125e276`; v2 test SHA-256 `670253af2b3de7bdb9dea995c6bcb744772c59e1f43cb166567979cc0cb2dde6`.
+- Targeted validation: affected Python `py_compile` PASS; v2 contract 8/8 PASS in 18.461 seconds; v1 compatibility/adversarial contract 11/11 PASS in 16.724 seconds; independent v2 replay `EXACT_MATCH`; independent adversarial matrix 13/13 PASS; research-lock plan-only check PASS with planned=0, executed=0, source_files=55 and `runtime_mutations=false`.
+- Interpretation boundary: these matrices are statistical inputs only, not DSR, PBO, significance, profitability, ranking or parameter-selection results. Status remains `BLOCK`, maturity remains `SYNTHETIC_TRIAL_RETURN_MATRIX_ONLY`, and paper/live/order authority remains false.
+- Execution boundary: pure deterministic in-memory synthetic data only. No network, provider, real or legacy K-line, G50/G51, old v9 execution, service, browser, scheduler, runtime store, order path, paper or live action was used. Remote CI remains `UNKNOWN`.
+- Current-chain boundary: the single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue behavior and all current pointers remain unchanged.
+- Remaining consumer gap: DSR, CSCV-PBO, Bootstrap, market-regime and contribution-concentration aggregators still require explicit v2 consumer contracts before they can be included in the deterministic robustness reference.
+## ADR0575 - canonical v2 descriptive Deflated Sharpe consumer (2026-09-01)
+
+- Read-only gap proof: a valid `synthetic-strategy-trial-return-matrix-bundle-v2` with SHA-256 `5081970aa1e3e6a21e959db5ef8b48e9824c34a2d482ad486adaf83fb0de36db` was rejected by the legacy DSR consumer as a v1 bundle shape mismatch before its six analyses executed.
+- Source boundary: the aggregation implementation now lives at `src/hakimi_research/synthetic_strategy_deflated_sharpe_validation.py`; the old `outputs/python_quant_bot/exchange_terminal/application/synthetic_strategy_deflated_sharpe_validation_v1.py` path is a definition-free compatibility wrapper. The byte-preserved prior implementation is archived at `archive/historical_research/adr0575_synthetic_strategy_deflated_sharpe_validation_v1.py` with SHA-256 `b202f3dd5e4a72a6ae2f17704bab26fb77b4c323a223af9921bd34e82cf6ad9e`.
+- Formula boundary: `src/hakimi_research/deflated_sharpe_diagnostic.py` was not changed. V1 independent recalculation continues to cover pairwise correlation, effective independent trial count, expected maximum Sharpe, skewness, kurtosis and the descriptive DSR probability. Zero-variance and exact-native hostile inputs remain fail-closed.
+- Version boundary: v1 plan, bundle, replay, renderer and downstream imports remain compatible. The separate v2 contract accepts only matrix-v2 and does not switch PBO, benchmark report or any current pointer.
+- V2 provenance: six descriptive diagnostics consume the six matrix records, three preregistered trials and 169 observations per trial. The bundle binds the matrix context, robustness ledger, 179 dependency-bound source runs and 18 dependency-bound matrix candidates. Git-bound source runs remain 0.
+- Non-inference contract: planned/executed/additional backtest runs are all 0; `formal_inference_claimed=false`; `decision_threshold=None`; status remains `BLOCK`; maturity remains `SYNTHETIC_DEFLATED_SHARPE_DIAGNOSTIC_ONLY`; `PROBABILITY_OF_BACKTEST_OVERFITTING_GAP` remains explicit. No DSR value is treated as significance, ranking, parameter-selection or profitability evidence.
+- Evidence identity: v2 DSR bundle SHA-256 `3bae370a85adc0a308a111644b39d62a1c9c6e3970523e07b674fd6f7bea6089`; v2 DSR plan SHA-256 `9be4c19f19dbbf857e0b0978d78f6da458b220fb3b06e6fc4de564bfb06aa537`; source matrix SHA-256 `5081970aa1e3e6a21e959db5ef8b48e9824c34a2d482ad486adaf83fb0de36db`; source ledger SHA-256 `6434b4abfa717c96cdb76def63851097689b32c1a33985f86de8a26034f71a4e`.
+- Static identity: canonical aggregator SHA-256 `cf3cf4bee52cd00c4ea91bd068c48c5c98582c4d854c0b9ec8074c817e6fc031`; compatibility wrapper SHA-256 `88d21bbade982f53f824e0c1ced012daab1e151f3b39094b0e11d62d57243682`; v2 test SHA-256 `7ed56d3154eefdf9555232d956db82c086d40628dd263f17868cc6b65ea8bcaa`.
+- Targeted validation: affected Python `py_compile` PASS; v2 contract 8/8 PASS in 24.132 seconds; v1 formula/compatibility/adversarial contract 12/12 PASS in 20.048 seconds; v2 replay `EXACT_MATCH`; independent v2 adversarial matrix 15/15 PASS; research-lock plan-only PASS with planned=0, executed=0, source_files=56 and `runtime_mutations=false`.
+- Execution boundary: pure deterministic in-memory synthetic data only. No network, provider, real or legacy K-line, G50/G51, old benchmark report, service, browser, scheduler, runtime store, order path, paper or live action was used. Remote CI remains `UNKNOWN`.
+- Current-chain boundary: the single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue behavior and all current pointers remain unchanged.
+- Remaining consumer gap: CSCV-PBO remains on matrix-v1 and is not claimed by this DSR contract. A separate v2 migration is required before DSR and PBO can be combined in a source-controlled statistical-correction reference.
+## ADR0576 - canonical v2 CSCV-PBO consumer with explicit tie gaps (2026-09-01)
+
+- Read-only gap proof: a valid matrix-v2 bundle with SHA-256 `5081970aa1e3e6a21e959db5ef8b48e9824c34a2d482ad486adaf83fb0de36db` was rejected by the legacy PBO consumer as a v1 shape mismatch before its six CSCV analyses executed.
+- Source boundary: the aggregation implementation now lives at `src/hakimi_research/synthetic_strategy_cscv_pbo_validation.py`; the old `outputs/python_quant_bot/exchange_terminal/application/synthetic_strategy_cscv_pbo_validation_v1.py` path is a definition-free compatibility wrapper. The byte-preserved prior implementation is archived at `archive/historical_research/adr0576_synthetic_strategy_cscv_pbo_validation_v1.py` with SHA-256 `20c77e62dd7c1ea7f49010135bd48ce96df1da722d838207cb739e7c35dfdae1`.
+- Formula boundary: `src/hakimi_research/cscv_pbo_diagnostic.py` was not changed. V1 independent checks continue to cover eight equal partitions, all 70 symmetric combinations, complementary IS/OOS membership, logit calculation, explicit exclusion of observation 169, missing/overlapping split rejection and exact-native hostile inputs.
+- Version boundary: v1 plan, bundle, replay, renderer and downstream imports remain compatible. The separate v2 contract accepts only matrix-v2. The tie-bounds consumer, old benchmark report and all current pointers remain on their prior contracts.
+- Coverage contract: the v2 plan preregisters 4 OBSERVED strategies and 2 GAP strategies. `dual_ma` and `grid` remain the exact GAP set because all 70 splits contain non-unique performance ranks; no split is dropped and no lexical or arbitrary winner is synthesized. Aggregate evidence state remains `GAP`.
+- V2 provenance: six diagnostics bind the matrix context, source ledger, 179 dependency-bound source runs and 18 dependency-bound matrix candidates. Git-bound source runs remain 0. CSCV analysis executes 0 backtests and adds 0 backtests.
+- Non-inference contract: `formal_inference_claimed=false`; `decision_threshold=None`; status remains `BLOCK`; maturity remains `SYNTHETIC_CSCV_PBO_DIAGNOSTIC_ONLY`; rank ties remain GAP. No PBO rate is treated as significance, ranking, parameter-selection, profitability or trading evidence.
+- Evidence identity: v2 PBO bundle SHA-256 `bff9caa039246ad2bb1a1b8ee80a0d3e148ff0a4ee7f61613db50ab928a3fcd6`; v2 PBO plan SHA-256 `424971513fc9b80a3724a825cdee72c356a396f50c54806287c7fb10faf25b26`; source matrix SHA-256 `5081970aa1e3e6a21e959db5ef8b48e9824c34a2d482ad486adaf83fb0de36db`; source ledger SHA-256 `6434b4abfa717c96cdb76def63851097689b32c1a33985f86de8a26034f71a4e`.
+- Static identity: canonical aggregator SHA-256 `fa42e47a0b194390830f729edb0dffe4047343b28f504b06ac3e7564dc4ec39d`; compatibility wrapper SHA-256 `6de349d195c85220f432f5921fa4d744ea9e7f59a7fd368c68d400001f46e7cf`; v2 test SHA-256 `f908f2ac548a60f84d5be7e71fed04ab81612f27e62a220f3c7e39360e7f67a6`.
+- Targeted validation: affected Python `py_compile` PASS; v2 contract 8/8 PASS in 25.628 seconds; v1 combinatorial/formula/compatibility contract 12/12 PASS in 20.382 seconds; v2 replay `EXACT_MATCH`; independent v2 adversarial matrix 20/20 PASS; research-lock plan-only PASS with planned=0, executed=0, source_files=57 and `runtime_mutations=false`.
+- Execution boundary: pure deterministic in-memory synthetic data only. No network, provider, real or legacy K-line, G50/G51, old benchmark report, service, browser, scheduler, runtime store, order path, paper or live action was used. Remote CI remains `UNKNOWN`.
+- Current-chain boundary: the single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue behavior and all current pointers remain unchanged.
+- Remaining consumer gap: CSCV tie bounds still consume PBO-v1. A separate v2 migration is required before tie-aware PBO evidence can join a source-controlled statistical-correction reference.
+## ADR0577 - canonical v2 tie-aware CSCV-PBO identified sets (2026-09-01)
+
+- Read-only gap proof: a valid PBO-v2 bundle with SHA-256 `bff9caa039246ad2bb1a1b8ee80a0d3e148ff0a4ee7f61613db50ab928a3fcd6` was rejected by the legacy tie-bounds consumer as a v1 shape mismatch before its six bounds analyses executed.
+- Source boundary: the aggregation implementation now lives at `src/hakimi_research/synthetic_strategy_cscv_pbo_tie_bounds.py`; the old `outputs/python_quant_bot/exchange_terminal/application/synthetic_strategy_cscv_pbo_tie_bounds_v1.py` path is a definition-free compatibility wrapper. The byte-preserved prior implementation is archived at `archive/historical_research/adr0577_synthetic_strategy_cscv_pbo_tie_bounds_v1.py` with SHA-256 `414b45415e635893791b2b5404d3d5933e5353899687d7541db511edfaeb500f`.
+- Formula boundary: `src/hakimi_research/cscv_pbo_tie_bounds.py` was not changed. V1 independent checks continue to recalculate all 420 split bounds, IS maximizer sets, OOS rank bounds and nonpositive indicators.
+- Version boundary: v1 plan, bundle, replay, renderer and old v9 report imports remain compatible. The separate v2 contract accepts only PBO-v2 and does not execute or switch the v9 report or any current pointer.
+- Identified-set contract: point-identified strategies remain exactly `bollinger`, `macd`, `momentum` and `rsi`; `grid` remains the single partial identified set; `dual_ma` remains the single full-unit interval and explicitly uninformative case. All 420 split bounds are retained. Arbitrary tie-breaking, split dropping and interval-midpoint substitution remain forbidden.
+- V2 provenance: the bundle binds the PBO-v2 source, matrix-v2 source, reproducibility context, robustness ledger, 179 dependency-bound source runs and 18 dependency-bound matrix candidates. Git-bound source runs remain 0. Tie-bounds analysis executes 0 backtests and adds 0 backtests.
+- Non-inference contract: `formal_inference_claimed=false`; `decision_threshold=None`; status remains `BLOCK`; maturity remains `SYNTHETIC_CSCV_PBO_TIE_BOUNDS_ONLY`; evidence state remains `OBSERVED_WITH_GAPS`. Identified sets describe synthetic tie uncertainty only and are not formal confidence intervals, significance, ranking, parameter-selection, profitability or trading evidence.
+- Evidence identity: v2 tie-bounds bundle SHA-256 `4e91b681bd0b273ab859464c845d4f881397e82bfd8e026579608bb8d578ddda`; v2 plan SHA-256 `abdaff203e3c7b66cd03969c15ea18aa2ea07978c7ecdf46b3dd5af920d414ce`; source PBO SHA-256 `bff9caa039246ad2bb1a1b8ee80a0d3e148ff0a4ee7f61613db50ab928a3fcd6`; source matrix SHA-256 `5081970aa1e3e6a21e959db5ef8b48e9824c34a2d482ad486adaf83fb0de36db`; source ledger SHA-256 `6434b4abfa717c96cdb76def63851097689b32c1a33985f86de8a26034f71a4e`.
+- Static identity: canonical aggregator SHA-256 `1ef46807784eba0649b1ca4a38c7b02ddd233ea92d73526152d449df82c51889`; compatibility wrapper SHA-256 `5b237879e12966f952d36b15972e86dbba2be8c4bce13da929790afb9d16ef13`; v2 test SHA-256 `f6d7a90bf1b4e1371f40194ce826c9279400ffd0cf7aa11185934f48cb712c79`.
+- Targeted validation: affected Python `py_compile` PASS; v2 contract 8/8 PASS in 28.857 seconds; v1 420-split formula/compatibility contract 12/12 PASS in 23.381 seconds; v2 replay `EXACT_MATCH`; independent v2 adversarial matrix 26/26 PASS; research-lock plan-only PASS with planned=0, executed=0, source_files=58 and `runtime_mutations=false`.
+- Execution boundary: pure deterministic in-memory synthetic data only. No network, provider, real or legacy K-line, G50/G51, old v9 report, service, browser, scheduler, runtime store, order path, paper or live action was used. Remote CI remains `UNKNOWN`.
+- Current-chain boundary: the single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue behavior and all current pointers remain unchanged.
+- Remaining reference gap: DSR-v2, PBO-v2 and tie-bounds-v2 are individually verified but are not yet combined in one compact source-controlled statistical-correction reference or root verifier.
+## ADR0578 - compact deterministic statistical-correction reference (2026-09-01)
+
+- Product outcome: `strategy-statistical-correction-benchmark` is now a canonical root command backed by `deterministic_strategy_statistical_correction_benchmark` in the product capability catalog. Python CLI, legacy CLI re-export, Electron exact catalog, root and project READMEs, LF attributes and the local CI contract are synchronized.
+- Reference layout: `examples/deterministic_strategy_statistical_correction_benchmark_v1` contains only `expected_receipt.json`, `expected_receipt.md` and `fixture_manifest.json`. The repository does not store nested source, robustness, matrix, DSR, PBO or tie-bounds bundles. Verification reconstructs the complete chain in memory and requires exact JSON/Markdown/manifest bytes.
+- Reconstructed scope: 32 source baseline runs plus 147 robustness runs, total 179; all 179 are dependency-lock bound, Git-bound runs remain 0 and 18 matrix candidates retain manifest binding. DSR, PBO and tie-bounds analysis execute 0 backtests and add 0 backtests.
+- Statistical coverage: six descriptive DSR diagnostics; CSCV-PBO coverage remains 4 OBSERVED and 2 GAP with `dual_ma` and `grid` as the exact GAP set; tie bounds remain four point-identified strategies, `grid` as the one partial set, `dual_ma` as the one full-unit interval and 420 retained split bounds.
+- Compact non-disclosure boundary: the receipt contains no DSR probability, PBO rate, PBO lower/upper interval value, strategy record or nested source bundle. It binds only stage identities, provenance, counts, GAP sets and false authority. `formal_inference_claimed=false`, `decision_threshold=None`, status remains `BLOCK` and maturity is `SYNTHETIC_STATISTICAL_CORRECTION_ONLY`.
+- Remaining GAP semantics: robustness GAPs remain except the two superseded placeholders `DEFLATED_SHARPE_RATIO_NOT_ESTIMATED` and `PROBABILITY_OF_BACKTEST_OVERFITTING_NOT_ESTIMATED`; the corresponding v2 stages now exist. Dirty source commit, real-data, formal-blind, Bootstrap, market-regime, ensemble and overlapping-window limitations remain explicit, together with DSR/PBO/tie-specific synthetic and identified-set gaps.
+- Evidence identity: receipt self SHA-256 `c8333dd879913b6caa5417dd9ffdba363c27cbd986c16aa01ffab2368c0c073e`; manifest self SHA-256 `44ccbcb6c43217894c718f2758ad44c22012f9cf21b674eb1e9be571099025ad`; source bundle SHA-256 `941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f`; robustness bundle SHA-256 `cf794c8741b24f663700920526e5f0e0bf76706a28cf752cd95fa0bd70eddc84`; matrix bundle SHA-256 `5081970aa1e3e6a21e959db5ef8b48e9824c34a2d482ad486adaf83fb0de36db`; DSR bundle SHA-256 `3bae370a85adc0a308a111644b39d62a1c9c6e3970523e07b674fd6f7bea6089`; PBO bundle SHA-256 `bff9caa039246ad2bb1a1b8ee80a0d3e148ff0a4ee7f61613db50ab928a3fcd6`; tie-bounds bundle SHA-256 `4e91b681bd0b273ab859464c845d4f881397e82bfd8e026579608bb8d578ddda`.
+- File identity: verifier module SHA-256 `67d103495bdcb2b4cc3eecc944e145353baebca2fe607dc42e96c40114248191`; expected receipt file SHA-256 `d9401e814eed988a92c379aab723b8e0b523df0c24dc6fbe114215e5272855f0`; expected Markdown SHA-256 `3e77767f93c4ac176a6b005184f46d2bad5c96431fc35cbcfcfdacc9b1b7bfa7`; fixture manifest file SHA-256 `78e01c4fc3f0c19168ba47a87ba2a52c0f1c969eaf6cadfbf8ea4fcdd60a15b7`.
+- Targeted validation: affected Python `py_compile` PASS; Node syntax and backend runtime contract PASS; synchronized Python/Node/reference/CLI/LF/CI suite 31/31 PASS in 77.789 seconds; PowerShell root command PASS with exact reference identity; independent temporary-reference adversarial matrix 5/5 PASS.
+- Interpretation boundary: this reference proves deterministic reconstruction and honest GAP propagation only. It does not conclude that any strategy is or is not overfit, statistically significant, profitable or eligible for ranking, parameter selection, paper, live or order entry.
+- Execution boundary: pure deterministic in-memory synthetic data only. No network, provider, real or legacy K-line, G50/G51, old benchmark report, service, browser, scheduler, runtime store, order path, paper or live action was used. Temporary tamper files were automatically removed. Remote CI remains `UNKNOWN`.
+- Current-chain boundary: the single-look chain, legacy pack-v5 `UNKNOWN`, pointer-v2 no-reissue behavior and all current pointers remain unchanged.
+- Remaining integration gap: Bootstrap confidence, market-regime evidence and return-contribution concentration remain on legacy consumers and are not included in this statistical-correction reference.
+## ADR0579 - Fail-closed Bootstrap consumer and provenance-bound v2 (2026-09-01)
+
+- Scope: migrate the synthetic Bootstrap confidence consumer into the canonical `src/hakimi_research` boundary while retaining the historical output-path compatibility import and an immutable archive of the prior implementation.
+- Demonstrated gap: the prior v1 consumer called the report-bundle verifier but ignored its returned `BLOCK` status. A valid report-bundle-v2 input was therefore falsely accepted by the v1 path and emitted six `OBSERVED` Bootstrap records.
+- Fail-closed correction: v1 now requires an explicit upstream verifier `PASS` before analysis. v2 additionally binds the exact source bundle digest, exact reproducibility context, dependency-bound and Git-bound source counts, fixed plan, policy, authority, non-inference fields, and exact-native JSON identity.
+- Clean synthetic evidence: source report bundle `941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f`; Bootstrap plan `2c2eae0059c3833528cfe1640bd020f1407289d33d6f8680b82f24dd66d5f52d`; Bootstrap bundle `edca33bd9db62dc5d118ec181667b0c8cd36d5754b911ad088b5ccf8e11beceb`.
+- Counts: 32 dependency-bound upstream synthetic runs, 0 Git-bound runs, 0 additional Bootstrap backtests, 6 observed strategy records, 169 paired observations per strategy, 1000 deterministic replicates, and 3 intervals per strategy.
+- Semantics: the clean verification receipt is intentionally `state=OBSERVED` and `status=BLOCK`, with `formal_inference_claimed=false` and `decision_threshold=null`. The result is synthetic Bootstrap confidence evidence only, not formal inference, profitability evidence, blind-test completion, or execution authority.
+- Replay and adversarial evidence: Bootstrap replay returned `EXACT_MATCH` without additional backtests. An independent 13-case matrix rejected context, provenance count, Git count, observation count, replicate count, interval count, formal-inference, threshold, status, authority, source digest, nested policy interval, and exact-native hostile-dict mutations.
+- Compatibility and source lock: v1 targeted compatibility remained 10/10 PASS; v2 targeted contract tests were 8/8 PASS; targeted `py_compile` passed. The read-only research-lock plan remains `planned_run_count=0`, `executed_run_count=0`, `runtime_mutations=false`, and now binds 59 source files including the canonical Bootstrap module.
+- Fingerprints: canonical module `d15e5dba63fcb549b65d27ac661f2341b91337d5dfa4beae3d99ed13bec641c0`; compatibility wrapper `79998342df74ee103380390e8595a74622f3f9ad922afef673abd153d85f7237`; archived original `a71aa4c71e36697db0e459a21f654b4f19b9cb2f1347a62d6c51502333ebf19d`; v2 test `26dc56be6a858ccda35eb02fb8aa7980ee1963b1d7c68e80cd2215aff2db4c15`; research-lock audit `c07f0f0660958aa4ad52e99e5691a78a4fd2d3e52cfaa990da0e1bbfe1deb9a8`.
+- Boundary: no real dataset, provider, old K-line, G50/G51, formal blind test, service, browser, scheduler, paper, live, order entry, or profitability claim was used or enabled. The advanced Frozen two-record and nine-pair chain remains a separate GAP and was not promoted. The single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+
+## ADR0580 - Opt-in compact statistical-correction reference with Bootstrap-v2 (2026-09-01)
+
+- Proven consumer gap: report-v10 carries one `synthetic-strategy-bootstrap-validation-plan-v1` only after seven nested `source_report_plan` hops. The existing 179-run statistical-correction-v1 receipt had zero Bootstrap fields, and its source manifest bound zero Bootstrap source paths.
+- Versioned design: added an independent v2 reference producer and source-controlled three-file fixture. The v1 producer and v1 fixture remain immutable. The existing CLI command still defaults to v1; v2 is activated only with `--statistical-reference-version v2`.
+- Shared execution graph: v2 reuses one 32-run source bundle and one 147-run robustness bundle, for 179 total executed and dependency-bound pure-synthetic runs. Bootstrap consumes the same source bundle and adds 0 backtests.
+- Bootstrap binding: 6 observed strategy records, 169 paired observations per strategy, 1000 deterministic replicates, 3 intervals per strategy, source Git-bound run count 0, replay `EXACT_MATCH`, formal inference false, and decision threshold null.
+- Reference identities: source bundle `941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f`; Bootstrap bundle `edca33bd9db62dc5d118ec181667b0c8cd36d5754b911ad088b5ccf8e11beceb`; v2 compact receipt `9f072ee64a55af2b8fc624a9336794c370a702880783783f960edf6cc67c9509`; v2 manifest `b9733a75ebf19607a647d1f7bc3d33a8e91b8c828abb82b5daa8c43c370f9ab1`.
+- Verification semantics: the reference verifier returns `PASS` only for exact reproducibility and source-envelope integrity. The research receipt remains `BLOCK` with maturity `SYNTHETIC_STATISTICAL_CORRECTION_AND_BOOTSTRAP_ONLY`; it does not authorize formal inference, ranking, parameter selection, profitability, paper, live, or orders.
+- Validation: targeted `py_compile` PASS; v2 deterministic contract 8/8 PASS in 29.139 seconds; a separate zero-reexecution adversarial matrix rejected 8/8 resealed count, source identity, extra-backtest, inference, authority, source-closure, extra-file, and hostile-type mutations. CLI dispatch preserved default v1 and explicit v2.
+- Backward compatibility: the v1 module hash remains `67d103495bdcb2b4cc3eecc944e145353baebca2fe607dc42e96c40114248191`; v1 receipt identity remains `c8333dd879913b6caa5417dd9ffdba363c27cbd986c16aa01ffab2368c0c073e`; v1 manifest identity remains `44ccbcb6c43217894c718f2758ad44c22012f9cf21b674eb1e9be571099025ad`.
+- File fingerprints: v2 producer `04f6a9706b3d77ea31a800a962d4fbdbf5c514774bd036be0ecf6d52d453e201`; v2 test `aeb243a635d4f45ed7da31a03a557e985b79c4e0b0651bdbc5dbd6dc4dedef37`; CLI `a252cdcbf0b96dd028df34151bb10e642135b5251971497f47bed8f73c0772b4`; README `60716c652cfe7e59f8daef3acc33d2a5b6f5d1475488eddd47f6b3db306a0d51`; receipt file `f0ee2317496228900689794c85be8680eb112b9bc2b44a88185d5b64af90cb37`; markdown file `762f5a2e737070bfc49bd4822992ddecfc78d32f6bf7292ec8e4ce4fdb793974`; manifest file `eee878fef42fbc4584df23a43734b04ed0c430928efaad61b43f9b1998ec7144`.
+- Remaining gap: report-v10 still transitively exposes Bootstrap-v1, and current/default statistical reference remains v1. No full-report current pointer was switched. Remote CI is UNKNOWN.
+- Boundary: no real dataset, provider, old K-line, G50/G51, formal blind test, service, browser, scheduler, paper, live, order entry, or profitability claim was used or enabled. The single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+
+## ADR0581 - Non-current report-v13 statistical-source alignment gate (2026-09-01)
+
+- Current-tree correction: report-v11 and report-v12 already existed before this slice. V11 adds 18 execution-adversity runs; v12 adds input-pathology and static-capacity evidence while retaining 222 total logical runs. No historical report file was overwritten.
+- Proven integration gap: the v12 plan contains exactly one `synthetic-strategy-bootstrap-validation-plan-v1` after nine nested report-plan hops. It contains no Bootstrap-v2 plan, no statistical-correction path, no v2 run-ledger hash, and none of the 16 v2 compact-reference identity hashes.
+- Design consequence: the v2 statistical reference cannot be represented as already applied to v12. Report-v13 is therefore a fail-closed alignment gate, not a replacement or promotion. It binds both identities but fixes `source_alignment_proven=false`, `statistical_reference_applied_to_source_report=false`, and `bootstrap_v2_replaces_legacy_v1=false`.
+- Run accounting: v12 declares 222 logical runs and the v2 compact reference declares 179 executed runs. Their overlap is not proven, so v13 sets `combined_total_logical_run_count=null` and `run_accounting_additive=false`; composition and additional backtest counts remain 0.
+- Explicit gaps: `FULL_REPORT_STATISTICAL_SOURCE_ALIGNMENT_NOT_PROVEN`, `LEGACY_BOOTSTRAP_V1_TRANSITIVE_ONLY`, `OVERLAPPING_RUN_ACCOUNTING_NOT_ADDITIVE`, and `STATISTICAL_REFERENCE_V2_PARALLEL_LINEAGE_ONLY` are retained in addition to all source gaps.
+- Bound v2 identities: compact receipt `9f072ee64a55af2b8fc624a9336794c370a702880783783f960edf6cc67c9509`; manifest `b9733a75ebf19607a647d1f7bc3d33a8e91b8c828abb82b5daa8c43c370f9ab1`; Bootstrap bundle `edca33bd9db62dc5d118ec181667b0c8cd36d5754b911ad088b5ccf8e11beceb`.
+- V13 plan identity: `1fc8d5d3858d08b85446c66a64c6727d40fd82a55bf41686d4812328d0dc5315`. The plan is non-current, research-only, status `BLOCK`, and maturity `SYNTHETIC_FULL_REPORT_WITH_UNALIGNED_STATISTICAL_REFERENCE`.
+- Validation: targeted `py_compile` PASS; report-v13 contract 12/12 PASS in 6.411 seconds; independent resealed adversarial matrix rejected 13/13 source, reference, Bootstrap, count, additive-accounting, alignment, application, replacement, authority, and hostile-type mutations.
+- Evidence limit: no old v9, 204-run, 222-run, or full report chain was executed. Tests used the real v12 plan, exact committed v2 reference material, and a mocked verifier around a minimal prebuilt v12 shell. The resulting test report and receipt hashes are not full-report benchmark identities and are not promoted as such.
+- Fingerprints: report-v13 producer `e0a836de1792fb97c198c1d3f76acb29a0a2c488f9887cb8cf8ad092f499b7ce`; v13 test `504e2aa023f3df9f1c76ddf68de6ea1dae694f83d6e94d2c6f6f741277f88acc`. V12 producer remains `d4daaaad3ae06ff7d23028bc5f89370d387d5cb1397d4096513974ddfe2f6b1a`; v2 reference producer remains `04f6a9706b3d77ea31a800a962d4fbdbf5c514774bd036be0ecf6d52d453e201`.
+- Boundary: no current pointer, CLI default, Electron capability, CI workflow, real dataset, provider, formal blind test, paper, live, order entry, or profitability claim changed. Remote CI remains UNKNOWN. The single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract are unchanged.
+
+## ADR0582 - Exact 32-pair baseline outcome lineage proof (2026-09-01)
+
+- Legacy lineage trace: report-v3 extracts `source_report_v1.baseline_bundle` from report-v2, and later report layers reuse that exact v1 baseline bundle identity. The legacy report chain contains baseline bundle hashes but no run-ledger field.
+- Canonical lineage trace: report-bundle-v2 exposes a verifier-owned v1 projection, but robustness-v2 exposes no corresponding v1 projection. Therefore only baseline outcome alignment is eligible for proof in this version.
+- Identity result: legacy v1 bundle `a74cdbf982b2919912cf6dc12de0c445b486a63b61b60ed71e8ce60942a347b7`; canonical v2 bundle `941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f`; canonical v2 projected to valid v1 `828d5e492fc1579229a9725d43e7bfa6f70748a7f6b1b1519e73deb15472fb75`. These three identities are deliberately unequal.
+- Outcome projection: remove only `experiment_manifest` and its explicitly enumerated derived bundle/run/result/report/binding/evidence/source digests. Dataset hashes, run IDs, fixture protocol, plans, strategy parameters, cost contract, market results, and all non-provenance result values remain in the comparison.
+- Proven result: all 32 run IDs match, all 32 dataset hashes match, and all 32 projected outcomes are exactly equal. Both sides produce outcome projection `d773c121d8ea8651640154178e2ac595c3b40a61cdee7a43f76afcbc3d6d3320`; fixture protocol is `6718f51a7ebcbba68cb04addbe8b48e5775654f91ae1e2fbaf38d60455a36cc6`.
+- Accounting: 32 legacy plus 32 canonical source runs were executed, for 64 source runs. The comparison adds 0 backtests. Run accounting remains non-additive because the outcomes overlap while provenance manifests differ.
+- Proof identities: plan `ba7ba688448dd63386e31cfbb6834ba1118433428585c82a4645f7a65ba090ea`; bundle `ddfebefadc5697da5886debe0dfbd2a6203baaa731d791bc920324f46ed21084`.
+- Scope locks: `baseline_outcome_alignment_proven=true`; `baseline_bundle_identity_equal=false`; `robustness_alignment_proven=false`; `statistical_ledger_alignment_proven=false`; `full_report_alignment_proven=false`; status `BLOCK`; state `OBSERVED_WITH_GAPS`.
+- Validation: targeted `py_compile` PASS; contract 10/10 PASS in 10.644 seconds; independent adversarial matrix rejected 18/18 identity, count, source, projection, additive-accounting, inference, authority, and downstream-alignment mutations.
+- Fingerprints: producer `b789eb777a7c8aae3d0045d1bd346a58665a5033d5b96898709b6323b2ec990d`; test `725e69859dd3fff1632b6abc89f8c87182d0ffa7eaa2a94b8052ffc1483dacba`. Canonical report-bundle source remains `46786bb3f4c9aa832741a7bff2e60a05329f879e90d99cf4c7fe2f577c64ae30`; report-v13 remains `e0a836de1792fb97c198c1d3f76acb29a0a2c488f9887cb8cf8ad092f499b7ce`.
+- Remaining gap: the proof is not yet consumed by report-v13, and no robustness or statistical-ledger mapping exists. It must not be used to set v13 source alignment, reference application, Bootstrap replacement, or full-report alignment to true.
+- Boundary: no old v9, 204-run, 222-run, full report chain, real dataset, provider, formal blind test, paper, live, order, profitability claim, current pointer, CLI, Electron, CI, or single-look contract changed. Remote CI remains UNKNOWN.
+
+## ADR0583 - Exact 147-pair robustness outcome lineage proof (2026-09-01)
+
+- Static architecture: robustness-v1 and robustness-v2 use the same 147-run execution function, walk-forward windows, parameter variants, selection policy, performance projection, stability logic, and multiplicity calculations. V2 changes source/plan schema, injects dependency-bound experiment context, and adds a 147-record reproducibility ledger.
+- Direct evidence: one legacy source+robustness graph and one canonical source+robustness graph were executed in memory. This represents 32+147 legacy and 32+147 canonical runs, for 358 source runs. No report-v3-v13 composition or additional comparison backtest was executed.
+- Identity result: legacy robustness bundle `a45545477289b8ad8f85fb6a5e6bb025665ba8be2468e46ddf32274437ecd7d2`; canonical robustness bundle `cf794c8741b24f663700920526e5f0e0bf76706a28cf752cd95fa0bd70eddc84`; canonical run-reproducibility ledger `6434b4abfa717c96cdb76def63851097689b32c1a33985f86de8a26034f71a4e`. Bundle identities remain unequal.
+- Projection policy: remove exact schema/context fields and explicitly enumerated manifest-derived bundle, run, result, source, record, validation-lineage, and ledger digests. Retain run ID, phase, window, parameter ID, dataset hash, status, failure code, total return, maximum drawdown, Sharpe, trade count, selection outputs, stability outputs, and multiplicity values.
+- Proven result: all 147 compact record identities, dataset hashes, phases, parameter IDs, and outcomes match exactly. Full non-provenance robustness projection is equal with digest `2f393c3bd59c4d0ef6ee7c27a94e19ae4c8774e55475bff8c59bb2f494a3aacc`.
+- Proof identities: baseline-lineage prerequisite `ddfebefadc5697da5886debe0dfbd2a6203baaa731d791bc920324f46ed21084`; robustness-lineage plan `1376b5435532de4b0326b36aec403069d6a5ca10b0473908610e78a05aae347c`; robustness-lineage bundle `d75aa28dfdc1c907c92eea232bbfd82a4b3d15477e0f4f0a8a86ef69b3b094bc`.
+- Scope locks: `baseline_outcome_alignment_proven=true`; `robustness_outcome_alignment_proven=true`; `robustness_bundle_identity_equal=false`; `canonical_reproducibility_ledger_verified=true`; `statistical_ledger_alignment_proven=false`; `full_report_alignment_proven=false`; `run_accounting_additive=false`; status `BLOCK`.
+- Ledger distinction: the canonical v2 ledger is internally complete and verifier-bound. Legacy v1 contains no equivalent ledger, so there is no cross-version statistical-ledger alignment proof and no permission to apply v2 DSR/PBO/Bootstrap results to the legacy full-report lineage.
+- Validation: targeted `py_compile` PASS; 10/10 unit contracts PASS in 88.863 seconds; the same in-memory proof bundle then passed an independent 19/19 adversarial rejection matrix without rerunning source backtests.
+- Fingerprints: producer `b46a88c274da382a94cde16743e0be2ec6503f6204abc558774d59392b06e2fd`; test `70a165970bb77a69a50f10ad2609993ba45a833e77fc0568e769c86f35d163aa`. Existing robustness producer remains `17a37e7f81c02a2b0e2efa1e0b496016d8a234da1aed3d97e6f5b929c3919e57`; baseline-lineage producer remains `b789eb777a7c8aae3d0045d1bd346a58665a5033d5b96898709b6323b2ec990d`.
+- Remaining gap: this proof is not yet consumed by report-v13. It cannot set statistical-ledger alignment, statistical-reference application, Bootstrap replacement, additive accounting, or full-report alignment to true.
+- Boundary: no old v9, 204-run, 222-run, report-v3-v13 full chain, real dataset, provider, formal blind test, paper, live, order, profitability claim, current pointer, CLI, Electron, CI, or single-look contract changed. Remote CI remains UNKNOWN.
+
+## ADR0584 - Mixed statistical applicability proof with Bootstrap counterexample (2026-09-01)
+
+- Consumer audit: trial-matrix values are derived from 18 frozen-stability candidate outcomes. DSR, CSCV-PBO, and tie-aware bounds consume that matrix. V2 additionally binds source schema, reproducibility context, the canonical 147-run ledger SHA, 179 dependency-bound source runs, and 18 dependency-bound matrix candidates.
+- Direct execution: one legacy 32+147 source graph and one canonical 32+147 source graph were rebuilt, for 358 source runs. Matrix, DSR, PBO, tie-bounds, and Bootstrap analyses added 0 backtests.
+- Matrix result: legacy bundle `bcb8ff1ba36b2b7d0ab9fb9e94f390ed9b6359bae1d2a83f04c8fc41fc2ef0b2`; canonical bundle `5081970aa1e3e6a21e959db5ef8b48e9824c34a2d482ad486adaf83fb0de36db`; shared outcome projection `ac6274c546702d34768ebd4d677825a61c84ca5183f54cd0e6b26c5d39a0ca54`.
+- DSR result: legacy bundle `96d6883741e4e653bd1bf45111907d2a5f33b33502218988c44e80484d1cea37`; canonical bundle `3bae370a85adc0a308a111644b39d62a1c9c6e3970523e07b674fd6f7bea6089`; shared numerical projection `b60ff46d13a55d7f5211d5bd66d20b1149218ac5ce3aec00e5dce77dd18bc5a3`.
+- PBO result: legacy bundle `79a00a326ca9c5e26f0be2525a9f06d58894ed07d1b9896134335adaa5928da8`; canonical bundle `bff9caa039246ad2bb1a1bfdb0d3e148ff0a4ee7f61613db50ab928a3fcd6`; shared numerical projection `723983dd0b877fa624475b0abc881712f0c276be90dd8bb540febece9602f759`.
+- Tie-bounds result: legacy bundle `c313f089a30fb1ec2c38b380f50b98f5470401ff2b53a5b8093ffb60b06ddc4d`; canonical bundle `4e91b681bd0b273ab859464c845d4f881397e82bfd8e026579608bb8d578ddda`; shared numerical projection `5b34f111a9112811fced90fceb26eb6d8daa604414cb6cc4c5d768463129ed7f`; canonical retained split coverage remains 420.
+- Bootstrap counterexample: legacy bundle `802edfccb2ad6b767db8487551a09d7cf2eb95e25fe443b5aec00e8b36277807`; canonical bundle `edca33bd9db62dc5d118ec181667b0c8cd36d5754b911ad088b5ccf8e11beceb`. All 6 source-bound seed materials differ, and 53 of 54 interval values differ. Bootstrap-v2 numerical output is not applicable to the legacy lineage even though the underlying equity outcomes align.
+- Bootstrap binding evidence: legacy interval digest `a321eb9541bd6270a5bd326183ef9c9f562bfc7d9d09253ecef47f3899fc25bb`; canonical interval digest `e01bb305adcaaf0d66e5325fa30b6f3528119c9c17e2e690cc36c257e9b80f15`; legacy seed digest `3e52a6117f692f05bdab40695af722f802838ecfbe7a156a8013ea7003d55428`; canonical seed digest `28dff1a06b746aba286ad3d7af7d197f562c8d44b8331ced56de24e7b5fd2a92`.
+- Proof identities: robustness-lineage prerequisite `d75aa28dfdc1c907c92eea232bbfd82a4b3d15477e0f4f0a8a86ef69b3b094bc`; applicability plan `2b5a2a3b1a8a18c077888753f8fb958b5f8f1f5a935d51c0c8ad5dccf19fa327`; applicability bundle `ce0d1ca0e02dd259d9d424331189e480606bf346152d1d28c216360f9e7502e1`.
+- Scope locks: matrix, DSR, PBO, and tie-bounds numerical applicability are true. Bootstrap numerical applicability, full statistical-reference applicability, statistical-ledger alignment, full-report alignment, and additive run accounting are false. Status remains `BLOCK` with maturity `SYNTHETIC_PARTIAL_STATISTICAL_APPLICABILITY_ONLY`.
+- Validation: targeted `py_compile` PASS; 10/10 contracts PASS in 209.784 seconds; the same in-memory proof bundle then passed an independent 19/19 adversarial rejection matrix without rebuilding source backtests.
+- Fingerprints: producer `f9927a7f5d2932de0b519412b5ed95d6148abb7bb67658819283f08b202e59f9`; test `45c2ef6f8aed5858849d37707935de7e4c8ab4e963c0ef2a77d8ca8edd9678c8`. Existing robustness-lineage producer remains `b46a88c274da382a94cde16743e0be2ec6503f6204abc558774d59392b06e2fd`; Bootstrap producer remains `d15e5dba63fcb549b65d27ac661f2341b91337d5dfa4beae3d99ed13bec641c0`.
+- Remaining gap: this mixed proof is not consumed by report-v13. The Bootstrap counterexample prevents setting v2 statistical reference application or full-report alignment to true without a preregistered seed-identity policy decision and a new versioned Bootstrap contract.
+- Boundary: no old v9, 204-run, 222-run, report-v3-v13 full chain, real dataset, provider, formal blind test, paper, live, order, profitability claim, current pointer, CLI, Electron, CI, or single-look contract changed. Remote CI remains UNKNOWN.
+
+
+## ADR0585 Bootstrap statistical-sample seed identity v3 and numerical applicability v2 (2026-09-01)
+
+- SOURCE: PURE_SYNTHETIC_IN_MEMORY. The same 179-run legacy and 179-run canonical source graphs were compared; statistical stages added 0 backtest runs.
+- The v3 seed identity is derived from the preregistered policy, exact strategy identifier, observation class, and exact paired-return sample identity. Dataset/result/report provenance remains bound to each evidence bundle but does not perturb the resampling seed.
+- Equal legacy/canonical numerical samples produced 0/6 differing seeds and 0/54 differing interval values. Distinct source provenance still produced distinct Bootstrap bundle identities.
+- Matrix, DSR, CSCV-PBO, tie-bounds, and Bootstrap numerical applicability are TRUE. Full statistical numerical applicability is TRUE.
+- Full statistical reference applicability is FALSE. Statistical-ledger alignment is FALSE. Full-report alignment is FALSE. The v3 consumer is not activated.
+- Status remains BLOCK. Maturity is SYNTHETIC_FULL_STATISTICAL_NUMERICAL_APPLICABILITY_ONLY.
+- ADR0580 compatibility was preserved by moving v3 into new modules. The old source-bound files were restored exactly:
+  - bootstrap_confidence_evidence.py: 98c13ae78f4e9493a053d0d5a4a35d1e26c890127705c101f82f4931d4f450c5
+  - synthetic_strategy_bootstrap_validation.py: d15e5dba63fcb549b65d27ac661f2341b91337d5dfa4beae3d99ed13bec641c0
+- ADR0580 reference-v2 verifier: PASS, including manifest_exact, manifest_bytes_exact, receipt_exact, receipt_bytes_exact, markdown_exact, and source_closure_bound.
+- ADR0580 manifest remains b9733a75ebf19607a647d1f7bc3d33a8e91b8c828abb82b5daa8c43c370f9ab1; receipt remains 9f072ee64a55af2b8fc624a9336794c370a702880783783f960edf6cc67c9509.
+- ADR0585 v3 plan: 646d0d572a6ed47018b5c1ffd1cc7f71366725d9220665e63d1b4f1ad339f095.
+- Legacy v3 Bootstrap bundle: c81b503772d85b4df6f430f7cc7d01efaba6e602483181f0968bd28183208b5c.
+- Canonical v3 Bootstrap bundle: 08a731d32c8c72b0ba55c0f2ffff10cc3bbdb910e40aabeb4b7a412419ed684d.
+- Applicability proof plan: 5b568c9570684035f43100923b8fb828a8d38d32fb68ebcbc14314a510a48842.
+- Applicability proof bundle: b3f1226dba58a05b31e2312426e65e45f85a40db353f2affb3aaf075cb8103dc.
+- Bootstrap statistical outcome projection: 656e36c7be2ed64165da54b5308c9338400e3c0c694f5267cc63d0ffcea807c7.
+- Bootstrap interval values digest: c1aae0bde533fbefb0b3c509df7e19edfddde39836c821cc1e61e02b2993fcb3.
+- Bootstrap seed-material digest: 7cadddf473228e722ec98e5d086293dc6aecfbfd4f7da45143c32350842d5eed.
+- Targeted contract tests: 12/12 PASS in 157.186 seconds. Independent in-memory adversarial matrix: 22/22 PASS. py_compile: PASS.
+- New source fingerprints:
+  - bootstrap_confidence_evidence_v2.py: ead4ef802486f74de7793df970858be166447b58205d474f5a1329d7f7434cc5
+  - synthetic_strategy_bootstrap_validation_v3.py: ffe8de2aba82dd1ac891a50320e8f7aec3c8d12f60b9beecbdc379608325f822
+  - synthetic_strategy_statistical_applicability_proof.py: 23d15c1496536285424290e929d4a881dbc421c6563ca075e4f6f3ee99af82bd
+  - test_synthetic_strategy_bootstrap_validation_v3.py: a088bae5f9c8ccc7676ab32f6cdeba7e295bf4657bb4bc0b973389594d229d8b
+- No v9, 204-run, 222-run, full-report, real-data, provider, paper, live, order-entry, service, browser, scheduler, release, or Git operation was run.
+- The single-look chain, legacy pack-v5 UNKNOWN behavior, and pointer-v2 no-reissue contract remain unchanged.
+- This evidence is not profitability proof and grants no trading permission.
+
+## ADR0586 - Opt-in statistical-reference-v3 consumer and exact receipt identity lock (2026-09-01)
+
+- SOURCE: PURE_SYNTHETIC_IN_MEMORY. The compact v3 consumer binds one canonical 32+147 source graph, the 18-candidate matrix, DSR, CSCV-PBO, tie-aware bounds, and Bootstrap-v3. The artifact ledger remains 179 source runs with 0 additional statistical-stage backtests.
+- Consumer scope: `full_statistical_reference_applicability_proven=true` and `statistical_ledger_alignment_proven=true` apply only inside the explicit `OPT_IN_V3_ONLY` consumer. `full_report_alignment_proven=false`, `reference_current_updated=false`, and `report_current_updated=false` remain locked. Status is `BLOCK`; maturity is `SYNTHETIC_STATISTICAL_REFERENCE_V3_CONSUMER_ONLY`.
+- Receipt identity lock: the material verifier now requires the exact versioned receipt identity in addition to a valid self-hash. This prevents an attacker from changing an otherwise unchecked receipt field and coherently recomputing receipt, manifest, and file hashes.
+- Adversarial finding and repair: the initial independent 30-case matrix rejected 28/30 cases but falsely accepted a rehashed `matrix_candidate_count` drift and a rehashed `bootstrap_bundle_sha256` drift. After the full receipt identity lock, the same matrix rejected 30/30 with 0 false acceptances and 0 additional backtests.
+- V3 validation: 12/12 targeted contracts PASS in 58.011 seconds, including disk identity, material identity, source closure, single-graph accounting, predecessor immutability, both rehashed-tamper regressions, and neutral permission rendering.
+- Predecessor validation: the ADR0580 v2 exact verifier remains PASS with 25/25 checks true. Its manifest remains `b9733a75ebf19607a647d1f7bc3d33a8e91b8c828abb82b5daa8c43c370f9ab1`; its receipt remains `9f072ee64a55af2b8fc624a9336794c370a702880783783f960edf6cc67c9509`.
+- V3 identities: receipt `3e917119630fbd5f4335c8b8449ea55d80cc7a3a94194f77428dff24e18ab2a2`; manifest `8b86a3b0ed1941a1e8c2f129bf12af1cefe7e5d57226fc06f50c3591d98e173a`; receipt file `f9972e53c5ab037ea430cc5af6338ea217e2a14479c58bcaf327e5171b6bc172`; markdown file `8f9514734648f56dda81d888d582e8bd2834622f92a876864607b72533c0d4e2`; manifest file `e9b179d87dd6a837af6bb667f5c6dab88bd88baa1b0b8cf173097749b1134215`.
+- Final fingerprints: v3 producer `9398c26bd80aa18067ee999402ea185ef9c0d1f69db1891d2899978c90d11e72`; v3 test `1cc5888bced13ace384822da6039a1730c2365119ec1a67b140350641d452015`.
+- Validation replays are independent synthetic checks and are not added to the artifact's 179-run ledger. No standalone py_compile, old v9, 204-run, 222-run, full-report chain, real dataset, provider, formal blind test, paper, live, order-entry, service, browser, scheduler, release, or Git operation was run.
+- The single-look chain, legacy pack-v5 UNKNOWN behavior, pointer-v2 no-reissue contract, and all current pointers remain unchanged. Remote CI remains UNKNOWN.
+- This evidence is not profitability proof and grants no trading permission.
+
+## ADR0587 - Completed-candle analysis and backtest admission boundary v3 (2026-09-01)
+
+- SOURCE: PURE_SYNTHETIC_IN_MEMORY. No provider, cache, database, runtime service, browser, scheduler, or real-data path was used.
+- Proven pre-fix gap: 24/24 exact-native rows with `complete=false` produced `status=DEGRADED`, `analysis_ready=true`, and 24 `analysis_rows`; `stock_daily_swing_fast` then returned `ok=true`. Corporate-action evidence also treated incomplete rows as warnings rather than backtest blockers.
+- Existing architecture was preserved: the three legacy market-data modules remain definition-free canonical shims. Session-v3 and quote-v3 behavior were not rewritten because no new false acceptance was proven there.
+- Versioned repair: the shared boundary is now `stock-data-quality-boundary-v3` and the candle contract is `stock-candle-quality-v5`. Only exact `complete=true` rows may enter break detection or `analysis_rows`; false, missing, or otherwise unknown completion evidence is excluded. A series with no eligible completed rows is `BLOCK`; a mixed series is `DEGRADED` and exposes only its completed subset.
+- Consumer-first activation: stock research rejects an empty completed subset; local stock AI consumes the filtered `analysis_rows` and pauses when none remain; corporate-action/backtest admission adds explicit blockers for missing completion evidence and incomplete rows.
+- Predecessor preservation: boundary-v2 was archived byte-identically as `adr0587_stock_data_quality_boundary_v2.py` with SHA-256 `be0e836598c84972cfa538f7f9f4b2dce6ab697ed384b51e13bbbdea8eb968c2`; candle-v4 was archived as `adr0587_stock_candle_quality_v4.py` with SHA-256 `4ccd9d7bb71d06c2121be8b93926c0e632722e416d58e7de70256ac7468af1a5`.
+- Validation: targeted py_compile PASS; new consumer-first contracts 8/8 PASS in 0.037 seconds. The first compatibility run exposed five historical test candles whose helper omitted its intended `complete=true`; after making that fixture semantics explicit, the same session/candle/quote/canonical/timezone matrix passed 61/61.
+- Independent adversarial matrix: 18/18 PASS with 0 false acceptances and 0 backtest runs. It covered explicit false, missing, None, integer/string pseudo-booleans, container subclasses, mixed tail/middle exclusion, research consumers, local AI, and backtest admission.
+- Final fingerprints: boundary producer `44385cdf0f9f08558766615bfa19891e8864466f8f94fc85dccbe3d9e3b92b6f`; candle producer `fe24582f7771e1384b31dfc571d46dd8e1561adc4e950bf029fcd15b27ed03cb`; research consumer `afd84a57c0c7cc504d1f9dd54425fc560b528798162da7a27c5aa1d9bdb4497d`; local-AI consumer `c75f41b63f1a2c1e6d929ede53736475a19773dd26cb77e1f23bccb8d62c16db`; backtest-admission consumer `d05acc8f3963f8d06549ec37d4afca96fd545b606c63a0762ac51a299665c0a5`; new contract test `1b44b1bdc1e393b4d1a468ae637e7acaccfc545e403cbd013523656ac30a1e93`.
+- No historical or formal backtest, old v9/204-run/222-run chain, blind test, profitability claim, paper, live, order entry, current pointer, CLI default, Electron capability, release, Git, or remote CI operation was run. Remote CI remains UNKNOWN.
+- The single-look chain, legacy pack-v5 UNKNOWN behavior, pointer-v2 no-reissue contract, and all current evidence pointers remain unchanged.
+- This evidence is not profitability proof and grants no trading permission.
+
+
+## 2026-09-01 ADR0588 - stock candle exchange-session completeness gate
+
+- Pre-fix synthetic evidence: `stock-candle-quality-v5` returned `PASS` and `analysis_ready=true` for completed rows dated 2026-07-01 and 2026-07-03, while the existing `market-schedule-attestation-v1` calendar contract correctly returned `BLOCK` with `missing_dates=[2026-07-02]`.
+- Activated contracts: `stock-candle-quality-v6` and `stock-candle-temporal-conformance-v3`. Daily research now requires an exact-native schedule attestation covering the sample range and compares the independent expected sessions with exact `complete=True` observed dates.
+- Fail-closed cases: missing expected sessions, unexpected non-session dates, incomplete attestation range, absent attestation, invalid identity/hash, and incomplete expected-session rows all block temporal conformance and clear `analysis_rows`.
+- Consumer-first activation: the local calendar service resolves a `THIRD_PARTY_LIBRARY` attestation from `exchange_calendars`; stock research, chart/local AI, and corporate-action admission bind it before consuming daily rows. The local AI adapter now preserves provider `date` and exact `complete` evidence instead of discarding those governance fields.
+- Exact predecessor archive: `archive/historical_research/adr0588_stock_candle_quality_v5.py` SHA-256 `fe24582f7771e1384b31dfc571d46dd8e1561adc4e950bf029fcd15b27ed03cb`.
+- Validation: targeted `py_compile` PASS; ADR0588 contract `6/6 PASS`; compatibility matrix `61/61 PASS`; independent exact-native/tamper/consumer adversarial matrix `22/22 PASS`, false acceptance `0`, `backtest_run_count=0`.
+- Final fingerprints: candle canonical `d296f2f67ad351c5a95e4a5f4e0eef83da93e6a3c9faeb005efcb9420af88347`; calendar service `0bdac382bf541a4196be2fe8ccf3dc7a0e99395c23d209432caf5f71bbb6398c`; stock research `5e8153c28cfafd0fe90f4f657e82cf077813c68ee92973e7233710cad7fb7de6`; server `d296f31aa5114ebbfd8ba82a8e00d192c1c0af6448306b442cbc45e073616f30`; corporate-action admission `eb55a8bb77afaa007e34fb44ebdf7bb34f4f7b6824c8902eb11905176c6e8374`; ADR0588 test `4df9a734b5db125765be1109b4ea072e102c5c443d4bcf10d2c09ad96d9542d4`.
+- Scope remains research-only. No provider/network fetch, runtime or project database access, backtest, optimization, blind test, paper/live/order task, service, browser, scheduler, or release was run. This evidence is not profitability proof or trading permission.
+- The current single-look chain, legacy pack-v5 `UNKNOWN`, and pointer-v2 no-reissue contract are unchanged.
+
+
+
+## 2026-09-03 ADR0589 - stock quote book-coherence boundary
+
+- Pre-fix synthetic evidence: `stock-quote-quality-v3` accepted `last=100`, daily range `98..101`, and ordered but unrelated `bid=1 / ask=2` as `book_status=VALID`, `status=PASS`, `quote_complete=true`, and `quarantined=false`; stock research consumed the quote. Exact numeric strings for all price fields also received `PASS / quote_complete=true`.
+- Activated contracts: `stock-quote-quality-v4` and `stock-quote-book-coherence-v1`.
+- Book coherence now records midpoint, spread, daily price range, and exact issue codes. An ordered book is complete only when its midpoint is within the observed daily envelope and its spread does not exceed that daily range. A proven regular-session conflict is quarantined for review; an unknown or extended scope conflict is degraded and cannot become a complete quote.
+- Numeric strings remain display-normalizable but are recorded in `numeric_coercion_fields`, set `numeric_input_status=COERCED`, and cannot satisfy `quote_complete`. Futu and server provider adapters already normalize production values through `pct/float`, so this does not require a raw-provider string bypass.
+- Consumer-first behavior reuses existing `status / quote_complete / quarantined` gates. The stock-research adversarial path no longer consumes incoherent quote OHLC after a candle scale break; market-data and anomaly compatibility contracts remain unchanged.
+- Exact predecessor archive: `archive/historical_research/adr0589_stock_quote_quality_v3.py` SHA-256 `a2ea01edb2ce18bb65860c9635708e667209238c9633e97968dc64f743612135`.
+- Validation: targeted `py_compile` PASS; ADR0589 contract `8/8 PASS`; quote/governance/canonical/anomaly compatibility matrix `35/35 PASS`; independent exact-native/book/consumer adversarial matrix `36/36 PASS`, false acceptance `0`, `provider_calls=0`, `backtest_run_count=0`.
+- Final fingerprints: canonical quote `a4e1dcfd72b39a57f9819d6977061cff9c8cddd81b89b6cb240437da24ea8128`; ADR0589 test `4b4a3b8d6a4f80c6e15b9ba4613087f18e7d7eb31c01c22f3a743e368b85a70a`.
+- Scope remains research-only. No provider/network fetch, runtime or project database access, backtest, optimization, blind test, paper/live/order task, service, browser, scheduler, or release was run. This evidence is not profitability proof or trading permission.
+- The current single-look chain, legacy pack-v5 `UNKNOWN`, and pointer-v2 no-reissue contract are unchanged.
+
+
+
+## 2026-09-03 ADR0590 - parallel experiment provenance-binding candidate
+
+- Pre-candidate synthetic evidence: the current `reproducible-experiment-manifest-v1` verifier accepted a manifest after dataset, config, source-run, dependency-lock, and git identities were replaced and `manifest_hash` was recomputed; the attacked manifest remained `PASS` with ranking input allowed.
+- Added an isolated candidate module containing `reproducible-experiment-manifest-v2` and `experiment-provenance-binding-v1`. It is not imported by the current manifest producer, multiple-testing consumer, Frozen evaluator, or deterministic reference verifier.
+- The v2 envelope requires exact-native consumer inputs for the source v1 manifest, result payload, full expected reproducibility, independent experiment context, and strategy/cost/evaluation identity. It compares every corresponding field before issuing `PROVENANCE_BOUND`.
+- A consumer must independently supply git commit/cleanliness, dependency lock identity, runtime, random seed, experiment id, strategy, symbol, timeframe, costs, evaluation role, and protocol identity. Recomputing source or envelope hashes cannot override those inputs.
+- Validation: targeted `py_compile` PASS; candidate contract `7/7 PASS`; independent field-level adversarial matrix `47/47 PASS`; current canonical v1 contract `8/8 PASS`. `current_activation_count=0`, `backtest_run_count=0`, and `fixture_rebuild_count=0`.
+- Candidate fingerprints: `src/hakimi_research/experiment_provenance_binding_v1.py` SHA-256 `181de22149c1570bd698aafc27b05547484569d41e2964037687fef00a3bcb72`; candidate test SHA-256 `487370c5e67a56a5ba733156a6dca3ea372edddb018a5365265c43ba073c4938`.
+- Current/reference fingerprints remain unchanged: experiment manifest `96566a64ad145a0a0d65d25509aa3c4afd5790cd52453ea2cab583bfbe585d9c`; Frozen evaluator `39427d8901705b3c5aeb94b83c2c5634725931005bc846c82402b0af5493e873`; multiple testing `eaaf438cb05baca2b67278e406d5350bef5e5a8417d8e26555ce4318337341eb`; deterministic Frozen verifier `cb7b9fc47656679e5b5304e3de47b8beae8a5e0ac66ae4d268260c5b2810effc`.
+- This candidate is not current evidence and does not alter any Frozen reference identity. Activation still requires a separate consumer migration and fixture-rebuild authorization.
+- Scope remains research-only. No provider/network fetch, runtime or project database access, backtest, optimization, blind test, paper/live/order task, service, browser, scheduler, release, or fixture rebuild was run. This evidence is not profitability proof or trading permission.
+- The current single-look chain, legacy pack-v5 `UNKNOWN`, and pointer-v2 no-reissue contract are unchanged.
+
+
+## 2026-09-03 ADR0591: experiment provenance consumer adapter v1 candidate
+
+- 决策：新增并行候选 `experiment-provenance-consumer-adapter-v1`，覆盖 Frozen run、multiple-testing observation 与 CLI report bundle；保持 consumer-first，未接入 current，未重建 fixture，未运行回测。
+- 实现：`src/hakimi_research/experiment_provenance_consumer_adapter_v1.py` 复用 `reproducible-experiment-manifest-v2` / `experiment-provenance-binding-v1`，绑定完整 consumer record、独立预期 reproducibility/context/manifest identity 与 consumer-specific identity，并输出可重算 receipt identity。
+- Frozen run：绑定 `run_kind`、`role`、`scenario_id`、fee、slippage、strategy name/version。
+- Multiple-testing observation：绑定 role、cell、parameters，并要求 observation parameters hash 与预期 reproducibility 一致。
+- CLI report bundle：绑定 artifact id/prefix 和完整 report payload；只返回内存候选 bundle，不写文件、不改变输入。
+- Exact-native：record、预期文档、嵌套标量与 receipt 均拒绝子类别名；尤其在任何 `.get()`/`.items()`/`str.encode()` 前校验三个独立预期文档。
+- 权限：`candidate_only=true`，`current_activation=false`，`fixture_rebuild=false`，`runtime_write=false`；paper/live/order 永久为 false，结果不可解释为收益证明或交易权限。
+- 验证：新模块与测试 `py_compile PASS`；consumer adapter 定向合同 `7/7 PASS`；ADR0590 binding 回归 `7/7 PASS`；canonical experiment manifest source v1 身份锁 `8/8 PASS`；独立纯内存对抗矩阵 `324/324 PASS`。
+- 对抗范围：三类 consumer 的全部 record leaves、全部 expectation leaves、receipt 顶层字段、重哈希 v1 source manifest、顶层 dict 子类和嵌套 str 子类；`current_activation_count=0`、`fixture_rebuild_count=0`、`backtest_run_count=0`、`runtime_write_count=0`。
+- SHA-256：adapter `7e029e480e0a5ca84b1550e4d290ca900af0fed5b2083e761137200436af527b`；test `468270d9a518f5f57a357f3c4d536fa73cd049c8c2284279deb62bd52f4ef121`；ADR0590 binding 保持 `181de22149c1570bd698aafc27b05547484569d41e2964037687fef00a3bcb72`。
+- Current/reference 未漂移：experiment manifest `96566a64ad145a0a0d65d25509aa3c4afd5790cd52453ea2cab583bfbe585d9c`；frozen evaluation `39427d8901705b3c5aeb94b83c2c5634725931005bc846c82402b0af5493e873`；multiple testing `eaaf438cb05baca2b67278e406d5350bef5e5a8417d8e26555ce4318337341eb`；deterministic frozen benchmark `cb7b9fc47656679e5b5304e3de47b8beae8a5e0ac66ae4d268260c5b2810effc`。
+- 后续激活仍需独立授权，并应按 consumer-first 顺序逐一接线和重建相应身份 fixture；本切片不改变 single-look、legacy pack-v5 UNKNOWN 或 pointer-v2 no-reissue 合同。
+## 2026-09-03 ADR0592: consumer adapter polymorphic identity hardening
+
+- 结论：ADR0591 的并行候选在 current 激活前发现并关闭两个真实 consumer-shape 缺口；本条取代 ADR0591 中记录的 candidate module/test SHA-256，但不改变其 candidate-only 决策。
+- 只读依据：current Frozen verifier 有七种封闭 run schema；multiple-testing 接收完整 `PARAMETER_STABILITY_OBSERVATION` record；CLI 使用 `backtest_{strategy_name}_{symbol}`、manifest experiment id 与 `research-json-report-v1` 确定性文件名。
+- 修复前 PoC：Frozen 的 `fold_id/schedule_hash/cell_id/method_spec_hash/benchmark_id/benchmark_spec_hash` 共 `6/6` 可随 record 重封 receipt 后被候选 verifier 接受；multiple-testing 的 `matrix_hash/method_spec_hash/cell_hash/params` 与 CLI manifest 不一致 prefix 共 `5/5` 被错误接受。
+- Frozen 修复：按七种真实 `run_kind` 建立精确 record schema；expected record identity 必须包含 record 除 `result` 和 `experiment_manifest` 外的全部字段。缺字段、额外字段、run-kind 漂移、嵌套身份漂移和重封 receipt 均 fail closed。
+- Multiple-testing 修复：候选改为真实 parameter-stability record schema，独立绑定 run/scenario/strategy、cell、segment、axes、params、params/cell/method/matrix hashes，并交叉验证 `params_hash` 与 params payload 及 reproducibility。
+- CLI 修复：artifact identity 绑定 canonical artifact id、`backtest_{strategy_name}_{symbol}` prefix、`research-json-report-v1` 与 `{prefix}_{artifact_id}.json`；不写文件。
+- Schema parity：candidate Frozen schemas 与 current verifier `7/7` run kinds 逐字段 exact match。
+- 验证：module/test `py_compile PASS`；定向 consumer 合同 `8/8 PASS`；独立 Frozen 多态身份矩阵 `229/229 PASS`；独立 multiple-testing/CLI 矩阵 `59/59 PASS`；ADR0590 与 canonical v1 回归合计 `15/15 PASS`。
+- 最终 SHA-256：consumer adapter `ead243788a9e628d0fc38045d08db212fefb001daa76db004c9c9cb7b8aeccc1`；consumer test `ff4bb2bcd329b54d0d053d5ddf832092991e177ad9266e84b05bc919c9b22b17`；ADR0590 binding 保持 `181de22149c1570bd698aafc27b05547484569d41e2964037687fef00a3bcb72`。
+- Current/reference 未漂移：experiment manifest `96566a64ad145a0a0d65d25509aa3c4afd5790cd52453ea2cab583bfbe585d9c`；frozen evaluation `39427d8901705b3c5aeb94b83c2c5634725931005bc846c82402b0af5493e873`；multiple testing `eaaf438cb05baca2b67278e406d5350bef5e5a8417d8e26555ce4318337341eb`；CLI `a252cdcbf0b96dd028df34151bb10e642135b5251971497f47bed8f73c0772b4`；reporting `6de38ad3e06fb132b67da292db5e8e1ee3f2ea6218251f29c99f8bf2a69b1e96`；deterministic frozen benchmark `cb7b9fc47656679e5b5304e3de47b8beae8a5e0ac66ae4d268260c5b2810effc`。
+- 运行边界：`current_activation_count=0`、`fixture_rebuild_count=0`、`backtest_run_count=0`、`runtime_write_count=0`。未运行收益回测，未产生新的收益数字；paper/live/order 仍为 false。
+- 后续：任何 current 接线必须另行授权，并按 Frozen verifier -> multiple-testing ledger -> CLI pre-save bundle 的 consumer-first 顺序处理对应 source-identity/fixture 更新。
+## 2026-09-03 ADR0593: experiment provenance current activation readiness audit
+
+- 状态：只读设计审计；未修改 current source，未接 consumer adapter，未重建 fixture，未运行回测或正式 Frozen 验证。
+- 关键阻断：`verify_frozen_evaluation_report(report, protocol, data, config)` 当前没有独立 `experiment_context` 输入；Backtest 的 expected reproducibility 由私有 `_BacktestEngineCore._reproducibility(data)` 计算。把 `record["result"]["reproducibility"]` 或 source manifest 字段直接回传为 expected 会保留 ADR0590 已证明的双侧重封缺口，因此禁止这种形式接线。
+- Frozen reference 影响：`deterministic-frozen-benchmark-v13` 的 source identity 同时包含 `frozen_evaluation.py` 与 `multiple_testing.py`；reference root 为 `examples/deterministic_frozen_benchmark_v2`。激活会至少更新 `expected_report.json`、`expected_report.md`、`fixture_manifest.json`，不能只改源码哈希。
+- 规模证据：current Frozen build/verify 被 13 个定向测试文件覆盖，其中 verifier 直接消费者为 12 个；现有 reference `expected_report.json` 679184 bytes、`expected_report.md` 30198 bytes、`fixture_manifest.json` 9233 bytes。
+- CLI/reporting 边界：CLI 调用 `save_json_report(report_payload, REPORT_DIR, backtest_{strategy}_{symbol}, artifact_id=experiment_id)`；其接线不属于 Frozen source-set 变更，但在没有独立 expected reproducibility 构造路径前，单独接线只能证明 pre-save 绑定，不能声称端到端 provenance closure。
+- 推荐迁移顺序：先提取一个由可信 data/config/strategy/execution/context 输入重建 reproducibility 的纯函数，并保持 Backtest producer 字节语义；再为 Frozen protocol/verifier 增加独立 context expectation；随后由 Frozen run 生成并验证 adapter receipts，multiple-testing ledger 消费已验证 receipt；最后接 CLI pre-save bundle。
+- 版本要求：Frozen protocol/report/markdown/reference/verifier 与 fixture manifest 必须统一 bump，并在一次授权迁移中重建 reference；不得局部改 current 后沿用 v13 fixture 身份。
+- 验收要求：consumer-first 对抗测试必须证明 result/repro/context/manifest/record identity 任一侧重封均失败；旧 v1 exact identity、ADR0590/0592、research-only authority locks 和 single-look 合同保持不变。
+- 下一动作需要显式授权：允许修改 Backtest reproducibility 边界、Frozen/current consumers、multiple-testing 与 CLI，并允许重建对应纯合成 reference 和运行其定向测试。未获授权前 ADR0592 继续保持 candidate-only。
+## 2026-09-03 ADR0594: reproducibility extraction and receipt persistence design
+
+- 状态：只读与纯内存设计证据；未修改 current source、未运行 `BacktestEngine.run`、未重建 reference、未写 runtime。
+- 可抽取性：现有 `_BacktestEngineCore._reproducibility(data)` 只依赖 data、config、strategy class/params、execution liquidity cap 与 context random seed，不依赖回测结果。一次性独立实现与现有私有方法在 base/data/fee/params/seed/liquidity-cap 六组纯合成输入上 `6/6` exact identity；五种漂移均改变 `run_hash`。
+- 推荐 API：将原算法无语义变化地抽成 public pure function `build_backtest_reproducibility(data, config, strategy, experiment_context, max_volume_participation_rate)`；现有 private method 仅委托该函数。首个迁移不得顺带改变 JSON canonicalization、`default=str`、strategy source fingerprint 或缺省 seed 行为，否则无法区分抽取与合同升级。
+- Context preregistration：Frozen protocol 应绑定 exact-native experiment context hash；report builder 与 verifier 均显式接收同一独立 context，并先验证其 protocol binding，再为每个 partition/scenario 重建 expected reproducibility。
+- Receipt 持久化：provenance receipt 不能直接加入其自身所哈希的 run record。Frozen report 应使用独立顶层 receipt ledger，以封闭 consumer identity 为 key；multiple-testing 只消费已由 Frozen verifier 验证的 matching receipt/hash。
+- CLI 持久化：现有 `research-json-report-v1` 只写 raw report。正式接线前必须选择 versioned 单文件 report envelope 或双文件 sidecar；推荐单文件 `report + provenance receipt + bundle hash` envelope，以避免两个文件的原子性和配对问题，同时保留 legacy v1 reader 为只读兼容。
+- 预计 current 文件：`backtest.py`、`frozen_evaluation.py`、`multiple_testing.py`、`cli.py`、`reporting.py`、`deterministic_frozen_benchmark.py`；相应 protocol/report/markdown/verifier/reference 版本需统一 bump。
+- 禁止半接线：不得从 source report/manifest 复制 expected reproducibility/context/identity；不得把未验证 receipt 当 multiple-testing ranking 输入；不得只更新 fixture source hashes 而保留旧 report bytes。
+- 权限边界：paper/live/order 均保持 false；该设计不提供收益证明、交易权限或 public-release readiness。
+- 下一动作仍需显式授权：允许执行 ADR0593/0594 的 current 迁移、纯合成 reference rebuild 和定向验证。未获授权前 ADR0592 保持 candidate-only。
+## 2026-09-03 ADR0595: experiment provenance current migration
+
+- 状态：ADR0593/0594 获明确授权后完成 current 迁移。覆盖 Backtest reproducibility、Frozen protocol/report、multiple-testing observations、CLI report persistence 与 deterministic synthetic reference；未运行历史收益回测或正式盲测。
+- Reproducibility：`build_backtest_reproducibility(...)` 成为公共纯函数，`BacktestEngine._reproducibility` 仅委托该函数。抽取前后基线 payload hash 保持 `a33c9a8baba1ccc0c41dc9fcb77fbc3f75419a8e9ef814249f32ed0d4a0f2e07`；data/fee/params/seed/liquidity-cap 六类输入均独立改变 run identity。
+- Frozen context：protocol 升至 `frozen-evaluation-protocol-v17`，绑定 `frozen-experiment-context-v1` exact-native context 与 hash；protocol/report/Markdown verifier 均要求外部 context，不提供从 protocol 自身回读的 fallback。
+- Frozen provenance：report 升至 `frozen-evaluation-report-v22` / Markdown v22，新增 `frozen-experiment-provenance-ledger-v1`。99 个 synthetic run records 全部有 Frozen receipt，其中 42 个 parameter-stability records 同时有 multiple-testing receipt。
+- 信任边界：ledger 明确为 `SELF_CONTAINED_REQUIRES_EXTERNAL_ARTIFACT_HASH`，不会被描述为签名或防 whole-artifact replacement；ranking/paper/live/order/profitability-proof 均为 false。
+- Multiple testing：policy/ledger 升至 v2；42 个 observations 必须逐项绑定已经验证的 provenance receipt hash，仍不执行参数选择或排名，统计纠偏不足继续保留为 GAP。
+- CLI/reporting：保留 legacy `research-json-report-v1` writer，新增 `research-json-report-bundle-v2` 单文件 envelope。current CLI 在保存前独立重建 reproducibility、验证 adapter receipt、验证三层 binding/receipt/bundle self-hash，再执行 exclusive/idempotent save。测试中的 filesystem effects 全部 mock，未启动 CLI/provider。
+- 实际缺口修复：ADR0590 identity validator 现允许 protocol-bound TRAIN/UNCLASSIFIED，但这两类角色仍不可排名；修复前 actual current shapes `3/3` 被错误拒绝。CLI nested receipt 在只重封 outer bundle 时的误接受也已关闭。
+- Deterministic reference：benchmark/verifier/fixture manifest 升至 v14；source envelope 新增 frozen provenance ledger、consumer adapter、binding 和 reporting。reference verifier PASS；protocol hash `8d323bb993c5279b4d37ce8b2a12dd2e654bcc75a6877a4e5d7a7ca79f1ec057`；report hash `f8758836c5d25c418f3f6e38f643a29a5e92c3f17d137a1a6d135965d50eb222`；manifest self-hash `312fcde30c95f920d4ef08a5c74a80c20864f3c2586ff43c7410b873b04ee2b5`；quality=`BLOCK`，maturity=`SYNTHETIC_FIXTURE_ONLY`。
+- 验证：public reproducibility `3/3 PASS`；legacy manifest `9/9 PASS`；Frozen core `15/15 PASS`；ledger/multiple-testing/binding/adapter `28/28 PASS`；CLI/reporting `15/15 PASS`；最终核心集合 `70/70 PASS`；独立 current adversarial matrix `112/112 PASS`。扩展迁移矩阵首次仅有 5 个 stale test metadata 问题，修正后的受影响三套 `20/20 PASS`。
+- 关键 SHA-256：backtest `dd7c6885919a9fca76a37fac688cb58a7b16bef87dc9653a9d40275a37adb342`；frozen evaluation `0611b66df9d598193848a69a7f6413cf8c42fbf341c840c4210e5ba3e1004fe6`；frozen provenance `823690eac06a3bd4bfc41bd949326d41832b744f98d80862a6f12832e97cd7b1`；multiple testing `6cb6c934e37efde206f6303122dbc389dff573c0f159a2d185083e079da11d03`；binding `4d7928af1a37fab0401dbfbb93c81e301b1800be7fdb7e80a8b2a53c2548d7ab`；consumer adapter `ead243788a9e628d0fc38045d08db212fefb001daa76db004c9c9cb7b8aeccc1`；reporting `a9e3da64b171313fded902fdaa44ccb72c819c2d4522aaf08802f0fbcd3b343e`；CLI `ecdb0c7e78360b485f28c228a481172326c8713e27ec9bb3afcdcbd6347f0aad`。
+- Reference file SHA-256：expected report JSON `100c18948178b743c62cfe3495f3d7bc1bc77eee96b3147555b10294de58af90`；Markdown `dcf569144d1cd85f5b909da33900a8815c8e4b0053360944d099c117a9a72da9`；fixture manifest file `d8b182cda87cc48fde6a2b5d4c73946313cb2a408d34305b198c5cad34ff7b68`。
+- 边界：single-look、legacy pack-v5 UNKNOWN、pointer-v2 no-reissue 未改；任何合成或 Frozen fixture 结果均不是盈利证明、paper/live 权限或 public-release readiness。
+## ADR0596 - downstream deterministic-reference continuity after ADR0595 (2026-09-03)
+
+Status: CLOSED for the authorized pure-synthetic reference migration only. This is not a maturity, profitability, paper, live, order, or release promotion.
+
+Scope and result:
+- Rebuilt the family-v1, robustness-v1, statistical-correction-v1, statistical-correction-v2, and statistical-correction-v3 reference material through their existing deterministic builders.
+- All five generated expected receipt/bundle JSON files and all five Markdown files remained byte-identical. Protocol versions, result receipt identities, default dispatch, and legacy v1/v2 result bytes were not changed.
+- Drift was limited to `fixture_manifest.json`: the current `backtest.py` source hash changed in all five closures, and `validation_evidence.py` changed in robustness/statistical closures; each manifest self-hash was consequently renewed.
+- No `current` pointer, single-look chain, legacy pack-v5 UNKNOWN behavior, or pointer-v2 no-reissue contract was touched.
+
+Updated fixture-manifest file SHA-256 values:
+- family-v1: `144e90b007d5a287c5b587fb32ab1dec84d35cd2ec406962b8825eacc05bb5a7a`
+- robustness-v1: `041732e9f35f77a07adf6a3b14e66559c82b56081f28141c4d3af180996bd34d`
+- statistical-correction-v1: `54f970e06fd9e66f2c56708e3033bfddf91989f3e86f2cedaecc7ce49f2c019b`
+- statistical-correction-v2: `8973e503f790ade0ba139baacaa35a876989b1c9f9dc7243b70fce336192ad80`
+- statistical-correction-v3: `3c944b0951e93986bf575eb951d2cc3918cf29aa544c6c35fa0dbd3cd62cbbe1`
+
+Targeted evidence:
+- Pure-memory builder comparison: 5/5 expected JSON byte identities unchanged; 5/5 Markdown byte identities unchanged; 5/5 drift sets contained only `fixture_manifest.json`.
+- Combined reference-contract run: 35 tests in 156.173 s; 34 passed and one stale hard-coded v1 manifest hash assertion failed. The failure was retained and corrected rather than bypassed.
+- Corrected assertion: the test now separately locks the legacy v1 receipt identity and the current source-closure manifest self-hash (`a412b053e09cc28ea25272e047d744f9229bdfcb3a97df964fd4da5f0d47b922`). Exact rerun: 1/1 OK in 39.845 s.
+- Prior ADR0595 core 70/70 and independent adversarial 112/112 evidence was not recharacterized or promoted.
+
+Safety statement:
+- Synthetic fixtures only; no provider call, historical-profit backtest, G50/G51, formal blind test, service, scheduler, browser, order, paper, or live path ran.
+- Quality remains `BLOCK`; maturity remains `SYNTHETIC_FIXTURE_ONLY`; paper/live/order authorization remains false; no profitability claim is made.
+## ADR0597 - legacy report-chain compatibility restoration and alignment PoC (2026-09-03)
+
+Status: CLOSED for the authorized compatibility repair and read-only alignment audit only. Full-report statistical alignment remains unproven.
+
+Repairs:
+- Updated the report-v6 preregistered dependency-count boundary to the current audited `requirements.txt` identity (`17c1f85d9d0dfeca162841d58c098eac8b731c57de254aed4006a96c8f771f24`): 14 declarations, 1 exact pin, and 13 unpinned declarations. The prior plan already emitted these current counts while execute verification still required 15/1/14, making the same v6 contract internally unexecutable.
+- Restored the v6 adversarial mutation by changing its forged unpinned count from the now-valid 13 to invalid 12.
+- Extended return-contribution concentration v1 with two exact accepted fill schemas: the legacy 10-field shape and the current Backtest-v4 17-field capacity shape. The current shape is cross-validated for requested/filled quantity, fill ratio, partial-fill flag, available volume, participation rate, and derived volume capacity. Unknown fields, native-type aliases, and incoherent resealed values fail closed.
+
+Implementation SHA-256:
+- `outputs/python_quant_bot/examples/build_synthetic_strategy_benchmark_report_v6.py`: `ca9eb84c949a8f6768201e983f3c4b7bf4fce2b2954295c6a2bd52f2fefc5d7f`
+- `outputs/python_quant_bot/tests/test_synthetic_strategy_benchmark_report_entrypoint_v6.py`: `5d4e1e7df060a399e6cbcd9194259f14bfb64f9eea44f8842ddd909439aab63a`
+- `src/hakimi_research/return_contribution_concentration.py`: `bd99f85f6cf1dfb1e54ec6791a00293bce1acdd995664fb33680cf240ed5e6ec`
+- `outputs/python_quant_bot/tests/test_synthetic_strategy_return_contribution_concentration_v1.py`: `ecf1065d6f51c0d3cbfbbdad5c1027e805f1669add3c88a75d0c753a445976dc`
+
+Targeted evidence:
+- `py_compile`: PASS for the four changed source/test files.
+- Independent legacy/current fill-shape and adversarial matrix: 3/3 OK in 0.001 s.
+- Real in-memory synthetic report chain v1 through v12: PASS in 1174.681 s; report schema `synthetic-strategy-benchmark-report-v12`, report hash `97a628fcf8c621863144ffdca97b0760ed1ad4266bcdc05022f5981902c798da`, 222 logical runs, status `BLOCK`, runtime mutations false.
+- Reused v6 resealed dependency-count adversarial method: PASS in the same process.
+
+Full-report statistical-alignment PoC:
+- V12 binds legacy baseline bundle `a74cdbf982b2919912cf6dc12de0c445b486a63b61b60ed71e8ce60942a347b7`; statistical-reference v3 binds canonical source bundle `941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f`.
+- The v3 source, robustness, trial-matrix, Bootstrap, and run-ledger hashes each occurred zero times in the exact v12 report. Direct outer-identity alignment is therefore disproven and remains false.
+- Existing lineage evidence remains the valid bridge: baseline outcomes align for 32/32 pairs while bundle identities remain distinct; robustness outcomes align for 147/147 pairs; the canonical reproducibility ledger is `6434b4abfa717c96cdb76def63851097689b32c1a33985f86de8a26034f71a4e`.
+- The next valid activation must consume and cross-bind the baseline-lineage, robustness-lineage, statistical-applicability, v12, and v3 artifacts. It must not flip `full_report_alignment_proven` by assertion or outer resealing.
+
+Safety statement:
+- Pure synthetic in-memory evidence only. No real dataset, provider, historical-profit backtest, G50/G51, formal blind test, service, browser, scheduler, paper, live, or order path ran.
+- Status remains `BLOCK`; paper/live/order and profitability claims remain false.
+## ADR0598 - report-v14 statistical full-report alignment consumer (2026-09-03)
+
+Status: VERIFIED CANDIDATE. The v14 consumer is not connected to CLI/current and no persistent v14 reference fixture has been created.
+
+Implementation:
+- Added `synthetic-strategy-benchmark-report-v14`, a zero-backtest consumer of an exact report-v12 artifact, statistical-applicability-proof-v2, and deterministic statistical-reference-v3 material.
+- The consumer requires the v12 embedded legacy trial matrix to equal the applicability proof source, then cross-binds canonical baseline, robustness, matrix, DSR, PBO, tie-bounds, Bootstrap-v3, and reproducibility-ledger digests to reference-v3.
+- Legacy v12 statistical evidence is explicitly superseded, not declared numerically identical. Bootstrap-v3 replaces legacy Bootstrap-v1 only inside the v14 synthetic report.
+- Verification requires the external applicability proof artifact; an outer report self-hash alone cannot establish alignment.
+- `full_report_alignment_proven=true` means synthetic source-lineage alignment only. It does not assert formal inference, real-data validity, profitability, ranking, paper, live, or order authority.
+
+Compatibility repair discovered by the real integration:
+- Canonical JSON serialization sorts mapping keys, while the legacy in-memory bundle retained insertion order. Baseline lineage incorrectly compared `benchmarks.values()` order and rejected the same 32-run set after JSON round-trip.
+- Baseline lineage now orders exact native runs by `run_id` before comparing IDs and dataset hashes. This preserves prior in-memory output identity while making serialized canonical artifacts consumable.
+
+Implementation SHA-256:
+- `outputs/python_quant_bot/examples/build_synthetic_strategy_benchmark_report_v14.py`: `7c4c93340f065433a9fa52a371ad8aa9c5c38ff5cfe6dc08183ea0a0400f8c1a`
+- `outputs/python_quant_bot/tests/test_synthetic_strategy_benchmark_report_entrypoint_v14.py`: `9d6f8b1768716da2722c4b2654aabf13975e5279fbe548013bf01578c64e92c7`
+- `src/hakimi_research/synthetic_strategy_baseline_lineage_proof.py`: `4b5aa974fac7bf371f6edaa55df1a6c3d6d6b74c1c8ac93cf8804df971adb067`
+- `outputs/python_quant_bot/tests/test_synthetic_strategy_baseline_lineage_proof_v1.py`: `cfc0fba8ef4bfd6faf7610acba027621936748b1676993560ce184a23d76fa86`
+
+Targeted evidence:
+- V14 `py_compile`: PASS.
+- V14 consumer-first exact-native, external-proof, digest-mismatch, authority-escalation, and reseal matrix: 10/10 OK in 7.520 s.
+- Baseline lineage plus sorted-JSON round-trip: 11/11 OK in 21.915 s.
+- Real applicability-v2 preflight: PASS in 127.840 s; all eight canonical v3 digests matched exactly.
+- Real v12 + applicability-v2 + statistical-reference-v3 + v14 build and independent verify: PASS in 2093.492 s.
+- V12 report SHA-256: `97a628fcf8c621863144ffdca97b0760ed1ad4266bcdc05022f5981902c798da`.
+- V14 report SHA-256: `f8581a41583793f9d62f7a19c43ce5f05e802c9cfc6055bb539b9f59132a70d5`.
+- V14 receipt SHA-256: `480772c268e528716e1e1c1bedea1ec2ec881f36f2f218beb88a2ea3bec5e75f`.
+- V14 alignment-binding SHA-256: `4d0c4eaaa07bb0745325b49d9eda98fdbc739e91fd2c524defc048e9d2b8bfbc`.
+- Composition executed-run count and additional-backtest-run count remain 0; overlapping source counts remain explicitly non-additive.
+
+Remaining delivery gap:
+- The verified report existed only in the integration process memory. No `examples/...v14` expected JSON/Markdown/manifest fixture exists yet, and v14 is intentionally non-current.
+- A future reference builder must persist and independently verify the report plus external applicability-proof identity without weakening the external-artifact trust boundary.
+
+Safety statement:
+- Pure synthetic in-memory evidence only. No real market dataset, provider, historical-profit backtest, G50/G51, formal blind test, service, browser, scheduler, paper, live, or order path ran.
+- Status remains `BLOCK`; formal inference and all trading/profitability authorities remain false.
+## ADR0599 - persistent deterministic strategy research dossier v1 (2026-09-03)
+
+Status: VERIFIED COMPACT REFERENCE. This is a synthetic research deliverable, not a formal blind-test, profitability, ranking, paper, live, order, or release authorization.
+
+Implementation:
+- Added a compact deterministic dossier that binds the existing strategy-family Frozen/cost-stress bundle, robustness receipt, statistical-reference-v3 receipt, and the recorded report-v14 full-rebuild receipt.
+- The human-readable report renders two fixed synthetic benchmarks plus six registered RANGE/TREND strategies across Train, Validation, Frozen 1x, Frozen 2x, and Frozen 3x total-return observations.
+- The ENSEMBLE family remains an explicit GAP with no registered implementation.
+- The compact fixture deliberately does not embed the large v14 report JSON or applicability proof. Fast verification establishes component/file/source identity; semantic revalidation explicitly requires another full v14 rebuild.
+
+Implementation SHA-256:
+- `src/hakimi_research/deterministic_strategy_research_dossier_v1.py`: `febe49bc11d1fd23504f74f993153d3eb10ed5a7e0c7f420a82d9164eee2f281`
+- `outputs/python_quant_bot/tests/test_deterministic_strategy_research_dossier_v1.py`: `b7e8a258325bf4f507c4e820d396a85672ced73b8c0f539aec13e884f810801e`
+
+Reference identities:
+- Dossier receipt SHA-256: `be3cefa29335da248d1b5ae70422bde344e3fb8f4f307e903f19ee1cd4d5b270`.
+- Dossier manifest SHA-256: `20faeaaeec9fd3cd720b185f7fe6fa4d864971918492d8d297734ed9ec4285eb`.
+- `expected_receipt.json`: `cf343fd7d5b66641bd7e7567280ec67043c2ee6efa9db656febce6c14d63af24` (6102 bytes).
+- `expected_report.md`: `07f0b8f345aa35a76bfd5682aa3f3c0e62e81341d93b5e8da10a0c3ce1ec5f2a` (3394 bytes).
+- `fixture_manifest.json`: `ed89c15e7459b8d824721113f3269fd7db1e9961fade829a3bc67d12c93b8f87` (3692 bytes).
+
+Targeted evidence:
+- Dossier `py_compile`: PASS.
+- Material, renderer, exact-native, authority, v14 identity, component hash, and reseal adversarial tests: 9/9 OK in 0.174 s.
+- Independent reference verifier: PASS; exact three-file set, LF-only bytes, and deterministic expected bytes all true.
+- Bound strategy count: 6; Frozen cost-stress strategy observations: 18; multipliers: 1x/2x/3x; fixed benchmark IDs: buy-and-hold and cash.
+- Recorded v14 receipt remains `480772c268e528716e1e1c1bedea1ec2ec881f36f2f218beb88a2ea3bec5e75f` and requires full rebuild for semantic revalidation.
+
+Remaining gaps:
+- No registered ENSEMBLE strategy.
+- No real market dataset or natural-forward single-consumption evidence is represented by this synthetic dossier.
+- No formal Frozen blind test or formal inference authority.
+- The compact dossier does not embed v14 report JSON; full semantic alignment verification remains an explicit long-running rebuild operation.
+
+Safety statement:
+- No real market data, provider, historical-profit backtest, G50/G51, formal blind test, service, browser, scheduler, paper, live, or order path ran.
+- Status remains `BLOCK`; all profitability and trading authorities remain false.
+## ADR0600 - canonical read-only strategy research dossier CLI (2026-09-03)
+
+Status: CLOSED for compact-reference discovery and verification only.
+
+Implementation:
+- Added canonical CLI command `strategy-research-dossier`.
+- The command only invokes the deterministic compact dossier reference verifier and prints its JSON verification receipt. It does not execute report-v14, rebuild backtests, read market providers, or create runtime output.
+- Bound the command to the existing Supported `research_reporting` product capability; no new trading or execution capability was introduced.
+- Updated the Electron exact product-catalog mirror and the legacy `run_bot.py` explicit re-export so all consumers share the canonical command identity.
+- Statistical-correction v1/v2 command selection and defaults were not changed.
+
+Implementation SHA-256:
+- `src/hakimi_research/cli.py`: `e09553d9f0c6e112fcbc9e10e12f553f11d4877679e612c2667d407460c9e8e6`
+- `src/hakimi_research/product_capabilities.py`: `8cdb3774efa40220d52ce10647e871a8ea92e2fcd89d3f324c341f51a300b9e9`
+- `outputs/hakimi_trade_electron/backend-runtime-contract.js`: `1418a996634f7e67e017162a9a0b5dfc08468a52c3432d54eb673d5ae10ff9f0`
+- `outputs/python_quant_bot/run_bot.py`: `a5ca76bce56ce18457a158a3017e803d142b83e5f0909d11ec06d34c4624369d`
+- `outputs/python_quant_bot/tests/test_canonical_cli_entrypoint_v1.py`: `da5ec2185cf082993d486455d22028d53bac0b406390f56f47e7723d7e39dafb`
+
+Targeted evidence:
+- Python `py_compile`: PASS for canonical CLI, product capability catalog, legacy shim, and CLI test.
+- Node `--check`: PASS for the Electron runtime contract mirror.
+- Legacy re-export identity, dossier CLI subprocess, and canonical Python/Node capability parity: 8/8 OK in 0.843 s.
+- The CLI subprocess ran from an isolated temporary working directory and did not create a runtime directory.
+
+Safety statement:
+- CLI verifier `status=PASS` means deterministic reference verification passed; the dossier remains maturity-limited and `BLOCK` for research conclusions.
+- No real data, provider, historical-profit backtest, G50/G51, formal blind test, service, browser, scheduler, paper, live, or order path ran.
+- Profitability, formal inference, ranking, paper, live, and order authorities remain false.
+## ADR0601 - Non-current dossier-v2 benchmark-control projection (2026-09-03)
+
+- Added `deterministic-strategy-research-dossier-v2` as a non-current application consumer. It projects the existing CASH, BUY_AND_HOLD, simple-MA, simple-breakout, 16-path hash no-skill, and per-strategy volatility-matched controls without changing their algorithms.
+- One pure in-memory rebuild verified 32 reused source runs plus 18 additional control runs. Control bundle SHA-256: `89ce8c8589ae5e59010f92f6e33f3a8270867162e51d8eb6ab18cca43fc8f1ec`.
+- Generated reference receipt SHA-256: `8e6f13261f4a7c2ab40270fafdc24bafefd09595d065ab5cbc70f2e36e32e8ae`; manifest SHA-256: `c2dad9f00397b6bcb8d3a73f9d28ce3dc0e9af90eaf5a3568ce5800d922f1d97`.
+- Targeted consumer-first tests: `12/12 OK` in 8.016 seconds. Independent adversarial matrix: `6/6 PASS`, including full-rehash no-skill tamper, control reordering, nested native-type alias, and resealed authority escalation rejection.
+- Dossier-v1 reference bytes remain exact. V2 remains `candidate_only=true`, `current_activation=false`, `status=BLOCK`, and `runtime_mutations=false`.
+- Exact control identity alignment to the recorded report-v14 receipt remains unproven without a full v14 rebuild. No v14 rebuild, CLI/current migration, real-data run, profitability claim, formal inference, ranking, paper, live, or order-entry authority was performed.
+
+## ADR0602 - Non-current dossier-v2 Frozen distribution metrics and Sharpe projection (2026-09-03)
+
+- Scope: extended only `deterministic-strategy-research-dossier-v2`; no v14 rebuild and no current activation.
+- Source binding: the projection requires the family bundle file SHA-256 recorded by dossier-v1, then re-verifies each embedded `FROZEN_COST_1X` distribution source/evidence pair with the existing distribution verifier.
+- Projection inventory: 6 registered strategies, 21 distribution metrics, Sharpe from the same Frozen source result, monthly/yearly returns and summaries, and 9 concentration metrics.
+- Null semantics: one-sided `dual_ma` and `grid` profit factor/payoff ratio remain JSON `null` and render as `undefined`; no zero fill is permitted.
+- Pure synthetic rebuild: 32 existing source runs reused plus 18 additional benchmark-control runs; runtime mutations remained false.
+- Builder: PASS; control bundle `89ce8c8589ae5e59010f92f6e33f3a8270867162e51d8eb6ab18cca43fc8f1ec`.
+- Targeted verification: 17/17 OK in 15.168 seconds (existing 12 plus 5 distribution/Sharpe tests).
+- Independent fresh-process adversarial matrix: 11/11 PASS, including full-rehash Sharpe, volatility, monthly-return, null-to-zero, evidence-hash, order and authority tampering; missing metric and exact-native string alias failed closed.
+- New dossier-v2 receipt SHA-256: `6b2c4981326351017e54bb497e4a2d05c5bdb989bc6c9b58ef44737071685b49`.
+- New dossier-v2 manifest SHA-256: `bfb33dacad2b5916b91b5d1e66117fe4e7308a26e80a3d3fe42f811b11fa32de`.
+- Frozen metric projection SHA-256: `a96c85ce0d2c823d59433f95e8fb580f97486800708ea4da8eec6215c91c750e`.
+- Source module SHA-256: `7a71bfa7bfdf12bd032c419fe83ed7ea717a65c7584c0c34640de3de2b7d2183`.
+- Distribution test SHA-256: `d3c49076f2ef50d37eccf63408a530d63cbb03cfcb22a1ef3e39e672c1947e42`.
+- Reference file SHA-256 values: receipt `71f917aee5d58828dac565865822f014774bf286c85e80fd0c104418e51baea0`; report `c7783f448edf98880e74b3c61ecfcf526866c0eb4703b3f6e9ed664366018472`; manifest `65e699b09d2a9c70024ee8026c8afc582e76a35cb7b90d93fdcc51ea9313242a`.
+- Dossier-v1 reference bytes remained unchanged: receipt `cf343fd7d5b66641bd7e7567280ec67043c2ee6efa9db656febce6c14d63af24`; report `07f0b8f345aa35a76bfd5682aa3f3c0e62e81341d93b5e8da10a0c3ce1ec5f2a`; manifest `ed89c15e7459b8d824721113f3269fd7db1e9961fade829a3bc67d12c93b8f87`.
+- State remains `BLOCK`, candidate-only and non-current. Profitability, formal inference, ranking, paper, live and order-entry authority remain false.
+
+## ADR0603 - Non-current dossier-v2 Frozen cost-stress projection (2026-09-03)
+
+- Scope: extended only `deterministic-strategy-research-dossier-v2`; no v14 rebuild and no current activation.
+- Consumer-first PoC: all 18 existing Frozen runs passed result-identity, cost-provenance and observation checks before production code changed.
+- Role semantics: family-run roles are `FROZEN_COST_1X`, `FROZEN_COST_2X`, and `FROZEN_COST_3X`; embedded experiment manifests independently remain `FROZEN_TEST`. The projection binds both dimensions and does not force them to share a label.
+- Bound cost provenance: fee rates are `0.00050000000000000001`, `0.001`, and `0.0015`; slippage rates are `0.00020000000000000001`, `0.00040000000000000002`, and `0.00060000000000000006`.
+- Projection inventory: 6 registered strategies x 3 Frozen cost roles = 18 rows. Each row binds result, experiment-manifest, source-run and manifest-result identities and projects total return, Sharpe, maximum drawdown, total fees, and exact deltas from 1x.
+- Observation semantics: per-strategy fee non-decrease, return non-increase and drawdown non-decrease are recorded as synthetic observations only, not as profitability or authorization gates.
+- Pure synthetic rebuild: 32 existing source runs reused plus 18 additional benchmark-control runs; runtime mutations remained false.
+- Builder: PASS; benchmark-control bundle `89ce8c8589ae5e59010f92f6e33f3a8270867162e51d8eb6ab18cca43fc8f1ec`.
+- Targeted verification: 22/22 OK in 22.789 seconds (existing 12, distribution/Sharpe 5, cost-stress 5).
+- Independent fresh-process cost-stress adversarial matrix: 13/13 PASS. It covered full-rehash fee, slippage, outer-role, manifest-role, result-identity, result-value, derived-delta, row-order, observation and authority tampering plus exact-native role alias rejection.
+- New dossier-v2 receipt SHA-256: `86ed7709d874b5830d63e22555662b50187fe4b5396cd3ba7a19fba4ddc240a2`.
+- New dossier-v2 manifest SHA-256: `30da1676660316ae3907cba8f34ee397a123f52a5153374a698f6f235b551861`.
+- Frozen cost-stress projection SHA-256: `ec80c64450dcfdeabe2f13d3fe9de92911264510d831f4d99717e2f9f396cfc9`.
+- Frozen distribution projection remains `a96c85ce0d2c823d59433f95e8fb580f97486800708ea4da8eec6215c91c750e`.
+- Source module SHA-256: `108f51a8651543ed792573e5575af169cd4f44d6110f4504c383bc5aa09a704c`.
+- Cost-stress test SHA-256: `c5479d5f6df21a33f4b3de64efce32b0a2f4f0a60160220516b21ba6e349e541`.
+- Reference file SHA-256 values: receipt `debe859cf96e2c668f2566777e3449112c0faa74a35d22d3612200ba759d1ab0`; report `9fb22c6dac850e42fc19204c2e986a671aa079404276f3d176e679a6c160a42a`; manifest `0448726637f73de678d288080f0af06c1c33bc0187fc159b02508bb38611ab3d`.
+- Dossier-v1 reference bytes remained unchanged: receipt `cf343fd7d5b66641bd7e7567280ec67043c2ee6efa9db656febce6c14d63af24`; report `07f0b8f345aa35a76bfd5682aa3f3c0e62e81341d93b5e8da10a0c3ce1ec5f2a`; manifest `ed89c15e7459b8d824721113f3269fd7db1e9961fade829a3bc67d12c93b8f87`.
+- State remains `BLOCK`, candidate-only and non-current. Profitability, formal inference, ranking, paper, live and order-entry authority remain false.
+
+## ADR0604 - Non-current dossier-v2 Frozen experiment provenance projection (2026-09-03)
+
+- Scope: extended only `deterministic-strategy-research-dossier-v2`; no v14 rebuild and no current activation.
+- Source readiness: all 18 Frozen manifests contain the required provenance inventory. There are 18 unique experiment, manifest, result and source-run identities, 18 unique config hashes and one shared dataset hash.
+- Native verification boundary: the embedded `experiment_manifest` is removed from a copied result before calling `verify_reproducible_experiment_manifest(manifest, result_payload)`. This passed 18/18; passing the full result including the manifest passed 0/18 and is not used.
+- Projection inventory: 6 strategies x 3 Frozen cost runs = 18 rows with 25 provenance fields, source-result identity and manifest identity.
+- Preserved gap: every row remains `REPRODUCIBILITY_INCOMPLETE` and `BLOCK` with Git SHA `0000000000000000000000000000000000000000`, `git_worktree_clean=false`, and blocker `git_worktree_not_clean`. No clean Git state is fabricated.
+- Positive provenance observations: dependency lock is fully pinned and the evaluation protocol is verified for all 18 rows.
+- Report labels use exact neutral field names, including `strategy_name`, `strategy_version`, `dependency_lock_name`, and `dependency_lock_hash`.
+- Pure synthetic rebuild: 32 existing source runs reused plus 18 additional benchmark-control runs; runtime mutations remained false.
+- Builder: PASS; benchmark-control bundle `89ce8c8589ae5e59010f92f6e33f3a8270867162e51d8eb6ab18cca43fc8f1ec`.
+- Initial targeted run: 26/27; the sole failure was a neutral renderer-label assertion. After explicit authorization, only four combined labels were expanded to exact field names.
+- Final targeted verification: 27/27 OK in 29.983 seconds.
+- Independent fresh-process provenance adversarial matrix: 16/16 PASS. It covered normal material/reference plus full-rehash experiment, Git, config, dataset, dependency, seed, result, source-run, blocker, clean-state, protocol-state, row-order and authority tampering, and exact-native strategy alias rejection.
+- Dossier-v2 receipt SHA-256: `8abd55f6eb38b27181a418541dc6e7d1fdd8ef470deef4019bafaf5fd1511b18`.
+- Dossier-v2 manifest SHA-256: `65a794313edb9547345c1613c4223ebcad4463ae920b4fe24f16032fb2364e68`.
+- Frozen provenance projection SHA-256: `d623f75a959b14263a46ffbc18f9d4108d1550003b517336e53eafb75e7c02dc`.
+- Frozen cost-stress projection remains `ec80c64450dcfdeabe2f13d3fe9de92911264510d831f4d99717e2f9f396cfc9`.
+- Frozen distribution projection remains `a96c85ce0d2c823d59433f95e8fb580f97486800708ea4da8eec6215c91c750e`.
+- Source module SHA-256: `2fa075ac0326a14ef4e5a73ad4b65891ce55badecbb7c4b6a949e94414aff7aa`.
+- Provenance test SHA-256: `7b0ebadf0dc93bba2658386f15eb7795823cb8d4d2511aecf7ea862ed0dda158`.
+- Reference file SHA-256 values: receipt `8a398c1d0d51a2ec89ff84e82893d38750d0f45aeb5576d33b936521d848a245`; report `ba76665a5b46ff5c2d50b1a2aceb3ec63f173d80bc744c50b13b8739d787899d`; manifest `5d1b48bd8a65c5dd637abd0f04ad8d0ba14a830a36e150d4b0801225c3819449`.
+- Dossier-v1 reference bytes remained unchanged: receipt `cf343fd7d5b66641bd7e7567280ec67043c2ee6efa9db656febce6c14d63af24`; report `07f0b8f345aa35a76bfd5682aa3f3c0e62e81341d93b5e8da10a0c3ce1ec5f2a`; manifest `ed89c15e7459b8d824721113f3269fd7db1e9961fade829a3bc67d12c93b8f87`.
+- State remains `BLOCK`, candidate-only and non-current. Reproducibility completion, profitability, formal inference, ranking, paper, live and order-entry authority remain false.
+
+## ADR0605 - Non-current dossier-v2 evidence-gap reconciliation (2026-09-03)
+
+- Scope: reconciled only `deterministic-strategy-research-dossier-v2`; dossier-v1, v14 and current activation were not changed.
+- Proven contradiction: the inherited dossier GAP set still contained six `NOT_EXECUTED`/`NOT_ESTIMATED` labels after identity-bound robustness-v1 and statistical-v3 references recorded replacement evidence.
+- Resolved stale GAP identifiers: `BOOTSTRAP_CONFIDENCE_INTERVAL_NOT_ESTIMATED`, `DEFLATED_SHARPE_RATIO_NOT_ESTIMATED`, `MULTIPLE_TESTING_NOT_EXECUTED`, `PARAMETER_STABILITY_NOT_EXECUTED`, `PROBABILITY_OF_BACKTEST_OVERFITTING_NOT_ESTIMATED`, and `WALK_FORWARD_NOT_EXECUTED`.
+- Controlled set transition: 37 inherited GAP identifiers minus exactly 6 resolved stale identifiers equals 31 retained GAP identifiers.
+- Required retained constraints include partial/full PBO identified-set gaps, overlapping walk-forward dependence, real-data gaps, formal-blind-test gaps and all authority limits.
+- Component binding: robustness-v1 receipt `73474f772b7e4567aaeed0fcec7f7e1907615787e5d962567272d7a18f7271ea`; statistical-v3 receipt `3e917119630fbd5f4335c8b8449ea55d80cc7a3a94194f77428dff24e18ab2a2`. Their files are transitively bound by dossier-v1 component hashes and their receipt self-identities are recomputed by the projection.
+- Correction: independent native reference verification returned PASS for both components, but the audit call used `execute=True` to rebuild the source bundle, 147-run pure-synthetic robustness evidence, and statistical builders. This exceeded the authorized light-validation boundary. It did not use real data or run v14, paper/live, order entry, or trading.
+- Existing evidence summary: 147 robustness runs; walk-forward, parameter stability, multiple-testing ledger, Bonferroni/BH diagnostics and dependency binding recorded complete. Statistical-v3 records 6 bootstrap observations with 0 bootstrap gaps and 1000 replicates, 6 Deflated Sharpe diagnostics, and CSCV PBO evidence for all 6 strategies with 2 gap cases retained.
+- Production builder does not repeat the comparatively expensive native component reference verifiers; it uses dossier-v1 file identities plus receipt self-identity checks.
+- Pure synthetic dossier rebuild: 32 existing source runs reused plus 18 additional benchmark-control runs; runtime mutations remained false.
+- Builder: PASS; benchmark-control bundle `89ce8c8589ae5e59010f92f6e33f3a8270867162e51d8eb6ab18cca43fc8f1ec`.
+- Targeted verification: 32/32 OK in 74.311 seconds.
+- Independent fresh-process reconciliation adversarial matrix: 15/15 PASS. It covered component identities, resolution checks, resolved/retained set mutation, stale-gap reintroduction, counts, robustness/statistical summaries, authority escalation and exact-native gap alias rejection.
+- Dossier-v2 receipt SHA-256: `2338900fa843238a333f7acaf26c00fe55a23bc689ee1f40cc3e3bcc8614b486`.
+- Dossier-v2 manifest SHA-256: `4b551ca2f091a2fcd075c0493c7c0b937910d556a7578d448dd8d3de56fdfaa2`.
+- Evidence-gap reconciliation SHA-256: `ddeb4b2431b6975ad087e1a757aacb2b4bb4185f57dcc31382c7f225d7ee0cf4`.
+- Frozen provenance projection remains `d623f75a959b14263a46ffbc18f9d4108d1550003b517336e53eafb75e7c02dc`.
+- Frozen cost-stress projection remains `ec80c64450dcfdeabe2f13d3fe9de92911264510d831f4d99717e2f9f396cfc9`.
+- Frozen distribution projection remains `a96c85ce0d2c823d59433f95e8fb580f97486800708ea4da8eec6215c91c750e`.
+- Source module SHA-256: `335099a65f390b3546163b08fe7c5d38777a0fd91555bee00f197e6f4f4c05b3`.
+- Reconciliation test SHA-256: `f86eac405b163cca80d71096356a827cee1ff5eef9944229801b3b68a09bf2f4`.
+- Reference file SHA-256 values: receipt `c9a86529eb161f760b296074040207cdf22731ddb0edf2aeb4c3840099a48f3a`; report `5a3423d648b5f349ef063046d7059bfad49c334c27ba56cc27722aa538c58c5d`; manifest `c026a701d73964afb9fa7b24656cbdd06b2ab8ad1d5c7b7d68c885cd3a2ee2d9`.
+- Dossier-v1 reference bytes remained unchanged: receipt `cf343fd7d5b66641bd7e7567280ec67043c2ee6efa9db656febce6c14d63af24`; report `07f0b8f345aa35a76bfd5682aa3f3c0e62e81341d93b5e8da10a0c3ce1ec5f2a`; manifest `ed89c15e7459b8d824721113f3269fd7db1e9961fade829a3bc67d12c93b8f87`.
+- State remains `BLOCK`, candidate-only and non-current. Reconciliation is not profitability proof or formal inference and grants no ranking, paper, live or order-entry authority.

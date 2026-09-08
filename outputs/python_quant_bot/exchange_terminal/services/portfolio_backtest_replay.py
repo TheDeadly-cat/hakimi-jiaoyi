@@ -12,10 +12,7 @@ from typing import Any
 
 from .execution_authority import authority_violations as _authority_violations
 
-try:
-    from market_data.candle_contract import candle_is_complete
-except ModuleNotFoundError:
-    from exchange_terminal.market_data.candle_contract import candle_is_complete
+from hakimi_research.candle_contract import candle_is_complete
 
 
 PORTFOLIO_BACKTEST_REPLAY_DATASET_SCHEMA_VERSION = "portfolio-backtest-replay-dataset-v2"

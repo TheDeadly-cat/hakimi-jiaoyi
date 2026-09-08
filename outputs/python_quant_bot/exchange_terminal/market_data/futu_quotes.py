@@ -15,7 +15,7 @@ try:
         parse_futu_time_key,
         update_futu_status_cache,
     )
-    from market_data.stocks import (
+    from hakimi_research.stock_metadata import (
         futu_code,
         normalize_stock_interval,
         stock_meta,
@@ -23,7 +23,7 @@ try:
         stock_session_label,
         stock_timezone,
     )
-    from market_data.stock_candles import (
+    from hakimi_research.stock_candles import (
         aggregate_stock_rows,
         clean_stock_session,
         filter_stock_rows_by_session,
@@ -35,7 +35,7 @@ try:
     from market_data.provider_health import provider_call_allowed, record_provider_call
     from utils import now_ms, pct
 except ModuleNotFoundError:
-    from exchange_terminal.config import FUTU_HOST, FUTU_PORT
+    from hakimi_research.terminal_config import FUTU_HOST, FUTU_PORT
     from exchange_terminal.market_data.futu import (
         futu_history_ktype,
         futu_history_window,
@@ -45,7 +45,7 @@ except ModuleNotFoundError:
         parse_futu_time_key,
         update_futu_status_cache,
     )
-    from exchange_terminal.market_data.stocks import (
+    from hakimi_research.stock_metadata import (
         futu_code,
         normalize_stock_interval,
         stock_meta,
@@ -53,7 +53,7 @@ except ModuleNotFoundError:
         stock_session_label,
         stock_timezone,
     )
-    from exchange_terminal.market_data.stock_candles import (
+    from hakimi_research.stock_candles import (
         aggregate_stock_rows,
         clean_stock_session,
         filter_stock_rows_by_session,
@@ -63,7 +63,7 @@ except ModuleNotFoundError:
         stock_daily_should_have_intraday,
     )
     from exchange_terminal.market_data.provider_health import provider_call_allowed, record_provider_call
-    from exchange_terminal.utils import now_ms, pct
+    from hakimi_research.terminal_utils import now_ms, pct
 
 
 QuoteReader = Callable[[str], dict[str, Any]]
@@ -258,6 +258,8 @@ def read_futu_stock_candles(
                 return {"ok": False, "rows": [], "source": "futu", "error": error}
             for row in data.to_dict("records"):
                 ts_ms = parse_futu_time_key(row.get("time_key"), symbol)
+                if ts_ms <= 0:
+                    continue
                 close = pct(row.get("close", 0))
                 if close <= 0:
                     continue

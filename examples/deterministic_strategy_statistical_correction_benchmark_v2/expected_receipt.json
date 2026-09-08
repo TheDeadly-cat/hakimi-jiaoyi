@@ -1,0 +1,152 @@
+{
+  "additional_backtest_run_count": 0,
+  "authority": {
+    "blind_test_complete": false,
+    "formal_inference_authorized": false,
+    "live_authorized": false,
+    "order_entry_authorized": false,
+    "paper_authorized": false,
+    "profitability_proven": false
+  },
+  "bootstrap_bundle_sha256": "edca33bd9db62dc5d118ec181667b0c8cd36d5754b911ad088b5ccf8e11beceb",
+  "bootstrap_decision_threshold": null,
+  "bootstrap_formal_inference_claimed": false,
+  "bootstrap_gap_evidence_count": 0,
+  "bootstrap_interval_count_per_strategy": 3,
+  "bootstrap_observed_evidence_count": 6,
+  "bootstrap_paired_observation_count_per_strategy": 169,
+  "bootstrap_plan_sha256": "2c2eae0059c3833528cfe1640bd020f1407289d33d6f8680b82f24dd66d5f52d",
+  "bootstrap_replay_status": "EXACT_MATCH",
+  "bootstrap_replicate_count": 1000,
+  "bootstrap_source_bundle_sha256": "941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f",
+  "bootstrap_source_dependency_bound_run_count": 32,
+  "bootstrap_source_git_bound_run_count": 0,
+  "claims": {
+    "formal_blind_test": false,
+    "formal_inference": false,
+    "live": false,
+    "order": false,
+    "paper": false,
+    "parameter_selection": false,
+    "profitability": false,
+    "ranking": false,
+    "real_dataset": false
+  },
+  "cscv_pbo_bundle_sha256": "bff9caa039246ad2bb1a1b8ee80a0d3e148ff0a4ee7f61613db50ab928a3fcd6",
+  "cscv_pbo_gap_evidence_count": 2,
+  "cscv_pbo_gap_strategy_ids": [
+    "dual_ma",
+    "grid"
+  ],
+  "cscv_pbo_observed_evidence_count": 4,
+  "cscv_pbo_plan_sha256": "424971513fc9b80a3724a825cdee72c356a396f50c54806287c7fb10faf25b26",
+  "cscv_pbo_tie_bounds_bundle_sha256": "4e91b681bd0b273ab859464c845d4f881397e82bfd8e026579608bb8d578ddda",
+  "cscv_pbo_tie_bounds_plan_sha256": "abdaff203e3c7b66cd03969c15ea18aa2ea07978c7ecdf46b3dd5af920d414ce",
+  "decision_threshold": null,
+  "deflated_sharpe_bundle_sha256": "3bae370a85adc0a308a111644b39d62a1c9c6e3970523e07b674fd6f7bea6089",
+  "deflated_sharpe_diagnostic_count": 6,
+  "deflated_sharpe_plan_sha256": "9be4c19f19dbbf857e0b0978d78f6da458b220fb3b06e6fc4de564bfb06aa537",
+  "formal_inference_claimed": false,
+  "git_bound_run_count": 0,
+  "matrix_dependency_bound_run_count": 18,
+  "maturity": "SYNTHETIC_STATISTICAL_CORRECTION_AND_BOOTSTRAP_ONLY",
+  "receipt_sha256": "9f072ee64a55af2b8fc624a9336794c370a702880783783f960edf6cc67c9509",
+  "remaining_gaps": [
+    "BOOTSTRAP_CONFIDENCE_INTERVAL_NOT_ESTIMATED",
+    "ENSEMBLE_STRATEGY_NOT_IMPLEMENTED",
+    "FORMAL_FROZEN_BLIND_TEST_GAP",
+    "FORMAL_FROZEN_BLIND_TEST_NOT_EXECUTED",
+    "FROZEN_STABILITY_REUSE_NOT_FORMAL_BLIND_EVIDENCE",
+    "FULL_UNIT_PBO_IDENTIFIED_SET_REMAINS",
+    "MARKET_REGIME_ANALYSIS_NOT_EXECUTED",
+    "NO_FORMAL_INFERENCE_AUTHORITY",
+    "ODD_THREE_TRIAL_MEDIAN_BOUNDARY_SENSITIVITY",
+    "OVERLAPPING_WALK_FORWARD_WINDOWS_NO_INDEPENDENCE_CLAIM",
+    "PARTIAL_CSCV_RANK_TIE_GAP",
+    "PARTIAL_PBO_IDENTIFIED_SET_REMAINS",
+    "PROBABILITY_OF_BACKTEST_OVERFITTING_GAP",
+    "REAL_DATASET_GAP",
+    "REAL_MARKET_DATA_NOT_USED",
+    "SOURCE_COMMIT_NOT_BOUND_FOR_UNCOMMITTED_SLICE",
+    "SYNTHETIC_FIXED_169_OBSERVATION_BOOTSTRAP_ONLY",
+    "THREE_TRIAL_RANK_RESOLUTION_LIMIT",
+    "THREE_TRIAL_SYNTHETIC_DIAGNOSTIC_ONLY",
+    "TIE_AWARE_PBO_IDENTIFIED_SET_SYNTHETIC_ONLY",
+    "TRAILING_OBSERVATION_EXCLUDED_FOR_EQUAL_CSCV_PARTITIONS"
+  ],
+  "robustness_bundle_sha256": "cf794c8741b24f663700920526e5f0e0bf76706a28cf752cd95fa0bd70eddc84",
+  "robustness_executed_run_count": 147,
+  "robustness_plan_sha256": "5251a48d21b456ae8b63c976fe90fb8d62b925635cec90c49ef0562591e49370",
+  "run_reproducibility_ledger_sha256": "6434b4abfa717c96cdb76def63851097689b32c1a33985f86de8a26034f71a4e",
+  "runtime_mutations": false,
+  "schema_version": "deterministic-strategy-statistical-correction-benchmark-receipt-v2",
+  "source_bundle_sha256": "941901724a989b49649abbbf90c519595f62cf3b8c157c4850349c070076e36f",
+  "source_executed_run_count": 32,
+  "stage_gaps": {
+    "bootstrap": [
+      "FORMAL_FROZEN_BLIND_TEST_GAP",
+      "NO_FORMAL_INFERENCE_AUTHORITY",
+      "REAL_DATASET_GAP",
+      "SOURCE_COMMIT_NOT_BOUND_FOR_UNCOMMITTED_SLICE",
+      "SYNTHETIC_FIXED_169_OBSERVATION_BOOTSTRAP_ONLY"
+    ],
+    "cscv_pbo": [
+      "FORMAL_FROZEN_BLIND_TEST_GAP",
+      "FROZEN_STABILITY_REUSE_NOT_FORMAL_BLIND_EVIDENCE",
+      "NO_FORMAL_INFERENCE_AUTHORITY",
+      "ODD_THREE_TRIAL_MEDIAN_BOUNDARY_SENSITIVITY",
+      "REAL_DATASET_GAP",
+      "THREE_TRIAL_RANK_RESOLUTION_LIMIT",
+      "TRAILING_OBSERVATION_EXCLUDED_FOR_EQUAL_CSCV_PARTITIONS",
+      "PARTIAL_CSCV_RANK_TIE_GAP"
+    ],
+    "cscv_pbo_tie_bounds": [
+      "FORMAL_FROZEN_BLIND_TEST_GAP",
+      "FROZEN_STABILITY_REUSE_NOT_FORMAL_BLIND_EVIDENCE",
+      "NO_FORMAL_INFERENCE_AUTHORITY",
+      "ODD_THREE_TRIAL_MEDIAN_BOUNDARY_SENSITIVITY",
+      "REAL_DATASET_GAP",
+      "THREE_TRIAL_RANK_RESOLUTION_LIMIT",
+      "TRAILING_OBSERVATION_EXCLUDED_FOR_EQUAL_CSCV_PARTITIONS",
+      "TIE_AWARE_PBO_IDENTIFIED_SET_SYNTHETIC_ONLY",
+      "PARTIAL_PBO_IDENTIFIED_SET_REMAINS",
+      "FULL_UNIT_PBO_IDENTIFIED_SET_REMAINS"
+    ],
+    "deflated_sharpe": [
+      "FORMAL_FROZEN_BLIND_TEST_GAP",
+      "FROZEN_STABILITY_REUSE_NOT_FORMAL_BLIND_EVIDENCE",
+      "NO_FORMAL_INFERENCE_AUTHORITY",
+      "PROBABILITY_OF_BACKTEST_OVERFITTING_GAP",
+      "REAL_DATASET_GAP",
+      "THREE_TRIAL_SYNTHETIC_DIAGNOSTIC_ONLY"
+    ],
+    "robustness_remaining": [
+      "REAL_MARKET_DATA_NOT_USED",
+      "FORMAL_FROZEN_BLIND_TEST_NOT_EXECUTED",
+      "MARKET_REGIME_ANALYSIS_NOT_EXECUTED",
+      "ENSEMBLE_STRATEGY_NOT_IMPLEMENTED",
+      "SOURCE_COMMIT_NOT_BOUND_FOR_UNCOMMITTED_SLICE",
+      "BOOTSTRAP_CONFIDENCE_INTERVAL_NOT_ESTIMATED",
+      "OVERLAPPING_WALK_FORWARD_WINDOWS_NO_INDEPENDENCE_CLAIM"
+    ]
+  },
+  "statistical_analysis_run_count": 0,
+  "status": "BLOCK",
+  "tie_bounds_full_unit_interval_strategy_ids": [
+    "dual_ma"
+  ],
+  "tie_bounds_partial_interval_strategy_ids": [
+    "grid"
+  ],
+  "tie_bounds_point_identified_strategy_ids": [
+    "bollinger",
+    "macd",
+    "momentum",
+    "rsi"
+  ],
+  "tie_bounds_retained_split_count": 420,
+  "total_dependency_bound_run_count": 179,
+  "total_executed_run_count": 179,
+  "trial_matrix_bundle_sha256": "5081970aa1e3e6a21e959db5ef8b48e9824c34a2d482ad486adaf83fb0de36db",
+  "trial_matrix_plan_sha256": "7cc8b216224a15aae736f022e9ef4d917f97bcc75548e0d66b77edc6ccb77345"
+}

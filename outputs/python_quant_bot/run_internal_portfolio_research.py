@@ -8,6 +8,11 @@ import math
 from pathlib import Path
 from typing import Any
 
+_ADR0524_REPO_ROOT = Path(__file__).resolve().parents[2]
+_ADR0524_SRC_ROOT = _ADR0524_REPO_ROOT / "src"
+if str(_ADR0524_SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ADR0524_SRC_ROOT))
+
 from exchange_terminal import server
 from exchange_terminal import config as config_module
 from exchange_terminal import utils as utils_module
@@ -31,8 +36,6 @@ from exchange_terminal.services import portfolio_forward as portfolio_forward_mo
 from exchange_terminal.services import portfolio_forward_scheduler as portfolio_forward_scheduler_module
 from exchange_terminal.services import portfolio_forward_performance as portfolio_forward_performance_module
 from exchange_terminal.services import portfolio_execution_rehearsal as portfolio_execution_rehearsal_module
-from exchange_terminal.services import portfolio_paper_account as portfolio_paper_account_module
-from exchange_terminal.services import portfolio_paper_activation as portfolio_paper_activation_module
 from exchange_terminal.services import portfolio_risk as portfolio_risk_module
 from exchange_terminal.services import portfolio_robustness as portfolio_robustness_module
 from exchange_terminal.services import portfolio_shadow as portfolio_shadow_module
@@ -51,11 +54,8 @@ from exchange_terminal.services import guardian_service as guardian_service_modu
 from exchange_terminal.services import http_contract as http_contract_module
 from exchange_terminal.services import market_data_service as market_data_service_module
 from exchange_terminal.services import mutation_journal as mutation_journal_module
-from exchange_terminal.services import paper_account as paper_account_module
-from exchange_terminal.services import paper_executor as paper_executor_module
-from exchange_terminal.services import paper_ledger as paper_ledger_module
-from exchange_terminal.services import paper_order_contract as paper_order_contract_module
-from exchange_terminal.services import paper_strategy_clock as paper_strategy_clock_module
+from hakimi_research import research_execution_rehearsal as research_execution_rehearsal_module
+from hakimi_research import research_order_lifecycle_contract as research_order_lifecycle_contract_module
 from exchange_terminal.services import risk_service as risk_service_module
 from exchange_terminal.services import strategy_benchmark as strategy_benchmark_module
 from exchange_terminal.services.portfolio_backtest import (
@@ -490,8 +490,6 @@ def research_source_files() -> list[Path]:
         Path(portfolio_forward_scheduler_module.__file__),
         Path(portfolio_forward_performance_module.__file__),
         Path(portfolio_execution_rehearsal_module.__file__),
-        Path(portfolio_paper_account_module.__file__),
-        Path(portfolio_paper_activation_module.__file__),
         Path(portfolio_shadow_module.__file__),
         Path(portfolio_shadow_risk_module.__file__),
         Path(portfolio_statistical_audit_module.__file__),
@@ -518,11 +516,8 @@ def research_source_files() -> list[Path]:
         Path(http_contract_module.__file__),
         Path(market_data_service_module.__file__),
         Path(mutation_journal_module.__file__),
-        Path(paper_account_module.__file__),
-        Path(paper_executor_module.__file__),
-        Path(paper_ledger_module.__file__),
-        Path(paper_order_contract_module.__file__),
-        Path(paper_strategy_clock_module.__file__),
+        Path(research_execution_rehearsal_module.__file__),
+        Path(research_order_lifecycle_contract_module.__file__),
         Path(risk_service_module.__file__),
         Path(strategy_benchmark_module.__file__),
     ]

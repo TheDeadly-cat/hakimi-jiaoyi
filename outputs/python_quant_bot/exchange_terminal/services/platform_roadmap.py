@@ -108,12 +108,12 @@ def build_six_lane_roadmap(
             ]),
             "Move toward event-driven data, risk, execution, audit and bus services.",
             [
-                "market_data_service, risk_service, paper_executor, audit_log and event_bus exist.",
+                "market_data_service, risk_service, research_execution_rehearsal, audit_log and event_bus exist.",
                 "Risk checks are kept ahead of paper execution paths.",
                 "Live order routing remains hard-blocked.",
             ],
             [
-                "Move more server.py order lifecycle logic into paper_executor.",
+                "Keep archived order lifecycle logic out of server.py; extend only the pure in-memory research rehearsal contract.",
                 "Publish more market, risk and strategy events through event_bus.",
                 "Promote JSONL audit records into a SQLite audit store.",
             ],

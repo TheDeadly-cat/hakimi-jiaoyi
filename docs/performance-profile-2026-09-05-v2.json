@@ -1,0 +1,104 @@
+{
+  "schema_version": "research-performance-comparison-v2",
+  "date": "2026-09-05",
+  "supersedes_for_current_sources": "docs/performance-profile-2026-09-05.json",
+  "methodology": "One fresh Windows process per deterministic synthetic dual_ma size, after explicit benchmark policy, fresh strategy state, fee split and statistical status changes. Ordinary protections remain enabled.",
+  "runs": [
+    {
+      "backtest_schema": "research-backtest-core-v2",
+      "evidence_kind": "SYNTHETIC_REGRESSION_DIAGNOSTIC",
+      "execution_model": "signal-close-next-open-ohlc-v5",
+      "fill_count": 52,
+      "market_effectiveness_assessed": false,
+      "memory_measurement": "WINDOWS_GETPROCESSMEMORYINFO_PEAK_WORKING_SET_FRESH_PROCESS_INCLUDING_IMPORTS",
+      "metric_semantics": "research-accounting-score-start-v2",
+      "network_calls": 0,
+      "normal_input_and_report_guards": true,
+      "normal_strategy_history_copy": true,
+      "numpy": "2.4.6",
+      "optimizations_enabled": false,
+      "pandas": "3.0.3",
+      "params": {
+        "fast_window": 20,
+        "position_pct": 0.25,
+        "slow_window": 60,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.08
+      },
+      "peak_process_working_set_bytes": 118640640,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "pre_run_peak_working_set_bytes": 94314496,
+      "python": "3.14.6",
+      "research_only": true,
+      "rows": 5000,
+      "run_wall_seconds": 2.5806265000001076,
+      "schema_version": "research-synthetic-performance-profile-v1",
+      "scored_rows": 4938,
+      "source_sha256": {
+        "backtest.py": "fb56505a28a7dca5bfc4ad990a1df17dd5228c7d1e43b54e1687df2d357978c7",
+        "execution.py": "4fc9c10b20441213d3d2a472152dfbea2a4a7a497dcb05159e1c0591398adf18",
+        "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+        "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6",
+        "strategies/templates.py": "d96a321738da88ea352f90579120e6010f52386c6749f1b4da80460df9af2575"
+      },
+      "strategy": "dual_ma",
+      "timing_measurement": "ENGINE_RUN_AND_DETACHED_REPORT_EXPORT_EXCLUDES_FIXTURE_AND_IMPORTS"
+    },
+    {
+      "backtest_schema": "research-backtest-core-v2",
+      "evidence_kind": "SYNTHETIC_REGRESSION_DIAGNOSTIC",
+      "execution_model": "signal-close-next-open-ohlc-v5",
+      "fill_count": 211,
+      "market_effectiveness_assessed": false,
+      "memory_measurement": "WINDOWS_GETPROCESSMEMORYINFO_PEAK_WORKING_SET_FRESH_PROCESS_INCLUDING_IMPORTS",
+      "metric_semantics": "research-accounting-score-start-v2",
+      "network_calls": 0,
+      "normal_input_and_report_guards": true,
+      "normal_strategy_history_copy": true,
+      "numpy": "2.4.6",
+      "optimizations_enabled": false,
+      "pandas": "3.0.3",
+      "params": {
+        "fast_window": 20,
+        "position_pct": 0.25,
+        "slow_window": 60,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.08
+      },
+      "peak_process_working_set_bytes": 187047936,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "pre_run_peak_working_set_bytes": 95240192,
+      "python": "3.14.6",
+      "research_only": true,
+      "rows": 20000,
+      "run_wall_seconds": 27.0612828000003,
+      "schema_version": "research-synthetic-performance-profile-v1",
+      "scored_rows": 19938,
+      "source_sha256": {
+        "backtest.py": "fb56505a28a7dca5bfc4ad990a1df17dd5228c7d1e43b54e1687df2d357978c7",
+        "execution.py": "4fc9c10b20441213d3d2a472152dfbea2a4a7a497dcb05159e1c0591398adf18",
+        "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+        "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6",
+        "strategies/templates.py": "d96a321738da88ea352f90579120e6010f52386c6749f1b4da80460df9af2575"
+      },
+      "strategy": "dual_ma",
+      "timing_measurement": "ENGINE_RUN_AND_DETACHED_REPORT_EXPORT_EXCLUDES_FIXTURE_AND_IMPORTS"
+    }
+  ],
+  "additional_source_hashes": [
+    {
+      "Path": "C:\\Users\\Administrator\\.codex\\worktrees\\cf77\\哈基米v2交易\\src\\hakimi_research\\benchmarks.py",
+      "Hash": "7D09C35750DAF609BA361ECAF9794332321967C679ED397B411BBBECBECCA549"
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\.codex\\worktrees\\cf77\\哈基米v2交易\\src\\hakimi_research\\strategies\\__init__.py",
+      "Hash": "B16709C51A0FCE1B55ACD38F4D5012C0F9D0BE65F6A78B4CF0856576982C334B"
+    }
+  ],
+  "limits": [
+    "One observation per size; no repeated sampling or confidence interval.",
+    "Uncontrolled concurrent machine load. Do not attribute timing differences from earlier sources to a particular edit.",
+    "Peak process working set includes interpreter/imports/fixture; run wall time excludes imports/fixture.",
+    "Synthetic software profile only; no provider, real market study or strategy validity assessment."
+  ]
+}

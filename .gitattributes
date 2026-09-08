@@ -1,3 +1,93 @@
+.gitattributes text eol=lf
+
+archive/historical_research/adr0525_input_identity_v1/config.json text eol=lf
+archive/historical_research/adr0525_input_identity_v1/dataset.csv text eol=lf
+archive/historical_research/adr0525_input_identity_v1/expected_result.json text eol=lf
+archive/historical_research/adr0525_input_identity_v1/README.md text eol=lf
+archive/historical_research/adr0525_input_identity_v1/verify.py text eol=lf
+archive/historical_research/adr0526_experiment_manifest.py text eol=lf
+archive/historical_research/adr0527_config.py text eol=lf
+archive/historical_research/adr0528_models.py text eol=lf
+archive/historical_research/adr0529_execution.py text eol=lf
+archive/historical_research/adr0530_risk.py text eol=lf
+archive/historical_research/adr0531_backtest.py text eol=lf
+archive/historical_research/adr0532_data.py text eol=lf
+archive/historical_research/adr0533_strategy_base.py text eol=lf
+archive/historical_research/adr0533_strategy_templates.py text eol=lf
+archive/historical_research/adr0533_strategy_init.py text eol=lf
+archive/historical_research/adr0534_indicators.py text eol=lf
+archive/historical_research/adr0535_logging_setup.py text eol=lf
+archive/historical_research/adr0535_reporting.py text eol=lf
+examples/deterministic_frozen_benchmark_v1/config.json text eol=lf
+examples/deterministic_frozen_benchmark_v1/dataset.csv text eol=lf
+examples/deterministic_frozen_benchmark_v1/experiment_context.json text eol=lf
+examples/deterministic_frozen_benchmark_v1/expected_report.json text eol=lf
+examples/deterministic_frozen_benchmark_v1/expected_report.md text eol=lf
+examples/deterministic_frozen_benchmark_v1/fixture_manifest.json text eol=lf
+examples/deterministic_frozen_benchmark_v2/config.json text eol=lf
+examples/deterministic_frozen_benchmark_v2/dataset.csv text eol=lf
+examples/deterministic_frozen_benchmark_v2/dataset_governance.json text eol=lf
+examples/deterministic_frozen_benchmark_v2/experiment_context.json text eol=lf
+examples/deterministic_frozen_benchmark_v2/expected_report.json text eol=lf
+examples/deterministic_frozen_benchmark_v2/expected_report.md text eol=lf
+examples/deterministic_frozen_benchmark_v2/fixture_manifest.json text eol=lf
+examples/deterministic_strategy_family_benchmark_v1/expected_bundle.json text eol=lf
+examples/deterministic_strategy_family_benchmark_v1/expected_bundle.md text eol=lf
+examples/deterministic_strategy_family_benchmark_v1/fixture_manifest.json text eol=lf
+examples/deterministic_strategy_robustness_benchmark_v1/expected_receipt.json text eol=lf
+examples/deterministic_strategy_robustness_benchmark_v1/expected_receipt.md text eol=lf
+examples/deterministic_strategy_robustness_benchmark_v1/fixture_manifest.json text eol=lf
+examples/deterministic_strategy_statistical_correction_benchmark_v1/expected_receipt.json text eol=lf
+examples/deterministic_strategy_statistical_correction_benchmark_v1/expected_receipt.md text eol=lf
+examples/deterministic_strategy_statistical_correction_benchmark_v1/fixture_manifest.json text eol=lf
+requirements.research.lock text eol=lf
+
+# Deterministic research code and reference artifacts participate in byte-level identities.
+outputs/python_quant_bot/**/*.py text eol=lf
+examples/**/*.csv text eol=lf
+examples/**/*.json text eol=lf
+examples/**/*.lock text eol=lf
+examples/**/*.md text eol=lf
+src/hakimi_research/**/*.py text eol=lf
+
+# Frozen manifests bind this source's exact mixed-EOL bytes; keep text diff/merge only.
+src/hakimi_research/risk.py -text diff merge -whitespace
+
+# Immutable historical/reference snapshots preserve identity-bound whitespace.
+archive/historical_research/adr0529_execution.py -whitespace
+examples/deterministic_frozen_benchmark_v1/expected_report.md -whitespace
+examples/deterministic_frozen_benchmark_v2/expected_report.md -whitespace
+
+# Current MVP identity-preserving overrides.
 outputs/python_quant_bot/examples/deterministic_experiment/config.json text eol=lf
 outputs/python_quant_bot/examples/deterministic_experiment/dataset.csv text eol=lf
 outputs/python_quant_bot/examples/deterministic_experiment/expected_result.json text eol=lf
+
+# Research receipts bind the exact source and resource bytes, including mixed EOLs.
+# Keep textual review and merge behavior without checkout or staging conversion.
+src/hakimi_research/**/*.py -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+src/hakimi_research/**/*.json -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+src/hakimi_research/**/*.lock -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+requirements.research.lock -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# These already-verified sources include an identity-bound final blank line.
+src/hakimi_research/models.py whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
+src/hakimi_research/strategies/base.py whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
+
+# The generated projection already has canonical LF bytes.
+src/hakimi_research/contracts/product-capabilities.json text eol=lf
+
+# Recovered original identity-bound archive bytes; never normalize these copies.
+archive/legacy_paper/tests/test_core_services_before_paper_persistence_archive.py -text diff merge -whitespace
+archive/historical_research/adr0587_stock_data_quality_boundary_v2.py -text diff merge -whitespace
+archive/historical_research/adr0587_stock_candle_quality_v4.py -text diff merge -whitespace
+archive/historical_research/adr0588_stock_candle_quality_v5.py -text diff merge -whitespace
+archive/historical_research/adr0527_config.py -text diff merge -whitespace
+archive/historical_research/adr0528_models.py -text diff merge -whitespace
+archive/historical_research/adr0529_execution.py -text diff merge -whitespace
+archive/historical_research/adr0530_risk.py -text diff merge -whitespace
+archive/historical_research/adr0531_backtest.py -text diff merge -whitespace
+archive/historical_research/adr0532_data.py -text diff merge -whitespace
+
+# Published receipts and their byte-checksum indexes must survive checkout intact.
+docs/research-evidence/** -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol

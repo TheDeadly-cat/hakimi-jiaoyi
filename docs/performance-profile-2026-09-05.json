@@ -1,0 +1,93 @@
+{
+  "schema_version": "research-performance-comparison-v1",
+  "date": "2026-09-05",
+  "methodology": "One fresh Windows process per deterministic synthetic dual_ma size; normal strategy history copies, input validation, ledger construction and sealed report export enabled.",
+  "scope": "Software profile only; no real market dataset, provider, account, optimizer, or strategy effectiveness assessment.",
+  "runs": [
+    {
+      "backtest_schema": "research-backtest-core-v2",
+      "evidence_kind": "SYNTHETIC_REGRESSION_DIAGNOSTIC",
+      "execution_model": "signal-close-next-open-ohlc-v5",
+      "fill_count": 52,
+      "market_effectiveness_assessed": false,
+      "memory_measurement": "WINDOWS_GETPROCESSMEMORYINFO_PEAK_WORKING_SET_FRESH_PROCESS_INCLUDING_IMPORTS",
+      "metric_semantics": "research-accounting-score-start-v2",
+      "network_calls": 0,
+      "normal_input_and_report_guards": true,
+      "normal_strategy_history_copy": true,
+      "numpy": "2.4.6",
+      "optimizations_enabled": false,
+      "pandas": "3.0.3",
+      "params": {
+        "fast_window": 20,
+        "position_pct": 0.25,
+        "slow_window": 60,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.08
+      },
+      "peak_process_working_set_bytes": 118595584,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "pre_run_peak_working_set_bytes": 94556160,
+      "python": "3.14.6",
+      "research_only": true,
+      "rows": 5000,
+      "run_wall_seconds": 2.1470801000000392,
+      "schema_version": "research-synthetic-performance-profile-v1",
+      "scored_rows": 4938,
+      "source_sha256": {
+        "backtest.py": "ca95c65c398f4263e9f2881ef611176b05e41be94519e223bdbb1edff0846e36",
+        "execution.py": "4fc9c10b20441213d3d2a472152dfbea2a4a7a497dcb05159e1c0591398adf18",
+        "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+        "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6",
+        "strategies/templates.py": "2d1e142b255778d7b82a475a62790ccac224d5aa4716303fea88b11127b8d067"
+      },
+      "strategy": "dual_ma",
+      "timing_measurement": "ENGINE_RUN_AND_DETACHED_REPORT_EXPORT_EXCLUDES_FIXTURE_AND_IMPORTS"
+    },
+    {
+      "backtest_schema": "research-backtest-core-v2",
+      "evidence_kind": "SYNTHETIC_REGRESSION_DIAGNOSTIC",
+      "execution_model": "signal-close-next-open-ohlc-v5",
+      "fill_count": 211,
+      "market_effectiveness_assessed": false,
+      "memory_measurement": "WINDOWS_GETPROCESSMEMORYINFO_PEAK_WORKING_SET_FRESH_PROCESS_INCLUDING_IMPORTS",
+      "metric_semantics": "research-accounting-score-start-v2",
+      "network_calls": 0,
+      "normal_input_and_report_guards": true,
+      "normal_strategy_history_copy": true,
+      "numpy": "2.4.6",
+      "optimizations_enabled": false,
+      "pandas": "3.0.3",
+      "params": {
+        "fast_window": 20,
+        "position_pct": 0.25,
+        "slow_window": 60,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.08
+      },
+      "peak_process_working_set_bytes": 185257984,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "pre_run_peak_working_set_bytes": 95629312,
+      "python": "3.14.6",
+      "research_only": true,
+      "rows": 20000,
+      "run_wall_seconds": 12.71466429999964,
+      "schema_version": "research-synthetic-performance-profile-v1",
+      "scored_rows": 19938,
+      "source_sha256": {
+        "backtest.py": "ca95c65c398f4263e9f2881ef611176b05e41be94519e223bdbb1edff0846e36",
+        "execution.py": "4fc9c10b20441213d3d2a472152dfbea2a4a7a497dcb05159e1c0591398adf18",
+        "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+        "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6",
+        "strategies/templates.py": "2d1e142b255778d7b82a475a62790ccac224d5aa4716303fea88b11127b8d067"
+      },
+      "strategy": "dual_ma",
+      "timing_measurement": "ENGINE_RUN_AND_DETACHED_REPORT_EXPORT_EXCLUDES_FIXTURE_AND_IMPORTS"
+    }
+  ],
+  "limits": [
+    "Single observation per size; no repeated sampling or confidence interval.",
+    "Peak working set includes interpreter/imports/fixture; run wall time excludes imports/fixture.",
+    "Machine load was not controlled. These observations do not establish a universal complexity bound."
+  ]
+}

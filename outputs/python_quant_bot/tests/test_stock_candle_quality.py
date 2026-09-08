@@ -17,17 +17,25 @@ from exchange_terminal.market_data.stock_candle_quality import analyze_stock_can
 from exchange_terminal.market_data.stock_candles import stock_payload_has_due_incomplete_daily, with_stock_freshness
 from exchange_terminal.research.stock_research import stock_daily_swing_fast, stock_unusual_activity_fast
 from exchange_terminal import server as terminal_server
+from tests._stock_schedule_fixture import build_stock_schedule_fixture
 
 
 def candle(day: int, close: float, *, source: str = "futu") -> dict[str, float | int | str]:
+    session = datetime(2026, 4, 6, 16, 0, tzinfo=ZoneInfo("America/New_York"))
+    remaining = day - 1
+    while remaining > 0:
+        session += timedelta(days=1)
+        if session.weekday() < 5:
+            remaining -= 1
     return {
-        "ts": day * 86_400_000,
-        "date": f"2026-06-{day:02d}",
+        "ts": int(session.timestamp() * 1000),
+        "date": session.date().isoformat(),
         "open": close * 0.99,
         "high": close * 1.01,
         "low": close * 0.98,
         "close": close,
         "volume": 1_000_000 + day,
+        "complete": True,
         "source": source,
     }
 
@@ -36,7 +44,7 @@ class StockCandleQualityTests(unittest.TestCase):
     def test_completed_daily_futu_history_is_not_labeled_realtime(self) -> None:
         friday_close = int(datetime(2026, 7, 31, 16, 0, tzinfo=ZoneInfo("America/New_York")).timestamp() * 1000)
         sunday = int(datetime(2026, 8, 2, 12, 0, tzinfo=ZoneInfo("America/New_York")).timestamp() * 1000)
-        with patch("exchange_terminal.market_data.stock_candles.now_ms", return_value=sunday):
+        with patch("hakimi_research.stock_candles.now_ms", return_value=sunday):
             result = with_stock_freshness({
                 "source": "futu",
                 "rows": [{"ts": friday_close, "close": 100, "complete": True}],
@@ -47,7 +55,7 @@ class StockCandleQualityTests(unittest.TestCase):
 
     def test_provisional_daily_futu_bar_can_be_labeled_realtime(self) -> None:
         intraday = int(datetime(2026, 7, 31, 14, 0, tzinfo=ZoneInfo("America/New_York")).timestamp() * 1000)
-        with patch("exchange_terminal.market_data.stock_candles.now_ms", return_value=intraday + 5_000):
+        with patch("hakimi_research.stock_candles.now_ms", return_value=intraday + 5_000):
             result = with_stock_freshness({
                 "source": "futu",
                 "rows": [{"ts": intraday, "close": 100, "complete": False, "provisional": True}],
@@ -92,7 +100,7 @@ class StockCandleQualityTests(unittest.TestCase):
             patch("exchange_terminal.server.read_stock_candle_cache", return_value=None),
             patch("exchange_terminal.server.read_stock_persistent_candle_cache", return_value=persistent),
             patch("exchange_terminal.server.stock_candle_stale_warning", return_value=""),
-            patch("exchange_terminal.market_data.stock_candles.now_ms", return_value=after_close),
+            patch("hakimi_research.stock_candles.now_ms", return_value=after_close),
             patch("exchange_terminal.server.futu_status_snapshot", return_value={"opend_online": True}),
             patch("exchange_terminal.server.read_futu_stock_candles", return_value=futu_payload) as futu_reader,
             patch("exchange_terminal.server.cache_stock_candles", side_effect=lambda _symbol, _interval, _session, payload: payload),
@@ -333,7 +341,14 @@ class StockCandleQualityTests(unittest.TestCase):
             terminal_server.STOCK_CANDLE_CACHE.pop(key, None)
 
     def test_normal_series_remains_ready(self) -> None:
-        report = analyze_stock_candle_series([candle(day, 100 + day) for day in range(1, 25)])
+        rows = [candle(day, 100 + day) for day in range(1, 25)]
+        report = analyze_stock_candle_series(
+            rows,
+            symbol="AAPL",
+            interval="1d",
+            source="futu",
+            schedule_attestation=build_stock_schedule_fixture(rows),
+        )
 
         self.assertFalse(report["has_break"])
         self.assertTrue(report["analysis_ready"])
@@ -341,7 +356,13 @@ class StockCandleQualityTests(unittest.TestCase):
 
     def test_large_price_scale_break_starts_new_segment(self) -> None:
         rows = [candle(day, 180 + day) for day in range(1, 24)] + [candle(24, 580)]
-        report = analyze_stock_candle_series(rows)
+        report = analyze_stock_candle_series(
+            rows,
+            symbol="AAPL",
+            interval="1d",
+            source="futu",
+            schedule_attestation=build_stock_schedule_fixture(rows),
+        )
 
         self.assertTrue(report["has_break"])
         self.assertFalse(report["analysis_ready"])
@@ -373,7 +394,11 @@ class StockCandleQualityTests(unittest.TestCase):
             "change24h_pct": -7.43,
             "source": "futu",
             "prevClose": 582.25,
-            "quote_quality": {"previous_close": 582.25, "quarantined": False},
+            "quote_quality": {
+                "previous_close": 582.25,
+                "quarantined": False,
+                "quote_complete": True,
+            },
         }
 
         result = stock_unusual_activity_fast("WDC", quote)

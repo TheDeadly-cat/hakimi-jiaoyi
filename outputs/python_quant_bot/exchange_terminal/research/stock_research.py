@@ -8,16 +8,18 @@ from typing import Any, Callable
 
 try:
     from config import STOCK_MARKETS
-    from market_data.stock_candle_quality import analyze_stock_candle_series, stock_candle_quality_public
+    from hakimi_research.stock_candle_quality import analyze_stock_candle_series, stock_candle_quality_public
     from market_data.stock_candles_io import read_stock_persistent_candle_cache
-    from market_data.stocks import stock_meta, stock_session_from_ts, stock_timezone, yahoo_stock_symbol
+    from services.market_calendar import resolve_stock_candle_schedule_attestation
+    from hakimi_research.stock_metadata import stock_meta, stock_session_from_ts, stock_timezone, yahoo_stock_symbol
     from utils import average, now_ms, pct
 except ModuleNotFoundError:
-    from exchange_terminal.config import STOCK_MARKETS
-    from exchange_terminal.market_data.stock_candle_quality import analyze_stock_candle_series, stock_candle_quality_public
+    from hakimi_research.terminal_config import STOCK_MARKETS
+    from hakimi_research.stock_candle_quality import analyze_stock_candle_series, stock_candle_quality_public
     from exchange_terminal.market_data.stock_candles_io import read_stock_persistent_candle_cache
-    from exchange_terminal.market_data.stocks import stock_meta, stock_session_from_ts, stock_timezone, yahoo_stock_symbol
-    from exchange_terminal.utils import average, now_ms, pct
+    from exchange_terminal.services.market_calendar import resolve_stock_candle_schedule_attestation
+    from hakimi_research.stock_metadata import stock_meta, stock_session_from_ts, stock_timezone, yahoo_stock_symbol
+    from hakimi_research.terminal_utils import average, now_ms, pct
 
 
 QuoteReader = Callable[[str], dict[str, Any]]
@@ -347,12 +349,62 @@ def stock_unusual_activity_fast(symbol: str, quote: dict[str, Any]) -> dict[str,
         "latest_ts": quote.get("ts", now_ms()),
     }
     raw_rows = list(payload.get("rows") or [])
-    candle_quality = analyze_stock_candle_series(raw_rows, minimum_analysis_rows=20)
+    candle_source = (
+        payload.get("origin_source")
+        or payload.get("source")
+        or quote.get("source", "stock")
+    )
+    candle_quality = analyze_stock_candle_series(
+        raw_rows,
+        symbol=meta["symbol"],
+        interval="1d",
+        source=candle_source,
+        schedule_attestation=resolve_stock_candle_schedule_attestation(
+            benchmark_symbol=meta["symbol"],
+            source=candle_source,
+            rows=raw_rows,
+        ),
+        minimum_analysis_rows=20,
+    )
     rows = list(candle_quality.get("analysis_rows") or [])
+    if (
+        candle_quality.get("structure_complete") is not True
+        or candle_quality.get("temporal_conformance_complete") is not True
+        or not rows
+    ):
+        warning = str(
+            candle_quality.get("warning")
+            or "日线 OHLCV、时间戳或顺序结构未通过质量门禁。"
+        )
+        return {
+            "ok": False,
+            "symbol": meta["symbol"],
+            "headline": f"{meta['symbol']} 日线质量待核，异动计算已暂停。",
+            "volume_ratio": 0.0,
+            "gap_pct": 0.0,
+            "range_pct": 0.0,
+            "change_pct": 0.0,
+            "recent_volume": 0.0,
+            "baseline_volume": 0.0,
+            "flags": ["日线质量待核"],
+            "data_quality": stock_candle_quality_public(candle_quality),
+            "updated_label": payload.get("latest_at", "") or quote.get("time", ""),
+            "rows": [],
+            "waiting_conditions": [warning],
+            "safe_action": "SOURCE -> GAP -> MATURITY -> PERMISSION",
+        }
     latest = rows[-1] if rows else {}
     prev = rows[-2] if len(rows) >= 2 else {}
     quote_quality = quote.get("quote_quality") if isinstance(quote.get("quote_quality"), dict) else {}
-    use_quote_ohlc = bool(candle_quality.get("has_break")) and len(rows) < 2 and not quote_quality.get("quarantined")
+    quote_is_usable = (
+        quote_quality.get("quote_complete") is True
+        and quote_quality.get("quarantined") is not True
+    )
+    use_quote_ohlc = (
+        bool(candle_quality.get("has_break"))
+        and len(rows) < 2
+        and quote_is_usable
+    )
     volumes = [pct(row.get("volume", 0.0)) for row in rows if pct(row.get("volume", 0.0)) > 0]
     recent_volume = pct(quote.get("vol24h", latest.get("volume", 0.0))) if use_quote_ohlc else pct(latest.get("volume", quote.get("vol24h", 0.0)))
     baseline = average(volumes[-21:-1]) if len(volumes) >= 22 else average(volumes[:-1]) if len(volumes) > 1 else recent_volume
@@ -361,7 +413,7 @@ def stock_unusual_activity_fast(symbol: str, quote: dict[str, Any]) -> dict[str,
     high = pct(quote.get("high24h", latest.get("high", 0.0))) if use_quote_ohlc else pct(latest.get("high", quote.get("high24h", 0.0)))
     low = pct(quote.get("low24h", latest.get("low", 0.0))) if use_quote_ohlc else pct(latest.get("low", quote.get("low24h", 0.0)))
     close = pct(quote.get("last", latest.get("close", 0.0))) if use_quote_ohlc else pct(latest.get("close", quote.get("last", 0.0)))
-    quote_is_quarantined = bool(quote_quality.get("quarantined"))
+    quote_is_quarantined = not quote_is_usable
     quote_change = 0.0 if candle_quality.get("has_break") and len(rows) < 2 and quote_is_quarantined else pct(quote.get("change24h_pct", 0.0))
     quote_prev_close = 0.0 if quote_is_quarantined else pct(quote.get("prevClose", quote_quality.get("previous_close", 0.0)))
     prev_close = pct(prev.get("close", quote_prev_close))
@@ -414,7 +466,53 @@ def stock_daily_swing_fast(symbol: str, quote: dict[str, Any], unusual: dict[str
         row for row in list(payload.get("rows") or [])
         if pct(row.get("close", 0.0)) > 0 and pct(row.get("high", 0.0)) > 0 and pct(row.get("low", 0.0)) > 0
     ]
-    candle_quality = analyze_stock_candle_series(raw_rows, minimum_analysis_rows=20)
+    candle_source = (
+        payload.get("origin_source")
+        or payload.get("source")
+        or quote.get("source", "stock")
+    )
+    candle_quality = analyze_stock_candle_series(
+        raw_rows,
+        symbol=meta["symbol"],
+        interval="1d",
+        source=candle_source,
+        schedule_attestation=resolve_stock_candle_schedule_attestation(
+            benchmark_symbol=meta["symbol"],
+            source=candle_source,
+            rows=raw_rows,
+        ),
+        minimum_analysis_rows=20,
+    )
+    if (
+        candle_quality.get("structure_complete") is not True
+        or candle_quality.get("temporal_conformance_complete") is not True
+        or int(candle_quality.get("analysis_eligible_row_count") or 0) == 0
+    ):
+        warning = str(
+            candle_quality.get("warning")
+            or "日线 OHLCV、时间戳或顺序结构未通过质量门禁。"
+        )
+        return {
+            "ok": False,
+            "symbol": meta["symbol"],
+            "stage": "K线质量待核",
+            "tone": "flat",
+            "source": payload.get("origin_source")
+            or payload.get("source")
+            or quote.get("source", "stock"),
+            "summary": f"{warning} 波段、均线和支撑压力计算已暂停。",
+            "cards": [
+                {
+                    "label": "日线质量",
+                    "value": "阻断",
+                    "detail": warning,
+                    "tone": "flat",
+                }
+            ],
+            "waiting_conditions": ["重新获取结构完整且时间顺序明确的日线序列。"],
+            "data_quality": stock_candle_quality_public(candle_quality),
+            "safe_action": "SOURCE -> GAP -> MATURITY -> PERMISSION",
+        }
     rows = list(candle_quality.get("analysis_rows") or [])
     close = pct(rows[-1].get("close", quote.get("last", 0.0))) if rows else pct(quote.get("last", 0.0))
     if not rows or close <= 0:

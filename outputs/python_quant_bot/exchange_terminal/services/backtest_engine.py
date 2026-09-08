@@ -8,15 +8,12 @@ import math
 from statistics import fmean, pstdev
 from typing import Any, Callable
 
-try:
-    from market_data.candle_contract import candle_is_complete
-except ModuleNotFoundError:
-    from exchange_terminal.market_data.candle_contract import candle_is_complete
+from hakimi_research.candle_contract import candle_is_complete
 
 from .market_calendar import build_market_calendar_contract, infer_market_calendar
 
 
-DATASET_SCHEMA_VERSION = "backtest-dataset-v5"
+DATASET_SCHEMA_VERSION = "backtest-dataset-v6"
 EXECUTION_MODEL_VERSION = "signal-close-next-open-ohlc-conservative-v3"
 CAUSAL_AUDIT_VERSION = "causal-prefix-invariance-v2"
 CHECKPOINT_RATIO_CONTRACT_VERSION = "causal-checkpoint-ratios-v1"
@@ -428,6 +425,12 @@ def prepare_backtest_dataset(
             f"market_calendar:{item}"
             for item in market_calendar.get("blockers") or ["calendar_contract_blocked"]
         )
+    if market_calendar and market_calendar.get("research_admission_status") == "BLOCK":
+        blockers.extend(
+            f"market_calendar_admission:{item}"
+            for item in market_calendar.get("admission_blockers")
+            or ["calendar_research_admission_blocked"]
+        )
     if synthetic_source:
         blockers.append("synthetic_or_preview_source")
     if trailing_incomplete_rows:
@@ -475,15 +478,46 @@ def prepare_backtest_dataset(
         "market_calendar": {
             "schema_version": market_calendar.get("schema_version", ""),
             "status": market_calendar.get("status", "NOT_APPLICABLE"),
+            "research_admission_status": market_calendar.get(
+                "research_admission_status",
+                "BLOCK",
+            ),
             "calendar_name": market_calendar.get("calendar_name", ""),
             "provider": market_calendar.get("provider", ""),
             "provider_version": market_calendar.get("provider_version", ""),
+            "source_class": market_calendar.get("source_class", ""),
+            "official_source_verified": market_calendar.get(
+                "official_source_verified",
+                False,
+            ),
+            "external_truth_verified": market_calendar.get(
+                "external_truth_verified",
+                False,
+            ),
             "start": market_calendar.get("start", ""),
             "end": market_calendar.get("end", ""),
             "session_count": market_calendar.get("session_count", 0),
             "missing_dates": list(market_calendar.get("missing_dates") or []),
             "unexpected_dates": list(market_calendar.get("unexpected_dates") or []),
+            "duplicate_observed_date_count": market_calendar.get(
+                "duplicate_observed_date_count",
+                0,
+            ),
+            "early_close_dates": list(
+                market_calendar.get("early_close_dates") or []
+            ),
+            "early_close_observation_complete": market_calendar.get(
+                "early_close_observation_complete",
+                False,
+            ),
+            "session_window_mismatches": list(
+                market_calendar.get("session_window_mismatches") or []
+            ),
             "schedule_hash": market_calendar.get("schedule_hash", ""),
+            "schedule_attestation_hash": market_calendar.get(
+                "schedule_attestation_hash",
+                "",
+            ),
             "contract_hash": market_calendar.get("contract_hash", ""),
             "blockers": list(market_calendar.get("blockers") or []),
         } if market_calendar else {

@@ -16,7 +16,7 @@ from hakimi_research.product_capabilities import (  # noqa: E402
     build_product_capability_catalog,
 )
 from quant_bot.backtest import BacktestEngine
-from quant_bot.config import BotConfig
+from hakimi_research.config import BotConfig
 from quant_bot.data import build_data_provider
 from quant_bot.experiment_manifest import build_local_experiment_context
 from quant_bot.logging_setup import setup_logging
@@ -144,9 +144,9 @@ def build_config_from_ui(raw: dict[str, Any]) -> dict[str, Any]:
 
     execution = raw.setdefault("execution", {})
     st.sidebar.header("历史成交假设")
-    execution["broker"] = "paper"
+    execution["broker"] = "research_simulator"
     st.sidebar.caption("内部确定性成交模型；不连接账户，不提交订单。")
-    execution["exchange"] = st.sidebar.text_input("交易所", execution.get("exchange", "okx"))
+    execution["exchange"] = "disabled"
     execution["fee_rate"] = st.sidebar.number_input("手续费率", min_value=0.0, max_value=0.02, value=float(execution.get("fee_rate", 0.0008)), step=0.0001, format="%.4f")
     execution["slippage_pct"] = st.sidebar.number_input("滑点", min_value=0.0, max_value=0.02, value=float(execution.get("slippage_pct", 0.0005)), step=0.0001, format="%.4f")
     execution["poll_seconds"] = int(st.sidebar.number_input("轮询秒数", min_value=1, max_value=3600, value=int(execution.get("poll_seconds", 5))))

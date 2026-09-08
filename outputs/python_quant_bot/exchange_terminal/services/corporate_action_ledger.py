@@ -12,11 +12,9 @@ from typing import Any, Callable
 from urllib.parse import urlparse
 
 from .sqlite_runtime import connect_runtime_sqlite, require_runtime_writable
+from .market_calendar import resolve_stock_candle_schedule_attestation
 
-try:
-    from market_data.stock_candle_quality import analyze_stock_candle_series
-except ModuleNotFoundError:
-    from exchange_terminal.market_data.stock_candle_quality import analyze_stock_candle_series
+from hakimi_research.stock_candle_quality import analyze_stock_candle_series
 
 
 CORPORATE_ACTION_SCHEMA_VERSION = "stock-corporate-action-ledger-v5"
@@ -136,22 +134,7 @@ def _event_date(value: Any, timestamp: Any = 0) -> str:
     return ""
 
 
-def infer_adjustment_basis(source: str, explicit: str = "") -> str:
-    supplied = str(explicit or "").strip().upper()
-    if supplied:
-        return supplied
-    clean_source = str(source or "").strip().lower()
-    if "futu" in clean_source:
-        return "FORWARD_ADJUSTED_QFQ"
-    if clean_source in {"test", "fixture", "unit_test"} or "test_fixture" in clean_source:
-        return "TEST_FIXTURE_CONTRACT"
-    if "yahoo_adjusted" in clean_source:
-        return "FORWARD_ADJUSTED_TOTAL_RETURN"
-    if "yahoo" in clean_source:
-        return "YAHOO_CHART_CLOSE_UNVERIFIED"
-    if "stooq" in clean_source:
-        return "STOOQ_CLOSE_UNVERIFIED"
-    return "UNKNOWN"
+from hakimi_research.stock_candle_revision_policy import infer_adjustment_basis
 
 
 def normalize_corporate_actions(
@@ -428,6 +411,7 @@ def build_adjustment_evidence(
     corporate_actions: list[dict[str, Any]] | None = None,
     corporate_action_coverage: str = "",
     corporate_action_attestation: dict[str, Any] | None = None,
+    schedule_attestation: dict[str, Any] | None = None,
     interval: str = "1d",
     session: str = "regular",
 ) -> dict[str, Any]:
@@ -447,7 +431,23 @@ def build_adjustment_evidence(
         coverage = "EMBEDDED_PROVIDER_CONTRACT"
     if not coverage:
         coverage = "UNKNOWN"
-    quality = analyze_stock_candle_series(list(rows or []), minimum_analysis_rows=20)
+    resolved_schedule = (
+        resolve_stock_candle_schedule_attestation(
+            benchmark_symbol=clean_symbol,
+            source=source,
+            rows=list(rows or []),
+        )
+        if schedule_attestation is None
+        else schedule_attestation
+    )
+    quality = analyze_stock_candle_series(
+        list(rows or []),
+        symbol=clean_symbol,
+        interval=interval,
+        source=source,
+        schedule_attestation=resolved_schedule,
+        minimum_analysis_rows=20,
+    )
     latest_break = dict(quality.get("latest_break") or {})
     matched_action: dict[str, Any] = {}
     if latest_break:
@@ -469,6 +469,16 @@ def build_adjustment_evidence(
     basis_known = basis in KNOWN_ADJUSTED_BASES and bool(policy)
     blockers: list[str] = []
     warnings: list[str] = []
+    if quality.get("structure_complete") is not True:
+        blockers.append("stock_candle_structure_quality_block")
+    if quality.get("temporal_conformance_complete") is not True:
+        blockers.append("stock_candle_temporal_quality_block")
+    if int(quality.get("completion_unknown_count") or 0) > 0:
+        warnings.append("stock_candle_completion_evidence_incomplete")
+        blockers.append("stock_candle_completion_evidence_missing")
+    if int(quality.get("incomplete_row_count") or 0) > 0:
+        warnings.append("stock_candle_contains_incomplete_rows")
+        blockers.append("stock_candle_contains_incomplete_rows")
     if has_break:
         if basis == "RAW_UNADJUSTED" and matched_action:
             warnings.append("raw_price_scale_break_accounted_by_declared_split")
@@ -519,6 +529,11 @@ def build_adjustment_evidence(
         "official_source_attestation": source_attestation,
         "official_source_attestation_hash": str(source_attestation.get("attestation_hash") or ""),
         "official_corporate_action_source_verified": official_source_verified,
+        "market_schedule_attestation_hash": str(
+            quality.get("temporal_conformance", {})
+            .get("calendar_conformance", {})
+            .get("schedule_attestation_hash", "")
+        ),
         "blockers": blockers,
         "warnings": warnings,
         "automatic_price_rewrite": False,

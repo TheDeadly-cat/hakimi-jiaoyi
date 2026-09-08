@@ -44,6 +44,8 @@ print(json.dumps({
       HAKIMI_TEST_MODE: "1",
       HAKIMI_SKIP_LOCAL_AI_ENV: "1",
       PYTHONDONTWRITEBYTECODE: "1",
+      // Match Node's UTF-8 decoder even on Windows runners using cp1252.
+      PYTHONIOENCODING: "utf-8",
     },
   }));
 }
@@ -147,6 +149,7 @@ print(json.dumps({
       HAKIMI_TEST_MODE: "1",
       HAKIMI_SKIP_LOCAL_AI_ENV: "1",
       PYTHONDONTWRITEBYTECODE: "1",
+      PYTHONIOENCODING: "utf-8",
     },
   }));
 }
@@ -4284,13 +4287,18 @@ const marketTruthViewStart = appSource.indexOf("function platformMarketTruthView
 const marketTruthViewEnd = appSource.indexOf("function renderPlatformMarketTruth(", marketTruthViewStart);
 assert.ok(marketTruthViewStart >= 0 && marketTruthViewEnd > marketTruthViewStart, "market truth view should exist");
 const marketTruthViewSource = appSource.slice(marketTruthViewStart, marketTruthViewEnd);
-assert.ok(marketTruthViewSource.includes("evidenceMarketTruthGapPresentation({ status })"));
-assert.ok(marketTruthViewSource.includes("evidenceGapText: evidenceGap.text"));
+assert.ok(marketTruthViewSource.includes("truth.research_projection"));
+assert.ok(marketTruthViewSource.includes("permissionKeys.every"));
+assert.ok(marketTruthViewSource.includes('legacy.status === "BLOCK"'));
+assert.ok(marketTruthViewSource.includes("evidenceGapText: gapLabel"));
+assert.ok(!marketTruthViewSource.includes("evidenceMarketTruthGapPresentation"));
 assert.ok(!marketTruthViewSource.includes("truth.next_action"));
 assert.ok(!marketTruthViewSource.includes("nextAction:"));
 const marketTruthRenderEnd = appSource.indexOf("function platformForwardObservationView(", marketTruthViewEnd);
 const marketTruthRenderSource = appSource.slice(marketTruthViewEnd, marketTruthRenderEnd);
 assert.ok(marketTruthRenderSource.includes('$("platformTruthEvidenceGap").textContent = view.evidenceGapText'));
+assert.ok(marketTruthRenderSource.includes("行情研究成熟度"));
+assert.ok(!marketTruthRenderSource.includes("原始行情证据状态"));
 assert.ok(!marketTruthRenderSource.includes("platformTruthNextAction"));
 const forwardViewStart = appSource.indexOf("function platformForwardObservationView(");
 const forwardViewEnd = appSource.indexOf("function renderPlatformForwardObservation(", forwardViewStart);
@@ -5261,7 +5269,7 @@ assert.ok(!signalSource.includes('>${escapeHtml(signal.action || "--")}</span>')
 assert.ok(appSource.includes("本地模拟状态已记录 · 模拟仍未授权"));
 assert.ok(appSource.includes("模拟参数仅供规划"));
 assert.ok(!appSource.includes("${strategyName} ${leverage}x running"));
-assert.ok(indexSource.includes("模拟参数（只读）"));
+assert.ok(indexSource.includes("研究参数（只读）"));
 assert.ok(indexSource.includes("风控证据"));
 assert.ok(indexSource.includes("研究规划 TP · 非订单"));
 assert.ok(indexSource.includes("研究规划 SL · 非订单"));
