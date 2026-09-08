@@ -1,0 +1,41 @@
+{
+  "schema_version": "research-release-publication-v1",
+  "status": "PASS",
+  "release_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1",
+  "tag": "v0.2.1",
+  "target_merge_sha": "45850899992361970043f2da70e785210025ae9e",
+  "published_at_utc": "2026-09-08T17:07:30Z",
+  "draft": false,
+  "prerelease": false,
+  "ci_run_id": "34254213253",
+  "ci_actual_jobs_success": 9,
+  "actions_draft_and_published_bundles_byte_equal": true,
+  "published_api_asset_digests_match_downloads": true,
+  "assets": [
+    {
+      "name": "hakimi-research-0.2.1-ubuntu.zip",
+      "sha256": "eccc61c331f54fad7b8dc8acc711264c3cce07dfc58207bd41ca5e3d4c88ecec",
+      "size": 100360
+    },
+    {
+      "name": "hakimi-research-0.2.1-windows.zip",
+      "sha256": "aa7d81b5eb1ca30107b8b2beb0ba18ccf405131db4b80b4d046e6f52b731c537",
+      "size": 100544
+    },
+    {
+      "name": "release-acceptance.json",
+      "sha256": "2d617a9e8fb0068d7940d385289c9d11d2507db8670e3c7f96dbfca83529475e",
+      "size": 3966
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "sha256": "380424225af23d2ef4f9459911172cd3befa364da27fed41a64c9e5cf834497f",
+      "size": 292
+    }
+  ],
+  "limits": [
+    "Local downloaded installation was Windows; Linux installation execution comes from CI.",
+    "Existing studies retain original build identities.",
+    "72-hour scheduling reliability remains under review."
+  ]
+}

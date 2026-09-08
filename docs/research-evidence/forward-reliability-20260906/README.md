@@ -1,5 +1,7 @@
 # Forward reliability evidence, 2026-09-06
 
+This page retains the September 6 snapshot. The [completed 72-hour window](../forward-window-20260908/README.md) is now available, including actual scheduled wrapper receipts; the historical counts and pending statements below refer to this earlier snapshot.
+
 At **2026-09-06 08:52:44.320686 UTC**, the 72-cutoff engineering window is
 incomplete. The fixed window is September 5 15:00 through September 8 15:00 UTC
 exclusive, with two strategies. It was selected after the first outcomes were

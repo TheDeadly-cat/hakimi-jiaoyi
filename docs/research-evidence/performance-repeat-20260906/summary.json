@@ -1,0 +1,344 @@
+{
+  "canonical_result_hash": "b5d938388336f3ebdc82c83f506063689651a087a385dfef509b011e109c1ecb",
+  "completed_samples": 6,
+  "environment_verified": {
+    "errors": [],
+    "lock_fully_pinned": true,
+    "lock_name": "requirements.research.lock",
+    "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+    "mismatched": [],
+    "missing": [],
+    "packages": {
+      "numpy": {
+        "installed": "2.4.6",
+        "required": "2.4.6"
+      },
+      "pandas": {
+        "installed": "3.0.3",
+        "required": "3.0.3"
+      },
+      "python-dateutil": {
+        "installed": "2.9.0.post0",
+        "required": "2.9.0.post0"
+      },
+      "six": {
+        "installed": "1.17.0",
+        "required": "1.17.0"
+      },
+      "tzdata": {
+        "installed": "2026.2",
+        "required": "2026.2"
+      }
+    },
+    "python_supported": true,
+    "python_version": "3.14.6",
+    "status": "VERIFIED",
+    "verification_scope": "installed_distribution_versions_against_lock"
+  },
+  "exact_replays_verified": 6,
+  "groups": [
+    {
+      "metrics": {
+        "canonical_replay_inclusive_seconds": {
+          "all_samples": [
+            1.5823459000002913,
+            1.580760900000314,
+            1.5761633999991318
+          ],
+          "maximum": 1.5823459000002913,
+          "median": 1.580760900000314,
+          "minimum": 1.5761633999991318,
+          "n": 3
+        },
+        "import_runtime_seconds": {
+          "all_samples": [
+            1.0768026000005193,
+            1.1078646999994817,
+            1.035251799999969
+          ],
+          "maximum": 1.1078646999994817,
+          "median": 1.0768026000005193,
+          "minimum": 1.035251799999969,
+          "n": 3
+        },
+        "replay_receipt_save_seconds": {
+          "all_samples": [
+            0.0116983000007167,
+            0.008830600001601852,
+            0.010591199999907985
+          ],
+          "maximum": 0.0116983000007167,
+          "median": 0.010591199999907985,
+          "minimum": 0.008830600001601852,
+          "n": 3
+        },
+        "report_serialization_seconds": {
+          "all_samples": [
+            0.00821189999987837,
+            0.008215800000471063,
+            0.008291300000564661
+          ],
+          "maximum": 0.008291300000564661,
+          "median": 0.008215800000471063,
+          "minimum": 0.00821189999987837,
+          "n": 3
+        },
+        "report_verify_serialize_atomic_save_seconds": {
+          "all_samples": [
+            0.05779470000015863,
+            0.05972420000034617,
+            0.05706260000079055
+          ],
+          "maximum": 0.05972420000034617,
+          "median": 0.05779470000015863,
+          "minimum": 0.05706260000079055,
+          "n": 3
+        },
+        "research_execution_inclusive_seconds": {
+          "all_samples": [
+            1.5070522999994864,
+            1.5244284000000334,
+            1.5176025000000664
+          ],
+          "maximum": 1.5244284000000334,
+          "median": 1.5176025000000664,
+          "minimum": 1.5070522999994864,
+          "n": 3
+        },
+        "saved_report_read_verify_seconds": {
+          "all_samples": [
+            0.03823980000015581,
+            0.03775360000145156,
+            0.03770069999882253
+          ],
+          "maximum": 0.03823980000015581,
+          "median": 0.03775360000145156,
+          "minimum": 0.03770069999882253,
+          "n": 3
+        },
+        "snapshot_read_parse_verify_seconds": {
+          "all_samples": [
+            0.29684029999953054,
+            0.2989407000004576,
+            0.2943979000010586
+          ],
+          "maximum": 0.2989407000004576,
+          "median": 0.29684029999953054,
+          "minimum": 0.2943979000010586,
+          "n": 3
+        },
+        "spec_read_parse_validate_seconds": {
+          "all_samples": [
+            0.011113399999885587,
+            0.011226000000533531,
+            0.01148020000073302
+          ],
+          "maximum": 0.01148020000073302,
+          "median": 0.011226000000533531,
+          "minimum": 0.011113399999885587,
+          "n": 3
+        },
+        "total_observed_seconds": {
+          "all_samples": [
+            4.590769400001591,
+            4.638398700000835,
+            4.549157200000991
+          ],
+          "maximum": 4.638398700000835,
+          "median": 4.590769400001591,
+          "minimum": 4.549157200000991,
+          "n": 3
+        }
+      },
+      "mode": "COLD_IMPORT_FRESH_PROCESS",
+      "n": 3
+    },
+    {
+      "metrics": {
+        "canonical_replay_inclusive_seconds": {
+          "all_samples": [
+            1.582961800000703,
+            1.5631178000003274,
+            1.5359404999999242
+          ],
+          "maximum": 1.582961800000703,
+          "median": 1.5631178000003274,
+          "minimum": 1.5359404999999242,
+          "n": 3
+        },
+        "import_runtime_seconds": {
+          "all_samples": [
+            4.800000169780105e-06,
+            8.700000762473792e-06,
+            9.299999874201603e-06
+          ],
+          "maximum": 9.299999874201603e-06,
+          "median": 8.700000762473792e-06,
+          "minimum": 4.800000169780105e-06,
+          "n": 3
+        },
+        "replay_receipt_save_seconds": {
+          "all_samples": [
+            0.013068300000668387,
+            0.009661800000685616,
+            0.011413599999286816
+          ],
+          "maximum": 0.013068300000668387,
+          "median": 0.011413599999286816,
+          "minimum": 0.009661800000685616,
+          "n": 3
+        },
+        "report_serialization_seconds": {
+          "all_samples": [
+            0.008404700000028242,
+            0.008082099999228376,
+            0.00870030000078259
+          ],
+          "maximum": 0.00870030000078259,
+          "median": 0.008404700000028242,
+          "minimum": 0.008082099999228376,
+          "n": 3
+        },
+        "report_verify_serialize_atomic_save_seconds": {
+          "all_samples": [
+            0.05701229999976931,
+            0.055741500000294764,
+            0.05622939999921073
+          ],
+          "maximum": 0.05701229999976931,
+          "median": 0.05622939999921073,
+          "minimum": 0.055741500000294764,
+          "n": 3
+        },
+        "research_execution_inclusive_seconds": {
+          "all_samples": [
+            1.5353607000015472,
+            1.5273091999988537,
+            1.5128676000003907
+          ],
+          "maximum": 1.5353607000015472,
+          "median": 1.5273091999988537,
+          "minimum": 1.5128676000003907,
+          "n": 3
+        },
+        "saved_report_read_verify_seconds": {
+          "all_samples": [
+            0.037841999999727705,
+            0.037280200000168406,
+            0.036649100000431645
+          ],
+          "maximum": 0.037841999999727705,
+          "median": 0.037280200000168406,
+          "minimum": 0.036649100000431645,
+          "n": 3
+        },
+        "snapshot_read_parse_verify_seconds": {
+          "all_samples": [
+            0.30998579999868525,
+            0.30593640000006417,
+            0.29298389999894425
+          ],
+          "maximum": 0.30998579999868525,
+          "median": 0.30593640000006417,
+          "minimum": 0.29298389999894425,
+          "n": 3
+        },
+        "spec_read_parse_validate_seconds": {
+          "all_samples": [
+            0.011439899999459158,
+            0.011589699999603909,
+            0.01141760000064096
+          ],
+          "maximum": 0.011589699999603909,
+          "median": 0.011439899999459158,
+          "minimum": 0.01141760000064096,
+          "n": 3
+        },
+        "total_observed_seconds": {
+          "all_samples": [
+            3.5567202999991423,
+            3.519390999999814,
+            3.4667937999984133
+          ],
+          "maximum": 3.5567202999991423,
+          "median": 3.519390999999814,
+          "minimum": 3.4667937999984133,
+          "n": 3
+        }
+      },
+      "mode": "WARM_IMPORT_SAME_PROCESS",
+      "n": 3
+    }
+  ],
+  "live_allowed": false,
+  "measurement_limits": [
+    "Cold refers only to fresh Python runtime module import, never cleared OS file cache.",
+    "Warm means three sequential profiles in one process after explicit runtime import; no discarded full-pipeline warmup sample.",
+    "All samples include full validation, canonical execution, persistence and full replay with exact computation identity.",
+    "This is one-machine baseline variability, not a cold-vs-warm causal speedup or optimized-vs-original comparison.",
+    "Ordinary desktop/OS load is not isolated; process inventory cannot prove hardware isolation."
+  ],
+  "optimization_applied": false,
+  "order_allowed": false,
+  "ordinary_os_and_desktop_load_isolated": false,
+  "os_page_cache_cleared": false,
+  "paper_allowed": false,
+  "plan_hash": "dc63cbc44d424b5edd6af4b4e1648c20e76e9b6a62763032500a39e5be31e494",
+  "process_observation_after": {
+    "measurement_orchestrator_process_id": 28272,
+    "python_processes": [
+      {
+        "Name": "python.exe",
+        "ParentProcessId": 30008,
+        "ProcessId": 28232
+      },
+      {
+        "Name": "python.exe",
+        "ParentProcessId": 28232,
+        "ProcessId": 28272
+      }
+    ],
+    "status": "OBSERVED"
+  },
+  "process_observation_before": {
+    "measurement_orchestrator_process_id": 28272,
+    "python_processes": [
+      {
+        "Name": "python.exe",
+        "ParentProcessId": 30008,
+        "ProcessId": 28232
+      },
+      {
+        "Name": "python.exe",
+        "ParentProcessId": 28232,
+        "ProcessId": 28272
+      }
+    ],
+    "status": "OBSERVED"
+  },
+  "research_load_status": "OTHER_RESEARCH_PROCESSES_CONFIRMED_TERMINAL",
+  "research_only": true,
+  "runtime_cache_added": false,
+  "sample_file_sha256": {
+    "sample-1.json": "fc95dd0ad74315759d3ffe4875d1b82a765402da7616721c0d35c5f40a545f28",
+    "sample-2.json": "50923a297e6e58ff4da51cd009b455e2caf189a1149c2849ba15476c1b6f77e4",
+    "sample-3.json": "6f1490044fc218e1b013922a83d6dc314d095b116efbd0226c705557ab69cbfc",
+    "sample-4.json": "b5902e15450c41e1b7d3ac1d848c3099438c2cdcb09252e2780c3136222e5b0c",
+    "sample-5.json": "ee8e3329f5a4bffb7b60106228febcb08eefe9a153113030b06bc0ce3f1da4a9",
+    "sample-6.json": "3a8a5fecb9e08c3d014637ff047a6d4101846b235659034f3c83a90ac5585a3f"
+  },
+  "sample_files": [
+    "sample-1.json",
+    "sample-2.json",
+    "sample-3.json",
+    "sample-4.json",
+    "sample-5.json",
+    "sample-6.json"
+  ],
+  "schema_version": "repeat-pipeline-profile-summary-v1",
+  "snapshot_id": "4a8e9dca8180286751454c9a3953a9fd7919512e6c2cb6d0b383ab357030a92f",
+  "source_content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "spec_hash": "a0932b9b5f29801d3e90d497e92288c4a33547f4f548589dc3a56ba39970968f",
+  "speedup_comparison": "NONE_BASELINE_DISTRIBUTION_ONLY",
+  "status": "PASS"
+}

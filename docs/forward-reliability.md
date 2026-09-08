@@ -36,12 +36,12 @@ always lets the existing driver select its actual current hour. It refuses to
 start the child in the last five minutes of an hour and verifies the returned
 cutoff; clock drift or a different returned hour produces a failed receipt.
 
-At 2026-09-06 08:52 UTC, the window had 18 elapsed cutoffs: **10 ON_TIME, six
-LATE, 20 MISSING and zero FAILED strategy hours** out of 36. There were 108
-future strategy hours. The ten missing hours are September 5 21:00 through
-September 6 05:00 UTC, plus September 6 08:00 UTC. The full 72-hour window is
-still incomplete. See the
-[current evidence and limitations](research-evidence/forward-reliability-20260906/README.md).
+At 2026-09-08 15:05 UTC, all 72 cutoffs had elapsed: **106 ON_TIME, 14 LATE,
+24 MISSING and zero FAILED strategy hours** out of 144. No future or pending
+hours remain. The completed observation window contains gaps and late signals;
+its status is `WINDOW_ELAPSED_REVIEW_REQUIRED`, not an assertion of continuous
+on-time reliability. See the
+[full-window evidence and limitations](research-evidence/forward-window-20260908/README.md).
 
 ## Actual scheduling evidence
 
@@ -131,8 +131,10 @@ plan/mode/state identities; these flat records must never be relabelled.
 The sidecar was added to the existing deployment at 2026-09-06 07:43 UTC and
 the existing hourly heartbeat was updated to invoke it. A manual
 `DUPLICATE_VERIFY` completed with two exact replays and 58 original files
-unchanged. That is a deployment check; the first automatic invocation of the
-new wrapper is still pending. See the
+unchanged. That was a deployment check. The first actual scheduled wrapper
+trigger was September 6 09:10:20.391 UTC, with the 09:00 pair correctly late;
+the completed window now has 53 wrapped invocations with terminal receipts.
+See the [window evidence](research-evidence/forward-window-20260908/README.md) and
 [promotion evidence](research-evidence/forward-reliability-20260906/sidecar-promotion.json).
 
 Promotion is a separate operator action. Copy the reviewed sidecar next to the
@@ -178,6 +180,7 @@ suppression, immutable originals, duplicate replay, failures/timeouts/retries,
 source rejection before launch, fixed cutoff and authority checks, inherited
 environment removal, exact 300-second timing, future denominators and retained
 missing/backfill states. The live-read evidence separately verifies the actual
-installed source/environment and replays all 18 currently available original
-records; it is not an assertion that the local unit stubs represent online
+installed source/environment and replays the available original records
+(124 at the full-window report, including four outside its denominator);
+it is not an assertion that the local unit stubs represent online
 collection reliability.

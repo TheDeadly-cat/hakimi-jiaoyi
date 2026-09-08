@@ -1,0 +1,52 @@
+{
+  "backfill": false,
+  "cutoff": "2026-09-07T16:00:00Z",
+  "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+  "execution_permission": {
+    "live_allowed": false,
+    "order_allowed": false,
+    "paper_allowed": false,
+    "research_only": true
+  },
+  "input": {
+    "context_rows": 72,
+    "data_hash": "a6c4e3413696a67b464978f92b2c5daa09dc00d7ea7aec4b4c2c47d2cdbd1da9",
+    "end_exclusive": "2026-09-07T16:00:00Z",
+    "evidence_kind": "PUBLIC_HTTP_CAPTURE",
+    "input_available_at": "2026-09-07T16:02:44.760718Z",
+    "older_raw_rows_excluded": 228,
+    "snapshot_id": "36f4f9adeb0c5dd8068cbbc992a6937f2e30d0fd723cff9adde58e8876802368",
+    "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+    "start": "2026-09-04T16:00:00Z"
+  },
+  "input_hash": "f5dccbc298767d3c89ad50a75e13439c9753c17bf3999cd253afc59161294553",
+  "lateness_seconds": 165.793697,
+  "observer_sha256": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+  "output_hash": "7ee8a3cb24b1ef2b04b9824e36a883183116b03d53371046a134b7257566b62e",
+  "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+  "position_state_observed": false,
+  "record_hash": "7b3ed9c102ea7433bd9033290b4236723ac75b54bbbbc1819abec3592f581c5e",
+  "recorded_at_utc": "2026-09-07T16:02:45.793697Z",
+  "reference_portfolio": {
+    "avg_entry_price": 0,
+    "cash": 10000,
+    "entry_fees": 0,
+    "position_qty": 0,
+    "realized_pnl": 0
+  },
+  "schema_version": "forward-observation-v1",
+  "signal": {
+    "action": "BUY",
+    "confidence": 1.0,
+    "metadata": null,
+    "reason": "RSI oversold: 23.27",
+    "size_pct": 0.25,
+    "stop_loss_pct": 0.03,
+    "take_profit_pct": null
+  },
+  "signal_available_at": "2026-09-07T16:02:45.793697Z",
+  "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "state_policy": "FLAT_REFERENCE_OBSERVATION",
+  "strategy_hash": "3ad7290c93424ee307a71e2b5a327f0fa46a88553c0c343805fadb37b1215cdc",
+  "timing_status": "ON_TIME"
+}

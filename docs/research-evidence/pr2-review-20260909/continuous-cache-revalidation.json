@@ -1,0 +1,160 @@
+{
+  "cells": [
+    {
+      "cost_factor": 1,
+      "independent_numeric_checks": 192405,
+      "method": "cash",
+      "original_receipt_file_sha256": "9acf630581f7c14a041f60e472e954e430011b87e3ef441af49d17ea7896c0ba",
+      "original_report_file_sha256": "db998aed0fda0edbb5ee1ff230fab0b42b9ee034184169ba0ff5da7ee4e1e843",
+      "original_report_hash": "389707a30135dde740907e167573575764030a0fa74050c2c950d3e5dd272488",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 2,
+      "independent_numeric_checks": 192405,
+      "method": "cash",
+      "original_receipt_file_sha256": "ad6fad94bd988f24708c6e2709c86d9c20f05308fcbbb522d4fcddfe04ced70f",
+      "original_report_file_sha256": "4e255e3719c2de6d665aeb196e0df7431495a170d24c99873896f8f86bd1ee32",
+      "original_report_hash": "1a3abd239947576191bf1095564853f12493f060fcc3875ad69908e52e18040d",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 3,
+      "independent_numeric_checks": 192405,
+      "method": "cash",
+      "original_receipt_file_sha256": "7347cb6175188c78fe37ceba9b73c243b1da96ea87e2e43b340a51a65661cbaf",
+      "original_report_file_sha256": "d7218c54cbd82fc97dd150c01b78af2f5ae9f1c1fa0243370fa384b3141d2901",
+      "original_report_hash": "618f7e91414b7af55f3626e805b6514403647b0c3b72d7202d57972e1cebe1f3",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 1,
+      "independent_numeric_checks": 192413,
+      "method": "buy_hold_full",
+      "original_receipt_file_sha256": "12f8585e6830adcc3906fce21fd6729765905ecafbb64bf837b982abf06a37f8",
+      "original_report_file_sha256": "0116fe910ab9a2fef77545fd71036773bbcc69d4f1416c2930d1f87ea640b7aa",
+      "original_report_hash": "407db2db45389ec01da14a2df438ade6ca277684fac422e6c1dbe2c3d0fb8f0f",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 2,
+      "independent_numeric_checks": 192413,
+      "method": "buy_hold_full",
+      "original_receipt_file_sha256": "e8da8f64801fa0787a43bc0e067cd6a2e698594f1b310bab76c9644306dc4d5d",
+      "original_report_file_sha256": "4a3e68396f4d2a206d47dcf8ccc249f0e22869d1c4bfde56f1dcbc82facd6f21",
+      "original_report_hash": "d748d804ce4b129cf53f3adcfd3c80a96a7f857a5ffb8d3d2311c303f3575fc6",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 3,
+      "independent_numeric_checks": 192413,
+      "method": "buy_hold_full",
+      "original_receipt_file_sha256": "f90182b9fadc3ec61a4dde52542676ea72bff98f2e75915779bd4948faffbfa6",
+      "original_report_file_sha256": "11f67a89e0696221277c2de81bb6ef3d8c562f67979541ba45076656c9460b99",
+      "original_report_hash": "30d275461e054c8dafcf251001f5adc1256759a6ee2f0dca324e79a23231db42",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 1,
+      "independent_numeric_checks": 192413,
+      "method": "buy_hold_25pct",
+      "original_receipt_file_sha256": "b8da35d5aa2aecdf055ef799d64b1978f15fc83e005cb1c8834124fb59772136",
+      "original_report_file_sha256": "bb2f54b4cb92450101e023ae05c5e013157a1e52eb3265e4a156f7db186a8508",
+      "original_report_hash": "4f0b6b1f7bd7b9cb86ae17cd36b44d9255582e77005fecaf7c130fac6734ffa4",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 2,
+      "independent_numeric_checks": 192413,
+      "method": "buy_hold_25pct",
+      "original_receipt_file_sha256": "7abbd5731f269588ee25093b4dd1741f1b24f8928b9d1f50b5c5628d1d864b8b",
+      "original_report_file_sha256": "93c3579780ac90c2d3d14b60659209ff5086769196ea52afea6031f2fb4fce00",
+      "original_report_hash": "9b8439b5fee6e9e7ba33a5ff9ff3ad834d841370c7549287355fab288d0fef91",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 3,
+      "independent_numeric_checks": 192413,
+      "method": "buy_hold_25pct",
+      "original_receipt_file_sha256": "a979a30dabcf57518b356821ff4aa8c3230cf3ea32c572503403452cf40c1f24",
+      "original_report_file_sha256": "f7f76913ddff9c6c3bf46e802647f4043b07ee9c1dd7bf5c3719d1b9a7d600ea",
+      "original_report_hash": "5b2fc6af3e2c6df88f4e2c54c5e88800aa44cc729f46976cff7cabf38caf3128",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 1,
+      "independent_numeric_checks": 197700,
+      "method": "dual_ma",
+      "original_receipt_file_sha256": "10a28953d35c66d96dceb3bc1b6aee549d05ccdcb4c22806bb9d799d2804255b",
+      "original_report_file_sha256": "e6de5d039bc7a45d1382f7fee0a2e592cf8b405c80f478711f30472f0fc77f74",
+      "original_report_hash": "60afdf097fa28ff98da9b610f6c15352111430fc359b1fcbbb602477951b3892",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 2,
+      "independent_numeric_checks": 197700,
+      "method": "dual_ma",
+      "original_receipt_file_sha256": "48db238d75dd90ab4e75af155cf19ace0ff87777c75a58de1e11c3e6c58aceff",
+      "original_report_file_sha256": "431f86f9d15d53eafc2fbb3fbcec5e5a65ee48c9dc8940f4d9329787ef626526",
+      "original_report_hash": "b2fb0aa3a43fabc773b9c631168cfa7de0d1d839b1023ce6b794c5b51c9a4242",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 3,
+      "independent_numeric_checks": 197700,
+      "method": "dual_ma",
+      "original_receipt_file_sha256": "b8b8c03e2cea0ea2dacae6b707eacc555a510e66ca000e7e8682490415063d40",
+      "original_report_file_sha256": "af918a3ab9cd95a6d5b849200cf4d9d676c70f62aacb778b2db693f2e0abbab5",
+      "original_report_hash": "e223c672628e72bcb703332d97675bccb4b751f25cc8b5e5aaaa44b6e6935649",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 1,
+      "independent_numeric_checks": 213481,
+      "method": "rsi",
+      "original_receipt_file_sha256": "9bc2a04ad5ed73724224c9132ab6a89f47258b2786367f1dba8b726af54da50c",
+      "original_report_file_sha256": "0d3d057584ac60bc4e824e858056a6705b86a9f0cf3afd8c61b89975b8ebbb31",
+      "original_report_hash": "734a26077768da7a94882574e6b755ca13a44b0a946baa9421081581aa80bfd9",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 2,
+      "independent_numeric_checks": 213372,
+      "method": "rsi",
+      "original_receipt_file_sha256": "a47fcc031a67c305e990df8b2e678ecffe773a21a7fb7ce6330667f948dacc1e",
+      "original_report_file_sha256": "6389c87a4bcb5dc53883ac106dec1ba550a8942caaa6b5572a55ca7d69e98a43",
+      "original_report_hash": "950e77bba56b5cac89c268c411e3966b85ebc05b35e0accc9ace9c15cbaa2853",
+      "status": "PASS"
+    },
+    {
+      "cost_factor": 3,
+      "independent_numeric_checks": 213294,
+      "method": "rsi",
+      "original_receipt_file_sha256": "d66413610d225a76a80b82c8645667e05d8d84020b8cb1c05171b10e6b7507a2",
+      "original_report_file_sha256": "dd47d8d19f34ab3c7068a6153d6e9937fb8072abebf30a0e4c0c9dfeea3d220c",
+      "original_report_hash": "5f4352a6e23acd5f27afaffbbe59da1e7dc5c04321b57aa6fa01ddcaee88e9f3",
+      "status": "PASS"
+    }
+  ],
+  "continuous_tool_sha256": "d5bbdd08226d8b017322d5e5705735dbf044930da6bc929d624b0a0815295b92",
+  "independent_numeric_checks": 2964940,
+  "installed_environment_status": "VERIFIED",
+  "installed_runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+  "installed_runtime_source_status": "BUILD_VERIFIED",
+  "ledger_tool_sha256": "8d319cba9a2ee940abb53a3f4eb2f927977075b081a2d167e46a02f2141a960b",
+  "live_allowed": false,
+  "network_access": false,
+  "order_allowed": false,
+  "original_file_bytes_unchanged": true,
+  "original_files_hashed": 87,
+  "paper_allowed": false,
+  "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+  "research_engine_rerun": false,
+  "research_only": true,
+  "schema_version": "continuous-cache-revalidation-v1",
+  "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+  "status": "PASS",
+  "validated_at": "2026-09-08T17:24:32.686111Z",
+  "validated_cells": 15,
+  "validation_scope": "Existing cached replay receipt bindings and newly recomputed independent Decimal accounting; no research engine rerun."
+}

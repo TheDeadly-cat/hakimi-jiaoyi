@@ -1,0 +1,214 @@
+{
+  "schema_version": "strategy-diagnostics-plan-v1",
+  "frozen_at": "2026-09-06T07:22:24.702870+00:00",
+  "name": "btc-usdt-spot-hourly-two-controlled-variants-20260906",
+  "mode": "CONTINUOUS_HISTORY",
+  "input_start": "2023-01-01T00:00:00Z",
+  "input_end_exclusive": "2026-09-01T00:00:00Z",
+  "score_start": "2023-01-04T00:00:00Z",
+  "score_end": "2026-09-01T00:00:00Z",
+  "initial_cash": 10000,
+  "context_hours": 72,
+  "portfolio_initialization": "ONCE_FLAT_AT_SCORE_START_NO_PERIOD_RESET",
+  "methods": [
+    {
+      "label": "D0",
+      "name": "dual_ma",
+      "params": {
+        "fast_window": 20,
+        "position_pct": 0.25,
+        "slow_window": 60,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.08
+      },
+      "spec_schema": "research-experiment-spec-v1"
+    },
+    {
+      "label": "D1",
+      "name": "dual_ma",
+      "params": {
+        "fast_window": 20,
+        "position_pct": 0.25,
+        "slow_window": 60,
+        "stop_loss_pct": 0.03,
+        "fixed_take_profit_policy": "DISABLED"
+      },
+      "spec_schema": "research-experiment-spec-v2"
+    },
+    {
+      "label": "R0",
+      "name": "rsi",
+      "params": {
+        "overbought": 70,
+        "oversold": 30,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "window": 14
+      },
+      "spec_schema": "research-experiment-spec-v1"
+    },
+    {
+      "label": "R1",
+      "name": "rsi",
+      "params": {
+        "overbought": 70,
+        "oversold": 30,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "window": 14,
+        "oversold_entry_policy": "ONCE_PER_EVENT"
+      },
+      "spec_schema": "research-experiment-spec-v2"
+    }
+  ],
+  "cost_factors": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "fee_rate": 0.0008,
+  "slippage_pct": 0.0005,
+  "risk": {
+    "max_daily_loss_pct": 0.05,
+    "max_leverage": 1,
+    "max_position_pct": 0.35,
+    "max_single_loss_pct": 0.03,
+    "min_cash_pct": 0.05
+  },
+  "budget": {
+    "distinct_configurations": 4,
+    "new_variants": 2,
+    "primary_trajectories": 16,
+    "canonical_replays": 16,
+    "synthetic_behavior_tests": "NO_HISTORICAL_PARAMETER_SELECTION",
+    "additional_baseline_comparisons": "REUSE_R1_15_OLD_ENGINE_TRAJECTORIES",
+    "zero_cost_comparison": "ZERO_COST_DIAGNOSTIC_ONLY_CASH_RETURN_IS_ZERO_NO_SAME_COST_BUY_HOLD_REPORT_NO_INVENTED_RESULT"
+  },
+  "periods": [
+    {
+      "score_end": "2023-04-01T00:00:00Z",
+      "score_start": "2023-01-04T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q1"
+    },
+    {
+      "score_end": "2023-07-01T00:00:00Z",
+      "score_start": "2023-04-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q2"
+    },
+    {
+      "score_end": "2023-10-01T00:00:00Z",
+      "score_start": "2023-07-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q3"
+    },
+    {
+      "score_end": "2024-01-01T00:00:00Z",
+      "score_start": "2023-10-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2023-Q4"
+    },
+    {
+      "score_end": "2024-04-01T00:00:00Z",
+      "score_start": "2024-01-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q1"
+    },
+    {
+      "score_end": "2024-07-01T00:00:00Z",
+      "score_start": "2024-04-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q2"
+    },
+    {
+      "score_end": "2024-10-01T00:00:00Z",
+      "score_start": "2024-07-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q3"
+    },
+    {
+      "score_end": "2025-01-01T00:00:00Z",
+      "score_start": "2024-10-01T00:00:00Z",
+      "split": "DEVELOPMENT_HISTORY",
+      "window_id": "2024-Q4"
+    },
+    {
+      "score_end": "2025-04-01T00:00:00Z",
+      "score_start": "2025-01-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q1"
+    },
+    {
+      "score_end": "2025-07-01T00:00:00Z",
+      "score_start": "2025-04-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q2"
+    },
+    {
+      "score_end": "2025-10-01T00:00:00Z",
+      "score_start": "2025-07-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q3"
+    },
+    {
+      "score_end": "2026-01-01T00:00:00Z",
+      "score_start": "2025-10-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2025-Q4"
+    },
+    {
+      "score_end": "2026-04-01T00:00:00Z",
+      "score_start": "2026-01-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2026-Q1"
+    },
+    {
+      "score_end": "2026-07-01T00:00:00Z",
+      "score_start": "2026-04-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2026-Q2"
+    },
+    {
+      "score_end": "2026-08-01T00:00:00Z",
+      "score_start": "2026-07-01T00:00:00Z",
+      "split": "VALIDATION_HISTORY_NOT_BLIND",
+      "window_id": "2026-07"
+    },
+    {
+      "score_end": "2026-09-01T00:00:00Z",
+      "score_start": "2026-08-01T00:00:00Z",
+      "split": "PREVIOUSLY_VIEWED_HISTORY",
+      "window_id": "2026-08-seen"
+    }
+  ],
+  "indicator_definition": "EXISTING_SIMPLE_ROLLING_MEAN_RSI_14_NOT_WILDER",
+  "rsi_event_semantics": {
+    "start": "FIRST_OBSERVED_FINITE_RSI_STRICTLY_BELOW_30_AFTER_NON_OVERSOLD_OR_FRESH_SCORE_INITIALIZATION",
+    "end": "FIRST_OBSERVED_FINITE_RSI_GREATER_THAN_OR_EQUAL_TO_30",
+    "opportunity": "CONSUMED_WHEN_FIRST_BUY_INTENT_IS_GENERATED_BEFORE_RISK_OR_EXECUTION",
+    "risk_rejected": "CONSUMED_NO_RETRY_IN_EVENT",
+    "protective_exit": "DOES_NOT_END_EVENT_NO_REENTRY_UNTIL_LATER_EVENT",
+    "initial_oversold_context": "ONE_INTENT_AT_LAST_CONTEXT_CLOSE_ON_FRESH_STRATEGY",
+    "missing_indicator": "INSUFFICIENT_CONTEXT_EMITS_HOLD_NO_EVENT_RESET",
+    "position_policy": "UNCHANGED_25_PERCENT_REQUEST_AND_35_PERCENT_RISK_CAP"
+  },
+  "dual_ma_hypothesis": "REMOVE_ONLY_FIXED_TAKE_PROFIT_KEEP_CROSSOVERS_STOP_RISK_AND_COSTS",
+  "original_analysis": "ALL_32_NORMAL_COST_OLD_DUALMA_RSI_RESET_REPORTS_PLUS_CASH_NO_FILL_AND_BOUNDARY_SAMPLES_BEFORE_VARIANT_RUN",
+  "read_before_freeze": "PUBLIC_OLD_BASELINE_RESULTS_ONLY_NO_VARIANT_RESULT_EXISTS",
+  "history_scope": "ALL_HISTORY_PREVIOUSLY_VIEWED_DEVELOPMENT_DIAGNOSTIC_NOT_INDEPENDENT_CONFIRMATION",
+  "stop_rule": "NO_PARAMETER_EXPANSION_ARCHIVE_VARIANT_WITHOUT_CONSISTENT_EXPLAINABLE_NORMAL_COST_GAIN_NOT_JUST_EXPOSURE_OR_FEW_SEEN_WINDOWS",
+  "ohcl_excursions": "DESCRIPTIVE_ENVELOPE_ONLY_NO_ASSERTED_INTRABAR_ORDER_OR_EXECUTABLE_EXTREME",
+  "research_only": true,
+  "paper_allowed": false,
+  "live_allowed": false,
+  "order_allowed": false,
+  "pre_result_clarifications": [
+    {
+      "at": "2026-09-06T07:29:20.595910+00:00",
+      "original_plan_file_sha256": "2f7e918c5bd0bfa9f1eb8d3c90340d0a939803b9096b3eb5cd812a791e418c78",
+      "change": "Correct wording only: R1 contains no zero-cost buy-hold run. Zero-cost same-cost buy-hold comparison remains null. No configuration or run budget changed."
+    }
+  ]
+}

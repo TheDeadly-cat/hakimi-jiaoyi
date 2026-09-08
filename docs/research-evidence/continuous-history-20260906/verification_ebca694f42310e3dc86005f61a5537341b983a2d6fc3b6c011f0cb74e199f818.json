@@ -1,0 +1,747 @@
+{
+  "independent_numeric_checks": 2964940,
+  "ledger_tool_sha256": "8d319cba9a2ee940abb53a3f4eb2f927977075b081a2d167e46a02f2141a960b",
+  "live_allowed": false,
+  "order_allowed": false,
+  "paper_allowed": false,
+  "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+  "receipts": [
+    {
+      "cost_factor": 1,
+      "independent_decimal_ledger": {
+        "checks": 192405,
+        "failures": [],
+        "fill_count": 0,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "0",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "0",
+        "reconciled_sell_fees": "0",
+        "report_hash": "389707a30135dde740907e167573575764030a0fa74050c2c950d3e5dd272488",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "cash",
+      "original_report_hash": "389707a30135dde740907e167573575764030a0fa74050c2c950d3e5dd272488",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "389707a30135dde740907e167573575764030a0fa74050c2c950d3e5dd272488",
+        "original_result_hash": "92251cf71d33837ad1cf7eb229150ad3eed2c03d790592c3849896c38b6dde7d",
+        "replay_verified": true,
+        "replayed_result_hash": "92251cf71d33837ad1cf7eb229150ad3eed2c03d790592c3849896c38b6dde7d",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "db998aed0fda0edbb5ee1ff230fab0b42b9ee034184169ba0ff5da7ee4e1e843"
+    },
+    {
+      "cost_factor": 2,
+      "independent_decimal_ledger": {
+        "checks": 192405,
+        "failures": [],
+        "fill_count": 0,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "0",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "0",
+        "reconciled_sell_fees": "0",
+        "report_hash": "1a3abd239947576191bf1095564853f12493f060fcc3875ad69908e52e18040d",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "cash",
+      "original_report_hash": "1a3abd239947576191bf1095564853f12493f060fcc3875ad69908e52e18040d",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "1a3abd239947576191bf1095564853f12493f060fcc3875ad69908e52e18040d",
+        "original_result_hash": "27748bf52920b9331b54ca39df190aad35ba88ed5ba11a82be3277a1c3080549",
+        "replay_verified": true,
+        "replayed_result_hash": "27748bf52920b9331b54ca39df190aad35ba88ed5ba11a82be3277a1c3080549",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "4e255e3719c2de6d665aeb196e0df7431495a170d24c99873896f8f86bd1ee32"
+    },
+    {
+      "cost_factor": 3,
+      "independent_decimal_ledger": {
+        "checks": 192405,
+        "failures": [],
+        "fill_count": 0,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "0",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "0",
+        "reconciled_sell_fees": "0",
+        "report_hash": "618f7e91414b7af55f3626e805b6514403647b0c3b72d7202d57972e1cebe1f3",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "cash",
+      "original_report_hash": "618f7e91414b7af55f3626e805b6514403647b0c3b72d7202d57972e1cebe1f3",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "618f7e91414b7af55f3626e805b6514403647b0c3b72d7202d57972e1cebe1f3",
+        "original_result_hash": "d2247ce4f554921c4ad1b90c4f188807948bc93743cc60b7b979facd3f5149e3",
+        "replay_verified": true,
+        "replayed_result_hash": "d2247ce4f554921c4ad1b90c4f188807948bc93743cc60b7b979facd3f5149e3",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "d7218c54cbd82fc97dd150c01b78af2f5ae9f1c1fa0243370fa384b3141d2901"
+    },
+    {
+      "cost_factor": 1,
+      "independent_decimal_ledger": {
+        "checks": 192413,
+        "failures": [],
+        "fill_count": 1,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "1.662548624E-11",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "7.9936051159072745",
+        "reconciled_sell_fees": "0",
+        "report_hash": "407db2db45389ec01da14a2df438ade6ca277684fac422e6c1dbe2c3d0fb8f0f",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "buy_hold_full",
+      "original_report_hash": "407db2db45389ec01da14a2df438ade6ca277684fac422e6c1dbe2c3d0fb8f0f",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "407db2db45389ec01da14a2df438ade6ca277684fac422e6c1dbe2c3d0fb8f0f",
+        "original_result_hash": "bfa0414ca4951507b632858f637db2ec0fec68a8194ae6a11cdfcb91ee7e7ff5",
+        "replay_verified": true,
+        "replayed_result_hash": "bfa0414ca4951507b632858f637db2ec0fec68a8194ae6a11cdfcb91ee7e7ff5",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "0116fe910ab9a2fef77545fd71036773bbcc69d4f1416c2930d1f87ea640b7aa"
+    },
+    {
+      "cost_factor": 2,
+      "independent_decimal_ledger": {
+        "checks": 192413,
+        "failures": [],
+        "fill_count": 1,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "1.706123E-11",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "15.974440894568689",
+        "reconciled_sell_fees": "0",
+        "report_hash": "d748d804ce4b129cf53f3adcfd3c80a96a7f857a5ffb8d3d2311c303f3575fc6",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "buy_hold_full",
+      "original_report_hash": "d748d804ce4b129cf53f3adcfd3c80a96a7f857a5ffb8d3d2311c303f3575fc6",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "d748d804ce4b129cf53f3adcfd3c80a96a7f857a5ffb8d3d2311c303f3575fc6",
+        "original_result_hash": "cdf1783936df29a1fb8c1f9080b5b57ef4505776a4bc44d78cf30c12dc852c3f",
+        "replay_verified": true,
+        "replayed_result_hash": "cdf1783936df29a1fb8c1f9080b5b57ef4505776a4bc44d78cf30c12dc852c3f",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "4a3e68396f4d2a206d47dcf8ccc249f0e22869d1c4bfde56f1dcbc82facd6f21"
+    },
+    {
+      "cost_factor": 3,
+      "independent_decimal_ledger": {
+        "checks": 192413,
+        "failures": [],
+        "fill_count": 1,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "2.10987696E-11",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "23.942537909018363",
+        "reconciled_sell_fees": "0",
+        "report_hash": "30d275461e054c8dafcf251001f5adc1256759a6ee2f0dca324e79a23231db42",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "buy_hold_full",
+      "original_report_hash": "30d275461e054c8dafcf251001f5adc1256759a6ee2f0dca324e79a23231db42",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "30d275461e054c8dafcf251001f5adc1256759a6ee2f0dca324e79a23231db42",
+        "original_result_hash": "c6209067f929741b8c5c48d94db99084967f28b4964f3e5beacaf54f483c5888",
+        "replay_verified": true,
+        "replayed_result_hash": "c6209067f929741b8c5c48d94db99084967f28b4964f3e5beacaf54f483c5888",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "11f67a89e0696221277c2de81bb6ef3d8c562f67979541ba45076656c9460b99"
+    },
+    {
+      "cost_factor": 1,
+      "independent_decimal_ledger": {
+        "checks": 192413,
+        "failures": [],
+        "fill_count": 1,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "5.341742592E-12",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "2.001",
+        "reconciled_sell_fees": "0",
+        "report_hash": "4f0b6b1f7bd7b9cb86ae17cd36b44d9255582e77005fecaf7c130fac6734ffa4",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "buy_hold_25pct",
+      "original_report_hash": "4f0b6b1f7bd7b9cb86ae17cd36b44d9255582e77005fecaf7c130fac6734ffa4",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "4f0b6b1f7bd7b9cb86ae17cd36b44d9255582e77005fecaf7c130fac6734ffa4",
+        "original_result_hash": "a16b24fff7a6f500a2a38b0d8519638466211f1bd93dca56a463c966e1315eac",
+        "replay_verified": true,
+        "replayed_result_hash": "a16b24fff7a6f500a2a38b0d8519638466211f1bd93dca56a463c966e1315eac",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "bb2f54b4cb92450101e023ae05c5e013157a1e52eb3265e4a156f7db186a8508"
+    },
+    {
+      "cost_factor": 2,
+      "independent_decimal_ledger": {
+        "checks": 192413,
+        "failures": [],
+        "fill_count": 1,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "5.47265975024772136E-12",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "4.004",
+        "reconciled_sell_fees": "0",
+        "report_hash": "9b8439b5fee6e9e7ba33a5ff9ff3ad834d841370c7549287355fab288d0fef91",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "buy_hold_25pct",
+      "original_report_hash": "9b8439b5fee6e9e7ba33a5ff9ff3ad834d841370c7549287355fab288d0fef91",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "9b8439b5fee6e9e7ba33a5ff9ff3ad834d841370c7549287355fab288d0fef91",
+        "original_result_hash": "103c5b6663cf2aebe62dc42821bb58ecba325ff3f71924254fb14bc40d652b06",
+        "replay_verified": true,
+        "replayed_result_hash": "103c5b6663cf2aebe62dc42821bb58ecba325ff3f71924254fb14bc40d652b06",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "93c3579780ac90c2d3d14b60659209ff5086769196ea52afea6031f2fb4fce00"
+    },
+    {
+      "cost_factor": 3,
+      "independent_decimal_ledger": {
+        "checks": 192413,
+        "failures": [],
+        "fill_count": 1,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "6.013403776E-12",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "6.009",
+        "reconciled_sell_fees": "0",
+        "report_hash": "5b2fc6af3e2c6df88f4e2c54c5e88800aa44cc729f46976cff7cabf38caf3128",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "buy_hold_25pct",
+      "original_report_hash": "5b2fc6af3e2c6df88f4e2c54c5e88800aa44cc729f46976cff7cabf38caf3128",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "5b2fc6af3e2c6df88f4e2c54c5e88800aa44cc729f46976cff7cabf38caf3128",
+        "original_result_hash": "27bdc623980a6329b4607ca17ab96c9e6ad46818e04439874ac53cadbc485610",
+        "replay_verified": true,
+        "replayed_result_hash": "27bdc623980a6329b4607ca17ab96c9e6ad46818e04439874ac53cadbc485610",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "f7f76913ddff9c6c3bf46e802647f4043b07ee9c1dd7bf5c3719d1b9a7d600ea"
+    },
+    {
+      "cost_factor": 1,
+      "independent_decimal_ledger": {
+        "checks": 197700,
+        "failures": [],
+        "fill_count": 623,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "3.1584463347483380456E-11",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "626.0490732188643344",
+        "reconciled_sell_fees": "624.6905397740014657",
+        "report_hash": "60afdf097fa28ff98da9b610f6c15352111430fc359b1fcbbb602477951b3892",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "dual_ma",
+      "original_report_hash": "60afdf097fa28ff98da9b610f6c15352111430fc359b1fcbbb602477951b3892",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "60afdf097fa28ff98da9b610f6c15352111430fc359b1fcbbb602477951b3892",
+        "original_result_hash": "22d3ca1cf93e41e35560c2aa28ef3584294fa73cf75c44f40b78c9814a913050",
+        "replay_verified": true,
+        "replayed_result_hash": "22d3ca1cf93e41e35560c2aa28ef3584294fa73cf75c44f40b78c9814a913050",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "e6de5d039bc7a45d1382f7fee0a2e592cf8b405c80f478711f30472f0fc77f74"
+    },
+    {
+      "cost_factor": 2,
+      "independent_decimal_ledger": {
+        "checks": 197700,
+        "failures": [],
+        "fill_count": 623,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "1.6648688532999248806E-11",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "1132.8903729386494319",
+        "reconciled_sell_fees": "1129.7232716013981095",
+        "report_hash": "b2fb0aa3a43fabc773b9c631168cfa7de0d1d839b1023ce6b794c5b51c9a4242",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "dual_ma",
+      "original_report_hash": "b2fb0aa3a43fabc773b9c631168cfa7de0d1d839b1023ce6b794c5b51c9a4242",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "b2fb0aa3a43fabc773b9c631168cfa7de0d1d839b1023ce6b794c5b51c9a4242",
+        "original_result_hash": "3ae404275e2ff9fe0e9b219dbea8bbde6d9cc8b4c0e0368b40b43a47ebc06a61",
+        "replay_verified": true,
+        "replayed_result_hash": "3ae404275e2ff9fe0e9b219dbea8bbde6d9cc8b4c0e0368b40b43a47ebc06a61",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "431f86f9d15d53eafc2fbb3fbcec5e5a65ee48c9dc8940f4d9329787ef626526"
+    },
+    {
+      "cost_factor": 3,
+      "independent_decimal_ledger": {
+        "checks": 197700,
+        "failures": [],
+        "fill_count": 623,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "1.5516586334096758682E-11",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "1534.6146336392062474",
+        "reconciled_sell_fees": "1529.1442992159905330",
+        "report_hash": "e223c672628e72bcb703332d97675bccb4b751f25cc8b5e5aaaa44b6e6935649",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "dual_ma",
+      "original_report_hash": "e223c672628e72bcb703332d97675bccb4b751f25cc8b5e5aaaa44b6e6935649",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "e223c672628e72bcb703332d97675bccb4b751f25cc8b5e5aaaa44b6e6935649",
+        "original_result_hash": "29d2b7a226b42ccce4348dc502fb93168a7fed680bc8b8c5c3c562ec18fbb43c",
+        "replay_verified": true,
+        "replayed_result_hash": "29d2b7a226b42ccce4348dc502fb93168a7fed680bc8b8c5c3c562ec18fbb43c",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "af918a3ab9cd95a6d5b849200cf4d9d676c70f62aacb778b2db693f2e0abbab5"
+    },
+    {
+      "cost_factor": 1,
+      "independent_decimal_ledger": {
+        "checks": 213481,
+        "failures": [],
+        "fill_count": 2565,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "4.98445737408594728244937106253665519E-11",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "1306.7082232713989121103507",
+        "reconciled_sell_fees": "1306.5582217082651420",
+        "report_hash": "734a26077768da7a94882574e6b755ca13a44b0a946baa9421081581aa80bfd9",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "rsi",
+      "original_report_hash": "734a26077768da7a94882574e6b755ca13a44b0a946baa9421081581aa80bfd9",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "734a26077768da7a94882574e6b755ca13a44b0a946baa9421081581aa80bfd9",
+        "original_result_hash": "753e2f41d9961c41fb0b948befdbfd43790d64efb7e7029726d70ddcbb71a531",
+        "replay_verified": true,
+        "replayed_result_hash": "753e2f41d9961c41fb0b948befdbfd43790d64efb7e7029726d70ddcbb71a531",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "0d3d057584ac60bc4e824e858056a6705b86a9f0cf3afd8c61b89975b8ebbb31"
+    },
+    {
+      "cost_factor": 2,
+      "independent_decimal_ledger": {
+        "checks": 213372,
+        "failures": [],
+        "fill_count": 2551,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "3.94246520052331224819287108931856883E-11",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "2095.038181538330759849587",
+        "reconciled_sell_fees": "2092.7410635923918173",
+        "report_hash": "950e77bba56b5cac89c268c411e3966b85ebc05b35e0accc9ace9c15cbaa2853",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "rsi",
+      "original_report_hash": "950e77bba56b5cac89c268c411e3966b85ebc05b35e0accc9ace9c15cbaa2853",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "950e77bba56b5cac89c268c411e3966b85ebc05b35e0accc9ace9c15cbaa2853",
+        "original_result_hash": "0ddb37da4a209cf931ef468bf848e7d44afd910b3f5f5644f2f4bd39c0b8bf7b",
+        "replay_verified": true,
+        "replayed_result_hash": "0ddb37da4a209cf931ef468bf848e7d44afd910b3f5f5644f2f4bd39c0b8bf7b",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "6389c87a4bcb5dc53883ac106dec1ba550a8942caaa6b5572a55ca7d69e98a43"
+    },
+    {
+      "cost_factor": 3,
+      "independent_decimal_ledger": {
+        "checks": 213294,
+        "failures": [],
+        "fill_count": 2541,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "3.57400030097715533751880990219987687E-11",
+        "project_numerical_engine_imported": false,
+        "reconciled_buy_fees": "2520.83549887146633286187",
+        "reconciled_sell_fees": "2515.1961674170541534",
+        "report_hash": "5f4352a6e23acd5f27afaffbbe59da1e7dc5c04321b57aa6fa01ddcaee88e9f3",
+        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 32064,
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "status": "PASS"
+      },
+      "method": "rsi",
+      "original_report_hash": "5f4352a6e23acd5f27afaffbbe59da1e7dc5c04321b57aa6fa01ddcaee88e9f3",
+      "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+      "replay": {
+        "environment_verified": true,
+        "execution_permission": {
+          "live_allowed": false,
+          "order_allowed": false,
+          "paper_allowed": false,
+          "research_only": true
+        },
+        "original_report_hash": "5f4352a6e23acd5f27afaffbbe59da1e7dc5c04321b57aa6fa01ddcaee88e9f3",
+        "original_result_hash": "b058f0fbc5d5b52bd8217d9e695109740082e7a10d5ac3be7b35ea4aa1458e62",
+        "replay_verified": true,
+        "replayed_result_hash": "b058f0fbc5d5b52bd8217d9e695109740082e7a10d5ac3be7b35ea4aa1458e62",
+        "result_matches": true,
+        "schema_version": "research-replay-receipt-v1",
+        "snapshot_id": "369ec2a4ae4a4b2f96653c03d4df8286facf855a774a2e03e173b7993e619eaa",
+        "source_matches": true
+      },
+      "report_file_sha256": "dd47d8d19f34ab3c7068a6153d6e9937fb8072abebf30a0e4c0c9dfeea3d220c"
+    }
+  ],
+  "replay_environment_verified": {
+    "errors": [],
+    "lock_fully_pinned": true,
+    "lock_name": "requirements.research.lock",
+    "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+    "mismatched": [],
+    "missing": [],
+    "packages": {
+      "numpy": {
+        "installed": "2.4.6",
+        "required": "2.4.6"
+      },
+      "pandas": {
+        "installed": "3.0.3",
+        "required": "3.0.3"
+      },
+      "python-dateutil": {
+        "installed": "2.9.0.post0",
+        "required": "2.9.0.post0"
+      },
+      "six": {
+        "installed": "1.17.0",
+        "required": "1.17.0"
+      },
+      "tzdata": {
+        "installed": "2026.2",
+        "required": "2026.2"
+      }
+    },
+    "python_supported": true,
+    "python_version": "3.14.6",
+    "status": "VERIFIED",
+    "verification_scope": "installed_distribution_versions_against_lock"
+  },
+  "replay_source_identity": {
+    "build_receipt": {
+      "build_definition_sha256": {
+        "pyproject.toml": "c1f0d2f6eabf7b5cad2d73145b8744a64e5a1757bcb1c9bd3a4ae154e9a8e784",
+        "setup.py": "16588d8df29ee30c8a27982e1974e0636dfbed0209e97f8a18533376882fea31"
+      },
+      "content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "file_hashes": {
+        "__init__.py": "776d306d3316b1c999b5f66358405d429518655990aeb79404d27f4d9e492351",
+        "__main__.py": "50bbfc615f094ce403d451e926ecbb47dd26d945cb3da85a63d582fc977893bf",
+        "backtest.py": "6a5b79f2681976f88e55652fa696dc773c5297432057ed58ae1eb68a9a2cfd16",
+        "benchmarks.py": "7d09c35750daf609ba361ecaf9794332321967c679ed397b411bbbecbecca549",
+        "capability_definition.py": "5302422b6b7d028527b287f213bb73b0bc94316045be8d78fa114367be6c13a7",
+        "cli.py": "6f8e885c1e6da38523a7d240dfdc4e996586150fea8d6a62577c2991a1963fe0",
+        "config.py": "3334e51509c66e8a99857d56758cc4fc7741a8e1b32c455483ca9780edaf650d",
+        "contracts/product-capabilities.json": "19aaf37b067fcf0775948fbaa8df0a4271e58fc0357cce0e409d74b10f823026",
+        "contracts/product-capabilities.schema.json": "c276f2f5e92c4676c0a59882e7658329261c84e49054c4d8be3ea46dddd1cf4e",
+        "data.py": "6d101b509666cbd5d52c7c563df4cf976dfb5a41735152947168daa66f9368e2",
+        "dataset_registry.py": "1e5109c3d73818c5ff77f61f4125e3d1a2eaa8e3fa7755329ef3e013819e5d24",
+        "documents.py": "a5a1f3fb4f4dd9a0caa717d7f8777e55e897f21b009c5d1afac4eaf115db29a0",
+        "environment.py": "c502d66f99e525b64f31ae7676ed5b3941a5ce895e87c58ca59ef49a47f3eee5",
+        "execution.py": "4fc9c10b20441213d3d2a472152dfbea2a4a7a497dcb05159e1c0591398adf18",
+        "experiment.py": "6a8140b865a6c338052bd51f70b3475b288079da3bc21acd9f2902c130096589",
+        "experiment_manifest.py": "f669076a4af8dff0465d0863e23ed43ff8e1bd3c157a0b3e4b90f14e6405f817",
+        "experiment_provenance_binding_v1.py": "4d7928af1a37fab0401dbfbb93c81e301b1800be7fdb7e80a8b2a53c2548d7ab",
+        "experiment_provenance_consumer_adapter_v1.py": "ead243788a9e628d0fc38045d08db212fefb001daa76db004c9c9cb7b8aeccc1",
+        "frozen_evaluation.py": "77fa20221b63b5e0bd926c5b03895ac0caac5af1ab90d549d1e98c137b5e6ffb",
+        "health_contract.py": "f7e595f6ade39e26bc252fb03134f4c59869c8511a45b7b9f5019e1f4c16af31",
+        "indicators.py": "68590a9fd40ac8a7f7f1a11584ffd306e7a2738ada6a2347ef2cc50af0702066",
+        "logging_setup.py": "64dcff0c00a4b085dafc2b6e7756847ca240cd6c8f45e55735c673683b9751da",
+        "models.py": "79b32477f41b65203d67d94ee50fd2f04642ff8949d9735224f7b0047a6158f4",
+        "product_capabilities.py": "6be464e0bc8ef247e86f21271651f551dcc2f57b8ca5de6a04d536e4b084a5d0",
+        "reporting.py": "1f03971936079ce39d92746fbc751f59db44d7962967cacd7a07fa09a38baf47",
+        "reporting_legacy_v2.py": "473623a54660bdc7f5bf855686a4874eba9443019a2e127d31fb55a3a8a88eac",
+        "resources/config.example.json": "60f5f74944ba6c6c2e9f5133e9969e0b50f810b20460db420b042da84411095f",
+        "resources/experiment.example.json": "e2f3c4a5d21b262b192f136020b4b3b475ecb19fd70ecf5d5767259c1b1dd75c",
+        "resources/requirements.research.lock": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+        "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+        "runtime-files.json": "d7f5bab68e18e5419c8767e95fa17db18729f8abf9a496f64265ff279adf3762",
+        "source_identity.py": "9c0917594c7323c59df0a551aacfd61865e8f17faf7c41e6c9f63dd4fce9b552",
+        "source_layout.py": "a555521e98e24f1c4f8d8ba67fb97f8b6e27f77f520e0ceb24175a5bf84753ea",
+        "strategies/__init__.py": "b16709c51a0fce1b55acd38f4d5012c0f9d0be65f6a78b4cf0856576982c334b",
+        "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6",
+        "strategies/templates.py": "d96a321738da88ea352f90579120e6010f52386c6749f1b4da80460df9af2575"
+      },
+      "git": {
+        "commit": "a6771ec89603999d55c6193a4fa7846ec3115d40",
+        "status": "CLEAN"
+      },
+      "schema_version": "research-build-source-v1"
+    },
+    "content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+    "file_hashes": {
+      "__init__.py": "776d306d3316b1c999b5f66358405d429518655990aeb79404d27f4d9e492351",
+      "__main__.py": "50bbfc615f094ce403d451e926ecbb47dd26d945cb3da85a63d582fc977893bf",
+      "backtest.py": "6a5b79f2681976f88e55652fa696dc773c5297432057ed58ae1eb68a9a2cfd16",
+      "benchmarks.py": "7d09c35750daf609ba361ecaf9794332321967c679ed397b411bbbecbecca549",
+      "capability_definition.py": "5302422b6b7d028527b287f213bb73b0bc94316045be8d78fa114367be6c13a7",
+      "cli.py": "6f8e885c1e6da38523a7d240dfdc4e996586150fea8d6a62577c2991a1963fe0",
+      "config.py": "3334e51509c66e8a99857d56758cc4fc7741a8e1b32c455483ca9780edaf650d",
+      "contracts/product-capabilities.json": "19aaf37b067fcf0775948fbaa8df0a4271e58fc0357cce0e409d74b10f823026",
+      "contracts/product-capabilities.schema.json": "c276f2f5e92c4676c0a59882e7658329261c84e49054c4d8be3ea46dddd1cf4e",
+      "data.py": "6d101b509666cbd5d52c7c563df4cf976dfb5a41735152947168daa66f9368e2",
+      "dataset_registry.py": "1e5109c3d73818c5ff77f61f4125e3d1a2eaa8e3fa7755329ef3e013819e5d24",
+      "documents.py": "a5a1f3fb4f4dd9a0caa717d7f8777e55e897f21b009c5d1afac4eaf115db29a0",
+      "environment.py": "c502d66f99e525b64f31ae7676ed5b3941a5ce895e87c58ca59ef49a47f3eee5",
+      "execution.py": "4fc9c10b20441213d3d2a472152dfbea2a4a7a497dcb05159e1c0591398adf18",
+      "experiment.py": "6a8140b865a6c338052bd51f70b3475b288079da3bc21acd9f2902c130096589",
+      "experiment_manifest.py": "f669076a4af8dff0465d0863e23ed43ff8e1bd3c157a0b3e4b90f14e6405f817",
+      "experiment_provenance_binding_v1.py": "4d7928af1a37fab0401dbfbb93c81e301b1800be7fdb7e80a8b2a53c2548d7ab",
+      "experiment_provenance_consumer_adapter_v1.py": "ead243788a9e628d0fc38045d08db212fefb001daa76db004c9c9cb7b8aeccc1",
+      "frozen_evaluation.py": "77fa20221b63b5e0bd926c5b03895ac0caac5af1ab90d549d1e98c137b5e6ffb",
+      "health_contract.py": "f7e595f6ade39e26bc252fb03134f4c59869c8511a45b7b9f5019e1f4c16af31",
+      "indicators.py": "68590a9fd40ac8a7f7f1a11584ffd306e7a2738ada6a2347ef2cc50af0702066",
+      "logging_setup.py": "64dcff0c00a4b085dafc2b6e7756847ca240cd6c8f45e55735c673683b9751da",
+      "models.py": "79b32477f41b65203d67d94ee50fd2f04642ff8949d9735224f7b0047a6158f4",
+      "product_capabilities.py": "6be464e0bc8ef247e86f21271651f551dcc2f57b8ca5de6a04d536e4b084a5d0",
+      "reporting.py": "1f03971936079ce39d92746fbc751f59db44d7962967cacd7a07fa09a38baf47",
+      "reporting_legacy_v2.py": "473623a54660bdc7f5bf855686a4874eba9443019a2e127d31fb55a3a8a88eac",
+      "resources/config.example.json": "60f5f74944ba6c6c2e9f5133e9969e0b50f810b20460db420b042da84411095f",
+      "resources/experiment.example.json": "e2f3c4a5d21b262b192f136020b4b3b475ecb19fd70ecf5d5767259c1b1dd75c",
+      "resources/requirements.research.lock": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+      "risk.py": "54d52402daa314c724171058201d2ec2383782571bb4eb8b0368f4f7736fdc26",
+      "runtime-files.json": "d7f5bab68e18e5419c8767e95fa17db18729f8abf9a496f64265ff279adf3762",
+      "source_identity.py": "9c0917594c7323c59df0a551aacfd61865e8f17faf7c41e6c9f63dd4fce9b552",
+      "source_layout.py": "a555521e98e24f1c4f8d8ba67fb97f8b6e27f77f520e0ceb24175a5bf84753ea",
+      "strategies/__init__.py": "b16709c51a0fce1b55acd38f4d5012c0f9d0be65f6a78b4cf0856576982c334b",
+      "strategies/base.py": "e5c25f05d34fbaddba6ce80366d437c1cfc92e1f255a49d722f6d827c364e4d6",
+      "strategies/templates.py": "d96a321738da88ea352f90579120e6010f52386c6749f1b4da80460df9af2575"
+    },
+    "git": {
+      "commit": "",
+      "query_errors": [
+        "not_a_source_checkout"
+      ],
+      "status": "UNKNOWN"
+    },
+    "status": "BUILD_VERIFIED"
+  },
+  "research_only": true,
+  "schema_version": "continuous-history-independent-verification-v1",
+  "status": "PASS",
+  "verified_trajectories": 15
+}

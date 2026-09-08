@@ -1,0 +1,99 @@
+{
+  "actual_study_wheel_sha256": "78d6047c47f980ed0767e6ed52cd239b0ebd815327af19e9ce9f9e20a8cdfd89",
+  "ci_run_id": 34019386267,
+  "comparison": "Runtime package file bytes match the separately accepted local study wheel. CI checkout and wheel byte identities remain distinct.",
+  "jobs_succeeded": 9,
+  "platforms": [
+    {
+      "acceptance": {
+        "build_git": {
+          "commit": "2320a213f1ed823d84cc76bcfb9fe28add5e0c52",
+          "status": "CLEAN"
+        },
+        "build_inputs_sha256": {
+          "pyproject.toml": "701143dbe669f3db841ab322a4437a641fc486c278e900932cf16e60cac81fd4",
+          "requirements.research.lock": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "setup.py": "64da30f56255327186d02c4e2ccd574dd0e939d19f5091d07a881499ff102475"
+        },
+        "ci_context": {
+          "checkout_sha": "2320a213f1ed823d84cc76bcfb9fe28add5e0c52",
+          "reviewed_head_sha": "c47661366dfd5f029e4a4079c580e97d9c697df9",
+          "run_attempt": "1",
+          "run_id": "34019386267",
+          "runner_system": "Linux"
+        },
+        "execution_permission": {
+          "live_order_allowed": false,
+          "order_entry_allowed": false,
+          "paper_authorized": false,
+          "research_only": true
+        },
+        "installation": {
+          "editable": false,
+          "outside_checkout": true,
+          "pythonpath_used": false,
+          "system_site_packages": false
+        },
+        "privacy": "ALLOWLISTED_METADATA_MACHINE_RECEIPT_AND_LOCAL_PATHS_OMITTED_WHEEL_UNCHANGED",
+        "schema_version": "research-wheel-acceptance-public-v1",
+        "scope": "EXACT_WHEEL_INSTALLATION_AND_OFFLINE_CONTRACTS_NOT_MARKET_OR_STRATEGY_VALIDATION",
+        "source_checkout_unchanged": true,
+        "source_content_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767",
+        "status": "PASS",
+        "wheel": "hakimi_research-0.2.2-py3-none-any.whl",
+        "wheel_sha256": "cd45044e1a32c93150c9818d78c91baae2e476553318fee6dba7bf63350d085a"
+      },
+      "all_file_checksums_verified": true,
+      "artifact_name": "hakimi-research-ubuntu-latest-2320a213f1ed823d84cc76bcfb9fe28add5e0c52-1",
+      "installed_tests": 101,
+      "source_files_verified": 36
+    },
+    {
+      "acceptance": {
+        "build_git": {
+          "commit": "2320a213f1ed823d84cc76bcfb9fe28add5e0c52",
+          "status": "CLEAN"
+        },
+        "build_inputs_sha256": {
+          "pyproject.toml": "29be1c88fb19348be5d2e447aea95c105880b6c3bdbf3f0fb6fdb28101b2513b",
+          "requirements.research.lock": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+          "setup.py": "16588d8df29ee30c8a27982e1974e0636dfbed0209e97f8a18533376882fea31"
+        },
+        "ci_context": {
+          "checkout_sha": "2320a213f1ed823d84cc76bcfb9fe28add5e0c52",
+          "reviewed_head_sha": "c47661366dfd5f029e4a4079c580e97d9c697df9",
+          "run_attempt": "1",
+          "run_id": "34019386267",
+          "runner_system": "Windows"
+        },
+        "execution_permission": {
+          "live_order_allowed": false,
+          "order_entry_allowed": false,
+          "paper_authorized": false,
+          "research_only": true
+        },
+        "installation": {
+          "editable": false,
+          "outside_checkout": true,
+          "pythonpath_used": false,
+          "system_site_packages": false
+        },
+        "privacy": "ALLOWLISTED_METADATA_MACHINE_RECEIPT_AND_LOCAL_PATHS_OMITTED_WHEEL_UNCHANGED",
+        "schema_version": "research-wheel-acceptance-public-v1",
+        "scope": "EXACT_WHEEL_INSTALLATION_AND_OFFLINE_CONTRACTS_NOT_MARKET_OR_STRATEGY_VALIDATION",
+        "source_checkout_unchanged": true,
+        "source_content_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767",
+        "status": "PASS",
+        "wheel": "hakimi_research-0.2.2-py3-none-any.whl",
+        "wheel_sha256": "169698d6263d92f931190d09765cfc9641250b0bdbd4733ac91e0c2e80dc4985"
+      },
+      "all_file_checksums_verified": true,
+      "artifact_name": "hakimi-research-windows-latest-2320a213f1ed823d84cc76bcfb9fe28add5e0c52-1",
+      "installed_tests": 101,
+      "source_files_verified": 36
+    }
+  ],
+  "schema_version": "diagnostics-ci-build-crosscheck-v1",
+  "status": "PASS",
+  "study_wheel_is_different_build": true
+}

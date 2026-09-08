@@ -1,0 +1,3 @@
+569993adc121feea5d1487518433cdb5bc3b71ce9fbc73ce584a7e60d31ae529  publication.json
+85930cd50a9f2992b5c3b33103e73b7db1d2a0a7cf5e974983b178189112de6b  published-download-verification.json
+2d617a9e8fb0068d7940d385289c9d11d2507db8670e3c7f96dbfca83529475e  release-acceptance.json

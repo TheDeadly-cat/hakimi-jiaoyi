@@ -1,0 +1,8 @@
+{
+  "frozen_at": "2026-09-06T07:26:28.567695Z",
+  "plan_file_sha256": "8ec2781f78b1cca6c8d1fa9988540418da1c0a1848f9c9e819479ab64f579892",
+  "plan_hash": "1f07883de4ef96276861c982cda6ac6c52c4e84984c946e094050d926cfc55f1",
+  "results_existed_at_freeze": false,
+  "schema_version": "continuous-plan-freeze-receipt-v1",
+  "source_content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+}

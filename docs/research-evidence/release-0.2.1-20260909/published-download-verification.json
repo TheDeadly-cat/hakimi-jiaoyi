@@ -1,0 +1,81 @@
+{
+  "schema_version": "postmerge-release-download-verification-v1",
+  "status": "PASS",
+  "download_origin": "Published GitHub Release https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1",
+  "release_tag": "v0.2.1",
+  "source_merge_sha": "45850899992361970043f2da70e785210025ae9e",
+  "ci_run_id": "34254213253",
+  "bundles": [
+    {
+      "runner_system": "Linux",
+      "wheel_sha256": "72b10f7dedfb5116169e0a6fd47155344900a229fd132a8ba7f535da59a7a07a",
+      "source_content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "ci_context": {
+        "checkout_sha": "45850899992361970043f2da70e785210025ae9e",
+        "reviewed_head_sha": "45850899992361970043f2da70e785210025ae9e",
+        "run_attempt": "1",
+        "run_id": "34254213253",
+        "runner_system": "Linux"
+      },
+      "runtime_files_verified": 36,
+      "ci_installed_tests": 90,
+      "files_sha256": {
+        "SHA256SUMS.txt": "b602c1bfd834e677d3a72b697450091820678740906b7208caaf2f39ed6f40d8",
+        "dependencies.json": "2a88bd124b0c14c948a321e369eac7f994fef2ef4a6edefe0c725478b5572666",
+        "hakimi_research-0.2.1-py3-none-any.whl": "72b10f7dedfb5116169e0a6fd47155344900a229fd132a8ba7f535da59a7a07a",
+        "source-build-identity.json": "bad56b95fd298d29d59df21b6ac829e12d904e2fae72a9f8267e775665562b73",
+        "test-scope.json": "f4c2803c840c25a37b2e8382ffa4143fd582fbde516d925c9edd549246b3676e",
+        "wheel-acceptance.json": "f2718636132b3b31d67ff6c2886c45f2fd9c33128b1bb5cda27a8fb7d329f755"
+      },
+      "release_zip_sha256": "eccc61c331f54fad7b8dc8acc711264c3cce07dfc58207bd41ca5e3d4c88ecec"
+    },
+    {
+      "runner_system": "Windows",
+      "wheel_sha256": "c3c97c438ef03bcc94a200e829e356ca40a0e3799250bcb52dcddf6039e3dded",
+      "source_content_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "ci_context": {
+        "checkout_sha": "45850899992361970043f2da70e785210025ae9e",
+        "reviewed_head_sha": "45850899992361970043f2da70e785210025ae9e",
+        "run_attempt": "1",
+        "run_id": "34254213253",
+        "runner_system": "Windows"
+      },
+      "runtime_files_verified": 36,
+      "ci_installed_tests": 90,
+      "files_sha256": {
+        "SHA256SUMS.txt": "fbd24e5be2af0722ff02721f8dcf730e76710e122ce5b3587cc3ec8d8cb8b4a0",
+        "dependencies.json": "2a88bd124b0c14c948a321e369eac7f994fef2ef4a6edefe0c725478b5572666",
+        "hakimi_research-0.2.1-py3-none-any.whl": "c3c97c438ef03bcc94a200e829e356ca40a0e3799250bcb52dcddf6039e3dded",
+        "source-build-identity.json": "50dc9acfc268775e82d19307fa5f3e9938cef90d945e1efc14ce40e9ed40fbb0",
+        "test-scope.json": "4078f5845bf7ec267c5b1359cbd874e319cdddde2f99ee2d856e8946e274616e",
+        "wheel-acceptance.json": "5d7d0a5564a09854d8ae26df68f2d04edd9e8bd1fe01a4f9342c7d27f48f95e6"
+      },
+      "release_zip_sha256": "aa7d81b5eb1ca30107b8b2beb0ba18ccf405131db4b80b4d046e6f52b731c537"
+    }
+  ],
+  "execution_permission": {
+    "research_only": true,
+    "paper_authorized": false,
+    "live_order_allowed": false,
+    "order_entry_allowed": false
+  },
+  "downloaded_windows_installation": {
+    "status": "PASS",
+    "tests_run": 90,
+    "test_ids_match_ci": true,
+    "outside_checkout": true,
+    "editable": false,
+    "pythonpath_used": false,
+    "system_site_packages": false,
+    "source_status": "BUILD_VERIFIED",
+    "environment_status": "VERIFIED",
+    "network_policy": "OUTBOUND_PYTHON_SOCKET_ACCESS_DENIED",
+    "offline_cli_research_and_replay": true,
+    "wheel_sha256": "c3c97c438ef03bcc94a200e829e356ca40a0e3799250bcb52dcddf6039e3dded"
+  },
+  "limits": [
+    "Linux installation was performed by the actual Ubuntu CI job; local downloaded installation used Windows.",
+    "Existing research results retain their original build and wheel identities.",
+    "Software acceptance does not establish strategy profitability or forward reliability."
+  ]
+}

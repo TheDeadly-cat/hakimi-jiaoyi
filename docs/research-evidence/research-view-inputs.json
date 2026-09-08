@@ -1,0 +1,404 @@
+{
+  "command_argv": [
+    "python",
+    "-B",
+    "tools/build_research_view.py",
+    "--root",
+    ".",
+    "--continuous",
+    "docs/research-evidence/continuous-history-20260906/summary_9f66079f3a2adc75106e1a2b0975589191d44adea852dec113b6f6e71dfa8e94.json",
+    "--forward",
+    "docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+    "--output",
+    "docs/research-view.md",
+    "--inputs-index",
+    "docs/research-evidence/research-view-inputs.json",
+    "--diagnostics",
+    "docs/research-evidence/strategy-diagnostics-20260906/summary.json",
+    "--continuous-verification",
+    "docs/research-evidence/continuous-history-20260906/verification_ebca694f42310e3dc86005f61a5537341b983a2d6fc3b6c011f0cb74e199f818.json",
+    "--require-complete"
+  ],
+  "continuous_replay_verified": 15,
+  "continuous_trajectories": 15,
+  "diagnostic_trajectories": 16,
+  "forward_72_hour_window_complete": true,
+  "forward_as_of": "2026-09-08T15:05:31.777052Z",
+  "generator_sha256": "ebddb15070e701f76cb2737df27074b299ab897ad8f1a5a92abd281be8926f2b",
+  "inputs": [
+    {
+      "family": "continuous",
+      "file_sha256": "3cf9fbb509debbc6b6ce38a052d654b99bdcebff64fc8aec323cce602f37a887",
+      "kind": "summary",
+      "path": "docs/research-evidence/continuous-history-20260906/summary_9f66079f3a2adc75106e1a2b0975589191d44adea852dec113b6f6e71dfa8e94.json",
+      "schema_version": "continuous-history-summary-v1"
+    },
+    {
+      "cost_factor": 1,
+      "family": "continuous",
+      "file_sha256": "f43b854d8dba84ea3f3e63352639050af95da48594428e6c58e5253cfe5eb5e0",
+      "kind": "projection",
+      "method": "cash",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_368e51d50347fa489747d73851ba43b2289567f13728d2e22b20e72ea76d298d.json",
+      "report_hash": "389707a30135dde740907e167573575764030a0fa74050c2c950d3e5dd272488",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 2,
+      "family": "continuous",
+      "file_sha256": "382d9bb25f14f81e5e902e9ba843573661b663dbf1bb2089cd322fdc91747b8d",
+      "kind": "projection",
+      "method": "cash",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_bdb49b5f61241c80e5f629d50a15f69f9d90d083ffd2fe1dfefeb1a5df49a2e0.json",
+      "report_hash": "1a3abd239947576191bf1095564853f12493f060fcc3875ad69908e52e18040d",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 3,
+      "family": "continuous",
+      "file_sha256": "41377a0ccd934b5e0381248b5fa643411c6d184b2fbe0846f084302a09a728fb",
+      "kind": "projection",
+      "method": "cash",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_cf1edc61f810d1855485ff62cd07231d8561bec87d006c3b0b239e98d4f33c43.json",
+      "report_hash": "618f7e91414b7af55f3626e805b6514403647b0c3b72d7202d57972e1cebe1f3",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 1,
+      "family": "continuous",
+      "file_sha256": "69efb70209034be33dac2f04966767c82e6fb3eea3c35a8ee62ecf39f081ec83",
+      "kind": "projection",
+      "method": "buy_hold_full",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_a1b2e1381d46ddce75f69672c6cd2122c71e293b161b16181b9c7964a7b17fd2.json",
+      "report_hash": "407db2db45389ec01da14a2df438ade6ca277684fac422e6c1dbe2c3d0fb8f0f",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 2,
+      "family": "continuous",
+      "file_sha256": "258a80383f6eb5ec9a2b37ba08bcb1544eefbbde101654475aac263342e2b988",
+      "kind": "projection",
+      "method": "buy_hold_full",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_0ba29f12ff94d084334a4528145929ad6a90f903a60a49ed7f5b3d866ef1b1f2.json",
+      "report_hash": "d748d804ce4b129cf53f3adcfd3c80a96a7f857a5ffb8d3d2311c303f3575fc6",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 3,
+      "family": "continuous",
+      "file_sha256": "df68587eddc64f5e10be9a63a5f4206e3b8ccc77a231666f9f04bb6fd3b5b097",
+      "kind": "projection",
+      "method": "buy_hold_full",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_8c29b82a4386c1e9e980332deba554378de3f810e5d098e45c8f2ea301e8bfd4.json",
+      "report_hash": "30d275461e054c8dafcf251001f5adc1256759a6ee2f0dca324e79a23231db42",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 1,
+      "family": "continuous",
+      "file_sha256": "00fba07e8a918e25e0dc15fcd08d2932debb9fc0814ab47dec286c96b9c90d31",
+      "kind": "projection",
+      "method": "buy_hold_25pct",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_07fa5aec54a05e6790a7e70dd93dad957612b40422d4d7624b6ae7412849a5ca.json",
+      "report_hash": "4f0b6b1f7bd7b9cb86ae17cd36b44d9255582e77005fecaf7c130fac6734ffa4",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 2,
+      "family": "continuous",
+      "file_sha256": "64238a9787e875bd8af35427b3386dcfaf00bcc430bad3c832b6fac851e1cccc",
+      "kind": "projection",
+      "method": "buy_hold_25pct",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_e35cfb126b0507fff6320460d1bcd2706433321d42e50a73e27b690a43be5de7.json",
+      "report_hash": "9b8439b5fee6e9e7ba33a5ff9ff3ad834d841370c7549287355fab288d0fef91",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 3,
+      "family": "continuous",
+      "file_sha256": "01715b571b1604f4ef3ff02c86e842a3e3f27a2e37cb645161e1cfbf6a2280de",
+      "kind": "projection",
+      "method": "buy_hold_25pct",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_b03e760b1c44edc55bcad0d7562d1ef1b1e2163db15df1b874665cd571af146e.json",
+      "report_hash": "5b2fc6af3e2c6df88f4e2c54c5e88800aa44cc729f46976cff7cabf38caf3128",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 1,
+      "family": "continuous",
+      "file_sha256": "6d5d2fdc4f42a0d3c69778862225c7184e14e597e56200ec85a79b0cbd2b99c3",
+      "kind": "projection",
+      "method": "dual_ma",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_bb89e6907cc51b8ec2e0a943440f96decfdb793ac4e54791dfc5444ac5f8e57f.json",
+      "report_hash": "60afdf097fa28ff98da9b610f6c15352111430fc359b1fcbbb602477951b3892",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 2,
+      "family": "continuous",
+      "file_sha256": "be5a05ce93f4156b24cd35c6c51d1a00ddfa3407bc8b5fed6e3d541b05eee2ee",
+      "kind": "projection",
+      "method": "dual_ma",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_531212e5c849a5d08382e02c6d001c2b64d1f636eafd72a9ab6dfbba12733109.json",
+      "report_hash": "b2fb0aa3a43fabc773b9c631168cfa7de0d1d839b1023ce6b794c5b51c9a4242",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 3,
+      "family": "continuous",
+      "file_sha256": "5f5d427d5ccee5ec07442aea87b8f776e85ef93f23e05621cd5bf1440b8da873",
+      "kind": "projection",
+      "method": "dual_ma",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_2526f53f0d7c3392c7149333605a26b6565a3348bb6a65ddab132e409b8c6c40.json",
+      "report_hash": "e223c672628e72bcb703332d97675bccb4b751f25cc8b5e5aaaa44b6e6935649",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 1,
+      "family": "continuous",
+      "file_sha256": "8a25275493deb0219faf007cf495746064299fd89eb4569ade7aa9c1df169e24",
+      "kind": "projection",
+      "method": "rsi",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_b0bf35f9aa48ec359a96dbb28d7bb9e2dff4fac027a5c6f56aee88cf9ed44ca0.json",
+      "report_hash": "734a26077768da7a94882574e6b755ca13a44b0a946baa9421081581aa80bfd9",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 2,
+      "family": "continuous",
+      "file_sha256": "822ace02285a19ee3ce6b23f788a21a7cfe4a0d47d6aa03f73f9bdc5121c6d40",
+      "kind": "projection",
+      "method": "rsi",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_ecb5530a3f317ff078fb28811cdb7e6cba4037475d9093fbc9e2a4c5927d3812.json",
+      "report_hash": "950e77bba56b5cac89c268c411e3966b85ebc05b35e0accc9ace9c15cbaa2853",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "cost_factor": 3,
+      "family": "continuous",
+      "file_sha256": "5ad488c3663cba494428bcc2e209811ef1805ee860edbdac7b14f7daa0af9600",
+      "kind": "projection",
+      "method": "rsi",
+      "path": "docs/research-evidence/continuous-history-20260906/trace_edc2be13184aec1ceeaee4bab3b69e7417fe342e92dcb06156919734b58d2d9b.json",
+      "report_hash": "5f4352a6e23acd5f27afaffbbe59da1e7dc5c04321b57aa6fa01ddcaee88e9f3",
+      "runtime_source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
+    },
+    {
+      "family": "diagnostics",
+      "file_sha256": "409142d6dc5770e1e7bb39a69262ea5d3853d135c68eebf76d1f3c1e06949586",
+      "kind": "summary",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/summary.json",
+      "schema_version": "strategy-diagnostics-summary-v1"
+    },
+    {
+      "cost_factor": 0,
+      "family": "diagnostics",
+      "file_sha256": "6127391fed3df9bd43b669f3d62df50d3d093d39020002e3acd8dbaf305ea9e6",
+      "kind": "projection",
+      "method": "D0",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_370ed0a63c2afa717b647ad4f11fb8940fef16e5867b263c31fa75ad5c539a60.json",
+      "report_hash": "cb4a48678c77807c8b216b07d6bddbea1294d09b9a68ccad20cf0573f0f3c6db",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 1,
+      "family": "diagnostics",
+      "file_sha256": "6d760055450c8174c2cb9a66a92af7d857a35c689f0beb5cb48af15b7d25d403",
+      "kind": "projection",
+      "method": "D0",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_6eed5c33965471cdf72c2e7eaacbea9ffa22a141f6fbe75158b1b839c087731c.json",
+      "report_hash": "ef2e87bb8f5dbc58e4ded15d14ff81c8f6c11d38eba89872cf6b66dc28bf995c",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 2,
+      "family": "diagnostics",
+      "file_sha256": "534bd3d50da2b551c885f51f82f23fdf38ca1b80ae6c98c5b4d20889a1829170",
+      "kind": "projection",
+      "method": "D0",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_ce5e4db9d672902ff5160aa54e5bdf82ca4bb51fb56c044be7ab932a70edc228.json",
+      "report_hash": "d8d1ca7ebe2acbeea070ad3338531cc2671dea463642f354f17b3f62e6a6ad0d",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 3,
+      "family": "diagnostics",
+      "file_sha256": "c24537277bf6598a1cfc96e8565a102c0af9a563ed861758b47ce0f63df6cc01",
+      "kind": "projection",
+      "method": "D0",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_0d26541d953d920453e0c1a18eca4f02f18596cdc732619b7afc5129891e8ad3.json",
+      "report_hash": "6ddf3cd67c999a5e207143e4570610dd4e11da8e7e918c6003a3b281bb6eac12",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 0,
+      "family": "diagnostics",
+      "file_sha256": "ecb9c3bbed492fddc77d05bff2d6b6c8f3d2ae60ecafed14d0871963cfd755b9",
+      "kind": "projection",
+      "method": "D1",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_05a6f5df4006e7107a600b3c53b1b4ccd3ccc10abb1f1b9a675f400c38ca4237.json",
+      "report_hash": "300d2295e19e7cf1e2a31f491a63f9f79832899e403fafff215a4d79d291b241",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 1,
+      "family": "diagnostics",
+      "file_sha256": "beb83d2c13da3ca803958bee0f8ef530ec226bd789841fbe9b2adda58f116776",
+      "kind": "projection",
+      "method": "D1",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_1c7ec4fb65c222b15726f3bdc159083a8d032238b5283ffc619a9df4697c793f.json",
+      "report_hash": "9d5387781154bd456304f95eb95faea5a4bb953ef46d1b41c9475689915cf9a3",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 2,
+      "family": "diagnostics",
+      "file_sha256": "a5547be4691cc97d5d62d13f082242067e30fe8c619bbb3a9b88e6049c22eabc",
+      "kind": "projection",
+      "method": "D1",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_d56f3aa7448099613d2a82788e761e3c15dab90aeae4ba66d30e0941879949d0.json",
+      "report_hash": "3d316c378832ff05017121a6cb9ad470abf2ca1a010113736c04bb8ba21fc4aa",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 3,
+      "family": "diagnostics",
+      "file_sha256": "868055cd8be42bd3d91d66c727214565c6bbfc0d0c951bc3e2e9a7d4bfd37f0a",
+      "kind": "projection",
+      "method": "D1",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_59daaa792c967769cb6f2acb301c959829fcb43cd57685d29f80eb3932d5fb10.json",
+      "report_hash": "3fd96a01de03858c488d115edd6c52db1629d8ab84df4f1183488b003f5f65ee",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 0,
+      "family": "diagnostics",
+      "file_sha256": "c4c8404a177062987c8a03a09dc4a7badf6eef8d334437dd0333d8e0c7897879",
+      "kind": "projection",
+      "method": "R0",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_39b5180f35b8cf49c653ed13906748bae7c85f12cfae07f99abd8971e2932f97.json",
+      "report_hash": "b570d7d2fe742677904009205a65f4daf3404d7340db77c8ab5d0ba1a6007231",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 1,
+      "family": "diagnostics",
+      "file_sha256": "e4042598a64afcd43c6c5c44b5a401b9a8e741de510064862eed1c273415e21f",
+      "kind": "projection",
+      "method": "R0",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_bf610c50e1c5d59d41ffaab40faaa7f6eaf8e00a3eca76849509265090df24bf.json",
+      "report_hash": "4af3ddecb5695ca52414c73adef2626517be7c9d25512427225389b8f39a4e04",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 2,
+      "family": "diagnostics",
+      "file_sha256": "3f137071322967d234c1efe5bbb424775eafc37854ff898a237101813ea8d8eb",
+      "kind": "projection",
+      "method": "R0",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_0b0d4d049e25a64928c35da6c594d0dc52a852b16e904412eca508493566a553.json",
+      "report_hash": "d43e6aab0241ef0cfecdf1a6e00ef54f1f4294b6262c5fa4660054b229be6a3a",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 3,
+      "family": "diagnostics",
+      "file_sha256": "0a1faf45340c6d51d0d8ebd96a51263cf77e67fa938cca75dc578b62c4a1112c",
+      "kind": "projection",
+      "method": "R0",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_a8ed18132c911e494bd3770a641e3f42c8e7b396210bf676efe577370d183d26.json",
+      "report_hash": "39fd6d63cb72ce3f60c8a2ab87bbf70a99cd25753decc757729444428859f596",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 0,
+      "family": "diagnostics",
+      "file_sha256": "d47a53b85457db61cbaf3e7201cea276e31b23509f455bd29aaf39cffbd39283",
+      "kind": "projection",
+      "method": "R1",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_2653ce43a8618ec4d59090c823517aa3a2fc3774af924a5d2c5d5b6cef844ba5.json",
+      "report_hash": "0eb8609a8b07d6d2b7e66714503dcbbab43762b198e714635e0f990bc3e18fe0",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 1,
+      "family": "diagnostics",
+      "file_sha256": "023bce5fbbbb949b986bc9f56ff119618188acde3f289ffb45cf03bd63cdf17c",
+      "kind": "projection",
+      "method": "R1",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_bdfaed202227c9a387d74b585e41295d16b63773f0927c600d2e5694300c15d1.json",
+      "report_hash": "83ca871cbf7666f82104761889a7f9ea2838c11cfd3ad7be9f4f2d9d027483fc",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 2,
+      "family": "diagnostics",
+      "file_sha256": "14b2b96fb5ce0ed2e50c0ccf95277a91911569292a026d4efea5fd19e86831ab",
+      "kind": "projection",
+      "method": "R1",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_8483a513007ba444572e50ea1108019c4da1f98b2b30b0d6c52b2bac0640b5fe.json",
+      "report_hash": "4d4e2b33e088c6190bc153f08a432f327b38832863f5fbc83102028e8ef581f1",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "cost_factor": 3,
+      "family": "diagnostics",
+      "file_sha256": "5b4efae93e535a9536e46926ef7a2f977b8797b41895666e4e9435c1250dd2d7",
+      "kind": "projection",
+      "method": "R1",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/traces/trace_256fa2da3465fdb49e83e617092c632e4c7e0193b6071989c41c28cc1df3a457.json",
+      "report_hash": "086cc1e674a140ce184889928aef445459715c2ad3ec1e475f01493ee0096b84",
+      "runtime_source_sha256": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+    },
+    {
+      "family": "diagnostics",
+      "file_sha256": "4153ec1cf0576b741c78c3121f6e0e9cd72828cbcfa7a1f6f16ca94a2cc372af",
+      "kind": "independent_replay_public_projection",
+      "original_summary_file_sha256": "2f7376dc7e6c4ea41d35d7a60dd13da276bbbce6e0f47cda53a7a0d279e24ee1",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/replay-summary.json",
+      "projection_hash": "515bfac43e920bc05a89d528648ec8b7810fae58e1066b1cc6d74718bbe26a5e",
+      "schema_version": "strategy-diagnostics-replay-public-v1"
+    },
+    {
+      "family": "diagnostics",
+      "file_sha256": "7b0038eab5e7a8146165004dda2ccfe4d6f41c80f68fa61b6294f92c48fb897b",
+      "kind": "input_derivation",
+      "path": "docs/research-evidence/continuous-history-20260906/input_derivation_dda2cfd7a0f44e582c9b723a2acf0686480830faa30698b8dca9161701d4f9ae.json"
+    },
+    {
+      "family": "forward",
+      "file_sha256": "f2738d824582a90fae3efb348117f37ef5ec48d7fbd8e25fdf185131ebb09083",
+      "kind": "summary",
+      "path": "docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+      "schema_version": "forward-reliability-coverage-v1"
+    },
+    {
+      "family": "continuous_verification",
+      "file_sha256": "0503c1ea572263c331b79bba32ea67927041d0255dbfe661767d58c9a920fd83",
+      "kind": "summary",
+      "path": "docs/research-evidence/continuous-history-20260906/verification_ebca694f42310e3dc86005f61a5537341b983a2d6fc3b6c011f0cb74e199f818.json",
+      "schema_version": "continuous-history-independent-verification-v1"
+    },
+    {
+      "family": "performance_scope",
+      "file_sha256": "d25fb85ea5ef63ff812deecf3f70472d31f7da0aadef8190e5cf5187e975ed0f",
+      "kind": "reviewed_narrative_source",
+      "path": "docs/research-evidence/performance-repeat-20260906/README.md"
+    },
+    {
+      "family": "strategy_conclusion",
+      "file_sha256": "b4a9e37a9307fa6d5b80e42b3c31f1035688bb352a946a3c628a6c622bb14596",
+      "kind": "reviewed_narrative_source",
+      "path": "docs/research-evidence/strategy-diagnostics-20260906/README.md"
+    }
+  ],
+  "optimization_applied": false,
+  "order_allowed": false,
+  "release_status": "SEE_CURRENT_STATUS",
+  "rendered_markdown_sha256": "b0bbe0dc9ec8f1ea948fad9ea3fd035f3de30c8fe11ab8f07e4328cc1f036370",
+  "schema_version": "research-view-inputs-v1",
+  "source_versions": {
+    "0.2.1": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+    "0.2.2": "f657a07534061e7d03d2922b1fc1a69eeea04751a7a6201ac961ee55e76cf767"
+  }
+}
