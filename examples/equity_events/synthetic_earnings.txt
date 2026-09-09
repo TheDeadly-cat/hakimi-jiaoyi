@@ -1,0 +1,5 @@
+SYNTHETIC TEST FIXTURE. This is not an actual company announcement.
+TEST Corporation published this fixture at 2024-11-29T18:05:00Z.
+Fiscal 2024 Q3 revenue was USD 120 million on a GAAP basis.
+Fiscal 2024 Q3 diluted EPS was USD 1.25 on a GAAP basis.
+No analyst consensus or future guidance is provided in this fixture.

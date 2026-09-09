@@ -107,3 +107,7 @@ docs/studies/strategy-diagnostics-plan-20260906.json -text diff merge whitespace
 
 # Accepted wheels keep their exact bytes and use binary review/merge semantics.
 docs/research-evidence/**/*.whl binary
+
+# Equity example specs bind the original manifest/CSV/event bytes on every OS.
+examples/equity_research/* -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+examples/equity_events/* -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol

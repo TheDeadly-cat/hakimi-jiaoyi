@@ -376,7 +376,7 @@ class _BacktestEngineCore:
             })
 
         pending_signal = strategy.generate_signal(data.iloc[:start_index], portfolio)
-        pending_signal_time = str(data.index[start_index - 1])
+        pending_signal_time = self._signal_time(data.index[start_index - 1])
         record_signal(pending_signal, pending_signal_time, seeds_score=True)
         for index in range(start_index, end_index):
             window = data.iloc[:index + 1]
@@ -465,7 +465,7 @@ class _BacktestEngineCore:
             })
             if index + 1 < end_index:
                 pending_signal = strategy.generate_signal(window, portfolio)
-                pending_signal_time = fill_time
+                pending_signal_time = self._signal_time(data.index[index])
                 record_signal(pending_signal, pending_signal_time)
         equity_values = pd.Series([point["equity"] for point in equity_curve], dtype=float)
         # Do not fill the initial undefined return with zero: the n scored bars
@@ -535,7 +535,7 @@ class _BacktestEngineCore:
             "start_inclusive": start_index, "end_exclusive": end_index,
             "warmup_rows": start_index, "scored_bar_count": end_index - start_index,
             "start_time": str(data.index[start_index]), "end_time": equity_curve[-1]["time"],
-            "seed_signal_time": str(data.index[start_index - 1]),
+            "seed_signal_time": self._signal_time(data.index[start_index - 1]),
             "warmup_policy": "CONTEXT_ONLY_NO_TRADES_FEES_OR_SCORED_RETURNS",
         }
         report = BacktestReport(
@@ -571,6 +571,11 @@ class _BacktestEngineCore:
             context=self._experiment_context,
         )
         return report
+
+    def _signal_time(self, value: object) -> str:
+        # Preserve the original BTC bar label. Explicit market-session adapters
+        # can supply an observation clock without duplicating the trading loop.
+        return str(value)
 
     def _close_time(self, value: object) -> str:
         if isinstance(value, pd.Timestamp):

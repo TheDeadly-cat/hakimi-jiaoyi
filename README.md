@@ -2,15 +2,16 @@
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
 
-本地、可安装、可重放的研究软件。正式 MVP 聚焦 **BTC-USDT 现货 / 1h / 现货与现金 / 固定参数 / CLI**。
-固定快照经唯一的 `ExperimentRunner` 生成账本、指标和来源报告。
+本地、可安装、可重放的研究软件。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
+已发布的 v0.2.1 聚焦 BTC-USDT 现货 / 1h；本开发分支 0.3.0.dev1 增加美股日线与事件时间研究入口，状态为 Experimental，尚未正式发布。
+两个市场复用同一成交与记账引擎，快照、交易日历及报告分别保存明确的格式与身份。
 历史模拟不授予 paper、live、账户操作、下单或自动参数选择权限。
 
 ## 安装与输出目录
 
 正式版本从 [v0.2.1 Release](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1) 下载 Windows 或 Ubuntu ZIP；核对发布页的 `SHA256SUMS.txt` 后解压，再核对包内校验和。两个 ZIP 各自保留确切受验收 wheel 与构建、依赖、测试证据；安装解压出的 `hakimi_research-0.2.1-py3-none-any.whl` 会按精确版本安装依赖，离线安装需另备依赖 wheel。该版本固定在 `45850899992361970043f2da70e785210025ae9e`，[发布下载与安装验收](docs/research-evidence/release-0.2.1-20260909/README.md)记录实际验证范围。
 
-以下源码开发流程对应当前 0.2.2 开发版本；它与已发布的 0.2.1 分别保留来源和研究结果。
+以下源码开发流程对应 0.3.0.dev1 开发版本；它与已发布的 0.2.1、历史 0.2.2 研究分别保留来源和结果。
 
 开发环境在仓库根目录安装精确依赖与 editable 包：
 
@@ -29,7 +30,7 @@ hakimi-research list-strategies
 python -m pip install "setuptools>=77" wheel
 python -m pip wheel . --no-deps --no-build-isolation --wheel-dir dist
 python -m venv ..\hakimi-research-use\hakimi-env
-..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.2.2-py3-none-any.whl
+..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.3.0.dev1-py3-none-any.whl
 Set-Location ..\hakimi-research-use
 .\hakimi-env\Scripts\hakimi-research.exe capabilities
 ```
@@ -41,7 +42,22 @@ Set-Location ..\hakimi-research-use
 未指定 `--output-dir` 时，使用 `HAKIMI_RESEARCH_HOME`；该变量未配置时使用用户目录的 `.hakimi-research`。
 快照、报告、重放回执分别写入 `datasets`、`reports`、`replays`。解析默认路径不创建目录，运行数据不写入安装包目录。
 
-## 固定快照到报告
+## 美股日线与事件研究开发预览
+
+`hakimi-equity-research` 接收本地 CSV、完整交易日历、证券身份和公司行为覆盖声明；事件保留原文、版本、公开时间与实际或假设的可用时间。盘前、盘后、周末和节假日不补造行情；只有收盘加声明延迟后，日线信号才可用。
+
+下面的完整示例要求使用已普通安装本开发版 wheel 的 Python；editable 开发环境会被示例验收工具拒绝。
+
+```powershell
+hakimi-equity-research capabilities
+python tools/run_equity_example.py --examples-root examples --ledger-script scripts/reconcile_research_ledger.py --output-dir artifacts/equity-example
+```
+
+示例使用虚构证券及公告，验证安装、快照、研究、重放、独立 Decimal 账本和事件时间对齐。操作说明见[完整合成示例](examples/equity_research/README.md)，当前范围与后续对照计划见[股票主线开发记录](docs/equity-foundation-20260909.md)。
+
+当前经济回放仅接受身份稳定、明确声明公司行为覆盖完整且窗口内没有公司行为的数据；拆股、分红等记账尚未实现，相关窗口拒绝计算。尚无真实股票研究结论、事件收益对照或券商接入；下单权限保持关闭。
+
+## BTC 固定快照到报告
 
 先导入本地采集 JSON，再绑定显式实验规约、运行研究、只读查看和离线重放：
 

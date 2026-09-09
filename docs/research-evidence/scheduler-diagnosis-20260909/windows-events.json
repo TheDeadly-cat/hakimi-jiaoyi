@@ -1,0 +1,395 @@
+{
+  "events": [
+    {
+      "event_id": 1,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "45407e17d61abadf89decefc08b6a3f8e9bde02ae8609b6516ae8128d6ab4daa",
+      "record_id": 100132,
+      "selected_event_data": {
+        "NewTime": "2026-09-05T21:25:04.9143092Z",
+        "OldTime": "2026-09-05T21:25:04.9050891Z",
+        "Reason": "1"
+      },
+      "time_created_utc": "2026-09-05T21:25:04.9162378Z"
+    },
+    {
+      "event_id": 6006,
+      "log_name": "System",
+      "provider": "EventLog",
+      "raw_xml_utf8_sha256": "2ed36ffffa69715d8bf4cf67d77aa9ad8be7c6cb6c8c65fca9ea4b1666e19df6",
+      "record_id": 100127,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-05T21:25:04.9332901Z"
+    },
+    {
+      "event_id": 109,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-Power",
+      "raw_xml_utf8_sha256": "ece3430a5fda1acfe5248e4a5c71630a755c7a3f62870159db3d06bfc64c80a0",
+      "record_id": 100147,
+      "selected_event_data": {
+        "ShutdownActionType": "6",
+        "ShutdownEventCode": "0",
+        "ShutdownReason": "5"
+      },
+      "time_created_utc": "2026-09-05T21:25:09.8866892Z"
+    },
+    {
+      "event_id": 13,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "434ab001b713f66539c312cd7a9171753cf28381e80b985f1e25f0802ae628d8",
+      "record_id": 100149,
+      "selected_event_data": {
+        "StopTime": "2026-09-05T21:25:10.7034246Z"
+      },
+      "time_created_utc": "2026-09-05T21:25:10.7034252Z"
+    },
+    {
+      "event_id": 12,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "779902903bd92802930c6df665d269e823613367b385ea4adb9be30bb80aa422",
+      "record_id": 100150,
+      "selected_event_data": {
+        "BootMode": "0",
+        "StartTime": "2026-09-06T04:58:02.5000000Z"
+      },
+      "time_created_utc": "2026-09-06T04:58:02.9860731Z"
+    },
+    {
+      "event_id": 6005,
+      "log_name": "System",
+      "provider": "EventLog",
+      "raw_xml_utf8_sha256": "92ef0ddbe72efcaf9b0f92b7cc631b32b7d231d8af061474e4973454e098348e",
+      "record_id": 100139,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-06T04:58:12.4389205Z"
+    },
+    {
+      "event_id": 10000,
+      "log_name": "Microsoft-Windows-NetworkProfile/Operational",
+      "provider": "Microsoft-Windows-NetworkProfile",
+      "raw_xml_utf8_sha256": "91293d14a8c96946f78dbf0d5586eddc6f897f526e4559f6fa6f9036382ab11d",
+      "record_id": 16172,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-06T04:58:12.4847195Z"
+    },
+    {
+      "event_id": 10000,
+      "log_name": "Microsoft-Windows-NetworkProfile/Operational",
+      "provider": "Microsoft-Windows-NetworkProfile",
+      "raw_xml_utf8_sha256": "debfb1858957c6db205a82c04f9163da56157c62a16e0b15ff7d4dca2cf43ce2",
+      "record_id": 16174,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-06T04:58:12.7724623Z"
+    },
+    {
+      "event_id": 1,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "83d5d0cc6981e286ebcc6b8f283d5b18667d6f037a76c1959f365cf964758e38",
+      "record_id": 100330,
+      "selected_event_data": {
+        "NewTime": "2026-09-06T09:33:37.0935434Z",
+        "OldTime": "2026-09-06T09:33:36.0081718Z",
+        "Reason": "1"
+      },
+      "time_created_utc": "2026-09-06T09:33:37.0955171Z"
+    },
+    {
+      "event_id": 1,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "af41bd62a0c8044572b4509f0513d2c33c7c8a9e5238154123b3a52dedc900b2",
+      "record_id": 100333,
+      "selected_event_data": {
+        "NewTime": "2026-09-06T09:33:37.0961687Z",
+        "OldTime": "2026-09-06T09:33:37.0954579Z",
+        "Reason": "1"
+      },
+      "time_created_utc": "2026-09-06T09:33:37.0981645Z"
+    },
+    {
+      "event_id": 1,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "961f2c9ec4954d53892739207a7de8740c1a111a28dad1000be0a4e31ed39cbe",
+      "record_id": 100381,
+      "selected_event_data": {
+        "NewTime": "2026-09-07T05:51:44.2915294Z",
+        "OldTime": "2026-09-07T05:51:44.2828502Z",
+        "Reason": "1"
+      },
+      "time_created_utc": "2026-09-07T05:51:44.2935070Z"
+    },
+    {
+      "event_id": 6006,
+      "log_name": "System",
+      "provider": "EventLog",
+      "raw_xml_utf8_sha256": "e09da7860dba33a25b122842d65cb74cdda78a31a56278dd7f67d8b43614c048",
+      "record_id": 100377,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-07T05:51:44.3086127Z"
+    },
+    {
+      "event_id": 109,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-Power",
+      "raw_xml_utf8_sha256": "d2a49ffb29ac92368e8270f331c2cf20e4abe8879aeae6a70740abcbe2061577",
+      "record_id": 100396,
+      "selected_event_data": {
+        "ShutdownActionType": "6",
+        "ShutdownEventCode": "0",
+        "ShutdownReason": "5"
+      },
+      "time_created_utc": "2026-09-07T05:51:45.4900764Z"
+    },
+    {
+      "event_id": 13,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "3319b60b80807f8d87ea8005fa196ceb2cf92f895f0677748ba73904fa20c9f6",
+      "record_id": 100398,
+      "selected_event_data": {
+        "StopTime": "2026-09-07T05:51:46.6464024Z"
+      },
+      "time_created_utc": "2026-09-07T05:51:46.6464031Z"
+    },
+    {
+      "event_id": 12,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "f910cb5f700e0cf1845a08cf5a428cc40e9ac4cb994a17d7d46a3d501e88087c",
+      "record_id": 100399,
+      "selected_event_data": {
+        "BootMode": "0",
+        "StartTime": "2026-09-07T08:09:02.5000000Z"
+      },
+      "time_created_utc": "2026-09-07T08:09:02.8381342Z"
+    },
+    {
+      "event_id": 6005,
+      "log_name": "System",
+      "provider": "EventLog",
+      "raw_xml_utf8_sha256": "4b6279946a3639f014003f451907d98b147a20023eabdaced450c45533ae3576",
+      "record_id": 100388,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-07T08:09:12.4661791Z"
+    },
+    {
+      "event_id": 10000,
+      "log_name": "Microsoft-Windows-NetworkProfile/Operational",
+      "provider": "Microsoft-Windows-NetworkProfile",
+      "raw_xml_utf8_sha256": "b2280d7da02dde3576fa1ecbd00302b5c2b74f6a1e7bc323073db8b47a8ff6a2",
+      "record_id": 16184,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-07T08:09:12.5295663Z"
+    },
+    {
+      "event_id": 10000,
+      "log_name": "Microsoft-Windows-NetworkProfile/Operational",
+      "provider": "Microsoft-Windows-NetworkProfile",
+      "raw_xml_utf8_sha256": "e7903c97e8f69df4adac8f817e2e222986f1829ec51db12026a524d48b64e99c",
+      "record_id": 16186,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-07T08:09:12.8242251Z"
+    },
+    {
+      "event_id": 1,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "75e6d0de9c76d73360856c16e4ceafc5db4f13af358e5608b7e1eafdac62b165",
+      "record_id": 100676,
+      "selected_event_data": {
+        "NewTime": "2026-09-08T23:59:37.1865471Z",
+        "OldTime": "2026-09-08T23:59:37.1790460Z",
+        "Reason": "1"
+      },
+      "time_created_utc": "2026-09-08T23:59:37.1885436Z"
+    },
+    {
+      "event_id": 6006,
+      "log_name": "System",
+      "provider": "EventLog",
+      "raw_xml_utf8_sha256": "7e64250dc14711e7cb1387a18995735f8b6af908b5516da796dad4bb97a35b31",
+      "record_id": 100674,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-08T23:59:37.2061841Z"
+    },
+    {
+      "event_id": 109,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-Power",
+      "raw_xml_utf8_sha256": "7f663037b4ed72ba8abab409089c542a9a4e507ecacfcf6db670d88d41f25d9f",
+      "record_id": 100691,
+      "selected_event_data": {
+        "ShutdownActionType": "5",
+        "ShutdownEventCode": "0",
+        "ShutdownReason": "5"
+      },
+      "time_created_utc": "2026-09-08T23:59:38.4269961Z"
+    },
+    {
+      "event_id": 13,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "7be1eb66ee4f384cfb41dd2141d765fdf7d37bb696b195922616825dc6761019",
+      "record_id": 100693,
+      "selected_event_data": {
+        "StopTime": "2026-09-08T23:59:49.6936802Z"
+      },
+      "time_created_utc": "2026-09-08T23:59:49.6936809Z"
+    },
+    {
+      "event_id": 12,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "ec88a5dab86b00fd2910e6d4e11cca9a54981c0f2b1d96be60e981326352ce82",
+      "record_id": 100694,
+      "selected_event_data": {
+        "BootMode": "0",
+        "StartTime": "2026-09-09T00:00:17.5000000Z"
+      },
+      "time_created_utc": "2026-09-09T00:00:17.9741041Z"
+    },
+    {
+      "event_id": 6005,
+      "log_name": "System",
+      "provider": "EventLog",
+      "raw_xml_utf8_sha256": "66b1fa558aef499abf4e81180f22737774b3caa74dc21f0261dbcb242325c57d",
+      "record_id": 100683,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-09T00:00:30.6455348Z"
+    },
+    {
+      "event_id": 10000,
+      "log_name": "Microsoft-Windows-NetworkProfile/Operational",
+      "provider": "Microsoft-Windows-NetworkProfile",
+      "raw_xml_utf8_sha256": "a20448db531ad50fff627ee941b25d1301a21c36b78fd91b65c2a9591f5ef692",
+      "record_id": 16197,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-09T00:00:30.6946948Z"
+    },
+    {
+      "event_id": 10000,
+      "log_name": "Microsoft-Windows-NetworkProfile/Operational",
+      "provider": "Microsoft-Windows-NetworkProfile",
+      "raw_xml_utf8_sha256": "085f383e36a6d72616cc0dbbf3e4b7511d1d612c3095829c83989c695dca3db5",
+      "record_id": 16199,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-09T00:00:30.9656326Z"
+    },
+    {
+      "event_id": 10000,
+      "log_name": "Microsoft-Windows-NetworkProfile/Operational",
+      "provider": "Microsoft-Windows-NetworkProfile",
+      "raw_xml_utf8_sha256": "e6389e6d7d5dc89803226e49d1170a4d5f250875af7ee7b08167835bff9ece91",
+      "record_id": 16203,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-09T00:00:35.0822000Z"
+    },
+    {
+      "event_id": 6006,
+      "log_name": "System",
+      "provider": "EventLog",
+      "raw_xml_utf8_sha256": "85807f48cb993879fa9b4a3100a979cfbd6380f35535345e75e16466e43f8c5b",
+      "record_id": 100825,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-09T00:00:43.0269985Z"
+    },
+    {
+      "event_id": 109,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-Power",
+      "raw_xml_utf8_sha256": "01e75be05323701be8545ef0e06b0bd88c0522db9f802c22cde7ec5252bf5476",
+      "record_id": 100838,
+      "selected_event_data": {
+        "ShutdownActionType": "5",
+        "ShutdownEventCode": "0",
+        "ShutdownReason": "5"
+      },
+      "time_created_utc": "2026-09-09T00:00:48.0114182Z"
+    },
+    {
+      "event_id": 13,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "078826fcf76d93a1e4a81253383bcf6f9ab5cf2979f0c99811204dd9d3b73538",
+      "record_id": 100840,
+      "selected_event_data": {
+        "StopTime": "2026-09-09T00:00:48.6720454Z"
+      },
+      "time_created_utc": "2026-09-09T00:00:48.6720461Z"
+    },
+    {
+      "event_id": 12,
+      "log_name": "System",
+      "provider": "Microsoft-Windows-Kernel-General",
+      "raw_xml_utf8_sha256": "4f4350d3305f2097fbf7a50c8201855e4d17df58909c58640d2974b9825def9b",
+      "record_id": 100841,
+      "selected_event_data": {
+        "BootMode": "0",
+        "StartTime": "2026-09-09T00:01:16.5000000Z"
+      },
+      "time_created_utc": "2026-09-09T00:01:16.9739497Z"
+    },
+    {
+      "event_id": 6005,
+      "log_name": "System",
+      "provider": "EventLog",
+      "raw_xml_utf8_sha256": "45a93e81fc7b8f5479d94c5b59a0917dad8a4a567163a651f0d9a47796adec96",
+      "record_id": 100832,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-09T00:01:27.3949780Z"
+    },
+    {
+      "event_id": 10000,
+      "log_name": "Microsoft-Windows-NetworkProfile/Operational",
+      "provider": "Microsoft-Windows-NetworkProfile",
+      "raw_xml_utf8_sha256": "cfd761369916fdfb273e9a8fe1b79d10aa33c4bec3c94e1d0fd34fabbc0a2c9c",
+      "record_id": 16209,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-09T00:01:27.4262559Z"
+    },
+    {
+      "event_id": 10000,
+      "log_name": "Microsoft-Windows-NetworkProfile/Operational",
+      "provider": "Microsoft-Windows-NetworkProfile",
+      "raw_xml_utf8_sha256": "72ee60454642a149eabfbf2944f73ec603cf5e935a2461a12d05d2de4287260b",
+      "record_id": 16211,
+      "selected_event_data": {},
+      "time_created_utc": "2026-09-09T00:01:27.7142369Z"
+    }
+  ],
+  "extracted_at_utc": "2026-09-09T06:57:18.1258698Z",
+  "privacy": "Raw event XML, computer identity, user identity, interface/profile identifiers and rendered messages are excluded. Raw XML hashes identify local records; this projection is not an exported EVTX file.",
+  "public_projection_notice": "A selected, sanitized projection, not original EVTX/XML. Source XML hashes identify local records; no host/user/profile identities or raw messages are published.",
+  "query_end_exclusive_utc": "2026-09-09T07:00:00Z",
+  "query_start_utc": "2026-09-05T14:00:00Z",
+  "schema_version": "bounded-windows-event-projection-v1",
+  "source_local_projection_sha256": "ebd4b01b6a4d4fa5b1989916208e2e665105543aa8e2eafb432d222892760c0b",
+  "sources": [
+    {
+      "enabled_now": true,
+      "log_mode": "Circular",
+      "log_name": "System",
+      "oldest_retained_time_utc": "2026-05-02T04:14:13.5073154Z",
+      "record_count_now": 38423
+    },
+    {
+      "enabled_now": true,
+      "log_mode": "Circular",
+      "log_name": "Microsoft-Windows-NetworkProfile/Operational",
+      "oldest_retained_time_utc": "2026-05-29T14:29:00.2952555Z",
+      "record_count_now": 2176
+    }
+  ],
+  "task_scheduler_operational": {
+    "enabled_now": false,
+    "historical_enabled_status": "UNKNOWN",
+    "no_log_configuration_was_changed": true,
+    "record_count_now": null
+  }
+}

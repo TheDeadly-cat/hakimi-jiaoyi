@@ -57,9 +57,25 @@ def _reconcile(report, snapshot):
     spec, result = report["spec"], report["result"]
     condition("snapshot_identity", report["dataset"]["snapshot_id"] == snapshot["snapshot_id"] == spec["snapshot_id"])
     condition("normalized_data_identity", report["dataset"]["data_hash"] == snapshot["data_hash"])
-    start, end = stamp(spec["score_start"]), stamp(spec["score_end"])
+    equity_sessions = snapshot.get("schema_version") == "us-equity-daily-snapshot-v1"
+    if equity_sessions != (report.get("schema_version") == "us-equity-research-report-v1"):
+        raise ValueError("equity_snapshot_and_report_schema_must_match")
+    session_closes = {}
+    if equity_sessions:
+        sessions = [row for row in snapshot["sessions"]
+                    if spec["score_start_session"] <= row["date"] <= spec["score_end_session"]]
+        if not sessions or snapshot["research_admission"]["allowed"] is not True:
+            raise ValueError("equity_reconciliation_requires_admitted_sessions")
+        start, end = stamp(sessions[0]["open_utc"]), stamp(sessions[-1]["close_utc"])
+        session_closes = {stamp(row["open_utc"]): stamp(row["close_utc"]) for row in sessions}
+        condition("unique_regular_sessions", len(session_closes) == len(sessions))
+    else:
+        start, end = stamp(spec["score_start"]), stamp(spec["score_end"])
     bars = [row for row in snapshot["candles"] if start <= stamp(row[0]) < end]
-    condition("hourly_score_interval_count", len(bars) == int((end - start).total_seconds() / 3600))
+    if equity_sessions:
+        condition("regular_session_bar_alignment", [stamp(row[0]) for row in bars] == list(session_closes))
+    else:
+        condition("hourly_score_interval_count", len(bars) == int((end - start).total_seconds() / 3600))
     condition("equity_observation_count", len(result["equity_curve"]) == len(bars) + 1)
     condition("return_observation_count", len(result["return_series"]) == len(bars))
     if not bars or len(result["equity_curve"]) != len(bars) + 1 or len(result["return_series"]) != len(bars):
@@ -70,6 +86,8 @@ def _reconcile(report, snapshot):
     for fill in fills:
         at = stamp(fill["fill_time"])
         condition("fill_inside_score", at in score_bar_times)
+        if equity_sessions and fill["fill_basis"] == "NEXT_BAR_OPEN":
+            condition("signal_available_before_regular_open", stamp(fill["signal_time"]) < at)
         by_bar.setdefault(at, []).append(fill)
     cash = initial = number(spec["initial_cash"])
     position = cost = entry_fees = realized = buy_fees = sell_fees = Decimal(0)
@@ -119,7 +137,8 @@ def _reconcile(report, snapshot):
         market_value = position * close
         equity = cash + market_value
         point = result["equity_curve"][index + 1]
-        condition("equity_mark_time", stamp(point["time"]) == at + timedelta(hours=1))
+        close_time = session_closes[at] if equity_sessions else at + timedelta(hours=1)
+        condition("equity_mark_time", stamp(point["time"]) == close_time)
         check("bar_equity", point["equity"], equity)
         check("bar_cash", point["cash"], cash)
         check("bar_position", point["position_qty"], position)
@@ -147,7 +166,7 @@ def _reconcile(report, snapshot):
         else:
             absent_fee_fields.append(field)
     return {
-        "schema_version": "independent-decimal-ledger-reconciliation-v1",
+        "schema_version": "independent-equity-decimal-ledger-reconciliation-v1" if equity_sessions else "independent-decimal-ledger-reconciliation-v1",
         "status": "FAIL" if failures else "PASS", "checks": len(checks), "failures": failures,
         "report_hash": report["report_hash"], "snapshot_id": snapshot["snapshot_id"],
         "score_bars": len(bars), "fill_count": len(fills),

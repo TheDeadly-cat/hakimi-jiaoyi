@@ -1,0 +1,89 @@
+{
+  "event_id": "SYNTHETIC:TEST:2024-Q3:EARNINGS",
+  "security_id": "SYNTHETIC:COMMON:TEST:2024",
+  "event_kind": "EARNINGS",
+  "version": 1,
+  "prior_version_hash": null,
+  "source": {
+    "url": "https://example.invalid/ir/test/2024-q3",
+    "kind": "SYNTHETIC_FIXTURE",
+    "document_type": "PRESS_RELEASE",
+    "disclosure_items": [],
+    "official_source_status": "DECLARED_UNVERIFIED"
+  },
+  "first_public_at": "2024-11-29T18:05:00Z",
+  "version_public_at": "2024-11-29T18:05:00Z",
+  "publication_clock": {
+    "status": "ATTESTED",
+    "verification_method": "DETERMINISTIC_SYNTHETIC_FIXTURE",
+    "evidence": "Clock appears in the synthetic raw text; this is no real publisher attestation."
+  },
+  "retrieved_at": "2026-09-09T00:00:00Z",
+  "timing": {
+    "mode": "HISTORICAL_RECONSTRUCTION",
+    "received_at": null,
+    "extraction_completed_at": "2026-09-09T00:01:00Z",
+    "collection_delay_seconds": 60,
+    "processing_delay_seconds": 60
+  },
+  "scheduled_release_at": null,
+  "facts": [
+    {
+      "name": "revenue",
+      "status": "KNOWN",
+      "value": "120",
+      "value_text": "120",
+      "scale": "1000000",
+      "currency": "USD",
+      "unit": "CURRENCY",
+      "fiscal_period": "FY2024-Q3",
+      "basis": "GAAP",
+      "evidence": [{"quote": "Fiscal 2024 Q3 revenue was USD 120 million on a GAAP basis."}],
+      "reason": null
+    },
+    {
+      "name": "diluted_eps",
+      "status": "KNOWN",
+      "value": "1.25",
+      "value_text": "1.25",
+      "scale": "1",
+      "currency": "USD",
+      "unit": "CURRENCY_PER_SHARE",
+      "fiscal_period": "FY2024-Q3",
+      "basis": "GAAP",
+      "evidence": [{"quote": "Fiscal 2024 Q3 diluted EPS was USD 1.25 on a GAAP basis."}],
+      "reason": null
+    },
+    {
+      "name": "consensus_eps",
+      "status": "MISSING",
+      "value": null,
+      "value_text": null,
+      "scale": null,
+      "currency": null,
+      "unit": null,
+      "fiscal_period": null,
+      "basis": null,
+      "evidence": [],
+      "reason": "No pre-release analyst consensus snapshot supplied; v1 does not support consensus."
+    },
+    {
+      "name": "guidance_revenue",
+      "status": "MISSING",
+      "value": null,
+      "value_text": null,
+      "scale": null,
+      "currency": null,
+      "unit": null,
+      "fiscal_period": null,
+      "basis": null,
+      "evidence": [],
+      "reason": "No future guidance supplied in the fixture."
+    }
+  ],
+  "uncertainties": [
+    "All identities, content and actual retrieval/extraction clocks in this file are synthetic fixture inputs.",
+    "Publication time is caller attested; hashes do not prove source authenticity or historical availability.",
+    "Unit, fiscal period and basis labels remain caller extractions requiring independent review."
+  ]
+}

@@ -150,6 +150,9 @@ def export_bundle(receipt: dict, output_dir: Path, *, ci_context: dict | None = 
                   "test_inputs_sha256": test_inputs,
                   "console_smoke_commands": ["--help", "capabilities", "list-strategies"]}
     _require(receipt.get("console_smoke_commands") == test_scope["console_smoke_commands"], "console smoke coverage changed")
+    if "equity_console_smoke_commands" in receipt:
+        _require(receipt["equity_console_smoke_commands"] == ["--help", "capabilities"], "equity console smoke coverage changed")
+        test_scope["equity_console_smoke_commands"] = ["--help", "capabilities"]
     files = {
         wheel.name: wheel_bytes,
         "wheel-acceptance.json": _json_bytes(public_acceptance),

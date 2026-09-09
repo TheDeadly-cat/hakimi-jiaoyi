@@ -1,0 +1,1543 @@
+{
+  "created_at_utc": "2026-09-09T07:02:31.091628Z",
+  "frozen_report": {
+    "counts": {
+      "FAILED": 0,
+      "LATE": 14,
+      "MISSING": 24,
+      "ON_TIME": 106
+    },
+    "report_hash": "1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e",
+    "source_alias": "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+    "unchanged": true
+  },
+  "frozen_wrapper_summary": {
+    "actual_delivery": "UNKNOWN",
+    "ended_receipts": 53,
+    "nonzero_exit_receipts": 0,
+    "notification_decisions": {
+      "DONT_NOTIFY": 49,
+      "NOTIFY": 4
+    },
+    "started_receipts": 53,
+    "successful_exit_but_invalid_result_receipts": 0
+  },
+  "limits": [
+    "Local System events are diagnostic evidence, not an independent uptime attestation.",
+    "TaskScheduler Operational log is currently disabled; its historical enablement state and scheduled task executions remain UNKNOWN.",
+    "NetworkProfile connection events prove profile transitions only, not OKX reachability or absence of transient packet/DNS/TLS failures.",
+    "Exact request starts, OS child process creation/termination timestamps and notification delivery acknowledgements were not recorded.",
+    "No-trigger-in-transcript is an observation about the inspected log, not proof that no scheduler elsewhere attempted work.",
+    "Successful wrappers do not fill absent cutoff rows; both strategies share one driver/capture and are not independent runtime samples.",
+    "The period after the frozen window is separately diagnosed and does not revise its 106/14/24/0 counts."
+  ],
+  "missing_cutoff_cause_counts": {
+    "MODEL_USAGE_LIMIT_PREVENTED_OBSERVER_COMMAND": 1,
+    "NO_TRIGGER_OR_EXECUTION_EVIDENCE_CAUSE_UNKNOWN": 2,
+    "OS_SHUTDOWN_INTERVAL_COVERS_SCHEDULE_AND_DEADLINE": 9
+  },
+  "outside_window_absence_difference": {
+    "current_cycle_cutoff": "2026-09-09T04:00:00Z",
+    "new_strategy_hours": [
+      {
+        "cutoff": "2026-09-09T00:00:00Z",
+        "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c"
+      },
+      {
+        "cutoff": "2026-09-09T00:00:00Z",
+        "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5"
+      },
+      {
+        "cutoff": "2026-09-09T01:00:00Z",
+        "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c"
+      },
+      {
+        "cutoff": "2026-09-09T01:00:00Z",
+        "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5"
+      },
+      {
+        "cutoff": "2026-09-09T02:00:00Z",
+        "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c"
+      },
+      {
+        "cutoff": "2026-09-09T02:00:00Z",
+        "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5"
+      },
+      {
+        "cutoff": "2026-09-09T03:00:00Z",
+        "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c"
+      },
+      {
+        "cutoff": "2026-09-09T03:00:00Z",
+        "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5"
+      }
+    ],
+    "previous_cycle_cutoff": "2026-09-08T23:00:00Z"
+  },
+  "public_projection_notice": "Selected local evidence with internal turn/command identifiers removed or hashed. This does not replace original Windows/session logs.",
+  "rows": [
+    {
+      "absence_detection": null,
+      "actual_heartbeat_events": [
+        {
+          "completion": {
+            "duration_ms": 210109,
+            "error_classification": null,
+            "persisted_at": "2026-09-05T15:07:20.249Z",
+            "source": {
+              "line_number": 2629,
+              "raw_line_including_newline_sha256": "a7d8e7381da7ca5e052ebbf81e7a63b6caf3a7c2101486898f35265c0f23a69b"
+            }
+          },
+          "persisted_at": "2026-09-05T15:03:50.143Z",
+          "source": {
+            "line_number": 2605,
+            "raw_line_including_newline_sha256": "4fbacb036e6e56d1cec29cf7a4b306570fa3202c0a6eacd1e89f193f43774111"
+          },
+          "tool_call_count_in_turn": 2,
+          "trigger_at": "2026-09-05T15:03:50.057Z"
+        }
+      ],
+      "capture_pages": [
+        {
+          "clock_semantics": "collector records retrieved_at after response.read completes; not an independently observed network timestamp",
+          "page_index": 0,
+          "raw_response_sha256": "318ab0b7d12f7ded3d3bfef7522bfac42e72bf8a69d70ecdca1c93be54d40197",
+          "request_started_at": null,
+          "request_started_evidence": "UNKNOWN_NOT_INSTRUMENTED",
+          "response_body_read_completed_at": "2026-09-05T15:05:22.651255Z"
+        }
+      ],
+      "cutoff": "2026-09-05T15:00:00Z",
+      "cycle_result": {
+        "observations": 2,
+        "order_allowed": false,
+        "replays_verified": 2,
+        "status": "RECORDED_AND_REPLAYED"
+      },
+      "deadline": "2026-09-05T15:05:00Z",
+      "evidence_based_reason": "Recorded heartbeat and signal clock prove lateness; exact process start and request start were not instrumented, so substage cause is UNKNOWN.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [
+        {
+          "actual_process_ended_at": null,
+          "actual_process_started_at": null,
+          "classification": "SCHEDULED_DRIVER",
+          "cutoff": "2026-09-05T15:00:00Z",
+          "driver_command_identity_sha256": "47e0c1569b14181e5e0589652e9715d3b0447e9d3342096b934aec62bda5420b",
+          "driver_elapsed_ms": 5735,
+          "driver_exit_code": 0,
+          "execution_evidence": "PERSISTED_TERMINAL_COMMAND",
+          "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+          "trigger_at": "2026-09-05T15:03:50.057Z",
+          "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+        }
+      ],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [
+        {
+          "backfill": false,
+          "cutoff": "2026-09-05T15:00:00Z",
+          "data_received_at": "2026-09-05T15:05:22.651255Z",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_hash": "1bdda6e3b9c2efebc4d9a1e90e9f016e04278f50c2620ecaa57c5f3a642ab6aa",
+          "signal_available_at": "2026-09-05T15:05:23.275313Z",
+          "source_alias": "runtime/forward/cycles/20260905T150000Z/observations/forward_observation_64b2fb5800dce6e5757ca6d44e08ad8070eee7e489acfec7ecb4f9362cacd7fd.json",
+          "strategy": "rsi",
+          "timing_status": "LATE"
+        },
+        {
+          "backfill": false,
+          "cutoff": "2026-09-05T15:00:00Z",
+          "data_received_at": "2026-09-05T15:05:22.651255Z",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_hash": "6a4e51056914f80ec814f7c5a57b8e59ba3ae712682a2c7a2161aba3168e5e45",
+          "signal_available_at": "2026-09-05T15:05:23.043856Z",
+          "source_alias": "runtime/forward/cycles/20260905T150000Z/observations/forward_observation_932fb5d92b4d6ce5b065b299c42d2ba747da58dbdb096e059cc622a6fe776c7f.json",
+          "strategy": "dual_ma",
+          "timing_status": "LATE"
+        }
+      ],
+      "operational_classification": "LATE_AFTER_TRIGGER_UNINSTRUMENTED_EARLY_PIPELINE",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-05T15:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260905T150000Z/captures/capture_45d81df2f0d1a90ca28ff7c208093377670ccf2e889d2067287e54104007126f.json",
+        "runtime/forward/cycles/20260905T150000Z/forward_cycle_fixed.json",
+        "runtime/forward/cycles/20260905T150000Z/forward_input_fixed.json",
+        "runtime/forward/cycles/20260905T150000Z/observations/forward_observation_64b2fb5800dce6e5757ca6d44e08ad8070eee7e489acfec7ecb4f9362cacd7fd.json",
+        "runtime/forward/cycles/20260905T150000Z/observations/forward_observation_932fb5d92b4d6ce5b065b299c42d2ba747da58dbdb096e059cc622a6fe776c7f.json"
+      ],
+      "status_per_strategy": "LATE",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": null,
+      "actual_heartbeat_events": [
+        {
+          "completion": {
+            "duration_ms": 34962,
+            "error_classification": "server_overloaded",
+            "persisted_at": "2026-09-05T16:03:26.363Z",
+            "source": {
+              "line_number": 2638,
+              "raw_line_including_newline_sha256": "8ce6e8f6b727806e2dc353acb36518ffb4328616bbc3b1dac820bf57e8be2612"
+            }
+          },
+          "persisted_at": "2026-09-05T16:02:51.455Z",
+          "source": {
+            "line_number": 2635,
+            "raw_line_including_newline_sha256": "4dd706d5b38dbeb34cfdf71e214e0963b2e9dfa3666f3e719d78bc687b3ef837"
+          },
+          "tool_call_count_in_turn": 0,
+          "trigger_at": "2026-09-05T16:02:51.344Z"
+        }
+      ],
+      "capture_pages": [
+        {
+          "clock_semantics": "collector records retrieved_at after response.read completes; not an independently observed network timestamp",
+          "page_index": 0,
+          "raw_response_sha256": "73f9bee0c39808e619730316d821f4b5e6a559507f20429a5bad15c0bb63d811",
+          "request_started_at": null,
+          "request_started_evidence": "UNKNOWN_NOT_INSTRUMENTED",
+          "response_body_read_completed_at": "2026-09-05T16:07:54.319881Z"
+        }
+      ],
+      "cutoff": "2026-09-05T16:00:00Z",
+      "cycle_result": {
+        "observations": 2,
+        "order_allowed": false,
+        "replays_verified": 2,
+        "status": "RECORDED_AND_REPLAYED"
+      },
+      "deadline": "2026-09-05T16:05:00Z",
+      "evidence_based_reason": "Recorded heartbeat and signal clock prove lateness; exact process start and request start were not instrumented, so substage cause is UNKNOWN.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [
+        {
+          "actual_process_ended_at": null,
+          "actual_process_started_at": null,
+          "classification": "SCHEDULED_DRIVER",
+          "cutoff": "2026-09-05T16:00:00Z",
+          "driver_command_identity_sha256": "603450310c9f0324a20623fe3ec0cff9d5538249d7474b5982ef4fc9532616bc",
+          "driver_elapsed_ms": 5390,
+          "driver_exit_code": 0,
+          "execution_evidence": "PERSISTED_TERMINAL_COMMAND",
+          "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+          "trigger_at": "2026-09-05T16:02:51.344Z",
+          "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+        }
+      ],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [
+        {
+          "backfill": false,
+          "cutoff": "2026-09-05T16:00:00Z",
+          "data_received_at": "2026-09-05T16:07:54.319881Z",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_hash": "aee358bb5cf454abcfa7973526f45bdad766d514d036010321fb5644c2cd9247",
+          "signal_available_at": "2026-09-05T16:07:54.717801Z",
+          "source_alias": "runtime/forward/cycles/20260905T160000Z/observations/forward_observation_0faa453fd26ca65c6bae1efd023374f6175372a20605619dba80f3e17a7a7e14.json",
+          "strategy": "dual_ma",
+          "timing_status": "LATE"
+        },
+        {
+          "backfill": false,
+          "cutoff": "2026-09-05T16:00:00Z",
+          "data_received_at": "2026-09-05T16:07:54.319881Z",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_hash": "e8024afdb07749d2c27b632ada0e57eff66a49510ffe8f5bc2d07a71b17dd3f6",
+          "signal_available_at": "2026-09-05T16:07:54.947397Z",
+          "source_alias": "runtime/forward/cycles/20260905T160000Z/observations/forward_observation_4c8123d7b4fe4c59c2418d71528282c54742c5912e9d6adf09ed616e629c3fa6.json",
+          "strategy": "rsi",
+          "timing_status": "LATE"
+        }
+      ],
+      "operational_classification": "LATE_AFTER_TRIGGER_UNINSTRUMENTED_EARLY_PIPELINE",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-05T16:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260905T160000Z/captures/capture_c770705982e7dba83c7e107aeb692fd9f1504409e3d52c04001392e75d723feb.json",
+        "runtime/forward/cycles/20260905T160000Z/forward_cycle_fixed.json",
+        "runtime/forward/cycles/20260905T160000Z/forward_input_fixed.json",
+        "runtime/forward/cycles/20260905T160000Z/observations/forward_observation_0faa453fd26ca65c6bae1efd023374f6175372a20605619dba80f3e17a7a7e14.json",
+        "runtime/forward/cycles/20260905T160000Z/observations/forward_observation_4c8123d7b4fe4c59c2418d71528282c54742c5912e9d6adf09ed616e629c3fa6.json"
+      ],
+      "status_per_strategy": "LATE",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": null,
+      "actual_heartbeat_events": [
+        {
+          "completion": {
+            "duration_ms": 43703,
+            "error_classification": null,
+            "persisted_at": "2026-09-05T20:05:39.826Z",
+            "source": {
+              "line_number": 2735,
+              "raw_line_including_newline_sha256": "9d2385e4e9c97e200e9b9be26ec674edca211370b83411d48d043fd6f860f77b"
+            }
+          },
+          "persisted_at": "2026-09-05T20:04:56.154Z",
+          "source": {
+            "line_number": 2720,
+            "raw_line_including_newline_sha256": "8421d292e8034252902a4ce2e22129e1b840595929d55bf6d3d2efb17dbc18ad"
+          },
+          "tool_call_count_in_turn": 1,
+          "trigger_at": "2026-09-05T20:04:56.075Z"
+        }
+      ],
+      "capture_pages": [
+        {
+          "clock_semantics": "collector records retrieved_at after response.read completes; not an independently observed network timestamp",
+          "page_index": 0,
+          "raw_response_sha256": "57f65f737da516a0a4c7e9a655adc0ef14f5a1a5d3f9db6f71131a259faba5a9",
+          "request_started_at": null,
+          "request_started_evidence": "UNKNOWN_NOT_INSTRUMENTED",
+          "response_body_read_completed_at": "2026-09-05T20:05:31.177741Z"
+        }
+      ],
+      "cutoff": "2026-09-05T20:00:00Z",
+      "cycle_result": {
+        "observations": 2,
+        "order_allowed": false,
+        "replays_verified": 2,
+        "status": "RECORDED_AND_REPLAYED"
+      },
+      "deadline": "2026-09-05T20:05:00Z",
+      "evidence_based_reason": "Recorded heartbeat and signal clock prove lateness; exact process start and request start were not instrumented, so substage cause is UNKNOWN.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [
+        {
+          "actual_process_ended_at": null,
+          "actual_process_started_at": null,
+          "classification": "SCHEDULED_DRIVER",
+          "cutoff": "2026-09-05T20:00:00Z",
+          "driver_command_identity_sha256": "2b5d7303b8b0b761afc49de632e5a746b1ceafa668eb98be40d880c83031c1e6",
+          "driver_elapsed_ms": 6210,
+          "driver_exit_code": 0,
+          "execution_evidence": "PERSISTED_TERMINAL_COMMAND",
+          "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+          "trigger_at": "2026-09-05T20:04:56.075Z",
+          "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+        }
+      ],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [
+        {
+          "backfill": false,
+          "cutoff": "2026-09-05T20:00:00Z",
+          "data_received_at": "2026-09-05T20:05:31.177741Z",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_hash": "cf1526c825151cc2b963ef2d69ab881140d48c1b1f1a450f69ee12f4d0190248",
+          "signal_available_at": "2026-09-05T20:05:31.515365Z",
+          "source_alias": "runtime/forward/cycles/20260905T200000Z/observations/forward_observation_3a8e887bef2f5c065bcb1d56f118759365b42df9a195c05a6c1dbb5cfa49c0af.json",
+          "strategy": "dual_ma",
+          "timing_status": "LATE"
+        },
+        {
+          "backfill": false,
+          "cutoff": "2026-09-05T20:00:00Z",
+          "data_received_at": "2026-09-05T20:05:31.177741Z",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_hash": "74c8f3facc1c625eba0b71d0586b9f460574a0bd5b909b1c5f56f668c121c14f",
+          "signal_available_at": "2026-09-05T20:05:31.716568Z",
+          "source_alias": "runtime/forward/cycles/20260905T200000Z/observations/forward_observation_b65956f546c9c10754696080508ec385378470b0e3fe9f3ab4ca1ff2492cfb6f.json",
+          "strategy": "rsi",
+          "timing_status": "LATE"
+        }
+      ],
+      "operational_classification": "LATE_AFTER_TRIGGER_UNINSTRUMENTED_EARLY_PIPELINE",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-05T20:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260905T200000Z/captures/capture_6c7ed4f63c3d75d1cb509d62fd0bdcd06ff766c82cad0f636a902edfab5eab12.json",
+        "runtime/forward/cycles/20260905T200000Z/forward_cycle_fixed.json",
+        "runtime/forward/cycles/20260905T200000Z/forward_input_fixed.json",
+        "runtime/forward/cycles/20260905T200000Z/observations/forward_observation_3a8e887bef2f5c065bcb1d56f118759365b42df9a195c05a6c1dbb5cfa49c0af.json",
+        "runtime/forward/cycles/20260905T200000Z/observations/forward_observation_b65956f546c9c10754696080508ec385378470b0e3fe9f3ab4ca1ff2492cfb6f.json"
+      ],
+      "status_per_strategy": "LATE",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-06T06:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-05T21:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-05T21:05:00Z",
+      "evidence_based_reason": "No matching heartbeat/cycle/receipt in the inspected sources. Missing records alone cannot prove sleep, network failure, or healthy execution.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "NO_TRIGGER_OR_EXECUTION_EVIDENCE_CAUSE_UNKNOWN",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-05T21:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-06T06:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-05T22:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-05T22:05:00Z",
+      "evidence_based_reason": "System shutdown/start pair covers the entire scheduled trigger through 300-second deadline. Application trigger/exit remain unrecorded.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "OS_SHUTDOWN_INTERVAL_COVERS_SCHEDULE_AND_DEADLINE",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-06T04:58:02.9860731Z",
+          "os_start_record_id": 100150,
+          "shutdown_record_id": 100149,
+          "shutdown_started_at": "2026-09-05T21:25:10.7034252Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-05T22:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-06T06:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-05T23:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-05T23:05:00Z",
+      "evidence_based_reason": "System shutdown/start pair covers the entire scheduled trigger through 300-second deadline. Application trigger/exit remain unrecorded.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "OS_SHUTDOWN_INTERVAL_COVERS_SCHEDULE_AND_DEADLINE",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-06T04:58:02.9860731Z",
+          "os_start_record_id": 100150,
+          "shutdown_record_id": 100149,
+          "shutdown_started_at": "2026-09-05T21:25:10.7034252Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-05T23:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-06T06:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-06T00:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-06T00:05:00Z",
+      "evidence_based_reason": "System shutdown/start pair covers the entire scheduled trigger through 300-second deadline. Application trigger/exit remain unrecorded.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "OS_SHUTDOWN_INTERVAL_COVERS_SCHEDULE_AND_DEADLINE",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-06T04:58:02.9860731Z",
+          "os_start_record_id": 100150,
+          "shutdown_record_id": 100149,
+          "shutdown_started_at": "2026-09-05T21:25:10.7034252Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-06T00:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-06T06:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-06T01:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-06T01:05:00Z",
+      "evidence_based_reason": "System shutdown/start pair covers the entire scheduled trigger through 300-second deadline. Application trigger/exit remain unrecorded.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "OS_SHUTDOWN_INTERVAL_COVERS_SCHEDULE_AND_DEADLINE",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-06T04:58:02.9860731Z",
+          "os_start_record_id": 100150,
+          "shutdown_record_id": 100149,
+          "shutdown_started_at": "2026-09-05T21:25:10.7034252Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-06T01:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-06T06:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-06T02:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-06T02:05:00Z",
+      "evidence_based_reason": "System shutdown/start pair covers the entire scheduled trigger through 300-second deadline. Application trigger/exit remain unrecorded.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "OS_SHUTDOWN_INTERVAL_COVERS_SCHEDULE_AND_DEADLINE",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-06T04:58:02.9860731Z",
+          "os_start_record_id": 100150,
+          "shutdown_record_id": 100149,
+          "shutdown_started_at": "2026-09-05T21:25:10.7034252Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-06T02:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-06T06:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-06T03:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-06T03:05:00Z",
+      "evidence_based_reason": "System shutdown/start pair covers the entire scheduled trigger through 300-second deadline. Application trigger/exit remain unrecorded.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "OS_SHUTDOWN_INTERVAL_COVERS_SCHEDULE_AND_DEADLINE",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-06T04:58:02.9860731Z",
+          "os_start_record_id": 100150,
+          "shutdown_record_id": 100149,
+          "shutdown_started_at": "2026-09-05T21:25:10.7034252Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-06T03:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-06T06:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-06T04:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-06T04:05:00Z",
+      "evidence_based_reason": "System shutdown/start pair covers the entire scheduled trigger through 300-second deadline. Application trigger/exit remain unrecorded.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "OS_SHUTDOWN_INTERVAL_COVERS_SCHEDULE_AND_DEADLINE",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-06T04:58:02.9860731Z",
+          "os_start_record_id": 100150,
+          "shutdown_record_id": 100149,
+          "shutdown_started_at": "2026-09-05T21:25:10.7034252Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-06T04:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-06T06:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [
+        {
+          "completion": {
+            "duration_ms": 2550,
+            "error_classification": "usage_limit_exceeded",
+            "persisted_at": "2026-09-06T05:01:10.612Z",
+            "source": {
+              "line_number": 2744,
+              "raw_line_including_newline_sha256": "c9726b989f39cc5584d20b71153508fb53baca08791c33015164ba440178710c"
+            }
+          },
+          "persisted_at": "2026-09-06T05:01:08.793Z",
+          "source": {
+            "line_number": 2741,
+            "raw_line_including_newline_sha256": "1f5f1b8fb1c9ebe2666dee7a6820228d8947cbbc6a61712c2839f747cf4ec1c7"
+          },
+          "tool_call_count_in_turn": 0,
+          "trigger_at": "2026-09-06T05:01:08.022Z"
+        }
+      ],
+      "capture_pages": [],
+      "cutoff": "2026-09-06T05:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-06T05:05:00Z",
+      "evidence_based_reason": "Persisted heartbeat followed by task_complete usage_limit_exceeded and zero tool calls in that turn; no cycle/observation receipt exists.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [
+        {
+          "actual_process_ended_at": null,
+          "actual_process_started_at": null,
+          "classification": "TRIGGER_WITHOUT_EXECUTION_EVIDENCE",
+          "cutoff": "2026-09-06T05:00:00Z",
+          "driver_elapsed_ms": null,
+          "driver_exit_code": null,
+          "execution_evidence": "NO_EXECUTION_OBSERVED",
+          "process_clock_evidence": "UNAVAILABLE_DO_NOT_SUBSTITUTE_TURN_TIMES",
+          "trigger_at": "2026-09-06T05:01:08.022Z",
+          "trigger_evidence": "PERSISTED_CODEX_HEARTBEAT_EVENT"
+        }
+      ],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "MODEL_USAGE_LIMIT_PREVENTED_OBSERVER_COMMAND",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-06T05:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T060000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-06T09:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260906T090000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-06T08:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-06T08:05:00Z",
+      "evidence_based_reason": "No matching heartbeat/cycle/receipt in the inspected sources. Missing records alone cannot prove sleep, network failure, or healthy execution.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "NO_TRIGGER_OR_EXECUTION_EVIDENCE_CAUSE_UNKNOWN",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-06T08:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T090000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": null,
+      "actual_heartbeat_events": [
+        {
+          "completion": {
+            "duration_ms": 129741,
+            "error_classification": null,
+            "persisted_at": "2026-09-06T09:12:30.175Z",
+            "source": {
+              "line_number": 4304,
+              "raw_line_including_newline_sha256": "9c3c6d635d42a517e1476cb2a82fd70dd989f816cc2e6fd7103c4b91d80089c6"
+            }
+          },
+          "persisted_at": "2026-09-06T09:10:20.475Z",
+          "source": {
+            "line_number": 4275,
+            "raw_line_including_newline_sha256": "354fc6a5b6f5f07b24b0a49e8d843509a3e65842ee3b9f6b53daa4bf506b03e7"
+          },
+          "tool_call_count_in_turn": 3,
+          "trigger_at": "2026-09-06T09:10:20.391Z"
+        }
+      ],
+      "capture_pages": [
+        {
+          "clock_semantics": "collector records retrieved_at after response.read completes; not an independently observed network timestamp",
+          "page_index": 0,
+          "raw_response_sha256": "c6633998ecffddf0061934969d814601624fd46a401d37e27d7094863e67d6f6",
+          "request_started_at": null,
+          "request_started_evidence": "UNKNOWN_NOT_INSTRUMENTED",
+          "response_body_read_completed_at": "2026-09-06T09:11:27.413008Z"
+        }
+      ],
+      "cutoff": "2026-09-06T09:00:00Z",
+      "cycle_result": {
+        "observations": 2,
+        "order_allowed": false,
+        "replays_verified": 2,
+        "status": "RECORDED_AND_REPLAYED"
+      },
+      "deadline": "2026-09-06T09:05:00Z",
+      "evidence_based_reason": "The recorded trigger-to-wrapper delay already consumed the deadline before the collector child launched; exact queue/model/tool contribution is UNKNOWN.",
+      "execution_attempts": [
+        {
+          "attempt_id": "20260906T091124244844Z_d3ed98ade2ad434b996aa5ef3af801d3",
+          "child_elapsed_seconds": 3.685152,
+          "child_launch_boundary_at": "2026-09-06T09:11:24.419308Z",
+          "child_wait_completed_at": "2026-09-06T09:11:28.104460Z",
+          "classification": "FIRST_ATTEMPT",
+          "exit_code": 0,
+          "notification": {
+            "decision": "NOTIFY",
+            "delivery_status": "NOT_RECORDED",
+            "reasons": [
+              "late_observation"
+            ]
+          },
+          "observations": 2,
+          "process_clock_semantics": "wrapper wall clock and before/after child invocation boundaries; not OS process creation/termination telemetry",
+          "replays_verified": 2,
+          "status": "RECORDED_AND_REPLAYED",
+          "trigger_at": "2026-09-06T09:10:20.391Z",
+          "trigger_kind": "SCHEDULED",
+          "trigger_to_wrapper_start_seconds": 63.853844,
+          "wrapper_function_started_at": "2026-09-06T09:11:24.244844Z",
+          "wrapper_record_ended_at": "2026-09-06T09:11:28.111804Z"
+        }
+      ],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [
+        {
+          "backfill": false,
+          "cutoff": "2026-09-06T09:00:00Z",
+          "data_received_at": "2026-09-06T09:11:27.413008Z",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_hash": "00592a8115ce6508b29f3999d06a98ac7e5750bfce9b275d577f0f2997fe5dfb",
+          "signal_available_at": "2026-09-06T09:11:27.930178Z",
+          "source_alias": "runtime/forward/cycles/20260906T090000Z/observations/forward_observation_1a54627d88f02c17fbfb5a35dc2ba575c200aea687083c5ae017a0524a847983.json",
+          "strategy": "rsi",
+          "timing_status": "LATE"
+        },
+        {
+          "backfill": false,
+          "cutoff": "2026-09-06T09:00:00Z",
+          "data_received_at": "2026-09-06T09:11:27.413008Z",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_hash": "633075b9cba40fa02a661bf26b30fded29f9fd01957242c5776b059e0a6f7948",
+          "signal_available_at": "2026-09-06T09:11:27.734928Z",
+          "source_alias": "runtime/forward/cycles/20260906T090000Z/observations/forward_observation_7683c2f2904470222f80ab76e6154fb5e381769f3f663d85588f9d5db1a55f32.json",
+          "strategy": "dual_ma",
+          "timing_status": "LATE"
+        }
+      ],
+      "operational_classification": "LATE_BEFORE_OBSERVER_CHILD_LAUNCH",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-06T09:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T090000Z/captures/capture_075029c534a6f368ebd6b261869b786e11ed75a9eb259656ebf880f54056856b.json",
+        "runtime/forward/cycles/20260906T090000Z/forward_cycle_fixed.json",
+        "runtime/forward/cycles/20260906T090000Z/forward_input_fixed.json",
+        "runtime/forward/cycles/20260906T090000Z/observations/forward_observation_1a54627d88f02c17fbfb5a35dc2ba575c200aea687083c5ae017a0524a847983.json",
+        "runtime/forward/cycles/20260906T090000Z/observations/forward_observation_7683c2f2904470222f80ab76e6154fb5e381769f3f663d85588f9d5db1a55f32.json",
+        "runtime/forward/reliability/attempts/20260906T091124244844Z_d3ed98ade2ad434b996aa5ef3af801d3/ended.json",
+        "runtime/forward/reliability/attempts/20260906T091124244844Z_d3ed98ade2ad434b996aa5ef3af801d3/started.json"
+      ],
+      "status_per_strategy": "LATE",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": null,
+      "actual_heartbeat_events": [
+        {
+          "completion": {
+            "duration_ms": 75330,
+            "error_classification": null,
+            "persisted_at": "2026-09-06T14:06:11.544Z",
+            "source": {
+              "line_number": 4410,
+              "raw_line_including_newline_sha256": "016870cbacebabef7c272ba505ade0bb878354b2e4c4fc4cdeb4c30ce33f7df3"
+            }
+          },
+          "persisted_at": "2026-09-06T14:04:56.254Z",
+          "source": {
+            "line_number": 4392,
+            "raw_line_including_newline_sha256": "cbd035f8a5603f86a70a904e98e3ee57067815d5cc69cbb9e08ad889d6a8b2be"
+          },
+          "tool_call_count_in_turn": 2,
+          "trigger_at": "2026-09-06T14:04:56.157Z"
+        }
+      ],
+      "capture_pages": [
+        {
+          "clock_semantics": "collector records retrieved_at after response.read completes; not an independently observed network timestamp",
+          "page_index": 0,
+          "raw_response_sha256": "9ec93edbdac89a9812c43cea038586be50fcf31d1bfb4d8243ed5f1b848089c0",
+          "request_started_at": null,
+          "request_started_evidence": "UNKNOWN_NOT_INSTRUMENTED",
+          "response_body_read_completed_at": "2026-09-06T14:05:28.307526Z"
+        }
+      ],
+      "cutoff": "2026-09-06T14:00:00Z",
+      "cycle_result": {
+        "observations": 2,
+        "order_allowed": false,
+        "replays_verified": 2,
+        "status": "RECORDED_AND_REPLAYED"
+      },
+      "deadline": "2026-09-06T14:05:00Z",
+      "evidence_based_reason": "The recorded trigger-to-wrapper delay already consumed the deadline before the collector child launched; exact queue/model/tool contribution is UNKNOWN.",
+      "execution_attempts": [
+        {
+          "attempt_id": "20260906T140525076720Z_293f9fa0934740e1b4bd25226ecdb2d5",
+          "child_elapsed_seconds": 3.713628,
+          "child_launch_boundary_at": "2026-09-06T14:05:25.274742Z",
+          "child_wait_completed_at": "2026-09-06T14:05:28.988370Z",
+          "classification": "FIRST_ATTEMPT",
+          "exit_code": 0,
+          "notification": {
+            "decision": "NOTIFY",
+            "delivery_status": "NOT_RECORDED",
+            "reasons": [
+              "late_observation"
+            ]
+          },
+          "observations": 2,
+          "process_clock_semantics": "wrapper wall clock and before/after child invocation boundaries; not OS process creation/termination telemetry",
+          "replays_verified": 2,
+          "status": "RECORDED_AND_REPLAYED",
+          "trigger_at": "2026-09-06T14:04:56.157Z",
+          "trigger_kind": "SCHEDULED",
+          "trigger_to_wrapper_start_seconds": 28.91972,
+          "wrapper_function_started_at": "2026-09-06T14:05:25.076720Z",
+          "wrapper_record_ended_at": "2026-09-06T14:05:28.995773Z"
+        }
+      ],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [
+        {
+          "backfill": false,
+          "cutoff": "2026-09-06T14:00:00Z",
+          "data_received_at": "2026-09-06T14:05:28.307526Z",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_hash": "3e3b6dd7078c2599731a34a7eae9479c06c14819c644ab8acc40847fa0b00718",
+          "signal_available_at": "2026-09-06T14:05:28.624316Z",
+          "source_alias": "runtime/forward/cycles/20260906T140000Z/observations/forward_observation_3e9b0915946dfed5a5b948f31dadfc5162031617dbee4fe022fd4b8cbe4e0450.json",
+          "strategy": "dual_ma",
+          "timing_status": "LATE"
+        },
+        {
+          "backfill": false,
+          "cutoff": "2026-09-06T14:00:00Z",
+          "data_received_at": "2026-09-06T14:05:28.307526Z",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_hash": "a4be1c8fa482e36301a8d00221c1a6f324afe7edb21d7ae1147f455e7bc01570",
+          "signal_available_at": "2026-09-06T14:05:28.816292Z",
+          "source_alias": "runtime/forward/cycles/20260906T140000Z/observations/forward_observation_bd005bd8fb45d86543ab5d44b83bde882ae4d25b8a921a88f87a820cb59f94ae.json",
+          "strategy": "rsi",
+          "timing_status": "LATE"
+        }
+      ],
+      "operational_classification": "LATE_BEFORE_OBSERVER_CHILD_LAUNCH",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-06T14:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260906T140000Z/captures/capture_4533415746684fc266dbe19fee9a3a3a088081091797dee52434d84541662d89.json",
+        "runtime/forward/cycles/20260906T140000Z/forward_cycle_fixed.json",
+        "runtime/forward/cycles/20260906T140000Z/forward_input_fixed.json",
+        "runtime/forward/cycles/20260906T140000Z/observations/forward_observation_3e9b0915946dfed5a5b948f31dadfc5162031617dbee4fe022fd4b8cbe4e0450.json",
+        "runtime/forward/cycles/20260906T140000Z/observations/forward_observation_bd005bd8fb45d86543ab5d44b83bde882ae4d25b8a921a88f87a820cb59f94ae.json",
+        "runtime/forward/reliability/attempts/20260906T140525076720Z_293f9fa0934740e1b4bd25226ecdb2d5/ended.json",
+        "runtime/forward/reliability/attempts/20260906T140525076720Z_293f9fa0934740e1b4bd25226ecdb2d5/started.json"
+      ],
+      "status_per_strategy": "LATE",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-07T08:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260907T080000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-07T06:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-07T06:05:00Z",
+      "evidence_based_reason": "System shutdown/start pair covers the entire scheduled trigger through 300-second deadline. Application trigger/exit remain unrecorded.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "OS_SHUTDOWN_INTERVAL_COVERS_SCHEDULE_AND_DEADLINE",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-07T08:09:02.8381342Z",
+          "os_start_record_id": 100399,
+          "shutdown_record_id": 100398,
+          "shutdown_started_at": "2026-09-07T05:51:46.6464031Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-07T06:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260907T080000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-07T08:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260907T080000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-07T07:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-07T07:05:00Z",
+      "evidence_based_reason": "System shutdown/start pair covers the entire scheduled trigger through 300-second deadline. Application trigger/exit remain unrecorded.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "OS_SHUTDOWN_INTERVAL_COVERS_SCHEDULE_AND_DEADLINE",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-07T08:09:02.8381342Z",
+          "os_start_record_id": 100399,
+          "shutdown_record_id": 100398,
+          "shutdown_started_at": "2026-09-07T05:51:46.6464031Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-07T07:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260907T080000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": null,
+      "actual_heartbeat_events": [
+        {
+          "completion": {
+            "duration_ms": 106924,
+            "error_classification": null,
+            "persisted_at": "2026-09-07T08:46:00.896Z",
+            "source": {
+              "line_number": 4766,
+              "raw_line_including_newline_sha256": "ca8032de0aeab5082642f4675259703e31d3fddd65ae356dbff84359433b4cb2"
+            }
+          },
+          "persisted_at": "2026-09-07T08:44:15.172Z",
+          "source": {
+            "line_number": 4744,
+            "raw_line_including_newline_sha256": "ae2b1cf5953f9f29fe37942e9c8317591e0dc9addd21598fa72436ba3edbce30"
+          },
+          "tool_call_count_in_turn": 3,
+          "trigger_at": "2026-09-07T08:44:13.875Z"
+        }
+      ],
+      "capture_pages": [
+        {
+          "clock_semantics": "collector records retrieved_at after response.read completes; not an independently observed network timestamp",
+          "page_index": 0,
+          "raw_response_sha256": "6c4bd288ae98954745b2dbd44354e867bf7880c65ba98186e553f214640b95ff",
+          "request_started_at": null,
+          "request_started_evidence": "UNKNOWN_NOT_INSTRUMENTED",
+          "response_body_read_completed_at": "2026-09-07T08:44:50.808172Z"
+        }
+      ],
+      "cutoff": "2026-09-07T08:00:00Z",
+      "cycle_result": {
+        "observations": 2,
+        "order_allowed": false,
+        "replays_verified": 2,
+        "status": "RECORDED_AND_REPLAYED"
+      },
+      "deadline": "2026-09-07T08:05:00Z",
+      "evidence_based_reason": "Boot follows the 300-second deadline; actual heartbeat arrived later still. The post-boot gap before heartbeat is UNKNOWN.",
+      "execution_attempts": [
+        {
+          "attempt_id": "20260907T084445044487Z_e4e51202b0bd4ff6a7ad606b1ddd4bd7",
+          "child_elapsed_seconds": 6.121311,
+          "child_launch_boundary_at": "2026-09-07T08:44:45.952108Z",
+          "child_wait_completed_at": "2026-09-07T08:44:52.073419Z",
+          "classification": "FIRST_ATTEMPT",
+          "exit_code": 0,
+          "notification": {
+            "decision": "NOTIFY",
+            "delivery_status": "NOT_RECORDED",
+            "reasons": [
+              "late_observation",
+              "new_missing_strategy_hours"
+            ]
+          },
+          "observations": 2,
+          "process_clock_semantics": "wrapper wall clock and before/after child invocation boundaries; not OS process creation/termination telemetry",
+          "replays_verified": 2,
+          "status": "RECORDED_AND_REPLAYED",
+          "trigger_at": "2026-09-07T08:44:13.875Z",
+          "trigger_kind": "SCHEDULED",
+          "trigger_to_wrapper_start_seconds": 31.169487,
+          "wrapper_function_started_at": "2026-09-07T08:44:45.044487Z",
+          "wrapper_record_ended_at": "2026-09-07T08:44:52.084354Z"
+        }
+      ],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [
+        {
+          "backfill": false,
+          "cutoff": "2026-09-07T08:00:00Z",
+          "data_received_at": "2026-09-07T08:44:50.808172Z",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_hash": "7c75c6b5b0d840b1fca7077a2f557154f41bf248184062a92cb371d9ba795d3e",
+          "signal_available_at": "2026-09-07T08:44:51.273120Z",
+          "source_alias": "runtime/forward/cycles/20260907T080000Z/observations/forward_observation_0fbb894f79303a5a4815017177caeb44ba1f59ab5fcc08bfbfb7ca7ceb557325.json",
+          "strategy": "dual_ma",
+          "timing_status": "LATE"
+        },
+        {
+          "backfill": false,
+          "cutoff": "2026-09-07T08:00:00Z",
+          "data_received_at": "2026-09-07T08:44:50.808172Z",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_hash": "063f939f5873279a1ae4aa7cb70bd3803f5953333d4284cd612bb83f77f0b55d",
+          "signal_available_at": "2026-09-07T08:44:51.719920Z",
+          "source_alias": "runtime/forward/cycles/20260907T080000Z/observations/forward_observation_c5b8744b61e9117e7c3057fe1d49c76187564129e9b53ddbe3028575357e69ba.json",
+          "strategy": "rsi",
+          "timing_status": "LATE"
+        }
+      ],
+      "operational_classification": "OS_RECOVERY_AFTER_DEADLINE_AND_LATE_TRIGGER",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-07T08:09:02.8381342Z",
+          "os_start_record_id": 100399,
+          "shutdown_record_id": 100398,
+          "shutdown_started_at": "2026-09-07T05:51:46.6464031Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-07T08:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260907T080000Z/captures/capture_455f458391a26f12ffcfa7ba1b1deb793d8d478185b3e1c0acd08c5a0d2330f2.json",
+        "runtime/forward/cycles/20260907T080000Z/forward_cycle_fixed.json",
+        "runtime/forward/cycles/20260907T080000Z/forward_input_fixed.json",
+        "runtime/forward/cycles/20260907T080000Z/observations/forward_observation_0fbb894f79303a5a4815017177caeb44ba1f59ab5fcc08bfbfb7ca7ceb557325.json",
+        "runtime/forward/cycles/20260907T080000Z/observations/forward_observation_c5b8744b61e9117e7c3057fe1d49c76187564129e9b53ddbe3028575357e69ba.json",
+        "runtime/forward/reliability/attempts/20260907T084445044487Z_e4e51202b0bd4ff6a7ad606b1ddd4bd7/ended.json",
+        "runtime/forward/reliability/attempts/20260907T084445044487Z_e4e51202b0bd4ff6a7ad606b1ddd4bd7/started.json"
+      ],
+      "status_per_strategy": "LATE",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": null,
+      "actual_heartbeat_events": [
+        {
+          "completion": {
+            "duration_ms": 425605,
+            "error_classification": null,
+            "persisted_at": "2026-09-08T12:08:38.827Z",
+            "source": {
+              "line_number": 5665,
+              "raw_line_including_newline_sha256": "dad395cf31a082268b14b731e691bac1ac76d1268b4fe440cbf49de41748c05d"
+            }
+          },
+          "persisted_at": "2026-09-08T12:01:33.230Z",
+          "source": {
+            "line_number": 5631,
+            "raw_line_including_newline_sha256": "69c444ea8d22d8adf65ce2416229996df40f0db4fd0baaf875d68180a5710a46"
+          },
+          "tool_call_count_in_turn": 5,
+          "trigger_at": "2026-09-08T12:01:33.071Z"
+        }
+      ],
+      "capture_pages": [
+        {
+          "clock_semantics": "collector records retrieved_at after response.read completes; not an independently observed network timestamp",
+          "page_index": 0,
+          "raw_response_sha256": "221ed5853db72ceb99c6107aba83d818989af31206b62f21cb63808e803960af",
+          "request_started_at": null,
+          "request_started_evidence": "UNKNOWN_NOT_INSTRUMENTED",
+          "response_body_read_completed_at": "2026-09-08T12:07:05.488227Z"
+        }
+      ],
+      "cutoff": "2026-09-08T12:00:00Z",
+      "cycle_result": {
+        "observations": 2,
+        "order_allowed": false,
+        "replays_verified": 2,
+        "status": "RECORDED_AND_REPLAYED"
+      },
+      "deadline": "2026-09-08T12:05:00Z",
+      "evidence_based_reason": "The recorded trigger-to-wrapper delay already consumed the deadline before the collector child launched; exact queue/model/tool contribution is UNKNOWN.",
+      "execution_attempts": [
+        {
+          "attempt_id": "20260908T120701740361Z_8634bbfa2cc54513bdea00f8ae44d840",
+          "child_elapsed_seconds": 4.633031,
+          "child_launch_boundary_at": "2026-09-08T12:07:02.038889Z",
+          "child_wait_completed_at": "2026-09-08T12:07:06.671920Z",
+          "classification": "FIRST_ATTEMPT",
+          "exit_code": 0,
+          "notification": {
+            "decision": "NOTIFY",
+            "delivery_status": "NOT_RECORDED",
+            "reasons": [
+              "late_observation"
+            ]
+          },
+          "observations": 2,
+          "process_clock_semantics": "wrapper wall clock and before/after child invocation boundaries; not OS process creation/termination telemetry",
+          "replays_verified": 2,
+          "status": "RECORDED_AND_REPLAYED",
+          "trigger_at": "2026-09-08T12:01:33.071Z",
+          "trigger_kind": "SCHEDULED",
+          "trigger_to_wrapper_start_seconds": 328.669361,
+          "wrapper_function_started_at": "2026-09-08T12:07:01.740361Z",
+          "wrapper_record_ended_at": "2026-09-08T12:07:06.679708Z"
+        }
+      ],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [
+        {
+          "backfill": false,
+          "cutoff": "2026-09-08T12:00:00Z",
+          "data_received_at": "2026-09-08T12:07:05.488227Z",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_hash": "ef7e1fab9c7572f4f5a488bcaa6594b31e576abc8d289f7d9d0f357f3c8e4047",
+          "signal_available_at": "2026-09-08T12:07:06.330420Z",
+          "source_alias": "runtime/forward/cycles/20260908T120000Z/observations/forward_observation_25c88cd8e8d163de4deb1725219486d62df7b7c9fbefb25c270486c42453e251.json",
+          "strategy": "rsi",
+          "timing_status": "LATE"
+        },
+        {
+          "backfill": false,
+          "cutoff": "2026-09-08T12:00:00Z",
+          "data_received_at": "2026-09-08T12:07:05.488227Z",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_hash": "07c3f0078151037a103b4bbbc14e0255ad5f0281c32729aff9f2a7f192d40e08",
+          "signal_available_at": "2026-09-08T12:07:05.956345Z",
+          "source_alias": "runtime/forward/cycles/20260908T120000Z/observations/forward_observation_402f4dff35bd35715d26bf1f2879f73e3304845023a9d1bc988c072bebf2704e.json",
+          "strategy": "dual_ma",
+          "timing_status": "LATE"
+        }
+      ],
+      "operational_classification": "LATE_BEFORE_OBSERVER_CHILD_LAUNCH",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-08T12:01:00Z",
+      "scope": "FROZEN_72H",
+      "source_aliases": [
+        "repo/docs/research-evidence/forward-window-20260908/coverage_1d07fb9ad16fafde7f64cd504ffe46bd596fecb84ec7e558061729bfe7c3574e.json",
+        "runtime/forward/cycles/20260908T120000Z/captures/capture_59f4e1515f6ce2c579e4ec8a0cc4f292c2bc59d1eeae943222864a82d4c2d5f6.json",
+        "runtime/forward/cycles/20260908T120000Z/forward_cycle_fixed.json",
+        "runtime/forward/cycles/20260908T120000Z/forward_input_fixed.json",
+        "runtime/forward/cycles/20260908T120000Z/observations/forward_observation_25c88cd8e8d163de4deb1725219486d62df7b7c9fbefb25c270486c42453e251.json",
+        "runtime/forward/cycles/20260908T120000Z/observations/forward_observation_402f4dff35bd35715d26bf1f2879f73e3304845023a9d1bc988c072bebf2704e.json",
+        "runtime/forward/reliability/attempts/20260908T120701740361Z_8634bbfa2cc54513bdea00f8ae44d840/ended.json",
+        "runtime/forward/reliability/attempts/20260908T120701740361Z_8634bbfa2cc54513bdea00f8ae44d840/started.json"
+      ],
+      "status_per_strategy": "LATE",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-09T04:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260909T040000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [
+        {
+          "completion": null,
+          "persisted_at": "2026-09-09T00:04:07.420Z",
+          "source": {
+            "line_number": 6835,
+            "raw_line_including_newline_sha256": "72ad9f66d60fa20fb37fb6e20215a70f157db6f5db87a49e86f7e95e47f19704"
+          },
+          "tool_call_count_in_turn": 0,
+          "trigger_at": "2026-09-09T00:04:00.184Z"
+        }
+      ],
+      "capture_pages": [],
+      "cutoff": "2026-09-09T00:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-09T00:05:00Z",
+      "evidence_based_reason": "Heartbeat exists but no observer receipt or task completion was found in the bounded transcript; the reason for interruption is UNKNOWN.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "TRIGGER_RECORDED_NO_EXECUTION_CAUSE_UNKNOWN",
+      "power_intervals_overlapping_grace": [
+        {
+          "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+          "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+          "next_os_start_at": "2026-09-09T00:01:16.9739497Z",
+          "os_start_record_id": 100841,
+          "shutdown_record_id": 100840,
+          "shutdown_started_at": "2026-09-09T00:00:48.6720461Z"
+        }
+      ],
+      "scheduled_trigger_at": "2026-09-09T00:01:00Z",
+      "scope": "OUTSIDE_FROZEN_WINDOW",
+      "source_aliases": [
+        "runtime/forward/cycles/20260909T040000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-09T04:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260909T040000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-09T01:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-09T01:05:00Z",
+      "evidence_based_reason": "No matching heartbeat/cycle/receipt in the inspected sources. Missing records alone cannot prove sleep, network failure, or healthy execution.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "NO_TRIGGER_OR_EXECUTION_EVIDENCE_CAUSE_UNKNOWN",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-09T01:01:00Z",
+      "scope": "OUTSIDE_FROZEN_WINDOW",
+      "source_aliases": [
+        "runtime/forward/cycles/20260909T040000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-09T04:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260909T040000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-09T02:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-09T02:05:00Z",
+      "evidence_based_reason": "No matching heartbeat/cycle/receipt in the inspected sources. Missing records alone cannot prove sleep, network failure, or healthy execution.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "NO_TRIGGER_OR_EXECUTION_EVIDENCE_CAUSE_UNKNOWN",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-09T02:01:00Z",
+      "scope": "OUTSIDE_FROZEN_WINDOW",
+      "source_aliases": [
+        "runtime/forward/cycles/20260909T040000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": {
+        "exact_detection_clock": "UNKNOWN_NOT_RECORDED_IN_DRIVER",
+        "first_later_driver_cutoff_with_absence": "2026-09-09T04:00:00Z",
+        "source_alias": "runtime/forward/cycles/20260909T040000Z/forward_cycle_fixed.json"
+      },
+      "actual_heartbeat_events": [],
+      "capture_pages": [],
+      "cutoff": "2026-09-09T03:00:00Z",
+      "cycle_result": null,
+      "deadline": "2026-09-09T03:05:00Z",
+      "evidence_based_reason": "No matching heartbeat/cycle/receipt in the inspected sources. Missing records alone cannot prove sleep, network failure, or healthy execution.",
+      "execution_attempts": [],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [],
+      "operational_classification": "NO_TRIGGER_OR_EXECUTION_EVIDENCE_CAUSE_UNKNOWN",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-09T03:01:00Z",
+      "scope": "OUTSIDE_FROZEN_WINDOW",
+      "source_aliases": [
+        "runtime/forward/cycles/20260909T040000Z/forward_cycle_fixed.json"
+      ],
+      "status_per_strategy": "MISSING",
+      "strategy_count": 2
+    },
+    {
+      "absence_detection": null,
+      "actual_heartbeat_events": [
+        {
+          "completion": {
+            "duration_ms": 116776,
+            "error_classification": null,
+            "persisted_at": "2026-09-09T04:26:49.283Z",
+            "source": {
+              "line_number": 6864,
+              "raw_line_including_newline_sha256": "d9b9e840e166cec29736f73741c5e37658f303e32eaedae8096506932ad4142d"
+            }
+          },
+          "persisted_at": "2026-09-09T04:24:53.331Z",
+          "source": {
+            "line_number": 6842,
+            "raw_line_including_newline_sha256": "30397ba9d960770718436002539ba9a278209dffad20163277970166bb10aad9"
+          },
+          "tool_call_count_in_turn": 2,
+          "trigger_at": "2026-09-09T04:24:52.467Z"
+        }
+      ],
+      "capture_pages": [
+        {
+          "clock_semantics": "collector records retrieved_at after response.read completes; not an independently observed network timestamp",
+          "page_index": 0,
+          "raw_response_sha256": "ea74c8537ae2dec87f1773e535140dc491b1b303d021cb1e6020409bcba4e2c5",
+          "request_started_at": null,
+          "request_started_evidence": "UNKNOWN_NOT_INSTRUMENTED",
+          "response_body_read_completed_at": "2026-09-09T04:26:15.803878Z"
+        }
+      ],
+      "cutoff": "2026-09-09T04:00:00Z",
+      "cycle_result": {
+        "observations": 2,
+        "order_allowed": false,
+        "replays_verified": 2,
+        "status": "RECORDED_AND_REPLAYED"
+      },
+      "deadline": "2026-09-09T04:05:00Z",
+      "evidence_based_reason": "The recorded trigger-to-wrapper delay already consumed the deadline before the collector child launched; exact queue/model/tool contribution is UNKNOWN.",
+      "execution_attempts": [
+        {
+          "attempt_id": "20260909T042610094002Z_d1338c33ddcb40ea801e4615b1b52faf",
+          "child_elapsed_seconds": 4.898856,
+          "child_launch_boundary_at": "2026-09-09T04:26:11.582184Z",
+          "child_wait_completed_at": "2026-09-09T04:26:16.481040Z",
+          "classification": "FIRST_ATTEMPT",
+          "exit_code": 0,
+          "notification": {
+            "decision": "NOTIFY",
+            "delivery_status": "NOT_RECORDED",
+            "reasons": [
+              "late_observation"
+            ]
+          },
+          "observations": 2,
+          "process_clock_semantics": "wrapper wall clock and before/after child invocation boundaries; not OS process creation/termination telemetry",
+          "replays_verified": 2,
+          "status": "RECORDED_AND_REPLAYED",
+          "trigger_at": "2026-09-09T04:24:52.467Z",
+          "trigger_kind": "SCHEDULED",
+          "trigger_to_wrapper_start_seconds": 77.627002,
+          "wrapper_function_started_at": "2026-09-09T04:26:10.094002Z",
+          "wrapper_record_ended_at": "2026-09-09T04:26:16.488513Z"
+        }
+      ],
+      "legacy_command_evidence": [],
+      "notification_actual_delivery": "UNKNOWN_NO_USER_ACK_OR_DELIVERY_RECEIPT",
+      "observations": [
+        {
+          "backfill": false,
+          "cutoff": "2026-09-09T04:00:00Z",
+          "data_received_at": "2026-09-09T04:26:15.803878Z",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_hash": "083e4e40df485323c237cc7b2066afb3c57481af8db9d7464fbd7975afbf1ca1",
+          "signal_available_at": "2026-09-09T04:26:16.109917Z",
+          "source_alias": "runtime/forward/cycles/20260909T040000Z/observations/forward_observation_82f780eb06805274688d4b917d247333b4632333baa7124096146f8f6e360ca4.json",
+          "strategy": "dual_ma",
+          "timing_status": "LATE"
+        },
+        {
+          "backfill": false,
+          "cutoff": "2026-09-09T04:00:00Z",
+          "data_received_at": "2026-09-09T04:26:15.803878Z",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_hash": "5fc528668a5b48fe0b6cf13e9e68d603d23ef92224c000e2184996b132383748",
+          "signal_available_at": "2026-09-09T04:26:16.287748Z",
+          "source_alias": "runtime/forward/cycles/20260909T040000Z/observations/forward_observation_e40d0ac34b053eaf5d3bc2eeba73107a1af967bbc0ecd92923529442cfed1884.json",
+          "strategy": "rsi",
+          "timing_status": "LATE"
+        }
+      ],
+      "operational_classification": "LATE_BEFORE_OBSERVER_CHILD_LAUNCH",
+      "power_intervals_overlapping_grace": [],
+      "scheduled_trigger_at": "2026-09-09T04:01:00Z",
+      "scope": "OUTSIDE_FROZEN_WINDOW",
+      "source_aliases": [
+        "runtime/forward/cycles/20260909T040000Z/captures/capture_4f1cdea732f1addfeab72be732340dedf4fceda01f584a431ed88b82f6845002.json",
+        "runtime/forward/cycles/20260909T040000Z/forward_cycle_fixed.json",
+        "runtime/forward/cycles/20260909T040000Z/forward_input_fixed.json",
+        "runtime/forward/cycles/20260909T040000Z/observations/forward_observation_82f780eb06805274688d4b917d247333b4632333baa7124096146f8f6e360ca4.json",
+        "runtime/forward/cycles/20260909T040000Z/observations/forward_observation_e40d0ac34b053eaf5d3bc2eeba73107a1af967bbc0ecd92923529442cfed1884.json",
+        "runtime/forward/reliability/attempts/20260909T042610094002Z_d1338c33ddcb40ea801e4615b1b52faf/ended.json",
+        "runtime/forward/reliability/attempts/20260909T042610094002Z_d1338c33ddcb40ea801e4615b1b52faf/started.json"
+      ],
+      "status_per_strategy": "LATE",
+      "strategy_count": 2
+    }
+  ],
+  "runtime_inspection": {
+    "current_package_or_environment_reverification_run": false,
+    "historical_runtime_verification": {
+      "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+      "environment_status": "VERIFIED",
+      "runtime_tools_verified": {
+        "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e",
+        "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+        "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b"
+      },
+      "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "source_status": "BUILD_VERIFIED"
+    },
+    "tool_and_plan_frozen_hashes_verified_now": true
+  },
+  "schema_version": "scheduler-gap-diagnosis-v1",
+  "scope": "Read-only retrospective diagnosis. No observer, network request, replay, scheduler change or fault injection was run.",
+  "source_local_projection_sha256": "99afc3efecabd1fa1600ca6d3624d180047800fd7af2b1c4843defd57eb3371f",
+  "system_shutdown_intervals": [
+    {
+      "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+      "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+      "next_os_start_at": "2026-09-06T04:58:02.9860731Z",
+      "os_start_record_id": 100150,
+      "shutdown_record_id": 100149,
+      "shutdown_started_at": "2026-09-05T21:25:10.7034252Z"
+    },
+    {
+      "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+      "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+      "next_os_start_at": "2026-09-07T08:09:02.8381342Z",
+      "os_start_record_id": 100399,
+      "shutdown_record_id": 100398,
+      "shutdown_started_at": "2026-09-07T05:51:46.6464031Z"
+    },
+    {
+      "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+      "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+      "next_os_start_at": "2026-09-09T00:00:17.9741041Z",
+      "os_start_record_id": 100694,
+      "shutdown_record_id": 100693,
+      "shutdown_started_at": "2026-09-08T23:59:49.6936809Z"
+    },
+    {
+      "interpretation": "OS_SHUTDOWN_TO_NEXT_START_INTERVAL",
+      "limitation": "Local event evidence, not independently attested uptime; does not establish availability outside the interval.",
+      "next_os_start_at": "2026-09-09T00:01:16.9739497Z",
+      "os_start_record_id": 100841,
+      "shutdown_record_id": 100840,
+      "shutdown_started_at": "2026-09-09T00:00:48.6720461Z"
+    }
+  ]
+}

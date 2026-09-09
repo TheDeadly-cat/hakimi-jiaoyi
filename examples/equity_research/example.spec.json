@@ -1,0 +1,27 @@
+{
+  "schema_version": "us-equity-experiment-spec-v1",
+  "name": "Synthetic daily share accounting and clock example",
+  "snapshot_id": "828b871b92d7bfec39b8acdddfa539f85172fcb08ca637f792a3b62e2e8e5ff2",
+  "score_start_session": "2024-10-22",
+  "score_end_session": "2024-12-03",
+  "strategy": {
+    "name": "buy_and_hold",
+    "params": {
+      "target_position_pct": 0.25
+    }
+  },
+  "initial_cash": 10000,
+  "fee_rate": 0.0008,
+  "slippage_pct": 0.0005,
+  "risk": {
+    "max_position_pct": 1.0,
+    "max_single_loss_pct": 0.03,
+    "max_daily_loss_pct": 1.0,
+    "min_cash_pct": 0.0,
+    "max_leverage": 1.0
+  },
+  "end_policy": "MARK_TO_MARKET",
+  "purpose": "SYNTHETIC_REGRESSION",
+  "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+  "execution_policy": "BUY_AND_HOLD_SINGLE_ENTRY_MARK_TO_MARKET"
+}
