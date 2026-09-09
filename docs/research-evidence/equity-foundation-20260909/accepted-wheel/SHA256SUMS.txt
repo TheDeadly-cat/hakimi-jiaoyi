@@ -1,0 +1,5 @@
+2a78147efe7d12482d96078b484e6ad07b306c0bedf171c9ab34512f18948290  dependencies.json
+154bf351c24763086cdb822e07d6f940dead840a18fc867cbf9e959b85c377ce  hakimi_research-0.3.0.dev1-py3-none-any.whl
+7d3570da02cfaff740fc0cbe20dac4a5e771d4991e308b72eaa741ffcd8f8aac  source-build-identity.json
+0cf985d631d0c07fa5fcb070e0bd35d946a4040e792995c0776b403453c49a66  test-scope.json
+d6411b3603a282b94be932a670b953fdb1a8cc57e8693245c62ec1bbca5d0b7c  wheel-acceptance.json

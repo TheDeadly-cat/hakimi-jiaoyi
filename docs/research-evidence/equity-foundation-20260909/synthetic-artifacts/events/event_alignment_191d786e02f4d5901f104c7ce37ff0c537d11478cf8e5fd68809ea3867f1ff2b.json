@@ -1,0 +1,42 @@
+{
+  "alignment_hash": "191d786e02f4d5901f104c7ce37ff0c537d11478cf8e5fd68809ea3867f1ff2b",
+  "as_of": "2024-11-29T18:08:00Z",
+  "execution_permission": {
+    "live_allowed": false,
+    "order_allowed": false,
+    "paper_allowed": false,
+    "research_only": true
+  },
+  "rows": [
+    {
+      "available_at": "2024-11-29T18:07:00Z",
+      "available_at_kind": "ASSUMED",
+      "bar_latency_seconds": 60,
+      "calendar_authority": "CALLER_SUPPLIED_SESSIONS_NOT_AUTHENTICATED_HERE",
+      "confirmation_available_at": "2024-12-02T21:01:00Z",
+      "earliest_entry_at": "2024-12-03T14:30:00Z",
+      "entry_session": {
+        "close_utc": "2024-12-03T21:00:00Z",
+        "date": "2024-12-03",
+        "early_close": false,
+        "open_utc": "2024-12-03T14:30:00Z"
+      },
+      "event_hash": "344d51e6338595497caf79031cd625051c2d9a94f36f814c1fe39037ed5ab7f1",
+      "observation_session": {
+        "close_utc": "2024-12-02T21:00:00Z",
+        "date": "2024-12-02",
+        "early_close": false,
+        "open_utc": "2024-12-02T14:30:00Z"
+      },
+      "order_allowed": false,
+      "reason": "CALENDAR_TIMING_ELIGIBLE_ONLY",
+      "status": "READY"
+    }
+  ],
+  "schema_version": "equity-event-calendar-alignment-v1",
+  "scope": "CALENDAR_TIMING_ONLY_NOT_A_STRATEGY_RESULT_OR_ORDER_APPROVAL",
+  "selected_event_hashes": [
+    "344d51e6338595497caf79031cd625051c2d9a94f36f814c1fe39037ed5ab7f1"
+  ],
+  "snapshot_id": "828b871b92d7bfec39b8acdddfa539f85172fcb08ca637f792a3b62e2e8e5ff2"
+}

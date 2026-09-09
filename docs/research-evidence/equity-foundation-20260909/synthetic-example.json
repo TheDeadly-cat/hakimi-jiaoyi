@@ -1,0 +1,92 @@
+{
+  "artifacts": {
+    "alignment": {
+      "path": "events/event_alignment_191d786e02f4d5901f104c7ce37ff0c537d11478cf8e5fd68809ea3867f1ff2b.json",
+      "sha256": "a7815398923a052737fe85af40a2cfed95f25c7e13f1f458450af9a0c0e8905a"
+    },
+    "event": {
+      "path": "event-ledger/event_344d51e6338595497caf79031cd625051c2d9a94f36f814c1fe39037ed5ab7f1.json",
+      "sha256": "87715af8590c0ddc63b9aee2a6b72a613ae2dc831fba31831e76c2524e43111e"
+    },
+    "independent_ledger": {
+      "path": "ledger/ledger_ed105c97fc776761330b2597ef767c1be534fc367af926b56effc4e41f6cd27a.json",
+      "sha256": "e4e6efaf6bed4c0f75aad2be34ef55db0e5d300beb4468999e51f2758fc49063"
+    },
+    "replay": {
+      "path": "replays/equity_replay_414a7fb7abca1e7364d2f4583d1537d1bd2c6beb2dc888bfeb86ecbbef31dac5.json",
+      "sha256": "5239e13cda7c5b1a6737b7e9945c488b8f5f5881fb84929f7ba3c30eefa541a5"
+    },
+    "research": {
+      "path": "reports/equity_research_fe4ceccd6bc2af1b210c9734f6d3f413d8105d2642995625739b8f8d1fbc5aa9.json",
+      "sha256": "a4591bb4fec609441d295ae717d8dd81623811676ce84498f585fb58dc83ec16"
+    },
+    "snapshot": {
+      "path": "datasets/equity_dataset_828b871b92d7bfec39b8acdddfa539f85172fcb08ca637f792a3b62e2e8e5ff2.json",
+      "sha256": "f6441582b5f56a993d6a27ab2aca9b82da7d16ddceb75f4198d4b6804c2051f5"
+    }
+  },
+  "event_clock": {
+    "available_at": "2024-11-29T18:07:00Z",
+    "available_at_kind": "ASSUMED",
+    "confirmation_available_at": "2024-12-02T21:01:00Z",
+    "earliest_entry_at": "2024-12-03T14:30:00Z",
+    "entry_session": "2024-12-03",
+    "event_hash": "344d51e6338595497caf79031cd625051c2d9a94f36f814c1fe39037ed5ab7f1",
+    "observation_session": "2024-12-02",
+    "status": "CALENDAR_TIMING_ONLY"
+  },
+  "evidence_kind": "SYNTHETIC_TEST",
+  "execution_permission": {
+    "live_allowed": false,
+    "order_allowed": false,
+    "paper_allowed": false,
+    "research_only": true
+  },
+  "independent_ledger": {
+    "checks": 211,
+    "fill_count": 1,
+    "maximum_absolute_numeric_error": "1.67235875E-12",
+    "project_numerical_engine_imported": false,
+    "reconciled_buy_fees": "2.001",
+    "reconciled_sell_fees": "0",
+    "score_bars": 30,
+    "status": "PASS"
+  },
+  "inputs_sha256": {
+    "equity_events/synthetic_earnings.metadata.json": "b0e717c650d53a865369c68b517db9a2db6dc09b4c416d601da1f8e76d3667e8",
+    "equity_events/synthetic_earnings.txt": "a8ddfa30da59ce77a60a3ccad824f358d85b571c08aba036e45e6ac53411ffb9",
+    "equity_research/example.spec.json": "75e9a0deb8515b37d882f058dac4a5a8a71d8041ba218ab2e6da5910233c83b5",
+    "equity_research/synthetic_daily.csv": "5cf65b3aecd09efd861645ca360ade2f7f178d01d26c7e8617fe822d14a943db",
+    "equity_research/synthetic_daily.manifest.json": "04234195191a918c3c114ffa5110711b30c88ef747eb62c34187bb4cd9109760"
+  },
+  "installation": {
+    "editable": false,
+    "inside_installation": true,
+    "version": "0.3.0.dev1"
+  },
+  "installed_source_content_sha256": "4b141b447bb57b30a6ffa0ef919b7069824fef4b25357402266b0781337913db",
+  "ledger_script_sha256": "2bf808afa807aea67bed1b4ee95503e1f3b5d2ecc76da19bfdcebbebb11871f8",
+  "network_used": false,
+  "replay": {
+    "environment_verified": true,
+    "replay_verified": true,
+    "result_matches": true,
+    "source_matches": true
+  },
+  "report_hash": "fe4ceccd6bc2af1b210c9734f6d3f413d8105d2642995625739b8f8d1fbc5aa9",
+  "research": {
+    "fill_count": 1,
+    "max_drawdown": 0.0,
+    "total_return": 0.019001583291770707
+  },
+  "result_hash": "af9b3274686fd0f627cd45fff0a4fe63d58f7d0927b05ddb4359295dcab601f0",
+  "schema_version": "synthetic-equity-example-result-v1",
+  "scope": "INSTALLED_WHEEL_ACCOUNTING_AND_EVENT_CLOCK_ONLY_NOT_MARKET_OR_STRATEGY_VALIDATION",
+  "security_id": "SYNTHETIC:COMMON:TEST:2024",
+  "sessions": 31,
+  "snapshot_id": "828b871b92d7bfec39b8acdddfa539f85172fcb08ca637f792a3b62e2e8e5ff2",
+  "source_checkout_imported": false,
+  "status": "PASS",
+  "summary_hash": "cc99f098f8eef1bd168af62432138df42a4bf7e81621634a214692c11a3cb9fa",
+  "tool_sha256": "758caba3dda620422f3de4ce168d09c95e3df7071a80e20434c9f05a0995e17d"
+}

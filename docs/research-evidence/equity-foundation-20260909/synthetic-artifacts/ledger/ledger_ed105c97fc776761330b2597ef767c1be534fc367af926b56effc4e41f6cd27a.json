@@ -1,0 +1,19 @@
+{
+  "checks": 211,
+  "failures": [],
+  "fill_count": 1,
+  "legacy_report_fee_fields_absent": [],
+  "maximum_absolute_numeric_error": "1.67235875E-12",
+  "project_numerical_engine_imported": false,
+  "receipt_sha256": "ed105c97fc776761330b2597ef767c1be534fc367af926b56effc4e41f6cd27a",
+  "reconciled_buy_fees": "2.001",
+  "reconciled_sell_fees": "0",
+  "report_file_sha256": "a4591bb4fec609441d295ae717d8dd81623811676ce84498f585fb58dc83ec16",
+  "report_hash": "fe4ceccd6bc2af1b210c9734f6d3f413d8105d2642995625739b8f8d1fbc5aa9",
+  "schema_version": "independent-equity-decimal-ledger-reconciliation-v1",
+  "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+  "score_bars": 30,
+  "snapshot_file_sha256": "f6441582b5f56a993d6a27ab2aca9b82da7d16ddceb75f4198d4b6804c2051f5",
+  "snapshot_id": "828b871b92d7bfec39b8acdddfa539f85172fcb08ca637f792a3b62e2e8e5ff2",
+  "status": "PASS"
+}
