@@ -1,0 +1,90 @@
+{
+  "additional_instrumented_local_diagnostic": {
+    "at": "2026-09-12T19:56:53.758192Z",
+    "diagnostic_instrumentation_only": true,
+    "runs": [
+      {
+        "bounds": {
+          "bytes_retained": {
+            "stderr": 11,
+            "stdout": 3
+          },
+          "bytes_seen": {
+            "stderr": 11,
+            "stdout": 3
+          },
+          "captured_sha256": {
+            "stderr": "d8bcbfa307f670d5532559fc030ee82ff7be48160c1fff837950e0d7528d0a4c",
+            "stdout": "dc51b8c96c2d745df3bd5590d990230a482fd247123599548e0632fdbf97fc22"
+          },
+          "cleanup_confirmed": true,
+          "cleanup_seconds": 5,
+          "elapsed_monotonic_seconds": 0.12545110000064597,
+          "outcome": "LEFTOVER_DESCENDANTS",
+          "output_limit_bytes_combined": 4194304,
+          "output_truncated": false,
+          "owned_process_handles_waited": 1,
+          "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+          "timeout_seconds": 3
+        },
+        "index": 0,
+        "outcome": "LEFTOVER_DESCENDANTS",
+        "returncode": 7,
+        "trace": [
+          {
+            "active_count": 1,
+            "at": "2026-09-12T19:56:53.756539Z"
+          },
+          {
+            "at": "2026-09-12T19:56:53.756811Z",
+            "image": "conhost.exe",
+            "wait_zero_ms": 258
+          },
+          {
+            "active_count": 0,
+            "at": "2026-09-12T19:56:53.756856Z"
+          },
+          {
+            "active_count": 0,
+            "at": "2026-09-12T19:56:53.756861Z"
+          }
+        ]
+      }
+    ]
+  },
+  "cleanup_total_seconds": 5,
+  "failed_ci": {
+    "failing_test": "test_normal_completion_preserves_output_and_exit_status",
+    "failures": 1,
+    "head_sha": "4f9ac1db8dfdf1783d678c1523f2746c28c75a29",
+    "python_job_id": 103611854116,
+    "repository_tests": 133,
+    "run_id": 34715489973
+  },
+  "launcher_sha256": "9ed6bbeba4b9b81c55edb6e3ff6e03aa4d95cdd9a34ac6cc934ca5213e1ed006",
+  "logs_sha256": {
+    "t5-ci-34715489973-python-job.log": "0d1d383f042057fcb5c0992418f74f6b4f42154895549ffa414b30b3cfc72000",
+    "t5-console-finalization-26.log": "8e76a98a0ad2734fd57de748b7f58590087245200875f845f5c572f54c945d5e",
+    "t5-console-finalization-repository-134.log": "69367d0dff7529f9f57555acaf693983d981c0c30f33b0c415b0205f54a373af"
+  },
+  "new_ci": "NOT_RUN_AT_THIS_SNAPSHOT",
+  "normal_exit_settle_max_seconds": 0.25,
+  "production_activation": false,
+  "recorded_at": "2026-09-12T19:59:58.955038Z",
+  "repository_tests": {
+    "errors": 0,
+    "failures": 0,
+    "run": 134,
+    "skipped": 0
+  },
+  "reserve_at_least_half_cleanup_for_forced_termination": true,
+  "schema_version": "windows-console-finalization-validation-v1",
+  "settle_is_inside_cleanup_budget": true,
+  "targeted_included_in_repository": true,
+  "targeted_tests": {
+    "errors": 0,
+    "failures": 0,
+    "run": 26,
+    "skipped": 0
+  }
+}

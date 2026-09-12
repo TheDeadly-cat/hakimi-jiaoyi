@@ -348,6 +348,20 @@ class OwnedChildProcessTests(unittest.TestCase):
                 self.assertTrue(result.bounds['cleanup_confirmed'])
                 self.assert_pid_exited(int(marker.read_text()))
 
+    def test_normal_exit_waits_for_a_finite_finalizer_inside_cleanup_budget(self):
+        marker = self.root / 'finalizer-ready.txt'
+        child = 'import os,pathlib,sys,time; pathlib.Path(sys.argv[1]).write_text(str(os.getpid())); time.sleep(0.1)'
+        code = ('import pathlib,subprocess,sys,time\n'
+                'subprocess.Popen([sys.executable,"-I","-S","-B","-c",sys.argv[2],sys.argv[1]])\n'
+                'deadline=time.monotonic()+3\n'
+                'while not pathlib.Path(sys.argv[1]).exists() and time.monotonic()<deadline: time.sleep(0.01)\n')
+        result = self.execute(code, marker, child, timeout_seconds=4)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.bounds['outcome'], 'EXITED', result.bounds)
+        self.assertTrue(result.bounds['cleanup_confirmed'])
+        self.assertEqual(result.bounds['normal_exit_settle_max_seconds'], 0.25)
+        self.assert_pid_exited(int(marker.read_text()))
+
     def test_failed_job_assignment_never_starts_the_observer(self):
         marker = self.root / 'must-not-start.txt'
         with patch.object(module._WindowsJob, 'assign', side_effect=OSError('injected assignment failure')):

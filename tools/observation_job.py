@@ -27,6 +27,7 @@ ENVIRONMENT_SHA256 = "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e31
 UTC = timezone.utc
 EXECUTION_TIMEOUT_SECONDS = 300
 CLEANUP_TIMEOUT_SECONDS = 5
+EXIT_SETTLE_MAX_SECONDS = 0.25
 OUTPUT_LIMIT_BYTES = 4 * 1024 * 1024
 
 # The isolated bootstrap cannot spawn the observer until its parent puts it in
@@ -221,10 +222,17 @@ def _run_owned_windows(argv, root, *, environment, timeout_seconds, output_limit
         cleanup_deadline = time.monotonic() + cleanup_seconds
         if active:
             owned_process_handles = job.retain_process_handles()
-            # A member may finish between accounting and handle enumeration.
-            # Confirm both signaled handles and an empty job before deciding
-            # whether a normally exited command left any live descendants.
-            already_exited = job.wait_for_exits(owned_process_handles, time.monotonic()) and job.active_count() == 0
+            # Windows console hosts can finish after the Python command handle
+            # is signaled. Wait on real member handles, within the SAME cleanup
+            # budget, before classifying a normal exit as a leftover process.
+            # Reserve at least half the cleanup budget for forced termination.
+            settle_deadline = min(cleanup_deadline, time.monotonic() + min(EXIT_SETTLE_MAX_SECONDS, cleanup_seconds / 2))
+            already_exited = False
+            if outcome == "EXITED":
+                members_exited = job.wait_for_exits(owned_process_handles, settle_deadline)
+                while members_exited and job.active_count() and time.monotonic() < settle_deadline:
+                    time.sleep(min(0.01, max(0, settle_deadline - time.monotonic())))
+                already_exited = members_exited and job.active_count() == 0
             if outcome != "EXITED" or not already_exited:
                 if outcome == "EXITED":
                     outcome = "LEFTOVER_DESCENDANTS"
@@ -275,6 +283,7 @@ def _run_owned_windows(argv, root, *, environment, timeout_seconds, output_limit
                 outcome = "OUTPUT_ENCODING_INVALID"
     bounds = {"ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY", "outcome": outcome,
               "timeout_seconds": timeout_seconds, "cleanup_seconds": cleanup_seconds,
+              "normal_exit_settle_max_seconds": min(EXIT_SETTLE_MAX_SECONDS, cleanup_seconds / 2),
               "output_limit_bytes_combined": output_limit_bytes, "bytes_seen": counts,
               "bytes_retained": {name: len(value) for name, value in raw.items()},
               "captured_sha256": {name: hashlib.sha256(value).hexdigest() for name, value in raw.items()},
