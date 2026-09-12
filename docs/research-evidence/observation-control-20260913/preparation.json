@@ -1,0 +1,241 @@
+{
+  "actual_72h_observation_completed": false,
+  "bundle_hash": "f1940935939b2affa7679b5b63a226333545195ce47eda312df7ccf16b10be48",
+  "checked_at": "2026-09-12T21:53:47.859354Z",
+  "current_counts": {
+    "PLANNED": 72
+  },
+  "definitions": [
+    {
+      "enabled": "false",
+      "end": "2026-09-16T01:10:00Z",
+      "instances": "IgnoreNew",
+      "interval": "PT1M",
+      "limit": "PT50S",
+      "logon": "InteractiveToken",
+      "role": "watch",
+      "run_level": "LeastPrivilege",
+      "start": "2026-09-13T01:00:30Z",
+      "xml_sha256": "69f9a38a26416c11b555f3c4515c9a4a442c29189d36989de2710ad29d067e47"
+    },
+    {
+      "enabled": "false",
+      "end": "2026-09-16T01:00:00Z",
+      "instances": "IgnoreNew",
+      "interval": "PT1H",
+      "limit": "PT10M",
+      "logon": "InteractiveToken",
+      "role": "observe",
+      "run_level": "LeastPrivilege",
+      "start": "2026-09-13T01:01:00Z",
+      "xml_sha256": "1e43ffef704189fadafbde3c9150b1167022aea62214e6ed2c174c33d182964f"
+    }
+  ],
+  "first_definition_failure": {
+    "cause": "PowerShell JSON DateTime was implicitly formatted by COM without UTC timezone",
+    "observed": [
+      {
+        "end": "2026/9/16 1:10:00",
+        "start": "2026/9/13 1:00:30",
+        "task_name": "HakimiObservationWatch"
+      },
+      {
+        "end": "2026/9/16 1:00:00",
+        "start": "2026/9/13 1:01:00",
+        "task_name": "HakimiReadOnlyObservation"
+      }
+    ],
+    "source_commit": "03b0b33c73387346a68f0befb46c3b2b7f635208",
+    "status": "REJECTED_BEFORE_REGISTRATION"
+  },
+  "intermediate_probe_failure": {
+    "cause": "Probe compared unnormalized redirected AppData alias to resolved prepared command",
+    "correction": "Resolve probe root before comparing; fixed bundle bytes unchanged",
+    "scope": "VALIDATION_SCRIPT_ONLY_BEFORE_ROLE_EXECUTION"
+  },
+  "new_observation_started": false,
+  "old_heartbeat_bytes_unchanged": true,
+  "old_heartbeat_status_at_readback": "ACTIVE",
+  "registration_performed": false,
+  "runtime_preflight_after": {
+    "checked_at": "2026-09-12T21:53:47.859337Z",
+    "execution_bounds": {
+      "bytes_retained": {
+        "stderr": 0,
+        "stdout": 569
+      },
+      "bytes_seen": {
+        "stderr": 0,
+        "stdout": 569
+      },
+      "captured_sha256": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "62b1903eed59ea591d72e01f2cf5246900372a8e4be863be6558d6c3eb9d46c9"
+      },
+      "cleanup_confirmed": true,
+      "cleanup_seconds": 5,
+      "elapsed_monotonic_seconds": 0.4740818999998737,
+      "normal_exit_settle_max_seconds": 0.25,
+      "outcome": "EXITED",
+      "output_limit_bytes_combined": 16384,
+      "output_truncated": false,
+      "owned_process_handles_waited": 0,
+      "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+      "timeout_seconds": 30
+    },
+    "verification": {
+      "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+      "environment_status": "VERIFIED",
+      "runtime_tools_verified": {
+        "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e",
+        "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+        "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b"
+      },
+      "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "source_status": "BUILD_VERIFIED"
+    }
+  },
+  "schema_version": "observation-control-preparation-evidence-v1",
+  "source_commit": "8ce5148ebc5958e3430d54df3c20d8dfd061e22d",
+  "task_inventory": {
+    "checked_at": "2026-09-12T21:54:18.6293785+00:00",
+    "registration_invoked": false,
+    "target_task_count": 0,
+    "tasks": []
+  },
+  "tests": {
+    "bundle_subset": {
+      "includes_real_windows_powershell_and_pwsh_date_conversion": true,
+      "passed": 10
+    },
+    "counts_are_overlapping": true,
+    "repository_only": {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "c68582dff228c875d680ffcb64aa2f1125d94ff4cc5bf2d0ee4d8d1d2362d535",
+      "passed": 175,
+      "skips": 0
+    }
+  },
+  "tool_sha256": {
+    "observation_bundle.py": "128c06470592baafab6decea951e135f162a62ae241b70173bc925fd188bc79a",
+    "observation_job.py": "057021bd95512107c8d83998d798aa175cb3985bf266b9c61f9bccbcbbed329e",
+    "observation_notify.py": "b765fd586c333feb8006b8e8b2afdce2b0eafe3a4706bcfbf4d66d111b9b300c",
+    "observation_watch.py": "0dae1219a31fe591e054a481e484c980eecce402520e67a39e9997d283b60cc5",
+    "prepare_observation_task.ps1": "46ecec53c643a262e411366b8b46f1fb523585a7a94ea8b5d984437ec7f8316e",
+    "show_observation_notification.ps1": "bd46273d00178bf74874e1749398e754f67e32ca2b3fcaa382e84b23bf0b587d"
+  },
+  "watch_end": "2026-09-16T01:10:00Z",
+  "window_end": "2026-09-16T01:00:00Z",
+  "window_start": "2026-09-13T01:00:00Z",
+  "windowless_runs": [
+    {
+      "child_execution_bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 360
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 360
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "18cc50b74aa98ea52b1a53a4e431249a48ab41b29f55475588f6f0e32cd5f371"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 5,
+        "elapsed_monotonic_seconds": 0.3774205000081565,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 16384,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 40
+      },
+      "child_summary": {
+        "changes": 0,
+        "checked_at": "2026-09-12T21:53:46.969779Z",
+        "current_counts": {
+          "PLANNED": 72
+        },
+        "deadline_counts": {
+          "PENDING": 72
+        },
+        "delivery": [],
+        "notification_send_requested": true,
+        "notification_state": {
+          "pending": 0,
+          "unconfirmed": 0
+        },
+        "receipt_hash": "8cc47ccb696f2ebcbdf3bca31ab5f7b423f6419bb3c37a86b10a4530eee30166",
+        "status": "VERIFIED_RECEIPT_SCAN"
+      },
+      "ended_at": "2026-09-12T21:53:47.023087Z",
+      "exit_code": 0,
+      "outer_bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 1670
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 1670
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "3839850d165234708f0192cf5ee75d6d9b672cfcdffc84b02fafd856ddc58dc0"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 5,
+        "elapsed_monotonic_seconds": 0.7541076000197791,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 16384,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 50
+      },
+      "receipt_hash": "1f771500f465e98532056d52a17235a44da132fe0ba5b37afff1ca32696ffef8",
+      "result_scope": "PROCESS_RESULT_NOT_WINDOW_ACCEPTANCE",
+      "role": "watch",
+      "status": "COMPLETED"
+    },
+    {
+      "child_execution_bounds": null,
+      "child_summary": null,
+      "ended_at": "2026-09-12T21:53:47.323013Z",
+      "exit_code": 0,
+      "outer_bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 485
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 485
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "fea3f3c3c097ffe231a4b96f1e7f68809d270bbc0b5a34beb58dcf3f77aa85c8"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 5,
+        "elapsed_monotonic_seconds": 0.32554680001339875,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 16384,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 50
+      },
+      "receipt_hash": "854a840c2dedb533db5e7ebaa1153f57cb465444c14274350ca47ffb1a4a665b",
+      "result_scope": "PROCESS_RESULT_NOT_WINDOW_ACCEPTANCE",
+      "role": "observe",
+      "status": "OUTSIDE_DECLARED_RUN_WINDOW"
+    }
+  ]
+}
