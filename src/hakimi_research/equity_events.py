@@ -411,7 +411,9 @@ def _ledger_lock(directory: Path):
 
 
 def save_equity_event(document: dict, directory: str | Path) -> Path:
-    """Append one validated version under an exclusive lock; never overwrite."""
+    """Atomically publish validated protocol bytes under the ledger lock."""
+    from .reporting import _save_encoded_report
+
     verified = verify_equity_event(document)
     directory = Path(directory).resolve()
     directory.mkdir(parents=True, exist_ok=True)
@@ -428,9 +430,7 @@ def save_equity_event(document: dict, directory: str | Path) -> Path:
         _lineage(existing + [verified])
         if path.exists():
             return path
-        with path.open("xb") as handle:
-            handle.write(canonical_bytes(verified) + b"\n")
-            handle.flush()
+        _save_encoded_report(canonical_bytes(verified) + b"\n", path)
     return path
 
 

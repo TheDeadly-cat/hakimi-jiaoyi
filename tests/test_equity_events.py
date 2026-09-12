@@ -3,11 +3,21 @@ from __future__ import annotations
 
 import base64
 import copy
+from concurrent.futures import ThreadPoolExecutor
+import errno
+import json
+import os
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
+import threading
+import time
 import unittest
+from unittest.mock import patch
 
 from hakimi_research.documents import digest
+from hakimi_research.documents import canonical_bytes, read_document
 from hakimi_research.equity_events import (
     build_equity_event, event_session_eligibility, save_equity_event,
     select_event_versions, verify_equity_event,
@@ -282,6 +292,186 @@ class EquityEventTests(unittest.TestCase):
         self.assertEqual(event_session_eligibility(event, [], 60)["status"], "NOT_READY")
         with self.assertRaisesRegex(ValueError, "delay_seconds"):
             event_session_eligibility(event, sessions(), True)
+
+class EquityEventPersistenceTests(unittest.TestCase):
+    """Exercise real event validation, directory locks and filesystem publication."""
+
+    def _partial_writes(self, callback):
+        # Instrument actual byte writes for either the old final-file path or
+        # the shared staging path. Validation, lineage and locks remain real.
+        original_open, original_fdopen = Path.open, os.fdopen
+
+        class PartialStream:
+            def __init__(self, stream):
+                self.stream = stream
+            def __enter__(self):
+                return self
+            def __exit__(self, *args):
+                self.stream.close()
+            def write(self, data):
+                split = len(data) // 2
+                self.stream.write(data[:split])
+                self.stream.flush()
+                callback()
+                return split + self.stream.write(data[split:])
+            def flush(self):
+                return self.stream.flush()
+            def fileno(self):
+                return self.stream.fileno()
+
+        def open_path(path, mode="r", *args, **kwargs):
+            stream = original_open(path, mode, *args, **kwargs)
+            return PartialStream(stream) if mode == "xb" and path.name.startswith("event_") else stream
+
+        return (patch.object(Path, "open", open_path),
+                patch("hakimi_research.reporting.os.fdopen",
+                      side_effect=lambda fd, mode: PartialStream(original_fdopen(fd, mode))))
+
+    def test_partial_write_failure_does_not_poison_unrelated_import_or_revision(self):
+        first = build_equity_event(RAW, metadata())
+        second = revision(first)
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            old = save_equity_event(first, root)
+            original = old.read_bytes()
+            def disk_full():
+                raise OSError("injected disk full after partial write")
+            path_patch, fd_patch = self._partial_writes(disk_full)
+            with path_patch, fd_patch:
+                with self.assertRaisesRegex(OSError, "disk full"):
+                    save_equity_event(second, root)
+            self.assertEqual(sorted(root.glob("event_*.json")), [old])
+            self.assertEqual(old.read_bytes(), original)
+            other = metadata()
+            other["event_id"] = "TEST:UNRELATED:EARNINGS"
+            save_equity_event(build_equity_event(RAW, other), root)
+            saved = save_equity_event(second, root)
+            self.assertEqual(saved.read_bytes(), canonical_bytes(second) + b"\n")
+            self.assertEqual(old.read_bytes(), original)
+            self.assertEqual(select_event_versions([read_document(old), read_document(saved)],
+                             "2024-12-03T00:00:00Z"), [second])
+
+    def test_unlocked_reader_sees_complete_old_or_new_state_during_partial_write(self):
+        first = build_equity_event(RAW, metadata())
+        second = revision(first)
+        partial, resume = threading.Event(), threading.Event()
+        def pause():
+            partial.set()
+            if not resume.wait(10):
+                raise TimeoutError("reader did not release writer")
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            old = save_equity_event(first, root)
+            original = old.read_bytes()
+            path_patch, fd_patch = self._partial_writes(pause)
+            with path_patch, fd_patch, ThreadPoolExecutor(max_workers=1) as pool:
+                task = pool.submit(save_equity_event, second, root)
+                try:
+                    self.assertTrue(partial.wait(10), "writer never reached partial write")
+                    # Same unlocked glob/read/verify behavior as the CLI reader.
+                    during = [verify_equity_event(read_document(p)) for p in root.glob("event_*.json")]
+                    self.assertEqual(during, [first])
+                    self.assertEqual(select_event_versions(during, "2024-12-03T00:00:00Z"), [first])
+                finally:
+                    resume.set()
+                saved = task.result(timeout=10)
+            after = [verify_equity_event(read_document(p)) for p in root.glob("event_*.json")]
+            self.assertEqual(select_event_versions(after, "2024-12-03T00:00:00Z"), [second])
+            self.assertEqual(saved.read_bytes(), canonical_bytes(second) + b"\n")
+            self.assertEqual(old.read_bytes(), original)
+
+    def test_process_exit_mid_write_preserves_old_bytes_and_retry_releases_lock(self):
+        first = build_equity_event(RAW, metadata())
+        second = revision(first)
+        code = r'''
+import base64, json, os, sys
+from pathlib import Path
+from hakimi_research import reporting
+from hakimi_research.equity_events import build_equity_event, save_equity_event
+payload = json.loads(Path(sys.argv[2]).read_bytes())
+raw = base64.b64decode(payload.pop("raw")["content_base64"])
+for key in ("schema_version", "event_hash", "availability", "authority"):
+    payload.pop(key)
+event = build_equity_event(raw, payload)
+original_open, original_fdopen = Path.open, os.fdopen
+class CrashingStream:
+    def __init__(self, stream): self.stream = stream
+    def __enter__(self): return self
+    def __exit__(self, *args): self.stream.close()
+    def write(self, data):
+        self.stream.write(data[:len(data)//2]); self.stream.flush(); os._exit(73)
+def opened(path, mode="r", *args, **kwargs):
+    stream = original_open(path, mode, *args, **kwargs)
+    return CrashingStream(stream) if mode == "xb" and path.name.startswith("event_") else stream
+Path.open = opened
+reporting.os.fdopen = lambda fd, mode: CrashingStream(original_fdopen(fd, mode))
+save_equity_event(event, sys.argv[1])
+'''
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            ledger = root / "ledger"
+            old = save_equity_event(first, ledger)
+            original = old.read_bytes()
+            payload = root / "revision-input.json"
+            payload.write_bytes(canonical_bytes(second))
+            crashed = subprocess.run([sys.executable, "-B", "-c", code, str(ledger), str(payload)],
+                                     capture_output=True, text=True, timeout=20)
+            self.assertEqual(crashed.returncode, 73, crashed.stderr)
+            self.assertEqual(list(ledger.glob("event_*.json")), [old])
+            self.assertTrue(list(ledger.glob(".*.staging-*.tmp")))
+            saved = save_equity_event(second, ledger)
+            self.assertEqual(verify_equity_event(read_document(saved)), second)
+            self.assertEqual(old.read_bytes(), original)
+
+    def test_concurrent_identical_writers_retry_busy_lock_idempotently_and_reject_conflict(self):
+        first = build_equity_event(RAW, metadata())
+        second = revision(first)
+        barrier = threading.Barrier(4)
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            old = save_equity_event(first, root)
+            original = old.read_bytes()
+            def writer():
+                barrier.wait(timeout=10)
+                deadline = time.monotonic() + 10
+                while True:
+                    try:
+                        return save_equity_event(second, root)
+                    except OSError as exc:
+                        if exc.errno not in (errno.EACCES, errno.EAGAIN, errno.EDEADLK) or time.monotonic() >= deadline:
+                            raise
+                        time.sleep(0.01)  # existing nonblocking directory-lock contract
+            with ThreadPoolExecutor(max_workers=4) as pool:
+                futures = [pool.submit(writer) for _ in range(4)]
+                paths = [task.result(timeout=15) for task in futures]
+            self.assertEqual(len(set(paths)), 1)
+            self.assertEqual(len(list(root.glob("event_*.json"))), 2)
+            self.assertEqual(paths[0].read_bytes(), canonical_bytes(second) + b"\n")
+            conflict = copy.deepcopy(second)
+            conflict["uncertainties"].append("Conflicting extraction of the same version.")
+            conflict["event_hash"] = digest({k:v for k,v in conflict.items() if k != "event_hash"})
+            verify_equity_event(conflict)
+            with self.assertRaisesRegex(ValueError, "duplicate_version_conflict"):
+                save_equity_event(conflict, root)
+            self.assertEqual(old.read_bytes(), original)
+            self.assertEqual(len(list(root.glob("event_*.json"))), 2)
+
+    def test_fsync_or_publish_failure_preserves_ledger_and_allows_retry(self):
+        first = build_equity_event(RAW, metadata())
+        second = revision(first)
+        for target in ("os.fsync", "os.link"):
+            with self.subTest(target=target), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                old = save_equity_event(first, root)
+                original = old.read_bytes()
+                with patch("hakimi_research.reporting." + target, side_effect=OSError("injected publish failure")):
+                    with self.assertRaisesRegex(OSError, "injected publish failure"):
+                        save_equity_event(second, root)
+                self.assertEqual(list(root.glob("event_*.json")), [old])
+                self.assertFalse(list(root.glob(".*.staging-*.tmp")))
+                self.assertEqual(verify_equity_event(read_document(save_equity_event(second, root))), second)
+                self.assertEqual(old.read_bytes(), original)
+
 
 if __name__ == "__main__":
     unittest.main()
