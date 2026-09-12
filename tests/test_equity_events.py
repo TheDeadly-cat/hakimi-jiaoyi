@@ -296,6 +296,9 @@ class EquityEventTests(unittest.TestCase):
 class EquityEventPersistenceTests(unittest.TestCase):
     """Exercise real event validation, directory locks and filesystem publication."""
 
+    # Resolve temporary roots like save_equity_event does: Windows runners may
+    # spell TEMP with an 8.3 alias even though the saver returns the long path.
+
     def _partial_writes(self, callback):
         # Instrument actual byte writes for either the old final-file path or
         # the shared staging path. Validation, lineage and locks remain real.
@@ -331,7 +334,7 @@ class EquityEventPersistenceTests(unittest.TestCase):
         first = build_equity_event(RAW, metadata())
         second = revision(first)
         with tempfile.TemporaryDirectory() as folder:
-            root = Path(folder)
+            root = Path(folder).resolve()
             old = save_equity_event(first, root)
             original = old.read_bytes()
             def disk_full():
@@ -360,7 +363,7 @@ class EquityEventPersistenceTests(unittest.TestCase):
             if not resume.wait(10):
                 raise TimeoutError("reader did not release writer")
         with tempfile.TemporaryDirectory() as folder:
-            root = Path(folder)
+            root = Path(folder).resolve()
             old = save_equity_event(first, root)
             original = old.read_bytes()
             path_patch, fd_patch = self._partial_writes(pause)
@@ -408,7 +411,7 @@ reporting.os.fdopen = lambda fd, mode: CrashingStream(original_fdopen(fd, mode))
 save_equity_event(event, sys.argv[1])
 '''
         with tempfile.TemporaryDirectory() as folder:
-            root = Path(folder)
+            root = Path(folder).resolve()
             ledger = root / "ledger"
             old = save_equity_event(first, ledger)
             original = old.read_bytes()
@@ -428,7 +431,7 @@ save_equity_event(event, sys.argv[1])
         second = revision(first)
         barrier = threading.Barrier(4)
         with tempfile.TemporaryDirectory() as folder:
-            root = Path(folder)
+            root = Path(folder).resolve()
             old = save_equity_event(first, root)
             original = old.read_bytes()
             def writer():
@@ -461,7 +464,7 @@ save_equity_event(event, sys.argv[1])
         second = revision(first)
         for target in ("os.fsync", "os.link"):
             with self.subTest(target=target), tempfile.TemporaryDirectory() as folder:
-                root = Path(folder)
+                root = Path(folder).resolve()
                 old = save_equity_event(first, root)
                 original = old.read_bytes()
                 with patch("hakimi_research.reporting." + target, side_effect=OSError("injected publish failure")):
