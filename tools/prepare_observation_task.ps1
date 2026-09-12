@@ -1,6 +1,6 @@
 param(
     [string]$RuntimeRoot = (Join-Path $env:LOCALAPPDATA 'HakimiResearch\builds\ci-33969915599'),
-    [string]$JobRoot = (Join-Path $env:LOCALAPPDATA 'HakimiResearch\observation-job-20260909'),
+    [string]$JobRoot = (Join-Path $env:LOCALAPPDATA 'HakimiResearch\observation-job-20260913'),
     [string]$TaskName = 'HakimiReadOnlyObservation',
     [switch]$Apply,
     [switch]$SchedulingAuthoritySwitchConfirmed
@@ -40,6 +40,11 @@ $preview = [ordered]@{
     wake_to_run = $true
     start_when_available = $true
     multiple_instances = 'IgnoreNew'
+    execution_time_limit = 'PT10M; launcher-owned child deadline PT5M plus bounded cleanup'
+    child_execution_timeout_seconds = 300
+    child_cleanup_timeout_seconds = 5
+    child_combined_output_limit_bytes = 4194304
+    process_ownership = 'Private Windows job; kill all assigned descendants when launcher exits'
     logon_type = 'Interactive; current user must be logged on'
     scheduler_clock_evidence = 'PROCESS_START_ONLY; underlying frozen wrapper uses MANUAL'
     notification_delivery = 'NOT_SENT_BY_THIS_TOOL'
@@ -55,7 +60,7 @@ if (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) {
 }
 $action = New-ScheduledTaskAction -Execute $pythonWindowless -Argument $arguments -WorkingDirectory $runtime
 $trigger = New-ScheduledTaskTrigger -Once -At $firstRun -RepetitionInterval (New-TimeSpan -Hours 1)
-$settings = New-ScheduledTaskSettingsSet -WakeToRun -StartWhenAvailable -MultipleInstances IgnoreNew -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit ([TimeSpan]::Zero)
+$settings = New-ScheduledTaskSettingsSet -WakeToRun -StartWhenAvailable -MultipleInstances IgnoreNew -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Minutes 10)
 $principal = New-ScheduledTaskPrincipal -UserId $identity -LogonType Interactive -RunLevel Limited
 $definition = New-ScheduledTask -Action $action -Trigger $trigger -Settings $settings -Principal $principal -Description 'Pinned public-data observer. No accounts/orders. PROCESS_START_ONLY; no fabricated scheduler event time. Local receipts only.'
 Register-ScheduledTask -TaskName $TaskName -InputObject $definition | Select-Object TaskName, State

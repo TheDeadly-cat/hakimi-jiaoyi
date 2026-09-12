@@ -10,11 +10,14 @@ from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import subprocess
 import sys
+import threading
 import time
+from types import SimpleNamespace
 import uuid
 
 WRAPPER_SHA256 = "213e855414e125b419c0153f189b01415bb22d68e0f3f168c21e5014ac4472da"
@@ -22,6 +25,258 @@ PLAN_SHA256 = "f2a02318846a8bd9ed80c667920d9b6c8fc7b27a1b27b70010f9422d0bf0b3d3"
 SOURCE_SHA256 = "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5"
 ENVIRONMENT_SHA256 = "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e"
 UTC = timezone.utc
+EXECUTION_TIMEOUT_SECONDS = 300
+CLEANUP_TIMEOUT_SECONDS = 5
+OUTPUT_LIMIT_BYTES = 4 * 1024 * 1024
+
+# The isolated bootstrap cannot spawn the observer until its parent puts it in
+# the owned job. -I -S excludes site startup hooks; stdin is only a launch gate.
+_OWNED_BOOTSTRAP = '''import os, sys
+if os.read(0, 1) != b"R":
+    raise SystemExit(125)
+import subprocess
+raise SystemExit(subprocess.call(sys.argv[1:], stdin=subprocess.DEVNULL, creationflags=subprocess.CREATE_NO_WINDOW))
+'''
+
+
+class _WindowsJob:
+    """Unnamed, non-inheritable job; only descendants of our gated child join."""
+    def __init__(self):
+        import ctypes as c
+        from ctypes import wintypes as w
+
+        class BasicLimits(c.Structure):
+            _fields_ = [("process_time", c.c_longlong), ("job_time", c.c_longlong),
+                        ("flags", w.DWORD), ("minimum_working_set", c.c_size_t),
+                        ("maximum_working_set", c.c_size_t), ("active_limit", w.DWORD),
+                        ("affinity", c.c_size_t), ("priority", w.DWORD), ("scheduling", w.DWORD)]
+
+        class IoCounters(c.Structure):
+            _fields_ = [(name, c.c_ulonglong) for name in
+                        ("read_ops", "write_ops", "other_ops", "read_bytes", "write_bytes", "other_bytes")]
+
+        class ExtendedLimits(c.Structure):
+            _fields_ = [("basic", BasicLimits), ("io", IoCounters),
+                        ("process_memory", c.c_size_t), ("job_memory", c.c_size_t),
+                        ("peak_process_memory", c.c_size_t), ("peak_job_memory", c.c_size_t)]
+
+        class Accounting(c.Structure):
+            _fields_ = [("user_time", c.c_longlong), ("kernel_time", c.c_longlong),
+                        ("period_user_time", c.c_longlong), ("period_kernel_time", c.c_longlong),
+                        ("page_faults", w.DWORD), ("total_processes", w.DWORD),
+                        ("active_processes", w.DWORD), ("terminated_processes", w.DWORD)]
+
+        class ProcessIds(c.Structure):
+            _fields_ = [("assigned", w.DWORD), ("returned", w.DWORD), ("ids", c.c_size_t * 4096)]
+
+        self.c, self.accounting, self.process_ids = c, Accounting, ProcessIds
+        self.api = c.WinDLL("kernel32", use_last_error=True)
+        signatures = {
+            "CreateJobObjectW": ([w.LPVOID, w.LPCWSTR], w.HANDLE),
+            "SetInformationJobObject": ([w.HANDLE, c.c_int, w.LPVOID, w.DWORD], w.BOOL),
+            "AssignProcessToJobObject": ([w.HANDLE, w.HANDLE], w.BOOL),
+            "QueryInformationJobObject": ([w.HANDLE, c.c_int, w.LPVOID, w.DWORD, c.POINTER(w.DWORD)], w.BOOL),
+            "TerminateJobObject": ([w.HANDLE, w.UINT], w.BOOL),
+            "OpenProcess": ([w.DWORD, w.BOOL, w.DWORD], w.HANDLE),
+            "IsProcessInJob": ([w.HANDLE, w.HANDLE, c.POINTER(w.BOOL)], w.BOOL),
+            "WaitForSingleObject": ([w.HANDLE, w.DWORD], w.DWORD),
+            "CloseHandle": ([w.HANDLE], w.BOOL),
+        }
+        for name, (arguments, result) in signatures.items():
+            function = getattr(self.api, name)
+            function.argtypes, function.restype = arguments, result
+        self.handle = self.api.CreateJobObjectW(None, None)
+        self._check(self.handle)
+        limits = ExtendedLimits()
+        limits.basic.flags = 0x2000  # JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE; no breakaway
+        try:
+            self._check(self.api.SetInformationJobObject(self.handle, 9, c.byref(limits), c.sizeof(limits)))
+        except BaseException:
+            self.close()
+            raise
+
+    def _check(self, result):
+        if not result:
+            raise self.c.WinError(self.c.get_last_error())
+
+    def assign(self, process):
+        # This is the live handle returned by Popen, never a discovered PID.
+        self._check(self.api.AssignProcessToJobObject(self.handle, int(process._handle)))
+
+    def active_count(self):
+        value = self.accounting()
+        self._check(self.api.QueryInformationJobObject(self.handle, 1, self.c.byref(value), self.c.sizeof(value), None))
+        return value.active_processes
+
+    def terminate(self):
+        self._check(self.api.TerminateJobObject(self.handle, 1))
+
+    def retain_process_handles(self):
+        """Keep wait-only handles for job members while termination cancels I/O."""
+        from ctypes import wintypes
+        members = self.process_ids()
+        self._check(self.api.QueryInformationJobObject(self.handle, 3, self.c.byref(members), self.c.sizeof(members), None))
+        if members.returned != members.assigned or members.returned > 4096:
+            raise OSError("owned_job_process_list_incomplete")
+        handles = []
+        try:
+            for pid in members.ids[:members.returned]:
+                handle = self.api.OpenProcess(0x101000, False, pid)  # SYNCHRONIZE | QUERY_LIMITED_INFORMATION
+                if not handle and self.c.get_last_error() == 87:
+                    continue  # already exited before opening; no action by PID
+                self._check(handle)
+                try:
+                    ours = wintypes.BOOL()
+                    self._check(self.api.IsProcessInJob(handle, self.handle, self.c.byref(ours)))
+                    if ours.value:
+                        handles.append(handle)
+                        handle = None
+                finally:
+                    if handle:
+                        self.api.CloseHandle(handle)
+            return handles
+        except BaseException:
+            self.release_process_handles(handles)
+            raise
+
+    def wait_for_exits(self, handles, deadline):
+        for handle in handles:
+            remaining_ms = max(0, int((deadline - time.monotonic()) * 1000))
+            if self.api.WaitForSingleObject(handle, remaining_ms) != 0:
+                return False
+        return True
+
+    def release_process_handles(self, handles):
+        for handle in handles:
+            self.api.CloseHandle(handle)
+
+    def close(self):
+        if self.handle:
+            self._check(self.api.CloseHandle(self.handle))
+            self.handle = None
+
+
+def _run_owned_windows(argv, root, *, environment, timeout_seconds, output_limit_bytes, cleanup_seconds):
+    if os.name != "nt":
+        raise OSError("owned_observation_executor_requires_windows_job_objects")
+    started = time.monotonic()
+    deadline = started + timeout_seconds
+    job = _WindowsJob()
+    process = None
+    owned_process_handles = []
+    readers = []
+    captured = {"stdout": bytearray(), "stderr": bytearray()}
+    seen = {"stdout": 0, "stderr": 0}
+    output_lock = threading.Lock()
+    exceeded, read_failed = threading.Event(), threading.Event()
+    outcome = "EXITED"
+    cleanup_confirmed = False
+    cleanup_deadline = None
+
+    def read_stream(name, stream):
+        try:
+            while True:
+                block = stream.read(65536)
+                if not block:
+                    return
+                with output_lock:
+                    seen[name] += len(block)
+                    remaining = output_limit_bytes - sum(len(value) for value in captured.values())
+                    captured[name].extend(block[:remaining])
+                    if len(block) > remaining:
+                        exceeded.set()
+                        # Keep draining while termination cancels pending writes;
+                        # retain no extra bytes and never wait beyond cleanup.
+        except (OSError, ValueError):
+            read_failed.set()
+
+    try:
+        process = subprocess.Popen(
+            [sys.executable, "-I", "-S", "-B", "-c", _OWNED_BOOTSTRAP, *argv],
+            cwd=root, env=environment, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, bufsize=0, close_fds=True,
+            creationflags=subprocess.CREATE_NO_WINDOW,
+        )
+        job.assign(process)  # failure leaves the bootstrap gated; no observer starts
+        for name in ("stdout", "stderr"):
+            thread = threading.Thread(target=read_stream, args=(name, getattr(process, name)), daemon=True)
+            thread.start()
+            readers.append(thread)
+        process.stdin.write(b"R")
+        process.stdin.close()
+        while process.poll() is None:
+            if exceeded.is_set():
+                outcome = "OUTPUT_LIMIT"
+                break
+            if read_failed.is_set():
+                outcome = "OUTPUT_READ_FAILED"
+                break
+            if time.monotonic() >= deadline:
+                outcome = "TIMED_OUT"
+                break
+            exceeded.wait(min(0.02, max(0, deadline - time.monotonic())))
+        if exceeded.is_set():
+            outcome = "OUTPUT_LIMIT"
+        active = job.active_count()
+        cleanup_deadline = time.monotonic() + cleanup_seconds
+        if active:
+            if outcome == "EXITED":
+                outcome = "LEFTOVER_DESCENDANTS"
+            owned_process_handles = job.retain_process_handles()
+            job.terminate()
+        while job.active_count() and time.monotonic() < cleanup_deadline:
+            time.sleep(0.01)
+        cleanup_confirmed = job.active_count() == 0 and job.wait_for_exits(owned_process_handles, cleanup_deadline)
+        if cleanup_confirmed:
+            process.wait(timeout=max(0.001, cleanup_deadline - time.monotonic()))
+        for thread in readers:
+            thread.join(timeout=max(0, cleanup_deadline - time.monotonic()))
+        if any(thread.is_alive() for thread in readers) or not cleanup_confirmed:
+            outcome = "CLEANUP_NOT_CONFIRMED"
+            cleanup_confirmed = False
+        elif exceeded.is_set():
+            outcome = "OUTPUT_LIMIT"
+        elif read_failed.is_set():
+            outcome = "OUTPUT_READ_FAILED"
+    finally:
+        # Closing this private handle also covers abrupt launcher termination.
+        # A failed assignment can only leave our still-gated bootstrap, which has
+        # no children and can safely be terminated through its original handle.
+        job.close()
+        job.release_process_handles(owned_process_handles)
+        if process is not None:
+            if process.poll() is None:
+                process.kill()
+                try:
+                    remaining = (cleanup_deadline or time.monotonic() + cleanup_seconds) - time.monotonic()
+                    process.wait(timeout=max(0.001, remaining))
+                except subprocess.TimeoutExpired:
+                    cleanup_confirmed = False
+            if process.stdin and not process.stdin.closed:
+                process.stdin.close()
+            if not any(thread.is_alive() for thread in readers):
+                process.stdout.close()
+                process.stderr.close()
+    with output_lock:
+        raw = {name: bytes(value) for name, value in captured.items()}
+        counts = dict(seen)
+    decoded = {}
+    for name, value in raw.items():
+        try:
+            decoded[name] = value.decode("utf-8")
+        except UnicodeError:
+            decoded[name] = value.decode("utf-8", errors="replace")
+            if outcome == "EXITED":
+                outcome = "OUTPUT_ENCODING_INVALID"
+    bounds = {"ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY", "outcome": outcome,
+              "timeout_seconds": timeout_seconds, "cleanup_seconds": cleanup_seconds,
+              "output_limit_bytes_combined": output_limit_bytes, "bytes_seen": counts,
+              "bytes_retained": {name: len(value) for name, value in raw.items()},
+              "captured_sha256": {name: hashlib.sha256(value).hexdigest() for name, value in raw.items()},
+              "output_truncated": exceeded.is_set(), "cleanup_confirmed": cleanup_confirmed,
+              "owned_process_handles_waited": len(owned_process_handles),
+              "elapsed_monotonic_seconds": time.monotonic() - started}
+    return SimpleNamespace(returncode=process.returncode, stdout=decoded["stdout"], stderr=decoded["stderr"], bounds=bounds)
 
 
 def now():
@@ -142,16 +397,19 @@ def command(root, scheduler_event_at):
     return argv
 
 
-def execute(argv, root):
-    environment = dict(os.environ)
-    for key in ("PYTHONPATH", "PYTHONHOME"):
-        environment.pop(key, None)
+def execute(argv, root, *, timeout_seconds=EXECUTION_TIMEOUT_SECONDS,
+            output_limit_bytes=OUTPUT_LIMIT_BYTES, cleanup_seconds=CLEANUP_TIMEOUT_SECONDS):
+    if (type(timeout_seconds) not in (int, float) or not math.isfinite(timeout_seconds)
+            or not 0 < timeout_seconds <= 600 or type(cleanup_seconds) not in (int, float)
+            or not math.isfinite(cleanup_seconds) or not 0 < cleanup_seconds <= 10
+            or type(output_limit_bytes) is not int or not 1 <= output_limit_bytes <= OUTPUT_LIMIT_BYTES):
+        raise ValueError("invalid_owned_process_bounds")
+    if type(argv) is not list or not argv or any(type(arg) is not str or not arg or "\0" in arg for arg in argv):
+        raise ValueError("invalid_child_arguments")
+    environment = {key: value for key, value in os.environ.items() if key.upper() not in {"PYTHONPATH", "PYTHONHOME"}}
     environment.update(PYTHONUTF8="1", PYTHONIOENCODING="utf-8", PYTHONDONTWRITEBYTECODE="1")
-    flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
-    # The pinned wrapper owns its bounded collector timeout. Do not kill its
-    # parent alone and leave a collector running without its original lock.
-    return subprocess.run(argv, cwd=root, env=environment, capture_output=True,
-                          text=True, encoding="utf-8", creationflags=flags)
+    return _run_owned_windows(argv, root, environment=environment, timeout_seconds=timeout_seconds,
+                              output_limit_bytes=output_limit_bytes, cleanup_seconds=cleanup_seconds)
 
 
 def absences(cycle, allowed_plans):
@@ -227,16 +485,20 @@ def run(root, job_root, *, scheduler_event_at=None):
     cutoff = started.replace(minute=0, second=0, microsecond=0)
     attempt_id = started.strftime("%Y%m%dT%H%M%S%fZ") + "_" + uuid.uuid4().hex
     directory = job_root / "attempts" / attempt_id
-    start = sealed({"schema_version": "observation-job-start-v1", "attempt_id": attempt_id,
+    start = sealed({"schema_version": "observation-job-start-v2", "attempt_id": attempt_id,
                     "launcher_function_started_at": stamp(started), "input_cutoff": stamp(cutoff),
                     "scheduler_event_at": scheduler_event_at, "trigger_evidence": "CALLER_SUPPLIED_SCHEDULER_EVENT" if scheduler_event_at else "PROCESS_START_ONLY",
                     "underlying_trigger_kind": "SCHEDULED" if scheduler_event_at else "MANUAL",
                     "purpose": "DETERMINISTIC_PROCESS_WITHOUT_INVENTED_SCHEDULER_CLOCK", "launcher_sha256": file_hash(Path(__file__)),
-                    "frozen_wrapper_sha256": WRAPPER_SHA256, "frozen_plan_sha256": PLAN_SHA256, "order_allowed": False})
+                    "frozen_wrapper_sha256": WRAPPER_SHA256, "frozen_plan_sha256": PLAN_SHA256, "order_allowed": False,
+                    "execution_bounds": {"timeout_seconds": EXECUTION_TIMEOUT_SECONDS,
+                                         "cleanup_seconds": CLEANUP_TIMEOUT_SECONDS,
+                                         "combined_output_limit_bytes": OUTPUT_LIMIT_BYTES,
+                                         "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY"}})
     write_new(directory / "started.json", start)
-    end = {"schema_version": "observation-job-end-v1", "attempt_id": attempt_id, "started_receipt_hash": start["receipt_hash"],
+    end = {"schema_version": "observation-job-end-v2", "attempt_id": attempt_id, "started_receipt_hash": start["receipt_hash"],
            "input_cutoff": stamp(cutoff), "health": "FAILED_PREFLIGHT", "result_valid": False,
-           "child_launch_boundary_at": None, "child_wait_completed_at": None, "child_exit_code": None,
+           "child_launch_boundary_at": None, "child_wait_completed_at": None, "child_exit_code": None, "child_execution_bounds": None,
            "prior_unfinished_attempts": [], "new_unfinished_attempts": [], "new_missing_strategy_hours": [], "order_allowed": False,
            "notification": {"decision": "NOTIFY", "reasons": [], "delivery_status": "NOT_SENT_BY_THIS_TOOL"}}
     stage = "PREFLIGHT"
@@ -257,7 +519,8 @@ def run(root, job_root, *, scheduler_event_at=None):
                 baseline, baseline_hash = previous_absences(root, cutoff, allowed)
                 end["previous_driver_sha256"] = baseline_hash
                 launch = now()
-                if launch.replace(minute=0, second=0, microsecond=0) != cutoff or launch.minute >= 55:
+                latest_completion = launch + timedelta(seconds=EXECUTION_TIMEOUT_SECONDS + CLEANUP_TIMEOUT_SECONDS + 30)
+                if launch.replace(minute=0, second=0, microsecond=0) != cutoff or latest_completion >= cutoff + timedelta(hours=1):
                     raise ValueError("hour_changed_or_insufficient_frozen_wrapper_budget")
                 end["child_launch_boundary_at"] = stamp(launch)
                 stage = "EXECUTE"
@@ -266,6 +529,11 @@ def run(root, job_root, *, scheduler_event_at=None):
                 end.update(child_wait_completed_at=stamp(completed), child_exit_code=child.returncode)
                 end["stdout_sha256"] = hashlib.sha256(child.stdout.encode("utf-8")).hexdigest()
                 end["stderr_sha256"] = hashlib.sha256(child.stderr.encode("utf-8")).hexdigest()
+                bounds = getattr(child, "bounds", None)
+                end["child_execution_bounds"] = bounds
+                if bounds is not None and (bounds["outcome"] != "EXITED" or not bounds["cleanup_confirmed"]):
+                    end["health"] = "CHILD_" + bounds["outcome"]
+                    raise ValueError("child_execution_boundary_failed")
                 if child.returncode:
                     end["health"] = "CHILD_TERMINATED" if child.returncode < 0 else "CHILD_FAILED"
                     raise ValueError("child_nonzero_exit")
@@ -305,7 +573,7 @@ def run(root, job_root, *, scheduler_event_at=None):
     except Exception as exc:
         if stage == "VALIDATE":
             end["health"] = "EXIT_ZERO_RESULT_INVALID"
-        elif stage == "EXECUTE" and end["child_exit_code"] is None:
+        elif stage == "EXECUTE" and end["child_exit_code"] is None and end["health"] == "FAILED_PREFLIGHT":
             end["health"] = "CHILD_START_OR_WAIT_FAILED"
         # Never copy exception text or child stderr into user-facing receipts.
         end["error"] = {"type": type(exc).__name__, "stage": stage}
