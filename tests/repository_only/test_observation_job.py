@@ -4,9 +4,12 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import socket
 import subprocess
+import sys
 import tempfile
 import threading
+import time
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
@@ -80,14 +83,14 @@ class ObservationJobTests(unittest.TestCase):
         self.assertNotIn('not-a-clock-private-input', ''.join(p.read_text() for p in self.jobs.glob('attempts/*/*.json')))
 
     def test_clean_child_environment_and_windowless_launch(self):
-        with patch.dict(os.environ, {'PYTHONPATH': 'bad_path', 'PYTHONHOME': 'bad_home'}), patch.object(module.subprocess, 'run') as run:
+        with patch.dict(os.environ, {'PYTHONPATH': 'bad_path', 'PYTHONHOME': 'bad_home'}), patch.object(module, '_run_owned_windows') as run:
             module.execute(['fake-python', 'fake-script'], self.root)
         options = run.call_args.kwargs
-        self.assertNotIn('PYTHONPATH', options['env'])
-        self.assertNotIn('PYTHONHOME', options['env'])
-        self.assertEqual(options['env']['PYTHONUTF8'], '1')
-        if os.name == 'nt':
-            self.assertEqual(options['creationflags'], subprocess.CREATE_NO_WINDOW)
+        self.assertNotIn('PYTHONPATH', options['environment'])
+        self.assertNotIn('PYTHONHOME', options['environment'])
+        self.assertEqual(options['environment']['PYTHONUTF8'], '1')
+        self.assertEqual(options['timeout_seconds'], 300)
+        self.assertEqual(options['output_limit_bytes'], 4 * 1024 * 1024)
 
     def test_exit_zero_expired_result_does_not_report_health(self):
         result, _ = self.run_job(lambda argv, root: self.child(argv, root, old=True))
@@ -190,6 +193,196 @@ class ObservationJobTests(unittest.TestCase):
         result, execute = self.run_job()
         self.assertEqual(result['health'], 'FAILED_PREFLIGHT')
         execute.assert_not_called()
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows owned-job executor')
+    def test_real_timeout_releases_launcher_lock_and_next_cycle_recovers(self):
+        real_execute = module.execute
+        def timeout_child(argv, root):
+            return real_execute([sys.executable, '-I', '-S', '-B', '-c', 'import time; time.sleep(6)'],
+                                root, timeout_seconds=0.3)
+        failed, _ = self.run_job(timeout_child)
+        self.assertEqual(failed['health'], 'CHILD_TIMED_OUT')
+        self.assertFalse(failed['result_valid'])
+        self.assertTrue(failed['child_execution_bounds']['cleanup_confirmed'])
+        self.assertEqual(failed['notification']['decision'], 'NOTIFY')
+        self.cutoff += timedelta(hours=1)
+        self.clock += timedelta(hours=1)
+        recovered, _ = self.run_job()
+        self.assertTrue(recovered['result_valid'])
+        self.assertIn('recovered_after_failed_result', recovered['notification']['reasons'])
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows owned-job executor')
+    def test_real_connection_refusal_is_failed_and_retains_cleanup_evidence(self):
+        real_execute = module.execute
+        # Keep ownership of a loopback port without listening; no broker/provider
+        # address is contacted and another process cannot take the fixture port.
+        with socket.socket() as reserved:
+            reserved.bind(('127.0.0.1', 0))
+            port = reserved.getsockname()[1]
+            code = 'import socket,sys; socket.create_connection(("127.0.0.1",int(sys.argv[1])),timeout=0.2)'
+            def offline_child(argv, root):
+                return real_execute([sys.executable, '-I', '-S', '-B', '-c', code, str(port)], root, timeout_seconds=2)
+            failed, _ = self.run_job(offline_child)
+        self.assertEqual(failed['health'], 'CHILD_FAILED')
+        self.assertFalse(failed['result_valid'])
+        self.assertTrue(failed['child_execution_bounds']['cleanup_confirmed'])
+        self.assertEqual(failed['notification']['decision'], 'NOTIFY')
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows cross-process lock')
+    def test_duplicate_from_a_second_process_never_starts_a_second_observer(self):
+        ready = self.root / 'lock-holder-ready.txt'
+        code = ('import importlib.util,pathlib,sys,time\n'
+                'spec=importlib.util.spec_from_file_location("lock_holder",sys.argv[1])\n'
+                'module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)\n'
+                'with module.job_lock(pathlib.Path(sys.argv[2])) as acquired:\n'
+                ' assert acquired\n'
+                ' pathlib.Path(sys.argv[3]).write_text("ready")\n'
+                ' time.sleep(6)\n')
+        holder = subprocess.Popen([sys.executable, '-I', '-S', '-B', '-c', code,
+                                   str(Path(module.__file__).resolve()), str(self.jobs/'launcher.lock'), str(ready)],
+                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                  creationflags=subprocess.CREATE_NO_WINDOW)
+        try:
+            deadline = time.monotonic() + 3
+            while not ready.exists() and time.monotonic() < deadline:
+                time.sleep(0.01)
+            self.assertTrue(ready.exists())
+            duplicate, execute = self.run_job()
+            self.assertEqual(duplicate['health'], 'DUPLICATE_IN_FLIGHT')
+            execute.assert_not_called()
+        finally:
+            holder.kill()
+            holder.wait(timeout=3)
+        with module.job_lock(self.jobs/'launcher.lock') as acquired:
+            self.assertTrue(acquired)
+
+
+@unittest.skipUnless(os.name == 'nt', 'Windows Job Object behavior')
+class OwnedChildProcessTests(unittest.TestCase):
+    """Real local finite child processes; no frozen deployment or network calls."""
+    def setUp(self):
+        temp = tempfile.TemporaryDirectory(prefix='hakimi-owned-process-test-')
+        self.addCleanup(temp.cleanup)
+        self.root = Path(temp.name).resolve()
+
+    def execute(self, code, *arguments, **options):
+        return module.execute([sys.executable, '-X', 'utf8', '-I', '-S', '-B', '-c', code, *map(str, arguments)],
+                              self.root, **options)
+
+    def assert_pid_exited(self, pid):
+        # Inspect a child-published PID only for liveness; never terminate by PID.
+        import ctypes
+        from ctypes import wintypes
+        api = ctypes.WinDLL('kernel32', use_last_error=True)
+        api.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+        api.OpenProcess.restype = wintypes.HANDLE
+        api.WaitForSingleObject.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+        api.WaitForSingleObject.restype = wintypes.DWORD
+        api.CloseHandle.argtypes = [wintypes.HANDLE]
+        api.CloseHandle.restype = wintypes.BOOL
+        handle = api.OpenProcess(0x100000, False, pid)  # SYNCHRONIZE, no terminate right
+        if not handle:
+            self.assertEqual(ctypes.get_last_error(), 87)  # no such running process
+            return
+        try:
+            self.assertEqual(api.WaitForSingleObject(handle, 2000), 0, 'owned descendant is still running')
+        finally:
+            api.CloseHandle(handle)
+
+    def test_normal_completion_preserves_output_and_exit_status(self):
+        result = self.execute('import os; os.write(1,b"ok\\n"); os.write(2,b"diagnostic\\n"); raise SystemExit(7)')
+        self.assertEqual((result.returncode, result.stdout, result.stderr), (7, 'ok\n', 'diagnostic\n'))
+        self.assertEqual(result.bounds['outcome'], 'EXITED')
+        self.assertTrue(result.bounds['cleanup_confirmed'])
+
+    def test_hang_is_bounded_and_output_limit_is_combined_while_streaming(self):
+        started = time.monotonic()
+        result = self.execute('import time; time.sleep(6)', timeout_seconds=0.3)
+        self.assertEqual(result.bounds['outcome'], 'TIMED_OUT')
+        self.assertTrue(result.bounds['cleanup_confirmed'])
+        self.assertLess(time.monotonic() - started, 3)
+        code = 'import os\nfor _ in range(200):\n os.write(1,b"x"*512); os.write(2,b"y"*512)'
+        result = self.execute(code, output_limit_bytes=1024, timeout_seconds=2)
+        self.assertEqual(result.bounds['outcome'], 'OUTPUT_LIMIT')
+        self.assertLessEqual(sum(result.bounds['bytes_retained'].values()), 1024)
+        self.assertGreater(sum(result.bounds['bytes_seen'].values()), 1024)
+        self.assertTrue(result.bounds['output_truncated'])
+        self.assertTrue(result.bounds['cleanup_confirmed'])
+
+    def test_descendants_are_reaped_even_when_their_parent_exits_zero(self):
+        child = 'import os,pathlib,sys,time; pathlib.Path(sys.argv[1]).write_text(str(os.getpid())); time.sleep(6)'
+        for close_output in (False, True):
+            with self.subTest(close_output=close_output):
+                marker = self.root / ('descendant-' + str(close_output) + '.txt')
+                code = ('import pathlib,subprocess,sys,time\n'
+                        'options = {"stdout":subprocess.DEVNULL,"stderr":subprocess.DEVNULL} if sys.argv[3]=="True" else {}\n'
+                        'subprocess.Popen([sys.executable,"-I","-S","-B","-c",sys.argv[2],sys.argv[1]],**options)\n'
+                        'deadline=time.monotonic()+3\n'
+                        'while not pathlib.Path(sys.argv[1]).exists() and time.monotonic()<deadline: time.sleep(0.01)\n')
+                result = self.execute(code, marker, child, close_output, timeout_seconds=4)
+                self.assertEqual(result.returncode, 0)
+                self.assertEqual(result.bounds['outcome'], 'LEFTOVER_DESCENDANTS')
+                self.assertTrue(result.bounds['cleanup_confirmed'])
+                self.assert_pid_exited(int(marker.read_text()))
+
+    def test_failed_job_assignment_never_starts_the_observer(self):
+        marker = self.root / 'must-not-start.txt'
+        with patch.object(module._WindowsJob, 'assign', side_effect=OSError('injected assignment failure')):
+            with self.assertRaises(OSError):
+                self.execute('import pathlib,sys; pathlib.Path(sys.argv[1]).touch()', marker)
+        self.assertFalse(marker.exists())
+
+    def test_timeout_does_not_terminate_an_unrelated_process(self):
+        other = subprocess.Popen([sys.executable, '-I', '-S', '-B', '-c', 'import time; time.sleep(6)'],
+                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                 creationflags=subprocess.CREATE_NO_WINDOW)
+        try:
+            result = self.execute('import time; time.sleep(6)', timeout_seconds=0.3)
+            self.assertTrue(result.bounds['cleanup_confirmed'])
+            self.assertIsNone(other.poll())
+        finally:
+            other.kill()  # this test's own Popen handle, outside the executor job
+            other.wait(timeout=3)
+
+    def test_abrupt_launcher_exit_releases_descendant_lock(self):
+        lock, ready = self.root / 'child.lock', self.root / 'child-ready.txt'
+        child = ('import msvcrt,os,pathlib,sys,time\n'
+                 'stream=open(sys.argv[1],"w+b"); stream.write(b"0"); stream.flush(); stream.seek(0)\n'
+                 'msvcrt.locking(stream.fileno(),msvcrt.LK_NBLCK,1)\n'
+                 'pathlib.Path(sys.argv[2]).write_text(str(os.getpid()))\n'
+                 'time.sleep(6)\n')
+        driver = ('import importlib.util,pathlib,sys\n'
+                  'spec=importlib.util.spec_from_file_location("owned_driver",sys.argv[1])\n'
+                  'module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)\n'
+                  'module.execute([sys.executable,"-I","-S","-B","-c",sys.argv[2],sys.argv[3],sys.argv[4]],pathlib.Path(sys.argv[3]).parent)\n')
+        launcher = subprocess.Popen([sys.executable, '-I', '-S', '-B', '-c', driver,
+                                     str(Path(module.__file__).resolve()), child, str(lock), str(ready)],
+                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                    creationflags=subprocess.CREATE_NO_WINDOW)
+        try:
+            deadline = time.monotonic() + 3
+            while not ready.exists() and time.monotonic() < deadline:
+                time.sleep(0.01)
+            self.assertTrue(ready.exists(), 'fixture never acquired its lock')
+            launcher.kill()  # stable handle for the launcher created by this test
+            launcher.wait(timeout=3)
+            self.assert_pid_exited(int(ready.read_text()))
+            with module.job_lock(lock) as acquired:
+                self.assertTrue(acquired, 'descendant lock survived launcher termination')
+        finally:
+            if launcher.poll() is None:
+                launcher.kill()
+                launcher.wait(timeout=3)
+
+    def test_invalid_utf8_and_invalid_bounds_cannot_be_accepted(self):
+        result = self.execute('import os; os.write(1,b"\\xff")')
+        self.assertEqual(result.bounds['outcome'], 'OUTPUT_ENCODING_INVALID')
+        for options in ({'timeout_seconds':float('inf')}, {'timeout_seconds':True},
+                        {'output_limit_bytes':0}, {'cleanup_seconds':-1}):
+            with self.subTest(options=options), patch.object(module, '_run_owned_windows') as run:
+                with self.assertRaises(ValueError):
+                    self.execute('print("not run")', **options)
+                run.assert_not_called()
 
 
 if __name__ == '__main__':

@@ -1,0 +1,21 @@
+{
+  "schema_version": "observation-bounds-before-probe-v1",
+  "started_at": "2026-09-12T17:58:16.532572Z",
+  "launcher_sha256": "8bca327d5ddacf9be79b19a7b5fd1b8902e6b1e3f355c90d56cf0b6db69c3d48",
+  "scope": "FINITE_OWNED_LOCAL_CHILDREN_NO_FROZEN_DEPLOYMENT_OR_NETWORK",
+  "output_probe": {
+    "stdout_bytes_captured": 5242880,
+    "stderr_bytes_captured": 5242880,
+    "returned_success_before_caller_validation": true,
+    "streaming_limit_applied": false
+  },
+  "inherited_pipe_probe": {
+    "child_sleep_seconds": 2,
+    "wall_seconds": 2.123523699992802,
+    "wait_after_outer_exit_boundary_seconds": 2.0338670999917667,
+    "all_children_exit_naturally": true
+  },
+  "interpretation": "The existing executor buffers beyond the later 4 MiB stdout check and waits on a descendant-held pipe after its direct command exits. These finite probes do not claim a production hang was observed.",
+  "new_scheduler_activated": false,
+  "order_allowed": false
+}
