@@ -6,7 +6,9 @@
 
 9月13日同步记录：修复构建在仓库外安装通过162项检查；首轮Windows CI暴露短/长路径比较断言问题，已修正并以真实8.3临时路径通过162项回归。首次失败保留于上述记录，最终远端结果见 [PR #4 检查](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/4/checks)；开发分支同步与主分支合并分别记录。
 
-**本开发分支进入股票主线 `0.3.0.dev1`：美股正股日线快照、交易时钟、离线记账/重放和事件版本/可用时间底座已实现。** [本次开发记录](docs/equity-foundation-20260909.md)区分已完成的软件基础与尚未完成的真实数据、事件收益对照和券商接入。示例仅使用虚构数据，不产生市场或盈利结论。
+**PR #4 已于北京时间9月13日01:38合并，main 为 `617c06b0001c60265bb3f68431f7dc0e150d51c7`；[合并后CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/34708853170)的9个实际Job全部成功。** 股票主线 `0.3.0.dev1` 是 Experimental 基础，最新正式发布仍为下方v0.2.1。
+
+美股正股日线快照、交易时钟、离线记账/重放和事件版本/可用时间底座已实现。[第一条真实AMD来源链](docs/research-evidence/real-equity-source-20260913/README.md)已取得公告与日历、完成安装包事件导入并冻结A/B方案；日线、公司行为接纳和完整价格重放仍未完成。[此前开发记录](docs/equity-foundation-20260909.md)中的经济示例继续保留虚构数据身份，不产生市场或盈利结论。
 
 [旧调度缺口取证](docs/research-evidence/scheduler-diagnosis-20260909/README.md)和[确定性启动器准备](docs/scheduler-job-20260909.md)已完成；新OS任务尚未激活，新72小时工程窗口未开始。本分支开发不改变下面记录的历史发布版本及冻结观察部署。
 
