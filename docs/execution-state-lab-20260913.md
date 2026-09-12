@@ -12,7 +12,7 @@ python -X utf8 -I -B tools/execution_state_lab.py demo --output-dir artifacts/ex
 
 输出目录必须是新目录。包含 `client.sqlite`、`simulated-venue.sqlite` 和 `result.json`。同一路径再次运行会拒绝，不覆盖既有状态。两份数据库分别代表客户端和模拟端；模拟端故意接受重复client_id并保留多条订单，所以客户端重复发送不会被模拟端的去重掩盖。全程使用虚构 `TEST` 标的与明确的模拟成交数值。
 
-示例先保存提交尝试，再让模拟端接受订单但丢失回包；客户端关闭并重开后仍只有一次提交。对账恢复订单ID，处理部分成交、撤单响应和随后完成的全部成交。最终客户端持有10股TEST、现金901.2，来自1000起始模拟现金减去98成交额和0.8费用，属于账务算术结果，没有市场收益含义。
+示例先保存提交尝试，再让模拟端接受订单但丢失回包；客户端关闭并重开后仍只有一次提交。对账恢复订单ID，处理部分成交、撤单响应和随后完成的全部成交。最终客户端持有10股TEST、现金901.2，来自1000起始模拟现金减去98成交额和0.8费用，属于账务算术结果，没有市场收益含义。[实际示例输出](research-evidence/execution-state-lab-20260913/example-result.json)及[实现/测试/关闭后数据库核对](research-evidence/execution-state-lab-20260913/validation.json)绑定干净提交 `88e9c392b4233dffd658674a83a05b6fbb6086b7`，不借用其他wheel的结果。
 
 ## 关键行为
 
