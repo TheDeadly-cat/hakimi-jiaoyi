@@ -45,6 +45,14 @@
         "status": "Supported"
       },
       {
+        "name": "us_equity_daily_research",
+        "status": "Experimental"
+      },
+      {
+        "name": "point_in_time_event_research",
+        "status": "Experimental"
+      },
+      {
         "name": "local_research_terminal",
         "status": "Experimental"
       },

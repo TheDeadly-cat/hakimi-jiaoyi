@@ -66,6 +66,7 @@ class ReleaseWheelBundleTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             receipt = fixture(root)
+            receipt["equity_console_smoke_commands"] = ["--help", "capabilities"]
             original = Path(receipt["wheel"]).read_bytes()
             output = root / "public"
             public = BUNDLE.export_bundle(receipt, output, ci_context={"checkout_sha": "a" * 40, "reviewed_head_sha": "f" * 40, "run_id": "123", "run_attempt": "2"})
@@ -74,6 +75,8 @@ class ReleaseWheelBundleTests(unittest.TestCase):
             self.assertEqual(public["ci_context"]["checkout_sha"], "a" * 40)
             self.assertEqual(public["ci_context"]["reviewed_head_sha"], "f" * 40)
             self.assertEqual(len(list(output.iterdir())), 6)
+            scope = json.loads((output / "test-scope.json").read_text(encoding="utf-8"))
+            self.assertEqual(scope["equity_console_smoke_commands"], ["--help", "capabilities"])
             for path in output.glob("*.json"):
                 content = path.read_text(encoding="utf-8")
                 self.assertNotIn("PRIVATE_", content)

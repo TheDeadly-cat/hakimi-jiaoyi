@@ -1,0 +1,188 @@
+{
+  "inspected_heartbeat_count": 74,
+  "negative_evidence_limit": "No matching event means none found in this one fixed transcript prefix; it does not prove no scheduler elsewhere attempted work.",
+  "privacy": "Not the original session. Message bodies, user/account identity, raw error text, model usage totals and reset details are excluded.",
+  "schema_version": "scheduler-transcript-public-projection-v1",
+  "selected_heartbeat_events": [
+    {
+      "completion": {
+        "duration_ms": 210109,
+        "error_classification": null,
+        "persisted_at": "2026-09-05T15:07:20.249Z",
+        "source": {
+          "line_number": 2629,
+          "raw_line_including_newline_sha256": "a7d8e7381da7ca5e052ebbf81e7a63b6caf3a7c2101486898f35265c0f23a69b"
+        }
+      },
+      "persisted_at": "2026-09-05T15:03:50.143Z",
+      "source": {
+        "line_number": 2605,
+        "raw_line_including_newline_sha256": "4fbacb036e6e56d1cec29cf7a4b306570fa3202c0a6eacd1e89f193f43774111"
+      },
+      "tool_call_count_in_turn": 2,
+      "trigger_at": "2026-09-05T15:03:50.057Z"
+    },
+    {
+      "completion": {
+        "duration_ms": 34962,
+        "error_classification": "server_overloaded",
+        "persisted_at": "2026-09-05T16:03:26.363Z",
+        "source": {
+          "line_number": 2638,
+          "raw_line_including_newline_sha256": "8ce6e8f6b727806e2dc353acb36518ffb4328616bbc3b1dac820bf57e8be2612"
+        }
+      },
+      "persisted_at": "2026-09-05T16:02:51.455Z",
+      "source": {
+        "line_number": 2635,
+        "raw_line_including_newline_sha256": "4dd706d5b38dbeb34cfdf71e214e0963b2e9dfa3666f3e719d78bc687b3ef837"
+      },
+      "tool_call_count_in_turn": 0,
+      "trigger_at": "2026-09-05T16:02:51.344Z"
+    },
+    {
+      "completion": {
+        "duration_ms": 43703,
+        "error_classification": null,
+        "persisted_at": "2026-09-05T20:05:39.826Z",
+        "source": {
+          "line_number": 2735,
+          "raw_line_including_newline_sha256": "9d2385e4e9c97e200e9b9be26ec674edca211370b83411d48d043fd6f860f77b"
+        }
+      },
+      "persisted_at": "2026-09-05T20:04:56.154Z",
+      "source": {
+        "line_number": 2720,
+        "raw_line_including_newline_sha256": "8421d292e8034252902a4ce2e22129e1b840595929d55bf6d3d2efb17dbc18ad"
+      },
+      "tool_call_count_in_turn": 1,
+      "trigger_at": "2026-09-05T20:04:56.075Z"
+    },
+    {
+      "completion": {
+        "duration_ms": 2550,
+        "error_classification": "usage_limit_exceeded",
+        "persisted_at": "2026-09-06T05:01:10.612Z",
+        "source": {
+          "line_number": 2744,
+          "raw_line_including_newline_sha256": "c9726b989f39cc5584d20b71153508fb53baca08791c33015164ba440178710c"
+        }
+      },
+      "persisted_at": "2026-09-06T05:01:08.793Z",
+      "source": {
+        "line_number": 2741,
+        "raw_line_including_newline_sha256": "1f5f1b8fb1c9ebe2666dee7a6820228d8947cbbc6a61712c2839f747cf4ec1c7"
+      },
+      "tool_call_count_in_turn": 0,
+      "trigger_at": "2026-09-06T05:01:08.022Z"
+    },
+    {
+      "completion": {
+        "duration_ms": 129741,
+        "error_classification": null,
+        "persisted_at": "2026-09-06T09:12:30.175Z",
+        "source": {
+          "line_number": 4304,
+          "raw_line_including_newline_sha256": "9c3c6d635d42a517e1476cb2a82fd70dd989f816cc2e6fd7103c4b91d80089c6"
+        }
+      },
+      "persisted_at": "2026-09-06T09:10:20.475Z",
+      "source": {
+        "line_number": 4275,
+        "raw_line_including_newline_sha256": "354fc6a5b6f5f07b24b0a49e8d843509a3e65842ee3b9f6b53daa4bf506b03e7"
+      },
+      "tool_call_count_in_turn": 3,
+      "trigger_at": "2026-09-06T09:10:20.391Z"
+    },
+    {
+      "completion": {
+        "duration_ms": 75330,
+        "error_classification": null,
+        "persisted_at": "2026-09-06T14:06:11.544Z",
+        "source": {
+          "line_number": 4410,
+          "raw_line_including_newline_sha256": "016870cbacebabef7c272ba505ade0bb878354b2e4c4fc4cdeb4c30ce33f7df3"
+        }
+      },
+      "persisted_at": "2026-09-06T14:04:56.254Z",
+      "source": {
+        "line_number": 4392,
+        "raw_line_including_newline_sha256": "cbd035f8a5603f86a70a904e98e3ee57067815d5cc69cbb9e08ad889d6a8b2be"
+      },
+      "tool_call_count_in_turn": 2,
+      "trigger_at": "2026-09-06T14:04:56.157Z"
+    },
+    {
+      "completion": {
+        "duration_ms": 106924,
+        "error_classification": null,
+        "persisted_at": "2026-09-07T08:46:00.896Z",
+        "source": {
+          "line_number": 4766,
+          "raw_line_including_newline_sha256": "ca8032de0aeab5082642f4675259703e31d3fddd65ae356dbff84359433b4cb2"
+        }
+      },
+      "persisted_at": "2026-09-07T08:44:15.172Z",
+      "source": {
+        "line_number": 4744,
+        "raw_line_including_newline_sha256": "ae2b1cf5953f9f29fe37942e9c8317591e0dc9addd21598fa72436ba3edbce30"
+      },
+      "tool_call_count_in_turn": 3,
+      "trigger_at": "2026-09-07T08:44:13.875Z"
+    },
+    {
+      "completion": {
+        "duration_ms": 425605,
+        "error_classification": null,
+        "persisted_at": "2026-09-08T12:08:38.827Z",
+        "source": {
+          "line_number": 5665,
+          "raw_line_including_newline_sha256": "dad395cf31a082268b14b731e691bac1ac76d1268b4fe440cbf49de41748c05d"
+        }
+      },
+      "persisted_at": "2026-09-08T12:01:33.230Z",
+      "source": {
+        "line_number": 5631,
+        "raw_line_including_newline_sha256": "69c444ea8d22d8adf65ce2416229996df40f0db4fd0baaf875d68180a5710a46"
+      },
+      "tool_call_count_in_turn": 5,
+      "trigger_at": "2026-09-08T12:01:33.071Z"
+    },
+    {
+      "completion": null,
+      "persisted_at": "2026-09-09T00:04:07.420Z",
+      "source": {
+        "line_number": 6835,
+        "raw_line_including_newline_sha256": "72ad9f66d60fa20fb37fb6e20215a70f157db6f5db87a49e86f7e95e47f19704"
+      },
+      "tool_call_count_in_turn": 0,
+      "trigger_at": "2026-09-09T00:04:00.184Z"
+    },
+    {
+      "completion": {
+        "duration_ms": 116776,
+        "error_classification": null,
+        "persisted_at": "2026-09-09T04:26:49.283Z",
+        "source": {
+          "line_number": 6864,
+          "raw_line_including_newline_sha256": "d9b9e840e166cec29736f73741c5e37658f303e32eaedae8096506932ad4142d"
+        }
+      },
+      "persisted_at": "2026-09-09T04:24:53.331Z",
+      "source": {
+        "line_number": 6842,
+        "raw_line_including_newline_sha256": "30397ba9d960770718436002539ba9a278209dffad20163277970166bb10aad9"
+      },
+      "tool_call_count_in_turn": 2,
+      "trigger_at": "2026-09-09T04:24:52.467Z"
+    }
+  ],
+  "selection": "Only the 24 diagnosed cutoff hours; normal unrelated heartbeat turns and internal turn identifiers excluded.",
+  "source": {
+    "full_transcript_published": false,
+    "prefix_byte_length": 25140402,
+    "prefix_sha256": "1a43267290770f183e547e2dafb4cc23f7fb308978892233091a4e39e42da7c3",
+    "source_alias": "local_session/current_project_thread"
+  },
+  "source_local_projection_sha256": "f2ae520f457478d7c521938518303b1113bacc72f1562a44491ced5797cd5c85"
+}

@@ -1,0 +1,39 @@
+{
+  "all_row_source_references_resolve": true,
+  "diagnosed_cutoffs": 24,
+  "frozen_late_cutoffs": 7,
+  "frozen_missing_cutoffs": 12,
+  "helpers_published": false,
+  "original_local_source_verification_count": 180,
+  "original_local_validation_sha256": "b995f8a1a70fc9f9e39128032220e3612eaffb534d8db404a08d891dc7fcc0c6",
+  "original_logs_published": false,
+  "personal_absolute_paths_and_identity_scan": "PASS",
+  "projection_files": {
+    "README.md": {
+      "sha256": "1c745e64a262e7e1cec28bd57fb672d25aeca810f1c75bb41e63b4a432b4d88b",
+      "size_bytes": 10397
+    },
+    "diagnosis.json": {
+      "sha256": "b55b399758181f5c15b0ec37f6602de17084d9e82e1e04c28eac7550142dde38",
+      "size_bytes": 76008
+    },
+    "source-index.json": {
+      "sha256": "263ff0ba387e56f67ee268a7f9e9a4b80f3e68878f73a0b823769b63f3d25c29",
+      "size_bytes": 36481
+    },
+    "transcript-evidence.json": {
+      "sha256": "56c86dad2fcf131093c4a6fb8337c724a5e799f535f4ef99dd689b1aea8edd16",
+      "size_bytes": 7060
+    },
+    "windows-events.json": {
+      "sha256": "5c9524f2d395a42d5a0c4415df0d1324e4769d1345095c47e91696a53ce50f48",
+      "size_bytes": 14455
+    }
+  },
+  "public_source_index_entries": 156,
+  "runtime_network_or_scheduler_activation_run": false,
+  "schema_version": "scheduler-diagnosis-public-validation-v1",
+  "selected_heartbeat_events": 10,
+  "selected_windows_events": 34,
+  "status": "PASS"
+}

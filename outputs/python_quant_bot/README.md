@@ -28,6 +28,8 @@ Supported / Experimental / Disabled / Archived 产品状态。
 | `research_replay` | Supported |
 | `research_report_read` | Supported |
 | `strategy_catalog` | Supported |
+| `us_equity_daily_research` | Experimental |
+| `point_in_time_event_research` | Experimental |
 | `local_research_terminal` | Experimental |
 | `parameter_optimization` | Archived |
 | `paper_execution` | Archived |
@@ -37,6 +39,8 @@ Supported / Experimental / Disabled / Archived 产品状态。
 这些状态不构成盈利、成熟度、paper 或 live 授权。`capability-v1` 继续固定为
 `product_mode=research_only`、`research_only=true`、`paper_allowed=false`、
 `live_allowed=false`。
+
+两项美股 Experimental 能力属于新安装包的独立 `hakimi-equity-research` 离线入口；本目录历史终端没有因此获得股票研究或事件交易功能。范围及限制见[股票主线开发记录](../../docs/equity-foundation-20260909.md)。
 
 ## 已支持研究模块
 

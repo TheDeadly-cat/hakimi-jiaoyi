@@ -131,6 +131,9 @@ def main() -> None:
     run([str(command), "--help"])
     run([str(command), "capabilities"])
     run([str(command), "list-strategies"])
+    equity_command = environment / ("Scripts/hakimi-equity-research.exe" if os.name == "nt" else "bin/hakimi-equity-research")
+    run([str(equity_command), "--help"])
+    run([str(equity_command), "capabilities"])
     tests = outside / "tests"
     shutil.copytree(root / "tests", tests, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     # The independent Decimal reconciler is a test/audit sidecar, not a runtime
@@ -176,6 +179,7 @@ def main() -> None:
         "runner_system": platform.system(),
         "tests": sorted(path.name for path in tests.glob("test_*.py")),
         "console_smoke_commands": ["--help", "capabilities", "list-strategies"],
+        "equity_console_smoke_commands": ["--help", "capabilities"],
     }
     receipt_path = work / "wheel-acceptance.json"
     receipt_path.write_text(json.dumps(receipt, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")

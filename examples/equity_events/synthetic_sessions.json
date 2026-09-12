@@ -1,0 +1,10 @@
+{
+  "source_kind": "SYNTHETIC_FIXTURE",
+  "description": "Small caller-supplied schedule for clock-boundary tests, not an authenticated exchange calendar.",
+  "sessions": [
+    {"date": "2024-11-29", "open_utc": "2024-11-29T14:30:00Z", "close_utc": "2024-11-29T18:00:00Z", "early_close": true},
+    {"date": "2024-12-02", "open_utc": "2024-12-02T14:30:00Z", "close_utc": "2024-12-02T21:00:00Z", "early_close": false},
+    {"date": "2024-12-03", "open_utc": "2024-12-03T14:30:00Z", "close_utc": "2024-12-03T21:00:00Z", "early_close": false},
+    {"date": "2024-12-04", "open_utc": "2024-12-04T14:30:00Z", "close_utc": "2024-12-04T21:00:00Z", "early_close": false}
+  ]
+}
