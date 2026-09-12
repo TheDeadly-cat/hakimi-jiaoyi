@@ -1,0 +1,125 @@
+{
+  "actual_prior_unfinished_receipt": {
+    "changes": 1,
+    "checked_at": "2026-09-12T20:54:58.168677Z",
+    "current_counts": {
+      "END_RECEIPT_OVERDUE": 1
+    },
+    "deadline_counts": {
+      "MISSING": 1
+    },
+    "delivery": [],
+    "notification_send_requested": false,
+    "notification_state": {
+      "pending": 1,
+      "unconfirmed": 0
+    },
+    "receipt_hash": "7e0a9ff58abff285a398f2f8af647c2055576b623ed20f4e96af7120c159d10b",
+    "status": "VERIFIED_RECEIPT_SCAN"
+  },
+  "corrupt_isolated_copy": {
+    "changes": 1,
+    "checked_at": "2026-09-12T20:54:57.478072Z",
+    "current_counts": {},
+    "deadline_counts": {
+      "MISSING": 1
+    },
+    "delivery": [],
+    "notification_send_requested": false,
+    "notification_state": {
+      "pending": 3,
+      "unconfirmed": 0
+    },
+    "receipt_hash": "974a04b474da65d59846f3c4b43f24091fc4d6649ee924521d0d5a5e91784f29",
+    "status": "SOURCE_OR_CLOCK_UNVERIFIED"
+  },
+  "desktop_notifications_sent": 0,
+  "empty_job_directory": {
+    "changes": 1,
+    "checked_at": "2026-09-12T20:54:56.791385Z",
+    "current_counts": {
+      "NO_START_RECEIPT": 1
+    },
+    "deadline_counts": {
+      "MISSING": 1
+    },
+    "delivery": [],
+    "notification_send_requested": false,
+    "notification_state": {
+      "pending": 1,
+      "unconfirmed": 0
+    },
+    "receipt_hash": "45d9facd3c73e0ce6383cbfcff2970c8e8094fce07ec586acb4dcafb90d43592",
+    "status": "VERIFIED_RECEIPT_SCAN"
+  },
+  "later_arrival_of_copied_real_receipts": {
+    "changes": 1,
+    "checked_at": "2026-09-12T20:54:57.033801Z",
+    "current_counts": {
+      "ON_TIME": 1
+    },
+    "deadline_counts": {
+      "MISSING": 1
+    },
+    "delivery": [],
+    "notification_send_requested": false,
+    "notification_state": {
+      "pending": 2,
+      "unconfirmed": 0
+    },
+    "receipt_hash": "327395fd17d527174700b1be6b107f4fd00394d04e825bff9eb40834a43fde06",
+    "status": "VERIFIED_RECEIPT_SCAN"
+  },
+  "new_72h_window": "NOT_STARTED",
+  "new_market_requests": 0,
+  "new_os_tasks": 0,
+  "pending_is_not_delivery": true,
+  "recorded_at": "2026-09-12T20:54:58.198923Z",
+  "restored_copy": {
+    "changes": 1,
+    "checked_at": "2026-09-12T20:54:57.709805Z",
+    "current_counts": {
+      "ON_TIME": 1
+    },
+    "deadline_counts": {
+      "MISSING": 1
+    },
+    "delivery": [],
+    "notification_send_requested": false,
+    "notification_state": {
+      "pending": 4,
+      "unconfirmed": 0
+    },
+    "receipt_hash": "11fd4c891ee6d330ca599336df8c7797f153fd76eb261fc221cf244274064bb8",
+    "status": "VERIFIED_RECEIPT_SCAN"
+  },
+  "schema_version": "independent-watch-cli-drill-v1",
+  "scope": "ISOLATED_FILESYSTEM_SCENARIOS_WITH_ORIGINAL_RECEIPT_COPIES_NOT_PRODUCTION_GAPS",
+  "source_original_bytes_unchanged": true,
+  "source_receipt_file_sha256": {
+    "ended.json": "27862972a40efbc47c5b2739779a2e7e985bb007bd6bda879b732ec7b8545d78",
+    "started.json": "58d5fc52cefc20c23ce7b36fcd2ba2187c653b4591137f49093ded5b6f21dfac"
+  },
+  "source_unfinished_start_sha256": "9a09bc87d0996d2c690c3a72c8d7d3e6c02e5be69cd9ad03e0a18203d1e75a18",
+  "unchanged_scan": {
+    "changes": 0,
+    "checked_at": "2026-09-12T20:54:57.262069Z",
+    "current_counts": {
+      "ON_TIME": 1
+    },
+    "deadline_counts": {
+      "MISSING": 1
+    },
+    "delivery": [],
+    "notification_send_requested": false,
+    "notification_state": {
+      "pending": 2,
+      "unconfirmed": 0
+    },
+    "receipt_hash": "277528eb6f95dde5536b65c0129db68ad27e5629a783dd50d3f5a073d266d48d",
+    "status": "VERIFIED_RECEIPT_SCAN"
+  },
+  "unfinished_watch_plan_sha256": "c9a7c0e134bec6e9acc8894ce704c939f6dda05126cb842afd758f74dde168e6",
+  "watch_plan_sha256": "074b0ccbadbf3d1835fb5bf87f2a7fdaa479ea851fc8cb7cf14933199875039f",
+  "watcher_sha256": "db3754b0d908c7c2071a9f5bae357df112e4ca62a80b152670c4c1f7cf6b1bc2"
+}

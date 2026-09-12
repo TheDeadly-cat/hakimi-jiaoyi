@@ -1,0 +1,123 @@
+{
+  "current_tool_sha256": {
+    "observation_job.py": "9ed6bbeba4b9b81c55edb6e3ff6e03aa4d95cdd9a34ac6cc934ca5213e1ed006",
+    "observation_notify.py": "06f1583237014fb80e4b1ea37e36a3d7792733102ad71df8e2cb09b68bcdad9a",
+    "observation_watch.py": "db3754b0d908c7c2071a9f5bae357df112e4ca62a80b152670c4c1f7cf6b1bc2",
+    "show_observation_notification.ps1": "bd46273d00178bf74874e1749398e754f67e32ca2b3fcaa382e84b23bf0b587d"
+  },
+  "delivery_attempt_count": 1,
+  "logs_sha256": {
+    "t5-watch-15-tests.log": "5401d26e451282d2e716609c1f511e0c60f5c7a4070a539dcd3b6ac561fea153",
+    "t5-watch-native-repeat.json": "e1d3302438d99fdbfbf9dca184f3d00a2ba6e558b3286cee4a1becfe26c6bce1",
+    "t5-watch-native-send.json": "2099f3024883d4ae8cddde01691d405ef1a513736469f43b5306bae5b8218862",
+    "t5-watch-repository-163.log": "e0088ecde1b2dd77114f169e819f93ec10e09b82200fcb0e7ac7c981bd1c1c49"
+  },
+  "native_event_is_os_display_not_user_read": true,
+  "new_72h_window": "NOT_STARTED",
+  "new_market_requests": 0,
+  "new_os_tasks": 0,
+  "notification_end": {
+    "attempt_id": "20260912T210015303805Z_faee378044d84e2f81dd84390d459f5d",
+    "delivery_confirmed": true,
+    "ended_at": "2026-09-12T21:00:22.397461Z",
+    "execution_bounds": {
+      "bytes_retained": {
+        "stderr": 0,
+        "stdout": 469
+      },
+      "bytes_seen": {
+        "stderr": 0,
+        "stdout": 469
+      },
+      "captured_sha256": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "477eddc129483e18522e6a5461d3b462be203f65a040aee2959d5cda02f596c4"
+      },
+      "cleanup_confirmed": true,
+      "cleanup_seconds": 3,
+      "elapsed_monotonic_seconds": 7.087421100004576,
+      "normal_exit_settle_max_seconds": 0.25,
+      "outcome": "EXITED",
+      "output_limit_bytes_combined": 16384,
+      "output_truncated": false,
+      "owned_process_handles_waited": 0,
+      "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+      "timeout_seconds": 25
+    },
+    "notification_id": "1ee4634cf79fb57d22f87f65fbfe7f419c1ce843857b6ae3f043583b4cbbe87c",
+    "receipt_hash": "233eee9ba98b999a70106217d644e2f49c14d3d269b2bef9f9a3c6440837fd11",
+    "schema_version": "observation-notification-end-v1",
+    "started_receipt_hash": "cc7f7aff28bb8a7ddadadce928c303b314c5753b6991fbbdd8f8345b3f2ebd37",
+    "status": "OS_DISPLAY_REPORTED",
+    "user_confirmed": false,
+    "worker_exit_code": 0,
+    "worker_observation": {
+      "clicked_at": null,
+      "closed_at": "2026-09-12T21:00:22.3237456Z",
+      "ended_at": "2026-09-12T21:00:22.3524687Z",
+      "notification_id": "1ee4634cf79fb57d22f87f65fbfe7f419c1ce843857b6ae3f043583b4cbbe87c",
+      "request_file_sha256": "41bf8052e7cf9c47abe1877382f6abc11c59877c101e9353df9eaded144079d2",
+      "schema_version": "observation-windows-notification-v1",
+      "shown_at": "2026-09-12T21:00:15.8730909Z",
+      "status": "OS_DISPLAY_REPORTED",
+      "submitted_at": "2026-09-12T21:00:15.8620753Z",
+      "user_state": 5
+    }
+  },
+  "notification_start": {
+    "attempt_id": "20260912T210015303805Z_faee378044d84e2f81dd84390d459f5d",
+    "dispatcher_sha256": "06f1583237014fb80e4b1ea37e36a3d7792733102ad71df8e2cb09b68bcdad9a",
+    "notification_id": "1ee4634cf79fb57d22f87f65fbfe7f419c1ce843857b6ae3f043583b4cbbe87c",
+    "receipt_hash": "cc7f7aff28bb8a7ddadadce928c303b314c5753b6991fbbdd8f8345b3f2ebd37",
+    "renderer_sha256": "bd46273d00178bf74874e1749398e754f67e32ca2b3fcaa382e84b23bf0b587d",
+    "request_file_sha256": "41bf8052e7cf9c47abe1877382f6abc11c59877c101e9353df9eaded144079d2",
+    "schema_version": "observation-notification-start-v1",
+    "started_at": "2026-09-12T21:00:15.303805Z"
+  },
+  "old_heartbeat_changed": false,
+  "payload": {
+    "body": "\u9694\u79bb\u6f14\u7ec3\uff0c09-12 20:54 UTC\uff1a\u672c\u6b21\u626b\u63cf\uff1a1\u4e2a\u5468\u671f\u9700\u6838\u5bf9\u3002\u5386\u53f2\u7f3a\u53e3\u4fdd\u7559\u3002 \u7f16\u53f7 1ee4634c",
+    "drill": true,
+    "evidence_origin": "INDEPENDENT_RECEIPT_SCAN",
+    "icon": "Warning",
+    "input_cutoff": "2026-09-12T19:00:00Z",
+    "notification_id": "1ee4634cf79fb57d22f87f65fbfe7f419c1ce843857b6ae3f043583b4cbbe87c",
+    "order_allowed": false,
+    "schema_version": "observation-notification-payload-v1",
+    "source_watch_plan_hash": "3e469e3e74b481e9b7c2947fb6bca0ae0bcb15b0eb64ae9c926b787fcdd188b8",
+    "source_watch_report_hash": "7e0a9ff58abff285a398f2f8af647c2055576b623ed20f4e96af7120c159d10b",
+    "title": "\u6f14\u7ec3\uff1a\u54c8\u57fa\u7c73\u89c2\u5bdf\u5de1\u68c0"
+  },
+  "recorded_at": "2026-09-12T21:05:58.502001Z",
+  "schema_version": "independent-watch-native-delivery-v1",
+  "scope": "ONE_MANUAL_ISOLATED_WATCH_TO_WINDOWS_DELIVERY_NOT_OS_TASK_ACTIVATION",
+  "subsequent_check": {
+    "changes": 0,
+    "checked_at": "2026-09-12T21:02:14.282438Z",
+    "current_counts": {
+      "END_RECEIPT_OVERDUE": 1
+    },
+    "deadline_counts": {
+      "MISSING": 1
+    },
+    "delivery": [],
+    "notification_send_requested": true,
+    "notification_state": {
+      "pending": 0,
+      "unconfirmed": 0
+    },
+    "receipt_hash": "c31966648d306fbb1da858a49b54a4798997735d5efedc58ec8d73d9633272a6",
+    "status": "VERIFIED_RECEIPT_SCAN"
+  },
+  "tests": {
+    "errors": 0,
+    "failures": 0,
+    "repository": 163,
+    "skipped": 0,
+    "targeted": 15,
+    "targeted_included_in_repository": true
+  },
+  "user_read_confirmation": "NOT_RECEIVED",
+  "user_read_confirmation_is_not_an_activation_authorization": true,
+  "watcher_sha256": "db3754b0d908c7c2071a9f5bae357df112e4ca62a80b152670c4c1f7cf6b1bc2"
+}
