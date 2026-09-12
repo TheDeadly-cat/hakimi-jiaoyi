@@ -1,0 +1,33 @@
+{
+  "end_policy": "MARK_TO_MARKET",
+  "event_context_hash": "90fae07f990ef7cc82fbf3bb2917ccf8ba85ca9311b41cf5c6d94ea3187d9621",
+  "event_rule": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+  "execution_policy": "STANDARD_STRATEGY_RISK",
+  "fee_rate": 0.001,
+  "initial_cash": 10000.0,
+  "name": "portable fictional equity check",
+  "purpose": "SYNTHETIC_REGRESSION",
+  "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+  "risk": {
+    "max_daily_loss_pct": 1.0,
+    "max_leverage": 1.0,
+    "max_position_pct": 1.0,
+    "max_single_loss_pct": 0.03,
+    "min_cash_pct": 0.0
+  },
+  "schema_version": "us-equity-experiment-spec-v2",
+  "score_end_session": "2024-12-03",
+  "score_start_session": "2024-11-12",
+  "slippage_pct": 0.001,
+  "snapshot_id": "6a4c1133af8c4f8c8ac4f3363fef2cd812c8a07f02853f6bab5662a2476f504f",
+  "strategy": {
+    "name": "dual_ma",
+    "params": {
+      "fast_window": 2,
+      "position_pct": 0.25,
+      "slow_window": 3,
+      "stop_loss_pct": 0.03,
+      "take_profit_pct": 0.8
+    }
+  }
+}

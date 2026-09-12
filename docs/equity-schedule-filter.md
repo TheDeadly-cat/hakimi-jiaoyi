@@ -1,5 +1,7 @@
 # 股票财报日程过滤与 A/B 对照
 
+后续实际交付：[新安装包、合成 A/B 与真实 AMD 日程导入](research-evidence/equity-schedule-filter-20260913/README.md)已完成。源码提交 b6e345f 的九项 CI 全部成功，真实股票收益对照仍 NOT_RUN；下文首轮失败与当时待验状态保留对应范围。
+
 新增离线 `event-context` 和 `event-compare` 入口，事件开始实际影响新增买入。A 保留原股票价格规则，B 使用同一快照、评分区间、资金、费用、滑点、退出与数量模型，只加入事前已知财报日期过滤。两组仍使用原 BacktestEngine 的成交、费用、持仓和保护性退出；没有券商连接或下单能力。
 
 规则沿用已冻结的 [AMD A/B 方案](https://github.com/TheDeadly-cat/hakimi-jiaoyi/blob/4bbb222a82503902fd188cabed4f8ea4836a76fa/docs/research-evidence/real-equity-source-20260913/event-risk-filter-plan-v1.json)。真实 AMD 普通股日线、来源权限和公司行为覆盖尚未接纳，真实 A/B 经济运行仍为 **NOT_RUN**。这里的合成行为检查不替代真实股票结果；C/D 公告字段条件与人工字段金标准也仍未完成。

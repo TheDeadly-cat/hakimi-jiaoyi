@@ -1,0 +1,65 @@
+{
+  "C_D": "NOT_RUN",
+  "T4_actions": "NOT_IMPLEMENTED",
+  "counts_must_not_be_summed_as_independent_coverage": true,
+  "independent_stock_ledger_contracts": {
+    "passed": 3,
+    "tests": 3
+  },
+  "initial_failures_preserved": [
+    {
+      "errors": 2,
+      "reason": "Test expected a one-shot buy-and-hold intent to retry; corrected the expectation and added independent dual-MA crossover coverage",
+      "scope": "synthetic schedule tests"
+    },
+    {
+      "errors": 2,
+      "reason": "Wrong test working directory; modules did not load",
+      "scope": "legacy compatibility invocation"
+    },
+    {
+      "errors_per_run": 2,
+      "reason": "Parent UTF-8 did not propagate to child CLI; child locale output caused decode errors; rerun with explicit child UTF-8",
+      "scope": "root suite first and isolated diagnostic pair"
+    },
+    {
+      "reason": "New test assumed tests package inside isolated installation; corrected sibling imports without exposing checkout",
+      "scope": "CI 34722525763 at 795562d2e41b0eb07e688f1ec3dbffd3533566cc",
+      "status": "FAILURE"
+    },
+    {
+      "reason": "Original full reports include local provenance paths; keep originals local and publish separately named economic projections without changing original identities",
+      "scope": "public artifact preparation",
+      "status": "ORIGINAL_REPORT_EXPORT_REFUSED"
+    }
+  ],
+  "installed_root_suite": {
+    "evidence": "accepted-wheel/test-scope.json",
+    "passed": 183,
+    "tests": 183
+  },
+  "official_broker_simulation": "NOT_RUN",
+  "real_AB_economic_run": "NOT_RUN",
+  "real_equity_prices": "NOT_ACQUIRED",
+  "schedule_subset": {
+    "included_in_root_suite": true,
+    "tests": 21
+  },
+  "scheduler_activation": "NOT_AUTHORIZED_OR_PERFORMED",
+  "shared_backtest_compatibility": {
+    "passed": 22,
+    "tests": 22
+  },
+  "source_root_suite": {
+    "log_sha256": "95e715521c8457bc5e250bd3cf2da5a5433328ba5612bceb8a509f210b3bdf34",
+    "passed": 183,
+    "tests": 183
+  },
+  "verified_source_ci": {
+    "actual_jobs": 9,
+    "conclusion": "success",
+    "head_sha": "b6e345f9cdef9b638883ee298f0ba8bfe444e8d6",
+    "run_id": 34722731560,
+    "status": "completed"
+  }
+}

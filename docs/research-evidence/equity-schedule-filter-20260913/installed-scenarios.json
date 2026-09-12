@@ -1,0 +1,382 @@
+{
+  "checked_at": "2026-09-12T22:29:37.516132+00:00",
+  "commands": [
+    {
+      "ended_at": "2026-09-12T22:29:29.109185+00:00",
+      "exit_code": 0,
+      "label": "runtime",
+      "started_at": "2026-09-12T22:29:28.782604+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "a6b011b982961a5cded7717363e64dde3d7b7d9023382a41400f66056f32bc8d"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:30.087602+00:00",
+      "exit_code": 0,
+      "label": "synthetic-snapshot",
+      "started_at": "2026-09-12T22:29:29.113667+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "f9f99f9d32afe30218565fbf0ccd20fe2d7c84fa0988766436ee55b114d99d84"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:31.011763+00:00",
+      "exit_code": 0,
+      "label": "synthetic-event",
+      "started_at": "2026-09-12T22:29:30.093571+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "eb2e3c8ef568a94e614bd35edd8b775b5808b9f36b97df7f971ef969e5a2369c"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:31.905024+00:00",
+      "exit_code": 0,
+      "label": "synthetic-context",
+      "started_at": "2026-09-12T22:29:31.012322+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6a4c1fd2493798533e69b5209bfdb81909d8109999c633d9bad675d01f841b3b"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:32.961563+00:00",
+      "exit_code": 0,
+      "label": "synthetic-comparison",
+      "started_at": "2026-09-12T22:29:31.905515+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "793101a42f90b7cf6a72ee6e92bedb59599d471b684e0ca2ed0e9b21eb52061a"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:33.998987+00:00",
+      "exit_code": 0,
+      "label": "synthetic-replay-A",
+      "started_at": "2026-09-12T22:29:32.962491+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "38f14520dd91ca915420ecddc8831e33ddcae74a12cbff182ff6456dcc0c7fc6"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:34.188521+00:00",
+      "exit_code": 0,
+      "label": "synthetic-ledger-A",
+      "started_at": "2026-09-12T22:29:33.999586+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "859a481a5ec046099d8de3620ad9515108b041c3bd7e56a25ad79d8db03c596d"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:35.259029+00:00",
+      "exit_code": 0,
+      "label": "synthetic-replay-B",
+      "started_at": "2026-09-12T22:29:34.189102+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8a9f35b0232b2dddc3d4a438e0e9c93189844e36daedf5c621d8cbcc5642648e"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:35.432933+00:00",
+      "exit_code": 0,
+      "label": "synthetic-ledger-B",
+      "started_at": "2026-09-12T22:29:35.259767+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "1a9eb27f35caf645ac4dcba11f6903a603591fd61938858b8fa03a75815a66a6"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:36.395410+00:00",
+      "exit_code": 0,
+      "label": "real-schedule-event",
+      "started_at": "2026-09-12T22:29:35.434898+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6ec0cdeb1d891230ca710a9735d5d1c63008b9dfe52a5373b285ea6aa266e97a"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:37.299068+00:00",
+      "exit_code": 0,
+      "label": "real-schedule-context",
+      "started_at": "2026-09-12T22:29:36.395964+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "7654ae2b9a4828b128df5417bed0d0c6846120621da0dc2d6dfaa74da33fecdd"
+    },
+    {
+      "ended_at": "2026-09-12T22:29:37.515653+00:00",
+      "exit_code": 0,
+      "label": "real-version-selection",
+      "started_at": "2026-09-12T22:29:37.299645+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6289abfa2c42c1fb7a007cef779944efbde3ab276e05c590554c417cb2c769af"
+    }
+  ],
+  "editable": false,
+  "environment_verified": {
+    "errors": [],
+    "lock_fully_pinned": true,
+    "lock_name": "requirements.research.lock",
+    "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+    "mismatched": [],
+    "missing": [],
+    "packages": {
+      "numpy": {
+        "installed": "2.4.6",
+        "required": "2.4.6"
+      },
+      "pandas": {
+        "installed": "3.0.3",
+        "required": "3.0.3"
+      },
+      "python-dateutil": {
+        "installed": "2.9.0.post0",
+        "required": "2.9.0.post0"
+      },
+      "six": {
+        "installed": "1.17.0",
+        "required": "1.17.0"
+      },
+      "tzdata": {
+        "installed": "2026.2",
+        "required": "2026.2"
+      }
+    },
+    "python_supported": true,
+    "python_version": "3.14.6",
+    "status": "VERIFIED",
+    "verification_scope": "installed_distribution_versions_against_lock"
+  },
+  "installed_source_sha256": "c5d57ec371efe303741b12476fd6824c3eb4baa5e3cfb9cfd22c3a337fe236b6",
+  "official_broker_integration": "NOT_RUN",
+  "order_allowed": false,
+  "pythonpath_used": false,
+  "real_AB_economic_run": "NOT_RUN",
+  "real_price_snapshot": "NOT_ACQUIRED",
+  "real_schedule": {
+    "availability": {
+      "assumed_available_at": "2024-10-16T13:02:00Z",
+      "available_at": "2024-10-16T13:02:00Z",
+      "available_at_kind": "ASSUMED",
+      "observed_available_at": null,
+      "pit_admissible": true,
+      "reason": "CALLER_ATTESTED_PUBLICATION_CLOCK"
+    },
+    "context_hash": "42d14bbbafba25dcd14b95716955aace4e05989eacb70873f1f30a676850c5c8",
+    "event_hash": "28e217fd546315dca325a6201bdf918722bb226a74b5ba74cf2ec725331308ce",
+    "input_preparation": {
+      "calendar_file_sha256": "8ef7f66c81c218498657b8485056be405c87d04ccf1a96c757aad4138b568f17",
+      "calendar_sessions": [
+        {
+          "close_utc": "2024-10-28T20:00:00Z",
+          "date": "2024-10-28",
+          "early_close": false,
+          "kind": "OPEN",
+          "open_utc": "2024-10-28T13:30:00Z"
+        },
+        {
+          "close_utc": "2024-10-29T20:00:00Z",
+          "date": "2024-10-29",
+          "early_close": false,
+          "kind": "OPEN",
+          "open_utc": "2024-10-29T13:30:00Z"
+        },
+        {
+          "close_utc": "2024-10-30T20:00:00Z",
+          "date": "2024-10-30",
+          "early_close": false,
+          "kind": "OPEN",
+          "open_utc": "2024-10-30T13:30:00Z"
+        }
+      ],
+      "extraction_completed_at": "2026-09-12T22:22:50.078411Z",
+      "price_snapshot": "NOT_ACQUIRED",
+      "raw_sha256": "0fe796a79af0e155752f032c049f70a4f82b1a1c74599c97624fc05c61075415",
+      "real_economic_comparison": "NOT_RUN",
+      "source_retrieved_at": "2026-09-12T17:25:04.897065Z"
+    },
+    "version_selection": {
+      "at_available_count": 1,
+      "before_available_count": 0,
+      "context_hash": "42d14bbbafba25dcd14b95716955aace4e05989eacb70873f1f30a676850c5c8",
+      "exact_release_at": null,
+      "order_allowed": false,
+      "price_strategy_run": false,
+      "scope": "REAL_SOURCE_IMPORT_AND_VERSION_AVAILABILITY_ONLY",
+      "selected_at_available": [
+        {
+          "available_at": "2024-10-16T13:02:00Z",
+          "available_at_kind": "ASSUMED",
+          "event_hash": "28e217fd546315dca325a6201bdf918722bb226a74b5ba74cf2ec725331308ce",
+          "event_id": "AMD:2024Q3:EARNINGS_SCHEDULE",
+          "field_status": [],
+          "schedule": {
+            "date": "2024-10-29",
+            "status": "ANNOUNCED",
+            "time_precision": "AFTER_MARKET_CLOSE",
+            "timezone": "America/New_York"
+          },
+          "source_content_sha256": "0fe796a79af0e155752f032c049f70a4f82b1a1c74599c97624fc05c61075415",
+          "version": 1,
+          "version_public_at": "2024-10-16T13:00:00Z"
+        }
+      ]
+    }
+  },
+  "repository_root_is_none": true,
+  "schema_version": "equity-schedule-installed-smoke-v1",
+  "source_commit": "b6e345f9cdef9b638883ee298f0ba8bfe444e8d6",
+  "synthetic": {
+    "checker_sha256": "9367ba41ec3d3f4e8009e3bc0d5fb6e41211371fa3586b854ae4c1e606254817",
+    "comparison": {
+      "A": {
+        "metrics": {
+          "blocked_new_buy_intents": 0,
+          "buy_fill_count": 2,
+          "exposure_ratio": 0.20666348350704367,
+          "fill_count": 3,
+          "max_drawdown": 0.00774273865136299,
+          "outcome": "NONNEGATIVE_DESCRIPTIVE_RESULT",
+          "round_trip_count": 1,
+          "scheduled_price_decisions": 15,
+          "total_fees": 7.469688040042476,
+          "total_return": 0.020746893544002498,
+          "turnover_over_initial_cash": 0.7469688040042476
+        },
+        "report_hash": "f9ef2aed36b012dce7034dafefa81729341f4ddad0c1545c8f4ad45493c3fd10",
+        "result_hash": "fbd6ecc4234de36bb54909d374aa28d60c44b3637e8f04e92bc701d2bf36f551",
+        "rule": "DISABLED"
+      },
+      "B": {
+        "metrics": {
+          "blocked_new_buy_intents": 1,
+          "buy_fill_count": 1,
+          "exposure_ratio": 0.13960130826694223,
+          "fill_count": 1,
+          "max_drawdown": 0.0,
+          "outcome": "NONNEGATIVE_DESCRIPTIVE_RESULT",
+          "round_trip_count": 0,
+          "scheduled_price_decisions": 15,
+          "total_fees": 2.5024999999999995,
+          "total_return": 0.024252225247524795,
+          "turnover_over_initial_cash": 0.25025
+        },
+        "report_hash": "0b2d3bc47ef19ab2cfa4ccbd555361981a5fdfdd909b5caffc06f592e919562c",
+        "result_hash": "b36f3110241498ee2b40a26cfad3e1b3a18d7fcd496bf06e54250ffcc34f0f92",
+        "rule": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1"
+      },
+      "B_minus_A": {
+        "buy_fill_count": -1,
+        "exposure_ratio": -0.06706217524010144,
+        "max_drawdown": -0.00774273865136299,
+        "total_fees": -4.967188040042476,
+        "total_return": 0.0035053317035222964,
+        "turnover_over_initial_cash": -0.4967188040042476
+      },
+      "common_parameters": {
+        "end_policy": "MARK_TO_MARKET",
+        "event_context_hash": "90fae07f990ef7cc82fbf3bb2917ccf8ba85ca9311b41cf5c6d94ea3187d9621",
+        "execution_policy": "STANDARD_STRATEGY_RISK",
+        "fee_rate": 0.001,
+        "initial_cash": 10000.0,
+        "name": "portable fictional equity check",
+        "purpose": "SYNTHETIC_REGRESSION",
+        "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+        "risk": {
+          "max_daily_loss_pct": 1.0,
+          "max_leverage": 1.0,
+          "max_position_pct": 1.0,
+          "max_single_loss_pct": 0.03,
+          "min_cash_pct": 0.0
+        },
+        "schema_version": "us-equity-experiment-spec-v2",
+        "score_end_session": "2024-12-03",
+        "score_start_session": "2024-11-12",
+        "slippage_pct": 0.001,
+        "snapshot_id": "6a4c1133af8c4f8c8ac4f3363fef2cd812c8a07f02853f6bab5662a2476f504f",
+        "strategy": {
+          "name": "dual_ma",
+          "params": {
+            "fast_window": 2,
+            "position_pct": 0.25,
+            "slow_window": 3,
+            "stop_loss_pct": 0.03,
+            "take_profit_pct": 0.8
+          }
+        }
+      },
+      "comparison_hash": "1d6c5e95b8d8e3b1c338ce1c7628fad42dfb2cd92fdddf1ae24b41bac238981f",
+      "event_context_hash": "90fae07f990ef7cc82fbf3bb2917ccf8ba85ca9311b41cf5c6d94ea3187d9621",
+      "execution_permission": {
+        "live_allowed": false,
+        "order_allowed": false,
+        "paper_allowed": false,
+        "research_only": true
+      },
+      "limitations": [
+        "One company's correlated dates and revisions are not independent market samples.",
+        "Fewer entries and lower exposure may forgo gains; count and return differences do not identify causal lost profit.",
+        "C/D content conditions are not run; no numeric field or missing consensus creates a directional entry."
+      ],
+      "retention": "KEEP_BOTH_REPORTS_ALL_DECISIONS_BLOCKS_NEGATIVE_AND_NO_TRADE_OUTCOMES",
+      "sample_units": {
+        "announced_event_count_in_scoring_window": 1,
+        "archived_event_identities": [
+          "SYNTHETIC:SCHEDULE:Q3"
+        ],
+        "company_count": 1,
+        "scored_sessions_are_not_independent_event_samples": true
+      },
+      "schema_version": "equity-schedule-comparison-v1",
+      "scope": "DESCRIPTIVE_ENGINEERING_AB_NOT_STRATEGY_CONFIRMATION",
+      "snapshot_id": "6a4c1133af8c4f8c8ac4f3363fef2cd812c8a07f02853f6bab5662a2476f504f"
+    },
+    "independent_ledgers": {
+      "A": {
+        "checks": 140,
+        "failures": [],
+        "fill_count": 3,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "1.85914271907142164E-12",
+        "project_numerical_engine_imported": false,
+        "receipt_sha256": "4c176b65e576aca5c5249aaac075e131cabe9abd7ae463acb04c919f5b0d5aef",
+        "reconciled_buy_fees": "4.9964356128580097",
+        "reconciled_sell_fees": "2.473252427184466",
+        "report_file_sha256": "0d82fdecef893b5470fa09156e6e8fc3ecad1d398bd84c56ca6ec7668f2b6b32",
+        "report_hash": "f9ef2aed36b012dce7034dafefa81729341f4ddad0c1545c8f4ad45493c3fd10",
+        "schema_version": "independent-equity-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 15,
+        "snapshot_file_sha256": "83573a04aaf3afa35afb1f1c01a2b229f46dcc6b0117e8393ad7d0ff217ba522",
+        "snapshot_id": "6a4c1133af8c4f8c8ac4f3363fef2cd812c8a07f02853f6bab5662a2476f504f",
+        "status": "PASS"
+      },
+      "B": {
+        "checks": 121,
+        "failures": [],
+        "fill_count": 1,
+        "legacy_report_fee_fields_absent": [],
+        "maximum_absolute_numeric_error": "9.8650349504950494E-13",
+        "project_numerical_engine_imported": false,
+        "receipt_sha256": "782652cd01585365e02442ca89d320523f985ce1ef62e3a94411dc19fc789558",
+        "reconciled_buy_fees": "2.5024999999999995",
+        "reconciled_sell_fees": "0",
+        "report_file_sha256": "355504668550d227a388baa01d483a16c169820e27c97b5057f6fb7bcb384568",
+        "report_hash": "0b2d3bc47ef19ab2cfa4ccbd555361981a5fdfdd909b5caffc06f592e919562c",
+        "schema_version": "independent-equity-decimal-ledger-reconciliation-v1",
+        "scope": "Read-only Decimal reconciliation of recorded fills, cash, inventory, fees, PnL, equity, returns, drawdown and exposure. No strategy or market-effectiveness assessment.",
+        "score_bars": 15,
+        "snapshot_file_sha256": "83573a04aaf3afa35afb1f1c01a2b229f46dcc6b0117e8393ad7d0ff217ba522",
+        "snapshot_id": "6a4c1133af8c4f8c8ac4f3363fef2cd812c8a07f02853f6bab5662a2476f504f",
+        "status": "PASS"
+      }
+    },
+    "replays": {
+      "A": {
+        "environment_verified": true,
+        "original_report_hash": "f9ef2aed36b012dce7034dafefa81729341f4ddad0c1545c8f4ad45493c3fd10",
+        "receipt_hash": "d6ab916953e12b93e461c7c2a8c0a175394745f1d00a1d7e8dd5cc22fca20b1e",
+        "replay_verified": true,
+        "result_matches": true,
+        "source_matches": true
+      },
+      "B": {
+        "environment_verified": true,
+        "original_report_hash": "0b2d3bc47ef19ab2cfa4ccbd555361981a5fdfdd909b5caffc06f592e919562c",
+        "receipt_hash": "1872bb7175ef6fd2cfa4950350d653a7f81dcf4035d5d47d81e50aa7afd36800",
+        "replay_verified": true,
+        "result_matches": true,
+        "source_matches": true
+      }
+    },
+    "scope": "SYNTHETIC_DUAL_MA_2_3_ENGINEERING_SMOKE_NOT_REAL_AMD_RETURNS"
+  },
+  "system_site_packages": false,
+  "wheel_sha256": "3bb8bc6caeead11321329b6d783e818f328498956d092cee3aead01a0cf68135"
+}

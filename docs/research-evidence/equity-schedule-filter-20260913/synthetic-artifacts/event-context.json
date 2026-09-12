@@ -1,0 +1,78 @@
+{
+  "context_hash": "90fae07f990ef7cc82fbf3bb2917ccf8ba85ca9311b41cf5c6d94ea3187d9621",
+  "events": [
+    {
+      "authority": {
+        "extraction_semantics_independently_verified": false,
+        "order_allowed": false,
+        "profitability_proof": false,
+        "publication_clock_independently_verified": false,
+        "publisher_authenticated": false,
+        "research_only": true
+      },
+      "availability": {
+        "assumed_available_at": "2024-10-31T13:00:02Z",
+        "available_at": "2024-10-31T13:00:02Z",
+        "available_at_kind": "ASSUMED",
+        "observed_available_at": null,
+        "pit_admissible": true,
+        "reason": "CALLER_ATTESTED_PUBLICATION_CLOCK"
+      },
+      "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+      "event_id": "SYNTHETIC:SCHEDULE:Q3",
+      "event_kind": "EARNINGS_SCHEDULE",
+      "facts": [],
+      "first_public_at": "2024-10-31T13:00:00Z",
+      "prior_version_hash": null,
+      "publication_clock": {
+        "evidence": "Fictional publication clock",
+        "status": "ATTESTED",
+        "verification_method": "SYNTHETIC_FIXTURE"
+      },
+      "raw": {
+        "content_base64": "RmljdGlvbmFsIHNjaGVkdWxlIEFOTk9VTkNFRCAyMDI0LTExLTEyIGFmdGVyIG1hcmtldCBjbG9zZS4=",
+        "content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+        "encoding": "utf-8"
+      },
+      "retrieved_at": "2024-12-05T00:00:00Z",
+      "schedule": {
+        "date": "2024-11-12",
+        "evidence": [
+          {
+            "quote": "Fictional schedule ANNOUNCED 2024-11-12 after market close."
+          }
+        ],
+        "reason": null,
+        "status": "ANNOUNCED",
+        "time_precision": "AFTER_MARKET_CLOSE",
+        "timezone": "America/New_York"
+      },
+      "scheduled_release_at": null,
+      "schema_version": "equity-event-v2",
+      "security_id": "SYNTHETIC:RESEARCH:TEST",
+      "source": {
+        "disclosure_items": [],
+        "document_type": "PRESS_RELEASE",
+        "kind": "SYNTHETIC_FIXTURE",
+        "official_source_status": "DECLARED_UNVERIFIED",
+        "url": "https://example.invalid/schedule"
+      },
+      "timing": {
+        "collection_delay_seconds": 1,
+        "extraction_completed_at": "2024-12-05T00:01:00Z",
+        "mode": "HISTORICAL_RECONSTRUCTION",
+        "processing_delay_seconds": 1,
+        "received_at": null
+      },
+      "uncertainties": [
+        "Synthetic schedule, not market evidence"
+      ],
+      "version": 1,
+      "version_public_at": "2024-10-31T13:00:00Z"
+    }
+  ],
+  "order_allowed": false,
+  "schema_version": "equity-event-context-v1",
+  "scope": "ANNOUNCED_SCHEDULE_RISK_FILTER_NOT_RELEASE_CONTENT",
+  "security_id": "SYNTHETIC:RESEARCH:TEST"
+}

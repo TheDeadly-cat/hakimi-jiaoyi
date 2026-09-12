@@ -1,0 +1,1963 @@
+{
+  "dataset": {
+    "bar_availability_lag_seconds": 60,
+    "data_hash": "4671f2c88d8cbc339e942dd6014b8066d42e1b3d11f1aa429a7a30c731af9433",
+    "evidence_kind": "SYNTHETIC_TEST",
+    "price_basis": "RAW_UNADJUSTED",
+    "research_admission": {
+      "allowed": true,
+      "block_reasons": [],
+      "scope": "ACTION_FREE_FIXED_WINDOW_ONLY",
+      "source_truth_verified": false,
+      "synthetic_only": true
+    },
+    "security": {
+      "currency": "USD",
+      "exchange": "XNYS",
+      "instrument_type": "COMMON_STOCK",
+      "security_id": "SYNTHETIC:RESEARCH:TEST",
+      "symbol": "TEST"
+    },
+    "sessions": [
+      {
+        "close_utc": "2024-11-01T20:00:00Z",
+        "date": "2024-11-01",
+        "early_close": false,
+        "open_utc": "2024-11-01T13:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-04T21:00:00Z",
+        "date": "2024-11-04",
+        "early_close": false,
+        "open_utc": "2024-11-04T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-05T21:00:00Z",
+        "date": "2024-11-05",
+        "early_close": false,
+        "open_utc": "2024-11-05T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-06T21:00:00Z",
+        "date": "2024-11-06",
+        "early_close": false,
+        "open_utc": "2024-11-06T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-07T21:00:00Z",
+        "date": "2024-11-07",
+        "early_close": false,
+        "open_utc": "2024-11-07T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-08T21:00:00Z",
+        "date": "2024-11-08",
+        "early_close": false,
+        "open_utc": "2024-11-08T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-11T21:00:00Z",
+        "date": "2024-11-11",
+        "early_close": false,
+        "open_utc": "2024-11-11T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-12T21:00:00Z",
+        "date": "2024-11-12",
+        "early_close": false,
+        "open_utc": "2024-11-12T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-13T21:00:00Z",
+        "date": "2024-11-13",
+        "early_close": false,
+        "open_utc": "2024-11-13T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-14T21:00:00Z",
+        "date": "2024-11-14",
+        "early_close": false,
+        "open_utc": "2024-11-14T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-15T21:00:00Z",
+        "date": "2024-11-15",
+        "early_close": false,
+        "open_utc": "2024-11-15T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-18T21:00:00Z",
+        "date": "2024-11-18",
+        "early_close": false,
+        "open_utc": "2024-11-18T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-19T21:00:00Z",
+        "date": "2024-11-19",
+        "early_close": false,
+        "open_utc": "2024-11-19T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-20T21:00:00Z",
+        "date": "2024-11-20",
+        "early_close": false,
+        "open_utc": "2024-11-20T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-21T21:00:00Z",
+        "date": "2024-11-21",
+        "early_close": false,
+        "open_utc": "2024-11-21T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-22T21:00:00Z",
+        "date": "2024-11-22",
+        "early_close": false,
+        "open_utc": "2024-11-22T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-25T21:00:00Z",
+        "date": "2024-11-25",
+        "early_close": false,
+        "open_utc": "2024-11-25T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-26T21:00:00Z",
+        "date": "2024-11-26",
+        "early_close": false,
+        "open_utc": "2024-11-26T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-27T21:00:00Z",
+        "date": "2024-11-27",
+        "early_close": false,
+        "open_utc": "2024-11-27T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-11-29T18:00:00Z",
+        "date": "2024-11-29",
+        "early_close": true,
+        "open_utc": "2024-11-29T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-12-02T21:00:00Z",
+        "date": "2024-12-02",
+        "early_close": false,
+        "open_utc": "2024-12-02T14:30:00Z"
+      },
+      {
+        "close_utc": "2024-12-03T21:00:00Z",
+        "date": "2024-12-03",
+        "early_close": false,
+        "open_utc": "2024-12-03T14:30:00Z"
+      }
+    ],
+    "snapshot_id": "6a4c1133af8c4f8c8ac4f3363fef2cd812c8a07f02853f6bab5662a2476f504f",
+    "volume_unit": "shares"
+  },
+  "event_context": {
+    "context_hash": "90fae07f990ef7cc82fbf3bb2917ccf8ba85ca9311b41cf5c6d94ea3187d9621",
+    "events": [
+      {
+        "authority": {
+          "extraction_semantics_independently_verified": false,
+          "order_allowed": false,
+          "profitability_proof": false,
+          "publication_clock_independently_verified": false,
+          "publisher_authenticated": false,
+          "research_only": true
+        },
+        "availability": {
+          "assumed_available_at": "2024-10-31T13:00:02Z",
+          "available_at": "2024-10-31T13:00:02Z",
+          "available_at_kind": "ASSUMED",
+          "observed_available_at": null,
+          "pit_admissible": true,
+          "reason": "CALLER_ATTESTED_PUBLICATION_CLOCK"
+        },
+        "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+        "event_id": "SYNTHETIC:SCHEDULE:Q3",
+        "event_kind": "EARNINGS_SCHEDULE",
+        "facts": [],
+        "first_public_at": "2024-10-31T13:00:00Z",
+        "prior_version_hash": null,
+        "publication_clock": {
+          "evidence": "Fictional publication clock",
+          "status": "ATTESTED",
+          "verification_method": "SYNTHETIC_FIXTURE"
+        },
+        "raw": {
+          "content_base64": "RmljdGlvbmFsIHNjaGVkdWxlIEFOTk9VTkNFRCAyMDI0LTExLTEyIGFmdGVyIG1hcmtldCBjbG9zZS4=",
+          "content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+          "encoding": "utf-8"
+        },
+        "retrieved_at": "2024-12-05T00:00:00Z",
+        "schedule": {
+          "date": "2024-11-12",
+          "evidence": [
+            {
+              "quote": "Fictional schedule ANNOUNCED 2024-11-12 after market close."
+            }
+          ],
+          "reason": null,
+          "status": "ANNOUNCED",
+          "time_precision": "AFTER_MARKET_CLOSE",
+          "timezone": "America/New_York"
+        },
+        "scheduled_release_at": null,
+        "schema_version": "equity-event-v2",
+        "security_id": "SYNTHETIC:RESEARCH:TEST",
+        "source": {
+          "disclosure_items": [],
+          "document_type": "PRESS_RELEASE",
+          "kind": "SYNTHETIC_FIXTURE",
+          "official_source_status": "DECLARED_UNVERIFIED",
+          "url": "https://example.invalid/schedule"
+        },
+        "timing": {
+          "collection_delay_seconds": 1,
+          "extraction_completed_at": "2024-12-05T00:01:00Z",
+          "mode": "HISTORICAL_RECONSTRUCTION",
+          "processing_delay_seconds": 1,
+          "received_at": null
+        },
+        "uncertainties": [
+          "Synthetic schedule, not market evidence"
+        ],
+        "version": 1,
+        "version_public_at": "2024-10-31T13:00:00Z"
+      }
+    ],
+    "order_allowed": false,
+    "schema_version": "equity-event-context-v1",
+    "scope": "ANNOUNCED_SCHEDULE_RISK_FILTER_NOT_RELEASE_CONTENT",
+    "security_id": "SYNTHETIC:RESEARCH:TEST"
+  },
+  "execution_permission": {
+    "live_allowed": false,
+    "order_allowed": false,
+    "paper_allowed": false,
+    "research_only": true
+  },
+  "original_report_file_sha256": "355504668550d227a388baa01d483a16c169820e27c97b5057f6fb7bcb384568",
+  "original_report_hash": "0b2d3bc47ef19ab2cfa4ccbd555361981a5fdfdd909b5caffc06f592e919562c",
+  "original_result_hash": "b36f3110241498ee2b40a26cfad3e1b3a18d7fcd496bf06e54250ffcc34f0f92",
+  "projection_scope": "EXACT_ECONOMIC_FIELDS_AND_SYNTHETIC_INPUTS; ORIGINAL_FULL_REPORT_RETAINED_LOCALLY; NOT_A_RESEALED_OR_REPLAYABLE_ORIGINAL_REPORT",
+  "result": {
+    "accounting": {
+      "buy_fees": 2.5024999999999995,
+      "decision_count": 15,
+      "end_mark_price": 111.0,
+      "end_position_policy": "MARK_TO_MARKET_NO_FORCED_LIQUIDATION",
+      "exposure_definition": "MEAN_SCORED_CLOSE_POSITION_MARKET_VALUE_OVER_EQUITY",
+      "exposure_ratio": 0.13960130826694223,
+      "fill_count": 1,
+      "final_cash": 7494.9975,
+      "open_position_qty": 24.752475247524753,
+      "order_count": 1,
+      "pnl_reconciliation_error": 1.1368683772161603e-13,
+      "realized_pnl": 0.0,
+      "round_trip_count": 0,
+      "sell_fees": 0,
+      "signal_count": 1,
+      "trades_alias": "DEPRECATED_ALIAS_OF_FILL_COUNT",
+      "unallocated_entry_fees": 2.5024999999999995,
+      "unrealized_pnl": 242.5222524752479
+    },
+    "ambiguous_intrabar_count": 0,
+    "annualized_return": null,
+    "buy_fees": 2.5024999999999995,
+    "decision_count": 15,
+    "end_mark_price": 111.0,
+    "end_position_policy": "MARK_TO_MARKET_NO_FORCED_LIQUIDATION",
+    "equity_curve": [
+      {
+        "cash": 10000.0,
+        "equity": 10000.0,
+        "point": "INITIAL",
+        "position_qty": 0.0,
+        "position_value": 0.0,
+        "time": "2024-11-12 14:30:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-12 14:30:00+00:00",
+        "cash": 10000.0,
+        "equity": 10000.0,
+        "point": "BAR_CLOSE",
+        "position_qty": 0.0,
+        "position_value": 0.0,
+        "time": "2024-11-12 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-13 14:30:00+00:00",
+        "cash": 10000.0,
+        "equity": 10000.0,
+        "point": "BAR_CLOSE",
+        "position_qty": 0.0,
+        "position_value": 0.0,
+        "time": "2024-11-13 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-14 14:30:00+00:00",
+        "cash": 10000.0,
+        "equity": 10000.0,
+        "point": "BAR_CLOSE",
+        "position_qty": 0.0,
+        "position_value": 0.0,
+        "time": "2024-11-14 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-15 14:30:00+00:00",
+        "cash": 10000.0,
+        "equity": 10000.0,
+        "point": "BAR_CLOSE",
+        "position_qty": 0.0,
+        "position_value": 0.0,
+        "time": "2024-11-15 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-18 14:30:00+00:00",
+        "cash": 10000.0,
+        "equity": 10000.0,
+        "point": "BAR_CLOSE",
+        "position_qty": 0.0,
+        "position_value": 0.0,
+        "time": "2024-11-18 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-19 14:30:00+00:00",
+        "cash": 10000.0,
+        "equity": 10000.0,
+        "point": "BAR_CLOSE",
+        "position_qty": 0.0,
+        "position_value": 0.0,
+        "time": "2024-11-19 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-20 14:30:00+00:00",
+        "cash": 10000.0,
+        "equity": 10000.0,
+        "point": "BAR_CLOSE",
+        "position_qty": 0.0,
+        "position_value": 0.0,
+        "time": "2024-11-20 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-21 14:30:00+00:00",
+        "cash": 7494.9975,
+        "equity": 10044.50245049505,
+        "point": "BAR_CLOSE",
+        "position_qty": 24.752475247524753,
+        "position_value": 2549.50495049505,
+        "time": "2024-11-21 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-22 14:30:00+00:00",
+        "cash": 7494.9975,
+        "equity": 10094.0074009901,
+        "point": "BAR_CLOSE",
+        "position_qty": 24.752475247524753,
+        "position_value": 2599.009900990099,
+        "time": "2024-11-22 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-25 14:30:00+00:00",
+        "cash": 7494.9975,
+        "equity": 10118.759876237624,
+        "point": "BAR_CLOSE",
+        "position_qty": 24.752475247524753,
+        "position_value": 2623.762376237624,
+        "time": "2024-11-25 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-26 14:30:00+00:00",
+        "cash": 7494.9975,
+        "equity": 10143.51235148515,
+        "point": "BAR_CLOSE",
+        "position_qty": 24.752475247524753,
+        "position_value": 2648.5148514851485,
+        "time": "2024-11-26 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-27 14:30:00+00:00",
+        "cash": 7494.9975,
+        "equity": 10168.264826732673,
+        "point": "BAR_CLOSE",
+        "position_qty": 24.752475247524753,
+        "position_value": 2673.267326732673,
+        "time": "2024-11-27 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-11-29 14:30:00+00:00",
+        "cash": 7494.9975,
+        "equity": 10193.017301980199,
+        "point": "BAR_CLOSE",
+        "position_qty": 24.752475247524753,
+        "position_value": 2698.0198019801983,
+        "time": "2024-11-29 18:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-12-02 14:30:00+00:00",
+        "cash": 7494.9975,
+        "equity": 10217.769777227724,
+        "point": "BAR_CLOSE",
+        "position_qty": 24.752475247524753,
+        "position_value": 2722.772277227723,
+        "time": "2024-12-02 21:00:00+00:00"
+      },
+      {
+        "bar_time": "2024-12-03 14:30:00+00:00",
+        "cash": 7494.9975,
+        "equity": 10242.522252475248,
+        "point": "BAR_CLOSE",
+        "position_qty": 24.752475247524753,
+        "position_value": 2747.5247524752476,
+        "time": "2024-12-03 21:00:00+00:00"
+      }
+    ],
+    "execution_model": "signal-close-next-open-ohlc-v6",
+    "exposure_definition": "MEAN_SCORED_CLOSE_POSITION_MARKET_VALUE_OVER_EQUITY",
+    "exposure_ratio": 0.13960130826694223,
+    "fill_count": 1,
+    "fills": [
+      {
+        "action": "BUY",
+        "available_volume": 10000.0,
+        "bar_final_volume": 10000.0,
+        "capacity_remaining_quantity": null,
+        "cash_after": 7494.9975,
+        "fee": 2.5024999999999995,
+        "fill_basis": "NEXT_BAR_OPEN",
+        "fill_ratio": 1.0,
+        "fill_time": "2024-11-21 14:30:00+00:00",
+        "filled_quantity": 24.752475247524753,
+        "max_volume_participation_rate": null,
+        "order_id": 1,
+        "partial_fill": false,
+        "pnl": 0.0,
+        "position_after": 24.752475247524753,
+        "position_before": 0.0,
+        "price": 101.10099999999998,
+        "quantity": 24.752475247524753,
+        "realized_pnl_after": 0.0,
+        "reason": "fast MA crossed above slow MA",
+        "requested_quantity": 24.752475247524753,
+        "signal_time": "2024-11-20 21:01:00+00:00",
+        "symbol": "TEST",
+        "volume_capacity_quantity": null
+      }
+    ],
+    "final_cash": 7494.9975,
+    "final_equity": 10242.522252475248,
+    "max_drawdown": 0.0,
+    "metric_semantics_version": "research-accounting-score-start-v2",
+    "open_position_qty": 24.752475247524753,
+    "order_count": 1,
+    "orders": [
+      {
+        "action": "BUY",
+        "admission_reason": "NONE",
+        "bar_time": "2024-11-21 14:30:00+00:00",
+        "cancelled_quantity": 0.0,
+        "capacity_before_quantity": null,
+        "capacity_timing": "UNLIMITED_APPROXIMATION",
+        "filled_quantity": 24.752475247524753,
+        "order_id": 1,
+        "reason": "fast MA crossed above slow MA",
+        "reference_price": 101.0,
+        "requested_quantity": 24.752475247524753,
+        "signal_time": "2024-11-20 21:01:00+00:00",
+        "status": "FILLED",
+        "time_in_force": "ONE_ATTEMPT_CANCEL_REMAINDER"
+      }
+    ],
+    "pnl_reconciliation_error": 1.1368683772161603e-13,
+    "realized_pnl": 0.0,
+    "reproducibility": {
+      "benchmark_policy": "STANDARD_STRATEGY_RISK",
+      "config_hash": "5540f6f8d3b5f33cd6f4dd4484ac903ae68ee79a9e64b0196dbdf82dd7da4b07",
+      "data_end": "2024-12-03 14:30:00+00:00",
+      "data_hash": "11d6c24cf8bc7db15be725657183ff53f8c80e0cd6380f67372d8c4d720545e1",
+      "data_rows": 22,
+      "data_start": "2024-11-01 13:30:00+00:00",
+      "event_context_hash": "90fae07f990ef7cc82fbf3bb2917ccf8ba85ca9311b41cf5c6d94ea3187d9621",
+      "event_rule": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+      "execution_model": "signal-close-next-open-ohlc-v6",
+      "hash_scope": "FULL_OHLCV",
+      "market_clock_model": "US_REGULAR_SESSION_CLOSE_WITH_DECLARED_AVAILABILITY_LAG_V1",
+      "max_volume_participation_rate": null,
+      "param_hash": "6d14fdfeae5c6e27af17bb4674228cb12eae802a0e2c4d2221f22568afa89aea",
+      "random_seed": 0,
+      "risk_hash": "d65c402d4f25ce2696be4aa94b55ab8bd0e393325ffa3ee7fff318af88b4479a",
+      "run_hash": "d7a839e534e004cbd48e7079b0fe73fc77b38df4cd194cd8dcbfdc3b3c62895c",
+      "scoring": {
+        "end_exclusive": 22,
+        "end_position_policy": "MARK_TO_MARKET_NO_FORCED_LIQUIDATION",
+        "metric_semantics_version": "research-accounting-score-start-v2",
+        "start_inclusive": 7
+      },
+      "session_clock_hash": "5ec790de6ee80479366e13952dee9deae7135226fd8f07ce5b33823f975ab6ce",
+      "strategy_code_fingerprint": "0a979b488d6da2ff680709a65925ba84d586b86ca3f1407434b644420d8f7493",
+      "strategy_version": "v1"
+    },
+    "return_series": [
+      {
+        "return": 0.0,
+        "time": "2024-11-12 21:00:00+00:00"
+      },
+      {
+        "return": 0.0,
+        "time": "2024-11-13 21:00:00+00:00"
+      },
+      {
+        "return": 0.0,
+        "time": "2024-11-14 21:00:00+00:00"
+      },
+      {
+        "return": 0.0,
+        "time": "2024-11-15 21:00:00+00:00"
+      },
+      {
+        "return": 0.0,
+        "time": "2024-11-18 21:00:00+00:00"
+      },
+      {
+        "return": 0.0,
+        "time": "2024-11-19 21:00:00+00:00"
+      },
+      {
+        "return": 0.0,
+        "time": "2024-11-20 21:00:00+00:00"
+      },
+      {
+        "return": 0.004450245049504975,
+        "time": "2024-11-21 21:00:00+00:00"
+      },
+      {
+        "return": 0.004928561742011395,
+        "time": "2024-11-22 21:00:00+00:00"
+      },
+      {
+        "return": 0.002452195076169339,
+        "time": "2024-11-25 21:00:00+00:00"
+      },
+      {
+        "return": 0.0024461965250952566,
+        "time": "2024-11-26 21:00:00+00:00"
+      },
+      {
+        "return": 0.0024402272496764077,
+        "time": "2024-11-27 21:00:00+00:00"
+      },
+      {
+        "return": 0.0024342870361175883,
+        "time": "2024-11-29 18:00:00+00:00"
+      },
+      {
+        "return": 0.0024283756726986017,
+        "time": "2024-12-02 21:00:00+00:00"
+      },
+      {
+        "return": 0.002422492949752053,
+        "time": "2024-12-03 21:00:00+00:00"
+      }
+    ],
+    "risk_semantics": {
+      "bar_event_order": "OLD_POSITION_OPEN_PROTECTION_THEN_PENDING_SIGNAL_THEN_INTRABAR_PROTECTION_THEN_CLOSE_MARK",
+      "benchmark_policy": "NOT_APPLICABLE",
+      "daily_loss": {
+        "config_key": "max_daily_loss_pct",
+        "continuous_position_liquidation": false,
+        "hold_and_sell_remain_available": true,
+        "meaning": "NEW_BUY_ADMISSION_HALT_FROM_UTC_DAY_START_EQUITY",
+        "threshold_pct": 1.0
+      },
+      "execution_policy": "STANDARD_STRATEGY_RISK",
+      "leverage": {
+        "borrowing_margin_and_liquidation": "UNSUPPORTED",
+        "effective": 1.0,
+        "policy": "SPOT_CASH_ONLY_REQUEST_NOT_APPLIED",
+        "requested": 1.0,
+        "supported": false
+      },
+      "max_position_pct": 1.0,
+      "min_cash_pct": 0.0,
+      "opening_protection_pending_signal_policy": "CANCEL_PENDING_ON_TRIGGER_EVEN_IF_EXIT_PARTIAL_OR_REJECTED",
+      "opening_protection_remainder_policy": "ONE_ATTEMPT_THIS_BAR_RETAIN_THRESHOLDS_FOR_NEXT_BAR",
+      "opening_target_price_policy": "TARGET_PRICE_WITHOUT_ASSUMED_OPEN_IMPROVEMENT",
+      "protective_exits_enabled": true,
+      "same_bar_reentry_policy": "DISALLOWED_AFTER_OPEN_PROTECTION_FRESH_CLOSE_SIGNAL_REQUIRED_FOR_LATER_BAR",
+      "schema_version": "research-risk-engine-v2",
+      "stop_loss": {
+        "account_loss_guarantee": false,
+        "config_key": "max_single_loss_pct",
+        "gap_slippage_and_capacity_can_exceed_distance": true,
+        "maximum_price_distance_pct": 0.03,
+        "meaning": "MAXIMUM_STOP_PRICE_DISTANCE_FROM_AVERAGE_ENTRY",
+        "requested_and_effective_values": "PER_BUY_SIGNAL_IN_SIGNALS_LEDGER"
+      }
+    },
+    "round_trip_count": 0,
+    "round_trips": [],
+    "scoring": {
+      "end_exclusive": 22,
+      "end_time": "2024-12-03 21:00:00+00:00",
+      "scored_bar_count": 15,
+      "seed_signal_time": "2024-11-11 21:01:00+00:00",
+      "start_inclusive": 7,
+      "start_time": "2024-11-12 14:30:00+00:00",
+      "warmup_policy": "CONTEXT_ONLY_NO_TRADES_FEES_OR_SCORED_RETURNS",
+      "warmup_rows": 7
+    },
+    "sell_fees": 0,
+    "sharpe_ratio": null,
+    "signal_count": 1,
+    "signals": [
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-11T21:01:00Z",
+            "blocking_event_hashes": [
+              "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c"
+            ],
+            "disposition": "BLOCK_NEW_BUY",
+            "execution_session": "2024-11-12",
+            "execution_time": "2024-11-12T14:30:00Z",
+            "input_action": "BUY",
+            "input_signal": {
+              "confidence": 1.0,
+              "metadata": null,
+              "reason": "fast MA crossed above slow MA",
+              "size_pct": 0.25,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.8
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-12T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-12",
+            "execution_time": "2024-11-12T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "announced earnings schedule blocks this new buy",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "announced earnings schedule blocks this new buy",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": true,
+        "size_pct": 0.0,
+        "time": "2024-11-11 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-12T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-13",
+            "execution_time": "2024-11-13T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-13T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-13",
+            "execution_time": "2024-11-13T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-12 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-13T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-14",
+            "execution_time": "2024-11-14T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-14T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-14",
+            "execution_time": "2024-11-14T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-13 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-14T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-15",
+            "execution_time": "2024-11-15T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-15T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-15",
+            "execution_time": "2024-11-15T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-14 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-15T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-18",
+            "execution_time": "2024-11-18T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-18T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-18",
+            "execution_time": "2024-11-18T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-15 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-18T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-19",
+            "execution_time": "2024-11-19T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-19T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-19",
+            "execution_time": "2024-11-19T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-18 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-19T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-20",
+            "execution_time": "2024-11-20T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-20T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-20",
+            "execution_time": "2024-11-20T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-19 21:01:00+00:00"
+      },
+      {
+        "action": "BUY",
+        "effective_stop_loss_pct": 0.03,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-20T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "ALLOW_PRICE_BUY",
+            "execution_session": "2024-11-21",
+            "execution_time": "2024-11-21T14:30:00Z",
+            "input_action": "BUY",
+            "input_signal": {
+              "confidence": 1.0,
+              "metadata": null,
+              "reason": "fast MA crossed above slow MA",
+              "size_pct": 0.25,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.8
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "BUY",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-21T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "ALLOW_PRICE_BUY",
+            "execution_session": "2024-11-21",
+            "execution_time": "2024-11-21T14:30:00Z",
+            "input_action": "BUY",
+            "input_signal": {
+              "confidence": 1.0,
+              "metadata": null,
+              "reason": "fast MA crossed above slow MA",
+              "size_pct": 0.25,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.8
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "BUY",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "fast MA crossed above slow MA",
+        "requested_stop_loss_pct": 0.03,
+        "requested_take_profit_pct": 0.8,
+        "seeds_score": false,
+        "size_pct": 0.25,
+        "time": "2024-11-20 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-21T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-22",
+            "execution_time": "2024-11-22T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-22T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-22",
+            "execution_time": "2024-11-22T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-21 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-22T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-25",
+            "execution_time": "2024-11-25T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-25T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-25",
+            "execution_time": "2024-11-25T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-22 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-25T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-26",
+            "execution_time": "2024-11-26T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-26T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-26",
+            "execution_time": "2024-11-26T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-25 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-26T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-27",
+            "execution_time": "2024-11-27T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-27T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-27",
+            "execution_time": "2024-11-27T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-26 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-27T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-29",
+            "execution_time": "2024-11-29T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-11-29T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-11-29",
+            "execution_time": "2024-11-29T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-27 21:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-11-29T18:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-12-02",
+            "execution_time": "2024-12-02T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-12-02T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-12-02",
+            "execution_time": "2024-12-02T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-11-29 18:01:00+00:00"
+      },
+      {
+        "action": "HOLD",
+        "effective_stop_loss_pct": null,
+        "event_filter": {
+          "decision": {
+            "as_of": "2024-12-02T21:01:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-12-03",
+            "execution_time": "2024-12-03T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "DECISION"
+          },
+          "execution": {
+            "as_of": "2024-12-03T14:30:00Z",
+            "blocking_event_hashes": [],
+            "disposition": "NO_PENDING_BUY",
+            "execution_session": "2024-12-03",
+            "execution_time": "2024-12-03T14:30:00Z",
+            "input_action": "HOLD",
+            "input_signal": {
+              "confidence": 0.0,
+              "metadata": null,
+              "reason": "no MA crossover",
+              "size_pct": 0.0,
+              "stop_loss_pct": null,
+              "take_profit_pct": null
+            },
+            "known_versions": [
+              {
+                "available_at": "2024-10-31T13:00:02Z",
+                "available_at_kind": "ASSUMED",
+                "event_hash": "71afce7836a9d014a2670cb8e0f5f33dc08e5df0311e4e21b62acebe8c1efe3c",
+                "event_id": "SYNTHETIC:SCHEDULE:Q3",
+                "field_status": [],
+                "schedule": {
+                  "date": "2024-11-12",
+                  "status": "ANNOUNCED",
+                  "time_precision": "AFTER_MARKET_CLOSE",
+                  "timezone": "America/New_York"
+                },
+                "source_content_sha256": "87c822c6fd4fd7d65b81ce560494bab80c39b683babec1ea57b11afa03bec524",
+                "version": 1,
+                "version_public_at": "2024-10-31T13:00:00Z"
+              }
+            ],
+            "output_action": "HOLD",
+            "rule_version": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+            "stage": "EXECUTION"
+          }
+        },
+        "reason": "no MA crossover",
+        "requested_stop_loss_pct": null,
+        "requested_take_profit_pct": null,
+        "seeds_score": false,
+        "size_pct": 0.0,
+        "time": "2024-12-02 21:01:00+00:00"
+      }
+    ],
+    "statistical_status": {
+      "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+      "annualized_return": "SHORT_SAMPLE",
+      "elapsed_years": 0.05952380952380952,
+      "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+      "minimum_observations": 30,
+      "observation_count": 15,
+      "periods_per_year": 252,
+      "sharpe_ratio": "SHORT_SAMPLE",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "win_rate": "NO_COMPLETED_ROUND_TRIPS"
+    },
+    "total_fees": 2.5024999999999995,
+    "total_return": 0.024252225247524795,
+    "trades": 1,
+    "trades_alias": "DEPRECATED_ALIAS_OF_FILL_COUNT",
+    "unallocated_entry_fees": 2.5024999999999995,
+    "unrealized_pnl": 242.5222524752479,
+    "win_rate": null
+  },
+  "schema_version": "equity-report-public-projection-v1",
+  "spec": {
+    "end_policy": "MARK_TO_MARKET",
+    "event_context_hash": "90fae07f990ef7cc82fbf3bb2917ccf8ba85ca9311b41cf5c6d94ea3187d9621",
+    "event_rule": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+    "execution_policy": "STANDARD_STRATEGY_RISK",
+    "fee_rate": 0.001,
+    "initial_cash": 10000.0,
+    "name": "portable fictional equity check",
+    "purpose": "SYNTHETIC_REGRESSION",
+    "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+    "risk": {
+      "max_daily_loss_pct": 1.0,
+      "max_leverage": 1.0,
+      "max_position_pct": 1.0,
+      "max_single_loss_pct": 0.03,
+      "min_cash_pct": 0.0
+    },
+    "schema_version": "us-equity-experiment-spec-v2",
+    "score_end_session": "2024-12-03",
+    "score_start_session": "2024-11-12",
+    "slippage_pct": 0.001,
+    "snapshot_id": "6a4c1133af8c4f8c8ac4f3363fef2cd812c8a07f02853f6bab5662a2476f504f",
+    "strategy": {
+      "name": "dual_ma",
+      "params": {
+        "fast_window": 2,
+        "position_pct": 0.25,
+        "slow_window": 3,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.8
+      }
+    }
+  }
+}
