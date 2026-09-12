@@ -245,6 +245,8 @@ def event_payload(report, plan):
              (slot_counts['LATE'],str(slot_counts['LATE'])+'个周期迟到')] if count]
         if any(change['status']=='SOURCE_CHECK_RECOVERED' for change in changes):
             details.append('巡检来源核对已恢复')
+        if any(change['kind']=='WINDOW_ELAPSED' for change in changes):
+            details.append('声明窗口已结束，等待验收')
         message = '本次扫描：'+'，'.join(details)+'。历史缺口保留。'
     prefix = '隔离演练，' if plan['scope']=='ISOLATED_DRILL' else ''
     core = {'schema_version':'observation-notification-payload-v1',
@@ -403,6 +405,9 @@ def check(plan, job_root, watch_root, *, send=False, worker=notify.execute_worke
         report['rows_last_verified_at']=report['checked_at'] if report['rows_are_current'] else previous.get('rows_last_verified_at') if previous else None
         report['deadline_counts']=dict(Counter(row['deadline_status'] for row in report['rows']))
         report['maximum_checked_at']=max(report['checked_at'],previous.get('maximum_checked_at',previous['checked_at']) if previous else report['checked_at'])
+        report['window_elapsed']=bool(previous and previous.get('window_elapsed')) or timestamp_at_end(plan,report['checked_at'])
+        if report['window_elapsed'] and not (previous and previous.get('window_elapsed')):
+            report['changes'].append({'kind':'WINDOW_ELAPSED','status':'WINDOW_ENDED_REVIEW_REQUIRED'})
         report=job.sealed(report)
         report_path=root/'reports'/(f"{report['sequence']:08d}_"+uuid.uuid4().hex+'.json')
         job.write_new(report_path,report)
@@ -410,6 +415,10 @@ def check(plan, job_root, watch_root, *, send=False, worker=notify.execute_worke
         delivery=deliver_pending(root,plan,send=send,worker=worker)
         return {'status':report['status'],'report':report,'delivery':delivery,
                 'notification_state':delivery_state(root,plan),'notification_send_requested':bool(send)}
+
+
+def timestamp_at_end(plan,value):
+    return job.timestamp(value)>=job.timestamp(plan['end_cutoff_exclusive'])
 
 
 def main():

@@ -87,6 +87,15 @@ class ObservationWatchTests(unittest.TestCase):
         self.assertEqual(rows[0]['deadline_status'],'PENDING')
         self.assertEqual(changes,[])
 
+    def test_window_end_is_reported_once_without_acceptance_claim(self):
+        self.clock=self.cutoff+timedelta(hours=2)
+        first=self.check()['report']
+        self.assertTrue(first['window_elapsed'])
+        self.assertEqual(first['changes'][-1],{'kind':'WINDOW_ELAPSED','status':'WINDOW_ENDED_REVIEW_REQUIRED'})
+        self.assertIn('等待验收',module.event_payload(first,self.plan)['body'])
+        self.assertNotIn('accepted',first)
+        self.assertFalse(any(change['kind']=='WINDOW_ELAPSED' for change in self.check()['report']['changes']))
+
     def test_unfinished_receipt_is_overdue_without_asserting_process_exit(self):
         self.attempt(complete=False)
         row=self.check()['report']['rows'][0]

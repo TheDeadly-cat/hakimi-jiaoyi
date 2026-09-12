@@ -421,7 +421,8 @@ def execute(argv, root, *, timeout_seconds=EXECUTION_TIMEOUT_SECONDS,
     if type(argv) is not list or not argv or any(type(arg) is not str or not arg or "\0" in arg for arg in argv):
         raise ValueError("invalid_child_arguments")
     environment = {key: value for key, value in os.environ.items() if key.upper() not in {"PYTHONPATH", "PYTHONHOME"}}
-    environment.update(PYTHONUTF8="1", PYTHONIOENCODING="utf-8", PYTHONDONTWRITEBYTECODE="1")
+    environment.update(PYTHONUTF8="1", PYTHONIOENCODING="utf-8", PYTHONDONTWRITEBYTECODE="1",
+                       HAKIMI_RUNTIME_READ_ONLY="1", HAKIMI_SKIP_LOCAL_AI_ENV="1")
     return _run_owned_windows(argv, root, environment=environment, timeout_seconds=timeout_seconds,
                               output_limit_bytes=output_limit_bytes, cleanup_seconds=cleanup_seconds)
 
@@ -489,10 +490,19 @@ def validate_result(value, cutoff, plan, completed):
     return value
 
 
-def run(root, job_root, *, scheduler_event_at=None):
+def run(root, job_root, *, scheduler_event_at=None, window_start=None, window_end=None):
     started, monotonic_start = now(), time.monotonic()
     if scheduler_event_at is not None:
         timestamp(scheduler_event_at)  # Reject arbitrary non-clock text before persisting it.
+    if (window_start is None) != (window_end is None):
+        raise ValueError("both_window_boundaries_required")
+    window = None
+    if window_start is not None:
+        first, last = timestamp(window_start), timestamp(window_end)
+        if (first.minute or first.second or first.microsecond or last.minute or last.second or last.microsecond
+                or not timedelta(hours=1) <= last-first <= timedelta(hours=72)):
+            raise ValueError("whole_hour_window_between_one_and_72_hours_required")
+        window = {"start": stamp(first), "end_exclusive": stamp(last)}
     root, job_root = root.resolve(), job_root.resolve()
     if job_root == root or job_root.is_relative_to(root):
         raise ValueError("job_receipts_must_be_outside_frozen_deployment")
@@ -505,6 +515,7 @@ def run(root, job_root, *, scheduler_event_at=None):
                     "underlying_trigger_kind": "SCHEDULED" if scheduler_event_at else "MANUAL",
                     "purpose": "DETERMINISTIC_PROCESS_WITHOUT_INVENTED_SCHEDULER_CLOCK", "launcher_sha256": file_hash(Path(__file__)),
                     "frozen_wrapper_sha256": WRAPPER_SHA256, "frozen_plan_sha256": PLAN_SHA256, "order_allowed": False,
+                    "declared_window": window,
                     "execution_bounds": {"timeout_seconds": EXECUTION_TIMEOUT_SECONDS,
                                          "cleanup_seconds": CLEANUP_TIMEOUT_SECONDS,
                                          "combined_output_limit_bytes": OUTPUT_LIMIT_BYTES,
@@ -517,6 +528,8 @@ def run(root, job_root, *, scheduler_event_at=None):
            "notification": {"decision": "NOTIFY", "reasons": [], "delivery_status": "NOT_SENT_BY_THIS_TOOL"}}
     stage = "PREFLIGHT"
     try:
+        if window is not None and not first <= cutoff < last:
+            raise ValueError("outside_declared_observation_window")
         if scheduler_event_at and timestamp(scheduler_event_at) > started:
             raise ValueError("scheduler_event_cannot_postdate_process_start")
         plan = verify_deployment(root)
@@ -604,9 +617,12 @@ def main():
     parser.add_argument("--runtime-root", type=Path, required=True)
     parser.add_argument("--job-root", type=Path, required=True)
     parser.add_argument("--scheduler-event-at", help="Actual caller-observed scheduler event; never a nominal or reconstructed time")
+    parser.add_argument("--window-start", help="Optional declared first UTC cutoff; requires --window-end")
+    parser.add_argument("--window-end", help="Optional exclusive UTC cutoff boundary")
     args = parser.parse_args()
     try:
-        result = run(args.runtime_root, args.job_root, scheduler_event_at=args.scheduler_event_at)
+        result = run(args.runtime_root, args.job_root, scheduler_event_at=args.scheduler_event_at,
+                     window_start=args.window_start, window_end=args.window_end)
     except Exception as exc:
         print(json.dumps({"health": "LAUNCHER_RECEIPT_FAILURE", "error_type": type(exc).__name__, "order_allowed": False}))
         return 1

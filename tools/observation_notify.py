@@ -24,7 +24,8 @@ FAILED_HEALTH = {'FAILED_PREFLIGHT', 'CHILD_FAILED', 'CHILD_TERMINATED', 'CHILD_
 
 
 def read(path):
-    raw = path.read_bytes()
+    with path.open('rb') as stream:
+        raw = stream.read(65537)
     if len(raw) > 65536:
         raise ValueError('notification_receipt_too_large')
     def pairs(items):

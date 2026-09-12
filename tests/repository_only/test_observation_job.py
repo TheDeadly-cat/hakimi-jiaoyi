@@ -69,6 +69,15 @@ class ObservationJobTests(unittest.TestCase):
         self.assertIsNone(start['scheduler_event_at'])
         self.assertEqual(result['notification']['delivery_status'], 'NOT_SENT_BY_THIS_TOOL')
 
+    def test_declared_window_rejects_outside_cutoff_before_observer_starts(self):
+        with patch.object(module,'execute') as execute:
+            result=module.run(self.root,self.jobs,window_start=module.stamp(self.cutoff-timedelta(hours=72)),window_end=module.stamp(self.cutoff))
+        self.assertEqual(result['health'],'FAILED_PREFLIGHT')
+        self.assertFalse(result['result_valid'])
+        execute.assert_not_called()
+        with self.assertRaises(ValueError):
+            module.run(self.root,self.jobs,window_start=module.stamp(self.cutoff))
+
     def test_actual_scheduler_event_is_preserved_and_future_event_rejected(self):
         event = module.stamp(self.cutoff + timedelta(minutes=1))
         result, execute = self.run_job(scheduler_event_at=event)
