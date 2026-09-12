@@ -5,6 +5,11 @@ param(
     [switch]$SchedulingAuthoritySwitchConfirmed
 )
 $ErrorActionPreference = 'Stop'
+function Convert-UtcTaskBoundary($Value) {
+    # PowerShell 7 may materialize JSON timestamps as DateTime. Do not let COM
+    # format them using the local culture and silently drop the UTC suffix.
+    return ([DateTimeOffset]$Value).ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss'Z'",[Globalization.CultureInfo]::InvariantCulture)
+}
 function Write-NewJson([string]$Path, $Value) {
     $temporary = $Path + '.' + [Guid]::NewGuid().ToString('N') + '.tmp'
     $bytes = [Text.Encoding]::UTF8.GetBytes(($Value | ConvertTo-Json -Depth 14))
@@ -27,8 +32,8 @@ function New-ObservationDefinition($Service,$Task,[string]$Sid,[string]$BundleHa
     $definition.Settings.WakeToRun = $true
     $definition.Settings.StartWhenAvailable = $true
     $trigger = $definition.Triggers.Create(1)
-    $trigger.StartBoundary = $Task.first_utc
-    $trigger.EndBoundary = $Task.end_utc_exclusive
+    $trigger.StartBoundary = Convert-UtcTaskBoundary $Task.first_utc
+    $trigger.EndBoundary = Convert-UtcTaskBoundary $Task.end_utc_exclusive
     $trigger.Repetition.Interval = [Xml.XmlConvert]::ToString([TimeSpan]::FromSeconds($Task.interval_seconds))
     $trigger.Repetition.StopAtDurationEnd = $false
     $action = $definition.Actions.Create(0)
@@ -88,7 +93,7 @@ try {
         $activation.tasks += [ordered]@{ task_name=$entry.spec.task_name; path=$registered.Path; definition_xml=$registered.Xml; initially_enabled=$registered.Enabled }
     }
     Write-NewJson (Join-Path $receiptDirectory 'registered-disabled.json') $activation
-    if ([DateTimeOffset]::UtcNow.AddMinutes(1) -ge [DateTimeOffset]::Parse($preview.start_cutoff)) { throw 'Window start too close after staging registrations.' }
+    if ([DateTimeOffset]::UtcNow.AddMinutes(1) -ge [DateTimeOffset]$preview.start_cutoff) { throw 'Window start too close after staging registrations.' }
     foreach ($registered in $created) { $registered.Enabled = $true }
     $activation.status = 'REGISTERED_ENABLED_AWAITING_ACTUAL_RUNS'
     $activation.ended_at = [DateTime]::UtcNow.ToString('o')

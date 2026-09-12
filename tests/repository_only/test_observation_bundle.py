@@ -2,7 +2,10 @@
 from datetime import timedelta
 import importlib.util
 import json
+import os
 from pathlib import Path
+import shutil
+import subprocess
 import tempfile
 from types import SimpleNamespace
 import unittest
@@ -14,6 +17,33 @@ SPEC.loader.exec_module(module)
 
 
 class ObservationBundleTests(unittest.TestCase):
+    @unittest.skipUnless(os.name=='nt','Windows task preparation uses PowerShell')
+    def test_powershell_json_dates_keep_utc_through_com_string_boundary(self):
+        script=Path(__file__).resolve().parents[2]/'tools/prepare_observation_task.ps1'
+        command=r'''$ErrorActionPreference='Stop'
+$tokens=$null; $errors=$null
+$ast=[Management.Automation.Language.Parser]::ParseFile($args[0],[ref]$tokens,[ref]$errors)
+if($errors.Count){throw 'parse failure'}
+$fn=$ast.Find({param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Convert-UtcTaskBoundary'},$true)
+. ([scriptblock]::Create($fn.Extent.Text))
+$parsed='{"first":"2026-09-13T01:00:30Z","end":"2026-09-16T01:10:00Z"}' | ConvertFrom-Json
+@((Convert-UtcTaskBoundary $parsed.first),(Convert-UtcTaskBoundary $parsed.end),(Convert-UtcTaskBoundary ([DateTimeOffset]'2026-09-13T09:00:30+08:00'))) | ConvertTo-Json -Compress
+'''
+        found=[]
+        for name in ('powershell.exe','pwsh.exe'):
+            executable=shutil.which(name)
+            if executable:
+                found.append(name)
+                with self.subTest(shell=name):
+                    # A file avoids command-string interpolation of the path.
+                    with tempfile.TemporaryDirectory(prefix='hakimi-task-time-') as directory:
+                        probe=Path(directory)/'probe.ps1'
+                        probe.write_text(command,encoding='utf-8-sig')
+                        result=subprocess.run([executable,'-NoProfile','-NonInteractive','-File',str(probe),str(script)],capture_output=True,text=True,timeout=15)
+                    self.assertEqual(result.returncode,0,result.stderr)
+                    self.assertEqual(json.loads(result.stdout),['2026-09-13T01:00:30Z','2026-09-16T01:10:00Z','2026-09-13T01:00:30Z'])
+        self.assertTrue(found,'Windows PowerShell must be available')
+
     def setUp(self):
         temporary=tempfile.TemporaryDirectory(prefix='hakimi-control-bundle-test-')
         self.addCleanup(temporary.cleanup)
