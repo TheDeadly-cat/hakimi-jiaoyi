@@ -16,8 +16,14 @@ from hakimi_research.equity_event_context import build_event_context, verify_eve
 from hakimi_research.equity_research import EquityExperimentRunner, EquityExperimentSpec, EquityResearchReport, replay_equity_report, verify_equity_report
 from hakimi_research.models import Signal
 from hakimi_research.equity_schedule_comparison import run_schedule_comparison, build_schedule_comparison, verify_schedule_comparison
-from tests.test_equity_research import stock_snapshot, stock_inputs, spec_document, reseal
-from tests.test_equity_cli import snapshot_fixture, event_fixture
+if __package__:
+    from .test_equity_research import stock_snapshot, stock_inputs, spec_document, reseal
+    from .test_equity_cli import snapshot_fixture, event_fixture
+else:
+    # The installed acceptance harness discovers copied siblings as top-level
+    # modules, without the checkout's tests package or an injected PYTHONPATH.
+    from test_equity_research import stock_snapshot, stock_inputs, spec_document, reseal
+    from test_equity_cli import snapshot_fixture, event_fixture
 
 
 def schedule_metadata(day='2024-11-04', public='2024-10-31T13:00:00Z', previous=None, status='ANNOUNCED'):
