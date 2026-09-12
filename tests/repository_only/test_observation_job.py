@@ -295,6 +295,29 @@ class OwnedChildProcessTests(unittest.TestCase):
         self.assertEqual(result.bounds['outcome'], 'EXITED')
         self.assertTrue(result.bounds['cleanup_confirmed'])
 
+    def test_members_exiting_between_job_count_and_cleanup_are_not_leftovers(self):
+        real_count = module._WindowsJob.active_count
+        queried = False
+
+        def first_snapshot(self):
+            nonlocal queried
+            count = real_count(self)
+            if not queried:
+                queried = True
+                # Reproduce the observed Windows race: the first accounting
+                # snapshot has a member that exits before the handle snapshot.
+                return max(1, count)
+            return count
+
+        with patch.object(module._WindowsJob, 'active_count', first_snapshot), \
+                patch.object(module._WindowsJob, 'terminate', autospec=True) as terminate:
+            result = self.execute('import os; os.write(1,b"finished\\n")')
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, 'finished\n')
+        self.assertEqual(result.bounds['outcome'], 'EXITED')
+        self.assertTrue(result.bounds['cleanup_confirmed'])
+        terminate.assert_not_called()
+
     def test_hang_is_bounded_and_output_limit_is_combined_while_streaming(self):
         started = time.monotonic()
         result = self.execute('import time; time.sleep(6)', timeout_seconds=0.3)

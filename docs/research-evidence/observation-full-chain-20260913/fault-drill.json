@@ -1,0 +1,303 @@
+{
+  "candidate_tests": {
+    "prior_runs": [
+      {
+        "failures": 1,
+        "reason": "fixture print CRLF expectation; changed fixture to explicit byte output",
+        "run": 1
+      },
+      {
+        "failures": 1,
+        "reason": "valid before-fix regression: LEFTOVER_DESCENDANTS for completed command",
+        "run": 1
+      },
+      {
+        "errors": 9,
+        "reason": "runner omitted repository PYTHONPATH; module imports failed; rerun with CI paths",
+        "run": 85
+      }
+    ],
+    "repository": {
+      "errors": 0,
+      "failures": 0,
+      "run": 133,
+      "skipped": 0
+    },
+    "targeted": {
+      "errors": 0,
+      "failures": 0,
+      "run": 25,
+      "skipped": 0
+    },
+    "targeted_included_in_repository": true
+  },
+  "exit_race_diagnostic": {
+    "component_only_denied_collector_probes": 3,
+    "component_only_leftover_classifications": 0,
+    "component_scope_is_full_chain": false,
+    "instrumented_same_incomplete_hour_retries": 8,
+    "leftover_classifications": 1,
+    "new_public_http_data_obtained": false,
+    "observed_trace": [
+      {
+        "at": "2026-09-12T19:47:10.762868Z",
+        "count": 1,
+        "event": "active_count"
+      },
+      {
+        "at": "2026-09-12T19:47:10.763098Z",
+        "event": "retained_before_terminate",
+        "processes": [
+          {
+            "image_name": "UNAVAILABLE",
+            "wait_zero_ms": 0
+          }
+        ]
+      },
+      {
+        "at": "2026-09-12T19:47:10.763116Z",
+        "count": 0,
+        "event": "active_count"
+      },
+      {
+        "at": "2026-09-12T19:47:10.763120Z",
+        "count": 0,
+        "event": "active_count"
+      }
+    ]
+  },
+  "fixed_launcher_sha256": "e44328327d613bba5e1e2ecca3c2d4815d8853f8cd2052b0ff39b929e26f2e36",
+  "fixed_same_hour_retry": {
+    "bounds": {
+      "bytes_retained": {
+        "stderr": 0,
+        "stdout": 1745
+      },
+      "bytes_seen": {
+        "stderr": 0,
+        "stdout": 1745
+      },
+      "captured_sha256": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "f12fc45341a92c497fc9529439027893c436a274cd06933eb8d60dbf2509dca4"
+      },
+      "cleanup_confirmed": true,
+      "cleanup_seconds": 5,
+      "elapsed_monotonic_seconds": 2.4511028999986593,
+      "outcome": "EXITED",
+      "output_limit_bytes_combined": 4194304,
+      "output_truncated": false,
+      "owned_process_handles_waited": 0,
+      "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+      "timeout_seconds": 300
+    },
+    "elapsed_seconds": 2.688054500002181,
+    "ended_at": "2026-09-12T19:51:10.225591Z",
+    "health": "CHILD_FAILED",
+    "input_cutoff": "2026-09-12T19:00:00Z",
+    "launcher_exit_code": 1,
+    "notification": {
+      "decision": "NOTIFY",
+      "delivery_status": "NOT_SENT_BY_THIS_TOOL",
+      "reasons": [
+        "child_failed"
+      ]
+    },
+    "os_locks_reacquired_count": 2,
+    "receipt_hash": "4eb49da92cb86c8bf65fd31dc32691ffa5c5de2fc3be497fbb8d3a5097c742d2",
+    "result_valid": false,
+    "started_at": "2026-09-12T19:51:07.537408Z"
+  },
+  "frozen_runtime": {
+    "checked_at": "2026-09-12T19:40:50.187341Z",
+    "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+    "environment_status": "VERIFIED",
+    "runtime_tools_verified": {
+      "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e",
+      "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+      "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b"
+    },
+    "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+    "source_status": "BUILD_VERIFIED",
+    "status": "PASS"
+  },
+  "isolation": {
+    "clone_absences_are_production_gaps": false,
+    "clone_only_changed_routing_file": "forward/deployment-plans.json",
+    "copied_file_count": 3710,
+    "external_requests_forwarded": 0,
+    "old_cycle_history_copied": false,
+    "original_protected_bytes_unchanged": true,
+    "protected_originals_digest": "4cbc283cc34b7ccb95e6b68133a004167f58b9373a224c70b838625132c3fdfd",
+    "proxy": "EXCLUSIVE_LOOPBACK_DENY_CONNECT_503_NEVER_FORWARDS",
+    "routing_change": "Absolute plan paths point into each new copy; plan files and frozen tools unchanged"
+  },
+  "log_sha256": {
+    "t5-exited-member-after-25.log": "fc016b9a37a77ba7838ac0117505e5f8ee8fdcae770e43214d119947a0d6d897",
+    "t5-exited-member-before-valid-fixture.log": "d717f28e7615885f42606eb39a03a89ec8b431c98cabbce573966059f7e2792e",
+    "t5-exited-member-before.log": "07d1df0812489bbd9dc540983fef1e859f25d7ec85fb6e46a5c5a1ca0d42ba4a",
+    "t5-exited-member-repository-133.log": "ff648d82b171a5e2f0bb06df9e625a3d79906d54a5cc837b3c8824b6d7464aad",
+    "t5-exited-member-repository-correct-env.log": "4347bb06cd58fa46ac2e035ac0ffbbca3564f1abe99b797bec0aa38bf9dda963"
+  },
+  "network_denial": {
+    "bounds": {
+      "bytes_retained": {
+        "stderr": 0,
+        "stdout": 1753
+      },
+      "bytes_seen": {
+        "stderr": 0,
+        "stdout": 1753
+      },
+      "captured_sha256": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "6f1a4f4172799db0484852e998bb5aa3e32ff0b0813e561d7e65ff99645eb85f"
+      },
+      "cleanup_confirmed": true,
+      "cleanup_seconds": 5,
+      "elapsed_monotonic_seconds": 4.297510300006252,
+      "outcome": "LEFTOVER_DESCENDANTS",
+      "output_limit_bytes_combined": 4194304,
+      "output_truncated": false,
+      "owned_process_handles_waited": 1,
+      "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+      "timeout_seconds": 300
+    },
+    "elapsed_seconds": 4.520484900014708,
+    "ended_at": "2026-09-12T19:41:17.863720Z",
+    "health": "CHILD_LEFTOVER_DESCENDANTS",
+    "input_cutoff": "2026-09-12T19:00:00Z",
+    "launcher_exit_code": 1,
+    "notification": {
+      "decision": "NOTIFY",
+      "delivery_status": "NOT_SENT_BY_THIS_TOOL",
+      "reasons": [
+        "child_leftover_descendants"
+      ]
+    },
+    "os_locks_reacquired_count": 2,
+    "receipt_hash": "c8ac87e06555315a595958cf04581022bbb8b1255963f0d4fbe38a1022989442",
+    "result_valid": false,
+    "started_at": "2026-09-12T19:41:13.343019Z"
+  },
+  "new_72h_window": "NOT_STARTED",
+  "new_scheduler_activated": false,
+  "next_real_hour_recovery": "NOT_RUN_AT_THIS_EVIDENCE_SNAPSHOT",
+  "notification_actual_delivery": "NOT_RUN",
+  "old_launcher_commit": "a378fe89dd1c2b7e06e9556ae17d6108b49ff6e5",
+  "old_launcher_sha256": "f060f01988e706c793ad8f48142a0ac541e1795909e83e47857358ae47d52d24",
+  "order_allowed": false,
+  "preserved_first_drill_assertion_failure": {
+    "actual_health": "CHILD_LEFTOVER_DESCENDANTS",
+    "expected_health": "CHILD_FAILED",
+    "valid_observation_created": false
+  },
+  "private_receipt_file_sha256": {
+    "fixed-same-hour-retry.json": "036f06ea4d57355bfbb5ec9ba34aa90d6c1d2a247bce88282a6cc09602fe1748",
+    "network-denied.json": "a19ed5e24131166b0bbf25dd79af57c2d811a36293c5997199764a4e88fab7c1",
+    "repeated-exit-diagnostic.json": "247e53058d622f8707d53130ad3562897bda62cec3bf5166e8a32322996f13e0",
+    "same-hour-retry.json": "4e7594abf8b827ca23e1080596a661704c90dd594c9430264a3aed7096c5445f",
+    "termination-case/termination-result.private.json": "1a2959c09f76fb8600bd7740d592fad79780938144fec9d5d18d65085d6d221c"
+  },
+  "recorded_at": "2026-09-12T19:53:09.304738Z",
+  "same_hour_retry": {
+    "bounds": {
+      "bytes_retained": {
+        "stderr": 0,
+        "stdout": 1745
+      },
+      "bytes_seen": {
+        "stderr": 0,
+        "stdout": 1745
+      },
+      "captured_sha256": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "1be2be9539d14bc3a13a03c8068e7a045e006646bcca57f05b6940ccab22cdfb"
+      },
+      "cleanup_confirmed": true,
+      "cleanup_seconds": 5,
+      "elapsed_monotonic_seconds": 2.432059599988861,
+      "outcome": "EXITED",
+      "output_limit_bytes_combined": 4194304,
+      "output_truncated": false,
+      "owned_process_handles_waited": 0,
+      "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+      "timeout_seconds": 300
+    },
+    "elapsed_seconds": 2.6595068000024185,
+    "ended_at": "2026-09-12T19:41:20.524125Z",
+    "health": "CHILD_FAILED",
+    "input_cutoff": "2026-09-12T19:00:00Z",
+    "launcher_exit_code": 1,
+    "notification": {
+      "decision": "NOTIFY",
+      "delivery_status": "NOT_SENT_BY_THIS_TOOL",
+      "reasons": [
+        "child_failed"
+      ]
+    },
+    "os_locks_reacquired_count": 2,
+    "receipt_hash": "36135ca995f08e37484f257bffd3a241ec221b1d27ca710e21e8c5093e61667d",
+    "result_valid": false,
+    "started_at": "2026-09-12T19:41:17.864495Z"
+  },
+  "schema_version": "isolated-frozen-observer-fault-projection-v1",
+  "scope": "ISOLATED_MANUAL_COPIES_NO_ORIGINAL_CYCLE_MUTATION",
+  "status": "FAULTS_AND_CANDIDATE_RACE_FIX_VERIFIED_NOT_T5_ACCEPTANCE",
+  "termination": {
+    "all_retained_descendant_handles_signaled_after": true,
+    "duplicate_health": "DUPLICATE_IN_FLIGHT",
+    "duplicate_result_valid": false,
+    "ended_at": "2026-09-12T19:45:44.750497Z",
+    "observed_live_descendants_before": 10,
+    "proxy_connects": 1,
+    "proxy_stopped": true,
+    "retry": {
+      "bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 1745
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 1745
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "c3dc692dcf38ff1f35642a2715d028cb5991e867af23b13e7d1ee048bd6569ab"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 5,
+        "elapsed_monotonic_seconds": 2.3973472000216134,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 4194304,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 300
+      },
+      "elapsed_seconds": 2.632681799994316,
+      "ended_at": "2026-09-12T19:45:43.558744Z",
+      "health": "CHILD_FAILED",
+      "input_cutoff": "2026-09-12T19:00:00Z",
+      "launcher_exit_code": 1,
+      "notification": {
+        "decision": "NOTIFY",
+        "delivery_status": "NOT_SENT_BY_THIS_TOOL",
+        "reasons": [
+          "child_failed"
+        ]
+      },
+      "os_locks_reacquired_count": 2,
+      "receipt_hash": "d6940755b970e123140ab94a50e3d7ebb1eac6ef88075319c0f2ceaf0e6cfa11",
+      "result_valid": false,
+      "started_at": "2026-09-12T19:45:40.925937Z"
+    },
+    "retry_detected_new_unfinished_attempt": true,
+    "started_at": "2026-09-12T19:45:32.666979Z",
+    "status": "PASS_TERMINATION_AND_DUPLICATE_NOT_NEXT_HOUR_RECOVERY",
+    "terminated_by": "ORIGINAL_POPEN_HANDLE_OF_THIS_DRILL_LAUNCHER",
+    "termination_wait_seconds": 0.045511000003898516,
+    "unfinished_start_preserved": true
+  }
+}

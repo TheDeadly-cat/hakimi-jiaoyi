@@ -220,10 +220,15 @@ def _run_owned_windows(argv, root, *, environment, timeout_seconds, output_limit
         active = job.active_count()
         cleanup_deadline = time.monotonic() + cleanup_seconds
         if active:
-            if outcome == "EXITED":
-                outcome = "LEFTOVER_DESCENDANTS"
             owned_process_handles = job.retain_process_handles()
-            job.terminate()
+            # A member may finish between accounting and handle enumeration.
+            # Confirm both signaled handles and an empty job before deciding
+            # whether a normally exited command left any live descendants.
+            already_exited = job.wait_for_exits(owned_process_handles, time.monotonic()) and job.active_count() == 0
+            if outcome != "EXITED" or not already_exited:
+                if outcome == "EXITED":
+                    outcome = "LEFTOVER_DESCENDANTS"
+                job.terminate()
         while job.active_count() and time.monotonic() < cleanup_deadline:
             time.sleep(0.01)
         cleanup_confirmed = job.active_count() == 0 and job.wait_for_exits(owned_process_handles, cleanup_deadline)
