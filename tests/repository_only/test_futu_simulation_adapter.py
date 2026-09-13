@@ -35,7 +35,7 @@ class Context:
             order={**row,'trd_env':'SIMULATE','trd_market':'US'}))
         if self.lose:raise TimeoutError('fixture response lost after acceptance')
         return 0,[row]
-    def modify_order(self,**kwargs):self._bound(kwargs);self.cancelled.append(kwargs);return 0,[{'order_id':kwargs['order_id']}]
+    def modify_order(self,**kwargs):self._bound(kwargs);self.cancelled.append(kwargs);return 0,[{'order_id':kwargs['order_id'],'trd_env':'SIMULATE'}]
     def close(self):pass
 
 
@@ -251,6 +251,14 @@ class FutuSimulationContracts(unittest.TestCase):
         self.submit();self.quote.state='AFTER_HOURS_END'
         self.assertEqual(self.adapter.cancel(self.store,'one',authorization=self.authorization),'CANCEL_ACK_NOT_TERMINAL')
         self.assertEqual(len(self.ctx.cancelled),1)
+    def test_cancel_ack_requires_exact_order_and_simulation_environment(self):
+        self.submit()
+        self.ctx.modify_order=lambda **kwargs:(0,[dict(order_id='988',trd_env='SIMULATE')])
+        with self.assertRaisesRegex(futu.Error,'cancel_response_identity'):
+            self.adapter.cancel(self.store,'one',authorization=self.authorization)
+        self.assertEqual(self.store._row('one')['cancel_state'],'UNKNOWN')
+        raw=json.loads(self.store.db.execute("SELECT payload FROM events WHERE kind='FUTU_CANCEL_SYNC_RESPONSE'").fetchone()[0])
+        self.assertEqual(raw['rows'][0]['order_id'],'988')
     def test_anchor_is_bound_to_account_cash_positions_and_empty_orders(self):
         anchor=self.adapter.stable_reads();anchor['binding_sha256']='c'*64
         with self.assertRaises(futu.Error):futu.SimulationStore.create_bound(self.root/'bad.sqlite',profile=self.profile,cash='1000',holdings={},max_order_notional='100',fee_reserve='3',anchor=anchor)

@@ -512,7 +512,15 @@ class FutuAdapter:
                 trd_env="SIMULATE",acc_id=int(self.profile["account_id"]))
         except (TimeoutError,ConnectionError,OSError):return "CANCEL_UNKNOWN"
         self.drain_callbacks(store)
+        reply_rows = rows(reply[1]) if reply[0] == 0 else None
+        with core.transaction(store.db):
+            store._event('FUTU_CANCEL_SYNC_RESPONSE', {'ret': reply[0], 'rows': reply_rows,
+                'error': str(reply[1]) if reply[0] != 0 else None})
         if reply[0] != 0:return "CANCEL_UNKNOWN"
+        if (len(reply_rows) != 1 or str(reply_rows[0].get('order_id')) != command['broker_order_id']
+                or reply_rows[0].get('trd_env') != 'SIMULATE'):
+            store.stop('futu_cancel_response_identity_or_environment_mismatch')
+            raise Error('futu_cancel_response_identity_or_environment_mismatch')
         store.cancel_response(intent_id,command["cancel_id"],True)
         return "CANCEL_ACK_NOT_TERMINAL"
 

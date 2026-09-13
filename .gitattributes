@@ -114,6 +114,7 @@ examples/equity_events/* -text diff merge whitespace=trailing-space,space-before
 
 # New simulation acceptance compares exported Git blob bytes, with LF on checkout.
 tools/futu_simulation_adapter.py text eol=lf
+tools/futu_simulation_cycle.py text eol=lf
 tools/execution_state_lab.py text eol=lf
 tests/repository_only/test_futu_simulation_adapter.py text eol=lf
 tests/sdk_contracts/*.py text eol=lf

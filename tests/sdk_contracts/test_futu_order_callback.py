@@ -14,7 +14,8 @@ def deny_network(event, args):
 
 sys.addaudithook(deny_network)
 from futu import RET_OK, RET_ERROR, TrdEnv, TrdMarket, TrdSide, OrderType, OrderStatus, TimeInForce
-from futu.common.pb import Trd_UpdateOrder_pb2, Trd_Common_pb2
+from futu.common.pb import Trd_UpdateOrder_pb2, Trd_Common_pb2, Trd_ModifyOrder_pb2
+from futu.trade.trade_query import ModifyOrder
 
 SPEC = importlib.util.spec_from_file_location('transport_fixture',
     Path(__file__).resolve().parents[1] / 'repository_only/test_futu_simulation_adapter.py')
@@ -116,6 +117,15 @@ class ActualSdkCallbackContracts(unittest.TestCase):
         self.handler.on_recv_rsp(response)
         with self.assertRaisesRegex(adapter_module.Error, 'callback_account_or_environment_mismatch'):
             self.case.adapter.drain_callbacks(self.case.store)
+
+    def test_actual_cancel_decoder_retains_environment_and_exact_order_id(self):
+        response = Trd_ModifyOrder_pb2.Response(retType=RET_OK)
+        response.s2c.header.CopyFrom(self.response().s2c.header)
+        response.s2c.orderID = 987
+        response.s2c.orderIDEx = '987'
+        self.assertTrue(response.IsInitialized())
+        decoded = ModifyOrder.unpack_rsp(Trd_ModifyOrder_pb2.Response.FromString(response.SerializeToString()))
+        self.assertEqual(decoded, (RET_OK, '', [dict(trd_env='SIMULATE', order_id='987')]))
 
 
 if __name__ == '__main__':
