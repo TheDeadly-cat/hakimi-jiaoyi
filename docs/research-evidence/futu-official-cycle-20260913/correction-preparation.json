@@ -1,0 +1,413 @@
+{
+  "schema_version": "futu-official-cycle-preparation-v1",
+  "source_commit": "93362a548dcbcd8b02049403028d3a12493a0a30",
+  "source_archive_sha256": "d1fa52d3ef099d749b5aae05020b31b211550852d5f2d3c6230855389e2e3c8f",
+  "source_file_sha256": {
+    "tools/futu_simulation_cycle.py": "159a6f7ecbe6f9fed44df4a55e33fdfd820b02b26ebd18b7dfe3160ed99bc2e6",
+    "tools/futu_simulation_adapter.py": "3f66f0dd219c8ec1e2425982f64e3d1de3d33cfd4eff5510ac0d9db3648d6630",
+    "tools/execution_state_lab.py": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91",
+    "tools/observation_job.py": "c2d5455ece9a9061785e4754ccd684cad4ce47d5c544044984476518d8c9863c",
+    "tests/repository_only/test_futu_simulation_adapter.py": "6a7ea4d8164c2ff8986e6a6c665abbeec289141e2a64b46856c6e5aff619c1c3",
+    "tests/repository_only/test_futu_simulation_cycle.py": "8a5c2f780712268dc397f34f80c704ba7ce519079fadacd468f38f7b1ddb7e79",
+    "tests/repository_only/test_execution_state_lab.py": "38d3da0b66678d7bdb16564b8be7af8917d9c82aadbf9249731532cb3ce5294a",
+    "tests/sdk_contracts/test_futu_order_callback.py": "925bf5a6cc74e271658d82dc25ab74535aaa30511a520df3c398ff229b63da48",
+    "requirements.futu-sdk.lock": "fabd1ddc5d1c5258ead14703dd81c737c2e75eb34a39b2de7bbb6a6446c894ad",
+    "tests/repository_only/test_observation_job.py": "e828a2a7ef42d5f384f2f46ea85f7d4a2549ce24d72088af96a03abffbb26e20"
+  },
+  "source_git_blob_equality_before_and_after": true,
+  "tests": [
+    {
+      "name": "cycle",
+      "tests_run": 9,
+      "returncode": 0,
+      "log_sha256": "dd091ef9deed401e12a417295d37fa9a29127674793355d6cfb31bced4333eff"
+    },
+    {
+      "name": "adapter",
+      "tests_run": 33,
+      "returncode": 0,
+      "log_sha256": "b07d4c371104d66f5e1753025da4f54402be903db155e55e56143b9948ac1a15"
+    },
+    {
+      "name": "core",
+      "tests_run": 25,
+      "returncode": 0,
+      "log_sha256": "e3b75c8bd4a36f5e27924703d2bd13e1a758a0054ad394110fae0535fee099c5"
+    },
+    {
+      "name": "sdk",
+      "tests_run": 7,
+      "returncode": 0,
+      "log_sha256": "b575461febf94193c3c83fcf171582a359e8632bad74aca809faecce513ab51a"
+    },
+    {
+      "name": "owned-job-host",
+      "tests_run": 27,
+      "returncode": 0,
+      "log_sha256": "2754493a1d08b104690a768a7a06b3e6076ba0433c9e1e5ccb8a6f7405e0af2e"
+    }
+  ],
+  "retained_owned_job_first_run": {
+    "runtime": "SDK_VENV_REDIRECTOR",
+    "failures": 1,
+    "errors": 1,
+    "log_sha256": "acf85606bd9fd90e775fb3beb2e8551b69d2fd056c661c51565baa6731c26c61",
+    "reason": "The validation wrapper denied the test-owned loopback bind; a lock reacquisition assertion also failed under the SDK venv. The original log is retained. Standalone Python, matching primary CI, passed all 27 tests while permitting only the test-owned loopback bind. A venv redirector or lock-release timing difference is suspected but not independently proven."
+  },
+  "proposal": {
+    "account_binding_sha256": "8fc3726b67f36c6f22d589492f9e179f67031db5ea69b0e88603455556c50c44",
+    "intent_id": "amd-official-simulation-cycle-v1",
+    "payload": {
+      "symbol": "US.AMD",
+      "side": "BUY",
+      "quantity": 1,
+      "limit_price": "1"
+    },
+    "payload_sha256": "f0b3256d9ebe68bd4c2e8341ea07e2d7891c9d1508afb21a27c64eef45741294",
+    "order_type": "NORMAL",
+    "time_in_force": "DAY",
+    "session": "RTH",
+    "max_submit_attempts": 1,
+    "max_cancel_attempts": 1,
+    "automatic_price_change": false,
+    "fault_injection": "DISCARD_SYNC_RESPONSE_THEN_EXIT_PROCESS",
+    "fee_reserve": "3",
+    "fee_reserve_is_actual_fee_or_guaranteed_fee_cap": false
+  },
+  "instrument": {
+    "symbol": "US.AMD",
+    "stock_id": 205816,
+    "lot_size": 1,
+    "price_increment": "0.01",
+    "market_state": "AFTER_HOURS_END",
+    "observed_at": "2026-09-13T11:30:29.550777Z",
+    "order_scope": "ONE_WHOLE_SHARE_LIMIT_PRICE_AT_LEAST_ONE_USD_DAY_RTH"
+  },
+  "actual_readonly_phases": [
+    {
+      "phase": "prepare",
+      "status": "PREPARED_AWAITING_SEPARATE_AUTHORIZATION",
+      "checked_at": "2026-09-13T11:30:29.622472Z",
+      "order_dispatch_attempts": 0,
+      "cancel_dispatch_attempts": 0,
+      "private_receipt_sha256": "cd01047f9879f4e4272c40084e96f55f2f910bc852bbfe21f860e61bfa88acbb",
+      "source_file_sha256": {
+        "futu_simulation_cycle.py": "159a6f7ecbe6f9fed44df4a55e33fdfd820b02b26ebd18b7dfe3160ed99bc2e6",
+        "futu_simulation_adapter.py": "3f66f0dd219c8ec1e2425982f64e3d1de3d33cfd4eff5510ac0d9db3648d6630",
+        "execution_state_lab.py": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91",
+        "observation_job.py": "c2d5455ece9a9061785e4754ccd684cad4ce47d5c544044984476518d8c9863c"
+      },
+      "queries": [
+        {
+          "method": "get_acc_list",
+          "started_at": "2026-09-13T11:30:25.354483Z",
+          "completed_at": "2026-09-13T11:30:25.355707Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "order_list_query",
+          "started_at": "2026-09-13T11:30:25.358026Z",
+          "completed_at": "2026-09-13T11:30:25.659861Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "history_order_list_query",
+          "started_at": "2026-09-13T11:30:25.660207Z",
+          "completed_at": "2026-09-13T11:30:25.921785Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "accinfo_query",
+          "started_at": "2026-09-13T11:30:25.922082Z",
+          "completed_at": "2026-09-13T11:30:26.623543Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "position_list_query",
+          "started_at": "2026-09-13T11:30:26.623950Z",
+          "completed_at": "2026-09-13T11:30:26.929841Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "order_list_query",
+          "started_at": "2026-09-13T11:30:26.930264Z",
+          "completed_at": "2026-09-13T11:30:27.197686Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "history_order_list_query",
+          "started_at": "2026-09-13T11:30:27.198068Z",
+          "completed_at": "2026-09-13T11:30:27.457030Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "accinfo_query",
+          "started_at": "2026-09-13T11:30:27.457346Z",
+          "completed_at": "2026-09-13T11:30:27.949705Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "position_list_query",
+          "started_at": "2026-09-13T11:30:27.950107Z",
+          "completed_at": "2026-09-13T11:30:28.247801Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "get_stock_basicinfo",
+          "started_at": "2026-09-13T11:30:28.248229Z",
+          "completed_at": "2026-09-13T11:30:28.249659Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "get_market_snapshot",
+          "started_at": "2026-09-13T11:30:28.249918Z",
+          "completed_at": "2026-09-13T11:30:28.497144Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "get_market_state",
+          "started_at": "2026-09-13T11:30:28.497587Z",
+          "completed_at": "2026-09-13T11:30:29.550330Z",
+          "ret": 0,
+          "row_count": 1
+        }
+      ],
+      "process": {
+        "returncode": 0,
+        "bounds": {
+          "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+          "outcome": "EXITED",
+          "timeout_seconds": 180,
+          "cleanup_seconds": 5,
+          "normal_exit_settle_max_seconds": 0.25,
+          "output_limit_bytes_combined": 131072,
+          "bytes_seen": {
+            "stdout": 838,
+            "stderr": 0
+          },
+          "bytes_retained": {
+            "stdout": 838,
+            "stderr": 0
+          },
+          "captured_sha256": {
+            "stdout": "1a89e0556dda36f0a7f0f659433330323aea75ee16a2eab2237532cfc58bd9f5",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "output_truncated": false,
+          "cleanup_confirmed": true,
+          "owned_process_handles_waited": 0,
+          "elapsed_monotonic_seconds": 5.614265000011073
+        }
+      },
+      "worker_attestation": {
+        "parent_job_membership_verified": true,
+        "remaining_seconds_at_check": 179.62735409999732,
+        "output_limit_bytes": 131072
+      },
+      "phase_start_file_sha256": "bff4b3476325fb5c448397975c5f61dabdef2933ab48c7f646c4843645da7a64",
+      "order_state": "PREPARED",
+      "submit_claim_created": false,
+      "official_cycle_complete": false
+    },
+    {
+      "phase": "recover",
+      "status": "SCOPED_RECONCILIATION_COMPLETED",
+      "checked_at": "2026-09-13T11:30:33.698262Z",
+      "order_dispatch_attempts": 0,
+      "cancel_dispatch_attempts": 0,
+      "private_receipt_sha256": "f99d696a496fc47014677952134c84d07a5fb25d40280cb1e6347304761f7c8b",
+      "source_file_sha256": {
+        "futu_simulation_cycle.py": "159a6f7ecbe6f9fed44df4a55e33fdfd820b02b26ebd18b7dfe3160ed99bc2e6",
+        "futu_simulation_adapter.py": "3f66f0dd219c8ec1e2425982f64e3d1de3d33cfd4eff5510ac0d9db3648d6630",
+        "execution_state_lab.py": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91",
+        "observation_job.py": "c2d5455ece9a9061785e4754ccd684cad4ce47d5c544044984476518d8c9863c"
+      },
+      "queries": [
+        {
+          "method": "get_acc_list",
+          "started_at": "2026-09-13T11:30:31.376431Z",
+          "completed_at": "2026-09-13T11:30:31.378329Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "order_list_query",
+          "started_at": "2026-09-13T11:30:31.387283Z",
+          "completed_at": "2026-09-13T11:30:31.650535Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "history_order_list_query",
+          "started_at": "2026-09-13T11:30:31.650853Z",
+          "completed_at": "2026-09-13T11:30:31.906294Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "accinfo_query",
+          "started_at": "2026-09-13T11:30:31.906576Z",
+          "completed_at": "2026-09-13T11:30:32.230746Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "position_list_query",
+          "started_at": "2026-09-13T11:30:32.231865Z",
+          "completed_at": "2026-09-13T11:30:32.530956Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "order_list_query",
+          "started_at": "2026-09-13T11:30:32.531367Z",
+          "completed_at": "2026-09-13T11:30:32.795849Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "history_order_list_query",
+          "started_at": "2026-09-13T11:30:32.796146Z",
+          "completed_at": "2026-09-13T11:30:33.052694Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "accinfo_query",
+          "started_at": "2026-09-13T11:30:33.052974Z",
+          "completed_at": "2026-09-13T11:30:33.385469Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "position_list_query",
+          "started_at": "2026-09-13T11:30:33.386008Z",
+          "completed_at": "2026-09-13T11:30:33.688574Z",
+          "ret": 0,
+          "row_count": 1
+        }
+      ],
+      "process": {
+        "returncode": 0,
+        "bounds": {
+          "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+          "outcome": "EXITED",
+          "timeout_seconds": 180,
+          "cleanup_seconds": 5,
+          "normal_exit_settle_max_seconds": 0.25,
+          "output_limit_bytes_combined": 131072,
+          "bytes_seen": {
+            "stdout": 829,
+            "stderr": 0
+          },
+          "bytes_retained": {
+            "stdout": 829,
+            "stderr": 0
+          },
+          "captured_sha256": {
+            "stdout": "59c21f3ba03394cb591a92adc749d3acbf9971e06e8de879af8f36ef663a8387",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "output_truncated": false,
+          "cleanup_confirmed": true,
+          "owned_process_handles_waited": 0,
+          "elapsed_monotonic_seconds": 3.66317019998678
+        }
+      },
+      "worker_attestation": {
+        "parent_job_membership_verified": true,
+        "remaining_seconds_at_check": 179.6212918999954,
+        "output_limit_bytes": 131072
+      },
+      "phase_start_file_sha256": "1e59ee1a93b1f5e0b9407b9d4c6efa69dd79eeafa61742f8e9b4b17769b16794",
+      "order_state": "PREPARED",
+      "submit_claim_created": false,
+      "official_cycle_complete": false
+    }
+  ],
+  "unauthorized_submission_gate": {
+    "phase": "submit",
+    "returncode": 2,
+    "owned_worker_started": false,
+    "sdk_context_started": false,
+    "order_dispatch_attempts": 0,
+    "reason": "ARGUMENT_GATE_REQUIRES_SEPARATELY_APPROVED_AUTHORIZATION",
+    "stderr_sha256": "8697bf3b51cf440e22831f2bc3efaf50fbd39a8c4b2938939a16e8bf17e14111"
+  },
+  "first_actual_preparation_failure": {
+    "source_commit": "59d297ff58b6e6f9e5db3712b350e52df51e6667",
+    "status": "INCOMPLETE",
+    "error": "unrecognized_initial_instrument",
+    "query_count": 12,
+    "all_query_ret_ok": true,
+    "order_dispatch_attempts": 0,
+    "private_receipt_sha256": "5ee038d30cb26aeeff0dc3102e794bb92bbd60733626cf3755c485b85e5fba98",
+    "process": {
+      "returncode": 1,
+      "bounds": {
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "outcome": "EXITED",
+        "timeout_seconds": 180,
+        "cleanup_seconds": 5,
+        "normal_exit_settle_max_seconds": 0.25,
+        "output_limit_bytes_combined": 131072,
+        "bytes_seen": {
+          "stdout": 808,
+          "stderr": 0
+        },
+        "bytes_retained": {
+          "stdout": 808,
+          "stderr": 0
+        },
+        "captured_sha256": {
+          "stdout": "c80a3f878c9b1086091d4cc91dbd8ff3b5cf7f7041df10d3f4458f67f4e5d273",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "output_truncated": false,
+        "cleanup_confirmed": true,
+        "owned_process_handles_waited": 0,
+        "elapsed_monotonic_seconds": 5.177413099998375
+      }
+    },
+    "correction": "Existing non-AMD provider identifiers and units are retained without underlying-share conversion or trading permission; no initial position was discarded."
+  },
+  "actual_order_authorization_received": false,
+  "actual_order_cycle": "NOT_RUN",
+  "actual_fee_or_settlement_statement": "NOT_AVAILABLE",
+  "fixture_tests_are_official_order_evidence": false,
+  "prior_preparation": "preparation.json",
+  "prior_preparation_database_preserved": true,
+  "prior_preparation_authorization_received": false,
+  "resolved_review_comments": [
+    3999457872,
+    3999457875
+  ],
+  "main_merge": {
+    "pr": 10,
+    "approved_head": "2e2805938333ec8dd8ca041b53a5a945453d32e2",
+    "merge_commit": "70b6750edd4e309b22b21d2a111a892f03055f39",
+    "merged_at": "2026-09-13T10:54:12Z",
+    "required_conversation_resolution": true,
+    "resolved_corrected_review_threads": 2,
+    "branch_protection_modified": false,
+    "merge_method": "GITHUB_NORMAL_MERGE_NO_ADMIN_BYPASS",
+    "main_ci": {
+      "run_id": 34753048202,
+      "head_sha": "70b6750edd4e309b22b21d2a111a892f03055f39",
+      "status": "completed",
+      "conclusion": "success",
+      "successful_jobs": 9
+    }
+  }
+}

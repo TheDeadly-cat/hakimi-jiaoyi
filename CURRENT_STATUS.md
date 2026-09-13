@@ -10,7 +10,7 @@
 | 正式Release | [v0.2.1](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1)，包含已验收BTC研究基线；不是最新全部股票代码 |
 | 真实AMD D1 | 37日真实常规时段快照已接纳；原日线成交量与RTH分时汇总有差异，因此明确采用259条原始RTH分时聚合，OHLC逐日相同。公司行为为有限窗口来源审查声明，原件保留本机 |
 | 真实AMD D2 | 原5/10均线、原窗口和参数已跑A/B；两组均-1.5974%，各4笔成交、0次拦截，未识别到规则经济影响。工程买入持有基线-3.4394%。三份账本核算及同版本离线重放通过 |
-| 官方模拟 X1 | [PR #10](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/10)已合并；当前另有[分阶段验收入口](docs/futu-official-cycle.md)候选`9dbbeb9…`。导出源码的流程6项、适配33项、原状态机25项、真实SDK协议7项通过；真实只读准备12次请求、新进程恢复9次请求均成功，同一数据库仍为PREPARED且无提交领取。长持仓代码原检查失败已保留并修正，未丢弃原持仓或扩张交易权限。费用/结算原件不可用，官方订单仍未授权或发送；见[准备回执](docs/research-evidence/futu-official-cycle-20260913/preparation.json) |
+| 官方模拟 X1 | [PR #10](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/10)已合并；[PR #11](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/11)验收入口候选`93362a5…`已补工作进程Job身份核验、操作前回执占用及发送前源码复核。导出源码的流程9项、适配33项、原状态机25项、真实SDK协议7项、原进程控制27项通过；修正版真实只读准备12次请求、新进程恢复9次请求成功，回执确认父进程Job身份；新数据库仍为PREPARED且无提交领取。首次持仓代码检查失败、旧准备记录及验证环境失败均保留。费用/结算原件不可用，官方订单仍未授权或发送；见[修正准备回执](docs/research-evidence/futu-official-cycle-20260913/correction-preparation.json) |
 | 已部署运行件 | 固定bundle来源`bbf7cd2…`，新预检候选`d4afcca…`尚未部署。两项Windows任务已启用，旧heartbeat暂停 |
 | 当前观察 O1 | 北京时间9月13日12:00—9月16日12:00，巡检至12:10。首轮FAILED后人工恢复LATE，随后七个自然小时ON_TIME，14份新策略记录独立重放通过。窗口未结束，两条通知积压且未确认显示 |
 | 后续C/D | 财务字段人工核准未完成，内容策略未运行；日期过滤结果不代替字段核准 |
