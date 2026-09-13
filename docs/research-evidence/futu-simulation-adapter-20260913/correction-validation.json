@@ -1,0 +1,238 @@
+{
+  "schema_version": "futu-simulation-correction-validation-v1",
+  "source_commit": "a210efed645c3d90973ccadaa59b1469bb9e667c",
+  "source_archive_sha256": "f616c3d0b3d92011b1e5ac4c84fe0cef402dfe47ca06be84119ff4189cb4804b",
+  "source_file_sha256": {
+    "tools/futu_simulation_adapter.py": "e9d78ed99e21ad3979d81d3488a17fa374fd50164061df072428d50be8a736d4",
+    "tools/execution_state_lab.py": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91",
+    "tools/observation_job.py": "30f18ac926e3aceb2152b8b38f32283f7c8ec1c06827db9660a61f0f3628633c",
+    "tests/repository_only/test_futu_simulation_adapter.py": "1aaf88f927245801baee68222830af568fd97b0c683fcfcff0bc7daf03ccebf1",
+    "tests/repository_only/test_execution_state_lab.py": "38d3da0b66678d7bdb16564b8be7af8917d9c82aadbf9249731532cb3ce5294a",
+    "tests/sdk_contracts/test_futu_order_callback.py": "af9b7000d3f359b8fd92574f40c2cd58c2ef5328c2b48d8fe266aa996d456d71",
+    "requirements.futu-sdk.lock": "fabd1ddc5d1c5258ead14703dd81c737c2e75eb34a39b2de7bbb6a6446c894ad",
+    ".github/workflows/research-contracts.yml": "fbacb04628ab7e6dd0c1cd6655b8323f2ad9a413e5a72854433071680365016c"
+  },
+  "source_git_blob_equality_before_and_after": true,
+  "checked_at": "2026-09-13T10:35:07.959448+00:00",
+  "tests": [
+    {
+      "name": "adapter",
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "21dac54ead0720558d8990534e6e332a97b976fb43f9e692ab90400d5bb3cdde",
+      "tests_run": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "execution-store",
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "08e3b097eeac4b521a267b741f1e20b47e747178bdfa7ef2aa3fafefa4c3bbc6",
+      "tests_run": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "actual-sdk",
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3d9679886b85203750b0622873abf91684a5f746c9e91685ea382a23ca8a73de",
+      "tests_run": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ci-workflow",
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "9f10ba63300a68580196bfd09aa5d05eaaaad13dc14d2606e4cb4d4ea26d3525",
+      "tests_run": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "orders_sent": 0,
+  "network_boundary": "Python socket network operations denied; local gethostname and socket construction allowed. No OpenD connection in contract tests.",
+  "sdk": "futu-api==10.7.6708",
+  "opend": "10.7.6728",
+  "original_validation_preserved": "validation.json",
+  "source_erratum": "source-provenance-erratum.json",
+  "resolved_review_findings": [
+    "PROTOCOL_HEADER_ACCOUNT_SCOPE",
+    "AUTHORIZATION_EXPIRY_AT_DISPATCH",
+    "EXACT_COMMITTED_SOURCE_BYTES"
+  ],
+  "actual_readonly_preflight": {
+    "status": "READ_ONLY_STABLE_SCOPED_READS",
+    "source_file_sha256": {
+      "futu_simulation_adapter.py": "e9d78ed99e21ad3979d81d3488a17fa374fd50164061df072428d50be8a736d4",
+      "execution_state_lab.py": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91"
+    },
+    "query_count": 13,
+    "queries": [
+      {
+        "method": "get_acc_list",
+        "started_at": "2026-09-13T10:35:54.126313Z",
+        "completed_at": "2026-09-13T10:35:54.127564Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "order_list_query",
+        "started_at": "2026-09-13T10:35:54.129872Z",
+        "completed_at": "2026-09-13T10:35:54.390321Z",
+        "ret": 0,
+        "row_count": 0
+      },
+      {
+        "method": "history_order_list_query",
+        "started_at": "2026-09-13T10:35:54.390620Z",
+        "completed_at": "2026-09-13T10:35:54.634118Z",
+        "ret": 0,
+        "row_count": 0
+      },
+      {
+        "method": "accinfo_query",
+        "started_at": "2026-09-13T10:35:54.634386Z",
+        "completed_at": "2026-09-13T10:35:54.955847Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "position_list_query",
+        "started_at": "2026-09-13T10:35:54.956962Z",
+        "completed_at": "2026-09-13T10:35:55.246488Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "order_list_query",
+        "started_at": "2026-09-13T10:35:55.246868Z",
+        "completed_at": "2026-09-13T10:35:55.512476Z",
+        "ret": 0,
+        "row_count": 0
+      },
+      {
+        "method": "history_order_list_query",
+        "started_at": "2026-09-13T10:35:55.512798Z",
+        "completed_at": "2026-09-13T10:35:55.755361Z",
+        "ret": 0,
+        "row_count": 0
+      },
+      {
+        "method": "accinfo_query",
+        "started_at": "2026-09-13T10:35:55.755647Z",
+        "completed_at": "2026-09-13T10:35:56.072580Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "position_list_query",
+        "started_at": "2026-09-13T10:35:56.072987Z",
+        "completed_at": "2026-09-13T10:35:56.352764Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "get_stock_basicinfo",
+        "started_at": "2026-09-13T10:35:56.353166Z",
+        "completed_at": "2026-09-13T10:35:56.355191Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "get_market_snapshot",
+        "started_at": "2026-09-13T10:35:56.355480Z",
+        "completed_at": "2026-09-13T10:35:56.607578Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "get_market_state",
+        "started_at": "2026-09-13T10:35:56.608053Z",
+        "completed_at": "2026-09-13T10:35:57.058193Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "acctradinginfo_query",
+        "started_at": "2026-09-13T10:35:57.058603Z",
+        "completed_at": "2026-09-13T10:35:57.397276Z",
+        "ret": 0,
+        "row_count": 1
+      }
+    ],
+    "instrument": {
+      "symbol": "US.AMD",
+      "stock_id": 205816,
+      "lot_size": 1,
+      "price_increment": "0.01",
+      "market_state": "AFTER_HOURS_END",
+      "observed_at": "2026-09-13T10:35:57.058494Z",
+      "order_scope": "ONE_WHOLE_SHARE_LIMIT_PRICE_AT_LEAST_ONE_USD_DAY_RTH"
+    },
+    "capacity_check": {
+      "checked_at": "2026-09-13T10:35:57.397591Z",
+      "field": "max_cash_buy",
+      "sufficient": true,
+      "margin_or_short_capacity_used": false,
+      "query_limit_price": "1"
+    },
+    "scope": "REPEATED_SCOPED_READS_NOT_ATOMIC",
+    "private_receipt_sha256": "fa2366831436392c19a59c72de4bc5bce7adee5f383eb4f59cfff899da70b723",
+    "process": {
+      "returncode": 0,
+      "bounds": {
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "outcome": "EXITED",
+        "timeout_seconds": 180,
+        "cleanup_seconds": 5,
+        "normal_exit_settle_max_seconds": 0.25,
+        "output_limit_bytes_combined": 131072,
+        "bytes_seen": {
+          "stdout": 794,
+          "stderr": 0
+        },
+        "bytes_retained": {
+          "stdout": 794,
+          "stderr": 0
+        },
+        "captured_sha256": {
+          "stdout": "784a3b919b42178476f354efe7e7182be20cd2a87e9cd85706d27dc72656ec2f",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "output_truncated": false,
+        "cleanup_confirmed": true,
+        "owned_process_handles_waited": 0,
+        "elapsed_monotonic_seconds": 4.481140899995808
+      },
+      "source_commit": "a210efed645c3d90973ccadaa59b1469bb9e667c"
+    },
+    "source_git_blob_equality_before_and_after": true,
+    "orders_sent": 0,
+    "accounting_verified": false
+  },
+  "retained_validation_failures": [
+    {
+      "stage": "FIRST_EXPORT_PRE_EXECUTION_CHECK",
+      "tests_started": false,
+      "reason": "Default Git archive applied Windows newlines to three unpinned files. Source byte check rejected it; first archive retained. Export repeated with command-local core.autocrlf=false."
+    },
+    {
+      "stage": "SECOND_EXPORT_SDK_IMPORT",
+      "adapter_tests": 31,
+      "execution_store_tests": 25,
+      "sdk_import_errors": 1,
+      "reason": "The validation wrapper incorrectly denied local socket.gethostname used by pandas platform detection. Network-denial wrapper corrected; original logs retained.",
+      "sdk_import_error_log_sha256": "53fd1019bd994a2652fe0d7ec2236e6179c8df195cb1d9e9df426bff660eb048"
+    }
+  ],
+  "official_order_cycle": "NOT_RUN_SEPARATE_AUTHORIZATION_REQUIRED",
+  "actual_fee_or_settlement_statement": "NOT_AVAILABLE",
+  "synthetic_protobuf_is_official_order_evidence": false
+}

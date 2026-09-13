@@ -1,0 +1,10 @@
+# Isolated Windows SDK contract runtime; never part of the research wheel.
+futu-api==10.7.6708
+numpy==2.5.3
+pandas==3.0.5
+protobuf==7.36.1
+PyCryptodome==3.23.0
+simplejson==4.1.2
+python-dateutil==2.9.0.post0
+six==1.17.0
+tzdata==2026.4

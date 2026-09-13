@@ -111,3 +111,10 @@ docs/research-evidence/**/*.whl binary
 # Equity example specs bind the original manifest/CSV/event bytes on every OS.
 examples/equity_research/* -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
 examples/equity_events/* -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# New simulation acceptance compares exported Git blob bytes, with LF on checkout.
+tools/futu_simulation_adapter.py text eol=lf
+tools/execution_state_lab.py text eol=lf
+tests/repository_only/test_futu_simulation_adapter.py text eol=lf
+tests/sdk_contracts/*.py text eol=lf
+requirements.futu-sdk.lock text eol=lf

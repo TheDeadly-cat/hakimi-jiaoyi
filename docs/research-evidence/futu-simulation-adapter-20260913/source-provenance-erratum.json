@@ -1,0 +1,22 @@
+{
+  "schema_version": "futu-source-provenance-erratum-v1",
+  "affected_receipt": "validation.json",
+  "affected_source_commit": "8c3877203d30f3724a5b181fb18ac922861d5947",
+  "original_receipt_modified": false,
+  "finding": "The original receipt recorded actual tested local bytes, without distinguishing their mixed newlines from the Git blob bytes.",
+  "execution_state_lab.py": {
+    "actual_tested_local_sha256": "40d2a8a50a6dd85df699a8999f1124c35ca5a721b0d530f95669e03554f36629",
+    "committed_blob_sha256": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91",
+    "local_crlf_sequences": 566,
+    "local_total_lf_bytes": 586,
+    "committed_crlf_sequences": 0,
+    "local_crlf_to_lf_equals_committed_blob": true
+  },
+  "futu_simulation_adapter.py": {
+    "actual_tested_local_and_committed_sha256": "7876dd1b053753c266444354d70a61665eba99b4499f037795ad3a558482b4a9",
+    "local_equals_committed_blob": true
+  },
+  "preservation": "Both original local files and committed blobs are retained privately with comparison.json. The original receipt remains evidence of the original execution and is not rebound to corrected code.",
+  "future_policy": "Explicit LF attributes for these tools and new SDK contracts; acceptance executes a fresh Git export and checks source file bytes against the corresponding Git blobs before and after execution.",
+  "scope": "This erratum concerns the Futu adapter preflight. It does not reidentify the separately installed AMD research wheel or the frozen deployed observation bundle."
+}

@@ -1,0 +1,238 @@
+{
+  "schema_version": "futu-simulation-adapter-validation-v1",
+  "source_commit": "8c3877203d30f3724a5b181fb18ac922861d5947",
+  "source_file_sha256": {
+    "futu_simulation_adapter.py": "7876dd1b053753c266444354d70a61665eba99b4499f037795ad3a558482b4a9",
+    "execution_state_lab.py": "40d2a8a50a6dd85df699a8999f1124c35ca5a721b0d530f95669e03554f36629"
+  },
+  "checked_at": "2026-09-13T09:28:37.811442Z",
+  "sdk": "futu-api==10.7.6708",
+  "opend": "10.7.6728",
+  "software_validation": {
+    "adapter_contracts": {
+      "passed": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log_sha256": "de0ef8afb9850d7d01d277e0b01b8c5e04d1c71ad13f6ff9d665765773ee8db4"
+    },
+    "original_execution_store_regression": {
+      "passed": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log_sha256": "e6bc9ec4c3b00fb298308da9384ef746c8747bb87eb5905e0883354b3aa994f0"
+    },
+    "fixtures_are_not_official_order_evidence": true
+  },
+  "actual_readonly_preflight": {
+    "status": "READ_ONLY_STABLE_SCOPED_READS",
+    "query_scope": "REPEATED_SCOPED_READS_NOT_ATOMIC",
+    "query_count": 13,
+    "queries": [
+      {
+        "method": "get_acc_list",
+        "started_at": "2026-09-13T09:28:34.161350Z",
+        "completed_at": "2026-09-13T09:28:34.162936Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "order_list_query",
+        "started_at": "2026-09-13T09:28:34.163438Z",
+        "completed_at": "2026-09-13T09:28:34.430389Z",
+        "ret": 0,
+        "row_count": 0
+      },
+      {
+        "method": "history_order_list_query",
+        "started_at": "2026-09-13T09:28:34.430708Z",
+        "completed_at": "2026-09-13T09:28:34.688819Z",
+        "ret": 0,
+        "row_count": 0
+      },
+      {
+        "method": "accinfo_query",
+        "started_at": "2026-09-13T09:28:34.689103Z",
+        "completed_at": "2026-09-13T09:28:35.310032Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "position_list_query",
+        "started_at": "2026-09-13T09:28:35.310435Z",
+        "completed_at": "2026-09-13T09:28:35.588607Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "order_list_query",
+        "started_at": "2026-09-13T09:28:35.589003Z",
+        "completed_at": "2026-09-13T09:28:35.856405Z",
+        "ret": 0,
+        "row_count": 0
+      },
+      {
+        "method": "history_order_list_query",
+        "started_at": "2026-09-13T09:28:35.856951Z",
+        "completed_at": "2026-09-13T09:28:36.115797Z",
+        "ret": 0,
+        "row_count": 0
+      },
+      {
+        "method": "accinfo_query",
+        "started_at": "2026-09-13T09:28:36.116082Z",
+        "completed_at": "2026-09-13T09:28:36.443853Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "position_list_query",
+        "started_at": "2026-09-13T09:28:36.444270Z",
+        "completed_at": "2026-09-13T09:28:36.732970Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "get_stock_basicinfo",
+        "started_at": "2026-09-13T09:28:36.733700Z",
+        "completed_at": "2026-09-13T09:28:36.736542Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "get_market_snapshot",
+        "started_at": "2026-09-13T09:28:36.737088Z",
+        "completed_at": "2026-09-13T09:28:36.992486Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "get_market_state",
+        "started_at": "2026-09-13T09:28:36.992945Z",
+        "completed_at": "2026-09-13T09:28:37.462247Z",
+        "ret": 0,
+        "row_count": 1
+      },
+      {
+        "method": "acctradinginfo_query",
+        "started_at": "2026-09-13T09:28:37.462694Z",
+        "completed_at": "2026-09-13T09:28:37.810835Z",
+        "ret": 0,
+        "row_count": 1
+      }
+    ],
+    "instrument": {
+      "symbol": "US.AMD",
+      "stock_id": 205816,
+      "lot_size": 1,
+      "price_increment": "0.01",
+      "market_state": "AFTER_HOURS_END",
+      "observed_at": "2026-09-13T09:28:37.462576Z",
+      "order_scope": "ONE_WHOLE_SHARE_LIMIT_PRICE_AT_LEAST_ONE_USD_DAY_RTH"
+    },
+    "capacity_check": {
+      "checked_at": "2026-09-13T09:28:37.811442Z",
+      "field": "max_cash_buy",
+      "sufficient": true,
+      "margin_or_short_capacity_used": false,
+      "query_limit_price": "1"
+    },
+    "native_usd_cash_field": "us_cash",
+    "display_currency_field": "N/A",
+    "original_private_receipt_sha256": "c84389748350dffa753711f62b0d920f0e293b88b6de3dcbd38f0cab4f5eb9bb",
+    "process": {
+      "returncode": 0,
+      "bounds": {
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "outcome": "EXITED",
+        "timeout_seconds": 180,
+        "cleanup_seconds": 5,
+        "normal_exit_settle_max_seconds": 0.25,
+        "output_limit_bytes_combined": 131072,
+        "bytes_seen": {
+          "stdout": 794,
+          "stderr": 0
+        },
+        "bytes_retained": {
+          "stdout": 794,
+          "stderr": 0
+        },
+        "captured_sha256": {
+          "stdout": "7277a9f0d8fdb9f6dc573c3702703a4f46077753d54e33f9ffd0d3f0653fcf74",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "output_truncated": false,
+        "cleanup_confirmed": true,
+        "owned_process_handles_waited": 0,
+        "elapsed_monotonic_seconds": 4.812362000026042
+      }
+    },
+    "atomic_snapshot_claimed": false,
+    "accounting_verified": false,
+    "profile_account_id": "EXPLICITLY_BOUND_AND_KEPT_PRIVATE",
+    "account_binding_digest": "KEPT_PRIVATE",
+    "documented_unavailable_apis": {
+      "deal_queries": true,
+      "deal_push": true,
+      "order_fee_query": true,
+      "cash_flow_query": true
+    },
+    "prior_actual_deal_rejection_evidence": "../real-amd-rth-20260913/futu-readonly.json"
+  },
+  "first_probe_preserved": {
+    "status": "PREFLIGHT_INCOMPLETE",
+    "reason": "explicit_usd_balance_required",
+    "original_private_receipt_sha256": "909d016f9966dadf8bc68008f37b569d753fe0db13c81215e66129d0ad5e07f7",
+    "correction": "Use documented native USD us_cash independently of display currency; no fallback to cash or margin buying power.",
+    "source_identity": "Not captured on first probe; not rebound to the later fixed code commit."
+  },
+  "statements": {
+    "actual_operator_verified_statement_received": false,
+    "fees_known": false,
+    "zero_fee_imputed": false
+  },
+  "official_order_lifecycle": "NOT_RUN",
+  "order_authorization": "NOT_GRANTED",
+  "orders_sent": 0,
+  "sources": [
+    "https://openapi.futunn.com/futu-api-doc/en/trade/get-funds.html",
+    "https://openapi.futunn.com/futu-api-doc/en/trade/get-max-trd-qtys.html",
+    "https://openapi.futunn.com/futu-api-doc/en/trade/place-order.html",
+    "https://openapi.futunn.com/futu-api-doc/en/qa/trade.html"
+  ],
+  "main_integration": {
+    "pr": 9,
+    "commit": "7055f03c2d35868b939a792aa0e9a13e6e20b8c0",
+    "merged_at": "2026-09-13T09:36:49Z",
+    "merge_method": "NORMAL_NON_FORCE_FAST_FORWARD_OF_USER_APPROVED_PR_HEAD",
+    "related_prs_confirmed_merged": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "main_ci": {
+      "run_id": 34749832008,
+      "status": "completed",
+      "conclusion": "success",
+      "jobs_succeeded": 9
+    },
+    "premerge_actions_ci": {
+      "run_id": 34747709719,
+      "jobs_succeeded": 9
+    },
+    "cursor_checks_succeeded": 3,
+    "codex_code_review": "SERVICE_FAILED_NO_REVIEW_REPORT",
+    "codex_security_review": "COMPLETED",
+    "branch_protection": {
+      "enforce_admins": true,
+      "strict_required_checks": true,
+      "required_gate": "Research required gate",
+      "app_id": 15368,
+      "changed": false
+    },
+    "preceding_api_failures": "GraphQL internal errors, REST 502/empty JSON and connector internal error; each was read back as unmerged before continuing."
+  }
+}
