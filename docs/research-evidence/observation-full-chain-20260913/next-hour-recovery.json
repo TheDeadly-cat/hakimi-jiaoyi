@@ -1,0 +1,201 @@
+{
+  "cases": [
+    {
+      "bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 20906
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 20906
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "c9f4a9ec30c1bcaf1303c7a0e902f921c6f228df175867791c5855e22c2d2b90"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 5,
+        "elapsed_monotonic_seconds": 5.206912099994952,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 4194304,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 300
+      },
+      "capture": {
+        "end_exclusive": "2026-09-12T20:00:00Z",
+        "evidence_kind": "PUBLIC_HTTP_CAPTURE",
+        "page_count": 1,
+        "pages": [
+          {
+            "endpoint": "/api/v5/market/history-candles",
+            "origin": "https://www.okx.com",
+            "params": {
+              "after": 1789243200000,
+              "bar": "1H",
+              "instId": "BTC-USDT",
+              "limit": 300
+            },
+            "retrieved_at": "2026-09-12T20:01:25.786095Z"
+          }
+        ],
+        "sha256": "b8ad5c4cad4c0646e9fea0d245557c7f6ac925b493699df578a8c99178550011",
+        "start": "2026-09-09T20:00:00Z"
+      },
+      "case": "network_denial",
+      "duplicate": {
+        "all_cycle_file_hashes_unchanged": true,
+        "health": "DUPLICATE_VERIFY",
+        "notification": {
+          "decision": "DONT_NOTIFY",
+          "delivery_status": "NOT_SENT_BY_THIS_TOOL",
+          "reasons": []
+        },
+        "receipt_hash": "2852a6c7cca5b3e23658dfee25d2151cd4a0d9c23b08bed76132115a2b5efa6c"
+      },
+      "ended_at": "2026-09-12T20:01:26.539157Z",
+      "health": "RESULT_VALID",
+      "input_cutoff": "2026-09-12T20:00:00Z",
+      "launcher_sha256": "9ed6bbeba4b9b81c55edb6e3ff6e03aa4d95cdd9a34ac6cc934ca5213e1ed006",
+      "notification": {
+        "decision": "NOTIFY",
+        "delivery_status": "NOT_SENT_BY_THIS_TOOL",
+        "reasons": [
+          "new_missing_strategy_hours_including_outside_frozen_window",
+          "recovered_after_failed_result"
+        ]
+      },
+      "observations": [
+        {
+          "cutoff": "2026-09-12T20:00:00Z",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_hash": "8ac793d11caf5ef305b46b5c8e74472278c0cf9309d7f0e38702c2968e96f3a2",
+          "signal_available_at": "2026-09-12T20:01:26.102512Z",
+          "timing_status": "ON_TIME"
+        },
+        {
+          "cutoff": "2026-09-12T20:00:00Z",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_hash": "794b7d50b634ecec938de2716210d6f41737bab66746226975b54644c099ffc4",
+          "signal_available_at": "2026-09-12T20:01:26.294813Z",
+          "timing_status": "ON_TIME"
+        }
+      ],
+      "os_locks_reacquired": 3,
+      "prior_fault_bytes_unchanged": true,
+      "receipt_hash": "ab154bef06fa675974a8d5cbd0032f8939c5f67276ab4038c87d35e7dd41fc1b",
+      "result_valid": true,
+      "snapshot_id": "7f739fc7c65f4aa9f0d9f9cef834c144d7af2d863705b4425f9c6ef4ba2b16ea",
+      "snapshot_sha256": "978495b67050680e7ae399e064f7098d9efb73045c53d843f062e389880141f3",
+      "started_at": "2026-09-12T20:01:21.124999Z",
+      "status": "REAL_NEXT_HOUR_RECOVERED_AND_DUPLICATE_VERIFIED"
+    },
+    {
+      "bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 20906
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 20906
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "eb64c8e4706fbf876c09d7f6a06ff213f0286e9ce356202ca9083e9ca379cb7e"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 5,
+        "elapsed_monotonic_seconds": 5.206022200000007,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 4194304,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 300
+      },
+      "capture": {
+        "end_exclusive": "2026-09-12T20:00:00Z",
+        "evidence_kind": "PUBLIC_HTTP_CAPTURE",
+        "page_count": 1,
+        "pages": [
+          {
+            "endpoint": "/api/v5/market/history-candles",
+            "origin": "https://www.okx.com",
+            "params": {
+              "after": 1789243200000,
+              "bar": "1H",
+              "instId": "BTC-USDT",
+              "limit": 300
+            },
+            "retrieved_at": "2026-09-12T20:01:34.388928Z"
+          }
+        ],
+        "sha256": "daa309fbd5e60effa478db2747009d32032c0b37bdc9a76f9ee5d975b9bbdcc7",
+        "start": "2026-09-09T20:00:00Z"
+      },
+      "case": "launcher_termination",
+      "duplicate": {
+        "all_cycle_file_hashes_unchanged": true,
+        "health": "DUPLICATE_VERIFY",
+        "notification": {
+          "decision": "DONT_NOTIFY",
+          "delivery_status": "NOT_SENT_BY_THIS_TOOL",
+          "reasons": []
+        },
+        "receipt_hash": "703d838153d41eb01eb00ac1cee69236e049668665f0bb2c5cd92ae05597eb2e"
+      },
+      "ended_at": "2026-09-12T20:01:35.142616Z",
+      "health": "RESULT_VALID",
+      "input_cutoff": "2026-09-12T20:00:00Z",
+      "launcher_sha256": "9ed6bbeba4b9b81c55edb6e3ff6e03aa4d95cdd9a34ac6cc934ca5213e1ed006",
+      "notification": {
+        "decision": "NOTIFY",
+        "delivery_status": "NOT_SENT_BY_THIS_TOOL",
+        "reasons": [
+          "new_missing_strategy_hours_including_outside_frozen_window",
+          "recovered_after_failed_result"
+        ]
+      },
+      "observations": [
+        {
+          "cutoff": "2026-09-12T20:00:00Z",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_hash": "ea7cedda1171f9e7380b0d00a48105d6c3404627a7859145a51bcc74231cb0e3",
+          "signal_available_at": "2026-09-12T20:01:34.712757Z",
+          "timing_status": "ON_TIME"
+        },
+        {
+          "cutoff": "2026-09-12T20:00:00Z",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_hash": "37716825a0f0d87c6529fb509ac061766eeeb335c6249f9dce2d4d82d5a6f9f8",
+          "signal_available_at": "2026-09-12T20:01:34.904275Z",
+          "timing_status": "ON_TIME"
+        }
+      ],
+      "os_locks_reacquired": 3,
+      "prior_fault_bytes_unchanged": true,
+      "receipt_hash": "e153d57d7dd450e4763dfc36aca5168e3bafefcc857ddf2b9e956879153bbcb1",
+      "result_valid": true,
+      "snapshot_id": "b23ea7f357aae948c0d91a5324502f4e03a1a906a405681cc0cfe5103529fd49",
+      "snapshot_sha256": "43895fc6ecb23791d603d776d5f86c5de286851da1363e6f0b8e35e6e8941d4e",
+      "started_at": "2026-09-12T20:01:29.731734Z",
+      "status": "REAL_NEXT_HOUR_RECOVERED_AND_DUPLICATE_VERIFIED"
+    }
+  ],
+  "clone_history_absences_are_production_gaps": false,
+  "declared_manual_interval_end_exclusive": "2026-09-12T20:05:00Z",
+  "declared_manual_interval_start": "2026-09-12T20:01:00Z",
+  "new_72h_window": "NOT_STARTED",
+  "new_scheduler_activated": false,
+  "notification_actual_delivery": "NOT_RUN",
+  "order_allowed": false,
+  "original_protected_bytes_unchanged": true,
+  "recorded_at": "2026-09-12T20:01:39.352774Z",
+  "schema_version": "isolated-frozen-observer-next-hour-recovery-v1",
+  "scope": "ISOLATED_MANUAL_CURRENT_HOUR_RECOVERY_NOT_PRODUCTION_OR_NEW_72H_WINDOW"
+}

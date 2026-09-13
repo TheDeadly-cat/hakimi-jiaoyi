@@ -1,0 +1,795 @@
+{
+  "actual_72h_observation_completed": false,
+  "bundle_hash": "27cfe11a7a0c7246814e7f6966f5bed7a41b65f11a64e8ddf8a688847fdc3732",
+  "cause": {
+    "frozen_driver_stage": "READ_DEPLOYMENT_PLAN_BEFORE_MARKET_CAPTURE",
+    "native_after_probe_sha256": "d9999cfcb3172f429bd25f7e726c9a99ffea84429c3d102f66708c8b8b1477eb",
+    "native_before_probe_sha256": "d62bf96b98fe0ea18db3980a17b1f89579a976100bd6e946db6a2bfb4b1041a7",
+    "preflight_limit": "Window-excluded observer smoke did not open the embedded absolute deployment plan paths from native Task Scheduler context.",
+    "type": "NATIVE_HOST_MISSING_LEGACY_APPDATA_PATH"
+  },
+  "checked_at": "2026-09-13T04:12:48.992050Z",
+  "current_counts": {
+    "LATE": 1,
+    "PLANNED": 71
+  },
+  "deadline_counts": {
+    "FAILED": 1,
+    "PENDING": 71
+  },
+  "first_failed_observer": {
+    "job_start": {
+      "attempt_id": "20260913T040100527889Z_5080d4c8e6924e7ab341386769422783",
+      "declared_window": {
+        "end_exclusive": "2026-09-16T04:00:00Z",
+        "start": "2026-09-13T04:00:00Z"
+      },
+      "execution_bounds": {
+        "cleanup_seconds": 5,
+        "combined_output_limit_bytes": 4194304,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 300
+      },
+      "frozen_plan_sha256": "f2a02318846a8bd9ed80c667920d9b6c8fc7b27a1b27b70010f9422d0bf0b3d3",
+      "frozen_wrapper_sha256": "213e855414e125b419c0153f189b01415bb22d68e0f3f168c21e5014ac4472da",
+      "input_cutoff": "2026-09-13T04:00:00Z",
+      "launcher_function_started_at": "2026-09-13T04:01:00.527889Z",
+      "launcher_sha256": "057021bd95512107c8d83998d798aa175cb3985bf266b9c61f9bccbcbbed329e",
+      "order_allowed": false,
+      "purpose": "DETERMINISTIC_PROCESS_WITHOUT_INVENTED_SCHEDULER_CLOCK",
+      "receipt_hash": "5171dc7ff8bfa993f736cf9f583c0e2472b8c6789833a812aa3da2000a332634",
+      "scheduler_event_at": null,
+      "schema_version": "observation-job-start-v2",
+      "trigger_evidence": "PROCESS_START_ONLY",
+      "underlying_trigger_kind": "MANUAL"
+    },
+    "runner_end": {
+      "attempt_id": "20260913T040100309733Z_70c030e3ee1649449b718c67e97a19c6",
+      "child_exit_code": 1,
+      "child_summary": {
+        "attempt_id": "20260913T040100527889Z_5080d4c8e6924e7ab341386769422783",
+        "child_execution_bounds": {
+          "bytes_retained": {
+            "stderr": 0,
+            "stdout": 1753
+          },
+          "bytes_seen": {
+            "stderr": 0,
+            "stdout": 1753
+          },
+          "captured_sha256": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "cc49fae94e6c788d76efb70de7c9dbeede5c067d5b3faf6038e720e6e1ad6927"
+          },
+          "cleanup_confirmed": true,
+          "cleanup_seconds": 5,
+          "elapsed_monotonic_seconds": 1.692937300016638,
+          "normal_exit_settle_max_seconds": 0.25,
+          "outcome": "EXITED",
+          "output_limit_bytes_combined": 4194304,
+          "output_truncated": false,
+          "owned_process_handles_waited": 0,
+          "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+          "timeout_seconds": 300
+        },
+        "child_exit_code": 1,
+        "child_launch_boundary_at": "2026-09-13T04:01:01.444735Z",
+        "child_wait_completed_at": "2026-09-13T04:01:03.137930Z",
+        "error": {
+          "stage": "EXECUTE",
+          "type": "ValueError"
+        },
+        "health": "CHILD_FAILED",
+        "input_cutoff": "2026-09-13T04:00:00Z",
+        "launcher_elapsed_monotonic_seconds": 2.610083700012183,
+        "launcher_record_ended_at": "2026-09-13T04:01:03.138095Z",
+        "new_missing_strategy_hours": [],
+        "new_unfinished_attempts": [],
+        "notification": {
+          "decision": "NOTIFY",
+          "delivery_status": "NOT_SENT_BY_THIS_TOOL",
+          "reasons": [
+            "child_failed"
+          ]
+        },
+        "order_allowed": false,
+        "previous_driver_sha256": "eeb0d85c1c91caa193f8f4c8b7e603939ccd574425d1975eb0fc3e82b282684e",
+        "prior_unfinished_attempts": [],
+        "receipt_hash": "c536d37bcace2d9b607ccb37014205019e5534ca341b08b1975508f26bc5461b",
+        "result_valid": false,
+        "schema_version": "observation-job-end-v2",
+        "started_receipt_hash": "5171dc7ff8bfa993f736cf9f583c0e2472b8c6789833a812aa3da2000a332634",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "cc49fae94e6c788d76efb70de7c9dbeede5c067d5b3faf6038e720e6e1ad6927"
+      },
+      "ended_at": "2026-09-13T04:01:03.190076Z",
+      "execution_bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 1837
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 1837
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "d4a45c6fef7bfaf8d48415fab2156c0bed50cb387540d4a0d3024f3a3767dce7"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 5,
+        "elapsed_monotonic_seconds": 2.847528299986152,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 1048576,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 340
+      },
+      "order_allowed": false,
+      "receipt_hash": "7fe69cef3fbe49389078b308dca50015d9fe4e6e2e355cd470e46905a5123e8c",
+      "result_scope": "PROCESS_RESULT_NOT_WINDOW_ACCEPTANCE",
+      "role": "observe",
+      "schema_version": "observation-bundle-run-end-v1",
+      "started_receipt_hash": "6efcbbecf995b341ccd27cf65d8fdf00cd5b075727473ab63e5e6fdcffc058bd",
+      "status": "CHILD_REPORTED_FAILURE",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "d4a45c6fef7bfaf8d48415fab2156c0bed50cb387540d4a0d3024f3a3767dce7"
+    },
+    "runner_start": {
+      "attempt_id": "20260913T040100309733Z_70c030e3ee1649449b718c67e97a19c6",
+      "bundle_hash": "27cfe11a7a0c7246814e7f6966f5bed7a41b65f11a64e8ddf8a688847fdc3732",
+      "order_allowed": false,
+      "receipt_hash": "6efcbbecf995b341ccd27cf65d8fdf00cd5b075727473ab63e5e6fdcffc058bd",
+      "role": "observe",
+      "schema_version": "observation-bundle-run-start-v1",
+      "started_at": "2026-09-13T04:01:00.309733Z"
+    }
+  },
+  "frozen_wrapper_attempts": [
+    {
+      "actual_ended_at": "2026-09-13T04:01:03.094512Z",
+      "attempt_id": "20260913T040101668900Z_fa934002fe15469483eb308d7a5a3905",
+      "automatic_backfill": false,
+      "child_ended_at": "2026-09-13T04:01:03.082847Z",
+      "child_started_at": "2026-09-13T04:01:02.167763Z",
+      "classification": "FIRST_ATTEMPT",
+      "error": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "exit_code": 1,
+      "input_cutoff": "2026-09-13T04:00:00Z",
+      "notification": {
+        "decision": "NOTIFY",
+        "delivery_status": "NOT_RECORDED",
+        "reasons": [
+          "capture_or_validation_failed"
+        ]
+      },
+      "observations": 0,
+      "order_allowed": false,
+      "original_bytes_preserved": true,
+      "plan_hash": "f2a02318846a8bd9ed80c667920d9b6c8fc7b27a1b27b70010f9422d0bf0b3d3",
+      "receipt_hash": "2fe75b6e73450311c3fec15b88a06b8f23ec77318f48fa527d330182f29ec43f",
+      "records": [],
+      "recovery": false,
+      "replays_verified": 0,
+      "runtime_verification": {
+        "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+        "environment_status": "VERIFIED",
+        "runtime_tools_verified": {
+          "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e",
+          "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+          "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b"
+        },
+        "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+        "source_status": "BUILD_VERIFIED"
+      },
+      "schema_version": "forward-execution-end-v1",
+      "started_receipt_hash": "a2532d74a2b8ce01cbe6b4318667bf7258c9b95551b389cf7c1d2cfcccf69e75",
+      "status": "FAILED",
+      "stderr_sha256": "05f7bee5ebceebb34fd3593e7564ee71ef1dc4d7618a7824d8aa35e213d48ff8",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "actual_ended_at": "2026-09-13T04:08:33.055573Z",
+      "attempt_id": "20260913T040829369755Z_250153f05ef2472d88549abd97a5a6b8",
+      "automatic_backfill": false,
+      "child_ended_at": "2026-09-13T04:08:33.038651Z",
+      "child_started_at": "2026-09-13T04:08:29.817682Z",
+      "classification": "RETRY",
+      "exit_code": 0,
+      "input_cutoff": "2026-09-13T04:00:00Z",
+      "new_missing": [],
+      "notification": {
+        "decision": "NOTIFY",
+        "delivery_status": "NOT_RECORDED",
+        "reasons": [
+          "late_observation",
+          "recovered_after_failed_or_unfinished_attempt"
+        ]
+      },
+      "observations": 2,
+      "order_allowed": false,
+      "original_bytes_preserved": true,
+      "plan_hash": "f2a02318846a8bd9ed80c667920d9b6c8fc7b27a1b27b70010f9422d0bf0b3d3",
+      "receipt_hash": "d4058fe0f8839c162225564427ce39bb229337567d8562abba6b0a765533e96e",
+      "records": [
+        {
+          "backfill": false,
+          "bar_close_time": "2026-09-13T04:00:00Z",
+          "cutoff": "2026-09-13T04:00:00Z",
+          "data_received_at": "2026-09-13T04:08:32.047853Z",
+          "data_received_at_evidence": "ORIGINAL_INPUT_RECEIPT_CLOCK",
+          "input_hash": "c24523b46f25bd8a71e5b2bd4b4db9e61dcac83d77e6551b1cba3ed463691f0f",
+          "lateness_seconds": 512.510554,
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+          "record_file": "forward_observation_82e8fa63dddcd3a37ab2673f658d3aa638d424875b2e2d0a73c0017f57ea7d69.json",
+          "record_file_sha256": "ff13fb84c74495b9c544e13a6a97cc8f6fc259ee7dbd9f8949eed7c2893b8b05",
+          "record_hash": "bd9a59523976855e3ef32785b8cedb0d391d93dc92bf8e9a3f7f65ea305d2ff0",
+          "reference_execution_eligible_at": "2026-09-13T05:00:00Z",
+          "reference_execution_performed": false,
+          "reference_execution_policy": "FIRST_HOURLY_OPEN_STRICTLY_AFTER_SIGNAL_AVAILABILITY",
+          "reference_execution_price": null,
+          "signal_available_at": "2026-09-13T04:08:32.510554Z",
+          "signal_available_at_evidence": "ORIGINAL_OBSERVER_CLOCK",
+          "snapshot_id": "cf08e230b29023e372cf439e32dcd05de15cb1e769adced961a80b98384bc2cb",
+          "strategy": "dual_ma",
+          "timing_status": "LATE"
+        },
+        {
+          "backfill": false,
+          "bar_close_time": "2026-09-13T04:00:00Z",
+          "cutoff": "2026-09-13T04:00:00Z",
+          "data_received_at": "2026-09-13T04:08:32.047853Z",
+          "data_received_at_evidence": "ORIGINAL_INPUT_RECEIPT_CLOCK",
+          "input_hash": "c24523b46f25bd8a71e5b2bd4b4db9e61dcac83d77e6551b1cba3ed463691f0f",
+          "lateness_seconds": 512.746182,
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+          "record_file": "forward_observation_5d4e0bec0b4173f79687c40231bb3a942137755ee7fcc1617b1e65099db7e6f9.json",
+          "record_file_sha256": "b1ff8048cdb9e55b822a8881b7c05bafe02490fb7feff17cf114c57bc40f7998",
+          "record_hash": "0e1f44f4077c30f90ce4812a98887fa73bc586582e6b2a31d655af2adb5ce3da",
+          "reference_execution_eligible_at": "2026-09-13T05:00:00Z",
+          "reference_execution_performed": false,
+          "reference_execution_policy": "FIRST_HOURLY_OPEN_STRICTLY_AFTER_SIGNAL_AVAILABILITY",
+          "reference_execution_price": null,
+          "signal_available_at": "2026-09-13T04:08:32.746182Z",
+          "signal_available_at_evidence": "ORIGINAL_OBSERVER_CLOCK",
+          "snapshot_id": "cf08e230b29023e372cf439e32dcd05de15cb1e769adced961a80b98384bc2cb",
+          "strategy": "rsi",
+          "timing_status": "LATE"
+        }
+      ],
+      "recovery": true,
+      "replays_verified": 2,
+      "runtime_verification": {
+        "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+        "environment_status": "VERIFIED",
+        "runtime_tools_verified": {
+          "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e",
+          "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+          "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b"
+        },
+        "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+        "source_status": "BUILD_VERIFIED"
+      },
+      "schema_version": "forward-execution-end-v1",
+      "started_receipt_hash": "e3dc020544e597f9e24a24e0d78a2c3102c33f688e40a4f7f7f1d75012587e90",
+      "status": "RECORDED_AND_REPLAYED",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "26b0370e01c1cba98585b5a9b91888a40921e7aaeb98df59b06849e1a51622e5"
+    }
+  ],
+  "independent_replay": {
+    "checked_at": "2026-09-13T04:09:27.126226Z",
+    "cutoff": "2026-09-13T04:00:00Z",
+    "independent_replays_verified": 2,
+    "input_files_sha256": {
+      "capture": "e0d90455236ea56b0dc00f0a2d61e02594b69e62cda3eeb73eaa2e26607fb030",
+      "snapshot": "f6599f67f24fb52c622e3a22426cc28b04b7001682bf551337519dd4323f539b"
+    },
+    "observations_verified": 2,
+    "order_allowed": false,
+    "original_cycle_file_sha256": "99c6fd030e38010e54cb899520aeaf7b210ead8b9337d6fe3beaefd7e56ec994",
+    "original_input_receipt_hash": "32b12cd567e93ba0ae9fafe436dbdb8ee2712182a43b7d1011b7ea9e076d84e4",
+    "python_outbound_network_denied": true,
+    "records": [
+      {
+        "backfill": false,
+        "bar_close_time": "2026-09-13T04:00:00Z",
+        "cutoff": "2026-09-13T04:00:00Z",
+        "data_received_at": "2026-09-13T04:08:32.047853Z",
+        "data_received_at_evidence": "ORIGINAL_INPUT_RECEIPT_CLOCK",
+        "independent_replay_status": "VERIFIED",
+        "input_hash": "c24523b46f25bd8a71e5b2bd4b4db9e61dcac83d77e6551b1cba3ed463691f0f",
+        "lateness_seconds": 512.510554,
+        "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+        "record_file": "forward_observation_82e8fa63dddcd3a37ab2673f658d3aa638d424875b2e2d0a73c0017f57ea7d69.json",
+        "record_file_sha256": "ff13fb84c74495b9c544e13a6a97cc8f6fc259ee7dbd9f8949eed7c2893b8b05",
+        "record_hash": "bd9a59523976855e3ef32785b8cedb0d391d93dc92bf8e9a3f7f65ea305d2ff0",
+        "reference_execution_eligible_at": "2026-09-13T05:00:00Z",
+        "reference_execution_performed": false,
+        "reference_execution_policy": "FIRST_HOURLY_OPEN_STRICTLY_AFTER_SIGNAL_AVAILABILITY",
+        "reference_execution_price": null,
+        "signal_available_at": "2026-09-13T04:08:32.510554Z",
+        "signal_available_at_evidence": "ORIGINAL_OBSERVER_CLOCK",
+        "snapshot_id": "cf08e230b29023e372cf439e32dcd05de15cb1e769adced961a80b98384bc2cb",
+        "strategy": "dual_ma",
+        "timing_status": "LATE"
+      },
+      {
+        "backfill": false,
+        "bar_close_time": "2026-09-13T04:00:00Z",
+        "cutoff": "2026-09-13T04:00:00Z",
+        "data_received_at": "2026-09-13T04:08:32.047853Z",
+        "data_received_at_evidence": "ORIGINAL_INPUT_RECEIPT_CLOCK",
+        "independent_replay_status": "VERIFIED",
+        "input_hash": "c24523b46f25bd8a71e5b2bd4b4db9e61dcac83d77e6551b1cba3ed463691f0f",
+        "lateness_seconds": 512.746182,
+        "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+        "record_file": "forward_observation_5d4e0bec0b4173f79687c40231bb3a942137755ee7fcc1617b1e65099db7e6f9.json",
+        "record_file_sha256": "b1ff8048cdb9e55b822a8881b7c05bafe02490fb7feff17cf114c57bc40f7998",
+        "record_hash": "0e1f44f4077c30f90ce4812a98887fa73bc586582e6b2a31d655af2adb5ce3da",
+        "reference_execution_eligible_at": "2026-09-13T05:00:00Z",
+        "reference_execution_performed": false,
+        "reference_execution_policy": "FIRST_HOURLY_OPEN_STRICTLY_AFTER_SIGNAL_AVAILABILITY",
+        "reference_execution_price": null,
+        "signal_available_at": "2026-09-13T04:08:32.746182Z",
+        "signal_available_at_evidence": "ORIGINAL_OBSERVER_CLOCK",
+        "snapshot_id": "cf08e230b29023e372cf439e32dcd05de15cb1e769adced961a80b98384bc2cb",
+        "strategy": "rsi",
+        "timing_status": "LATE"
+      }
+    ],
+    "runtime_verification": {
+      "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+      "environment_status": "VERIFIED",
+      "runtime_tools_verified": {
+        "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e",
+        "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+        "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b"
+      },
+      "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "source_status": "BUILD_VERIFIED"
+    },
+    "status": "FIRST_CYCLE_ORIGINAL_BYTES_AND_TWO_OFFLINE_REPLAYS_VERIFIED"
+  },
+  "latest_watch_receipt_hash": "526f56bb77c29de69db7fa7ebabacb8b9d6a877b912db98bc3be9c4c9e8e369b",
+  "manual_recovery_invocation": {
+    "cutoff": "2026-09-13T04:00:00Z",
+    "first_failure_preserved": true,
+    "invoked_at": "2026-09-13T04:08:28.7081206+00:00",
+    "kind": "MANUAL_OS_RECOVERY_RETRY_AFTER_HOST_PATH_REPAIR",
+    "late_expected": true
+  },
+  "manual_recovery_observer": {
+    "job_start": {
+      "attempt_id": "20260913T040829104745Z_abfeb9634aa04664a4e10e734cb96066",
+      "declared_window": {
+        "end_exclusive": "2026-09-16T04:00:00Z",
+        "start": "2026-09-13T04:00:00Z"
+      },
+      "execution_bounds": {
+        "cleanup_seconds": 5,
+        "combined_output_limit_bytes": 4194304,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 300
+      },
+      "frozen_plan_sha256": "f2a02318846a8bd9ed80c667920d9b6c8fc7b27a1b27b70010f9422d0bf0b3d3",
+      "frozen_wrapper_sha256": "213e855414e125b419c0153f189b01415bb22d68e0f3f168c21e5014ac4472da",
+      "input_cutoff": "2026-09-13T04:00:00Z",
+      "launcher_function_started_at": "2026-09-13T04:08:29.104745Z",
+      "launcher_sha256": "057021bd95512107c8d83998d798aa175cb3985bf266b9c61f9bccbcbbed329e",
+      "order_allowed": false,
+      "purpose": "DETERMINISTIC_PROCESS_WITHOUT_INVENTED_SCHEDULER_CLOCK",
+      "receipt_hash": "1cdb66b0dc5697577dbf525d75f93c498b2993461d823a6ecf1faa8458366b39",
+      "scheduler_event_at": null,
+      "schema_version": "observation-job-start-v2",
+      "trigger_evidence": "PROCESS_START_ONLY",
+      "underlying_trigger_kind": "MANUAL"
+    },
+    "runner_end": {
+      "attempt_id": "20260913T040828865990Z_7c11dfac979a4b1ba02a55323ecc294b",
+      "child_exit_code": 0,
+      "child_summary": {
+        "attempt_id": "20260913T040829104745Z_abfeb9634aa04664a4e10e734cb96066",
+        "child_execution_bounds": {
+          "bytes_retained": {
+            "stderr": 0,
+            "stdout": 4038
+          },
+          "bytes_seen": {
+            "stderr": 0,
+            "stdout": 4038
+          },
+          "captured_sha256": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "dc6f1cb73abfa9edc7df2de67ec90801e34ce0dea28d875fea52490f70abcc0f"
+          },
+          "cleanup_confirmed": true,
+          "cleanup_seconds": 5,
+          "elapsed_monotonic_seconds": 3.9498995000030845,
+          "normal_exit_settle_max_seconds": 0.25,
+          "outcome": "EXITED",
+          "output_limit_bytes_combined": 4194304,
+          "output_truncated": false,
+          "owned_process_handles_waited": 1,
+          "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+          "timeout_seconds": 300
+        },
+        "child_exit_code": 0,
+        "child_launch_boundary_at": "2026-09-13T04:08:29.161702Z",
+        "child_wait_completed_at": "2026-09-13T04:08:33.112034Z",
+        "current_driver_sha256": "99c6fd030e38010e54cb899520aeaf7b210ead8b9337d6fe3beaefd7e56ec994",
+        "frozen_receipt_hash": "d4058fe0f8839c162225564427ce39bb229337567d8562abba6b0a765533e96e",
+        "health": "LATE",
+        "input_cutoff": "2026-09-13T04:00:00Z",
+        "launcher_elapsed_monotonic_seconds": 4.00870410000789,
+        "launcher_record_ended_at": "2026-09-13T04:08:33.113636Z",
+        "new_missing_strategy_hours": [],
+        "new_unfinished_attempts": [],
+        "notification": {
+          "decision": "NOTIFY",
+          "delivery_status": "NOT_SENT_BY_THIS_TOOL",
+          "reasons": [
+            "late_observation",
+            "recovered_after_failed_result"
+          ]
+        },
+        "order_allowed": false,
+        "previous_driver_sha256": "eeb0d85c1c91caa193f8f4c8b7e603939ccd574425d1975eb0fc3e82b282684e",
+        "prior_unfinished_attempts": [],
+        "receipt_hash": "61c81c8fb74fe21435a1d101f21ede25c9af4fe42771aadc7955f0a7dfa3a52b",
+        "records": [
+          {
+            "cutoff": "2026-09-13T04:00:00Z",
+            "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c",
+            "record_hash": "bd9a59523976855e3ef32785b8cedb0d391d93dc92bf8e9a3f7f65ea305d2ff0",
+            "signal_available_at": "2026-09-13T04:08:32.510554Z",
+            "timing_status": "LATE"
+          },
+          {
+            "cutoff": "2026-09-13T04:00:00Z",
+            "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5",
+            "record_hash": "0e1f44f4077c30f90ce4812a98887fa73bc586582e6b2a31d655af2adb5ce3da",
+            "signal_available_at": "2026-09-13T04:08:32.746182Z",
+            "timing_status": "LATE"
+          }
+        ],
+        "result_valid": true,
+        "schema_version": "observation-job-end-v2",
+        "started_receipt_hash": "1cdb66b0dc5697577dbf525d75f93c498b2993461d823a6ecf1faa8458366b39",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "dc6f1cb73abfa9edc7df2de67ec90801e34ce0dea28d875fea52490f70abcc0f"
+      },
+      "ended_at": "2026-09-13T04:08:33.163822Z",
+      "execution_bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 2567
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 2567
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "598831b570ac2ce8bcb5ccd31d33f75ccdfdef39ba4e3a5b77673c6957bc2e71"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 5,
+        "elapsed_monotonic_seconds": 4.2478378000087105,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 1048576,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 340
+      },
+      "order_allowed": false,
+      "receipt_hash": "80e614b2d302ca39518c303a945958b15eb8db08f6d3c2fe1d10ac60ff717952",
+      "result_scope": "PROCESS_RESULT_NOT_WINDOW_ACCEPTANCE",
+      "role": "observe",
+      "schema_version": "observation-bundle-run-end-v1",
+      "started_receipt_hash": "baf600f935472b4b5be84f142cda9a271a82da3a6909275e73bb2aa7a64201b4",
+      "status": "COMPLETED",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "598831b570ac2ce8bcb5ccd31d33f75ccdfdef39ba4e3a5b77673c6957bc2e71"
+    },
+    "runner_start": {
+      "attempt_id": "20260913T040828865990Z_7c11dfac979a4b1ba02a55323ecc294b",
+      "bundle_hash": "27cfe11a7a0c7246814e7f6966f5bed7a41b65f11a64e8ddf8a688847fdc3732",
+      "order_allowed": false,
+      "receipt_hash": "baf600f935472b4b5be84f142cda9a271a82da3a6909275e73bb2aa7a64201b4",
+      "role": "observe",
+      "schema_version": "observation-bundle-run-start-v1",
+      "started_at": "2026-09-13T04:08:28.865990Z"
+    }
+  },
+  "native_notification_attempts": [
+    {
+      "attempt_id": "20260913T040931664943Z_e91b9fefe0654d36b1346893b5e5af31",
+      "delivery_confirmed": false,
+      "ended_at": "2026-09-13T04:09:32.375206Z",
+      "execution_bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 394
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 394
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "e459c8a7a3bd40551209a3d6566e8e66ee1fd0901c9534d401ecc481473252b7"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 3,
+        "elapsed_monotonic_seconds": 0.7042592000216246,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 16384,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 25
+      },
+      "notification_id": "1b3f7079e072b12af2c4ef2c46c2cd3727e40d320be23184301154c40499ac98",
+      "receipt_hash": "82ecf031af4886a01d3d6abf172b40bbbcadfc09a5bf3c774d6d3187219c4133",
+      "schema_version": "observation-notification-end-v1",
+      "started_receipt_hash": "1947bba0df3903ac07afbd79b0f15fb5eb69eca6f21f5b354051fd370cd442f7",
+      "status": "DEFERRED_BY_USER_STATE",
+      "user_confirmed": false,
+      "worker_exit_code": 0,
+      "worker_observation": {
+        "clicked_at": null,
+        "closed_at": null,
+        "ended_at": "2026-09-13T04:09:32.3297812Z",
+        "notification_id": "1b3f7079e072b12af2c4ef2c46c2cd3727e40d320be23184301154c40499ac98",
+        "request_file_sha256": "cfc3b28f4cc853df39011a500a93f45940c3875dd547216ef1416161e53e75fe",
+        "schema_version": "observation-windows-notification-v1",
+        "shown_at": null,
+        "status": "DEFERRED_BY_USER_STATE",
+        "submitted_at": null,
+        "user_state": 2
+      }
+    },
+    {
+      "attempt_id": "20260913T040131606858Z_62a52b0aeae44999a9532034e0b8c4b2",
+      "delivery_confirmed": false,
+      "ended_at": "2026-09-13T04:01:32.500485Z",
+      "execution_bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 394
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 394
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "e992bbbc12ed787ec38a50cfbb6450a1db191000396ba0df20e230141679a0b9"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 3,
+        "elapsed_monotonic_seconds": 0.8864088999980595,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 16384,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 25
+      },
+      "notification_id": "1c9fb0a7d2bc6b435c38137398f7e7f8af15de4d6cfda5914e195b866eb0821d",
+      "receipt_hash": "ca99e27a707c418ce307700a21ae3cfc709dda93b71bfbd61f04c7ef7886fd43",
+      "schema_version": "observation-notification-end-v1",
+      "started_receipt_hash": "f6ef4cd5ff27f9d5f78137895fddbaa0b46e37a0a6196f01fc1bfe2afac6904b",
+      "status": "DEFERRED_BY_USER_STATE",
+      "user_confirmed": false,
+      "worker_exit_code": 0,
+      "worker_observation": {
+        "clicked_at": null,
+        "closed_at": null,
+        "ended_at": "2026-09-13T04:01:32.4311332Z",
+        "notification_id": "1c9fb0a7d2bc6b435c38137398f7e7f8af15de4d6cfda5914e195b866eb0821d",
+        "request_file_sha256": "83a202a04bc1592956f11031750c475ef570936c6ba3ce951e8c9b21dfd99122",
+        "schema_version": "observation-windows-notification-v1",
+        "shown_at": null,
+        "status": "DEFERRED_BY_USER_STATE",
+        "submitted_at": null,
+        "user_state": 2
+      }
+    },
+    {
+      "attempt_id": "20260913T040731807674Z_d5ecc70844be48c8998c71ede5633299",
+      "delivery_confirmed": false,
+      "ended_at": "2026-09-13T04:07:33.022498Z",
+      "execution_bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 394
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 394
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "a06f07dd3d9780630f0a50a9f2b6b688f624694fc42b90a976ab1eb43f84de59"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 3,
+        "elapsed_monotonic_seconds": 1.2084311000071466,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 16384,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 25
+      },
+      "notification_id": "1c9fb0a7d2bc6b435c38137398f7e7f8af15de4d6cfda5914e195b866eb0821d",
+      "receipt_hash": "730b234ea41b826a47575e73fae216f35a8db1a476e473493eda9a9377aafe78",
+      "schema_version": "observation-notification-end-v1",
+      "started_receipt_hash": "b405d15c71967719269fd71082108f69356501dd4d4b28d75677a7ee5c4d47ad",
+      "status": "DEFERRED_BY_USER_STATE",
+      "user_confirmed": false,
+      "worker_exit_code": 0,
+      "worker_observation": {
+        "clicked_at": null,
+        "closed_at": null,
+        "ended_at": "2026-09-13T04:07:32.9239153Z",
+        "notification_id": "1c9fb0a7d2bc6b435c38137398f7e7f8af15de4d6cfda5914e195b866eb0821d",
+        "request_file_sha256": "83a202a04bc1592956f11031750c475ef570936c6ba3ce951e8c9b21dfd99122",
+        "schema_version": "observation-windows-notification-v1",
+        "shown_at": null,
+        "status": "DEFERRED_BY_USER_STATE",
+        "submitted_at": null,
+        "user_state": 2
+      }
+    }
+  ],
+  "native_notification_display_confirmed": false,
+  "next_natural_observation_after_repair_verified": false,
+  "old_heartbeat_status": "PAUSED",
+  "order_allowed": false,
+  "privacy": "Named projection of immutable local receipts; original paths, XML and raw stderr remain local. Failed attempts and missed deadline are preserved.",
+  "repair": {
+    "alias_resolves_to_frozen_runtime_verified": true,
+    "control_bundle_modified": false,
+    "helper_error_cause": "NOT_CAPTURED; no success receipt fabricated; later native probe and actual recovery establish resulting state.",
+    "helper_first_attempt": {
+      "ended_receipt_present": false,
+      "last_result": 1,
+      "last_run": "2026-09-13T12:06:06.0000000+08:00",
+      "script_sha256": "433866f971005ebf78e4c13bae86d811a32f5df86a5c94a9dd3a586400eed60a",
+      "state": "Ready",
+      "subsequent_read_only_probe_verified_alias": true,
+      "task_name": "HakimiObservationAliasRepair20260913"
+    },
+    "old_plan_files_modified": false,
+    "plan_file_sha256": {
+      "forward_plan_61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c.json": "c9d7e9bcab55a439758fd733dccce49fb0f976b14a1667b06b33887128a8d4ff",
+      "forward_plan_8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5.json": "f0d7e72a3b4c91e5fbadb4a7ca67025b724d03f39a63c4412a7915bc8258453a"
+    },
+    "scope": "CREATE_PREVIOUSLY_ABSENT_HOST_RUNTIME_JUNCTION_TO_EXISTING_PHYSICAL_DEPLOYMENT",
+    "source_files_modified": false
+  },
+  "scheduler_trigger_event_at": null,
+  "schema_version": "observation-first-cycle-recovery-public-projection-v1",
+  "source_commit": "bbf7cd2c452d6d059588459f84a2de5d818cf611",
+  "start_clock_evidence": "PROCESS_START_ONLY; Task Scheduler LastRunTime was observed separately; no independent trigger-event timestamp supplied.",
+  "status": "FIRST_PLANNED_RUN_FAILED_THEN_MANUAL_RECOVERY_LATE",
+  "task_scheduler_operational_log_enabled": false,
+  "tool_sha256": {
+    "observation_bundle.py": "128c06470592baafab6decea951e135f162a62ae241b70173bc925fd188bc79a",
+    "observation_job.py": "057021bd95512107c8d83998d798aa175cb3985bf266b9c61f9bccbcbbed329e",
+    "observation_notify.py": "b765fd586c333feb8006b8e8b2afdce2b0eafe3a4706bcfbf4d66d111b9b300c",
+    "observation_watch.py": "0dae1219a31fe591e054a481e484c980eecce402520e67a39e9997d283b60cc5",
+    "prepare_observation_task.ps1": "46ecec53c643a262e411366b8b46f1fb523585a7a94ea8b5d984437ec7f8316e",
+    "show_observation_notification.ps1": "bd46273d00178bf74874e1749398e754f67e32ca2b3fcaa382e84b23bf0b587d"
+  },
+  "watch_end": "2026-09-16T04:10:00Z",
+  "watch_transition_projections": [
+    {
+      "changes": [
+        {
+          "cutoff": "2026-09-13T04:00:00Z",
+          "kind": "PROBLEM",
+          "status": "FAILED"
+        }
+      ],
+      "checked_at": "2026-09-13T04:01:31.573371Z",
+      "current_counts": {
+        "FAILED": 1,
+        "PLANNED": 71
+      },
+      "deadline_counts": {
+        "PENDING": 72
+      },
+      "first_cutoff": {
+        "current_status": "FAILED",
+        "cutoff": "2026-09-13T04:00:00Z",
+        "deadline": "2026-09-13T04:05:00Z",
+        "deadline_status": "PENDING",
+        "end_receipts": 1,
+        "first_problem_observed_at": "2026-09-13T04:01:31.573371Z",
+        "latest_end_hash": "c536d37bcace2d9b607ccb37014205019e5534ca341b08b1975508f26bc5461b",
+        "original_gap_preserved": false,
+        "problem_open": true,
+        "start_receipts": 1,
+        "unfinished_receipts": 0,
+        "valid_result_receipts": 0
+      },
+      "receipt_hash": "08832ec553b95e3ef67b80467bfcb2a90b6f99dcac3434dead0296181e7b1e84"
+    },
+    {
+      "changes": [],
+      "checked_at": "2026-09-13T04:05:31.592076Z",
+      "current_counts": {
+        "FAILED": 1,
+        "PLANNED": 71
+      },
+      "deadline_counts": {
+        "FAILED": 1,
+        "PENDING": 71
+      },
+      "first_cutoff": {
+        "current_status": "FAILED",
+        "cutoff": "2026-09-13T04:00:00Z",
+        "deadline": "2026-09-13T04:05:00Z",
+        "deadline_status": "FAILED",
+        "end_receipts": 1,
+        "first_problem_observed_at": "2026-09-13T04:01:31.573371Z",
+        "latest_end_hash": "c536d37bcace2d9b607ccb37014205019e5534ca341b08b1975508f26bc5461b",
+        "original_gap_preserved": true,
+        "problem_open": true,
+        "start_receipts": 1,
+        "unfinished_receipts": 0,
+        "valid_result_receipts": 0
+      },
+      "receipt_hash": "1ff73645081e86b3c6ca403b829773cb85c093a2054f094456ef2a06f5f2f6d6"
+    },
+    {
+      "changes": [
+        {
+          "cutoff": "2026-09-13T04:00:00Z",
+          "kind": "RECOVERY",
+          "status": "LATE"
+        }
+      ],
+      "checked_at": "2026-09-13T04:09:31.626117Z",
+      "current_counts": {
+        "LATE": 1,
+        "PLANNED": 71
+      },
+      "deadline_counts": {
+        "FAILED": 1,
+        "PENDING": 71
+      },
+      "first_cutoff": {
+        "current_status": "LATE",
+        "cutoff": "2026-09-13T04:00:00Z",
+        "deadline": "2026-09-13T04:05:00Z",
+        "deadline_status": "FAILED",
+        "end_receipts": 2,
+        "first_problem_observed_at": "2026-09-13T04:01:31.573371Z",
+        "latest_end_hash": "61c81c8fb74fe21435a1d101f21ede25c9af4fe42771aadc7955f0a7dfa3a52b",
+        "original_gap_preserved": true,
+        "problem_open": false,
+        "start_receipts": 2,
+        "unfinished_receipts": 0,
+        "valid_result_receipts": 1
+      },
+      "receipt_hash": "2ca83f29a9286d91c681dbc4fc5c4863cfcb033d60fe3adfd8705570f5fcde89"
+    }
+  ],
+  "window_end": "2026-09-16T04:00:00Z",
+  "window_start": "2026-09-13T04:00:00Z"
+}

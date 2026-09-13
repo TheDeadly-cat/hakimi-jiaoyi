@@ -1,0 +1,100 @@
+{
+  "all_existing_event_files_unchanged": true,
+  "candidate_renderer_file_sha256": "bd46273d00178bf74874e1749398e754f67e32ca2b3fcaa382e84b23bf0b587d",
+  "candidate_sender_file_sha256": "06f1583237014fb80e4b1ea37e36a3d7792733102ad71df8e2cb09b68bcdad9a",
+  "delivery_attempt_count": 1,
+  "final_candidate_duplicate": {
+    "delivery_confirmed": true,
+    "notification_id": "7cc48ffe2355763dcfb76721135bec195f9d3ecd44ae03d35202bcbf979ebe18",
+    "previous_status": "OS_DISPLAY_REPORTED",
+    "status": "ALREADY_ATTEMPTED"
+  },
+  "identity_note": "Native display used the preserved first sender. Later sender adds causal-clock checks and sender hash recording; it deduplicates this original event without emitting or relabeling it.",
+  "independent_missed_launcher_monitor": "NOT_IMPLEMENTED_IN_THIS_INCREMENT",
+  "logs_sha256": {
+    "t5-notification-14-tests.log": "e46bc347927a776199563b1bcff597bd56b87b3536d023b553d2086507ad5ead",
+    "t5-notification-first-tests.log": "ec9b21aa52429d4416f57473c2371d03b0918dfcff5d23b2488aa90208a2c423",
+    "t5-notification-repository-148.log": "d0803eacde3d8b6473dacc97065d59c14939eb1b6aa20839ef8643eb86854046"
+  },
+  "native_delivery_receipt": {
+    "attempt_id": "20260912T201727921315Z_08ee5f3ae07249908cd318941d3be96f",
+    "delivery_confirmed": true,
+    "ended_at": "2026-09-12T20:17:35.119492Z",
+    "execution_bounds": {
+      "bytes_retained": {
+        "stderr": 0,
+        "stdout": 469
+      },
+      "bytes_seen": {
+        "stderr": 0,
+        "stdout": 469
+      },
+      "captured_sha256": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "c48bedf50afb0fcbb8b01af169d62c8e5faf71ba538fe9bfab0684298a2a5341"
+      },
+      "cleanup_confirmed": true,
+      "cleanup_seconds": 3,
+      "elapsed_monotonic_seconds": 7.185761799977627,
+      "normal_exit_settle_max_seconds": 0.25,
+      "outcome": "EXITED",
+      "output_limit_bytes_combined": 16384,
+      "output_truncated": false,
+      "owned_process_handles_waited": 0,
+      "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+      "timeout_seconds": 25
+    },
+    "notification_id": "7cc48ffe2355763dcfb76721135bec195f9d3ecd44ae03d35202bcbf979ebe18",
+    "receipt_hash": "3d9af09e5e909dc7a1559da01d79aad0c195e0e07116e8c41783f0de07b40367",
+    "schema_version": "observation-notification-end-v1",
+    "started_receipt_hash": "ec04f2726257220c59f31a64aaf1b96f33729cc42f6474326f45eba6a59f1aed",
+    "status": "OS_DISPLAY_REPORTED",
+    "user_confirmed": false,
+    "worker_exit_code": 0,
+    "worker_observation": {
+      "clicked_at": null,
+      "closed_at": "2026-09-12T20:17:35.0383412Z",
+      "ended_at": "2026-09-12T20:17:35.0599818Z",
+      "notification_id": "7cc48ffe2355763dcfb76721135bec195f9d3ecd44ae03d35202bcbf979ebe18",
+      "request_file_sha256": "c81f316e14e1ef69a2388bf5a1c909e71a2e0f47bac9bc19312a25cd86184d20",
+      "schema_version": "observation-windows-notification-v1",
+      "shown_at": "2026-09-12T20:17:28.5965564Z",
+      "status": "OS_DISPLAY_REPORTED",
+      "submitted_at": "2026-09-12T20:17:28.5745737Z",
+      "user_state": 5
+    }
+  },
+  "native_record_file_sha256": "c7816acf122317f88d3a4ac1ff2e7eceab3b06f093bcfe24628be296b8c08c2e",
+  "native_renderer_file_sha256": "bd46273d00178bf74874e1749398e754f67e32ca2b3fcaa382e84b23bf0b587d",
+  "native_sender_file_sha256": "4f863283ad9145e232ed780334ae0611b0624b8026d7a8860efd532f331ec37b",
+  "new_72h_window": "NOT_STARTED",
+  "new_os_tasks_registered": false,
+  "notification_payload": {
+    "body": "\u9694\u79bb\u6f14\u7ec3\uff0c09-12 20:00 UTC\uff1a\u89c2\u5bdf\u5df2\u4ece\u5148\u524d\u5931\u8d25\u4e2d\u6062\u590d\uff0c\u7ed3\u679c\u9a8c\u8bc1\u901a\u8fc7\u3002 \u7f16\u53f7 7cc48ffe",
+    "drill": true,
+    "icon": "Info",
+    "input_cutoff": "2026-09-12T20:00:00Z",
+    "notification_id": "7cc48ffe2355763dcfb76721135bec195f9d3ecd44ae03d35202bcbf979ebe18",
+    "order_allowed": false,
+    "schema_version": "observation-notification-payload-v1",
+    "source_launcher_sha256": "9ed6bbeba4b9b81c55edb6e3ff6e03aa4d95cdd9a34ac6cc934ca5213e1ed006",
+    "source_receipt_hash": "ab154bef06fa675974a8d5cbd0032f8939c5f67276ab4038c87d35e7dd41fc1b",
+    "source_started_hash": "8545cb25522670d758396a8e1b183b0899d312331dcda0bdf0a869f732d5b225",
+    "title": "\u6f14\u7ec3\uff1a\u54c8\u57fa\u7c73\u7814\u7a76\u89c2\u5bdf"
+  },
+  "old_heartbeat_changed": false,
+  "order_allowed": false,
+  "recorded_at": "2026-09-12T20:26:30.817131Z",
+  "schema_version": "observation-notification-drill-projection-v1",
+  "scope": "ONE_MANUAL_NATIVE_WINDOWS_DRILL_NOT_SCHEDULER_ACTIVATION",
+  "status": "OS_DISPLAY_REPORTED_USER_CONFIRMATION_PENDING",
+  "tests": {
+    "errors": 0,
+    "failures": 0,
+    "repository_run": 148,
+    "skipped": 0,
+    "targeted_included_in_repository": true,
+    "targeted_run": 14
+  },
+  "user_seen_confirmation": "PENDING_ASYNC_REPLY_NO_INFERENCE_FROM_DISMISSAL"
+}

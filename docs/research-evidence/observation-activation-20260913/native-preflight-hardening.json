@@ -1,0 +1,88 @@
+{
+  "active_runtime_tool_bytes_changed": false,
+  "active_window_restarted": false,
+  "counts_overlap": true,
+  "first_repository_error": "Nine test-module imports failed when the workflow PYTHONPATH was omitted; source and dependency availability were then checked before the corrected run.",
+  "native_read_only_preflight": {
+    "active_bundle_hash": "27cfe11a7a0c7246814e7f6966f5bed7a41b65f11a64e8ddf8a688847fdc3732",
+    "active_bundle_modified": false,
+    "candidate_runner_sha256": "8dd593e0f09e1eb8b2a27ffced553368fe01e50777f8721907edd9c7cb87afe3",
+    "invocation": "ONE_SHOT_NATIVE_TASK_SCHEDULER_READ_ONLY_PREFLIGHT",
+    "market_collector_invoked": false,
+    "order_allowed": false,
+    "preflight": {
+      "checked_at": "2026-09-13T04:18:24.682540Z",
+      "deployment_plan_references": [
+        {
+          "file_sha256": "c9d7e9bcab55a439758fd733dccce49fb0f976b14a1667b06b33887128a8d4ff",
+          "plan_hash": "61aa420de8ad2ae886c31d3ee323393e6a21205fbb222841325d30614e2d6b0c"
+        },
+        {
+          "file_sha256": "f0d7e72a3b4c91e5fbadb4a7ca67025b724d03f39a63c4412a7915bc8258453a",
+          "plan_hash": "8b371b08d8967198dc9d0f0956e7e0da8c5cc639c7d97a27818522b7a09815d5"
+        }
+      ],
+      "execution_bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 569
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 569
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "62b1903eed59ea591d72e01f2cf5246900372a8e4be863be6558d6c3eb9d46c9"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 5,
+        "elapsed_monotonic_seconds": 0.7902480999764521,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 16384,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 30
+      },
+      "verification": {
+        "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+        "environment_status": "VERIFIED",
+        "runtime_tools_verified": {
+          "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e",
+          "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+          "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b"
+        },
+        "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+        "source_status": "BUILD_VERIFIED"
+      }
+    },
+    "schema_version": "native-candidate-preflight-evidence-v1"
+  },
+  "privacy": "Raw local paths and process diagnostics remain local; this is a named public projection.",
+  "repository_validation_scope": "SOURCE_TESTS_WITH_WORKFLOW_PYTHONPATH_NOT_INSTALLED_PACKAGE_SMOKE",
+  "schema_version": "native-plan-preflight-hardening-evidence-v1",
+  "tests": {
+    "first_regression": {
+      "log_sha256": "771c8088882340badc8153019de9ff93ee3784cf6086df54da7b34df274ab7a0",
+      "result": "FAILED (failures=1)",
+      "run_tests": 11
+    },
+    "first_repository_environment": {
+      "log_sha256": "a5e8be0c19dbcb81115854eb9bc15c8068f8f8a84f8fb70c2bcb6bf43defe65e",
+      "result": "FAILED (errors=9)",
+      "run_tests": 131
+    },
+    "focused": {
+      "log_sha256": "fa7c9bf1b54fa4b0e9b0971b0b98c036a3cc25195efc9b7bce61211e1bc37a18",
+      "result": "OK",
+      "run_tests": 14
+    },
+    "repository_ci_environment": {
+      "log_sha256": "e1b25b375e43b9057c469176c452b375b3b1e3f00fe51998c5a58c061244e893",
+      "result": "OK",
+      "run_tests": 179
+    }
+  }
+}

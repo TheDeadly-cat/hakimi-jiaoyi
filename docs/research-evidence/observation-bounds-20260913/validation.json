@@ -1,0 +1,66 @@
+{
+  "schema_version": "observation-bounds-local-validation-v1",
+  "recorded_at": "2026-09-12T18:21:55.680089Z",
+  "base_main_commit": "617c06b0001c60265bb3f68431f7dc0e150d51c7",
+  "status": "LOCAL_CANDIDATE_CHECKS_PASS_NOT_DEPLOYMENT_ACCEPTANCE",
+  "local_file_sha256": {
+    "tools/observation_job.py": "f060f01988e706c793ad8f48142a0ac541e1795909e83e47857358ae47d52d24",
+    "tools/prepare_observation_task.ps1": "72492534673d1f2bce1f1c789cd77ff43925ba35957c72e2616df1610a87fde7",
+    "tests/repository_only/test_observation_job.py": "d5f2d89425bbe3eb585b6b5ebdc3594fea4b99a7ae71ea037ac0c8a30bb82640"
+  },
+  "tests": {
+    "targeted": {
+      "tests_run": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "repository": {
+      "tests_run": 132,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "overlap": "24 targeted tests are included in 132 repository tests"
+  },
+  "logs_sha256": {
+    "targeted": "ee3abfa16afe649c3a5bb3dee376ac2b041e416f00eb4d79bdcd5213b5bf26e1",
+    "repository": "bd19eed3b03a0d384320ddd689132dd097be4a5b0b05bb380e7cc2c0a20ddaa6"
+  },
+  "prior_failures": [
+    {
+      "tests_run": 22,
+      "errors": 1,
+      "reason": "temporary directory remained occupied after output-limit termination",
+      "evidence": "initial tool transcript"
+    },
+    {
+      "tests_run": 22,
+      "errors": 1,
+      "reason": "windowless child flag alone did not repair termination waiting",
+      "log_sha256": "83897d49d1081af5e2c94e500fc1403a442bab314a336ea24ff9b9db70a96879"
+    }
+  ],
+  "task_preview": {
+    "status": "NOT_ACTIVATED",
+    "multiple_instances": "IgnoreNew",
+    "execution_time_limit": "PT10M; launcher-owned child deadline PT5M plus bounded cleanup",
+    "child_execution_timeout_seconds": 300,
+    "child_cleanup_timeout_seconds": 5,
+    "child_combined_output_limit_bytes": 4194304,
+    "notification_delivery": "NOT_SENT_BY_THIS_TOOL"
+  },
+  "settings_object_observed": {
+    "ExecutionTimeLimit": "PT10M",
+    "MultipleInstances": 2,
+    "WakeToRun": true,
+    "StartWhenAvailable": true,
+    "registered": false
+  },
+  "full_frozen_observer_fault_drill": "NOT_RUN",
+  "notification_actual_delivery": "NOT_RUN",
+  "new_scheduler_activated": false,
+  "new_72h_window": "NOT_STARTED",
+  "old_deployment_changed": false,
+  "source_hash_note": "These are actual local file bytes; a future checkout/CI/deployment keeps its own identity rather than relabeling this receipt."
+}
