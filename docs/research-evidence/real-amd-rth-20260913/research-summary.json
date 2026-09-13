@@ -1,0 +1,410 @@
+{
+  "schema_version": "real-amd-private-research-public-projection-v1",
+  "completed_at": "2026-09-13T08:19:53.647307Z",
+  "snapshot_id": "38ce95abc3d7c1a5ac47be67f13b01881281cbbe0d30a06037dad452e09baffb",
+  "snapshot_file_sha256": "ce588cd6b13b927c9eebfe5e129e553b9659f79f37a28c6539cb7a1497f0e42f",
+  "data_hash": "dc4f8b9b57d9e668bc933716e21537a20960e23a77d1a1bc59aeadac0ff8c46a",
+  "source_admission": {
+    "schema_version": "amd-bounded-source-admission-v1",
+    "reviewed_at": "2026-09-13T08:18:45.533514Z",
+    "reviewer_kind": "CODEX_SOURCE_REVIEW_NOT_HUMAN_FIELD_GOLD",
+    "security_id": "US:COMMON:CUSIP:007903107",
+    "window": [
+      "2024-10-01",
+      "2024-11-20"
+    ],
+    "admitted_scope": "PRIVATE_DESCRIPTIVE_ENGINEERING_STABLE_IDENTITY_NO_HOLDER_CASH_OR_SHARE_ACTIONS",
+    "market_data_use": {
+      "basis": "User identified their Futu account and explicitly authorized read-only access to their running OpenD; authenticated historical requests returned RET_OK.",
+      "scope": "PRIVATE_LOCAL_RESEARCH_ONLY",
+      "redistribution_allowed": false,
+      "legal_entitlement_certification": false
+    },
+    "corporate_action_review": {
+      "coverage_status": "DECLARED_COMPLETE",
+      "actions": [],
+      "basis": [
+        "Actual Futu get_rehab returned only a 2000 split, none in the fixed 2024 window.",
+        "AMD official split history ends with the August 2000 split; provider ex-date differs from issuer payment date, both outside this window.",
+        "2024 audited equity statement reconciles retained earnings solely by net income; no shareholder distribution line. Note 12 reconciles shares by employee issuance and repurchases, without split or holder conversion in 2024.",
+        "2024 annual report cover, contemporaneous October 29 8-K, issuer CUSIP FAQ and Futu instrument ID establish the same AMD Nasdaq common stock. Buybacks/employee issuance change outstanding issuer shares, not the units held by this research account."
+      ],
+      "limitations": [
+        "This is a bounded source-backed declaration, not authenticated completeness or human financial-field approval.",
+        "Intraday halts, auction participation and executable opening liquidity are not certified. RTH daily research has no such execution guarantee.",
+        "Retrospective annual report and current issuer history are used only for dataset admission, never as then-known strategy inputs."
+      ]
+    },
+    "normalization": {
+      "source": "Futu raw-unadjusted K_60M, explicitly Session.RTH",
+      "source_rows": 259,
+      "sessions": 37,
+      "method": "Seven provider bar-end records per session (10:30 through 16:00); first open, max high, min low, last close, sum actual share volume. No interpolation or synthetic bars.",
+      "original_k_day_ohlc_equal_sessions": 37,
+      "original_k_day_volume_differs_sessions": 37,
+      "original_k_day_volume_difference_cause": "UNDETERMINED; do not assume extended hours or repair vendor values",
+      "unmodified_daily_source_retained": true,
+      "unmodified_intraday_source_retained": true,
+      "share_unit_basis": "Futu ticker documentation identifies shares; US.AMD lot_size=1; actual volumes integral and daily turnover/volume falls inside daily OHLC range.",
+      "daily_session_basis": "Actual RTH intraday aggregation confirms daily OHLC on all 37 dates; session parameter alone is not used as daily proof.",
+      "raw_unadjusted": true,
+      "source_input_sha256": {
+        "daily_csv": "2bb58541fea5f8b4c93618b6fff9a17953d69dbd83eaa51de10128243f35c578",
+        "rth_60min_csv": "d0cbe67f7437373a97015060fc2ec7df80d685f6cda5f9d27dc64c50117c17bb"
+      },
+      "normalized_csv_sha256": "4b0e33d569697a4694cf8815f1c5c585fde0f40baa1f127481d7d1e85165dd91"
+    },
+    "calendar": {
+      "source_sha256": "5a417265c706abe1e2eaa24e0c1fde1787e79fdd472eca105466a019f8ff1101",
+      "dates": 51,
+      "open_sessions": 37,
+      "provider_dates_match": true,
+      "DST": "America/New_York, 13:30/20:00 UTC before Nov 3; 14:30/21:00 after",
+      "independent_of_price_dates": true
+    },
+    "availability": "Actual retrieval in 2026; historical close+60 seconds is a frozen assumption, not historical receipt telemetry.",
+    "source_index": [
+      {
+        "name": "amd-2024-10k.html",
+        "url": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-25-000012/amd-20241228.htm",
+        "final_url": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-25-000012/amd-20241228.htm",
+        "status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 2111977,
+        "sha256": "a98b6040cc93ae23adba5a510e9f746608a385a1b3f3967518c7dd5fd34c55e6",
+        "started_at": "2026-09-13T08:15:52.585094Z",
+        "retrieved_at": "2026-09-13T08:15:54.003935Z"
+      },
+      {
+        "name": "amd-split-history.html",
+        "url": "https://ir.amd.com/stock-data/stock-split-history",
+        "final_url": "https://ir.amd.com/stock-data/stock-split-history",
+        "status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 29519,
+        "sha256": "61a9237e405a74c55f550cca010dc87ced4d39c30dd87662c317c8c4fe689d1f",
+        "started_at": "2026-09-13T08:15:54.004277Z",
+        "retrieved_at": "2026-09-13T08:15:54.371321Z"
+      },
+      {
+        "name": "futu-history-doc.html",
+        "url": "https://openapi.futunn.com/futu-api-doc/en/quote/request-history-kline.html",
+        "final_url": "https://openapi.futunn.com/futu-api-doc/en/quote/request-history-kline.html",
+        "status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 347478,
+        "sha256": "34b6be2afe7d6c1562a9a163f492b5a6cd9beb680374ea7beca7699c474af903",
+        "started_at": "2026-09-13T08:15:54.371628Z",
+        "retrieved_at": "2026-09-13T08:15:54.952933Z"
+      },
+      {
+        "name": "futu-rehab-doc.html",
+        "url": "https://openapi.futunn.com/futu-api-doc/en/quote/get-rehab.html",
+        "final_url": "https://openapi.futunn.com/futu-api-doc/en/quote/get-rehab.html",
+        "status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 251407,
+        "sha256": "d7b8419895295b4f1033b2c61708bc26671591e7ff03f539e7fc9e9a63f02b85",
+        "started_at": "2026-09-13T08:15:54.953211Z",
+        "retrieved_at": "2026-09-13T08:15:55.338834Z"
+      },
+      {
+        "name": "futu-ticker-units-doc.html",
+        "url": "https://openapi.futunn.com/futu-api-doc/en/quote/get-ticker.html",
+        "final_url": "https://openapi.futunn.com/futu-api-doc/en/quote/get-ticker.html",
+        "status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 301641,
+        "sha256": "9b181dac4e12be2cfde36dc4a7631695525411450c09b0b02cf11323a7e55778",
+        "started_at": "2026-09-13T08:15:55.339117Z",
+        "retrieved_at": "2026-09-13T08:15:55.945720Z"
+      }
+    ],
+    "orders_sent": 0
+  },
+  "source_admission_file_sha256": "8527fd744c6ceb92b0ef4cd0fb24028a6eb21ba04d609a5cbcb73eff474e4231",
+  "snapshot_research_admission": {
+    "allowed": true,
+    "block_reasons": [],
+    "scope": "ACTION_FREE_FIXED_WINDOW_ONLY",
+    "source_truth_verified": false,
+    "synthetic_only": false
+  },
+  "frozen_plan_sha256": "acfa8453434f67d17deb193ba5795adb9f120d5cc443f6a62ef33feca2e582a2",
+  "baseline_resolution": {
+    "resolved_at": "2026-09-13T08:18:45.688513Z",
+    "frozen_selection_sha256": "ad5aef7fa7d76d83329479a4eb5edb650a16f95de1539e4c2e220f32d3c17062",
+    "rationale": "Frozen buy-and-hold definition supplies 25% allocation and costs. Existing baseline requires one context session; use earliest admissible scoring date Oct 2. Other fields follow the existing engineering baseline example, with no protective trading under its single-entry policy.",
+    "score_start_session": "2024-10-02",
+    "score_end_session": "2024-11-20",
+    "initial_cash": 10000,
+    "parameter_search": false
+  },
+  "specs": {
+    "baseline": {
+      "schema_version": "us-equity-experiment-spec-v1",
+      "name": "Frozen AMD engineering buy-and-hold baseline",
+      "snapshot_id": "38ce95abc3d7c1a5ac47be67f13b01881281cbbe0d30a06037dad452e09baffb",
+      "score_start_session": "2024-10-02",
+      "score_end_session": "2024-11-20",
+      "strategy": {
+        "name": "buy_and_hold",
+        "params": {
+          "target_position_pct": 0.25
+        }
+      },
+      "initial_cash": 10000,
+      "fee_rate": 0.0008,
+      "slippage_pct": 0.0005,
+      "risk": {
+        "max_position_pct": 1.0,
+        "max_single_loss_pct": 0.03,
+        "max_daily_loss_pct": 1.0,
+        "min_cash_pct": 0.0,
+        "max_leverage": 1.0
+      },
+      "end_policy": "MARK_TO_MARKET",
+      "purpose": "DESCRIPTIVE_DEVELOPMENT",
+      "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+      "execution_policy": "BUY_AND_HOLD_SINGLE_ENTRY_MARK_TO_MARKET"
+    },
+    "ab_base": {
+      "schema_version": "us-equity-experiment-spec-v1",
+      "name": "Frozen AMD 5/10 schedule entry filter A/B",
+      "snapshot_id": "38ce95abc3d7c1a5ac47be67f13b01881281cbbe0d30a06037dad452e09baffb",
+      "score_start_session": "2024-10-17",
+      "score_end_session": "2024-11-20",
+      "strategy": {
+        "name": "dual_ma",
+        "params": {
+          "fast_window": 5,
+          "slow_window": 10,
+          "position_pct": 0.25,
+          "stop_loss_pct": 0.03,
+          "take_profit_pct": 0.06
+        }
+      },
+      "initial_cash": 10000,
+      "fee_rate": 0.0008,
+      "slippage_pct": 0.0005,
+      "risk": {
+        "max_position_pct": 0.25,
+        "max_single_loss_pct": 0.03,
+        "max_daily_loss_pct": 1.0,
+        "min_cash_pct": 0.0,
+        "max_leverage": 1.0
+      },
+      "end_policy": "MARK_TO_MARKET",
+      "purpose": "DESCRIPTIVE_DEVELOPMENT",
+      "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+      "execution_policy": "STANDARD_STRATEGY_RISK"
+    }
+  },
+  "results": {
+    "baseline": {
+      "report_hash": "6cfa256c34642cd0b69273fc5581e406d49a2ec4deac22699619401f82860ece",
+      "result_hash": "c35517221f30753e2b238cb2b726d8015f19deac125b20cafd6253431e097345",
+      "report_file_sha256": "986a0d874d4ea17c92979e0804e7c0fe45117764ef1ffb0b2593515e0a1a6ffd",
+      "metrics": {
+        "total_return": -0.03439389668570714,
+        "max_drawdown": 0.05826082969161506,
+        "fill_count": 1,
+        "round_trip_count": 0,
+        "total_fees": 2.001,
+        "exposure_ratio": 0.24245227874746686
+      },
+      "independent_ledger": {
+        "status": "PASS",
+        "checks": 247,
+        "failures": [],
+        "receipt_sha256": "8a040276c07d4ca000e85d691d1ccf6c7273e950bba917b0d5c2f2857c5743f6"
+      },
+      "same_version_replay": {
+        "replay_verified": true,
+        "environment_verified": true,
+        "receipt_hash": "159aa593422e002c5868892933d9c51dcc8fd1ca41429f9f0e67148598a7d982",
+        "original_result_hash": "c35517221f30753e2b238cb2b726d8015f19deac125b20cafd6253431e097345",
+        "replayed_result_hash": "c35517221f30753e2b238cb2b726d8015f19deac125b20cafd6253431e097345"
+      }
+    },
+    "A": {
+      "report_hash": "f7a8b60bb367cc7366cf71ed93b43b274997e910f6878b75ddc4a791549aa146",
+      "result_hash": "b3ecec35054e7d7bd1bcb22fbecf68b256db3997d373b25d81d58d1c9c81adcb",
+      "report_file_sha256": "3aa18366e801713bee1d53032e905b43b9bf2a8aad45e320171c922757659c40",
+      "metrics": {
+        "total_return": -0.015974014216648125,
+        "max_drawdown": 0.015974014216648125,
+        "fill_count": 4,
+        "round_trip_count": 2,
+        "total_fees": 7.8503955220573065,
+        "exposure_ratio": 0.00981514300486918
+      },
+      "independent_ledger": {
+        "status": "PASS",
+        "checks": 208,
+        "failures": [],
+        "receipt_sha256": "9b8966b55df1ef794da48d6364e59dd7b3e479b1ac03b349dd205fb5d193a437"
+      },
+      "same_version_replay": {
+        "replay_verified": true,
+        "environment_verified": true,
+        "receipt_hash": "16570184ddb4fefb4047588647a66073f011f2de2476980c2681370bf22e52e2",
+        "original_result_hash": "b3ecec35054e7d7bd1bcb22fbecf68b256db3997d373b25d81d58d1c9c81adcb",
+        "replayed_result_hash": "b3ecec35054e7d7bd1bcb22fbecf68b256db3997d373b25d81d58d1c9c81adcb"
+      }
+    },
+    "B": {
+      "report_hash": "84bffd5c9dc60100f14989d5f8dbdc79e6ccd5b59523a0415699ecdad61db476",
+      "result_hash": "e48e4a5726780ecb817b0632cb0aa38bbc7190b8842a871e6bb411ad74f9d9b6",
+      "report_file_sha256": "584d60cbc9612759b8ea96a3b020f79b6de01201340ee9050800c072a3622fb9",
+      "metrics": {
+        "total_return": -0.015974014216648125,
+        "max_drawdown": 0.015974014216648125,
+        "fill_count": 4,
+        "round_trip_count": 2,
+        "total_fees": 7.8503955220573065,
+        "exposure_ratio": 0.00981514300486918
+      },
+      "independent_ledger": {
+        "status": "PASS",
+        "checks": 208,
+        "failures": [],
+        "receipt_sha256": "899e312ac72b742d88614d01036be1fadf4d4eae04c145f7cdf020fafd10d836"
+      },
+      "same_version_replay": {
+        "replay_verified": true,
+        "environment_verified": true,
+        "receipt_hash": "b70b99903130f32a0b539e5361e94a861194479ab1800bdca690b5aa2bf7da71",
+        "original_result_hash": "e48e4a5726780ecb817b0632cb0aa38bbc7190b8842a871e6bb411ad74f9d9b6",
+        "replayed_result_hash": "e48e4a5726780ecb817b0632cb0aa38bbc7190b8842a871e6bb411ad74f9d9b6"
+      }
+    }
+  },
+  "comparison": {
+    "A": {
+      "metrics": {
+        "blocked_new_buy_intents": 0,
+        "buy_fill_count": 2,
+        "exposure_ratio": 0.00981514300486918,
+        "fill_count": 4,
+        "max_drawdown": 0.015974014216648125,
+        "outcome": "LOSS",
+        "round_trip_count": 2,
+        "scheduled_price_decisions": 25,
+        "total_fees": 7.8503955220573065,
+        "total_return": -0.015974014216648125,
+        "turnover_over_initial_cash": 0.9812994402571634
+      },
+      "report_hash": "f7a8b60bb367cc7366cf71ed93b43b274997e910f6878b75ddc4a791549aa146",
+      "result_hash": "b3ecec35054e7d7bd1bcb22fbecf68b256db3997d373b25d81d58d1c9c81adcb",
+      "rule": "DISABLED"
+    },
+    "B": {
+      "metrics": {
+        "blocked_new_buy_intents": 0,
+        "buy_fill_count": 2,
+        "exposure_ratio": 0.00981514300486918,
+        "fill_count": 4,
+        "max_drawdown": 0.015974014216648125,
+        "outcome": "LOSS",
+        "round_trip_count": 2,
+        "scheduled_price_decisions": 25,
+        "total_fees": 7.8503955220573065,
+        "total_return": -0.015974014216648125,
+        "turnover_over_initial_cash": 0.9812994402571634
+      },
+      "report_hash": "84bffd5c9dc60100f14989d5f8dbdc79e6ccd5b59523a0415699ecdad61db476",
+      "result_hash": "e48e4a5726780ecb817b0632cb0aa38bbc7190b8842a871e6bb411ad74f9d9b6",
+      "rule": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1"
+    },
+    "B_minus_A": {
+      "buy_fill_count": 0,
+      "exposure_ratio": 0.0,
+      "max_drawdown": 0.0,
+      "total_fees": 0.0,
+      "total_return": 0.0,
+      "turnover_over_initial_cash": 0.0
+    },
+    "common_parameters": {
+      "end_policy": "MARK_TO_MARKET",
+      "event_context_hash": "42d14bbbafba25dcd14b95716955aace4e05989eacb70873f1f30a676850c5c8",
+      "execution_policy": "STANDARD_STRATEGY_RISK",
+      "fee_rate": 0.0008,
+      "initial_cash": 10000,
+      "name": "Frozen AMD 5/10 schedule entry filter A/B",
+      "purpose": "DESCRIPTIVE_DEVELOPMENT",
+      "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+      "risk": {
+        "max_daily_loss_pct": 1.0,
+        "max_leverage": 1.0,
+        "max_position_pct": 0.25,
+        "max_single_loss_pct": 0.03,
+        "min_cash_pct": 0.0
+      },
+      "schema_version": "us-equity-experiment-spec-v2",
+      "score_end_session": "2024-11-20",
+      "score_start_session": "2024-10-17",
+      "slippage_pct": 0.0005,
+      "snapshot_id": "38ce95abc3d7c1a5ac47be67f13b01881281cbbe0d30a06037dad452e09baffb",
+      "strategy": {
+        "name": "dual_ma",
+        "params": {
+          "fast_window": 5,
+          "position_pct": 0.25,
+          "slow_window": 10,
+          "stop_loss_pct": 0.03,
+          "take_profit_pct": 0.06
+        }
+      }
+    },
+    "comparison_hash": "60a750179c70fce27c7b356f5825f142c0555b7720f12ff8065153a4ae9d172b",
+    "event_context_hash": "42d14bbbafba25dcd14b95716955aace4e05989eacb70873f1f30a676850c5c8",
+    "execution_permission": {
+      "live_allowed": false,
+      "order_allowed": false,
+      "paper_allowed": false,
+      "research_only": true
+    },
+    "limitations": [
+      "One company's correlated dates and revisions are not independent market samples.",
+      "Fewer entries and lower exposure may forgo gains; count and return differences do not identify causal lost profit.",
+      "C/D content conditions are not run; no numeric field or missing consensus creates a directional entry."
+    ],
+    "retention": "KEEP_BOTH_REPORTS_ALL_DECISIONS_BLOCKS_NEGATIVE_AND_NO_TRADE_OUTCOMES",
+    "sample_units": {
+      "announced_event_count_in_scoring_window": 1,
+      "archived_event_identities": [
+        "AMD:2024Q3:EARNINGS_SCHEDULE"
+      ],
+      "company_count": 1,
+      "scored_sessions_are_not_independent_event_samples": true
+    },
+    "schema_version": "equity-schedule-comparison-v1",
+    "scope": "DESCRIPTIVE_ENGINEERING_AB_NOT_STRATEGY_CONFIRMATION",
+    "snapshot_id": "38ce95abc3d7c1a5ac47be67f13b01881281cbbe0d30a06037dad452e09baffb"
+  },
+  "disabled_equivalence": {
+    "status": "PASS",
+    "entire_price_result_byte_equal": true,
+    "snapshot_id": "38ce95abc3d7c1a5ac47be67f13b01881281cbbe0d30a06037dad452e09baffb",
+    "disabled_A_report_hash": "f7a8b60bb367cc7366cf71ed93b43b274997e910f6878b75ddc4a791549aa146",
+    "price_result_sha256": "82fb39d690560a872d32091b2b38b9775d5c1441750d0249bcb589ac60e6893f",
+    "network_denied": true
+  },
+  "installation": {
+    "checkout_commit": "8333a6841415f1eaa18074ae48d9d620395b4e79",
+    "wheel_sha256": "d89f08bf314490422f74efb7004e57b419047b2228786347e0d23118f555c1ee",
+    "root_tests_passed": 183,
+    "repository_only_tests_passed": 205,
+    "full_independent_ci": "NOT_CLAIMED_BY_LOCAL_TESTS",
+    "outside_checkout": true,
+    "editable": false,
+    "pythonpath_used": false,
+    "wheel_receipt_file_sha256": "dc53b9ee3e961013626e6c52bf52be629000487f826f1e5daf9d7db6765097d6"
+  },
+  "independent_ledger_script_sha256": "9367ba41ec3d3f4e8009e3bc0d5fb6e41211371fa3586b854ae4c1e606254817",
+  "publication": "ALLOWLIST_SCALARS_SPECS_IDENTITIES_ONLY; original sources, daily/intraday series, fills, full signals/equity curves and account identifiers remain local",
+  "C_D": "NOT_RUN_PENDING_HUMAN_FINANCIAL_FIELD_APPROVAL",
+  "order_allowed": false,
+  "conclusion": "Actual input and research/replay pipeline passed in a bounded declared-action-free development sample. A and B both lost money, no BUY was blocked, and no economic effect of this rule was identified."
+}

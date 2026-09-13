@@ -1,0 +1,163 @@
+{
+  "schema_version": "active-observation-progress-v1",
+  "checked_at": "2026-09-13T08:23:31.466333Z",
+  "active_bundle_source_commit": "bbf7cd2c452d6d059588459f84a2de5d818cf611",
+  "candidate_bundle_source_commit": "d4afccaf222601820d6f3c73b201722ff4fa7644",
+  "active_bundle_replaced": false,
+  "window_start": "2026-09-13T04:00:00Z",
+  "window_end": "2026-09-16T04:00:00Z",
+  "watch_end": "2026-09-16T04:10:00Z",
+  "window_elapsed": false,
+  "current_counts": {
+    "LATE": 1,
+    "ON_TIME": 4,
+    "PLANNED": 67
+  },
+  "deadline_counts": {
+    "FAILED": 1,
+    "ON_TIME": 4,
+    "PENDING": 67
+  },
+  "watcher_receipt_hash": "54ee9bab6a224abc166185b35e4b268aff4f0139eabae926b24629a831517a30",
+  "watcher_file_sha256": "52f78c6d699bd958e743e838ce760db5b94bdda78694a6cbc8fd446417a0eba6",
+  "observed_rows": [
+    {
+      "current_status": "LATE",
+      "cutoff": "2026-09-13T04:00:00Z",
+      "deadline": "2026-09-13T04:05:00Z",
+      "deadline_status": "FAILED",
+      "end_receipts": 2,
+      "first_problem_observed_at": "2026-09-13T04:01:31.573371Z",
+      "latest_end_hash": "61c81c8fb74fe21435a1d101f21ede25c9af4fe42771aadc7955f0a7dfa3a52b",
+      "original_gap_preserved": true,
+      "problem_open": false,
+      "start_receipts": 2,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1
+    },
+    {
+      "current_status": "ON_TIME",
+      "cutoff": "2026-09-13T05:00:00Z",
+      "deadline": "2026-09-13T05:05:00Z",
+      "deadline_status": "ON_TIME",
+      "end_receipts": 1,
+      "first_problem_observed_at": null,
+      "latest_end_hash": "baef6029cbc614eb5a77848d2ee2f03e644f77f4635dfc0c87f5985cc768d947",
+      "original_gap_preserved": false,
+      "problem_open": false,
+      "start_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1
+    },
+    {
+      "current_status": "ON_TIME",
+      "cutoff": "2026-09-13T06:00:00Z",
+      "deadline": "2026-09-13T06:05:00Z",
+      "deadline_status": "ON_TIME",
+      "end_receipts": 1,
+      "first_problem_observed_at": null,
+      "latest_end_hash": "a43c3018b43a5a35affb41f5e3a6128c912405006055c8f1f0e9d6022ee70b00",
+      "original_gap_preserved": false,
+      "problem_open": false,
+      "start_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1
+    },
+    {
+      "current_status": "ON_TIME",
+      "cutoff": "2026-09-13T07:00:00Z",
+      "deadline": "2026-09-13T07:05:00Z",
+      "deadline_status": "ON_TIME",
+      "end_receipts": 1,
+      "first_problem_observed_at": null,
+      "latest_end_hash": "ef042d1b6965c7ec506a7b9834be46c5a1b05c88d0faa56100236b0a00fbb8e0",
+      "original_gap_preserved": false,
+      "problem_open": false,
+      "start_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1
+    },
+    {
+      "current_status": "ON_TIME",
+      "cutoff": "2026-09-13T08:00:00Z",
+      "deadline": "2026-09-13T08:05:00Z",
+      "deadline_status": "ON_TIME",
+      "end_receipts": 1,
+      "first_problem_observed_at": null,
+      "latest_end_hash": "61458bfafe146043bc7c1c5f03c47166776b9e1e09f2ccae69d536732d488409",
+      "original_gap_preserved": false,
+      "problem_open": false,
+      "start_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1
+    }
+  ],
+  "new_natural_hours": [
+    {
+      "cutoff": "2026-09-13T05:00:00Z",
+      "original_input_receipt_hash": "3c9b7ca9bc24e31404e1ead735458d9597f77469a7f0cd35d2009540006c4011",
+      "original_cycle_file_sha256": "fa2cc22efcba968ccc84f665ebfe6f0f0817cf22b2bfffa90c53bd1e2a98814c",
+      "independent_replays_verified": 2
+    },
+    {
+      "cutoff": "2026-09-13T06:00:00Z",
+      "original_input_receipt_hash": "f54d0d060691ecf38963d0ef36ff222ad877a5126eeabfa73b60858a5869573d",
+      "original_cycle_file_sha256": "5a38a8b337b220d7c49d3ea23ddb4ebc5da516d3a9b74ca33fb5a9a572a4ccae",
+      "independent_replays_verified": 2
+    },
+    {
+      "cutoff": "2026-09-13T07:00:00Z",
+      "original_input_receipt_hash": "b51c4dc3d0d3830dd3540834db19a2b5596f695629061cc6fff7c3666a4b46ad",
+      "original_cycle_file_sha256": "f02b07692ddfb41b22c9a3c79589c9d572e10f437edd95bd8e5c4c90e749f98f",
+      "independent_replays_verified": 2
+    },
+    {
+      "cutoff": "2026-09-13T08:00:00Z",
+      "original_input_receipt_hash": "4d786be498c70757dc39e5d71b90d9459ec9780fc6683470b03900210fb1e277",
+      "original_cycle_file_sha256": "9c37e526cbc33d0a6a254c2375522a86bfecbd383b48754e7d34ea7da83c3b96",
+      "independent_replays_verified": 2
+    }
+  ],
+  "independent_replays": 8,
+  "python_network_denied": true,
+  "first_failure_preserved": true,
+  "manual_recovery_is_not_natural_success": true,
+  "native_task_status": [
+    {
+      "TaskName": "HakimiReadOnlyObservation",
+      "LastRunTime": "2026-09-13T16:01:01+08:00",
+      "LastTaskResult": 0,
+      "NextRunTime": "2026-09-13T17:01:00+08:00",
+      "NumberOfMissedRuns": 0
+    },
+    {
+      "TaskName": "HakimiObservationWatch",
+      "LastRunTime": "2026-09-13T16:21:31+08:00",
+      "LastTaskResult": 1,
+      "NextRunTime": "2026-09-13T16:22:30+08:00",
+      "NumberOfMissedRuns": 0
+    }
+  ],
+  "trigger_evidence": "OS task last-run time and owned process receipts; Task Scheduler Operational event log disabled, no independent event-dispatch timestamp",
+  "notifications": [
+    {
+      "receipt_hash": "eacdd4738c9a9d5ee1bbf5a9bfa5c7cb4adb5efa70ab5110f31201881eb36596",
+      "saved_at": "2026-09-13T04:22:31.695785Z",
+      "result": {
+        "status": "ALREADY_ATTEMPTED"
+      }
+    },
+    {
+      "receipt_hash": "ccaf83f38951bc0ff00f1f56be4f9a261edf7b8d4b124a1ee13af592843fe428",
+      "saved_at": "2026-09-13T04:14:31.704664Z",
+      "result": {
+        "status": "ALREADY_ATTEMPTED"
+      }
+    }
+  ],
+  "pending_notification_count": 2,
+  "actual_notification_display_confirmed": false,
+  "old_heartbeat": "PAUSED",
+  "runtime_mutated": false,
+  "order_allowed": false
+}

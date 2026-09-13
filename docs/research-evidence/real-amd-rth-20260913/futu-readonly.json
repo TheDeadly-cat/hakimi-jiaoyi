@@ -1,0 +1,108 @@
+{
+  "schema_version": "futu-readonly-capability-projection-v1",
+  "completed_at": "2026-09-13T08:16:16.105938Z",
+  "product": "Futu OpenD Windows",
+  "opend_executable_version": "10.7.6728",
+  "sdk": "futu-api==10.7.6708",
+  "discovered_security_firms": [
+    "FUTUSECURITIES",
+    "N/A"
+  ],
+  "account_region": "NOT_INFERRED_FROM_SECURITY_FIRM_OR_SIMULATION_ACCOUNT",
+  "endpoint": "127.0.0.1:11111",
+  "quote_login": true,
+  "trade_login": true,
+  "simulation_account": {
+    "trd_env": "SIMULATE",
+    "acc_status": "ACTIVE",
+    "acc_type": "MARGIN",
+    "sim_acc_type": "STOCK_AND_OPTION",
+    "trdmarket_auth": [
+      "US"
+    ]
+  },
+  "exact_simulation_account_id": "DISCOVERED_AND_EXPLICITLY_USED; retained only in local private capture",
+  "authenticated_quote_reads": {
+    "daily_rows": 37,
+    "rth_60min_rows": 259,
+    "history_symbol_quota_used_before": 0,
+    "used_after": 1,
+    "remaining_after": 99
+  },
+  "queries": [
+    {
+      "method": "sim-cash",
+      "started_at": "2026-09-13T08:16:14.882484Z",
+      "completed_at": "2026-09-13T08:16:15.665086Z",
+      "ret": 0,
+      "success": true,
+      "rows": 1,
+      "original_file_sha256": "d869daf56246cec1f2a89b2c0bd467a2f962b249b7aa5e8e2f37cc4a9210cb33"
+    },
+    {
+      "method": "sim-positions",
+      "started_at": "2026-09-13T08:16:15.690417Z",
+      "completed_at": "2026-09-13T08:16:15.875140Z",
+      "ret": 0,
+      "success": true,
+      "rows": 1,
+      "original_file_sha256": "1639274bb59b0da5e95bd40e7ad9d38960f960f51092eaf966e86aed52c75b0f"
+    },
+    {
+      "method": "sim-orders",
+      "started_at": "2026-09-13T08:16:15.900140Z",
+      "completed_at": "2026-09-13T08:16:16.066955Z",
+      "ret": 0,
+      "success": true,
+      "rows": 0,
+      "original_file_sha256": "7a92397b744ef31f5491117a8f29bdbe27618eccea146c86ed54076b3f05c380"
+    },
+    {
+      "method": "sim-deals",
+      "started_at": "2026-09-13T08:16:16.090396Z",
+      "completed_at": "2026-09-13T08:16:16.093534Z",
+      "ret": -1,
+      "success": false,
+      "provider_error": "模拟交易不支持成交数据",
+      "original_file_sha256": "9cd2206b72197174f8932ffb036326f5556271f4454c8f07f9658ffe23d16eb7"
+    }
+  ],
+  "atomic_account_snapshot_claimed": false,
+  "account_reconciled": false,
+  "official_documented_capabilities": {
+    "reference": "https://openapi.futunn.com/futu-api-doc/en/qa/trade.html",
+    "order_types": [
+      "LIMIT",
+      "MARKET"
+    ],
+    "time_in_force": [
+      "DAY"
+    ],
+    "simulation_unlock_required": false,
+    "deal_query": false,
+    "deal_push": false,
+    "order_fee_query": false,
+    "cash_flow_query": false,
+    "whole_share_lot_size": 1,
+    "price_increment": "NOT_QUERIED",
+    "settlement_and_actual_fee": "NOT_VERIFIED"
+  },
+  "execution_adapter": "NOT_IMPLEMENTED; existing ExecutionStore remains LOCAL_SIMULATOR and is not attached to these non-atomic queries",
+  "next_contract": "Use cumulative order observations without inventing deal-level evidence; fees stay UNKNOWN when unavailable, and a consistent balance/position barrier is needed before readiness. No automatic resubmission of UNKNOWN.",
+  "failures_preserved": [
+    {
+      "attempt": "first read-only connection",
+      "stage": "SDK internal TCP wakeup initialization",
+      "api_requests": 0,
+      "error": "Local network guard rejected SDK owned loopback wakeup socket; owned job timed out with cleanup confirmed."
+    },
+    {
+      "attempt": "r3",
+      "stage": "after execute returned",
+      "error": "Outer receipt serializer expected a dict but execute returned SimpleNamespace; API records preserved, outer bounds receipt not retained, request not repeated."
+    }
+  ],
+  "official_order_lifecycle": "NOT_RUN",
+  "order_allowed": false,
+  "orders_sent": 0
+}
