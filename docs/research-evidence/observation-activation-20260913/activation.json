@@ -1,0 +1,204 @@
+{
+  "actual_72h_observation_completed": false,
+  "actual_task_definitions": [
+    {
+      "action_matches_manifest": true,
+      "actual_end": "2026-09-16T04:10:00Z",
+      "actual_start": "2026-09-13T04:00:30Z",
+      "enabled": true,
+      "execution_limit": "PT50S",
+      "exported_xml_utf8_sha256": "05ba93baa051b86279b777caaa75750a07f5356c22eba32403640249ded816fe",
+      "instances": "IgnoreNew",
+      "interval": "PT1M",
+      "last_result": 0,
+      "last_run_utc": "2026-09-13T03:35:18.0000000Z",
+      "logon": "InteractiveToken",
+      "next_run_utc": "2026-09-13T04:00:30.0000000Z",
+      "role": "watch",
+      "run_level": "LeastPrivilege",
+      "task_name": "HakimiObservationWatch"
+    },
+    {
+      "action_matches_manifest": true,
+      "actual_end": "2026-09-16T04:00:00Z",
+      "actual_start": "2026-09-13T04:01:00Z",
+      "enabled": true,
+      "execution_limit": "PT10M",
+      "exported_xml_utf8_sha256": "5f1efac6639a7df7801852498db24261edd21275c983c3e6d4aada825be35c01",
+      "instances": "IgnoreNew",
+      "interval": "PT1H",
+      "last_result": 0,
+      "last_run_utc": "2026-09-13T03:35:18.0000000Z",
+      "logon": "InteractiveToken",
+      "next_run_utc": "2026-09-13T04:01:00.0000000Z",
+      "role": "observe",
+      "run_level": "LeastPrivilege",
+      "task_name": "HakimiReadOnlyObservation"
+    }
+  ],
+  "authorization_scope": "T5_FIXED_BTC_READ_ONLY_OBSERVATION_AND_WATCHER_SWITCH",
+  "bundle_hash": "27cfe11a7a0c7246814e7f6966f5bed7a41b65f11a64e8ddf8a688847fdc3732",
+  "checked_at": "2026-09-13T03:38:22.459216Z",
+  "current_counts": {
+    "PLANNED": 72
+  },
+  "job_attempt_count": 0,
+  "manual_os_entry_runs": [
+    {
+      "attempt_id": "20260913T033518143548Z_35340e2a59154a2387f0bf209189b58d",
+      "child_exit_code": 0,
+      "child_summary": {
+        "changes": 0,
+        "checked_at": "2026-09-13T03:35:18.357167Z",
+        "current_counts": {
+          "PLANNED": 72
+        },
+        "deadline_counts": {
+          "PENDING": 72
+        },
+        "delivery": [],
+        "notification_send_requested": true,
+        "notification_state": {
+          "pending": 0,
+          "unconfirmed": 0
+        },
+        "receipt_hash": "f0b7aed259bc967f230698909f9dbfb5ef5a61cba83ad7e3a10015f741665451",
+        "status": "VERIFIED_RECEIPT_SCAN"
+      },
+      "ended_at": "2026-09-13T03:35:18.444985Z",
+      "execution_bounds": {
+        "bytes_retained": {
+          "stderr": 0,
+          "stdout": 360
+        },
+        "bytes_seen": {
+          "stderr": 0,
+          "stdout": 360
+        },
+        "captured_sha256": {
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "092e62bd02dc5869a70f3ffe58e6316a1e2b44982a5cbbb024c8fc96c410df92"
+        },
+        "cleanup_confirmed": true,
+        "cleanup_seconds": 5,
+        "elapsed_monotonic_seconds": 0.232964599999832,
+        "normal_exit_settle_max_seconds": 0.25,
+        "outcome": "EXITED",
+        "output_limit_bytes_combined": 16384,
+        "output_truncated": false,
+        "owned_process_handles_waited": 0,
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "timeout_seconds": 40
+      },
+      "order_allowed": false,
+      "receipt_hash": "86fe2fd3e1fb6ae2d9a67e1fad17c661ff32db9ae769e6e49e9e84891c8ce682",
+      "result_scope": "PROCESS_RESULT_NOT_WINDOW_ACCEPTANCE",
+      "role": "watch",
+      "schema_version": "observation-bundle-run-end-v1",
+      "started_at": "2026-09-13T03:35:18.143548Z",
+      "started_receipt_hash": "52e89a35295639db3fbcb562ad01e23d02dec747d3a1c8319b663e1cb9679fe3",
+      "started_record_verified": true,
+      "status": "COMPLETED",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "092e62bd02dc5869a70f3ffe58e6316a1e2b44982a5cbbb024c8fc96c410df92"
+    },
+    {
+      "attempt_id": "20260913T033518143711Z_4ca116ecf9c94e7d83c6307b74faf745",
+      "ended_at": "2026-09-13T03:35:18.167749Z",
+      "order_allowed": false,
+      "receipt_hash": "4ae2191a4b981debf48528b7db15cce92a4f2d10bb26320dd78862ca09fa4794",
+      "result_scope": "PROCESS_RESULT_NOT_WINDOW_ACCEPTANCE",
+      "role": "observe",
+      "schema_version": "observation-bundle-run-end-v1",
+      "started_at": "2026-09-13T03:35:18.143711Z",
+      "started_receipt_hash": "6785f5560b084ef166279a63351f7e26c58b4f6dff20d0e109215607dd9bf605",
+      "started_record_verified": true,
+      "status": "OUTSIDE_DECLARED_RUN_WINDOW"
+    }
+  ],
+  "manual_run_scope": "PREWINDOW_OS_ENTRY_SMOKE_NO_MARKET_CAPTURE",
+  "native_notification_display_attempted_this_activation": false,
+  "natural_scheduled_run_observed": false,
+  "old_heartbeat": {
+    "after_status": "PAUSED",
+    "before_file_sha256": "1049fcd5a24daef469e4bb36564bb97e78c20d5c981f0df4467b344526867287",
+    "before_status": "ACTIVE",
+    "changed_fields": [
+      "status",
+      "updated_at"
+    ],
+    "live_matches_paused": true,
+    "paused_file_sha256": "f9c54e1bc8677bc978f888ddb8cdad8fed37cceff9aaab89e435dcc4f69c2b7d"
+  },
+  "order_allowed": false,
+  "prior_bundle_hash": "f1940935939b2affa7679b5b63a226333545195ce47eda312df7ccf16b10be48",
+  "prior_bundle_preserved": true,
+  "privacy": "Named public projection; raw local paths, task XML, user SID and heartbeat prompt remain private. Original receipts were not rewritten or resealed.",
+  "registration": {
+    "both_enabled": true,
+    "ended_at": "2026-09-13T03:34:54.1963604Z",
+    "initially_disabled": true,
+    "saved_ended_file_sha256": "b211038ebf81d1cdfd5f20cc8789931e943f7a6a83ac17f64e8bf722a2870546",
+    "started_at": "2026-09-13T03:34:54.1010562Z",
+    "status": "REGISTERED_ENABLED_AWAITING_ACTUAL_RUNS"
+  },
+  "runtime_preflight_after": {
+    "checked_at": "2026-09-13T03:38:22.459195Z",
+    "execution_bounds": {
+      "bytes_retained": {
+        "stderr": 0,
+        "stdout": 569
+      },
+      "bytes_seen": {
+        "stderr": 0,
+        "stdout": 569
+      },
+      "captured_sha256": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "62b1903eed59ea591d72e01f2cf5246900372a8e4be863be6558d6c3eb9d46c9"
+      },
+      "cleanup_confirmed": true,
+      "cleanup_seconds": 5,
+      "elapsed_monotonic_seconds": 0.5364815999928396,
+      "normal_exit_settle_max_seconds": 0.25,
+      "outcome": "EXITED",
+      "output_limit_bytes_combined": 16384,
+      "output_truncated": false,
+      "owned_process_handles_waited": 0,
+      "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+      "timeout_seconds": 30
+    },
+    "verification": {
+      "environment_sha256": "eb9a19e1db1204b430c9f35f380d107f858fc3263703eabc2e1bd64e315d376e",
+      "environment_status": "VERIFIED",
+      "runtime_tools_verified": {
+        "tools/collect_btc_snapshot.py": "7db9faf2e055647fb97b4b074ef7f6dad80365cc0ec1a50a241722a03121be3e",
+        "tools/observe_forward.py": "a731e572fa9512a203450d52fbd256d2e59936986222f3a32b2642032fbbcc26",
+        "tools/run_forward_cycle.py": "ed7913b3d8c9c55a7d2cb1662fda75b9ec1a603975a913e90f2e89817169339b"
+      },
+      "source_sha256": "48f1c48875b774ccf0af732c0b7089a5b7ff1ae3bac1dd68ee357fc40ef6ceb5",
+      "source_status": "BUILD_VERIFIED"
+    }
+  },
+  "schema_version": "observation-activation-public-projection-v1",
+  "source_commit": "bbf7cd2c452d6d059588459f84a2de5d818cf611",
+  "status": "ACTIVATED_AWAITING_NATURAL_WINDOW",
+  "tool_bytes_equal_prior_candidate": true,
+  "tool_sha256": {
+    "observation_bundle.py": "128c06470592baafab6decea951e135f162a62ae241b70173bc925fd188bc79a",
+    "observation_job.py": "057021bd95512107c8d83998d798aa175cb3985bf266b9c61f9bccbcbbed329e",
+    "observation_notify.py": "b765fd586c333feb8006b8e8b2afdce2b0eafe3a4706bcfbf4d66d111b9b300c",
+    "observation_watch.py": "0dae1219a31fe591e054a481e484c980eecce402520e67a39e9997d283b60cc5",
+    "prepare_observation_task.ps1": "46ecec53c643a262e411366b8b46f1fb523585a7a94ea8b5d984437ec7f8316e",
+    "show_observation_notification.ps1": "bd46273d00178bf74874e1749398e754f67e32ca2b3fcaa382e84b23bf0b587d"
+  },
+  "verification_probe_failures": {
+    "attempts": 2,
+    "cause": "Export-ScheduledTask omitted default XML elements RunLevel, then Enabled; the probe expected each to be present.",
+    "correction": "Read actual registered COM properties: RunLevel=0, LogonType=3 and Enabled=true for both tasks; runtime and tasks unchanged.",
+    "scope": "LOCAL_EVIDENCE_SCRIPT_ONLY_AFTER_SUCCESSFUL_OS_RUNS"
+  },
+  "watch_end": "2026-09-16T04:10:00Z",
+  "window_end": "2026-09-16T04:00:00Z",
+  "window_start": "2026-09-13T04:00:00Z"
+}
