@@ -35,7 +35,7 @@ class Context:
             order={**row,'trd_env':'SIMULATE','trd_market':'US'}))
         if self.lose:raise TimeoutError('fixture response lost after acceptance')
         return 0,[row]
-    def modify_order(self,**kwargs):self._bound(kwargs);self.cancelled.append(kwargs);return 0,[{'order_id':kwargs['order_id']}]
+    def modify_order(self,**kwargs):self._bound(kwargs);self.cancelled.append(kwargs);return 0,[{'order_id':kwargs['order_id'],'trd_env':'SIMULATE'}]
     def close(self):pass
 
 
@@ -242,6 +242,16 @@ class FutuSimulationContracts(unittest.TestCase):
         self.ctx.cash='N/A'
         with self.assertRaises(futu.Error):
             self.adapter.stable_reads()
+    def test_existing_long_option_identifier_retains_provider_units_without_trading_permission(self):
+        symbol='US.EXAMPLE261218C100000'
+        self.ctx.positions=[dict(acc_id=123,currency='USD',position_side='LONG',code=symbol,qty=2)]
+        store=futu.SimulationStore.create_bound(self.root/'option-anchor.sqlite',profile=self.profile,cash='1000',holdings={symbol:2},max_order_notional='100',fee_reserve='3',anchor=self.adapter.stable_reads())
+        try:
+            self.assertEqual(store.inspect()['positions'],{symbol:2})
+            self.assertEqual(store.config['symbols'],{'US.AMD':'0.01'})
+            self.assertEqual(store.config['futu_anchor_other_position_units'],'PROVIDER_REPORTED_UNITS_NO_CONVERSION_OR_TRADING_PERMISSION')
+            with self.assertRaises(futu.Error):store.prepare('option-sell',symbol=symbol,side='SELL',quantity_value=1,limit_price='10')
+        finally:store.close()
     def test_margin_capacity_does_not_substitute_for_cash_capacity(self):
         self.ctx.acctradinginfo_query=lambda **kwargs:(0,[dict(max_cash_buy=0,max_cash_and_margin_buy=1000)])
         with self.assertRaisesRegex(futu.Error,'cash_only'):self.submit()
@@ -251,6 +261,14 @@ class FutuSimulationContracts(unittest.TestCase):
         self.submit();self.quote.state='AFTER_HOURS_END'
         self.assertEqual(self.adapter.cancel(self.store,'one',authorization=self.authorization),'CANCEL_ACK_NOT_TERMINAL')
         self.assertEqual(len(self.ctx.cancelled),1)
+    def test_cancel_ack_requires_exact_order_and_simulation_environment(self):
+        self.submit()
+        self.ctx.modify_order=lambda **kwargs:(0,[dict(order_id='988',trd_env='SIMULATE')])
+        with self.assertRaisesRegex(futu.Error,'cancel_response_identity'):
+            self.adapter.cancel(self.store,'one',authorization=self.authorization)
+        self.assertEqual(self.store._row('one')['cancel_state'],'UNKNOWN')
+        raw=json.loads(self.store.db.execute("SELECT payload FROM events WHERE kind='FUTU_CANCEL_SYNC_RESPONSE'").fetchone()[0])
+        self.assertEqual(raw['rows'][0]['order_id'],'988')
     def test_anchor_is_bound_to_account_cash_positions_and_empty_orders(self):
         anchor=self.adapter.stable_reads();anchor['binding_sha256']='c'*64
         with self.assertRaises(futu.Error):futu.SimulationStore.create_bound(self.root/'bad.sqlite',profile=self.profile,cash='1000',holdings={},max_order_notional='100',fee_reserve='3',anchor=anchor)

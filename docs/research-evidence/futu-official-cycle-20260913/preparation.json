@@ -1,0 +1,380 @@
+{
+  "schema_version": "futu-official-cycle-preparation-v1",
+  "source_commit": "9dbbeb9c5dd5581ea5257c1a9f964d68601d440c",
+  "source_archive_sha256": "ffe2ccab7cf55e71476c060d8e0f541537e7f4cde0de7c812db4f51bf42356cd",
+  "source_file_sha256": {
+    "tools/futu_simulation_cycle.py": "7e9299263bb42e23a55e01b52824ba74e0813d71476d3ed3d4a146cb257929ea",
+    "tools/futu_simulation_adapter.py": "3f66f0dd219c8ec1e2425982f64e3d1de3d33cfd4eff5510ac0d9db3648d6630",
+    "tools/execution_state_lab.py": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91",
+    "tools/observation_job.py": "30f18ac926e3aceb2152b8b38f32283f7c8ec1c06827db9660a61f0f3628633c",
+    "tests/repository_only/test_futu_simulation_adapter.py": "6a7ea4d8164c2ff8986e6a6c665abbeec289141e2a64b46856c6e5aff619c1c3",
+    "tests/repository_only/test_futu_simulation_cycle.py": "24be5eec86ebdc1c64d31d5f623e06f9b078c7ec28530f0cb1213411399feef4",
+    "tests/repository_only/test_execution_state_lab.py": "38d3da0b66678d7bdb16564b8be7af8917d9c82aadbf9249731532cb3ce5294a",
+    "tests/sdk_contracts/test_futu_order_callback.py": "925bf5a6cc74e271658d82dc25ab74535aaa30511a520df3c398ff229b63da48",
+    "requirements.futu-sdk.lock": "fabd1ddc5d1c5258ead14703dd81c737c2e75eb34a39b2de7bbb6a6446c894ad"
+  },
+  "source_git_blob_equality_before_and_after": true,
+  "tests": [
+    {
+      "name": "cycle",
+      "tests_run": 6,
+      "returncode": 0,
+      "log_sha256": "20dbfde5bc98c710e7c9ea1489959d1b00b657b3986f60f104d54bcbf21fc244"
+    },
+    {
+      "name": "adapter",
+      "tests_run": 33,
+      "returncode": 0,
+      "log_sha256": "5a314377c4f34a799d2578f11e55c8d1e793a39640a39ba6ad9b9022a160d9ce"
+    },
+    {
+      "name": "core",
+      "tests_run": 25,
+      "returncode": 0,
+      "log_sha256": "361285a1a12d62cd2f96fe98b902111b1d3ec6e23fc3592a1b4dd971c0207376"
+    },
+    {
+      "name": "sdk",
+      "tests_run": 7,
+      "returncode": 0,
+      "log_sha256": "7ebc97f1368500467c4c94905f3fd84894cbb01aa4688a04f61df6a88bd67300"
+    }
+  ],
+  "proposal": {
+    "account_binding_sha256": "8fc3726b67f36c6f22d589492f9e179f67031db5ea69b0e88603455556c50c44",
+    "intent_id": "amd-official-simulation-cycle-v1",
+    "payload": {
+      "symbol": "US.AMD",
+      "side": "BUY",
+      "quantity": 1,
+      "limit_price": "1"
+    },
+    "payload_sha256": "f0b3256d9ebe68bd4c2e8341ea07e2d7891c9d1508afb21a27c64eef45741294",
+    "order_type": "NORMAL",
+    "time_in_force": "DAY",
+    "session": "RTH",
+    "max_submit_attempts": 1,
+    "max_cancel_attempts": 1,
+    "automatic_price_change": false,
+    "fault_injection": "DISCARD_SYNC_RESPONSE_THEN_EXIT_PROCESS",
+    "fee_reserve": "3",
+    "fee_reserve_is_actual_fee_or_guaranteed_fee_cap": false
+  },
+  "instrument": {
+    "symbol": "US.AMD",
+    "stock_id": 205816,
+    "lot_size": 1,
+    "price_increment": "0.01",
+    "market_state": "AFTER_HOURS_END",
+    "observed_at": "2026-09-13T11:04:09.122044Z",
+    "order_scope": "ONE_WHOLE_SHARE_LIMIT_PRICE_AT_LEAST_ONE_USD_DAY_RTH"
+  },
+  "actual_readonly_phases": [
+    {
+      "phase": "prepare",
+      "status": "PREPARED_AWAITING_SEPARATE_AUTHORIZATION",
+      "checked_at": "2026-09-13T11:04:09.306273Z",
+      "order_dispatch_attempts": 0,
+      "cancel_dispatch_attempts": 0,
+      "private_receipt_sha256": "1c5f07d44880e90caf32a2c3f30f60e962fffb3dbd064092d68fc292a7e100a1",
+      "source_file_sha256": {
+        "futu_simulation_cycle.py": "7e9299263bb42e23a55e01b52824ba74e0813d71476d3ed3d4a146cb257929ea",
+        "futu_simulation_adapter.py": "3f66f0dd219c8ec1e2425982f64e3d1de3d33cfd4eff5510ac0d9db3648d6630",
+        "execution_state_lab.py": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91",
+        "observation_job.py": "30f18ac926e3aceb2152b8b38f32283f7c8ec1c06827db9660a61f0f3628633c"
+      },
+      "queries": [
+        {
+          "method": "get_acc_list",
+          "started_at": "2026-09-13T11:04:05.732016Z",
+          "completed_at": "2026-09-13T11:04:05.733458Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "order_list_query",
+          "started_at": "2026-09-13T11:04:05.735309Z",
+          "completed_at": "2026-09-13T11:04:06.002612Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "history_order_list_query",
+          "started_at": "2026-09-13T11:04:06.002936Z",
+          "completed_at": "2026-09-13T11:04:06.263346Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "accinfo_query",
+          "started_at": "2026-09-13T11:04:06.263634Z",
+          "completed_at": "2026-09-13T11:04:06.598780Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "position_list_query",
+          "started_at": "2026-09-13T11:04:06.599298Z",
+          "completed_at": "2026-09-13T11:04:06.892594Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "order_list_query",
+          "started_at": "2026-09-13T11:04:06.892982Z",
+          "completed_at": "2026-09-13T11:04:07.531177Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "history_order_list_query",
+          "started_at": "2026-09-13T11:04:07.531463Z",
+          "completed_at": "2026-09-13T11:04:07.788735Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "accinfo_query",
+          "started_at": "2026-09-13T11:04:07.789015Z",
+          "completed_at": "2026-09-13T11:04:08.102161Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "position_list_query",
+          "started_at": "2026-09-13T11:04:08.102571Z",
+          "completed_at": "2026-09-13T11:04:08.395425Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "get_stock_basicinfo",
+          "started_at": "2026-09-13T11:04:08.396127Z",
+          "completed_at": "2026-09-13T11:04:08.398715Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "get_market_snapshot",
+          "started_at": "2026-09-13T11:04:08.399406Z",
+          "completed_at": "2026-09-13T11:04:08.662202Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "get_market_state",
+          "started_at": "2026-09-13T11:04:08.662979Z",
+          "completed_at": "2026-09-13T11:04:09.121547Z",
+          "ret": 0,
+          "row_count": 1
+        }
+      ],
+      "process": {
+        "returncode": 0,
+        "bounds": {
+          "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+          "outcome": "EXITED",
+          "timeout_seconds": 180,
+          "cleanup_seconds": 5,
+          "normal_exit_settle_max_seconds": 0.25,
+          "output_limit_bytes_combined": 131072,
+          "bytes_seen": {
+            "stdout": 838,
+            "stderr": 0
+          },
+          "bytes_retained": {
+            "stdout": 838,
+            "stderr": 0
+          },
+          "captured_sha256": {
+            "stdout": "edbd5e07de486aab58f3715f984d4176f528862d1d41ec781ceeac7a9ecf8d36",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "output_truncated": false,
+          "cleanup_confirmed": true,
+          "owned_process_handles_waited": 0,
+          "elapsed_monotonic_seconds": 4.82839700000477
+        }
+      },
+      "order_state": "PREPARED",
+      "submit_claim_created": false,
+      "official_cycle_complete": false
+    },
+    {
+      "phase": "recover",
+      "status": "SCOPED_RECONCILIATION_COMPLETED",
+      "checked_at": "2026-09-13T11:05:03.585450Z",
+      "order_dispatch_attempts": 0,
+      "cancel_dispatch_attempts": 0,
+      "private_receipt_sha256": "4d50cbe477f126acb9753ac641f29d64e32498dc3b0f9f1846c7ed5be845234b",
+      "source_file_sha256": {
+        "futu_simulation_cycle.py": "7e9299263bb42e23a55e01b52824ba74e0813d71476d3ed3d4a146cb257929ea",
+        "futu_simulation_adapter.py": "3f66f0dd219c8ec1e2425982f64e3d1de3d33cfd4eff5510ac0d9db3648d6630",
+        "execution_state_lab.py": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91",
+        "observation_job.py": "30f18ac926e3aceb2152b8b38f32283f7c8ec1c06827db9660a61f0f3628633c"
+      },
+      "queries": [
+        {
+          "method": "get_acc_list",
+          "started_at": "2026-09-13T11:05:01.269464Z",
+          "completed_at": "2026-09-13T11:05:01.271171Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "order_list_query",
+          "started_at": "2026-09-13T11:05:01.281682Z",
+          "completed_at": "2026-09-13T11:05:01.549359Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "history_order_list_query",
+          "started_at": "2026-09-13T11:05:01.549673Z",
+          "completed_at": "2026-09-13T11:05:01.815249Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "accinfo_query",
+          "started_at": "2026-09-13T11:05:01.815536Z",
+          "completed_at": "2026-09-13T11:05:02.146687Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "position_list_query",
+          "started_at": "2026-09-13T11:05:02.147089Z",
+          "completed_at": "2026-09-13T11:05:02.427380Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "order_list_query",
+          "started_at": "2026-09-13T11:05:02.427760Z",
+          "completed_at": "2026-09-13T11:05:02.688617Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "history_order_list_query",
+          "started_at": "2026-09-13T11:05:02.688904Z",
+          "completed_at": "2026-09-13T11:05:02.946470Z",
+          "ret": 0,
+          "row_count": 0
+        },
+        {
+          "method": "accinfo_query",
+          "started_at": "2026-09-13T11:05:02.946750Z",
+          "completed_at": "2026-09-13T11:05:03.268909Z",
+          "ret": 0,
+          "row_count": 1
+        },
+        {
+          "method": "position_list_query",
+          "started_at": "2026-09-13T11:05:03.269802Z",
+          "completed_at": "2026-09-13T11:05:03.572330Z",
+          "ret": 0,
+          "row_count": 1
+        }
+      ],
+      "process": {
+        "returncode": 0,
+        "bounds": {
+          "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+          "outcome": "EXITED",
+          "timeout_seconds": 180,
+          "cleanup_seconds": 5,
+          "normal_exit_settle_max_seconds": 0.25,
+          "output_limit_bytes_combined": 131072,
+          "bytes_seen": {
+            "stdout": 829,
+            "stderr": 0
+          },
+          "bytes_retained": {
+            "stdout": 829,
+            "stderr": 0
+          },
+          "captured_sha256": {
+            "stdout": "e4c4b9b6416cca488a2e6460c36572ea8fe687c11635b98915b29fa666aed0a1",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "output_truncated": false,
+          "cleanup_confirmed": true,
+          "owned_process_handles_waited": 0,
+          "elapsed_monotonic_seconds": 3.623842800006969
+        }
+      },
+      "order_state": "PREPARED",
+      "submit_claim_created": false,
+      "official_cycle_complete": false
+    }
+  ],
+  "unauthorized_submission_gate": {
+    "phase": "submit",
+    "returncode": 2,
+    "owned_worker_started": false,
+    "sdk_context_started": false,
+    "order_dispatch_attempts": 0,
+    "reason": "ARGUMENT_GATE_REQUIRES_SEPARATELY_APPROVED_AUTHORIZATION",
+    "stderr_sha256": "8697bf3b51cf440e22831f2bc3efaf50fbd39a8c4b2938939a16e8bf17e14111"
+  },
+  "first_actual_preparation_failure": {
+    "source_commit": "59d297ff58b6e6f9e5db3712b350e52df51e6667",
+    "status": "INCOMPLETE",
+    "error": "unrecognized_initial_instrument",
+    "query_count": 12,
+    "all_query_ret_ok": true,
+    "order_dispatch_attempts": 0,
+    "private_receipt_sha256": "5ee038d30cb26aeeff0dc3102e794bb92bbd60733626cf3755c485b85e5fba98",
+    "process": {
+      "returncode": 1,
+      "bounds": {
+        "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+        "outcome": "EXITED",
+        "timeout_seconds": 180,
+        "cleanup_seconds": 5,
+        "normal_exit_settle_max_seconds": 0.25,
+        "output_limit_bytes_combined": 131072,
+        "bytes_seen": {
+          "stdout": 808,
+          "stderr": 0
+        },
+        "bytes_retained": {
+          "stdout": 808,
+          "stderr": 0
+        },
+        "captured_sha256": {
+          "stdout": "c80a3f878c9b1086091d4cc91dbd8ff3b5cf7f7041df10d3f4458f67f4e5d273",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "output_truncated": false,
+        "cleanup_confirmed": true,
+        "owned_process_handles_waited": 0,
+        "elapsed_monotonic_seconds": 5.177413099998375
+      }
+    },
+    "correction": "Existing non-AMD provider identifiers and units are retained without underlying-share conversion or trading permission; no initial position was discarded."
+  },
+  "actual_order_authorization_received": false,
+  "actual_order_cycle": "NOT_RUN",
+  "actual_fee_or_settlement_statement": "NOT_AVAILABLE",
+  "fixture_tests_are_official_order_evidence": false,
+  "main_merge": {
+    "pr": 10,
+    "approved_head": "2e2805938333ec8dd8ca041b53a5a945453d32e2",
+    "merge_commit": "70b6750edd4e309b22b21d2a111a892f03055f39",
+    "merged_at": "2026-09-13T10:54:12Z",
+    "required_conversation_resolution": true,
+    "resolved_corrected_review_threads": 2,
+    "branch_protection_modified": false,
+    "merge_method": "GITHUB_NORMAL_MERGE_NO_ADMIN_BYPASS",
+    "main_ci": {
+      "run_id": 34753048202,
+      "head_sha": "70b6750edd4e309b22b21d2a111a892f03055f39",
+      "status": "completed",
+      "conclusion": "success",
+      "successful_jobs": 9
+    }
+  }
+}
