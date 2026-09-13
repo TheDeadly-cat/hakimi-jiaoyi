@@ -9,7 +9,7 @@
 [原件索引](source-index.json)记录六次实际下载的 URL、时间、字节数与 SHA-256。原始 HTML/PDF 保留在本地，未把公开可访问当作公开再分发许可。Nasdaq 历史行情网页只是页面原件，本轮未从它取得价格行。
 
 - [AMD 财报](https://ir.amd.com/news-events/press-releases/detail/1224/amd-reports-third-quarter-2024-financial-results)显示 2024-10-29 16:15 EDT，即20:15 UTC。HTML时间与可见日期一致；这是调用者依据当前公司页面给出的公开时点声明，不是当年收到日志或历史不可变网页认证。
-- [提前日程](https://ir.amd.com/news-events/press-releases/detail/1223/amd-to-report-fiscal-third-quarter-2024-financial-results)发表于2024-10-16 09:00 EDT，宣布10月29日盘后发布，另列17:00 EDT电话会。没有精确财报发布时间，不能用电话会时间或事后实际16:15替代。现有事件v1要求精确日程时间，该日程暂未导入；后续需明确的日期/盘后精度。
+- [提前日程](https://ir.amd.com/news-events/press-releases/detail/1223/amd-to-report-fiscal-third-quarter-2024-financial-results)发表于2024-10-16 09:00 EDT，宣布10月29日盘后发布，另列17:00 EDT电话会。没有精确财报发布时间，不能用电话会时间或事后实际16:15替代。当次使用的事件v1要求精确日程时间，因此未导入日程；后续 [PR #8 的实际安装验证](https://github.com/TheDeadly-cat/hakimi-jiaoyi/blob/56eebc95ab99e88719cbfe8238f6e8340d1c23d1/docs/research-evidence/equity-schedule-filter-20260913/README.md)已通过 v2 日期/盘后精度导入同一原件，并将精确时间保持为 null，两次安装与提取身份分别保留。
 - [同期8-K](https://ir.amd.com/financial-information/sec-filings/content/0000002488-24-000161/amd-20241029.htm)支持 AMD 普通股与同期财报的关联。[公司FAQ](https://ir.amd.com/contacts-faq/faq)给出CUSIP及历史拆股信息；当前FAQ不能独自证明整个历史窗口不存在所有公司行为，经济接纳继续等待复核。
 - [Nasdaq 2024日历](https://www.nasdaqtrader.com/content/technicalsupport/2024tradingcalendar.pdf)已实际渲染核对图例、10月和11月：所选51个自然日含37个常规交易日，没有窗口内的全日休市或提前收盘标记。该PDF副本元数据显示制作于2024-11-25，按回溯日历使用，不声称10月已经下载此版本；突发停牌/证券状态仍须供应商核对。
 
@@ -29,6 +29,6 @@
 
 [冻结的A/B方案](event-risk-filter-plan-v1.json)先于价格检查保存。A使用固定5/10均线及共同成本、风险和退出；B仅增加当时已知财报日程的新增买入过滤，阻止在预告财报日开盘新增风险，保留已有持仓的原退出规则，不顺延被拒绝的旧意图。实际日历已确认10月17日之前有12个预热交易日，满足现有均线入口的 `slow_window + 2` 要求。
 
-方案尚未执行。必须先完成价格/公司行为接纳、事件日程精度、版本化决策输入、共享日历覆盖和防前视验证。所有不变、亏损、排除或无交易结果保留，不把37根日线当成37个独立事件。C/D在A/B及字段人工核准后再决定，当前 `NOT_RUN`。
+真实价格方案尚未执行。PR #8 已实现日期/盘后精度、版本化决策输入、共享日历覆盖和防前视检查，并完成合成 CLI A/B、独立账本与重放；仍需真实价格/公司行为接纳后才可运行此处冻结的 AMD 5/10 方案，不能用合成 2/3 结果替代。所有不变、亏损、排除或无交易结果保留，不把37根日线当成37个独立事件。C/D在真实A/B及字段人工核准后再决定，当前 `NOT_RUN`。
 
-行情适配候选为富途/moomoo。官方文档说明 [API行情权限与App权限不同](https://openapi.futunn.com/futu-api-doc/intro/authority.html)，[历史日线](https://openapi.futunn.com/futu-api-doc/quote/request-history-kline.html)需显式使用不复权及常规时段口径，[交易日历](https://openapi.futunn.com/futu-api-doc/en/quote/request-trading-days.html)不排除临时停市，[复权因子](https://openapi.futunn.com/futu-api-doc/quote/get-rehab.html)也不自动等于完整证券生命周期覆盖。地区、API可用性、原始价格许可与公司行为接纳仍待实际核对；本记录不连接账户、提交模拟订单或激活新调度。
+行情适配候选为富途/moomoo。官方文档说明 [API行情权限与App权限不同](https://openapi.futunn.com/futu-api-doc/intro/authority.html)，[历史日线](https://openapi.futunn.com/futu-api-doc/quote/request-history-kline.html)需显式使用不复权及常规时段口径，[交易日历](https://openapi.futunn.com/futu-api-doc/en/quote/request-trading-days.html)不排除临时停市，[复权因子](https://openapi.futunn.com/futu-api-doc/quote/get-rehab.html)也不自动等于完整证券生命周期覆盖。地区、API可用性、原始价格许可与公司行为接纳仍待实际核对；此来源记录没有连接账户或提交模拟订单。BTC 固定调度的后续授权与激活另见[跨分支进度索引](../../review-followup-20260913.md)，不构成股票行情已经上线。
