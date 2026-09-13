@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 SPEC=importlib.util.spec_from_file_location('futu_adapter_tested',Path(__file__).resolve().parents[2]/'tools/futu_simulation_adapter.py')
 futu=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(futu)
@@ -30,7 +31,8 @@ class Context:
         row=dict(order_id='987',code=kwargs['code'],trd_side=kwargs['trd_side'],order_type=kwargs['order_type'],order_status='SUBMITTED',
             qty=kwargs['qty'],price=kwargs['price'],dealt_qty=0,dealt_avg_price=0,remark=kwargs['remark'],updated_time='2026-09-13 12:00:00',time_in_force='DAY')
         self.orders=[row]
-        if self.callback:self.callback({**row,'trd_env':'SIMULATE','acc_id':123})
+        if self.callback:self.callback(dict(header=dict(acc_id='123',trd_env='SIMULATE',trd_market='US'),
+            order={**row,'trd_env':'SIMULATE','trd_market':'US'}))
         if self.lose:raise TimeoutError('fixture response lost after acceptance')
         return 0,[row]
     def modify_order(self,**kwargs):self._bound(kwargs);self.cancelled.append(kwargs);return 0,[{'order_id':kwargs['order_id']}]
@@ -89,6 +91,78 @@ class FutuSimulationContracts(unittest.TestCase):
         self.assertEqual({k:sent[k] for k in ('trd_env','acc_id','order_type','time_in_force','session','adjust_limit','fill_outside_rth')},
             dict(trd_env='SIMULATE',acc_id=123,order_type='NORMAL',time_in_force='DAY',session='RTH',adjust_limit=0,fill_outside_rth=False))
         self.assertNotIn('acc_index',sent)
+
+    def expired_clock(self):
+        expiry=datetime.fromisoformat(self.authorization['expires_at'].replace('Z','+00:00'))
+        class Clock(datetime):
+            @classmethod
+            def now(cls,tz=None):return expiry.astimezone(tz)
+        return mock.patch.object(futu,'datetime',Clock)
+
+    def test_authorization_expiring_during_capacity_query_never_claims(self):
+        original=self.ctx.acctradinginfo_query
+        def capacity(**kwargs):
+            result=original(**kwargs)
+            patch=self.expired_clock();patch.start();self.addCleanup(patch.stop)
+            return result
+        self.ctx.acctradinginfo_query=capacity
+        with self.assertRaisesRegex(futu.Error,'current_bounded_authorization'):self.submit()
+        self.assertEqual(self.store._row('one')['state'],'PREPARED')
+        self.assertEqual(self.ctx.sent,[])
+
+    def test_expiry_after_durable_submit_claim_withholds_send_without_rollback(self):
+        original=self.store.claim_submit
+        def claim(intent):
+            command=original(intent)
+            patch=self.expired_clock();patch.start();self.addCleanup(patch.stop)
+            return command
+        self.store.claim_submit=claim
+        with self.assertRaisesRegex(futu.Error,'current_bounded_authorization'):self.submit()
+        self.assertEqual(self.ctx.sent,[])
+        self.assertEqual(self.store._row('one')['state'],'SUBMIT_UNKNOWN')
+        event=json.loads(self.store.db.execute("SELECT payload FROM events WHERE kind='FUTU_DISPATCH_WITHHELD'").fetchone()[0])
+        self.assertEqual(event['operation'],'SUBMIT_ONCE')
+        self.store.close();self.store=futu.SimulationStore(self.path)
+        self.assertEqual(self.store._row('one')['state'],'SUBMIT_UNKNOWN')
+        self.assertEqual(self.store.inspect()['stop_reason'],'futu_dispatch_authorization_expired_or_invalid')
+
+    def test_expiry_during_cancel_account_query_prevents_cancel_claim(self):
+        self.submit()
+        original=self.ctx.get_acc_list
+        def accounts():
+            result=original()
+            patch=self.expired_clock();patch.start();self.addCleanup(patch.stop)
+            return result
+        self.ctx.get_acc_list=accounts
+        before=self.store._row('one')['cancel_state']
+        with self.assertRaisesRegex(futu.Error,'current_bounded_authorization'):
+            self.adapter.cancel(self.store,'one',authorization=self.authorization)
+        self.assertEqual(self.ctx.cancelled,[])
+        self.assertEqual(self.store._row('one')['cancel_state'],before)
+
+    def test_expiry_after_durable_cancel_claim_withholds_cancel(self):
+        self.submit()
+        original=self.store.begin_cancel
+        def claim(intent):
+            command=original(intent)
+            patch=self.expired_clock();patch.start();self.addCleanup(patch.stop)
+            return command
+        self.store.begin_cancel=claim
+        with self.assertRaisesRegex(futu.Error,'current_bounded_authorization'):
+            self.adapter.cancel(self.store,'one',authorization=self.authorization)
+        self.assertEqual(self.ctx.cancelled,[])
+        self.assertEqual(self.store._row('one')['cancel_state'],'UNKNOWN')
+
+    def test_caller_mutation_cannot_extend_inflight_authorization(self):
+        original=self.ctx.acctradinginfo_query
+        def capacity(**kwargs):
+            result=original(**kwargs)
+            patch=self.expired_clock();patch.start();self.addCleanup(patch.stop)
+            self.authorization['expires_at']=(datetime.now(timezone.utc)+timedelta(hours=1)).isoformat()
+            return result
+        self.ctx.acctradinginfo_query=capacity
+        with self.assertRaisesRegex(futu.Error,'current_bounded_authorization'):self.submit()
+        self.assertEqual(self.ctx.sent,[])
     def test_callback_before_sync_response_keeps_fee_unknown(self):
         self.ctx.callback=self.adapter.callbacks.put
         self.submit()

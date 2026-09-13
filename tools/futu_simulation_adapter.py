@@ -8,6 +8,7 @@ zero fee, a completed accounting observation, or an atomic account snapshot.
 from __future__ import annotations
 
 import argparse
+import copy
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 import hashlib
@@ -389,10 +390,22 @@ class FutuAdapter:
 
     def drain_callbacks(self, store):
         while not self.callbacks.empty():
-            raw = self.callbacks.get_nowait()
-            if str(raw.get("acc_id")) != self.profile["account_id"] or raw.get("trd_env") != "SIMULATE":
+            envelope = self.callbacks.get_nowait()
+            if type(envelope) is not dict or envelope.get('error'):
+                store.stop("callback_decode_or_header_invalid")
+                raise Error("callback_decode_or_header_invalid")
+            header, raw = envelope.get('header'), envelope.get('order')
+            if (type(header) is not dict or type(raw) is not dict
+                    or header.get('acc_id') != self.profile['account_id']
+                    or header.get('trd_env') != 'SIMULATE' or header.get('trd_market') != 'US'
+                    or any(key in raw and str(raw[key]) != header[key]
+                           for key in ('acc_id', 'trd_env', 'trd_market'))):
                 store.stop("callback_account_or_environment_mismatch")
                 raise Error("callback_account_or_environment_mismatch")
+            # The pinned SDK drops accID from its DataFrame. Retain the actual
+            # protobuf header separately; never manufacture scope from profile.
+            with core.transaction(store.db):
+                store._event('FUTU_ORDER_CALLBACK_ENVELOPE', envelope)
             store.observe_order(raw, origin="SDK_ORDER_CALLBACK")
 
     def reconcile(self, store):
@@ -420,25 +433,45 @@ class FutuAdapter:
             orders=observations,cash=read["value"]["cash"],positions=read["value"]["positions"]))
         return {"state": result, "read_barrier": read, "atomic_snapshot_claimed": False}
 
-    def _authorize(self, store, intent_id, authorization, *, for_cancel=False):
+    def _validate_authorization(self, store, intent_id, authorization):
         if (type(authorization) is not dict or set(authorization) != {"mode", "account_id", "intent_id", "payload_sha256", "expires_at", "exclusive_account_control", "operations"}
                 or authorization["mode"] != MODE or authorization["account_id"] != self.profile["account_id"]
                 or authorization["intent_id"] != intent_id or authorization["exclusive_account_control"] is not True
                 or authorization["operations"] != ["SUBMIT_ONCE", "CANCEL_OWN_ORDER"]):
             raise Error("explicit_bound_operator_authorization_required")
-        expiry = datetime.fromisoformat(authorization["expires_at"].replace("Z", "+00:00"))
+        try:
+            expiry = datetime.fromisoformat(authorization["expires_at"].replace("Z", "+00:00"))
+            if expiry.tzinfo is None:raise ValueError('timezone required')
+        except (AttributeError, TypeError, ValueError) as exc:
+            raise Error('current_bounded_authorization_required') from exc
         remaining = (expiry-datetime.now(timezone.utc)).total_seconds()
         if not 0 < remaining <= 86400:
             raise Error("current_bounded_authorization_required")
         payload = json.loads(store._row(intent_id)["payload"])
         if authorization["payload_sha256"] != core.fingerprint(payload) or store.profile != self.profile:
             raise Error("authorization_payload_or_account_mismatch")
+
+    def _authorize(self, store, intent_id, authorization, *, for_cancel=False):
+        self._validate_authorization(store, intent_id, authorization)
         self.validate_account()
         if not for_cancel:self.instrument(require_open=True)
         self.bind_authority(store)
 
+    def _authorize_dispatch(self, store, intent_id, authorization, operation):
+        try:
+            self._validate_authorization(store, intent_id, authorization)
+        except Error as exc:
+            # A committed possible-send claim is never rolled back or retried.
+            # This is a local withheld dispatch, not a venue rejection.
+            with core.transaction(store.db):
+                store._event('FUTU_DISPATCH_WITHHELD', {
+                    'intent_id': intent_id, 'operation': operation, 'reason': str(exc)})
+                store._halt('futu_dispatch_authorization_expired_or_invalid')
+            raise
+
     def submit_once(self, store, intent_id, *, authorization, discard_sync_response=False):
         if type(discard_sync_response) is not bool:raise Error('explicit_fault_injection_bool_required')
+        authorization = copy.deepcopy(authorization)
         self._authorize(store, intent_id, authorization)
         # A durable existing attempt never gets another order send.
         if store._row(intent_id)["state"] != "PREPARED":
@@ -448,8 +481,10 @@ class FutuAdapter:
         if not self.callbacks.empty():
             self.drain_callbacks(store)
             raise Error('callback_invalidated_submit_reconciliation')
+        self._validate_authorization(store, intent_id, authorization)
         command = store.claim_submit(intent_id)
         if command is None: return "ALREADY_ATTEMPTED_NO_SEND"
+        self._authorize_dispatch(store, intent_id, authorization, 'SUBMIT_ONCE')
         try:
             reply = self.context.place_order(price=float(command["limit_price"]),qty=command["quantity"],code=command["symbol"],
                 trd_side=command["side"],order_type="NORMAL",adjust_limit=0,trd_env="SIMULATE",acc_id=int(self.profile["account_id"]),
@@ -466,9 +501,12 @@ class FutuAdapter:
         return "ORDER_RECORDED_ACCOUNTING_UNKNOWN"
 
     def cancel(self, store, intent_id, *, authorization):
+        authorization = copy.deepcopy(authorization)
         self._authorize(store,intent_id,authorization,for_cancel=True)
+        self._validate_authorization(store, intent_id, authorization)
         command=store.begin_cancel(intent_id)
         if command is None:return "NO_CANCEL_SEND"
+        self._authorize_dispatch(store, intent_id, authorization, 'CANCEL_OWN_ORDER')
         try:
             reply=self.context.modify_order(modify_order_op="CANCEL",order_id=command["broker_order_id"],qty=0,price=0,
                 trd_env="SIMULATE",acc_id=int(self.profile["account_id"]))
@@ -479,11 +517,43 @@ class FutuAdapter:
         return "CANCEL_ACK_NOT_TERMINAL"
 
 
+def make_order_handler(adapter):
+    """Use the real SDK decoder while retaining protobuf account scope."""
+    if importlib.metadata.version('futu-api') != SDK_VERSION:
+        raise Error('reviewed_futu_sdk_version_required')
+    from futu import TradeOrderHandlerBase, TrdEnv, TrdMarket, RET_OK, RET_ERROR
+
+    class Handler(TradeOrderHandlerBase):
+        def on_recv_rsp(self, response):
+            try:
+                if not response.IsInitialized():raise Error('callback_required_protobuf_fields_missing')
+                if (not response.HasField('s2c') or not response.s2c.HasField('header')
+                        or not response.s2c.HasField('order')):
+                    raise Error('callback_header_or_order_missing')
+                header = response.s2c.header
+                if not all(header.HasField(k) for k in ('accID', 'trdEnv', 'trdMarket')):
+                    raise Error('callback_header_fields_missing')
+                scope = dict(acc_id=exact_id(str(header.accID)),
+                    trd_env=TrdEnv.to_string2(header.trdEnv), trd_market=TrdMarket.to_string2(header.trdMarket))
+                ret, data = super().on_recv_rsp(response)
+                if ret != RET_OK:raise Error('callback_sdk_decode_rejected')
+                decoded = rows(data)
+                if len(decoded) != 1:raise Error('callback_single_order_required')
+                adapter.callbacks.put(dict(header=scope, order=decoded[0],
+                    protocol_header=dict(accID=str(header.accID), trdEnv=header.trdEnv, trdMarket=header.trdMarket)))
+                return ret, data
+            except Exception as exc:
+                adapter.callbacks.put({'error': type(exc).__name__})
+                return RET_ERROR, 'callback_decode_or_header_invalid'
+
+    return Handler()
+
+
 def open_sdk(profile):
     profile=binding(profile)
     if importlib.metadata.version("futu-api") != SDK_VERSION:
         raise Error("reviewed_futu_sdk_version_required")
-    from futu import OpenSecTradeContext,OpenQuoteContext,SecurityFirm,TrdMarket,TradeOrderHandlerBase,RET_OK
+    from futu import OpenSecTradeContext,OpenQuoteContext,SecurityFirm,TrdMarket
     context=OpenSecTradeContext(filter_trdmarket=TrdMarket.US,host=profile["host"],port=profile["port"],security_firm=SecurityFirm.NONE)
     context.set_sync_query_connect_timeout(15)
     quote=None
@@ -491,13 +561,7 @@ def open_sdk(profile):
         quote=OpenQuoteContext(host=profile['host'],port=profile['port'],is_async_connect=True,security_firm=SecurityFirm.NONE)
         quote.set_sync_query_connect_timeout(15)
         adapter=FutuAdapter(context,profile,quote_context=quote)
-        class Handler(TradeOrderHandlerBase):
-            def on_recv_rsp(self, response):
-                ret,data=super().on_recv_rsp(response)
-                if ret==RET_OK:
-                    for row in rows(data):adapter.callbacks.put(row)
-                return ret,data
-        context.set_handler(Handler())
+        context.set_handler(make_order_handler(adapter))
         return adapter
     except BaseException:
         if quote is not None:quote.close()

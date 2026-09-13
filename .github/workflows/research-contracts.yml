@@ -104,6 +104,20 @@ jobs:
           python -B -m unittest discover -s tests/repository_only -p "test_*.py" -v
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+      - name: Verify pinned Futu SDK callback protocol in an isolated environment
+        run: |
+          $sdkRoot = Join-Path '${{ runner.temp }}' 'futu-sdk-contract'
+          python -m venv $sdkRoot
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $sdkPython = Join-Path $sdkRoot 'Scripts/python.exe'
+          & $sdkPython -m pip install --requirement requirements.futu-sdk.lock
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $sdkPython -m pip check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $env:APPDATA = Join-Path $sdkRoot 'private-sdk-logs'
+          & $sdkPython -B -m unittest discover -s tests/sdk_contracts -p 'test_*.py' -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
   deterministic-references:
     name: Deterministic references
     runs-on: windows-latest
