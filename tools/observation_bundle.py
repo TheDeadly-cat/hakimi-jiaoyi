@@ -88,8 +88,35 @@ def source_commit(source):
         raise ValueError('source_commit_unavailable')
     return result.stdout.strip()
 
+def deployment_plan_references(runtime,plan):
+    """Open pinned deployment paths in this process's actual filesystem view."""
+    runtime=Path(runtime).resolve()
+    document=read(runtime/'forward/deployment-plans.json')
+    entries=document.get('plans')
+    expected={item['plan_hash'] for item in plan['plans']}
+    if type(entries) is not list or len(entries)!=len(expected) or len(expected)!=2:
+        raise ValueError('deployment_plan_reference_count_invalid')
+    references=[]
+    for entry in entries:
+        if type(entry) is not dict or set(entry)!={'plan'} or type(entry['plan']) is not str:
+            raise ValueError('deployment_plan_reference_invalid')
+        path=Path(entry['plan'])
+        if not path.is_absolute() or path.resolve().parent!=(runtime/'forward/plans').resolve():
+            raise ValueError('deployment_plan_reference_outside_frozen_directory')
+        value=read(path)
+        identity=value.get('plan_hash')
+        if (value.get('schema_version')!='forward-observation-plan-v1' or identity not in expected
+                or digest({key:item for key,item in value.items() if key!='plan_hash'})!=identity):
+            raise ValueError('deployment_plan_reference_identity_invalid')
+        references.append({'plan_hash':identity,'file_sha256':file_hash(path)})
+    if {item['plan_hash'] for item in references}!=expected:
+        raise ValueError('deployment_plan_references_missing_or_duplicated')
+    return references
+
+
 def runtime_preflight(runtime,job):
-    job.verify_deployment(runtime)
+    plan=job.verify_deployment(runtime)
+    references=deployment_plan_references(runtime,plan)
     code=('import importlib.util,json,pathlib,sys; r=pathlib.Path(sys.argv[1]).resolve(); '
           's=importlib.util.spec_from_file_location("frozen_preflight",r/"tools/forward_reliability.py"); '
           'm=importlib.util.module_from_spec(s); s.loader.exec_module(m); '
@@ -99,7 +126,8 @@ def runtime_preflight(runtime,job):
                        timeout_seconds=30,output_limit_bytes=16384,cleanup_seconds=5)
     if result.returncode or result.bounds['outcome']!='EXITED' or not result.bounds['cleanup_confirmed']:
         raise ValueError('installed_runtime_preflight_failed')
-    return {'verification':json.loads(result.stdout),'execution_bounds':result.bounds,'checked_at':stamp(now())}
+    return {'verification':json.loads(result.stdout),'deployment_plan_references':references,
+            'execution_bounds':result.bounds,'checked_at':stamp(now())}
 
 def create(destination,runtime,start_cutoff):
     source=Path(__file__).resolve().parent
@@ -211,7 +239,12 @@ def run_role(root,expected_hash,role):
             raise ValueError('unknown_fixed_role')
         first=timestamp(manifest['start_cutoff'])
         last=timestamp(manifest['end_cutoff_exclusive'] if role=='observe' else manifest['watch_end_exclusive'])
-        if now()>=last or role=='observe' and now()<first:
+        if now()>=last:
+            end['status']='OUTSIDE_DECLARED_RUN_WINDOW'
+        elif role=='observe' and now()<first:
+            # A window-excluded OS smoke must still exercise the native view of
+            # absolute plan paths. It never invokes the market collector.
+            end['prewindow_runtime_preflight']=runtime_preflight(Path(manifest['runtime_root']),watch.job)
             end['status']='OUTSIDE_DECLARED_RUN_WINDOW'
         else:
             runtime=Path(manifest['runtime_root'])

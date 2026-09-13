@@ -121,13 +121,62 @@ $parsed='{"first":"2026-09-13T01:00:30Z","end":"2026-09-16T01:10:00Z"}' | Conver
     def test_observation_does_not_start_before_or_after_declared_window(self):
         manifest=self.create()
         loaded,watch=module.verify_bundle(self.bundle,manifest['receipt_hash'])
-        with patch.object(module,'verify_bundle',return_value=(loaded,watch)),patch.object(watch.job,'execute') as execute:
+        with patch.object(module,'verify_bundle',return_value=(loaded,watch)),patch.object(watch.job,'execute') as execute,patch.object(module,'runtime_preflight',return_value=self.preflight) as preflight:
             before=module.run_role(self.bundle,manifest['receipt_hash'],'observe')
             self.clock=module.timestamp(manifest['end_cutoff_exclusive'])
             after=module.run_role(self.bundle,manifest['receipt_hash'],'observe')
         self.assertEqual(before['status'],after['status'])
         self.assertEqual(before['status'],'OUTSIDE_DECLARED_RUN_WINDOW')
+        self.assertEqual(before['prewindow_runtime_preflight'],self.preflight)
+        self.assertNotIn('prewindow_runtime_preflight',after)
+        preflight.assert_called_once_with(Path(manifest['runtime_root']),watch.job)
         execute.assert_not_called()
+
+    def reference_fixture(self):
+        directory=self.runtime/'forward/plans'
+        directory.mkdir(parents=True)
+        entries=[]
+        expected=[]
+        for index in range(2):
+            core={'schema_version':'forward-observation-plan-v1','fixture_index':index}
+            identity=module.digest(core)
+            path=directory/(identity+'.json')
+            path.write_text(json.dumps(dict(core,plan_hash=identity)),encoding='utf-8')
+            entries.append({'plan':str(path)})
+            expected.append({'plan_hash':identity})
+        config=self.runtime/'forward/deployment-plans.json'
+        config.write_text(json.dumps({'plans':entries}),encoding='utf-8')
+        return config,entries,{'plans':expected}
+
+    def test_deployment_paths_are_opened_and_missing_plan_is_rejected(self):
+        config,entries,plan=self.reference_fixture()
+        actual=module.deployment_plan_references(self.runtime,plan)
+        self.assertEqual({x['plan_hash'] for x in actual},{x['plan_hash'] for x in plan['plans']})
+        Path(entries[1]['plan']).unlink()
+        with self.assertRaises(FileNotFoundError):
+            module.deployment_plan_references(self.runtime,plan)
+
+    def test_identical_plan_outside_frozen_directory_is_rejected(self):
+        config,entries,plan=self.reference_fixture()
+        outside=self.root/'foreign-plan.json'
+        outside.write_bytes(Path(entries[0]['plan']).read_bytes())
+        entries[0]['plan']=str(outside)
+        config.write_text(json.dumps({'plans':entries}),encoding='utf-8')
+        with self.assertRaisesRegex(ValueError,'outside_frozen_directory'):
+            module.deployment_plan_references(self.runtime,plan)
+
+    def test_duplicate_and_modified_pinned_plan_references_are_rejected(self):
+        config,entries,plan=self.reference_fixture()
+        config.write_text(json.dumps({'plans':[entries[0],entries[0]]}),encoding='utf-8')
+        with self.assertRaisesRegex(ValueError,'missing_or_duplicated'):
+            module.deployment_plan_references(self.runtime,plan)
+        config.write_text(json.dumps({'plans':entries}),encoding='utf-8')
+        path=Path(entries[0]['plan'])
+        value=json.loads(path.read_text(encoding='utf-8'))
+        value['fixture_index']=999
+        path.write_text(json.dumps(value),encoding='utf-8')
+        with self.assertRaisesRegex(ValueError,'identity_invalid'):
+            module.deployment_plan_references(self.runtime,plan)
 
     def test_watch_child_boundary_failure_is_not_preflight_or_success(self):
         manifest=self.create()
@@ -138,6 +187,15 @@ $parsed='{"first":"2026-09-13T01:00:30Z","end":"2026-09-16T01:10:00Z"}' | Conver
         self.assertEqual(result['status'],'CHILD_EXECUTION_BOUNDARY_FAILED')
         self.assertEqual(execute.call_args.kwargs['timeout_seconds'],40)
         self.assertEqual(execute.call_args.kwargs['cleanup_seconds'],5)
+
+    def test_prewindow_runtime_reference_failure_is_not_a_successful_skip(self):
+        manifest=self.create()
+        loaded,watch=module.verify_bundle(self.bundle,manifest['receipt_hash'])
+        with patch.object(module,'verify_bundle',return_value=(loaded,watch)),patch.object(module,'runtime_preflight',side_effect=FileNotFoundError('missing embedded plan')),patch.object(watch.job,'execute') as execute:
+            result=module.run_role(self.bundle,manifest['receipt_hash'],'observe')
+        self.assertEqual(result['status'],'FAILED_PREFLIGHT')
+        self.assertEqual(result['error_type'],'FileNotFoundError')
+        execute.assert_not_called()
 
     def test_exit_zero_without_a_bound_watch_report_is_invalid(self):
         manifest=self.create()

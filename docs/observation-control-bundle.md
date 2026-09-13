@@ -1,6 +1,6 @@
 # 固定运行件与有限观察窗口
 
-状态：[授权后的实际调度切换](research-evidence/observation-activation-20260913/README.md)已完成，旧 heartbeat 已暂停，两项 OS 任务已注册并启用，系统入口人工调用已通过。声明窗口为北京时间 2026-09-13 12:00 至 2026-09-16 12:00，巡检至 12:10；自然触发及完整 72 小时仍待验收。[先前固定运行件预演](research-evidence/observation-control-20260913/README.md)保留其历史状态。修复后 175 项仓库配套测试通过，其中包含 10 项固定运行件检查；计数相互包含。原生通知显示和冻结链路故障恢复的既有证据保留各自代码身份。
+状态：[授权后的实际调度切换](research-evidence/observation-activation-20260913/README.md)已完成，旧 heartbeat 已暂停，两项 OS 任务已注册并启用。首轮暴露宿主 AppData 路径问题，[修复后的人工恢复重试](research-evidence/observation-activation-20260913/first-cycle-recovery.md)得到两个迟到但可重放的结果，巡检保留首次期限失败，通知显示仍被系统用户状态延后。声明窗口为北京时间 2026-09-13 12:00 至 2026-09-16 12:00，巡检至 12:10；下一自然小时和完整 72 小时仍待验收。[先前预演](research-evidence/observation-control-20260913/README.md)保留历史范围。
 
 `tools/observation_bundle.py create` 从已提交且与 HEAD 一致的六个控制脚本复制精确本机字节，写入新的本地目录。它保存 Git 提交、文件 SHA-256、独立巡检计划和原安装环境预检。目录与原冻结部署分离，观察与巡检回执也各用一个子目录。清单含本机绝对路径，不应原样上传 GitHub；摘要用于检测漂移，不是抵御本机管理员的签名。
 
@@ -12,6 +12,10 @@ python -I -B tools/observation_bundle.py create --output $newBundle --runtime-ro
 ```
 
 创建要求开始时间至少晚于当前时间十分钟。最后一个命令仅通过 Windows Schedule.Service 在内存构造任务定义并输出 XML，不注册任务。过期计划必须另建目录和新窗口，不编辑已冻结清单。
+
+预检还必须逐一打开 `deployment-plans.json` 中的绝对计划引用，核对目录及钉住的内容身份。创建时的进程视图不必然与原生 Task Scheduler 相同，特别是应用管理的 AppData 重定向。实际注册后应在窗口前从 Windows 任务入口调用观察，检查有效保存的 `prewindow_runtime_preflight`；窗口外跳过本身不足以证明路径可达。新的源码入口在窗口前执行这项只读预检，绝不调用采集器；缺失引用、目录外引用、重复或摘要不符均失败。
+
+此修复的14项针对性检查及179项仓库配套检查通过，计数相互包含；新函数已在实际原生 Windows 任务中验证。当前已激活 bundle 保持原六个脚本字节，宿主路径修复后的观察使用原 bundle；源码预检修复没有原位部署到既有72小时窗口。
 
 | 角色 | 第一次触发 | 重复周期 | OS 执行期限 | 最后允许新运行 |
 |---|---|---|---|---|
