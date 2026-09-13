@@ -1,0 +1,77 @@
+{
+  "plan_version": "amd-2024q3-schedule-entry-filter-v1",
+  "frozen_at": "2026-09-12T17:53:00.917662Z",
+  "status": "FROZEN_PLAN_NOT_EXECUTED",
+  "scope": "ONE_COMPANY_ONE_EARNINGS_EVENT_ENGINEERING_COMPARISON",
+  "sample": {
+    "security_id": "US:COMMON:CUSIP:007903107",
+    "window_start": "2024-10-01",
+    "window_end": "2024-11-20",
+    "score_start_session": "2024-10-17",
+    "score_end_session": "2024-11-20",
+    "required_warmup_sessions": 12,
+    "company_count": 1,
+    "event_count": 1,
+    "snapshot_id": null,
+    "price_data_inspected_when_frozen": false
+  },
+  "common": {
+    "price_strategy": {
+      "name": "dual_ma",
+      "params": {
+        "fast_window": 5,
+        "slow_window": 10,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.06
+      }
+    },
+    "initial_cash": 10000,
+    "fee_rate": 0.0008,
+    "slippage_pct": 0.0005,
+    "risk": {
+      "max_position_pct": 0.25,
+      "max_single_loss_pct": 0.03,
+      "max_daily_loss_pct": 1.0,
+      "min_cash_pct": 0.0,
+      "max_leverage": 1.0
+    },
+    "end_policy": "MARK_TO_MARKET",
+    "execution_policy": "STANDARD_STRATEGY_RISK",
+    "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+    "bar_availability_lag_seconds": 60
+  },
+  "A": {
+    "event_rule": "DISABLED"
+  },
+  "B": {
+    "event_rule": "DROP_NEW_BUY_IF_NEXT_EXECUTION_SESSION_IS_ANNOUNCED_EARNINGS_DATE",
+    "schedule_source": "https://ir.amd.com/news-events/press-releases/detail/1223/amd-to-report-fiscal-third-quarter-2024-financial-results",
+    "schedule_public_at": "2024-10-16T13:00:00Z",
+    "assumed_collection_delay_seconds": 60,
+    "assumed_processing_delay_seconds": 60,
+    "scheduled_date": "2024-10-29",
+    "schedule_time_precision": "AFTER_MARKET_CLOSE",
+    "schedule_exact_release_at": null,
+    "selection": "At each decision time use only then-available schedule versions; recheck at execution against newly available versions. Never backfill the actual release timestamp.",
+    "existing_positions": "No forced exit or additional hedge; price exits and protective orders are unchanged.",
+    "blocked_intents": "Record rejected BUY with then-known event hash and reason; do not postpone a stale order into another session."
+  },
+  "required_before_run": [
+    "PRICE_SOURCE_AND_CORPORATE_ACTION_ADMISSION",
+    "VERSIONED_CONTEXT_AND_DATE_PRECISION_SUPPORT",
+    "SAME_LEDGER_AND_NO_EVENT_ECONOMIC_EQUIVALENCE",
+    "FUTURE_VERSION_NONINTERFERENCE",
+    "SHARED_CALENDAR_LEFT_COVERAGE_CHECK"
+  ],
+  "report": [
+    "all_scheduled_decisions_including_blocked_and_no_trade",
+    "returns_drawdown_costs_turnover_and_exposure",
+    "trade_count_and_lost_participation",
+    "company_and_event_counts_not_bar_counts"
+  ],
+  "C_D": "NOT_RUN; consider only after A/B and human field approval; no claim that an UNCERTAIN numeric extraction is a directional fact.",
+  "retention": "Retain both variants and all negative/no-change/no-trade outcomes; no additional parameter search on this window.",
+  "historical_selection_is_blind_or_preregistered": false,
+  "order_allowed": false
+}

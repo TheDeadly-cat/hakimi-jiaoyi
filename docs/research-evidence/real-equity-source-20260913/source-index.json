@@ -1,0 +1,79 @@
+{
+  "schema_version": "real-equity-source-index-public-v1",
+  "scope": "SOURCE_IDENTITIES_AND_PARTIAL_REAL_INPUT_PROGRESS_NOT_FULL_T2_ACCEPTANCE",
+  "sources": [
+    {
+      "name": "earnings",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1224/amd-reports-third-quarter-2024-financial-results",
+      "final_url": "https://ir.amd.com/news-events/press-releases/detail/1224/amd-reports-third-quarter-2024-financial-results",
+      "started_at": "2026-09-12T17:25:02.475932Z",
+      "retrieved_at": "2026-09-12T17:25:04.339787Z",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "raw_file": "earnings.html",
+      "size": 311830,
+      "sha256": "8ed6ed7cb37ea85ac4dd5e4bf8a2b82fcea21a3c7cde89a33bd18be85f12cf10"
+    },
+    {
+      "name": "schedule",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1223/amd-to-report-fiscal-third-quarter-2024-financial-results",
+      "final_url": "https://ir.amd.com/news-events/press-releases/detail/1223/amd-to-report-fiscal-third-quarter-2024-financial-results",
+      "started_at": "2026-09-12T17:25:04.340011Z",
+      "retrieved_at": "2026-09-12T17:25:04.897065Z",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "raw_file": "schedule.html",
+      "size": 33112,
+      "sha256": "0fe796a79af0e155752f032c049f70a4f82b1a1c74599c97624fc05c61075415"
+    },
+    {
+      "name": "faq",
+      "url": "https://ir.amd.com/contacts-faq/faq",
+      "final_url": "https://ir.amd.com/contacts-faq/faq",
+      "started_at": "2026-09-12T17:25:04.897138Z",
+      "retrieved_at": "2026-09-12T17:25:05.356851Z",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "raw_file": "faq.html",
+      "size": 39186,
+      "sha256": "ff48a608cf5d0a89eab67741597cf68378d3994e78ca1aaa8f90ab407e57ed27"
+    },
+    {
+      "name": "historical-page",
+      "url": "https://www.nasdaq.com/market-activity/stocks/amd/historical",
+      "final_url": "https://www.nasdaq.com/market-activity/stocks/amd/historical",
+      "started_at": "2026-09-12T17:25:05.356924Z",
+      "retrieved_at": "2026-09-12T17:25:08.313077Z",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "raw_file": "historical-page.html",
+      "size": 179953,
+      "sha256": "75c05d40d42cd5e602cdf21b0a724e064b47e7ee6c677d3f72eb31a053c4298b"
+    },
+    {
+      "url": "https://www.nasdaqtrader.com/content/technicalsupport/2024tradingcalendar.pdf",
+      "final_url": "https://www.nasdaqtrader.com/content/technicalsupport/2024tradingcalendar.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "started_at": "2026-09-12T17:41:11.658293Z",
+      "retrieved_at": "2026-09-12T17:41:13.135379Z",
+      "raw_file": "nasdaq-calendar-2024.pdf",
+      "sha256": "5a417265c706abe1e2eaa24e0c1fde1787e79fdd472eca105466a019f8ff1101",
+      "size": 105969
+    },
+    {
+      "url": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-24-000161/amd-20241029.htm",
+      "final_url": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-24-000161/amd-20241029.htm",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "started_at": "2026-09-12T17:41:13.135890Z",
+      "retrieved_at": "2026-09-12T17:41:14.758836Z",
+      "raw_file": "amd-20241029-8k.html",
+      "sha256": "01ace6c00380c1af2748b3f350b21fa377581e61806479b30ceb300f66fa7b13",
+      "size": 41103
+    }
+  ],
+  "original_documents": "KEPT_LOCAL_PENDING_REDISTRIBUTION_RIGHTS",
+  "prices": "NOT_ACQUIRED",
+  "corporate_action_admission": "PENDING_SOURCE_REVIEW"
+}

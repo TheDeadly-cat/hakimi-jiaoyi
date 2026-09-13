@@ -1,0 +1,17 @@
+{
+  "schema_version": "stock-engineering-sample-selection-v1",
+  "created_at": "2026-09-12T17:25:02.475570Z",
+  "candidate": "AMD common stock",
+  "window_start": "2024-10-01",
+  "window_end": "2024-11-20",
+  "event": "2024 Q3 results released 2024-10-29",
+  "selection_reason": "Public company originals and a preannouncement are available; limited engineering sample for data contracts, not selected by observed price returns.",
+  "price_data_inspected": false,
+  "historical_selection_is_blind_or_preregistered": false,
+  "price_rule": "BUY_AND_HOLD_SINGLE_ENTRY_MARK_TO_MARKET",
+  "risk_budget_fraction": 0.25,
+  "cost_fee_rate": 0.0008,
+  "cost_slippage_pct": 0.0005,
+  "source_admission": "PENDING_PRICE_LICENSE_AND_CORPORATE_ACTION_COVERAGE",
+  "broker_selected": false
+}
