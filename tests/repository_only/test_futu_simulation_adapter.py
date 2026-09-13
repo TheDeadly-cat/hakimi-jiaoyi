@@ -242,6 +242,16 @@ class FutuSimulationContracts(unittest.TestCase):
         self.ctx.cash='N/A'
         with self.assertRaises(futu.Error):
             self.adapter.stable_reads()
+    def test_existing_long_option_identifier_retains_provider_units_without_trading_permission(self):
+        symbol='US.EXAMPLE261218C100000'
+        self.ctx.positions=[dict(acc_id=123,currency='USD',position_side='LONG',code=symbol,qty=2)]
+        store=futu.SimulationStore.create_bound(self.root/'option-anchor.sqlite',profile=self.profile,cash='1000',holdings={symbol:2},max_order_notional='100',fee_reserve='3',anchor=self.adapter.stable_reads())
+        try:
+            self.assertEqual(store.inspect()['positions'],{symbol:2})
+            self.assertEqual(store.config['symbols'],{'US.AMD':'0.01'})
+            self.assertEqual(store.config['futu_anchor_other_position_units'],'PROVIDER_REPORTED_UNITS_NO_CONVERSION_OR_TRADING_PERMISSION')
+            with self.assertRaises(futu.Error):store.prepare('option-sell',symbol=symbol,side='SELL',quantity_value=1,limit_price='10')
+        finally:store.close()
     def test_margin_capacity_does_not_substitute_for_cash_capacity(self):
         self.ctx.acctradinginfo_query=lambda **kwargs:(0,[dict(max_cash_buy=0,max_cash_and_margin_buy=1000)])
         with self.assertRaisesRegex(futu.Error,'cash_only'):self.submit()

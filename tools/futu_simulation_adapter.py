@@ -125,7 +125,10 @@ class SimulationStore(core.ExecutionStore):
         # Retain pre-existing holdings as the explicit starting account anchor;
         # only the bound AMD symbol is permitted for newly prepared intents.
         symbols = {profile["symbol"]: "0.01"}
-        if any(not re.fullmatch(r"US\.[A-Z][A-Z0-9.]{0,15}", symbol) for symbol in holdings):
+        # Existing US stock/option account positions remain opaque provider
+        # identifiers and units. A longer symbol never grants trading authority
+        # or permission to reinterpret option contracts as underlying shares.
+        if any(type(symbol) is not str or not re.fullmatch(r"US\.[A-Z][A-Z0-9.]{0,63}", symbol) for symbol in holdings):
             raise Error("unrecognized_initial_instrument")
         store = cls.create(path, cash=cash, holdings=holdings, symbols=symbols,
                            max_order_notional=max_order_notional, fee_reserve=fee_reserve)
@@ -133,6 +136,7 @@ class SimulationStore(core.ExecutionStore):
             store.config["futu_binding"] = profile
             store.config['futu_store_id']=core.uuid.uuid4().hex
             store.config['futu_anchor']=anchor
+            store.config['futu_anchor_other_position_units']='PROVIDER_REPORTED_UNITS_NO_CONVERSION_OR_TRADING_PERMISSION'
             store.db.execute("UPDATE meta SET config=?", (core.encoded(store.config),))
             store.db.execute("CREATE TABLE futu_orders(order_id TEXT PRIMARY KEY, projection TEXT NOT NULL, evidence TEXT NOT NULL, admitted_projection_hash TEXT)")
             store.db.execute('CREATE TABLE futu_statement_sources(sha256 TEXT PRIMARY KEY, content BLOB NOT NULL)')
