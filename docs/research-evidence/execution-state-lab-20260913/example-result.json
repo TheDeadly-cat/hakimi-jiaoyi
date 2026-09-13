@@ -1,0 +1,38 @@
+{
+  "scope": "LOCAL_DURABLE_EXECUTION_LAB_NOT_OFFICIAL_SIMULATION",
+  "lost_response": "UNKNOWN_RECONCILE_BEFORE_NEW_RISK",
+  "implementation_sha256": "a761124eeee37ea4933e8759f59e8d6b99de08463fc82a95ef26e591fb626ee1",
+  "restart_duplicate": "ALREADY_ATTEMPTED_NO_SEND",
+  "simulator_submission_count": 1,
+  "state": {
+    "mode": "LOCAL_SIMULATOR",
+    "cash": "901.2",
+    "positions": {
+      "TEST": 10
+    },
+    "reserved_cash": "0",
+    "reserved_sell_quantities": {},
+    "unresolved_intents": [],
+    "stop_reason": null,
+    "orders": [
+      {
+        "intent_id": "example-1",
+        "client_id": "f77733a7e2a9440a19f9671d116c0665",
+        "payload": "{\"limit_price\":\"10\",\"quantity\":10,\"side\":\"BUY\",\"symbol\":\"TEST\"}",
+        "state": "FILLED",
+        "claim_id": "b3517130788f46579931fa1fc0e6ae54",
+        "broker_id": "LABO-5ed268df90b44b6f8c417927229516a5",
+        "cancel_state": "SUPERSEDED_BY_FILL",
+        "cancel_id": "a49f2de48e6642f99f0c3f97b55d1c46",
+        "filled": 10,
+        "notional": "98",
+        "fee": "0.8"
+      }
+    ],
+    "revision": 14,
+    "official_simulator_verified": false,
+    "broker_calls_allowed": false,
+    "real_funds_allowed": false
+  },
+  "notification_or_broker_calls": false
+}

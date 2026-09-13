@@ -1,0 +1,54 @@
+{
+  "schema_version": "execution-lab-validation-v1",
+  "recorded_at": "2026-09-12T19:15:45.962293Z",
+  "source_commit": "88e9c392b4233dffd658674a83a05b6fbb6086b7",
+  "implementation_sha256": "a761124eeee37ea4933e8759f59e8d6b99de08463fc82a95ef26e591fb626ee1",
+  "test_file_sha256": "38d3da0b66678d7bdb16564b8be7af8917d9c82aadbf9249731532cb3ce5294a",
+  "python_version": "3.14.6",
+  "sqlite_version": "3.50.4",
+  "scope": "LOCAL_DURABLE_STATE_AND_SIMULATED_VENUE_ONLY",
+  "targeted_tests": {
+    "tests_run": 25,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "log_sha256": "869e51d4baf960952967231b70089017e64062456a4bd2b8f11cad4599ce4d70"
+  },
+  "earlier_repository_check": {
+    "tests_run": 146,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "scope": "BEFORE_FINAL_SELL_CASE_ADDED; included the previous 24 lab tests; not the final CI count",
+    "log_sha256": "7544ca930114175fd30e3d142b7120fc73472969eb1239a2b94fe40ae8848a4d"
+  },
+  "initial_failure": {
+    "tests_run": 18,
+    "errors": 1,
+    "reason": "Test fixture failed to explicitly close the non-lab SQLite connection before temporary cleanup",
+    "log_sha256": "815f9e0038cab3c19379a2266a74f207ffee988e0f04d624b8736f9dacbcadd7"
+  },
+  "standalone_run": {
+    "working_directory": "OUTSIDE_REPOSITORY",
+    "python_isolated_mode": true,
+    "cli_network": "DENIED_BY_PYTHON_AUDIT_HOOK",
+    "submission_count_after_lost_response_and_restart": 1,
+    "closed_databases_read_back": {
+      "client.sqlite": {
+        "sha256": "b838d7cdab7884d6805f891489c06abf0eb534eb38fdb05f5a60ac6c42fe8be4",
+        "user_version": 1,
+        "application_id": 1212501041
+      },
+      "simulated-venue.sqlite": {
+        "sha256": "6ec977ee3f0dedf8c30a44798dd5b123f3c7ac400db9acbe043746e043f9c22e",
+        "user_version": 1,
+        "application_id": 1212503601
+      }
+    },
+    "result_sha256": "c3eac4940f37e8cf33854273aedce0c3139c346d4ef205b9c3f074981486e675"
+  },
+  "official_broker_api": "NOT_RUN",
+  "official_paper_order_cycle": "NOT_RUN",
+  "real_funds": "NOT_CONNECTED",
+  "research_package_changed": false
+}
