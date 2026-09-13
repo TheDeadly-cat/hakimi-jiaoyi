@@ -126,10 +126,16 @@ def transaction(db):
 
 class ExecutionStore:
     """At most one submission attempt per intent; uncertainty always reconciles."""
+    mode = MODE
+    application_id = APP_ID
+    reconciliation_scope = "ALL_LAB_ORDERS_BALANCES_POSITIONS"
+    rule_authority = "LAB_DECLARATION_NOT_BROKER_RULES"
+    allow_untradable_seed_positions = False
+
     def __init__(self, path):
-        self.db = connect_existing(path, APP_ID)
+        self.db = connect_existing(path, self.application_id)
         self.config = json.loads(self.db.execute("SELECT config FROM meta").fetchone()[0])
-        if self.config["mode"] != MODE:
+        if self.config["mode"] != self.mode:
             self.db.close()
             raise StateError("local_simulator_mode_required")
         # A previous process's successful query never authorizes this process.
@@ -148,13 +154,14 @@ class ExecutionStore:
             if tick <= 0:
                 raise StateError("positive_tick_required")
             rules[text(symbol)] = formatted(tick)
-        if not set(holdings) <= set(rules) or amount(max_order_notional) <= 0:
+        if ((not cls.allow_untradable_seed_positions and not set(holdings) <= set(rules))
+                or amount(max_order_notional) <= 0):
             raise StateError("invalid_lab_seed_or_limit")
         amount(fee_reserve)
-        config = {"mode": MODE, "currency": "USD", "seed_cash": cash, "seed_positions": holdings,
+        config = {"mode": cls.mode, "currency": "USD", "seed_cash": cash, "seed_positions": holdings,
                   "symbols": rules, "max_order_notional": max_order_notional, "fee_reserve": fee_reserve,
-                  "rule_authority": "LAB_DECLARATION_NOT_BROKER_RULES"}
-        create_database(path, APP_ID, """
+                  "rule_authority": cls.rule_authority}
+        create_database(path, cls.application_id, """
             CREATE TABLE meta(config TEXT NOT NULL, stop_reason TEXT, query_token TEXT);
             CREATE TABLE orders(intent_id TEXT PRIMARY KEY, client_id TEXT UNIQUE NOT NULL,
                 payload TEXT NOT NULL, state TEXT NOT NULL, claim_id TEXT, broker_id TEXT UNIQUE,
@@ -217,7 +224,7 @@ class ExecutionStore:
     def inspect(self):
         with transaction(self.db):
             cash, held, reserved, shares, unresolved = self._balances()
-            return {"mode": MODE, "cash": formatted(cash), "positions": held,
+            return {"mode": self.mode, "cash": formatted(cash), "positions": held,
                     "reserved_cash": formatted(reserved), "reserved_sell_quantities": shares,
                     "unresolved_intents": unresolved, "stop_reason": self.db.execute("SELECT stop_reason FROM meta").fetchone()[0],
                     "orders": [dict(row) for row in self.db.execute("SELECT * FROM orders ORDER BY intent_id")],
@@ -271,7 +278,7 @@ class ExecutionStore:
                 raise StateError("reduce_only_sell_exceeded")
             claim_id = uuid.uuid4().hex
             self.db.execute("UPDATE orders SET state='SUBMIT_UNKNOWN',claim_id=? WHERE intent_id=?", (claim_id, intent_id))
-            command = {"mode": MODE, "operation": "SUBMIT", "intent_id": intent_id,
+            command = {"mode": self.mode, "operation": "SUBMIT", "intent_id": intent_id,
                        "client_id": row["client_id"], "claim_id": claim_id, **order}
             self._event("SUBMISSION_MAY_REACH_VENUE", command)
             return command  # committed before the caller can send anything
@@ -293,7 +300,7 @@ class ExecutionStore:
                 raise StateError("cancel_requires_known_broker_order_id")
             cancel_id = uuid.uuid4().hex
             self.db.execute("UPDATE orders SET cancel_state='UNKNOWN',cancel_id=? WHERE intent_id=?", (cancel_id, intent_id))
-            command = {"mode": MODE, "operation": "CANCEL", "intent_id": intent_id,
+            command = {"mode": self.mode, "operation": "CANCEL", "intent_id": intent_id,
                        "broker_order_id": row["broker_id"], "cancel_id": cancel_id}
             self._event("CANCEL_MAY_REACH_VENUE", command)
             return command
@@ -412,7 +419,7 @@ class ExecutionStore:
             try:
                 if (type(snapshot) is not dict or set(snapshot) != {"mode", "scope", "query_token", "orders", "cash", "positions"}
                         or any(type(snapshot[key]) is not str for key in ("mode", "scope", "query_token", "cash"))
-                        or snapshot["mode"] != MODE or snapshot["scope"] != "ALL_LAB_ORDERS_BALANCES_POSITIONS"
+                        or snapshot["mode"] != self.mode or snapshot["scope"] != self.reconciliation_scope
                         or snapshot["query_token"] != self._query[0] or type(snapshot["orders"]) is not list or len(snapshot["orders"]) > 10000):
                     raise StateError("complete_scoped_snapshot_required")
                 client_ids = set()
