@@ -163,6 +163,13 @@ def _run_owned_windows(argv, root, *, environment, timeout_seconds, output_limit
     started = time.monotonic()
     deadline = started + timeout_seconds
     job = _WindowsJob()
+    # Attestation names are overwritten by this owner, never accepted from the
+    # caller's environment. The gated child and its descendants share this job.
+    environment = dict(environment)
+    environment.update(HAKIMI_OWNED_JOB_PARENT_PID=str(os.getpid()),
+                       HAKIMI_OWNED_JOB_HANDLE=str(int(job.handle)),
+                       HAKIMI_OWNED_JOB_DEADLINE=repr(deadline),
+                       HAKIMI_OWNED_JOB_OUTPUT_LIMIT=str(output_limit_bytes))
     process = None
     owned_process_handles = []
     readers = []

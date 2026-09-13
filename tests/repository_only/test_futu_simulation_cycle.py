@@ -2,8 +2,11 @@
 from datetime import datetime, timedelta, timezone
 import importlib.util
 import json
+import os
 from pathlib import Path
 import tempfile
+import subprocess
+import sys
 import unittest
 from unittest import mock
 
@@ -105,6 +108,52 @@ class OneOfficialCycleDriverContracts(unittest.TestCase):
         receipt=self.prepare()
         self.assertEqual(receipt['error'],'cycle_database_already_exists')
         self.assertEqual(before,self.database.read_bytes())
+
+    def test_source_change_during_capacity_query_withholds_actual_dispatch(self):
+        self.prepare()
+        frozen=cycle.source_hashes();changed=[False]
+        original=self.context.acctradinginfo_query
+        def capacity(**kwargs):
+            result=original(**kwargs);changed[0]=True;return result
+        self.context.acctradinginfo_query=capacity
+        def hashes():return frozen|{'futu_simulation_cycle.py':'0'*64} if changed[0] else frozen
+        with mock.patch.object(cycle,'source_hashes',side_effect=hashes):
+            receipt=self.phase('submit',authorization=self.authorization)
+        self.assertEqual(receipt['error'],'cycle_source_changed_before_dispatch')
+        self.assertEqual(receipt['order_dispatch_attempts'],0)
+        self.assertEqual(receipt['state']['orders'][0]['state'],'SUBMIT_UNKNOWN')
+        self.assertEqual(self.context.sent,[])
+
+    @unittest.skipUnless(os.name=='nt','Windows owned job boundary')
+    def test_direct_worker_flag_cannot_start_sdk_or_create_receipt(self):
+        env={k:v for k,v in os.environ.items() if not k.startswith('HAKIMI_OWNED_JOB_')}
+        output=self.root/'worker-output';output.mkdir()
+        result=subprocess.run([sys.executable,'-B',str(Path(cycle.__file__)),'prepare','--owned-worker',
+            '--database',str(self.database),'--profile',str(self.root/'missing-profile.json'),'--output-dir',str(output)],
+            env=env,capture_output=True,timeout=10)
+        self.assertNotEqual(result.returncode,0)
+        self.assertIn(b'parent_owned_job_attestation_required',result.stderr)
+        self.assertEqual(list(output.iterdir()),[])
+
+    @unittest.skipUnless(os.name=='nt','Windows owned job boundary')
+    def test_real_owned_worker_membership_and_existing_receipt_gate(self):
+        job=load('cycle_job_tested',Path(cycle.__file__).with_name('observation_job.py'))
+        script="import importlib.util,json; s=importlib.util.spec_from_file_location('cycle',"+repr(str(Path(cycle.__file__)))+"); m=importlib.util.module_from_spec(s);s.loader.exec_module(m); print(json.dumps(m.verify_owned_worker()))"
+        result=job.execute([sys.executable,'-B','-c',script],self.root,timeout_seconds=180,output_limit_bytes=131072,cleanup_seconds=5)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertTrue(json.loads(result.stdout)['parent_job_membership_verified'])
+        self.assertTrue(result.bounds['cleanup_confirmed'])
+        output=self.root/'used-output';output.mkdir()
+        marker=output/'receipt.private.json';marker.write_bytes(b'original receipt')
+        result=job.execute([sys.executable,'-B',str(Path(cycle.__file__)),'prepare','--owned-worker',
+            '--database',str(self.database),'--profile',str(self.root/'missing-profile.json'),'--output-dir',str(output)],
+            self.root,timeout_seconds=180,output_limit_bytes=131072,cleanup_seconds=5)
+        self.assertNotEqual(result.returncode,0)
+        self.assertIn('FileExistsError',result.stderr)
+        self.assertNotIn('FileNotFoundError',result.stderr)
+        self.assertEqual(marker.read_bytes(),b'original receipt')
+        self.assertFalse(self.database.exists())
+        self.assertTrue(result.bounds['cleanup_confirmed'])
 
 
 if __name__=='__main__':unittest.main()

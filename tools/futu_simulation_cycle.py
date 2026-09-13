@@ -7,6 +7,7 @@ invocation owns a fresh process; no scheduler, automatic retry or order loop.
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import importlib.util
 import json
@@ -14,6 +15,7 @@ import os
 from pathlib import Path
 import socket
 import sys
+import time
 
 
 def module(name, path):
@@ -40,9 +42,16 @@ class ScopedTransport:
     READS = {'get_acc_list', 'order_list_query', 'history_order_list_query',
              'accinfo_query', 'position_list_query', 'acctradinginfo_query', 'close'}
 
-    def __init__(self, context, phase, store):
-        self.context, self.phase, self.store = context, phase, store
+    def __init__(self, adapter, phase, store, authorization):
+        self.adapter, self.context, self.phase, self.store = adapter, adapter.context, phase, store
+        self.authorization = copy.deepcopy(authorization)
         self.calls = {'place_order': 0, 'modify_order': 0}
+
+    def _verify_dispatch(self):
+        if self.store.config['futu_cycle_source_sha256'] != source_hashes():
+            self.store.stop('cycle_source_changed_before_dispatch')
+            raise Error('cycle_source_changed_before_dispatch')
+        self.adapter._validate_authorization(self.store, INTENT, self.authorization)
 
     def __getattr__(self, name):
         if name not in self.READS:raise Error('cycle_transport_method_not_allowed')
@@ -63,8 +72,10 @@ class ScopedTransport:
             if not row['broker_id']:raise Error('cycle_cancel_requires_bound_broker_id')
         if set(kwargs) != set(expected) | {'trd_env', 'acc_id'} or any(kwargs[k] != v for k, v in expected.items()):
             raise Error('cycle_frozen_order_terms_changed')
+        self._verify_dispatch()
         with core.transaction(self.store.db):
             self.store._event('FUTU_CYCLE_DISPATCH_STARTED', {'method': name, 'kwargs': kwargs})
+        self._verify_dispatch()
         self.calls[name] += 1
         return getattr(self.context, name)(**kwargs)
 
@@ -118,7 +129,7 @@ def run_phase(phase, database, *, profile=None, authorization=None, statement=No
                 receipt['status'] = 'STATEMENT_ADMITTED_FRESH_RECONCILIATION_STILL_REQUIRED'
             else:
                 adapter = _sdk_factory(store.profile)
-                transport = ScopedTransport(adapter.context, phase, store)
+                transport = ScopedTransport(adapter, phase, store, authorization)
                 adapter.context = transport
                 if phase == 'submit':
                     receipt['status'] = adapter.submit_once(store, INTENT, authorization=authorization, discard_sync_response=True)
@@ -144,7 +155,8 @@ def run_phase(phase, database, *, profile=None, authorization=None, statement=No
         if transport is not None:
             receipt.update(order_dispatch_attempts=transport.calls['place_order'], cancel_dispatch_attempts=transport.calls['modify_order'])
         if source_hashes() != receipt['source_file_sha256']:
-            receipt.update(status='INCOMPLETE', error='cycle_source_changed_during_run')
+            receipt['status'] = 'INCOMPLETE'
+            receipt.setdefault('error', 'cycle_source_changed_during_run')
         receipt['checked_at'] = adapter_module.stamp()
     return receipt
 
@@ -164,6 +176,47 @@ def install_network_guard():
         if event == 'socket.getaddrinfo' and (args[0] != '127.0.0.1' or args[1] != 11111):
             raise Error('only_declared_opend_resolution_allowed')
     sys.addaudithook(guard)
+
+
+def verify_owned_worker():
+    """Verify membership in the live parent's private job before any SDK work.
+
+    Duplicate only QUERY access, then close it immediately so the worker cannot
+    keep the parent's kill-on-close job alive. This is a CLI execution boundary,
+    not protection against an administrator modifying Python or the host.
+    """
+    if os.name != 'nt':raise Error('owned_cycle_worker_requires_windows')
+    try:
+        owner = int(os.environ['HAKIMI_OWNED_JOB_PARENT_PID'])
+        handle = int(os.environ['HAKIMI_OWNED_JOB_HANDLE'])
+        remaining = float(os.environ['HAKIMI_OWNED_JOB_DEADLINE']) - time.monotonic()
+        limit = int(os.environ['HAKIMI_OWNED_JOB_OUTPUT_LIMIT'])
+    except (KeyError, ValueError) as exc:
+        raise Error('parent_owned_job_attestation_required') from exc
+    if owner <= 0 or handle <= 0 or not 0 < remaining <= 180 or limit != 131072:
+        raise Error('parent_owned_job_bounds_invalid')
+    import ctypes as c
+    from ctypes import wintypes as w
+    api = c.WinDLL('kernel32', use_last_error=True)
+    for name, args, ret in (
+        ('OpenProcess', [w.DWORD,w.BOOL,w.DWORD], w.HANDLE),
+        ('GetCurrentProcess', [], w.HANDLE),
+        ('DuplicateHandle', [w.HANDLE,w.HANDLE,w.HANDLE,c.POINTER(w.HANDLE),w.DWORD,w.BOOL,w.DWORD], w.BOOL),
+        ('IsProcessInJob', [w.HANDLE,w.HANDLE,c.POINTER(w.BOOL)], w.BOOL),
+        ('CloseHandle', [w.HANDLE], w.BOOL)):
+        getattr(api,name).argtypes=args;getattr(api,name).restype=ret
+    parent = api.OpenProcess(0x0040, False, owner)  # PROCESS_DUP_HANDLE
+    duplicate = w.HANDLE()
+    try:
+        if not parent or not api.DuplicateHandle(parent, handle, api.GetCurrentProcess(), c.byref(duplicate), 0x0004, False, 0):
+            raise Error('live_parent_owned_job_required')
+        belongs = w.BOOL()
+        if not api.IsProcessInJob(api.GetCurrentProcess(), duplicate, c.byref(belongs)) or not belongs.value:
+            raise Error('worker_not_in_attested_parent_job')
+    finally:
+        if duplicate:api.CloseHandle(duplicate)
+        if parent:api.CloseHandle(parent)
+    return dict(parent_job_membership_verified=True, remaining_seconds_at_check=remaining, output_limit_bytes=limit)
 
 
 def main():
@@ -189,12 +242,20 @@ def main():
         (args.output_dir/'process.private.json').write_text(json.dumps(dict(returncode=result.returncode, bounds=result.bounds), indent=2), encoding='utf-8')
         print(json.dumps(dict(phase=args.phase, returncode=result.returncode, outcome=result.bounds['outcome'], cleanup_confirmed=result.bounds['cleanup_confirmed'])))
         return result.returncode or (0 if result.bounds['outcome']=='EXITED' and result.bounds['cleanup_confirmed'] else 1)
-    os.environ['APPDATA'] = str(args.output_dir.resolve()/'private-sdk-logs')
-    install_network_guard()
-    def read(path):return json.loads(path.read_text(encoding='utf-8-sig')) if path else None
-    result = run_phase(args.phase, args.database, profile=read(args.profile), authorization=read(args.authorization),
-        statement=read(args.statement), statement_bytes=args.statement_source.read_bytes() if args.statement_source else None)
-    with (args.output_dir/'receipt.private.json').open('x', encoding='utf-8') as f:json.dump(result, f, indent=2, allow_nan=False)
+    attestation = verify_owned_worker()
+    # Reserve evidence before connecting or dispatching. Reusing any completed
+    # or interrupted phase directory fails before an external side effect.
+    with (args.output_dir/'receipt.private.json').open('x', encoding='utf-8') as f:
+        with (args.output_dir/'phase-start.private.json').open('x', encoding='utf-8') as start:
+            json.dump(dict(phase=args.phase, checked_at=adapter_module.stamp(), worker_attestation=attestation), start)
+            start.flush();os.fsync(start.fileno())
+        os.environ['APPDATA'] = str(args.output_dir.resolve()/'private-sdk-logs')
+        install_network_guard()
+        def read(path):return json.loads(path.read_text(encoding='utf-8-sig')) if path else None
+        result = run_phase(args.phase, args.database, profile=read(args.profile), authorization=read(args.authorization),
+            statement=read(args.statement), statement_bytes=args.statement_source.read_bytes() if args.statement_source else None)
+        result['worker_attestation'] = attestation
+        json.dump(result, f, indent=2, allow_nan=False);f.flush();os.fsync(f.fileno())
     print(json.dumps({k:result[k] for k in ('phase','status','order_dispatch_attempts','cancel_dispatch_attempts')}))
     return 1 if result['status']=='INCOMPLETE' else 0
 
