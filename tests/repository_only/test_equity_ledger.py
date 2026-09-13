@@ -42,6 +42,16 @@ def example():
 
 
 class EquityIndependentLedgerTests(unittest.TestCase):
+    def test_event_report_v2_uses_identical_independent_stock_accounting(self):
+        report, snapshot = example()
+        original = ledger.reconcile(report, snapshot)
+        report["schema_version"] = "us-equity-research-report-v2"
+        event_report = ledger.reconcile(report, snapshot)
+        self.assertEqual(event_report["status"], "PASS")
+        self.assertEqual(event_report["checks"], original["checks"])
+        report["result"]["final_cash"] += 1
+        self.assertEqual(ledger.reconcile(report, snapshot)["status"], "FAIL")
+
     def test_hand_calculated_early_close_weekend_ledger_rejects_wrong_mark_and_fee(self):
         original, snapshot = example()
         positive = ledger.reconcile(original, snapshot)

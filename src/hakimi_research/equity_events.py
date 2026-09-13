@@ -15,11 +15,13 @@ from pathlib import Path
 import re
 from typing import Any
 from urllib.parse import urlsplit
+from zoneinfo import ZoneInfo
 
 from .documents import canonical_bytes, digest, read_document
 
 
 SCHEMA_VERSION = "equity-event-v1"
+SCHEDULE_SCHEMA_VERSION = "equity-event-v2"
 EVENT_KINDS = {"EARNINGS", "GUIDANCE", "MATERIAL_COMPANY", "MACRO", "EARNINGS_SCHEDULE"}
 SOURCE_KINDS = {"COMPANY_IR", "SEC_ORIGINAL", "OFFICIAL_MACRO", "SYNTHETIC_FIXTURE"}
 MAX_RAW_BYTES = 8 * 1024 * 1024
@@ -179,9 +181,47 @@ def _facts(value: Any, raw_text: str) -> None:
             raise ValueError("equity_event_fact_basis")
 
 
+def _schedule(metadata: dict, raw_text: str, public_at: datetime | None) -> None:
+    """Preserve date/session precision without manufacturing a release clock."""
+    schedule = metadata["schedule"]
+    _shape(schedule, {"status", "date", "time_precision", "timezone", "evidence", "reason"}, "schedule")
+    if metadata["event_kind"] != "EARNINGS_SCHEDULE" or schedule["timezone"] != "America/New_York":
+        raise ValueError("equity_event_v2_requires_us_earnings_schedule")
+    quotes = _evidence(schedule["evidence"], raw_text)
+    if not quotes:
+        raise ValueError("equity_event_schedule_evidence_required")
+    if schedule["status"] in {"CANCELLED", "UNKNOWN"}:
+        if any(schedule[key] is not None for key in ("date", "time_precision")) or metadata["scheduled_release_at"] is not None:
+            raise ValueError("equity_event_unannounced_schedule_requires_null_time")
+        _text(schedule["reason"], "schedule.reason")
+        return
+    if schedule["status"] != "ANNOUNCED" or schedule["reason"] is not None:
+        raise ValueError("equity_event_schedule_status_or_reason")
+    try:
+        scheduled_date = date.fromisoformat(schedule["date"])
+    except (ValueError, TypeError) as exc:
+        raise ValueError("equity_event_schedule_date_required") from exc
+    if scheduled_date.isoformat() != schedule["date"]:
+        raise ValueError("equity_event_schedule_canonical_date_required")
+    precision = schedule["time_precision"]
+    if precision not in {"DATE_ONLY", "BEFORE_MARKET_OPEN", "AFTER_MARKET_CLOSE", "EXACT_TIME"}:
+        raise ValueError("equity_event_schedule_time_precision")
+    local = ZoneInfo(schedule["timezone"])
+    if public_at is not None and public_at.astimezone(local).date() > scheduled_date:
+        raise ValueError("equity_event_schedule_cannot_backfill_past_date")
+    if precision == "EXACT_TIME":
+        exact = _timestamp(metadata["scheduled_release_at"], "scheduled_release_at")
+        if exact.astimezone(local).date() != scheduled_date or public_at is not None and exact <= public_at:
+            raise ValueError("equity_event_exact_schedule_date_or_publication_order")
+    elif metadata["scheduled_release_at"] is not None:
+        raise ValueError("equity_event_coarse_schedule_must_not_invent_exact_time")
+
+
 def _validate_metadata(metadata: dict, raw_text: str) -> dict:
     _native(metadata)
-    _shape(metadata, _METADATA_FIELDS, "metadata")
+    if type(metadata) is not dict:
+        raise ValueError("equity_event_shape:metadata")
+    _shape(metadata, _METADATA_FIELDS | ({"schedule"} if "schedule" in metadata else set()), "metadata")
     for key in ("event_id", "security_id"):
         _text(metadata[key], key)
     if metadata["event_kind"] not in EVENT_KINDS:
@@ -261,7 +301,9 @@ def _validate_metadata(metadata: dict, raw_text: str) -> dict:
     else:
         raise ValueError("equity_event_timing_mode")
     scheduled = metadata["scheduled_release_at"]
-    if metadata["event_kind"] == "EARNINGS_SCHEDULE":
+    if "schedule" in metadata:
+        _schedule(metadata, raw_text, public_at)
+    elif metadata["event_kind"] == "EARNINGS_SCHEDULE":
         scheduled_at = _timestamp(scheduled, "scheduled_release_at")
         if public_at is not None and scheduled_at <= public_at:
             raise ValueError("equity_event_schedule_must_be_announced_before_release")
@@ -302,7 +344,7 @@ def build_equity_event(raw_text_bytes: bytes, metadata: dict) -> dict:
     from .documents import parse_document
     document = parse_document(canonical_bytes(metadata))
     document.update({
-        "schema_version": SCHEMA_VERSION,
+        "schema_version": SCHEDULE_SCHEMA_VERSION if "schedule" in metadata else SCHEMA_VERSION,
         "raw": {"encoding": "utf-8", "content_base64": base64.b64encode(raw_text_bytes).decode("ascii"),
                 "content_sha256": hashlib.sha256(raw_text_bytes).hexdigest()},
         "availability": availability,
@@ -315,8 +357,11 @@ def build_equity_event(raw_text_bytes: bytes, metadata: dict) -> dict:
 def verify_equity_event(document: dict) -> dict:
     """Revalidate bytes, numeric evidence, clocks and seal; return a detached copy."""
     _native(document)
-    _shape(document, _METADATA_FIELDS | {"schema_version", "raw", "availability", "authority", "event_hash"}, "document")
-    if document["schema_version"] != SCHEMA_VERSION:
+    if type(document) is not dict:
+        raise ValueError("equity_event_shape:document")
+    metadata_fields = _METADATA_FIELDS | ({"schedule"} if document.get("schema_version") == SCHEDULE_SCHEMA_VERSION else set())
+    _shape(document, metadata_fields | {"schema_version", "raw", "availability", "authority", "event_hash"}, "document")
+    if document["schema_version"] not in {SCHEMA_VERSION, SCHEDULE_SCHEMA_VERSION}:
         raise ValueError("equity_event_schema_version")
     raw = document["raw"]
     _shape(raw, {"encoding", "content_base64", "content_sha256"}, "raw")
@@ -326,7 +371,7 @@ def verify_equity_event(document: dict) -> dict:
         payload = base64.b64decode(raw["content_base64"], validate=True)
     except (ValueError, binascii.Error) as exc:
         raise ValueError("equity_event_raw_base64") from exc
-    expected = build_equity_event(payload, {key: document[key] for key in _METADATA_FIELDS})
+    expected = build_equity_event(payload, {key: document[key] for key in metadata_fields})
     if canonical_bytes(expected) != canonical_bytes(document):
         raise ValueError("equity_event_document_binding_mismatch")
     return expected
@@ -464,7 +509,8 @@ def event_session_eligibility(event: dict, sessions: list[dict], bar_latency_sec
 
     READY only means that the supplied calendar contains the needed sessions;
     it grants no order permission and does not claim those future bars exist.
-    The caller must bind sessions to its verified calendar and actual dataset.
+    This is the legacy low-level session-list primitive. Dataset consumers use
+    event_snapshot_eligibility to enforce verified calendar coverage as well.
     """
     verified = verify_equity_event(event)
     calendar = _sessions(sessions)
@@ -503,3 +549,21 @@ def event_session_eligibility(event: dict, sessions: list[dict], bar_latency_sec
         return result
     result["reason"] = "FULL_POST_AVAILABILITY_SESSION_NOT_IN_CALENDAR"
     return result
+
+
+def event_snapshot_eligibility(event: dict, snapshot: dict) -> dict:
+    """Shared dataset-bound entry: an uncovered earlier day cannot be renamed."""
+    from .equity_dataset import verify_equity_snapshot
+    data = verify_equity_snapshot(snapshot)
+    verified = verify_equity_event(event)
+    if verified["security_id"] != data["security"]["security_id"]:
+        raise ValueError("equity_event_snapshot_security_mismatch")
+    lag = data["bar_availability_lag_seconds"]
+    available = verified["availability"]["available_at"]
+    if available is not None:
+        local_date = _timestamp(available, "available_at").astimezone(ZoneInfo(data["calendar"]["timezone"])).date()
+        if local_date < date.fromisoformat(data["calendar"]["coverage_start"]):
+            result = event_session_eligibility(verified, [], lag)
+            result["reason"] = "EVENT_AVAILABILITY_PRECEDES_CALENDAR_COVERAGE"
+            return result
+    return event_session_eligibility(verified, data["sessions"], lag)

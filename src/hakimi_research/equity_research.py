@@ -18,13 +18,17 @@ from hakimi_research.config import BotConfig, ExecutionConfig, RiskConfig, Strat
 from hakimi_research.documents import canonical_bytes, digest, parse_document, read_document
 from hakimi_research.environment import build_runtime_provenance
 from hakimi_research.equity_dataset import EquitySnapshot, verify_equity_snapshot
+from hakimi_research.equity_event_context import EventSchedulePolicy, DISABLED, RULE_VERSION
 from hakimi_research.experiment import ExperimentSpec, required_context
 from hakimi_research.reporting import save_json_report
+from hakimi_research.models import Action, Signal
 from hakimi_research.risk import RiskManager
 from hakimi_research.strategies.templates import build_strategy
 
 SPEC_SCHEMA = "us-equity-experiment-spec-v1"
 REPORT_SCHEMA = "us-equity-research-report-v1"
+EVENT_SPEC_SCHEMA = "us-equity-experiment-spec-v2"
+EVENT_REPORT_SCHEMA = "us-equity-research-report-v2"
 PERMISSIONS = {"research_only": True, "paper_allowed": False, "live_allowed": False, "order_allowed": False}
 _FIELDS = {"schema_version", "name", "snapshot_id", "score_start_session", "score_end_session",
            "strategy", "initial_cash", "fee_rate", "slippage_pct", "risk", "end_policy", "purpose",
@@ -38,8 +42,14 @@ class EquityExperimentSpec:
     @classmethod
     def from_document(cls, document):
         value = parse_document(canonical_bytes(document))
-        if set(value) != _FIELDS or value["schema_version"] != SPEC_SCHEMA:
+        event_spec = value.get("schema_version") == EVENT_SPEC_SCHEMA
+        if (set(value) != _FIELDS | ({"event_context_hash", "event_rule"} if event_spec else set())
+                or value["schema_version"] not in {SPEC_SCHEMA, EVENT_SPEC_SCHEMA}):
             raise ValueError("equity_spec_fields_or_schema_invalid")
+        if event_spec and (type(value["event_context_hash"]) is not str
+                or re.fullmatch(r"[0-9a-f]{64}", value["event_context_hash"]) is None
+                or value["event_rule"] not in {DISABLED, RULE_VERSION}):
+            raise ValueError("equity_spec_event_context_or_rule_invalid")
         for key in ("score_start_session", "score_end_session"):
             if type(value[key]) is not str or pd.Timestamp(value[key]).strftime("%Y-%m-%d") != value[key]:
                 raise ValueError("equity_score_session_date_required")
@@ -68,8 +78,8 @@ class EquityExperimentSpec:
 
 
 class _SessionEngine(BacktestEngine):
-    """Change the clock only; fill, fee, protection and portfolio logic is shared."""
-    def __init__(self, *args, sessions, lag, **kwargs):
+    """Adapt clocks and optional entry review; all accounting remains shared."""
+    def __init__(self, *args, sessions, lag, event_policy=None, **kwargs):
         clocks = {pd.Timestamp(row["open_utc"]): pd.Timestamp(row["close_utc"]) for row in sessions}
         available = {opened: closed + pd.Timedelta(seconds=lag) for opened, closed in clocks.items()}
         opens = list(clocks)
@@ -78,6 +88,7 @@ class _SessionEngine(BacktestEngine):
         self._equity_closes = MappingProxyType(clocks)
         self._equity_available = MappingProxyType(available)
         self._equity_clock_hash = digest({"sessions": sessions, "bar_availability_lag_seconds": lag})
+        self._event_policy = event_policy
         super().__init__(*args, **kwargs)
 
     def _close_time(self, value):
@@ -86,10 +97,21 @@ class _SessionEngine(BacktestEngine):
     def _signal_time(self, value):
         return str(self._equity_available[value])
 
+    def _review_signal(self, signal, *, signal_time, execution_time, stage):
+        if self._event_policy is None:
+            return signal, {}
+        executed = pd.Timestamp(execution_time)
+        as_of = pd.Timestamp(signal_time) if stage == "DECISION" else executed
+        return self._event_policy.review(signal, as_of=as_of.isoformat().replace("+00:00", "Z"),
+            execution_time=executed.isoformat().replace("+00:00", "Z"),
+            execution_session=executed.tz_convert("America/New_York").date().isoformat(), stage=stage)
+
     def _reproducibility(self, data, **kwargs):
         result = super()._reproducibility(data, **kwargs)
         clock = {"market_clock_model": "US_REGULAR_SESSION_CLOSE_WITH_DECLARED_AVAILABILITY_LAG_V1",
                  "session_clock_hash": self._equity_clock_hash}
+        if self._event_policy is not None and self._event_policy.rule != DISABLED:
+            clock.update(event_context_hash=self._event_policy.context["context_hash"], event_rule=self._event_policy.rule)
         return {**result, **clock, "run_hash": digest({"base_run_hash": result["run_hash"], **clock})}
 
 
@@ -136,7 +158,7 @@ class EquityResearchReport:
 
 
 class EquityExperimentRunner:
-    def run(self, snapshot: EquitySnapshot, spec: EquityExperimentSpec):
+    def run(self, snapshot: EquitySnapshot, spec: EquityExperimentSpec, *, event_context=None):
         data = verify_equity_snapshot(snapshot.document)
         value = EquityExperimentSpec.from_document(spec.document).document
         if value["snapshot_id"] != data["snapshot_id"]:
@@ -146,6 +168,9 @@ class EquityExperimentRunner:
         if data["research_admission"]["synthetic_only"] and value["purpose"] != "SYNTHETIC_REGRESSION":
             raise ValueError("synthetic_equity_cannot_be_market_evidence")
         first, last, _ = _range(data, value)
+        policy = _event_policy(value, data, event_context)
+        if policy is not None:
+            policy.require_historical_schedule(data["sessions"][last - 1]["close_utc"])
         strategy = value["strategy"]
         config = BotConfig(market="stock", symbol=data["security"]["symbol"], timeframe="1d",
                            initial_cash=value["initial_cash"], strategy=StrategyConfig(**strategy),
@@ -153,6 +178,7 @@ class EquityExperimentRunner:
                            execution=ExecutionConfig(fee_rate=value["fee_rate"], slippage_pct=value["slippage_pct"]))
         engine = _SessionEngine(config, build_strategy(strategy["name"], strategy["params"]), RiskManager(config.risk),
                                 sessions=data["sessions"], lag=data["bar_availability_lag_seconds"],
+                                event_policy=policy,
                                 benchmark_policy=value["execution_policy"])
         computed = engine.run(EquitySnapshot(data).frame(), score_start=first, score_end=last).to_dict()
         computed.pop("experiment_manifest", None)
@@ -167,19 +193,69 @@ class EquityExperimentRunner:
                     "Fractional shares, proportional fees and constant slippage are research approximations, not broker rules or fills.",
                     "No spread, auction participation, liquidity or intraday execution guarantee is established.",
                     "This is a fixed development or synthetic regression, not a profitability or out-of-sample claim."]}
+        if policy is not None:
+            core.update(schema_version=EVENT_REPORT_SCHEMA, event_context=policy.context)
+            core["limitations"].append("Schedule filtering only cancels new price BUY intents; absence of a known schedule is not proof that no event exists. Numeric fields do not trigger entries.")
         return EquityResearchReport({**core, "report_hash": digest(core)})
+
+
+def _event_policy(spec, dataset, context):
+    if spec["schema_version"] == SPEC_SCHEMA:
+        if context is not None:
+            raise ValueError("equity_v1_spec_cannot_silently_use_events")
+        return None
+    if context is None:
+        raise ValueError("equity_event_context_required")
+    policy = EventSchedulePolicy(context, rule=spec["event_rule"], security_id=dataset["security"]["security_id"], purpose=spec["purpose"])
+    if policy.context["context_hash"] != spec["event_context_hash"]:
+        raise ValueError("equity_event_spec_context_mismatch")
+    return policy
+
+
+def _verify_event_reviews(result, policy, sessions):
+    if policy is None or policy.rule == DISABLED:
+        if any("event_filter" in row for row in result["signals"]):
+            raise ValueError("equity_disabled_event_rule_has_active_review")
+        return
+    for row, session in zip(result["signals"], sessions):
+        review = row.get("event_filter")
+        cancelled = row.get("execution_disposition") == "CANCELLED_OLD_POSITION_OPEN_PROTECTION"
+        if type(review) is not dict or set(review) != ({"decision"} if cancelled else {"decision", "execution"}):
+            raise ValueError("equity_event_review_stages_invalid")
+        decision = review["decision"]
+        signal, expected = policy.review(Signal(Action(decision["input_action"]), **decision["input_signal"]),
+            as_of=pd.Timestamp(row["time"]).isoformat().replace("+00:00", "Z"),
+            execution_time=session["open_utc"], execution_session=session["date"], stage="DECISION")
+        if (canonical_bytes(expected) != canonical_bytes(decision) or row["action"] != expected["output_action"]
+                or row["size_pct"] != signal.size_pct or row["reason"] != signal.reason
+                or row["requested_stop_loss_pct"] != signal.stop_loss_pct or row["requested_take_profit_pct"] != signal.take_profit_pct):
+            raise ValueError("equity_event_decision_review_mismatch")
+        blocked = expected["disposition"] == "BLOCK_NEW_BUY"
+        if not cancelled:
+            _, expected = policy.review(signal, as_of=session["open_utc"],
+                execution_time=session["open_utc"], execution_session=session["date"], stage="EXECUTION")
+            if canonical_bytes(expected) != canonical_bytes(review["execution"]):
+                raise ValueError("equity_event_execution_review_mismatch")
+            blocked = blocked or expected["disposition"] == "BLOCK_NEW_BUY"
+        if blocked and any(fill["action"] == "BUY" and pd.Timestamp(fill["fill_time"]) == pd.Timestamp(session["open_utc"]) for fill in result["fills"]):
+            raise ValueError("equity_event_blocked_buy_must_not_fill")
 
 
 def verify_equity_report(document):
     value = parse_document(canonical_bytes(document))
     fields = {"schema_version", "spec", "spec_hash", "dataset", "scoring_protocol", "result", "result_hash",
               "provenance", "execution_permission", "limitations", "report_hash"}
-    if set(value) != fields or value["schema_version"] != REPORT_SCHEMA:
+    if value.get("schema_version") == EVENT_REPORT_SCHEMA:
+        fields.add("event_context")
+    if set(value) != fields or value["schema_version"] not in {REPORT_SCHEMA, EVENT_REPORT_SCHEMA}:
         raise ValueError("equity_report_schema_invalid")
     if value["report_hash"] != digest({k: v for k, v in value.items() if k != "report_hash"}):
         raise ValueError("equity_report_hash_mismatch")
     spec = EquityExperimentSpec.from_document(value["spec"]).document
     dataset = value["dataset"]
+    if (value["schema_version"] == EVENT_REPORT_SCHEMA) != (spec["schema_version"] == EVENT_SPEC_SCHEMA):
+        raise ValueError("equity_event_report_spec_schema_mismatch")
+    policy = _event_policy(spec, dataset, value.get("event_context"))
     if (value["spec_hash"] != digest(spec) or dataset["snapshot_id"] != spec["snapshot_id"]
             or canonical_bytes(value["execution_permission"]) != canonical_bytes(PERMISSIONS)
             or dataset["research_admission"]["allowed"] is not True
@@ -191,6 +267,8 @@ def verify_equity_report(document):
     if value["result_hash"] != digest({"snapshot_id": dataset["snapshot_id"], "spec": spec, "result": result}):
         raise ValueError("equity_report_result_hash_mismatch")
     first, last, _ = _range(dataset, spec)
+    if policy is not None:
+        policy.require_historical_schedule(dataset["sessions"][last - 1]["close_utc"])
     marks = result["equity_curve"]
     if len(marks) != last - first + 1 or pd.Timestamp(marks[0]["time"]) != pd.Timestamp(dataset["sessions"][first]["open_utc"]):
         raise ValueError("equity_report_initial_or_mark_count_mismatch")
@@ -201,6 +279,7 @@ def verify_equity_report(document):
     expected_signals = [pd.Timestamp(row["close_utc"]) + lag for row in dataset["sessions"][first - 1:last - 1]]
     if [pd.Timestamp(row["time"]) for row in result["signals"]] != expected_signals:
         raise ValueError("equity_report_signal_availability_mismatch")
+    _verify_event_reviews(result, policy, dataset["sessions"][first:last])
     opens = {pd.Timestamp(row["open_utc"]) for row in dataset["sessions"][first:last]}
     prior_availability = dict(zip((pd.Timestamp(row["open_utc"]) for row in dataset["sessions"][first:last]), expected_signals))
     for fill in result["fills"]:
@@ -217,7 +296,8 @@ def replay_equity_report(snapshot, report):
     original = verify_equity_report(report.document)
     if canonical_bytes(original["dataset"]) != canonical_bytes(_projection(verify_equity_snapshot(snapshot.document))):
         raise ValueError("equity_replay_dataset_projection_mismatch")
-    replayed = EquityExperimentRunner().run(snapshot, EquityExperimentSpec.from_document(original["spec"])).document
+    replayed = EquityExperimentRunner().run(snapshot, EquityExperimentSpec.from_document(original["spec"]),
+        event_context=original.get("event_context")).document
     before, after = original["provenance"], replayed["provenance"]
     result_matches = original["result_hash"] == replayed["result_hash"]
     source_hash = before["source_identity"].get("content_sha256")

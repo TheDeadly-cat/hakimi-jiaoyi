@@ -1,0 +1,103 @@
+{
+  "A": {
+    "metrics": {
+      "blocked_new_buy_intents": 0,
+      "buy_fill_count": 2,
+      "exposure_ratio": 0.20666348350704367,
+      "fill_count": 3,
+      "max_drawdown": 0.00774273865136299,
+      "outcome": "NONNEGATIVE_DESCRIPTIVE_RESULT",
+      "round_trip_count": 1,
+      "scheduled_price_decisions": 15,
+      "total_fees": 7.469688040042476,
+      "total_return": 0.020746893544002498,
+      "turnover_over_initial_cash": 0.7469688040042476
+    },
+    "report_hash": "f9ef2aed36b012dce7034dafefa81729341f4ddad0c1545c8f4ad45493c3fd10",
+    "result_hash": "fbd6ecc4234de36bb54909d374aa28d60c44b3637e8f04e92bc701d2bf36f551",
+    "rule": "DISABLED"
+  },
+  "B": {
+    "metrics": {
+      "blocked_new_buy_intents": 1,
+      "buy_fill_count": 1,
+      "exposure_ratio": 0.13960130826694223,
+      "fill_count": 1,
+      "max_drawdown": 0.0,
+      "outcome": "NONNEGATIVE_DESCRIPTIVE_RESULT",
+      "round_trip_count": 0,
+      "scheduled_price_decisions": 15,
+      "total_fees": 2.5024999999999995,
+      "total_return": 0.024252225247524795,
+      "turnover_over_initial_cash": 0.25025
+    },
+    "report_hash": "0b2d3bc47ef19ab2cfa4ccbd555361981a5fdfdd909b5caffc06f592e919562c",
+    "result_hash": "b36f3110241498ee2b40a26cfad3e1b3a18d7fcd496bf06e54250ffcc34f0f92",
+    "rule": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1"
+  },
+  "B_minus_A": {
+    "buy_fill_count": -1,
+    "exposure_ratio": -0.06706217524010144,
+    "max_drawdown": -0.00774273865136299,
+    "total_fees": -4.967188040042476,
+    "total_return": 0.0035053317035222964,
+    "turnover_over_initial_cash": -0.4967188040042476
+  },
+  "common_parameters": {
+    "end_policy": "MARK_TO_MARKET",
+    "event_context_hash": "90fae07f990ef7cc82fbf3bb2917ccf8ba85ca9311b41cf5c6d94ea3187d9621",
+    "execution_policy": "STANDARD_STRATEGY_RISK",
+    "fee_rate": 0.001,
+    "initial_cash": 10000.0,
+    "name": "portable fictional equity check",
+    "purpose": "SYNTHETIC_REGRESSION",
+    "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+    "risk": {
+      "max_daily_loss_pct": 1.0,
+      "max_leverage": 1.0,
+      "max_position_pct": 1.0,
+      "max_single_loss_pct": 0.03,
+      "min_cash_pct": 0.0
+    },
+    "schema_version": "us-equity-experiment-spec-v2",
+    "score_end_session": "2024-12-03",
+    "score_start_session": "2024-11-12",
+    "slippage_pct": 0.001,
+    "snapshot_id": "6a4c1133af8c4f8c8ac4f3363fef2cd812c8a07f02853f6bab5662a2476f504f",
+    "strategy": {
+      "name": "dual_ma",
+      "params": {
+        "fast_window": 2,
+        "position_pct": 0.25,
+        "slow_window": 3,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.8
+      }
+    }
+  },
+  "comparison_hash": "1d6c5e95b8d8e3b1c338ce1c7628fad42dfb2cd92fdddf1ae24b41bac238981f",
+  "event_context_hash": "90fae07f990ef7cc82fbf3bb2917ccf8ba85ca9311b41cf5c6d94ea3187d9621",
+  "execution_permission": {
+    "live_allowed": false,
+    "order_allowed": false,
+    "paper_allowed": false,
+    "research_only": true
+  },
+  "limitations": [
+    "One company's correlated dates and revisions are not independent market samples.",
+    "Fewer entries and lower exposure may forgo gains; count and return differences do not identify causal lost profit.",
+    "C/D content conditions are not run; no numeric field or missing consensus creates a directional entry."
+  ],
+  "retention": "KEEP_BOTH_REPORTS_ALL_DECISIONS_BLOCKS_NEGATIVE_AND_NO_TRADE_OUTCOMES",
+  "sample_units": {
+    "announced_event_count_in_scoring_window": 1,
+    "archived_event_identities": [
+      "SYNTHETIC:SCHEDULE:Q3"
+    ],
+    "company_count": 1,
+    "scored_sessions_are_not_independent_event_samples": true
+  },
+  "schema_version": "equity-schedule-comparison-v1",
+  "scope": "DESCRIPTIVE_ENGINEERING_AB_NOT_STRATEGY_CONFIRMATION",
+  "snapshot_id": "6a4c1133af8c4f8c8ac4f3363fef2cd812c8a07f02853f6bab5662a2476f504f"
+}

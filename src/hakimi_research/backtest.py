@@ -366,7 +366,7 @@ class _BacktestEngineCore:
                     active_round_trip = None
             return fill
 
-        def record_signal(signal: Signal, at_time: str, *, seeds_score: bool = False) -> None:
+        def record_signal(signal: Signal, at_time: str, *, seeds_score: bool = False, review=None) -> None:
             signal_records.append({
                 "time": at_time, "action": signal.action.value, "reason": signal.reason,
                 "size_pct": signal.size_pct, "seeds_score": seeds_score,
@@ -374,10 +374,14 @@ class _BacktestEngineCore:
                 "effective_stop_loss_pct": self._risk.effective_stop_loss(signal.stop_loss_pct) if signal.action is Action.BUY and self._benchmark_policy == STANDARD_RISK_POLICY else None,
                 "requested_take_profit_pct": signal.take_profit_pct,
             })
+            if review:
+                signal_records[-1]["event_filter"] = {"decision": review}
 
         pending_signal = strategy.generate_signal(data.iloc[:start_index], portfolio)
         pending_signal_time = self._signal_time(data.index[start_index - 1])
-        record_signal(pending_signal, pending_signal_time, seeds_score=True)
+        pending_signal, decision_review = self._review_signal(pending_signal, signal_time=pending_signal_time,
+            execution_time=str(data.index[start_index]), stage="DECISION")
+        record_signal(pending_signal, pending_signal_time, seeds_score=True, review=decision_review)
         for index in range(start_index, end_index):
             window = data.iloc[:index + 1]
             row = window.iloc[-1]
@@ -421,8 +425,12 @@ class _BacktestEngineCore:
                 signal_records[-1]["cancelled_at_bar_time"] = fill_time
                 order = None
             else:
+                execution_signal, execution_review = self._review_signal(pending_signal, signal_time=pending_signal_time,
+                    execution_time=fill_time, stage="EXECUTION")
+                if execution_review:
+                    signal_records[-1]["event_filter"]["execution"] = execution_review
                 order = self._risk.signal_to_order(
-                    self._config.symbol, pending_signal, portfolio, open_price,
+                    self._config.symbol, execution_signal, portfolio, open_price,
                     fee_rate=self._config.execution.fee_rate,
                     slippage_pct=self._config.execution.slippage_pct,
                 )
@@ -466,7 +474,9 @@ class _BacktestEngineCore:
             if index + 1 < end_index:
                 pending_signal = strategy.generate_signal(window, portfolio)
                 pending_signal_time = self._signal_time(data.index[index])
-                record_signal(pending_signal, pending_signal_time)
+                pending_signal, decision_review = self._review_signal(pending_signal, signal_time=pending_signal_time,
+                    execution_time=str(data.index[index + 1]), stage="DECISION")
+                record_signal(pending_signal, pending_signal_time, review=decision_review)
         equity_values = pd.Series([point["equity"] for point in equity_curve], dtype=float)
         # Do not fill the initial undefined return with zero: the n scored bars
         # have exactly n period returns, including the very first loss or fee.
@@ -571,6 +581,12 @@ class _BacktestEngineCore:
             context=self._experiment_context,
         )
         return report
+
+    def _review_signal(self, signal: Signal, *, signal_time: str, execution_time: str, stage: str):
+        # Default is byte-for-byte inert for existing price-only consumers.
+        # Market adapters may remove a pending entry; matching and accounting
+        # remain in this engine, including the priority of existing protection.
+        return signal, {}
 
     def _signal_time(self, value: object) -> str:
         # Preserve the original BTC bar label. Explicit market-session adapters
