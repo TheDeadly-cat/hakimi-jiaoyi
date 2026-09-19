@@ -1,0 +1,57 @@
+{
+  "schema_version": "github-status-sync-v1",
+  "checked_at": "2026-09-19T19:42:50.732318+00:00",
+  "repository_base_commit": "a64758a3df3ce73d433a2a2d71fac1e1a70dc5db",
+  "merged_prs": [
+    9,
+    10,
+    11
+  ],
+  "release": "v0.2.1",
+  "observation_window": {
+    "start": "2026-09-13T04:00:00Z",
+    "end": "2026-09-16T04:00:00Z",
+    "watch_end": "2026-09-16T04:10:00Z",
+    "time_window_has_elapsed": true,
+    "window_acceptance": "NOT_CONFIRMED_BY_LATEST_RETAINED_WATCH_REPORT",
+    "latest_retained_report": {
+      "checked_at": "2026-09-15T18:07:32.236927Z",
+      "status": "VERIFIED_RECEIPT_SCAN",
+      "window_elapsed": false,
+      "current_counts": {
+        "FAILED": 21,
+        "LATE": 1,
+        "ON_TIME": 41,
+        "PLANNED": 9
+      },
+      "deadline_counts": {
+        "FAILED": 22,
+        "ON_TIME": 41,
+        "PENDING": 9
+      },
+      "receipt_hash": "9e8b79430be308ae53346c048727db8cb2bcf5d17e98cf63b5d2cd6307ee5209",
+      "file_sha256": "6ec24c2e0d7a1525c489da28892945717097b58ae8f603806c830840e7440d4b",
+      "selection": "MAXIMUM_REPORT_FILENAME_SEQUENCE",
+      "seal_verified": true
+    },
+    "later_hours_reclassified": false,
+    "new_independent_replays_performed": false
+  },
+  "notification_receipts": {
+    "records": 23,
+    "all_seals_verified": true,
+    "status_counts": {
+      "OS_DISPLAY_REPORTED": 18,
+      "ALREADY_ATTEMPTED": 5
+    },
+    "os_display_reported_and_confirmed": 18,
+    "not_confirmed": 5,
+    "receipt_set_sha256": "191c5aa0a4b6fd53199f5c260ace02b34fac6e4157847c5eb5c0282e008155c1",
+    "human_read_confirmation": "NOT_ASSESSED"
+  },
+  "official_simulation_cycle": "NOT_RUN_NO_SEPARATE_ORDER_AUTHORIZATION_IN_THIS_TASK",
+  "live_broker_queried": false,
+  "deployment_changed": false,
+  "observation_window_restarted": false,
+  "notification_preferences_changed": false
+}
