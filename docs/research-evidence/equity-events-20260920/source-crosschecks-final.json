@@ -1,0 +1,158 @@
+{
+  "schema_version": "fixed-ten-window-OHLC-crosschecks-v1",
+  "windows": [
+    {
+      "quarter": "2022Q1",
+      "daily_rows": 38,
+      "hourly_rows": 266,
+      "mismatch_day_count": 0,
+      "mismatches": [],
+      "source_sha256": {
+        "K_DAY": "e5696746c42497348c86cc5dea52275fa5ad37541d04537fdeb40b53ef6c292e",
+        "K_60M": "6940ebbaaa4df5dca4855b75b2db11b6fe7be9499b969c2e6e2560785d3246f0"
+      },
+      "cause": null
+    },
+    {
+      "quarter": "2022Q2",
+      "daily_rows": 38,
+      "hourly_rows": 266,
+      "mismatch_day_count": 2,
+      "mismatches": [
+        {
+          "date": "2022-08-02",
+          "fields": [
+            "high"
+          ],
+          "all_deltas_below_1e_10": false
+        },
+        {
+          "date": "2022-08-03",
+          "fields": [
+            "low"
+          ],
+          "all_deltas_below_1e_10": false
+        }
+      ],
+      "source_sha256": {
+        "K_DAY": "53b28b2e195ecf9ae12a193e5d93ff3d793f67757f4387d922ce76243b091b3a",
+        "K_60M": "2b4f67bb34ebb1cdd4d5fb7f7be024bfd3e7ffb425a6cb6f841f412fff00e724"
+      },
+      "cause": "UNKNOWN"
+    },
+    {
+      "quarter": "2022Q3",
+      "daily_rows": 38,
+      "hourly_rows": 266,
+      "mismatch_day_count": 0,
+      "mismatches": [],
+      "source_sha256": {
+        "K_DAY": "426862216a79ce39220a01eedbff3f917c3e1cfea80caf52af4b8c060699abfe",
+        "K_60M": "fa5c5faa287ab49b11e2b15c6b8e97988224dda2a0e2d8a5659488968c49cb23"
+      },
+      "cause": null
+    },
+    {
+      "quarter": "2022Q4",
+      "daily_rows": 38,
+      "hourly_rows": 266,
+      "mismatch_day_count": 1,
+      "mismatches": [
+        {
+          "date": "2023-02-02",
+          "fields": [
+            "low"
+          ],
+          "all_deltas_below_1e_10": false
+        }
+      ],
+      "source_sha256": {
+        "K_DAY": "84da6e20c5087a04b982999efe67e585338a2c52624b3399e66c02413e766942",
+        "K_60M": "262a7a595624f21976b1042c6035b4f3debce836e420e84eb384c1f245a2eb94"
+      },
+      "cause": "UNKNOWN"
+    },
+    {
+      "quarter": "2023Q1",
+      "daily_rows": 38,
+      "hourly_rows": 266,
+      "mismatch_day_count": 0,
+      "mismatches": [],
+      "source_sha256": {
+        "K_DAY": "bd7b9957efb07b63daac93aad4b096484e4ad9b661c17b78131249ffecd2d03a",
+        "K_60M": "81247919f5767e1dcc327f1cce33fb75567b661843ceeb6d76cab0bbb26cde3e"
+      },
+      "cause": null
+    },
+    {
+      "quarter": "2023Q2",
+      "daily_rows": 38,
+      "hourly_rows": 263,
+      "mismatch_day_count": 0,
+      "mismatches": [],
+      "source_sha256": {
+        "K_DAY": "74fa735278d1a6f5e6b5b1f45a9023577303c16c95433cb798e9f216af271d98",
+        "K_60M": "4c32a83b72cc45b7b36069a83cd209ee27935f0edcba13b199fe849f48a05032"
+      },
+      "cause": null
+    },
+    {
+      "quarter": "2023Q3",
+      "daily_rows": 38,
+      "hourly_rows": 266,
+      "mismatch_day_count": 1,
+      "mismatches": [
+        {
+          "date": "2023-10-30",
+          "fields": [
+            "low"
+          ],
+          "all_deltas_below_1e_10": false
+        }
+      ],
+      "source_sha256": {
+        "K_DAY": "657624a3bcf0eea03a170713b68b7572dac70a10bcdcd5c28af2db995963b70b",
+        "K_60M": "d09bc18c8947e68e3a69a9500bb76322f0402624b288c5a4ff01288d81fd1ff3"
+      },
+      "cause": "UNKNOWN"
+    },
+    {
+      "quarter": "2023Q4",
+      "daily_rows": 38,
+      "hourly_rows": 266,
+      "mismatch_day_count": 0,
+      "mismatches": [],
+      "source_sha256": {
+        "K_DAY": "4fb009fbc801827397ed4f0b8fcca6dfe6a30b4fb2c8bef2161a94901ab1fd06",
+        "K_60M": "18c1dd9a0d7245fc1532d5b8057c4bd73bda8595903df50ce2472986d8439af1"
+      },
+      "cause": null
+    },
+    {
+      "quarter": "2024Q1",
+      "daily_rows": 38,
+      "hourly_rows": 266,
+      "mismatch_day_count": 0,
+      "mismatches": [],
+      "source_sha256": {
+        "K_DAY": "650881d59a3b0de36e9c76b58661b2e5e3c4af6e43d373ee6c3b208d11e2ac93",
+        "K_60M": "257caad3fec545d4c65c743ff4f6228678b842c7f45fcc38d83a3b684877f346"
+      },
+      "cause": null
+    },
+    {
+      "quarter": "2024Q2",
+      "daily_rows": 38,
+      "hourly_rows": 263,
+      "mismatch_day_count": 0,
+      "mismatches": [],
+      "source_sha256": {
+        "K_DAY": "7bd241237516487ceba8931248263cadc45013743f2b4c1e8a3167cf0845a5c6",
+        "K_60M": "96abcfa92a9a273fb389a0d964613df9f391eab843ad1fcd9639d1438e5cb569"
+      },
+      "cause": null
+    }
+  ],
+  "raw_prices_included": false,
+  "rule": "Exact Decimal OHLC comparison; real differences are retained, not repaired or attributed to extended hours."
+}

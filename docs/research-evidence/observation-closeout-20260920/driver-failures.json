@@ -1,0 +1,320 @@
+{
+  "checked_at": "2026-09-19T20:52:57.513495+00:00",
+  "failures": [
+    {
+      "cutoff": "2026-09-13T04:00:00Z",
+      "attempt_id": "20260913T040101668900Z_fa934002fe15469483eb308d7a5a3905",
+      "ended_at": "2026-09-13T04:01:03.094512Z",
+      "receipt_hash": "2fe75b6e73450311c3fec15b88a06b8f23ec77318f48fa527d330182f29ec43f",
+      "end_file_sha256": "91962a44d187e6dee6ec49b319814f48aa4b1e549563b6433d352c5db066c79e",
+      "stderr_sha256": "05f7bee5ebceebb34fd3593e7564ee71ef1dc4d7618a7824d8aa35e213d48ff8",
+      "observed_failure": "OTHER_RETAINED_ERROR_NOT_CLASSIFIED",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-14T21:00:00Z",
+      "attempt_id": "20260914T210102171670Z_d551cfdf7c414582b59125d673cb7e60",
+      "ended_at": "2026-09-14T21:01:24.787019Z",
+      "receipt_hash": "41b1e63d2acddac59addadb50b66278243e40627f96903fadae610cc7bd949b9",
+      "end_file_sha256": "02da90f26eca7e53817fcf77c3519f6e9e93bdaaee0f993c957fa5f12d6c34dd",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-14T22:00:00Z",
+      "attempt_id": "20260914T220102153794Z_b9008bbeeaa64947bd4421d930964484",
+      "ended_at": "2026-09-14T22:01:24.380332Z",
+      "receipt_hash": "635701245aa2a5fae1dd3340078316624670f2cc68e4903a9814ecd705e8ef38",
+      "end_file_sha256": "357754d6f7a0636edcecf2564c250cfdd23efcc751890cca546b1261bac2976e",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-14T23:00:00Z",
+      "attempt_id": "20260914T230102149139Z_264cffadadf043b29259bb38539e0a2e",
+      "ended_at": "2026-09-14T23:01:24.630659Z",
+      "receipt_hash": "07eefe2ec5f59c7d4d874857a9f5dcd7a8d395b55097ab5483f171a01cd7e0b1",
+      "end_file_sha256": "4683bafb1bcb08bf960896318a5777bd682dac0dcef24854267b67db5d26d6d0",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T00:00:00Z",
+      "attempt_id": "20260915T000102209308Z_a5b49f80fd4049ac917bedba4ae9bad0",
+      "ended_at": "2026-09-15T00:01:24.856255Z",
+      "receipt_hash": "2499fd42fc811838a1d35ec3117ba05a56bbfb9e3ed656170e7022bc934aca58",
+      "end_file_sha256": "91e37bf25edf7c4095d5a2156de67bb7b71d894c16a2d8096e41839fd3f6a30d",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T01:00:00Z",
+      "attempt_id": "20260915T010102248981Z_118250d3b87c4bedad55e8956ea936ac",
+      "ended_at": "2026-09-15T01:01:26.418378Z",
+      "receipt_hash": "696571ef82197823e6a1bd81e6eb5b11825269dabffc2a55ceeae7426a7044da",
+      "end_file_sha256": "d3cbfa953e0d73fad8ac150ed8ad8023ddaf7276d42bca15ebc4bbe74d22a3a9",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T02:00:00Z",
+      "attempt_id": "20260915T020102166595Z_a8ca8f76486b4324ba0d2fc158818dec",
+      "ended_at": "2026-09-15T02:01:24.643449Z",
+      "receipt_hash": "34bd12c1d7976d398a1de9bc989e45c8909c13bfdbcdd92e00b0439739b5854d",
+      "end_file_sha256": "668509a9abd92e8a956c7259e7d31041b43cd61d4ef1e2cfd9f9dd0968b68574",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T03:00:00Z",
+      "attempt_id": "20260915T030102219628Z_31d11ccc6632456da856bff0804f0d6a",
+      "ended_at": "2026-09-15T03:01:24.647811Z",
+      "receipt_hash": "8875fb8ecae886d81d32d38eda7c59ec91996bac869aaa609c59dd1de53fa910",
+      "end_file_sha256": "a4301a55b53720949c061f5ecf24279742e79824a9f76dfaacbe6fc194107894",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T04:00:00Z",
+      "attempt_id": "20260915T040102254457Z_4971459649204959bbdc28cb0115e555",
+      "ended_at": "2026-09-15T04:01:24.640591Z",
+      "receipt_hash": "c472c5a26bd6d6bf8ccac92c989ddd601bb7df52159804fb22d2382e5517f1fd",
+      "end_file_sha256": "eec13626ebca86cca2f4b94a5671a6f7cf0fb844169d780a586d02050e67f0df",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T05:00:00Z",
+      "attempt_id": "20260915T050103692809Z_6c9c403da27c4d06bc789c3a7c453d61",
+      "ended_at": "2026-09-15T05:01:32.735171Z",
+      "receipt_hash": "fc483a89b412e1f8b8a5be7b7f35a50550bddaff16554e698d30e873f61b8148",
+      "end_file_sha256": "6e1b2d8c8516c9106136ca4518a84e69b7699e34ef572f4476fdd2f6c956c4c8",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T06:00:00Z",
+      "attempt_id": "20260915T060103493764Z_29686d6d8e594e5a8f4d1839a76aa593",
+      "ended_at": "2026-09-15T06:01:32.080531Z",
+      "receipt_hash": "c91032c229f6b79b0ae3bf0c05fa7584a741b302c082ee4694087f2d23b845bd",
+      "end_file_sha256": "5340f36c0f9fa0a3ab89774c7e8a1d518c3922d0c01f6e0d3bd75436b22f966d",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T07:00:00Z",
+      "attempt_id": "20260915T070102306013Z_6ca1391289b14824a190017da85e6063",
+      "ended_at": "2026-09-15T07:01:25.243654Z",
+      "receipt_hash": "77a5676c3f5242364206c86a57860a71a3bc0d8bf4f15557ac540230bdc61d5c",
+      "end_file_sha256": "a3e7fb57ac68fbb72f5bc6048ab9333323adf41184006ee326b226c71a8929fc",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T08:00:00Z",
+      "attempt_id": "20260915T080102538814Z_8680c4ed4f4d406588ffa6b2dc00461c",
+      "ended_at": "2026-09-15T08:01:26.028649Z",
+      "receipt_hash": "b83c37c2aecd02c2055de58602701a6348933668f591b7d898d91903d003f496",
+      "end_file_sha256": "585ef0098cb09c6e365436efbbccdeab0e7f7dd786cf2015dea3b4e3f5352b46",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T09:00:00Z",
+      "attempt_id": "20260915T090102963643Z_48055dc04e434bc4b0caf44d05ebf3e6",
+      "ended_at": "2026-09-15T09:01:31.236392Z",
+      "receipt_hash": "2b670603efeabd468d4a88c767f518370ff93c575ffd72df4b54458888a1d2af",
+      "end_file_sha256": "6e8cfb7ab96f1d859b77e40d2444908ea3d64c6077fe3dd1d053dc97c51bcb9f",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T10:00:00Z",
+      "attempt_id": "20260915T100102437460Z_2f192547ce64441c93f03fb77d2f3490",
+      "ended_at": "2026-09-15T10:01:25.313473Z",
+      "receipt_hash": "e1a8698a1bfe4c12ddf1a8650961599437e098d5c26ef778954496dfb5a66cdd",
+      "end_file_sha256": "03add26211297da44f790787ee7db42214f58fb810df7ec9df8fac85cdc09842",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T11:00:00Z",
+      "attempt_id": "20260915T110102406809Z_85ff9a127fcc49848d1d8befd2b83f26",
+      "ended_at": "2026-09-15T11:01:25.384608Z",
+      "receipt_hash": "cfd0215b3a694141be8abd0134ad24181e876fa2e24d4525de696dba57c00061",
+      "end_file_sha256": "7178765fe82c020d3c8d29603a159b4a0405bdd0158eade44c6059feac84a295",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T12:00:00Z",
+      "attempt_id": "20260915T120102504626Z_2c03c32eeef94c84832f12897eae7c92",
+      "ended_at": "2026-09-15T12:01:25.629853Z",
+      "receipt_hash": "aef5a7b83f35bc8b47043cce53520cbdafd5fd5647f2f73e83cf5910e86c297e",
+      "end_file_sha256": "be89131c16a260202ef32e6b94e40b389c3b79da583b56f7b804ae527718c000",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T13:00:00Z",
+      "attempt_id": "20260915T130102393118Z_41657bd07afb451d9afb60ab4b1746df",
+      "ended_at": "2026-09-15T13:01:25.079059Z",
+      "receipt_hash": "10338c36ba22468c547a724399290c9260a32206521640d08081d0b8a7dab0c1",
+      "end_file_sha256": "5c4b7c0c2fa120f5a1c2220c7882db9094f277c7d20703a51e2dc261938051c6",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T14:00:00Z",
+      "attempt_id": "20260915T140102467432Z_25bbbac02fde430e95d0ba3a79d67899",
+      "ended_at": "2026-09-15T14:01:25.566978Z",
+      "receipt_hash": "3221a9bb604ddfd55c45dbdc358e7f063d502b2104d55a4ff29ff15515da86cd",
+      "end_file_sha256": "373ba624be27eeaaf917a9fa3e52474f80f752f47283b49f8cfafddf6469c854",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T15:00:00Z",
+      "attempt_id": "20260915T150103879207Z_f3a53d072ee24d289c1d38e80809a19c",
+      "ended_at": "2026-09-15T15:01:33.494926Z",
+      "receipt_hash": "19c1e116b4f4afb01941ce3bf0c14c020cb81b6eab85487ce8ffc77bc24896d6",
+      "end_file_sha256": "c06da5a9839fc2451c3fb3bdd27849f2c2e83d717bdf4b69e6f96d7920391e6c",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T16:00:00Z",
+      "attempt_id": "20260915T160102371043Z_7960ea569a304c47a2c77558365857a6",
+      "ended_at": "2026-09-15T16:01:24.389299Z",
+      "receipt_hash": "39b5f27f0374bc8827a26de173f263de73ef882c8a55f017aa8972598f1eaab3",
+      "end_file_sha256": "5330b4132cb27f26fb25e3254895b1c9b07a1182c2b632e6b872f4c8c3032a0f",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    },
+    {
+      "cutoff": "2026-09-15T17:00:00Z",
+      "attempt_id": "20260915T170103899986Z_8dd0941fc2314677ba90a280bb5b01ba",
+      "ended_at": "2026-09-15T17:01:34.096151Z",
+      "receipt_hash": "24b66a463bcc7fdcd84ba2c88d28cb4f66c2bf7b4887c6b027e91d8bd312e717",
+      "end_file_sha256": "c7b71e8e0084d4ff39289cfd7fb1e67dd3f9ae7bca824e136a46be2675a57420",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "observed_failure": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "exception": {
+        "message": "frozen_driver_failed",
+        "type": "ValueError"
+      },
+      "network_root_cause": "NOT_PROVEN"
+    }
+  ],
+  "counts": {
+    "OTHER_RETAINED_ERROR_NOT_CLASSIFIED": 1,
+    "PUBLIC_CAPTURE_URL_TIMEOUT": 21
+  },
+  "scope": "RETAINED_ERROR_TEXT_NOT_A_NETWORK_RETEST",
+  "network_calls": 0,
+  "reconstruction_script_sha256": "1a6398c60dac7c266173ce909967fd674f4ecee758419202bfb44e0380aa9a4d"
+}

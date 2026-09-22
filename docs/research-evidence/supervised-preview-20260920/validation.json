@@ -1,0 +1,182 @@
+{
+  "account_connection_by_packaging_or_installation": false,
+  "build_git": {
+    "commit": "a64758a3df3ce73d433a2a2d71fac1e1a70dc5db",
+    "status": "DIRTY"
+  },
+  "bundles": [
+    {
+      "archive": "supervised-research-714ca6ec0a1ad8c389a0fcde446a19be8c9e2c1c2db5a551dd5b7cf7e64322a1.zip",
+      "archive_sha256": "a40b9d7d6eeb08dd49defaae2007d81c18516533a6785161a990f2ca6c86f8e9",
+      "build_id": "supervised-research-714ca6ec0a1ad8c389a0fcde446a19be8c9e2c1c2db5a551dd5b7cf7e64322a1",
+      "dependency_install": "LOCAL_WHEELHOUSE_NO_INDEX",
+      "directory": "supervised-research-714ca6ec0a1ad8c389a0fcde446a19be8c9e2c1c2db5a551dd5b7cf7e64322a1",
+      "editable": false,
+      "fresh_environment": true,
+      "installation_log_sha256": "c66b28997a40bc6a394d1608dfa31867c1d42b24f4f3e7ad7d154b1de3b03ec4",
+      "installation_receipt_sha256": "7f1b91432f4d612b22732a4dc3fa49f1872575feac182b3967aff78cf16c6a1a",
+      "installation_status": "VERIFIED",
+      "installed_evidence": {
+        "dependencies": "VERIFIED",
+        "execution_permission": {
+          "live_order_allowed": false,
+          "order_entry_allowed": false,
+          "paper_authorized": false,
+          "research_only": true
+        },
+        "source": "BUILD_VERIFIED",
+        "source_sha256": "c5d57ec371efe303741b12476fd6824c3eb4baa5e3cfb9cfd22c3a337fe236b6"
+      },
+      "latest_retained_preflight": {
+        "accounting_verified": false,
+        "boundary": "Unrelated existing provider order has zero price and unknown status; no scope/history/validation bypass, no claim or order authorization created.",
+        "cleanup_confirmed": true,
+        "evidence_time": "2026-09-19T21:00:07.603088Z",
+        "observed_gate": "provider_order_quantity_or_price_invalid",
+        "order_authorization_created": false,
+        "orders_sent": 0,
+        "rerun_by_status_command": false,
+        "source_scope": "CURRENT_LOCAL_CANDIDATE_NOT_OLD_FROZEN_CYCLE",
+        "status": "PREFLIGHT_INCOMPLETE"
+      },
+      "live_account_or_monitor_called_by_validation": false,
+      "offline_help_smokes": [
+        {
+          "exit_code": 0,
+          "network_policy": "OUTBOUND_PYTHON_SOCKET_ACCESS_DENIED",
+          "stdout_sha256": "a492ba8853acf79241ef94c20d350be0129e46a9a4cb1ddccc51c7d0f5804447",
+          "tool": "tools/equity_event_diagnostics.py"
+        }
+      ],
+      "outside_checkout": true,
+      "pythonpath_used": false,
+      "r1_build_id_preserved": "supervised-research-50250a6f147ff485abf89732dbcc92a8d1f16905a5bf49f9e1a28bfd86d485a0",
+      "r1_installation_receipt_sha256": "2f458e87429a825792cf1f4f3605b03d4ddb8ca7923db1e1c84c0e2d37d7eb73",
+      "r1_to_r2_changed_files": [
+        "README.md",
+        "evidence/CURRENT_STATUS.md",
+        "evidence/futu-preflight-20260920.json",
+        "preview.py"
+      ],
+      "system_site_packages": false,
+      "zip_reproduced_byte_for_byte": true
+    },
+    {
+      "archive": "supervised-windows-futu-60628eb6927c745289d3bcdc98bf44932bd14336b9a778a2519da7b8d80e74d0.zip",
+      "archive_sha256": "80763153a71ba83e0e74b989c01bfe7bce064a2b0fb34767b24e50ecfd7ffa18",
+      "build_id": "supervised-windows-futu-60628eb6927c745289d3bcdc98bf44932bd14336b9a778a2519da7b8d80e74d0",
+      "dependency_install": "LOCAL_WHEELHOUSE_NO_INDEX",
+      "directory": "supervised-windows-futu-60628eb6927c745289d3bcdc98bf44932bd14336b9a778a2519da7b8d80e74d0",
+      "editable": false,
+      "fresh_environment": true,
+      "installation_log_sha256": "8bc65e1051bfc120572ededfddcac95052bd8e822bdc99ca69599c3a250a6c10",
+      "installation_receipt_sha256": "b0665975cb442d45d8aabefe98ebc18dcbe37fd78d8e229f28e2938fee91e659",
+      "installation_status": "VERIFIED",
+      "installed_evidence": {
+        "account_connected": false,
+        "dependencies": "VERIFIED",
+        "packages": {
+          "PyCryptodome": "3.23.0",
+          "futu-api": "10.7.6708",
+          "numpy": "2.5.3",
+          "pandas": "3.0.5",
+          "protobuf": "7.36.1",
+          "python-dateutil": "2.9.0.post0",
+          "simplejson": "4.1.2",
+          "six": "1.17.0",
+          "tzdata": "2026.4"
+        },
+        "sdk_imported": false
+      },
+      "latest_retained_preflight": {
+        "accounting_verified": false,
+        "boundary": "Unrelated existing provider order has zero price and unknown status; no scope/history/validation bypass, no claim or order authorization created.",
+        "cleanup_confirmed": true,
+        "evidence_time": "2026-09-19T21:00:07.603088Z",
+        "observed_gate": "provider_order_quantity_or_price_invalid",
+        "order_authorization_created": false,
+        "orders_sent": 0,
+        "rerun_by_status_command": false,
+        "source_scope": "CURRENT_LOCAL_CANDIDATE_NOT_OLD_FROZEN_CYCLE",
+        "status": "PREFLIGHT_INCOMPLETE"
+      },
+      "live_account_or_monitor_called_by_validation": false,
+      "offline_help_smokes": [
+        {
+          "exit_code": 0,
+          "network_policy": "OUTBOUND_PYTHON_SOCKET_ACCESS_DENIED",
+          "stdout_sha256": "aaf5f409cea2116ca07a89b36c661f78a7ce57f8aeb6a112a8d049f07793efa2",
+          "tool": "tools/futu_simulation_cycle.py"
+        }
+      ],
+      "outside_checkout": true,
+      "pythonpath_used": false,
+      "r1_build_id_preserved": "supervised-windows-futu-46cb1255cb20962718393fa3a1f41c7fb3af6c708d0f0c4d988457fa6a33b6b4",
+      "r1_installation_receipt_sha256": "aa46f41eac8becf5b0406aca5b8dcdf6150144daddfb53db3b16bf357443dce4",
+      "r1_to_r2_changed_files": [
+        "README.md",
+        "evidence/CURRENT_STATUS.md",
+        "evidence/futu-preflight-20260920.json",
+        "preview.py"
+      ],
+      "system_site_packages": false,
+      "zip_reproduced_byte_for_byte": true
+    }
+  ],
+  "checked_at": "2026-09-19T21:26:28.205773+00:00",
+  "formal_release_changed": false,
+  "monitor_started": false,
+  "not_verified": [
+    "New remote CI for this dirty candidate",
+    "Official simulation submit/cancel lifecycle",
+    "Provider fees or settlement accounting",
+    "Profitability",
+    "Unattended operation"
+  ],
+  "orders_sent": 0,
+  "packaging_source_sha256": {
+    "tests/repository_only/test_supervised_preview.py": "f3d612d8884cf14d505450a0fbd7b8c3d30c4754724396b4e27ac1aec5d2ba08",
+    "tools/build_supervised_preview.py": "1db37ed7028395e638b5ad55508d3811df9b80d97f2ca9fed7b9e48115bbd452",
+    "tools/release_wheel_bundle.py": "b22ad5e9a7953762824d4bc7b2de0027cdb8dd48ccc832ceddeddfa834d59949",
+    "tools/supervised_preview.py": "87bfda8384b7c3111b4c4c0bd3646a110954701f13e27796a5eb089e7ad17328",
+    "tools/verify_wheel.py": "c4a9d3d5d4aa776b3ce7e2c8d0125923758929334c9451ed96cd8055ad4a9d47"
+  },
+  "preparation_attempts_preserved": [
+    {
+      "result": "No binary distribution; obtained exact pinned source distribution instead.",
+      "stage": "Futu binary-only dependency probe"
+    },
+    {
+      "result": "First failed on global pip cache permission; retry used --no-cache-dir and succeeded.",
+      "stage": "Futu dependency wheel build"
+    },
+    {
+      "result": "Build failed on global pip cache permission before tests; log and directory retained.",
+      "stage": "Research wheel acceptance attempt 1"
+    },
+    {
+      "result": "New work directory, process-only PIP_NO_CACHE_DIR, exact wheel and 183 tests passed.",
+      "stage": "Research wheel acceptance attempt 2"
+    }
+  ],
+  "preview_contract_tests": {
+    "errors": 0,
+    "failures": 0,
+    "log_sha256": "17a287dc27c8b43f5c4bb6bce2aa2a0bca156201bf7f44f15aad6659a36e0f3f",
+    "skipped": 0,
+    "tests_run": 7
+  },
+  "research_source_sha256": "c5d57ec371efe303741b12476fd6824c3eb4baa5e3cfb9cfd22c3a337fe236b6",
+  "schema_version": "supervised-preview-validation-v1",
+  "status": "PASS_LOCAL_PACKAGING_AND_INSTALLATION_ONLY",
+  "wheel_acceptance": {
+    "errors": 0,
+    "failures": 0,
+    "network_policy": "OUTBOUND_PYTHON_SOCKET_ACCESS_DENIED",
+    "scope": "ROOT_RESEARCH_WHEEL_TESTS_NOT_FUTU_OR_NEW_DIAGNOSTICS_TOOLS",
+    "skipped": 0,
+    "tests_run": 183
+  },
+  "wheel_identical_between_r1_r2": true,
+  "wheel_sha256": "dd53860cfe265f623c7627f35668088fb6eda37066e05de790d5e2846fbc706b"
+}

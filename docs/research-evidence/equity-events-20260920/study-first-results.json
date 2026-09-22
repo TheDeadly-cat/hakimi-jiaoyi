@@ -1,0 +1,403 @@
+{
+  "schema_version": "fixed-ten-equity-event-study-v1",
+  "completed_at": "2026-09-19T21:21:02.328097Z",
+  "scope": "ONE_COMPANY_CORRELATED_DEVELOPMENT_EVENTS_NOT_PROFITABILITY_CONFIRMATION",
+  "engine_content_sha256": "c5d57ec371efe303741b12476fd6824c3eb4baa5e3cfb9cfd22c3a337fe236b6",
+  "diagnostics_tool_sha256": "74bdd3dda6c7c49f0b862b16cc7a5cc4ea8a93f9b1b2693cdcac11fcc0318b44",
+  "study_driver_sha256": "f9910498b04f9dc93a9060634700401ca12ce766f9eda00298d89de22cd88954",
+  "import_helpers_sha256": "9c961fc1a58c4b8dd35fef9b2295e3d0fd8f9a2e0add75dda6edf86994bd3e26",
+  "evidence_kind": "IMPORTED_UNVERIFIED",
+  "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+  "corporate_action_admission": "Bounded source-backed no-holder-cash-or-share-action declaration, not complete market-event certification.",
+  "plan_sha256": "d64bc075237fb1ef115276f20b45e3210c61f923e124056aee6e23951d043072",
+  "prepared_inputs_sha256": "a8e575f5ab0d0008828863f5c31b433dcc50ede8e098a9622a932ec9d4734a5b",
+  "snapshot_or_failed_event_count": 10,
+  "company_count": 1,
+  "independent_sample_count": null,
+  "events": [
+    {
+      "event_id": "AMD:2022Q1:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2022Q1",
+      "scheduled_date": "2022-05-03",
+      "snapshot_start": "2022-03-31",
+      "score_start": "2022-04-19",
+      "score_end": "2022-05-24",
+      "status": "COMPLETED",
+      "schedule_status": "SOURCE_BACKED_HISTORICAL_RECONSTRUCTION",
+      "cells": [
+        {
+          "cost_multiplier": 1,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "diagnostics": {
+            "A_metrics": {
+              "total_return": -0.015974014216648125,
+              "max_drawdown": 0.015974014216648125,
+              "total_fees": 7.8503955220573065,
+              "fill_count": 4,
+              "round_trip_count": 2,
+              "exposure_ratio": 0.0,
+              "buy_fill_count": 2,
+              "turnover_over_initial_cash": 0.9812994402571634,
+              "scheduled_price_decisions": 26,
+              "blocked_new_buy_intents": 0,
+              "outcome": "LOSS"
+            },
+            "B_metrics": {
+              "total_return": -0.015974014216648125,
+              "max_drawdown": 0.015974014216648125,
+              "total_fees": 7.8503955220573065,
+              "fill_count": 4,
+              "round_trip_count": 2,
+              "exposure_ratio": 0.0,
+              "buy_fill_count": 2,
+              "turnover_over_initial_cash": 0.9812994402571634,
+              "scheduled_price_decisions": 26,
+              "blocked_new_buy_intents": 0,
+              "outcome": "LOSS"
+            },
+            "expected_event_count": 1,
+            "usable_event_schedule_count": 1,
+            "event_schedule_coverage_ratio": 1.0,
+            "original_A_buy_intents": 2,
+            "original_B_path_buy_intents": 2,
+            "B_buy_intents_on_expected_event_dates": 0,
+            "B_intervenable_buy_intents_with_known_schedule": 0,
+            "actual_blocked_B_buy_intents": 0,
+            "B_event_date_buy_intents_unavailable_due_to_declared_lag": 0,
+            "events": [
+              {
+                "event_id": "AMD:2022Q1:EARNINGS_SCHEDULE",
+                "scheduled_date": "2022-05-03",
+                "schedule_usable_at_event_session_open": true,
+                "coverage_status": "USABLE_SCHEDULE",
+                "A_existing_position_at_release": {
+                  "status": "MODELLED_OUTSIDE_RTH_RELEASE",
+                  "position_held": false,
+                  "basis": "Last preceding regular-session close; daily model has no outside-RTH fills."
+                },
+                "B_existing_position_at_release": {
+                  "status": "MODELLED_OUTSIDE_RTH_RELEASE",
+                  "position_held": false,
+                  "basis": "Last preceding regular-session close; daily model has no outside-RTH fills."
+                }
+              }
+            ],
+            "limitations": [
+              "Expected event coverage is only for the fixed supplied event list, not all market announcements.",
+              "A/B intent counts are path dependent after filtering; differences are not causal foregone profit.",
+              "Company, fiscal quarter, market date and industry observations are correlated; no independent sample claim.",
+              "Outside-RTH position exposure describes this daily model, not actual broker holdings."
+            ]
+          },
+          "aligned_buy_and_hold": {
+            "total_return": -0.006281624067034364,
+            "max_drawdown": 0.0344179138183317,
+            "total_fees": 2.001,
+            "fill_count": 1,
+            "round_trip_count": 0,
+            "exposure_ratio": 0.24694862717254426
+          },
+          "report_hashes": {
+            "A": "0916ae557cd605c7ce81000f384d75c4d2b762cfa410d25739f6ffdd4f85164c",
+            "B": "5015d4ce330c1c053d1cf8a30cb862d0e51adbfe98ba1cbdb67737298deeae4c",
+            "aligned_buy_and_hold": "acad40968a3b65e1d6d69f4553a281e266bc765507a4b63fc73306c85b8829e8"
+          }
+        },
+        {
+          "cost_multiplier": 2,
+          "fee_rate": 0.0016,
+          "slippage_pct": 0.001,
+          "diagnostics": {
+            "A_metrics": {
+              "total_return": -0.01700437581488312,
+              "max_drawdown": 0.01700437581488312,
+              "total_fees": 15.700673618718923,
+              "fill_count": 4,
+              "round_trip_count": 2,
+              "exposure_ratio": 0.0,
+              "buy_fill_count": 2,
+              "turnover_over_initial_cash": 0.9812921011699327,
+              "scheduled_price_decisions": 26,
+              "blocked_new_buy_intents": 0,
+              "outcome": "LOSS"
+            },
+            "B_metrics": {
+              "total_return": -0.01700437581488312,
+              "max_drawdown": 0.01700437581488312,
+              "total_fees": 15.700673618718923,
+              "fill_count": 4,
+              "round_trip_count": 2,
+              "exposure_ratio": 0.0,
+              "buy_fill_count": 2,
+              "turnover_over_initial_cash": 0.9812921011699327,
+              "scheduled_price_decisions": 26,
+              "blocked_new_buy_intents": 0,
+              "outcome": "LOSS"
+            },
+            "expected_event_count": 1,
+            "usable_event_schedule_count": 1,
+            "event_schedule_coverage_ratio": 1.0,
+            "original_A_buy_intents": 2,
+            "original_B_path_buy_intents": 2,
+            "B_buy_intents_on_expected_event_dates": 0,
+            "B_intervenable_buy_intents_with_known_schedule": 0,
+            "actual_blocked_B_buy_intents": 0,
+            "B_event_date_buy_intents_unavailable_due_to_declared_lag": 0,
+            "events": [
+              {
+                "event_id": "AMD:2022Q1:EARNINGS_SCHEDULE",
+                "scheduled_date": "2022-05-03",
+                "schedule_usable_at_event_session_open": true,
+                "coverage_status": "USABLE_SCHEDULE",
+                "A_existing_position_at_release": {
+                  "status": "MODELLED_OUTSIDE_RTH_RELEASE",
+                  "position_held": false,
+                  "basis": "Last preceding regular-session close; daily model has no outside-RTH fills."
+                },
+                "B_existing_position_at_release": {
+                  "status": "MODELLED_OUTSIDE_RTH_RELEASE",
+                  "position_held": false,
+                  "basis": "Last preceding regular-session close; daily model has no outside-RTH fills."
+                }
+              }
+            ],
+            "limitations": [
+              "Expected event coverage is only for the fixed supplied event list, not all market announcements.",
+              "A/B intent counts are path dependent after filtering; differences are not causal foregone profit.",
+              "Company, fiscal quarter, market date and industry observations are correlated; no independent sample claim.",
+              "Outside-RTH position exposure describes this daily model, not actual broker holdings."
+            ]
+          },
+          "aligned_buy_and_hold": {
+            "total_return": -0.0066069240670343365,
+            "max_drawdown": 0.034428939010880955,
+            "total_fees": 4.004,
+            "fill_count": 1,
+            "round_trip_count": 0,
+            "exposure_ratio": 0.24702931174396692
+          },
+          "report_hashes": {
+            "A": "203acab8c2780a3336ec29c34307cd093df2dfc704c50f482c42f5c364ae932f",
+            "B": "73721e248512103dafc4c6e7d9033e14a32baf79734614f8aa591e2a98df90b9",
+            "aligned_buy_and_hold": "27af159260c950fe26d883a187154777d7d07db341f17a1bee4b02817e2fef72"
+          }
+        }
+      ],
+      "expected_event_input_sha256": "96cb9a2e3137b2b004aae6c08f79cb3e182d35400dfabe7c558015418882889e",
+      "retrospective_release_clock": {
+        "event_id": "AMD:2022Q1:EARNINGS_SCHEDULE",
+        "scheduled_date": "2022-05-03",
+        "actual_release_at": "2022-05-03T20:10:00Z",
+        "actual_release_source": "https://ir.amd.com/news-events/press-releases?category=financial&page=3"
+      },
+      "snapshot_id": "f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610",
+      "source_rows": 266,
+      "sessions": 38,
+      "daily_RTH_volume_difference_sessions": 38,
+      "disabled_rule_entire_price_result_equal": true
+    },
+    {
+      "event_id": "AMD:2022Q2:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2022Q2",
+      "scheduled_date": "2022-08-02",
+      "snapshot_start": "2022-06-30",
+      "score_start": "2022-07-19",
+      "score_end": "2022-08-23",
+      "status": "PENDING_DATA_CROSSCHECK",
+      "schedule_status": "SOURCE_BACKED_HISTORICAL_RECONSTRUCTION",
+      "cells": [],
+      "error_type": "ValueError",
+      "reason": "RTH_AND_ORIGINAL_DAILY_OHLC_MISMATCH:2022-08-02"
+    },
+    {
+      "event_id": "AMD:2022Q3:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2022Q3",
+      "scheduled_date": "2022-11-01",
+      "snapshot_start": "2022-09-30",
+      "score_start": "2022-10-18",
+      "score_end": "2022-11-22",
+      "status": "NOT_COLLECTED_RETAINED",
+      "schedule_status": "SOURCE_BACKED_HISTORICAL_RECONSTRUCTION",
+      "cells": [],
+      "error_type": "ValueError",
+      "reason": "MISSING_OR_MULTIPLE_PROVIDER_RESPONSE:2022Q3-K_DAY"
+    },
+    {
+      "event_id": "AMD:2022Q4:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2022Q4",
+      "scheduled_date": "2023-01-31",
+      "snapshot_start": "2022-12-28",
+      "score_start": "2023-01-17",
+      "score_end": "2023-02-22",
+      "status": "NOT_COLLECTED_RETAINED",
+      "schedule_status": "MISSING_PRIOR_ANNOUNCEMENT_NO_BACKFILL",
+      "cells": [],
+      "error_type": "ValueError",
+      "reason": "MISSING_OR_MULTIPLE_PROVIDER_RESPONSE:2022Q4-K_DAY"
+    },
+    {
+      "event_id": "AMD:2023Q1:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2023Q1",
+      "scheduled_date": "2023-05-02",
+      "snapshot_start": "2023-03-30",
+      "score_start": "2023-04-18",
+      "score_end": "2023-05-23",
+      "status": "NOT_COLLECTED_RETAINED",
+      "schedule_status": "SOURCE_BACKED_HISTORICAL_RECONSTRUCTION",
+      "cells": [],
+      "error_type": "ValueError",
+      "reason": "MISSING_OR_MULTIPLE_PROVIDER_RESPONSE:2023Q1-K_DAY"
+    },
+    {
+      "event_id": "AMD:2023Q2:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2023Q2",
+      "scheduled_date": "2023-08-01",
+      "snapshot_start": "2023-06-29",
+      "score_start": "2023-07-18",
+      "score_end": "2023-08-22",
+      "status": "NOT_COLLECTED_RETAINED",
+      "schedule_status": "SOURCE_BACKED_HISTORICAL_RECONSTRUCTION",
+      "cells": [],
+      "error_type": "ValueError",
+      "reason": "MISSING_OR_MULTIPLE_PROVIDER_RESPONSE:2023Q2-K_DAY"
+    },
+    {
+      "event_id": "AMD:2023Q3:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2023Q3",
+      "scheduled_date": "2023-10-31",
+      "snapshot_start": "2023-09-29",
+      "score_start": "2023-10-17",
+      "score_end": "2023-11-21",
+      "status": "NOT_COLLECTED_RETAINED",
+      "schedule_status": "SOURCE_BACKED_HISTORICAL_RECONSTRUCTION",
+      "cells": [],
+      "error_type": "ValueError",
+      "reason": "MISSING_OR_MULTIPLE_PROVIDER_RESPONSE:2023Q3-K_DAY"
+    },
+    {
+      "event_id": "AMD:2023Q4:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2023Q4",
+      "scheduled_date": "2024-01-30",
+      "snapshot_start": "2023-12-27",
+      "score_start": "2024-01-16",
+      "score_end": "2024-02-21",
+      "status": "NOT_COLLECTED_RETAINED",
+      "schedule_status": "SOURCE_BACKED_HISTORICAL_RECONSTRUCTION",
+      "cells": [],
+      "error_type": "ValueError",
+      "reason": "MISSING_OR_MULTIPLE_PROVIDER_RESPONSE:2023Q4-K_DAY"
+    },
+    {
+      "event_id": "AMD:2024Q1:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2024Q1",
+      "scheduled_date": "2024-04-30",
+      "snapshot_start": "2024-03-28",
+      "score_start": "2024-04-16",
+      "score_end": "2024-05-21",
+      "status": "NOT_COLLECTED_RETAINED",
+      "schedule_status": "SOURCE_BACKED_HISTORICAL_RECONSTRUCTION",
+      "cells": [],
+      "error_type": "ValueError",
+      "reason": "MISSING_OR_MULTIPLE_PROVIDER_RESPONSE:2024Q1-K_DAY"
+    },
+    {
+      "event_id": "AMD:2024Q2:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2024Q2",
+      "scheduled_date": "2024-07-30",
+      "snapshot_start": "2024-06-27",
+      "score_start": "2024-07-16",
+      "score_end": "2024-08-20",
+      "status": "NOT_COLLECTED_RETAINED",
+      "schedule_status": "SOURCE_BACKED_HISTORICAL_RECONSTRUCTION",
+      "cells": [],
+      "error_type": "ValueError",
+      "reason": "MISSING_OR_MULTIPLE_PROVIDER_RESPONSE:2024Q2-K_DAY"
+    }
+  ],
+  "reports_verified": 6,
+  "validation": [
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 1,
+      "variant": "A",
+      "report_hash": "0916ae557cd605c7ce81000f384d75c4d2b762cfa410d25739f6ffdd4f85164c",
+      "replay_verified": true,
+      "ledger_status": "PASS",
+      "ledger_checks": 214
+    },
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 1,
+      "variant": "B",
+      "report_hash": "5015d4ce330c1c053d1cf8a30cb862d0e51adbfe98ba1cbdb67737298deeae4c",
+      "replay_verified": true,
+      "ledger_status": "PASS",
+      "ledger_checks": 214
+    },
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 1,
+      "variant": "aligned_buy_and_hold",
+      "report_hash": "acad40968a3b65e1d6d69f4553a281e266bc765507a4b63fc73306c85b8829e8",
+      "replay_verified": true,
+      "ledger_status": "PASS",
+      "ledger_checks": 187
+    },
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 2,
+      "variant": "A",
+      "report_hash": "203acab8c2780a3336ec29c34307cd093df2dfc704c50f482c42f5c364ae932f",
+      "replay_verified": true,
+      "ledger_status": "PASS",
+      "ledger_checks": 214
+    },
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 2,
+      "variant": "B",
+      "report_hash": "73721e248512103dafc4c6e7d9033e14a32baf79734614f8aa591e2a98df90b9",
+      "replay_verified": true,
+      "ledger_status": "PASS",
+      "ledger_checks": 214
+    },
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 2,
+      "variant": "aligned_buy_and_hold",
+      "report_hash": "27af159260c950fe26d883a187154777d7d07db341f17a1bee4b02817e2fef72",
+      "replay_verified": true,
+      "ledger_status": "PASS",
+      "ledger_checks": 187
+    }
+  ],
+  "event_coverage": {
+    "planned": 10,
+    "input_admitted": 1,
+    "AB_completed": 1,
+    "missing_prior_schedule": 1,
+    "data_blocked": 0,
+    "pending_data_crosscheck": 1,
+    "not_collected": 8
+  },
+  "raw_capture_files_unchanged": true,
+  "original_admission_sources_unchanged": true,
+  "plans_tools_schedules_calendars_release_inputs_unchanged": true,
+  "release_clock_evidence_sha256": "a24c4b5356ac880876792314b28c1b28d47423a5004d98cac67c165f786d55a8",
+  "capture_run_statuses": [
+    {
+      "summary_sha256": "20b80be104d169e2a136bb07e8ccc103f2b289c64ad3e1fc3b8453be895477c6",
+      "status": "STOPPED_NO_RETRY"
+    },
+    {
+      "summary_sha256": "360f8401746c91c5e8613bd07f21e42dcb311bd23d87adf7b3494314f78fda44",
+      "status": "STOPPED_NO_RETRY"
+    }
+  ],
+  "new_network_calls_in_research": 0,
+  "order_allowed": false,
+  "C_D": "NOT_RUN_PENDING_HUMAN_APPROVAL",
+  "timing": "Historical reconstruction with 60 second bar lag and 60+60 second schedule delays; not historical receipt telemetry.",
+  "retention": "All ten planned events retained; missing B schedule, blocked input, losses, zero blocks and no-trade cells are not replaced."
+}

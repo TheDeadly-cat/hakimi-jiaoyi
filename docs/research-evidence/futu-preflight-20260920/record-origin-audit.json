@@ -1,0 +1,56 @@
+{
+  "checked_at": "2026-09-19T22:35:06.085921+00:00",
+  "source_pb_sha256": "5c842924dd154f90e75426f052b131f79fe959e06fc8b992d034587dbe827c40",
+  "protocol_orders": [
+    {
+      "fields_present": [
+        "trdSide",
+        "orderType",
+        "orderStatus",
+        "orderID",
+        "orderIDEx",
+        "code",
+        "name",
+        "qty",
+        "price",
+        "createTime",
+        "updateTime",
+        "fillQty",
+        "fillAvgPrice",
+        "secMarket",
+        "createTimestamp",
+        "updateTimestamp",
+        "remark",
+        "timeInForce",
+        "currency",
+        "trdMarket",
+        "session",
+        "jpAccType"
+      ],
+      "unrecognized_wire_field_numbers": [],
+      "provider_status_raw_is_minus_one": true,
+      "administrative_origin_field_in_schema": false,
+      "unknown_field_values_disclosed": false
+    }
+  ],
+  "local_log_observations": [
+    {
+      "kind": "OPEND_VENDOR_FTLOG",
+      "bytes_observed": 4321726,
+      "read_at": "2026-09-19T22:35:06.079541+00:00",
+      "entire_file_valid_utf8": false,
+      "contains_zero_bytes": true,
+      "known_order_identifier_plaintext_matches": 0,
+      "snapshot_sha256": "055fea378d1bd234395fe3b2e4afae5372ec4c32c726339258aaeb53c70a2b18",
+      "raw_log_uploaded": false,
+      "interpretation": "VENDOR_LOG_NOT_INTERPRETED_AS_PLAINTEXT_OR_TERMINAL_PROOF"
+    }
+  ],
+  "OpenD_executable_product_version": "10.7.6728",
+  "user_reports_no_manual_operation": true,
+  "sdk_connections": 0,
+  "database_accesses": 0,
+  "orders_sent": 0,
+  "origin_proven": false,
+  "terminal_state_proven": false
+}

@@ -1,0 +1,319 @@
+{
+  "schema_version": "fixed-collection-independent-review-v1",
+  "checked_at": "2026-09-19T21:29:21.784277+00:00",
+  "review_scope": "READ_ONLY_RETAINED_REQUEST_RESPONSE_AND_CONTINUATION_EVIDENCE",
+  "status": "COLLECTION_SCOPE_AND_PRESERVATION_VERIFIED",
+  "plan_sha256": "d64bc075237fb1ef115276f20b45e3210c61f923e124056aee6e23951d043072",
+  "prepared_inputs_sha256": "a8e575f5ab0d0008828863f5c31b433dcc50ede8e098a9622a932ec9d4734a5b",
+  "unique_business_queries": 22,
+  "new_queries_per_stage": [
+    2,
+    4,
+    16
+  ],
+  "cumulative_counts_not_summed": [
+    2,
+    6,
+    22
+  ],
+  "method_counts": {
+    "get_stock_basicinfo": 1,
+    "get_rehab": 1,
+    "request_history_kline": 20
+  },
+  "SDK_handshake_and_heartbeat_messages_not_counted": true,
+  "daily_rows": 380,
+  "RTH_hour_rows": 2654,
+  "account_queries_in_declared_methods": 0,
+  "order_calls_in_declared_methods": 0,
+  "first_started_at": "2026-09-19T21:09:56.930917Z",
+  "absolute_deadline": "2026-09-19T21:29:56.930917+00:00",
+  "finished_at": "2026-09-19T21:25:57.529160Z",
+  "elapsed_wall_seconds": 960.598243,
+  "finished_before_original_deadline": true,
+  "distinct_claims_verified": 2,
+  "continuation_links": [
+    {
+      "prior_basis_sha256": "e8c7a58c258dc4204524ffc23c5eb7a32eb56b43917172509a7da813ec1f3c3a",
+      "claim_sha256": "96c4037edaa18d40131dcc469d2b7e33852a56cd956fb4fe6c18fd059a9a3977",
+      "prior_file_hashes_verified": 8,
+      "reused_business_calls": 2,
+      "new_call_limit": 20
+    },
+    {
+      "prior_basis_sha256": "b35de4da275f84efd43fe7bdf6a0baa32fd21349d822fcf97f9d9521152c9eb4",
+      "claim_sha256": "fcf9bd2e586bc2187cdd36732299b5ef6826cd7802fcee33c20bf0c5eba74fe1",
+      "prior_file_hashes_verified": 22,
+      "reused_business_calls": 6,
+      "new_call_limit": 16
+    }
+  ],
+  "original_failures_preserved": [
+    "ACTION_COVERAGE_UNKNOWN_PARSER_REQUIRED_INAPPLICABLE_NULL_FIELDS",
+    "DAILY_RTH_OHLC_MISMATCH_2022Q2"
+  ],
+  "original_stage_summaries_unchanged_in_hash_chain": true,
+  "original_sources_retained_without_resigning": true,
+  "fixed_events": 10,
+  "replacement_events": 0,
+  "excluded_windows": 3,
+  "windows_awaiting_admission": 7,
+  "windows": [
+    {
+      "fiscal_quarter": "2022Q1",
+      "status": "RAW_WINDOW_RETAINED_AWAITING_ADMISSION",
+      "OHLC_mismatch_sessions": 0
+    },
+    {
+      "fiscal_quarter": "2022Q2",
+      "status": "EXCLUDED_PENDING_CROSSCHECK",
+      "OHLC_mismatch_sessions": 2
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "status": "RAW_WINDOW_RETAINED_AWAITING_ADMISSION",
+      "OHLC_mismatch_sessions": 0
+    },
+    {
+      "fiscal_quarter": "2022Q4",
+      "status": "EXCLUDED_PENDING_CROSSCHECK",
+      "OHLC_mismatch_sessions": 1
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "status": "RAW_WINDOW_RETAINED_AWAITING_ADMISSION",
+      "OHLC_mismatch_sessions": 0
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "status": "RAW_WINDOW_RETAINED_AWAITING_ADMISSION",
+      "OHLC_mismatch_sessions": 0
+    },
+    {
+      "fiscal_quarter": "2023Q3",
+      "status": "EXCLUDED_PENDING_CROSSCHECK",
+      "OHLC_mismatch_sessions": 1
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "status": "RAW_WINDOW_RETAINED_AWAITING_ADMISSION",
+      "OHLC_mismatch_sessions": 0
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "status": "RAW_WINDOW_RETAINED_AWAITING_ADMISSION",
+      "OHLC_mismatch_sessions": 0
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "status": "RAW_WINDOW_RETAINED_AWAITING_ADMISSION",
+      "OHLC_mismatch_sessions": 0
+    }
+  ],
+  "first_two_successful_calls_not_repeated": true,
+  "first_four_history_calls_not_repeated": true,
+  "compared_request_response_files_unchanged_during_review": true,
+  "stages": [
+    {
+      "stage": 1,
+      "new_business_calls": 2,
+      "cumulative_business_calls": 2,
+      "status": "STOPPED_NO_RETRY",
+      "reason": "ACTION_COVERAGE_UNKNOWN",
+      "started_at": "2026-09-19T21:09:56.930917Z",
+      "finished_at": "2026-09-19T21:09:57.707003Z",
+      "summary_sha256": "360f8401746c91c5e8613bd07f21e42dcb311bd23d87adf7b3494314f78fda44",
+      "process_sha256": "ed4bf79b7bd84ce1ef43906567b3eb8da5dab15550d08d34566a5bd32230b1d4",
+      "source_sha256": "edc45032979e7b2c7c7141c60340accff17da713825ded3674156447c1430fbc"
+    },
+    {
+      "stage": 2,
+      "new_business_calls": 4,
+      "cumulative_business_calls": 6,
+      "status": "STOPPED_NO_RETRY",
+      "reason": "DAILY_RTH_OHLC_MISMATCH",
+      "started_at": "2026-09-19T21:18:29.837104Z",
+      "finished_at": "2026-09-19T21:18:30.831767Z",
+      "summary_sha256": "20b80be104d169e2a136bb07e8ccc103f2b289c64ad3e1fc3b8453be895477c6",
+      "process_sha256": "962e85d341683b21b8ee6e8b79eb29f332227e9746f6a2f2f6052a484530683b",
+      "source_sha256": "d14b92a0f7ef19258dd6e8ccff2c601ac49724a519a8f11f186d91ef2df50d8a"
+    },
+    {
+      "stage": 3,
+      "new_business_calls": 16,
+      "cumulative_business_calls": 22,
+      "status": "FIXED_QUOTE_COLLECTION_COMPLETED_AWAITING_ADMISSION",
+      "reason": null,
+      "started_at": "2026-09-19T21:25:55.931269Z",
+      "finished_at": "2026-09-19T21:25:57.529160Z",
+      "summary_sha256": "605786288da4909d6ff05b5a10ca77b34a227f23091cb2e8abcecba1ea5f86b5",
+      "process_sha256": "a7aaacd14b3a108e960be9efbfcc26e80973fc4d26857852230db1cf035cb922",
+      "source_sha256": "1636a94e03246ae1624a8f664aaa9cf02825c51b4f77c5320ec9ace819476714"
+    }
+  ],
+  "request_receipt_hashes": [
+    {
+      "sequence": 1,
+      "label": "security",
+      "method": "get_stock_basicinfo",
+      "start_sha256": "4c57b1ed08e4d5bbbc1ebdacb05d739a126f58fbf703192d2e1963cbe48f7e1c",
+      "response_sha256": "f7b8df5fc1db322c309ad8fa019cf303c2dbd1151bd5d0ada6f04ea0ef0c4a53"
+    },
+    {
+      "sequence": 2,
+      "label": "actions",
+      "method": "get_rehab",
+      "start_sha256": "38a9cb6f2561184f0da74fe8b755f7d946c8fdf7bc1c407fb730259e87edac9c",
+      "response_sha256": "543d454ade659f1ac8e451b1cf516c4f37b4b372a111151dbadb964b7924bb18"
+    },
+    {
+      "sequence": 3,
+      "label": "2022Q1-K_DAY",
+      "method": "request_history_kline",
+      "start_sha256": "674f9ca804c753b4763bc09a7e4e7a13d4e626ac0c12ef1918d9bbda4d0ea21a",
+      "response_sha256": "e5696746c42497348c86cc5dea52275fa5ad37541d04537fdeb40b53ef6c292e"
+    },
+    {
+      "sequence": 4,
+      "label": "2022Q1-K_60M",
+      "method": "request_history_kline",
+      "start_sha256": "0a3c1ba9691f51dc5a6cee12c678a2a7542fd1637ab8524dce443079eaa8349f",
+      "response_sha256": "6940ebbaaa4df5dca4855b75b2db11b6fe7be9499b969c2e6e2560785d3246f0"
+    },
+    {
+      "sequence": 5,
+      "label": "2022Q2-K_DAY",
+      "method": "request_history_kline",
+      "start_sha256": "b113f1f69170bbc63f0273947e93d60928076c062cd816a8817cb0904a53d223",
+      "response_sha256": "53b28b2e195ecf9ae12a193e5d93ff3d793f67757f4387d922ce76243b091b3a"
+    },
+    {
+      "sequence": 6,
+      "label": "2022Q2-K_60M",
+      "method": "request_history_kline",
+      "start_sha256": "e93386e2ecc22dd853ba82136d7fc1d998652462bf5f892e53f26a07c1cc19ce",
+      "response_sha256": "2b4f67bb34ebb1cdd4d5fb7f7be024bfd3e7ffb425a6cb6f841f412fff00e724"
+    },
+    {
+      "sequence": 7,
+      "label": "2022Q3-K_DAY",
+      "method": "request_history_kline",
+      "start_sha256": "4f94ae3401e1845c1d04492c0e0fc422b33959918c2ccaec024c73841814ae60",
+      "response_sha256": "426862216a79ce39220a01eedbff3f917c3e1cfea80caf52af4b8c060699abfe"
+    },
+    {
+      "sequence": 8,
+      "label": "2022Q3-K_60M",
+      "method": "request_history_kline",
+      "start_sha256": "34d9dd85375e073d5d49c1596c4c9b4354ebee1f7cc9423f4f80b897cc0ea9cd",
+      "response_sha256": "fa5c5faa287ab49b11e2b15c6b8e97988224dda2a0e2d8a5659488968c49cb23"
+    },
+    {
+      "sequence": 9,
+      "label": "2022Q4-K_DAY",
+      "method": "request_history_kline",
+      "start_sha256": "38bd7dab319b7233dd46b691e10216de1ea977ce064cada12dcca8c1c414d725",
+      "response_sha256": "84da6e20c5087a04b982999efe67e585338a2c52624b3399e66c02413e766942"
+    },
+    {
+      "sequence": 10,
+      "label": "2022Q4-K_60M",
+      "method": "request_history_kline",
+      "start_sha256": "d50a249410de738f803918228e01eb06638c0ed6e7775e7d55a89bdcf8d49f38",
+      "response_sha256": "262a7a595624f21976b1042c6035b4f3debce836e420e84eb384c1f245a2eb94"
+    },
+    {
+      "sequence": 11,
+      "label": "2023Q1-K_DAY",
+      "method": "request_history_kline",
+      "start_sha256": "f8ee387678b40b8d031ad69aa85b855cf60b8ed8f7254c40f5483e46be0fc75e",
+      "response_sha256": "bd7b9957efb07b63daac93aad4b096484e4ad9b661c17b78131249ffecd2d03a"
+    },
+    {
+      "sequence": 12,
+      "label": "2023Q1-K_60M",
+      "method": "request_history_kline",
+      "start_sha256": "c670262179b53bab67e97f62e1a27100df8f3c5f15ce63f885baab221e1f4b55",
+      "response_sha256": "81247919f5767e1dcc327f1cce33fb75567b661843ceeb6d76cab0bbb26cde3e"
+    },
+    {
+      "sequence": 13,
+      "label": "2023Q2-K_DAY",
+      "method": "request_history_kline",
+      "start_sha256": "7ece87788b02de05578cc7d6ee3f254d7b85f8f4b15a534e9ad9577b36e2c45f",
+      "response_sha256": "74fa735278d1a6f5e6b5b1f45a9023577303c16c95433cb798e9f216af271d98"
+    },
+    {
+      "sequence": 14,
+      "label": "2023Q2-K_60M",
+      "method": "request_history_kline",
+      "start_sha256": "86a41221162af6d088ff52ad0f48139be7abd7278596e1e716905ab6364478ff",
+      "response_sha256": "4c32a83b72cc45b7b36069a83cd209ee27935f0edcba13b199fe849f48a05032"
+    },
+    {
+      "sequence": 15,
+      "label": "2023Q3-K_DAY",
+      "method": "request_history_kline",
+      "start_sha256": "829dfc221986a914d062101995ff897c88e361a5ebb4fed168752c51e1d7f6fc",
+      "response_sha256": "657624a3bcf0eea03a170713b68b7572dac70a10bcdcd5c28af2db995963b70b"
+    },
+    {
+      "sequence": 16,
+      "label": "2023Q3-K_60M",
+      "method": "request_history_kline",
+      "start_sha256": "1cbffb431370710e84f2075b7b57bcd313806995d1274f515b6bfdb130bc45b8",
+      "response_sha256": "d09bc18c8947e68e3a69a9500bb76322f0402624b288c5a4ff01288d81fd1ff3"
+    },
+    {
+      "sequence": 17,
+      "label": "2023Q4-K_DAY",
+      "method": "request_history_kline",
+      "start_sha256": "346347a6d5ac5818ddd072f1f51ef03a7dc7262f2b1d6d4bb312fbb92dce0e68",
+      "response_sha256": "4fb009fbc801827397ed4f0b8fcca6dfe6a30b4fb2c8bef2161a94901ab1fd06"
+    },
+    {
+      "sequence": 18,
+      "label": "2023Q4-K_60M",
+      "method": "request_history_kline",
+      "start_sha256": "22259627612fa4bccd58ee8fd558b5ade8687b8d4aa87060f6d04b88a9c136af",
+      "response_sha256": "18c1dd9a0d7245fc1532d5b8057c4bd73bda8595903df50ce2472986d8439af1"
+    },
+    {
+      "sequence": 19,
+      "label": "2024Q1-K_DAY",
+      "method": "request_history_kline",
+      "start_sha256": "e2889d1201e535202339af7cb1e2dd0ecc74b3921221d8e65bb4ac64a3711040",
+      "response_sha256": "650881d59a3b0de36e9c76b58661b2e5e3c4af6e43d373ee6c3b208d11e2ac93"
+    },
+    {
+      "sequence": 20,
+      "label": "2024Q1-K_60M",
+      "method": "request_history_kline",
+      "start_sha256": "1f0e57634acd78199e70cee7877d916f93be183fc5b5fb5bf17ce7b00952f01a",
+      "response_sha256": "257caad3fec545d4c65c743ff4f6228678b842c7f45fcc38d83a3b684877f346"
+    },
+    {
+      "sequence": 21,
+      "label": "2024Q2-K_DAY",
+      "method": "request_history_kline",
+      "start_sha256": "06947502e529257cc3cf8d185b68635c2d22c49ac3fe97cafe534940bad38f77",
+      "response_sha256": "7bd241237516487ceba8931248263cadc45013743f2b4c1e8a3167cf0845a5c6"
+    },
+    {
+      "sequence": 22,
+      "label": "2024Q2-K_60M",
+      "method": "request_history_kline",
+      "start_sha256": "80670297bc1066e7f0ea4416d8c3fa2fbe150c859277a4dc5907ea16b4212196",
+      "response_sha256": "96abcfa92a9a273fb389a0d964613df9f391eab843ad1fcd9639d1438e5cb569"
+    }
+  ],
+  "limits": [
+    "This review is a retained evidence and scope check, not a fresh provider request.",
+    "Provider corporate-action completeness and downstream data admission remain separate.",
+    "Three discrepant windows are excluded pending crosscheck; no raw values are rewritten or substituted.",
+    "Collection completion does not prove strategy value, account readiness or trading authorization."
+  ],
+  "sdk_calls_during_review": 0,
+  "network_calls_during_review": 0,
+  "collector_runs_during_review": 0
+}

@@ -1,0 +1,205 @@
+{
+  "bundles": [
+    {
+      "archive": "supervised-research-3632c978e6d458c2e02091e6b56be8e86cc4ce8f3de837df634d240dc1050767.zip",
+      "archive_sha256": "4cef005cff7f8d4f0105ce7a2f717bf3c4dcfcc626ae5d795b158c694180c01b",
+      "broker_or_monitor_started": false,
+      "build_id": "supervised-research-3632c978e6d458c2e02091e6b56be8e86cc4ce8f3de837df634d240dc1050767",
+      "current_tool_contract_validation": null,
+      "dependency_source": "LOCAL_WHEELHOUSE_NO_INDEX",
+      "directory": "supervised-research-3632c978e6d458c2e02091e6b56be8e86cc4ce8f3de837df634d240dc1050767",
+      "editable": false,
+      "fresh_external_environment": true,
+      "installation_log_sha256": "a12f6f0171c89bfb21091fcf0a4916180bb75fc5318bc7059faaedab2c692e6e",
+      "installation_receipt_sha256": "96920f09515d7ee80e99e6ae11db6a153c70953802a0c8acdd516fad9e56df80",
+      "installation_status": "VERIFIED",
+      "installed_evidence": {
+        "dependencies": "VERIFIED",
+        "execution_permission": {
+          "live_order_allowed": false,
+          "order_entry_allowed": false,
+          "paper_authorized": false,
+          "research_only": true
+        },
+        "source": "BUILD_VERIFIED",
+        "source_sha256": "c5d57ec371efe303741b12476fd6824c3eb4baa5e3cfb9cfd22c3a337fe236b6"
+      },
+      "latest_retained_preflight": {
+        "account_state_checked_now": false,
+        "accounting_verified": false,
+        "authorization_created": false,
+        "cancel_calls": 0,
+        "evidence_adapter_matches_bundled_tool": null,
+        "evidence_time": "2026-09-19T22:02:12.654573Z",
+        "initial_order_gate": {
+          "execution_authorized": false,
+          "observed_order_count": 1,
+          "status": "BLOCKED_EXISTING_PROVIDER_ORDERS",
+          "terminal_state_inferred": false,
+          "unclassified_status_count": 1,
+          "zero_price_count": 1
+        },
+        "instrument_verified": true,
+        "market_state": "AFTER_HOURS_END",
+        "orders_sent": 0,
+        "regular_session_open": false,
+        "rerun_by_status_command": false,
+        "stable_read_completed": true,
+        "status": "READ_ONLY_STABLE_SCOPED_READS_EXECUTION_BLOCKED"
+      },
+      "pythonpath_used": false,
+      "r2_build_preserved": "supervised-research-714ca6ec0a1ad8c389a0fcde446a19be8c9e2c1c2db5a551dd5b7cf7e64322a1",
+      "r2_to_r3_changed_files": [
+        "README.md",
+        "evidence/CURRENT_STATUS.md",
+        "evidence/equity-events/README.md",
+        "evidence/equity-events/actual-study-final.md",
+        "evidence/equity-events/collection-review.json",
+        "evidence/equity-events/future-noninterference.json",
+        "evidence/equity-events/source-crosschecks-final.json",
+        "evidence/equity-events/study-final-results.json",
+        "evidence/futu-followup-tests.json",
+        "evidence/futu-readonly-followup.json",
+        "evidence/futu-resolution-followup.md",
+        "preview.py"
+      ],
+      "reports_verified": 42,
+      "status_and_help_exit_codes": [
+        0,
+        0
+      ],
+      "status_and_help_network_guard": "PYTHON_SOCKET_AUDIT_DENY",
+      "status_output_sha256": "9401bf5c497fa89f1588d8b2c19543f47b9efbe1a5358dd81ecf12b17b27036e",
+      "study_coverage": {
+        "AB_completed": 7,
+        "data_blocked": 0,
+        "input_admitted": 7,
+        "missing_prior_schedule": 1,
+        "not_collected": 0,
+        "pending_data_crosscheck": 3,
+        "planned": 10
+      },
+      "system_site_packages": false,
+      "zip_reproduced_byte_for_byte": true
+    },
+    {
+      "archive": "supervised-windows-futu-491fe2bc1bf02ef4899ce3582703d8e42c4769e26221a3ca77fcbd288f3c2f18.zip",
+      "archive_sha256": "6d46ea1ec6ca9c6b7285ad59f7645c96963bf4fd9d2c16eca80f9f302e02315f",
+      "broker_or_monitor_started": false,
+      "build_id": "supervised-windows-futu-491fe2bc1bf02ef4899ce3582703d8e42c4769e26221a3ca77fcbd288f3c2f18",
+      "current_tool_contract_validation": {
+        "adapter_and_cycle_match_tested_bytes": true,
+        "errors": 0,
+        "executed_again_during_install": false,
+        "failures": 0,
+        "skips": 0,
+        "tests": 54
+      },
+      "dependency_source": "LOCAL_WHEELHOUSE_NO_INDEX",
+      "directory": "supervised-windows-futu-491fe2bc1bf02ef4899ce3582703d8e42c4769e26221a3ca77fcbd288f3c2f18",
+      "editable": false,
+      "fresh_external_environment": true,
+      "installation_log_sha256": "7d2dd6ad7218ebf31ce736f81fc2300cbfa2a6b88d1780ea0c89c5aefc98c3de",
+      "installation_receipt_sha256": "357c19911915274eee5c4196472cc3b6a2ef9a649bc54bee0668c98ab4c93bee",
+      "installation_status": "VERIFIED",
+      "installed_evidence": {
+        "account_connected": false,
+        "dependencies": "VERIFIED",
+        "packages": {
+          "PyCryptodome": "3.23.0",
+          "futu-api": "10.7.6708",
+          "numpy": "2.5.3",
+          "pandas": "3.0.5",
+          "protobuf": "7.36.1",
+          "python-dateutil": "2.9.0.post0",
+          "simplejson": "4.1.2",
+          "six": "1.17.0",
+          "tzdata": "2026.4"
+        },
+        "sdk_imported": false
+      },
+      "latest_retained_preflight": {
+        "account_state_checked_now": false,
+        "accounting_verified": false,
+        "authorization_created": false,
+        "cancel_calls": 0,
+        "evidence_adapter_matches_bundled_tool": false,
+        "evidence_time": "2026-09-19T22:02:12.654573Z",
+        "initial_order_gate": {
+          "execution_authorized": false,
+          "observed_order_count": 1,
+          "status": "BLOCKED_EXISTING_PROVIDER_ORDERS",
+          "terminal_state_inferred": false,
+          "unclassified_status_count": 1,
+          "zero_price_count": 1
+        },
+        "instrument_verified": true,
+        "market_state": "AFTER_HOURS_END",
+        "orders_sent": 0,
+        "regular_session_open": false,
+        "rerun_by_status_command": false,
+        "stable_read_completed": true,
+        "status": "READ_ONLY_STABLE_SCOPED_READS_EXECUTION_BLOCKED"
+      },
+      "pythonpath_used": false,
+      "r2_build_preserved": "supervised-windows-futu-60628eb6927c745289d3bcdc98bf44932bd14336b9a778a2519da7b8d80e74d0",
+      "r2_to_r3_changed_files": [
+        "README.md",
+        "evidence/CURRENT_STATUS.md",
+        "evidence/equity-events/actual-study-final.md",
+        "evidence/equity-events/source-crosschecks-final.json",
+        "evidence/equity-events/study-final-results.json",
+        "evidence/futu-followup-tests.json",
+        "evidence/futu-readonly-followup.json",
+        "evidence/futu-resolution-followup.md",
+        "futu-official-cycle.md",
+        "preview.py",
+        "tools/futu_simulation_adapter.py"
+      ],
+      "reports_verified": 42,
+      "status_and_help_exit_codes": [
+        0,
+        0
+      ],
+      "status_and_help_network_guard": "PYTHON_SOCKET_AUDIT_DENY",
+      "status_output_sha256": "4f3c38039eb00a51763ba2731be4afdb3fb5ead3f6d91b6cce58a1395e83d7e1",
+      "study_coverage": {
+        "AB_completed": 7,
+        "data_blocked": 0,
+        "input_admitted": 7,
+        "missing_prior_schedule": 1,
+        "not_collected": 0,
+        "pending_data_crosscheck": 3,
+        "planned": 10
+      },
+      "system_site_packages": false,
+      "zip_reproduced_byte_for_byte": true
+    }
+  ],
+  "checked_at": "2026-09-19T22:14:01.770764+00:00",
+  "formal_release_changed": false,
+  "monitor_started": false,
+  "new_account_queries": 0,
+  "new_market_queries": 0,
+  "not_verified": [
+    "Official simulation order lifecycle",
+    "Unknown provider record terminal meaning",
+    "Fee accounting",
+    "Profitability",
+    "Unattended operation"
+  ],
+  "orders_sent": 0,
+  "previous_wheel_acceptance": {
+    "receipt_sha256": "cc79ea7c92e3af87aad1615cde7efbed7a6f253542d5aa56017ed368b5f16efb",
+    "rerun_for_r3": false,
+    "same_wheel_bytes": true,
+    "tests_run": 183
+  },
+  "r2_archives_unchanged": true,
+  "remote_ci_run_for_r3": false,
+  "research_source_sha256": "c5d57ec371efe303741b12476fd6824c3eb4baa5e3cfb9cfd22c3a337fe236b6",
+  "revision": "r3",
+  "schema_version": "supervised-preview-validation-v2",
+  "status": "PASS_LOCAL_PACKAGING_AND_FRESH_INSTALLATION_ONLY",
+  "wheel_sha256": "dd53860cfe265f623c7627f35668088fb6eda37066e05de790d5e2846fbc706b"
+}

@@ -1,0 +1,113 @@
+{
+  "status": "READ_ONLY_PROTOBUF_DIAGNOSTIC_COMPLETED",
+  "started_at": "2026-09-19T21:39:06.139197Z",
+  "sdk_version": "10.7.6708",
+  "queries": [
+    {
+      "method": "get_acc_list",
+      "ret": 0,
+      "started_at": "2026-09-19T21:39:06.877323Z",
+      "completed_at": "2026-09-19T21:39:06.8842Z",
+      "selected_account_records": 1,
+      "response_sha256": "94bc4af3407d03f3ab3cc73dc8feaf994b0c8f02d506c4a0a381244b8b04815d"
+    },
+    {
+      "method": "order_list_query",
+      "ret": 0,
+      "started_at": "2026-09-19T21:39:06.895103Z",
+      "completed_at": "2026-09-19T21:39:06.942235Z",
+      "records": 1,
+      "decoded_sha256": "5e2a34a11930cc676c38999f0ac9ac2bd20565a969d9f7a69954c82c4a3344b7",
+      "raw_status": {
+        "protobuf_initialized": true,
+        "response_header_present": true,
+        "account_field_present": true,
+        "account_matches_profile": true,
+        "environment_field_present": true,
+        "environment_matches_SIMULATE": true,
+        "market_field_present": true,
+        "market_matches_US": true,
+        "protobuf_sha256": "5c842924dd154f90e75426f052b131f79fe959e06fc8b992d034587dbe827c40",
+        "orders": [
+          {
+            "order_status_field_present": true,
+            "order_status_numeric": -1,
+            "protobuf_enum_numeric_known": true,
+            "provider_explicit_unknown": true,
+            "sdk_numeric_mapping_exists": true,
+            "SDK_decoded_status": "N/A",
+            "SDK_decode_matches_raw_mapping": true,
+            "decoded_identity_matches_protobuf": true,
+            "classification": "PROVIDER_EXPLICIT_UNKNOWN",
+            "price_field_present": true,
+            "price_zero": true,
+            "foreign_to_proposal": true
+          }
+        ]
+      }
+    },
+    {
+      "method": "history_order_list_query",
+      "ret": 0,
+      "started_at": "2026-09-19T21:39:06.953218Z",
+      "completed_at": "2026-09-19T21:39:06.991178Z",
+      "records": 1,
+      "decoded_sha256": "5e2a34a11930cc676c38999f0ac9ac2bd20565a969d9f7a69954c82c4a3344b7",
+      "raw_status": {
+        "protobuf_initialized": true,
+        "response_header_present": true,
+        "account_field_present": true,
+        "account_matches_profile": true,
+        "environment_field_present": true,
+        "environment_matches_SIMULATE": true,
+        "market_field_present": true,
+        "market_matches_US": true,
+        "protobuf_sha256": "5c842924dd154f90e75426f052b131f79fe959e06fc8b992d034587dbe827c40",
+        "orders": [
+          {
+            "order_status_field_present": true,
+            "order_status_numeric": -1,
+            "protobuf_enum_numeric_known": true,
+            "provider_explicit_unknown": true,
+            "sdk_numeric_mapping_exists": true,
+            "SDK_decoded_status": "N/A",
+            "SDK_decode_matches_raw_mapping": true,
+            "decoded_identity_matches_protobuf": true,
+            "classification": "PROVIDER_EXPLICIT_UNKNOWN",
+            "price_field_present": true,
+            "price_zero": true,
+            "foreign_to_proposal": true
+          }
+        ]
+      }
+    }
+  ],
+  "business_protocol_queries": 3,
+  "maximum_business_queries": 3,
+  "orders_sent": 0,
+  "cancel_calls": 0,
+  "database_accesses": 0,
+  "authorization_created": false,
+  "terminal_state_claimed": false,
+  "GUI_visibility": "USER_REPORTED_NOT_VISIBLE_NOT_INDEPENDENTLY_OBSERVED",
+  "account_list_reused_only_within_this_bounded_process": true,
+  "automatic_account_subscription_disabled": true,
+  "automatic_unlock_disabled": true,
+  "SDK_connection_and_heartbeat_messages_not_counted": true,
+  "selected_simulation_account_verified": true,
+  "same_record_identity_in_current_and_history": true,
+  "unique_order_identity_count": 1,
+  "business_protocol_counts": {
+    "GetAccountList": 1,
+    "OrderListQuery": 1,
+    "HistoryOrderListQuery": 1
+  },
+  "profile_unchanged": true,
+  "SDK_source_files_unchanged": true,
+  "SDK_source_sha256": {
+    "trade_query.py": "7f8596d4f3f27268b0e93d534f5e734648138130dca29f123b7eaae2c9aa962e",
+    "constant.py": "610fc8d8cfde2e97a1d19941d8c1efb9fd893c537ff335724126dff7a9387ffe"
+  },
+  "finished_at": "2026-09-19T21:39:06.993401Z",
+  "diagnostic_source_sha256": "bf46721171f63f55b4d6c16e672f6538248289ebbaea094909cc58b392a3286e"
+}

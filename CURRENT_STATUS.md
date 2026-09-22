@@ -1,24 +1,28 @@
 # 当前项目状态
 
-更新：2026-09-20；代码合并状态已重新核对，运行结果按下列原始回执时间标注。项目定位为研究软件，当前结果不支持自主实盘或盈利声明。
+整理日期：2026-09-23。本页区分核对时的功能基线、开发交付、历史原件与实际外部验收。项目仍为研究软件，未授权自主或真实交易。
+
+用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
 | 层次 | 已核实状态 |
 |---|---|
-| GitHub main | `a64758a3df3ce73d433a2a2d71fac1e1a70dc5db`；PR #9、#10、[#11](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/11)均已按分别授权合并。PR #11于9月13日19:43合并，[合并后CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/34755168177)历史记录9个Job成功；本次仅更新状态文档 |
-| 四个原PR | [#5](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/5)、[#6](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/6)、[#7](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/7)、[#8](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/8)均已通过PR #9的普通非强制快进合入main；GitHub已将四个原PR确认为MERGED |
-| 集成验收 | [PR #9](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/9)已合并；组合代码`8333a684…`的本机普通wheel安装183项通过、仓库专用205项通过。PR及main各自的9项CI均成功；三项Cursor检查成功。Codex代码审阅服务失败未提供报告，安全审阅完成；没有把服务失败写成审阅通过 |
-| 正式Release | [v0.2.1](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1)，包含已验收BTC研究基线；不是最新全部股票代码 |
-| 真实AMD D1 | 37日真实常规时段快照已接纳；原日线成交量与RTH分时汇总有差异，因此明确采用259条原始RTH分时聚合，OHLC逐日相同。公司行为为有限窗口来源审查声明，原件保留本机 |
-| 真实AMD D2 | 原5/10均线、原窗口和参数已跑A/B；两组均-1.5974%，各4笔成交、0次拦截，未识别到规则经济影响。工程买入持有基线-3.4394%。三份账本核算及同版本离线重放通过 |
-| 官方模拟 X1 | [PR #10](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/10)已合并；[PR #11](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/11)验收入口已合并，受验源码`93362a5…`已补工作进程Job身份核验、操作前回执占用及发送前源码复核。导出源码的流程9项、适配33项、原状态机25项、真实SDK协议7项、原进程控制27项通过；修正版真实只读准备12次请求、新进程恢复9次请求成功，回执确认父进程Job身份；9月13日准备回执中的数据库为PREPARED且无提交领取；本轮未连接券商。首次持仓代码检查失败、旧准备记录及验证环境失败均保留。费用/结算原件不可用，官方订单仍未授权或发送；见[修正准备回执](docs/research-evidence/futu-official-cycle-20260913/correction-preparation.json) |
-| 已部署运行件 | 已登记固定bundle来源`bbf7cd2…`；本次未更换部署件、重启观察窗口或修改通知偏好，也未重新激活任何调度 |
-| 观察 O1 | 原窗口9月13日12:00—9月16日12:00、巡检至12:10，日历时间已结束。最后留存巡检截至9月16日02:07：当前状态41个ON_TIME、21个FAILED、1个LATE、9个PLANNED；首次期限为22个FAILED、41个ON_TIME、9个PENDING。这是未到期快照，不能作为完整72小时验收。此前独立重放14份记录的结果保留，本次未新增重放 |
-| 后续C/D | 财务字段人工核准未完成，内容策略未运行；日期过滤结果不代替字段核准 |
+| 本状态核对时提交 | 2026-09-23读取的远端main为PR #12合并提交 `5d09226099ba4220b90127091086b953c6b667ec`；功能基线为 `a64758a3df3ce73d433a2a2d71fac1e1a70dc5db`。[该合并提交的 Research Contracts](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/35468238291) completed/success。这个历史核对值不宣称永远等于当前HEAD，也不覆盖本次新增交付 |
+| 本机开发候选 | 从 `a64758a3df3ce73d433a2a2d71fac1e1a70dc5db` 开始；新增模拟分层回执、到期窗口核对、股票事件诊断及受监督预览交付。候选身份与验证见各项证据，不能引用 main CI 代替 |
+| 正式 Release | 仍为 [v0.2.1](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1)，未发布新正式版本；独立富途工具不是研究 wheel 的组成部分 |
+| 真实 AMD 原始闭环 | 37个交易日、259条真实 RTH 分时聚合。OHLC 与供应商日线一致，全部37日成交量差异原因未确认。保留原件和有限窗口公司行为来源边界 |
+| 原冻结 A/B | 两组均 -1.5974014%，各4笔成交、2个往返、0次拦截；未识别事件过滤的经济影响。工程买入持有 -3.4394% 从10月2日起评分，A/B 从10月17日起评分，不直接排名。见[原结果](docs/research-evidence/real-amd-rth-20260913/README.md) |
+| O1 到期核对 | 9月23日已用冻结版check正式追加结案回执；72小时为41准时、21失败、1迟到、9无启动回执；首次期限41准时、22失败、9缺失。与9月20日逐项结论一致，运行可靠性未通过。见[冻结入口正式结案](docs/research-evidence/observation-closeout-20260923/README.md) |
+| O1 历史运行状态 | 系统关机至下一开机覆盖剩余九小时及最终巡检截止。9月20日查询的两项任务为Enabled/Ready但无下一次运行；这是留存状态，不是9月23日实时健康证明。未改变部署、通知或调度。另21次原驱动失败留有公共捕获URL超时，网络根因仍待定位 |
+| 官方模拟 T2 | 本机候选把订单身份/终态、账户读取和费用会计分开表达；缺失费用不填零，不放开新增风险。后续修复只读扫描遇零价格就提前退出的问题，保留执行阻挡；最新54项定向测试通过，替代先前51项计数。见[验收矩阵](docs/futu-official-cycle.md) |
+| 官方模拟 T3 | 维护者授权继续解决后，新增3次原始协议核对及12次有界只读查询；两轮账户读取一致、证券规则通过，正常交易时段未开放。异常记录与期权到期日相符、对应合约已不在持仓中，但接口仍明确Unknown(-1)，不能推断终态。未建立新准备身份、未生成绑定订单操作授权、未发送订单；旧数据库不重签。见[最新修复与核查](docs/research-evidence/futu-preflight-20260920/resolution-followup.md) |
+| 股票事件 T4 | 固定10窗口实际数据已取得，7接纳、3因OHLC差异保留排除。42份不同报告重放/账本通过，14项后续日程不干扰检查通过；2024Q1拦截1次BUY，但7事件A/B仍全部亏损。见[最终结果](docs/research-evidence/equity-events-20260920/actual-study-final.md) |
+| 受监督预览 T5 | 研究和Windows富途r3新包已分别在全新仓库外环境安装通过，包含只读修复与最终十事件摘要；状态、离线帮助和封装校验通过。见[r3交付](docs/research-evidence/supervised-preview-20260920/README-r3.md)。r1/r2保留原字节，未发布Release、部署或启动监控 |
+| 财报内容 C/D | 财务字段人工核准未完成；不生成未经核准的内容信号或缺少一致预期快照的“超预期”字段 |
 
-最新核对：[9月20日状态快照](docs/research-evidence/github-sync-20260920/status-snapshot.json)。23份通知投递回执中18份由OS报告显示、5份未确认；不等于用户阅读确认。PR #9、#10、#11的合并授权均已执行；官方模拟下单尚无本任务的单独授权，实际周期仍未运行。完整到期窗口汇总及剩余时段分类尚待核验。
+原模拟提案仍为 US.AMD、BUY 1股、1美元限价、DAY/RTH，最多一次提交和一次同订单撤单；未知不重试、拒单不调价、意外成交不授权额外卖出。实际周期需要单独有效授权及当前环境核对。接口路径通过、会计通过、策略证据与实盘权限分别验收。
 
-本轮最短核验入口：[真实AMD结果、数据口径、富途限制及运行回执](docs/research-evidence/real-amd-rth-20260913/README.md)。GitHub开发分支同步、主分支合并、正式发布和本机部署分别记录。
+历史证据继续保留原身份：[集成与真实样本](docs/research-evidence/real-amd-rth-20260913/README.md)、[首次失败及恢复](docs/research-evidence/observation-activation-20260913/first-cycle-recovery.md)、[9月13日模拟只读准备](docs/research-evidence/futu-official-cycle-20260913/correction-preparation.json)、[v0.2.1发布验收](docs/research-evidence/release-0.2.1-20260909/README.md)。旧72小时窗口的144策略小时统计不被新清单替换。
 
-此前已关闭的事件半写问题见[修复记录](docs/review-followup-20260913.md)，不重复派发。当前集成保持股票研究Experimental、本地订单实验LOCAL_SIMULATOR及既有真实交易禁止边界。
+本轮逐目标交付与未完成项：[T0–T5交付清单](docs/acceptance-delivery-20260920.md)。
 
-历史证据保留原身份和当时结论：[v0.2.1发布验收](docs/research-evidence/release-0.2.1-20260909/README.md)、[BTC连续历史](docs/research-evidence/continuous-history-20260906/README.md)、[停止晋级的两个候选](docs/research-evidence/strategy-diagnostics-20260906/README.md)、[旧72小时窗口](docs/research-evidence/forward-window-20260908/README.md)、[本轮首次失败与恢复](docs/research-evidence/observation-activation-20260913/first-cycle-recovery.md)。旧窗口106准时、14迟到、24缺失的144策略小时统计保持不变。
+9月23日远端审阅与本机交付差异：[审阅对照](docs/review-response-20260923.md)。不重跑已完成的研究或安装验收，不恢复已暂缓的T3。

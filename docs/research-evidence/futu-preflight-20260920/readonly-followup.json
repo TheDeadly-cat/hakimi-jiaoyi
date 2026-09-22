@@ -1,0 +1,57 @@
+{
+  "started_at": "2026-09-19T22:02:11.398751Z",
+  "status": "READ_ONLY_STABLE_SCOPED_READS_EXECUTION_BLOCKED",
+  "sdk_version": "10.7.6708",
+  "orders_sent": 0,
+  "cancel_calls": 0,
+  "authorization_created": false,
+  "database_accesses": 0,
+  "maximum_business_queries": 12,
+  "automatic_account_subscription_disabled": true,
+  "automatic_unlock_disabled": true,
+  "connection_and_heartbeat_messages_excluded_from_business_counts": true,
+  "stable_read_completed": true,
+  "initial_order_gate": {
+    "status": "BLOCKED_EXISTING_PROVIDER_ORDERS",
+    "observed_order_count": 1,
+    "unclassified_status_count": 1,
+    "zero_price_count": 1,
+    "terminal_state_inferred": false,
+    "execution_authorized": false
+  },
+  "repeated_reads_are_atomic": false,
+  "instrument_verified": true,
+  "market_state": "AFTER_HOURS_END",
+  "regular_session_open": false,
+  "record_facts": [
+    {
+      "option_code_shape": true,
+      "expiry_matches_record_creation_day": true,
+      "same_record_unchanged_since_protocol_diagnostic": true,
+      "matching_instrument_still_in_positions": false,
+      "status": "N/A",
+      "price_zero": true,
+      "terminal_state_proven": false
+    }
+  ],
+  "business_protocol_counts": {
+    "GetAccountList": 1,
+    "OrderListQuery": 2,
+    "HistoryOrderListQuery": 2,
+    "AccInfoQuery": 2,
+    "PositionListQuery": 2,
+    "StockBasicInfoQuery": 1,
+    "MarketSnapshotQuery": 1,
+    "GetMarketStateQuery": 1
+  },
+  "business_protocol_queries": 12,
+  "source_and_profile_unchanged": true,
+  "source_sha256": {
+    "readonly_followup.py": "e7f6160e9ef123143e540a47f25f29a4aeb1b5bb080d8792433a7bb367170d86",
+    "futu_simulation_adapter.py": "c207be990e77c6bfe46e183effbd33f6c944f2131727c7ae3221f339f017dfd1",
+    "futu_simulation_cycle.py": "c42f264554c2f0c1420df20b20f582acff263117589ccce462ecf059650259a8",
+    "execution_state_lab.py": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91"
+  },
+  "finished_at": "2026-09-19T22:02:12.654573Z",
+  "private_evidence_sha256": "b997dbf037b34c3b0251f80f68c75b4a4a3bdf3c341b3e886bd4121a81e2e17c"
+}

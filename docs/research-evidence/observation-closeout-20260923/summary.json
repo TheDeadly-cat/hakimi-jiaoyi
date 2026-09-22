@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-09-22T18:50:50.124302Z",
+  "scope": "FROZEN_CHECK_CLI_ON_NEW_COPY_OF_ORIGINAL_WATCH_HISTORY",
+  "status": "VERIFIED_RECEIPT_SCAN",
+  "exit_code": 0,
+  "report_sha256": "d0f99e90db060bc10dee3a7541c4ffe90b7fc05c56f330db75a9e1a15d6f4f28",
+  "report_receipt_hash": "2a382e80fda7112329478fef24ecd84e39629b3b6231db2cd5947e4cf1eb4845",
+  "previous_report_receipt_hash": "9e8b79430be308ae53346c048727db8cb2bcf5d17e98cf63b5d2cd6307ee5209",
+  "frozen_plan_receipt_hash": "515c20ee235159e31f31696a775239ea27c83678b2e41c3cf0b1a744d052aeae",
+  "frozen_tool_sha256": {
+    "observation_job.py": "057021bd95512107c8d83998d798aa175cb3985bf266b9c61f9bccbcbbed329e",
+    "observation_notify.py": "b765fd586c333feb8006b8e8b2afdce2b0eafe3a4706bcfbf4d66d111b9b300c",
+    "observation_watch.py": "0dae1219a31fe591e054a481e484c980eecce402520e67a39e9997d283b60cc5",
+    "show_observation_notification.ps1": "bd46273d00178bf74874e1749398e754f67e32ca2b3fcaa382e84b23bf0b587d"
+  },
+  "copied_history_reports": 3729,
+  "appended_reports": 1,
+  "copied_history_bytes_unchanged": true,
+  "original_bundle_job_and_watch_bytes_unchanged": true,
+  "source_file_count_verified": 15599,
+  "window_elapsed": true,
+  "current_counts": {
+    "FAILED": 21,
+    "LATE": 1,
+    "NO_START_RECEIPT": 9,
+    "ON_TIME": 41
+  },
+  "deadline_counts": {
+    "FAILED": 22,
+    "MISSING": 9,
+    "ON_TIME": 41
+  },
+  "all_72_statuses_match_20260920_closeout": true,
+  "reliability_acceptance": "NOT_PASSED",
+  "notification_send_requested": false,
+  "delivery_calls": 0,
+  "notification_state_in_copy": {
+    "pending": 1,
+    "unconfirmed": 5
+  },
+  "network_or_child_process_attempts": [],
+  "collector_started": false,
+  "new_observation_window_started": false,
+  "scheduler_changed": false,
+  "note": "The new history copy is a labelled continuation branch; original scheduled paths were not changed."
+}

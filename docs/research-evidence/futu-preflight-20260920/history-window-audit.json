@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-09-19T22:16:16.440551+00:00",
+  "scope": "SYNTHETIC_BINDING_VALIDATION_AND_STATIC_CALL_PATH_REVIEW",
+  "results": [
+    {
+      "history_start_age_days": 0,
+      "status": "ACCEPTED",
+      "error": null
+    },
+    {
+      "history_start_age_days": 30,
+      "status": "ACCEPTED",
+      "error": null
+    },
+    {
+      "history_start_age_days": 31,
+      "status": "REJECTED",
+      "error": "bounded_simulation_history_window_required"
+    }
+  ],
+  "adapter_sha256": "0d83148a60338bf567e938268cceacfbd047f726b65231ff8ee0fb705dabf92d",
+  "cycle_sha256": "c42f264554c2f0c1420df20b20f582acff263117589ccce462ecf059650259a8",
+  "database_accesses": 0,
+  "sdk_connections": 0,
+  "orders_sent": 0,
+  "old_database_modified": false,
+  "full_expired_cycle_executed": false
+}

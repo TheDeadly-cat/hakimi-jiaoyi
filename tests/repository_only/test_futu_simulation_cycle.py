@@ -1,5 +1,6 @@
 """One-cycle driver contracts; contexts and statements are synthetic fixtures."""
 from datetime import datetime, timedelta, timezone
+import hashlib
 import importlib.util
 import json
 import os
@@ -50,6 +51,13 @@ class OneOfficialCycleDriverContracts(unittest.TestCase):
         self.assertEqual(self.context.sent,[])
         self.assertFalse(receipt['official_cycle_complete'])
         self.assertNotIn('authorization',receipt)
+        layers=receipt['acceptance']
+        self.assertTrue(layers['environment_and_permission']['simulation_account_verified_this_phase'])
+        self.assertFalse(layers['environment_and_permission']['authorization_verified_at_dispatch'])
+        self.assertEqual(layers['account_state']['reconciliation'],'STARTING_ANCHOR_ONLY')
+        self.assertEqual(layers['order_transport']['outcome'],'NOT_ATTEMPTED')
+        self.assertEqual(layers['fee_accounting']['status'],'UNKNOWN')
+        self.assertIsNone(layers['fee_accounting']['actual_cumulative_fee'])
 
     def test_unauthorized_submit_fails_before_sdk_connection_or_claim(self):
         self.prepare();before=self.factory_calls
@@ -66,12 +74,23 @@ class OneOfficialCycleDriverContracts(unittest.TestCase):
         self.assertEqual(submitted['status'],'SUBMIT_UNKNOWN_NO_RESEND')
         self.assertEqual(submitted['order_dispatch_attempts'],1)
         recovered=self.phase('recover')
-        self.assertEqual(recovered['error'],'futu_fee_or_gross_notional_evidence_unknown')
+        self.assertEqual(recovered['status'],'ORDER_OBSERVATIONS_RECORDED_ACCOUNTING_UNVERIFIED')
+        self.assertEqual(recovered['accounting_error'],'futu_fee_or_gross_notional_evidence_unknown')
         self.assertEqual(recovered['state']['orders'][0]['broker_id'],'987')
         self.assertEqual(recovered['order_dispatch_attempts'],0)
+        layers=recovered['acceptance']
+        self.assertEqual(layers['order_transport']['outcome'],'ACCEPTED_ORDER_OBSERVED')
+        self.assertTrue(layers['order_transport']['order_identity_queried_this_phase'])
+        self.assertEqual(layers['account_state']['status'],'SCOPED_READS_RECORDED')
+        self.assertFalse(layers['account_state']['atomic_snapshot_claimed'])
+        self.assertEqual(layers['fee_accounting']['status'],'UNSUPPORTED_BY_PROVIDER')
+        self.assertIsNone(layers['fee_accounting']['actual_cumulative_fee'])
+        self.assertTrue(layers['strategy_and_live']['new_risk_blocked'])
         before=self.factory_calls
         duplicate=self.phase('duplicate-probe')
         self.assertEqual(duplicate['status'],'DUPLICATE_DURABLE_CLAIM_REFUSED_NO_TRANSPORT')
+        self.assertTrue(duplicate['acceptance']['order_transport']['duplicate_claim_refused'])
+        self.assertEqual(duplicate['acceptance']['account_state']['status'],'NOT_READ_THIS_PHASE')
         self.assertEqual(self.factory_calls,before)
         self.assertEqual(len(self.context.sent),1)
         again=self.phase('submit',authorization=self.authorization)
@@ -85,6 +104,9 @@ class OneOfficialCycleDriverContracts(unittest.TestCase):
         self.assertEqual(cancelled['status'],'CANCEL_ACK_NOT_TERMINAL')
         self.assertEqual(cancelled['cancel_dispatch_attempts'],1)
         self.assertFalse(cancelled['official_cycle_complete'])
+        self.assertTrue(cancelled['acceptance']['order_transport']['cancel_ack_observed'])
+        self.assertFalse(cancelled['acceptance']['order_transport']['terminal_order_observed'])
+        self.assertIsNone(cancelled['acceptance']['fee_accounting']['actual_cumulative_fee'])
         store=cycle.adapter_module.SimulationStore(self.database)
         try:
             raw=json.loads(store.db.execute("SELECT payload FROM events WHERE kind='FUTU_CANCEL_SYNC_RESPONSE'").fetchone()[0])
@@ -92,6 +114,120 @@ class OneOfficialCycleDriverContracts(unittest.TestCase):
         finally:store.close()
         second=self.phase('cancel',authorization=self.authorization)
         self.assertEqual(second['cancel_dispatch_attempts'],0)
+
+    def terminal_cancel(self):
+        self.prepare();self.phase('submit',authorization=self.authorization);self.phase('recover')
+        self.phase('cancel',authorization=self.authorization)
+        self.context.orders[0].update(order_status='CANCELLED_ALL',updated_time='2026-09-13 12:00:01')
+        return self.phase('recover')
+
+    def admit_fixture_statement(self,fee='0'):
+        source=b'explicit synthetic statement, never provider evidence'
+        statement=dict(source_kind='OWNER_PROVIDED_SIMULATION_STATEMENT',
+            source_sha256=hashlib.sha256(source).hexdigest(),operator_verified=True,order_id='987',
+            cumulative_quantity=0,cumulative_notional='0',cumulative_fee=fee)
+        return self.phase('admit-statement',statement=statement,statement_bytes=source)
+
+    def test_terminal_query_without_fees_is_separate_from_accounting_and_risk(self):
+        receipt=self.terminal_cancel();layers=receipt['acceptance']
+        self.assertEqual(receipt['status'],'ORDER_OBSERVATIONS_RECORDED_ACCOUNTING_UNVERIFIED')
+        self.assertTrue(layers['order_transport']['cancellation_terminal_observed'])
+        self.assertTrue(layers['order_transport']['terminal_order_observed'])
+        self.assertTrue(layers['order_transport']['order_identity_queried_this_phase'])
+        self.assertFalse(layers['order_transport']['all_order_paths_verified'])
+        self.assertFalse(layers['order_transport']['full_fill_observed'])
+        self.assertFalse(layers['order_transport']['partial_fill_observed'])
+        self.assertFalse(layers['fee_accounting']['exact_accounting_verified'])
+        self.assertIsNone(layers['fee_accounting']['actual_cumulative_fee'])
+        self.assertTrue(layers['strategy_and_live']['risk_stop_active'])
+        self.assertTrue(layers['strategy_and_live']['new_risk_blocked'])
+        self.assertFalse(receipt['official_cycle_complete'])
+        self.assertEqual(self.phase('submit',authorization=self.authorization)['order_dispatch_attempts'],0)
+        self.assertEqual(len(self.context.sent),1)
+
+    def test_definitive_queried_rejection_covers_only_rejection(self):
+        self.prepare();self.phase('submit',authorization=self.authorization)
+        self.context.orders[0].update(order_status='FAILED',updated_time='2026-09-13 12:00:01')
+        receipt=self.phase('recover');order=receipt['acceptance']['order_transport']
+        self.assertEqual(order['outcome'],'REJECTION_OBSERVED')
+        self.assertTrue(order['terminal_order_observed'])
+        self.assertFalse(order['cancel_ack_observed'])
+        self.assertFalse(order['cancellation_terminal_observed'])
+        self.assertFalse(order['full_fill_observed'])
+        self.assertFalse(order['all_order_paths_verified'])
+        self.assertIsNone(receipt['acceptance']['fee_accounting']['actual_cumulative_fee'])
+
+    def test_sdk_error_and_absence_do_not_manufacture_venue_rejection(self):
+        self.prepare()
+        self.context.place_order=lambda **kwargs:(-1,'fixture transport error, no definitive venue status')
+        submitted=self.phase('submit',authorization=self.authorization)
+        self.assertEqual(submitted['status'],'SUBMIT_UNKNOWN_NO_RESEND')
+        self.assertTrue(submitted['acceptance']['order_transport']['sdk_error_retained'])
+        self.assertEqual(submitted['acceptance']['order_transport']['outcome'],'UNKNOWN_NO_RESEND')
+        receipt=self.phase('recover');order=receipt['acceptance']['order_transport']
+        self.assertEqual(receipt['status'],'INCOMPLETE')
+        self.assertEqual(receipt['error'],'submission_absence_does_not_prove_rejection')
+        self.assertEqual(order['outcome'],'UNKNOWN_NO_RESEND')
+        self.assertIsNone(order['broker_order_id'])
+        self.assertFalse(order['terminal_order_observed'])
+        self.assertIsNone(receipt['acceptance']['fee_accounting']['actual_cumulative_fee'])
+
+    def test_verified_independent_statement_still_requires_fresh_account_reconciliation(self):
+        self.terminal_cancel()
+        admitted=self.admit_fixture_statement()
+        self.assertEqual(admitted['acceptance']['fee_accounting']['status'],'UNKNOWN')
+        self.assertIsNone(admitted['acceptance']['fee_accounting']['actual_cumulative_fee'])
+        receipt=self.phase('recover');layers=receipt['acceptance']
+        self.assertEqual(receipt['status'],'SCOPED_RECONCILIATION_COMPLETED')
+        self.assertEqual(layers['fee_accounting']['status'],'SUPPORTED_AND_VERIFIED')
+        self.assertEqual(layers['fee_accounting']['provider_api_status'],'UNSUPPORTED_BY_PROVIDER')
+        self.assertEqual(layers['fee_accounting']['actual_cumulative_fee'],'0')
+        self.assertEqual(layers['fee_accounting']['source_authenticity'],'OPERATOR_ATTESTED_NOT_AUTHENTICATED_BY_HASH')
+        self.assertEqual(layers['account_state']['reconciliation'],'MATCHED_AT_THIS_READ')
+        self.assertFalse(layers['strategy_and_live']['additional_risk_authorized'])
+        self.assertFalse(layers['strategy_and_live']['autonomous_trading_authorized'])
+        self.assertFalse(layers['strategy_and_live']['real_trading_authorized'])
+        self.assertFalse(receipt['official_cycle_complete'])
+
+    def test_statement_does_not_hide_account_mismatch(self):
+        self.terminal_cancel();self.admit_fixture_statement();self.context.cash='999'
+        receipt=self.phase('recover')
+        self.assertEqual(receipt['status'],'INCOMPLETE')
+        self.assertEqual(receipt['error'],'balance_or_position_reconciliation_mismatch')
+        self.assertEqual(receipt['acceptance']['fee_accounting']['status'],'UNKNOWN')
+        self.assertIsNone(receipt['acceptance']['fee_accounting']['actual_cumulative_fee'])
+
+    def test_changed_reads_do_not_reuse_an_old_consistent_read_barrier(self):
+        self.prepare();self.context.changed=True
+        receipt=self.phase('recover')
+        self.assertEqual(receipt['status'],'INCOMPLETE')
+        self.assertEqual(receipt['error'],'futu_account_reads_changed_stale_or_callback_pending')
+        self.assertEqual(receipt['acceptance']['account_state']['status'],'NOT_READ_THIS_PHASE')
+        self.assertIsNone(receipt['acceptance']['account_state']['read_barrier'])
+
+    def test_callback_before_response_is_visible_without_accounting_pass(self):
+        self.prepare()
+        def callback_factory(profile):
+            adapter=self.factory(profile);self.context.callback=adapter.callbacks.put;return adapter
+        receipt=cycle.run_phase('submit',self.database,authorization=self.authorization,_sdk_factory=callback_factory)
+        self.assertTrue(receipt['acceptance']['order_transport']['callback_order_observed'])
+        self.assertEqual(receipt['acceptance']['order_transport']['broker_order_id'],'987')
+        self.assertFalse(receipt['acceptance']['fee_accounting']['exact_accounting_verified'])
+        self.assertFalse(receipt['official_cycle_complete'])
+
+    def test_unexpected_fill_records_observation_without_expanding_authority(self):
+        self.prepare();self.phase('submit',authorization=self.authorization)
+        self.context.orders[0].update(order_status='FILLED_ALL',dealt_qty=1,dealt_avg_price=1,
+            updated_time='2026-09-13 12:00:01')
+        receipt=self.phase('recover');layers=receipt['acceptance']
+        self.assertTrue(layers['order_transport']['full_fill_observed'])
+        self.assertTrue(layers['order_transport']['terminal_order_observed'])
+        self.assertFalse(layers['order_transport']['partial_fill_observed'])
+        self.assertFalse(layers['order_transport']['all_order_paths_verified'])
+        self.assertTrue(layers['strategy_and_live']['new_risk_blocked'])
+        self.assertFalse(layers['strategy_and_live']['additional_risk_authorized'])
+        self.assertIsNone(layers['fee_accounting']['actual_cumulative_fee'])
+        self.assertEqual(len(self.context.sent),1)
 
     def test_changed_source_stops_before_opening_sdk(self):
         self.prepare();before=self.factory_calls

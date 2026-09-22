@@ -119,3 +119,11 @@ tools/execution_state_lab.py text eol=lf
 tests/repository_only/test_futu_simulation_adapter.py text eol=lf
 tests/sdk_contracts/*.py text eol=lf
 requirements.futu-sdk.lock text eol=lf
+
+# New delivery tools are already bound by accepted research/preview identities.
+tools/collect_equity_event_inputs.py text eol=lf
+tools/equity_event_diagnostics.py text eol=lf
+tools/supervised_preview.py text eol=lf
+tools/build_supervised_preview.py text eol=lf
+# The retained test receipt binds exact mixed-EOL bytes.
+tests/repository_only/test_futu_simulation_cycle.py -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol

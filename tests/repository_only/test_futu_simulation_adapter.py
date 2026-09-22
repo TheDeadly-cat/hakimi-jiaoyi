@@ -69,6 +69,50 @@ class FutuSimulationContracts(unittest.TestCase):
         self.assertEqual(result['scope'],'REPEATED_SCOPED_READS_NOT_ATOMIC')
         self.assertEqual(result['value']['cash'],'1000')
         self.assertEqual(self.ctx.sent,[])
+
+    def unknown_zero_price_record(self):
+        # Synthetic contract fixture, not a real account/order observation.
+        return dict(order_id='456',code='US.EXAMPLE260918C100000',trd_side='SELL',
+            order_type='NORMAL',order_status='N/A',qty=1,price=0,dealt_qty=0,
+            dealt_avg_price=0,remark='',updated_time='2026-09-18 20:40:00',time_in_force='DAY')
+
+    def test_zero_price_unknown_record_remains_in_readonly_snapshot_and_blocks_anchor(self):
+        self.ctx.orders=[self.unknown_zero_price_record()]
+        read=self.adapter.stable_reads()
+        self.assertEqual(read['value']['orders'],[futu.observed_order_projection(self.ctx.orders[0])])
+        self.assertEqual(read['value']['orders'][0]['order_status'],'N/A')
+        self.assertEqual(self.ctx.read_count,4)  # includes setUp's two initial scans
+        gate=futu.initial_order_gate(read)
+        self.assertEqual(gate['status'],'BLOCKED_EXISTING_PROVIDER_ORDERS')
+        self.assertEqual(gate['zero_price_count'],1)
+        self.assertEqual(gate['unclassified_status_count'],1)
+        self.assertFalse(gate['execution_authorized'])
+        path=self.root/'blocked-anchor.sqlite'
+        with self.assertRaisesRegex(futu.Error,'fresh_bound_empty_order_account_anchor_required'):
+            futu.SimulationStore.create_bound(path,profile=self.profile,cash='1000',holdings={},
+                max_order_notional='1',fee_reserve='3',anchor=read)
+        self.assertFalse(path.exists())
+        self.assertEqual(self.ctx.sent,[])
+
+    def test_zero_price_unknown_record_blocks_authorized_submit_without_claim(self):
+        self.ctx.orders=[self.unknown_zero_price_record()]
+        with self.assertRaisesRegex(futu.Error,'provider_order_quantity_or_price_invalid'):
+            self.submit()
+        self.assertIsNone(self.store._row('one')['claim_id'])
+        self.assertEqual(self.ctx.sent,[])
+        self.assertEqual(self.ctx.cancelled,[])
+
+    def test_readonly_zero_price_support_does_not_relax_owned_order_or_invalid_numeric_checks(self):
+        row=self.unknown_zero_price_record()
+        with self.assertRaisesRegex(futu.Error,'provider_order_quantity_or_price_invalid'):
+            futu.order_projection(row)
+        for change in ({'price':-1},{'dealt_avg_price':-1},{'dealt_qty':2},{'price':float('nan')}):
+            with self.subTest(change=change),self.assertRaises(futu.Error):
+                futu.observed_order_projection(row|change)
+        empty=self.adapter.stable_reads()
+        gate=futu.initial_order_gate(empty)
+        self.assertEqual(gate['status'],'EMPTY_ORDER_PREREQUISITE_ONLY')
+        self.assertFalse(gate['execution_authorized'])
     def test_real_and_wrong_accounts_are_rejected(self):
         for change in ({'trd_env':'REAL'},{'acc_id':124},{'trdmarket_auth':['HK']},{'acc_status':'DISABLED'}):
             with self.subTest(change=change):
@@ -186,6 +230,16 @@ class FutuSimulationContracts(unittest.TestCase):
         with self.assertRaises(futu.Error):self.store.admit_statement('987',statement=self.statement()|{'cumulative_fee':None},source_bytes=b'contract fixture only')
         self.assertEqual(self.store.accounting_pending(),['987'])
         self.assertEqual(self.store._row('one')['state'],'SUBMIT_UNKNOWN')
+    def test_missing_fees_block_new_intent_but_allow_authorized_bound_order_cancel(self):
+        self.submit()
+        self.store.prepare('two',symbol='US.AMD',side='BUY',quantity_value=1,limit_price='10')
+        with self.assertRaisesRegex(futu.Error,'futu_fee_or_gross_notional_evidence_unknown'):
+            self.adapter.submit_once(self.store,'two',authorization=self.authorization|{'intent_id':'two'})
+        self.assertEqual(self.store._row('two')['state'],'PREPARED')
+        self.assertEqual(len(self.ctx.sent),1)
+        self.assertEqual(self.adapter.cancel(self.store,'one',authorization=self.authorization),'CANCEL_ACK_NOT_TERMINAL')
+        self.assertEqual(len(self.ctx.cancelled),1)
+        self.assertIsNone(self.store.inspect()['cash'])
     def test_statement_and_terminal_query_use_existing_ledger_and_reconcile(self):
         self.submit();self.adapter.cancel(self.store,'one',authorization=self.authorization)
         self.assertEqual(self.store._row('one')['cancel_state'],'ACK_RECEIVED')
