@@ -1,0 +1,246 @@
+{
+  "scope": "RETAINED_TEN_WINDOWS_FOUR_DIFFERENCES",
+  "request_response_pairs_verified": 22,
+  "window_count": 10,
+  "excluded_event_count": 3,
+  "field_difference_count": 4,
+  "original_bytes_unchanged": true,
+  "new_provider_requests": 0,
+  "new_snapshot_admissions": 0,
+  "sdk_version": "10.7.6708",
+  "opend_build_identity": "NOT_BOUND_IN_QUOTE_RECEIPTS",
+  "target_price_series": "RAW_UNADJUSTED_DAILY_DERIVED_FROM_RETAINED_RTH_K60M",
+  "crosscheck_price_series": "PROVIDER_K_DAY_RAW_UNADJUSTED",
+  "price_values_publicly_included": false,
+  "daily_rows": 380,
+  "hourly_rows": 2654,
+  "daily_minus_RTH_volume_sign_counts": {
+    "positive": 379,
+    "negative": 1,
+    "zero": 0
+  },
+  "windows": [
+    {
+      "fiscal_quarter": "2022Q1",
+      "sessions": 38,
+      "hourly_rows": 266,
+      "end_label_grid_complete": true,
+      "early_close_sessions": 0,
+      "calendar_sha256": "640271d05168aea5be8eff9632abded884f0d5c9995262a985e1d7f718b120b9"
+    },
+    {
+      "fiscal_quarter": "2022Q2",
+      "sessions": 38,
+      "hourly_rows": 266,
+      "end_label_grid_complete": true,
+      "early_close_sessions": 0,
+      "calendar_sha256": "1af65005c028ed041f1e6bc209dcd70b1bcf433f95e3dd988856922d7a301678"
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "sessions": 38,
+      "hourly_rows": 266,
+      "end_label_grid_complete": true,
+      "early_close_sessions": 0,
+      "calendar_sha256": "5d20bd07f3c45dd6b2af6b764526c1fa6dbd25e44b22a9943002e7bf9d158d2a"
+    },
+    {
+      "fiscal_quarter": "2022Q4",
+      "sessions": 38,
+      "hourly_rows": 266,
+      "end_label_grid_complete": true,
+      "early_close_sessions": 0,
+      "calendar_sha256": "7cb11faa5952c7ce55d7c50de05fa11b4bdf0eb45ecfd0450380579d450d81a9"
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "sessions": 38,
+      "hourly_rows": 266,
+      "end_label_grid_complete": true,
+      "early_close_sessions": 0,
+      "calendar_sha256": "315d707b6d78ffc97cc6bbb682bdda523a6d811552dfce43b0c9b34f8b15c536"
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "sessions": 38,
+      "hourly_rows": 263,
+      "end_label_grid_complete": true,
+      "early_close_sessions": 1,
+      "calendar_sha256": "ff4c34b3ff158df00b61813251d2fd80edaeceae7909b4955c569e06a5e773ec"
+    },
+    {
+      "fiscal_quarter": "2023Q3",
+      "sessions": 38,
+      "hourly_rows": 266,
+      "end_label_grid_complete": true,
+      "early_close_sessions": 0,
+      "calendar_sha256": "9db1e810f6ecf83ea0e3f1c24514bf22aa27e086dbebe07a6ce90ac355745719"
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "sessions": 38,
+      "hourly_rows": 266,
+      "end_label_grid_complete": true,
+      "early_close_sessions": 0,
+      "calendar_sha256": "520c5c0460e0e429b77b830880f3167babde2a70c24b5d2d73f844425abab4b7"
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "sessions": 38,
+      "hourly_rows": 266,
+      "end_label_grid_complete": true,
+      "early_close_sessions": 0,
+      "calendar_sha256": "9ad2748dd11c37d2c298b8316f1a4fb177be7d208b14172a7010f200e0be4c39"
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "sessions": 38,
+      "hourly_rows": 263,
+      "end_label_grid_complete": true,
+      "early_close_sessions": 1,
+      "calendar_sha256": "57a604d9189cda8caef655699ea7b266082b99e304a90b510295222396df0ce0"
+    }
+  ],
+  "differences": [
+    {
+      "fiscal_quarter": "2022Q2",
+      "date": "2022-08-02",
+      "field": "high",
+      "absolute_delta_bps_of_daily": "0.1882772630431551305554179260",
+      "extremum_labels": [
+        "2022-08-02 13:30:00"
+      ],
+      "last_partial_bar_included": true,
+      "early_close": false,
+      "observed_bar_count": 7,
+      "cause_status": "UNKNOWN",
+      "impact": "STOP_OR_TARGET_TRIGGER_AND_FILL_PRICE_MAY_DIFFER_NO_COUNTERFACTUAL_RUN",
+      "decision": "KEEP_ORIGINAL_EVENT_EXCLUDED",
+      "daily_minus_RTH_sign": "positive",
+      "source_identities": {
+        "K_DAY": {
+          "request_sha256": "b113f1f69170bbc63f0273947e93d60928076c062cd816a8817cb0904a53d223",
+          "response_sha256": "53b28b2e195ecf9ae12a193e5d93ff3d793f67757f4387d922ce76243b091b3a",
+          "request_started_at": "2026-09-19T21:18:30.726678Z",
+          "response_completed_at": "2026-09-19T21:18:30.758657Z",
+          "next_page_key": null,
+          "provider_revision_id": "NOT_PRESENT_IN_RETAINED_SDK_ROWS"
+        },
+        "K_60M": {
+          "request_sha256": "e93386e2ecc22dd853ba82136d7fc1d998652462bf5f892e53f26a07c1cc19ce",
+          "response_sha256": "2b4f67bb34ebb1cdd4d5fb7f7be024bfd3e7ffb425a6cb6f841f412fff00e724",
+          "request_started_at": "2026-09-19T21:18:30.765483Z",
+          "response_completed_at": "2026-09-19T21:18:30.816140Z",
+          "next_page_key": null,
+          "provider_revision_id": "NOT_PRESENT_IN_RETAINED_SDK_ROWS"
+        }
+      }
+    },
+    {
+      "fiscal_quarter": "2022Q2",
+      "date": "2022-08-03",
+      "field": "low",
+      "absolute_delta_bps_of_daily": "69.42960905789361247596667379",
+      "extremum_labels": [
+        "2022-08-03 10:30:00"
+      ],
+      "last_partial_bar_included": true,
+      "early_close": false,
+      "observed_bar_count": 7,
+      "cause_status": "UNKNOWN",
+      "impact": "STOP_OR_TARGET_TRIGGER_AND_FILL_PRICE_MAY_DIFFER_NO_COUNTERFACTUAL_RUN",
+      "decision": "KEEP_ORIGINAL_EVENT_EXCLUDED",
+      "daily_minus_RTH_sign": "negative",
+      "source_identities": {
+        "K_DAY": {
+          "request_sha256": "b113f1f69170bbc63f0273947e93d60928076c062cd816a8817cb0904a53d223",
+          "response_sha256": "53b28b2e195ecf9ae12a193e5d93ff3d793f67757f4387d922ce76243b091b3a",
+          "request_started_at": "2026-09-19T21:18:30.726678Z",
+          "response_completed_at": "2026-09-19T21:18:30.758657Z",
+          "next_page_key": null,
+          "provider_revision_id": "NOT_PRESENT_IN_RETAINED_SDK_ROWS"
+        },
+        "K_60M": {
+          "request_sha256": "e93386e2ecc22dd853ba82136d7fc1d998652462bf5f892e53f26a07c1cc19ce",
+          "response_sha256": "2b4f67bb34ebb1cdd4d5fb7f7be024bfd3e7ffb425a6cb6f841f412fff00e724",
+          "request_started_at": "2026-09-19T21:18:30.765483Z",
+          "response_completed_at": "2026-09-19T21:18:30.816140Z",
+          "next_page_key": null,
+          "provider_revision_id": "NOT_PRESENT_IN_RETAINED_SDK_ROWS"
+        }
+      }
+    },
+    {
+      "fiscal_quarter": "2022Q4",
+      "date": "2023-02-02",
+      "field": "low",
+      "absolute_delta_bps_of_daily": "49.27884615384615384615384615",
+      "extremum_labels": [
+        "2023-02-02 10:30:00"
+      ],
+      "last_partial_bar_included": true,
+      "early_close": false,
+      "observed_bar_count": 7,
+      "cause_status": "UNKNOWN",
+      "impact": "STOP_OR_TARGET_TRIGGER_AND_FILL_PRICE_MAY_DIFFER_NO_COUNTERFACTUAL_RUN",
+      "decision": "KEEP_ORIGINAL_EVENT_EXCLUDED",
+      "daily_minus_RTH_sign": "negative",
+      "source_identities": {
+        "K_DAY": {
+          "request_sha256": "38bd7dab319b7233dd46b691e10216de1ea977ce064cada12dcca8c1c414d725",
+          "response_sha256": "84da6e20c5087a04b982999efe67e585338a2c52624b3399e66c02413e766942",
+          "request_started_at": "2026-09-19T21:25:56.822400Z",
+          "response_completed_at": "2026-09-19T21:25:56.852009Z",
+          "next_page_key": null,
+          "provider_revision_id": "NOT_PRESENT_IN_RETAINED_SDK_ROWS"
+        },
+        "K_60M": {
+          "request_sha256": "d50a249410de738f803918228e01eb06638c0ed6e7775e7d55a89bdcf8d49f38",
+          "response_sha256": "262a7a595624f21976b1042c6035b4f3debce836e420e84eb384c1f245a2eb94",
+          "request_started_at": "2026-09-19T21:25:56.859561Z",
+          "response_completed_at": "2026-09-19T21:25:56.904883Z",
+          "next_page_key": null,
+          "provider_revision_id": "NOT_PRESENT_IN_RETAINED_SDK_ROWS"
+        }
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q3",
+      "date": "2023-10-30",
+      "field": "low",
+      "absolute_delta_bps_of_daily": "206.9693769799366420274551214",
+      "extremum_labels": [
+        "2023-10-30 11:30:00"
+      ],
+      "last_partial_bar_included": true,
+      "early_close": false,
+      "observed_bar_count": 7,
+      "cause_status": "UNKNOWN",
+      "impact": "STOP_OR_TARGET_TRIGGER_AND_FILL_PRICE_MAY_DIFFER_NO_COUNTERFACTUAL_RUN",
+      "decision": "KEEP_ORIGINAL_EVENT_EXCLUDED",
+      "daily_minus_RTH_sign": "positive",
+      "source_identities": {
+        "K_DAY": {
+          "request_sha256": "829dfc221986a914d062101995ff897c88e361a5ebb4fed168752c51e1d7f6fc",
+          "response_sha256": "657624a3bcf0eea03a170713b68b7572dac70a10bcdcd5c28af2db995963b70b",
+          "request_started_at": "2026-09-19T21:25:57.127031Z",
+          "response_completed_at": "2026-09-19T21:25:57.156675Z",
+          "next_page_key": null,
+          "provider_revision_id": "NOT_PRESENT_IN_RETAINED_SDK_ROWS"
+        },
+        "K_60M": {
+          "request_sha256": "1cbffb431370710e84f2075b7b57bcd313806995d1274f515b6bfdb130bc45b8",
+          "response_sha256": "d09bc18c8947e68e3a69a9500bb76322f0402624b288c5a4ff01288d81fd1ff3",
+          "request_started_at": "2026-09-19T21:25:57.164366Z",
+          "response_completed_at": "2026-09-19T21:25:57.209318Z",
+          "next_page_key": null,
+          "provider_revision_id": "NOT_PRESENT_IN_RETAINED_SDK_ROWS"
+        }
+      }
+    }
+  ],
+  "semantic_limit": "Matching request parameters and complete label grids do not prove identical provider trade inclusion rules.",
+  "revision_identity_limit": "Local hashes and retrieval times bind bytes; they are not provider revision identifiers.",
+  "documentation_checked": "https://openapi.futunn.com/futu-api-doc/quote/request-history-kline.html",
+  "documentation_version": "10.11; does not substitute for captured SDK 10.7.6708 behaviour"
+}

@@ -22,7 +22,8 @@ def collect_plan(plan_path, output):
     receipts = []
     frozen = {"plan": plan, "plan_sha256": plan_hash,
               "plan_file_sha256": hashlib.sha256(plan_path.read_bytes()).hexdigest(),
-              "collector_sha256": hashlib.sha256(Path(__file__).with_name("collect_btc_snapshot.py").read_bytes()).hexdigest()}
+              "collector_sha256": hashlib.sha256(Path(__file__).with_name("collect_btc_snapshot.py").read_bytes()).hexdigest(),
+              "collector_transport_sha256": hashlib.sha256(Path(__file__).with_name("capture_diagnostics.py").read_bytes()).hexdigest()}
     save_json_report(frozen, output, "frozen_capture_plan", artifact_id=plan_hash)
     for window in plan["windows"]:
         label = window["window_id"]

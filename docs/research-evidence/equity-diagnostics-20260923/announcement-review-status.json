@@ -1,0 +1,199 @@
+{
+  "scope": "TEN_CURRENT_OFFICIAL_HTML_CANDIDATES_PENDING_HUMAN_REVIEW",
+  "packet_hash": "35f481974f6a95eb6b9b44f6bc324335e11a2f24d1b2fc7f09f61ff7545656de",
+  "candidate_count": 10,
+  "human_approved_count": 0,
+  "source_scope": "CURRENT_PUBLISHER_HTML_NOT_IMMUTABLE_HISTORICAL_CAPTURE",
+  "events": [
+    {
+      "fiscal_quarter": "2022Q1",
+      "event_id": "AMD:2022Q1:EARNINGS",
+      "version": 1,
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1062/amd-reports-first-quarter-2022-financial-results",
+      "raw_sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16",
+      "first_public_at": "2022-05-03T20:10:00Z",
+      "publication_precision": "MINUTE_FROM_CURRENT_PUBLISHER_HTML",
+      "retrieved_at": "2026-09-22T22:29:15.389132+00:00",
+      "extraction_completed_at": "2026-09-22T22:33:36.693617+00:00",
+      "candidate_hash": "350cb8f0792c250d79c33c22254cc0cd448c90416695d5ec72eaf46e22e39be3",
+      "revision_status": "CURRENT_HTML_NOT_PROVEN_UNCHANGED_SINCE_PUBLICATION",
+      "human_review": {
+        "status": "PENDING",
+        "reviewer": null,
+        "reviewed_at": null
+      }
+    },
+    {
+      "fiscal_quarter": "2022Q2",
+      "event_id": "AMD:2022Q2:EARNINGS",
+      "version": 1,
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1084/amd-reports-second-quarter-2022-financial-results",
+      "raw_sha256": "3a91abfa527a765af7fc72aaf1c4147112099a80d8e718d05ce1cd5bc43b7d9e",
+      "first_public_at": "2022-08-02T20:05:00Z",
+      "publication_precision": "MINUTE_FROM_CURRENT_PUBLISHER_HTML",
+      "retrieved_at": "2026-09-22T22:29:15.397099+00:00",
+      "extraction_completed_at": "2026-09-22T22:33:36.710626+00:00",
+      "candidate_hash": "d5982c1f9560b9197fcd831e3338a10f45e7e12dde0111c5ebf450c4e92475d7",
+      "revision_status": "CURRENT_HTML_NOT_PROVEN_UNCHANGED_SINCE_PUBLICATION",
+      "human_review": {
+        "status": "PENDING",
+        "reviewer": null,
+        "reviewed_at": null
+      }
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "event_id": "AMD:2022Q3:EARNINGS",
+      "version": 1,
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1098/amd-reports-third-quarter-2022-financial-results",
+      "raw_sha256": "184aeea8c55ca12b262eb845703eca0f00f303e329677796dc79d78cd9598546",
+      "first_public_at": "2022-11-01T20:15:00Z",
+      "publication_precision": "MINUTE_FROM_CURRENT_PUBLISHER_HTML",
+      "retrieved_at": "2026-09-22T22:29:15.366757+00:00",
+      "extraction_completed_at": "2026-09-22T22:33:36.726219+00:00",
+      "candidate_hash": "39f680a725a3c60fd5665288b76f008d06102ce9eae4f53f298c3756c3a14c2e",
+      "revision_status": "CURRENT_HTML_NOT_PROVEN_UNCHANGED_SINCE_PUBLICATION",
+      "human_review": {
+        "status": "PENDING",
+        "reviewer": null,
+        "reviewed_at": null
+      }
+    },
+    {
+      "fiscal_quarter": "2022Q4",
+      "event_id": "AMD:2022Q4:EARNINGS",
+      "version": 1,
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1115/amd-reports-fourth-quarter-and-full-year-2022-financial-results",
+      "raw_sha256": "f0fcaa4a0560455d16a2b1dd138290569f4dd05380979bbd6db18e91e29843e6",
+      "first_public_at": "2023-01-31T21:15:00Z",
+      "publication_precision": "MINUTE_FROM_CURRENT_PUBLISHER_HTML",
+      "retrieved_at": "2026-09-22T22:29:17.851502+00:00",
+      "extraction_completed_at": "2026-09-22T22:33:36.745400+00:00",
+      "candidate_hash": "e5466a77b1e3359e9f4f43513eac945f81fe84824e8882959434afea416de316",
+      "revision_status": "CURRENT_HTML_NOT_PROVEN_UNCHANGED_SINCE_PUBLICATION",
+      "human_review": {
+        "status": "PENDING",
+        "reviewer": null,
+        "reviewed_at": null
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "event_id": "AMD:2023Q1:EARNINGS",
+      "version": 1,
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1128/amd-reports-first-quarter-2023-financial-results",
+      "raw_sha256": "05e5198e5c804a433c4e682807c6d5345d81e04cf1dccc8623053089f2a9824d",
+      "first_public_at": "2023-05-02T20:15:00Z",
+      "publication_precision": "MINUTE_FROM_CURRENT_PUBLISHER_HTML",
+      "retrieved_at": "2026-09-22T22:29:16.620853+00:00",
+      "extraction_completed_at": "2026-09-22T22:33:36.758118+00:00",
+      "candidate_hash": "91ad60a2bc8d7ca48e465f7245a871d961461cc906c01ca6bf0fb7927f3d6e39",
+      "revision_status": "CURRENT_HTML_NOT_PROVEN_UNCHANGED_SINCE_PUBLICATION",
+      "human_review": {
+        "status": "PENDING",
+        "reviewer": null,
+        "reviewed_at": null
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "event_id": "AMD:2023Q2:EARNINGS",
+      "version": 1,
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1146/amd-reports-second-quarter-2023-financial-results",
+      "raw_sha256": "6571dcf401b03d4c2d7d0080bea7b5f49a77431c3eda8da2b30675c75f56f6e1",
+      "first_public_at": "2023-08-01T20:15:00Z",
+      "publication_precision": "MINUTE_FROM_CURRENT_PUBLISHER_HTML",
+      "retrieved_at": "2026-09-22T22:29:16.652978+00:00",
+      "extraction_completed_at": "2026-09-22T22:33:36.778831+00:00",
+      "candidate_hash": "dec85ae844995eefa93fc0867715b7f1f237c9c866c553b1781baaa1ff09b509",
+      "revision_status": "CURRENT_HTML_NOT_PROVEN_UNCHANGED_SINCE_PUBLICATION",
+      "human_review": {
+        "status": "PENDING",
+        "reviewer": null,
+        "reviewed_at": null
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q3",
+      "event_id": "AMD:2023Q3:EARNINGS",
+      "version": 1,
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1163/amd-reports-third-quarter-2023-financial-results",
+      "raw_sha256": "a1188c99c8cc7ea876ebab577cb759f88b5a03ded967f751c03b5a25dd0b39e4",
+      "first_public_at": "2023-10-31T20:15:00Z",
+      "publication_precision": "MINUTE_FROM_CURRENT_PUBLISHER_HTML",
+      "retrieved_at": "2026-09-22T22:29:17.883444+00:00",
+      "extraction_completed_at": "2026-09-22T22:33:36.798962+00:00",
+      "candidate_hash": "bc350422da65ef97c1c9bbe149369d5c6767e3e47b99c905b1957da48b30c3a3",
+      "revision_status": "CURRENT_HTML_NOT_PROVEN_UNCHANGED_SINCE_PUBLICATION",
+      "human_review": {
+        "status": "PENDING",
+        "reviewer": null,
+        "reviewed_at": null
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "event_id": "AMD:2023Q4:EARNINGS",
+      "version": 1,
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1180/amd-reports-fourth-quarter-and-full-year-2023-financial-results",
+      "raw_sha256": "e7cabb37f44e25586887693d78dbf6dd49dff64f0e97f3691bc62f986dd06e1b",
+      "first_public_at": "2024-01-30T21:15:00Z",
+      "publication_precision": "MINUTE_FROM_CURRENT_PUBLISHER_HTML",
+      "retrieved_at": "2026-09-22T22:29:17.932101+00:00",
+      "extraction_completed_at": "2026-09-22T22:33:36.822839+00:00",
+      "candidate_hash": "54b2817c265ea2f30b680f0cb0a0ca6fcae7c5355ca877f8ff1bc80ef065a721",
+      "revision_status": "CURRENT_HTML_NOT_PROVEN_UNCHANGED_SINCE_PUBLICATION",
+      "human_review": {
+        "status": "PENDING",
+        "reviewer": null,
+        "reviewed_at": null
+      }
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "event_id": "AMD:2024Q1:EARNINGS",
+      "version": 1,
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1192/amd-reports-first-quarter-2024-financial-results",
+      "raw_sha256": "82e4b93824234b8a14d5d03751abc19fabd28461247b8bc0e7ecba10408c3312",
+      "first_public_at": "2024-04-30T20:15:00Z",
+      "publication_precision": "MINUTE_FROM_CURRENT_PUBLISHER_HTML",
+      "retrieved_at": "2026-09-22T22:29:18.883433+00:00",
+      "extraction_completed_at": "2026-09-22T22:33:36.840090+00:00",
+      "candidate_hash": "7c7d91051c98dbe2ceabe51153584138f09c823667be6458749fc682630691f2",
+      "revision_status": "CURRENT_HTML_NOT_PROVEN_UNCHANGED_SINCE_PUBLICATION",
+      "human_review": {
+        "status": "PENDING",
+        "reviewer": null,
+        "reviewed_at": null
+      }
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "event_id": "AMD:2024Q2:EARNINGS",
+      "version": 1,
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1209/amd-reports-second-quarter-2024-financial-results",
+      "raw_sha256": "54ab5b42ab9f7c765ca560cbd74224a49e8d3cb996d92cfdefe5916564ab933a",
+      "first_public_at": "2024-07-30T20:15:00Z",
+      "publication_precision": "MINUTE_FROM_CURRENT_PUBLISHER_HTML",
+      "retrieved_at": "2026-09-22T22:29:19.019302+00:00",
+      "extraction_completed_at": "2026-09-22T22:33:36.861289+00:00",
+      "candidate_hash": "8004e2a1838a1a74c9cc29dc26e2750537e2a224987db4fcddaec0c1a194f860",
+      "revision_status": "CURRENT_HTML_NOT_PROVEN_UNCHANGED_SINCE_PUBLICATION",
+      "human_review": {
+        "status": "PENDING",
+        "reviewer": null,
+        "reviewed_at": null
+      }
+    }
+  ],
+  "gaps": [
+    "Prior-company-guidance revision coverage is incomplete; 2022Q1 predecessor outside batch.",
+    "2022Q3 known October 6 preliminary release must not be confused with analyst consensus.",
+    "Headline revenue is rounded billions, not exact financial-statement millions.",
+    "No historical consensus source; no surprise field."
+  ],
+  "field_review_table": "PRIVATE_LOCAL_ARTIFACT_AND_OFFICIAL_SOURCE_LINKS",
+  "new_economic_C_D_runs": 0,
+  "model_provider_calls": 0,
+  "order_allowed": false
+}

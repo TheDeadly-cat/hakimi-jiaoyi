@@ -1,0 +1,133 @@
+{
+  "schema_version": "equity-content-protocol-v1",
+  "frozen_at": "2026-09-22T22:56:28.498894+00:00",
+  "purpose": "DESCRIPTIVE_DEVELOPMENT_ALREADY_SEEN_EVENTS",
+  "security_id": "US:COMMON:CUSIP:007903107",
+  "sample_selection": "ORIGINAL_TEN_AMD_EVENTS_NO_SUBSTITUTIONS",
+  "windows": [
+    {
+      "event_id": "AMD:2022Q1:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2022Q1",
+      "snapshot_start": "2022-03-31",
+      "score_start": "2022-04-19",
+      "score_end": "2022-05-24",
+      "status": "COMPLETED"
+    },
+    {
+      "event_id": "AMD:2022Q2:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2022Q2",
+      "snapshot_start": "2022-06-30",
+      "score_start": "2022-07-19",
+      "score_end": "2022-08-23",
+      "status": "PENDING_DATA_CROSSCHECK"
+    },
+    {
+      "event_id": "AMD:2022Q3:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2022Q3",
+      "snapshot_start": "2022-09-30",
+      "score_start": "2022-10-18",
+      "score_end": "2022-11-22",
+      "status": "COMPLETED"
+    },
+    {
+      "event_id": "AMD:2022Q4:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2022Q4",
+      "snapshot_start": "2022-12-28",
+      "score_start": "2023-01-17",
+      "score_end": "2023-02-22",
+      "status": "PENDING_DATA_CROSSCHECK"
+    },
+    {
+      "event_id": "AMD:2023Q1:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2023Q1",
+      "snapshot_start": "2023-03-30",
+      "score_start": "2023-04-18",
+      "score_end": "2023-05-23",
+      "status": "COMPLETED"
+    },
+    {
+      "event_id": "AMD:2023Q2:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2023Q2",
+      "snapshot_start": "2023-06-29",
+      "score_start": "2023-07-18",
+      "score_end": "2023-08-22",
+      "status": "COMPLETED"
+    },
+    {
+      "event_id": "AMD:2023Q3:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2023Q3",
+      "snapshot_start": "2023-09-29",
+      "score_start": "2023-10-17",
+      "score_end": "2023-11-21",
+      "status": "PENDING_DATA_CROSSCHECK"
+    },
+    {
+      "event_id": "AMD:2023Q4:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2023Q4",
+      "snapshot_start": "2023-12-27",
+      "score_start": "2024-01-16",
+      "score_end": "2024-02-21",
+      "status": "COMPLETED"
+    },
+    {
+      "event_id": "AMD:2024Q1:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2024Q1",
+      "snapshot_start": "2024-03-28",
+      "score_start": "2024-04-16",
+      "score_end": "2024-05-21",
+      "status": "COMPLETED"
+    },
+    {
+      "event_id": "AMD:2024Q2:EARNINGS_SCHEDULE",
+      "fiscal_quarter": "2024Q2",
+      "snapshot_start": "2024-06-27",
+      "score_start": "2024-07-16",
+      "score_end": "2024-08-20",
+      "status": "COMPLETED"
+    }
+  ],
+  "three_old_exclusions": "REMAIN_EXCLUDED_PENDING_NEW_SOURCE_EVIDENCE",
+  "candidate_packet_hash": "35f481974f6a95eb6b9b44f6bc324335e11a2f24d1b2fc7f09f61ff7545656de",
+  "human_review_required_before_economic_study": true,
+  "historical_event_availability_assumption_seconds": 120,
+  "bar_availability_lag_seconds": 60,
+  "actual_2026_retrieval_and_extraction_times_must_be_retained": true,
+  "C": {
+    "confirmation": "First fully post-availability regular-session completed close strictly above the last regular close at or before publication.",
+    "decision": "Exactly at confirmation-bar availability; do not search later bars for a winner.",
+    "entry": "Following regular-session open only; skip if outside the original scoring window.",
+    "max_entries_per_event": 1
+  },
+  "D": {
+    "price_and_execution": "Same C decision, timing, sizing, risk and scoring.",
+    "one_fixed_condition": "Reviewed next-quarter company revenue-guidance midpoint strictly above current-quarter rounded headline GAAP revenue, both in USD.",
+    "unknown_or_unapproved": "NO_DIRECTIONAL_ENTRY",
+    "disabled_content": "BYTE_IDENTICAL_C_DECISION",
+    "not_a_consensus_surprise": true
+  },
+  "risk": {
+    "initial_cash_usd": 10000,
+    "position_fraction": "0.25",
+    "stop_loss_pct": "0.03",
+    "take_profit_pct": "0.06",
+    "end_policy": "MARK_TO_MARKET"
+  },
+  "costs": [
+    {
+      "name": "normal",
+      "fee_rate": "0.0008",
+      "slippage_pct": "0.0005"
+    },
+    {
+      "name": "stress_2x",
+      "fee_rate": "0.0016",
+      "slippage_pct": "0.0010"
+    }
+  ],
+  "point_in_time": "Only latest event version available at decision; later revisions never alter earlier decisions. Unknown latest facts do not fall back to earlier favourable values.",
+  "confirmation_set": "NONE; future confirmation requires separately frozen unseen data, never relabel these ten events.",
+  "execution_implementation_status": "PREDICATE_CONTRACT_TESTED_ONLY; economic execution must reuse existing engine, event versions and ledger, not a new backtester.",
+  "economic_study_status": "NOT_RUN_PENDING_HUMAN_FIELD_REVIEW_AND_ENGINE_INTEGRATION",
+  "order_allowed": false,
+  "protocol_hash": "096fcedff143df62e19e1b4fd05966068e891349c0131657d314942c5f975dfc"
+}

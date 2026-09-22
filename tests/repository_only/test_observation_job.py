@@ -247,7 +247,10 @@ class ObservationJobTests(unittest.TestCase):
                 ' assert acquired\n'
                 ' pathlib.Path(sys.argv[3]).write_text("ready")\n'
                 ' time.sleep(6)\n')
-        holder = subprocess.Popen([sys.executable, '-I', '-S', '-B', '-c', code,
+        # Windows venv python.exe can be a redirector; killing its handle can
+        # leave the actual lock holder alive. This stdlib-only fixture launches
+        # the base interpreter so kill/wait address the process holding the lock.
+        holder = subprocess.Popen([getattr(sys, '_base_executable', sys.executable), '-I', '-S', '-B', '-c', code,
                                    str(Path(module.__file__).resolve()), str(self.jobs/'launcher.lock'), str(ready)],
                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                                   creationflags=subprocess.CREATE_NO_WINDOW)

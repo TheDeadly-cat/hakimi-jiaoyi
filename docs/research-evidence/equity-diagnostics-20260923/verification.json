@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-09-22T23:04:24.457071+00:00",
+  "base_commit": "ed19d1172767f57418040bb167b2780caf5e7edb",
+  "tested_source_sha256": {
+    "tools/attribute_retained_equity_reports.py": "631206daaf2779256b88624f25585a8bb03fcc0ee16c52dd90428ba01145915e",
+    "tools/equity_source_diagnostics.py": "318989877a098b8694e0e1b8bdf254573b0b6bac8a9042a55e346dc676878b87",
+    "tools/prepare_announcement_review.py": "7d7ff20ef9371fbb519ccd11f23bd6859ee66b18bb9ccf1e2d48807346d62a14",
+    "tools/equity_content_protocol.py": "3bf9322ddb9db5679cd75bd8973494bf2bfda513c677a63a2d4dc88a066ae031",
+    "tools/capture_diagnostics.py": "3ece05bf340dc51533ebc39a7b283da6503e22de45b6d8f1d36a1a3b371e2f5a",
+    "tools/collect_btc_snapshot.py": "8357ab343f54253fc5a99e198657a57aa48c92b97a389a7685a7ccd2138f7671",
+    "tools/collect_plan_snapshots.py": "0054abb75e667dd719e2fb43e221b349841e3a6ba883cb71a4001cf0c760fb1e",
+    "tools/run_forward_cycle.py": "c58e023c34d2616f073484fa677a7647837d580becd3275928aa853670529a15",
+    "tools/diagnose_observation_failures.py": "059a3a252872d5fdad06113d900a351a03445f683c93d4da764f6b73f456c137",
+    "tests/repository_only/test_capture_diagnostics.py": "0ac18108e518ebb0d41a2b9cd486c92e9c76dc3c1e49635c657b1cb376c02c1c",
+    "tests/repository_only/test_equity_source_diagnostics.py": "a2d31cb07d5023831f9e4e94ef6c6102f9a7cc943dd1c2c6756e73d1f2569523",
+    "tests/repository_only/test_equity_content_protocol.py": "286294e43f34d6b1a6b25670457f73df269f4bdbe92b39d491b8d2db2e483eda",
+    "tests/repository_only/test_observation_job.py": "da6e22d2a54b4b0bd819f392663935fc7c77eeac5b5a9b6de647c3d3a6500e28",
+    "tests/repository_only/test_forward_cycle.py": "a4167d60722a1b3e111c0335742de088fdd0b842d121799eebbff627787d3b83",
+    "tests/repository_only/test_forward_observation.py": "6ca769a75b7153efd728ca3603eb677e81aa2b815bf19f750916a94521e4ce13"
+  },
+  "tests_run": 67,
+  "by_file": {
+    "test_capture_diagnostics.py": 13,
+    "test_equity_source_diagnostics.py": 4,
+    "test_equity_content_protocol.py": 12,
+    "test_observation_job.py": 27,
+    "test_forward_cycle.py": 2,
+    "test_forward_observation.py": 9
+  },
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "passed": true,
+  "external_network_denied_events": [],
+  "log_sha256": "49b80c330fc6fd5e8e080d7ad0c05013db44a75353a58e11778776ff9b5e16aa",
+  "prior_fixture_failure": {
+    "test": "test_duplicate_from_a_second_process_never_starts_a_second_observer",
+    "cause": "Windows venv launcher PID differed from lock-holding Python worker; fixture killed launcher only.",
+    "fix": "Use actual base interpreter for this stdlib-only fixture, retaining identical lock-release assertions."
+  },
+  "new_market_requests": 0,
+  "account_requests": 0,
+  "T3_resumed": false,
+  "old_observation_window_restarted": false
+}
