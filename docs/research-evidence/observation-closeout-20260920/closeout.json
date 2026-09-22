@@ -1,0 +1,2530 @@
+{
+  "checked_at": "2026-09-19T20:47:57.255209+00:00",
+  "source_commit": "bbf7cd2c452d6d059588459f84a2de5d818cf611",
+  "source_scope": "FROZEN_RECEIPTS_AND_READ_ONLY_OS_QUERY",
+  "window": {
+    "start_cutoff": "2026-09-13T04:00:00Z",
+    "end_cutoff_exclusive": "2026-09-16T04:00:00Z",
+    "watch_end_exclusive": "2026-09-16T04:10:00Z"
+  },
+  "window_elapsed": true,
+  "reliability_acceptance": "NOT_PASSED",
+  "independent_market_replay_performed": false,
+  "latest_retained_watch": {
+    "filename": "00003729_86a7c89629a143388d0daf406b4a2197.json",
+    "file_sha256": "6ec24c2e0d7a1525c489da28892945717097b58ae8f603806c830840e7440d4b",
+    "checked_at": "2026-09-15T18:07:32.236927Z",
+    "receipt_hash": "9e8b79430be308ae53346c048727db8cb2bcf5d17e98cf63b5d2cd6307ee5209",
+    "current_counts": {
+      "FAILED": 21,
+      "LATE": 1,
+      "ON_TIME": 41,
+      "PLANNED": 9
+    },
+    "deadline_counts": {
+      "FAILED": 22,
+      "ON_TIME": 41,
+      "PENDING": 9
+    }
+  },
+  "watch_report_chain_verified": 3729,
+  "job_attempts_verified": 64,
+  "runner_attempts_verified": 3794,
+  "latest_runner_by_role": {
+    "observe": {
+      "role": "observe",
+      "started_at": "2026-09-15T18:01:01.962316Z",
+      "ended_at": "2026-09-15T18:01:07.539213Z",
+      "status": "COMPLETED"
+    },
+    "watch": {
+      "role": "watch",
+      "started_at": "2026-09-15T18:07:31.924312Z",
+      "ended_at": "2026-09-15T18:07:32.601883Z",
+      "status": "CHILD_REPORTED_FAILURE"
+    }
+  },
+  "current_counts": {
+    "LATE": 1,
+    "ON_TIME": 41,
+    "FAILED": 21,
+    "NO_START_RECEIPT": 9
+  },
+  "deadline_counts": {
+    "FAILED": 22,
+    "ON_TIME": 41,
+    "MISSING": 9
+  },
+  "rows": [
+    {
+      "cutoff": "2026-09-13T04:00:00Z",
+      "deadline": "2026-09-13T04:05:00Z",
+      "current_status": "LATE",
+      "start_receipts": 2,
+      "end_receipts": 2,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "61c81c8fb74fe21435a1d101f21ede25c9af4fe42771aadc7955f0a7dfa3a52b",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-13T04:01:31.573371Z",
+      "problem_open": false,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260913T040100527889Z_5080d4c8e6924e7ab341386769422783",
+          "started_at": "2026-09-13T04:01:00.527889Z",
+          "ended_at": "2026-09-13T04:01:03.138095Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "3563a3117b040a647cb982f0c6dd1cdce1d4de9b0eb039a372eb5aac16d95fdb",
+          "end_sha256": "f9d2485902d7892f1ac6665d046e48852de8a040889e0bd68726756d6ba4a4cc"
+        },
+        {
+          "attempt_id": "20260913T040829104745Z_abfeb9634aa04664a4e10e734cb96066",
+          "started_at": "2026-09-13T04:08:29.104745Z",
+          "ended_at": "2026-09-13T04:08:33.113636Z",
+          "health": "LATE",
+          "error": null,
+          "record_hashes": [
+            "bd9a59523976855e3ef32785b8cedb0d391d93dc92bf8e9a3f7f65ea305d2ff0",
+            "0e1f44f4077c30f90ce4812a98887fa73bc586582e6b2a31d655af2adb5ce3da"
+          ],
+          "start_sha256": "87a18b52c0bca9ae65a980a156a9f8d4bab748dee3bbac9c3a580944b731105d",
+          "end_sha256": "9ea4e8cceeeac0ea50975c810dcbcdfc6465d3138e3abf654d5f6a2cfd0ccd8a"
+        }
+      ],
+      "last_record_at": "2026-09-13T04:08:33.113636Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-13T05:00:00Z",
+      "deadline": "2026-09-13T05:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "baef6029cbc614eb5a77848d2ee2f03e644f77f4635dfc0c87f5985cc768d947",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T050101501203Z_23292eebe8034e49aee253a671e8810e",
+          "started_at": "2026-09-13T05:01:01.501203Z",
+          "ended_at": "2026-09-13T05:01:09.221475Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "9e4fc1c56ed5cb324163bb825981449636339a5d54c53f826973515adecd53f2",
+            "ed4406438e389454b48e3de56877680a38473a9b110dc6577bdffbe84d21e3b9"
+          ],
+          "start_sha256": "0156dd1f10d8e3818593cddecdff3a6876cab85f29d95e3fd13c5751dd4e8976",
+          "end_sha256": "1aae72dee9d9e50d455293bfc81f29b2cf5c98797512a58e7b04d8099c04d7d3"
+        }
+      ],
+      "last_record_at": "2026-09-13T05:01:09.221475Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T06:00:00Z",
+      "deadline": "2026-09-13T06:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "a43c3018b43a5a35affb41f5e3a6128c912405006055c8f1f0e9d6022ee70b00",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T060101525576Z_2ffb2bb5b97041f7ab165807c88a604c",
+          "started_at": "2026-09-13T06:01:01.525576Z",
+          "ended_at": "2026-09-13T06:01:06.603011Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "eb02425e503e7193db3e962dfa111a20f54b3ca174927709969b875a84ad8f82",
+            "8deecabfe1a297d1ac3208e70be2fef291344343953990b2c8c7a1885dec6dd3"
+          ],
+          "start_sha256": "e356e8144962cbb94aa34059f06f039d932965477eebcf4185c5ae1b947214aa",
+          "end_sha256": "5ad2de394966552446907a2c909393bd550f64012cfa2d86711a5d11234028c4"
+        }
+      ],
+      "last_record_at": "2026-09-13T06:01:06.603011Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T07:00:00Z",
+      "deadline": "2026-09-13T07:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "ef042d1b6965c7ec506a7b9834be46c5a1b05c88d0faa56100236b0a00fbb8e0",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T070101475678Z_ad33fb0524384331912a0850924c7bb0",
+          "started_at": "2026-09-13T07:01:01.475678Z",
+          "ended_at": "2026-09-13T07:01:05.146795Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "35d50a7733d8b4388962c3fc5d2d9246cf0d65aec1163001fd0d29261aa909cf",
+            "d05d5081a574b9fe025b1d722a5b26d7ce8ba89e26fa851642fb678dea1d8af6"
+          ],
+          "start_sha256": "e264e21f50b874e9ef6716039a1fbe919c60143a98b0252ec75e7846da26b86c",
+          "end_sha256": "353192418c60ef4830beb4d912b47f7e8f2fb60f534e79f8e4843722e6358d48"
+        }
+      ],
+      "last_record_at": "2026-09-13T07:01:05.146795Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T08:00:00Z",
+      "deadline": "2026-09-13T08:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "61458bfafe146043bc7c1c5f03c47166776b9e1e09f2ccae69d536732d488409",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T080101517726Z_888afd09db89450cae55e0dbbd02ab7e",
+          "started_at": "2026-09-13T08:01:01.517726Z",
+          "ended_at": "2026-09-13T08:01:05.665910Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "89259478c10b44be6a1f877a8534e336450dc6a8236432ae3dc2818e0d30ec8e",
+            "5ab3551accd03b7f615048fbb8ffb2caf799bc0edf45213cb259c33e32ddb784"
+          ],
+          "start_sha256": "55bb158ced5e7547fbc2d7f63834ccadc0f93de2a8c6cebd2a9ea811ed8fc7ee",
+          "end_sha256": "5dcb9e922d5553913b1e6424e7b97991b82f560447577cb7554cdac83455df53"
+        }
+      ],
+      "last_record_at": "2026-09-13T08:01:05.665910Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T09:00:00Z",
+      "deadline": "2026-09-13T09:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "697136d1e6db60352cd228de8ed36c1e14d60f5c0b222471faef3d7d64233867",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T090101510161Z_00a444bf59c8450c99aedff40b0295f8",
+          "started_at": "2026-09-13T09:01:01.510161Z",
+          "ended_at": "2026-09-13T09:01:06.804055Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "446bdc50135b0794932581e155c23183eb697dea6fdfbba2de4895436d06a9ba",
+            "f29cd4c903d66c6505ad77d1782cd513b80e2c9f0eb61c114c03b71d122888a4"
+          ],
+          "start_sha256": "97a77dbfdf5db636f10a4c1ace9347a259a0da70c576e42d8293e15d5f4741a1",
+          "end_sha256": "86f9e468818e0808b3b1f658e6775a6eb8a5f4c13c1f8b9a339949088e26c9e5"
+        }
+      ],
+      "last_record_at": "2026-09-13T09:01:06.804055Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T10:00:00Z",
+      "deadline": "2026-09-13T10:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "d52728093d0fdc941e23909d99b92bcfabab3f8017a0750fe22b20d6aefeb69d",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T100101606901Z_aa7f2cb301f74cb0bebbd955efb18ab3",
+          "started_at": "2026-09-13T10:01:01.606901Z",
+          "ended_at": "2026-09-13T10:01:11.336009Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "6f5cce5aa9e2845dd4671589783247e72df70bdc37918842144233aecb68c0bd",
+            "5ec01d2797488822857be32778b5a6a668c757d24a89db051730a3521d75d2f4"
+          ],
+          "start_sha256": "aa1bccf813bf9c4dbd5239a320a8c4fd9251f32f93fcfd64f962a4880d06756a",
+          "end_sha256": "f8f946a29ec240e97373f0f2de69b0f79b38d6f45ce96b156420aa01f764cf38"
+        }
+      ],
+      "last_record_at": "2026-09-13T10:01:11.336009Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T11:00:00Z",
+      "deadline": "2026-09-13T11:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "842524e0bd91572bc5acafa15c0d828f975a7322bd66a858a08a8421bd5ec3db",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T110101532587Z_96b7a59d40ee46c9b7a1b22048d5ba9f",
+          "started_at": "2026-09-13T11:01:01.532587Z",
+          "ended_at": "2026-09-13T11:01:06.893303Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "1f0c899e24d80b99ed1f93829c28025732db391f331cbde119e427836ee8ff5b",
+            "ead87f180fdf6849df58d384d4d1ee68ca8eb4b356d70fe4b7101847db1cdaef"
+          ],
+          "start_sha256": "b11239efb4c301136e4c37987279a6617bdafa6b57e52b99188bb40203b98abe",
+          "end_sha256": "76da35e098dc7934508cf2e19b8e4ba7cf50c9b2ff071a4232e4f978f72ad78c"
+        }
+      ],
+      "last_record_at": "2026-09-13T11:01:06.893303Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T12:00:00Z",
+      "deadline": "2026-09-13T12:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "025eae0745fe091112309ac4a9baa89246bba1d3dc641cc9901bfef59247aaf7",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T120101492013Z_7c2128550c6a4ecbb14f102b930b7bbf",
+          "started_at": "2026-09-13T12:01:01.492013Z",
+          "ended_at": "2026-09-13T12:01:08.107095Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "74edcb21931a8d246b1da127333b23a83e8b31f8e31b001a584f2e6e5906f8eb",
+            "02361e5248526015055206e298899c00931a337ab2fcaf7f535514b2090cb78e"
+          ],
+          "start_sha256": "488d2c6c0fcd1381b3630917855f6f82b9ca3860de5e50bc86eea485593d5541",
+          "end_sha256": "c9fd83a335e778a123385737c09bda430291670a80c88af8a6be3070c2c37c92"
+        }
+      ],
+      "last_record_at": "2026-09-13T12:01:08.107095Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T13:00:00Z",
+      "deadline": "2026-09-13T13:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "22e35cea3d8758ec1430a28bf44072cef5a9ac4c15fedc20dd45323ffca5bc1a",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T130101530438Z_b2e3752c48934269a4d5a92ac6dee853",
+          "started_at": "2026-09-13T13:01:01.530438Z",
+          "ended_at": "2026-09-13T13:01:12.868457Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "f909d6329f54d6a9259e420d177ff9cea90c87bec776ad592d56b99910ca737c",
+            "0ad132d756158908cb671cd07c8e9808d89a565ab6e1c58da365c549b9cf65b6"
+          ],
+          "start_sha256": "4ff5f5564a014f9f27e091afa22ab3bc92a2c4613144b938821dd477f89d18c5",
+          "end_sha256": "587ff1781a4f2894daacece7a4a9cd20b6c23a1fb86a02f989a2dc423b4fc7f9"
+        }
+      ],
+      "last_record_at": "2026-09-13T13:01:12.868457Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T14:00:00Z",
+      "deadline": "2026-09-13T14:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "ab1a4dc6630a5bc43287dbbf0d11796af1fe840ca5b01d3c3eb9fe1ebba0eee2",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T140101578412Z_8c6786ad50f7470c8e44905f71d972ad",
+          "started_at": "2026-09-13T14:01:01.578412Z",
+          "ended_at": "2026-09-13T14:01:08.578710Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "4273d3bb4eddcab783844bf08cc76a31b8bbc5c893962a974935bcb4e278bbd8",
+            "83909ca27cb2fb68e49eaf7de89e610184da4977f6566b9cb8c4e6120600b3ef"
+          ],
+          "start_sha256": "94f2208538656afb01f589f7cac7be37bb8d2c9df19880ca32e215363022594a",
+          "end_sha256": "581d31cfd71e50ad45ba959a17f268922a0d2e41fd51178792885cdf77090e4c"
+        }
+      ],
+      "last_record_at": "2026-09-13T14:01:08.578710Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T15:00:00Z",
+      "deadline": "2026-09-13T15:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "5e733c2e191a6f0a94cec59359909e8818b9b16d5a496fdb753d017ebc8121f1",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T150101609462Z_f5725192ad39449b8887ebd450a66acc",
+          "started_at": "2026-09-13T15:01:01.609462Z",
+          "ended_at": "2026-09-13T15:01:07.759852Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "c0f7920be5b59f9779055bad2638ed41e668c08452381f9477a6dba317eef6e8",
+            "7fa1678ef01377303e1d656dda8b5c0ee868e0f1c305c37c009b18a176937e5e"
+          ],
+          "start_sha256": "6f2b458bc4c3e69b75255a716c80d51b5b44cc62689fd3d90ccd9a7a55fe6545",
+          "end_sha256": "81644aac07cc351de0c53cb7b0e39cddcc61f00543b758ff59b3cc4cf05aee05"
+        }
+      ],
+      "last_record_at": "2026-09-13T15:01:07.759852Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T16:00:00Z",
+      "deadline": "2026-09-13T16:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "6937833c9bd97a27142ef2de3f9e2acd6efc9b902b49f5a4bdc8fc8d1f788159",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T160101603139Z_63f7b1630fd24e61a44c2ee0ab3380b1",
+          "started_at": "2026-09-13T16:01:01.603139Z",
+          "ended_at": "2026-09-13T16:01:08.766445Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "186bd5819a31b0ee9823c4db07084545530984618b0105b48397376a1e33affe",
+            "9a5537314b86dae006613de0b16d6a53e92fde552e86bcec9e6f1899a84549cf"
+          ],
+          "start_sha256": "faa32f90c4492002d0940400669408190948bfad728e31d05b800b2e40c42da3",
+          "end_sha256": "38eb4ee6ba0b19ffa3b19ef0ae1cf3ef6a51703142222dea0a198a1cea913118"
+        }
+      ],
+      "last_record_at": "2026-09-13T16:01:08.766445Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T17:00:00Z",
+      "deadline": "2026-09-13T17:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "b4f65c37060d2650d5695d4ca9aa670e0947b329ce1a6b32d675fd761fa2bc95",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T170101642932Z_f31c454dbafc40c885489b4810fb32cd",
+          "started_at": "2026-09-13T17:01:01.642932Z",
+          "ended_at": "2026-09-13T17:01:08.420341Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "2ecedad6b5823491241b41dd6a937eff3a49707639da537a53c3a8b9d8bbc8ae",
+            "b4ad18b7acac9863a5a4d8cef1356689058cc5cdfb3f642225027be8eeb72fad"
+          ],
+          "start_sha256": "b3e5cb20320980c9c51218d272de16e8ec8aaa1215b05927a23b0a39e1808660",
+          "end_sha256": "374466bd00b8e0f852715f0445cb0acae3bcd6e81fc0f1634d02e11fdaf6f039"
+        }
+      ],
+      "last_record_at": "2026-09-13T17:01:08.420341Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T18:00:00Z",
+      "deadline": "2026-09-13T18:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "911af5a7480baf981f0031945e3bcd256f49ea0516547851740522ac6f0df016",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T180101641696Z_b96893602b514bf683faa76ba268214e",
+          "started_at": "2026-09-13T18:01:01.641696Z",
+          "ended_at": "2026-09-13T18:01:14.093081Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "cabf964be40481427265a62bbc1e6ca2fe4a16ffc6c4d88088de5e19267ca286",
+            "3aa93ef440b21fdbc2f71ff8e1c4ae45f3e20da419047ec9895ec9e856721e75"
+          ],
+          "start_sha256": "3067fc8921e7b261fcd73cd49b936695ca5e880bc0b2879314be6ce1419c2d05",
+          "end_sha256": "344d0e634bef2a03d9b860c11f246cdaa8d6229cc77594466d367da65b2d95d9"
+        }
+      ],
+      "last_record_at": "2026-09-13T18:01:14.093081Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T19:00:00Z",
+      "deadline": "2026-09-13T19:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "08e15cb8dec5c3eeefb2041acf9bc6b1e7d1ba72a139530b43d5b624433cf99a",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T190101635110Z_132b08ba06d1472899c2eca0ed938642",
+          "started_at": "2026-09-13T19:01:01.635110Z",
+          "ended_at": "2026-09-13T19:01:07.224267Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "f5bac9449c342afc81be6e31409b2949741edb355c8ccb807fd1a0ab1abf5859",
+            "86cafaeac0f4be063763ed98ea457ccf9d6a07acf4e379f49318fca665d7b0ac"
+          ],
+          "start_sha256": "f9a5f4500f93682c8da89fa282068f94b3dfa46f63cb06784cd1707bc789b2c6",
+          "end_sha256": "cd71b9bea2566b4514b8787e1d33eaf698bffc2bf0a8072a669282ea3e9201ee"
+        }
+      ],
+      "last_record_at": "2026-09-13T19:01:07.224267Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T20:00:00Z",
+      "deadline": "2026-09-13T20:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "a726d67f5f53eb520d830aa5ff992a31830b5fe83737eed9f3126a3c10bb574c",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T200101597733Z_809586a0bf944000a686a0132420cce9",
+          "started_at": "2026-09-13T20:01:01.597733Z",
+          "ended_at": "2026-09-13T20:01:06.322942Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "ae68fc70dffbbdd63abda749604867850948e95752a34dd4e134985b03320e9d",
+            "0650c436cfa45591f25032367cba4e6ad5a9e93f64b3c3a468e64ab409b88c73"
+          ],
+          "start_sha256": "f0318139fd7a69f3ad532394103f65f4e011b67a2b1494e3c8beb2ea15b5237e",
+          "end_sha256": "5118cb492c4375e4221022fad64580963e250ad4af22b5e067e9550167b45483"
+        }
+      ],
+      "last_record_at": "2026-09-13T20:01:06.322942Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T21:00:00Z",
+      "deadline": "2026-09-13T21:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "85c94a09ff2341d0d77e8f0812c290df321e67ee425504a2435b8f84ccc9944b",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T210101635328Z_55808ac8d0ae44b6b802a75a2337363e",
+          "started_at": "2026-09-13T21:01:01.635328Z",
+          "ended_at": "2026-09-13T21:01:05.735357Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "13365ce4d339925445459ed2a9f1f792f9bf44b67e24d7a8458880f5eabd5db3",
+            "5e78bd5d5a41c22d44d16942375d1a8f9cf77551c822787cd7f395399a340516"
+          ],
+          "start_sha256": "61e8a6dd8c1197ed374f9a5f77402c3265d75d996ae10ec94fed6ff2606b2153",
+          "end_sha256": "1a2af939e2d78910147da48193edb33ecceef5235795fd218d44ff47641055e2"
+        }
+      ],
+      "last_record_at": "2026-09-13T21:01:05.735357Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T22:00:00Z",
+      "deadline": "2026-09-13T22:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "4984b9ba768a33f1e3dea1b55aeb9c7c1d77b04110b7e90de87a59450a1277a6",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T220101608074Z_6dd19fcf1d444503a545882958317652",
+          "started_at": "2026-09-13T22:01:01.608074Z",
+          "ended_at": "2026-09-13T22:01:06.851508Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "92083bfcdcc61a21dc4408cfd5debc1be18d1b85f291a0a4ee98fcd30d8aea4a",
+            "571e185d44ab4a75a1c7fa7fe4ae27510bb8db7016378789f3d4cb9ab71564c3"
+          ],
+          "start_sha256": "dbaca7225a01d60f54c681851bbe8170199f3105ba44b53d7fb59d4487d9f4ad",
+          "end_sha256": "42efbcd34ce4f2cc61743aca41d6c12eb12a95f1d7bf3fbd7f254997b2b7d89d"
+        }
+      ],
+      "last_record_at": "2026-09-13T22:01:06.851508Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-13T23:00:00Z",
+      "deadline": "2026-09-13T23:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "120433a3d274cc4d11bb0f1ac2af453669f4de2cfcbe9f7c1702874f803e78f4",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260913T230101656995Z_d65829ac4fba40c8b3b5206a976e73dd",
+          "started_at": "2026-09-13T23:01:01.656995Z",
+          "ended_at": "2026-09-13T23:01:06.411332Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "3a4f5e011d5b3fa708eff6798a136be7d443c854220dc8ff0cbba788ec70913f",
+            "7fd7fd5e05a64b6cfe3fbb043a8870d88311c7756db603ea6a87d02ee0cd392f"
+          ],
+          "start_sha256": "2e1a5d40ec6f5d3b89c0389de701ac3e96de129ed0f84fcddb9d7f9e041994f4",
+          "end_sha256": "7e68e1ebb84f964bac76978567c1a171c09d957760568e023f5a42b4fb3764ab"
+        }
+      ],
+      "last_record_at": "2026-09-13T23:01:06.411332Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T00:00:00Z",
+      "deadline": "2026-09-14T00:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "72c0d1a273f87c748b3d2eedb6c242ba71f83b748002fbd8b4ff7b3ad9e341d7",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T000101640071Z_a167aba53c164259a8f2c19b5cc0556c",
+          "started_at": "2026-09-14T00:01:01.640071Z",
+          "ended_at": "2026-09-14T00:01:05.886766Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "3ee73a78f4c1a67e73a976695a237acf970a7e4e9cc1395d7446fd88512e65f6",
+            "f2bdb85a8f9620709252a3a67aa7db0b415ffaa0930e8a0a6b1c57566818dd99"
+          ],
+          "start_sha256": "c0a5eeaac0ead177c9bb62e0e19dff61fed63226d8f5dfd797dad7228d533e25",
+          "end_sha256": "790c128eb09ba2cc28c018f6b843558d83eef5910d8c9d815ed9bb145e897a80"
+        }
+      ],
+      "last_record_at": "2026-09-14T00:01:05.886766Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T01:00:00Z",
+      "deadline": "2026-09-14T01:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "c052ed571f7757d9b099d4d0a8c90a4fe60080f43be751969f2a20636138124d",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T010101652663Z_efd6f935b5c84d85969f8cc04bc3a42e",
+          "started_at": "2026-09-14T01:01:01.652663Z",
+          "ended_at": "2026-09-14T01:01:06.872800Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "f255b4c269c89ad0ff6bbe3f0ae5cc3f554d4077ed6d5a8ee5634250698177d8",
+            "b4f6fb562d3be290cd4d08bf71c9709b3641f44162dae1b57c6010dce3d7f18a"
+          ],
+          "start_sha256": "349b16dcf5f29a6c552d2580a2fce28d95810d777f6cf2ca0db57801894a4284",
+          "end_sha256": "7d612ccb6b7947c267da1f1f465d5e177b956a11de5ed19fe7acb7d84864572f"
+        }
+      ],
+      "last_record_at": "2026-09-14T01:01:06.872800Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T02:00:00Z",
+      "deadline": "2026-09-14T02:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "56318860578dac5532263f8071373fb29ce8a952292cb4330fe5e625f231b625",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T020101686209Z_6f0216418d0a4c008b91a6352e18c1ce",
+          "started_at": "2026-09-14T02:01:01.686209Z",
+          "ended_at": "2026-09-14T02:01:06.930453Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "2840315940a8f1c359991afaffb4ec06b6a768d872342af9cefc8fee0d1961f3",
+            "8af535ebcc5541a02b2c54f5eeed4676ca77edae0382a4ee142f6d69beaf5272"
+          ],
+          "start_sha256": "15ffc40648ca0b9f565cadb593081d831b47b324e76c7648f07e37fdddc98bca",
+          "end_sha256": "7bb2bb8e80dbea9f6b5f56a83a4b322a12e9f6212b7fd64b39f3631bbea53243"
+        }
+      ],
+      "last_record_at": "2026-09-14T02:01:06.930453Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T03:00:00Z",
+      "deadline": "2026-09-14T03:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "0fcd7364e32cbb922697d4f793f4e92fea9b7081fa5d954493cf661dbe76844c",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T030101688776Z_a79f5e533fc54a81a8c0032f9e59effe",
+          "started_at": "2026-09-14T03:01:01.688776Z",
+          "ended_at": "2026-09-14T03:01:07.194907Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "d49e81ab630e305dfc2a8ce24b7c9da45e7511e92de7cbefb97be20b593f8451",
+            "b67a6185dff2ae882de3e18d5df052d2c07d7e8db9e35b92546c509ef721d205"
+          ],
+          "start_sha256": "91f5d6f5cb921318a1d4e08b781876775995e78c440d96a5c92f67c1f9f01f49",
+          "end_sha256": "dfe1ad1c0315266560cb5873e9b6ac32dddc63fbf3ce597c92a04eb32e1f3eb9"
+        }
+      ],
+      "last_record_at": "2026-09-14T03:01:07.194907Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T04:00:00Z",
+      "deadline": "2026-09-14T04:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "f3fa7c715d20b025097a6ea5dbf1f0c4861987346783391bca36553484b32d09",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T040101689954Z_37851fa50b664a8b9c60de992d90ab67",
+          "started_at": "2026-09-14T04:01:01.689954Z",
+          "ended_at": "2026-09-14T04:01:06.946429Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "f881b215162169962c32479c7422df0779d9984f0198781e52de3fafde864a74",
+            "19584022f2a3da323e29f0c88ee3b465f7307cb0515ae19f52e485f5c76deaf2"
+          ],
+          "start_sha256": "fe7750887a53d6df89b70fa77fc0e3b83eea3f8a43a03a8b0f20b84dae4e3ab4",
+          "end_sha256": "55804215ab3fc85550cc6570a3ef834a8e30fc6dcc63e070f34036565334fc96"
+        }
+      ],
+      "last_record_at": "2026-09-14T04:01:06.946429Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T05:00:00Z",
+      "deadline": "2026-09-14T05:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "a63f10013b8dab303254bb101a8ffdbf79724c65b0bcb8571f93fb3d24d0cc6f",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T050101714436Z_ebbc1b9b1d194432a99644cb5ba0ce22",
+          "started_at": "2026-09-14T05:01:01.714436Z",
+          "ended_at": "2026-09-14T05:01:12.120031Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "a3af2a5363e8114608b478e27d84665a631bf7975b5bdcefec33ef965e97830e",
+            "de9aaaa734fbec3dcfd51914c4b37b40dbc11084507c37c3d91365bf807c291b"
+          ],
+          "start_sha256": "3b3a19280721547828db49c35257891fd2a3606361d201fdd070ea3c9e3362b0",
+          "end_sha256": "d75cd179055bc5d50d35597ecd7bc9997ab8ba1618604a1e39ed623655f9174f"
+        }
+      ],
+      "last_record_at": "2026-09-14T05:01:12.120031Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T06:00:00Z",
+      "deadline": "2026-09-14T06:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "f4bf3e7a69529612ea14d32575229a0e19252316bd30be9d087075c3dc3f6bbc",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T060101729437Z_726f58be409a4828919ecb39ca126854",
+          "started_at": "2026-09-14T06:01:01.729437Z",
+          "ended_at": "2026-09-14T06:01:06.678588Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "a0a103fcad889510070e8b7591de19d979970e0bafa4ae51481559d80cbcc03f",
+            "72ccd7f60198f2917d037b1cafe4f84179a1af0d853e7af6bacedf4bae5d166c"
+          ],
+          "start_sha256": "64657b38d3e7615590d89e969a34c24403b41497645e55be8ca3220756e896ec",
+          "end_sha256": "66f51d846c19c698588980116643824faa70f1b757eec5abc7fbc9925331f57f"
+        }
+      ],
+      "last_record_at": "2026-09-14T06:01:06.678588Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T07:00:00Z",
+      "deadline": "2026-09-14T07:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "7632f53c6abbcc7c7c691cb75843f1a6e32ba9c8c748534d817d4b9fbc08e4f3",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T070101746293Z_e9e65b12176a44a4ae0935c14dd18fe2",
+          "started_at": "2026-09-14T07:01:01.746293Z",
+          "ended_at": "2026-09-14T07:01:06.991161Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "8987c124336f0e5552b6b66c9f8a63fc5029775570ea057935902072288591aa",
+            "9bb62537579c03ffff50c91bbbe5c73846f689b88539eca93c412412ec82a9b9"
+          ],
+          "start_sha256": "d8a13c9065aa2c538d7331f1d7e13ca364024692947c0a1c26f7e358a594eb90",
+          "end_sha256": "894aac33d14a3c3b35dabdef41a939d5802c211c907acd0152ed54191a6816b0"
+        }
+      ],
+      "last_record_at": "2026-09-14T07:01:06.991161Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T08:00:00Z",
+      "deadline": "2026-09-14T08:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "669220e6db434933316837e5bd43b433d08b76687177cac8518f3c3a0e7f51d1",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T080101736833Z_8868de015f764210b3efb2ca18ba2896",
+          "started_at": "2026-09-14T08:01:01.736833Z",
+          "ended_at": "2026-09-14T08:01:06.551866Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "e22452caf1db4ae7c5bcdaccf7b2610162272f7769e49a3a4acac5e6dc1c7903",
+            "64e3ad9c8300c2b00babed7316dff54028bb696918d9e942d5081359a989a789"
+          ],
+          "start_sha256": "49f1e30779dfd75a1bf7295de36b34130ff4432ee9a16fc753b77631c050d1a9",
+          "end_sha256": "6b2045184834ba950c7ef5a65a416e87d001e4cc2fc2fd39342275fdb1fe57f0"
+        }
+      ],
+      "last_record_at": "2026-09-14T08:01:06.551866Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T09:00:00Z",
+      "deadline": "2026-09-14T09:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "ca339881a40bfbc84f35c0320380e4eb194a36bd1aab04f6f0e1f2b06d56b544",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T090101724940Z_4ad6059fd53b497e891724cd78b33a58",
+          "started_at": "2026-09-14T09:01:01.724940Z",
+          "ended_at": "2026-09-14T09:01:06.181143Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "918c2a10bcbd1fdfbc73b2601ed40b751b3ca8f57dee9f673467254277431a12",
+            "35e0eee49b913496eada03c8ae4bf28da44eb76e18d890e42e32a1bb327db969"
+          ],
+          "start_sha256": "222f67a0cca7f4be068b3b2869d22fdd1c96e39dff95bf617fe0c2fd68afe491",
+          "end_sha256": "8f83780f410c150123a3c414e248fc119f005ec27c5f0ccf695f0f34183de7cb"
+        }
+      ],
+      "last_record_at": "2026-09-14T09:01:06.181143Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T10:00:00Z",
+      "deadline": "2026-09-14T10:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "9f80519571e42937eb1fa004d25e5048741642c301afcbef259fe9ffc7be4774",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T100101735743Z_c98f9e4b557246f1b0587e04dedc82bc",
+          "started_at": "2026-09-14T10:01:01.735743Z",
+          "ended_at": "2026-09-14T10:01:06.118949Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "fc8ac38e30ba4374659dd2b75b3859151b79cab5a30ce464ac5e2802afc00901",
+            "bd272fc260c6f842d70798cec8fb962620446c5414cd5b6b0a516de07749d9d9"
+          ],
+          "start_sha256": "c358593a92f0df1655a1c34c7c88962edc39bf18f5ed55c528a433a7f86cf8f2",
+          "end_sha256": "7e87204f2e951ceea2e3fc1057ec8b183088833d43e131e263a9e939e612f6b1"
+        }
+      ],
+      "last_record_at": "2026-09-14T10:01:06.118949Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T11:00:00Z",
+      "deadline": "2026-09-14T11:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "eb9ae47170cab182ad9afdfb2e86ba89402f6640ae0e1c5f60cb79e227b7a3e3",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T110101830516Z_b31917e46050495591bff6d9814b541c",
+          "started_at": "2026-09-14T11:01:01.830516Z",
+          "ended_at": "2026-09-14T11:01:07.922399Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "9043f298b42b68a8ddaca0c0d135734547d89bf1b5699f366e24c9a20397519c",
+            "2232b9c2b5176f0b802f6da013df5cfb00bef232576fb2fd3bf3851bdecf8c13"
+          ],
+          "start_sha256": "e15102d88710291b328817ce7db525ff1001e86b2e3bbf9d6de1709a8f342822",
+          "end_sha256": "aa9693a89842d838a114b7ac1f737d88ecb5a55b914f2f8b71ea381c918774a6"
+        }
+      ],
+      "last_record_at": "2026-09-14T11:01:07.922399Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T12:00:00Z",
+      "deadline": "2026-09-14T12:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "66fa9494e0574ba538df6f9be5ff5a5621d2fe973a83f034342c6704f1e66f34",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T120101793095Z_f91442300d844f659203de79641a01e0",
+          "started_at": "2026-09-14T12:01:01.793095Z",
+          "ended_at": "2026-09-14T12:01:07.032869Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "a68e1ba2e70eb9917f02e81c6f88e3ebb6b46fdaed387a01234faeba06b29d9e",
+            "3eddb4aa208cabb66960201703003e6383e00c96a6d7b98337fa30a53453073c"
+          ],
+          "start_sha256": "eaa2426eaeca8d51e0d4020ef9f218e42bdba7aca2318af071f747c689cf59b7",
+          "end_sha256": "b225470f8227ddfd715978161d544c02c9987ef3356ec079e8ee1990dff66c7f"
+        }
+      ],
+      "last_record_at": "2026-09-14T12:01:07.032869Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T13:00:00Z",
+      "deadline": "2026-09-14T13:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "fdb634e582ca78fe5e30bc1c483349cf1fbba2c0ecb0cab22238dfc9fbb497a9",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T130101805280Z_d53e22db86024a6f9d04d08973fff5a8",
+          "started_at": "2026-09-14T13:01:01.805280Z",
+          "ended_at": "2026-09-14T13:01:21.742220Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "91d6425449f6a792b3565d51f2d6124902554a8e3fddcda1bddc2dec73dac5ff",
+            "7ac80bbae2c4c2abc2e73d7af996717b4ee274af7a26b09347709d2d551ca560"
+          ],
+          "start_sha256": "69cbcb4a263012f74319144fa31954ad1bf2863bc488f0fe2d33e7edcf4a226a",
+          "end_sha256": "9fdae4b7835afede078f8d4a4f32ddf90d1bd1dce3462b762f27a4267d29e56d"
+        }
+      ],
+      "last_record_at": "2026-09-14T13:01:21.742220Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T14:00:00Z",
+      "deadline": "2026-09-14T14:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "f67036ff35946a6578c78a621ba2a0be04b16486c017edd0a0d50e809b76e61e",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T140101830438Z_3f698701fe7c4f76998b293da40dc0a9",
+          "started_at": "2026-09-14T14:01:01.830438Z",
+          "ended_at": "2026-09-14T14:01:08.811049Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "6e2be05c60c6bd285bcb02e8695724e523053afc4240b99fa444fb5610cccfa3",
+            "f0299ed800b41881f37e2b00a0d2df09c39eda5707a878c266ad72ca869ef724"
+          ],
+          "start_sha256": "2fbe65b910fce1bd37c24b715286ce9061c7034a7a8fc238a71614c1da8feeb4",
+          "end_sha256": "1aeac958e6d21c52127d15f00b58c8028f9fd03002dc74fda59adc2bb9e3a035"
+        }
+      ],
+      "last_record_at": "2026-09-14T14:01:08.811049Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T15:00:00Z",
+      "deadline": "2026-09-14T15:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "14dff0166cf9e7bf9e89cabe04dbaa0fdd915ad4ba37354284bac88bde33000e",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T150101883844Z_1fc2a6ac362b4dd3a6ee94e65d1a3bf8",
+          "started_at": "2026-09-14T15:01:01.883844Z",
+          "ended_at": "2026-09-14T15:01:07.063555Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "c60250fd122a29fa8b7a4876c1f7df4d767461bb4572c86758a8ee2a485813bd",
+            "9b6e0ea7cb433e3e566fda2e9602aee8058b05020b795468ef8cf1a35d5e1985"
+          ],
+          "start_sha256": "cc6265ae79b8a00f75610e67ba27fc2299402f714effdcca927bababbb68632d",
+          "end_sha256": "67ef31044df1605badbe20dc785ba0675d88dc6af6e9f28e25d3bffddec403ca"
+        }
+      ],
+      "last_record_at": "2026-09-14T15:01:07.063555Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T16:00:00Z",
+      "deadline": "2026-09-14T16:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "ee0eb8d7cfc808da62c8237fb612790f96dfce26751d9096d6a36b94e7698763",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T160101848457Z_161e294af1334363b1547f4ea3c3a42c",
+          "started_at": "2026-09-14T16:01:01.848457Z",
+          "ended_at": "2026-09-14T16:01:07.164127Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "ddb7ff132dae63f0bd9442dd970afdef8b1b2e2a246763da360ea314e3954865",
+            "da72e14b9f1df685618f2470ffcfb1489ccdf88f33500df5a6262d8a10ef65b3"
+          ],
+          "start_sha256": "5aabf9825e47ece4b8989aff6f70d9f7f12f22b39722d65b7b93bec7167e3c13",
+          "end_sha256": "7b848ca87848d1126a8ccbe880d59f7fb433753c340b4baf3e486c3ab32a9601"
+        }
+      ],
+      "last_record_at": "2026-09-14T16:01:07.164127Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T17:00:00Z",
+      "deadline": "2026-09-14T17:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "b6e72089fbf64b8ab1b9df84f96b8408043e08793498bce8b718582ef99b5002",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T170101922303Z_e399a90aee644d01befb3e3d4036279e",
+          "started_at": "2026-09-14T17:01:01.922303Z",
+          "ended_at": "2026-09-14T17:01:09.688065Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "deadc713dbe575651307441a3803b4810a4a6bbef8997df8be539f8cec8b9c9f",
+            "00af85dd4c9b9cf770ed8b1728733f2e082d255f6a012b004eecc69188da56ce"
+          ],
+          "start_sha256": "51b720173d6dab571f5f174339af5bc5bbadc6d1f017a843c8356765cd043e06",
+          "end_sha256": "1a6c4bbe2763a7bb5f596111a9165319271fc7e90a91b3384aa5b43e681807db"
+        }
+      ],
+      "last_record_at": "2026-09-14T17:01:09.688065Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T18:00:00Z",
+      "deadline": "2026-09-14T18:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "63cea1ca04a1147024a9ca5d7601e689416fa14cf7f686f570c492a1161ff43b",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T180101900385Z_03828aa5c8d64557b7b447827069fba7",
+          "started_at": "2026-09-14T18:01:01.900385Z",
+          "ended_at": "2026-09-14T18:01:06.962991Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "ba7be7c3c8e9549b97c8a63ea8a401f63a56895747a7b5cf3959c7aa45543a87",
+            "80016cd0c847c712bbad8dc6a44a93a05f3359e4e94c36b49c09e42a769d4b62"
+          ],
+          "start_sha256": "dc2023c456b2c12579fb74a561e2a11b44594be3b0b1d231c34c8f4b001dd406",
+          "end_sha256": "ef1178c33c07922b413fa00734f22095ef9ae206eda7e3a36a13a2e7c0002d55"
+        }
+      ],
+      "last_record_at": "2026-09-14T18:01:06.962991Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T19:00:00Z",
+      "deadline": "2026-09-14T19:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "dd5ca43862cdfc8277f685e717ef2eabed18a534a0390ecb26928ab978b65aac",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T190101935014Z_be2a2d1f51774711a3f7e5e46e9cf5d7",
+          "started_at": "2026-09-14T19:01:01.935014Z",
+          "ended_at": "2026-09-14T19:01:06.517991Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "924f4d0b90ff5eeb31e89f76aac832f1a708937ee9a76f513b6e9753c92285b3",
+            "e3ed6e1f5cd10e61d825664762b020e976802b9b5fac2b3615038897693ae290"
+          ],
+          "start_sha256": "abf7ab2cb24925744023de6c7c71363929df91fbad4c8bab4211dd51df4ac8c0",
+          "end_sha256": "ae92c5e0c084c649f11bfa9770dd23b5478333f294e6f196d9fe1017178ece40"
+        }
+      ],
+      "last_record_at": "2026-09-14T19:01:06.517991Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T20:00:00Z",
+      "deadline": "2026-09-14T20:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "ccd697aaeac28dc8322c8fa29d0ca76ed62ed3b243d86c9eeab55410140fce93",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260914T200101925818Z_1f5a27d58b904a11905d898713b4ea9e",
+          "started_at": "2026-09-14T20:01:01.925818Z",
+          "ended_at": "2026-09-14T20:01:19.070225Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "9cca8c967130664609b0df74f7ac4122d4d7f99a80c1b63cdbbc9c27ef2e76e0",
+            "3736dae00871e74be8f071ca671944b06e5ba167fa22483564eaf75040942a06"
+          ],
+          "start_sha256": "2271d7eaec70768b722089fa97e5157d4b97407502a930779639dbe9501c387d",
+          "end_sha256": "ad614f7ccfa71eeb933ebc7b45b64a1a5f2b22235927864fadd9666eeb0c6e12"
+        }
+      ],
+      "last_record_at": "2026-09-14T20:01:19.070225Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-14T21:00:00Z",
+      "deadline": "2026-09-14T21:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "fcc170cd2ee3f931c11532c274dc397f83aa803434aaf14a47254ef8a5250d1b",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-14T21:01:31.902352Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260914T210101883037Z_5bb143da54234ecb9c144948430fdc80",
+          "started_at": "2026-09-14T21:01:01.883037Z",
+          "ended_at": "2026-09-14T21:01:24.846996Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "e1befc2d78f14438cec557b6d59bd02ce40d695e295ac331d4f5adb804d84d43",
+          "end_sha256": "02f0b0fe82790d7628ff386f97355e9a750a99b9badecdaa90f024db4473017d"
+        }
+      ],
+      "last_record_at": "2026-09-14T21:01:24.846996Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-14T22:00:00Z",
+      "deadline": "2026-09-14T22:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "32632f503bddf28d0adcd887bdb835aa03c03a502c7354ca4b0f814ce964aaad",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-14T22:01:31.588507Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260914T220101931440Z_fb229c54ad0646ec9f676f7bfce8156d",
+          "started_at": "2026-09-14T22:01:01.931440Z",
+          "ended_at": "2026-09-14T22:01:24.441995Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "98a20da77be59a49c968d803683473452f83ff4adcfd64d734be7ae5d0e67d6d",
+          "end_sha256": "814410b32dab3975a055a77dfc4f44d2c6c5762acc836fe89f0e090c3ea51e91"
+        }
+      ],
+      "last_record_at": "2026-09-14T22:01:24.441995Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-14T23:00:00Z",
+      "deadline": "2026-09-14T23:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "5ad66a88eb3b934712d6cb46fd1af2187d619ec695f0df52541b8b85bf5ca82e",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-14T23:01:32.242470Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260914T230101928819Z_65da81c472da4ceba8dc807883a9fc6b",
+          "started_at": "2026-09-14T23:01:01.928819Z",
+          "ended_at": "2026-09-14T23:01:24.731625Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "1df17572e26a459d72533f2fdfd8c923a0b8c4212d182fbe4af282878a292052",
+          "end_sha256": "93969f78c22b62b0fa6e094df67db905d2c0eb42a9db7fa062c3b17f183ee50a"
+        }
+      ],
+      "last_record_at": "2026-09-14T23:01:24.731625Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T00:00:00Z",
+      "deadline": "2026-09-15T00:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "4e9595884a479d21cd1a60daf56d9cf327d57577dc7160f8e69b88dbe50cc344",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T00:01:32.544500Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T000101964756Z_e585b65cc4424135b45233a93f195ec9",
+          "started_at": "2026-09-15T00:01:01.964756Z",
+          "ended_at": "2026-09-15T00:01:24.929963Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "f5aeb7addf68374f8dec665031851f1df6f6e822c624d0df912ed486f08e458a",
+          "end_sha256": "27a4a58a6ea5f6dd4b23bb217f979cf60f0ab1d769f1130ea66efd9d67b3c863"
+        }
+      ],
+      "last_record_at": "2026-09-15T00:01:24.929963Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T01:00:00Z",
+      "deadline": "2026-09-15T01:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "de4ce3300baaee80788a98a8ecc8df2e604fdf2294d20a5fcdd720e3fd4bfde8",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T01:01:31.778931Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T010101954601Z_5366943d36d94b688e2052177e193dd0",
+          "started_at": "2026-09-15T01:01:01.954601Z",
+          "ended_at": "2026-09-15T01:01:26.498845Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "67a061f58876f719c989a88a6ed86860b4e2b4e9b503f162b7b0ca36bcdcb433",
+          "end_sha256": "1c469e47cac683e9729ce87d5e58869853303eea7cdb64baf6085c4516d5b0d2"
+        }
+      ],
+      "last_record_at": "2026-09-15T01:01:26.498845Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T02:00:00Z",
+      "deadline": "2026-09-15T02:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "27b6fb0c096856dcebf6211712ce84dfd0316e663b4d48131a5ce21594fb330c",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T02:01:31.390036Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T020101947899Z_05d0e20fdacc481ba9beac498274ec32",
+          "started_at": "2026-09-15T02:01:01.947899Z",
+          "ended_at": "2026-09-15T02:01:24.734353Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "a208ca69fabbbc326eda11ae619a6c4097c7e61776309058a6889c2deac927c5",
+          "end_sha256": "c43ec884afd352ced652270af627ba3cb2f75cdb535201554eb3ab7a31cafc06"
+        }
+      ],
+      "last_record_at": "2026-09-15T02:01:24.734353Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T03:00:00Z",
+      "deadline": "2026-09-15T03:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "1f14e435f5b24a3bee58d92465324eeb57d515df18f997a4990f124b89c312e9",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T03:01:32.033074Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T030101967097Z_ca981b11c6d94f5499e753d1057d015d",
+          "started_at": "2026-09-15T03:01:01.967097Z",
+          "ended_at": "2026-09-15T03:01:24.739049Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "0ef755728d7f0fdb860163b6006c363c34291eda094b1f55f6ba3165624ec172",
+          "end_sha256": "fe1ca403a4fe97afec2768169bc6668c970efb211dcc721be6f88b5b9fa28f36"
+        }
+      ],
+      "last_record_at": "2026-09-15T03:01:24.739049Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T04:00:00Z",
+      "deadline": "2026-09-15T04:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "9dc6cbe40d977953671da86b2614ab28f6d5658593ab76b1f8798e40c0c69197",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T04:01:31.758561Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T040101963498Z_ad27855594904b0ab161578e79550636",
+          "started_at": "2026-09-15T04:01:01.963498Z",
+          "ended_at": "2026-09-15T04:01:24.707746Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "22ec4454894d72e024ba5404b57455bcb5f261101b7221f065d7e93c6c9e6865",
+          "end_sha256": "d7cc581bd3fd6076998b45a6625165c5c7d8cd484ac1c582bdda761d3042f895"
+        }
+      ],
+      "last_record_at": "2026-09-15T04:01:24.707746Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T05:00:00Z",
+      "deadline": "2026-09-15T05:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "56e1b77704bda2d0a5863dad3f1ab6996dcde2bafabd2675452521b95ca62cb8",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T05:02:31.498768Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T050102064102Z_632fc817e6db433796c9faa23862e4d6",
+          "started_at": "2026-09-15T05:01:02.064102Z",
+          "ended_at": "2026-09-15T05:01:32.819407Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "c0993a4d1df006d7b2d2dc6978349a5c31b56cf4c0d67852d3ed2bfc6325e33b",
+          "end_sha256": "16b63e2ba09764dbe32260ef2ce7782f7294d6d513c8e3804eb71c9929d392fc"
+        }
+      ],
+      "last_record_at": "2026-09-15T05:01:32.819407Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T06:00:00Z",
+      "deadline": "2026-09-15T06:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "38a501250a730540cad530d2cdea2980c37462a4bdc464dabc8a49546551bca7",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T06:01:32.193474Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T060102017529Z_876b8a6fa1f04ae79c468be6f9c59bb1",
+          "started_at": "2026-09-15T06:01:02.017529Z",
+          "ended_at": "2026-09-15T06:01:32.171728Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "c1eaa782dd0a676435712eb51e7efb8c72a164f4e11b4fa52d368e752dfea4f7",
+          "end_sha256": "cc2be9318ae528ea20557b6a43e294e5931477e59bea6318021ef9547594bb4a"
+        }
+      ],
+      "last_record_at": "2026-09-15T06:01:32.171728Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T07:00:00Z",
+      "deadline": "2026-09-15T07:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "116460a8bf788691a7681f5bc5266bf0f3d1c2cfbac936cb3bc90936393d0878",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T07:01:31.764360Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T070102021391Z_730ddcbc158b418c9b28bfa1bab77805",
+          "started_at": "2026-09-15T07:01:02.021391Z",
+          "ended_at": "2026-09-15T07:01:25.301603Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "55c88aa11a48a9e01503691f70736ead57c9f71cc2aa49e84441a605dfdd903a",
+          "end_sha256": "363c4c0882e33cfaa4ccb2d1db0ad8baf84c495921b8e625090063d50c952598"
+        }
+      ],
+      "last_record_at": "2026-09-15T07:01:25.301603Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T08:00:00Z",
+      "deadline": "2026-09-15T08:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "4eff2d8eae8bb3dd163434d52d8fc84dfeeb945e6638d57c0c47eb3dfcd52422",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T08:01:32.493229Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T080102130586Z_f6605caf34054b79b66748c908cd9714",
+          "started_at": "2026-09-15T08:01:02.130586Z",
+          "ended_at": "2026-09-15T08:01:26.133858Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "d31eaae65baf83e4aa74fb90514ed0759fcc7d10834c501fe89ef11c1320aaf3",
+          "end_sha256": "580093472449d1a6074e10ac88aea446fc42a5ce5c8da669f34664179f3953d8"
+        }
+      ],
+      "last_record_at": "2026-09-15T08:01:26.133858Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T09:00:00Z",
+      "deadline": "2026-09-15T09:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "8998f409750e316e8a09c72789ba0b2518c8a92b28563d5fe999fcff86505bde",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T09:01:32.274524Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T090102237229Z_fde1cfc00d444e12ad7e5a21b89caa11",
+          "started_at": "2026-09-15T09:01:02.237229Z",
+          "ended_at": "2026-09-15T09:01:31.305939Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "036ab263921424f4ba4d1ae19579337c3a62271efa148a1bf87a0d6dab2cde42",
+          "end_sha256": "be3946e9658aea8404142815c821cbaf4858c70d9844ae5cd535eb9c8533b132"
+        }
+      ],
+      "last_record_at": "2026-09-15T09:01:31.305939Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T10:00:00Z",
+      "deadline": "2026-09-15T10:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "84848de42213fcf4dee88dcd18fa9803dcc526de23d4471ba314e8f66ea303ad",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T10:01:31.904830Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T100102117192Z_5512cf815ccb435fbac36f11b67e112e",
+          "started_at": "2026-09-15T10:01:02.117192Z",
+          "ended_at": "2026-09-15T10:01:25.400264Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "886265aafc67259b6d189b23b50ca909a30378520c4fb3902012f7e7819186e3",
+          "end_sha256": "84ca93894be8f437bc0ae1f10780c6989bb1d02f822b7b792404b0eac0982058"
+        }
+      ],
+      "last_record_at": "2026-09-15T10:01:25.400264Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T11:00:00Z",
+      "deadline": "2026-09-15T11:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "bb8271c8fdb45d17a36358b3535e5f667ce1cb7a3c25cbc447cc9606964795b5",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T11:01:31.453934Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T110102082547Z_30e64c87a4e949b283182387e3c7751f",
+          "started_at": "2026-09-15T11:01:02.082547Z",
+          "ended_at": "2026-09-15T11:01:25.449122Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "f48acc01623658b2633e478551a8003fedeae6e0e2a340e74276b683ccfe0ea7",
+          "end_sha256": "74626e3d61f0599d5dd42610085ae979ed65cfbac05c74eba8213e97454eab3a"
+        }
+      ],
+      "last_record_at": "2026-09-15T11:01:25.449122Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T12:00:00Z",
+      "deadline": "2026-09-15T12:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "13287f993a5f32b24f0a7485144fe86bb70602adf337c62fcba7a7c05b8b163b",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T12:01:32.095384Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T120102123772Z_b50b531fc1fb4114a53275ea3e3280ee",
+          "started_at": "2026-09-15T12:01:02.123772Z",
+          "ended_at": "2026-09-15T12:01:25.726526Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "787130f6d7dc14bc68f2c99df677b3484a8374a75496d23b8b36a2446eb033e4",
+          "end_sha256": "e49140f41eafcdc9913d85ed150d1d4194194ada4ee37fe44615370517dc2b08"
+        }
+      ],
+      "last_record_at": "2026-09-15T12:01:25.726526Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T13:00:00Z",
+      "deadline": "2026-09-15T13:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "587e48585fa1076c2f2dd8507fa8fe05f2864852f58c3084a192712ef565bfaf",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T13:01:31.700885Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T130102114649Z_0e4fd70cfd9f4906b86cd06428a8605a",
+          "started_at": "2026-09-15T13:01:02.114649Z",
+          "ended_at": "2026-09-15T13:01:25.152772Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "b80fa0c325578d240660f27e9b809ddf460a0763a914f0b8e274238261c42650",
+          "end_sha256": "82c5693340a953777f50cc1af191a76b623cf0614d674cb6c9fbfd0c63a64e2d"
+        }
+      ],
+      "last_record_at": "2026-09-15T13:01:25.152772Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T14:00:00Z",
+      "deadline": "2026-09-15T14:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "f24b4546e8073c780d87627b264f25ca4bcc82e6ab70f3b622a2c8513a60a8c2",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T14:01:31.479461Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T140102107094Z_58ae24f2ab05437383782b0674a5e561",
+          "started_at": "2026-09-15T14:01:02.107094Z",
+          "ended_at": "2026-09-15T14:01:25.645815Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "cc903994c2f494c6b3a7b59dd365b1e00f6158a43eda562a0eb4aa83760fe86f",
+          "end_sha256": "4556ee7d9f75944c1446442ae29dc3332cc10cef15a8775331bb28c65e81f7ce"
+        }
+      ],
+      "last_record_at": "2026-09-15T14:01:25.645815Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T15:00:00Z",
+      "deadline": "2026-09-15T15:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "ad69fbeecbcb61f5a3c2d0c871aa790ead26d5d15183271280fd483adf5b6dd2",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T15:02:32.198865Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T150102158740Z_42f25349a5d147e5966ac626c9f55877",
+          "started_at": "2026-09-15T15:01:02.158740Z",
+          "ended_at": "2026-09-15T15:01:33.572096Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "b8c9d3007a536b977e72d1637b165e3bf5cfc4adabda07e3bc65d20159edbdf3",
+          "end_sha256": "64ed83184a02d7c56f12f044469e4a6b2a0ae7c0c93333d674313eb0daa9a373"
+        }
+      ],
+      "last_record_at": "2026-09-15T15:01:33.572096Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T16:00:00Z",
+      "deadline": "2026-09-15T16:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "6a9ed5c16e9038b685a3aa569515ee3613b7ba66b7ec3e1672270b2b37642b6c",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T16:01:31.760336Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T160102108992Z_7221bbce4dde47f3bd5c91c49ffd344d",
+          "started_at": "2026-09-15T16:01:02.108992Z",
+          "ended_at": "2026-09-15T16:01:24.452471Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "f1845e013f0bb4bcf2ccb19861bc6fac94cfcbaa7fdd1fecb74457d374b06103",
+          "end_sha256": "5a7f22cb935a70b863aa42180faf72c7e5f2f0189b98b25eba0be8acc71156cd"
+        }
+      ],
+      "last_record_at": "2026-09-15T16:01:24.452471Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T17:00:00Z",
+      "deadline": "2026-09-15T17:05:00Z",
+      "current_status": "FAILED",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": "d0d64b8020efd91685f4047f780b31c4455a22e71532823ca42dad4d89316a22",
+      "deadline_status": "FAILED",
+      "first_problem_observed_at": "2026-09-15T17:02:32.435296Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [
+        {
+          "attempt_id": "20260915T170102188316Z_6b55c7aba221484599f5a97a180ee619",
+          "started_at": "2026-09-15T17:01:02.188316Z",
+          "ended_at": "2026-09-15T17:01:34.216811Z",
+          "health": "CHILD_FAILED",
+          "error": {
+            "stage": "EXECUTE",
+            "type": "ValueError"
+          },
+          "record_hashes": [],
+          "start_sha256": "e58dd4a0d666ba8a51d263ad45b6f6bd97c25806a31c7243596a6bfc89e8c463",
+          "end_sha256": "46901c0c138bf555aec0dd6b15b68ed9c4dbff63c5efa1a1a2419f9648056ac0"
+        }
+      ],
+      "last_record_at": "2026-09-15T17:01:34.216811Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": "RETAINED_WATCH"
+    },
+    {
+      "cutoff": "2026-09-15T18:00:00Z",
+      "deadline": "2026-09-15T18:05:00Z",
+      "current_status": "ON_TIME",
+      "start_receipts": 1,
+      "end_receipts": 1,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 1,
+      "latest_end_hash": "8f8314265a9177478e406f1fabf9d974b52bd171f136a4ba134c921ea6e492bd",
+      "deadline_status": "ON_TIME",
+      "first_problem_observed_at": null,
+      "problem_open": false,
+      "original_gap_preserved": false,
+      "evidence": [
+        {
+          "attempt_id": "20260915T180102172545Z_40ffc00ae58244a287a816bfefdb14f5",
+          "started_at": "2026-09-15T18:01:02.172545Z",
+          "ended_at": "2026-09-15T18:01:07.471856Z",
+          "health": "RESULT_VALID",
+          "error": null,
+          "record_hashes": [
+            "c874c7a0edd92b3b83c93635dad55ec51abf0176b890ef3b5abc72f1fd2e7109",
+            "c15be38150af1c2ba08191955c88a013077aad0a7d5b6736cf00864e47fbe292"
+          ],
+          "start_sha256": "95e6c31665a6aad01d57af1f35e707b17cc24348607275321f1c77aa278681c0",
+          "end_sha256": "48150e64788e28a88ff6a2a9661ac602c598db5ced7ba78ffed2121484e95f31"
+        }
+      ],
+      "last_record_at": "2026-09-15T18:01:07.471856Z",
+      "evidence_gap": null,
+      "first_problem_observed_at_basis": null
+    },
+    {
+      "cutoff": "2026-09-15T19:00:00Z",
+      "deadline": "2026-09-15T19:05:00Z",
+      "current_status": "NO_START_RECEIPT",
+      "start_receipts": 0,
+      "end_receipts": 0,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": null,
+      "deadline_status": "MISSING",
+      "first_problem_observed_at": "2026-09-19T20:47:57.255209Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [],
+      "last_record_at": null,
+      "evidence_gap": "NO_RETAINED_START_END_OR_RESULT",
+      "first_problem_observed_at_basis": "RETROSPECTIVE_CLOSEOUT",
+      "interpretation": "MISSING_PER_FROZEN_RECEIPT_PROTOCOL_NOT_AN_ASSERTED_MARKET_RESULT"
+    },
+    {
+      "cutoff": "2026-09-15T20:00:00Z",
+      "deadline": "2026-09-15T20:05:00Z",
+      "current_status": "NO_START_RECEIPT",
+      "start_receipts": 0,
+      "end_receipts": 0,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": null,
+      "deadline_status": "MISSING",
+      "first_problem_observed_at": "2026-09-19T20:47:57.255209Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [],
+      "last_record_at": null,
+      "evidence_gap": "NO_RETAINED_START_END_OR_RESULT",
+      "first_problem_observed_at_basis": "RETROSPECTIVE_CLOSEOUT",
+      "interpretation": "MISSING_PER_FROZEN_RECEIPT_PROTOCOL_NOT_AN_ASSERTED_MARKET_RESULT"
+    },
+    {
+      "cutoff": "2026-09-15T21:00:00Z",
+      "deadline": "2026-09-15T21:05:00Z",
+      "current_status": "NO_START_RECEIPT",
+      "start_receipts": 0,
+      "end_receipts": 0,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": null,
+      "deadline_status": "MISSING",
+      "first_problem_observed_at": "2026-09-19T20:47:57.255209Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [],
+      "last_record_at": null,
+      "evidence_gap": "NO_RETAINED_START_END_OR_RESULT",
+      "first_problem_observed_at_basis": "RETROSPECTIVE_CLOSEOUT",
+      "interpretation": "MISSING_PER_FROZEN_RECEIPT_PROTOCOL_NOT_AN_ASSERTED_MARKET_RESULT"
+    },
+    {
+      "cutoff": "2026-09-15T22:00:00Z",
+      "deadline": "2026-09-15T22:05:00Z",
+      "current_status": "NO_START_RECEIPT",
+      "start_receipts": 0,
+      "end_receipts": 0,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": null,
+      "deadline_status": "MISSING",
+      "first_problem_observed_at": "2026-09-19T20:47:57.255209Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [],
+      "last_record_at": null,
+      "evidence_gap": "NO_RETAINED_START_END_OR_RESULT",
+      "first_problem_observed_at_basis": "RETROSPECTIVE_CLOSEOUT",
+      "interpretation": "MISSING_PER_FROZEN_RECEIPT_PROTOCOL_NOT_AN_ASSERTED_MARKET_RESULT"
+    },
+    {
+      "cutoff": "2026-09-15T23:00:00Z",
+      "deadline": "2026-09-15T23:05:00Z",
+      "current_status": "NO_START_RECEIPT",
+      "start_receipts": 0,
+      "end_receipts": 0,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": null,
+      "deadline_status": "MISSING",
+      "first_problem_observed_at": "2026-09-19T20:47:57.255209Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [],
+      "last_record_at": null,
+      "evidence_gap": "NO_RETAINED_START_END_OR_RESULT",
+      "first_problem_observed_at_basis": "RETROSPECTIVE_CLOSEOUT",
+      "interpretation": "MISSING_PER_FROZEN_RECEIPT_PROTOCOL_NOT_AN_ASSERTED_MARKET_RESULT"
+    },
+    {
+      "cutoff": "2026-09-16T00:00:00Z",
+      "deadline": "2026-09-16T00:05:00Z",
+      "current_status": "NO_START_RECEIPT",
+      "start_receipts": 0,
+      "end_receipts": 0,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": null,
+      "deadline_status": "MISSING",
+      "first_problem_observed_at": "2026-09-19T20:47:57.255209Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [],
+      "last_record_at": null,
+      "evidence_gap": "NO_RETAINED_START_END_OR_RESULT",
+      "first_problem_observed_at_basis": "RETROSPECTIVE_CLOSEOUT",
+      "interpretation": "MISSING_PER_FROZEN_RECEIPT_PROTOCOL_NOT_AN_ASSERTED_MARKET_RESULT"
+    },
+    {
+      "cutoff": "2026-09-16T01:00:00Z",
+      "deadline": "2026-09-16T01:05:00Z",
+      "current_status": "NO_START_RECEIPT",
+      "start_receipts": 0,
+      "end_receipts": 0,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": null,
+      "deadline_status": "MISSING",
+      "first_problem_observed_at": "2026-09-19T20:47:57.255209Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [],
+      "last_record_at": null,
+      "evidence_gap": "NO_RETAINED_START_END_OR_RESULT",
+      "first_problem_observed_at_basis": "RETROSPECTIVE_CLOSEOUT",
+      "interpretation": "MISSING_PER_FROZEN_RECEIPT_PROTOCOL_NOT_AN_ASSERTED_MARKET_RESULT"
+    },
+    {
+      "cutoff": "2026-09-16T02:00:00Z",
+      "deadline": "2026-09-16T02:05:00Z",
+      "current_status": "NO_START_RECEIPT",
+      "start_receipts": 0,
+      "end_receipts": 0,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": null,
+      "deadline_status": "MISSING",
+      "first_problem_observed_at": "2026-09-19T20:47:57.255209Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [],
+      "last_record_at": null,
+      "evidence_gap": "NO_RETAINED_START_END_OR_RESULT",
+      "first_problem_observed_at_basis": "RETROSPECTIVE_CLOSEOUT",
+      "interpretation": "MISSING_PER_FROZEN_RECEIPT_PROTOCOL_NOT_AN_ASSERTED_MARKET_RESULT"
+    },
+    {
+      "cutoff": "2026-09-16T03:00:00Z",
+      "deadline": "2026-09-16T03:05:00Z",
+      "current_status": "NO_START_RECEIPT",
+      "start_receipts": 0,
+      "end_receipts": 0,
+      "unfinished_receipts": 0,
+      "valid_result_receipts": 0,
+      "latest_end_hash": null,
+      "deadline_status": "MISSING",
+      "first_problem_observed_at": "2026-09-19T20:47:57.255209Z",
+      "problem_open": true,
+      "original_gap_preserved": true,
+      "evidence": [],
+      "last_record_at": null,
+      "evidence_gap": "NO_RETAINED_START_END_OR_RESULT",
+      "first_problem_observed_at_basis": "RETROSPECTIVE_CLOSEOUT",
+      "interpretation": "MISSING_PER_FROZEN_RECEIPT_PROTOCOL_NOT_AN_ASSERTED_MARKET_RESULT"
+    }
+  ],
+  "scheduler": {
+    "checked_at": "2026-09-19T20:44:10.8049125Z",
+    "query_only": true,
+    "tasks": [
+      {
+        "task_name": "HakimiObservationWatch",
+        "state": "Ready",
+        "last_run_at": "2026-09-15T18:07:31.0000000Z",
+        "last_task_result": 1,
+        "next_run_at": null,
+        "logon_type": "Interactive",
+        "enabled": true,
+        "start_when_available": true,
+        "execution_time_limit": "PT50S",
+        "delete_expired_task_after": null,
+        "triggers": [
+          {
+            "start": "2026-09-13T12:00:30+08:00",
+            "end": "2026-09-16T12:10:00+08:00",
+            "enabled": true,
+            "interval": "PT1M",
+            "duration": null,
+            "stop_at_duration_end": false
+          }
+        ]
+      },
+      {
+        "task_name": "HakimiReadOnlyObservation",
+        "state": "Ready",
+        "last_run_at": "2026-09-15T18:01:01.0000000Z",
+        "last_task_result": 0,
+        "next_run_at": null,
+        "logon_type": "Interactive",
+        "enabled": true,
+        "start_when_available": true,
+        "execution_time_limit": "PT10M",
+        "delete_expired_task_after": null,
+        "triggers": [
+          {
+            "start": "2026-09-13T12:01:00+08:00",
+            "end": "2026-09-16T12:00:00+08:00",
+            "enabled": true,
+            "interval": "PT1H",
+            "duration": null,
+            "stop_at_duration_end": false
+          }
+        ]
+      }
+    ]
+  },
+  "task_event_log": {
+    "LogName": "Microsoft-Windows-TaskScheduler/Operational",
+    "IsEnabled": false,
+    "RecordCount": null,
+    "LastWriteTime": null,
+    "MaximumSizeInBytes": 10485760,
+    "LogMode": 0
+  },
+  "os_evidence": [
+    {
+      "time": "2026-09-16T04:26:44.1501943Z",
+      "id": 12,
+      "provider": "Microsoft-Windows-Kernel-General",
+      "record_id": 102221,
+      "raw_event_xml_sha256": "04c986b252455e49cab8b79e8c3bb480b0be4c15c0d2eea3f111adc7b7e6c3e6"
+    },
+    {
+      "time": "2026-09-15T18:08:25.7717355Z",
+      "id": 13,
+      "provider": "Microsoft-Windows-Kernel-General",
+      "record_id": 102220,
+      "raw_event_xml_sha256": "bbb5810bbed6d30345a8d8b1f10a93e68a73cf015c79b5ed7289ded48825543e"
+    },
+    {
+      "time": "2026-09-16T04:26:53.7503977Z",
+      "id": 6005,
+      "provider": "EventLog",
+      "record_id": 102214,
+      "raw_event_xml_sha256": "244a2a12b80d94b830fc06f56044ecf815873b040fdc5b75632094a466844197"
+    },
+    {
+      "time": "2026-09-15T18:08:20.1831940Z",
+      "id": 6006,
+      "provider": "EventLog",
+      "record_id": 102205,
+      "raw_event_xml_sha256": "2b1bc2eb9206d2fdd09fbb9e8e3e77451c904b684c97a6bb2c92183453497d72"
+    },
+    {
+      "time": "2026-09-15T18:08:10.7788228Z",
+      "id": 1074,
+      "provider": "User32",
+      "record_id": 102198,
+      "raw_event_xml_sha256": "8279dd75412f283675110a36cfa58d90de49e49c8eaf89c861668bba27c8d97d",
+      "initiating_process_basename": "StartMenuExperienceHost.exe",
+      "reason_code": "0x0",
+      "shutdown_type": "关闭电源",
+      "user_approval_proven": false
+    }
+  ],
+  "final_scan_absence": {
+    "conclusion": "SYSTEM_SHUTDOWN_TO_NEXT_BOOT_SPANS_REMAINING_SLOTS_AND_WATCH_DEADLINE",
+    "shutdown_at": "2026-09-15T18:08:25.7717355Z",
+    "next_boot_at": "2026-09-16T04:26:44.1501943Z",
+    "inference": "Retained shutdown and next-boot events support host unavailability across the remaining slots and final watch deadline. Expired triggers have no next run; registration has no automatic deletion.",
+    "limitation": "Task operational logging was disabled. No per-trigger OS dispatch record is available; a reason code does not prove user approval."
+  },
+  "notifications": {
+    "count": 23,
+    "status_counts": {
+      "OS_DISPLAY_REPORTED": 18,
+      "ALREADY_ATTEMPTED": 5
+    },
+    "confirmed": 18,
+    "human_read_confirmation": "NOT_ASSESSED",
+    "receipts": [
+      {
+        "file_sha256": "7bc5d1b66daeadb8bc135b5943f37c9fc9b759eff5e3fc0a8519ae22ad8ee62c",
+        "receipt_hash": "ace46e3469683898ea7ff56655b9a72041314d466a3c400a11461100952d466b",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "8b7a402a316d9db17dfc8cd7ce0fd2320399c6ae6875780f5f6fb54995d1e23d",
+        "receipt_hash": "94b301447dbed7f61da578951eef3c785081dbd012db4c8a4ead86437015ac7b",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "d70eaca5612e5f7f9319ced50bd740f8552aeee6d7b7303210ab73e636a06d8d",
+        "receipt_hash": "c5fc0f16452188607b404deee0b827b9a831083347a65357404aa51d0a7b7abd",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "45000fd75cf838e1fdb12c024aaf7210473aa68954aed20b6ff54711aaf6d563",
+        "receipt_hash": "eacdd4738c9a9d5ee1bbf5a9bfa5c7cb4adb5efa70ab5110f31201881eb36596",
+        "status": "ALREADY_ATTEMPTED",
+        "delivery_confirmed": false
+      },
+      {
+        "file_sha256": "6c3a9f14c6eddaaa32fcb3272d01ba714d76d1479f8f7533ffd6383becdb4ee7",
+        "receipt_hash": "ccaf83f38951bc0ff00f1f56be4f9a261edf7b8d4b124a1ee13af592843fe428",
+        "status": "ALREADY_ATTEMPTED",
+        "delivery_confirmed": false
+      },
+      {
+        "file_sha256": "34410a6a4db94cc4e3052b3affc58c0eba9bf012b7d3fb367bdea05de1734434",
+        "receipt_hash": "13014b5ac76fcb1961043de50175075542ebc79bc364b044fee9e1d5f1978ad9",
+        "status": "ALREADY_ATTEMPTED",
+        "delivery_confirmed": false
+      },
+      {
+        "file_sha256": "827c504c90e5b25fbdf7240e1d0ce833f7c21e2695a633ec38f8bbdc0bbc69c7",
+        "receipt_hash": "17fc6bd03ac5d3c570184850db23b411f0434d6de53df38e0029c7265073843e",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "e7b5f4f242b6f8b78f5556ebb07522a24023489a12435e4ecf6920ec39b59444",
+        "receipt_hash": "24c5cdec7e432b6f7e939a20aec44268f871a4bbfe4c0dde47edbf59092fa74f",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "3cc13bf70f73bee9befaae7a1fa0a89ae5ccd162dc1b8ea96cb4549c7b3f2d65",
+        "receipt_hash": "eb74d70b00c96575d29aec7c7cbaad8b793c64751a47184a61be45976c082cf8",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "2d281c12877c1538de2b9faa622eb3ca916862319306bd5080eef0d1eefd5749",
+        "receipt_hash": "6edb3c30ba884c3fba93f1637dd48912fe84dd23ffd15efe7f082182be045e67",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "b02d68be979f0935c4cfc1d4d08bf425c763cd7dab0af68e32561c943d89a323",
+        "receipt_hash": "3b05fae9b3a77c0728ef8e715840b40865ce326f331a703dbb7642a09386770e",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "04e54a6b7c6813125e1a90649afca55be491464478406b1833ab3df67a9721c1",
+        "receipt_hash": "4b2d09342a899ecca9a79872166977ccaa69813b1d5bc7cd6b33342ea0698f29",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "f05c3aa6a703be21dd23324d6407874d688d29cb88cd31381f77968707a161d0",
+        "receipt_hash": "e7d8656cf8f74231d28c7bc37df68e9043ac0d9b0bde9d6563c047fa78c477d2",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "75bda26eabdfbec156278412f67498b3880b8abac9d7ae37261bacfe083a0b9a",
+        "receipt_hash": "328e3096f6cd65f1a4ec08fe9269548c74313ae09c5e6e154e7aeca698d0842c",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "fa169e6edb1a22173f1e793f258638dc868b32babc27b1be1d2841c31ed9fd6a",
+        "receipt_hash": "e2f10def63e2e6f7ecdc83f3b924a38e44a35dcda69af43b30e6488caa90b076",
+        "status": "ALREADY_ATTEMPTED",
+        "delivery_confirmed": false
+      },
+      {
+        "file_sha256": "5de2cc6bb7092ae6e36418fb3ccd2dd272126e372e4cd037f6e736e43245f4df",
+        "receipt_hash": "9684c53170b2beee2a72afc1207f6d89306265a6b338c807bcf9194b836f58f5",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "690e6669f9217663b43dcdda4d41210807f78c935e1494f30939c924ba089e9e",
+        "receipt_hash": "759e00df1127f4e3f8b66e767bb4c35494eb6392f652478b0131409094586f6d",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "cd2a1559f220576efbc0818cda0b39499e4b8c13ce3bd0ba35a6c4dc4aa377fa",
+        "receipt_hash": "bb9449778610e7790ae4235cdac692bbaaa48dd155ca9fd2b2865fc4164f8aa3",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "446350cc89f7e13a4e471def496a137459db4b57cd081cf5421b026378bade27",
+        "receipt_hash": "13a523c3f2e05cc4b6414517405997d631f30a11e6bb6107bcb6b8021084c620",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "7f6398b59bcf3ab13d4df3ed32d3d6237e29abb93390d3cf9269860f1b43cda3",
+        "receipt_hash": "1361670d85c50436d79790bf532194853033e8d55ce8164d980f78d4a7cf1a00",
+        "status": "ALREADY_ATTEMPTED",
+        "delivery_confirmed": false
+      },
+      {
+        "file_sha256": "7cdb480690511c86ba035b92dc25cfa668ca27f6eb82aa5e25a030508f786a90",
+        "receipt_hash": "567a7db058655ca5f1a5f6e75b6eecfea45755a795a1e793781027e3f6fd4512",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "eb0f09483d4105bb732ff04f28adf8b9c200f1e4a7b00e2eafd9813e8cf3672e",
+        "receipt_hash": "bcc2023e48f5d4dc2b30f9df160e23176c76e6cb861e2f91f5c638f9ee6ca761",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      },
+      {
+        "file_sha256": "9190034eee7069f361691dba921dd54f2ef86ac8c4174b05cf31fa2e88bfc6b6",
+        "receipt_hash": "b7fcdc0dd939a60c73c0ed65fbf88a0aa451e1e4205946b24d41ad65729f106e",
+        "status": "OS_DISPLAY_REPORTED",
+        "delivery_confirmed": true
+      }
+    ]
+  },
+  "original_files_unchanged": true,
+  "order_calls": 0,
+  "collector_calls": 0,
+  "task_mutations": 0,
+  "notification_calls": 0,
+  "reconstruction_script_sha256": "38157819fb039e9c7d8f17b793c33743af461f22caa628e2a8260c047fed45f3",
+  "runner_verification_scope": "START_END_SEALS_AND_START_HASH_LINK_NOT_FULL_EXECUTION_CHAIN_OR_MARKET_REPLAY",
+  "independent_review": {
+    "scope": "72_ROWS_COUNTS_3_JOB_SAMPLES_5_OS_XML_HASHES_PUBLIC_PRIVACY",
+    "finding_corrections": [
+      "NULL_PROBLEM_TIMESTAMP_HAS_NULL_BASIS",
+      "REASON_CODE_IS_NOT_USER_AUTHORIZATION"
+    ],
+    "full_source_inventory_repeated": false
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "schema_version": "fixed-equity-event-research-plan-v1",
+  "plan_id": "amd-ten-consecutive-earnings-20260920-v1",
+  "frozen_on": "2026-09-20",
+  "status": "FROZEN_BEFORE_NEW_EVENT_PRICE_INSPECTION_DATA_PENDING",
+  "selection": {
+    "security_id": "US:COMMON:CUSIP:007903107",
+    "symbol": "AMD",
+    "rule": "All ten consecutive fiscal-quarter results from 2022Q1 through 2024Q2 in chronological order; no return, crossover or blocking criterion; no replacement of excluded events.",
+    "reason": "Reuse the existing AMD common-stock integration and inspect the ten immediately preceding fiscal quarters before the preserved 2024Q3 engineering example.",
+    "new_event_prices_inspected": false,
+    "historically_blind_or_original_preregistration": false,
+    "company_count": 1,
+    "planned_event_count": 10,
+    "independent_sample_count": null,
+    "correlation": "One issuer and semiconductor exposure; correlated dates and regimes. Ten events are a budget, not statistical power."
+  },
+  "event_date_evidence": {
+    "read_on": "2026-09-20",
+    "kind": "CURRENT_ISSUER_ARCHIVE_RETROSPECTIVE_RELEASE_DATES",
+    "sources": [
+      "https://ir.amd.com/news-events/press-releases?category=financial&page=3",
+      "https://ir.amd.com/news-events/press-releases?category=financial&page=2"
+    ],
+    "not_historical_schedule_input": true,
+    "historical_source_bytes_and_version_clocks_admitted": false
+  },
+  "events": [
+    {"event_id": "AMD:2022Q1:EARNINGS_SCHEDULE", "fiscal_quarter": "2022Q1", "scheduled_date": "2022-05-03", "status": "NOT_RUN_MISSING_ADMITTED_INPUTS"},
+    {"event_id": "AMD:2022Q2:EARNINGS_SCHEDULE", "fiscal_quarter": "2022Q2", "scheduled_date": "2022-08-02", "status": "NOT_RUN_MISSING_ADMITTED_INPUTS"},
+    {"event_id": "AMD:2022Q3:EARNINGS_SCHEDULE", "fiscal_quarter": "2022Q3", "scheduled_date": "2022-11-01", "status": "NOT_RUN_MISSING_ADMITTED_INPUTS"},
+    {"event_id": "AMD:2022Q4:EARNINGS_SCHEDULE", "fiscal_quarter": "2022Q4", "scheduled_date": "2023-01-31", "status": "NOT_RUN_MISSING_ADMITTED_INPUTS"},
+    {"event_id": "AMD:2023Q1:EARNINGS_SCHEDULE", "fiscal_quarter": "2023Q1", "scheduled_date": "2023-05-02", "status": "NOT_RUN_MISSING_ADMITTED_INPUTS"},
+    {"event_id": "AMD:2023Q2:EARNINGS_SCHEDULE", "fiscal_quarter": "2023Q2", "scheduled_date": "2023-08-01", "status": "NOT_RUN_MISSING_ADMITTED_INPUTS"},
+    {"event_id": "AMD:2023Q3:EARNINGS_SCHEDULE", "fiscal_quarter": "2023Q3", "scheduled_date": "2023-10-31", "status": "NOT_RUN_MISSING_ADMITTED_INPUTS"},
+    {"event_id": "AMD:2023Q4:EARNINGS_SCHEDULE", "fiscal_quarter": "2023Q4", "scheduled_date": "2024-01-30", "status": "NOT_RUN_MISSING_ADMITTED_INPUTS"},
+    {"event_id": "AMD:2024Q1:EARNINGS_SCHEDULE", "fiscal_quarter": "2024Q1", "scheduled_date": "2024-04-30", "status": "NOT_RUN_MISSING_ADMITTED_INPUTS"},
+    {"event_id": "AMD:2024Q2:EARNINGS_SCHEDULE", "fiscal_quarter": "2024Q2", "scheduled_date": "2024-07-30", "status": "NOT_RUN_MISSING_ADMITTED_INPUTS"}
+  ],
+  "window": {
+    "event_session_offset": 0,
+    "score_first_session_offset": -10,
+    "score_last_session_offset": 15,
+    "scored_sessions": 26,
+    "warmup_sessions": 12,
+    "snapshot_first_session_offset": -22,
+    "snapshot_sessions_per_event": 38,
+    "calendar": "Actual XNAS regular-session calendar with holidays and early closes independently evidenced; no weekday approximation.",
+    "release_on_non_session_date": "RETAIN_AS_EXCLUDED_DATE_UNSUPPORTED; do not shift into a convenient session."
+  },
+  "common": {
+    "strategy": {"name": "dual_ma", "params": {"fast_window": 5, "slow_window": 10, "position_pct": 0.25, "stop_loss_pct": 0.03, "take_profit_pct": 0.06}},
+    "initial_cash": 10000,
+    "currency": "USD",
+    "risk": {"max_position_pct": 0.25, "max_single_loss_pct": 0.03, "max_daily_loss_pct": 1.0, "min_cash_pct": 0.0, "max_leverage": 1.0},
+    "normal_fee_rate": 0.0008,
+    "normal_slippage_pct": 0.0005,
+    "cost_multipliers": [1, 2],
+    "cost_stress_rule": "Multiply both fee and slippage by two; no parameter search or changed signal rule.",
+    "bar_availability_lag_seconds": 60,
+    "schedule_collection_delay_seconds": 60,
+    "schedule_processing_delay_seconds": 60,
+    "timing_status": "HISTORICAL_RECONSTRUCTION_ASSUMPTIONS_NOT_HISTORICAL_RECEIPTS",
+    "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+    "end_policy": "MARK_TO_MARKET",
+    "A": "Unchanged dual_ma price rule",
+    "B": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+    "benchmark": "Single-entry buy-and-hold, same 26 score sessions, USD10000, 25% initial allocation and same costs; canonical benchmark ceiling max_position_pct=1/min_cash_pct=0, no stops/targets. The allocation target remains 25%, not 100%.",
+    "capital_reset": "Each event is a separate USD10000 diagnostic; do not compound/sum overlapping window returns into a portfolio."
+  },
+  "corporate_actions": {
+    "policy": "Require bounded stable identity and complete no-holder-cash-or-share-action evidence for all 38 sessions; otherwise retain EXCLUDED_UNSUPPORTED_ACTION or BLOCKED_ACTION_COVERAGE_UNKNOWN.",
+    "split_or_dividend_accounting_supported": false,
+    "bias": "Action-free windows restrict the research population; all exclusions remain in the denominator and are reported, with no replacement."
+  },
+  "budget": {
+    "new_events": 10,
+    "max_return_cells": 60,
+    "variants_per_cost_cell": ["A", "B", "aligned_buy_and_hold"],
+    "cost_cells_per_event": 2,
+    "parameter_searches": 0,
+    "new_market_or_account_requests_executed": 0,
+    "model_calls": 0,
+    "raw_redistribution_allowed": false,
+    "proposed_future_source_read_scope": {
+      "status": "NOT_AUTHORIZED_OR_EXECUTED_BY_THIS_PLAN",
+      "max_wall_minutes": 20,
+      "symbol": "US.AMD",
+      "max_RTH_K60M_rows": 2660,
+      "max_daily_crosscheck_rows": 380,
+      "max_total_provider_calls": 22,
+      "calls": "10 K60M requests (max266 rows/window), 10 K_DAY crosschecks (max38/window), 1 bounded corporate-action query, 1 security metadata query; no pagination retry or automatic symbol fallback.",
+      "account_queries": 0,
+      "trade_calls": 0,
+      "stop_conditions": "Stop on budget, permission, unavailable data, unexpected paging or identity change; retain the exact failed/excluded event. Separate calendar/issuer evidence is required before data admission."
+    }
+  },
+  "required_outputs": ["Every event including missing/excluded/no-trade/negative/zero-block cases", "Planned schedule coverage at event open", "A original BUY and B path original BUY separately", "B expected-date BUY, known-schedule intervenable BUY, actual blocks, declared-lag misses", "Existing modelled position across sourced release clock, or explicit UNKNOWN", "Normal and stress A/B plus aligned buy-and-hold", "Same-input replay, disabled-rule equivalence and future-version noninterference"],
+  "C_D": "NOT_RUN_PENDING_HUMAN_FISCAL_QUARTER_UNITS_MULTIPLIER_CURRENCY_ACCOUNTING_BASIS_APPROVAL; no consensus snapshot, no surprise field",
+  "original_2024Q3": "Separate preserved engineering example; no re-selection, no changed 5/10 signals, no overwriting old reports or baseline dates. New aligned/cost diagnostics are additional experiments.",
+  "order_allowed": false
+}

@@ -88,16 +88,40 @@ def rows(data):
     return result
 
 
-def order_projection(row):
+def observed_order_projection(row):
+    """Retain provider observations without making them executable orders.
+
+    A provider can return zero-price administrative/unknown records. Keep them
+    in the account snapshot so they block an empty-order anchor; do not infer
+    their business meaning or terminal state from price, age, or instrument.
+    """
     if any(key not in row for key in ORDER_FIELDS):
         raise Error("provider_order_fields_missing")
     value = {key: row[key] for key in ORDER_FIELDS}
     value["order_id"] = exact_id(str(value["order_id"]))
     value["qty"], value["dealt_qty"] = whole(value["qty"]), whole(value["dealt_qty"], zero=True)
     value["price"], value["dealt_avg_price"] = decimal_text(value["price"]), decimal_text(value["dealt_avg_price"])
-    if value["dealt_qty"] > value["qty"] or Decimal(value["price"]) <= 0:
+    if (value["dealt_qty"] > value["qty"] or Decimal(value["price"]) < 0
+            or Decimal(value["dealt_avg_price"]) < 0):
         raise Error("provider_order_quantity_or_price_invalid")
     return value
+
+
+def order_projection(row):
+    value = observed_order_projection(row)
+    if Decimal(value["price"]) <= 0:
+        raise Error("provider_order_quantity_or_price_invalid")
+    return value
+
+
+def initial_order_gate(read):
+    """Describe only the empty-order prerequisite, never execution permission."""
+    orders = read['value']['orders']
+    return dict(status='BLOCKED_EXISTING_PROVIDER_ORDERS' if orders else 'EMPTY_ORDER_PREREQUISITE_ONLY',
+                observed_order_count=len(orders),
+                unclassified_status_count=sum(row['order_status'] not in STATES for row in orders),
+                zero_price_count=sum(Decimal(row['price']) == 0 for row in orders),
+                terminal_state_inferred=False, execution_authorized=False)
 
 
 class SimulationStore(core.ExecutionStore):
@@ -249,6 +273,7 @@ class FutuAdapter:
         self.quote_context=quote_context
         self.callbacks = queue.SimpleQueue()
         self.query_evidence = []
+        self.last_read_barrier = None
         self._lease = None
         self._lease_root = Path(_lease_root) if _lease_root else Path.home()/'.hakimi'/'execution-account-locks'
         self.validate_account()
@@ -350,7 +375,7 @@ class FutuAdapter:
         history = self.query("history_order_list_query", **kwargs, start=self.profile["history_start"], end=datetime.now(timezone.utc).strftime("%Y-%m-%d"))
         orders = {}
         for raw in current + history:
-            item = order_projection(raw)
+            item = observed_order_projection(raw)
             if item["order_id"] in orders and item != orders[item["order_id"]]:
                 raise Error("current_history_order_conflict")
             orders[item["order_id"]] = item
@@ -376,12 +401,17 @@ class FutuAdapter:
         return {"cash": usd_cash, "positions": positions, "orders": sorted(orders.values(), key=lambda row: row["order_id"])}
 
     def stable_reads(self):
+        self.last_read_barrier = None
         started = time.monotonic()
         left, right = self.scan(), self.scan()
         if left != right or time.monotonic() - started > 5 or not self.callbacks.empty():
             raise Error("futu_account_reads_changed_stale_or_callback_pending")
-        return dict(scope="REPEATED_SCOPED_READS_NOT_ATOMIC", value=right, checked_at=stamp(),
-                    elapsed_seconds=time.monotonic()-started, projection_sha256=core.fingerprint(right),binding_sha256=core.fingerprint(self.profile))
+        result = dict(scope="REPEATED_SCOPED_READS_NOT_ATOMIC", value=right, checked_at=stamp(),
+                      elapsed_seconds=time.monotonic()-started, projection_sha256=core.fingerprint(right),binding_sha256=core.fingerprint(self.profile))
+        # Preserve the completed read even if later accounting admission fails.
+        # This is observation evidence, never a replacement for reconciliation.
+        self.last_read_barrier = result
+        return result
 
     def order_limits(self, payload):
         result=self.query('acctradinginfo_query',**self._kwargs(),order_type='NORMAL',code=payload['symbol'],
@@ -594,6 +624,7 @@ def main():
     try:
         adapter=open_sdk(json.loads(args.profile.read_text(encoding="utf-8-sig")))
         result.update(adapter.stable_reads())
+        result['initial_order_gate']=initial_order_gate(result)
         result['instrument']=adapter.instrument()
         if args.capacity_price is not None:
             price=core.amount(args.capacity_price)
@@ -612,7 +643,7 @@ def main():
         result.update(status='PREFLIGHT_INCOMPLETE',error='source_changed_during_preflight')
     target=args.output_dir/"preflight.private.json"
     with target.open("x",encoding="utf-8") as f:json.dump(result,f,indent=2,ensure_ascii=True,allow_nan=False)
-    print(json.dumps({k:result[k] for k in ("status","orders_sent","accounting_verified")},ensure_ascii=True))
+    print(json.dumps({k:result[k] for k in ("status","orders_sent","accounting_verified","initial_order_gate") if k in result},ensure_ascii=True))
     return 0 if result["status"]=="READ_ONLY_STABLE_SCOPED_READS" else 1
 
 

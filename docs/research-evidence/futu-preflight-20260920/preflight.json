@@ -1,0 +1,60 @@
+{
+  "returncode": 1,
+  "execution_bounds": {
+    "ownership": "WINDOWS_JOB_BEFORE_OBSERVER_START_NO_BREAKAWAY",
+    "outcome": "EXITED",
+    "timeout_seconds": 180,
+    "cleanup_seconds": 5,
+    "normal_exit_settle_max_seconds": 0.25,
+    "output_limit_bytes_combined": 131072,
+    "bytes_seen": {
+      "stdout": 781,
+      "stderr": 0
+    },
+    "bytes_retained": {
+      "stdout": 781,
+      "stderr": 0
+    },
+    "captured_sha256": {
+      "stdout": "36d56f571704f67618538a5c40e1ec5a8119b9251649eac346ea7db372f7f02e",
+      "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "output_truncated": false,
+    "cleanup_confirmed": true,
+    "owned_process_handles_waited": 0,
+    "elapsed_monotonic_seconds": 3.333386699996481
+  },
+  "orders_sent": 0,
+  "source_scope": "CURRENT_LOCAL_CANDIDATE_NOT_OLD_FROZEN_CYCLE",
+  "order_authorization_created": false,
+  "status": "PREFLIGHT_INCOMPLETE",
+  "accounting_verified": false,
+  "receipt_sha256": "e2c29a0af00125653c6648a1c6b6afffdfb8bbe2ff18969cc7a1650cb4df190b",
+  "source_file_sha256": {
+    "futu_simulation_adapter.py": "1908208a8884dad791d33bf845799263505aab230ea3190359df52aeda00ae23",
+    "execution_state_lab.py": "abe901c025f2e2e07684a298f65438fd6687b0ba876b28f502adf4ca1328ec91"
+  },
+  "queries": [
+    {
+      "method": "get_acc_list",
+      "started_at": "2026-09-19T21:00:07.533311Z",
+      "completed_at": "2026-09-19T21:00:07.535018Z",
+      "ret": 0
+    },
+    {
+      "method": "order_list_query",
+      "started_at": "2026-09-19T21:00:07.537735Z",
+      "completed_at": "2026-09-19T21:00:07.571819Z",
+      "ret": 0
+    },
+    {
+      "method": "history_order_list_query",
+      "started_at": "2026-09-19T21:00:07.572544Z",
+      "completed_at": "2026-09-19T21:00:07.603088Z",
+      "ret": 0
+    }
+  ],
+  "error_type": "StateError",
+  "observed_gate": "provider_order_quantity_or_price_invalid",
+  "boundary": "Unrelated existing provider order has zero price and unknown status; no scope/history/validation bypass, no claim or order authorization created."
+}

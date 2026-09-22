@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-09-19T22:06:08.080571+00:00",
+  "tests": 54,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "success": true,
+  "network_audit_blocked_events": [],
+  "source_sha256": {
+    "tools/futu_simulation_adapter.py": "0d83148a60338bf567e938268cceacfbd047f726b65231ff8ee0fb705dabf92d",
+    "tools/futu_simulation_cycle.py": "c42f264554c2f0c1420df20b20f582acff263117589ccce462ecf059650259a8",
+    "tests/repository_only/test_futu_simulation_adapter.py": "5f365f4d09268babdb9b2d96ef336ea9bb44ba6759ae6a70b7d9057ed4c1c1b4",
+    "tests/repository_only/test_futu_simulation_cycle.py": "6c1ace3ac4f25c5a2a98ea629a2c6d0ff68652d6c65fc4ea43fe669a951bc521"
+  },
+  "scope": "LOCAL_CANDIDATE_NOT_FROZEN_PREVIEW_R2_NOT_OFFICIAL_ORDER_ACCEPTANCE"
+}

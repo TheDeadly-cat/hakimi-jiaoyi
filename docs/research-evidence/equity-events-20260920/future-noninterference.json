@@ -1,0 +1,384 @@
+{
+  "schema_version": "actual-later-schedule-noninterference-v1",
+  "completed_at": "2026-09-19T21:29:29.861426Z",
+  "study_sha256": "1e7cbfd888e7060b8f822b4c4b0179fc42cf5e8bbc3b27d138c66ffb3e07ad76",
+  "script_sha256": "c56370cd2c5286a75be37338d2b7202a6ebf107628f9ec43e314c2cb81d9a66a",
+  "scope": "SOURCE_BACKED_FUTURE_INPUT_INVARIANCE_NOT_NEW_ECONOMIC_SAMPLE",
+  "checks": [
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 1,
+      "baseline_report_hash": "5015d4ce330c1c053d1cf8a30cb862d0e51adbfe98ba1cbdb67737298deeae4c",
+      "probe_report_hash": "db8e2a3ecb89522548fa5d68f05da107c180b63c51622fa75dedc1d3752d5897",
+      "future_event_id": "AMD:2022Q2:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1082/amd-to-report-fiscal-second-quarter-2022-financial-results",
+      "future_available_at": "2022-07-13T20:07:00Z",
+      "source_original_sha256": "30b8a045ba22a2dbe03c9b65af627bfa65a337f4531edfbd90f3bd7ae718bf4b",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 2,
+      "baseline_report_hash": "73721e248512103dafc4c6e7d9033e14a32baf79734614f8aa591e2a98df90b9",
+      "probe_report_hash": "40ec03550a697464b90c9760ad6012dd32f573583df7117b75adb5bacdf8111e",
+      "future_event_id": "AMD:2022Q2:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1082/amd-to-report-fiscal-second-quarter-2022-financial-results",
+      "future_available_at": "2022-07-13T20:07:00Z",
+      "source_original_sha256": "30b8a045ba22a2dbe03c9b65af627bfa65a337f4531edfbd90f3bd7ae718bf4b",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "cost_multiplier": 1,
+      "baseline_report_hash": "44d6dedf2fa44a6141189fc1e298ebef60d944d0c3d4aa0c17b4bf0f7387fb3d",
+      "probe_report_hash": "83da792e694cd06054bf389b16f1ba2250c94a4cf65fa8df7288bedad08d2c87",
+      "future_event_id": "AMD:2023Q1:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1125/amd-to-report-fiscal-first-quarter-2023-financial-results",
+      "future_available_at": "2023-04-18T20:07:00Z",
+      "source_original_sha256": "b718ec103b2a6a9faee57e3fff9c0f7a279d2718741f0fb2c3a7cb3eef24f58a",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "cost_multiplier": 2,
+      "baseline_report_hash": "0df38283c40cb6689867b967fde0dc49c5ed58ff7ba33784e438146f9ef1229d",
+      "probe_report_hash": "b4f0a7e22a0d29c0c1428c610887e84e0fb140ce6f236b489b91b2189177c92b",
+      "future_event_id": "AMD:2023Q1:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1125/amd-to-report-fiscal-first-quarter-2023-financial-results",
+      "future_available_at": "2023-04-18T20:07:00Z",
+      "source_original_sha256": "b718ec103b2a6a9faee57e3fff9c0f7a279d2718741f0fb2c3a7cb3eef24f58a",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "cost_multiplier": 1,
+      "baseline_report_hash": "c41a6df0b8c6a0f608b84ad6651b291ce158a86845c8bff24ce81fed87e4e148",
+      "probe_report_hash": "873b36083cdbd8c5df78f3098abd5ad220116e2147624f7ffe60c92022dd8969",
+      "future_event_id": "AMD:2023Q2:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1144/amd-to-report-fiscal-second-quarter-2023-financial-results",
+      "future_available_at": "2023-07-18T20:17:00Z",
+      "source_original_sha256": "c5fd282a08fb276a6b47cbbe7ee1752eec145860ad4b23a30fda8eef586f174e",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "cost_multiplier": 2,
+      "baseline_report_hash": "a271d4290926e53510ad6d3fce6b5c11b1291e921f5ed9b1095466b89fae223c",
+      "probe_report_hash": "6bfc15922d2c74f9cd80212c88a856578c5d060211229a1cc9c80f7fd731b905",
+      "future_event_id": "AMD:2023Q2:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1144/amd-to-report-fiscal-second-quarter-2023-financial-results",
+      "future_available_at": "2023-07-18T20:17:00Z",
+      "source_original_sha256": "c5fd282a08fb276a6b47cbbe7ee1752eec145860ad4b23a30fda8eef586f174e",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "cost_multiplier": 1,
+      "baseline_report_hash": "6fa3cadef03d418322456fada51646819936d8530655b4adec36ee47cf19812c",
+      "probe_report_hash": "0478ad8c7297a74a30b0c4e02f49a5bb2017b9cb8b2810992d515cc471797553",
+      "future_event_id": "AMD:2023Q3:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1160/amd-to-report-fiscal-third-quarter-2023-financial-results",
+      "future_available_at": "2023-10-17T20:17:00Z",
+      "source_original_sha256": "4bfa5d480b9f1b7ddf21455ab8109d4f33d821f6bc535c57e61d43a0a08281b7",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "cost_multiplier": 2,
+      "baseline_report_hash": "14f37266411297dcce301207c396c9013f96537e5b73722bd1c50020838bac44",
+      "probe_report_hash": "713ae2d2c484e519d2e3ec01e311342b64d441d3c28f54e1054612ba5c8841d9",
+      "future_event_id": "AMD:2023Q3:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1160/amd-to-report-fiscal-third-quarter-2023-financial-results",
+      "future_available_at": "2023-10-17T20:17:00Z",
+      "source_original_sha256": "4bfa5d480b9f1b7ddf21455ab8109d4f33d821f6bc535c57e61d43a0a08281b7",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "cost_multiplier": 1,
+      "baseline_report_hash": "67216bea0b16b11519c21d96c71959ba7e186cef0e575fec8fe259f1f85c82f8",
+      "probe_report_hash": "98b5e5134f7294558f222226422d6b6a07633480fbc2245d7c11e119a1877c1a",
+      "future_event_id": "AMD:2024Q1:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1191/amd-to-report-fiscal-first-quarter-2024-financial-results",
+      "future_available_at": "2024-04-16T20:17:00Z",
+      "source_original_sha256": "3c34f2cd83851372c03936420dea37cc92ca7571f2e7421293bad44f428775b4",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "cost_multiplier": 2,
+      "baseline_report_hash": "c69ddd080c1b3427114d5a42b84c2a44fa4a203caf8e6621ceb2b8a11aa9ebcc",
+      "probe_report_hash": "399cf1d9dbd95111a3fd8f2c966a9d0abd303470ce9aed9a42f42fd7deb7a25e",
+      "future_event_id": "AMD:2024Q1:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1191/amd-to-report-fiscal-first-quarter-2024-financial-results",
+      "future_available_at": "2024-04-16T20:17:00Z",
+      "source_original_sha256": "3c34f2cd83851372c03936420dea37cc92ca7571f2e7421293bad44f428775b4",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "cost_multiplier": 1,
+      "baseline_report_hash": "4381b6f13b380cbdf7c6438f0f137a3265e12a046e6e36361ba503f865655416",
+      "probe_report_hash": "dfaa04a72216cc9de229c1330a20a2e5a8fb2ea3a3fe027cdbd85ef79d9aa8ad",
+      "future_event_id": "AMD:2024Q2:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1207/amd-to-report-fiscal-second-quarter-2024-financial-results",
+      "future_available_at": "2024-07-16T20:17:00Z",
+      "source_original_sha256": "54d89fce38b3b6b35cb345403e15d2755ed35afda0f94982d98aec9f94740e3a",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "cost_multiplier": 2,
+      "baseline_report_hash": "deff3179bbc0832b24b6ef99b82ca95e9c7c150f394bc2221de9549da64f70cf",
+      "probe_report_hash": "2d578aa5e76bf785e244cbc21770ea5f494d506079ef99d5d67af966b4455c4f",
+      "future_event_id": "AMD:2024Q2:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1207/amd-to-report-fiscal-second-quarter-2024-financial-results",
+      "future_available_at": "2024-07-16T20:17:00Z",
+      "source_original_sha256": "54d89fce38b3b6b35cb345403e15d2755ed35afda0f94982d98aec9f94740e3a",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "cost_multiplier": 1,
+      "baseline_report_hash": "ccb205813407f59a592f351515e728aac932d5600e83a987b261d13bb8d760c2",
+      "probe_report_hash": "3e0f9fd9a836f30fc3209fb084e6a85344e15537e0a47d682601a8204a014528",
+      "future_event_id": "AMD:2024Q3:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1223/amd-to-report-fiscal-third-quarter-2024-financial-results",
+      "future_available_at": "2024-10-16T13:02:00Z",
+      "source_original_sha256": "0fe796a79af0e155752f032c049f70a4f82b1a1c74599c97624fc05c61075415",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "cost_multiplier": 2,
+      "baseline_report_hash": "86f0dc02a1564d24f5b78b56b4f84b6c4ea1313b93fa0071b1eb6c18413e0085",
+      "probe_report_hash": "faa3d00a60d7d3f676dd93ccd24629458de31cc5d80d7bd2e75f627d4301b9fa",
+      "future_event_id": "AMD:2024Q3:EARNINGS_SCHEDULE",
+      "future_source_url": "https://ir.amd.com/news-events/press-releases/detail/1223/amd-to-report-fiscal-third-quarter-2024-financial-results",
+      "future_available_at": "2024-10-16T13:02:00Z",
+      "source_original_sha256": "0fe796a79af0e155752f032c049f70a4f82b1a1c74599c97624fc05c61075415",
+      "all_historical_results_except_context_identity_byte_equal": true,
+      "comparison_scope": "Every result field including signals/reviews/orders/fills/marks/accounting; only reproducibility context identity excluded because added input changes that identity."
+    }
+  ],
+  "passed": 14,
+  "failed": 0,
+  "sources_unchanged": true,
+  "invented_or_modified_events": 0,
+  "new_network_calls": 0,
+  "order_allowed": false,
+  "read_only_reproducibility_audit": {
+    "checked_at": "2026-09-19T21:42:22.960816+00:00",
+    "original_unmodified_receipt_sha256": "c8d5258d4021f16eef47ba24191b01a642da8692a30be010c7f4827ab3ce85c7",
+    "method": "Read saved original/probe JSON only; no research rerun or network access. Recursively compare reproducibility, spec, dataset and runtime source identity.",
+    "initial_result_comparison_excluded": "Entire result.reproducibility object",
+    "all_14_actual_reproducibility_changed_fields": [
+      "event_context_hash",
+      "run_hash"
+    ],
+    "all_other_reproducibility_fields_unchanged": true,
+    "all_14_spec_changed_fields": [
+      "event_context_hash"
+    ],
+    "fixed_strategy_cost_cash_date_spec_fields_unchanged": true,
+    "datasets_unchanged": true,
+    "runtime_source_content_identity_unchanged": true,
+    "pairs": [
+      {
+        "quarter": "2022Q1",
+        "cost": 1,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2022Q1",
+        "cost": 2,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2022Q3",
+        "cost": 1,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2022Q3",
+        "cost": 2,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2023Q1",
+        "cost": 1,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2023Q1",
+        "cost": 2,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2023Q2",
+        "cost": 1,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2023Q2",
+        "cost": 2,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2023Q4",
+        "cost": 1,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2023Q4",
+        "cost": 2,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2024Q1",
+        "cost": 1,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2024Q1",
+        "cost": 2,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2024Q2",
+        "cost": 1,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      },
+      {
+        "quarter": "2024Q2",
+        "cost": 2,
+        "reproducibility_changed_fields": [
+          "event_context_hash",
+          "run_hash"
+        ],
+        "spec_changed_fields": [
+          "event_context_hash"
+        ],
+        "dataset_changed_fields": [],
+        "source_content_same": true
+      }
+    ]
+  }
+}

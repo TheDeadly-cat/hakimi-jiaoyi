@@ -1,0 +1,24 @@
+{
+  "mismatch_days": 2,
+  "total_days": 38,
+  "mismatches": [
+    {
+      "date": "2022-08-02",
+      "fields": [
+        "high"
+      ],
+      "all_deltas_below_1e_10": false,
+      "hourly_rows": 7
+    },
+    {
+      "date": "2022-08-03",
+      "fields": [
+        "low"
+      ],
+      "all_deltas_below_1e_10": false,
+      "hourly_rows": 7
+    }
+  ],
+  "price_values_publicly_included": false,
+  "conclusion": "Two actual daily-versus-RTH field mismatches, outside floating-point tolerance; cause unknown. Seven ordered RTH bars per day; no interpolation, correction, or source replacement."
+}
