@@ -1,0 +1,12 @@
+{
+  "schema_version": "independent-fixed-path-review-v1",
+  "diagnosis_hash": "a13073484c309935d629b0aad6b124e2df6574daf4beeb3ced082d27c4bf356c",
+  "status": "PASS",
+  "checks": 115,
+  "source_files_unchanged": 39,
+  "method": "Independent stdlib Decimal recomputation from original snapshots and retained fills; no production path-function import",
+  "distinct_entered_events": 2,
+  "horizon_cost_rows": 12,
+  "new_backtests": 0,
+  "new_provider_requests": 0
+}
