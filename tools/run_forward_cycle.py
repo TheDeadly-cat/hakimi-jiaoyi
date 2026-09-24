@@ -45,7 +45,7 @@ def _capture_failure_stage(hour):
         return "NOT_RECORDED"
     allowed = {"DNS", "CONNECT", "TLS", "PROXY_HTTP_CONNECT", "HTTP_REQUEST", "HTTP_HEADERS",
                "RESPONSE_READ", "CONTENT_VALIDATION", "TOTAL_DEADLINE", "REQUEST_BUDGET",
-               "SNAPSHOT_VALIDATION", "OUTPUT_PERSISTENCE", "UNCLASSIFIED_TRANSPORT"}
+               "SNAPSHOT_VALIDATION", "OUTPUT_PERSISTENCE", "UNCLASSIFIED_TRANSPORT", "RETRY_WAIT"}
     try:
         with trace.open("rb") as handle:
             handle.seek(max(0, trace.stat().st_size - 8192))

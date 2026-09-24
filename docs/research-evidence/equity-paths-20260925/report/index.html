@@ -1,0 +1,278 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>AMD 事件研究｜信号、退出与后续路径</title><style>
+body{margin:0;background:#f4f5f3;color:#182725;font:16px/1.7 system-ui,"Microsoft YaHei",sans-serif}main{max-width:1100px;margin:auto;padding:44px 24px 64px}h1{font-size:30px;line-height:1.35;margin:12px 0 20px}h2{font-size:23px;margin:0}h3{font-size:17px;margin-top:24px}p{max-width:88ch}a{color:#16675c}small,.muted{color:#586b66}header{margin-bottom:28px}.summary{padding:22px 26px;background:#e5eee9;border-left:4px solid #438571}.counts{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}.counts span{padding:8px 14px;border:1px solid #c9d6cf;border-radius:5px;background:white}.card{padding:25px 28px;margin:22px 0;background:white;border:1px solid #d7dfd9;border-radius:9px}.card-head{display:flex;align-items:center;justify-content:space-between;gap:18px}.badge{font-size:14px;color:#56665f;background:#eef1ed;padding:4px 12px;border-radius:14px}.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:15px 0}.timeline div{border-top:2px solid #d0ded6;padding-top:9px;font-size:14px}.timeline b{display:block}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}th{text-align:left;background:#eef3f0;white-space:nowrap}td,th{padding:10px 12px;border-bottom:1px solid #e2e8e3}td.numeric{white-space:nowrap}details{border-top:1px solid #e4e8e5;margin-top:20px;padding-top:12px}summary{cursor:pointer;color:#315e52;font-weight:600}code{overflow-wrap:anywhere;font-size:12px}.note{font-size:14px;color:#5c6e65}.warning{background:#fbf3e3;padding:12px 16px;border-radius:5px}footer{margin-top:30px;border-top:1px solid #c9d6cf;padding-top:20px;font-size:13px;color:#607068}@media(max-width:680px){main{padding:24px 14px}h1{font-size:25px}.card{padding:18px 16px}.card-head{align-items:flex-start;flex-direction:column;gap:8px}.timeline{grid-template-columns:1fr}td,th{padding:8px}.summary{padding:16px}}@media print{body{background:white}main{padding:0}.card{break-inside:avoid}details{display:block}summary{display:none}}
+table{min-width:680px}</style><main><header><small>哈基米 · 股票事件研究 / 固定开发诊断 · 2026-09-25</small>
+<h1>入场后第 1、3、5 日，2 个事件的收盘价都低于入场参考价</h1>
+<div class="summary"><p>原十个 AMD 财报窗口中，7 个可计算，2 个产生合法入场；内容否决 0 个事件。各固定终点的价格变化均为负。原止损损失小于这些终点的留仓市值估算损失，本批没有支持“仅因止损太紧而错失后续收盘回升”的证据。</p><p>这是已见开发事件的路径解释，不是取消止损后的新回测，也不能证明信号普遍无效。3 个存在行情分歧的事件仍排除。</p></div></header>
+<div class="counts"><span>入场后止损：<b>2</b></span><span>没有价格信号：<b>5</b></span><span>内容条件否决：<b>0</b></span><span>资料不足 · 原排除保留：<b>3</b></span></div>
+<p class="note">下列百分比含义分开：价格变化相对合法入场的常规开盘；市值估算使用原模拟入场后的数量和现金，包含入场成本但没有虚构出场费用。原策略回报是已有报告结果。入场日计为第 1 个交易日。窄屏可横向滚动表格查看完整列。</p>
+<article class="card" id="event-2022Q1" data-source-event="/events/0">
+<div class="card-head"><h2>AMD 2022Q1</h2><span class="badge">入场后止损</span></div>
+<div class="timeline">
+<div><b>公告公开（页面标记）</b>2022-05-03 20:10 UTC</div>
+<div><b>模型信息可用</b>2022-05-03 20:12 UTC<br>公开后 120 秒假设</div>
+<div><b>首个完整交易日确认</b>2022-05-04<br>2022-05-04 20:01 UTC</div></div>
+<p>价格确认：<b>成立</b>（公告前收盘至确认收盘 +9.0969%）；内容条件：<b>成立</b>。内容是否改变决定：<b>否</b>。</p>
+<p class="note">这段确认涨跌发生在策略合法入场之前，不能当作本系统可获得的入场后收益。</p>
+<h3>正常成本 · 费率 0.0800% / 单边滑点 0.0500%</h3>
+<p>C 原回报 <b>-0.8019%</b> · D 原回报 <b>-0.8019%</b> · 关闭内容条件后的 D：<b>-0.8019%</b>（已有逐字节检查）</p>
+<p class="note">合法入场 2022-05-05 13:30 UTC；退出日 2022-05-05，依据 盘中止损。入场费 2.0010 美元、出场费 1.9400 美元（展示至四位小数）。日线不提供精确盘中时刻；零收盘敞口不代表盘中没有仓位。</p>
+<div class="table-wrap"><table><thead><tr><th>固定终点</th><th>入场后价格变化</th><th>保留入场仓位的市值估算</th><th>期间价格范围（低至高）</th></tr></thead><tbody>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 24, &quot;post_exit_first_index&quot;: null, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;08bd2f6ec41e61b6444ec764a5711da4b1b2090c3a20571e845e0ad0f0ed4609&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 1 日<br>2022-05-05</td><td class="numeric">-3.8710%</td><td class="numeric">-1.0003%</td><td class="numeric">-5.6119% 至 +0.1946%</td></tr>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 26, &quot;post_exit_first_index&quot;: 25, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;08bd2f6ec41e61b6444ec764a5711da4b1b2090c3a20571e845e0ad0f0ed4609&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 3 日<br>2022-05-09</td><td class="numeric">-11.5617%</td><td class="numeric">-2.9229%</td><td class="numeric">-12.5653% 至 +0.5428%</td></tr>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 28, &quot;post_exit_first_index&quot;: 25, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;08bd2f6ec41e61b6444ec764a5711da4b1b2090c3a20571e845e0ad0f0ed4609&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 5 日<br>2022-05-11</td><td class="numeric">-9.9642%</td><td class="numeric">-2.5235%</td><td class="numeric">-12.5653% 至 +0.5428%</td></tr>
+</tbody></table></div><p class="note">最高／最低价先后未知，不能把最高价当成止损后可成交的机会。同日止损之后的剩余路径未知；严格退出后的范围仅统计之后完整交易日，详见数据文件。</p>
+<h3>两倍成本 · 费率 0.1600% / 单边滑点 0.1000%</h3>
+<p>C 原回报 <b>-0.8539%</b> · D 原回报 <b>-0.8539%</b> · 关闭内容条件后的 D：<b>-0.8539%</b>（已有逐字节检查）</p>
+<p class="note">合法入场 2022-05-05 13:30 UTC；退出日 2022-05-05，依据 盘中止损。入场费 4.0040 美元、出场费 3.8800 美元（展示至四位小数）。日线不提供精确盘中时刻；零收盘敞口不代表盘中没有仓位。</p>
+<div class="table-wrap"><table><thead><tr><th>固定终点</th><th>入场后价格变化</th><th>保留入场仓位的市值估算</th><th>期间价格范围（低至高）</th></tr></thead><tbody>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 24, &quot;post_exit_first_index&quot;: null, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;2494dec92361267050677ca6af22f7fc082d8edfaa87e0b59006208df50ec648&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 1 日<br>2022-05-05</td><td class="numeric">-3.8710%</td><td class="numeric">-1.0328%</td><td class="numeric">-5.6119% 至 +0.1946%</td></tr>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 26, &quot;post_exit_first_index&quot;: 25, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;2494dec92361267050677ca6af22f7fc082d8edfaa87e0b59006208df50ec648&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 3 日<br>2022-05-09</td><td class="numeric">-11.5617%</td><td class="numeric">-2.9555%</td><td class="numeric">-12.5653% 至 +0.5428%</td></tr>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 28, &quot;post_exit_first_index&quot;: 25, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;2494dec92361267050677ca6af22f7fc082d8edfaa87e0b59006208df50ec648&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 5 日<br>2022-05-11</td><td class="numeric">-9.9642%</td><td class="numeric">-2.5561%</td><td class="numeric">-12.5653% 至 +0.5428%</td></tr>
+</tbody></table></div><p class="note">最高／最低价先后未知，不能把最高价当成止损后可成交的机会。同日止损之后的剩余路径未知；严格退出后的范围仅统计之后完整交易日，详见数据文件。</p>
+<details><summary>查看已核准字段、精度与依据</summary>
+<p><a href="https://ir.amd.com/news-events/press-releases/detail/1062/amd-reports-first-quarter-2022-financial-results" target="_blank" rel="noopener noreferrer">AMD 公告原文</a> · <a href="path-results.json">结果与逐项计算指针</a></p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>数值</th><th>目标财季</th><th>口径／精度</th></tr></thead><tbody>
+<tr><td>当季营收（公告首段）</td><td>5.9 十亿美元</td><td>2022Q1</td><td>GAAP · 首段四舍五入</td></tr>
+<tr><td>GAAP 每股收益</td><td>0.56 美元/股</td><td>2022Q1</td><td>GAAP · 保留原列示精度</td></tr>
+<tr><td>非 GAAP 每股收益</td><td>1.13 美元/股</td><td>2022Q1</td><td>非 GAAP · 保留原列示精度</td></tr>
+<tr><td>下一财季营收指引中点</td><td>6.5 十亿美元</td><td>2022Q2</td><td>公司营收指引 · 保留原列示精度</td></tr>
+<tr><td>下一财季指引半范围</td><td>0.2 十亿美元</td><td>2022Q2</td><td>公司营收指引 · 保留原列示精度</td></tr>
+</tbody></table></div>
+<p class="note">实际取回：2026-09-22T22:29:15.389132+00:00；提取完成：2026-09-22T22:33:36.693617+00:00。字段于 2026 年核准，当前 HTML 的历史不可变性未证明。没有完整此前指引修订链或分析师一致预期。</p>
+<p>候选字段摘要 <code>350cb8f0792c250d79c33c22254cc0cd448c90416695d5ec72eaf46e22e39be3</code></p>
+<p>1 倍成本报告：C <code>08bd2f6ec41e61b6444ec764a5711da4b1b2090c3a20571e845e0ad0f0ed4609</code>；D <code>7efc0c04e1a409a2c8d92b4a02948a6c400e5d99c55fde3788a50505f41bde1f</code></p>
+<p>2 倍成本报告：C <code>2494dec92361267050677ca6af22f7fc082d8edfaa87e0b59006208df50ec648</code>；D <code>4b5e50271d42feeb7744a93a67f8bd90434ecd33916c887cf35959b3e7afdd72</code></p>
+</details></article>
+<article class="card" id="event-2022Q2" data-source-event="/events/1">
+<div class="card-head"><h2>AMD 2022Q2</h2><span class="badge">资料不足 · 原排除保留</span></div>
+<div class="timeline">
+<div><b>公告公开（页面标记）</b>2022-08-02 20:05 UTC</div>
+<div><b>模型信息可用</b>2022-08-02 20:07 UTC<br>公开后 120 秒假设</div>
+<div><b>首个完整交易日确认</b>原行情未接纳<br>未计算</div></div>
+<p class="warning">原日线与常规时段聚合存在差异，资料不足以按旧规约接纳。价格条件、入场与后续收益未计算；这不等于零收益。</p>
+<details><summary>查看已核准字段、精度与依据</summary>
+<p><a href="https://ir.amd.com/news-events/press-releases/detail/1084/amd-reports-second-quarter-2022-financial-results" target="_blank" rel="noopener noreferrer">AMD 公告原文</a> · <a href="path-results.json">结果与逐项计算指针</a></p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>数值</th><th>目标财季</th><th>口径／精度</th></tr></thead><tbody>
+<tr><td>当季营收（公告首段）</td><td>6.6 十亿美元</td><td>2022Q2</td><td>GAAP · 首段四舍五入</td></tr>
+<tr><td>GAAP 每股收益</td><td>0.27 美元/股</td><td>2022Q2</td><td>GAAP · 保留原列示精度</td></tr>
+<tr><td>非 GAAP 每股收益</td><td>1.05 美元/股</td><td>2022Q2</td><td>非 GAAP · 保留原列示精度</td></tr>
+<tr><td>下一财季营收指引中点</td><td>6.7 十亿美元</td><td>2022Q3</td><td>公司营收指引 · 保留原列示精度</td></tr>
+<tr><td>下一财季指引半范围</td><td>0.2 十亿美元</td><td>2022Q3</td><td>公司营收指引 · 保留原列示精度</td></tr>
+</tbody></table></div>
+<p class="note">实际取回：2026-09-22T22:29:15.397099+00:00；提取完成：2026-09-22T22:33:36.710626+00:00。字段于 2026 年核准，当前 HTML 的历史不可变性未证明。没有完整此前指引修订链或分析师一致预期。</p>
+<p>候选字段摘要 <code>d5982c1f9560b9197fcd831e3338a10f45e7e12dde0111c5ebf450c4e92475d7</code></p>
+</details></article>
+<article class="card" id="event-2022Q3" data-source-event="/events/2">
+<div class="card-head"><h2>AMD 2022Q3</h2><span class="badge">没有价格信号</span></div>
+<div class="timeline">
+<div><b>公告公开（页面标记）</b>2022-11-01 20:15 UTC</div>
+<div><b>模型信息可用</b>2022-11-01 20:17 UTC<br>公开后 120 秒假设</div>
+<div><b>首个完整交易日确认</b>2022-11-02<br>2022-11-02 20:01 UTC</div></div>
+<p>价格确认：<b>不成立</b>（公告前收盘至确认收盘 -1.7264%）；内容条件：<b>不成立</b>。内容是否改变决定：<b>否</b>。</p>
+<p class="note">这段确认涨跌发生在策略合法入场之前，不能当作本系统可获得的入场后收益。</p>
+<p>没有产生 C 的合法买入，D 也没有入场。保留覆盖记录，后续路径表不制造一笔假想交易。</p>
+<h3>正常成本 · 费率 0.0800% / 单边滑点 0.0500%</h3>
+<p>C 原回报 <b>0%</b> · D 原回报 <b>0%</b> · 关闭内容条件后的 D：<b>0%</b>（已有逐字节检查）</p>
+<h3>两倍成本 · 费率 0.1600% / 单边滑点 0.1000%</h3>
+<p>C 原回报 <b>0%</b> · D 原回报 <b>0%</b> · 关闭内容条件后的 D：<b>0%</b>（已有逐字节检查）</p>
+<details><summary>查看已核准字段、精度与依据</summary>
+<p><a href="https://ir.amd.com/news-events/press-releases/detail/1098/amd-reports-third-quarter-2022-financial-results" target="_blank" rel="noopener noreferrer">AMD 公告原文</a> · <a href="path-results.json">结果与逐项计算指针</a></p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>数值</th><th>目标财季</th><th>口径／精度</th></tr></thead><tbody>
+<tr><td>当季营收（公告首段）</td><td>5.6 十亿美元</td><td>2022Q3</td><td>GAAP · 首段四舍五入</td></tr>
+<tr><td>GAAP 每股收益</td><td>0.04 美元/股</td><td>2022Q3</td><td>GAAP · 保留原列示精度</td></tr>
+<tr><td>非 GAAP 每股收益</td><td>0.67 美元/股</td><td>2022Q3</td><td>非 GAAP · 保留原列示精度</td></tr>
+<tr><td>下一财季营收指引中点</td><td>5.5 十亿美元</td><td>2022Q4</td><td>公司营收指引 · 保留原列示精度</td></tr>
+<tr><td>下一财季指引半范围</td><td>0.3 十亿美元</td><td>2022Q4</td><td>公司营收指引 · 保留原列示精度</td></tr>
+</tbody></table></div>
+<p class="note">实际取回：2026-09-22T22:29:15.366757+00:00；提取完成：2026-09-22T22:33:36.726219+00:00。字段于 2026 年核准，当前 HTML 的历史不可变性未证明。没有完整此前指引修订链或分析师一致预期。</p>
+<p>候选字段摘要 <code>39f680a725a3c60fd5665288b76f008d06102ce9eae4f53f298c3756c3a14c2e</code></p>
+<p>1 倍成本报告：C <code>7224e5fdb6669369fe764cff4227edbfc74a61d307b09b116e6edc782207a512</code>；D <code>5eb9a883b31d0f1b42564a23c774d4ec57dbdca92636a96cc99d3da133a1f66e</code></p>
+<p>2 倍成本报告：C <code>da280663ca9fd6849ffdbc37304e07ed85cd057616b3aba2a7ab9c1c3e2ecd6d</code>；D <code>7655ec27cf885263b3a1aeb2142e78fd54ba49e0015d0561bf5e6ffaaade58ce</code></p>
+</details></article>
+<article class="card" id="event-2022Q4" data-source-event="/events/3">
+<div class="card-head"><h2>AMD 2022Q4</h2><span class="badge">资料不足 · 原排除保留</span></div>
+<div class="timeline">
+<div><b>公告公开（页面标记）</b>2023-01-31 21:15 UTC</div>
+<div><b>模型信息可用</b>2023-01-31 21:17 UTC<br>公开后 120 秒假设</div>
+<div><b>首个完整交易日确认</b>原行情未接纳<br>未计算</div></div>
+<p class="warning">原日线与常规时段聚合存在差异，资料不足以按旧规约接纳。价格条件、入场与后续收益未计算；这不等于零收益。</p>
+<details><summary>查看已核准字段、精度与依据</summary>
+<p><a href="https://ir.amd.com/news-events/press-releases/detail/1115/amd-reports-fourth-quarter-and-full-year-2022-financial-results" target="_blank" rel="noopener noreferrer">AMD 公告原文</a> · <a href="path-results.json">结果与逐项计算指针</a></p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>数值</th><th>目标财季</th><th>口径／精度</th></tr></thead><tbody>
+<tr><td>当季营收（公告首段）</td><td>5.6 十亿美元</td><td>2022Q4</td><td>GAAP · 首段四舍五入</td></tr>
+<tr><td>GAAP 每股收益</td><td>0.01 美元/股</td><td>2022Q4</td><td>GAAP · 保留原列示精度</td></tr>
+<tr><td>非 GAAP 每股收益</td><td>0.69 美元/股</td><td>2022Q4</td><td>非 GAAP · 保留原列示精度</td></tr>
+<tr><td>下一财季营收指引中点</td><td>5.3 十亿美元</td><td>2023Q1</td><td>公司营收指引 · 保留原列示精度</td></tr>
+<tr><td>下一财季指引半范围</td><td>0.3 十亿美元</td><td>2023Q1</td><td>公司营收指引 · 保留原列示精度</td></tr>
+</tbody></table></div>
+<p class="note">实际取回：2026-09-22T22:29:17.851502+00:00；提取完成：2026-09-22T22:33:36.745400+00:00。字段于 2026 年核准，当前 HTML 的历史不可变性未证明。没有完整此前指引修订链或分析师一致预期。</p>
+<p>候选字段摘要 <code>e5466a77b1e3359e9f4f43513eac945f81fe84824e8882959434afea416de316</code></p>
+</details></article>
+<article class="card" id="event-2023Q1" data-source-event="/events/4">
+<div class="card-head"><h2>AMD 2023Q1</h2><span class="badge">没有价格信号</span></div>
+<div class="timeline">
+<div><b>公告公开（页面标记）</b>2023-05-02 20:15 UTC</div>
+<div><b>模型信息可用</b>2023-05-02 20:17 UTC<br>公开后 120 秒假设</div>
+<div><b>首个完整交易日确认</b>2023-05-03<br>2023-05-03 20:01 UTC</div></div>
+<p>价格确认：<b>不成立</b>（公告前收盘至确认收盘 -9.2203%）；内容条件：<b>不成立</b>。内容是否改变决定：<b>否</b>。</p>
+<p class="note">这段确认涨跌发生在策略合法入场之前，不能当作本系统可获得的入场后收益。</p>
+<p>没有产生 C 的合法买入，D 也没有入场。保留覆盖记录，后续路径表不制造一笔假想交易。</p>
+<h3>正常成本 · 费率 0.0800% / 单边滑点 0.0500%</h3>
+<p>C 原回报 <b>0%</b> · D 原回报 <b>0%</b> · 关闭内容条件后的 D：<b>0%</b>（已有逐字节检查）</p>
+<h3>两倍成本 · 费率 0.1600% / 单边滑点 0.1000%</h3>
+<p>C 原回报 <b>0%</b> · D 原回报 <b>0%</b> · 关闭内容条件后的 D：<b>0%</b>（已有逐字节检查）</p>
+<details><summary>查看已核准字段、精度与依据</summary>
+<p><a href="https://ir.amd.com/news-events/press-releases/detail/1128/amd-reports-first-quarter-2023-financial-results" target="_blank" rel="noopener noreferrer">AMD 公告原文</a> · <a href="path-results.json">结果与逐项计算指针</a></p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>数值</th><th>目标财季</th><th>口径／精度</th></tr></thead><tbody>
+<tr><td>当季营收（公告首段）</td><td>5.4 十亿美元</td><td>2023Q1</td><td>GAAP · 首段四舍五入</td></tr>
+<tr><td>GAAP 每股收益</td><td>-0.09 美元/股</td><td>2023Q1</td><td>GAAP · 保留原列示精度</td></tr>
+<tr><td>非 GAAP 每股收益</td><td>0.60 美元/股</td><td>2023Q1</td><td>非 GAAP · 保留原列示精度</td></tr>
+<tr><td>下一财季营收指引中点</td><td>5.3 十亿美元</td><td>2023Q2</td><td>公司营收指引 · 保留原列示精度</td></tr>
+<tr><td>下一财季指引半范围</td><td>0.3 十亿美元</td><td>2023Q2</td><td>公司营收指引 · 保留原列示精度</td></tr>
+</tbody></table></div>
+<p class="note">实际取回：2026-09-22T22:29:16.620853+00:00；提取完成：2026-09-22T22:33:36.758118+00:00。字段于 2026 年核准，当前 HTML 的历史不可变性未证明。没有完整此前指引修订链或分析师一致预期。</p>
+<p>候选字段摘要 <code>91ad60a2bc8d7ca48e465f7245a871d961461cc906c01ca6bf0fb7927f3d6e39</code></p>
+<p>1 倍成本报告：C <code>5f79db25168ecab081cab5fd49e4abf63c35d3706ba41eeafe87c1e68dea81a5</code>；D <code>d39669ca697c69c2cd2116e84cf003ec6d99cb4bc7cfeb90bceb660133b4b7db</code></p>
+<p>2 倍成本报告：C <code>62a2f0f753b2efac3159aeff5b1c833cc1c3bd1479cd6a3d870c2068b408fef7</code>；D <code>de595c74fc057f8e2ce76a39114abc68ab40863364c7822cdb58118b2d84f219</code></p>
+</details></article>
+<article class="card" id="event-2023Q2" data-source-event="/events/5">
+<div class="card-head"><h2>AMD 2023Q2</h2><span class="badge">没有价格信号</span></div>
+<div class="timeline">
+<div><b>公告公开（页面标记）</b>2023-08-01 20:15 UTC</div>
+<div><b>模型信息可用</b>2023-08-01 20:17 UTC<br>公开后 120 秒假设</div>
+<div><b>首个完整交易日确认</b>2023-08-02<br>2023-08-02 20:01 UTC</div></div>
+<p>价格确认：<b>不成立</b>（公告前收盘至确认收盘 -7.0153%）；内容条件：<b>成立</b>。内容是否改变决定：<b>否</b>。</p>
+<p class="note">这段确认涨跌发生在策略合法入场之前，不能当作本系统可获得的入场后收益。</p>
+<p>没有产生 C 的合法买入，D 也没有入场。保留覆盖记录，后续路径表不制造一笔假想交易。</p>
+<h3>正常成本 · 费率 0.0800% / 单边滑点 0.0500%</h3>
+<p>C 原回报 <b>0%</b> · D 原回报 <b>0%</b> · 关闭内容条件后的 D：<b>0%</b>（已有逐字节检查）</p>
+<h3>两倍成本 · 费率 0.1600% / 单边滑点 0.1000%</h3>
+<p>C 原回报 <b>0%</b> · D 原回报 <b>0%</b> · 关闭内容条件后的 D：<b>0%</b>（已有逐字节检查）</p>
+<details><summary>查看已核准字段、精度与依据</summary>
+<p><a href="https://ir.amd.com/news-events/press-releases/detail/1146/amd-reports-second-quarter-2023-financial-results" target="_blank" rel="noopener noreferrer">AMD 公告原文</a> · <a href="path-results.json">结果与逐项计算指针</a></p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>数值</th><th>目标财季</th><th>口径／精度</th></tr></thead><tbody>
+<tr><td>当季营收（公告首段）</td><td>5.4 十亿美元</td><td>2023Q2</td><td>GAAP · 首段四舍五入</td></tr>
+<tr><td>GAAP 每股收益</td><td>0.02 美元/股</td><td>2023Q2</td><td>GAAP · 保留原列示精度</td></tr>
+<tr><td>非 GAAP 每股收益</td><td>0.58 美元/股</td><td>2023Q2</td><td>非 GAAP · 保留原列示精度</td></tr>
+<tr><td>下一财季营收指引中点</td><td>5.7 十亿美元</td><td>2023Q3</td><td>公司营收指引 · 保留原列示精度</td></tr>
+<tr><td>下一财季指引半范围</td><td>0.3 十亿美元</td><td>2023Q3</td><td>公司营收指引 · 保留原列示精度</td></tr>
+</tbody></table></div>
+<p class="note">实际取回：2026-09-22T22:29:16.652978+00:00；提取完成：2026-09-22T22:33:36.778831+00:00。字段于 2026 年核准，当前 HTML 的历史不可变性未证明。没有完整此前指引修订链或分析师一致预期。</p>
+<p>候选字段摘要 <code>dec85ae844995eefa93fc0867715b7f1f237c9c866c553b1781baaa1ff09b509</code></p>
+<p>1 倍成本报告：C <code>af8c795aeb831b631978bc61e80e91fbb29c19e9225c93ed1c881b02d210d196</code>；D <code>e480e9edb6b312df94fa626ff003514e69019757d62cc1b35c9c5c4c80c2a711</code></p>
+<p>2 倍成本报告：C <code>2eda9af44f8e44db8876055cd2ce6388f9453b2daa1b19749a5f47748f5f0eec</code>；D <code>4909e2979e1f71ea94b6109e5ac5b863515607a084aaedd0bbd58f9bc54e96d2</code></p>
+</details></article>
+<article class="card" id="event-2023Q3" data-source-event="/events/6">
+<div class="card-head"><h2>AMD 2023Q3</h2><span class="badge">资料不足 · 原排除保留</span></div>
+<div class="timeline">
+<div><b>公告公开（页面标记）</b>2023-10-31 20:15 UTC</div>
+<div><b>模型信息可用</b>2023-10-31 20:17 UTC<br>公开后 120 秒假设</div>
+<div><b>首个完整交易日确认</b>原行情未接纳<br>未计算</div></div>
+<p class="warning">原日线与常规时段聚合存在差异，资料不足以按旧规约接纳。价格条件、入场与后续收益未计算；这不等于零收益。</p>
+<details><summary>查看已核准字段、精度与依据</summary>
+<p><a href="https://ir.amd.com/news-events/press-releases/detail/1163/amd-reports-third-quarter-2023-financial-results" target="_blank" rel="noopener noreferrer">AMD 公告原文</a> · <a href="path-results.json">结果与逐项计算指针</a></p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>数值</th><th>目标财季</th><th>口径／精度</th></tr></thead><tbody>
+<tr><td>当季营收（公告首段）</td><td>5.8 十亿美元</td><td>2023Q3</td><td>GAAP · 首段四舍五入</td></tr>
+<tr><td>GAAP 每股收益</td><td>0.18 美元/股</td><td>2023Q3</td><td>GAAP · 保留原列示精度</td></tr>
+<tr><td>非 GAAP 每股收益</td><td>0.70 美元/股</td><td>2023Q3</td><td>非 GAAP · 保留原列示精度</td></tr>
+<tr><td>下一财季营收指引中点</td><td>6.1 十亿美元</td><td>2023Q4</td><td>公司营收指引 · 保留原列示精度</td></tr>
+<tr><td>下一财季指引半范围</td><td>0.3 十亿美元</td><td>2023Q4</td><td>公司营收指引 · 保留原列示精度</td></tr>
+</tbody></table></div>
+<p class="note">实际取回：2026-09-22T22:29:17.883444+00:00；提取完成：2026-09-22T22:33:36.798962+00:00。字段于 2026 年核准，当前 HTML 的历史不可变性未证明。没有完整此前指引修订链或分析师一致预期。</p>
+<p>候选字段摘要 <code>bc350422da65ef97c1c9bbe149369d5c6767e3e47b99c905b1957da48b30c3a3</code></p>
+</details></article>
+<article class="card" id="event-2023Q4" data-source-event="/events/7">
+<div class="card-head"><h2>AMD 2023Q4</h2><span class="badge">没有价格信号</span></div>
+<div class="timeline">
+<div><b>公告公开（页面标记）</b>2024-01-30 21:15 UTC</div>
+<div><b>模型信息可用</b>2024-01-30 21:17 UTC<br>公开后 120 秒假设</div>
+<div><b>首个完整交易日确认</b>2024-01-31<br>2024-01-31 21:01 UTC</div></div>
+<p>价格确认：<b>不成立</b>（公告前收盘至确认收盘 -2.5398%）；内容条件：<b>不成立</b>。内容是否改变决定：<b>否</b>。</p>
+<p class="note">这段确认涨跌发生在策略合法入场之前，不能当作本系统可获得的入场后收益。</p>
+<p>没有产生 C 的合法买入，D 也没有入场。保留覆盖记录，后续路径表不制造一笔假想交易。</p>
+<h3>正常成本 · 费率 0.0800% / 单边滑点 0.0500%</h3>
+<p>C 原回报 <b>0%</b> · D 原回报 <b>0%</b> · 关闭内容条件后的 D：<b>0%</b>（已有逐字节检查）</p>
+<h3>两倍成本 · 费率 0.1600% / 单边滑点 0.1000%</h3>
+<p>C 原回报 <b>0%</b> · D 原回报 <b>0%</b> · 关闭内容条件后的 D：<b>0%</b>（已有逐字节检查）</p>
+<details><summary>查看已核准字段、精度与依据</summary>
+<p><a href="https://ir.amd.com/news-events/press-releases/detail/1180/amd-reports-fourth-quarter-and-full-year-2023-financial-results" target="_blank" rel="noopener noreferrer">AMD 公告原文</a> · <a href="path-results.json">结果与逐项计算指针</a></p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>数值</th><th>目标财季</th><th>口径／精度</th></tr></thead><tbody>
+<tr><td>当季营收（公告首段）</td><td>6.2 十亿美元</td><td>2023Q4</td><td>GAAP · 首段四舍五入</td></tr>
+<tr><td>GAAP 每股收益</td><td>0.41 美元/股</td><td>2023Q4</td><td>GAAP · 保留原列示精度</td></tr>
+<tr><td>非 GAAP 每股收益</td><td>0.77 美元/股</td><td>2023Q4</td><td>非 GAAP · 保留原列示精度</td></tr>
+<tr><td>下一财季营收指引中点</td><td>5.4 十亿美元</td><td>2024Q1</td><td>公司营收指引 · 保留原列示精度</td></tr>
+<tr><td>下一财季指引半范围</td><td>0.3 十亿美元</td><td>2024Q1</td><td>公司营收指引 · 保留原列示精度</td></tr>
+</tbody></table></div>
+<p class="note">实际取回：2026-09-22T22:29:17.932101+00:00；提取完成：2026-09-22T22:33:36.822839+00:00。字段于 2026 年核准，当前 HTML 的历史不可变性未证明。没有完整此前指引修订链或分析师一致预期。</p>
+<p>候选字段摘要 <code>54b2817c265ea2f30b680f0cb0a0ca6fcae7c5355ca877f8ff1bc80ef065a721</code></p>
+<p>1 倍成本报告：C <code>c013b10aeb900ba5853fbc87b9b40c848b99d5eafa6d2be65d490cca2dca706d</code>；D <code>6fa7dd6d37d34caf26064795f6af4a8ae2d3fab3325abf7b8bcc5cc58b905f5a</code></p>
+<p>2 倍成本报告：C <code>94db2fed5f38bff2894d153fde5d04cae5dd31ce1baebbeef9277e7dbf375d63</code>；D <code>2ec03582d8406922f0d0ca0be8e51c6145d111877d37ec355ce8937924d47e19</code></p>
+</details></article>
+<article class="card" id="event-2024Q1" data-source-event="/events/8">
+<div class="card-head"><h2>AMD 2024Q1</h2><span class="badge">没有价格信号</span></div>
+<div class="timeline">
+<div><b>公告公开（页面标记）</b>2024-04-30 20:15 UTC</div>
+<div><b>模型信息可用</b>2024-04-30 20:17 UTC<br>公开后 120 秒假设</div>
+<div><b>首个完整交易日确认</b>2024-05-01<br>2024-05-01 20:01 UTC</div></div>
+<p>价格确认：<b>不成立</b>（公告前收盘至确认收盘 -8.9090%）；内容条件：<b>成立</b>。内容是否改变决定：<b>否</b>。</p>
+<p class="note">这段确认涨跌发生在策略合法入场之前，不能当作本系统可获得的入场后收益。</p>
+<p>没有产生 C 的合法买入，D 也没有入场。保留覆盖记录，后续路径表不制造一笔假想交易。</p>
+<h3>正常成本 · 费率 0.0800% / 单边滑点 0.0500%</h3>
+<p>C 原回报 <b>0%</b> · D 原回报 <b>0%</b> · 关闭内容条件后的 D：<b>0%</b>（已有逐字节检查）</p>
+<h3>两倍成本 · 费率 0.1600% / 单边滑点 0.1000%</h3>
+<p>C 原回报 <b>0%</b> · D 原回报 <b>0%</b> · 关闭内容条件后的 D：<b>0%</b>（已有逐字节检查）</p>
+<details><summary>查看已核准字段、精度与依据</summary>
+<p><a href="https://ir.amd.com/news-events/press-releases/detail/1192/amd-reports-first-quarter-2024-financial-results" target="_blank" rel="noopener noreferrer">AMD 公告原文</a> · <a href="path-results.json">结果与逐项计算指针</a></p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>数值</th><th>目标财季</th><th>口径／精度</th></tr></thead><tbody>
+<tr><td>当季营收（公告首段）</td><td>5.5 十亿美元</td><td>2024Q1</td><td>GAAP · 首段四舍五入</td></tr>
+<tr><td>GAAP 每股收益</td><td>0.07 美元/股</td><td>2024Q1</td><td>GAAP · 保留原列示精度</td></tr>
+<tr><td>非 GAAP 每股收益</td><td>0.62 美元/股</td><td>2024Q1</td><td>非 GAAP · 保留原列示精度</td></tr>
+<tr><td>下一财季营收指引中点</td><td>5.7 十亿美元</td><td>2024Q2</td><td>公司营收指引 · 保留原列示精度</td></tr>
+<tr><td>下一财季指引半范围</td><td>0.3 十亿美元</td><td>2024Q2</td><td>公司营收指引 · 保留原列示精度</td></tr>
+</tbody></table></div>
+<p class="note">实际取回：2026-09-22T22:29:18.883433+00:00；提取完成：2026-09-22T22:33:36.840090+00:00。字段于 2026 年核准，当前 HTML 的历史不可变性未证明。没有完整此前指引修订链或分析师一致预期。</p>
+<p>候选字段摘要 <code>7c7d91051c98dbe2ceabe51153584138f09c823667be6458749fc682630691f2</code></p>
+<p>1 倍成本报告：C <code>5b9df811e61b278145449999598568b68f4a0385692ad63dcaa32568fe9eba3c</code>；D <code>3c0fda523b1427058e6e4bf74a604ae07ceb021c9e3b61af0742579fcadbd1ab</code></p>
+<p>2 倍成本报告：C <code>a9919b20cc5b528a6c3b46717e0a26ceddab0dcf4026672cdb96a8dd70ca96a6</code>；D <code>bef9bdb594898d2d52fb95fc954002e2eae36fd2e422321536e6604d9341a4bb</code></p>
+</details></article>
+<article class="card" id="event-2024Q2" data-source-event="/events/9">
+<div class="card-head"><h2>AMD 2024Q2</h2><span class="badge">入场后止损</span></div>
+<div class="timeline">
+<div><b>公告公开（页面标记）</b>2024-07-30 20:15 UTC</div>
+<div><b>模型信息可用</b>2024-07-30 20:17 UTC<br>公开后 120 秒假设</div>
+<div><b>首个完整交易日确认</b>2024-07-31<br>2024-07-31 20:01 UTC</div></div>
+<p>价格确认：<b>成立</b>（公告前收盘至确认收盘 +4.3629%）；内容条件：<b>成立</b>。内容是否改变决定：<b>否</b>。</p>
+<p class="note">这段确认涨跌发生在策略合法入场之前，不能当作本系统可获得的入场后收益。</p>
+<h3>正常成本 · 费率 0.0800% / 单边滑点 0.0500%</h3>
+<p>C 原回报 <b>-0.8019%</b> · D 原回报 <b>-0.8019%</b> · 关闭内容条件后的 D：<b>-0.8019%</b>（已有逐字节检查）</p>
+<p class="note">合法入场 2024-08-01 13:30 UTC；退出日 2024-08-01，依据 盘中止损。入场费 2.0010 美元、出场费 1.9400 美元（展示至四位小数）。日线不提供精确盘中时刻；零收盘敞口不代表盘中没有仓位。</p>
+<div class="table-wrap"><table><thead><tr><th>固定终点</th><th>入场后价格变化</th><th>保留入场仓位的市值估算</th><th>期间价格范围（低至高）</th></tr></thead><tbody>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 24, &quot;post_exit_first_index&quot;: null, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;23b4761edefe4b5d2a29b82fc4e46c9679cab2d46bba0dea7b0aa765de7a0c8b&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 1 日<br>2024-08-01</td><td class="numeric">-8.5931%</td><td class="numeric">-2.1808%</td><td class="numeric">-10.1793% 至 +1.5793%</td></tr>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 26, &quot;post_exit_first_index&quot;: 25, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;23b4761edefe4b5d2a29b82fc4e46c9679cab2d46bba0dea7b0aa765de7a0c8b&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 3 日<br>2024-08-05</td><td class="numeric">-7.0207%</td><td class="numeric">-1.7877%</td><td class="numeric">-15.9828% 至 +1.5793%</td></tr>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 28, &quot;post_exit_first_index&quot;: 25, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;23b4761edefe4b5d2a29b82fc4e46c9679cab2d46bba0dea7b0aa765de7a0c8b&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 5 日<br>2024-08-07</td><td class="numeric">-11.2621%</td><td class="numeric">-2.8480%</td><td class="numeric">-15.9828% 至 +1.5793%</td></tr>
+</tbody></table></div><p class="note">最高／最低价先后未知，不能把最高价当成止损后可成交的机会。同日止损之后的剩余路径未知；严格退出后的范围仅统计之后完整交易日，详见数据文件。</p>
+<h3>两倍成本 · 费率 0.1600% / 单边滑点 0.1000%</h3>
+<p>C 原回报 <b>-0.8539%</b> · D 原回报 <b>-0.8539%</b> · 关闭内容条件后的 D：<b>-0.8539%</b>（已有逐字节检查）</p>
+<p class="note">合法入场 2024-08-01 13:30 UTC；退出日 2024-08-01，依据 盘中止损。入场费 4.0040 美元、出场费 3.8800 美元（展示至四位小数）。日线不提供精确盘中时刻；零收盘敞口不代表盘中没有仓位。</p>
+<div class="table-wrap"><table><thead><tr><th>固定终点</th><th>入场后价格变化</th><th>保留入场仓位的市值估算</th><th>期间价格范围（低至高）</th></tr></thead><tbody>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 24, &quot;post_exit_first_index&quot;: null, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;100e4be0613b8c616e4d319e53cbde45517b13a1b264292e7b7c38a8c8149da1&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 1 日<br>2024-08-01</td><td class="numeric">-8.5931%</td><td class="numeric">-2.2133%</td><td class="numeric">-10.1793% 至 +1.5793%</td></tr>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 26, &quot;post_exit_first_index&quot;: 25, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;100e4be0613b8c616e4d319e53cbde45517b13a1b264292e7b7c38a8c8149da1&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 3 日<br>2024-08-05</td><td class="numeric">-7.0207%</td><td class="numeric">-1.8202%</td><td class="numeric">-15.9828% 至 +1.5793%</td></tr>
+<tr data-source-rows="{&quot;snapshot_id&quot;: &quot;7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01&quot;, &quot;entry_candle_index&quot;: 24, &quot;last_candle_index&quot;: 28, &quot;post_exit_first_index&quot;: 25, &quot;reference_price_field&quot;: &quot;candles[entry][1]&quot;, &quot;mark_price_field&quot;: &quot;candles[last][4]&quot;, &quot;report_hash&quot;: &quot;100e4be0613b8c616e4d319e53cbde45517b13a1b264292e7b7c38a8c8149da1&quot;, &quot;retained_buy_fill_index&quot;: 0}"><td>第 5 日<br>2024-08-07</td><td class="numeric">-11.2621%</td><td class="numeric">-2.8806%</td><td class="numeric">-15.9828% 至 +1.5793%</td></tr>
+</tbody></table></div><p class="note">最高／最低价先后未知，不能把最高价当成止损后可成交的机会。同日止损之后的剩余路径未知；严格退出后的范围仅统计之后完整交易日，详见数据文件。</p>
+<details><summary>查看已核准字段、精度与依据</summary>
+<p><a href="https://ir.amd.com/news-events/press-releases/detail/1209/amd-reports-second-quarter-2024-financial-results" target="_blank" rel="noopener noreferrer">AMD 公告原文</a> · <a href="path-results.json">结果与逐项计算指针</a></p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>数值</th><th>目标财季</th><th>口径／精度</th></tr></thead><tbody>
+<tr><td>当季营收（公告首段）</td><td>5.8 十亿美元</td><td>2024Q2</td><td>GAAP · 首段四舍五入</td></tr>
+<tr><td>GAAP 每股收益</td><td>0.16 美元/股</td><td>2024Q2</td><td>GAAP · 保留原列示精度</td></tr>
+<tr><td>非 GAAP 每股收益</td><td>0.69 美元/股</td><td>2024Q2</td><td>非 GAAP · 保留原列示精度</td></tr>
+<tr><td>下一财季营收指引中点</td><td>6.7 十亿美元</td><td>2024Q3</td><td>公司营收指引 · 保留原列示精度</td></tr>
+<tr><td>下一财季指引半范围</td><td>0.3 十亿美元</td><td>2024Q3</td><td>公司营收指引 · 保留原列示精度</td></tr>
+</tbody></table></div>
+<p class="note">实际取回：2026-09-22T22:29:19.019302+00:00；提取完成：2026-09-22T22:33:36.861289+00:00。字段于 2026 年核准，当前 HTML 的历史不可变性未证明。没有完整此前指引修订链或分析师一致预期。</p>
+<p>候选字段摘要 <code>8004e2a1838a1a74c9cc29dc26e2750537e2a224987db4fcddaec0c1a194f860</code></p>
+<p>1 倍成本报告：C <code>23b4761edefe4b5d2a29b82fc4e46c9679cab2d46bba0dea7b0aa765de7a0c8b</code>；D <code>bd75ac0f4df9f4414405e4be8197b507282ad6f671b82aa61b2b4b4f820b7403</code></p>
+<p>2 倍成本报告：C <code>100e4be0613b8c616e4d319e53cbde45517b13a1b264292e7b7c38a8c8149da1</code>；D <code>f828c9455bd9758b9934d4075c2e0c72a4a6612ac4424221185b9aca32cc8995</code></p>
+</details></article>
+<footer>本页是既有 r3 只读预览的独立静态补充。原预览版本 0.3.0.dev1，构建 <code>supervised-research-3632c978e6d458c2e02091e6b56be8e86cc4ce8f3de837df634d240dc1050767</code> 已核对，原包未修改。此补充不表示旧 wheel 已携带新工具；v0.2.1、旧 O1 和 T3 状态保持原边界。<p>本页不自动联网、连接账户、写入研究事实或启动监控。没有实时状态承诺。</p><p>诊断摘要 <code>a13073484c309935d629b0aad6b124e2df6574daf4beeb3ced082d27c4bf356c</code><br>规约摘要 <code>39d044de7ab10913f3d46582ebc6e556b149971343b62ff38cf97832c28844bf</code></p></footer></main></html>

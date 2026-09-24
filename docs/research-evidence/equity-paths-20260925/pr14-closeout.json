@@ -1,0 +1,71 @@
+{
+  "schema_version": "pr14-merge-closeout-v1",
+  "checked_at": "2026-09-24T17:53:32.251317+00:00",
+  "approved_head": "5c03634c4a01958e97b780144c23f162e40f78b0",
+  "approval": "User explicitly approved PR #14 at this head in current task",
+  "pr": {
+    "headRefOid": "5c03634c4a01958e97b780144c23f162e40f78b0",
+    "mergeCommit": {
+      "oid": "d09e5f9d8488e144bd07624bafac73d980f90aa3"
+    },
+    "mergedAt": "2026-09-24T17:23:47Z",
+    "state": "MERGED",
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/14"
+  },
+  "premerge_ci_run": 36020400227,
+  "premerge_test_merge_commit": "55e8070f0c8c6fec3bdb88e9c4c6bb19a32249e0",
+  "premerge_checkout_log_matches": 3,
+  "postmerge_ci": {
+    "head": "d09e5f9d8488e144bd07624bafac73d980f90aa3",
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36034004347",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "Electron capability contract",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Python contracts",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Historical developer reference replay",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Offline research MVP contracts",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package install smoke (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Deterministic references",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Market-data renderer",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package install smoke (windows-latest)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Research required gate",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "orders_or_deployment_authorized": false
+}
