@@ -1,0 +1,839 @@
+{
+  "schema_version": "fixed-equity-content-study-v1",
+  "completed_at": "2026-09-24T15:26:28.101030+00:00",
+  "protocol_hash": "096fcedff143df62e19e1b4fd05966068e891349c0131657d314942c5f975dfc",
+  "packet_hash": "35f481974f6a95eb6b9b44f6bc324335e11a2f24d1b2fc7f09f61ff7545656de",
+  "approval_hash": "0f27ba41d47838de2f6c945f53c83db92dc2738772f13a7fd9be00f09d06b247",
+  "reviewed_fields_rows": 10,
+  "company_count": 1,
+  "admitted_events": 7,
+  "excluded_events": [
+    {
+      "fiscal_quarter": "2022Q2",
+      "status": "PENDING_DATA_CROSSCHECK",
+      "economic_reports": 0
+    },
+    {
+      "fiscal_quarter": "2022Q4",
+      "status": "PENDING_DATA_CROSSCHECK",
+      "economic_reports": 0
+    },
+    {
+      "fiscal_quarter": "2023Q3",
+      "status": "PENDING_DATA_CROSSCHECK",
+      "economic_reports": 0
+    }
+  ],
+  "economic_reports": 28,
+  "replay_verified_reports": 28,
+  "independent_ledger_passes": 28,
+  "disabled_content_checks": 14,
+  "cells": [
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 1,
+      "snapshot_id": "f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610",
+      "score_start": "2022-04-19",
+      "score_end": "2022-05-24",
+      "reference_report_hash": "0916ae557cd605c7ce81000f384d75c4d2b762cfa410d25739f6ffdd4f85164c",
+      "reference_spec_hash": "5c1311f2eaf1940bee46c0489d909c9f5b1436745b1f13c896f96e8556f8763d",
+      "report_hashes": {
+        "C": "08bd2f6ec41e61b6444ec764a5711da4b1b2090c3a20571e845e0ad0f0ed4609",
+        "D": "7efc0c04e1a409a2c8d92b4a02948a6c400e5d99c55fde3788a50505f41bde1f"
+      },
+      "metrics": {
+        "C": {
+          "total_return": -0.008019160576499984,
+          "final_equity": 9919.808394235,
+          "max_drawdown": 0.008019160576499984,
+          "total_fees": 3.940999515,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "exposure_ratio": 0.0,
+          "realized_pnl": -80.19160576499988,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": -0.008019160576499984,
+          "final_equity": 9919.808394235,
+          "max_drawdown": 0.008019160576499984,
+          "total_fees": 3.940999515,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "exposure_ratio": 0.0,
+          "realized_pnl": -80.19160576499988,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 1,
+        "D": 1
+      },
+      "C_entry_at": "2022-05-05T13:30:00Z",
+      "D_entry_at": "2022-05-05T13:30:00Z",
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [
+          "INTRABAR_STOP"
+        ],
+        "D": [
+          "INTRABAR_STOP"
+        ]
+      }
+    },
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 2,
+      "snapshot_id": "f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610",
+      "score_start": "2022-04-19",
+      "score_end": "2022-05-24",
+      "reference_report_hash": "203acab8c2780a3336ec29c34307cd093df2dfc704c50f482c42f5c364ae932f",
+      "reference_spec_hash": "44b180034f1470eb0b5d5813cfc845a1bd7e1aefa4146341b4755b74362ae168",
+      "report_hashes": {
+        "C": "2494dec92361267050677ca6af22f7fc082d8edfaa87e0b59006208df50ec648",
+        "D": "4b5e50271d42feeb7744a93a67f8bd90434ecd33916c887cf35959b3e7afdd72"
+      },
+      "metrics": {
+        "C": {
+          "total_return": -0.00853864211199995,
+          "final_equity": 9914.61357888,
+          "max_drawdown": 0.00853864211199995,
+          "total_fees": 7.883996120000001,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "exposure_ratio": 0.0,
+          "realized_pnl": -85.38642111999984,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": -0.00853864211199995,
+          "final_equity": 9914.61357888,
+          "max_drawdown": 0.00853864211199995,
+          "total_fees": 7.883996120000001,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "exposure_ratio": 0.0,
+          "realized_pnl": -85.38642111999984,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 1,
+        "D": 1
+      },
+      "C_entry_at": "2022-05-05T13:30:00Z",
+      "D_entry_at": "2022-05-05T13:30:00Z",
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [
+          "INTRABAR_STOP"
+        ],
+        "D": [
+          "INTRABAR_STOP"
+        ]
+      }
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "cost_multiplier": 1,
+      "snapshot_id": "cb6eeaac458fe3215ab5f556a01e0b7d3cef2044058feb70210834e3541e4548",
+      "score_start": "2022-10-18",
+      "score_end": "2022-11-22",
+      "reference_report_hash": "b4a8839f20920904229c6a288f0f4053fff932124fd94405bee78f39c7d9c1ee",
+      "reference_spec_hash": "30d4c3f2cf3caa754de47a88f61e105ae8f59e71b6ce8470d17d6b88cbb546f5",
+      "report_hashes": {
+        "C": "7224e5fdb6669369fe764cff4227edbfc74a61d307b09b116e6edc782207a512",
+        "D": "5eb9a883b31d0f1b42564a23c774d4ec57dbdca92636a96cc99d3da133a1f66e"
+      },
+      "metrics": {
+        "C": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 0,
+        "D": 0
+      },
+      "C_entry_at": null,
+      "D_entry_at": null,
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [],
+        "D": []
+      }
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "cost_multiplier": 2,
+      "snapshot_id": "cb6eeaac458fe3215ab5f556a01e0b7d3cef2044058feb70210834e3541e4548",
+      "score_start": "2022-10-18",
+      "score_end": "2022-11-22",
+      "reference_report_hash": "c2e23aca1d5928869f873c63402a1643856f571b02a12c2d4c741fef4935ad87",
+      "reference_spec_hash": "3b0b958e222cca9c7b8cde8abe94ec7dbea287de116ef18fde138d1493ff35f0",
+      "report_hashes": {
+        "C": "da280663ca9fd6849ffdbc37304e07ed85cd057616b3aba2a7ab9c1c3e2ecd6d",
+        "D": "7655ec27cf885263b3a1aeb2142e78fd54ba49e0015d0561bf5e6ffaaade58ce"
+      },
+      "metrics": {
+        "C": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 0,
+        "D": 0
+      },
+      "C_entry_at": null,
+      "D_entry_at": null,
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [],
+        "D": []
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "cost_multiplier": 1,
+      "snapshot_id": "baf55fe0440d7fe7c623c33e0fc9a4c8e22b8e92735700f3c154453795ba52cb",
+      "score_start": "2023-04-18",
+      "score_end": "2023-05-23",
+      "reference_report_hash": "44e44bfbff49af14c066f5c072f3492fcd8889199f65c72b37d2823324169851",
+      "reference_spec_hash": "4b71f81db02f358f419f2aaf433c3c8b1723d1dc8345de29dae932b0b87312a1",
+      "report_hashes": {
+        "C": "5f79db25168ecab081cab5fd49e4abf63c35d3706ba41eeafe87c1e68dea81a5",
+        "D": "d39669ca697c69c2cd2116e84cf003ec6d99cb4bc7cfeb90bceb660133b4b7db"
+      },
+      "metrics": {
+        "C": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 0,
+        "D": 0
+      },
+      "C_entry_at": null,
+      "D_entry_at": null,
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [],
+        "D": []
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "cost_multiplier": 2,
+      "snapshot_id": "baf55fe0440d7fe7c623c33e0fc9a4c8e22b8e92735700f3c154453795ba52cb",
+      "score_start": "2023-04-18",
+      "score_end": "2023-05-23",
+      "reference_report_hash": "3ae15d29a0d6b6bc591a38e90a8c148b56a9f9bf30812f975006982849a83938",
+      "reference_spec_hash": "f6eae84a550322cc011b31ea487ce0aac168f1c8f44965d1c5665af0c8f53e12",
+      "report_hashes": {
+        "C": "62a2f0f753b2efac3159aeff5b1c833cc1c3bd1479cd6a3d870c2068b408fef7",
+        "D": "de595c74fc057f8e2ce76a39114abc68ab40863364c7822cdb58118b2d84f219"
+      },
+      "metrics": {
+        "C": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 0,
+        "D": 0
+      },
+      "C_entry_at": null,
+      "D_entry_at": null,
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [],
+        "D": []
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "cost_multiplier": 1,
+      "snapshot_id": "d602433e1961470450bc083486c98c90c01133731ffee8b00628a4a359f6ebdf",
+      "score_start": "2023-07-18",
+      "score_end": "2023-08-22",
+      "reference_report_hash": "e6f35c6bac8a9f047595f69d8f3284cbe5e8e8092781b2f01ae99b8deea1ce1a",
+      "reference_spec_hash": "fe258f536db93ece95df72a7a6e766d1aa6498e82e64f617e3128ffc24e82d65",
+      "report_hashes": {
+        "C": "af8c795aeb831b631978bc61e80e91fbb29c19e9225c93ed1c881b02d210d196",
+        "D": "e480e9edb6b312df94fa626ff003514e69019757d62cc1b35c9c5c4c80c2a711"
+      },
+      "metrics": {
+        "C": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 0,
+        "D": 0
+      },
+      "C_entry_at": null,
+      "D_entry_at": null,
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [],
+        "D": []
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "cost_multiplier": 2,
+      "snapshot_id": "d602433e1961470450bc083486c98c90c01133731ffee8b00628a4a359f6ebdf",
+      "score_start": "2023-07-18",
+      "score_end": "2023-08-22",
+      "reference_report_hash": "1e57c7ac6bbada3169d6a39ac2f5abc68ced10f857b8fcb63e270d12050f6bd1",
+      "reference_spec_hash": "2c095194b4ca47c6a1aa3cae1dabf0e46efa81dd60b5fa7ed3dd3f03cc872fd3",
+      "report_hashes": {
+        "C": "2eda9af44f8e44db8876055cd2ce6388f9453b2daa1b19749a5f47748f5f0eec",
+        "D": "4909e2979e1f71ea94b6109e5ac5b863515607a084aaedd0bbd58f9bc54e96d2"
+      },
+      "metrics": {
+        "C": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 0,
+        "D": 0
+      },
+      "C_entry_at": null,
+      "D_entry_at": null,
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [],
+        "D": []
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "cost_multiplier": 1,
+      "snapshot_id": "153ace0676f936a8718ae6ece6c348195e0ed38ece8a0db8a749da0f1cbc8e79",
+      "score_start": "2024-01-16",
+      "score_end": "2024-02-21",
+      "reference_report_hash": "702c5e40bd37371af14f0188cb076a3c6554bc2223f689be0e5bf1ed046f6ee1",
+      "reference_spec_hash": "f9fa6f4f98e438497faa0e9f84e15aee065ef6d20c9c8d5bb84e1aa5705a09e0",
+      "report_hashes": {
+        "C": "c013b10aeb900ba5853fbc87b9b40c848b99d5eafa6d2be65d490cca2dca706d",
+        "D": "6fa7dd6d37d34caf26064795f6af4a8ae2d3fab3325abf7b8bcc5cc58b905f5a"
+      },
+      "metrics": {
+        "C": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 0,
+        "D": 0
+      },
+      "C_entry_at": null,
+      "D_entry_at": null,
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [],
+        "D": []
+      }
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "cost_multiplier": 2,
+      "snapshot_id": "153ace0676f936a8718ae6ece6c348195e0ed38ece8a0db8a749da0f1cbc8e79",
+      "score_start": "2024-01-16",
+      "score_end": "2024-02-21",
+      "reference_report_hash": "026f2d0c2896bb25c1ae087d9409bf0f6b00e6d1c56eb50370ed7ec69eebd692",
+      "reference_spec_hash": "8806bd7467931871cd1a4b0fa8722e9b99d0f90cbc8770e33c1c9dff368aeae3",
+      "report_hashes": {
+        "C": "94db2fed5f38bff2894d153fde5d04cae5dd31ce1baebbeef9277e7dbf375d63",
+        "D": "2ec03582d8406922f0d0ca0be8e51c6145d111877d37ec355ce8937924d47e19"
+      },
+      "metrics": {
+        "C": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 0,
+        "D": 0
+      },
+      "C_entry_at": null,
+      "D_entry_at": null,
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [],
+        "D": []
+      }
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "cost_multiplier": 1,
+      "snapshot_id": "23dba0fcab9a8ca000497cd6efd90956daec7027a106ff684a26df19a9ddcdf3",
+      "score_start": "2024-04-16",
+      "score_end": "2024-05-21",
+      "reference_report_hash": "a379f67d780a8d1b9d1b2fff3c723fa995190d0db4d42741abbdedc7c5b4772b",
+      "reference_spec_hash": "94479382997f21436172d314ab4d9dcd7c7b0e1360f1d40f0f8c2fee437acb78",
+      "report_hashes": {
+        "C": "5b9df811e61b278145449999598568b68f4a0385692ad63dcaa32568fe9eba3c",
+        "D": "3c0fda523b1427058e6e4bf74a604ae07ceb021c9e3b61af0742579fcadbd1ab"
+      },
+      "metrics": {
+        "C": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 0,
+        "D": 0
+      },
+      "C_entry_at": null,
+      "D_entry_at": null,
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [],
+        "D": []
+      }
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "cost_multiplier": 2,
+      "snapshot_id": "23dba0fcab9a8ca000497cd6efd90956daec7027a106ff684a26df19a9ddcdf3",
+      "score_start": "2024-04-16",
+      "score_end": "2024-05-21",
+      "reference_report_hash": "729514bd1ba61f9741ed6f7a6c4977bac533731848ca5afb60263c1ce276bbfa",
+      "reference_spec_hash": "87b800c66c2df3d4f7b5eedc3736767c38c590309c3e47d860cf97a26ec3cb38",
+      "report_hashes": {
+        "C": "a9919b20cc5b528a6c3b46717e0a26ceddab0dcf4026672cdb96a8dd70ca96a6",
+        "D": "bef9bdb594898d2d52fb95fc954002e2eae36fd2e422321536e6604d9341a4bb"
+      },
+      "metrics": {
+        "C": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": 0.0,
+          "final_equity": 10000.0,
+          "max_drawdown": 0.0,
+          "total_fees": 0.0,
+          "fill_count": 0,
+          "round_trip_count": 0,
+          "exposure_ratio": 0.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 0,
+        "D": 0
+      },
+      "C_entry_at": null,
+      "D_entry_at": null,
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [],
+        "D": []
+      }
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "cost_multiplier": 1,
+      "snapshot_id": "7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01",
+      "score_start": "2024-07-16",
+      "score_end": "2024-08-20",
+      "reference_report_hash": "8b24522bfe99563f2cf0c94169a0b9055b84936aab638a0e2e3d3530cfb66420",
+      "reference_spec_hash": "3ca5728e862862585556e8be99315abfb454e67bc9af9b72ad9555df1b2c9482",
+      "report_hashes": {
+        "C": "23b4761edefe4b5d2a29b82fc4e46c9679cab2d46bba0dea7b0aa765de7a0c8b",
+        "D": "bd75ac0f4df9f4414405e4be8197b507282ad6f671b82aa61b2b4b4f820b7403"
+      },
+      "metrics": {
+        "C": {
+          "total_return": -0.008019160576499984,
+          "final_equity": 9919.808394235,
+          "max_drawdown": 0.008019160576499984,
+          "total_fees": 3.940999515,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "exposure_ratio": 0.0,
+          "realized_pnl": -80.19160576499996,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": -0.008019160576499984,
+          "final_equity": 9919.808394235,
+          "max_drawdown": 0.008019160576499984,
+          "total_fees": 3.940999515,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "exposure_ratio": 0.0,
+          "realized_pnl": -80.19160576499996,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 1,
+        "D": 1
+      },
+      "C_entry_at": "2024-08-01T13:30:00Z",
+      "D_entry_at": "2024-08-01T13:30:00Z",
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [
+          "INTRABAR_STOP"
+        ],
+        "D": [
+          "INTRABAR_STOP"
+        ]
+      }
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "cost_multiplier": 2,
+      "snapshot_id": "7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01",
+      "score_start": "2024-07-16",
+      "score_end": "2024-08-20",
+      "reference_report_hash": "ec2f36a4300e0461bc2e635eff8dee425c597910213f4e4d6345755debeecd68",
+      "reference_spec_hash": "0aaecaff4dabe26b93f6b2880b13ca41e6371b4431082d70300022a0bfbf0265",
+      "report_hashes": {
+        "C": "100e4be0613b8c616e4d319e53cbde45517b13a1b264292e7b7c38a8c8149da1",
+        "D": "f828c9455bd9758b9934d4075c2e0c72a4a6612ac4424221185b9aca32cc8995"
+      },
+      "metrics": {
+        "C": {
+          "total_return": -0.00853864211199995,
+          "final_equity": 9914.61357888,
+          "max_drawdown": 0.00853864211199995,
+          "total_fees": 7.883996119999999,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "exposure_ratio": 0.0,
+          "realized_pnl": -85.38642112000043,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        },
+        "D": {
+          "total_return": -0.00853864211199995,
+          "final_equity": 9914.61357888,
+          "max_drawdown": 0.00853864211199995,
+          "total_fees": 7.883996119999999,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "exposure_ratio": 0.0,
+          "realized_pnl": -85.38642112000043,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "ambiguous_intrabar_count": 0
+        }
+      },
+      "buy_counts": {
+        "C": 1,
+        "D": 1
+      },
+      "C_entry_at": "2024-08-01T13:30:00Z",
+      "D_entry_at": "2024-08-01T13:30:00Z",
+      "D_minus_C_return": 0.0,
+      "content_changed_entry": false,
+      "disabled_D_byte_identical_C": true,
+      "exit_bases": {
+        "C": [
+          "INTRABAR_STOP"
+        ],
+        "D": [
+          "INTRABAR_STOP"
+        ]
+      }
+    }
+  ],
+  "tool_identity": {
+    "equity_content_study.py": "13ca3c916f889ddf6593b88ce5d0fed054246decefecd44c01e2bc7535108453",
+    "equity_content_protocol.py": "3bf9322ddb9db5679cd75bd8973494bf2bfda513c677a63a2d4dc88a066ae031",
+    "verify_announcement_review.py": "136ecef1f2da5164d136d9b83ef363a94125c1beb957968d29cbbb52e9fc735d",
+    "prepare_announcement_review.py": "7d7ff20ef9371fbb519ccd11f23bd6859ee66b18bb9ccf1e2d48807346d62a14"
+  },
+  "driver_sha256": "3f29961d4ca2ba56266bddbecb42139e2534955a33f6124b01fcd72019d48aa3",
+  "independent_ledger_script_sha256": "ef97a859547826660dcaeb88033b29cf52a6174ca4663ae9851d483758299878",
+  "original_files_unchanged": 221,
+  "old_reports_reexecuted": 0,
+  "new_external_requests": 0,
+  "order_allowed": false,
+  "purpose": "ALREADY_SEEN_ONE_COMPANY_DEVELOPMENT_NOT_CONFIRMATION",
+  "caveats": [
+    "Already-seen AMD development windows; no unseen confirmation or profitability inference.",
+    "Current retained HTML and human semantic attestation do not establish immutable historical publication.",
+    "120-second event and 60-second completed-bar availability are assumptions, not live measurements.",
+    "Fractional shares, proportional fees, fixed slippage, daily OHLC protective exits and mark-to-market are research approximations.",
+    "Prior guidance revisions and analyst consensus remain unavailable to this rule."
+  ],
+  "study_hash": "fddfa9bd8b6476147642a54e2b981bac286c0df5e285ef5a942769dfe317fd69",
+  "projection_scope": "PUBLIC_DERIVED_SUMMARY; study_hash binds the retained full private study, not this projection",
+  "private_study_file_sha256": "b08fef90a401033de74182d794f05944b3be15700d9f3f24fc4a833eb3403b6c",
+  "engine_content_sha256": "c5d57ec371efe303741b12476fd6824c3eb4baa5e3cfb9cfd22c3a337fe236b6",
+  "engine_source_status": "BUILD_VERIFIED",
+  "environment_status": "VERIFIED",
+  "fixed_risk": {
+    "max_position_pct": 0.25,
+    "max_single_loss_pct": 0.03,
+    "max_daily_loss_pct": 1.0,
+    "min_cash_pct": 0.0,
+    "max_leverage": 1.0
+  },
+  "risk_source": "Unchanged original A spec; inherited before observing C/D results; frozen protocol supplies 25% sizing, 3% stop, 6% target"
+}

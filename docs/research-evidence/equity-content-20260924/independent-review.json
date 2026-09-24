@@ -1,0 +1,116 @@
+{
+  "schema_version": "independent-content-study-review-v1",
+  "study_hash": "fddfa9bd8b6476147642a54e2b981bac286c0df5e285ef5a942769dfe317fd69",
+  "status": "PASS",
+  "reports": 28,
+  "checks": 5240,
+  "maximum_absolute_numeric_error": "3.550779257068966E-13",
+  "decision_rows": [
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 1,
+      "price_condition": true,
+      "guidance_condition": true,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2022Q1",
+      "cost_multiplier": 2,
+      "price_condition": true,
+      "guidance_condition": true,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "cost_multiplier": 1,
+      "price_condition": false,
+      "guidance_condition": false,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "cost_multiplier": 2,
+      "price_condition": false,
+      "guidance_condition": false,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "cost_multiplier": 1,
+      "price_condition": false,
+      "guidance_condition": false,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "cost_multiplier": 2,
+      "price_condition": false,
+      "guidance_condition": false,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "cost_multiplier": 1,
+      "price_condition": false,
+      "guidance_condition": true,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "cost_multiplier": 2,
+      "price_condition": false,
+      "guidance_condition": true,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "cost_multiplier": 1,
+      "price_condition": false,
+      "guidance_condition": false,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "cost_multiplier": 2,
+      "price_condition": false,
+      "guidance_condition": false,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "cost_multiplier": 1,
+      "price_condition": false,
+      "guidance_condition": true,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "cost_multiplier": 2,
+      "price_condition": false,
+      "guidance_condition": true,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "cost_multiplier": 1,
+      "price_condition": true,
+      "guidance_condition": true,
+      "content_changed_entry": false
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "cost_multiplier": 2,
+      "price_condition": true,
+      "guidance_condition": true,
+      "content_changed_entry": false
+    }
+  ],
+  "original_files_unchanged": 221,
+  "new_backtests": 0,
+  "new_external_requests": 0,
+  "numerical_engine_imported": false,
+  "reviewer_kind": "SEPARATE_STDLIB_IMPLEMENTATION_NOT_ANOTHER_HUMAN_ATTESTATION",
+  "review_script_sha256": "9b1dba77c63c09a7ffc1f200a3e3f6d81d9e887accf90d0360a57c2ea5a5309d",
+  "ledger_script_sha256": "ef97a859547826660dcaeb88033b29cf52a6174ca4663ae9851d483758299878",
+  "review_hash": "533ee277b9de0a50abfc9e4559ca5a20b5a4d6d0c580eabd8b7d285da1ce2b27"
+}
