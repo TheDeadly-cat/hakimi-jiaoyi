@@ -1,0 +1,32 @@
+{
+  "checked_at": "2026-09-24T15:26:00.543900+00:00",
+  "tests_run": 28,
+  "by_file": {
+    "test_equity_content_study.py": 10,
+    "test_equity_content_protocol.py": 12,
+    "test_equity_ledger.py": 3,
+    "test_independent_ledger_reconciliation.py": 3
+  },
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "passed": true,
+  "tested_source_sha256": {
+    "tools/equity_content_study.py": "13ca3c916f889ddf6593b88ce5d0fed054246decefecd44c01e2bc7535108453",
+    "tools/run_equity_content_study.py": "3f29961d4ca2ba56266bddbecb42139e2534955a33f6124b01fcd72019d48aa3",
+    "tools/verify_equity_content_study.py": "9b1dba77c63c09a7ffc1f200a3e3f6d81d9e887accf90d0360a57c2ea5a5309d",
+    "tools/verify_announcement_review.py": "136ecef1f2da5164d136d9b83ef363a94125c1beb957968d29cbbb52e9fc735d",
+    "tools/equity_content_protocol.py": "3bf9322ddb9db5679cd75bd8973494bf2bfda513c677a63a2d4dc88a066ae031",
+    "tools/prepare_announcement_review.py": "7d7ff20ef9371fbb519ccd11f23bd6859ee66b18bb9ccf1e2d48807346d62a14",
+    "scripts/reconcile_research_ledger.py": "ef97a859547826660dcaeb88033b29cf52a6174ca4663ae9851d483758299878",
+    "tests/repository_only/test_equity_content_study.py": "86d15e6f7c5a24d45151f5a22a11aef87de626e2af6a59794cafc203dd528a5e",
+    "tests/repository_only/test_equity_content_protocol.py": "286294e43f34d6b1a6b25670457f73df269f4bdbe92b39d491b8d2db2e483eda",
+    "tests/repository_only/test_equity_ledger.py": "74237ecfcf94e68d8d7830b6acbd7585d050dbc648038e8d2806a847c3ff13c6",
+    "tests/test_independent_ledger_reconciliation.py": "818298dcc451add464d1ec05e5e6471a63a4e2f0d78b66f67d6cb26c5579c4d7"
+  },
+  "log_sha256": "df14a1b5e4009cd8f1c690a91d98b166409e33be7f90e5e72b761b12e45426e9",
+  "network_denied_events": [],
+  "new_market_requests": 0,
+  "account_requests": 0,
+  "scope": "Targeted C/D integration, frozen predicates and independent ledger regression. Earlier O2 and wheel receipts are separate. Ledger reader uses stable original Git LF newlines."
+}

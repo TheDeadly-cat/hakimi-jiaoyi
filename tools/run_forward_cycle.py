@@ -38,19 +38,49 @@ def _hour(root, cutoff):
     return root / "forward/cycles" / cutoff.strftime("%Y%m%dT%H0000Z")
 
 
+def _capture_failure_stage(hour):
+    """Last flushed phase is context, never proof of a network root cause."""
+    trace = hour / "public_capture_trace.jsonl"
+    if not trace.is_file() or not trace.resolve().is_relative_to(hour.resolve()):
+        return "NOT_RECORDED"
+    allowed = {"DNS", "CONNECT", "TLS", "PROXY_HTTP_CONNECT", "HTTP_REQUEST", "HTTP_HEADERS",
+               "RESPONSE_READ", "CONTENT_VALIDATION", "TOTAL_DEADLINE", "REQUEST_BUDGET",
+               "SNAPSHOT_VALIDATION", "OUTPUT_PERSISTENCE", "UNCLASSIFIED_TRANSPORT"}
+    try:
+        with trace.open("rb") as handle:
+            handle.seek(max(0, trace.stat().st_size - 8192))
+            lines = handle.read().decode("utf-8").splitlines()
+        for line in reversed(lines):
+            try:
+                row = json.loads(line)
+            except ValueError:
+                continue
+            if not isinstance(row, dict):
+                continue
+            stage = row.get("failed_stage", row.get("stage"))
+            if stage in allowed and row.get("state") in {"STARTED", "FAILED", "SUCCEEDED"}:
+                return stage + ":" + row["state"]
+    except (OSError, UnicodeError):
+        pass
+    return "NOT_RECORDED"
+
+
 def _collect(root, start, cutoff, hour):
     environment = dict(os.environ)
     environment.pop("PYTHONPATH", None)
     environment.pop("PYTHONHOME", None)
     environment["PYTHONDONTWRITEBYTECODE"] = "1"
     environment["PYTHONUTF8"] = "1"
-    result = subprocess.run(
-        [sys.executable, "-B", str(root / "tools/collect_btc_snapshot.py"),
-         "--start", utc_text(start), "--end", utc_text(cutoff), "--output-dir", str(hour)],
-        cwd=root, env=environment, capture_output=True, text=True, encoding="utf-8", timeout=180,
-    )
+    try:
+        result = subprocess.run(
+            [sys.executable, "-B", str(root / "tools/collect_btc_snapshot.py"),
+             "--start", utc_text(start), "--end", utc_text(cutoff), "--output-dir", str(hour)],
+            cwd=root, env=environment, capture_output=True, text=True, encoding="utf-8", timeout=180,
+        )
+    except subprocess.TimeoutExpired as error:
+        raise RuntimeError("forward_public_capture_deadline:last_stage=" + _capture_failure_stage(hour)) from error
     if result.returncode:
-        raise RuntimeError("forward_public_capture_failed:" + result.stderr[-1500:])
+        raise RuntimeError("forward_public_capture_failed:last_stage=" + _capture_failure_stage(hour) + ":" + result.stderr[-1500:])
     return json.loads(result.stdout)
 
 

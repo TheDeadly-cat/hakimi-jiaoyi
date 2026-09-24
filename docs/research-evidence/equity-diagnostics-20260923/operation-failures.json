@@ -1,0 +1,256 @@
+{
+  "scope": "STATIC_EXISTING_STDERR_REVIEW",
+  "failures": [
+    {
+      "cutoff": "2026-09-13T04:00:00Z",
+      "attempt_id": "20260913T040101668900Z_fa934002fe15469483eb308d7a5a3905",
+      "stderr_sha256": "05f7bee5ebceebb34fd3593e7564ee71ef1dc4d7618a7824d8aa35e213d48ff8",
+      "old_classification": "OTHER_RETAINED_ERROR_NOT_CLASSIFIED",
+      "stage": "PLAN_INPUT_OPEN",
+      "reason_status": "REFERENCED_PLAN_FILE_MISSING",
+      "network_root_cause": "NOT_APPLICABLE_PRE_CAPTURE_FAILURE"
+    },
+    {
+      "cutoff": "2026-09-14T21:00:00Z",
+      "attempt_id": "20260914T210102171670Z_d551cfdf7c414582b59125d673cb7e60",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-14T22:00:00Z",
+      "attempt_id": "20260914T220102153794Z_b9008bbeeaa64947bd4421d930964484",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-14T23:00:00Z",
+      "attempt_id": "20260914T230102149139Z_264cffadadf043b29259bb38539e0a2e",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T00:00:00Z",
+      "attempt_id": "20260915T000102209308Z_a5b49f80fd4049ac917bedba4ae9bad0",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T01:00:00Z",
+      "attempt_id": "20260915T010102248981Z_118250d3b87c4bedad55e8956ea936ac",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T02:00:00Z",
+      "attempt_id": "20260915T020102166595Z_a8ca8f76486b4324ba0d2fc158818dec",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T03:00:00Z",
+      "attempt_id": "20260915T030102219628Z_31d11ccc6632456da856bff0804f0d6a",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T04:00:00Z",
+      "attempt_id": "20260915T040102254457Z_4971459649204959bbdc28cb0115e555",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T05:00:00Z",
+      "attempt_id": "20260915T050103692809Z_6c9c403da27c4d06bc789c3a7c453d61",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T06:00:00Z",
+      "attempt_id": "20260915T060103493764Z_29686d6d8e594e5a8f4d1839a76aa593",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T07:00:00Z",
+      "attempt_id": "20260915T070102306013Z_6ca1391289b14824a190017da85e6063",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T08:00:00Z",
+      "attempt_id": "20260915T080102538814Z_8680c4ed4f4d406588ffa6b2dc00461c",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T09:00:00Z",
+      "attempt_id": "20260915T090102963643Z_48055dc04e434bc4b0caf44d05ebf3e6",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T10:00:00Z",
+      "attempt_id": "20260915T100102437460Z_2f192547ce64441c93f03fb77d2f3490",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T11:00:00Z",
+      "attempt_id": "20260915T110102406809Z_85ff9a127fcc49848d1d8befd2b83f26",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T12:00:00Z",
+      "attempt_id": "20260915T120102504626Z_2c03c32eeef94c84832f12897eae7c92",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T13:00:00Z",
+      "attempt_id": "20260915T130102393118Z_41657bd07afb451d9afb60ab4b1746df",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T14:00:00Z",
+      "attempt_id": "20260915T140102467432Z_25bbbac02fde430e95d0ba3a79d67899",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T15:00:00Z",
+      "attempt_id": "20260915T150103879207Z_f3a53d072ee24d289c1d38e80809a19c",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T16:00:00Z",
+      "attempt_id": "20260915T160102371043Z_7960ea569a304c47a2c77558365857a6",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    },
+    {
+      "cutoff": "2026-09-15T17:00:00Z",
+      "attempt_id": "20260915T170103899986Z_8dd0941fc2314677ba90a280bb5b01ba",
+      "stderr_sha256": "7897a4719a90f115b2e7c663303259c0dbdd04d052211d88139753694a7409e2",
+      "old_classification": "PUBLIC_CAPTURE_URL_TIMEOUT",
+      "stage": "TRANSPORT_OPEN_NOT_FINELY_OBSERVED",
+      "reason_status": "DNS_CONNECT_TLS_OR_HTTP_HEADERS_UNRESOLVED",
+      "network_root_cause": "NOT_PROVEN",
+      "response_body_read_reached": false,
+      "traceback_limit": "CHILD_STDERR_TAIL_1500_BYTES_OMITS_UNDERLYING_CAUSE"
+    }
+  ],
+  "stage_counts": {
+    "PLAN_INPUT_OPEN": 1,
+    "TRANSPORT_OPEN_NOT_FINELY_OBSERVED": 21
+  },
+  "source_file_sha256": "07c679353720b4cc696a26be7147ebd0a2bd34a3ed98b4f1aaa86fc19c92cf74",
+  "original_bytes_unchanged": true,
+  "collector_runs": 0,
+  "scheduler_changes": 0,
+  "network_calls": 0,
+  "host_shutdown": "Nine absent hours retain prior shutdown-overlap evidence; not a cause for 21 transport timeouts.",
+  "old_O1_result": "NOT_PASSED_UNCHANGED"
+}

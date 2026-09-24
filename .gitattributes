@@ -127,3 +127,24 @@ tools/supervised_preview.py text eol=lf
 tools/build_supervised_preview.py text eol=lf
 # The retained test receipt binds exact mixed-EOL bytes.
 tests/repository_only/test_futu_simulation_cycle.py -text diff merge whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# New diagnostic source identities use stable bytes in fresh Windows checkouts.
+tools/attribute_retained_equity_reports.py text eol=lf
+tools/equity_source_diagnostics.py text eol=lf
+tools/prepare_announcement_review.py text eol=lf
+tools/equity_content_protocol.py text eol=lf
+tools/diagnose_observation_failures.py text eol=lf
+tools/capture_diagnostics.py text eol=lf
+tools/collect_btc_snapshot.py text eol=lf
+tools/collect_plan_snapshots.py text eol=lf
+tools/run_forward_cycle.py text eol=lf
+tests/repository_only/test_capture_diagnostics.py text eol=lf
+tests/repository_only/test_equity_source_diagnostics.py text eol=lf
+tests/repository_only/test_equity_content_protocol.py text eol=lf
+tests/repository_only/test_observation_job.py text eol=lf
+tools/verify_announcement_review.py text eol=lf
+tools/equity_content_study.py text eol=lf
+tools/run_equity_content_study.py text eol=lf
+tests/repository_only/test_equity_content_study.py text eol=lf
+tools/verify_equity_content_study.py text eol=lf
+scripts/reconcile_research_ledger.py text eol=lf
