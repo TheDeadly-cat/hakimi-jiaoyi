@@ -1,5 +1,4 @@
 """Synthetic timing, comparability and display-precision contracts."""
-from copy import deepcopy
 from pathlib import Path
 import sys
 import unittest
@@ -7,7 +6,10 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from tools.equity_guidance_pairs import (COHORT, interval_comparison, exact_actual,
     extract_guidance, validate_result, digest)
 from tools.equity_research_card import render
-from tests.repository_only.test_equity_research_card import fixture as path_fixture
+# CI discovers this directory as top-level modules. Do not rely on a namespace
+# package named tests: installed dependencies may provide a concrete tests package.
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from test_equity_research_card import fixture as path_fixture
 
 
 def fields(value='5500', quantum='1'):

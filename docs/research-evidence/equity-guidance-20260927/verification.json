@@ -6,7 +6,8 @@
     "passed": 19,
     "failed": 0,
     "errors": 0,
-    "skipped": 0
+    "skipped": 0,
+    "loader": "CI_DIRECTORY_DISCOVERY_16_NEW_PLUS_3_EXISTING"
   },
   "independent_source_checks": 134,
   "source_files": 17,
@@ -32,7 +33,7 @@
   "model_calls": 0,
   "account_calls": 0,
   "pr15_merge": "AWAITING_SEPARATE_USER_APPROVAL",
-  "current_branch_ci": "NOT_YET_PUSHED",
+  "current_branch_ci": "PENDING_AFTER_TEST_IMPORT_FIX",
   "files": {
     "report/guidance-pairs.json": "01a38de7b6adb590d47839da300182b4cd9d05787138368d5f9e68a82259b3e0",
     "report/index.html": "156801dad48409d42022878fa6609b6b0e4daf1ba7f1b8937730f66e4ecda438",
@@ -40,5 +41,13 @@
     "report/render-receipt.json": "5bd5cf5853adf6356b167f96c0f6b3174aafa5d0c9cfebc0c4ad9bc29ae0085a"
   },
   "old_card_without_new_pairs_byte_identical": true,
-  "old_card_sha256": "599811b2c0e575dd5e20978d1959b060a34cbcd00a5f38d91d53aec67653668b"
+  "old_card_sha256": "599811b2c0e575dd5e20978d1959b060a34cbcd00a5f38d91d53aec67653668b",
+  "first_ci_failure": {
+    "run_id": 36279809819,
+    "head": "beeacf6f2de8551b32ed271ce868780b7c37ff48",
+    "cause": "TEST_FIXTURE_NAMESPACE_IMPORT",
+    "actual_jobs_passed": 7,
+    "actual_jobs_failed": 1,
+    "aggregate": "FAILED"
+  }
 }
