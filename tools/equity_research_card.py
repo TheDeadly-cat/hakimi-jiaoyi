@@ -48,12 +48,23 @@ def source_link(url):
     return f'<a href="{escape(url, quote=True)}" target="_blank" rel="noopener noreferrer">AMD 公告原文</a>'
 
 
-def render(result, preview):
+def render(result, preview, guidance_pairs=None):
     if result["diagnosis_hash"] != digest({k: v for k, v in result.items() if k != "diagnosis_hash"}):
         raise ValueError("card_diagnosis_identity_changed")
     counts = Counter(e["status"] for e in result["events"])
     if sum(counts.values()) != 10:
         raise ValueError("card_fixed_coverage_required")
+    pairs = {}
+    if guidance_pairs is not None:
+        from tools.equity_guidance_pairs import validate_result
+        from tools.equity_guidance_card import summary as guidance_summary, section as guidance_section
+        validate_result(guidance_pairs)
+        if guidance_pairs['inputs']['original_path_diagnosis_hash'] != result['diagnosis_hash']:
+            raise ValueError('card_guidance_path_identity_mismatch')
+        pairs = {e['fiscal_quarter']:e for e in guidance_pairs['events']}
+        if set(pairs) != {e['fiscal_quarter'] for e in result['events']}:
+            raise ValueError('card_guidance_cohort_mismatch')
+        pair_sources = {s['source_id']:s for s in guidance_pairs['source_catalog']}
     normal = [c for e in result['events'] for c in e['cost_cases']
               if c['cost_multiplier']==1 and c['C_path']['status']=='RECORDED_ENTRY']
     endpoints = [h['values'] for c in normal for h in c['C_path']['horizons']]
@@ -68,19 +79,25 @@ def render(result, preview):
         finding += '原止损损失小于这些终点的留仓市值估算损失，本批没有支持“仅因止损太紧而错失后续收盘回升”的证据。'
     else:
         finding += '请分别比较原退出路径与终点估值；后者不代表可执行的另一策略。'
+    if guidance_pairs is not None:
+        headline = '同一财季，指引与实际营收能否比较？'
     parts = ['<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
         '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; base-uri \'none\'; form-action \'none\'">',
-        '<title>AMD 事件研究｜信号、退出与后续路径</title><style>',
+        '<title>AMD 事件研究｜同财季事实配对与历史路径</title><style>' if pairs else '<title>AMD 事件研究｜信号、退出与后续路径</title><style>',
         'body{margin:0;background:#f4f5f3;color:#182725;font:16px/1.7 system-ui,"Microsoft YaHei",sans-serif}main{max-width:1100px;margin:auto;padding:44px 24px 64px}h1{font-size:30px;line-height:1.35;margin:12px 0 20px}h2{font-size:23px;margin:0}h3{font-size:17px;margin-top:24px}p{max-width:88ch}a{color:#16675c}small,.muted{color:#586b66}header{margin-bottom:28px}.summary{padding:22px 26px;background:#e5eee9;border-left:4px solid #438571}.counts{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}.counts span{padding:8px 14px;border:1px solid #c9d6cf;border-radius:5px;background:white}.card{padding:25px 28px;margin:22px 0;background:white;border:1px solid #d7dfd9;border-radius:9px}.card-head{display:flex;align-items:center;justify-content:space-between;gap:18px}.badge{font-size:14px;color:#56665f;background:#eef1ed;padding:4px 12px;border-radius:14px}.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:15px 0}.timeline div{border-top:2px solid #d0ded6;padding-top:9px;font-size:14px}.timeline b{display:block}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}th{text-align:left;background:#eef3f0;white-space:nowrap}td,th{padding:10px 12px;border-bottom:1px solid #e2e8e3}td.numeric{white-space:nowrap}details{border-top:1px solid #e4e8e5;margin-top:20px;padding-top:12px}summary{cursor:pointer;color:#315e52;font-weight:600}code{overflow-wrap:anywhere;font-size:12px}.note{font-size:14px;color:#5c6e65}.warning{background:#fbf3e3;padding:12px 16px;border-radius:5px}footer{margin-top:30px;border-top:1px solid #c9d6cf;padding-top:20px;font-size:13px;color:#607068}@media(max-width:680px){main{padding:24px 14px}h1{font-size:25px}.card{padding:18px 16px}.card-head{align-items:flex-start;flex-direction:column;gap:8px}.timeline{grid-template-columns:1fr}td,th{padding:8px}.summary{padding:16px}}@media print{body{background:white}main{padding:0}.card{break-inside:avoid}details{display:block}summary{display:none}}',
-        'table{min-width:680px}</style><main><header><small>哈基米 · 股票事件研究 / 固定开发诊断 · 2026-09-25</small>',
+        'table{min-width:680px}.guidance-pair{border-top:2px solid #d0ded6;margin-top:12px;padding-top:2px}</style><main><header><small>哈基米 · 股票事件研究 / 历史事实配对 · 2026-09-27</small>' if pairs else 'table{min-width:680px}</style><main><header><small>哈基米 · 股票事件研究 / 固定开发诊断 · 2026-09-25</small>',
         f'<h1>{escape(headline)}</h1>',
-        f'<div class="summary"><p>原十个 AMD 财报窗口中，{10-counts["DATA_EXCLUDED"]} 个可计算，{len(normal)} 个产生合法入场；内容否决 {counts["CONTENT_VETO"]} 个事件。{escape(finding)}</p><p>这是已见开发事件的路径解释，不是取消止损后的新回测，也不能证明信号普遍无效。{counts["DATA_EXCLUDED"]} 个存在行情分歧的事件仍排除。</p></div></header>',
+        (guidance_summary(guidance_pairs) + f'<details><summary>原路径研究结论（已结案）</summary><p>{escape(finding)}</p><p>下方历史 C/D 使用旧内容条件，未运行本次指引比较策略。</p></details></header>') if pairs else f'<div class="summary"><p>原十个 AMD 财报窗口中，{10-counts["DATA_EXCLUDED"]} 个可计算，{len(normal)} 个产生合法入场；内容否决 {counts["CONTENT_VETO"]} 个事件。{escape(finding)}</p><p>这是已见开发事件的路径解释，不是取消止损后的新回测，也不能证明信号普遍无效。{counts["DATA_EXCLUDED"]} 个存在行情分歧的事件仍排除。</p></div></header>',
         '<div class="counts">' + ''.join(f'<span>{escape(STATUS[k])}：<b>{counts[k]}</b></span>' for k in ("ENTERED_STOPPED", "NO_PRICE_SIGNAL", "CONTENT_VETO", "DATA_EXCLUDED")) + '</div>',
         '<p class="note">下列百分比含义分开：价格变化相对合法入场的常规开盘；市值估算使用原模拟入场后的数量和现金，包含入场成本但没有虚构出场费用。原策略回报是已有报告结果。入场日计为第 1 个交易日。窄屏可横向滚动表格查看完整列。</p>']
     for index, event in enumerate(result["events"]):
         event_id = f'event-{event["fiscal_quarter"]}'
         parts += [f'<article class="card" id="{escape(event_id)}" data-source-event="/events/{index}">',
-            f'<div class="card-head"><h2>AMD {escape(event["fiscal_quarter"])}</h2><span class="badge">{escape(STATUS[event["status"]])}</span></div>',
+            f'<div class="card-head"><h2>AMD {escape(event["fiscal_quarter"])}</h2><span class="badge">{"原研究：" if pairs else ""}{escape(STATUS[event["status"]])}</span></div>']
+        if pairs:
+            parts.append(guidance_section(pairs[event['fiscal_quarter']], pair_sources, source_link, clock_text))
+            parts.append('<h3>历史 C/D 与价格路径（旧内容条件）</h3>')
+        parts += [
             '<div class="timeline">', f'<div><b>公告公开（页面标记）</b>{escape(clock_text(event["first_public_at"]))}</div>',
             f'<div><b>模型信息可用</b>{escape(clock_text(event["model_event_available_at"]))}<br>公开后 120 秒假设</div>',
             f'<div><b>首个完整交易日确认</b>{escape(event.get("confirmation_session", "原行情未接纳"))}<br>{escape(clock_text(event["confirmation_available_at"]) if event.get("confirmation_available_at") else "未计算")}</div></div>']
@@ -123,23 +140,29 @@ def render(result, preview):
     return '\n'.join(parts)
 
 
-def build(result_path, preview_root, output):
+def build(result_path, preview_root, output, guidance_path=None):
     if output.resolve().is_relative_to(preview_root.resolve()):
         raise ValueError("card_output_must_not_modify_preview_bundle")
     preview = verify_bundle(preview_root)
     if preview['kind'] != 'research':
         raise ValueError('card_research_preview_required')
     raw = result_path.read_bytes(); result = json.loads(raw)
-    html = render(result, preview)
+    guidance_raw = guidance_path.read_bytes() if guidance_path else None
+    html = render(result, preview, json.loads(guidance_raw) if guidance_raw else None)
     output.mkdir(parents=True, exist_ok=False)
     (output/'index.html').write_text(html,encoding='utf-8',newline='\n')
     (output/'path-results.json').write_bytes(raw)
+    if guidance_raw is not None:
+        (output/'guidance-pairs.json').write_bytes(guidance_raw)
     verify_bundle(preview_root)
     receipt = {'schema_version':'readonly-event-card-v1','diagnosis_hash':result['diagnosis_hash'],
         'html_sha256':hashlib.sha256((output/'index.html').read_bytes()).hexdigest(),
         'data_sha256':hashlib.sha256(raw).hexdigest(),'renderer_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'preview_build_id':preview['build_id'],'preview_integrity':'VERIFIED_BEFORE_AND_AFTER',
         'old_preview_replaced':False,'auto_network_requests':False,'order_allowed':False}
+    if guidance_raw is not None:
+        receipt.update(guidance_data_sha256=hashlib.sha256(guidance_raw).hexdigest(),
+                       guidance_renderer_sha256=hashlib.sha256((ROOT/'tools/equity_guidance_card.py').read_bytes()).hexdigest())
     (output/'render-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8',newline='\n')
     return receipt
 
@@ -147,4 +170,5 @@ def build(result_path, preview_root, output):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     for name in ('result','preview-root','output'):parser.add_argument('--'+name,type=Path,required=True)
-    args=parser.parse_args();print(json.dumps(build(args.result,args.preview_root,args.output),indent=2))
+    parser.add_argument('--guidance-pairs',type=Path)
+    args=parser.parse_args();print(json.dumps(build(args.result,args.preview_root,args.output,args.guidance_pairs),indent=2))

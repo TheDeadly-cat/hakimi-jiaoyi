@@ -1,0 +1,553 @@
+{
+  "schema_version": "guidance-independent-source-audit-v1",
+  "pairing_hash": "8a523cc4c85a00fc562302dc3a8a03eef2e9f203965e570a5e37b9fabb25bdaa",
+  "data_sha256": "01a38de7b6adb590d47839da300182b4cd9d05787138368d5f9e68a82259b3e0",
+  "source_count": 17,
+  "check_count": 134,
+  "passed": true,
+  "checks": [
+    {
+      "check": "raw-source:2022Q1",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q2",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q3",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q4",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2023Q1",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2023Q2",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2023Q3",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2023Q4",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2024Q1",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2024Q2",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q3-preliminary",
+      "passed": true
+    },
+    {
+      "check": "raw-source:financial-archive-2",
+      "passed": true
+    },
+    {
+      "check": "raw-source:financial-archive-3",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2021Q4",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2021Q4-slides",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q1-slides",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022-analyst-day",
+      "passed": true
+    },
+    {
+      "check": "fixed-coverage",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:current-table-revenue",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:reference-hash:2",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:quote:2",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:reference-hash:3",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:quote:3",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:prior-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:scope-mismatch",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:current-table-revenue",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:prior-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:interval-subtraction",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:sign",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:nominal-ratio",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:current-table-revenue",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:reference-hash:2",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:quote:2",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:prior-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:interval-subtraction",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:sign",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:nominal-ratio",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:current-table-revenue",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:prior-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:interval-subtraction",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:sign",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:nominal-ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:current-table-revenue",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:prior-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:interval-subtraction",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:sign",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:nominal-ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:current-table-revenue",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:prior-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:interval-subtraction",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:sign",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:nominal-ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:current-table-revenue",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:prior-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:interval-subtraction",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:sign",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:nominal-ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:current-table-revenue",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:prior-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:interval-subtraction",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:sign",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:nominal-ratio",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:current-table-revenue",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:prior-clock",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:interval-subtraction",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:sign",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:nominal-ratio",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:current-table-revenue",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:prior-clock",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:interval-subtraction",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:sign",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:nominal-ratio",
+      "passed": true
+    },
+    {
+      "check": "2022Q3-three-stage-chain",
+      "passed": true
+    },
+    {
+      "check": "2022Q3-no-reused-business-range",
+      "passed": true
+    },
+    {
+      "check": "no-new-economic-execution",
+      "passed": true
+    },
+    {
+      "check": "not-run-is-not-zero-intervention",
+      "passed": true
+    },
+    {
+      "check": "no-extra-approved-fields",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q1",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q2",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q3",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q4",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2023Q1",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2023Q2",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2023Q3",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2023Q4",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2024Q1",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2024Q2",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q3-preliminary",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:financial-archive-2",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:financial-archive-3",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2021Q4",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2021Q4-slides",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q1-slides",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022-analyst-day",
+      "passed": true
+    }
+  ],
+  "network_calls": 0,
+  "economic_experiments": 0,
+  "ratio_check": "EXACT_RATIONAL_WITH_HALF_LAST_RECORDED_DECIMAL_UNIT",
+  "limitations": [
+    "SOURCE_CHAIN_COMPLETENESS_NOT_PROVEN",
+    "NOT_HUMAN_FIELD_APPROVAL"
+  ]
+}

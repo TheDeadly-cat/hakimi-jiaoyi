@@ -152,3 +152,7 @@ tools/equity_path_diagnostics.py text eol=lf
 tools/equity_research_card.py text eol=lf
 tests/repository_only/test_equity_path_diagnostics.py text eol=lf
 tests/repository_only/test_equity_research_card.py text eol=lf
+tools/equity_guidance_pairs.py text eol=lf
+tools/equity_guidance_card.py text eol=lf
+tools/verify_equity_guidance_pairs.py text eol=lf
+tests/repository_only/test_equity_guidance_pairs.py text eol=lf
