@@ -152,6 +152,16 @@ def compare_event(event,sources,security):
             else:
                 require(fact['publication_date']<=source['retrieved_at'][:10],'retrieval_before_publication')
             facts.append(fact)
+        by_source={field['evidence']['source_id']:field for field in facts}
+        for id in wanted:
+            parent_id=sources[id]['prior_source_id']
+            if parent_id is None:continue
+            require(parent_id in by_source,'revision_parent_not_selected')
+            parent,child=by_source[parent_id],by_source[id]
+            require(parent['kind']==child['kind'],'revision_amount_kind_changed')
+            require(parent['publication_date']<child['publication_date'] or
+                parent['public_at'] and child['public_at'] and utc(parent['public_at'])<utc(child['public_at']),
+                'revision_not_after_parent')
         actual=facts[0];priors=facts[1:]
         require(all(p['publication_date']<actual['publication_date'] or p['public_at'] and actual['public_at'] and utc(p['public_at'])<utc(actual['public_at']) for p in priors),'prior_not_before_actual')
         require(len({(p['publication_date'],p['public_at']) for p in priors})==len(priors),'ambiguous_prior_order')

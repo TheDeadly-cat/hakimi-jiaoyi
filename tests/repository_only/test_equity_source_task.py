@@ -110,6 +110,12 @@ class SourceTaskTests(unittest.TestCase):
         self.change_source('prior','2023-02-22','2023-05-25')
         self.assertIn('prior_not_before_actual',' '.join(self.result()['issues']))
 
+    def test_revision_cannot_claim_to_precede_its_parent_disclosure(self):
+        source=deepcopy(self.manifest['sources'][0]);source.update(source_id='revision',path='revision.html',declaration_version=2,prior_source_id='prior')
+        raw=release(4,2023,'6,051','7.00','2023-02-20');(self.root/'revision.html').write_bytes(raw);source['sha256']=hashlib.sha256(raw).hexdigest()
+        self.manifest['sources'].append(source);self.manifest['events'][0]['prior_source_ids'].append('revision');self.manifest['events'][0]['known_material_source_ids'].append('revision')
+        event=self.result();self.assertEqual(event['status'],'SOURCE_REJECTED');self.assertIn('revision_not_after_parent',' '.join(event['issues']))
+
     def test_changed_source_creates_new_packet_and_preserves_old(self):
         first=self.run_task();old=first.read_bytes();old_originals={p.name:p.read_bytes() for p in (first.parent/'originals').iterdir()}
         self.change_source('actual','$7,192','$7,193');self.manifest['previous_packet']=str(first)
