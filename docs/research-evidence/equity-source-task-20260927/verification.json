@@ -1,0 +1,92 @@
+{
+  "schema_version": "source-task-acceptance-v1",
+  "packet_hash": "0cd6d876f5043ecc4e8f5328c7bf7a7d28470f489fdba6b2584fa76986abc184",
+  "report_hash": "f529f48de80eb0c75c17aa7ea8e645cc40210dead3105ad5315adc2718f9667e",
+  "source_count": 3,
+  "event_count": 2,
+  "sources": [
+    {
+      "source_id": "FY2023Q4",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-fourth-quarter-and-fiscal-2023",
+      "status": 200,
+      "sha256": "7fbaf2a989f32ec7704357a9a149ecbb98efcb2660c23c3875819087defe7fb4",
+      "retrieved_at": "2026-09-27T09:28:52.632591Z",
+      "size": 453541
+    },
+    {
+      "source_id": "FY2024Q1",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2024",
+      "status": 200,
+      "sha256": "1f6f38e22fbefcdfaea23ebcd6280d4f8b3888118f5ce5efb99313be608fe841",
+      "retrieved_at": "2026-09-27T09:28:54.249418Z",
+      "size": 270592
+    },
+    {
+      "source_id": "FY2024Q2",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2024",
+      "status": 200,
+      "sha256": "bc404011add3e507648ba1978bbf816c4c4d8e5201550f7ce2cf2b61e7f8b55b",
+      "retrieved_at": "2026-09-27T09:28:55.717096Z",
+      "size": 385032
+    }
+  ],
+  "counts": {
+    "events": 2,
+    "comparable_sources": 2,
+    "human_approved_events": 0,
+    "market_available_events": 0,
+    "price_signals": null,
+    "numeric_above": 2,
+    "price_numeric_intersection": null,
+    "content_interventions": null,
+    "new_economic_runs": 0,
+    "new_research_admitted": 0
+  },
+  "actual_command": "python -B tools/equity_source_task.py run --manifest <local manifest>",
+  "source_extraction_audit": "PASS",
+  "actual_publication_precision": "DATE_ONLY_NO_TIMESTAMP_IN_ARTICLE",
+  "historical_model_available_at": null,
+  "automatic_retries": 0,
+  "maximum_documents": 6,
+  "market_requests": 0,
+  "broker_requests": 0,
+  "economic_runs": 0,
+  "human_approvals": 0,
+  "original_bytes_unchanged": true,
+  "prior_failed_packet_preserved": "90c6d258925e196c94628d0074c9a07a73ee579510787cf667a7e23a718a3720",
+  "prior_successful_packet_preserved": "b88442bc8d1d2d7a0f80780cd8b8def4157be0ad0f3e788927ef9d4232bc3eec",
+  "targeted_tests": {
+    "total": 88,
+    "new_source_workflow": 29,
+    "retained_amd_contracts": 59,
+    "failed": 0
+  },
+  "limitations": [
+    "ONLY_THREE_OFFICIAL_RELEASES",
+    "NO_COMPLETE_ARCHIVE_OR_REVISION_SEARCH",
+    "NO_PRECISE_PUBLICATION_TIMES",
+    "NOT_HUMAN_FIELD_APPROVAL",
+    "NOT_UNSEEN_VALIDATION",
+    "NO_PRICE_OR_ECONOMIC_RESEARCH"
+  ],
+  "actual_collection_calls": 3,
+  "transport_redirect_hops": "NOT_SEPARATELY_INSTRUMENTED",
+  "browser": {
+    "kind": "Codex in-app browser",
+    "viewport": [
+      1280,
+      720
+    ],
+    "page_width": 1265,
+    "client_width": 1265,
+    "cards": 2,
+    "active_elements": 0,
+    "errors": 0,
+    "warnings": 0,
+    "second_quarter_timeline_expanded": true,
+    "second_browser_tested": false,
+    "narrow_viewport_tested_this_run": false
+  },
+  "rendered_html_sha256": "4cfc4f504d9f229b22e7447eda6180d854c6ce44e90170d54520a9a3fd22d708",
+  "packet_version": 4
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "pr16-closeout-v1",
+  "approval": "Explicit user approval for PR16 head 02fa00c",
+  "pr": {
+    "headRefOid": "02fa00c97f3b7386e39876b71f6bd3786fee69ce",
+    "mergeCommit": {
+      "oid": "c396e0e528090bb403a619facaeca74262246d52"
+    },
+    "mergedAt": "2026-09-27T09:08:50Z",
+    "state": "MERGED",
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/16"
+  },
+  "main_ci": {
+    "run_id": 36308441908,
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36308441908",
+    "head": "c396e0e528090bb403a619facaeca74262246d52",
+    "conclusion": "success",
+    "actual_main_checkout_confirmed": true,
+    "jobs": [
+      {
+        "name": "Offline research MVP contracts",
+        "conclusion": "success"
+      },
+      {
+        "name": "Python contracts",
+        "conclusion": "success"
+      },
+      {
+        "name": "Deterministic references",
+        "conclusion": "success"
+      },
+      {
+        "name": "Historical developer reference replay",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package install smoke (ubuntu-latest)",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package install smoke (windows-latest)",
+        "conclusion": "success"
+      },
+      {
+        "name": "Market-data renderer",
+        "conclusion": "success"
+      },
+      {
+        "name": "Electron capability contract",
+        "conclusion": "success"
+      },
+      {
+        "name": "Research required gate",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "new_economic_runs": 0,
+  "release_or_deployment_changed": false,
+  "account_operations_resumed": false
+}
