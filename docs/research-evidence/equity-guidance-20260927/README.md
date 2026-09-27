@@ -53,10 +53,12 @@
 
 首轮远端运行 `36279809819` 中七项实际任务成功，Python 合同因新增测试跨文件夹具导入依赖 `tests` 命名空间而失败，聚合随之失败。修复为显式测试目录内导入，并以 CI 的目录发现模式核对新增 16 项与原卡片 3 项；不改变源码判断、阈值、数据或页面。该失败保留，新提交的远端结论以 PR 当前检查为准。
 
-T0：PR #15 受审 head `0c2aa7d9c6b224cb66e6e4fbf5a0371c57d01d7c` 未变；[CI 36038771942](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36038771942) 九项成功，原始日志实际检出 PR 测试合并提交 `421a00bf8d26d8fc81be8a540a9ae81fed50e413`。已请求独立合并批准，尚未收到；不能把本轮审查建议当作批准。合并后 main 检查因此待执行。
+T0 已完成：维护者于9月27日对待批准的 PR #15 明确回复“授权”，按受审 head `0c2aa7d9c6b224cb66e6e4fbf5a0371c57d01d7c` 合并；实际 main 合并提交为 `7dd203e4df1c861554542a325bf0ff09a6e64db4`，合并时间为 2026-09-27 01:32:03 UTC。[合并后 CI 36285823487](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487) 九项成功，原始日志确认实际检出该 main 提交。此前测试合并 `421a00bf8d26d8fc81be8a540a9ae81fed50e413` 独立保留，不代替真实合并。见[收尾回执](pr15-closeout.json)。PR #16 已改为 main 基线且保留草稿，本次授权不延伸为 PR #16 合并或部署批准。
 
 Unknown、官方模拟 T3、客服邮件、账户／订单与新监控窗口继续暂停。O1 可靠性未通过结论、三个旧行情排除、原 C/D 结果、r3 与 v0.2.1 身份保持原样。
 
 数据：[逐项配对 JSON](report/guidance-pairs.json)；[独立原件审计](independent-audit.json)；[新增字段审阅清单](ADDITIONAL_FIELDS.md)；[验证摘要](verification.json)。
 
 配对摘要：`8a523cc4c85a00fc562302dc3a8a03eef2e9f203965e570a5e37b9fabb25bdaa`。
+
+本地验证摘要 `verification.json` 保留其生成时的状态，未事后改写旧快照。PR #15 当前合并身份以 `pr15-closeout.json` 为准。PR #16 的实现提交 `5f386a5` 九项检查已通过（运行 `36280070270`）；本次仅追加收尾文档，后续提交的检查以 PR 当前状态为准。

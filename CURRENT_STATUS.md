@@ -6,8 +6,8 @@
 
 | 层次 | 已核实状态 |
 |---|---|
-| 本状态核对时提交 | 用户单独批准后，PR #14 已合并至 `d09e5f9d8488e144bd07624bafac73d980f90aa3`；[合并后 Research Contracts](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36034004347) 九项任务成功。此前 PR 测试合并提交与真正 main 合并身份分开，见[合并回执](docs/research-evidence/equity-paths-20260925/pr14-closeout.json)。不以此覆盖后续开发提交 |
-| 本机开发候选 | PR #15 的 `0c2aa7d` 完成路径诊断与 GET 有界等待，九项 CI 通过；9月27日复查仍为草稿，独立合并批准待回复，未将 PR 测试合并提交当作 main。见[原 R0–R4 交付](docs/research-evidence/equity-paths-20260925/README.md)。本轮另分支交付同财季来源配对与卡片，未修改旧部署 |
+| 本状态核对时提交 | 用户于9月27日单独授权后，[PR #15](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/15) 已合并至 `7dd203e4df1c861554542a325bf0ff09a6e64db4`；[合并后 Research Contracts](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487) 九项任务成功，实际检出 main 合并提交。此前 PR 测试合并身份单独保留，见[PR #15 收尾回执](docs/research-evidence/equity-guidance-20260927/pr15-closeout.json)。PR #14 的旧合并回执保持原样 |
+| 本机开发候选 | PR #15 的路径诊断与 GET 有界等待已进入 main；[原 R0–R4 交付](docs/research-evidence/equity-paths-20260925/README.md)结项。[PR #16](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/16)交付同财季来源配对与卡片，目标已改为 main，保持草稿、未获合并授权；当前提交的检查见 PR 页面。未修改旧部署 |
 | 正式 Release | 仍为 [v0.2.1](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1)，未发布新正式版本；独立富途工具不是研究 wheel 的组成部分 |
 | 真实 AMD 原始闭环 | 37个交易日、259条真实 RTH 分时聚合。OHLC 与供应商日线一致，全部37日成交量差异原因未确认。保留原件和有限窗口公司行为来源边界 |
 | 原冻结 A/B | 两组均 -1.5974014%，各4笔成交、2个往返、0次拦截；未识别事件过滤的经济影响。工程买入持有 -3.4394% 从10月2日起评分，A/B 从10月17日起评分，不直接排名。见[原结果](docs/research-evidence/real-amd-rth-20260913/README.md) |
