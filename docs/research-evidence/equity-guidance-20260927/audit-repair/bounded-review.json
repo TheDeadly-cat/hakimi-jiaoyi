@@ -1,0 +1,1012 @@
+{
+  "schema_version": "guidance-bounded-review-v1",
+  "reviewed_at": "2026-09-27",
+  "review_kind": "AGENT_SOURCE_REVIEW_NOT_HUMAN_ATTESTATION",
+  "pairing_hash": "8a523cc4c85a00fc562302dc3a8a03eef2e9f203965e570a5e37b9fabb25bdaa",
+  "path_diagnosis_hash": "a13073484c309935d629b0aad6b124e2df6574daf4beeb3ced082d27c4bf356c",
+  "original_inputs": {
+    "original_packet_hash": "35f481974f6a95eb6b9b44f6bc324335e11a2f24d1b2fc7f09f61ff7545656de",
+    "original_approval_sha256": "26763995148125b54704eb9d1d198bae5bd41e02c0a5cd5846a1e0d76103395c",
+    "original_path_diagnosis_hash": "a13073484c309935d629b0aad6b124e2df6574daf4beeb3ced082d27c4bf356c"
+  },
+  "independent_audit": {
+    "sha256": "4c38176bce22a3c37903195125af24497bae567039537abc76674092ac1ec6f8",
+    "auditor_sha256": "6d7d651d45d37d55dd969fbda1b263662940ddc0bf0b6e31dcdc2736c14fff00",
+    "passed": true,
+    "check_count": 513
+  },
+  "source_catalog": [
+    {
+      "source_id": "2022Q1",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1062/amd-reports-first-quarter-2022-financial-results",
+      "sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16",
+      "retrieved_at": "2026-09-22T22:29:15.389132+00:00",
+      "published_at": "2022-05-03T20:10:00Z",
+      "retained": true,
+      "plain_text_sha256": "f520925928d3dfe91648b7cf742da3691f4ce9453231142dc4a0424a64bb6aa3",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022Q2",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1084/amd-reports-second-quarter-2022-financial-results",
+      "sha256": "3a91abfa527a765af7fc72aaf1c4147112099a80d8e718d05ce1cd5bc43b7d9e",
+      "retrieved_at": "2026-09-22T22:29:15.397099+00:00",
+      "published_at": "2022-08-02T20:05:00Z",
+      "retained": true,
+      "plain_text_sha256": "907d803949194f385c786e67b2d48b78c85c74a019e73300523a5a6a6297a408",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022Q3",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1098/amd-reports-third-quarter-2022-financial-results",
+      "sha256": "184aeea8c55ca12b262eb845703eca0f00f303e329677796dc79d78cd9598546",
+      "retrieved_at": "2026-09-22T22:29:15.366757+00:00",
+      "published_at": "2022-11-01T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "bc8cc394afdf8f9854ef9a7c767dc4ae2f3aa933f9c721f0701d3b69abe52980",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022Q4",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1115/amd-reports-fourth-quarter-and-full-year-2022-financial-results",
+      "sha256": "f0fcaa4a0560455d16a2b1dd138290569f4dd05380979bbd6db18e91e29843e6",
+      "retrieved_at": "2026-09-22T22:29:17.851502+00:00",
+      "published_at": "2023-01-31T21:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "31e3f2e1ba671bc6cd85368d68caf3324c5278afcc46e5180da1f317bb8c5b34",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2023Q1",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1128/amd-reports-first-quarter-2023-financial-results",
+      "sha256": "05e5198e5c804a433c4e682807c6d5345d81e04cf1dccc8623053089f2a9824d",
+      "retrieved_at": "2026-09-22T22:29:16.620853+00:00",
+      "published_at": "2023-05-02T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "ec65565f350ca8bbe80eaa5b6f396e4a20478bdbcc77e30db1995068d452c63c",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2023Q2",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1146/amd-reports-second-quarter-2023-financial-results",
+      "sha256": "6571dcf401b03d4c2d7d0080bea7b5f49a77431c3eda8da2b30675c75f56f6e1",
+      "retrieved_at": "2026-09-22T22:29:16.652978+00:00",
+      "published_at": "2023-08-01T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "ce78e07a90230a2414e1bc46c33451d77d721b524da1103c1b9c368750834e12",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2023Q3",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1163/amd-reports-third-quarter-2023-financial-results",
+      "sha256": "a1188c99c8cc7ea876ebab577cb759f88b5a03ded967f751c03b5a25dd0b39e4",
+      "retrieved_at": "2026-09-22T22:29:17.883444+00:00",
+      "published_at": "2023-10-31T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "66d35fa4ccd46f55c0425d0b4798e2d83dd71da75039b88047cf2722ea7b2aea",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2023Q4",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1180/amd-reports-fourth-quarter-and-full-year-2023-financial-results",
+      "sha256": "e7cabb37f44e25586887693d78dbf6dd49dff64f0e97f3691bc62f986dd06e1b",
+      "retrieved_at": "2026-09-22T22:29:17.932101+00:00",
+      "published_at": "2024-01-30T21:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "6229c1600a794a3deeb88408a41a6227f6f68cc05a706b39cfc874abd8c66009",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2024Q1",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1192/amd-reports-first-quarter-2024-financial-results",
+      "sha256": "82e4b93824234b8a14d5d03751abc19fabd28461247b8bc0e7ecba10408c3312",
+      "retrieved_at": "2026-09-22T22:29:18.883433+00:00",
+      "published_at": "2024-04-30T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "286e2a70d98292776dc6c55f90b89085a3fcd9d8b60b62b19b0d3763eb856dde",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2024Q2",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1209/amd-reports-second-quarter-2024-financial-results",
+      "sha256": "54ab5b42ab9f7c765ca560cbd74224a49e8d3cb996d92cfdefe5916564ab933a",
+      "retrieved_at": "2026-09-22T22:29:19.019302+00:00",
+      "published_at": "2024-07-30T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "14fa68534048ae2e4fb92e8d470b98244c76bcc8ab4663cb817b853cfd5c75b6",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022Q3-preliminary",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1093/amd-announces-preliminary-third-quarter-2022-financial-results",
+      "sha256": "8136cf7f8bc58744cd35fdf31b7a573120dfc95981762039a8433dcc311d9eb8",
+      "retrieved_at": "2026-09-19T20:55:01.855431+00:00",
+      "published_at": "2022-10-06T20:17:00Z",
+      "retained": true,
+      "plain_text_sha256": "d03a9c6aea59fbaf8844f14cc28ccc3249931e6ad185870b984368e851ad3ead",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "financial-archive-2",
+      "url": "https://ir.amd.com/news-events/press-releases?category=financial&page=2",
+      "sha256": "e7fb0c8f6268211bca97e22219a9dc4f332882d6ae2f982c3366466b40b70ab2",
+      "retrieved_at": "2026-09-19T21:03:10.795343+00:00",
+      "published_at": null,
+      "retained": true,
+      "plain_text_sha256": "3a1c52f5b18a38e976d609892eb72c202de2d2002f5ffbb466b62f634a12e7a6",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "financial-archive-3",
+      "url": "https://ir.amd.com/news-events/press-releases?category=financial&page=3",
+      "sha256": "ea3cc29df4852e2f8da66c66be88b24d866e3d39a94acf18d1f10e6bed99497b",
+      "retrieved_at": "2026-09-19T21:03:13.858697+00:00",
+      "published_at": null,
+      "retained": true,
+      "plain_text_sha256": "62e29612e735880e6d1dd178202b73a7289c5994f4faddc998b6150ce55a7d0c",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2021Q4",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1044/amd-reports-fourth-quarter-and-full-year-2021-financial-results",
+      "sha256": "1ee5680b6cc403a144566bea9860366bab145946085ad43913cd852e61625ddc",
+      "retrieved_at": "2026-09-26T23:11:33.522891+00:00",
+      "published_at": "2022-02-01T21:15:00Z",
+      "retained": false,
+      "plain_text_sha256": "dc447bf34315a931e6f39bc4630d87cae6a690d016e12cdf3de814b87fbfd48f",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2021Q4-slides",
+      "url": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-22-000014/amdq421financialresultss.htm",
+      "sha256": "184ff9d367f91b7c283b20e5e35ed964d5d7fb900db513dd303667c28a141c5a",
+      "retrieved_at": "2026-09-26T23:11:33.817357+00:00",
+      "published_at": null,
+      "retained": false,
+      "plain_text_sha256": "73adf0a2a598fcbbdd71303c78d5f23c88b0573931f8109f2faf3a34f87dcd04",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022Q1-slides",
+      "url": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-22-000074/amdq122financialresultss.htm",
+      "sha256": "ad4d01109a79c8d25da5be50f1318df58d7433a248eb86ecc69a806fa1b0b060",
+      "retrieved_at": "2026-09-26T23:11:36.052946+00:00",
+      "published_at": null,
+      "retained": false,
+      "plain_text_sha256": "45eaa481d9f0bad0f335312ba09896a6a7c0ced689e320f5d0bae3cb4ac7edac",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022-analyst-day",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1078/amd-details-strategy-to-drive-next-phase-of-growth-across-300-billion-market-for-high-performance-and-adaptive-computing-solutions",
+      "sha256": "f8e2a250ac219ff5a370b483b0d0a8fb515870034725ac0639db6a07c7ed4a36",
+      "retrieved_at": "2026-09-26T23:11:36.402031+00:00",
+      "published_at": "2022-06-09T23:17:00Z",
+      "retained": false,
+      "plain_text_sha256": "d0d2a1eb2093d01e6bfd8d3e1c38402af94fd90603141406a0758d2f8eb465bd",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    }
+  ],
+  "archive_entries": [
+    {
+      "archive_source_id": "financial-archive-2",
+      "title": "AMD to Report Fiscal Third Quarter 2024 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1223/amd-to-report-fiscal-third-quarter-2024-financial-results",
+      "public_at": "2024-10-16T13:00:00Z",
+      "kind": "SCHEDULE_NOTICE_TITLE_ONLY"
+    },
+    {
+      "archive_source_id": "financial-archive-2",
+      "title": "AMD Reports Second Quarter 2024 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1209/amd-reports-second-quarter-2024-financial-results",
+      "public_at": "2024-07-30T20:15:00Z",
+      "kind": "FORMAL_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-2",
+      "title": "AMD to Report Fiscal Second Quarter 2024 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1207/amd-to-report-fiscal-second-quarter-2024-financial-results",
+      "public_at": "2024-07-16T20:15:00Z",
+      "kind": "SCHEDULE_NOTICE_TITLE_ONLY"
+    },
+    {
+      "archive_source_id": "financial-archive-2",
+      "title": "AMD Reports First Quarter 2024 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1192/amd-reports-first-quarter-2024-financial-results",
+      "public_at": "2024-04-30T20:15:00Z",
+      "kind": "FORMAL_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-2",
+      "title": "AMD Reports Fourth Quarter and Full Year 2023 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1180/amd-reports-fourth-quarter-and-full-year-2023-financial-results",
+      "public_at": "2024-01-30T21:15:00Z",
+      "kind": "FORMAL_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-2",
+      "title": "AMD to Report Fiscal Fourth Quarter and Full Year 2023 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1178/amd-to-report-fiscal-fourth-quarter-and-full-year-2023-financial-results",
+      "public_at": "2024-01-16T21:15:00Z",
+      "kind": "SCHEDULE_NOTICE_TITLE_ONLY"
+    },
+    {
+      "archive_source_id": "financial-archive-2",
+      "title": "AMD Reports Third Quarter 2023 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1163/amd-reports-third-quarter-2023-financial-results",
+      "public_at": "2023-10-31T20:15:00Z",
+      "kind": "FORMAL_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-2",
+      "title": "AMD to Report Fiscal Third Quarter 2023 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1160/amd-to-report-fiscal-third-quarter-2023-financial-results",
+      "public_at": "2023-10-17T20:15:00Z",
+      "kind": "SCHEDULE_NOTICE_TITLE_ONLY"
+    },
+    {
+      "archive_source_id": "financial-archive-2",
+      "title": "AMD Reports Second Quarter 2023 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1146/amd-reports-second-quarter-2023-financial-results",
+      "public_at": "2023-08-01T20:15:00Z",
+      "kind": "FORMAL_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-2",
+      "title": "AMD to Report Fiscal Second Quarter 2023 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1144/amd-to-report-fiscal-second-quarter-2023-financial-results",
+      "public_at": "2023-07-18T20:15:00Z",
+      "kind": "SCHEDULE_NOTICE_TITLE_ONLY"
+    },
+    {
+      "archive_source_id": "financial-archive-3",
+      "title": "AMD Reports First Quarter 2023 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1128/amd-reports-first-quarter-2023-financial-results",
+      "public_at": "2023-05-02T20:15:00Z",
+      "kind": "FORMAL_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-3",
+      "title": "AMD to Report Fiscal First Quarter 2023 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1125/amd-to-report-fiscal-first-quarter-2023-financial-results",
+      "public_at": "2023-04-18T20:05:00Z",
+      "kind": "SCHEDULE_NOTICE_TITLE_ONLY"
+    },
+    {
+      "archive_source_id": "financial-archive-3",
+      "title": "AMD Reports Fourth Quarter and Full Year 2022 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1115/amd-reports-fourth-quarter-and-full-year-2022-financial-results",
+      "public_at": "2023-01-31T21:15:00Z",
+      "kind": "FORMAL_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-3",
+      "title": "AMD Reports Third Quarter 2022 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1098/amd-reports-third-quarter-2022-financial-results",
+      "public_at": "2022-11-01T20:15:00Z",
+      "kind": "FORMAL_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-3",
+      "title": "AMD Announces Preliminary Third Quarter 2022 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1093/amd-announces-preliminary-third-quarter-2022-financial-results",
+      "public_at": "2022-10-06T20:17:00Z",
+      "kind": "PRELIMINARY_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-3",
+      "title": "AMD Reports Second Quarter 2022 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1084/amd-reports-second-quarter-2022-financial-results",
+      "public_at": "2022-08-02T20:05:00Z",
+      "kind": "FORMAL_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-3",
+      "title": "AMD to Report Fiscal Second Quarter 2022 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1082/amd-to-report-fiscal-second-quarter-2022-financial-results",
+      "public_at": "2022-07-13T20:05:00Z",
+      "kind": "SCHEDULE_NOTICE_TITLE_ONLY"
+    },
+    {
+      "archive_source_id": "financial-archive-3",
+      "title": "AMD Reports First Quarter 2022 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1062/amd-reports-first-quarter-2022-financial-results",
+      "public_at": "2022-05-03T20:10:00Z",
+      "kind": "FORMAL_RESULTS"
+    },
+    {
+      "archive_source_id": "financial-archive-3",
+      "title": "AMD to Report Fiscal First Quarter 2022 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1058/amd-to-report-fiscal-first-quarter-2022-financial-results",
+      "public_at": "2022-04-14T20:15:00Z",
+      "kind": "SCHEDULE_NOTICE_TITLE_ONLY"
+    },
+    {
+      "archive_source_id": "financial-archive-3",
+      "title": "AMD Reports Fourth Quarter and Full Year 2021 Financial Results",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1044/amd-reports-fourth-quarter-and-full-year-2021-financial-results",
+      "public_at": "2022-02-01T21:15:00Z",
+      "kind": "FORMAL_RESULTS"
+    }
+  ],
+  "review_items": [
+    {
+      "field_id": "2022Q1:actual_revenue",
+      "fiscal_quarter": "2022Q1",
+      "value": "5887",
+      "evidence": [
+        {
+          "source_id": "2022Q1",
+          "source_sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16",
+          "plain_text_start": 2306,
+          "plain_text_end": 2325,
+          "quote": "Revenue ($M)\n$5,887",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；仅用于已见历史开发样例。2022Q1 含 Xilinx，不能直接减去排除 Xilinx 的原指引。"
+    },
+    {
+      "field_id": "2022Q2:actual_revenue",
+      "fiscal_quarter": "2022Q2",
+      "value": "6550",
+      "evidence": [
+        {
+          "source_id": "2022Q2",
+          "source_sha256": "3a91abfa527a765af7fc72aaf1c4147112099a80d8e718d05ce1cd5bc43b7d9e",
+          "plain_text_start": 1426,
+          "plain_text_end": 1445,
+          "quote": "Revenue ($M)\n$6,550",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；仅用于已见历史开发样例。2022Q1 含 Xilinx，不能直接减去排除 Xilinx 的原指引。"
+    },
+    {
+      "field_id": "2022Q3:actual_revenue",
+      "fiscal_quarter": "2022Q3",
+      "value": "5565",
+      "evidence": [
+        {
+          "source_id": "2022Q3",
+          "source_sha256": "184aeea8c55ca12b262eb845703eca0f00f303e329677796dc79d78cd9598546",
+          "plain_text_start": 1440,
+          "plain_text_end": 1460,
+          "quote": "Revenue ($M)\n$\n5,565",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；仅用于已见历史开发样例。2022Q1 含 Xilinx，不能直接减去排除 Xilinx 的原指引。"
+    },
+    {
+      "field_id": "2022Q4:actual_revenue",
+      "fiscal_quarter": "2022Q4",
+      "value": "5599",
+      "evidence": [
+        {
+          "source_id": "2022Q4",
+          "source_sha256": "f0fcaa4a0560455d16a2b1dd138290569f4dd05380979bbd6db18e91e29843e6",
+          "plain_text_start": 1671,
+          "plain_text_end": 1690,
+          "quote": "Revenue ($M)\n$5,599",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；仅用于已见历史开发样例。2022Q1 含 Xilinx，不能直接减去排除 Xilinx 的原指引。"
+    },
+    {
+      "field_id": "2023Q1:actual_revenue",
+      "fiscal_quarter": "2023Q1",
+      "value": "5353",
+      "evidence": [
+        {
+          "source_id": "2023Q1",
+          "source_sha256": "05e5198e5c804a433c4e682807c6d5345d81e04cf1dccc8623053089f2a9824d",
+          "plain_text_start": 2203,
+          "plain_text_end": 2222,
+          "quote": "Revenue ($M)\n$5,353",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；仅用于已见历史开发样例。2022Q1 含 Xilinx，不能直接减去排除 Xilinx 的原指引。"
+    },
+    {
+      "field_id": "2023Q2:actual_revenue",
+      "fiscal_quarter": "2023Q2",
+      "value": "5359",
+      "evidence": [
+        {
+          "source_id": "2023Q2",
+          "source_sha256": "6571dcf401b03d4c2d7d0080bea7b5f49a77431c3eda8da2b30675c75f56f6e1",
+          "plain_text_start": 2185,
+          "plain_text_end": 2204,
+          "quote": "Revenue ($M)\n$5,359",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；仅用于已见历史开发样例。2022Q1 含 Xilinx，不能直接减去排除 Xilinx 的原指引。"
+    },
+    {
+      "field_id": "2023Q3:actual_revenue",
+      "fiscal_quarter": "2023Q3",
+      "value": "5800",
+      "evidence": [
+        {
+          "source_id": "2023Q3",
+          "source_sha256": "a1188c99c8cc7ea876ebab577cb759f88b5a03ded967f751c03b5a25dd0b39e4",
+          "plain_text_start": 2066,
+          "plain_text_end": 2085,
+          "quote": "Revenue ($M)\n$5,800",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；仅用于已见历史开发样例。2022Q1 含 Xilinx，不能直接减去排除 Xilinx 的原指引。"
+    },
+    {
+      "field_id": "2023Q4:actual_revenue",
+      "fiscal_quarter": "2023Q4",
+      "value": "6168",
+      "evidence": [
+        {
+          "source_id": "2023Q4",
+          "source_sha256": "e7cabb37f44e25586887693d78dbf6dd49dff64f0e97f3691bc62f986dd06e1b",
+          "plain_text_start": 2410,
+          "plain_text_end": 2429,
+          "quote": "Revenue ($M)\n$6,168",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；仅用于已见历史开发样例。2022Q1 含 Xilinx，不能直接减去排除 Xilinx 的原指引。"
+    },
+    {
+      "field_id": "2024Q1:actual_revenue",
+      "fiscal_quarter": "2024Q1",
+      "value": "5473",
+      "evidence": [
+        {
+          "source_id": "2024Q1",
+          "source_sha256": "82e4b93824234b8a14d5d03751abc19fabd28461247b8bc0e7ecba10408c3312",
+          "plain_text_start": 2175,
+          "plain_text_end": 2195,
+          "quote": "Revenue ($M)\n$\n5,473",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；仅用于已见历史开发样例。2022Q1 含 Xilinx，不能直接减去排除 Xilinx 的原指引。"
+    },
+    {
+      "field_id": "2024Q2:actual_revenue",
+      "fiscal_quarter": "2024Q2",
+      "value": "5835",
+      "evidence": [
+        {
+          "source_id": "2024Q2",
+          "source_sha256": "54ab5b42ab9f7c765ca560cbd74224a49e8d3cb996d92cfdefe5916564ab933a",
+          "plain_text_start": 2181,
+          "plain_text_end": 2200,
+          "quote": "Revenue ($M)\n$5,835",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；仅用于已见历史开发样例。2022Q1 含 Xilinx，不能直接减去排除 Xilinx 的原指引。"
+    },
+    {
+      "field_id": "2022Q1:original_guidance_midpoint",
+      "fiscal_quarter": "2022Q1",
+      "value": "5000.0",
+      "evidence": [
+        {
+          "source_id": "2021Q4",
+          "source_sha256": "1ee5680b6cc403a144566bea9860366bab145946085ad43913cd852e61625ddc",
+          "plain_text_start": 12999,
+          "plain_text_end": 13053,
+          "quote": "approximately $5.0 billion, plus or minus $100 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；排除 Xilinx，不与合并总营收直接计算差额。"
+    },
+    {
+      "field_id": "2022Q1:original_guidance_range",
+      "fiscal_quarter": "2022Q1",
+      "value": [
+        "4900.0",
+        "5100.0"
+      ],
+      "evidence": [
+        {
+          "source_id": "2021Q4",
+          "source_sha256": "1ee5680b6cc403a144566bea9860366bab145946085ad43913cd852e61625ddc",
+          "plain_text_start": 12999,
+          "plain_text_end": 13053,
+          "quote": "approximately $5.0 billion, plus or minus $100 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "公司经营区间，不是舍入误差或统计置信区间。"
+    },
+    {
+      "field_id": "2022Q1:guidance_coverage",
+      "fiscal_quarter": "2022Q1",
+      "value": "AMD_EXCLUDING_XILINX",
+      "evidence": [
+        {
+          "source_id": "2021Q4-slides",
+          "source_sha256": "184ff9d367f91b7c283b20e5e35ed964d5d7fb900db513dd303667c28a141c5a",
+          "plain_text_start": 19988,
+          "plain_text_end": 20040,
+          "quote": "Guidance does not contemplate the addition of Xilinx",
+          "locator": "Financial Outlook slide 20"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "SEC 演示第 20 页明确排除 Xilinx。"
+    },
+    {
+      "field_id": "2022Q1:actual_coverage",
+      "fiscal_quarter": "2022Q1",
+      "value": "AMD_CONSOLIDATED_REPORTED",
+      "evidence": [
+        {
+          "source_id": "2022Q1",
+          "source_sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16",
+          "plain_text_start": 1409,
+          "plain_text_end": 1463,
+          "quote": "results include partial quarter financial results from",
+          "locator": "Opening acquisition scope note"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "正式总营收含部分季度 Xilinx；不替换成补充表中的剔除 Xilinx 数值。"
+    },
+    {
+      "field_id": "2022Q3:preliminary_revenue",
+      "fiscal_quarter": "2022Q3",
+      "value": "5600",
+      "evidence": [
+        {
+          "source_id": "2022Q3-preliminary",
+          "source_sha256": "8136cf7f8bc58744cd35fdf31b7a573120dfc95981762039a8433dcc311d9eb8",
+          "plain_text_start": 1256,
+          "plain_text_end": 1322,
+          "quote": "Third quarter revenue is expected to be approximately $5.6 billion",
+          "locator": "Preliminary selected financial results; total revenue"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "百万美元；作为正式结果之前最后已知值，不继承原指引经营区间。"
+    },
+    {
+      "field_id": "2022Q3:preliminary_public_at",
+      "fiscal_quarter": "2022Q3",
+      "value": "2022-10-06T20:17:00Z",
+      "evidence": [
+        {
+          "source_id": "2022Q3-preliminary",
+          "source_sha256": "8136cf7f8bc58744cd35fdf31b7a573120dfc95981762039a8433dcc311d9eb8",
+          "locator": "HTML time datetime plus EDT label"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "页面标记公开时间；不是可证明的历史首次可用时间，当前页面历史不变性未证实。"
+    },
+    {
+      "field_id": "all:display_precision",
+      "fiscal_quarter": null,
+      "value": {
+        "actual_half_unit_million": "0.5",
+        "prior_half_unit_million": "50"
+      },
+      "evidence": [
+        {
+          "source_id": "2022Q1",
+          "source_sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16"
+        },
+        {
+          "source_id": "2022Q2",
+          "source_sha256": "3a91abfa527a765af7fc72aaf1c4147112099a80d8e718d05ce1cd5bc43b7d9e"
+        },
+        {
+          "source_id": "2022Q3",
+          "source_sha256": "184aeea8c55ca12b262eb845703eca0f00f303e329677796dc79d78cd9598546"
+        },
+        {
+          "source_id": "2022Q4",
+          "source_sha256": "f0fcaa4a0560455d16a2b1dd138290569f4dd05380979bbd6db18e91e29843e6"
+        },
+        {
+          "source_id": "2023Q1",
+          "source_sha256": "05e5198e5c804a433c4e682807c6d5345d81e04cf1dccc8623053089f2a9824d"
+        },
+        {
+          "source_id": "2023Q2",
+          "source_sha256": "6571dcf401b03d4c2d7d0080bea7b5f49a77431c3eda8da2b30675c75f56f6e1"
+        },
+        {
+          "source_id": "2023Q3",
+          "source_sha256": "a1188c99c8cc7ea876ebab577cb759f88b5a03ded967f751c03b5a25dd0b39e4"
+        },
+        {
+          "source_id": "2023Q4",
+          "source_sha256": "e7cabb37f44e25586887693d78dbf6dd49dff64f0e97f3691bc62f986dd06e1b"
+        },
+        {
+          "source_id": "2024Q1",
+          "source_sha256": "82e4b93824234b8a14d5d03751abc19fabd28461247b8bc0e7ecba10408c3312"
+        },
+        {
+          "source_id": "2024Q2",
+          "source_sha256": "54ab5b42ab9f7c765ca560cbd74224a49e8d3cb996d92cfdefe5916564ab933a"
+        },
+        {
+          "source_id": "2022Q3-preliminary",
+          "source_sha256": "8136cf7f8bc58744cd35fdf31b7a573120dfc95981762039a8433dcc311d9eb8"
+        },
+        {
+          "source_id": "2021Q4",
+          "source_sha256": "1ee5680b6cc403a144566bea9860366bab145946085ad43913cd852e61625ddc"
+        }
+      ],
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "condition": "保守列示精度重建假设；不是来源声明的误差分布，也不是统计置信区间。"
+    }
+  ],
+  "events": [
+    {
+      "fiscal_quarter": "2022Q1",
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "interval_start_inclusive": "2022-02-01T21:15:00Z",
+      "interval_end_inclusive": "2022-05-03T20:10:00Z",
+      "archive_entry_urls": [
+        "https://ir.amd.com/news-events/press-releases/detail/1062/amd-reports-first-quarter-2022-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1058/amd-to-report-fiscal-first-quarter-2022-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1044/amd-reports-fourth-quarter-and-full-year-2021-financial-results"
+      ],
+      "known_material_source_ids": [
+        "2021Q4",
+        "2022Q1"
+      ],
+      "known_material_omission": false,
+      "comparison_status": "NOT_COMPARABLE",
+      "old_price_status": "ENTERED_STOPPED",
+      "old_price_condition": true,
+      "numeric_candidate": false,
+      "admitted_for_new_study": false,
+      "conditional_item_ids": [
+        "2022Q1:actual_revenue",
+        "2022Q1:original_guidance_midpoint",
+        "2022Q1:original_guidance_range",
+        "2022Q1:guidance_coverage",
+        "2022Q1:actual_coverage",
+        "all:display_precision"
+      ],
+      "scope_note": "原指引至正式结果，核查所列财务归档及已留存正式／初步数值原件；排期公告只核查标题和公开时间。"
+    },
+    {
+      "fiscal_quarter": "2022Q2",
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "interval_start_inclusive": "2022-05-03T20:10:00Z",
+      "interval_end_inclusive": "2022-08-02T20:05:00Z",
+      "archive_entry_urls": [
+        "https://ir.amd.com/news-events/press-releases/detail/1084/amd-reports-second-quarter-2022-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1082/amd-to-report-fiscal-second-quarter-2022-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1062/amd-reports-first-quarter-2022-financial-results"
+      ],
+      "known_material_source_ids": [
+        "2022Q1",
+        "2022Q2"
+      ],
+      "known_material_omission": false,
+      "comparison_status": "UNCERTAIN_PRECISION",
+      "old_price_status": "DATA_EXCLUDED",
+      "old_price_condition": null,
+      "numeric_candidate": false,
+      "admitted_for_new_study": false,
+      "conditional_item_ids": [
+        "2022Q2:actual_revenue",
+        "all:display_precision"
+      ],
+      "scope_note": "原指引至正式结果，核查所列财务归档及已留存正式／初步数值原件；排期公告只核查标题和公开时间。"
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "interval_start_inclusive": "2022-08-02T20:05:00Z",
+      "interval_end_inclusive": "2022-11-01T20:15:00Z",
+      "archive_entry_urls": [
+        "https://ir.amd.com/news-events/press-releases/detail/1098/amd-reports-third-quarter-2022-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1093/amd-announces-preliminary-third-quarter-2022-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1084/amd-reports-second-quarter-2022-financial-results"
+      ],
+      "known_material_source_ids": [
+        "2022Q2",
+        "2022Q3-preliminary",
+        "2022Q3"
+      ],
+      "known_material_omission": false,
+      "comparison_status": "UNCERTAIN_PRECISION",
+      "old_price_status": "NO_PRICE_SIGNAL",
+      "old_price_condition": false,
+      "numeric_candidate": false,
+      "admitted_for_new_study": false,
+      "conditional_item_ids": [
+        "2022Q3:actual_revenue",
+        "2022Q3:preliminary_revenue",
+        "2022Q3:preliminary_public_at",
+        "all:display_precision"
+      ],
+      "scope_note": "原指引至正式结果，核查所列财务归档及已留存正式／初步数值原件；排期公告只核查标题和公开时间。"
+    },
+    {
+      "fiscal_quarter": "2022Q4",
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "interval_start_inclusive": "2022-11-01T20:15:00Z",
+      "interval_end_inclusive": "2023-01-31T21:15:00Z",
+      "archive_entry_urls": [
+        "https://ir.amd.com/news-events/press-releases/detail/1115/amd-reports-fourth-quarter-and-full-year-2022-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1098/amd-reports-third-quarter-2022-financial-results"
+      ],
+      "known_material_source_ids": [
+        "2022Q3",
+        "2022Q4"
+      ],
+      "known_material_omission": false,
+      "comparison_status": "ABOVE",
+      "old_price_status": "DATA_EXCLUDED",
+      "old_price_condition": null,
+      "numeric_candidate": false,
+      "admitted_for_new_study": false,
+      "conditional_item_ids": [
+        "2022Q4:actual_revenue",
+        "all:display_precision"
+      ],
+      "scope_note": "原指引至正式结果，核查所列财务归档及已留存正式／初步数值原件；排期公告只核查标题和公开时间。"
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "interval_start_inclusive": "2023-01-31T21:15:00Z",
+      "interval_end_inclusive": "2023-05-02T20:15:00Z",
+      "archive_entry_urls": [
+        "https://ir.amd.com/news-events/press-releases/detail/1128/amd-reports-first-quarter-2023-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1125/amd-to-report-fiscal-first-quarter-2023-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1115/amd-reports-fourth-quarter-and-full-year-2022-financial-results"
+      ],
+      "known_material_source_ids": [
+        "2022Q4",
+        "2023Q1"
+      ],
+      "known_material_omission": false,
+      "comparison_status": "ABOVE",
+      "old_price_status": "NO_PRICE_SIGNAL",
+      "old_price_condition": false,
+      "numeric_candidate": false,
+      "admitted_for_new_study": false,
+      "conditional_item_ids": [
+        "2023Q1:actual_revenue",
+        "all:display_precision"
+      ],
+      "scope_note": "原指引至正式结果，核查所列财务归档及已留存正式／初步数值原件；排期公告只核查标题和公开时间。"
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "interval_start_inclusive": "2023-05-02T20:15:00Z",
+      "interval_end_inclusive": "2023-08-01T20:15:00Z",
+      "archive_entry_urls": [
+        "https://ir.amd.com/news-events/press-releases/detail/1146/amd-reports-second-quarter-2023-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1144/amd-to-report-fiscal-second-quarter-2023-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1128/amd-reports-first-quarter-2023-financial-results"
+      ],
+      "known_material_source_ids": [
+        "2023Q1",
+        "2023Q2"
+      ],
+      "known_material_omission": false,
+      "comparison_status": "ABOVE",
+      "old_price_status": "NO_PRICE_SIGNAL",
+      "old_price_condition": false,
+      "numeric_candidate": false,
+      "admitted_for_new_study": false,
+      "conditional_item_ids": [
+        "2023Q2:actual_revenue",
+        "all:display_precision"
+      ],
+      "scope_note": "原指引至正式结果，核查所列财务归档及已留存正式／初步数值原件；排期公告只核查标题和公开时间。"
+    },
+    {
+      "fiscal_quarter": "2023Q3",
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "interval_start_inclusive": "2023-08-01T20:15:00Z",
+      "interval_end_inclusive": "2023-10-31T20:15:00Z",
+      "archive_entry_urls": [
+        "https://ir.amd.com/news-events/press-releases/detail/1163/amd-reports-third-quarter-2023-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1160/amd-to-report-fiscal-third-quarter-2023-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1146/amd-reports-second-quarter-2023-financial-results"
+      ],
+      "known_material_source_ids": [
+        "2023Q2",
+        "2023Q3"
+      ],
+      "known_material_omission": false,
+      "comparison_status": "ABOVE",
+      "old_price_status": "DATA_EXCLUDED",
+      "old_price_condition": null,
+      "numeric_candidate": false,
+      "admitted_for_new_study": false,
+      "conditional_item_ids": [
+        "2023Q3:actual_revenue",
+        "all:display_precision"
+      ],
+      "scope_note": "原指引至正式结果，核查所列财务归档及已留存正式／初步数值原件；排期公告只核查标题和公开时间。"
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "interval_start_inclusive": "2023-10-31T20:15:00Z",
+      "interval_end_inclusive": "2024-01-30T21:15:00Z",
+      "archive_entry_urls": [
+        "https://ir.amd.com/news-events/press-releases/detail/1180/amd-reports-fourth-quarter-and-full-year-2023-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1178/amd-to-report-fiscal-fourth-quarter-and-full-year-2023-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1163/amd-reports-third-quarter-2023-financial-results"
+      ],
+      "known_material_source_ids": [
+        "2023Q3",
+        "2023Q4"
+      ],
+      "known_material_omission": false,
+      "comparison_status": "ABOVE",
+      "old_price_status": "NO_PRICE_SIGNAL",
+      "old_price_condition": false,
+      "numeric_candidate": false,
+      "admitted_for_new_study": false,
+      "conditional_item_ids": [
+        "2023Q4:actual_revenue",
+        "all:display_precision"
+      ],
+      "scope_note": "原指引至正式结果，核查所列财务归档及已留存正式／初步数值原件；排期公告只核查标题和公开时间。"
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "interval_start_inclusive": "2024-01-30T21:15:00Z",
+      "interval_end_inclusive": "2024-04-30T20:15:00Z",
+      "archive_entry_urls": [
+        "https://ir.amd.com/news-events/press-releases/detail/1192/amd-reports-first-quarter-2024-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1180/amd-reports-fourth-quarter-and-full-year-2023-financial-results"
+      ],
+      "known_material_source_ids": [
+        "2023Q4",
+        "2024Q1"
+      ],
+      "known_material_omission": false,
+      "comparison_status": "ABOVE",
+      "old_price_status": "NO_PRICE_SIGNAL",
+      "old_price_condition": false,
+      "numeric_candidate": false,
+      "admitted_for_new_study": false,
+      "conditional_item_ids": [
+        "2024Q1:actual_revenue",
+        "all:display_precision"
+      ],
+      "scope_note": "原指引至正式结果，核查所列财务归档及已留存正式／初步数值原件；排期公告只核查标题和公开时间。"
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "review_status": "CONDITIONAL_DEVELOPMENT_USE",
+      "human_approval_status": "NOT_APPROVED",
+      "interval_start_inclusive": "2024-04-30T20:15:00Z",
+      "interval_end_inclusive": "2024-07-30T20:15:00Z",
+      "archive_entry_urls": [
+        "https://ir.amd.com/news-events/press-releases/detail/1209/amd-reports-second-quarter-2024-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1207/amd-to-report-fiscal-second-quarter-2024-financial-results",
+        "https://ir.amd.com/news-events/press-releases/detail/1192/amd-reports-first-quarter-2024-financial-results"
+      ],
+      "known_material_source_ids": [
+        "2024Q1",
+        "2024Q2"
+      ],
+      "known_material_omission": false,
+      "comparison_status": "ABOVE",
+      "old_price_status": "ENTERED_STOPPED",
+      "old_price_condition": true,
+      "numeric_candidate": true,
+      "admitted_for_new_study": false,
+      "conditional_item_ids": [
+        "2024Q2:actual_revenue",
+        "all:display_precision"
+      ],
+      "scope_note": "原指引至正式结果，核查所列财务归档及已留存正式／初步数值原件；排期公告只核查标题和公开时间。"
+    }
+  ],
+  "funnel": {
+    "fixed_events": 10,
+    "comparable_events": 9,
+    "conditional_review_items": 17,
+    "new_human_approved_items": 0,
+    "events_with_all_new_fields_human_approved": 0,
+    "original_price_accepted": 7,
+    "comparable_price_accepted": 6,
+    "original_price_signals": 2,
+    "numeric_candidates": [
+      "2024Q2"
+    ],
+    "admitted_for_new_study": 0,
+    "new_content_interventions": null,
+    "new_independent_events": 0,
+    "new_backtest_reports": 0
+  },
+  "bounded_scope": {
+    "status": "CLOSED_WITH_EXPLICIT_GAPS",
+    "complete_historical_chain_proven": false,
+    "sources_reviewed": 17,
+    "financial_archive_entries_reviewed": 20,
+    "archive_window": [
+      "2022-02-01T21:15:00Z",
+      "2024-10-16T13:00:00Z"
+    ],
+    "included_types": [
+      "FORMAL_REVENUE_AND_GUIDANCE",
+      "KNOWN_PRELIMINARY_RESULTS",
+      "XILINX_SCOPE_SLIDES",
+      "2022_ANALYST_DAY_PRESS_RELEASE"
+    ],
+    "title_only_types": [
+      "EARNINGS_SCHEDULE_NOTICES"
+    ],
+    "analyst_day_finding": "2022-06-09 新闻说明从第二季度开始更改分部报告；所读新闻无替换当季公司合并营收中点的数值。演示全文与电话会未覆盖。",
+    "missing_evidence": [
+      "电话会和问答完整记录",
+      "其他新闻类别与完整 SEC 修订检索",
+      "2022 分析师日演示全文",
+      "排期公告正文",
+      "当前网页在历史时点的不变性及首次可用性"
+    ],
+    "known_material_rule": "已知重大数值披露若未纳入，该事件停止比较；本次已知的 2022Q3 初步业绩已纳入。无新增材料时保留缺口并结束有限核查。"
+  },
+  "decision": {
+    "status": "CLOSE_FIXED_DEVELOPMENT_DIAGNOSTIC",
+    "economic_execution_allowed": false,
+    "reason": "机械交集仅 2024Q2 一个数值候选；新增字段无人工核准，前向时点证据仍缺。即使后续核准，单个已见候选也不足以支持扩展收益研究。",
+    "next_scope": "如有新研究需求，另行固定其他公司或后续事件、合法来源、成本、时点与停止规则；本批不放宽价格条件、不换日期、不取消止损。"
+  },
+  "review_hash": "38af92cdaca449586067e00fb780b7272723cd8683eb4ea6ae32e56531a198f6"
+}

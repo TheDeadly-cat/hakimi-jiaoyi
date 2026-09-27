@@ -1,15 +1,69 @@
 """Small static additions to the existing event cards; no separate GUI."""
 from html import escape
 from tools.equity_guidance_pairs import validate_result
+from tools.equity_content_protocol import digest
 
 LABELS = {'ABOVE':'精度区间仍高于中点', 'BELOW':'精度区间仍低于中点', 'MISSING_PRIOR':'前序指引缺失',
           'UNCERTAIN_PRECISION':'精度区间跨过或触及零', 'NOT_COMPARABLE':'口径不一致，不能直接比较'}
 KINDS = {'COMPANY_GUIDANCE':'公司指引','PRELIMINARY_RESULTS':'初步业绩','FORMAL_RESULTS':'正式财报'}
 
 
-def summary(data):
+def validate_review(review, pairs, paths):
+    """Bind a conditional review to its unchanged inputs, never grant admission."""
+    def require(ok, name):
+        if not ok:raise ValueError('card_review_'+name)
+    require(review.get('schema_version')=='guidance-bounded-review-v1','schema')
+    require(review.get('review_hash')==digest({k:v for k,v in review.items() if k!='review_hash'}),'hash')
+    require(review['pairing_hash']==pairs['pairing_hash'] and review['path_diagnosis_hash']==paths['diagnosis_hash'],'input_identity')
+    require(review['source_catalog']==pairs['source_catalog'],'source_identity')
+    require(review['review_kind']=='AGENT_SOURCE_REVIEW_NOT_HUMAN_ATTESTATION','review_kind')
+    require(review['bounded_scope']['complete_historical_chain_proven'] is False,'scope')
+    require(review['decision']['economic_execution_allowed'] is False,'admission')
+    items=review['review_items'];refs={s['source_id']:s['sha256'] for s in pairs['source_catalog']}
+    require(len({i['field_id'] for i in items})==len(items),'duplicate_items')
+    for item in items:
+        require(item['review_status']=='CONDITIONAL_DEVELOPMENT_USE' and item['human_approval_status']=='NOT_APPROVED','item_status')
+        require(all(refs.get(r['source_id'])==r['source_sha256'] for r in item['evidence']),'field_source')
+    require([e['fiscal_quarter'] for e in review['events']]==[e['fiscal_quarter'] for e in pairs['events']],'cohort')
+    candidates=[];accepted=0;comparable_accepted=0;signals=0
+    for row,pair,path in zip(review['events'],pairs['events'],paths['events']):
+        require(row['fiscal_quarter']==path['fiscal_quarter'],'path_cohort')
+        require(row['review_status']=='CONDITIONAL_DEVELOPMENT_USE' and row['human_approval_status']=='NOT_APPROVED','event_status')
+        require(row['interval_start_inclusive']==pair['original_guidance']['public_at'] and row['interval_end_inclusive']==pair['actual']['public_at'],'interval')
+        require(row['known_material_omission'] is False and row['known_material_source_ids']==[v['source_id'] for v in pair['disclosure_chain']],'material_disclosure')
+        require(row['old_price_status']==pair['old_price_status']==path['status'] and row['old_price_condition'] is pair['old_price_condition'] is path['price_condition'],'price_binding')
+        require(row['comparison_status']==pair['comparison']['status'],'comparison')
+        candidate=path['price_condition'] is True and pair['comparison']['positive_condition'] is True
+        require(row['numeric_candidate'] is candidate and row['admitted_for_new_study'] is False,'candidate_not_admission')
+        if candidate:candidates.append(row['fiscal_quarter'])
+        accepted+=path['status']!='DATA_EXCLUDED'
+        comparable_accepted+=path['status']!='DATA_EXCLUDED' and pair['comparison']['status']!='NOT_COMPARABLE'
+        signals+=path['price_condition'] is True
+    expected=dict(fixed_events=len(pairs['events']),comparable_events=pairs['counts']['dimension_matched'],
+        conditional_review_items=len(items),new_human_approved_items=0,events_with_all_new_fields_human_approved=0,
+        original_price_accepted=accepted,comparable_price_accepted=comparable_accepted,original_price_signals=signals,
+        numeric_candidates=candidates,admitted_for_new_study=0,new_content_interventions=None,new_independent_events=0,new_backtest_reports=0)
+    require(review['funnel']==expected,'funnel')
+
+
+def summary(data, review=None):
     validate_result(data)
     c=data['counts']
+    if review is not None:
+        f=review['funnel']
+        return (f'<div class="summary guidance-summary"><p>固定 {f["fixed_events"]} 个历史事件，{f["comparable_events"]} 个口径可比。'
+                f'新增 {f["conditional_review_items"]} 个审阅项已完成原件核查，可有条件用于历史开发；新增人工核准为 0。</p>'
+                f'<p>原行情接纳 {f["original_price_accepted"]} 个，其中口径也可比的有 {f["comparable_price_accepted"]} 个；'
+                f'原价格信号 {f["original_price_signals"]} 个，叠加本次数值条件仅余 <b>{len(f["numeric_candidates"])} 个数值候选：'
+                f'{escape("、".join(f["numeric_candidates"]) or "无")}</b>。获准参与新研究的为 0。</p>'
+                '<p><b>本批开发诊断结案，不启动新收益研究。</b>单个已见候选不足以支持扩展研究；'
+                '新内容干预：未运行，不能记为零次或零收益。</p></div>'
+                '<p class="note">独立审计已从原 HTML 核对实际营收、指引和初步值。有限披露核查已结束并保留缺口；'
+                '它不证明完整历史链，也不等于人工核准。数值高于公司在先披露，不是高于分析师预期。</p>'
+                '<p class="note">单位为百万美元。实际值 ±0.5、在先数值 ±50 是保守列示精度假设，'
+                '不是公司经营范围或统计置信区间。</p>'
+                '<p><a href="guidance-review.json">查看新增字段结论、来源范围与筛选明细</a> · '
+                '<a href="guidance-pairs.json">查看原配对数据</a></p>')
     return (f'<div class="summary guidance-summary"><p>十个历史事件全部保留。按所查原件，{c["dimension_matched"]} 个期间与口径匹配，'
             f'{c["not_comparable"]} 个口径不同；保守处理列示精度后，{c["numerically_above"]} 个高于最后已知数值，'
             f'{c["precision_uncertain"]} 个方向不确定。{c["early_disclosure"]} 个存在提前公布的初步业绩。</p>'
@@ -22,7 +76,7 @@ def summary(data):
             '<a href="guidance-pairs.json">下载本次配对数据与逐字段依据</a></p>')
 
 
-def section(event, sources, source_link, clock_text):
+def section(event, sources, source_link, clock_text, review=None):
     a, g, latest = event['actual'], event['original_guidance'], event['latest_prior_disclosure']
     result=event['comparison']
     latest_name=KINDS[latest['kind']] if latest else '缺失，未计算'
@@ -39,6 +93,8 @@ def section(event, sources, source_link, clock_text):
         source=sources[f['evidence']['source_id']]
         basis += '；排除 Xilinx' if f['coverage']=='AMD_EXCLUDING_XILINX' else '；公司合并收入'
         approval='沿用已核准字段' if f['approval_status']=='REUSED_APPROVED_FIELD' else '新增字段待核准'
+        if review is not None and f['approval_status']!='REUSED_APPROVED_FIELD':
+            approval='有条件用于历史开发；未获人工核准'
         parts.append(f'<tr><td>{escape(label)}<br><small>{approval}</small></td><td class="numeric">{escape(value)}</td>'
                      f'<td>{escape(basis)}</td><td>{escape(clock_text(f["public_at"]))}</td><td>{source_link(source["url"])}</td></tr>')
     parts.append('</tbody></table></div>')
@@ -50,7 +106,13 @@ def section(event, sources, source_link, clock_text):
         parts.append(f'<p class="warning">{escape(note)}</p>')
     if event['information_state']=='NOT_FOUND_IN_BOUNDED_FINANCIAL_ARCHIVE':
         parts.append('<p class="note">所查财务新闻归档内未发现另一次初步业绩；这不证明从未通过其他渠道提前披露。</p>')
-    parts += ['<p class="note">完整历史版本链未证实；新增字段未核准。本卡仅展示事实配对，不触发新策略。</p>',
+    if review is not None:
+        candidate='仅数值候选，未获准参与新研究' if review['numeric_candidate'] else '不进入数值候选交集'
+        parts.append(f'<p><b>审核结论：有条件用于历史开发；{candidate}。</b></p>'
+                     f'<p class="note">有限核查区间：{escape(clock_text(review["interval_start_inclusive"]))} 至 '
+                     f'{escape(clock_text(review["interval_end_inclusive"]))}。已知重大披露已纳入；'
+                     '排期公告只查标题，电话会、其他类别和历史修订等仍有缺口。新增字段未获人工核准。</p>')
+    parts += ['<p class="note">完整历史版本链未证实。本卡仅展示事实配对，不触发新策略。</p>' if review is not None else '<p class="note">完整历史版本链未证实；新增字段未核准。本卡仅展示事实配对，不触发新策略。</p>',
               '<details><summary>查看版本时间线与配对依据</summary>']
     for version in event['disclosure_chain']:
         source=sources[version['source_id']]

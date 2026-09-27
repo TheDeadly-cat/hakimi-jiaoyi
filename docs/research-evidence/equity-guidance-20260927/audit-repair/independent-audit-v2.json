@@ -1,0 +1,2080 @@
+{
+  "schema_version": "guidance-independent-source-audit-v2",
+  "pairing_hash": "8a523cc4c85a00fc562302dc3a8a03eef2e9f203965e570a5e37b9fabb25bdaa",
+  "data_sha256": "01a38de7b6adb590d47839da300182b4cd9d05787138368d5f9e68a82259b3e0",
+  "source_count": 17,
+  "auditor_sha256": "6d7d651d45d37d55dd969fbda1b263662940ddc0bf0b6e31dcdc2736c14fff00",
+  "economic_fields_independently_parsed": [
+    "actual_current_quarter_revenue",
+    "original_guidance_midpoint_and_range",
+    "latest_preliminary_revenue",
+    "source_amount_units_and_precision",
+    "source_target_quarter",
+    "source_publication_clock"
+  ],
+  "check_count": 513,
+  "passed": true,
+  "checks": [
+    {
+      "check": "schema",
+      "passed": true
+    },
+    {
+      "check": "pairing-hash",
+      "passed": true
+    },
+    {
+      "check": "source-catalog-required",
+      "passed": true
+    },
+    {
+      "check": "source-index-unique",
+      "passed": true
+    },
+    {
+      "check": "source-catalog-unique",
+      "passed": true
+    },
+    {
+      "check": "source-catalog-index-coverage",
+      "passed": true
+    },
+    {
+      "check": "official-source:2022Q1",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2022Q1",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2022Q1",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q1",
+      "passed": true
+    },
+    {
+      "check": "official-source:2022Q2",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2022Q2",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2022Q2",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q2",
+      "passed": true
+    },
+    {
+      "check": "official-source:2022Q3",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2022Q3",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2022Q3",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q3",
+      "passed": true
+    },
+    {
+      "check": "official-source:2022Q4",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2022Q4",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2022Q4",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q4",
+      "passed": true
+    },
+    {
+      "check": "official-source:2023Q1",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2023Q1",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2023Q1",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2023Q1",
+      "passed": true
+    },
+    {
+      "check": "official-source:2023Q2",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2023Q2",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2023Q2",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2023Q2",
+      "passed": true
+    },
+    {
+      "check": "official-source:2023Q3",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2023Q3",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2023Q3",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2023Q3",
+      "passed": true
+    },
+    {
+      "check": "official-source:2023Q4",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2023Q4",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2023Q4",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2023Q4",
+      "passed": true
+    },
+    {
+      "check": "official-source:2024Q1",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2024Q1",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2024Q1",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2024Q1",
+      "passed": true
+    },
+    {
+      "check": "official-source:2024Q2",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2024Q2",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2024Q2",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2024Q2",
+      "passed": true
+    },
+    {
+      "check": "official-source:2022Q3-preliminary",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2022Q3-preliminary",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2022Q3-preliminary",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q3-preliminary",
+      "passed": true
+    },
+    {
+      "check": "official-source:financial-archive-2",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:financial-archive-2",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:financial-archive-2",
+      "passed": true
+    },
+    {
+      "check": "raw-source:financial-archive-2",
+      "passed": true
+    },
+    {
+      "check": "official-source:financial-archive-3",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:financial-archive-3",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:financial-archive-3",
+      "passed": true
+    },
+    {
+      "check": "raw-source:financial-archive-3",
+      "passed": true
+    },
+    {
+      "check": "official-source:2021Q4",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2021Q4",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2021Q4",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2021Q4",
+      "passed": true
+    },
+    {
+      "check": "official-source:2021Q4-slides",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2021Q4-slides",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2021Q4-slides",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2021Q4-slides",
+      "passed": true
+    },
+    {
+      "check": "official-source:2022Q1-slides",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2022Q1-slides",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2022Q1-slides",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022Q1-slides",
+      "passed": true
+    },
+    {
+      "check": "official-source:2022-analyst-day",
+      "passed": true
+    },
+    {
+      "check": "catalog-binding:2022-analyst-day",
+      "passed": true
+    },
+    {
+      "check": "source-file-present:2022-analyst-day",
+      "passed": true
+    },
+    {
+      "check": "raw-source:2022-analyst-day",
+      "passed": true
+    },
+    {
+      "check": "fixed-coverage",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:event-identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:actual:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:actual:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:actual:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:actual:source-present",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:actual:identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:actual:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:actual:source-value",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:actual:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:actual:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:actual:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:source-present",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:source-value",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:guidance:business-range",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:latest-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:latest-guidance-binding",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:source-scope",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:extra-source:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:reference-hash:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:quote:0",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:extra-source:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:reference-hash:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:quote:1",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:xilinx-scope-evidence",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:chain-bound-to-facts",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:chain-order",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:bounded-source-not-complete-chain",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:retained-price-metadata",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:comparison:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:comparison:incomparable",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:comparison_to_original_guidance:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2022Q1:comparison_to_original_guidance:incomparable",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:event-identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:actual:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:actual:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:actual:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:actual:source-present",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:actual:identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:actual:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:actual:source-value",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:actual:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:actual:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:actual:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:source-present",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:source-value",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:guidance:business-range",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:latest-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:latest-guidance-binding",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:source-scope",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:chain-bound-to-facts",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:chain-order",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:bounded-source-not-complete-chain",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:retained-price-metadata",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:comparison:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:comparison:gap",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:comparison:interval",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:comparison:direction",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:comparison:ratio",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:comparison_to_original_guidance:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:comparison_to_original_guidance:gap",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:comparison_to_original_guidance:interval",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:comparison_to_original_guidance:direction",
+      "passed": true
+    },
+    {
+      "check": "2022Q2:comparison_to_original_guidance:ratio",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:event-identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:actual:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:actual:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:actual:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:actual:source-present",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:actual:identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:actual:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:actual:source-value",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:actual:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:actual:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:actual:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:source-present",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:source-value",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:guidance:business-range",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:latest-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:source-present",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:source-value",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:preliminary:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:source-scope",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:chain-bound-to-facts",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:chain-order",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:bounded-source-not-complete-chain",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:retained-price-metadata",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:comparison:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:comparison:gap",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:comparison:interval",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:comparison:direction",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:comparison:ratio",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:comparison_to_original_guidance:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:comparison_to_original_guidance:gap",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:comparison_to_original_guidance:interval",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:comparison_to_original_guidance:direction",
+      "passed": true
+    },
+    {
+      "check": "2022Q3:comparison_to_original_guidance:ratio",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:event-identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:actual:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:actual:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:actual:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:actual:source-present",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:actual:identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:actual:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:actual:source-value",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:actual:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:actual:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:actual:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:source-present",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:identity",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:source-value",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:guidance:business-range",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:latest-required",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:latest-guidance-binding",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:source-scope",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:chain-bound-to-facts",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:chain-order",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:bounded-source-not-complete-chain",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:retained-price-metadata",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:comparison:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:comparison:gap",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:comparison:interval",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:comparison:direction",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:comparison:ratio",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:comparison_to_original_guidance:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:comparison_to_original_guidance:gap",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:comparison_to_original_guidance:interval",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:comparison_to_original_guidance:direction",
+      "passed": true
+    },
+    {
+      "check": "2022Q4:comparison_to_original_guidance:ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:event-identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:actual:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:actual:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:actual:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:actual:source-present",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:actual:identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:actual:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:actual:source-value",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:actual:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:actual:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:actual:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:source-present",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:source-value",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:guidance:business-range",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:latest-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:latest-guidance-binding",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:source-scope",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:chain-bound-to-facts",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:chain-order",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:bounded-source-not-complete-chain",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:retained-price-metadata",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:comparison:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:comparison:gap",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:comparison:interval",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:comparison:direction",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:comparison:ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:comparison_to_original_guidance:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:comparison_to_original_guidance:gap",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:comparison_to_original_guidance:interval",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:comparison_to_original_guidance:direction",
+      "passed": true
+    },
+    {
+      "check": "2023Q1:comparison_to_original_guidance:ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:event-identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:actual:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:actual:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:actual:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:actual:source-present",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:actual:identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:actual:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:actual:source-value",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:actual:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:actual:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:actual:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:source-present",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:source-value",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:guidance:business-range",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:latest-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:latest-guidance-binding",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:source-scope",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:chain-bound-to-facts",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:chain-order",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:bounded-source-not-complete-chain",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:retained-price-metadata",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:comparison:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:comparison:gap",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:comparison:interval",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:comparison:direction",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:comparison:ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:comparison_to_original_guidance:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:comparison_to_original_guidance:gap",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:comparison_to_original_guidance:interval",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:comparison_to_original_guidance:direction",
+      "passed": true
+    },
+    {
+      "check": "2023Q2:comparison_to_original_guidance:ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:event-identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:actual:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:actual:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:actual:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:actual:source-present",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:actual:identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:actual:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:actual:source-value",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:actual:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:actual:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:actual:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:source-present",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:source-value",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:guidance:business-range",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:latest-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:latest-guidance-binding",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:source-scope",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:chain-bound-to-facts",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:chain-order",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:bounded-source-not-complete-chain",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:retained-price-metadata",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:comparison:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:comparison:gap",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:comparison:interval",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:comparison:direction",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:comparison:ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:comparison_to_original_guidance:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:comparison_to_original_guidance:gap",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:comparison_to_original_guidance:interval",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:comparison_to_original_guidance:direction",
+      "passed": true
+    },
+    {
+      "check": "2023Q3:comparison_to_original_guidance:ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:event-identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:actual:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:actual:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:actual:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:actual:source-present",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:actual:identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:actual:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:actual:source-value",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:actual:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:actual:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:actual:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:source-present",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:identity",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:source-value",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:guidance:business-range",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:latest-required",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:latest-guidance-binding",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:source-scope",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:chain-bound-to-facts",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:chain-order",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:bounded-source-not-complete-chain",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:retained-price-metadata",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:comparison:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:comparison:gap",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:comparison:interval",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:comparison:direction",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:comparison:ratio",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:comparison_to_original_guidance:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:comparison_to_original_guidance:gap",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:comparison_to_original_guidance:interval",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:comparison_to_original_guidance:direction",
+      "passed": true
+    },
+    {
+      "check": "2023Q4:comparison_to_original_guidance:ratio",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:event-identity",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:actual:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:actual:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:actual:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:actual:source-present",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:actual:identity",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:actual:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:actual:source-value",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:actual:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:actual:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:actual:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:source-present",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:identity",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:source-value",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:guidance:business-range",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:latest-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:latest-guidance-binding",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:source-scope",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:chain-bound-to-facts",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:chain-order",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:bounded-source-not-complete-chain",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:retained-price-metadata",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:comparison:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:comparison:gap",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:comparison:interval",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:comparison:direction",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:comparison:ratio",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:comparison_to_original_guidance:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:comparison_to_original_guidance:gap",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:comparison_to_original_guidance:interval",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:comparison_to_original_guidance:direction",
+      "passed": true
+    },
+    {
+      "check": "2024Q1:comparison_to_original_guidance:ratio",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:event-identity",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:actual:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:actual:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:actual:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:actual:source-present",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:actual:identity",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:actual:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:actual:source-value",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:actual:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:actual:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:actual:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:fact-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:evidence-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:quote-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:source-present",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:identity",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:reference-hash",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:source-value",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:source-precision",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:quote-in-selected-fact",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:public-clock",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:amount-type",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:guidance:business-range",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:latest-required",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:latest-guidance-binding",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:source-scope",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:chain-bound-to-facts",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:chain-order",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:bounded-source-not-complete-chain",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:retained-price-metadata",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:comparison:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:comparison:gap",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:comparison:interval",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:comparison:direction",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:comparison:ratio",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:comparison_to_original_guidance:dimensions",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:comparison_to_original_guidance:gap",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:comparison_to_original_guidance:interval",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:comparison_to_original_guidance:direction",
+      "passed": true
+    },
+    {
+      "check": "2024Q2:comparison_to_original_guidance:ratio",
+      "passed": true
+    },
+    {
+      "check": "2022Q3-three-stage-chain",
+      "passed": true
+    },
+    {
+      "check": "2022Q3-no-reused-business-range",
+      "passed": true
+    },
+    {
+      "check": "derived-counts",
+      "passed": true
+    },
+    {
+      "check": "no-new-economic-execution",
+      "passed": true
+    },
+    {
+      "check": "not-run-is-not-zero-intervention",
+      "passed": true
+    },
+    {
+      "check": "no-extra-approved-fields",
+      "passed": true
+    },
+    {
+      "check": "no-study-admission",
+      "passed": true
+    },
+    {
+      "check": "source-scope-not-global-proof",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q1",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q2",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q3",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q4",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2023Q1",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2023Q2",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2023Q3",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2023Q4",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2024Q1",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2024Q2",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q3-preliminary",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:financial-archive-2",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:financial-archive-3",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2021Q4",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2021Q4-slides",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022Q1-slides",
+      "passed": true
+    },
+    {
+      "check": "source-unchanged-after:2022-analyst-day",
+      "passed": true
+    },
+    {
+      "check": "input-result-unchanged",
+      "passed": true
+    },
+    {
+      "check": "input-index-unchanged",
+      "passed": true
+    }
+  ],
+  "network_calls": 0,
+  "economic_experiments": 0,
+  "ratio_check": "EXACT_RATIONAL_WITH_HALF_LAST_RECORDED_DECIMAL_UNIT",
+  "limitations": [
+    "SOURCE_CHAIN_COMPLETENESS_NOT_PROVEN",
+    "NOT_HUMAN_FIELD_APPROVAL",
+    "HASH_IS_CONTENT_IDENTITY_NOT_AUTHENTICATION",
+    "RETAINED_PRICE_COUNTS_INTERNAL_CONSISTENCY_ONLY"
+  ]
+}

@@ -156,3 +156,5 @@ tools/equity_guidance_pairs.py text eol=lf
 tools/equity_guidance_card.py text eol=lf
 tools/verify_equity_guidance_pairs.py text eol=lf
 tests/repository_only/test_equity_guidance_pairs.py text eol=lf
+tests/repository_only/test_verify_equity_guidance_pairs.py text eol=lf
+tests/repository_only/test_equity_guidance_review_card.py text eol=lf
