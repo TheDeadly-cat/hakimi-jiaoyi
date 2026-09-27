@@ -7,9 +7,11 @@ It never handles orders, caches, credentials, or fallback data.
 from __future__ import annotations
 from contextlib import contextmanager
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 import http.client
 import json
 import math
+import re
 import socket
 import ssl
 import time
@@ -25,12 +27,13 @@ class CaptureFailure(RuntimeError):
 
 
 class Trace:
-    def __init__(self, sink, *, total_seconds=150, max_calls=170, clock=time.monotonic):
+    def __init__(self, sink, *, total_seconds=150, max_calls=170, clock=time.monotonic,
+                 sleep=time.sleep, wall_clock=time.time):
         if type(total_seconds) not in {int,float} or not math.isfinite(total_seconds) or not 0 < total_seconds <= 150:
             raise ValueError("capture_total_deadline_invalid")
         if type(max_calls) is not int or not 1 <= max_calls <= 170:
             raise ValueError("capture_request_budget_invalid")
-        self.sink, self.clock = sink, clock
+        self.sink, self.clock, self.sleep, self.wall_clock = sink, clock, sleep, wall_clock
         self.started = clock(); self.deadline = self.started + total_seconds
         self.max_calls, self.calls, self.stage_name = max_calls, 0, "NOT_STARTED"
 
@@ -54,6 +57,33 @@ class Trace:
             self.emit("REQUEST_BUDGET", "FAILED", error_type="CallLimit")
             raise CaptureFailure("REQUEST_BUDGET", "CallLimit")
         self.calls += 1
+
+    def wait_before_retry(self, delay, *, reason, failure):
+        """Respect the full requested wait; never truncate it to fit a deadline."""
+        if self.calls >= self.max_calls:
+            self.claim()  # Preserve the existing REQUEST_BUDGET failure contract.
+        remaining = self.deadline - self.clock()
+        if delay >= remaining:
+            self.emit("RETRY_WAIT", "SKIPPED", reason="INSUFFICIENT_TOTAL_BUDGET",
+                      failed_stage=failure.stage, error_type=failure.error_type)
+            raise failure from None
+        until = self.clock() + delay
+        self.emit("RETRY_WAIT", "STARTED", wait_seconds=delay, reason=reason,
+                  original_failed_stage=failure.stage, original_error_type=failure.error_type)
+        try:
+            # An interrupted/injected sleep must not cause an early retry.
+            while (left := until - self.clock()) > 0:
+                if left >= self.deadline - self.clock():
+                    raise TimeoutError()
+                self.sleep(left)
+            if self.clock() >= self.deadline:
+                raise TimeoutError()
+        except Exception as error:
+            self.emit("RETRY_WAIT", "FAILED", reason="WAIT_DID_NOT_COMPLETE_WITHIN_BUDGET",
+                      wait_error_type=type(error).__name__, failed_stage=failure.stage,
+                      error_type=failure.error_type)
+            raise failure from None
+        self.emit("RETRY_WAIT", "SUCCEEDED", original_failed_stage=failure.stage, original_error_type=failure.error_type)
 
     @contextmanager
     def phase(self, name):
@@ -137,6 +167,43 @@ class TracedHTTPSHandler(urllib.request.HTTPSHandler):
                             request, context=self._context)
 
 
+def _retry_after(headers, wall_clock):
+    """Return sanitized seconds/reason; raw header text never enters diagnostics."""
+    if headers is None:
+        return None, "MISSING_RETRY_AFTER"
+    values = headers.get_all("Retry-After") if hasattr(headers, "get_all") else [headers.get("Retry-After")]
+    if not values or values == [None]:
+        return None, "MISSING_RETRY_AFTER"
+    if len(values) != 1 or type(values[0]) is not str:
+        return None, "INVALID_RETRY_AFTER"
+    value = values[0].strip()
+    if re.fullmatch(r"[0-9]+", value):
+        # The shared hard maximum is 150s. Huge valid values must stop, not
+        # overflow into a parse failure and an early fallback retry.
+        digits = value.lstrip("0") or "0"
+        if len(digits) > 3 or int(digits) > 150:
+            return 151, "RETRY_AFTER_EXCEEDS_MAXIMUM_BUDGET"
+        return int(digits), "RETRY_AFTER_SECONDS"
+    try:
+        if len(value) > 128:
+            raise ValueError()
+        date = parsedate_to_datetime(value)
+        if date.tzinfo is None:  # HTTP's obsolete asctime form means UTC.
+            if not re.fullmatch(r"[A-Za-z]{3} [A-Za-z]{3} [ \d]\d \d\d:\d\d:\d\d \d{4}", value):
+                raise ValueError()
+            date = date.replace(tzinfo=timezone.utc)
+        if date.utcoffset().total_seconds() != 0:
+            raise ValueError()
+        seconds = date.timestamp() - wall_clock()
+        if not math.isfinite(seconds):
+            raise ValueError()
+        if seconds <= 0:
+            return None, "EXPIRED_RETRY_AFTER_DATE"
+        return seconds, "RETRY_AFTER_HTTP_DATE"
+    except (ValueError, TypeError, OverflowError):
+        return None, "INVALID_RETRY_AFTER"
+
+
 def get_public_page(url, trace, *, max_attempts=1, opener=None):
     parsed = urllib.parse.urlsplit(url)
     if (parsed.scheme != "https" or parsed.netloc != "www.okx.com" or parsed.path != "/api/v5/market/history-candles"
@@ -146,6 +213,7 @@ def get_public_page(url, trace, *, max_attempts=1, opener=None):
         raise ValueError("capture_attempt_budget_invalid")
     opener = opener or urllib.request.build_opener(NoRedirect(),TracedHTTPSHandler(trace))
     for attempt in range(1,max_attempts+1):
+        retry_delay, retry_reason = None, "NO_HTTP_RETRY_AFTER"
         trace.claim(); trace.emit("GET_ATTEMPT","STARTED",attempt=attempt)
         try:
             request = urllib.request.Request(url,headers={"User-Agent":"Hakimi-Research-Public-Capture/2"},method="GET")
@@ -153,6 +221,8 @@ def get_public_page(url, trace, *, max_attempts=1, opener=None):
                 response = opener.open(request,timeout=trace.remaining())
             except urllib.error.HTTPError as error:
                 trace.emit("HTTP_HEADERS","FAILED",status_code=error.code)
+                if error.code in {429, 502, 503, 504} and attempt < max_attempts:
+                    retry_delay, retry_reason = _retry_after(error.headers, trace.wall_clock)
                 error.close()
                 raise CaptureFailure("HTTP_HEADERS", "HTTP_"+str(error.code)) from None
             with response:
@@ -170,7 +240,10 @@ def get_public_page(url, trace, *, max_attempts=1, opener=None):
             retryable = retryable or (error.stage in {"TLS","HTTP_REQUEST","HTTP_HEADERS","PROXY_HTTP_CONNECT"}
                 and error.error_type in {"TimeoutError","ConnectionResetError","RemoteDisconnected","BrokenPipeError"})
             if not retryable or attempt == max_attempts: raise
-            trace.remaining()
+            # Explicit retries only: deterministic 1s, then 2s backoff when no
+            # valid server delay exists. All waiting shares the 150s deadline.
+            trace.wait_before_retry(retry_delay if retry_delay is not None else 2 ** (attempt - 1),
+                                    reason=retry_reason, failure=error)
         except Exception as error:
             trace.emit("GET_ATTEMPT","FAILED",attempt=attempt,failed_stage="UNCLASSIFIED_TRANSPORT",error_type=type(error).__name__)
             raise CaptureFailure("UNCLASSIFIED_TRANSPORT",type(error).__name__) from None

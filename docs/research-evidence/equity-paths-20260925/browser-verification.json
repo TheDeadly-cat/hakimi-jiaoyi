@@ -1,0 +1,22 @@
+{
+  "schema_version": "readonly-card-browser-review-v1",
+  "checked_at": "2026-09-24T18:02:11.531868+00:00",
+  "html_sha256": "599811b2c0e575dd5e20978d1959b060a34cbcd00a5f38d91d53aec67653668b",
+  "data_sha256": "421f02c887a27915d2d4520adfcb429374352b8816dea9e866571e9c5271667f",
+  "surface": "Codex in-app browser",
+  "default_viewport": {
+    "width": 310,
+    "height": 655
+  },
+  "reviewed_event_cards": 10,
+  "reviewed_approved_field_rows": 50,
+  "reviewed_horizon_cost_rows": 12,
+  "source_disclosure_controls": "All 10 expanded in revision-2; final revision retained identical data and rechecked formatting/scroll",
+  "final_narrow_viewport_page_overflow": false,
+  "horizontal_table_scroll_observed": true,
+  "page_warning_or_error_logs": [],
+  "external_source_links_clicked": false,
+  "new_backtests": 0,
+  "publication": "LOCAL_STATIC_SUPPLEMENT_ONLY_NOT_DEPLOYMENT",
+  "prior_preview_unchanged": true
+}

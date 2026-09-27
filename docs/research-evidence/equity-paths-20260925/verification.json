@@ -1,0 +1,34 @@
+{
+  "schema_version": "equity-path-stage-verification-v1",
+  "checked_at": "2026-09-24T17:57:58.739338+00:00",
+  "base_commit": "d09e5f9d8488e144bd07624bafac73d980f90aa3",
+  "tests_run": 60,
+  "by_file": {
+    "test_capture_diagnostics.py": 22,
+    "test_equity_path_diagnostics.py": 6,
+    "test_equity_research_card.py": 3,
+    "test_forward_cycle.py": 2,
+    "test_observation_job.py": 27
+  },
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "passed": true,
+  "source_sha256": {
+    "tools/capture_diagnostics.py": "8bc3e3b470f9961b7ee09f1ab02780e5854069587a849d27632128376b83ed29",
+    "tools/run_forward_cycle.py": "35a327206e3e6ce54bede74559b708a7867f30d2df1b9a45befd79bb6e55ad7b",
+    "tools/equity_path_diagnostics.py": "d106dc968d12747a5512422fea895763c58489149d676deb82ebf3bbef9d9967",
+    "tools/equity_research_card.py": "e80f1094dfb7c22355e8ccae300b5e91cd69e61f11c47803296aff23950eda30",
+    "tests/repository_only/test_capture_diagnostics.py": "418df66bbc5ce64e46904e877f0e8e1089509006a8d2979df61ad0d2b75fdffc",
+    "tests/repository_only/test_equity_path_diagnostics.py": "32d529f637070c22144f9b5b396171bce6162a2b7085664c81740153627848aa",
+    "tests/repository_only/test_equity_research_card.py": "e8e81c380792cc63c3d5c4fe53618dd158aad001f9b55d60c3929a117a2a8b9e",
+    "tests/repository_only/test_forward_cycle.py": "a4167d60722a1b3e111c0335742de088fdd0b842d121799eebbff627787d3b83",
+    "tests/repository_only/test_observation_job.py": "da6e22d2a54b4b0bd819f392663935fc7c77eeac5b5a9b6de647c3d3a6500e28"
+  },
+  "external_network_denied_events": [],
+  "log_sha256": "c6ad620aa95f604e181008730ced3af8f3b34e4ec7b1bf221f88c9488bebdc7f",
+  "new_market_or_account_requests": 0,
+  "old_research_reexecuted": false,
+  "old_preview_rebuilt": false,
+  "deployments": 0
+}

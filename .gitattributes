@@ -148,3 +148,7 @@ tools/run_equity_content_study.py text eol=lf
 tests/repository_only/test_equity_content_study.py text eol=lf
 tools/verify_equity_content_study.py text eol=lf
 scripts/reconcile_research_ledger.py text eol=lf
+tools/equity_path_diagnostics.py text eol=lf
+tools/equity_research_card.py text eol=lf
+tests/repository_only/test_equity_path_diagnostics.py text eol=lf
+tests/repository_only/test_equity_research_card.py text eol=lf

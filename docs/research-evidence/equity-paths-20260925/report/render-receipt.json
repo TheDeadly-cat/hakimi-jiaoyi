@@ -1,0 +1,12 @@
+{
+  "schema_version": "readonly-event-card-v1",
+  "diagnosis_hash": "a13073484c309935d629b0aad6b124e2df6574daf4beeb3ced082d27c4bf356c",
+  "html_sha256": "599811b2c0e575dd5e20978d1959b060a34cbcd00a5f38d91d53aec67653668b",
+  "data_sha256": "421f02c887a27915d2d4520adfcb429374352b8816dea9e866571e9c5271667f",
+  "renderer_sha256": "e80f1094dfb7c22355e8ccae300b5e91cd69e61f11c47803296aff23950eda30",
+  "preview_build_id": "supervised-research-3632c978e6d458c2e02091e6b56be8e86cc4ce8f3de837df634d240dc1050767",
+  "preview_integrity": "VERIFIED_BEFORE_AND_AFTER",
+  "old_preview_replaced": false,
+  "auto_network_requests": false,
+  "order_allowed": false
+}

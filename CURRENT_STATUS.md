@@ -1,13 +1,13 @@
 # 当前项目状态
 
-整理日期：2026-09-24。本页区分核对时的功能基线、开发交付、历史原件与实际外部验收。项目仍为研究软件，未授权自主或真实交易。
+整理日期：2026-09-25。本页区分核对时的功能基线、开发交付、历史原件与实际外部验收。项目仍为研究软件，未授权自主或真实交易。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
 | 层次 | 已核实状态 |
 |---|---|
-| 本状态核对时提交 | 2026-09-23读取的远端main为PR #13合并提交 `ed19d1172767f57418040bb167b2780caf5e7edb`；[合并后 Research Contracts](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/35782544016) 九项任务成功。这个核对值不宣称永远等于当前HEAD，也不覆盖本次新增开发 |
-| 本机开发候选 | 从 `ed19d1172767f57418040bb167b2780caf5e7edb` 开始；完成既存账本归因、原件差异核查和离线故障定位，人工核准后完成固定 C/D 比较。开发工作由 Draft PR #14 承载；候选身份与验证另行记录，不能引用旧 main CI 代替 |
+| 本状态核对时提交 | 用户单独批准后，PR #14 已合并至 `d09e5f9d8488e144bd07624bafac73d980f90aa3`；[合并后 Research Contracts](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36034004347) 九项任务成功。此前 PR 测试合并提交与真正 main 合并身份分开，见[合并回执](docs/research-evidence/equity-paths-20260925/pr14-closeout.json)。不以此覆盖后续开发提交 |
+| 本机开发候选 | 从 `d09e5f9d8488e144bd07624bafac73d980f90aa3` 另起分支；冻结 1/3/5 日路径诊断及下一项同财季指引比较规约，完成 GET 有界等待和只读静态研究补充。见[本轮 R0–R4 交付](docs/research-evidence/equity-paths-20260925/README.md)，后续合并仍需单独批准 |
 | 正式 Release | 仍为 [v0.2.1](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1)，未发布新正式版本；独立富途工具不是研究 wheel 的组成部分 |
 | 真实 AMD 原始闭环 | 37个交易日、259条真实 RTH 分时聚合。OHLC 与供应商日线一致，全部37日成交量差异原因未确认。保留原件和有限窗口公司行为来源边界 |
 | 原冻结 A/B | 两组均 -1.5974014%，各4笔成交、2个往返、0次拦截；未识别事件过滤的经济影响。工程买入持有 -3.4394% 从10月2日起评分，A/B 从10月17日起评分，不直接排名。见[原结果](docs/research-evidence/real-amd-rth-20260913/README.md) |

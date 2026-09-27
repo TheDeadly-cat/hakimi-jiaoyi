@@ -1,0 +1,41 @@
+{
+  "schema_version": "equity-post-entry-path-protocol-v1",
+  "frozen_at": "2026-09-24T17:28:37.237831+00:00",
+  "base_commit": "d09e5f9d8488e144bd07624bafac73d980f90aa3",
+  "purpose": "DESCRIPTIVE_ALREADY_SEEN_DEVELOPMENT_NOT_STRATEGY_RETUNING",
+  "sample": "ORIGINAL_TEN_AMD_2022Q1_TO_2024Q2; seven admitted and three unchanged exclusions",
+  "source_study_hash": "fddfa9bd8b6476147642a54e2b981bac286c0df5e285ef5a942769dfe317fd69",
+  "source_packet_hash": "35f481974f6a95eb6b9b44f6bc324335e11a2f24d1b2fc7f09f61ff7545656de",
+  "strategy_scope": "C legal entry; D retained alongside it; no reexecution of A/B or C/D",
+  "entry_scope": "Only recorded C BUY at the legal following RTH open. No-entry events remain coverage rows; no invented fills.",
+  "horizons_sessions": [
+    1,
+    3,
+    5
+  ],
+  "horizon_definition": "Entry session counts as 1; use the close of session entry_index+horizon-1 within original snapshot AND original score interval. Missing tail is null, never shortened.",
+  "raw_price_change": "horizon_close / entry_regular_open - 1",
+  "range": "max(high)/entry_regular_open-1 and min(low)/entry_regular_open-1 over the declared horizon; extrema order unknown, not executable MFE/MAE after stop",
+  "costed_valuation": "Retained entry cash_after plus retained entry quantity times horizon close; unrealized research mark only. Entry fee and slippage included; no invented exit fee/fill or claimed no-stop backtest.",
+  "post_exit_range": "Only full sessions strictly after the recorded exit session through the horizon; entry-day remainder and intrabar order stay unknown.",
+  "comparisons": "Show recorded stop path, entry and exit fees, exit basis, realized PnL/initial cash, and fixed 1/3/5 raw changes plus retained-entry mark estimates. No hypothesis selected by best horizon.",
+  "cost_cases": [
+    1,
+    2
+  ],
+  "data_rule": "Use original admitted raw-unadjusted RTH aggregate snapshots only. Provider K_DAY remains crosscheck; old three OHLC disagreements remain excluded, not zero returns.",
+  "stop_conditions": [
+    "No new prices, company facts, account or model requests",
+    "Any input hash, candidate identity or snapshot mismatch stops computation",
+    "Unavailable horizon or chronology stays unavailable",
+    "Daily intrabar extrema do not establish exact sequence or holding time",
+    "No conclusion of edge or exit causality from two correlated AMD events"
+  ],
+  "permissions": {
+    "order_allowed": false,
+    "T3_resumed": false,
+    "deploy_allowed": false
+  },
+  "source_view": "Current retained HTML; reviewed in 2026; historical 120s event and 60s bar lag are assumptions",
+  "protocol_hash": "39d044de7ab10913f3d46582ebc6e556b149971343b62ff38cf97832c28844bf"
+}
