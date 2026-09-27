@@ -1,0 +1,77 @@
+{
+  "schema_version": "guidance-audit-repair-verification-v1",
+  "date": "2026-09-27",
+  "base_head": "b37126b3eae09e01b492c1d4d574fdccbd5871e8",
+  "reviewer_probe_reproduced": 6,
+  "old_probe_meaning": "REPRODUCTION_NOT_ACCEPTANCE",
+  "targeted_tests": {
+    "total": 59,
+    "passed": 59,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "independent_auditor": 31,
+    "review_card": 9,
+    "retained_pairing_and_cards": 19
+  },
+  "real_source_audit": {
+    "passed": true,
+    "checks": 513,
+    "sources": 17,
+    "auditor_sha256": "6d7d651d45d37d55dd969fbda1b263662940ddc0bf0b6e31dcdc2736c14fff00"
+  },
+  "pairing_hash": "8a523cc4c85a00fc562302dc3a8a03eef2e9f203965e570a5e37b9fabb25bdaa",
+  "review_hash": "38af92cdaca449586067e00fb780b7272723cd8683eb4ea6ae32e56531a198f6",
+  "protected_inputs_unchanged": {
+    "docs\\research-evidence\\equity-guidance-20260927\\report\\guidance-pairs.json": "01a38de7b6adb590d47839da300182b4cd9d05787138368d5f9e68a82259b3e0",
+    "docs\\research-evidence\\equity-guidance-20260927\\report\\index.html": "156801dad48409d42022878fa6609b6b0e4daf1ba7f1b8937730f66e4ecda438",
+    "docs\\research-evidence\\equity-guidance-20260927\\report\\path-results.json": "421f02c887a27915d2d4520adfcb429374352b8816dea9e866571e9c5271667f",
+    "docs\\research-evidence\\equity-guidance-20260927\\report\\render-receipt.json": "5bd5cf5853adf6356b167f96c0f6b3174aafa5d0c9cfebc0c4ad9bc29ae0085a",
+    "docs\\research-evidence\\equity-guidance-20260927\\independent-audit.json": "c6f1b7d7719246b3f0963add701a7062748365109e5a525e425a3b20f8959f6a",
+    "docs\\research-evidence\\equity-guidance-20260927\\verification.json": "e9475909f9df63745eb76771d1d8ad37a168cfd25eab7b08b17602dd79d73aa9",
+    "docs\\research-evidence\\equity-guidance-20260927\\pr15-closeout.json": "f197bb0ad1ef1553d5375a3896ba87030bc1414768c75b2742069a6f326cee21",
+    "docs\\research-evidence\\equity-paths-20260925\\path-results.json": "421f02c887a27915d2d4520adfcb429374352b8816dea9e866571e9c5271667f"
+  },
+  "rendering": {
+    "schema_version": "readonly-event-card-v1",
+    "diagnosis_hash": "a13073484c309935d629b0aad6b124e2df6574daf4beeb3ced082d27c4bf356c",
+    "html_sha256": "dd068eef0dfe04a36052e8642c1191305662ae16bf2990e18cdda59c0dfc4d7f",
+    "data_sha256": "421f02c887a27915d2d4520adfcb429374352b8816dea9e866571e9c5271667f",
+    "renderer_sha256": "f2b088c7cc997c206e86d9f0697ba79ddf20e6e8a3d7681a39d98ff3628070ec",
+    "preview_build_id": "supervised-research-3632c978e6d458c2e02091e6b56be8e86cc4ce8f3de837df634d240dc1050767",
+    "preview_integrity": "VERIFIED_BEFORE_AND_AFTER",
+    "old_preview_replaced": false,
+    "auto_network_requests": false,
+    "order_allowed": false,
+    "guidance_data_sha256": "01a38de7b6adb590d47839da300182b4cd9d05787138368d5f9e68a82259b3e0",
+    "guidance_renderer_sha256": "4ce18b5577c0e94a31e5cd8ce1aabe512723dc3ef45ae8d632bc55e6496e6314",
+    "guidance_review_sha256": "abeb22ee0bab81df2d2ab6cf19575af780fea985008041e06548859643e8181c"
+  },
+  "browser": {
+    "kind": "Codex in-app browser",
+    "viewport": [
+      328,
+      594
+    ],
+    "page_width": 313,
+    "client_width": 313,
+    "cards": 10,
+    "pairs": 10,
+    "active_elements": 0,
+    "errors": 0,
+    "warnings": 0,
+    "preliminary_timeline_expanded": true,
+    "second_browser_tested": false,
+    "wide_viewport_tested": false
+  },
+  "new_market_requests": 0,
+  "broker_calls": 0,
+  "order_calls": 0,
+  "model_calls": 0,
+  "new_economic_runs": 0,
+  "new_human_approval_items": 0,
+  "new_content_interventions": null,
+  "pr15_status": "MERGED_PREVIOUSLY_VERIFIED",
+  "pr16_merge_authorized": false,
+  "remote_checks": "PENDING_THIS_REPAIR_COMMIT_SEE_CURRENT_PR"
+}

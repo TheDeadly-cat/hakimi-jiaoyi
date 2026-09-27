@@ -1,0 +1,1673 @@
+{
+  "schema_version": "same-quarter-guidance-pairs-v1",
+  "created_at": "2026-09-26T23:21:53.325947+00:00",
+  "purpose": "SEEN_DEVELOPMENT_SOURCE_PAIRING_NOT_NEW_ECONOMIC_STUDY",
+  "source_catalog": [
+    {
+      "source_id": "2022Q1",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1062/amd-reports-first-quarter-2022-financial-results",
+      "sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16",
+      "retrieved_at": "2026-09-22T22:29:15.389132+00:00",
+      "published_at": "2022-05-03T20:10:00Z",
+      "retained": true,
+      "plain_text_sha256": "f520925928d3dfe91648b7cf742da3691f4ce9453231142dc4a0424a64bb6aa3",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022Q2",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1084/amd-reports-second-quarter-2022-financial-results",
+      "sha256": "3a91abfa527a765af7fc72aaf1c4147112099a80d8e718d05ce1cd5bc43b7d9e",
+      "retrieved_at": "2026-09-22T22:29:15.397099+00:00",
+      "published_at": "2022-08-02T20:05:00Z",
+      "retained": true,
+      "plain_text_sha256": "907d803949194f385c786e67b2d48b78c85c74a019e73300523a5a6a6297a408",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022Q3",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1098/amd-reports-third-quarter-2022-financial-results",
+      "sha256": "184aeea8c55ca12b262eb845703eca0f00f303e329677796dc79d78cd9598546",
+      "retrieved_at": "2026-09-22T22:29:15.366757+00:00",
+      "published_at": "2022-11-01T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "bc8cc394afdf8f9854ef9a7c767dc4ae2f3aa933f9c721f0701d3b69abe52980",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022Q4",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1115/amd-reports-fourth-quarter-and-full-year-2022-financial-results",
+      "sha256": "f0fcaa4a0560455d16a2b1dd138290569f4dd05380979bbd6db18e91e29843e6",
+      "retrieved_at": "2026-09-22T22:29:17.851502+00:00",
+      "published_at": "2023-01-31T21:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "31e3f2e1ba671bc6cd85368d68caf3324c5278afcc46e5180da1f317bb8c5b34",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2023Q1",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1128/amd-reports-first-quarter-2023-financial-results",
+      "sha256": "05e5198e5c804a433c4e682807c6d5345d81e04cf1dccc8623053089f2a9824d",
+      "retrieved_at": "2026-09-22T22:29:16.620853+00:00",
+      "published_at": "2023-05-02T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "ec65565f350ca8bbe80eaa5b6f396e4a20478bdbcc77e30db1995068d452c63c",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2023Q2",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1146/amd-reports-second-quarter-2023-financial-results",
+      "sha256": "6571dcf401b03d4c2d7d0080bea7b5f49a77431c3eda8da2b30675c75f56f6e1",
+      "retrieved_at": "2026-09-22T22:29:16.652978+00:00",
+      "published_at": "2023-08-01T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "ce78e07a90230a2414e1bc46c33451d77d721b524da1103c1b9c368750834e12",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2023Q3",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1163/amd-reports-third-quarter-2023-financial-results",
+      "sha256": "a1188c99c8cc7ea876ebab577cb759f88b5a03ded967f751c03b5a25dd0b39e4",
+      "retrieved_at": "2026-09-22T22:29:17.883444+00:00",
+      "published_at": "2023-10-31T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "66d35fa4ccd46f55c0425d0b4798e2d83dd71da75039b88047cf2722ea7b2aea",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2023Q4",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1180/amd-reports-fourth-quarter-and-full-year-2023-financial-results",
+      "sha256": "e7cabb37f44e25586887693d78dbf6dd49dff64f0e97f3691bc62f986dd06e1b",
+      "retrieved_at": "2026-09-22T22:29:17.932101+00:00",
+      "published_at": "2024-01-30T21:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "6229c1600a794a3deeb88408a41a6227f6f68cc05a706b39cfc874abd8c66009",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2024Q1",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1192/amd-reports-first-quarter-2024-financial-results",
+      "sha256": "82e4b93824234b8a14d5d03751abc19fabd28461247b8bc0e7ecba10408c3312",
+      "retrieved_at": "2026-09-22T22:29:18.883433+00:00",
+      "published_at": "2024-04-30T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "286e2a70d98292776dc6c55f90b89085a3fcd9d8b60b62b19b0d3763eb856dde",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2024Q2",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1209/amd-reports-second-quarter-2024-financial-results",
+      "sha256": "54ab5b42ab9f7c765ca560cbd74224a49e8d3cb996d92cfdefe5916564ab933a",
+      "retrieved_at": "2026-09-22T22:29:19.019302+00:00",
+      "published_at": "2024-07-30T20:15:00Z",
+      "retained": true,
+      "plain_text_sha256": "14fa68534048ae2e4fb92e8d470b98244c76bcc8ab4663cb817b853cfd5c75b6",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022Q3-preliminary",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1093/amd-announces-preliminary-third-quarter-2022-financial-results",
+      "sha256": "8136cf7f8bc58744cd35fdf31b7a573120dfc95981762039a8433dcc311d9eb8",
+      "retrieved_at": "2026-09-19T20:55:01.855431+00:00",
+      "published_at": "2022-10-06T20:17:00Z",
+      "retained": true,
+      "plain_text_sha256": "d03a9c6aea59fbaf8844f14cc28ccc3249931e6ad185870b984368e851ad3ead",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "financial-archive-2",
+      "url": "https://ir.amd.com/news-events/press-releases?category=financial&page=2",
+      "sha256": "e7fb0c8f6268211bca97e22219a9dc4f332882d6ae2f982c3366466b40b70ab2",
+      "retrieved_at": "2026-09-19T21:03:10.795343+00:00",
+      "published_at": null,
+      "retained": true,
+      "plain_text_sha256": "3a1c52f5b18a38e976d609892eb72c202de2d2002f5ffbb466b62f634a12e7a6",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "financial-archive-3",
+      "url": "https://ir.amd.com/news-events/press-releases?category=financial&page=3",
+      "sha256": "ea3cc29df4852e2f8da66c66be88b24d866e3d39a94acf18d1f10e6bed99497b",
+      "retrieved_at": "2026-09-19T21:03:13.858697+00:00",
+      "published_at": null,
+      "retained": true,
+      "plain_text_sha256": "62e29612e735880e6d1dd178202b73a7289c5994f4faddc998b6150ce55a7d0c",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2021Q4",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1044/amd-reports-fourth-quarter-and-full-year-2021-financial-results",
+      "sha256": "1ee5680b6cc403a144566bea9860366bab145946085ad43913cd852e61625ddc",
+      "retrieved_at": "2026-09-26T23:11:33.522891+00:00",
+      "published_at": "2022-02-01T21:15:00Z",
+      "retained": false,
+      "plain_text_sha256": "dc447bf34315a931e6f39bc4630d87cae6a690d016e12cdf3de814b87fbfd48f",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2021Q4-slides",
+      "url": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-22-000014/amdq421financialresultss.htm",
+      "sha256": "184ff9d367f91b7c283b20e5e35ed964d5d7fb900db513dd303667c28a141c5a",
+      "retrieved_at": "2026-09-26T23:11:33.817357+00:00",
+      "published_at": null,
+      "retained": false,
+      "plain_text_sha256": "73adf0a2a598fcbbdd71303c78d5f23c88b0573931f8109f2faf3a34f87dcd04",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022Q1-slides",
+      "url": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-22-000074/amdq122financialresultss.htm",
+      "sha256": "ad4d01109a79c8d25da5be50f1318df58d7433a248eb86ecc69a806fa1b0b060",
+      "retrieved_at": "2026-09-26T23:11:36.052946+00:00",
+      "published_at": null,
+      "retained": false,
+      "plain_text_sha256": "45eaa481d9f0bad0f335312ba09896a6a7c0ced689e320f5d0bae3cb4ac7edac",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    },
+    {
+      "source_id": "2022-analyst-day",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1078/amd-details-strategy-to-drive-next-phase-of-growth-across-300-billion-market-for-high-performance-and-adaptive-computing-solutions",
+      "sha256": "f8e2a250ac219ff5a370b483b0d0a8fb515870034725ac0639db6a07c7ed4a36",
+      "retrieved_at": "2026-09-26T23:11:36.402031+00:00",
+      "published_at": "2022-06-09T23:17:00Z",
+      "retained": false,
+      "plain_text_sha256": "d0d2a1eb2093d01e6bfd8d3e1c38402af94fd90603141406a0758d2f8eb465bd",
+      "historical_immutability": "NOT_PROVEN_CURRENT_HTML"
+    }
+  ],
+  "inputs": {
+    "original_packet_hash": "35f481974f6a95eb6b9b44f6bc324335e11a2f24d1b2fc7f09f61ff7545656de",
+    "original_approval_sha256": "26763995148125b54704eb9d1d198bae5bd41e02c0a5cd5846a1e0d76103395c",
+    "original_path_diagnosis_hash": "a13073484c309935d629b0aad6b124e2df6574daf4beeb3ced082d27c4bf356c"
+  },
+  "precision_policy": {
+    "unit": "MILLION_USD",
+    "method": "HALF_LAST_DISPLAYED_UNIT_CONSERVATIVE_RECONSTRUCTION",
+    "actual_table_quantum": "1",
+    "guidance_midpoint_quantum": "100",
+    "zero_touch_or_cross": "UNCERTAIN",
+    "business_range_used_as_rounding_error": false,
+    "meaning": "列示精度的保守重建假设；不是统计置信区间，亦非公司经营指引区间。"
+  },
+  "source_scope": {
+    "financial_archive_ids": [
+      "financial-archive-2",
+      "financial-archive-3"
+    ],
+    "additional_scope_documents": [
+      "2021Q4-slides",
+      "2022Q1-slides",
+      "2022-analyst-day"
+    ],
+    "historical_originals_unchanged": true,
+    "complete_historical_chain_proven": false
+  },
+  "counts": {
+    "events": 10,
+    "dimension_matched": 9,
+    "numerically_above": 7,
+    "numerically_below": 0,
+    "precision_uncertain": 2,
+    "not_comparable": 1,
+    "missing_prior": 0,
+    "early_disclosure": 1,
+    "retained_price_accepted": 7,
+    "retained_price_signals": 2,
+    "new_content_interventions": null,
+    "new_backtest_reports": 0,
+    "new_independent_events": 0,
+    "additional_human_approved_fields": 0
+  },
+  "decision": {
+    "status": "DO_NOT_START_NEW_FIXED_STUDY_YET",
+    "meaning": "同财季比较有明确含义，配对表可用；新增精确值与修订链尚未核准，不启动新内容研究。",
+    "blockers": [
+      "ADDITIONAL_FIELD_REVIEW_REQUIRED",
+      "COMPLETE_PRIOR_DISCLOSURE_CHAIN_NOT_PROVEN"
+    ],
+    "old_sample_role": "ALREADY_SEEN_DEVELOPMENT_ONLY",
+    "economic_execution_allowed": false,
+    "account_allowed": false,
+    "monitor_start_allowed": false
+  },
+  "events": [
+    {
+      "event_id": "AMD:2022Q1:EARNINGS",
+      "fiscal_quarter": "2022Q1",
+      "actual": {
+        "value_million": "5887",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2022-05-03T20:10:00Z",
+        "evidence": {
+          "source_id": "2022Q1",
+          "source_sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16",
+          "plain_text_start": 2306,
+          "plain_text_end": 2325,
+          "quote": "Revenue ($M)\n$5,887",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      },
+      "approved_headline_actual": {
+        "name": "actual_revenue",
+        "status": "UNCERTAIN",
+        "value": "5.9",
+        "currency": "USD",
+        "unit": "CURRENCY",
+        "scale": "1000000000",
+        "fiscal_period": "2022Q1",
+        "basis": "GAAP",
+        "precision": "SOURCE_ROUNDED_HEADLINE_BILLION",
+        "evidence": {
+          "plain_text_start": 802,
+          "plain_text_end": 817,
+          "quote": "of $5.9 billion"
+        },
+        "reason": "PENDING_HUMAN_SEMANTIC_REVIEW"
+      },
+      "original_candidate_hash": "350cb8f0792c250d79c33c22254cc0cd448c90416695d5ec72eaf46e22e39be3",
+      "original_guidance": {
+        "value_million": "5000.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_EXCLUDING_XILINX",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2022-02-01T21:15:00Z",
+        "evidence": {
+          "source_id": "2021Q4",
+          "source_sha256": "1ee5680b6cc403a144566bea9860366bab145946085ad43913cd852e61625ddc",
+          "plain_text_start": 12999,
+          "plain_text_end": 13053,
+          "quote": "approximately $5.0 billion, plus or minus $100 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "100",
+        "business_range_million": [
+          "4900.0",
+          "5100.0"
+        ]
+      },
+      "latest_prior_disclosure": {
+        "value_million": "5000.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_EXCLUDING_XILINX",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2022-02-01T21:15:00Z",
+        "evidence": {
+          "source_id": "2021Q4",
+          "source_sha256": "1ee5680b6cc403a144566bea9860366bab145946085ad43913cd852e61625ddc",
+          "plain_text_start": 12999,
+          "plain_text_end": 13053,
+          "quote": "approximately $5.0 billion, plus or minus $100 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "100",
+        "business_range_million": [
+          "4900.0",
+          "5100.0"
+        ]
+      },
+      "comparison": {
+        "status": "NOT_COMPARABLE",
+        "mismatched_dimensions": [
+          "coverage"
+        ],
+        "nominal_difference_million": null,
+        "difference_interval_million": null,
+        "nominal_ratio": null,
+        "positive_condition": null
+      },
+      "comparison_to_original_guidance": {
+        "status": "NOT_COMPARABLE",
+        "mismatched_dimensions": [
+          "coverage"
+        ],
+        "nominal_difference_million": null,
+        "difference_interval_million": null,
+        "nominal_ratio": null,
+        "positive_condition": null
+      },
+      "disclosure_chain": [
+        {
+          "source_id": "2021Q4",
+          "kind": "COMPANY_GUIDANCE",
+          "public_at": "2022-02-01T21:15:00Z"
+        },
+        {
+          "source_id": "2022Q1",
+          "kind": "FORMAL_RESULTS",
+          "public_at": "2022-05-03T20:10:00Z"
+        }
+      ],
+      "information_state": "NOT_FOUND_IN_BOUNDED_FINANCIAL_ARCHIVE",
+      "revision_chain_status": "LATEST_IN_REVIEWED_OFFICIAL_FINANCIAL_ARCHIVE_ONLY",
+      "complete_historical_chain_proven": false,
+      "source_chain_gap": "财务新闻分类归档与已留存原件覆盖，未证明所有电话会、其他分类披露或历史页面版本均已纳入。",
+      "extra_evidence": [
+        {
+          "source_id": "2021Q4-slides",
+          "source_sha256": "184ff9d367f91b7c283b20e5e35ed964d5d7fb900db513dd303667c28a141c5a",
+          "plain_text_start": 19988,
+          "plain_text_end": 20040,
+          "quote": "Guidance does not contemplate the addition of Xilinx",
+          "locator": "Financial Outlook slide 20"
+        },
+        {
+          "source_id": "2022Q1",
+          "source_sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16",
+          "plain_text_start": 1409,
+          "plain_text_end": 1463,
+          "quote": "results include partial quarter financial results from",
+          "locator": "Opening acquisition scope note"
+        }
+      ],
+      "notes": [
+        "前序指引排除 Xilinx，正式 GAAP 总营收包含 Xilinx；直接比较口径不一致。原文另有剔除 Xilinx 的补充表，但本轮不替换已定义的总营收口径。"
+      ],
+      "old_price_status": "ENTERED_STOPPED",
+      "old_price_condition": true,
+      "old_legal_entry_at": "2022-05-05 13:30:00+00:00",
+      "new_content_intervention": null,
+      "economic_execution_allowed": false,
+      "research_gate": "HOLD_ADDITIONAL_FIELDS_AND_SOURCE_CHAIN_REVIEW"
+    },
+    {
+      "event_id": "AMD:2022Q2:EARNINGS",
+      "fiscal_quarter": "2022Q2",
+      "actual": {
+        "value_million": "6550",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2022-08-02T20:05:00Z",
+        "evidence": {
+          "source_id": "2022Q2",
+          "source_sha256": "3a91abfa527a765af7fc72aaf1c4147112099a80d8e718d05ce1cd5bc43b7d9e",
+          "plain_text_start": 1426,
+          "plain_text_end": 1445,
+          "quote": "Revenue ($M)\n$6,550",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      },
+      "approved_headline_actual": {
+        "name": "actual_revenue",
+        "status": "UNCERTAIN",
+        "value": "6.6",
+        "currency": "USD",
+        "unit": "CURRENCY",
+        "scale": "1000000000",
+        "fiscal_period": "2022Q2",
+        "basis": "GAAP",
+        "precision": "SOURCE_ROUNDED_HEADLINE_BILLION",
+        "evidence": {
+          "plain_text_start": 806,
+          "plain_text_end": 821,
+          "quote": "of $6.6 billion"
+        },
+        "reason": "PENDING_HUMAN_SEMANTIC_REVIEW"
+      },
+      "original_candidate_hash": "d5982c1f9560b9197fcd831e3338a10f45e7e12dde0111c5ebf450c4e92475d7",
+      "original_guidance": {
+        "value_million": "6500.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2022-05-03T20:10:00Z",
+        "evidence": {
+          "source_id": "2022Q1",
+          "source_sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16",
+          "plain_text_start": 12328,
+          "plain_text_end": 12382,
+          "quote": "approximately $6.5 billion, plus or minus $200 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "200",
+        "business_range_million": [
+          "6300.0",
+          "6700.0"
+        ],
+        "original_candidate_hash": "350cb8f0792c250d79c33c22254cc0cd448c90416695d5ec72eaf46e22e39be3"
+      },
+      "latest_prior_disclosure": {
+        "value_million": "6500.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2022-05-03T20:10:00Z",
+        "evidence": {
+          "source_id": "2022Q1",
+          "source_sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16",
+          "plain_text_start": 12328,
+          "plain_text_end": 12382,
+          "quote": "approximately $6.5 billion, plus or minus $200 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "200",
+        "business_range_million": [
+          "6300.0",
+          "6700.0"
+        ],
+        "original_candidate_hash": "350cb8f0792c250d79c33c22254cc0cd448c90416695d5ec72eaf46e22e39be3"
+      },
+      "comparison": {
+        "status": "UNCERTAIN_PRECISION",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "50.0",
+        "difference_interval_million": [
+          "-0.5",
+          "100.5"
+        ],
+        "nominal_ratio": "0.007692307692307692307692307692",
+        "positive_condition": null
+      },
+      "comparison_to_original_guidance": {
+        "status": "UNCERTAIN_PRECISION",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "50.0",
+        "difference_interval_million": [
+          "-0.5",
+          "100.5"
+        ],
+        "nominal_ratio": "0.007692307692307692307692307692",
+        "positive_condition": null
+      },
+      "disclosure_chain": [
+        {
+          "source_id": "2022Q1",
+          "kind": "COMPANY_GUIDANCE",
+          "public_at": "2022-05-03T20:10:00Z"
+        },
+        {
+          "source_id": "2022Q2",
+          "kind": "FORMAL_RESULTS",
+          "public_at": "2022-08-02T20:05:00Z"
+        }
+      ],
+      "information_state": "NOT_FOUND_IN_BOUNDED_FINANCIAL_ARCHIVE",
+      "revision_chain_status": "LATEST_IN_REVIEWED_OFFICIAL_FINANCIAL_ARCHIVE_ONLY",
+      "complete_historical_chain_proven": false,
+      "source_chain_gap": "财务新闻分类归档与已留存原件覆盖，未证明所有电话会、其他分类披露或历史页面版本均已纳入。",
+      "extra_evidence": [],
+      "notes": [],
+      "old_price_status": "DATA_EXCLUDED",
+      "old_price_condition": null,
+      "old_legal_entry_at": null,
+      "new_content_intervention": null,
+      "economic_execution_allowed": false,
+      "research_gate": "HOLD_ADDITIONAL_FIELDS_AND_SOURCE_CHAIN_REVIEW"
+    },
+    {
+      "event_id": "AMD:2022Q3:EARNINGS",
+      "fiscal_quarter": "2022Q3",
+      "actual": {
+        "value_million": "5565",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q3",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2022-11-01T20:15:00Z",
+        "evidence": {
+          "source_id": "2022Q3",
+          "source_sha256": "184aeea8c55ca12b262eb845703eca0f00f303e329677796dc79d78cd9598546",
+          "plain_text_start": 1440,
+          "plain_text_end": 1460,
+          "quote": "Revenue ($M)\n$\n5,565",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      },
+      "approved_headline_actual": {
+        "name": "actual_revenue",
+        "status": "UNCERTAIN",
+        "value": "5.6",
+        "currency": "USD",
+        "unit": "CURRENCY",
+        "scale": "1000000000",
+        "fiscal_period": "2022Q3",
+        "basis": "GAAP",
+        "precision": "SOURCE_ROUNDED_HEADLINE_BILLION",
+        "evidence": {
+          "plain_text_start": 1100,
+          "plain_text_end": 1115,
+          "quote": "of $5.6 billion"
+        },
+        "reason": "PENDING_HUMAN_SEMANTIC_REVIEW"
+      },
+      "original_candidate_hash": "39f680a725a3c60fd5665288b76f008d06102ce9eae4f53f298c3756c3a14c2e",
+      "original_guidance": {
+        "value_million": "6700.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q3",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2022-08-02T20:05:00Z",
+        "evidence": {
+          "source_id": "2022Q2",
+          "source_sha256": "3a91abfa527a765af7fc72aaf1c4147112099a80d8e718d05ce1cd5bc43b7d9e",
+          "plain_text_start": 11146,
+          "plain_text_end": 11200,
+          "quote": "approximately $6.7 billion, plus or minus $200 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "200",
+        "business_range_million": [
+          "6500.0",
+          "6900.0"
+        ],
+        "original_candidate_hash": "d5982c1f9560b9197fcd831e3338a10f45e7e12dde0111c5ebf450c4e92475d7"
+      },
+      "latest_prior_disclosure": {
+        "value_million": "5600",
+        "display_quantum_million": "100",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q3",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2022-10-06T20:17:00Z",
+        "evidence": {
+          "source_id": "2022Q3-preliminary",
+          "source_sha256": "8136cf7f8bc58744cd35fdf31b7a573120dfc95981762039a8433dcc311d9eb8",
+          "plain_text_start": 1256,
+          "plain_text_end": 1322,
+          "quote": "Third quarter revenue is expected to be approximately $5.6 billion",
+          "locator": "Preliminary selected financial results; total revenue"
+        },
+        "kind": "PRELIMINARY_RESULTS",
+        "business_half_range_million": null,
+        "business_range_million": null
+      },
+      "comparison": {
+        "status": "UNCERTAIN_PRECISION",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "-35",
+        "difference_interval_million": [
+          "-85.5",
+          "15.5"
+        ],
+        "nominal_ratio": "-0.00625",
+        "positive_condition": null
+      },
+      "comparison_to_original_guidance": {
+        "status": "BELOW",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "-1135.0",
+        "difference_interval_million": [
+          "-1185.5",
+          "-1084.5"
+        ],
+        "nominal_ratio": "-0.1694029850746268656716417910",
+        "positive_condition": false
+      },
+      "disclosure_chain": [
+        {
+          "source_id": "2022Q2",
+          "kind": "COMPANY_GUIDANCE",
+          "public_at": "2022-08-02T20:05:00Z"
+        },
+        {
+          "source_id": "2022Q3-preliminary",
+          "kind": "PRELIMINARY_RESULTS",
+          "public_at": "2022-10-06T20:17:00Z"
+        },
+        {
+          "source_id": "2022Q3",
+          "kind": "FORMAL_RESULTS",
+          "public_at": "2022-11-01T20:15:00Z"
+        }
+      ],
+      "information_state": "PRELIMINARY_RESULTS_BEFORE_FORMAL_RELEASE",
+      "revision_chain_status": "LATEST_IN_REVIEWED_OFFICIAL_FINANCIAL_ARCHIVE_ONLY",
+      "complete_historical_chain_proven": false,
+      "source_chain_gap": "财务新闻分类归档与已留存原件覆盖，未证明所有电话会、其他分类披露或历史页面版本均已纳入。",
+      "extra_evidence": [],
+      "notes": [
+        "10 月 6 日已公布约 56 亿美元；11 月 1 日正式结果不能再把此前下修当成新的信息。初步结果不是原经营指引范围。"
+      ],
+      "old_price_status": "NO_PRICE_SIGNAL",
+      "old_price_condition": false,
+      "old_legal_entry_at": null,
+      "new_content_intervention": null,
+      "economic_execution_allowed": false,
+      "research_gate": "HOLD_ADDITIONAL_FIELDS_AND_SOURCE_CHAIN_REVIEW"
+    },
+    {
+      "event_id": "AMD:2022Q4:EARNINGS",
+      "fiscal_quarter": "2022Q4",
+      "actual": {
+        "value_million": "5599",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q4",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2023-01-31T21:15:00Z",
+        "evidence": {
+          "source_id": "2022Q4",
+          "source_sha256": "f0fcaa4a0560455d16a2b1dd138290569f4dd05380979bbd6db18e91e29843e6",
+          "plain_text_start": 1671,
+          "plain_text_end": 1690,
+          "quote": "Revenue ($M)\n$5,599",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      },
+      "approved_headline_actual": {
+        "name": "actual_revenue",
+        "status": "UNCERTAIN",
+        "value": "5.6",
+        "currency": "USD",
+        "unit": "CURRENCY",
+        "scale": "1000000000",
+        "fiscal_period": "2022Q4",
+        "basis": "GAAP",
+        "precision": "SOURCE_ROUNDED_HEADLINE_BILLION",
+        "evidence": {
+          "plain_text_start": 989,
+          "plain_text_end": 1004,
+          "quote": "of $5.6 billion"
+        },
+        "reason": "PENDING_HUMAN_SEMANTIC_REVIEW"
+      },
+      "original_candidate_hash": "e5466a77b1e3359e9f4f43513eac945f81fe84824e8882959434afea416de316",
+      "original_guidance": {
+        "value_million": "5500.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q4",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2022-11-01T20:15:00Z",
+        "evidence": {
+          "source_id": "2022Q3",
+          "source_sha256": "184aeea8c55ca12b262eb845703eca0f00f303e329677796dc79d78cd9598546",
+          "plain_text_start": 9788,
+          "plain_text_end": 9842,
+          "quote": "approximately $5.5 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5200.0",
+          "5800.0"
+        ],
+        "original_candidate_hash": "39f680a725a3c60fd5665288b76f008d06102ce9eae4f53f298c3756c3a14c2e"
+      },
+      "latest_prior_disclosure": {
+        "value_million": "5500.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2022Q4",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2022-11-01T20:15:00Z",
+        "evidence": {
+          "source_id": "2022Q3",
+          "source_sha256": "184aeea8c55ca12b262eb845703eca0f00f303e329677796dc79d78cd9598546",
+          "plain_text_start": 9788,
+          "plain_text_end": 9842,
+          "quote": "approximately $5.5 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5200.0",
+          "5800.0"
+        ],
+        "original_candidate_hash": "39f680a725a3c60fd5665288b76f008d06102ce9eae4f53f298c3756c3a14c2e"
+      },
+      "comparison": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "99.0",
+        "difference_interval_million": [
+          "48.5",
+          "149.5"
+        ],
+        "nominal_ratio": "0.018",
+        "positive_condition": true
+      },
+      "comparison_to_original_guidance": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "99.0",
+        "difference_interval_million": [
+          "48.5",
+          "149.5"
+        ],
+        "nominal_ratio": "0.018",
+        "positive_condition": true
+      },
+      "disclosure_chain": [
+        {
+          "source_id": "2022Q3",
+          "kind": "COMPANY_GUIDANCE",
+          "public_at": "2022-11-01T20:15:00Z"
+        },
+        {
+          "source_id": "2022Q4",
+          "kind": "FORMAL_RESULTS",
+          "public_at": "2023-01-31T21:15:00Z"
+        }
+      ],
+      "information_state": "NOT_FOUND_IN_BOUNDED_FINANCIAL_ARCHIVE",
+      "revision_chain_status": "LATEST_IN_REVIEWED_OFFICIAL_FINANCIAL_ARCHIVE_ONLY",
+      "complete_historical_chain_proven": false,
+      "source_chain_gap": "财务新闻分类归档与已留存原件覆盖，未证明所有电话会、其他分类披露或历史页面版本均已纳入。",
+      "extra_evidence": [],
+      "notes": [],
+      "old_price_status": "DATA_EXCLUDED",
+      "old_price_condition": null,
+      "old_legal_entry_at": null,
+      "new_content_intervention": null,
+      "economic_execution_allowed": false,
+      "research_gate": "HOLD_ADDITIONAL_FIELDS_AND_SOURCE_CHAIN_REVIEW"
+    },
+    {
+      "event_id": "AMD:2023Q1:EARNINGS",
+      "fiscal_quarter": "2023Q1",
+      "actual": {
+        "value_million": "5353",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2023-05-02T20:15:00Z",
+        "evidence": {
+          "source_id": "2023Q1",
+          "source_sha256": "05e5198e5c804a433c4e682807c6d5345d81e04cf1dccc8623053089f2a9824d",
+          "plain_text_start": 2203,
+          "plain_text_end": 2222,
+          "quote": "Revenue ($M)\n$5,353",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      },
+      "approved_headline_actual": {
+        "name": "actual_revenue",
+        "status": "UNCERTAIN",
+        "value": "5.4",
+        "currency": "USD",
+        "unit": "CURRENCY",
+        "scale": "1000000000",
+        "fiscal_period": "2023Q1",
+        "basis": "GAAP",
+        "precision": "SOURCE_ROUNDED_HEADLINE_BILLION",
+        "evidence": {
+          "plain_text_start": 900,
+          "plain_text_end": 915,
+          "quote": "of $5.4 billion"
+        },
+        "reason": "PENDING_HUMAN_SEMANTIC_REVIEW"
+      },
+      "original_candidate_hash": "91ad60a2bc8d7ca48e465f7245a871d961461cc906c01ca6bf0fb7927f3d6e39",
+      "original_guidance": {
+        "value_million": "5300.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2023-01-31T21:15:00Z",
+        "evidence": {
+          "source_id": "2022Q4",
+          "source_sha256": "f0fcaa4a0560455d16a2b1dd138290569f4dd05380979bbd6db18e91e29843e6",
+          "plain_text_start": 13599,
+          "plain_text_end": 13653,
+          "quote": "approximately $5.3 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5000.0",
+          "5600.0"
+        ],
+        "original_candidate_hash": "e5466a77b1e3359e9f4f43513eac945f81fe84824e8882959434afea416de316"
+      },
+      "latest_prior_disclosure": {
+        "value_million": "5300.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2023-01-31T21:15:00Z",
+        "evidence": {
+          "source_id": "2022Q4",
+          "source_sha256": "f0fcaa4a0560455d16a2b1dd138290569f4dd05380979bbd6db18e91e29843e6",
+          "plain_text_start": 13599,
+          "plain_text_end": 13653,
+          "quote": "approximately $5.3 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5000.0",
+          "5600.0"
+        ],
+        "original_candidate_hash": "e5466a77b1e3359e9f4f43513eac945f81fe84824e8882959434afea416de316"
+      },
+      "comparison": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "53.0",
+        "difference_interval_million": [
+          "2.5",
+          "103.5"
+        ],
+        "nominal_ratio": "0.01",
+        "positive_condition": true
+      },
+      "comparison_to_original_guidance": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "53.0",
+        "difference_interval_million": [
+          "2.5",
+          "103.5"
+        ],
+        "nominal_ratio": "0.01",
+        "positive_condition": true
+      },
+      "disclosure_chain": [
+        {
+          "source_id": "2022Q4",
+          "kind": "COMPANY_GUIDANCE",
+          "public_at": "2023-01-31T21:15:00Z"
+        },
+        {
+          "source_id": "2023Q1",
+          "kind": "FORMAL_RESULTS",
+          "public_at": "2023-05-02T20:15:00Z"
+        }
+      ],
+      "information_state": "NOT_FOUND_IN_BOUNDED_FINANCIAL_ARCHIVE",
+      "revision_chain_status": "LATEST_IN_REVIEWED_OFFICIAL_FINANCIAL_ARCHIVE_ONLY",
+      "complete_historical_chain_proven": false,
+      "source_chain_gap": "财务新闻分类归档与已留存原件覆盖，未证明所有电话会、其他分类披露或历史页面版本均已纳入。",
+      "extra_evidence": [],
+      "notes": [],
+      "old_price_status": "NO_PRICE_SIGNAL",
+      "old_price_condition": false,
+      "old_legal_entry_at": null,
+      "new_content_intervention": null,
+      "economic_execution_allowed": false,
+      "research_gate": "HOLD_ADDITIONAL_FIELDS_AND_SOURCE_CHAIN_REVIEW"
+    },
+    {
+      "event_id": "AMD:2023Q2:EARNINGS",
+      "fiscal_quarter": "2023Q2",
+      "actual": {
+        "value_million": "5359",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2023-08-01T20:15:00Z",
+        "evidence": {
+          "source_id": "2023Q2",
+          "source_sha256": "6571dcf401b03d4c2d7d0080bea7b5f49a77431c3eda8da2b30675c75f56f6e1",
+          "plain_text_start": 2185,
+          "plain_text_end": 2204,
+          "quote": "Revenue ($M)\n$5,359",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      },
+      "approved_headline_actual": {
+        "name": "actual_revenue",
+        "status": "UNCERTAIN",
+        "value": "5.4",
+        "currency": "USD",
+        "unit": "CURRENCY",
+        "scale": "1000000000",
+        "fiscal_period": "2023Q2",
+        "basis": "GAAP",
+        "precision": "SOURCE_ROUNDED_HEADLINE_BILLION",
+        "evidence": {
+          "plain_text_start": 906,
+          "plain_text_end": 921,
+          "quote": "of $5.4 billion"
+        },
+        "reason": "PENDING_HUMAN_SEMANTIC_REVIEW"
+      },
+      "original_candidate_hash": "dec85ae844995eefa93fc0867715b7f1f237c9c866c553b1781baaa1ff09b509",
+      "original_guidance": {
+        "value_million": "5300.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2023-05-02T20:15:00Z",
+        "evidence": {
+          "source_id": "2023Q1",
+          "source_sha256": "05e5198e5c804a433c4e682807c6d5345d81e04cf1dccc8623053089f2a9824d",
+          "plain_text_start": 6717,
+          "plain_text_end": 6771,
+          "quote": "approximately $5.3 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5000.0",
+          "5600.0"
+        ],
+        "original_candidate_hash": "91ad60a2bc8d7ca48e465f7245a871d961461cc906c01ca6bf0fb7927f3d6e39"
+      },
+      "latest_prior_disclosure": {
+        "value_million": "5300.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2023-05-02T20:15:00Z",
+        "evidence": {
+          "source_id": "2023Q1",
+          "source_sha256": "05e5198e5c804a433c4e682807c6d5345d81e04cf1dccc8623053089f2a9824d",
+          "plain_text_start": 6717,
+          "plain_text_end": 6771,
+          "quote": "approximately $5.3 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5000.0",
+          "5600.0"
+        ],
+        "original_candidate_hash": "91ad60a2bc8d7ca48e465f7245a871d961461cc906c01ca6bf0fb7927f3d6e39"
+      },
+      "comparison": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "59.0",
+        "difference_interval_million": [
+          "8.5",
+          "109.5"
+        ],
+        "nominal_ratio": "0.01113207547169811320754716981",
+        "positive_condition": true
+      },
+      "comparison_to_original_guidance": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "59.0",
+        "difference_interval_million": [
+          "8.5",
+          "109.5"
+        ],
+        "nominal_ratio": "0.01113207547169811320754716981",
+        "positive_condition": true
+      },
+      "disclosure_chain": [
+        {
+          "source_id": "2023Q1",
+          "kind": "COMPANY_GUIDANCE",
+          "public_at": "2023-05-02T20:15:00Z"
+        },
+        {
+          "source_id": "2023Q2",
+          "kind": "FORMAL_RESULTS",
+          "public_at": "2023-08-01T20:15:00Z"
+        }
+      ],
+      "information_state": "NOT_FOUND_IN_BOUNDED_FINANCIAL_ARCHIVE",
+      "revision_chain_status": "LATEST_IN_REVIEWED_OFFICIAL_FINANCIAL_ARCHIVE_ONLY",
+      "complete_historical_chain_proven": false,
+      "source_chain_gap": "财务新闻分类归档与已留存原件覆盖，未证明所有电话会、其他分类披露或历史页面版本均已纳入。",
+      "extra_evidence": [],
+      "notes": [],
+      "old_price_status": "NO_PRICE_SIGNAL",
+      "old_price_condition": false,
+      "old_legal_entry_at": null,
+      "new_content_intervention": null,
+      "economic_execution_allowed": false,
+      "research_gate": "HOLD_ADDITIONAL_FIELDS_AND_SOURCE_CHAIN_REVIEW"
+    },
+    {
+      "event_id": "AMD:2023Q3:EARNINGS",
+      "fiscal_quarter": "2023Q3",
+      "actual": {
+        "value_million": "5800",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q3",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2023-10-31T20:15:00Z",
+        "evidence": {
+          "source_id": "2023Q3",
+          "source_sha256": "a1188c99c8cc7ea876ebab577cb759f88b5a03ded967f751c03b5a25dd0b39e4",
+          "plain_text_start": 2066,
+          "plain_text_end": 2085,
+          "quote": "Revenue ($M)\n$5,800",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      },
+      "approved_headline_actual": {
+        "name": "actual_revenue",
+        "status": "UNCERTAIN",
+        "value": "5.8",
+        "currency": "USD",
+        "unit": "CURRENCY",
+        "scale": "1000000000",
+        "fiscal_period": "2023Q3",
+        "basis": "GAAP",
+        "precision": "SOURCE_ROUNDED_HEADLINE_BILLION",
+        "evidence": {
+          "plain_text_start": 905,
+          "plain_text_end": 920,
+          "quote": "of $5.8 billion"
+        },
+        "reason": "PENDING_HUMAN_SEMANTIC_REVIEW"
+      },
+      "original_candidate_hash": "bc350422da65ef97c1c9bbe149369d5c6767e3e47b99c905b1957da48b30c3a3",
+      "original_guidance": {
+        "value_million": "5700.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q3",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2023-08-01T20:15:00Z",
+        "evidence": {
+          "source_id": "2023Q2",
+          "source_sha256": "6571dcf401b03d4c2d7d0080bea7b5f49a77431c3eda8da2b30675c75f56f6e1",
+          "plain_text_start": 9339,
+          "plain_text_end": 9393,
+          "quote": "approximately $5.7 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5400.0",
+          "6000.0"
+        ],
+        "original_candidate_hash": "dec85ae844995eefa93fc0867715b7f1f237c9c866c553b1781baaa1ff09b509"
+      },
+      "latest_prior_disclosure": {
+        "value_million": "5700.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q3",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2023-08-01T20:15:00Z",
+        "evidence": {
+          "source_id": "2023Q2",
+          "source_sha256": "6571dcf401b03d4c2d7d0080bea7b5f49a77431c3eda8da2b30675c75f56f6e1",
+          "plain_text_start": 9339,
+          "plain_text_end": 9393,
+          "quote": "approximately $5.7 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5400.0",
+          "6000.0"
+        ],
+        "original_candidate_hash": "dec85ae844995eefa93fc0867715b7f1f237c9c866c553b1781baaa1ff09b509"
+      },
+      "comparison": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "100.0",
+        "difference_interval_million": [
+          "49.5",
+          "150.5"
+        ],
+        "nominal_ratio": "0.01754385964912280701754385965",
+        "positive_condition": true
+      },
+      "comparison_to_original_guidance": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "100.0",
+        "difference_interval_million": [
+          "49.5",
+          "150.5"
+        ],
+        "nominal_ratio": "0.01754385964912280701754385965",
+        "positive_condition": true
+      },
+      "disclosure_chain": [
+        {
+          "source_id": "2023Q2",
+          "kind": "COMPANY_GUIDANCE",
+          "public_at": "2023-08-01T20:15:00Z"
+        },
+        {
+          "source_id": "2023Q3",
+          "kind": "FORMAL_RESULTS",
+          "public_at": "2023-10-31T20:15:00Z"
+        }
+      ],
+      "information_state": "NOT_FOUND_IN_BOUNDED_FINANCIAL_ARCHIVE",
+      "revision_chain_status": "LATEST_IN_REVIEWED_OFFICIAL_FINANCIAL_ARCHIVE_ONLY",
+      "complete_historical_chain_proven": false,
+      "source_chain_gap": "财务新闻分类归档与已留存原件覆盖，未证明所有电话会、其他分类披露或历史页面版本均已纳入。",
+      "extra_evidence": [],
+      "notes": [],
+      "old_price_status": "DATA_EXCLUDED",
+      "old_price_condition": null,
+      "old_legal_entry_at": null,
+      "new_content_intervention": null,
+      "economic_execution_allowed": false,
+      "research_gate": "HOLD_ADDITIONAL_FIELDS_AND_SOURCE_CHAIN_REVIEW"
+    },
+    {
+      "event_id": "AMD:2023Q4:EARNINGS",
+      "fiscal_quarter": "2023Q4",
+      "actual": {
+        "value_million": "6168",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q4",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2024-01-30T21:15:00Z",
+        "evidence": {
+          "source_id": "2023Q4",
+          "source_sha256": "e7cabb37f44e25586887693d78dbf6dd49dff64f0e97f3691bc62f986dd06e1b",
+          "plain_text_start": 2410,
+          "plain_text_end": 2429,
+          "quote": "Revenue ($M)\n$6,168",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      },
+      "approved_headline_actual": {
+        "name": "actual_revenue",
+        "status": "UNCERTAIN",
+        "value": "6.2",
+        "currency": "USD",
+        "unit": "CURRENCY",
+        "scale": "1000000000",
+        "fiscal_period": "2023Q4",
+        "basis": "GAAP",
+        "precision": "SOURCE_ROUNDED_HEADLINE_BILLION",
+        "evidence": {
+          "plain_text_start": 949,
+          "plain_text_end": 964,
+          "quote": "of $6.2 billion"
+        },
+        "reason": "PENDING_HUMAN_SEMANTIC_REVIEW"
+      },
+      "original_candidate_hash": "54b2817c265ea2f30b680f0cb0a0ca6fcae7c5355ca877f8ff1bc80ef065a721",
+      "original_guidance": {
+        "value_million": "6100.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q4",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2023-10-31T20:15:00Z",
+        "evidence": {
+          "source_id": "2023Q3",
+          "source_sha256": "a1188c99c8cc7ea876ebab577cb759f88b5a03ded967f751c03b5a25dd0b39e4",
+          "plain_text_start": 9109,
+          "plain_text_end": 9163,
+          "quote": "approximately $6.1 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5800.0",
+          "6400.0"
+        ],
+        "original_candidate_hash": "bc350422da65ef97c1c9bbe149369d5c6767e3e47b99c905b1957da48b30c3a3"
+      },
+      "latest_prior_disclosure": {
+        "value_million": "6100.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2023Q4",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2023-10-31T20:15:00Z",
+        "evidence": {
+          "source_id": "2023Q3",
+          "source_sha256": "a1188c99c8cc7ea876ebab577cb759f88b5a03ded967f751c03b5a25dd0b39e4",
+          "plain_text_start": 9109,
+          "plain_text_end": 9163,
+          "quote": "approximately $6.1 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5800.0",
+          "6400.0"
+        ],
+        "original_candidate_hash": "bc350422da65ef97c1c9bbe149369d5c6767e3e47b99c905b1957da48b30c3a3"
+      },
+      "comparison": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "68.0",
+        "difference_interval_million": [
+          "17.5",
+          "118.5"
+        ],
+        "nominal_ratio": "0.01114754098360655737704918033",
+        "positive_condition": true
+      },
+      "comparison_to_original_guidance": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "68.0",
+        "difference_interval_million": [
+          "17.5",
+          "118.5"
+        ],
+        "nominal_ratio": "0.01114754098360655737704918033",
+        "positive_condition": true
+      },
+      "disclosure_chain": [
+        {
+          "source_id": "2023Q3",
+          "kind": "COMPANY_GUIDANCE",
+          "public_at": "2023-10-31T20:15:00Z"
+        },
+        {
+          "source_id": "2023Q4",
+          "kind": "FORMAL_RESULTS",
+          "public_at": "2024-01-30T21:15:00Z"
+        }
+      ],
+      "information_state": "NOT_FOUND_IN_BOUNDED_FINANCIAL_ARCHIVE",
+      "revision_chain_status": "LATEST_IN_REVIEWED_OFFICIAL_FINANCIAL_ARCHIVE_ONLY",
+      "complete_historical_chain_proven": false,
+      "source_chain_gap": "财务新闻分类归档与已留存原件覆盖，未证明所有电话会、其他分类披露或历史页面版本均已纳入。",
+      "extra_evidence": [],
+      "notes": [],
+      "old_price_status": "NO_PRICE_SIGNAL",
+      "old_price_condition": false,
+      "old_legal_entry_at": null,
+      "new_content_intervention": null,
+      "economic_execution_allowed": false,
+      "research_gate": "HOLD_ADDITIONAL_FIELDS_AND_SOURCE_CHAIN_REVIEW"
+    },
+    {
+      "event_id": "AMD:2024Q1:EARNINGS",
+      "fiscal_quarter": "2024Q1",
+      "actual": {
+        "value_million": "5473",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2024Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2024-04-30T20:15:00Z",
+        "evidence": {
+          "source_id": "2024Q1",
+          "source_sha256": "82e4b93824234b8a14d5d03751abc19fabd28461247b8bc0e7ecba10408c3312",
+          "plain_text_start": 2175,
+          "plain_text_end": 2195,
+          "quote": "Revenue ($M)\n$\n5,473",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      },
+      "approved_headline_actual": {
+        "name": "actual_revenue",
+        "status": "UNCERTAIN",
+        "value": "5.5",
+        "currency": "USD",
+        "unit": "CURRENCY",
+        "scale": "1000000000",
+        "fiscal_period": "2024Q1",
+        "basis": "GAAP",
+        "precision": "SOURCE_ROUNDED_HEADLINE_BILLION",
+        "evidence": {
+          "plain_text_start": 932,
+          "plain_text_end": 947,
+          "quote": "of $5.5 billion"
+        },
+        "reason": "PENDING_HUMAN_SEMANTIC_REVIEW"
+      },
+      "original_candidate_hash": "7c7d91051c98dbe2ceabe51153584138f09c823667be6458749fc682630691f2",
+      "original_guidance": {
+        "value_million": "5400.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2024Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2024-01-30T21:15:00Z",
+        "evidence": {
+          "source_id": "2023Q4",
+          "source_sha256": "e7cabb37f44e25586887693d78dbf6dd49dff64f0e97f3691bc62f986dd06e1b",
+          "plain_text_start": 9172,
+          "plain_text_end": 9226,
+          "quote": "approximately $5.4 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5100.0",
+          "5700.0"
+        ],
+        "original_candidate_hash": "54b2817c265ea2f30b680f0cb0a0ca6fcae7c5355ca877f8ff1bc80ef065a721"
+      },
+      "latest_prior_disclosure": {
+        "value_million": "5400.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2024Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2024-01-30T21:15:00Z",
+        "evidence": {
+          "source_id": "2023Q4",
+          "source_sha256": "e7cabb37f44e25586887693d78dbf6dd49dff64f0e97f3691bc62f986dd06e1b",
+          "plain_text_start": 9172,
+          "plain_text_end": 9226,
+          "quote": "approximately $5.4 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5100.0",
+          "5700.0"
+        ],
+        "original_candidate_hash": "54b2817c265ea2f30b680f0cb0a0ca6fcae7c5355ca877f8ff1bc80ef065a721"
+      },
+      "comparison": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "73.0",
+        "difference_interval_million": [
+          "22.5",
+          "123.5"
+        ],
+        "nominal_ratio": "0.01351851851851851851851851852",
+        "positive_condition": true
+      },
+      "comparison_to_original_guidance": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "73.0",
+        "difference_interval_million": [
+          "22.5",
+          "123.5"
+        ],
+        "nominal_ratio": "0.01351851851851851851851851852",
+        "positive_condition": true
+      },
+      "disclosure_chain": [
+        {
+          "source_id": "2023Q4",
+          "kind": "COMPANY_GUIDANCE",
+          "public_at": "2024-01-30T21:15:00Z"
+        },
+        {
+          "source_id": "2024Q1",
+          "kind": "FORMAL_RESULTS",
+          "public_at": "2024-04-30T20:15:00Z"
+        }
+      ],
+      "information_state": "NOT_FOUND_IN_BOUNDED_FINANCIAL_ARCHIVE",
+      "revision_chain_status": "LATEST_IN_REVIEWED_OFFICIAL_FINANCIAL_ARCHIVE_ONLY",
+      "complete_historical_chain_proven": false,
+      "source_chain_gap": "财务新闻分类归档与已留存原件覆盖，未证明所有电话会、其他分类披露或历史页面版本均已纳入。",
+      "extra_evidence": [],
+      "notes": [],
+      "old_price_status": "NO_PRICE_SIGNAL",
+      "old_price_condition": false,
+      "old_legal_entry_at": null,
+      "new_content_intervention": null,
+      "economic_execution_allowed": false,
+      "research_gate": "HOLD_ADDITIONAL_FIELDS_AND_SOURCE_CHAIN_REVIEW"
+    },
+    {
+      "event_id": "AMD:2024Q2:EARNINGS",
+      "fiscal_quarter": "2024Q2",
+      "actual": {
+        "value_million": "5835",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2024Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "public_at": "2024-07-30T20:15:00Z",
+        "evidence": {
+          "source_id": "2024Q2",
+          "source_sha256": "54ab5b42ab9f7c765ca560cbd74224a49e8d3cb996d92cfdefe5916564ab933a",
+          "plain_text_start": 2181,
+          "plain_text_end": 2200,
+          "quote": "Revenue ($M)\n$5,835",
+          "locator": "First Revenue ($M) value in GAAP Quarterly Financial Results; current-quarter column"
+        }
+      },
+      "approved_headline_actual": {
+        "name": "actual_revenue",
+        "status": "UNCERTAIN",
+        "value": "5.8",
+        "currency": "USD",
+        "unit": "CURRENCY",
+        "scale": "1000000000",
+        "fiscal_period": "2024Q2",
+        "basis": "GAAP",
+        "precision": "SOURCE_ROUNDED_HEADLINE_BILLION",
+        "evidence": {
+          "plain_text_start": 932,
+          "plain_text_end": 947,
+          "quote": "of $5.8 billion"
+        },
+        "reason": "PENDING_HUMAN_SEMANTIC_REVIEW"
+      },
+      "original_candidate_hash": "8004e2a1838a1a74c9cc29dc26e2750537e2a224987db4fcddaec0c1a194f860",
+      "original_guidance": {
+        "value_million": "5700.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2024Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2024-04-30T20:15:00Z",
+        "evidence": {
+          "source_id": "2024Q1",
+          "source_sha256": "82e4b93824234b8a14d5d03751abc19fabd28461247b8bc0e7ecba10408c3312",
+          "plain_text_start": 7248,
+          "plain_text_end": 7302,
+          "quote": "approximately $5.7 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5400.0",
+          "6000.0"
+        ],
+        "original_candidate_hash": "7c7d91051c98dbe2ceabe51153584138f09c823667be6458749fc682630691f2"
+      },
+      "latest_prior_disclosure": {
+        "value_million": "5700.0",
+        "display_quantum_million": "100.0",
+        "security_id": "US:COMMON:CUSIP:007903107",
+        "fiscal_quarter": "2024Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "AMD_CONSOLIDATED_REPORTED",
+        "approval_status": "REUSED_APPROVED_FIELD",
+        "public_at": "2024-04-30T20:15:00Z",
+        "evidence": {
+          "source_id": "2024Q1",
+          "source_sha256": "82e4b93824234b8a14d5d03751abc19fabd28461247b8bc0e7ecba10408c3312",
+          "plain_text_start": 7248,
+          "plain_text_end": 7302,
+          "quote": "approximately $5.7 billion, plus or minus $300 million",
+          "locator": "Current Outlook; explicitly named target fiscal quarter"
+        },
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "300",
+        "business_range_million": [
+          "5400.0",
+          "6000.0"
+        ],
+        "original_candidate_hash": "7c7d91051c98dbe2ceabe51153584138f09c823667be6458749fc682630691f2"
+      },
+      "comparison": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "135.0",
+        "difference_interval_million": [
+          "84.5",
+          "185.5"
+        ],
+        "nominal_ratio": "0.02368421052631578947368421053",
+        "positive_condition": true
+      },
+      "comparison_to_original_guidance": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "135.0",
+        "difference_interval_million": [
+          "84.5",
+          "185.5"
+        ],
+        "nominal_ratio": "0.02368421052631578947368421053",
+        "positive_condition": true
+      },
+      "disclosure_chain": [
+        {
+          "source_id": "2024Q1",
+          "kind": "COMPANY_GUIDANCE",
+          "public_at": "2024-04-30T20:15:00Z"
+        },
+        {
+          "source_id": "2024Q2",
+          "kind": "FORMAL_RESULTS",
+          "public_at": "2024-07-30T20:15:00Z"
+        }
+      ],
+      "information_state": "NOT_FOUND_IN_BOUNDED_FINANCIAL_ARCHIVE",
+      "revision_chain_status": "LATEST_IN_REVIEWED_OFFICIAL_FINANCIAL_ARCHIVE_ONLY",
+      "complete_historical_chain_proven": false,
+      "source_chain_gap": "财务新闻分类归档与已留存原件覆盖，未证明所有电话会、其他分类披露或历史页面版本均已纳入。",
+      "extra_evidence": [],
+      "notes": [],
+      "old_price_status": "ENTERED_STOPPED",
+      "old_price_condition": true,
+      "old_legal_entry_at": "2024-08-01 13:30:00+00:00",
+      "new_content_intervention": null,
+      "economic_execution_allowed": false,
+      "research_gate": "HOLD_ADDITIONAL_FIELDS_AND_SOURCE_CHAIN_REVIEW"
+    }
+  ],
+  "pairing_hash": "8a523cc4c85a00fc562302dc3a8a03eef2e9f203965e570a5e37b9fabb25bdaa"
+}

@@ -1,0 +1,1545 @@
+{
+  "schema_version": "equity-fixed-path-diagnosis-v1",
+  "created_at": "2026-09-24T17:40:42.723890+00:00",
+  "protocol_hash": "39d044de7ab10913f3d46582ebc6e556b149971343b62ff38cf97832c28844bf",
+  "source_study_hash": "fddfa9bd8b6476147642a54e2b981bac286c0df5e285ef5a942769dfe317fd69",
+  "approval_hash": "0f27ba41d47838de2f6c945f53c83db92dc2738772f13a7fd9be00f09d06b247",
+  "events": [
+    {
+      "fiscal_quarter": "2022Q1",
+      "event_id": "AMD:2022Q1:EARNINGS",
+      "candidate_hash": "350cb8f0792c250d79c33c22254cc0cd448c90416695d5ec72eaf46e22e39be3",
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1062/amd-reports-first-quarter-2022-financial-results",
+      "raw_source_sha256": "7e5a1d54afdbba7642b2c2025ce40ac57341772331a635ae824187a02c6e6a16",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "value": "5.9",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2022Q1",
+          "basis": "GAAP",
+          "precision": "SOURCE_ROUNDED_HEADLINE_BILLION"
+        },
+        {
+          "name": "diluted_eps",
+          "value": "0.56",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2022Q1",
+          "basis": "GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "non_gaap_diluted_eps",
+          "value": "1.13",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2022Q1",
+          "basis": "NON_GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "value": "6.5",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2022Q2",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_half_range",
+          "value": "200",
+          "scale": "1000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2022Q2",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        }
+      ],
+      "field_review": "APPROVED_LISTED_FIELDS_IN_2026",
+      "first_public_at": "2022-05-03T20:10:00Z",
+      "model_event_available_at": "2022-05-03T20:12:00+00:00",
+      "actual_retrieved_at": "2026-09-22T22:29:15.389132+00:00",
+      "actual_extraction_completed_at": "2026-09-22T22:33:36.693617+00:00",
+      "content_condition": true,
+      "cost_cases": [
+        {
+          "cost_multiplier": 1,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "report_hashes": {
+            "C": "08bd2f6ec41e61b6444ec764a5711da4b1b2090c3a20571e845e0ad0f0ed4609",
+            "D": "7efc0c04e1a409a2c8d92b4a02948a6c400e5d99c55fde3788a50505f41bde1f"
+          },
+          "C_return": -0.008019160576499984,
+          "D_return": -0.008019160576499984,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "RECORDED_ENTRY",
+            "entry_session": "2022-05-05",
+            "signal_available_at": "2022-05-04 20:01:00+00:00",
+            "entry_at": "2022-05-05 13:30:00+00:00",
+            "exit_session": "2022-05-05",
+            "exit_basis": "INTRABAR_STOP",
+            "entry_fee": "2.001",
+            "exit_fee": "1.9399995150000002",
+            "recorded_realized_pnl": "-80.19160576499988",
+            "recorded_close_exposure_ratio": "0.0",
+            "intraday_exposure_not_zero": true,
+            "holding_time_exact": null,
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2022-05-05",
+                "values": {
+                  "close_price_change": "-0.0387096774193548387096774193548387096774",
+                  "full_horizon_high_change": "0.001945724526369687660010240655401945725",
+                  "full_horizon_low_change": "-0.0561187916026625704045058883768561187916",
+                  "retained_entry_mark_return": "-0.01000251935483872203",
+                  "recorded_original_score_return": "-0.008019160576499984",
+                  "post_exit_full_session_high_change": null,
+                  "post_exit_full_session_low_change": null
+                },
+                "source_rows": {
+                  "snapshot_id": "f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 24,
+                  "post_exit_first_index": null,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "08bd2f6ec41e61b6444ec764a5711da4b1b2090c3a20571e845e0ad0f0ed4609",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              },
+              {
+                "sessions": 3,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2022-05-09",
+                "values": {
+                  "close_price_change": "-0.1156169994879672299027137736815156169995",
+                  "full_horizon_high_change": "0.005427547363031233998975934459805427547",
+                  "full_horizon_low_change": "-0.1256528417818740399385560675883256528418",
+                  "retained_entry_mark_return": "-0.02922934987199181884",
+                  "recorded_original_score_return": "-0.008019160576499984",
+                  "post_exit_full_session_high_change": "0.005427547363031233998975934459805427547",
+                  "post_exit_full_session_low_change": "-0.1256528417818740399385560675883256528418"
+                },
+                "source_rows": {
+                  "snapshot_id": "f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 26,
+                  "post_exit_first_index": 25,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "08bd2f6ec41e61b6444ec764a5711da4b1b2090c3a20571e845e0ad0f0ed4609",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              },
+              {
+                "sessions": 5,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2022-05-11",
+                "values": {
+                  "close_price_change": "-0.0996415770609318996415770609318996415771",
+                  "full_horizon_high_change": "0.005427547363031233998975934459805427547",
+                  "full_horizon_low_change": "-0.1256528417818740399385560675883256528418",
+                  "retained_entry_mark_return": "-0.02523549426523298648",
+                  "recorded_original_score_return": "-0.008019160576499984",
+                  "post_exit_full_session_high_change": "0.005427547363031233998975934459805427547",
+                  "post_exit_full_session_low_change": "-0.1256528417818740399385560675883256528418"
+                },
+                "source_rows": {
+                  "snapshot_id": "f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 28,
+                  "post_exit_first_index": 25,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "08bd2f6ec41e61b6444ec764a5711da4b1b2090c3a20571e845e0ad0f0ed4609",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              }
+            ]
+          }
+        },
+        {
+          "cost_multiplier": 2,
+          "fee_rate": 0.0016,
+          "slippage_pct": 0.001,
+          "report_hashes": {
+            "C": "2494dec92361267050677ca6af22f7fc082d8edfaa87e0b59006208df50ec648",
+            "D": "4b5e50271d42feeb7744a93a67f8bd90434ecd33916c887cf35959b3e7afdd72"
+          },
+          "C_return": -0.00853864211199995,
+          "D_return": -0.00853864211199995,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "RECORDED_ENTRY",
+            "entry_session": "2022-05-05",
+            "signal_available_at": "2022-05-04 20:01:00+00:00",
+            "entry_at": "2022-05-05 13:30:00+00:00",
+            "exit_session": "2022-05-05",
+            "exit_basis": "INTRABAR_STOP",
+            "entry_fee": "4.0040000000000004",
+            "exit_fee": "3.87999612",
+            "recorded_realized_pnl": "-85.38642111999984",
+            "recorded_close_exposure_ratio": "0.0",
+            "intraday_exposure_not_zero": true,
+            "holding_time_exact": null,
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2022-05-05",
+                "values": {
+                  "close_price_change": "-0.0387096774193548387096774193548387096774",
+                  "full_horizon_high_change": "0.001945724526369687660010240655401945725",
+                  "full_horizon_low_change": "-0.0561187916026625704045058883768561187916",
+                  "retained_entry_mark_return": "-0.01032781935483872203",
+                  "recorded_original_score_return": "-0.00853864211199995",
+                  "post_exit_full_session_high_change": null,
+                  "post_exit_full_session_low_change": null
+                },
+                "source_rows": {
+                  "snapshot_id": "f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 24,
+                  "post_exit_first_index": null,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "2494dec92361267050677ca6af22f7fc082d8edfaa87e0b59006208df50ec648",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              },
+              {
+                "sessions": 3,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2022-05-09",
+                "values": {
+                  "close_price_change": "-0.1156169994879672299027137736815156169995",
+                  "full_horizon_high_change": "0.005427547363031233998975934459805427547",
+                  "full_horizon_low_change": "-0.1256528417818740399385560675883256528418",
+                  "retained_entry_mark_return": "-0.02955464987199181884",
+                  "recorded_original_score_return": "-0.00853864211199995",
+                  "post_exit_full_session_high_change": "0.005427547363031233998975934459805427547",
+                  "post_exit_full_session_low_change": "-0.1256528417818740399385560675883256528418"
+                },
+                "source_rows": {
+                  "snapshot_id": "f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 26,
+                  "post_exit_first_index": 25,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "2494dec92361267050677ca6af22f7fc082d8edfaa87e0b59006208df50ec648",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              },
+              {
+                "sessions": 5,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2022-05-11",
+                "values": {
+                  "close_price_change": "-0.0996415770609318996415770609318996415771",
+                  "full_horizon_high_change": "0.005427547363031233998975934459805427547",
+                  "full_horizon_low_change": "-0.1256528417818740399385560675883256528418",
+                  "retained_entry_mark_return": "-0.02556079426523298648",
+                  "recorded_original_score_return": "-0.00853864211199995",
+                  "post_exit_full_session_high_change": "0.005427547363031233998975934459805427547",
+                  "post_exit_full_session_low_change": "-0.1256528417818740399385560675883256528418"
+                },
+                "source_rows": {
+                  "snapshot_id": "f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 28,
+                  "post_exit_first_index": 25,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "2494dec92361267050677ca6af22f7fc082d8edfaa87e0b59006208df50ec648",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              }
+            ]
+          }
+        }
+      ],
+      "price_condition": true,
+      "confirmation_close_change": "0.090968945462526061670141556",
+      "confirmation_session": "2022-05-04",
+      "confirmation_available_at": "2022-05-04T20:01:00+00:00",
+      "source_rows": {
+        "snapshot_id": "f41b52636d5a1401e031e8118d77785093e7f0869e0841eff869966567b66610",
+        "pre_release_candle_index": 22,
+        "confirmation_candle_index": 23
+      },
+      "status": "ENTERED_STOPPED",
+      "content_changed_decision": false
+    },
+    {
+      "fiscal_quarter": "2022Q2",
+      "event_id": "AMD:2022Q2:EARNINGS",
+      "candidate_hash": "d5982c1f9560b9197fcd831e3338a10f45e7e12dde0111c5ebf450c4e92475d7",
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1084/amd-reports-second-quarter-2022-financial-results",
+      "raw_source_sha256": "3a91abfa527a765af7fc72aaf1c4147112099a80d8e718d05ce1cd5bc43b7d9e",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "value": "6.6",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2022Q2",
+          "basis": "GAAP",
+          "precision": "SOURCE_ROUNDED_HEADLINE_BILLION"
+        },
+        {
+          "name": "diluted_eps",
+          "value": "0.27",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2022Q2",
+          "basis": "GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "non_gaap_diluted_eps",
+          "value": "1.05",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2022Q2",
+          "basis": "NON_GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "value": "6.7",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2022Q3",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_half_range",
+          "value": "200",
+          "scale": "1000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2022Q3",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        }
+      ],
+      "field_review": "APPROVED_LISTED_FIELDS_IN_2026",
+      "first_public_at": "2022-08-02T20:05:00Z",
+      "model_event_available_at": "2022-08-02T20:07:00+00:00",
+      "actual_retrieved_at": "2026-09-22T22:29:15.397099+00:00",
+      "actual_extraction_completed_at": "2026-09-22T22:33:36.710626+00:00",
+      "content_condition": true,
+      "cost_cases": [],
+      "status": "DATA_EXCLUDED",
+      "exclusion": {
+        "fiscal_quarter": "2022Q2",
+        "status": "PENDING_DATA_CROSSCHECK",
+        "economic_reports": 0
+      },
+      "price_condition": null,
+      "horizons": null
+    },
+    {
+      "fiscal_quarter": "2022Q3",
+      "event_id": "AMD:2022Q3:EARNINGS",
+      "candidate_hash": "39f680a725a3c60fd5665288b76f008d06102ce9eae4f53f298c3756c3a14c2e",
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1098/amd-reports-third-quarter-2022-financial-results",
+      "raw_source_sha256": "184aeea8c55ca12b262eb845703eca0f00f303e329677796dc79d78cd9598546",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "value": "5.6",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2022Q3",
+          "basis": "GAAP",
+          "precision": "SOURCE_ROUNDED_HEADLINE_BILLION"
+        },
+        {
+          "name": "diluted_eps",
+          "value": "0.04",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2022Q3",
+          "basis": "GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "non_gaap_diluted_eps",
+          "value": "0.67",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2022Q3",
+          "basis": "NON_GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "value": "5.5",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2022Q4",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_half_range",
+          "value": "300",
+          "scale": "1000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2022Q4",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        }
+      ],
+      "field_review": "APPROVED_LISTED_FIELDS_IN_2026",
+      "first_public_at": "2022-11-01T20:15:00Z",
+      "model_event_available_at": "2022-11-01T20:17:00+00:00",
+      "actual_retrieved_at": "2026-09-22T22:29:15.366757+00:00",
+      "actual_extraction_completed_at": "2026-09-22T22:33:36.726219+00:00",
+      "content_condition": false,
+      "cost_cases": [
+        {
+          "cost_multiplier": 1,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "report_hashes": {
+            "C": "7224e5fdb6669369fe764cff4227edbfc74a61d307b09b116e6edc782207a512",
+            "D": "5eb9a883b31d0f1b42564a23c774d4ec57dbdca92636a96cc99d3da133a1f66e"
+          },
+          "C_return": 0.0,
+          "D_return": 0.0,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "NO_RECORDED_ENTRY",
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 3,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 5,
+                "status": "NO_ENTRY",
+                "values": null
+              }
+            ]
+          }
+        },
+        {
+          "cost_multiplier": 2,
+          "fee_rate": 0.0016,
+          "slippage_pct": 0.001,
+          "report_hashes": {
+            "C": "da280663ca9fd6849ffdbc37304e07ed85cd057616b3aba2a7ab9c1c3e2ecd6d",
+            "D": "7655ec27cf885263b3a1aeb2142e78fd54ba49e0015d0561bf5e6ffaaade58ce"
+          },
+          "C_return": 0.0,
+          "D_return": 0.0,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "NO_RECORDED_ENTRY",
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 3,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 5,
+                "status": "NO_ENTRY",
+                "values": null
+              }
+            ]
+          }
+        }
+      ],
+      "price_condition": false,
+      "confirmation_close_change": "-0.0172644988266845457593027154",
+      "confirmation_session": "2022-11-02",
+      "confirmation_available_at": "2022-11-02T20:01:00+00:00",
+      "source_rows": {
+        "snapshot_id": "cb6eeaac458fe3215ab5f556a01e0b7d3cef2044058feb70210834e3541e4548",
+        "pre_release_candle_index": 22,
+        "confirmation_candle_index": 23
+      },
+      "status": "NO_PRICE_SIGNAL",
+      "content_changed_decision": false
+    },
+    {
+      "fiscal_quarter": "2022Q4",
+      "event_id": "AMD:2022Q4:EARNINGS",
+      "candidate_hash": "e5466a77b1e3359e9f4f43513eac945f81fe84824e8882959434afea416de316",
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1115/amd-reports-fourth-quarter-and-full-year-2022-financial-results",
+      "raw_source_sha256": "f0fcaa4a0560455d16a2b1dd138290569f4dd05380979bbd6db18e91e29843e6",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "value": "5.6",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2022Q4",
+          "basis": "GAAP",
+          "precision": "SOURCE_ROUNDED_HEADLINE_BILLION"
+        },
+        {
+          "name": "diluted_eps",
+          "value": "0.01",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2022Q4",
+          "basis": "GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "non_gaap_diluted_eps",
+          "value": "0.69",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2022Q4",
+          "basis": "NON_GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "value": "5.3",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q1",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_half_range",
+          "value": "300",
+          "scale": "1000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q1",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        }
+      ],
+      "field_review": "APPROVED_LISTED_FIELDS_IN_2026",
+      "first_public_at": "2023-01-31T21:15:00Z",
+      "model_event_available_at": "2023-01-31T21:17:00+00:00",
+      "actual_retrieved_at": "2026-09-22T22:29:17.851502+00:00",
+      "actual_extraction_completed_at": "2026-09-22T22:33:36.745400+00:00",
+      "content_condition": false,
+      "cost_cases": [],
+      "status": "DATA_EXCLUDED",
+      "exclusion": {
+        "fiscal_quarter": "2022Q4",
+        "status": "PENDING_DATA_CROSSCHECK",
+        "economic_reports": 0
+      },
+      "price_condition": null,
+      "horizons": null
+    },
+    {
+      "fiscal_quarter": "2023Q1",
+      "event_id": "AMD:2023Q1:EARNINGS",
+      "candidate_hash": "91ad60a2bc8d7ca48e465f7245a871d961461cc906c01ca6bf0fb7927f3d6e39",
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1128/amd-reports-first-quarter-2023-financial-results",
+      "raw_source_sha256": "05e5198e5c804a433c4e682807c6d5345d81e04cf1dccc8623053089f2a9824d",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "value": "5.4",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q1",
+          "basis": "GAAP",
+          "precision": "SOURCE_ROUNDED_HEADLINE_BILLION"
+        },
+        {
+          "name": "diluted_eps",
+          "value": "-0.09",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2023Q1",
+          "basis": "GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "non_gaap_diluted_eps",
+          "value": "0.60",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2023Q1",
+          "basis": "NON_GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "value": "5.3",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q2",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_half_range",
+          "value": "300",
+          "scale": "1000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q2",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        }
+      ],
+      "field_review": "APPROVED_LISTED_FIELDS_IN_2026",
+      "first_public_at": "2023-05-02T20:15:00Z",
+      "model_event_available_at": "2023-05-02T20:17:00+00:00",
+      "actual_retrieved_at": "2026-09-22T22:29:16.620853+00:00",
+      "actual_extraction_completed_at": "2026-09-22T22:33:36.758118+00:00",
+      "content_condition": false,
+      "cost_cases": [
+        {
+          "cost_multiplier": 1,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "report_hashes": {
+            "C": "5f79db25168ecab081cab5fd49e4abf63c35d3706ba41eeafe87c1e68dea81a5",
+            "D": "d39669ca697c69c2cd2116e84cf003ec6d99cb4bc7cfeb90bceb660133b4b7db"
+          },
+          "C_return": 0.0,
+          "D_return": 0.0,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "NO_RECORDED_ENTRY",
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 3,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 5,
+                "status": "NO_ENTRY",
+                "values": null
+              }
+            ]
+          }
+        },
+        {
+          "cost_multiplier": 2,
+          "fee_rate": 0.0016,
+          "slippage_pct": 0.001,
+          "report_hashes": {
+            "C": "62a2f0f753b2efac3159aeff5b1c833cc1c3bd1479cd6a3d870c2068b408fef7",
+            "D": "de595c74fc057f8e2ce76a39114abc68ab40863364c7822cdb58118b2d84f219"
+          },
+          "C_return": 0.0,
+          "D_return": 0.0,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "NO_RECORDED_ENTRY",
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 3,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 5,
+                "status": "NO_ENTRY",
+                "values": null
+              }
+            ]
+          }
+        }
+      ],
+      "price_condition": false,
+      "confirmation_close_change": "-0.0922033144255366477588699811",
+      "confirmation_session": "2023-05-03",
+      "confirmation_available_at": "2023-05-03T20:01:00+00:00",
+      "source_rows": {
+        "snapshot_id": "baf55fe0440d7fe7c623c33e0fc9a4c8e22b8e92735700f3c154453795ba52cb",
+        "pre_release_candle_index": 22,
+        "confirmation_candle_index": 23
+      },
+      "status": "NO_PRICE_SIGNAL",
+      "content_changed_decision": false
+    },
+    {
+      "fiscal_quarter": "2023Q2",
+      "event_id": "AMD:2023Q2:EARNINGS",
+      "candidate_hash": "dec85ae844995eefa93fc0867715b7f1f237c9c866c553b1781baaa1ff09b509",
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1146/amd-reports-second-quarter-2023-financial-results",
+      "raw_source_sha256": "6571dcf401b03d4c2d7d0080bea7b5f49a77431c3eda8da2b30675c75f56f6e1",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "value": "5.4",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q2",
+          "basis": "GAAP",
+          "precision": "SOURCE_ROUNDED_HEADLINE_BILLION"
+        },
+        {
+          "name": "diluted_eps",
+          "value": "0.02",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2023Q2",
+          "basis": "GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "non_gaap_diluted_eps",
+          "value": "0.58",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2023Q2",
+          "basis": "NON_GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "value": "5.7",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q3",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_half_range",
+          "value": "300",
+          "scale": "1000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q3",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        }
+      ],
+      "field_review": "APPROVED_LISTED_FIELDS_IN_2026",
+      "first_public_at": "2023-08-01T20:15:00Z",
+      "model_event_available_at": "2023-08-01T20:17:00+00:00",
+      "actual_retrieved_at": "2026-09-22T22:29:16.652978+00:00",
+      "actual_extraction_completed_at": "2026-09-22T22:33:36.778831+00:00",
+      "content_condition": true,
+      "cost_cases": [
+        {
+          "cost_multiplier": 1,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "report_hashes": {
+            "C": "af8c795aeb831b631978bc61e80e91fbb29c19e9225c93ed1c881b02d210d196",
+            "D": "e480e9edb6b312df94fa626ff003514e69019757d62cc1b35c9c5c4c80c2a711"
+          },
+          "C_return": 0.0,
+          "D_return": 0.0,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "NO_RECORDED_ENTRY",
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 3,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 5,
+                "status": "NO_ENTRY",
+                "values": null
+              }
+            ]
+          }
+        },
+        {
+          "cost_multiplier": 2,
+          "fee_rate": 0.0016,
+          "slippage_pct": 0.001,
+          "report_hashes": {
+            "C": "2eda9af44f8e44db8876055cd2ce6388f9453b2daa1b19749a5f47748f5f0eec",
+            "D": "4909e2979e1f71ea94b6109e5ac5b863515607a084aaedd0bbd58f9bc54e96d2"
+          },
+          "C_return": 0.0,
+          "D_return": 0.0,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "NO_RECORDED_ENTRY",
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 3,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 5,
+                "status": "NO_ENTRY",
+                "values": null
+              }
+            ]
+          }
+        }
+      ],
+      "price_condition": false,
+      "confirmation_close_change": "-0.0701530612244897959183673469",
+      "confirmation_session": "2023-08-02",
+      "confirmation_available_at": "2023-08-02T20:01:00+00:00",
+      "source_rows": {
+        "snapshot_id": "d602433e1961470450bc083486c98c90c01133731ffee8b00628a4a359f6ebdf",
+        "pre_release_candle_index": 22,
+        "confirmation_candle_index": 23
+      },
+      "status": "NO_PRICE_SIGNAL",
+      "content_changed_decision": false
+    },
+    {
+      "fiscal_quarter": "2023Q3",
+      "event_id": "AMD:2023Q3:EARNINGS",
+      "candidate_hash": "bc350422da65ef97c1c9bbe149369d5c6767e3e47b99c905b1957da48b30c3a3",
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1163/amd-reports-third-quarter-2023-financial-results",
+      "raw_source_sha256": "a1188c99c8cc7ea876ebab577cb759f88b5a03ded967f751c03b5a25dd0b39e4",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "value": "5.8",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q3",
+          "basis": "GAAP",
+          "precision": "SOURCE_ROUNDED_HEADLINE_BILLION"
+        },
+        {
+          "name": "diluted_eps",
+          "value": "0.18",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2023Q3",
+          "basis": "GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "non_gaap_diluted_eps",
+          "value": "0.70",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2023Q3",
+          "basis": "NON_GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "value": "6.1",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q4",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_half_range",
+          "value": "300",
+          "scale": "1000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q4",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        }
+      ],
+      "field_review": "APPROVED_LISTED_FIELDS_IN_2026",
+      "first_public_at": "2023-10-31T20:15:00Z",
+      "model_event_available_at": "2023-10-31T20:17:00+00:00",
+      "actual_retrieved_at": "2026-09-22T22:29:17.883444+00:00",
+      "actual_extraction_completed_at": "2026-09-22T22:33:36.798962+00:00",
+      "content_condition": true,
+      "cost_cases": [],
+      "status": "DATA_EXCLUDED",
+      "exclusion": {
+        "fiscal_quarter": "2023Q3",
+        "status": "PENDING_DATA_CROSSCHECK",
+        "economic_reports": 0
+      },
+      "price_condition": null,
+      "horizons": null
+    },
+    {
+      "fiscal_quarter": "2023Q4",
+      "event_id": "AMD:2023Q4:EARNINGS",
+      "candidate_hash": "54b2817c265ea2f30b680f0cb0a0ca6fcae7c5355ca877f8ff1bc80ef065a721",
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1180/amd-reports-fourth-quarter-and-full-year-2023-financial-results",
+      "raw_source_sha256": "e7cabb37f44e25586887693d78dbf6dd49dff64f0e97f3691bc62f986dd06e1b",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "value": "6.2",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2023Q4",
+          "basis": "GAAP",
+          "precision": "SOURCE_ROUNDED_HEADLINE_BILLION"
+        },
+        {
+          "name": "diluted_eps",
+          "value": "0.41",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2023Q4",
+          "basis": "GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "non_gaap_diluted_eps",
+          "value": "0.77",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2023Q4",
+          "basis": "NON_GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "value": "5.4",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2024Q1",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_half_range",
+          "value": "300",
+          "scale": "1000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2024Q1",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        }
+      ],
+      "field_review": "APPROVED_LISTED_FIELDS_IN_2026",
+      "first_public_at": "2024-01-30T21:15:00Z",
+      "model_event_available_at": "2024-01-30T21:17:00+00:00",
+      "actual_retrieved_at": "2026-09-22T22:29:17.932101+00:00",
+      "actual_extraction_completed_at": "2026-09-22T22:33:36.822839+00:00",
+      "content_condition": false,
+      "cost_cases": [
+        {
+          "cost_multiplier": 1,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "report_hashes": {
+            "C": "c013b10aeb900ba5853fbc87b9b40c848b99d5eafa6d2be65d490cca2dca706d",
+            "D": "6fa7dd6d37d34caf26064795f6af4a8ae2d3fab3325abf7b8bcc5cc58b905f5a"
+          },
+          "C_return": 0.0,
+          "D_return": 0.0,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "NO_RECORDED_ENTRY",
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 3,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 5,
+                "status": "NO_ENTRY",
+                "values": null
+              }
+            ]
+          }
+        },
+        {
+          "cost_multiplier": 2,
+          "fee_rate": 0.0016,
+          "slippage_pct": 0.001,
+          "report_hashes": {
+            "C": "94db2fed5f38bff2894d153fde5d04cae5dd31ce1baebbeef9277e7dbf375d63",
+            "D": "2ec03582d8406922f0d0ca0be8e51c6145d111877d37ec355ce8937924d47e19"
+          },
+          "C_return": 0.0,
+          "D_return": 0.0,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "NO_RECORDED_ENTRY",
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 3,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 5,
+                "status": "NO_ENTRY",
+                "values": null
+              }
+            ]
+          }
+        }
+      ],
+      "price_condition": false,
+      "confirmation_close_change": "-0.0253981169359525746832500291",
+      "confirmation_session": "2024-01-31",
+      "confirmation_available_at": "2024-01-31T21:01:00+00:00",
+      "source_rows": {
+        "snapshot_id": "153ace0676f936a8718ae6ece6c348195e0ed38ece8a0db8a749da0f1cbc8e79",
+        "pre_release_candle_index": 22,
+        "confirmation_candle_index": 23
+      },
+      "status": "NO_PRICE_SIGNAL",
+      "content_changed_decision": false
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "event_id": "AMD:2024Q1:EARNINGS",
+      "candidate_hash": "7c7d91051c98dbe2ceabe51153584138f09c823667be6458749fc682630691f2",
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1192/amd-reports-first-quarter-2024-financial-results",
+      "raw_source_sha256": "82e4b93824234b8a14d5d03751abc19fabd28461247b8bc0e7ecba10408c3312",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "value": "5.5",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2024Q1",
+          "basis": "GAAP",
+          "precision": "SOURCE_ROUNDED_HEADLINE_BILLION"
+        },
+        {
+          "name": "diluted_eps",
+          "value": "0.07",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2024Q1",
+          "basis": "GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "non_gaap_diluted_eps",
+          "value": "0.62",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2024Q1",
+          "basis": "NON_GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "value": "5.7",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2024Q2",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_half_range",
+          "value": "300",
+          "scale": "1000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2024Q2",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        }
+      ],
+      "field_review": "APPROVED_LISTED_FIELDS_IN_2026",
+      "first_public_at": "2024-04-30T20:15:00Z",
+      "model_event_available_at": "2024-04-30T20:17:00+00:00",
+      "actual_retrieved_at": "2026-09-22T22:29:18.883433+00:00",
+      "actual_extraction_completed_at": "2026-09-22T22:33:36.840090+00:00",
+      "content_condition": true,
+      "cost_cases": [
+        {
+          "cost_multiplier": 1,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "report_hashes": {
+            "C": "5b9df811e61b278145449999598568b68f4a0385692ad63dcaa32568fe9eba3c",
+            "D": "3c0fda523b1427058e6e4bf74a604ae07ceb021c9e3b61af0742579fcadbd1ab"
+          },
+          "C_return": 0.0,
+          "D_return": 0.0,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "NO_RECORDED_ENTRY",
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 3,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 5,
+                "status": "NO_ENTRY",
+                "values": null
+              }
+            ]
+          }
+        },
+        {
+          "cost_multiplier": 2,
+          "fee_rate": 0.0016,
+          "slippage_pct": 0.001,
+          "report_hashes": {
+            "C": "a9919b20cc5b528a6c3b46717e0a26ceddab0dcf4026672cdb96a8dd70ca96a6",
+            "D": "bef9bdb594898d2d52fb95fc954002e2eae36fd2e422321536e6604d9341a4bb"
+          },
+          "C_return": 0.0,
+          "D_return": 0.0,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "NO_RECORDED_ENTRY",
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 3,
+                "status": "NO_ENTRY",
+                "values": null
+              },
+              {
+                "sessions": 5,
+                "status": "NO_ENTRY",
+                "values": null
+              }
+            ]
+          }
+        }
+      ],
+      "price_condition": false,
+      "confirmation_close_change": "-0.0890895315065033463821189544",
+      "confirmation_session": "2024-05-01",
+      "confirmation_available_at": "2024-05-01T20:01:00+00:00",
+      "source_rows": {
+        "snapshot_id": "23dba0fcab9a8ca000497cd6efd90956daec7027a106ff684a26df19a9ddcdf3",
+        "pre_release_candle_index": 22,
+        "confirmation_candle_index": 23
+      },
+      "status": "NO_PRICE_SIGNAL",
+      "content_changed_decision": false
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "event_id": "AMD:2024Q2:EARNINGS",
+      "candidate_hash": "8004e2a1838a1a74c9cc29dc26e2750537e2a224987db4fcddaec0c1a194f860",
+      "source_url": "https://ir.amd.com/news-events/press-releases/detail/1209/amd-reports-second-quarter-2024-financial-results",
+      "raw_source_sha256": "54ab5b42ab9f7c765ca560cbd74224a49e8d3cb996d92cfdefe5916564ab933a",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "value": "5.8",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2024Q2",
+          "basis": "GAAP",
+          "precision": "SOURCE_ROUNDED_HEADLINE_BILLION"
+        },
+        {
+          "name": "diluted_eps",
+          "value": "0.16",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2024Q2",
+          "basis": "GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "non_gaap_diluted_eps",
+          "value": "0.69",
+          "scale": "1",
+          "unit": "CURRENCY_PER_SHARE",
+          "currency": "USD",
+          "fiscal_period": "2024Q2",
+          "basis": "NON_GAAP",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "value": "6.7",
+          "scale": "1000000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2024Q3",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        },
+        {
+          "name": "next_revenue_guidance_half_range",
+          "value": "300",
+          "scale": "1000000",
+          "unit": "CURRENCY",
+          "currency": "USD",
+          "fiscal_period": "2024Q3",
+          "basis": "REVENUE_OUTLOOK",
+          "precision": "SOURCE_DECIMAL"
+        }
+      ],
+      "field_review": "APPROVED_LISTED_FIELDS_IN_2026",
+      "first_public_at": "2024-07-30T20:15:00Z",
+      "model_event_available_at": "2024-07-30T20:17:00+00:00",
+      "actual_retrieved_at": "2026-09-22T22:29:19.019302+00:00",
+      "actual_extraction_completed_at": "2026-09-22T22:33:36.861289+00:00",
+      "content_condition": true,
+      "cost_cases": [
+        {
+          "cost_multiplier": 1,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "report_hashes": {
+            "C": "23b4761edefe4b5d2a29b82fc4e46c9679cab2d46bba0dea7b0aa765de7a0c8b",
+            "D": "bd75ac0f4df9f4414405e4be8197b507282ad6f671b82aa61b2b4b4f820b7403"
+          },
+          "C_return": -0.008019160576499984,
+          "D_return": -0.008019160576499984,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "RECORDED_ENTRY",
+            "entry_session": "2024-08-01",
+            "signal_available_at": "2024-07-31 20:01:00+00:00",
+            "entry_at": "2024-08-01 13:30:00+00:00",
+            "exit_session": "2024-08-01",
+            "exit_basis": "INTRABAR_STOP",
+            "entry_fee": "2.001",
+            "exit_fee": "1.9399995150000002",
+            "recorded_realized_pnl": "-80.19160576499996",
+            "recorded_close_exposure_ratio": "0.0",
+            "intraday_exposure_not_zero": true,
+            "holding_time_exact": null,
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2024-08-01",
+                "values": {
+                  "close_price_change": "-0.0859310344827586206896551724137931034483",
+                  "full_horizon_high_change": "0.015793103448275862068965517241379310345",
+                  "full_horizon_low_change": "-0.1017931034482758620689655172413793103448",
+                  "retained_entry_mark_return": "-0.02180785862068962318",
+                  "recorded_original_score_return": "-0.008019160576499984",
+                  "post_exit_full_session_high_change": null,
+                  "post_exit_full_session_low_change": null
+                },
+                "source_rows": {
+                  "snapshot_id": "7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 24,
+                  "post_exit_first_index": null,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "23b4761edefe4b5d2a29b82fc4e46c9679cab2d46bba0dea7b0aa765de7a0c8b",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              },
+              {
+                "sessions": 3,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2024-08-05",
+                "values": {
+                  "close_price_change": "-0.0702068965517241379310344827586206896552",
+                  "full_horizon_high_change": "0.015793103448275862068965517241379310345",
+                  "full_horizon_low_change": "-0.1598275862068965517241379310344827586207",
+                  "retained_entry_mark_return": "-0.01787682413793100194",
+                  "recorded_original_score_return": "-0.008019160576499984",
+                  "post_exit_full_session_high_change": "-0.0404137931034482758620689655172413793103",
+                  "post_exit_full_session_low_change": "-0.1598275862068965517241379310344827586207"
+                },
+                "source_rows": {
+                  "snapshot_id": "7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 26,
+                  "post_exit_first_index": 25,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "23b4761edefe4b5d2a29b82fc4e46c9679cab2d46bba0dea7b0aa765de7a0c8b",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              },
+              {
+                "sessions": 5,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2024-08-07",
+                "values": {
+                  "close_price_change": "-0.1126206896551724137931034482758620689655",
+                  "full_horizon_high_change": "0.015793103448275862068965517241379310345",
+                  "full_horizon_low_change": "-0.1598275862068965517241379310344827586207",
+                  "retained_entry_mark_return": "-0.02848027241379307239",
+                  "recorded_original_score_return": "-0.008019160576499984",
+                  "post_exit_full_session_high_change": "-0.0404137931034482758620689655172413793103",
+                  "post_exit_full_session_low_change": "-0.1598275862068965517241379310344827586207"
+                },
+                "source_rows": {
+                  "snapshot_id": "7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 28,
+                  "post_exit_first_index": 25,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "23b4761edefe4b5d2a29b82fc4e46c9679cab2d46bba0dea7b0aa765de7a0c8b",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              }
+            ]
+          }
+        },
+        {
+          "cost_multiplier": 2,
+          "fee_rate": 0.0016,
+          "slippage_pct": 0.001,
+          "report_hashes": {
+            "C": "100e4be0613b8c616e4d319e53cbde45517b13a1b264292e7b7c38a8c8149da1",
+            "D": "f828c9455bd9758b9934d4075c2e0c72a4a6612ac4424221185b9aca32cc8995"
+          },
+          "C_return": -0.00853864211199995,
+          "D_return": -0.00853864211199995,
+          "disabled_D_byte_identical_C": true,
+          "C_path": {
+            "status": "RECORDED_ENTRY",
+            "entry_session": "2024-08-01",
+            "signal_available_at": "2024-07-31 20:01:00+00:00",
+            "entry_at": "2024-08-01 13:30:00+00:00",
+            "exit_session": "2024-08-01",
+            "exit_basis": "INTRABAR_STOP",
+            "entry_fee": "4.0040000000000004",
+            "exit_fee": "3.879996119999999",
+            "recorded_realized_pnl": "-85.38642112000043",
+            "recorded_close_exposure_ratio": "0.0",
+            "intraday_exposure_not_zero": true,
+            "holding_time_exact": null,
+            "horizons": [
+              {
+                "sessions": 1,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2024-08-01",
+                "values": {
+                  "close_price_change": "-0.0859310344827586206896551724137931034483",
+                  "full_horizon_high_change": "0.015793103448275862068965517241379310345",
+                  "full_horizon_low_change": "-0.1017931034482758620689655172413793103448",
+                  "retained_entry_mark_return": "-0.02213315862068962318",
+                  "recorded_original_score_return": "-0.00853864211199995",
+                  "post_exit_full_session_high_change": null,
+                  "post_exit_full_session_low_change": null
+                },
+                "source_rows": {
+                  "snapshot_id": "7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 24,
+                  "post_exit_first_index": null,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "100e4be0613b8c616e4d319e53cbde45517b13a1b264292e7b7c38a8c8149da1",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              },
+              {
+                "sessions": 3,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2024-08-05",
+                "values": {
+                  "close_price_change": "-0.0702068965517241379310344827586206896552",
+                  "full_horizon_high_change": "0.015793103448275862068965517241379310345",
+                  "full_horizon_low_change": "-0.1598275862068965517241379310344827586207",
+                  "retained_entry_mark_return": "-0.01820212413793100194",
+                  "recorded_original_score_return": "-0.00853864211199995",
+                  "post_exit_full_session_high_change": "-0.0404137931034482758620689655172413793103",
+                  "post_exit_full_session_low_change": "-0.1598275862068965517241379310344827586207"
+                },
+                "source_rows": {
+                  "snapshot_id": "7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 26,
+                  "post_exit_first_index": 25,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "100e4be0613b8c616e4d319e53cbde45517b13a1b264292e7b7c38a8c8149da1",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              },
+              {
+                "sessions": 5,
+                "status": "OBSERVED_RETAINED_PATH",
+                "close_session": "2024-08-07",
+                "values": {
+                  "close_price_change": "-0.1126206896551724137931034482758620689655",
+                  "full_horizon_high_change": "0.015793103448275862068965517241379310345",
+                  "full_horizon_low_change": "-0.1598275862068965517241379310344827586207",
+                  "retained_entry_mark_return": "-0.02880557241379307239",
+                  "recorded_original_score_return": "-0.00853864211199995",
+                  "post_exit_full_session_high_change": "-0.0404137931034482758620689655172413793103",
+                  "post_exit_full_session_low_change": "-0.1598275862068965517241379310344827586207"
+                },
+                "source_rows": {
+                  "snapshot_id": "7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01",
+                  "entry_candle_index": 24,
+                  "last_candle_index": 28,
+                  "post_exit_first_index": 25,
+                  "reference_price_field": "candles[entry][1]",
+                  "mark_price_field": "candles[last][4]",
+                  "report_hash": "100e4be0613b8c616e4d319e53cbde45517b13a1b264292e7b7c38a8c8149da1",
+                  "retained_buy_fill_index": 0
+                },
+                "intrabar_extrema_order": "UNKNOWN",
+                "post_exit_same_day_remainder": "UNKNOWN",
+                "valuation_kind": "RETAINED_ENTRY_MARK_ONLY_NOT_A_NO_STOP_BACKTEST_OR_EXECUTABLE_EXIT"
+              }
+            ]
+          }
+        }
+      ],
+      "price_condition": true,
+      "confirmation_close_change": "0.043629008956948858711355100",
+      "confirmation_session": "2024-07-31",
+      "confirmation_available_at": "2024-07-31T20:01:00+00:00",
+      "source_rows": {
+        "snapshot_id": "7d41a8ec5998b78323a2e3f1321939a586bbdf7686c262ee6f07f48908a90e01",
+        "pre_release_candle_index": 22,
+        "confirmation_candle_index": 23
+      },
+      "status": "ENTERED_STOPPED",
+      "content_changed_decision": false
+    }
+  ],
+  "new_backtests": 0,
+  "new_market_requests": 0,
+  "order_allowed": false,
+  "input_files_unchanged": 39,
+  "tool_sha256": "d106dc968d12747a5512422fea895763c58489149d676deb82ebf3bbef9d9967",
+  "limits": [
+    "Already-seen AMD development events; no independent population or unseen validation.",
+    "Horizon marks retain entry costs but omit hypothetical exit costs; no hypothetical fills or no-stop strategy replay.",
+    "Daily highs/lows have unknown intrabar order; post-exit extrema exclude the entire exit session.",
+    "Current HTML, 2026 human review and assumed historical latency are distinct evidence."
+  ],
+  "diagnosis_hash": "a13073484c309935d629b0aad6b124e2df6574daf4beeb3ced082d27c4bf356c"
+}

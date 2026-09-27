@@ -1,13 +1,13 @@
 # 当前项目状态
 
-整理日期：2026-09-25。本页区分核对时的功能基线、开发交付、历史原件与实际外部验收。项目仍为研究软件，未授权自主或真实交易。
+整理日期：2026-09-27。本页区分核对时的功能基线、开发交付、历史原件与实际外部验收。项目仍为研究软件，未授权自主或真实交易。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
 | 层次 | 已核实状态 |
 |---|---|
-| 本状态核对时提交 | 用户单独批准后，PR #14 已合并至 `d09e5f9d8488e144bd07624bafac73d980f90aa3`；[合并后 Research Contracts](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36034004347) 九项任务成功。此前 PR 测试合并提交与真正 main 合并身份分开，见[合并回执](docs/research-evidence/equity-paths-20260925/pr14-closeout.json)。不以此覆盖后续开发提交 |
-| 本机开发候选 | 从 `d09e5f9d8488e144bd07624bafac73d980f90aa3` 另起分支；冻结 1/3/5 日路径诊断及下一项同财季指引比较规约，完成 GET 有界等待和只读静态研究补充。见[本轮 R0–R4 交付](docs/research-evidence/equity-paths-20260925/README.md)，后续合并仍需单独批准 |
+| 本状态核对时提交 | 用户于9月27日单独授权后，[PR #15](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/15) 已合并至 `7dd203e4df1c861554542a325bf0ff09a6e64db4`；[合并后 Research Contracts](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487) 九项任务成功，实际检出 main 合并提交。此前 PR 测试合并身份单独保留，见[PR #15 收尾回执](docs/research-evidence/equity-guidance-20260927/pr15-closeout.json)。PR #14 的旧合并回执保持原样 |
+| 本机开发候选 | PR #15 的路径诊断与 GET 有界等待已进入 main；[原 R0–R4 交付](docs/research-evidence/equity-paths-20260925/README.md)结项。[PR #16](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/16)交付同财季来源配对与卡片，目标已改为 main，保持草稿、未获合并授权；当前提交的检查见 PR 页面。未修改旧部署 |
 | 正式 Release | 仍为 [v0.2.1](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1)，未发布新正式版本；独立富途工具不是研究 wheel 的组成部分 |
 | 真实 AMD 原始闭环 | 37个交易日、259条真实 RTH 分时聚合。OHLC 与供应商日线一致，全部37日成交量差异原因未确认。保留原件和有限窗口公司行为来源边界 |
 | 原冻结 A/B | 两组均 -1.5974014%，各4笔成交、2个往返、0次拦截；未识别事件过滤的经济影响。工程买入持有 -3.4394% 从10月2日起评分，A/B 从10月17日起评分，不直接排名。见[原结果](docs/research-evidence/real-amd-rth-20260913/README.md) |
@@ -18,6 +18,7 @@
 | 股票事件 T4 | 固定10窗口实际数据已取得，7接纳、3因OHLC差异保留排除。42份不同报告重放/账本通过，14项后续日程不干扰检查通过；2024Q1拦截1次BUY，但7事件A/B仍全部亏损。见[最终结果](docs/research-evidence/equity-events-20260920/actual-study-final.md) |
 | 受监督预览 T5 | 研究和Windows富途r3新包已分别在全新仓库外环境安装通过，包含只读修复与最终十事件摘要；状态、离线帮助和封装校验通过。见[r3交付](docs/research-evidence/supervised-preview-20260920/README-r3.md)。r1/r2保留原字节，未发布Release、部署或启动监控 |
 | 财报内容 C/D | 9月24日十行人工核准和原件复查通过；原七个接纳窗口、两档成本完成28份报告，重放与独立账本均通过。C/D完全相同，仅两个事件入场且止损，内容条件零次干预；三个旧排除保留，无晋级依据。见[固定比较结果](docs/research-evidence/equity-content-20260924/README.md) |
+| 同财季指引来源配对 | 原十事件全保留，九个口径可比；七个数值高于、两个精度方向不确定，2022Q1 因 Xilinx 不可直接比较，2022Q3 已纳入初步业绩。独立审计的指引／初步值及摘要绑定缺口已修复：59项定向测试、17份原件513项检查通过；原134项回执保留为范围有限的历史记录。新增17个审阅项有条件用于历史开发，新增人工核准0；有限来源核查带明确缺口结案，完整历史链仍未证实。原价格信号2个，数值交集仅2024Q2一个候选，获准新研究0，新内容干预未运行。本批开发诊断结案，不扩展收益研究。见[修复与研究决定](docs/research-evidence/equity-guidance-20260927/audit-repair/README.md)及[新版卡片](docs/research-evidence/equity-guidance-20260927/audit-repair/report/index.html) |
 
 原模拟提案仍为 US.AMD、BUY 1股、1美元限价、DAY/RTH，最多一次提交和一次同订单撤单；未知不重试、拒单不调价、意外成交不授权额外卖出。实际周期需要单独有效授权及当前环境核对。接口路径通过、会计通过、策略证据与实盘权限分别验收。
 

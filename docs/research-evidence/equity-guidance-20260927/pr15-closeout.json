@@ -1,0 +1,101 @@
+{
+  "schema_version": "approved-pr15-merge-closeout-v1",
+  "verified_at": "2026-09-27T01:37:01.665626+00:00",
+  "authorization": {
+    "user_message": "授权",
+    "pending_action": "Merge PR #15 at 0c2aa7d after its review; verify main and retarget draft PR #16",
+    "authorizes_pr16_merge": false,
+    "authorizes_deployment_or_account_operations": false
+  },
+  "pull_request": {
+    "number": 15,
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/15",
+    "state": "MERGED",
+    "approved_head": "0c2aa7d9c6b224cb66e6e4fbf5a0371c57d01d7c",
+    "merged_at": "2026-09-27T01:32:03Z",
+    "merge_commit": "7dd203e4df1c861554542a325bf0ff09a6e64db4"
+  },
+  "previous_pr_ci": {
+    "run_id": 36038771942,
+    "test_merge_commit": "421a00bf8d26d8fc81be8a540a9ae81fed50e413",
+    "not_actual_main_merge": true
+  },
+  "actual_main_ci": {
+    "run_id": 36285823487,
+    "event": "push",
+    "head_sha": "7dd203e4df1c861554542a325bf0ff09a6e64db4",
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487",
+    "status": "completed",
+    "conclusion": "success",
+    "actual_checkout_confirmed_from_job_log": true,
+    "jobs": [
+      {
+        "name": "Market-data renderer",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487/job/108526286584"
+      },
+      {
+        "name": "Package install smoke (windows-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487/job/108526286619"
+      },
+      {
+        "name": "Deterministic references",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487/job/108526286636"
+      },
+      {
+        "name": "Electron capability contract",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487/job/108526286658"
+      },
+      {
+        "name": "Package install smoke (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487/job/108526286668"
+      },
+      {
+        "name": "Python contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487/job/108526286689"
+      },
+      {
+        "name": "Offline research MVP contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487/job/108526286704"
+      },
+      {
+        "name": "Historical developer reference replay",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487/job/108526286755"
+      },
+      {
+        "name": "Research required gate",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36285823487/job/108526726883"
+      }
+    ]
+  },
+  "merged_tree_equals_approved_source": true,
+  "pr16": {
+    "base_branch": "main",
+    "base_head_when_retargeted": "7dd203e4df1c861554542a325bf0ff09a6e64db4",
+    "head_before_status_document_commit": "5f386a53629f676952d024310585ac7b3b19e5f3",
+    "remains_draft": true
+  },
+  "scope": {
+    "historical_inputs_rewritten": false,
+    "new_economic_backtest": false,
+    "deployment_changed": false,
+    "account_or_order_calls": 0
+  }
+}
