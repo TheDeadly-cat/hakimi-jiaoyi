@@ -1,13 +1,13 @@
 # 当前项目状态
 
-整理日期：2026-09-29。本页区分核对时的功能基线、开发交付、历史原件与实际外部验收。项目仍为研究软件，未授权自主或真实交易。
+整理日期：2026-09-30。本页区分核对时的功能基线、开发交付、历史原件与实际外部验收。项目仍为研究软件，未授权自主或真实交易。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
 | 层次 | 已核实状态 |
 |---|---|
-| 本状态核对时提交 | 用户于9月27日单独批准 [PR #16](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/16) 的受审 head `02fa00c`，已合并至 `c396e0e528090bb403a619facaeca74262246d52`；[合并后 Research Contracts](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36308441908) 九项任务成功，原始日志确认实际检出 main 合并提交。见[PR #16 收尾回执](docs/research-evidence/equity-guidance-20260927/pr16-closeout.json)。PR #14、#15 和 PR 测试合并的旧身份均保留 |
-| 本机开发候选 | PR #16 已进入 main；PR #17 仍为草稿。[离线资料清单入口](docs/equity-source-task.md)已追加同日混合时间精度及报告中断恢复修复，105项定向检查通过（46项来源流程、59项既有合同）。[9月29日新证据](docs/research-evidence/equity-source-order-repair-20260929/README.md)重用三份 NVIDIA 原件，两个财季的数值与方向不变，生成第6版任务；原第5版、失败任务和旧报告保留。宽屏及窄屏只读卡片验证通过，非开发者首次使用尚未验收。精确公开时刻未知、人工核准0、行情未导入；用户已选沿用两事件，等待获准本地行情输入。未修改正式发布、r3或旧部署；主分支合并仍需单独批准 |
+| 本状态核对时提交 | 用户单独批准 [PR #17](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/17) 的 `46d938a` 后，已于 2026-09-29 12:57:03 UTC 合并至 `cdee7b5472981811655bf84a8a9f59298df546b4`；[合并后 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36571592538) 九项成功，实际检出 main 合并提交。PR #16 与旧测试身份保留 |
+| 本机开发候选 | [NVIDIA 两事件时间与行情诊断](docs/research-evidence/nvda-event-price-20260930/README.md)：用户选择 Futu 后实际完成 6 次报价业务查询，生成两个 8 日快照；发行渠道秒级时间已独立绑定，原公告 `public_at=null` 保留。来源可比 2、价格信号及数值交集各 2；26 项新定向检查通过。16 日 OHLC 一致、成交量差异原因未证实。人工核准 0、收益运行 0，原至少 3 候选门槛未达；八次工程对照仅为待核准方案，非开发者首次使用尚未验收。未更新正式发布、r3 或部署；主分支合并仍需单独批准 |
 | 正式 Release | 仍为 [v0.2.1](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1)，未发布新正式版本；独立富途工具不是研究 wheel 的组成部分 |
 | 真实 AMD 原始闭环 | 37个交易日、259条真实 RTH 分时聚合。OHLC 与供应商日线一致，全部37日成交量差异原因未确认。保留原件和有限窗口公司行为来源边界 |
 | 原冻结 A/B | 两组均 -1.5974014%，各4笔成交、2个往返、0次拦截；未识别事件过滤的经济影响。工程买入持有 -3.4394% 从10月2日起评分，A/B 从10月17日起评分，不直接排名。见[原结果](docs/research-evidence/real-amd-rth-20260913/README.md) |

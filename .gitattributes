@@ -163,3 +163,11 @@ tools/equity_source_adapters.py text eol=lf
 tools/equity_source_task_card.py text eol=lf
 tests/repository_only/test_equity_source_task.py text eol=lf
 examples/equity-source-task/** -text diff merge
+tools/collect_nvda_event_inputs.py text eol=lf
+tests/repository_only/test_collect_nvda_event_inputs.py text eol=lf
+docs/studies/nvda-event-price-20260930.json text eol=lf
+tools/prepare_nvda_price_snapshots.py text eol=lf
+tests/repository_only/test_prepare_nvda_price_snapshots.py text eol=lf
+
+tools/nvda_event_price_diagnostic.py text eol=lf
+tests/repository_only/test_nvda_event_price_diagnostic.py text eol=lf
