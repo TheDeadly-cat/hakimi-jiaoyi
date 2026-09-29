@@ -12,9 +12,11 @@ ISSUES={
     'KNOWN_MATERIAL_SOURCE_NOT_SELECTED':'已知的重大披露没有全部纳入本次比较。',
     'PRIOR_DISCLOSURE_REQUIRED':'缺少可比较的在先披露。',
     'COVERAGE_NOT_DECLARED':'未声明收入口径，暂不能比较。',
+    'LATEST_PRIOR_NOT_UNIQUELY_DETERMINED':'原件数值核对通过，但无法唯一确定最新在先披露；不能判断高于或低于，也不计入数值候选交集。',
 }
 STOPS={'MISSING_KNOWN_DISCLOSURE':'已知重大披露缺失','MISSING_SOURCE':'原件未具备','MISSING_PRIOR':'在先披露缺失',
-       'UNKNOWN_COVERAGE':'收入口径未知','SOURCE_REJECTED':'原件格式、期间或数值核对未通过'}
+       'UNKNOWN_COVERAGE':'收入口径未知','SOURCE_REJECTED':'原件格式、期间或数值核对未通过',
+       'AMBIGUOUS_PRIOR_ORDER':'最新在先披露顺序未知'}
 
 
 def coverage(field):
@@ -61,17 +63,27 @@ def render(packet,result):
         parts.extend([f'<article class="card"><h2>{escape(security["symbol"])} {fiscal_label}</h2>',
             f'<p>机器原件核对：{"通过" if row["source_audit"]=="PASS" else "未完成"}；人工核准：{"已导入本次字段核准声明" if row["event_id"] in approved else "未核准"}；研究接纳与交易授权：未开放。</p>'])
         if row['comparison'] is not None:
-            a=deepcopy(row['actual']);g=deepcopy(row['prior_disclosures'][0]);latest=deepcopy(row['latest_prior'])
+            a=deepcopy(row['actual']);g=deepcopy(row['latest_prior']);latest=deepcopy(row['latest_prior'])
             versions=deepcopy(row['prior_disclosures'])+[a]
             for field in [a,g,latest]+versions:field['public_at']=field['public_at'] or field['publication_date']
             event=dict(actual=a,original_guidance=g,latest_prior_disclosure=latest,comparison=row['comparison'],notes=[],
-                information_state='BOUNDED_MANIFEST_ONLY',extra_evidence=[],source_chain_gap='仅所列本地版本；完整历史链未证实。',
+                information_state='BOUNDED_MANIFEST_ONLY',
+                extra_evidence=[f['evidence'] for f in row['prior_disclosures'] if f['evidence']['source_id']!=latest['evidence']['source_id']],
+                source_chain_gap='仅所列本地版本；清单展示顺序不代表时间顺序，完整历史链未证实。',
                 disclosure_chain=[dict(source_id=f['evidence']['source_id'],kind=f['kind'],public_at=f['public_at']) for f in versions])
             label='本次来源字段已获人工核准' if row['event_id'] in approved else '机器核对通过；尚未人工核准'
             parts.append(section(event,sources,link,clock,approval_label=lambda _f:label,review_note='完整历史链未证实；字段核准不授予研究或交易权限。',
-                clock_heading='页面公开日期／时间',coverage_label=coverage))
+                clock_heading='页面公开日期／时间',coverage_label=coverage,guidance_label='本次比较采用的最新在先指引中点',
+                timeline_heading='查看已选披露与配对依据'))
         else:
             parts.append(f'<p class="warning">停止该事件的比较：{escape(STOPS.get(row["status"],"资料尚未具备"))}。资料不足不填成零。</p>')
+            if row['source_audit']=='PASS':
+                parts.append('<div class="table-wrap"><table><thead><tr><th>已核对来源（不表示先后）</th><th>百万美元</th><th>页面公开日期／时间</th><th>原文</th></tr></thead><tbody>')
+                for field in [row['actual']]+row['prior_disclosures']:
+                    sid=field['evidence']['source_id']
+                    parts.append(f'<tr><td>{escape(sid)}</td><td class="numeric">{escape(field["value_million"])}</td>'
+                        f'<td>{escape(clock(field["public_at"] or field["publication_date"]))}</td><td>{link(sources[sid]["url"])}</td></tr>')
+                parts.append('</tbody></table></div>')
         parts.append(f'<p class="note">披露核查窗口：{escape(clock(row["window_start"]))} 至 {escape(clock(row["window_end"]))}。</p>')
         if row['actual']:
             source=sources[row['actual']['evidence']['source_id']]

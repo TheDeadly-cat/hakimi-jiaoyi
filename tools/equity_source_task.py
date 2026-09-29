@@ -18,6 +18,7 @@ sys.path.insert(0,str(ROOT))
 sys.path.insert(0,str(ROOT/'src'))
 from hakimi_research.documents import read_document
 from hakimi_research.equity_cli import _deny_network
+from hakimi_research.reporting import _save_encoded_report
 from tools.equity_content_protocol import digest, utc
 from tools.equity_guidance_pairs import interval_comparison
 
@@ -124,11 +125,26 @@ def validate_manifest(manifest):
     return manifest
 
 
+def publication_before(left,right):
+    """Prove order without treating a missing time as the start of its day.
+
+    Exact clocks take precedence over source-local calendar labels. Coarse
+    dates retain the issuer's calendar-date ordering; for mixed precision also
+    require UTC dates to agree with that order, avoiding offset-boundary guesses.
+    This source-selection rule does not establish an intraday availability time.
+    """
+    if left['public_at'] and right['public_at']:
+        return utc(left['public_at'])<utc(right['public_at'])
+    left_day=utc(left['public_at']).date().isoformat() if left['public_at'] else left['publication_date']
+    right_day=utc(right['public_at']).date().isoformat() if right['public_at'] else right['publication_date']
+    return left['publication_date']<right['publication_date'] and left_day<right_day
+
+
 def compare_event(event,sources,security):
     """Every selected/known disclosure must be present before a comparison."""
     from tools.equity_source_adapters import extract, audit_fact
     row=dict(event,comparison=None,status='NOT_EVALUATED',actual=None,prior_disclosures=[],latest_prior=None,
-             source_audit='NOT_RUN',human_review='NOT_APPROVED',research_admitted=False,
+             source_audit='NOT_RUN',prior_order='NOT_EVALUATED',human_review='NOT_APPROVED',research_admitted=False,
              model_available_at=None,new_content_intervention=None,issues=[])
     wanted=[event['actual_source_id']]+event['prior_source_ids']
     if not set(event['known_material_source_ids'])<=set(wanted):
@@ -152,6 +168,12 @@ def compare_event(event,sources,security):
             else:
                 require(fact['publication_date']<=source['retrieved_at'][:10],'retrieval_before_publication')
             facts.append(fact)
+        actual=facts[0]
+        # Source-id ordering is for stable presentation only, never chronology.
+        priors=sorted(facts[1:],key=lambda f:f['evidence']['source_id'])
+        row.update(actual=actual,prior_disclosures=priors,source_audit='PASS')
+        if not actual['public_at']:row['issues'].append('PUBLICATION_TIME_UNKNOWN_DATE_ONLY')
+        row['issues']+=['CURRENT_HTML_HISTORICAL_IMMUTABILITY_NOT_PROVEN','COVERAGE_IS_DECLARED_REQUIRES_SEMANTIC_REVIEW']
         by_source={field['evidence']['source_id']:field for field in facts}
         for id in wanted:
             parent_id=sources[id]['prior_source_id']
@@ -159,20 +181,18 @@ def compare_event(event,sources,security):
             require(parent_id in by_source,'revision_parent_not_selected')
             parent,child=by_source[parent_id],by_source[id]
             require(parent['kind']==child['kind'],'revision_amount_kind_changed')
-            require(parent['publication_date']<child['publication_date'] or
-                parent['public_at'] and child['public_at'] and utc(parent['public_at'])<utc(child['public_at']),
-                'revision_not_after_parent')
-        actual=facts[0];priors=facts[1:]
-        require(all(p['publication_date']<actual['publication_date'] or p['public_at'] and actual['public_at'] and utc(p['public_at'])<utc(actual['public_at']) for p in priors),'prior_not_before_actual')
-        require(len({(p['publication_date'],p['public_at']) for p in priors})==len(priors),'ambiguous_prior_order')
-        priors.sort(key=lambda p:(p['publication_date'],p['public_at'] or ''))
-        latest=priors[-1]
+            require(publication_before(parent,child),'revision_not_after_parent')
+        require(all(publication_before(p,actual) for p in priors),'prior_not_before_actual')
+        latest_candidates=[p for p in priors if all(other is p or publication_before(other,p) for other in priors)]
+        if len(latest_candidates)!=1:
+            row.update(status='AMBIGUOUS_PRIOR_ORDER',prior_order='AMBIGUOUS')
+            row['issues'].append('LATEST_PRIOR_NOT_UNIQUELY_DETERMINED');return row
+        latest=latest_candidates[0]
+        row.update(latest_prior=latest,prior_order='UNIQUE_LATEST')
         if actual['coverage'] is None or latest['coverage'] is None:
             row.update(status='UNKNOWN_COVERAGE',issues=['COVERAGE_NOT_DECLARED'],actual=actual,prior_disclosures=priors,latest_prior=latest,source_audit='PASS');return row
         comparison=interval_comparison(actual,latest)
         row.update(status=comparison['status'],comparison=comparison,actual=actual,prior_disclosures=priors,latest_prior=latest,source_audit='PASS')
-        if not actual['public_at']:row['issues'].append('PUBLICATION_TIME_UNKNOWN_DATE_ONLY')
-        row['issues']+=['CURRENT_HTML_HISTORICAL_IMMUTABILITY_NOT_PROVEN','COVERAGE_IS_DECLARED_REQUIRES_SEMANTIC_REVIEW']
         return row
     except ValueError as exc:
         row.update(status='SOURCE_REJECTED',issues=[str(exc)]);return row
@@ -349,12 +369,15 @@ def report(packet_path,approval_path=None):
         renderer_identity={name:sha((ROOT/'tools'/name).read_bytes()) for name in ('equity_source_task_card.py','equity_research_card.py','equity_guidance_card.py')},permissions=PERMISSIONS)
     result['report_hash']=digest(result)
     dest=packet_path.parent/('report-'+result['report_hash']);html=render(packet,result)
-    if dest.exists():
-        require(read_document(dest/'result.json')==result and (dest/'index.html').read_text(encoding='utf-8')==html,'existing_report_changed')
-        return dest
-    dest.mkdir(exist_ok=False)
-    write_json(dest/'result.json',result)
-    with (dest/'index.html').open('x',encoding='utf-8',newline='\n') as file:file.write(html)
+    files={'result.json':(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+'\n').encode('utf-8'),
+           'index.html':html.encode('utf-8')}
+    # Validate every existing member before completing an interrupted report.
+    # The shared atomic no-replace publisher preserves conflicting evidence.
+    for name,encoded in files.items():
+        path=dest/name
+        if path.exists():require(path.read_bytes()==encoded,'existing_report_changed')
+    for name,encoded in files.items():
+        _save_encoded_report(encoded,dest/name)
     return dest
 
 

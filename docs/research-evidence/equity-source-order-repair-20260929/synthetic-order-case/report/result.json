@@ -1,0 +1,33 @@
+{
+  "schema_version": "equity-source-task-report-v1",
+  "packet_hash": "d5925eafcc6d1263918458c4f7e3cc34baa1d3084904ba9097ab78b3bb3aab04",
+  "approval_receipt_sha256": null,
+  "human_approved_event_ids": [],
+  "counts": {
+    "events": 1,
+    "comparable_sources": 0,
+    "human_approved_events": 0,
+    "market_available_events": 0,
+    "price_signals": null,
+    "numeric_above": 0,
+    "price_numeric_intersection": null,
+    "content_interventions": null,
+    "new_economic_runs": 0,
+    "new_research_admitted": 0
+  },
+  "decision": "STOP_AT_SOURCE_WORKFLOW_NO_ECONOMIC_RUN",
+  "opportunity_threshold_met": false,
+  "renderer_identity": {
+    "equity_source_task_card.py": "23ca547dd9748602a6b2116b3f468f230aa668fdaea428e609ceb25c0f93c3f2",
+    "equity_research_card.py": "f0a6ae48dcbeabd290ea8ab9bc44adab779cf04e83002550ace4e4f2e05a7528",
+    "equity_guidance_card.py": "30da4591064885715efc4cad30aaff35ac5220b23e3154d10dd1e1088cd6ed4c"
+  },
+  "permissions": {
+    "network_allowed": false,
+    "account_allowed": false,
+    "order_allowed": false,
+    "economic_execution_allowed": false,
+    "monitor_deployment_allowed": false
+  },
+  "report_hash": "56139345220e0089c8269015de71f1e11317de553b2b734d63b20d4622095f64"
+}

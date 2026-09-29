@@ -1,0 +1,406 @@
+{
+  "schema_version": "equity-source-task-packet-v1",
+  "task_id": "NVDA_FY2024Q1_Q2_SOURCE_WORKFLOW",
+  "version": 6,
+  "prior_packet_hash": "109f161c32d3c26c17b02d4a0e19d66d18c8e3184a222dedb67f0e9d789a443d",
+  "manifest_sha256": "73c2b30123a6cd5fdefb121512ad9e2f38e048a522e481b7a3b792212fa2e6bb",
+  "definition": {
+    "schema_version": "equity-source-task-v1",
+    "task_id": "NVDA_FY2024Q1_Q2_SOURCE_WORKFLOW",
+    "security": {
+      "security_id": "US:COMMON:NASDAQ:NVDA",
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "currency": "USD",
+      "adapter": "nvidia-earnings-html-v1"
+    },
+    "selection": {
+      "purpose": "SOURCE_WORKFLOW_ENGINEERING",
+      "basis": "第二家公司格式验收：财年标签 FY24、百分比经营指引和仅日期的公告。固定 FY2024Q1/Q2，选择未使用价格或事后收益。",
+      "selected_before_price_review": true,
+      "minimum_opportunities": 3,
+      "price_rule": "FIXED_C_PRICE_CONFIRMATION_V1",
+      "economic_scope": "NOT_REQUESTED_COSTS_AND_RETURNS_NOT_COMPUTED"
+    },
+    "source_scope": {
+      "description": "仅三份 NVIDIA 官方季度新闻原件；比较所列在先公司指引与正式营收，未证明全部中间披露。",
+      "included_types": [
+        "OFFICIAL_QUARTERLY_RELEASE"
+      ],
+      "uncovered_channels": [
+        "电话会和问答",
+        "新闻归档的完整期间扫描与其他披露类别",
+        "未列入的初步披露或修订",
+        "当前网页历史版本与精确首次公开时刻"
+      ]
+    },
+    "budget": {
+      "max_events": 2,
+      "max_sources": 6,
+      "max_source_bytes": 1048576,
+      "max_total_bytes": 6291456,
+      "max_network_requests": 0,
+      "max_economic_runs": 0
+    },
+    "timing": {
+      "mode": "HISTORICAL_RECONSTRUCTION",
+      "collection_delay_seconds": 60,
+      "processing_delay_seconds": 60
+    },
+    "events": [
+      {
+        "event_id": "NVDA:2024Q1:EARNINGS",
+        "event_kind": "EARNINGS",
+        "fiscal_quarter": "2024Q1",
+        "window_start": "2023-02-21T00:00:00Z",
+        "window_end": "2023-05-25T23:59:59Z",
+        "actual_source_id": "FY2024Q1",
+        "prior_source_ids": [
+          "FY2023Q4"
+        ],
+        "known_material_source_ids": [
+          "FY2023Q4",
+          "FY2024Q1"
+        ]
+      },
+      {
+        "event_id": "NVDA:2024Q2:EARNINGS",
+        "event_kind": "EARNINGS",
+        "fiscal_quarter": "2024Q2",
+        "window_start": "2023-05-23T00:00:00Z",
+        "window_end": "2023-08-24T23:59:59Z",
+        "actual_source_id": "FY2024Q2",
+        "prior_source_ids": [
+          "FY2024Q1"
+        ],
+        "known_material_source_ids": [
+          "FY2024Q1",
+          "FY2024Q2"
+        ]
+      }
+    ],
+    "evidence_kind": "CURRENT_OFFICIAL_HTML"
+  },
+  "extraction_completed_at": "2026-09-29T12:46:01.411508Z",
+  "code_identity": {
+    "equity_source_task.py": "aca3d6a13f9a9bb86aa8c5b4d8bcbcfce4b36d67a5bf87196ab89548f8fd62fe",
+    "equity_source_adapters.py": "869aaea6b3ac893e7c1a383532052c594a9d82ed8eeaeac6aed0ef100f725daa",
+    "equity_guidance_pairs.py": "21b4bbd12246f7a82e4c984e32602527dafc2b882d04e2fbf459380c58157d4f",
+    "equity_content_protocol.py": "3bf9322ddb9db5679cd75bd8973494bf2bfda513c677a63a2d4dc88a066ae031",
+    "verify_equity_guidance_pairs.py": "6d7d651d45d37d55dd969fbda1b263662940ddc0bf0b6e31dcdc2736c14fff00",
+    "prepare_announcement_review.py": "7d7ff20ef9371fbb519ccd11f23bd6859ee66b18bb9ccf1e2d48807346d62a14"
+  },
+  "sources": [
+    {
+      "source_id": "FY2023Q4",
+      "sha256": "7fbaf2a989f32ec7704357a9a149ecbb98efcb2660c23c3875819087defe7fb4",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-fourth-quarter-and-fiscal-2023",
+      "retrieved_at": "2026-09-27T09:28:52.632591Z",
+      "legal_use": "PUBLIC_OFFICIAL_RESEARCH",
+      "declaration_version": 1,
+      "prior_source_id": null,
+      "coverage": "CONSOLIDATED_REPORTED",
+      "status": "IMPORTED",
+      "retained_path": "originals/7fbaf2a989f32ec7704357a9a149ecbb98efcb2660c23c3875819087defe7fb4.html"
+    },
+    {
+      "source_id": "FY2024Q1",
+      "sha256": "1f6f38e22fbefcdfaea23ebcd6280d4f8b3888118f5ce5efb99313be608fe841",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2024",
+      "retrieved_at": "2026-09-27T09:28:54.249418Z",
+      "legal_use": "PUBLIC_OFFICIAL_RESEARCH",
+      "declaration_version": 1,
+      "prior_source_id": null,
+      "coverage": "CONSOLIDATED_REPORTED",
+      "status": "IMPORTED",
+      "retained_path": "originals/1f6f38e22fbefcdfaea23ebcd6280d4f8b3888118f5ce5efb99313be608fe841.html"
+    },
+    {
+      "source_id": "FY2024Q2",
+      "sha256": "bc404011add3e507648ba1978bbf816c4c4d8e5201550f7ce2cf2b61e7f8b55b",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2024",
+      "retrieved_at": "2026-09-27T09:28:55.717096Z",
+      "legal_use": "PUBLIC_OFFICIAL_RESEARCH",
+      "declaration_version": 1,
+      "prior_source_id": null,
+      "coverage": "CONSOLIDATED_REPORTED",
+      "status": "IMPORTED",
+      "retained_path": "originals/bc404011add3e507648ba1978bbf816c4c4d8e5201550f7ce2cf2b61e7f8b55b.html"
+    }
+  ],
+  "events": [
+    {
+      "event_id": "NVDA:2024Q1:EARNINGS",
+      "event_kind": "EARNINGS",
+      "fiscal_quarter": "2024Q1",
+      "window_start": "2023-02-21T00:00:00Z",
+      "window_end": "2023-05-25T23:59:59Z",
+      "actual_source_id": "FY2024Q1",
+      "prior_source_ids": [
+        "FY2023Q4"
+      ],
+      "known_material_source_ids": [
+        "FY2023Q4",
+        "FY2024Q1"
+      ],
+      "comparison": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "692.00",
+        "difference_interval_million": [
+          "686.50",
+          "697.50"
+        ],
+        "nominal_ratio": "0.1064615384615384615384615385",
+        "positive_condition": true
+      },
+      "status": "ABOVE",
+      "actual": {
+        "value_million": "7192",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:NASDAQ:NVDA",
+        "fiscal_quarter": "2024Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "CONSOLIDATED_REPORTED",
+        "coverage_status": "DECLARED_UNREVIEWED",
+        "kind": "FORMAL_RESULTS",
+        "business_half_range_million": null,
+        "business_range_million": null,
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "evidence": {
+          "source_id": "FY2024Q1",
+          "source_sha256": "1f6f38e22fbefcdfaea23ebcd6280d4f8b3888118f5ce5efb99313be608fe841",
+          "quote": "Revenue $ 7,192",
+          "plain_text_start": 2307,
+          "plain_text_end": 2322,
+          "locator": "GAAP table; first current fiscal-quarter Revenue column"
+        },
+        "publication_date": "2023-05-24",
+        "public_at": null,
+        "publication_precision": "SOURCE_DATE_ONLY",
+        "historical_immutability": "NOT_PROVEN"
+      },
+      "prior_disclosures": [
+        {
+          "value_million": "6500.00",
+          "display_quantum_million": "10.00",
+          "security_id": "US:COMMON:NASDAQ:NVDA",
+          "fiscal_quarter": "2024Q1",
+          "currency": "USD",
+          "unit": "MILLION_USD",
+          "basis": "REVENUE",
+          "coverage": "CONSOLIDATED_REPORTED",
+          "coverage_status": "DECLARED_UNREVIEWED",
+          "kind": "COMPANY_GUIDANCE",
+          "business_half_range_million": "130.00",
+          "business_range_million": [
+            "6370.00",
+            "6630.00"
+          ],
+          "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+          "evidence": {
+            "source_id": "FY2023Q4",
+            "source_sha256": "7fbaf2a989f32ec7704357a9a149ecbb98efcb2660c23c3875819087defe7fb4",
+            "quote": "Revenue is expected to be $6.50 billion, plus or minus 2%",
+            "plain_text_start": 5186,
+            "plain_text_end": 5243,
+            "locator": "Outlook; named target fiscal quarter; percentage business range"
+          },
+          "publication_date": "2023-02-22",
+          "public_at": null,
+          "publication_precision": "SOURCE_DATE_ONLY",
+          "historical_immutability": "NOT_PROVEN",
+          "business_range_percent": "2"
+        }
+      ],
+      "latest_prior": {
+        "value_million": "6500.00",
+        "display_quantum_million": "10.00",
+        "security_id": "US:COMMON:NASDAQ:NVDA",
+        "fiscal_quarter": "2024Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "CONSOLIDATED_REPORTED",
+        "coverage_status": "DECLARED_UNREVIEWED",
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "130.00",
+        "business_range_million": [
+          "6370.00",
+          "6630.00"
+        ],
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "evidence": {
+          "source_id": "FY2023Q4",
+          "source_sha256": "7fbaf2a989f32ec7704357a9a149ecbb98efcb2660c23c3875819087defe7fb4",
+          "quote": "Revenue is expected to be $6.50 billion, plus or minus 2%",
+          "plain_text_start": 5186,
+          "plain_text_end": 5243,
+          "locator": "Outlook; named target fiscal quarter; percentage business range"
+        },
+        "publication_date": "2023-02-22",
+        "public_at": null,
+        "publication_precision": "SOURCE_DATE_ONLY",
+        "historical_immutability": "NOT_PROVEN",
+        "business_range_percent": "2"
+      },
+      "source_audit": "PASS",
+      "prior_order": "UNIQUE_LATEST",
+      "human_review": "NOT_APPROVED",
+      "research_admitted": false,
+      "model_available_at": null,
+      "new_content_intervention": null,
+      "issues": [
+        "PUBLICATION_TIME_UNKNOWN_DATE_ONLY",
+        "CURRENT_HTML_HISTORICAL_IMMUTABILITY_NOT_PROVEN",
+        "COVERAGE_IS_DECLARED_REQUIRES_SEMANTIC_REVIEW"
+      ]
+    },
+    {
+      "event_id": "NVDA:2024Q2:EARNINGS",
+      "event_kind": "EARNINGS",
+      "fiscal_quarter": "2024Q2",
+      "window_start": "2023-05-23T00:00:00Z",
+      "window_end": "2023-08-24T23:59:59Z",
+      "actual_source_id": "FY2024Q2",
+      "prior_source_ids": [
+        "FY2024Q1"
+      ],
+      "known_material_source_ids": [
+        "FY2024Q1",
+        "FY2024Q2"
+      ],
+      "comparison": {
+        "status": "ABOVE",
+        "mismatched_dimensions": [],
+        "nominal_difference_million": "2507.00",
+        "difference_interval_million": [
+          "2501.50",
+          "2512.50"
+        ],
+        "nominal_ratio": "0.2279090909090909090909090909",
+        "positive_condition": true
+      },
+      "status": "ABOVE",
+      "actual": {
+        "value_million": "13507",
+        "display_quantum_million": "1",
+        "security_id": "US:COMMON:NASDAQ:NVDA",
+        "fiscal_quarter": "2024Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "CONSOLIDATED_REPORTED",
+        "coverage_status": "DECLARED_UNREVIEWED",
+        "kind": "FORMAL_RESULTS",
+        "business_half_range_million": null,
+        "business_range_million": null,
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "evidence": {
+          "source_id": "FY2024Q2",
+          "source_sha256": "bc404011add3e507648ba1978bbf816c4c4d8e5201550f7ce2cf2b61e7f8b55b",
+          "quote": "Revenue $ 13,507",
+          "plain_text_start": 2673,
+          "plain_text_end": 2689,
+          "locator": "GAAP table; first current fiscal-quarter Revenue column"
+        },
+        "publication_date": "2023-08-23",
+        "public_at": null,
+        "publication_precision": "SOURCE_DATE_ONLY",
+        "historical_immutability": "NOT_PROVEN"
+      },
+      "prior_disclosures": [
+        {
+          "value_million": "11000.00",
+          "display_quantum_million": "10.00",
+          "security_id": "US:COMMON:NASDAQ:NVDA",
+          "fiscal_quarter": "2024Q2",
+          "currency": "USD",
+          "unit": "MILLION_USD",
+          "basis": "REVENUE",
+          "coverage": "CONSOLIDATED_REPORTED",
+          "coverage_status": "DECLARED_UNREVIEWED",
+          "kind": "COMPANY_GUIDANCE",
+          "business_half_range_million": "220.00",
+          "business_range_million": [
+            "10780.00",
+            "11220.00"
+          ],
+          "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+          "evidence": {
+            "source_id": "FY2024Q1",
+            "source_sha256": "1f6f38e22fbefcdfaea23ebcd6280d4f8b3888118f5ce5efb99313be608fe841",
+            "quote": "Revenue is expected to be $11.00 billion, plus or minus 2%",
+            "plain_text_start": 3136,
+            "plain_text_end": 3194,
+            "locator": "Outlook; named target fiscal quarter; percentage business range"
+          },
+          "publication_date": "2023-05-24",
+          "public_at": null,
+          "publication_precision": "SOURCE_DATE_ONLY",
+          "historical_immutability": "NOT_PROVEN",
+          "business_range_percent": "2"
+        }
+      ],
+      "latest_prior": {
+        "value_million": "11000.00",
+        "display_quantum_million": "10.00",
+        "security_id": "US:COMMON:NASDAQ:NVDA",
+        "fiscal_quarter": "2024Q2",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "CONSOLIDATED_REPORTED",
+        "coverage_status": "DECLARED_UNREVIEWED",
+        "kind": "COMPANY_GUIDANCE",
+        "business_half_range_million": "220.00",
+        "business_range_million": [
+          "10780.00",
+          "11220.00"
+        ],
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "evidence": {
+          "source_id": "FY2024Q1",
+          "source_sha256": "1f6f38e22fbefcdfaea23ebcd6280d4f8b3888118f5ce5efb99313be608fe841",
+          "quote": "Revenue is expected to be $11.00 billion, plus or minus 2%",
+          "plain_text_start": 3136,
+          "plain_text_end": 3194,
+          "locator": "Outlook; named target fiscal quarter; percentage business range"
+        },
+        "publication_date": "2023-05-24",
+        "public_at": null,
+        "publication_precision": "SOURCE_DATE_ONLY",
+        "historical_immutability": "NOT_PROVEN",
+        "business_range_percent": "2"
+      },
+      "source_audit": "PASS",
+      "prior_order": "UNIQUE_LATEST",
+      "human_review": "NOT_APPROVED",
+      "research_admitted": false,
+      "model_available_at": null,
+      "new_content_intervention": null,
+      "issues": [
+        "PUBLICATION_TIME_UNKNOWN_DATE_ONLY",
+        "CURRENT_HTML_HISTORICAL_IMMUTABILITY_NOT_PROVEN",
+        "COVERAGE_IS_DECLARED_REQUIRES_SEMANTIC_REVIEW"
+      ]
+    }
+  ],
+  "market": {
+    "status": "NOT_PROVIDED",
+    "available_events": 0,
+    "price_signals": null
+  },
+  "permissions": {
+    "network_allowed": false,
+    "account_allowed": false,
+    "order_allowed": false,
+    "economic_execution_allowed": false,
+    "monitor_deployment_allowed": false
+  },
+  "complete_historical_chain_proven": false,
+  "purpose": "SEEN_ENGINEERING_DATA_NOT_UNSEEN_VALIDATION",
+  "packet_hash": "f334413d42b4994590b8080d01b8c88ce1893fb8ffdf94f1c018019890f0dc7d"
+}

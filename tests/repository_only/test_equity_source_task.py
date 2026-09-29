@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT));sys.path.insert(0,str(ROOT/'src'))
@@ -54,6 +55,137 @@ class SourceTaskTests(unittest.TestCase):
         source=next(s for s in self.manifest['sources'] if s['source_id']==id)
         p=self.root/source['path'];raw=p.read_bytes().replace(old.encode(),new.encode());p.write_bytes(raw);source['sha256']=hashlib.sha256(raw).hexdigest()
     def result(self):return verify_packet(self.run_task())['events'][0]
+    def add_prior(self,id,amount,when):
+        source=deepcopy(self.manifest['sources'][0]);source.update(source_id=id,path=id+'.html',prior_source_id=None)
+        raw=release(4,2023,'6,051',amount,when);(self.root/source['path']).write_bytes(raw);source['sha256']=hashlib.sha256(raw).hexdigest()
+        self.manifest['sources'].append(source)
+        for field in ('prior_source_ids','known_material_source_ids'):self.manifest['events'][0][field].append(id)
+
+    def test_same_day_mixed_precision_is_unknown_and_order_independent(self):
+        self.change_source('prior','2023-02-22','2023-03-10')
+        self.change_source('prior','$6.50','$8.00')
+        self.add_prior('timed','6.50','2023-03-10T10:00:00Z')
+        first=self.result()
+        self.manifest['events'][0]['prior_source_ids'].reverse();self.manifest['sources'].reverse()
+        second=self.result()
+        for row in (first,second):
+            self.assertEqual(row['status'],'AMBIGUOUS_PRIOR_ORDER')
+            self.assertEqual(row['source_audit'],'PASS');self.assertEqual(row['prior_order'],'AMBIGUOUS')
+            self.assertIsNone(row['comparison']);self.assertIsNone(row['latest_prior'])
+            self.assertEqual(len(row['prior_disclosures']),2);self.assertEqual(row['actual']['value_million'],'7192')
+        self.assertEqual(first['prior_disclosures'],second['prior_disclosures'])
+
+    def test_two_exact_times_choose_later_in_utc_even_across_local_dates(self):
+        self.change_source('prior','2023-02-22','2023-03-10T23:30:00-04:00')
+        self.change_source('prior','$6.50','$8.00')
+        self.add_prior('earlier','6.50','2023-03-11T00:30:00+02:00')
+        row=self.result()
+        self.assertEqual(row['status'],'BELOW');self.assertEqual(row['prior_order'],'UNIQUE_LATEST')
+        self.assertEqual(row['latest_prior']['evidence']['source_id'],'prior')
+
+    def test_two_exact_times_on_same_day_choose_actual_later(self):
+        self.change_source('prior','2023-02-22','2023-03-10T10:00:00Z')
+        self.add_prior('later','8.00','2023-03-10T18:00:00Z')
+        row=self.result();self.assertEqual(row['status'],'BELOW')
+        self.assertEqual(row['latest_prior']['evidence']['source_id'],'later')
+
+    def test_same_day_date_only_conflicting_values_are_unknown(self):
+        self.add_prior('other','8.00','2023-02-22')
+        row=self.result();self.assertEqual(row['status'],'AMBIGUOUS_PRIOR_ORDER')
+        self.assertIsNone(row['comparison']);self.assertEqual(row['source_audit'],'PASS')
+
+    def test_equal_exact_instant_with_different_offsets_has_no_unique_latest(self):
+        self.change_source('prior','2023-02-22','2023-03-10T23:00:00-04:00')
+        self.add_prior('same','8.00','2023-03-11T03:00:00Z')
+        self.assertEqual(self.result()['status'],'AMBIGUOUS_PRIOR_ORDER')
+
+    def test_definite_latest_after_ambiguous_earlier_pair_is_usable(self):
+        self.add_prior('same_day','8.00','2023-02-22')
+        self.add_prior('latest','7.00','2023-03-10')
+        p=self.run_task();row=verify_packet(p)['events'][0]
+        self.assertEqual(row['status'],'ABOVE');self.assertEqual(len(row['prior_disclosures']),3)
+        self.assertEqual(row['latest_prior']['value_million'],'7000.00')
+        html=(report(p)/'index.html').read_text(encoding='utf-8')
+        self.assertIn('本次比较采用的最新在先指引中点',html);self.assertIn('7000.00',html)
+        self.assertIn('不代表时间顺序',html)
+
+    def test_distinct_dates_keep_latest_selection(self):
+        self.add_prior('latest','8.00','2023-03-10')
+        self.assertEqual(self.result()['status'],'BELOW')
+
+    def test_mixed_precision_offset_boundary_does_not_guess_order(self):
+        self.change_source('prior','2023-02-22','2023-03-10T23:00:00-04:00')
+        self.add_prior('coarse','8.00','2023-03-11')
+        self.assertEqual(self.result()['status'],'AMBIGUOUS_PRIOR_ORDER')
+
+    def test_prior_later_in_utc_is_rejected_even_if_local_date_is_earlier(self):
+        self.change_source('prior','2023-02-22','2023-03-10T23:30:00-04:00')
+        self.change_source('actual','2023-05-24','2023-03-11T00:30:00+02:00')
+        row=self.result();self.assertEqual(row['status'],'SOURCE_REJECTED')
+        self.assertIn('prior_not_before_actual',' '.join(row['issues']));self.assertIsNone(row['comparison'])
+
+    def test_revision_later_local_date_but_earlier_in_utc_is_rejected(self):
+        self.change_source('prior','2023-02-22','2023-03-10T23:30:00-04:00')
+        self.add_prior('revision','8.00','2023-03-11T00:30:00+02:00')
+        self.manifest['sources'][-1].update(prior_source_id='prior',declaration_version=2)
+        row=self.result();self.assertEqual(row['status'],'SOURCE_REJECTED')
+        self.assertIn('revision_not_after_parent',' '.join(row['issues']))
+
+    def test_ambiguous_source_order_never_counts_as_numeric_price_intersection(self):
+        self.price_fixture();self.add_prior('timed','8.00','2024-11-01T10:00:00Z')
+        p=self.run_task();dest=report(p);result=json.loads((dest/'result.json').read_bytes())
+        self.assertEqual(result['counts']['price_signals'],1)
+        self.assertEqual(result['counts']['numeric_above'],0);self.assertEqual(result['counts']['price_numeric_intersection'],0)
+        self.assertEqual(result['counts']['comparable_sources'],0);self.assertFalse(result['opportunity_threshold_met'])
+        html=(dest/'index.html').read_text(encoding='utf-8')
+        self.assertIn('原件数值核对通过，但无法唯一确定',html);self.assertIn('8000.00',html)
+
+    def test_cli_unknown_order_exit_two_for_run_verify_and_report(self):
+        self.add_prior('timed','8.00','2023-02-22T10:00:00Z');save(self.path,self.manifest)
+        packet=None
+        for command in ('run','verify','report'):
+            args=['--manifest',str(self.path)] if command=='run' else ['--packet',str(packet)]
+            run=subprocess.run([sys.executable,'-B',str(ROOT/'tools/equity_source_task.py'),command]+args,cwd=self.root,capture_output=True,text=True,encoding='utf-8')
+            self.assertEqual(run.returncode,2,run.stdout+run.stderr)
+            response=json.loads(run.stdout);packet=Path(response['packet'])
+            self.assertEqual(response['status'],'STOPPED_WITH_SOURCE_GAPS')
+        invalid=subprocess.run([sys.executable,'-B',str(ROOT/'tools/equity_source_task.py'),'run','--manifest',str(self.root/'absent.json')],cwd=self.root,capture_output=True,text=True,encoding='utf-8')
+        self.assertEqual(invalid.returncode,1)
+
+    def test_unsupported_known_preliminary_does_not_fall_back_to_old_guidance(self):
+        self.add_prior('preliminary','8.00','2023-03-10')
+        self.change_source('preliminary','NVIDIA’s outlook','NVIDIA preliminary result')
+        row=self.result();self.assertEqual(row['status'],'SOURCE_REJECTED');self.assertIsNone(row['comparison'])
+
+    def test_report_retry_completes_interrupted_pair_without_rewriting_result(self):
+        import tools.equity_source_task as task
+        p=self.run_task();publish=task._save_encoded_report
+        def interrupt(encoded,path):
+            if path.name=='index.html':raise OSError('INJECTED_BEFORE_HTML_PUBLICATION')
+            return publish(encoded,path)
+        with patch.object(task,'_save_encoded_report',side_effect=interrupt):
+            with self.assertRaisesRegex(OSError,'INJECTED'):report(p)
+        dest=next(p.parent.glob('report-*'));original=(dest/'result.json').read_bytes()
+        mtime=(dest/'result.json').stat().st_mtime_ns
+        self.assertFalse((dest/'index.html').exists())
+        self.assertEqual(report(p),dest);self.assertTrue((dest/'index.html').is_file())
+        self.assertEqual((dest/'result.json').read_bytes(),original)
+        self.assertEqual((dest/'result.json').stat().st_mtime_ns,mtime)
+        self.assertEqual(report(p),dest)
+
+    def test_report_conflicting_partial_member_is_preserved_and_not_completed(self):
+        p=self.run_task();dest=report(p);(dest/'index.html').unlink()
+        (dest/'result.json').write_bytes(b'{"partial":')
+        with self.assertRaisesRegex(ValueError,'existing_report_changed'):report(p)
+        self.assertEqual((dest/'result.json').read_bytes(),b'{"partial":')
+        self.assertFalse((dest/'index.html').exists())
+
+    def test_report_conflicting_html_is_checked_before_any_missing_member_is_written(self):
+        p=self.run_task();dest=report(p);(dest/'result.json').unlink()
+        (dest/'index.html').write_bytes(b'changed evidence')
+        with self.assertRaisesRegex(ValueError,'existing_report_changed'):report(p)
+        self.assertFalse((dest/'result.json').exists())
+        self.assertEqual((dest/'index.html').read_bytes(),b'changed evidence')
 
     def test_complete_workflow_and_date_only_time_is_not_fabricated(self):
         packet=self.run_task();data=verify_packet(packet);event=data['events'][0]

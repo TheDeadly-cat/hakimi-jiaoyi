@@ -1,0 +1,116 @@
+{
+  "schema_version": "source-order-repair-acceptance-v1",
+  "reviewed_base": "1fb214ad670c37a85fb6e867b68bb32b0fe66022",
+  "packet_hash": "f334413d42b4994590b8080d01b8c88ce1893fb8ffdf94f1c018019890f0dc7d",
+  "packet_version": 6,
+  "prior_packet_hash": "109f161c32d3c26c17b02d4a0e19d66d18c8e3184a222dedb67f0e9d789a443d",
+  "report_hash": "3d9ce22cc6003d452fc1ebfc1dff975ccdb39ec314a67470490d9e33ddb52545",
+  "code_identity": {
+    "equity_source_task.py": "aca3d6a13f9a9bb86aa8c5b4d8bcbcfce4b36d67a5bf87196ab89548f8fd62fe",
+    "equity_source_adapters.py": "869aaea6b3ac893e7c1a383532052c594a9d82ed8eeaeac6aed0ef100f725daa",
+    "equity_guidance_pairs.py": "21b4bbd12246f7a82e4c984e32602527dafc2b882d04e2fbf459380c58157d4f",
+    "equity_content_protocol.py": "3bf9322ddb9db5679cd75bd8973494bf2bfda513c677a63a2d4dc88a066ae031",
+    "verify_equity_guidance_pairs.py": "6d7d651d45d37d55dd969fbda1b263662940ddc0bf0b6e31dcdc2736c14fff00",
+    "prepare_announcement_review.py": "7d7ff20ef9371fbb519ccd11f23bd6859ee66b18bb9ccf1e2d48807346d62a14"
+  },
+  "renderer_identity": {
+    "equity_source_task_card.py": "23ca547dd9748602a6b2116b3f468f230aa668fdaea428e609ceb25c0f93c3f2",
+    "equity_research_card.py": "f0a6ae48dcbeabd290ea8ab9bc44adab779cf04e83002550ace4e4f2e05a7528",
+    "equity_guidance_card.py": "30da4591064885715efc4cad30aaff35ac5220b23e3154d10dd1e1088cd6ed4c"
+  },
+  "counts": {
+    "events": 2,
+    "comparable_sources": 2,
+    "human_approved_events": 0,
+    "market_available_events": 0,
+    "price_signals": null,
+    "numeric_above": 2,
+    "price_numeric_intersection": null,
+    "content_interventions": null,
+    "new_economic_runs": 0,
+    "new_research_admitted": 0
+  },
+  "source_count": 3,
+  "source_bytes_unchanged": true,
+  "real_event_values_comparisons_unchanged": true,
+  "old_packet_bytes_unchanged": true,
+  "source_collection_calls": 0,
+  "market_requests": 0,
+  "broker_requests": 0,
+  "economic_runs": 0,
+  "human_approvals": 0,
+  "cli": {
+    "run": 0,
+    "verify": 0,
+    "report": 0,
+    "ambiguous_run": 2
+  },
+  "targeted_tests": {
+    "total": 105,
+    "source_workflow": 46,
+    "retained_contracts": 59,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "synthetic_case": {
+    "packet_hash": "d5925eafcc6d1263918458c4f7e3cc34baa1d3084904ba9097ab78b3bb3aab04",
+    "report_hash": "56139345220e0089c8269015de71f1e11317de553b2b734d63b20d4622095f64",
+    "status": "AMBIGUOUS_PRIOR_ORDER",
+    "numeric_above": 0
+  },
+  "prior_reproduction": {
+    "head": "1fb214ad670c37a85fb6e867b68bb32b0fe66022",
+    "synthetic": true,
+    "status": "ABOVE",
+    "source_audit": "PASS",
+    "latest": "timed",
+    "expected": "AMBIGUOUS_PRIOR_ORDER",
+    "report_fault": "INJECTED_AFTER_RESULT_WRITE",
+    "report_retry": "FAILED_ON_MISSING_INDEX"
+  },
+  "limitations": [
+    "DATE_ONLY_PUBLICATION_TIME",
+    "NO_PRICE_SNAPSHOT",
+    "NO_NEW_ECONOMIC_RUN",
+    "NO_HUMAN_FIRST_USE_ACCEPTANCE",
+    "NO_MAIN_MERGE_APPROVAL"
+  ],
+  "browser": {
+    "kind": "Codex in-app browser via CUA",
+    "viewports": [
+      [
+        1280,
+        720
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "real_cards": 2,
+    "unknown_case_cards": 1,
+    "document_horizontal_overflow": false,
+    "tables_scroll_within_card": true,
+    "real_second_source_details_expanded": true,
+    "console_errors": 0,
+    "console_warnings": 0,
+    "active_script_form_input_iframe_count": 0,
+    "second_browser_tested": false,
+    "human_first_use_accepted": false,
+    "screenshots": {
+      "real-desktop.png": "cf3d4727f46ffc8195cd9d3e9abd7cb5593e0f4700523a92fadf172afaf591e7",
+      "real-narrow.png": "e5fe51e674dddfce80477d6f6dff90d9a38e955cb581e4bf06c3d30fb454ac68",
+      "unknown-desktop.png": "1792981f9fe95fc7964b281ba08753844bac3c023221643cdce551375fa02a41",
+      "unknown-narrow.png": "91cc0be51b229989c004501d6c5a960b676f568be65051669a3e10e5787ac7d7"
+    }
+  },
+  "report_recovery": {
+    "fault_injected": "AFTER_RESULT_BEFORE_HTML_PUBLICATION",
+    "retry": "COMPLETED_MISSING_HTML",
+    "existing_result_bytes_and_mtime_unchanged": true,
+    "conflicting_partial_json": "REJECTED_AND_PRESERVED",
+    "conflicting_html_before_missing_json": "REJECTED_AND_PRESERVED",
+    "atomicity": "PER_FILE_NO_REPLACE_NOT_DIRECTORY_POWER_LOSS_TRANSACTION"
+  }
+}

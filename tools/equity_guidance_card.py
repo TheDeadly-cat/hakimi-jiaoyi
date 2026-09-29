@@ -77,14 +77,15 @@ def summary(data, review=None):
 
 
 def section(event, sources, source_link, clock_text, review=None, approval_label=None, review_note=None,
-            clock_heading='公开时间（UTC）', coverage_label=None):
+            clock_heading='公开时间（UTC）', coverage_label=None, guidance_label='原公司指引中点',
+            timeline_heading='查看版本时间线与配对依据'):
     a, g, latest = event['actual'], event['original_guidance'], event['latest_prior_disclosure']
     result=event['comparison']
     latest_name=KINDS[latest['kind']] if latest else '缺失，未计算'
     rows=[('正式财报实际营收',a['value_million'],'财务表，百万美元',a)]
     if g:
         business=' 至 '.join(g['business_range_million'])
-        rows.append(('原公司指引中点',g['value_million'],f'经营范围 {business}',g))
+        rows.append((guidance_label,g['value_million'],f'经营范围 {business}',g))
     if latest and latest['kind']=='PRELIMINARY_RESULTS':
         rows.append(('此前最后已知数值',latest['value_million'],'初步业绩，无新经营范围',latest))
     parts=['<section class="guidance-pair"><h3>同财季事实配对</h3>',
@@ -115,7 +116,7 @@ def section(event, sources, source_link, clock_text, review=None, approval_label
                      f'{escape(clock_text(review["interval_end_inclusive"]))}。已知重大披露已纳入；'
                      '排期公告只查标题，电话会、其他类别和历史修订等仍有缺口。新增字段未获人工核准。</p>')
     parts += [(f'<p class="note">{escape(review_note)}</p>' if review_note is not None else '<p class="note">完整历史版本链未证实。本卡仅展示事实配对，不触发新策略。</p>' if review is not None else '<p class="note">完整历史版本链未证实；新增字段未核准。本卡仅展示事实配对，不触发新策略。</p>'),
-              '<details><summary>查看版本时间线与配对依据</summary>']
+              f'<details><summary>{escape(timeline_heading)}</summary>']
     for version in event['disclosure_chain']:
         source=sources[version['source_id']]
         parts.append(f'<p>{escape(clock_text(version["public_at"]))} · {KINDS[version["kind"]]} · {source_link(source["url"])}</p>')

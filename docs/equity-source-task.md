@@ -2,7 +2,7 @@
 
 这个入口把“资料清单 → 导入 → 原件核对 → 必要人工复核 → 只读结论”连成一次操作。只改清单和本地资料即可选择支持格式内的证券、财季及版本，不需要修改 Python 源码。它复用现有 AMD 提取与独立审计、精度比较、价格确认规则、行情快照验证和静态卡片；不调用回测执行器。
 
-这是开发分支中的仓库工具，正式 v0.2.1 和原 r3 包尚不包含该入口。AMD 固定十事件规约和旧证据保持不变。NVIDIA 已用三份官方原件完成两个财季的[有限真实格式验收](research-evidence/equity-source-task-20260927/README.md)，不能据此宣称通用解析能力、人工核准或独立策略验证。
+这是开发分支中的仓库工具，正式 v0.2.1 和原 r3 包尚不包含该入口。AMD 固定十事件规约和旧证据保持不变。NVIDIA 已用三份官方原件完成两个财季的[有限真实格式验收](research-evidence/equity-source-task-20260927/README.md)，并追加[时间排序修复后的新版本复核](research-evidence/equity-source-order-repair-20260929/README.md)，不能据此宣称通用解析能力、人工核准或独立策略验证。
 
 ## 一次离线操作
 
@@ -13,6 +13,18 @@ python -B tools/equity_source_task.py run --manifest examples/equity-source-task
 ```
 
 此演示的两份小型 HTML 是明确的虚构资料，不是从 NVIDIA 网站取得的原件。成功后命令返回 `packet` 和 `report` 路径，打开 `report` 目录下的 `index.html` 查看卡片。输出默认落在 `artifacts/source-task-demo`，不会替换旧 AMD 报告。
+
+首次试用可以在同一个 PowerShell 窗口依次执行下面几行，自动沿用刚生成的路径。这里的 `python` 须为已安装项目研究依赖的 Python 环境；出现缺少模块时先检查环境，不改用账户程序。看到 JSON 中 `status=SOURCE_WORKFLOW_CHECKED` 表示来源流程完成；`STOPPED_WITH_SOURCE_GAPS` 表示报告已保留，但有明确资料缺口。
+
+```powershell
+$sourceTask = python -B tools/equity_source_task.py run --manifest examples/equity-source-task/manifest.synthetic.json | ConvertFrom-Json
+if ($LASTEXITCODE -notin @(0, 2)) { throw '导入失败，请查看上方错误。' }
+python -B tools/equity_source_task.py verify --packet $sourceTask.packet
+python -B tools/equity_source_task.py report --packet $sourceTask.packet
+Invoke-Item (Join-Path $sourceTask.report 'index.html')
+```
+
+打开后先辨认顶部“虚构资料示例”，再查看来源数值及展开的配对依据。机器核对通过不代表人工核准；日期级公开时间、没有行情和未运行内容干预是三个不同状态。退出码 2 不表示可以忽略已知初步披露；应补齐该原件，格式不支持时保持停止。首次使用者是否能独立完成这些步骤仍需本人试用，自动化检查不能替代人的验收。
 
 替换为真实资料时，复制清单，填入已获准使用的本地路径、原件 SHA-256、官方链接和实际采集时间，并固定事件列表。SHA-256 可用 `Get-FileHash -Algorithm SHA256 <原件路径>` 取得；它绑定字节，不认证来源真实性。清单中的路径相对清单本身解析，输出目录必须显式提供。导入不会访问这些链接，也不会自动补齐缺失文件。
 
@@ -39,12 +51,14 @@ python -B tools/equity_source_task.py run --manifest examples/equity-source-task
 
 任务目录包含保留的原始字节、私有输入清单和 `packet.json`。每项提取能定位来源摘要、规范文本偏移和引文；比较引用具体在先版本。只有日期的页面不会被补成一个虚假的公开时刻，模型可用时间及价格信号保持未具备。当前网页历史不变性始终未证明。
 
+选定“最新在先披露”前，必须证明该份晚于全部其他已选来源。精确时刻统一按 UTC 比较；只提供日期时保留发行人页面的日期顺序，不产生时刻。混合精度还要求源日期和 UTC 日期的先后不冲突。同日只要竞争来源缺少时刻，就不能用空字符串、文件名、清单次序或取回时间排序。如果不能唯一确定最新，状态为 `AMBIGUOUS_PRIOR_ORDER`：`source_audit=PASS` 可以保留，`prior_order=AMBIGUOUS`、比较及最新来源为空，不计入数值高于或机会交集。早期来源彼此有歧义，但另有一份明确晚于全部来源时，允许采用后一份。展示清单按来源标识排列，不声称完整时间线。
+
 ```powershell
 python -B tools/equity_source_task.py verify --packet <任务目录>/packet.json
 python -B tools/equity_source_task.py report --packet <任务目录>/packet.json
 ```
 
-原件或提取结果变化不能在旧身份下通过核验。相同报告重复生成只核对已有内容；输入变化创建新任务版本，不覆盖旧报告。提取代码变化时，需要新任务身份；卡片代码变化产生新的报告身份。
+原件或提取结果变化不能在旧身份下通过核验。相同报告重复生成核对已有内容；写入中断后，重试 `report` 可以补齐缺失文件。每个文件使用现有原子、不覆盖发布方法，先写结果再发布页面；已有文件若截断或与预期不符，会报 `existing_report_changed` 并保留冲突字节，不自动覆盖或删除。页面出现前的目录不是完整报告，也不承诺断电时整组文件同时持久化。输入变化创建新任务版本，不覆盖旧报告。提取代码变化时，需要新任务身份；卡片代码变化产生新的报告身份。
 
 若后续有明确用途且人已审核具体字段，可以单独导入人工声明文件：
 
