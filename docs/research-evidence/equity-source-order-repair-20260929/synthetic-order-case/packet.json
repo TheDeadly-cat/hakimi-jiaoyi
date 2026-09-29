@@ -1,0 +1,256 @@
+{
+  "schema_version": "equity-source-task-packet-v1",
+  "task_id": "SYNTHETIC_WORKFLOW",
+  "version": 2,
+  "prior_packet_hash": "5981888d66546abc12c68967e7ab98aef09b0dc133fd3ed8bd83979f57d2af14",
+  "manifest_sha256": "a0765d4d4f50dd084b2fde548c40277a2577532bb39e872a66d730f5ac374f8a",
+  "definition": {
+    "schema_version": "equity-source-task-v1",
+    "task_id": "SYNTHETIC_WORKFLOW",
+    "evidence_kind": "SYNTHETIC_FIXTURE",
+    "security": {
+      "security_id": "SYNTHETIC:NVDA:COMMON",
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "currency": "USD",
+      "adapter": "nvidia-earnings-html-v1"
+    },
+    "selection": {
+      "purpose": "SOURCE_WORKFLOW_ENGINEERING",
+      "basis": "Fictional formatting fixture, not actual NVIDIA evidence",
+      "selected_before_price_review": true,
+      "minimum_opportunities": 3,
+      "price_rule": "FIXED_C_PRICE_CONFIRMATION_V1",
+      "economic_scope": "NOT_REQUESTED_COSTS_AND_RETURNS_NOT_COMPUTED"
+    },
+    "source_scope": {
+      "description": "Two fictional disclosures",
+      "included_types": [
+        "EARNINGS_RELEASE"
+      ],
+      "uncovered_channels": [
+        "Calls",
+        "Historical versions"
+      ]
+    },
+    "budget": {
+      "max_events": 2,
+      "max_sources": 4,
+      "max_source_bytes": 10000,
+      "max_total_bytes": 40000,
+      "max_network_requests": 0,
+      "max_economic_runs": 0
+    },
+    "timing": {
+      "mode": "HISTORICAL_RECONSTRUCTION",
+      "collection_delay_seconds": 60,
+      "processing_delay_seconds": 60
+    },
+    "events": [
+      {
+        "event_id": "SYNTHETIC:NVDA:2024Q1",
+        "event_kind": "EARNINGS",
+        "fiscal_quarter": "2024Q1",
+        "window_start": "2023-02-01T00:00:00Z",
+        "window_end": "2023-05-31T23:59:59Z",
+        "actual_source_id": "actual",
+        "prior_source_ids": [
+          "prior",
+          "timed"
+        ],
+        "known_material_source_ids": [
+          "prior",
+          "actual",
+          "timed"
+        ]
+      }
+    ]
+  },
+  "extraction_completed_at": "2026-09-29T12:46:05.878946Z",
+  "code_identity": {
+    "equity_source_task.py": "aca3d6a13f9a9bb86aa8c5b4d8bcbcfce4b36d67a5bf87196ab89548f8fd62fe",
+    "equity_source_adapters.py": "869aaea6b3ac893e7c1a383532052c594a9d82ed8eeaeac6aed0ef100f725daa",
+    "equity_guidance_pairs.py": "21b4bbd12246f7a82e4c984e32602527dafc2b882d04e2fbf459380c58157d4f",
+    "equity_content_protocol.py": "3bf9322ddb9db5679cd75bd8973494bf2bfda513c677a63a2d4dc88a066ae031",
+    "verify_equity_guidance_pairs.py": "6d7d651d45d37d55dd969fbda1b263662940ddc0bf0b6e31dcdc2736c14fff00",
+    "prepare_announcement_review.py": "7d7ff20ef9371fbb519ccd11f23bd6859ee66b18bb9ccf1e2d48807346d62a14"
+  },
+  "sources": [
+    {
+      "source_id": "prior",
+      "sha256": "ae4ee9871d348bbaf9f4e8484d6b13e178121486cc0ed5be5b913641f59a43cc",
+      "url": "https://nvidianews.nvidia.com/fictional-test/prior",
+      "retrieved_at": "2026-09-27T00:00:00Z",
+      "legal_use": "SYNTHETIC_TEST",
+      "declaration_version": 1,
+      "prior_source_id": null,
+      "coverage": "CONSOLIDATED_REPORTED",
+      "status": "IMPORTED",
+      "retained_path": "originals/ae4ee9871d348bbaf9f4e8484d6b13e178121486cc0ed5be5b913641f59a43cc.html"
+    },
+    {
+      "source_id": "actual",
+      "sha256": "c43f84db950b093ca09eab15e0cc9590bb6893a127fad04afdd4e6d7762f597b",
+      "url": "https://nvidianews.nvidia.com/fictional-test/actual",
+      "retrieved_at": "2026-09-27T00:00:00Z",
+      "legal_use": "SYNTHETIC_TEST",
+      "declaration_version": 1,
+      "prior_source_id": null,
+      "coverage": "CONSOLIDATED_REPORTED",
+      "status": "IMPORTED",
+      "retained_path": "originals/c43f84db950b093ca09eab15e0cc9590bb6893a127fad04afdd4e6d7762f597b.html"
+    },
+    {
+      "source_id": "timed",
+      "sha256": "3d455d918261bd7ab25a60b10844c8424f7c5a30de159e9e0b62a7a96dc85c39",
+      "url": "https://nvidianews.nvidia.com/fictional-test/prior",
+      "retrieved_at": "2026-09-27T00:00:00Z",
+      "legal_use": "SYNTHETIC_TEST",
+      "declaration_version": 1,
+      "prior_source_id": null,
+      "coverage": "CONSOLIDATED_REPORTED",
+      "status": "IMPORTED",
+      "retained_path": "originals/3d455d918261bd7ab25a60b10844c8424f7c5a30de159e9e0b62a7a96dc85c39.html"
+    }
+  ],
+  "events": [
+    {
+      "event_id": "SYNTHETIC:NVDA:2024Q1",
+      "event_kind": "EARNINGS",
+      "fiscal_quarter": "2024Q1",
+      "window_start": "2023-02-01T00:00:00Z",
+      "window_end": "2023-05-31T23:59:59Z",
+      "actual_source_id": "actual",
+      "prior_source_ids": [
+        "prior",
+        "timed"
+      ],
+      "known_material_source_ids": [
+        "prior",
+        "actual",
+        "timed"
+      ],
+      "comparison": null,
+      "status": "AMBIGUOUS_PRIOR_ORDER",
+      "actual": {
+        "value_million": "7192",
+        "display_quantum_million": "1",
+        "security_id": "SYNTHETIC:NVDA:COMMON",
+        "fiscal_quarter": "2024Q1",
+        "currency": "USD",
+        "unit": "MILLION_USD",
+        "basis": "REVENUE",
+        "coverage": "CONSOLIDATED_REPORTED",
+        "coverage_status": "DECLARED_UNREVIEWED",
+        "kind": "FORMAL_RESULTS",
+        "business_half_range_million": null,
+        "business_range_million": null,
+        "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+        "evidence": {
+          "source_id": "actual",
+          "source_sha256": "c43f84db950b093ca09eab15e0cc9590bb6893a127fad04afdd4e6d7762f597b",
+          "quote": "Revenue $7,192",
+          "plain_text_start": 118,
+          "plain_text_end": 132,
+          "locator": "GAAP table; first current fiscal-quarter Revenue column"
+        },
+        "publication_date": "2023-05-24",
+        "public_at": null,
+        "publication_precision": "SOURCE_DATE_ONLY",
+        "historical_immutability": "NOT_PROVEN"
+      },
+      "prior_disclosures": [
+        {
+          "value_million": "8000.00",
+          "display_quantum_million": "10.00",
+          "security_id": "SYNTHETIC:NVDA:COMMON",
+          "fiscal_quarter": "2024Q1",
+          "currency": "USD",
+          "unit": "MILLION_USD",
+          "basis": "REVENUE",
+          "coverage": "CONSOLIDATED_REPORTED",
+          "coverage_status": "DECLARED_UNREVIEWED",
+          "kind": "COMPANY_GUIDANCE",
+          "business_half_range_million": "160.00",
+          "business_range_million": [
+            "7840.00",
+            "8160.00"
+          ],
+          "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+          "evidence": {
+            "source_id": "prior",
+            "source_sha256": "ae4ee9871d348bbaf9f4e8484d6b13e178121486cc0ed5be5b913641f59a43cc",
+            "quote": "Revenue is expected to be $8.00 billion, plus or minus 2%",
+            "plain_text_start": 209,
+            "plain_text_end": 266,
+            "locator": "Outlook; named target fiscal quarter; percentage business range"
+          },
+          "publication_date": "2023-03-10",
+          "public_at": null,
+          "publication_precision": "SOURCE_DATE_ONLY",
+          "historical_immutability": "NOT_PROVEN",
+          "business_range_percent": "2"
+        },
+        {
+          "value_million": "6500.00",
+          "display_quantum_million": "10.00",
+          "security_id": "SYNTHETIC:NVDA:COMMON",
+          "fiscal_quarter": "2024Q1",
+          "currency": "USD",
+          "unit": "MILLION_USD",
+          "basis": "REVENUE",
+          "coverage": "CONSOLIDATED_REPORTED",
+          "coverage_status": "DECLARED_UNREVIEWED",
+          "kind": "COMPANY_GUIDANCE",
+          "business_half_range_million": "130.00",
+          "business_range_million": [
+            "6370.00",
+            "6630.00"
+          ],
+          "approval_status": "ADDITIONAL_REVIEW_REQUIRED",
+          "evidence": {
+            "source_id": "timed",
+            "source_sha256": "3d455d918261bd7ab25a60b10844c8424f7c5a30de159e9e0b62a7a96dc85c39",
+            "quote": "Revenue is expected to be $6.50 billion, plus or minus 2%",
+            "plain_text_start": 219,
+            "plain_text_end": 276,
+            "locator": "Outlook; named target fiscal quarter; percentage business range"
+          },
+          "publication_date": "2023-03-10",
+          "public_at": "2023-03-10T10:00:00Z",
+          "publication_precision": "SOURCE_TIMESTAMP",
+          "historical_immutability": "NOT_PROVEN",
+          "business_range_percent": "2"
+        }
+      ],
+      "latest_prior": null,
+      "source_audit": "PASS",
+      "prior_order": "AMBIGUOUS",
+      "human_review": "NOT_APPROVED",
+      "research_admitted": false,
+      "model_available_at": null,
+      "new_content_intervention": null,
+      "issues": [
+        "PUBLICATION_TIME_UNKNOWN_DATE_ONLY",
+        "CURRENT_HTML_HISTORICAL_IMMUTABILITY_NOT_PROVEN",
+        "COVERAGE_IS_DECLARED_REQUIRES_SEMANTIC_REVIEW",
+        "LATEST_PRIOR_NOT_UNIQUELY_DETERMINED"
+      ]
+    }
+  ],
+  "market": {
+    "status": "NOT_PROVIDED",
+    "available_events": 0,
+    "price_signals": null
+  },
+  "permissions": {
+    "network_allowed": false,
+    "account_allowed": false,
+    "order_allowed": false,
+    "economic_execution_allowed": false,
+    "monitor_deployment_allowed": false
+  },
+  "complete_historical_chain_proven": false,
+  "purpose": "SEEN_ENGINEERING_DATA_NOT_UNSEEN_VALIDATION",
+  "packet_hash": "d5925eafcc6d1263918458c4f7e3cc34baa1d3084904ba9097ab78b3bb3aab04"
+}

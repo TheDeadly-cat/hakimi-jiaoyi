@@ -76,25 +76,28 @@ def summary(data, review=None):
             '<a href="guidance-pairs.json">下载本次配对数据与逐字段依据</a></p>')
 
 
-def section(event, sources, source_link, clock_text, review=None):
+def section(event, sources, source_link, clock_text, review=None, approval_label=None, review_note=None,
+            clock_heading='公开时间（UTC）', coverage_label=None, guidance_label='原公司指引中点',
+            timeline_heading='查看版本时间线与配对依据'):
     a, g, latest = event['actual'], event['original_guidance'], event['latest_prior_disclosure']
     result=event['comparison']
     latest_name=KINDS[latest['kind']] if latest else '缺失，未计算'
     rows=[('正式财报实际营收',a['value_million'],'财务表，百万美元',a)]
     if g:
         business=' 至 '.join(g['business_range_million'])
-        rows.append(('原公司指引中点',g['value_million'],f'经营范围 {business}',g))
+        rows.append((guidance_label,g['value_million'],f'经营范围 {business}',g))
     if latest and latest['kind']=='PRELIMINARY_RESULTS':
         rows.append(('此前最后已知数值',latest['value_million'],'初步业绩，无新经营范围',latest))
     parts=['<section class="guidance-pair"><h3>同财季事实配对</h3>',
            f'<p><b>{escape(LABELS[result["status"]])}</b>；比较基准：{escape(latest_name)}。</p>',
-           '<div class="table-wrap"><table><thead><tr><th>字段</th><th>百万美元</th><th>口径／范围</th><th>公开时间（UTC）</th><th>原文</th></tr></thead><tbody>']
+           f'<div class="table-wrap"><table><thead><tr><th>字段</th><th>百万美元</th><th>口径／范围</th><th>{escape(clock_heading)}</th><th>原文</th></tr></thead><tbody>']
     for label,value,basis,f in rows:
         source=sources[f['evidence']['source_id']]
-        basis += '；排除 Xilinx' if f['coverage']=='AMD_EXCLUDING_XILINX' else '；公司合并收入'
+        basis += coverage_label(f) if coverage_label is not None else '；排除 Xilinx' if f['coverage']=='AMD_EXCLUDING_XILINX' else '；公司合并收入'
         approval='沿用已核准字段' if f['approval_status']=='REUSED_APPROVED_FIELD' else '新增字段待核准'
         if review is not None and f['approval_status']!='REUSED_APPROVED_FIELD':
             approval='有条件用于历史开发；未获人工核准'
+        if approval_label is not None:approval=approval_label(f)
         parts.append(f'<tr><td>{escape(label)}<br><small>{approval}</small></td><td class="numeric">{escape(value)}</td>'
                      f'<td>{escape(basis)}</td><td>{escape(clock_text(f["public_at"]))}</td><td>{source_link(source["url"])}</td></tr>')
     parts.append('</tbody></table></div>')
@@ -112,8 +115,8 @@ def section(event, sources, source_link, clock_text, review=None):
                      f'<p class="note">有限核查区间：{escape(clock_text(review["interval_start_inclusive"]))} 至 '
                      f'{escape(clock_text(review["interval_end_inclusive"]))}。已知重大披露已纳入；'
                      '排期公告只查标题，电话会、其他类别和历史修订等仍有缺口。新增字段未获人工核准。</p>')
-    parts += ['<p class="note">完整历史版本链未证实。本卡仅展示事实配对，不触发新策略。</p>' if review is not None else '<p class="note">完整历史版本链未证实；新增字段未核准。本卡仅展示事实配对，不触发新策略。</p>',
-              '<details><summary>查看版本时间线与配对依据</summary>']
+    parts += [(f'<p class="note">{escape(review_note)}</p>' if review_note is not None else '<p class="note">完整历史版本链未证实。本卡仅展示事实配对，不触发新策略。</p>' if review is not None else '<p class="note">完整历史版本链未证实；新增字段未核准。本卡仅展示事实配对，不触发新策略。</p>'),
+              f'<details><summary>{escape(timeline_heading)}</summary>']
     for version in event['disclosure_chain']:
         source=sources[version['source_id']]
         parts.append(f'<p>{escape(clock_text(version["public_at"]))} · {KINDS[version["kind"]]} · {source_link(source["url"])}</p>')

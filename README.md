@@ -55,6 +55,8 @@ python tools/run_equity_example.py --examples-root examples --ledger-script scri
 
 示例使用虚构证券及公告，验证安装、快照、研究、重放、独立 Decimal 账本和事件时间对齐。操作说明见[完整合成示例](examples/equity_research/README.md)，当前范围与后续对照计划见[股票主线开发记录](docs/equity-foundation-20260909.md)。
 
+公告资料也可通过[离线清单入口](docs/equity-source-task.md)完成导入、原件核对和只读卡片生成，无需修改 Python 源码。入口复用现有比较与卡片组件，网络采集、人工核准、收益研究及账户权限分别处理；[NVIDIA 两财季真实格式验收及时间排序修复](docs/research-evidence/equity-source-order-repair-20260929/README.md)只证明限定资料流程，不证明策略有效。此仓库工具尚未进入正式 Release 或原 r3 安装包。
+
 当前经济回放仅接受身份稳定、明确声明公司行为覆盖完整且窗口内没有公司行为的数据；拆股、分红等记账尚未实现，相关窗口拒绝计算。尚无真实股票研究结论、事件收益对照或券商接入；下单权限保持关闭。
 
 ## BTC 固定快照到报告
