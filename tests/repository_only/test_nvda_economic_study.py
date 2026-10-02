@@ -117,7 +117,9 @@ class NvdaEconomicTests(unittest.TestCase):
 class SyntheticStudyLifecycleTests(unittest.TestCase):
     """Synthetic orchestration only; mock authority is never a human receipt."""
     def setUp(self):
-        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup); self.root = Path(temp.name)
+        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup)
+        # Production ROOT is resolved. Match that contract for TEMP aliases on CI.
+        self.root = Path(temp.name).resolve()
         self.enterContext(patch.object(study, 'ROOT', self.root))
         self.enterContext(patch.object(study, 'EVENT_IDS', ['SYNTHETIC:Q1', 'SYNTHETIC:Q2']))
         self.enterContext(patch.object(study, 'check_approval', return_value='SYNTHETIC_TEST_AUTHORITY_STUB'))
