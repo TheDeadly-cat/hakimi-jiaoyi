@@ -1,0 +1,46 @@
+{
+  "schema_version": "nvda-economic-execution-preparation-v1",
+  "client_date": "2026-10-02",
+  "status": "PREPARED_PENDING_HUMAN_APPROVAL",
+  "source_sha256": {
+    "tools/nvda_economic_study.py": "7009afa9b696e918cdccac1311eb1fd13245d2f5aad956a9353a7b0cd7d1f7b8",
+    "tests/repository_only/test_nvda_economic_study.py": "045e15036bd90e2edb60d01a2c1a0ae4e4db56b48528310ee1f451d5972f0930",
+    "scripts/reconcile_research_ledger.py": "c8016849a6c486e96c22f45f9c9c9155cdbb90c956ae9c5ee91fc3912c9c4f50"
+  },
+  "proposal_sha256": "00e06ae243d7f9f8b8319362c01ef614e7ec49ca0f07787d604de33e4a02acc9",
+  "proposal_unchanged": true,
+  "tests": {
+    "new_synthetic_tests": 14,
+    "existing_content_and_ledger_regressions": 13,
+    "total": 27,
+    "failures": 0,
+    "errors": 0,
+    "command": "python -B -m unittest test_nvda_economic_study test_equity_content_study test_equity_ledger -q"
+  },
+  "actual_input_preflight": {
+    "status": "PENDING_HUMAN_FIELD_AND_SCOPE_APPROVAL",
+    "diagnostic_hash": "32da3cbc5c2754286653070dd9129e3d0661ffb8ef62739c0d60400611f09819",
+    "real_economic_runs": 0,
+    "new_provider_calls": 0
+  },
+  "visual": {
+    "evidence_kind": "SYNTHETIC_TEST_ONLY",
+    "desktop": "OBSERVED_PASS",
+    "fee_details": "EXPANDED_AND_CHECKED",
+    "loss_and_content_veto": "DISPLAYED",
+    "screenshot_sha256": "bfce6e0f40c051c6586bcd3ef53722bdae8640269f2bc361135187780978cd58",
+    "mobile": "NOT_RETESTED",
+    "human_first_use": "NOT_ACCEPTED",
+    "current_renderer_matches_observed_html_after_newline_normalization": true,
+    "observed_html_sha256": "e60c3c2e39318208c9b3397247e24f3ca4b8ec8a4aa76dfcb9fcebcb2216e40f",
+    "preview_line_endings": "Windows CRLF in the visual fixture; canonical publisher uses LF; rendered content matches."
+  },
+  "authority": {
+    "human_receipt_created": false,
+    "real_economic_execution": false,
+    "main_merge": false,
+    "account_queries": false,
+    "orders": false
+  },
+  "historical_evidence": "Prior diagnostic report and 101-test receipt remain tied to their original inputs and source; no historical receipt was re-signed."
+}

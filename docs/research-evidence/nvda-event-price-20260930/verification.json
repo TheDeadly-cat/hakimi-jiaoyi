@@ -1,0 +1,39 @@
+{
+  "schema_version": "nvda-event-price-verification-v1",
+  "source_sha256": {
+    "tools/collect_nvda_event_inputs.py": "d58b1d121053ea332d21cbdd7382483395d35bc1d1965aec276cc8961bc39258",
+    "tools/prepare_nvda_price_snapshots.py": "071da14a699aeb9b85eebf1223943978c39847276c2c4ecf17b026fee0f8e2a4",
+    "tools/nvda_event_price_diagnostic.py": "c6a28a8100c1b4d2e110ccc07def8d5938ad5ca715b1c07ddfa9b9a188fb6f7f",
+    "docs/studies/nvda-event-price-20260930.json": "2125f21b911dd7a60b7b4fc7d07d9e9c980e19ce81153fbca777f4b1a4e2102e"
+  },
+  "tests": {
+    "new_tests": 26,
+    "existing_regressions": 75,
+    "total": 101,
+    "failures": 0,
+    "errors": 0,
+    "provider_calls": 0,
+    "commands": [
+      "python -B -m unittest discover -s tests/repository_only -p \"*nvda*\" -v",
+      "python -B -m unittest test_collect_equity_event_inputs test_equity_content_protocol test_equity_source_task -q"
+    ]
+  },
+  "actual_diagnostic": {
+    "hash": "32da3cbc5c2754286653070dd9129e3d0661ffb8ef62739c0d60400611f09819",
+    "exit_code": 0,
+    "source_packet_unchanged": true,
+    "price_signals": 2,
+    "economic_runs": 0
+  },
+  "browser": {
+    "report": "report/index.html",
+    "desktop_render": "OBSERVED_PASS",
+    "human_first_use": "NOT_ACCEPTED",
+    "mobile_viewport": "NOT_RETESTED"
+  },
+  "limitations": [
+    "No new economic run, wheel build, installation, deployment or account test",
+    "Private Futu originals and DOM observations are not included in GitHub",
+    "Existing 105-test PR17 record belongs to its own earlier head; these 101 are this increment scope"
+  ]
+}

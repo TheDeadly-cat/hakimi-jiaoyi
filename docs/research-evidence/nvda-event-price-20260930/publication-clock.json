@@ -1,0 +1,83 @@
+{
+  "schema_version": "nvda-channel-clock-evidence-v1",
+  "source_packet_hash": "f334413d42b4994590b8080d01b8c88ce1893fb8ffdf94f1c018019890f0dc7d",
+  "user_clock_selection": "先查证精确公开时点",
+  "clock_meaning": "CURRENT_CHANNEL_PUBLICATION_TIMESTAMP; known-public-by reconstruction, not globally first publication or observed historical ingestion",
+  "historical_diagnostic_policy": {
+    "reference": "CHANNEL_PUBLICATION_KNOWN_PUBLIC_BY",
+    "collection_delay_seconds": 60,
+    "processing_delay_seconds": 60,
+    "price_rule": "FIXED_C_PRICE_CONFIRMATION_V1",
+    "bar_lag_seconds": 60,
+    "source_public_at_unchanged": true,
+    "economic_execution_allowed": false
+  },
+  "events": [
+    {
+      "event_id": "NVDA:2024Q1:EARNINGS",
+      "fiscal_quarter": "2024Q1",
+      "source_sha256": "1f6f38e22fbefcdfaea23ebcd6280d4f8b3888118f5ce5efb99313be608fe841",
+      "source_public_at": null,
+      "source_publication_date": "2023-05-24",
+      "channel": "GlobeNewswire; source credited to NVIDIA",
+      "channel_url": "https://www.globenewswire.com/news-release/2023/05/24/2675692/0/en/NVIDIA-Announces-Financial-Results-for-First-Quarter-Fiscal-2024.html",
+      "expected_heading": "NVIDIA Announces Financial Results for First Quarter Fiscal 2024",
+      "channel_publication_at": "2023-05-24T20:20:30Z",
+      "displayed_minute": "May 24, 2023 16:20 ET",
+      "dom_time_markup": "<time datetime=\"2023-05-24T20:20:30Z\">May 24, 2023 16:20 ET</time>",
+      "observed_at": "2026-09-29T16:35:15.827Z",
+      "witness_sha256": {
+        "2024Q1-wire-browser.private.json": "b79861839fde2fee9ab8173706afbf68553217db14333bf1826978d46cc564e3",
+        "2024Q1-schedule.html": "897aa9628d88f8a32fe7187621c99f41b1798441cfbf92a7ca267655a5328d91"
+      },
+      "representation": "LIVE_BROWSER_RENDERED_DOM_NOT_HTTP_ORIGINAL",
+      "scheduled_release": {
+        "url": "https://investor.nvidia.com/news/press-release-details/2023/NVIDIA-Sets-Conference-Call-for-First-Quarter-Financial-Results/default.aspx",
+        "approximate_local_time": "13:20 America/Los_Angeles",
+        "role": "SCHEDULE_CONSISTENCY_ONLY_NOT_ACTUAL_RELEASE",
+        "retrieved_at": "2026-09-29T16:31:16.139322+00:00"
+      },
+      "global_first_publication_at": null,
+      "historical_immutability": "NOT_AUTHENTICATED"
+    },
+    {
+      "event_id": "NVDA:2024Q2:EARNINGS",
+      "fiscal_quarter": "2024Q2",
+      "source_sha256": "bc404011add3e507648ba1978bbf816c4c4d8e5201550f7ce2cf2b61e7f8b55b",
+      "source_public_at": null,
+      "source_publication_date": "2023-08-23",
+      "channel": "GlobeNewswire; source credited to NVIDIA",
+      "channel_url": "https://www.globenewswire.com/news-release/2023/08/23/2730732/0/en/nvidia-announces-financial-results-for-second-quarter-fiscal-2024.html",
+      "expected_heading": "NVIDIA Announces Financial Results for Second Quarter Fiscal 2024",
+      "channel_publication_at": "2023-08-23T20:20:38Z",
+      "displayed_minute": "August 23, 2023 16:20 ET",
+      "dom_time_markup": "<time datetime=\"2023-08-23T20:20:38Z\">August 23, 2023 16:20 ET</time>",
+      "observed_at": "2026-09-29T16:49:10.974Z",
+      "witness_sha256": {
+        "2024Q2-wire-browser.private.json": "cd36d0a374e3d6305c624477d833ecd2df6f408166b86e104434db53cf946bad",
+        "2024Q2-schedule.html": "4066295550845bf9c4c317d79ce5393f86cb826cf34f93c65424cbef3f932716",
+        "2024Q2-wire-excerpt.private.json": "b4b66766a963b0336f9b2c2ac503e09957d3ee1995f1f0623374881d24ba5f66"
+      },
+      "representation": "LIVE_BROWSER_RENDERED_DOM_NOT_HTTP_ORIGINAL",
+      "scheduled_release": {
+        "url": "https://investor.nvidia.com/news/press-release-details/2023/NVIDIA-Sets-Conference-Call-for-Second-Quarter-Financial-Results/default.aspx",
+        "approximate_local_time": "13:20 America/Los_Angeles",
+        "role": "SCHEDULE_CONSISTENCY_ONLY_NOT_ACTUAL_RELEASE",
+        "retrieved_at": "2026-09-29T16:31:19.896734+00:00"
+      },
+      "global_first_publication_at": null,
+      "historical_immutability": "NOT_AUTHENTICATED"
+    }
+  ],
+  "limitations": [
+    "Current rendered DOM time attributes are retained browser observations, not original HTTP bodies or authenticated 2023 captures.",
+    "Issuer advance schedules corroborate approximate release timing only; conference-call times are not used.",
+    "Direct wire HTML collection timed out; those attempts and separate browser observations remain retained.",
+    "Current source packet, human approvals and research permissions remain unchanged."
+  ],
+  "price_lineage_sha256": "6df56e5b54dfe9062d5c478846fff2a51ccc6e463cb430965330735c49849691",
+  "snapshot_ids": {
+    "2024Q1": "eb42bcbf3f0b262b94c7267821bf6b651e2b9ff8a92df3107551a648211c6e16",
+    "2024Q2": "42f537943faa72fcf6d3a9f9bf429909049f4185f70056251a598ef1cd846cd0"
+  }
+}

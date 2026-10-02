@@ -1,0 +1,21 @@
+{
+  "schema_version": "nvda-two-event-input-plan-v1",
+  "code": "US.NVDA",
+  "selection": "User selected the two already-seen FY2024Q1/Q2 engineering events. These are not unseen validation. Windows fixed before new price retrieval; no return-based expansion or replacement.",
+  "provider_choice": "User reply: futu接口吧. This authorizes quote-only retrieval for the selected events; no account, order, subscription purchase or deployment action.",
+  "events": [
+    {"fiscal_quarter": "2024Q1", "publication_date": "2023-05-24", "public_at": null, "snapshot_start": "2023-05-22", "snapshot_end": "2023-06-01"},
+    {"fiscal_quarter": "2024Q2", "publication_date": "2023-08-23", "public_at": null, "snapshot_start": "2023-08-21", "snapshot_end": "2023-08-30"}
+  ],
+  "window_rule": "Two regular sessions before the release date, the release date and five following regular sessions. Eight sessions per event; same horizon regardless of outcome. This is a new bounded engineering window, not a rerun of AMD's historical 38-session windows.",
+  "budget": {"business_calls": 6, "daily_rows": 16, "hour_rows": 112, "pages_per_call": 1, "retries": 0, "wall_seconds": 180},
+  "requests": "One NVDA security metadata query, one NVDA corporate-action query, two raw unadjusted K_DAY queries and two raw unadjusted RTH K_60M queries. No paging or symbol fallback.",
+  "calendar": {"source": "https://www.nasdaqtrader.com/content/technicalsupport/2023tradingcalendar.pdf", "sha256": "3781aa7ec98e429b39c9b1cbdb3677043b8ba622084b8c9d5e10fd7836d9a13b", "retrieved_at": "2026-09-19T20:55:22.695208Z", "timezone": "America/New_York", "closed_in_windows": ["2023-05-29"], "early_closes_in_windows": []},
+  "price_basis": "RAW_UNADJUSTED",
+  "regular_session": "09:30-16:00 America/New_York; independently retained Nasdaq calendar. Compare daily OHLC and volume to RTH hour aggregation; retain discrepancies separately, do not silently coerce or admit.",
+  "stop_conditions": ["provider permission or data error", "unexpected pagination", "symbol or code identity mismatch", "changed input or code bytes", "missing, duplicate or invalid bars", "unknown action fields or a corporate action inside a window", "time, row or output budget exceeded"],
+  "data_eligibility": "Retaining raw results is not research admission. Historical identity, corporate-action completeness, legal use, price/volume reconciliation and timing remain explicit evidence checks. Raw provider data is private, not a redistribution license.",
+  "time_policy": {"status": "PENDING_SEPARATE_SELECTION_BEFORE_ECONOMIC_RUN", "source_facts_unchanged": true, "first_publication_time_known": false, "alternatives": ["Verify a source-backed first-publication time or separately labelled known-public-by upper bound", "Declare a conservative date-upper-bound daily diagnostic as a model assumption; never fill public_at or silently change the fixed 120-second rule"]},
+  "economic_protocol": {"status": "NOT_EXECUTABLE_PENDING_ADMITTED_INPUTS_AND_FIXED_SCOPE", "required": ["same events, scoring sessions, capital, costs, entry and exit policies for both variants", "distinct event/source/price/signal/intervention counts", "retain losses, no-signal and excluded events", "canonical engine and ledger only", "no new inference of strategy advantage from two seen examples"]},
+  "permissions": {"quote_read": true, "account_read": false, "orders": false, "subscriptions": false, "economic_execution": false, "raw_redistribution": false}
+}

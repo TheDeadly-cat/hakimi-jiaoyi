@@ -1,0 +1,95 @@
+{
+  "schema_version": "nvda-two-event-economic-proposal-v1",
+  "status": "PROPOSED_NOT_AUTHORIZED_NOT_EXECUTED",
+  "diagnostic_hash": "32da3cbc5c2754286653070dd9129e3d0661ffb8ef62739c0d60400611f09819",
+  "source_packet_hash": "f334413d42b4994590b8080d01b8c88ce1893fb8ffdf94f1c018019890f0dc7d",
+  "clock_evidence_sha256": "31eec7369a4489497e82c80917d7b0d20d250c9c554388d32ec80ccee478ec63",
+  "snapshot_ids": {
+    "2024Q1": "eb42bcbf3f0b262b94c7267821bf6b651e2b9ff8a92df3107551a648211c6e16",
+    "2024Q2": "42f537943faa72fcf6d3a9f9bf429909049f4185f70056251a598ef1cd846cd0"
+  },
+  "purpose": "SEEN_SAMPLE_ENGINEERING_ONLY_NOT_RESEARCH_ADMISSION",
+  "opportunity_threshold": {
+    "original_minimum": 3,
+    "actual_candidates": 2,
+    "met": false,
+    "unchanged": true
+  },
+  "selection": "Keep both selected events; no replacement or expansion after inspecting prices or returns. Price inputs and predicate outcomes were seen before this economic proposal; not preregistered or unseen validation.",
+  "variants": {
+    "PRICE_ONLY": "Unchanged fixed first-full-session price confirmation",
+    "PRICE_PLUS_CONTENT": "Same price condition AND actual revenue strictly above latest listed prior company-guidance midpoint under existing conservative precision comparison; not next-quarter guidance above current revenue."
+  },
+  "timing": {
+    "reference": "CHANNEL_PUBLICATION_KNOWN_PUBLIC_BY",
+    "collection_delay_seconds": 60,
+    "processing_delay_seconds": 60,
+    "price_rule": "FIXED_C_PRICE_CONFIRMATION_V1",
+    "bar_lag_seconds": 60,
+    "source_public_at_unchanged": true,
+    "economic_execution_allowed": false
+  },
+  "capital_usd_per_independent_event": 10000,
+  "position_pct": 0.25,
+  "stop_loss_pct": 0.03,
+  "take_profit_pct": 0.06,
+  "risk": {
+    "max_position_pct": 0.25,
+    "max_single_loss_pct": 0.03,
+    "max_daily_loss_pct": 1.0,
+    "max_leverage": 1.0,
+    "min_cash_pct": 0.0
+  },
+  "cost_scenarios": [
+    {
+      "name": "NORMAL",
+      "fee_rate": "0.0008",
+      "slippage_pct": "0.0005"
+    },
+    {
+      "name": "DOUBLE",
+      "fee_rate": "0.0016",
+      "slippage_pct": "0.0010"
+    }
+  ],
+  "score_windows": [
+    {
+      "fiscal_quarter": "2024Q1",
+      "start_session": "2023-05-26",
+      "end_session": "2023-06-01"
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "start_session": "2023-08-25",
+      "end_session": "2023-08-30"
+    }
+  ],
+  "end_policy": "MARK_TO_MARKET",
+  "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+  "baseline": "Both variants and the canonical benchmark share score windows, initial cash and cost scenario. Independent events are not summed into a portfolio.",
+  "execution": "Reuse canonical _SessionEngine, ContentSignalAdapter, RiskManager, snapshot validator, report/replay and independent ledger audit. Do not invoke or weaken the AMD-pinned run_cell contract.",
+  "budget": {
+    "real_economic_cells": 8,
+    "replays": 8,
+    "independent_ledger_checks": 8,
+    "new_provider_calls": 0,
+    "account_queries": 0,
+    "orders": 0,
+    "tuning": 0
+  },
+  "retain": [
+    "all events including exclusions and no signals",
+    "losses and no content interventions",
+    "actual fees and model slippage",
+    "separate gross/net, realized/mark-to-market, aligned benchmark and C/D deltas",
+    "distinct events, source comparisons, quote eligibility, price signals, human approval and content interventions"
+  ],
+  "stop_conditions": [
+    "input, source, clock or scope identity mismatch",
+    "unapproved listed fields or scope",
+    "failure in canonical replay or independent ledger",
+    "unexpected execution time or unsupported corporate action",
+    "any need for extra provider data or scope expansion"
+  ],
+  "remaining_review": "User has not approved these two NVIDIA field/clock rows and this bounded engineering economic scope. Approval would not authenticate historical web immutability, imply provider redistribution rights, waive the three-candidate threshold, or authorize orders/main merge."
+}

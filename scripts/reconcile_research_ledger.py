@@ -59,7 +59,7 @@ def _reconcile(report, snapshot):
     condition("normalized_data_identity", report["dataset"]["data_hash"] == snapshot["data_hash"])
     equity_sessions = snapshot.get("schema_version") == "us-equity-daily-snapshot-v1"
     if equity_sessions != (report.get("schema_version") in {"us-equity-research-report-v1", "us-equity-research-report-v2",
-                                                           "us-equity-content-research-report-v1"}):
+                                                           "us-equity-content-research-report-v1", "us-equity-channel-content-report-v1"}):
         raise ValueError("equity_snapshot_and_report_schema_must_match")
     session_closes = {}
     if equity_sessions:

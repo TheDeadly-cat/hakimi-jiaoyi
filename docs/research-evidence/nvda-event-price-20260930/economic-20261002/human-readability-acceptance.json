@@ -1,0 +1,28 @@
+{
+  "schema_version": "nvda-human-report-readability-acceptance-v1",
+  "recorded_at": "2026-10-02T15:01:43.332086+00:00",
+  "decision": "REPORT_READING_AND_FEE_DISCLOSURE_ACCEPTED",
+  "reviewer_kind": "HUMAN_ATTESTATION",
+  "reviewer": "当前对话用户",
+  "question": "请试着在已打开的 NVIDIA 报告中展开一项“费用与期末持仓”：你能否找到两组净收益率、费用，以及内容条件是否改变入场？这是报告使用反馈，不是新的研究或合并授权。",
+  "source_user_confirmation": "能找到，展示清楚",
+  "study_hash": "12c1567d2d71ae82c3e0e461272ca295d493e68edd3a939a36f0d037affc627d",
+  "reviewed_page_sha256": "47d0798e031a9238480ee7cad390b7d553093fb1e0c335a56ed6c5b9b1ac88de",
+  "acceptance_status_page": "accepted-readout.html",
+  "acceptance_status_page_sha256": "8087d1820ef012cc6e919fe8a6371521e9ebae555d398ae9aea2755a8a43784a",
+  "accepted_scope": [
+    "Find both variant net returns",
+    "Expand fee and ending-position details",
+    "Identify whether content changed entry"
+  ],
+  "not_established": [
+    "Unaided installation or command-line operation",
+    "Strategy effectiveness or research admission",
+    "Main merge or release authorization"
+  ],
+  "original_execution_and_preacceptance_receipts_unchanged": true,
+  "derivation": "Copied index.html; only added the human-feedback paragraph and replaced two pending-readability labels. No result or calculation changed.",
+  "new_simulations": 0,
+  "new_replays": 0,
+  "new_provider_calls": 0
+}

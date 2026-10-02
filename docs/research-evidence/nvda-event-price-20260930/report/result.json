@@ -1,0 +1,104 @@
+{
+  "schema_version": "nvda-channel-price-diagnostic-v1",
+  "source_packet_hash": "f334413d42b4994590b8080d01b8c88ce1893fb8ffdf94f1c018019890f0dc7d",
+  "clock_evidence_sha256": "31eec7369a4489497e82c80917d7b0d20d250c9c554388d32ec80ccee478ec63",
+  "price_lineage_sha256": "6df56e5b54dfe9062d5c478846fff2a51ccc6e463cb430965330735c49849691",
+  "code_sha256": {
+    "tools/nvda_event_price_diagnostic.py": "c6a28a8100c1b4d2e110ccc07def8d5938ad5ca715b1c07ddfa9b9a188fb6f7f",
+    "tools/equity_content_protocol.py": "3bf9322ddb9db5679cd75bd8973494bf2bfda513c677a63a2d4dc88a066ae031",
+    "src/hakimi_research/equity_dataset.py": "a1576e90e7913063f5b3bbbdaea1500d079d92e03f2e1aff1032c6c5874d62be",
+    "tools/equity_research_card.py": "f0a6ae48dcbeabd290ea8ab9bc44adab779cf04e83002550ace4e4f2e05a7528"
+  },
+  "events": [
+    {
+      "event_id": "NVDA:2024Q1:EARNINGS",
+      "fiscal_quarter": "2024Q1",
+      "snapshot_id": "eb42bcbf3f0b262b94c7267821bf6b651e2b9ff8a92df3107551a648211c6e16",
+      "source_public_at": null,
+      "global_first_publication_at": null,
+      "channel_publication_at": "2023-05-24T20:20:30Z",
+      "model_available_at": "2023-05-24T20:22:30Z",
+      "model_time_kind": "ASSUMED_120_SECONDS_AFTER_CHANNEL_TIMESTAMP",
+      "baseline_session": "2023-05-24",
+      "confirmation_session": "2023-05-25",
+      "confirmation_at": "2023-05-25T20:01:00Z",
+      "price_condition": true,
+      "earliest_model_entry_at": "2023-05-26T13:30:00Z",
+      "price_decision": {
+        "action": "BUY",
+        "execution_at": "2023-05-26T13:30:00Z",
+        "reason": "FIRST_POST_RELEASE_CLOSE_ABOVE_PRE_RELEASE_CLOSE",
+        "order_allowed": false
+      },
+      "numeric_condition": true,
+      "numeric_status": "ABOVE",
+      "actual_revenue_million": "7192",
+      "prior_guidance_midpoint_million": "6500.00",
+      "human_approved": false,
+      "economic_executed": false,
+      "order_allowed": false,
+      "channel_url": "https://www.globenewswire.com/news-release/2023/05/24/2675692/0/en/NVIDIA-Announces-Financial-Results-for-First-Quarter-Fiscal-2024.html",
+      "daily_RTH_OHLC_mismatch_sessions": 0,
+      "daily_RTH_volume_difference_sessions": 8
+    },
+    {
+      "event_id": "NVDA:2024Q2:EARNINGS",
+      "fiscal_quarter": "2024Q2",
+      "snapshot_id": "42f537943faa72fcf6d3a9f9bf429909049f4185f70056251a598ef1cd846cd0",
+      "source_public_at": null,
+      "global_first_publication_at": null,
+      "channel_publication_at": "2023-08-23T20:20:38Z",
+      "model_available_at": "2023-08-23T20:22:38Z",
+      "model_time_kind": "ASSUMED_120_SECONDS_AFTER_CHANNEL_TIMESTAMP",
+      "baseline_session": "2023-08-23",
+      "confirmation_session": "2023-08-24",
+      "confirmation_at": "2023-08-24T20:01:00Z",
+      "price_condition": true,
+      "earliest_model_entry_at": "2023-08-25T13:30:00Z",
+      "price_decision": {
+        "action": "BUY",
+        "execution_at": "2023-08-25T13:30:00Z",
+        "reason": "FIRST_POST_RELEASE_CLOSE_ABOVE_PRE_RELEASE_CLOSE",
+        "order_allowed": false
+      },
+      "numeric_condition": true,
+      "numeric_status": "ABOVE",
+      "actual_revenue_million": "13507",
+      "prior_guidance_midpoint_million": "11000.00",
+      "human_approved": false,
+      "economic_executed": false,
+      "order_allowed": false,
+      "channel_url": "https://www.globenewswire.com/news-release/2023/08/23/2730732/0/en/nvidia-announces-financial-results-for-second-quarter-fiscal-2024.html",
+      "daily_RTH_OHLC_mismatch_sessions": 0,
+      "daily_RTH_volume_difference_sessions": 8
+    }
+  ],
+  "counts": {
+    "events": 2,
+    "comparable_sources": 2,
+    "price_snapshots": 2,
+    "price_signals": 2,
+    "price_numeric_intersection": 2,
+    "human_approved_events": 0,
+    "content_interventions": null,
+    "economic_runs": 0,
+    "new_research_admitted": 0
+  },
+  "status": "READONLY_ENGINEERING_DIAGNOSTIC_NOT_ECONOMIC_RESEARCH",
+  "authority": {
+    "account_queries": false,
+    "orders": false,
+    "economic_execution": false,
+    "human_approval": false
+  },
+  "limitations": [
+    "Current rendered DOM time attributes are retained browser observations, not original HTTP bodies or authenticated 2023 captures.",
+    "Issuer advance schedules corroborate approximate release timing only; conference-call times are not used.",
+    "Direct wire HTML collection timed out; those attempts and separate browser observations remain retained.",
+    "Current source packet, human approvals and research permissions remain unchanged.",
+    "Provider historical identity and action completeness are bounded importer declarations",
+    "Daily and RTH hour volume differ; no volume-based signal or liquidity evidence",
+    "Publication-clock binding and human semantic approval remain separate"
+  ],
+  "diagnostic_hash": "32da3cbc5c2754286653070dd9129e3d0661ffb8ef62739c0d60400611f09819"
+}

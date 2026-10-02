@@ -1,0 +1,43 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>NVIDIA 有限对照</title><style>body{margin:0;background:#f4f5f3;color:#182725;font:16px/1.7 system-ui,"Microsoft YaHei",sans-serif}main{max-width:1100px;margin:auto;padding:44px 24px 64px}h1{font-size:30px;line-height:1.35;margin:12px 0 20px}h2{font-size:23px;margin:0}h3{font-size:17px;margin-top:24px}p{max-width:88ch}a{color:#16675c}small,.muted{color:#586b66}header{margin-bottom:28px}.summary{padding:22px 26px;background:#e5eee9;border-left:4px solid #438571}.counts{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}.counts span{padding:8px 14px;border:1px solid #c9d6cf;border-radius:5px;background:white}.card{padding:25px 28px;margin:22px 0;background:white;border:1px solid #d7dfd9;border-radius:9px}.card-head{display:flex;align-items:center;justify-content:space-between;gap:18px}.badge{font-size:14px;color:#56665f;background:#eef1ed;padding:4px 12px;border-radius:14px}.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:15px 0}.timeline div{border-top:2px solid #d0ded6;padding-top:9px;font-size:14px}.timeline b{display:block}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}th{text-align:left;background:#eef3f0;white-space:nowrap}td,th{padding:10px 12px;border-bottom:1px solid #e2e8e3}td.numeric{white-space:nowrap}details{border-top:1px solid #e4e8e5;margin-top:20px;padding-top:12px}summary{cursor:pointer;color:#315e52;font-weight:600}code{overflow-wrap:anywhere;font-size:12px}.note{font-size:14px;color:#5c6e65}.warning{background:#fbf3e3;padding:12px 16px;border-radius:5px}footer{margin-top:30px;border-top:1px solid #c9d6cf;padding-top:20px;font-size:13px;color:#607068}@media(max-width:680px){main{padding:24px 14px}h1{font-size:25px}.card{padding:18px 16px}.card-head{align-items:flex-start;flex-direction:column;gap:8px}.timeline{grid-template-columns:1fr}td,th{padding:8px}.summary{padding:16px}}@media print{body{background:white}main{padding:0}.card{break-inside:avoid}details{display:block}summary{display:none}}</style><main><header><small>固定两事件 · 历史模拟 · 无账户操作</small><h1>两事件离线工程对照完成</h1></header>
+<p class="summary">基准是“仅价格规则”，对照组再加入“实际营收高于已列在先公司指引”条件。各事件独立使用相同资金、评分区间、成本与退出规则；两档成本不增加独立事件数。</p>
+<section class="card" aria-label="对照结论与规则">
+<h2>加入内容条件，结果改变了什么？</h2>
+<p><strong>没有改变。两个事件、两档成本下，两组模拟净收益和成交路径完全相同；内容干预 0 次。</strong>第一季度模型止盈，第二季度模型止损。以下是每个事件独立本金的历史模拟结果。</p>
+<div class="counts"><span>事件 2</span><span>资料可比 2</span><span>行情快照 2</span><span>价格信号 2</span><span>人工核准 2</span><span>内容干预 0</span></div>
+<p>每次独立本金 <strong>10,000 美元</strong>，仓位 25%，止损 3%，止盈 6%。常规成本为每次成交手续费 0.08%、滑点 0.05%；双倍成本分别为 0.16%、0.10%。使用可分割股数，期末按市值计价。实际八次均已平仓。</p>
+<p>价格条件：信息可用后的首个完整交易日收盘价高于公告前最近一个已完成交易日的收盘价。内容条件：当季实际营收严格高于<strong>已列同财季在先公司指引中点</strong>，并考虑披露精度。两个事件均满足两项条件，因此内容规则没有否决入场。未认证完整历史披露链。</p>
+<p class="note">2 个事件 × 2 档成本 × 2 组规则 = 8 次离线模拟，另各有一次重放和账本核对。它们不是 8 个独立事件，也不合并为一个投资组合。两事件已在提出经济方案前见过，不能据此判断策略有效。</p>
+</section>
+<p>渠道时间加 120 秒为假设的信息可用时间；首个完整交易日收盘后加 60 秒确认，最早随后开盘模拟入场。原公告时刻仍为空，全渠道首次公开时间未认证。</p>
+<article class="card"><h2>FY2024Q1</h2><p>比较 FY2024Q1 正式业绩与 FY2023Q4 公告中对 FY2024Q1 的指引。价格确认后，5 月 26 日 09:30（纽约时间）模型入场；5 月 30 日开盘达到止盈条件，按模型目标价成交（未计跳空改善）。评分至 6 月 1 日。</p><p>实际营收 / 已列在先指引中点：7192 / 6500.00 百万美元。</p><p>渠道时间：2023-05-24 16:20:30；价格确认：2023-05-25 16:01:00（纽约时间）。</p>
+<div class="table-wrap"><table><thead><tr><th>成本情景</th><th>仅价格净收益率</th><th>加内容净收益率</th><th>差额（百分点）</th><th>内容改变入场意图</th></tr></thead><tbody>
+<tr><td>常规</td><td>+1.4463%</td><td>+1.4463%</td><td>+0.0000</td><td>否</td></tr>
+<tr><td>双倍</td><td>+1.3925%</td><td>+1.3925%</td><td>+0.0000</td><td>否</td></tr>
+</tbody></table></div>
+<details><summary>常规成本：费用与期末持仓</summary><p>评分区间 2023-05-26 至 2023-06-01</p>
+<p>仅价格：扣费后损益 144.63 美元；费用 4.12；相同成交路径扣费前损益 148.75（仍包含模拟滑点）。已实现 144.63；未实现 0.00；期末持仓 0.0000 股。按市值结算，不强制平仓。</p>
+<p>价格加内容：扣费后损益 144.63 美元；费用 4.12；相同成交路径扣费前损益 148.75（仍包含模拟滑点）。已实现 144.63；未实现 0.00；期末持仓 0.0000 股。按市值结算，不强制平仓。</p>
+</details>
+<details><summary>双倍成本：费用与期末持仓</summary><p>评分区间 2023-05-26 至 2023-06-01</p>
+<p>仅价格：扣费后损益 139.25 美元；费用 8.24；相同成交路径扣费前损益 147.50（仍包含模拟滑点）。已实现 139.25；未实现 0.00；期末持仓 0.0000 股。按市值结算，不强制平仓。</p>
+<p>价格加内容：扣费后损益 139.25 美元；费用 8.24；相同成交路径扣费前损益 147.50（仍包含模拟滑点）。已实现 139.25；未实现 0.00；期末持仓 0.0000 股。按市值结算，不强制平仓。</p>
+</details>
+</article>
+<article class="card"><h2>FY2024Q2</h2><p>比较 FY2024Q2 正式业绩与 FY2024Q1 公告中对 FY2024Q2 的指引。价格确认后，8 月 25 日 09:30（纽约时间）模型入场；8 月 25 日该日线内触发模型止损，评分至 8 月 30 日。</p><p class="note">日线只能定位到触发所在交易日；账本的该根日线时间戳不是实际盘中止损时刻。</p><p>实际营收 / 已列在先指引中点：13507 / 11000.00 百万美元。</p><p>渠道时间：2023-08-23 16:20:38；价格确认：2023-08-24 16:01:00（纽约时间）。</p>
+<div class="table-wrap"><table><thead><tr><th>成本情景</th><th>仅价格净收益率</th><th>加内容净收益率</th><th>差额（百分点）</th><th>内容改变入场意图</th></tr></thead><tbody>
+<tr><td>常规</td><td>-0.8019%</td><td>-0.8019%</td><td>+0.0000</td><td>否</td></tr>
+<tr><td>双倍</td><td>-0.8539%</td><td>-0.8539%</td><td>+0.0000</td><td>否</td></tr>
+</tbody></table></div>
+<details><summary>常规成本：费用与期末持仓</summary><p>评分区间 2023-08-25 至 2023-08-30</p>
+<p>仅价格：扣费后损益 -80.19 美元；费用 3.94；相同成交路径扣费前损益 -76.25（仍包含模拟滑点）。已实现 -80.19；未实现 0.00；期末持仓 0.0000 股。按市值结算，不强制平仓。</p>
+<p>价格加内容：扣费后损益 -80.19 美元；费用 3.94；相同成交路径扣费前损益 -76.25（仍包含模拟滑点）。已实现 -80.19；未实现 0.00；期末持仓 0.0000 股。按市值结算，不强制平仓。</p>
+</details>
+<details><summary>双倍成本：费用与期末持仓</summary><p>评分区间 2023-08-25 至 2023-08-30</p>
+<p>仅价格：扣费后损益 -85.39 美元；费用 7.88；相同成交路径扣费前损益 -77.50（仍包含模拟滑点）。已实现 -85.39；未实现 0.00；期末持仓 0.0000 股。按市值结算，不强制平仓。</p>
+<p>价格加内容：扣费后损益 -85.39 美元；费用 7.88；相同成交路径扣费前损益 -77.50（仍包含模拟滑点）。已实现 -85.39；未实现 0.00；期末持仓 0.0000 股。按市值结算，不强制平仓。</p>
+</details>
+</article>
+<p class="warning">已见两事件只用于工程验证。原至少三个候选门槛未达，未授予策略研究接纳；成交量差异原因未证实。亏损、无信号、停止和零内容干预均保留。</p>
+<p class="note">本页为保留报告的补充说明版，原结果和执行器没有改动。<a href="canonical-report.html">查看原生成报告</a> · <a href="study.json">结果摘要</a> · <a href="retained-result-review.json">留存结果核验</a>。非开发者首次使用尚未验收。</p><footer>实际启动模拟 8 次；重放 8 次；独立账本核对 8 次。非开发者首次使用尚未验收。<br>结果身份 <code>12c1567d2d71ae82c3e0e461272ca295d493e68edd3a939a36f0d037affc627d</code></footer></main></html>
