@@ -1,0 +1,258 @@
+{
+  "schema_version": "nvda-eight-cell-study-v1",
+  "status": "COMPLETED_ENGINEERING_ONLY",
+  "started_at": "2026-10-02T14:36:11.566295Z",
+  "proposal_sha256": "00e06ae243d7f9f8b8319362c01ef614e7ec49ca0f07787d604de33e4a02acc9",
+  "approval_hash": "96592606b63095c05bf3e61a096de3445debf19d5b27de07b07bbd16dc83f15f",
+  "diagnostic_hash": "32da3cbc5c2754286653070dd9129e3d0661ffb8ef62739c0d60400611f09819",
+  "economic_cells_started": 8,
+  "replay_cells_started": 8,
+  "ledger_checks_completed": 8,
+  "cells": [
+    {
+      "fiscal_quarter": "2024Q1",
+      "cost": "NORMAL",
+      "score_start": "2023-05-26",
+      "score_end": "2023-06-01",
+      "report_hashes": {
+        "PRICE_ONLY": "8667e427aa26f810a630e6044b65c27d00fa1e74847e63a75c3aeffd03d1a443",
+        "PRICE_PLUS_CONTENT": "28d60a9a7f4a65db8d0e38a0adc4bb78023cfa514eeeb87ce7f5cce280a89f65"
+      },
+      "metrics": {
+        "PRICE_ONLY": {
+          "total_return": 0.014462833802999953,
+          "final_equity": 10144.62833803,
+          "total_fees": 4.12099947,
+          "max_drawdown": 0.0,
+          "realized_pnl": 144.62833803000026,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "ambiguous_intrabar_count": 0,
+          "net_pnl": "144.62833803",
+          "before_fees_pnl_on_same_fills_including_slippage": "148.74933750"
+        },
+        "PRICE_PLUS_CONTENT": {
+          "total_return": 0.014462833802999953,
+          "final_equity": 10144.62833803,
+          "total_fees": 4.12099947,
+          "max_drawdown": 0.0,
+          "realized_pnl": 144.62833803000026,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "ambiguous_intrabar_count": 0,
+          "net_pnl": "144.62833803",
+          "before_fees_pnl_on_same_fills_including_slippage": "148.74933750"
+        }
+      },
+      "exit_bases": {
+        "PRICE_ONLY": [
+          "OPEN_TARGET"
+        ],
+        "PRICE_PLUS_CONTENT": [
+          "OPEN_TARGET"
+        ]
+      },
+      "content_changed_entry": false,
+      "content_minus_price_return": 0.0,
+      "common_baseline": "PRICE_ONLY_SAME_WINDOW_CAPITAL_COST_AND_EXIT_RULE"
+    },
+    {
+      "fiscal_quarter": "2024Q1",
+      "cost": "DOUBLE",
+      "score_start": "2023-05-26",
+      "score_end": "2023-06-01",
+      "report_hashes": {
+        "PRICE_ONLY": "a7f8398a32cd9eb71764a91a6fecd36daaaf59b0bf022bc1bb3a5af9f02a2a11",
+        "PRICE_PLUS_CONTENT": "20bc09affb48a34e66b339020c263aea1c50b09df877f92db511dd71930c7dbe"
+      },
+      "metrics": {
+        "PRICE_ONLY": {
+          "total_return": 0.013925335424000096,
+          "final_equity": 10139.253354240001,
+          "total_fees": 8.243995759999999,
+          "max_drawdown": 0.0,
+          "realized_pnl": 139.25335423999988,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "ambiguous_intrabar_count": 0,
+          "net_pnl": "139.253354240001",
+          "before_fees_pnl_on_same_fills_including_slippage": "147.497350000000999"
+        },
+        "PRICE_PLUS_CONTENT": {
+          "total_return": 0.013925335424000096,
+          "final_equity": 10139.253354240001,
+          "total_fees": 8.243995759999999,
+          "max_drawdown": 0.0,
+          "realized_pnl": 139.25335423999988,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "ambiguous_intrabar_count": 0,
+          "net_pnl": "139.253354240001",
+          "before_fees_pnl_on_same_fills_including_slippage": "147.497350000000999"
+        }
+      },
+      "exit_bases": {
+        "PRICE_ONLY": [
+          "OPEN_TARGET"
+        ],
+        "PRICE_PLUS_CONTENT": [
+          "OPEN_TARGET"
+        ]
+      },
+      "content_changed_entry": false,
+      "content_minus_price_return": 0.0,
+      "common_baseline": "PRICE_ONLY_SAME_WINDOW_CAPITAL_COST_AND_EXIT_RULE"
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "cost": "NORMAL",
+      "score_start": "2023-08-25",
+      "score_end": "2023-08-30",
+      "report_hashes": {
+        "PRICE_ONLY": "1d4f65287feaa59a57dfe82cebda72398e8f401471952b29636f6c9e0bfbd9b0",
+        "PRICE_PLUS_CONTENT": "f35473f701d00acdb4e39ce9cf62e25ec1d4047e71fed39ad307b44d5e082bb3"
+      },
+      "metrics": {
+        "PRICE_ONLY": {
+          "total_return": -0.008019160576499984,
+          "final_equity": 9919.808394235,
+          "total_fees": 3.9409995149999997,
+          "max_drawdown": 0.008019160576499984,
+          "realized_pnl": -80.191605765,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "ambiguous_intrabar_count": 0,
+          "net_pnl": "-80.191605765",
+          "before_fees_pnl_on_same_fills_including_slippage": "-76.2506062500000003"
+        },
+        "PRICE_PLUS_CONTENT": {
+          "total_return": -0.008019160576499984,
+          "final_equity": 9919.808394235,
+          "total_fees": 3.9409995149999997,
+          "max_drawdown": 0.008019160576499984,
+          "realized_pnl": -80.191605765,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "ambiguous_intrabar_count": 0,
+          "net_pnl": "-80.191605765",
+          "before_fees_pnl_on_same_fills_including_slippage": "-76.2506062500000003"
+        }
+      },
+      "exit_bases": {
+        "PRICE_ONLY": [
+          "INTRABAR_STOP"
+        ],
+        "PRICE_PLUS_CONTENT": [
+          "INTRABAR_STOP"
+        ]
+      },
+      "content_changed_entry": false,
+      "content_minus_price_return": 0.0,
+      "common_baseline": "PRICE_ONLY_SAME_WINDOW_CAPITAL_COST_AND_EXIT_RULE"
+    },
+    {
+      "fiscal_quarter": "2024Q2",
+      "cost": "DOUBLE",
+      "score_start": "2023-08-25",
+      "score_end": "2023-08-30",
+      "report_hashes": {
+        "PRICE_ONLY": "b7c8cd75a38960d7ee093e80d42cba2789fa436783a38516ed6b1a4ba6f1b593",
+        "PRICE_PLUS_CONTENT": "91e64af8b6f2d251d088af2efa91152b10823131f4f154f095f563f4e8112df0"
+      },
+      "metrics": {
+        "PRICE_ONLY": {
+          "total_return": -0.00853864211199995,
+          "final_equity": 9914.61357888,
+          "total_fees": 7.883996119999999,
+          "max_drawdown": 0.00853864211199995,
+          "realized_pnl": -85.38642112000016,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "ambiguous_intrabar_count": 0,
+          "net_pnl": "-85.38642112",
+          "before_fees_pnl_on_same_fills_including_slippage": "-77.502425000000001"
+        },
+        "PRICE_PLUS_CONTENT": {
+          "total_return": -0.00853864211199995,
+          "final_equity": 9914.61357888,
+          "total_fees": 7.883996119999999,
+          "max_drawdown": 0.00853864211199995,
+          "realized_pnl": -85.38642112000016,
+          "unrealized_pnl": 0.0,
+          "open_position_qty": 0.0,
+          "fill_count": 2,
+          "round_trip_count": 1,
+          "ambiguous_intrabar_count": 0,
+          "net_pnl": "-85.38642112",
+          "before_fees_pnl_on_same_fills_including_slippage": "-77.502425000000001"
+        }
+      },
+      "exit_bases": {
+        "PRICE_ONLY": [
+          "INTRABAR_STOP"
+        ],
+        "PRICE_PLUS_CONTENT": [
+          "INTRABAR_STOP"
+        ]
+      },
+      "content_changed_entry": false,
+      "content_minus_price_return": 0.0,
+      "common_baseline": "PRICE_ONLY_SAME_WINDOW_CAPITAL_COST_AND_EXIT_RULE"
+    }
+  ],
+  "events": [
+    {
+      "event_id": "NVDA:2024Q1:EARNINGS",
+      "status": "COMPLETED_PRICE_SIGNAL"
+    },
+    {
+      "event_id": "NVDA:2024Q2:EARNINGS",
+      "status": "COMPLETED_PRICE_SIGNAL"
+    }
+  ],
+  "external_requests": 0,
+  "account_queries": 0,
+  "broker_order_calls": 0,
+  "execution_permission": {
+    "research_only": true,
+    "paper_allowed": false,
+    "live_allowed": false,
+    "order_allowed": false
+  },
+  "human_first_use": "NOT_ACCEPTED",
+  "research_admitted": false,
+  "counts": {
+    "events": 2,
+    "comparable_sources": 2,
+    "price_snapshots": 2,
+    "price_signals": 2,
+    "price_numeric_intersection": 2,
+    "human_approved_events": 2,
+    "content_interventions": 0,
+    "economic_runs": 8,
+    "new_research_admitted": 0
+  },
+  "finished_at": "2026-10-02T14:36:14.704489Z",
+  "tool_identity": {
+    "tools/nvda_economic_study.py": "7009afa9b696e918cdccac1311eb1fd13245d2f5aad956a9353a7b0cd7d1f7b8",
+    "tools/nvda_event_price_diagnostic.py": "c6a28a8100c1b4d2e110ccc07def8d5938ad5ca715b1c07ddfa9b9a188fb6f7f",
+    "tools/equity_content_study.py": "13ca3c916f889ddf6593b88ce5d0fed054246decefecd44c01e2bc7535108453",
+    "tools/equity_content_protocol.py": "3bf9322ddb9db5679cd75bd8973494bf2bfda513c677a63a2d4dc88a066ae031",
+    "scripts/reconcile_research_ledger.py": "c8016849a6c486e96c22f45f9c9c9155cdbb90c956ae9c5ee91fc3912c9c4f50"
+  },
+  "study_hash": "12c1567d2d71ae82c3e0e461272ca295d493e68edd3a939a36f0d037affc627d"
+}

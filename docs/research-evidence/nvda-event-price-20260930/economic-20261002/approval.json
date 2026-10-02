@@ -1,0 +1,27 @@
+{
+  "schema_version": "nvda-field-economic-approval-v1",
+  "proposal_sha256": "00e06ae243d7f9f8b8319362c01ef614e7ec49ca0f07787d604de33e4a02acc9",
+  "source_packet_hash": "f334413d42b4994590b8080d01b8c88ce1893fb8ffdf94f1c018019890f0dc7d",
+  "diagnostic_hash": "32da3cbc5c2754286653070dd9129e3d0661ffb8ef62739c0d60400611f09819",
+  "clock_evidence_sha256": "31eec7369a4489497e82c80917d7b0d20d250c9c554388d32ec80ccee478ec63",
+  "snapshot_ids": {
+    "2024Q1": "eb42bcbf3f0b262b94c7267821bf6b651e2b9ff8a92df3107551a648211c6e16",
+    "2024Q2": "42f537943faa72fcf6d3a9f9bf429909049f4185f70056251a598ef1cd846cd0"
+  },
+  "approved_event_ids": [
+    "NVDA:2024Q1:EARNINGS",
+    "NVDA:2024Q2:EARNINGS"
+  ],
+  "approved_fields": [
+    "actual_revenue_million",
+    "latest_listed_prior_guidance_midpoint_million",
+    "channel_publication_at",
+    "channel_clock_meaning",
+    "bounded_economic_scope"
+  ],
+  "decision": "APPROVE_LISTED_FIELDS_AND_EIGHT_OFFLINE_CELLS",
+  "reviewer_kind": "HUMAN_ATTESTATION",
+  "reviewer": "当前对话用户",
+  "source_user_confirmation": "核准字段与这 8 次离线对照",
+  "reviewed_at": "2026-10-02T14:34:54.681571Z"
+}
