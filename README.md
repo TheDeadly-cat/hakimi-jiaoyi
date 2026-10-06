@@ -4,8 +4,8 @@
 
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 当前 M1 交付可安装、可独立使用的离线工具候选，复用隔离的研究内核。统一入口为 `hakimi-trade`：选择任务／策略、选择数据、检查、运行、查看、重放或恢复；[使用说明](docs/offline-quant-tool.md)与[产品路线图](docs/quant-tool-roadmap.md)说明当前范围和后续里程碑。
-已发布的 v0.2.1 聚焦 BTC-USDT 现货 / 1h；本开发候选 0.3.0.dev2 提供美股日线及事件工作流，尚未正式发布。主分支、PR #18 基线、新候选和本机安装分别见状态页，不以源码通过替代安装验收。
-同一份 M1 wheel 已在全新仓库外 Windows 环境安装，199 项安装后检查和完整命令流程通过；新增入口的独立人工首次使用仍待反馈。候选身份、迁移、恢复和远端检查见[交付证据](docs/research-evidence/offline-product-m1-20261006/README.md)。
+已发布的 v0.2.1 聚焦 BTC-USDT 现货 / 1h；本开发候选 0.3.0.dev3 提供美股日线及事件工作流，尚未正式发布。主分支、PR #18 基线、新候选和本机安装分别见状态页，不以源码通过替代安装验收。
+前一候选 0.3.0.dev2 的 199 项安装后检查与命令流程保留为历史证据。0.3.0.dev3 补齐浏览器不可用时的结果查看，菜单直接展示策略、信号、费用及净损益；同一新产物完整复验后记录交付结果。用户人工试用反馈为补充，不替代新增入口的独立实测。见[最新交付记录](docs/research-evidence/offline-product-m1-20261006-dev3/README.md)。
 两个市场复用同一成交与记账引擎，快照、交易日历及报告分别保存明确的格式与身份。
 历史模拟不授予 paper、live、账户操作、下单或自动参数选择权限。
 
@@ -13,7 +13,7 @@
 
 正式版本从 [v0.2.1 Release](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1) 下载 Windows 或 Ubuntu ZIP；核对发布页的 `SHA256SUMS.txt` 后解压，再核对包内校验和。两个 ZIP 各自保留确切受验收 wheel 与构建、依赖、测试证据；安装解压出的 `hakimi_research-0.2.1-py3-none-any.whl` 会按精确版本安装依赖，离线安装需另备依赖 wheel。该版本固定在 `45850899992361970043f2da70e785210025ae9e`，[发布下载与安装验收](docs/research-evidence/release-0.2.1-20260909/README.md)记录实际验证范围。
 
-普通使用按[离线工具安装与首次使用](docs/offline-quant-tool.md)操作，可从候选包安装到仓库外。以下源码开发流程对应 0.3.0.dev2 开发版本；它与已发布的 0.2.1、历史 0.2.2／0.3.0.dev1 研究分别保留来源和结果。
+普通使用按[离线工具安装与首次使用](docs/offline-quant-tool.md)操作，可从候选包安装到仓库外。以下源码开发流程对应 0.3.0.dev3 开发版本；它与已发布的 0.2.1、历史 0.2.2／0.3.0.dev1 研究分别保留来源和结果。
 
 开发环境在仓库根目录安装精确依赖与 editable 包：
 
@@ -32,7 +32,7 @@ hakimi-research list-strategies
 python -m pip install "setuptools>=77" wheel
 python -m pip wheel . --no-deps --no-build-isolation --wheel-dir dist
 python -m venv ..\hakimi-research-use\hakimi-env
-..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.3.0.dev2-py3-none-any.whl
+..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.3.0.dev3-py3-none-any.whl
 Set-Location ..\hakimi-research-use
 .\hakimi-env\Scripts\hakimi-research.exe capabilities
 ```

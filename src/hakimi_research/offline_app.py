@@ -252,6 +252,26 @@ def recover_report(directory):
     return path
 
 
+def describe_run(directory):
+    """Read a verified saved result for clients that cannot open a browser."""
+    directory = Path(directory).resolve()
+    manifest, report, _ = verify_run(directory)
+    entry = definition(manifest['task']['strategy'])
+    result = report['result']
+    signals = result['signals']
+    return dict(schema_version='hakimi-offline-result-view-v1',
+        strategy=dict(key=manifest['task']['strategy'], title=entry['title'], version=entry['version'], state=manifest['task']['state']),
+        symbol=report['dataset']['security']['symbol'], data_kind=report['dataset']['evidence_kind'],
+        score_start=report['spec']['score_start_session'], score_end=report['spec']['score_end_session'],
+        buy_intents=sum(row['action'] == 'BUY' for row in signals), fill_count=result['fill_count'],
+        blocked_new_buys=sum(any(value.get('disposition') == 'BLOCK_NEW_BUY' for value in row.get('event_filter', {}).values()) for row in signals),
+        reasons=list(dict.fromkeys(row['reason'] for row in signals)),
+        total_return=result['total_return'], net_pnl=result['final_equity'] - report['spec']['initial_cash'],
+        total_fees=result['total_fees'], realized_pnl=result['realized_pnl'], unrealized_pnl=result['unrealized_pnl'],
+        open_position_qty=result['open_position_qty'], limitations=report['limitations'], effective_leverage=1,
+        output_directory=str(directory), task_id=manifest['task_id'], report_hash=report['report_hash'])
+
+
 def replay_run(directory):
     directory = Path(directory).resolve()
     _, report, snapshot = verify_run(directory)

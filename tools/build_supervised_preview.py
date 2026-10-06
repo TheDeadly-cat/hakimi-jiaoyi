@@ -183,7 +183,7 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
             'exit /b %errorlevel%\r\n:failed\r\necho Installation or identity check stopped. Python 3.14 is required for these offline wheels.\r\npause\r\nexit /b 1\r\n')
         content["Start-Hakimi.cmd"] = startup.encode("utf-8")
         output.mkdir(parents=True)
-        record = write_bundle(output, "research", content, {"product_profile": "M1_OFFLINE_QUANT_TOOL", "version": "0.3.0.dev2",
+        record = write_bundle(output, "research", content, {"product_profile": "M1_OFFLINE_QUANT_TOOL", "version": public["wheel"].split('-')[1],
             "supported_platform": "Windows x64", "supported_python": "CPython 3.14 for bundled dependency wheels",
             "source": {"repository": "https://github.com/TheDeadly-cat/hakimi-jiaoyi", "wheel_build_git": public["build_git"]},
             "wheel": "research/" + public["wheel"], "wheel_sha256": public["wheel_sha256"],

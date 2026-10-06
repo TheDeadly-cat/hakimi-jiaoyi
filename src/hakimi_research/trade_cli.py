@@ -13,7 +13,7 @@ from .equity_dataset import build_equity_snapshot, save_equity_snapshot, load_eq
 from .equity_event_context import RULE_VERSION, verify_event_context
 from .equity_research import PERMISSIONS
 from .collection_import import import_collection, verify_bundle
-from .offline_app import check_task, run_task, recover_report, replay_run, resume_calculation, write_new
+from .offline_app import check_task, run_task, recover_report, replay_run, resume_calculation, write_new, describe_run
 from .source_layout import default_artifact_root
 from .strategy_registry import definition, strategies
 
@@ -91,13 +91,44 @@ def initialize_empty(workspace):
     return dict(workspace=str(workspace),message='空白工作区已创建，可导入自有数据并创建任务。')
 
 
+def print_result(view):
+    entry = view['strategy']
+    print(entry['title'] + '；策略版本 ' + entry['version'] + '；状态 ' + entry['state'])
+    print('证券 ' + view['symbol'] + '；评分区间 ' + view['score_start'] + ' 至 ' + view['score_end'] + '；数据类型 ' + view['data_kind'])
+    print('BUY 意图 ' + str(view['buy_intents']) + '；成交 ' + str(view['fill_count']) + '；事件过滤阻挡 ' + str(view['blocked_new_buys']))
+    print(f"净收益率 {view['total_return']*100:+.4f}%；扣费后损益 {view['net_pnl']:+.2f} 美元；费用 {view['total_fees']:.2f} 美元")
+    print(f"已实现 {view['realized_pnl']:+.2f}；未实现 {view['unrealized_pnl']:+.2f}；期末持仓 {view['open_position_qty']:.4f} 股")
+    print('信号与阻挡原因：' + '；'.join(view['reasons']))
+    print('有效杠杆 1；碎股、比例费用和固定滑点为模型近似；公司行为记账暂不支持。')
+    for note in view['limitations']:print('模型边界：' + note)
+    print('输出位置：' + view['output_directory'])
+    print('任务身份：' + view['task_id'] + '；报告身份：' + view['report_hash'])
+
+
+def request_browser_view(page):
+    """Optional bounded dispatch; a browser is not required to read results."""
+    import subprocess
+    try:
+        result = subprocess.run([sys.executable, '-I', '-B', '-c',
+            'import sys,webbrowser; sys.exit(0 if webbrowser.open(sys.argv[1]) else 1)', Path(page).resolve().as_uri()],
+            capture_output=True, timeout=5, check=False)
+    except (OSError, subprocess.TimeoutExpired):
+        print('浏览器打开请求未完成；结果已在终端显示，HTML 文件保留。')
+        return False
+    if result.returncode != 0:
+        print('浏览器未能打开；结果已在终端显示，HTML 文件保留。')
+        return False
+    print('已请求浏览器打开 HTML 报告。')
+    return True
+
+
 def wizard(workspace):
     """A small terminal menu over the same commands; no separate GUI or runner."""
     workspace=Path(workspace).resolve()
     print('哈基米交易 · 离线量化工具候选\n数据、账户和订单边界以任务及报告为准。')
     last_run=None
     while True:
-        print('\n1 创建虚构示例  2 检查任务  3 运行任务  4 查看报告  5 重放  6 恢复页面  7 公告原件核对  8 恢复中断计算  9 导入自有 CSV  10 创建策略任务  0 退出')
+        print('\n1 创建虚构示例  2 检查任务  3 运行任务  4 查看结果  5 重放  6 恢复页面  7 公告原件核对  8 恢复中断计算  9 导入自有 CSV  10 创建策略任务  11 可选浏览器查看  0 退出')
         try:choice=input('选择：').strip()
         except EOFError:return 0
         if choice=='0':return 0
@@ -123,7 +154,7 @@ def wizard(workspace):
                 else:
                     last_run=run_task(task);print('运行完成。结果目录：'+str(last_run))
                     write_new(workspace/('last-run-'+last_run.name+'.json'),dict(run_directory=last_run.relative_to(workspace).as_posix()))
-            elif choice in {'4','5','6','8'}:
+            elif choice in {'4','5','6','8','11'}:
                 if choice=='8':
                     candidates=sorted((workspace/'runs').glob('run-*'),key=lambda p:p.stat().st_mtime,reverse=True)
                     for index,path in enumerate(candidates,1):print(str(index)+' '+path.name+('（已有报告）' if (path/'report.json').is_file() else '（未保存报告）'))
@@ -142,9 +173,8 @@ def wizard(workspace):
                     page,runs=resume_calculation(last_run);print('恢复完成，新增离线计算 '+str(runs)+' 次；原失败保留。报告：'+str(page))
                 else:
                     report=recover_report(last_run);print('报告：'+str(report))
-                    if choice=='4':
-                        import webbrowser
-                        webbrowser.open(report.as_uri())
+                    if choice in {'4','11'}:print_result(describe_run(last_run))
+                    if choice=='11':request_browser_view(report)
             elif choice=='7':
                 from .source_task import prepare,report
                 packet=prepare(workspace/'data/source-manifest.json');print('公告核对页面：'+str(report(packet)))
@@ -216,7 +246,7 @@ def main(argv=None):
             directory=run_task(args.task);output=dict(status='OFFLINE_RUN_SAVED',run_directory=str(directory),report=str(recover_report(directory)))
         elif args.command in {'report','recover'}:
             page,runs=resume_calculation(args.run_dir) if getattr(args,'resume_calculation',False) else (recover_report(args.run_dir),0)
-            output=dict(status='RETAINED_REPORT_RENDERED' if runs==0 else 'INTERRUPTED_CALCULATION_RECOVERED',report=str(page),new_economic_runs=runs)
+            output=dict(status='RETAINED_REPORT_RENDERED' if runs==0 else 'INTERRUPTED_CALCULATION_RECOVERED',report=str(page),new_economic_runs=runs,result_view=describe_run(args.run_dir))
         elif args.command=='replay':output=replay_run(args.run_dir)
         elif args.command=='collection-import':
             directory=import_collection(calendar_original=args.calendar_original,output_dir=args.output_dir,collection=args.collection,

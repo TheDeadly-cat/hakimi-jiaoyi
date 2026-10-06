@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 from hakimi_research.trade_cli import initialize_demo, main, wizard
-from hakimi_research.offline_app import check_task, run_task, replay_run, recover_report, verify_run, resume_calculation, run_lock
+from hakimi_research.offline_app import check_task, run_task, replay_run, recover_report, verify_run, resume_calculation, run_lock, describe_run
 from hakimi_research.source_task import prepare, verify_packet, report as source_report
 from hakimi_research.strategy_registry import run_strategy
 from hakimi_research.equity_research import EquityExperimentRunner, EquityExperimentSpec
@@ -146,6 +146,43 @@ class OfflineAppTests(unittest.TestCase):
         self.assertTrue((empty/'tasks/baseline.json').is_file())
         self.assertFalse((empty/'tasks/price.json').exists())
         self.assertIn('运行完成',output.getvalue())
+
+
+    def test_saved_result_is_readable_without_a_browser_or_new_calculation(self):
+        from hakimi_research import offline_app
+        folder=run_task(self.task());original=(folder/'report.json').read_bytes()
+        with patch.object(offline_app,'run_strategy',side_effect=AssertionError('view must not calculate')):
+            with patch('hakimi_research.trade_cli.request_browser_view',side_effect=AssertionError('view must not launch a browser')):
+                with patch('builtins.input',side_effect=['4','0']),redirect_stdout(io.StringIO()) as output:
+                    self.assertEqual(wizard(self.workspace),0)
+                with redirect_stdout(io.StringIO()) as json_output:
+                    self.assertEqual(main(['report','--run-dir',str(folder)]),0)
+        text=output.getvalue()
+        for expected in ['双均线价格策略','策略版本 1','2024-11-11','2024-12-03','SYNTHETIC_TEST',
+            'BUY 意图 1；成交 2','净收益率 -1.0253%','扣费后损益 -102.53','费用 3.92','期末持仓 0.0000',
+            'fast MA crossed above slow MA',str(folder)]:self.assertIn(expected,text)
+        result=json.loads(json_output.getvalue())
+        self.assertEqual(result['new_economic_runs'],0)
+        self.assertEqual(result['result_view']['report_hash'],verify_run(folder)[1]['report_hash'])
+        self.assertEqual((folder/'report.json').read_bytes(),original)
+        corrupt=json.loads(original);corrupt['result']['total_fees']=0
+        (folder/'report.json').write_text(json.dumps(corrupt),encoding='utf-8')
+        with self.assertRaises(ValueError):describe_run(folder)
+
+    def test_optional_browser_failure_and_timeout_preserve_access_to_saved_results(self):
+        import subprocess
+        from types import SimpleNamespace
+        folder=run_task(self.task());original=(folder/'report.json').read_bytes()
+        for behavior,message in [(dict(return_value=SimpleNamespace(returncode=1)),'浏览器未能打开'),
+            (dict(side_effect=subprocess.TimeoutExpired('fictional browser request',5)),'浏览器打开请求未完成')]:
+            with self.subTest(message=message):
+                with patch('subprocess.run',**behavior) as dispatch,patch('builtins.input',side_effect=['11','0']),redirect_stdout(io.StringIO()) as output:
+                    self.assertEqual(wizard(self.workspace),0)
+                self.assertIn(message,output.getvalue())
+                self.assertIn('净收益率 -1.0253%',output.getvalue())
+                self.assertEqual(dispatch.call_count,1)
+                self.assertEqual(dispatch.call_args.kwargs['timeout'],5)
+                self.assertEqual((folder/'report.json').read_bytes(),original)
 
 
 if __name__=='__main__':unittest.main()
