@@ -5,6 +5,7 @@
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 当前 M1 交付可安装、可独立使用的离线工具候选，复用隔离的研究内核。统一入口为 `hakimi-trade`：选择任务／策略、选择数据、检查、运行、查看、重放或恢复；[使用说明](docs/offline-quant-tool.md)与[产品路线图](docs/quant-tool-roadmap.md)说明当前范围和后续里程碑。
 已发布的 v0.2.1 聚焦 BTC-USDT 现货 / 1h；本开发候选 0.3.0.dev2 提供美股日线及事件工作流，尚未正式发布。主分支、PR #18 基线、新候选和本机安装分别见状态页，不以源码通过替代安装验收。
+同一份 M1 wheel 已在全新仓库外 Windows 环境安装，199 项安装后检查和完整命令流程通过；新增入口的独立人工首次使用仍待反馈。候选身份、迁移、恢复和远端检查见[交付证据](docs/research-evidence/offline-product-m1-20261006/README.md)。
 两个市场复用同一成交与记账引擎，快照、交易日历及报告分别保存明确的格式与身份。
 历史模拟不授予 paper、live、账户操作、下单或自动参数选择权限。
 
@@ -31,7 +32,7 @@ hakimi-research list-strategies
 python -m pip install "setuptools>=77" wheel
 python -m pip wheel . --no-deps --no-build-isolation --wheel-dir dist
 python -m venv ..\hakimi-research-use\hakimi-env
-..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.3.0.dev1-py3-none-any.whl
+..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.3.0.dev2-py3-none-any.whl
 Set-Location ..\hakimi-research-use
 .\hakimi-env\Scripts\hakimi-research.exe capabilities
 ```

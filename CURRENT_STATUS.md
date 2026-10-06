@@ -7,7 +7,7 @@
 | 层次 | 已核实状态 |
 |---|---|
 | 本状态核对时提交 | 用户单独批准 [PR #17](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/17) 的 `46d938a` 后，已于 2026-09-29 12:57:03 UTC 合并至 `cdee7b5472981811655bf84a8a9f59298df546b4`；[合并后 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36571592538) 九项成功，实际检出 main 合并提交。PR #16 与旧测试身份保留 |
-| 本轮 M1 开发 | 从 PR #18 最终候选 `32ef9f7` 建立独立工作树。统一安装入口 `hakimi-trade`、正常／续接行情导入、可迁移目录、既有价格／排期过滤策略适配、公告核对及结果恢复已实现；定向流程检查通过。全新仓库外同一产物安装、最终 CI 和新增入口首次使用验收仍待完成，详见[当前交付清单](docs/offline-quant-tool.md) |
+| 本轮 M1 开发及安装候选 | 从 PR #18 最终候选 `32ef9f7` 建立独立工作树，[PR #19](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/19) 为其草稿增量。`hakimi-trade` 统一入口、正常／续接行情导入、目录迁移、既有价格／排期过滤策略适配、公告核对及恢复已实现。同一 wheel `dbcdc8038530…` 在全新仓库外 Windows 环境普通安装，199 项安装后检查、两任务命令闭环、公告核对、恢复及迁移通过；实际保留行情导入的两个快照身份不变，未新增取数或市场研究。源码修复提交 `639b0a3` 的[九项 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750) 全通过；最终审阅提交以 PR 当前检查为准。包已放入本机下载目录，新增入口独立人工首次使用仍待反馈；不能由旧 NVIDIA 报告阅读反馈替代。详见[候选身份与验收证据](docs/research-evidence/offline-product-m1-20261006/README.md)及[使用说明](docs/offline-quant-tool.md) |
 | 本机开发候选 | [NVIDIA 两事件离线对照已完成](docs/research-evidence/nvda-event-price-20260930/economic-20261002/README.md)：用户明确核准字段和固定 8 次范围后，8 次模拟、8 次重放及 8 份独立账本核对通过（512 项账本检查）；原始输入与执行代码未变。两组结果完全相同，内容干预 0 次：常规成本下 Q1 +1.4463%、Q2 −0.8019%，双倍成本分别 +1.3925%、−0.8539%。本轮新增取数 0；此前 6 次查询、两个 8 日快照及 16 日成交量差异保留。报告桌面／窄窗口及费用展开已核对，用户已确认“能找到，展示清楚”，报告阅读验收通过；独立安装或命令行使用未据此验收。原至少 3 候选门槛未达，研究接纳 0；PR #18 保持草稿，正式发布、r3 和部署未更新，main 合并仍需单独批准 |
 | 正式 Release | 仍为 [v0.2.1](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1)，未发布新正式版本；独立富途工具不是研究 wheel 的组成部分 |
 | 真实 AMD 原始闭环 | 37个交易日、259条真实 RTH 分时聚合。OHLC 与供应商日线一致，全部37日成交量差异原因未确认。保留原件和有限窗口公司行为来源边界 |

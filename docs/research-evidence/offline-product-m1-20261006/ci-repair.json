@@ -1,0 +1,125 @@
+{
+  "changes": [
+    "ATTRIBUTES_PRESERVE_RAW_CSV_HTML_BYTES",
+    "STRICT_PACKAGE_DATA_TEST_ACCEPTS_REQUIRED_RESOURCE_PATTERNS"
+  ],
+  "failure_reasons": [
+    "WINDOWS_GIT_EOL_CONVERSION_CHANGED_RAW_DEMO_CSV_BYTES",
+    "LEGACY_METADATA_TEST_MISSING_NEW_CSV_HTML_PACKAGE_DATA_DECLARATIONS"
+  ],
+  "final_documentation_head_ci": "VERIFY_CURRENT_PR_CHECKS_SEPARATELY",
+  "original_failure": {
+    "conclusion": "failure",
+    "created_at": "2026-10-06T09:42:11Z",
+    "head_sha": "817195777f41070d78f56f76013b736dddd3ad4c",
+    "jobs": [
+      {
+        "conclusion": "failure",
+        "name": "Offline research MVP contracts",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37444781639/job/112206865671"
+      },
+      {
+        "conclusion": "failure",
+        "name": "Python contracts",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37444781639/job/112206865926"
+      },
+      {
+        "conclusion": "success",
+        "name": "Historical developer reference replay",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37444781639/job/112206865932"
+      },
+      {
+        "conclusion": "success",
+        "name": "Deterministic references",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37444781639/job/112206866000"
+      },
+      {
+        "conclusion": "failure",
+        "name": "Package install smoke (windows-latest)",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37444781639/job/112206866044"
+      },
+      {
+        "conclusion": "success",
+        "name": "Electron capability contract",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37444781639/job/112206866046"
+      },
+      {
+        "conclusion": "success",
+        "name": "Package install smoke (ubuntu-latest)",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37444781639/job/112206866148"
+      },
+      {
+        "conclusion": "success",
+        "name": "Market-data renderer",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37444781639/job/112206866173"
+      },
+      {
+        "conclusion": "failure",
+        "name": "Research required gate",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37444781639/job/112207472621"
+      }
+    ],
+    "run_id": 37444781639,
+    "updated_at": "2026-10-06T09:44:13Z",
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37444781639"
+  },
+  "repair_verification": {
+    "conclusion": "success",
+    "created_at": "2026-10-06T09:48:15Z",
+    "head_sha": "639b0a3cfc3c57229371ccf6993e821096bc0c09",
+    "jobs": [
+      {
+        "conclusion": "success",
+        "name": "Python contracts",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750/job/112209115142"
+      },
+      {
+        "conclusion": "success",
+        "name": "Offline research MVP contracts",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750/job/112209115435"
+      },
+      {
+        "conclusion": "success",
+        "name": "Market-data renderer",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750/job/112209115540"
+      },
+      {
+        "conclusion": "success",
+        "name": "Electron capability contract",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750/job/112209115616"
+      },
+      {
+        "conclusion": "success",
+        "name": "Package install smoke (windows-latest)",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750/job/112209115617"
+      },
+      {
+        "conclusion": "success",
+        "name": "Package install smoke (ubuntu-latest)",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750/job/112209115660"
+      },
+      {
+        "conclusion": "success",
+        "name": "Deterministic references",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750/job/112209115764"
+      },
+      {
+        "conclusion": "success",
+        "name": "Historical developer reference replay",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750/job/112209116150"
+      },
+      {
+        "conclusion": "success",
+        "name": "Research required gate",
+        "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750/job/112210168053"
+      }
+    ],
+    "run_id": 37445474750,
+    "updated_at": "2026-10-06T09:51:25Z",
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37445474750"
+  },
+  "runtime_source_sha256": "4e5f9bd6a4bc5c5df74ea3f4c7bedff9f2f2ade9c899c9ce14144745bc57cf19",
+  "runtime_source_unchanged_from_accepted_wheel": true,
+  "schema_version": "M1-ci-repair-public-v1",
+  "source_checks_weakened": false
+}
