@@ -174,3 +174,7 @@ tests/repository_only/test_nvda_event_price_diagnostic.py text eol=lf
 tools/nvda_economic_study.py text eol=lf
 tests/repository_only/test_nvda_economic_study.py text eol=lf
 docs/research-evidence/nvda-event-price-20260930/economic-20261002/** text eol=lf
+
+# Demo resource bytes are bound by the import manifests and portable source identity.
+src/hakimi_research/resources/*.csv -text diff merge
+src/hakimi_research/resources/*.html -text diff merge
