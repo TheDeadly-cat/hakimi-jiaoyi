@@ -1,38 +1,38 @@
-双均线价格策略；策略版本 1；状态 ENABLED
-证券 TEST；评分区间 2024-11-11 至 2024-12-03；数据类型 SYNTHETIC_TEST
-BUY 意图 1；成交 2；事件过滤阻挡 0
-净收益率 -1.0253%；扣费后损益 -102.53 美元；费用 3.92 美元
-已实现 -102.53；未实现 +0.00；期末持仓 0.0000 股
-信号与阻挡原因：fast MA crossed above slow MA；no MA crossover
-有效杠杆 1；碎股、比例费用和固定滑点为模型近似；公司行为记账暂不支持。
-模型边界：Imported source/calendar/action declarations are not independently aut
-thenticated.
-模型边界：Only stable-identity, declared action-free windows are admitted. Corpo
-orate actions require further accounting implementation.
-模型边界：Fractional shares, proportional fees and constant slippage are researc
-ch approximations, not broker rules or fills.
-模型边界：No spread, auction participation, liquidity or intraday execution guar
-rantee is established.
-模型边界：This is a fixed development or synthetic regression, not a profitabili
+双均线价格策略；策略版本 1；状态 ENABLED
+证券 TEST；评分区间 2024-11-11 至 2024-12-03；数据类型 SYNTHETIC_TEST
+BUY 意图 1；成交 2；事件过滤阻挡 0
+净收益率 -1.0253%；扣费后损益 -102.53 美元；费用 3.92 美元
+已实现 -102.53；未实现 +0.00；期末持仓 0.0000 股
+信号与阻挡原因：fast MA crossed above slow MA；no MA crossover
+有效杠杆 1；碎股、比例费用和固定滑点为模型近似；公司行为记账暂不支持。
+模型边界：Imported source/calendar/action declarations are not independently aut
+thenticated.
+模型边界：Only stable-identity, declared action-free windows are admitted. Corpo
+orate actions require further accounting implementation.
+模型边界：Fractional shares, proportional fees and constant slippage are researc
+ch approximations, not broker rules or fills.
+模型边界：No spread, auction participation, liquidity or intraday execution guar
+rantee is established.
+模型边界：This is a fixed development or synthetic regression, not a profitabili
 ity or out-of-sample claim.
 
-公告排期过滤＋价格策略；策略版本 1；状态 ENABLED
-证券 TEST；评分区间 2024-11-11 至 2024-12-03；数据类型 SYNTHETIC_TEST
-BUY 意图 0；成交 0；事件过滤阻挡 1
-净收益率 +0.0000%；扣费后损益 +0.00 美元；费用 0.00 美元
-已实现 +0.00；未实现 +0.00；期末持仓 0.0000 股
+公告排期过滤＋价格策略；策略版本 1；状态 ENABLED
+证券 TEST；评分区间 2024-11-11 至 2024-12-03；数据类型 SYNTHETIC_TEST
+BUY 意图 0；成交 0；事件过滤阻挡 1
+净收益率 +0.0000%；扣费后损益 +0.00 美元；费用 0.00 美元
+已实现 +0.00；未实现 +0.00；期末持仓 0.0000 股
 信号与阻挡原因：announced earnings schedule blocks this new buy；no MA crossover
-有效杠杆 1；碎股、比例费用和固定滑点为模型近似；公司行为记账暂不支持。
-模型边界：Imported source/calendar/action declarations are not independently aut
-thenticated.
-模型边界：Only stable-identity, declared action-free windows are admitted. Corpo
-orate actions require further accounting implementation.
-模型边界：Fractional shares, proportional fees and constant slippage are researc
-ch approximations, not broker rules or fills.
-模型边界：No spread, auction participation, liquidity or intraday execution guar
-rantee is established.
-模型边界：This is a fixed development or synthetic regression, not a profitabili
-ity or out-of-sample claim.
-模型边界：Schedule filtering only cancels new price BUY intents; absence of a kn
-nown schedule is not proof that no event exists. Numeric fields do not trigger en
+有效杠杆 1；碎股、比例费用和固定滑点为模型近似；公司行为记账暂不支持。
+模型边界：Imported source/calendar/action declarations are not independently aut
+thenticated.
+模型边界：Only stable-identity, declared action-free windows are admitted. Corpo
+orate actions require further accounting implementation.
+模型边界：Fractional shares, proportional fees and constant slippage are researc
+ch approximations, not broker rules or fills.
+模型边界：No spread, auction participation, liquidity or intraday execution guar
+rantee is established.
+模型边界：This is a fixed development or synthetic regression, not a profitabili
+ity or out-of-sample claim.
+模型边界：Schedule filtering only cancels new price BUY intents; absence of a kn
+nown schedule is not proof that no event exists. Numeric fields do not trigger en
 ntries.
