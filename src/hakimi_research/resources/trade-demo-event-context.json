@@ -1,0 +1,78 @@
+{
+  "schema_version": "equity-event-context-v1",
+  "security_id": "SYNTHETIC:RESEARCH:TEST",
+  "events": [
+    {
+      "event_id": "SYNTHETIC:SCHEDULE:Q3",
+      "event_kind": "EARNINGS_SCHEDULE",
+      "facts": [],
+      "first_public_at": "2024-10-31T13:00:00Z",
+      "prior_version_hash": null,
+      "publication_clock": {
+        "evidence": "Fictional publication clock",
+        "status": "ATTESTED",
+        "verification_method": "SYNTHETIC_FIXTURE"
+      },
+      "retrieved_at": "2024-12-05T00:00:00Z",
+      "schedule": {
+        "date": "2024-11-11",
+        "evidence": [
+          {
+            "quote": "Fictional schedule ANNOUNCED 2024-11-11 after market close."
+          }
+        ],
+        "reason": null,
+        "status": "ANNOUNCED",
+        "time_precision": "AFTER_MARKET_CLOSE",
+        "timezone": "America/New_York"
+      },
+      "scheduled_release_at": null,
+      "security_id": "SYNTHETIC:RESEARCH:TEST",
+      "source": {
+        "disclosure_items": [],
+        "document_type": "PRESS_RELEASE",
+        "kind": "SYNTHETIC_FIXTURE",
+        "official_source_status": "DECLARED_UNVERIFIED",
+        "url": "https://example.invalid/schedule"
+      },
+      "timing": {
+        "collection_delay_seconds": 1,
+        "extraction_completed_at": "2024-12-05T00:01:00Z",
+        "mode": "HISTORICAL_RECONSTRUCTION",
+        "processing_delay_seconds": 1,
+        "received_at": null
+      },
+      "uncertainties": [
+        "Synthetic schedule, not market evidence"
+      ],
+      "version": 1,
+      "version_public_at": "2024-10-31T13:00:00Z",
+      "schema_version": "equity-event-v2",
+      "raw": {
+        "encoding": "utf-8",
+        "content_base64": "RmljdGlvbmFsIHNjaGVkdWxlIEFOTk9VTkNFRCAyMDI0LTExLTExIGFmdGVyIG1hcmtldCBjbG9zZS4=",
+        "content_sha256": "ddc78b8a79caeedb493d8de5275daf2190e529aace66c44581501b42b450a214"
+      },
+      "availability": {
+        "pit_admissible": true,
+        "available_at": "2024-10-31T13:00:02Z",
+        "available_at_kind": "ASSUMED",
+        "observed_available_at": null,
+        "assumed_available_at": "2024-10-31T13:00:02Z",
+        "reason": "CALLER_ATTESTED_PUBLICATION_CLOCK"
+      },
+      "authority": {
+        "research_only": true,
+        "order_allowed": false,
+        "publisher_authenticated": false,
+        "publication_clock_independently_verified": false,
+        "extraction_semantics_independently_verified": false,
+        "profitability_proof": false
+      },
+      "event_hash": "d5347a545c224512a4a0319d2b01be7a0a6b4993d0ecefaf48c954fd70b2938f"
+    }
+  ],
+  "scope": "ANNOUNCED_SCHEDULE_RISK_FILTER_NOT_RELEASE_CONTENT",
+  "order_allowed": false,
+  "context_hash": "a0b7ef1d375ea429ec87e67644fd95170c1e479d75dfbcb5cc73da6af703f558"
+}

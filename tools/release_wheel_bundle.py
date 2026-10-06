@@ -153,6 +153,19 @@ def export_bundle(receipt: dict, output_dir: Path, *, ci_context: dict | None = 
     if "equity_console_smoke_commands" in receipt:
         _require(receipt["equity_console_smoke_commands"] == ["--help", "capabilities"], "equity console smoke coverage changed")
         test_scope["equity_console_smoke_commands"] = ["--help", "capabilities"]
+    if "trade_console_smoke_commands" in receipt:
+        _require(receipt["trade_console_smoke_commands"] == ["--help", "capabilities", "strategies"], "trade console smoke coverage changed")
+        workflow = receipt["trade_installed_workflow"]
+        _require(set(workflow) == {"schema_version", "status", "data_kind", "task_results", "source_workflow", "checkout_data_used", "source_modified"}, "trade workflow receipt shape changed")
+        _require(workflow["schema_version"] == "offline-tool-installed-workflow-v1" and workflow["status"] == "PASS"
+            and workflow["data_kind"] == "SYNTHETIC_TEST" and workflow["source_workflow"] is True
+            and workflow["checkout_data_used"] is False and workflow["source_modified"] is False, "trade installed workflow not proven")
+        _require(len(workflow["task_results"]) == 2 and all(set(row) == {"task_id", "replay_verified", "report_recovered", "recovery_new_economic_runs"}
+            and row["replay_verified"] is True and row["report_recovered"] is True and row["recovery_new_economic_runs"] == 0
+            for row in workflow["task_results"]), "trade installed task coverage incomplete")
+        _require(all(re.fullmatch("[0-9a-f]{64}", row["task_id"]) for row in workflow["task_results"]), "trade task identity invalid")
+        test_scope["trade_console_smoke_commands"] = receipt["trade_console_smoke_commands"]
+        test_scope["trade_installed_workflow"] = workflow
     files = {
         wheel.name: wheel_bytes,
         "wheel-acceptance.json": _json_bytes(public_acceptance),

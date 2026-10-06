@@ -1,9 +1,10 @@
-# Hakimi Jiaoyi
+# 哈基米交易（Hakimi Jiaoyi）
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
 
-本地、可安装、可重放的研究软件。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
-已发布的 v0.2.1 聚焦 BTC-USDT 现货 / 1h；本开发分支 0.3.0.dev1 增加美股日线与事件时间研究入口，状态为 Experimental，尚未正式发布。
+项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
+当前 M1 交付可安装、可独立使用的离线工具候选，复用隔离的研究内核。统一入口为 `hakimi-trade`：选择任务／策略、选择数据、检查、运行、查看、重放或恢复；[使用说明](docs/offline-quant-tool.md)与[产品路线图](docs/quant-tool-roadmap.md)说明当前范围和后续里程碑。
+已发布的 v0.2.1 聚焦 BTC-USDT 现货 / 1h；本开发候选 0.3.0.dev2 提供美股日线及事件工作流，尚未正式发布。主分支、PR #18 基线、新候选和本机安装分别见状态页，不以源码通过替代安装验收。
 两个市场复用同一成交与记账引擎，快照、交易日历及报告分别保存明确的格式与身份。
 历史模拟不授予 paper、live、账户操作、下单或自动参数选择权限。
 
@@ -11,7 +12,7 @@
 
 正式版本从 [v0.2.1 Release](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1) 下载 Windows 或 Ubuntu ZIP；核对发布页的 `SHA256SUMS.txt` 后解压，再核对包内校验和。两个 ZIP 各自保留确切受验收 wheel 与构建、依赖、测试证据；安装解压出的 `hakimi_research-0.2.1-py3-none-any.whl` 会按精确版本安装依赖，离线安装需另备依赖 wheel。该版本固定在 `45850899992361970043f2da70e785210025ae9e`，[发布下载与安装验收](docs/research-evidence/release-0.2.1-20260909/README.md)记录实际验证范围。
 
-以下源码开发流程对应 0.3.0.dev1 开发版本；它与已发布的 0.2.1、历史 0.2.2 研究分别保留来源和结果。
+普通使用按[离线工具安装与首次使用](docs/offline-quant-tool.md)操作，可从候选包安装到仓库外。以下源码开发流程对应 0.3.0.dev2 开发版本；它与已发布的 0.2.1、历史 0.2.2／0.3.0.dev1 研究分别保留来源和结果。
 
 开发环境在仓库根目录安装精确依赖与 editable 包：
 
@@ -55,9 +56,9 @@ python tools/run_equity_example.py --examples-root examples --ledger-script scri
 
 示例使用虚构证券及公告，验证安装、快照、研究、重放、独立 Decimal 账本和事件时间对齐。操作说明见[完整合成示例](examples/equity_research/README.md)，当前范围与后续对照计划见[股票主线开发记录](docs/equity-foundation-20260909.md)。
 
-公告资料也可通过[离线清单入口](docs/equity-source-task.md)完成导入、原件核对和只读卡片生成，无需修改 Python 源码。入口复用现有比较与卡片组件，网络采集、人工核准、收益研究及账户权限分别处理；[NVIDIA 两财季真实格式验收及时间排序修复](docs/research-evidence/equity-source-order-repair-20260929/README.md)只证明限定资料流程，不证明策略有效。此仓库工具尚未进入正式 Release 或原 r3 安装包。
+公告资料也可通过[离线清单入口](docs/equity-source-task.md)完成导入、原件核对和只读卡片生成，无需修改 Python 源码。M1 候选将该流程纳入 `hakimi-trade source`，其实现与所用代码身份均在安装包内，原仓库入口及历史包保留。网络采集、人工核准、收益研究及账户权限分别处理；[NVIDIA 两财季真实格式验收及时间排序修复](docs/research-evidence/equity-source-order-repair-20260929/README.md)只证明限定资料流程，不证明策略有效。正式 Release 和原 r3 安装包仍保持历史范围。
 
-当前经济回放仅接受身份稳定、明确声明公司行为覆盖完整且窗口内没有公司行为的数据；拆股、分红等记账尚未实现，相关窗口拒绝计算。尚无真实股票研究结论、事件收益对照或券商接入；下单权限保持关闭。
+当前经济回放仅接受身份稳定、明确声明公司行为覆盖完整且窗口内没有公司行为的数据；拆股、分红等记账尚未实现，相关窗口拒绝计算。真实股票及事件对照已有有限工程结果，富途适配与恢复工具也已存在，详见状态页；策略有效性、当前运行可靠性和实际订单验收分别判断。统一离线入口不连接账户，下单权限保持关闭。
 
 ## BTC 固定快照到报告
 
@@ -118,7 +119,7 @@ python tools/collect_btc_snapshot.py --start 2026-08-01T00:00:00Z --end 2026-09-
 | --- | --- | --- |
 | 软件 | 安装、计算、重放和恢复是否通过相应验收 | 远端 CI 通过或桌面可发布 |
 | 研究 | 来源、质量、样本限制和描述性结果 | 持续盈利、独立确认或参数选择许可 |
-| 执行 | 永久 research-only，paper/live/order 关闭 | 软件或研究检查通过不会开启执行权限 |
+| 执行 | 研究内核保持 research-only，paper/live/order 关闭；后续独立执行层按里程碑建设 | 软件或研究检查通过不会开启执行权限 |
 
 报告分别保留 `input_integrity`、`environment_verified`、`source_identity`、`replay_verified` 和 `statistical_status`。
 跨机器完整报告哈希可能不同，可比计算结果使用独立 `result_hash`。

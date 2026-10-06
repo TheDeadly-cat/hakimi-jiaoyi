@@ -2,7 +2,7 @@
 
 这个入口把“资料清单 → 导入 → 原件核对 → 必要人工复核 → 只读结论”连成一次操作。只改清单和本地资料即可选择支持格式内的证券、财季及版本，不需要修改 Python 源码。它复用现有 AMD 提取与独立审计、精度比较、价格确认规则、行情快照验证和静态卡片；不调用回测执行器。
 
-这是开发分支中的仓库工具，正式 v0.2.1 和原 r3 包尚不包含该入口。AMD 固定十事件规约和旧证据保持不变。NVIDIA 已用三份官方原件完成两个财季的[有限真实格式验收](research-evidence/equity-source-task-20260927/README.md)，并追加[时间排序修复后的新版本复核](research-evidence/equity-source-order-repair-20260929/README.md)，不能据此宣称通用解析能力、人工核准或独立策略验证。
+M1 开发候选将此流程纳入可安装的 `hakimi-trade source run/report/verify`，在任意工作目录读取明确的本地清单，不需要仓库根目录。安装说明见[离线量化工具](offline-quant-tool.md)。以下仓库命令及其历史身份仍保留；正式 v0.2.1 和原 r3 包尚不包含本次入口。AMD 固定十事件规约和旧证据保持不变。NVIDIA 已用三份官方原件完成两个财季的[有限真实格式验收](research-evidence/equity-source-task-20260927/README.md)，并追加[时间排序修复后的新版本复核](research-evidence/equity-source-order-repair-20260929/README.md)，不能据此宣称通用解析能力、人工核准或独立策略验证。
 
 ## 一次离线操作
 
@@ -80,4 +80,4 @@ python -B tools/equity_source_task.py report --packet <任务目录>/packet.json
 
 ## 两事件渠道时间与行情诊断
 
-[2026-09-30 NVIDIA 增量](research-evidence/nvda-event-price-20260930/README.md)将独立发行渠道时间见证与两个 Futu 快照绑定，沿用既有价格条件。原任务及日期级 `public_at` 不变。只读结果有两个价格候选；新字段及八次有限收益对照仍待人工核准，未降低旧研究门槛。
+[2026-09-30 NVIDIA 增量](research-evidence/nvda-event-price-20260930/README.md)将独立发行渠道时间见证与两个 Futu 快照绑定，沿用既有价格条件。原任务及日期级 `public_at` 不变。后续用户核准的八次有限对照及报告阅读验收已于 10 月 2 日完成，结果和各阶段历史状态另存，未降低旧研究门槛。M1 不重跑该研究；安装入口为新任务生成新代码绑定，旧任务仍由其原版本核验。
