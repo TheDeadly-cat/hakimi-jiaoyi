@@ -1,0 +1,30 @@
+{
+  "bundle_id": "7bdf3b90c090082f654698fb78f8d12f4b4ba632211525a481867d883fd337b5",
+  "new_provider_calls": 0,
+  "original_validation": "../offline-product-m1-20261006/retained-import.json",
+  "permissions": {
+    "account_queries": 0,
+    "economic_runs": 0,
+    "orders": 0,
+    "provider_calls": 0
+  },
+  "real_economic_runs": 0,
+  "schema_version": "M1-dev3-retained-import-read-v1",
+  "snapshots": [
+    {
+      "daily_RTH_OHLC_mismatch_sessions": 0,
+      "daily_RTH_volume_difference_sessions": 8,
+      "fiscal_quarter": "2024Q1",
+      "path": "snapshots/2024Q1/equity_dataset_eb42bcbf3f0b262b94c7267821bf6b651e2b9ff8a92df3107551a648211c6e16.json",
+      "snapshot_id": "eb42bcbf3f0b262b94c7267821bf6b651e2b9ff8a92df3107551a648211c6e16"
+    },
+    {
+      "daily_RTH_OHLC_mismatch_sessions": 0,
+      "daily_RTH_volume_difference_sessions": 8,
+      "fiscal_quarter": "2024Q2",
+      "path": "snapshots/2024Q2/equity_dataset_42f537943faa72fcf6d3a9f9bf429909049f4185f70056251a598ef1cd846cd0.json",
+      "snapshot_id": "42f537943faa72fcf6d3a9f9bf429909049f4185f70056251a598ef1cd846cd0"
+    }
+  ],
+  "status": "PASS"
+}

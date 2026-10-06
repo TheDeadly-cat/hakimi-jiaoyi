@@ -1,0 +1,138 @@
+{
+  "archive_sha256": "ef5383050f671c2cc98f5ab1a068d4721127c6a252d0cf31711121055c86ee2e",
+  "checkout_data_used": false,
+  "configured_task_matches_existing_rule_identity": true,
+  "editable": false,
+  "exit_code": 0,
+  "flow": [
+    "START_DELIVERED_CMD",
+    "CREATE_DEMO",
+    "SELECT_TASK",
+    "CHECK",
+    "RUN",
+    "VIEW_VERIFIED_RESULT",
+    "REPLAY",
+    "RECOVER_PAGE",
+    "VERIFY_SOURCE_PACKET",
+    "IMPORT_SUPPLIED_SYNTHETIC_CSV",
+    "SELECT_DATA_AND_STRATEGY",
+    "CONFIGURE_TASK",
+    "CHECK_RUN_VIEW_REPLAY",
+    "EXIT_ZERO"
+  ],
+  "fresh_virtual_environment": true,
+  "human_feedback_claimed": false,
+  "human_feedback_required_by_goal": false,
+  "initial_runtime_present": false,
+  "initial_workspace_present": false,
+  "native_result_view_verified": true,
+  "operator": "AGENT_TERMINAL_TOOL",
+  "optional_browser_live_validation": "NOT_RUN_POLICY_LIMITATION",
+  "outside_checkout": true,
+  "python_version": "3.14.6",
+  "pythonpath_used": false,
+  "rows": [
+    {
+      "blocked_new_buys": 0,
+      "buy_intents": 1,
+      "data_kind": "SYNTHETIC_TEST",
+      "effective_leverage": 1,
+      "fill_count": 2,
+      "html_bytes_sha256": "71ac6ad921e17850e6c1a82c44dff04e00de59a5b1459660d81c804f6314776b",
+      "limitations": [
+        "Imported source/calendar/action declarations are not independently authenticated.",
+        "Only stable-identity, declared action-free windows are admitted. Corporate actions require further accounting implementation.",
+        "Fractional shares, proportional fees and constant slippage are research approximations, not broker rules or fills.",
+        "No spread, auction participation, liquidity or intraday execution guarantee is established.",
+        "This is a fixed development or synthetic regression, not a profitability or out-of-sample claim."
+      ],
+      "net_pnl": -102.52888461538532,
+      "open_position_qty": 0.0,
+      "realized_pnl": -102.52888461538437,
+      "reasons": [
+        "fast MA crossed above slow MA",
+        "no MA crossover"
+      ],
+      "replay_receipt_hashes": [
+        "3c9a858f3597843b4545523fe6b2d48f338c2ad9a0db899fb6b78e32e41855c2",
+        "813771e5ae2d725bcfe94383401b500d51d5a39e219b899f55c3ec60a6f40c3e"
+      ],
+      "report_hash": "c44d608f5560d2bf653b91e15b2c2b6cfa4932b713608d29136494f3510264b4",
+      "retained_report_bytes_sha256": "b3205d8a59e5753d1089d7391cc79d7d555a9a79a339f89cc4499a9f2c362c44",
+      "run_id": "36965495bb6f4b22a56455477963d61f43c6ef5826d57851428651110613f1a4",
+      "schema_version": "hakimi-offline-result-view-v1",
+      "score_end": "2024-12-03",
+      "score_start": "2024-11-11",
+      "strategy": {
+        "key": "price.dual_ma@1",
+        "state": "ENABLED",
+        "title": "双均线价格策略",
+        "version": "1"
+      },
+      "symbol": "TEST",
+      "task_id": "bad454089cec413b4ff320d16916bc7b8bbc6f33e15f3af5c2cd44f97a865b8c",
+      "total_fees": 3.923115384615385,
+      "total_return": -0.01025288846153849,
+      "unrealized_pnl": 0.0
+    },
+    {
+      "blocked_new_buys": 1,
+      "buy_intents": 0,
+      "data_kind": "SYNTHETIC_TEST",
+      "effective_leverage": 1,
+      "fill_count": 0,
+      "html_bytes_sha256": "08148d25afd1f7e2932c4675865bfa4535440e984a155e4c15c26e491b32030a",
+      "limitations": [
+        "Imported source/calendar/action declarations are not independently authenticated.",
+        "Only stable-identity, declared action-free windows are admitted. Corporate actions require further accounting implementation.",
+        "Fractional shares, proportional fees and constant slippage are research approximations, not broker rules or fills.",
+        "No spread, auction participation, liquidity or intraday execution guarantee is established.",
+        "This is a fixed development or synthetic regression, not a profitability or out-of-sample claim.",
+        "Schedule filtering only cancels new price BUY intents; absence of a known schedule is not proof that no event exists. Numeric fields do not trigger entries."
+      ],
+      "net_pnl": 0.0,
+      "open_position_qty": 0.0,
+      "realized_pnl": 0.0,
+      "reasons": [
+        "announced earnings schedule blocks this new buy",
+        "no MA crossover"
+      ],
+      "replay_receipt_hashes": [
+        "97405d52f90c117cc57b876ad3dacd50d1920679de7d128c984059d4d6918bd7"
+      ],
+      "report_hash": "5743584988a30b12b0beee3f56b473a475348d45742caa7c533f22f214d654e6",
+      "retained_report_bytes_sha256": "a4820bc273377b2c983a390ae22cd1206681ca66531558f72054fcc449c0076d",
+      "run_id": "e5c72b544e5ede93727d4dba4c31e31012c6b4ec26bf50235c307f96552cbae6",
+      "schema_version": "hakimi-offline-result-view-v1",
+      "score_end": "2024-12-03",
+      "score_start": "2024-11-11",
+      "strategy": {
+        "key": "event.earnings_schedule@1",
+        "state": "ENABLED",
+        "title": "公告排期过滤＋价格策略",
+        "version": "1"
+      },
+      "symbol": "TEST",
+      "task_id": "77ca49cbc29ae15484fa088f7b2c4bc4abb2c1ee27befd7b4d51a142f5163554",
+      "total_fees": 0.0,
+      "total_return": 0.0,
+      "unrealized_pnl": 0.0
+    }
+  ],
+  "run_count": 2,
+  "runner_system": "Windows",
+  "schema_version": "M1-independent-first-use-v1",
+  "source_modified": false,
+  "source_packet_hash": "9029cbb0888c63e2fe026e3987751ce4b8d047fd659833efb5090ca4111a4a23",
+  "source_sha256": "c04c70a1609ca511c1f812f9d56c7e98f7464096f07b880e0cc3d23015b68dce",
+  "status": "PASS",
+  "supplied_inputs_sha256": {
+    "metadata.json": "2bc50b316761f1600ed7757e1720802394d597a1a81e7eb3028a6bc00f317562",
+    "prices.csv": "26d27fcc06b6171301c5907bbec84e587f21f2370866287230223eea1caac3b9"
+  },
+  "system_site_packages": false,
+  "test_data_from_exact_wheel": true,
+  "transcript_private_sha256": "f453d2119c1f433f0ea123620ca1a89fbfd7a7b9c675d9b1cad99f3236259f7e",
+  "view_requires_browser": false,
+  "wheel_sha256": "e0f27a108744ab4390915ad8f2605bb1599a144fae64d96f26013cfc66527e81"
+}

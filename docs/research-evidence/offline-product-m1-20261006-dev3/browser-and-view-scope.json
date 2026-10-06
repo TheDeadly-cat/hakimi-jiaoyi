@@ -1,0 +1,16 @@
+{
+  "blocked_browser_action_retried_via_workaround": false,
+  "browser_free_first_use": "PASS",
+  "html_renderer_function_sha256": "604957d2db3083c3be30a5ecf4c699ad1814fdbe8f7632f10de99c435047871e",
+  "html_renderer_unchanged_from_dev2": true,
+  "old_in_app_file_url_stop_reason": "FILE_PROTOCOL_NOT_ALLOWED",
+  "old_native_browser_stop_reason": "WINDOWS_CURRENT_URL_COULD_NOT_BE_VERIFIED",
+  "optional_browser_live_status": "UNVERIFIED_POLICY_LIMITATION",
+  "previous_html_interaction_evidence": "../offline-product-m1-20261006/report-browser-qa.json",
+  "primary_result_view": "VERIFIED_NATIVE_TERMINAL",
+  "regression_tests": [
+    "test_saved_result_is_readable_without_a_browser_or_new_calculation",
+    "test_optional_browser_failure_and_timeout_preserve_access_to_saved_results"
+  ],
+  "schema_version": "M1-view-scope-v1"
+}
