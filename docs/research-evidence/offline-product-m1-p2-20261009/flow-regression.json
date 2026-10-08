@@ -1,0 +1,40 @@
+{
+  "dev3_baseline": {
+    "assertion": "RECOVERY_DID_NOT_REJECT_ACTIVE_ORIGINAL_AFTER_START_RECORD",
+    "failures": 1,
+    "installed_old_wheel_sha256": "e0f27a108744ab4390915ad8f2605bb1599a144fae64d96f26013cfc66527e81",
+    "log_sha256": "ec19b58aaf82ff72c88895866189185b8cbf330437f24b9d3d12f40c494696b0",
+    "status": "EXPECTED_FAILURE_REPRODUCED",
+    "tests": 1
+  },
+  "explicit_new_output_retry": true,
+  "fixed_flow_log_sha256": "151f28bfd37128b015777a753968d1f6be8866ae941d5f01480ee873b248b2f9",
+  "initialization_faults": [
+    "PREPARATION_DIRECTORY",
+    "SNAPSHOT_COPY",
+    "INPUT_MANIFEST",
+    "START_RECORD"
+  ],
+  "installed_tests": 209,
+  "legacy_incomplete_final_run_preserved": true,
+  "missing_and_legacy_history_checked": true,
+  "original_task_retry": true,
+  "partial_files_preserved": true,
+  "process_exit_before_publication": true,
+  "process_interleaving": "ACTUAL_WINDOWS_SPAWN_OS_MUTEX",
+  "saved_result_resume_new_calculations": 0,
+  "schema_version": "M1-P2-flow-regression-v1",
+  "status": "PASS",
+  "task_declared_external_interruption_found_without_recent_marker": true,
+  "test_ids": [
+    "test_offline_run_workflows.OfflineRunWorkflowTests.test_external_output_menu_survives_exit_reopen_view_replay_and_history",
+    "test_offline_run_workflows.OfflineRunWorkflowTests.test_four_preparation_fault_boundaries_have_consistent_retry_and_recovery",
+    "test_offline_run_workflows.OfflineRunWorkflowTests.test_interrupted_external_calculation_is_found_without_a_recent_marker",
+    "test_offline_run_workflows.OfflineRunWorkflowTests.test_legacy_incomplete_directory_is_retained_and_explicit_new_location_works",
+    "test_offline_run_workflows.OfflineRunWorkflowTests.test_live_original_after_start_record_rejects_other_process_recovery",
+    "test_offline_run_workflows.OfflineRunWorkflowTests.test_missing_history_is_diagnosed_and_legacy_relative_history_still_loads",
+    "test_offline_run_workflows.OfflineRunWorkflowTests.test_original_rechecks_saved_result_after_claiming_mutex",
+    "test_offline_run_workflows.OfflineRunWorkflowTests.test_process_exit_during_preparation_retains_partial_files_and_allows_task_retry"
+  ],
+  "wheel_log_sha256": "1b3fda2767be00f430c2a60e0cb6e1391b0d96063fc21b06cbe135f67d852b4f"
+}

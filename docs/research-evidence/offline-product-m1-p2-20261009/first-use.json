@@ -1,0 +1,101 @@
+{
+  "accepted_wheel_sha256": "e10cbb02ab717cbe09dbb0eea73c21f9ca2697d1e7d4de896f0d3120aebe2c86",
+  "archive_sha256": "10d17867f3e72d184c0fa8619c326a7dafc0a913b0a9190025cd242293c527dc",
+  "cross_volume_evidence": {
+    "actual_distinct_fixed_local_NTFS_volumes": true,
+    "substituted_drive_used": false
+  },
+  "data_kind": "SYNTHETIC_TEST",
+  "editable": false,
+  "flow": [
+    "DELIVERED_CMD_FRESH_INSTALL",
+    "CREATE_SYNTHETIC_DEMO",
+    "CHECK_RUN_VIEW_REPLAY",
+    "EXIT_REOPEN_VIEW_REPLAY_HISTORY_EXPLICIT_SAVED_RESUME",
+    "CLI_CONFIGURE_SAME_AND_CROSS_VOLUME_TASKS",
+    "CHECK_RUN_VIEW_REPLAY_EXIT_REOPEN_VIEW_REPLAY_HISTORY_EXPLICIT_SAVED_RESUME"
+  ],
+  "fresh_virtual_environment": true,
+  "human_feedback_claimed": false,
+  "initial_runtime_present": false,
+  "initial_workspace_present": false,
+  "installed_source_sha256": "cdc9e266d0e0172d3448cbf86865edc1f112589112780583e2f1d6ea3b754221",
+  "operator": "AGENT_TERMINAL_TOOL",
+  "optional_browser_validation": "NOT_RUN_NOT_REQUIRED_FOR_RESULT_VIEW",
+  "outside_checkout": true,
+  "pythonpath_used": false,
+  "rows": [
+    {
+      "case": "default",
+      "location_kind": "WORKSPACE_RELATIVE",
+      "menu_exit_codes": [
+        0,
+        0
+      ],
+      "no_false_failure_message": true,
+      "reopen_history": true,
+      "reopen_replay": true,
+      "reopen_view": true,
+      "replay_receipt_hashes": [
+        "213bfb9f3c0e12b7c4d9845c37b2ef060f011dae11e29d3ebac5ec443e663463",
+        "3d2e227e329143abb26d0e9eadc85cac81b1083f6bf7118a2f44e7cf41dc4b85"
+      ],
+      "report_bytes_unchanged": true,
+      "report_hash": "1582e2e80ca682c47ffbcecc98d3ae55f4d2571b35378ae4f396daa0c8508553",
+      "retained_report_bytes_sha256": "78ad9332f07ba91ce858336550250fbf72539f00353151633a2be26ef3990a13",
+      "run_id": "435ebaeb2cbc95c4bd6d0a525bd64f278e1a7530f5c5bb9b20457079e2ea83f0",
+      "same_volume": true,
+      "saved_result_resume_new_calculations": 0,
+      "task_id": "bad454089cec413b4ff320d16916bc7b8bbc6f33e15f3af5c2cd44f97a865b8c"
+    },
+    {
+      "case": "same_drive_external",
+      "location_kind": "ABSOLUTE",
+      "menu_exit_codes": [
+        0,
+        0
+      ],
+      "no_false_failure_message": true,
+      "reopen_history": true,
+      "reopen_replay": true,
+      "reopen_view": true,
+      "replay_receipt_hashes": [
+        "33c8157f803238d5fc73f993b4b83a98c62fe9de3370223c4fa21f6df63c7955",
+        "88b3327f07b25597dbf40f018aa6f739fe1318120e3d559ffad2f65768706e68"
+      ],
+      "report_bytes_unchanged": true,
+      "report_hash": "50f16a4b048a306ebff37be87820cc82d861d2a7e9ed6b6da814b4dfd7175123",
+      "retained_report_bytes_sha256": "33f26e9dee5011cee3900bc0b12112911a5a8e132ad547940344cab334f9275f",
+      "run_id": "435ebaeb2cbc95c4bd6d0a525bd64f278e1a7530f5c5bb9b20457079e2ea83f0",
+      "same_volume": true,
+      "saved_result_resume_new_calculations": 0,
+      "task_id": "bad454089cec413b4ff320d16916bc7b8bbc6f33e15f3af5c2cd44f97a865b8c"
+    },
+    {
+      "case": "cross_drive_external",
+      "location_kind": "ABSOLUTE",
+      "menu_exit_codes": [
+        0,
+        0
+      ],
+      "no_false_failure_message": true,
+      "reopen_history": true,
+      "reopen_replay": true,
+      "reopen_view": true,
+      "replay_receipt_hashes": [
+        "5e46a09900449c40fdfa03c90702f015b70c97bb60ad2db87ab1763b32de8ad0",
+        "dfa43b4fa887b2dbbcc5f60538b3ae327cbd350d8c59e5fce26de3ce0fa49c1a"
+      ],
+      "report_bytes_unchanged": true,
+      "report_hash": "57932da064a9685e9c0ae57648382b5c13418c79f72a0fd600435138cbf4ef7b",
+      "retained_report_bytes_sha256": "513bab0bbcca4f67c73c8d75ce2529eafa5f996dd9c17c8f0813b21dce241370",
+      "run_id": "435ebaeb2cbc95c4bd6d0a525bd64f278e1a7530f5c5bb9b20457079e2ea83f0",
+      "same_volume": false,
+      "saved_result_resume_new_calculations": 0,
+      "task_id": "bad454089cec413b4ff320d16916bc7b8bbc6f33e15f3af5c2cd44f97a865b8c"
+    }
+  ],
+  "schema_version": "M1-dev4-native-menu-acceptance-v1",
+  "status": "PASS",
+  "system_site_packages": false
+}

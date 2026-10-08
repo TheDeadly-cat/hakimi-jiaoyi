@@ -1,0 +1,25 @@
+{
+  "archive_sha256": "10d17867f3e72d184c0fa8619c326a7dafc0a913b0a9190025cd242293c527dc",
+  "deployment_changed": false,
+  "execution_permission": {
+    "live_order_allowed": false,
+    "order_entry_allowed": false,
+    "paper_authorized": false,
+    "research_only": true
+  },
+  "extracted_archive_bytes_verified": true,
+  "first_use_operator": "AGENT_TERMINAL_TOOL",
+  "formal_release_changed": false,
+  "human_directory_installed_by_agent": false,
+  "human_download_directory": "Hakimi-M1-dev4-20261009-e10cbb02",
+  "old_dev3_artifacts_and_receipts_preserved": true,
+  "original_archive_verified": true,
+  "schema_version": "M1-dev4-candidate-delivery-v1",
+  "source_content_sha256": "cdc9e266d0e0172d3448cbf86865edc1f112589112780583e2f1d6ea3b754221",
+  "version": "0.3.0.dev4",
+  "wheel_build_git": {
+    "commit": "ac8c77b8491eff46aa0cdb8156a6419dbd1918bc",
+    "status": "CLEAN"
+  },
+  "wheel_sha256": "e10cbb02ab717cbe09dbb0eea73c21f9ca2697d1e7d4de896f0d3120aebe2c86"
+}
