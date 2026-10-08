@@ -67,7 +67,7 @@ class OfflineAppTests(unittest.TestCase):
             return original(encoded,path)
         with patch.object(offline_app,'_save_encoded_report',side_effect=interrupt):
             with self.assertRaisesRegex(OSError,'interruption'):run_task(self.task())
-        folder=next((self.workspace/'runs').iterdir());raw=(folder/'report.json').read_bytes()
+        folder=next((self.workspace/'runs').glob('run-*'));raw=(folder/'report.json').read_bytes()
         with patch.object(offline_app,'run_strategy',side_effect=AssertionError('engine must not repeat')):
             self.assertTrue(recover_report(folder).is_file())
             self.assertEqual(run_task(self.task()),folder)
@@ -89,7 +89,7 @@ class OfflineAppTests(unittest.TestCase):
         from hakimi_research import offline_app
         with patch.object(offline_app,'run_strategy',side_effect=OSError('fictional interrupted calculation')):
             with self.assertRaisesRegex(OSError,'interrupted calculation'):run_task(self.task())
-        folder=next((self.workspace/'runs').iterdir());failure=(folder/'failure.json').read_bytes()
+        folder=next((self.workspace/'runs').glob('run-*'));failure=(folder/'failure.json').read_bytes()
         self.assertFalse((folder/'report.json').exists())
         with run_lock(folder):
             with self.assertRaisesRegex(ValueError,'active_owner'):resume_calculation(folder)

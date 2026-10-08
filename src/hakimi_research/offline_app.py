@@ -6,6 +6,8 @@ from html import escape
 import json
 import os
 from pathlib import Path
+import re
+from uuid import uuid4
 
 from .documents import digest, read_document, canonical_bytes
 from .equity_dataset import load_equity_snapshot
@@ -32,22 +34,38 @@ def immutable_write(path, encoded):
     _save_encoded_report(encoded, path)
 
 
-def resolve_input(task_file, value):
+def resolve_location(base, value):
     if type(value) is not str or not value.strip():
         raise ValueError('explicit_input_path_required')
     path = Path(value).expanduser()
     if not path.is_absolute():
-        path = Path(task_file).parent / path
-    path = path.resolve()
+        path = Path(base) / path
+    return path.resolve()
+
+
+def portable_location(path, base, *, relative_root=None):
+    path, base = Path(path).resolve(), Path(base).resolve()
+    root = Path(relative_root).resolve() if relative_root is not None else base
+    if not path.is_relative_to(root):
+        return str(path)
+    try:
+        return Path(os.path.relpath(path, base)).as_posix()
+    except ValueError:
+        return str(path)
+
+
+def resolve_input(task_file, value):
+    path = resolve_location(Path(task_file).parent, value)
     if not path.is_file():
         raise ValueError('input_file_missing:' + str(path))
     return path
 
 
 @contextmanager
-def run_lock(directory):
-    """An OS-held lock distinguishes a live owner from a leftover state file."""
-    handle = (Path(directory) / '.run.lock').open('a+b')
+def _file_lock(path, *, create=True):
+    if Path(path).is_symlink():
+        raise ValueError('run_lock_path_is_not_regular')
+    handle = Path(path).open('a+b' if create else 'r+b')
     try:
         if handle.seek(0, 2) == 0:
             handle.write(b'0'); handle.flush()
@@ -71,6 +89,27 @@ def run_lock(directory):
                 fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
     finally:
         handle.close()
+
+
+def _run_name(directory):
+    name = Path(directory).name
+    prepared = re.fullmatch(r'\.preparing-(run-[0-9a-f]{64})-[0-9a-f]{32}', name)
+    return prepared.group(1) if prepared else name
+
+
+@contextmanager
+def run_lock(directory):
+    """Claim initialization and calculation with the same OS-held mutex."""
+    directory = Path(directory).resolve()
+    locks = directory.parent / '.run-locks'
+    locks.mkdir(parents=True, exist_ok=True)
+    with _file_lock(locks / (_run_name(directory) + '.lock')):
+        legacy = directory / '.run.lock'
+        if legacy.exists():
+            with _file_lock(legacy, create=False):
+                yield
+        else:
+            yield
 
 
 def check_task(task_file):
@@ -100,40 +139,72 @@ def check_task(task_file):
         strategy_identity=strategy_identity(task['strategy']), experiment=spec,
         event_context_hash=context['context_hash'] if context else None)
     task_id = digest(semantics)
-    output = Path(task['output_dir']).expanduser()
-    if not output.is_absolute():
-        output = task_file.parent / output
+    output = resolve_location(task_file.parent, task['output_dir'])
     return dict(task_id=task_id, semantics=semantics, definition=entry, snapshot=snapshot,
         context=context, snapshot_path=snapshot_path, context_path=context_path,
         task_path=task_file, output=output.resolve(), protocol=protocol)
 
 
-def run_task(task_file):
+def _publish_prepared_run(stage, destination):
+    if destination.exists() or destination.is_symlink():
+        raise ValueError('existing_run_directory_not_replaced:' + str(destination))
+    stage.rename(destination)
+
+
+def _prepare_run(context, runtime, run_id, destination):
+    stage = destination.parent / ('.preparing-' + destination.name + '-' + uuid4().hex)
+    try:
+        stage.mkdir(exist_ok=False)
+        write_new(stage / 'preparation.json', dict(schema_version='hakimi-run-preparation-v1',
+            run_id=run_id, task_id=context['task_id'], state='PREPARING', strategy_started=False))
+        inputs = {'snapshot.json': context['snapshot_path'].read_bytes()}
+        if context['context_path']:
+            inputs['event-context.json'] = context['context_path'].read_bytes()
+        for name, content in inputs.items():
+            immutable_write(stage / 'inputs' / name, content)
+        manifest = dict(schema_version='hakimi-offline-run-inputs-v1', run_id=run_id, task_id=context['task_id'],
+            task=context['semantics'], input_sha256={name: __import__('hashlib').sha256(raw).hexdigest() for name, raw in inputs.items()},
+            runtime=runtime, execution_permission=dict(PERMISSIONS))
+        write_new(stage / 'inputs.json', manifest)
+        write_new(stage / 'started.json', dict(started_at=datetime.now(timezone.utc).isoformat(), run_id=run_id))
+        # Validate the sealed copies before making this directory a resumable run.
+        verify_run_inputs(stage, allow_preparation=True)
+        _publish_prepared_run(stage, destination)
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        if stage.is_dir():
+            try:
+                write_new(stage / 'preparation-failure.json', dict(error_type=type(exc).__name__, error=str(exc),
+                    strategy_started=False, published=False, automatic_retry=False,
+                    next_action='RUN_ORIGINAL_TASK_AGAIN', original_partial_files_retained=True))
+            except (OSError, ValueError):
+                pass  # Full disks can also prevent diagnostics; partial input bytes remain.
+        raise ValueError('run_initialization_not_published:' + str(stage)
+            + '; original partial files retained; run the original task again; ' + str(exc)) from exc
+
+
+def run_task(task_file, *, output_dir=None):
     context = check_task(task_file)
     runtime = build_runtime_provenance()
     if runtime['source_identity']['status'] not in {'CONTENT_HASHED', 'BUILD_VERIFIED'} or runtime['environment_verified']['status'] != 'VERIFIED':
         raise ValueError('runtime_source_or_dependencies_unverified')
     run_id = digest(dict(task_id=context['task_id'], source_hash=runtime['source_identity']['content_sha256'],
         environment=runtime['environment_verified']))
-    destination = context['output'] / ('run-' + run_id)
-    if destination.exists():
+    output = Path(output_dir).expanduser().resolve() if output_dir is not None else context['output']
+    destination = output / ('run-' + run_id)
+    with run_lock(destination):
+        # Recheck only after claiming the run: another owner may have finished it.
+        if destination.exists():
+            if (destination / 'report.json').is_file():
+                recover_report(destination)
+                return destination
+            if not (destination / 'inputs.json').is_file() or not (destination / 'started.json').is_file():
+                raise ValueError('run_initialization_incomplete:' + str(destination)
+                    + '; original directory retained; use run --task <original task> --output-dir <new output directory>; do not resume incomplete inputs')
+            raise ValueError('interrupted_calculation_no_saved_report:' + str(destination) + '; explicitly use recover --resume-calculation')
+        _prepare_run(context, runtime, run_id, destination)
         if (destination / 'report.json').is_file():
             recover_report(destination)
             return destination
-        raise ValueError('interrupted_calculation_no_saved_report:' + str(destination) + '; explicitly use recover --resume-calculation')
-    destination.mkdir(parents=True, exist_ok=False)
-    inputs = {'snapshot.json': context['snapshot_path'].read_bytes()}
-    if context['context_path']:
-        inputs['event-context.json'] = context['context_path'].read_bytes()
-    for name, content in inputs.items():
-        immutable_write(destination / 'inputs' / name, content)
-    # A retained input identity, followed by the execution claim, is visible even on interruption.
-    manifest = dict(schema_version='hakimi-offline-run-inputs-v1', run_id=run_id, task_id=context['task_id'],
-        task=context['semantics'], input_sha256={name: __import__('hashlib').sha256(raw).hexdigest() for name, raw in inputs.items()},
-        runtime=runtime, execution_permission=dict(PERMISSIONS))
-    write_new(destination / 'inputs.json', manifest)
-    write_new(destination / 'started.json', dict(started_at=datetime.now(timezone.utc).isoformat(), run_id=run_id))
-    with run_lock(destination):
         snapshot = load_equity_snapshot(destination / 'inputs/snapshot.json')
         event_context = read_document(destination / 'inputs/event-context.json') if context['context'] else None
         try:
@@ -147,10 +218,17 @@ def run_task(task_file):
     return destination
 
 
-def verify_run_inputs(directory):
+def verify_run_inputs(directory, *, allow_preparation=False):
     from hashlib import sha256
     directory = Path(directory).resolve()
+    if directory.name.startswith('.preparing-') and not allow_preparation:
+        raise ValueError('run_initialization_not_published:partial files retained; run the original task again')
+    if not (directory / 'inputs.json').is_file() or not (directory / 'started.json').is_file():
+        raise ValueError('run_initialization_incomplete:original directory retained; rerun the original task with --output-dir <new output directory>')
     manifest = read_document(directory / 'inputs.json')
+    started = read_document(directory / 'started.json')
+    if set(started) != {'run_id', 'started_at'} or started['run_id'] != manifest['run_id']:
+        raise ValueError('run_start_record_identity_conflict')
     if manifest['schema_version'] != 'hakimi-offline-run-inputs-v1' or manifest['execution_permission'] != PERMISSIONS:
         raise ValueError('run_manifest_schema_or_permissions_invalid')
     if manifest['task_id'] != digest(manifest['task']):

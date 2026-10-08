@@ -1,6 +1,6 @@
 # 哈基米交易 M1：离线量化工具候选
 
-本轮将现有能力整合为可安装的 `hakimi-trade` 入口。包名仍为 `hakimi-research`，候选版本为 `0.3.0.dev3`；不重命名代码库。双均线、买入持有和公告排期过滤复用原策略、`EquityExperimentRunner`、风险和记账实现，公告资料流程也进入安装包。旧固定 AMD／NVIDIA 任务、方案、预算及原件继续保留。
+本轮将现有能力整合为可安装的 `hakimi-trade` 入口。包名仍为 `hakimi-research`，候选版本为 `0.3.0.dev4`；不重命名代码库。双均线、买入持有和公告排期过滤复用原策略、`EquityExperimentRunner`、风险和记账实现，公告资料流程也进入安装包。旧固定 AMD／NVIDIA 任务、方案、预算及原件继续保留。
 
 ## 安装与第一次使用
 
@@ -8,14 +8,14 @@ Python 包支持 3.11 或以上；本轮 Windows x64 离线候选附带的 NumPy
 
 候选 ZIP 解压到仓库外后，双击 `Start-Hakimi.cmd`。它复用原安装器，在候选目录旁建立独立环境，使用包内 wheelhouse 离线安装，核对本候选身份后打开菜单；不会下载依赖或改动其他安装。第一次选择 1 创建虚构示例，再选 2 检查、3 运行、4 看报告、5 重放或 6 恢复页面。
 
-最新候选为 0.3.0.dev3，本机下载目录 `Hakimi-M1-dev3-20261006-e0f27a10` 的“开始使用.cmd”启动。201 项安装后检查与完整独立首用已通过；身份和范围见[最新交付记录](research-evidence/offline-product-m1-20261006-dev3/README.md)。旧下载目录 `Hakimi-M1-20261006-dbcdc803` 和其 0.3.0.dev2 包保留原身份。目标文件要求新增入口在全新环境独立完成使用验收，并未指定必须由用户人工完成；用户试用反馈保留为可选补充。
+旧受验收候选为 0.3.0.dev3，本机下载目录 `Hakimi-M1-dev3-20261006-e0f27a10` 的“开始使用.cmd”启动。201 项安装后检查与完整独立首用已通过；身份和范围见[最新交付记录](research-evidence/offline-product-m1-20261006-dev3/README.md)。旧下载目录 `Hakimi-M1-20261006-dbcdc803` 和其 0.3.0.dev2 包保留原身份。目标文件要求新增入口在全新环境独立完成使用验收，并未指定必须由用户人工完成；用户试用反馈保留为可选补充。
 
 以下是使用单独 wheel／依赖目录时的手动安装方式，路径按候选目录的实际位置选择；无须源码：
 
 ```powershell
 python -m venv .\runtime
 .\runtime\Scripts\python.exe -m pip install --no-index --find-links .\wheelhouse --requirement .\requirements.research.lock
-.\runtime\Scripts\python.exe -m pip install --no-deps .\hakimi_research-0.3.0.dev3-py3-none-any.whl
+.\runtime\Scripts\python.exe -m pip install --no-deps .\hakimi_research-0.3.0.dev4-py3-none-any.whl
 .\runtime\Scripts\hakimi-trade.exe wizard --workspace .\workspace
 ```
 
@@ -86,3 +86,11 @@ run 目录保留输入副本、任务语义、源代码／依赖身份、启动�
 | 首次使用与最终交付 | 0.3.0.dev3 同一新产物完整首用、结果读取、恢复及迁移通过；源码九项 CI 成功，最终审阅提交 checks 独立核对。用户人工反馈为补充，未声称人工通过；旧 NVIDIA 阅读验收保持原范围 |
 
 M1 为离线候选，M2—M4 是后续路线图。多证券共享现金与组合风险、增量监控、账户和订单衔接尚未由本入口实现。有效杠杆 1；碎股、固定滑点、比例费用及声明无公司行为窗口继续可见。主分支合并、发布、部署和实际模拟订单分别待授权，不以本轮安装检查开放权限。
+
+## 2026-10-09 流程修复与安全重试
+
+0.3.0.dev4 在准备输入前领取运行的操作系统锁；原运行、恢复及等待者使用同一互斥流程，锁内再次检查已有报告。输入与启动记录在暂存目录完整封存、核验后才发布为可恢复运行。初始化失败不启动计算，暂存原件留存，再次运行同一任务可重新准备；不会删除或覆盖残缺目录。
+
+旧候选已经留下的残缺最终运行目录保持原样。无法证实完整初始化时不允许恢复计算；可用 `hakimi-trade run --task <原任务> --output-dir <新的输出目录>` 在明确新位置重新准备，不修改原任务规则或覆盖旧资料。已经保存结果的运行只读取／恢复页面；已启动计算后失败仍使用显式恢复。
+
+最近运行记录在工作区内保存相对位置，外部结果保存明确绝对位置；旧相对记录仍可读取。菜单 12 查看运行历史，菜单 8 从内部及外部运行列表恢复；没有最近标记的失败运行也可从任务声明的输出目录发现。缺失、损坏及位置类型冲突会显示诊断，记录不删除。源码、旧 dev3 与新的安装验收身份见[本轮修复记录](research-evidence/offline-product-m1-p2-20261009/README.md)。

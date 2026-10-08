@@ -5,6 +5,8 @@ from importlib.resources import files
 import json
 from pathlib import Path
 import sys
+from datetime import datetime, timezone
+from uuid import uuid4
 
 from .documents import read_document
 from .benchmarks import BUY_AND_HOLD_POLICY, STANDARD_RISK_POLICY
@@ -13,7 +15,7 @@ from .equity_dataset import build_equity_snapshot, save_equity_snapshot, load_eq
 from .equity_event_context import RULE_VERSION, verify_event_context
 from .equity_research import PERMISSIONS
 from .collection_import import import_collection, verify_bundle
-from .offline_app import check_task, run_task, recover_report, replay_run, resume_calculation, write_new, describe_run
+from .offline_app import check_task, run_task, recover_report, replay_run, resume_calculation, write_new, describe_run, portable_location, resolve_location
 from .source_layout import default_artifact_root
 from .strategy_registry import definition, strategies
 
@@ -42,9 +44,8 @@ def create_task(path, *, strategy, snapshot, event_context=None, params=None, sc
         context = verify_event_context(read_document(context_path))
         spec.update(schema_version='us-equity-experiment-spec-v2',event_context_hash=context['context_hash'],event_rule=RULE_VERSION)
     def location(file):
-        import os
-        try:return Path(os.path.relpath(file,path.parent)).as_posix()
-        except ValueError:return str(file)  # Different Windows drive: explicit location, not content identity.
+        root = path.parent.parent if path.parent.name == 'tasks' else path.parent
+        return portable_location(file, path.parent, relative_root=root)
     task=dict(schema_version='hakimi-offline-task-v1',strategy=strategy,state='ENABLED',snapshot=location(snapshot),
         event_context=location(context_path) if context_path else None,experiment=spec,
         output_dir=location(Path(output_dir).resolve()) if output_dir else '../runs')
@@ -122,13 +123,61 @@ def request_browser_view(page):
     return True
 
 
+def remember_run(workspace, directory):
+    workspace, directory = Path(workspace).resolve(), Path(directory).resolve()
+    location = portable_location(directory, workspace)
+    record = dict(schema_version='hakimi-recent-run-v1', run_directory=location,
+        location_kind='ABSOLUTE' if Path(location).is_absolute() else 'WORKSPACE_RELATIVE',
+        recorded_at=datetime.now(timezone.utc).isoformat())
+    path = workspace / ('last-run-' + directory.name + '-' + uuid4().hex + '.json')
+    write_new(path, record)
+    return path
+
+
+def recent_runs(workspace):
+    workspace = Path(workspace).resolve()
+    found, warnings = {}, []
+    for record_path in workspace.glob('last-run-*.json'):
+        try:
+            record = read_document(record_path)
+            if set(record) == {'run_directory'}:
+                directory = resolve_location(workspace, record['run_directory'])
+            else:
+                if set(record) != {'schema_version', 'run_directory', 'location_kind', 'recorded_at'} or record['schema_version'] != 'hakimi-recent-run-v1':
+                    raise ValueError('recent_run_record_schema_invalid')
+                path = Path(record['run_directory'])
+                if record['location_kind'] == 'ABSOLUTE' and path.is_absolute():
+                    directory = path.resolve()
+                elif record['location_kind'] == 'WORKSPACE_RELATIVE' and not path.is_absolute() and not path.drive:
+                    directory = resolve_location(workspace, record['run_directory'])
+                    if not directory.is_relative_to(workspace):raise ValueError('recent_relative_run_escapes_workspace')
+                else:raise ValueError('recent_run_location_kind_conflict')
+            if not directory.is_dir():raise ValueError('recent_run_directory_missing:' + str(directory))
+            found[directory] = max(found.get(directory, 0), record_path.stat().st_mtime_ns)
+        except (ValueError, OSError, KeyError, TypeError) as exc:
+            warnings.append(record_path.name + ': ' + str(exc))
+    roots={workspace/'runs'}
+    for task_path in (workspace/'tasks').glob('*.json'):
+        try:
+            task=read_document(task_path)
+            if task.get('schema_version') != 'hakimi-offline-task-v1':raise ValueError('task_schema_invalid')
+            roots.add(resolve_location(task_path.parent,task['output_dir']))
+        except (ValueError,OSError,KeyError,TypeError) as exc:warnings.append(task_path.name+': '+str(exc))
+    for root in roots:
+        try:
+            for directory in root.glob('run-*'):
+                if directory.is_dir():found.setdefault(directory.resolve(),directory.stat().st_mtime_ns)
+        except OSError as exc:warnings.append(str(root)+': '+str(exc))
+    return sorted(found, key=lambda path: found[path], reverse=True), warnings
+
+
 def wizard(workspace):
     """A small terminal menu over the same commands; no separate GUI or runner."""
     workspace=Path(workspace).resolve()
     print('哈基米交易 · 离线量化工具候选\n数据、账户和订单边界以任务及报告为准。')
     last_run=None
     while True:
-        print('\n1 创建虚构示例  2 检查任务  3 运行任务  4 查看结果  5 重放  6 恢复页面  7 公告原件核对  8 恢复中断计算  9 导入自有 CSV  10 创建策略任务  11 可选浏览器查看  0 退出')
+        print('\n1 创建虚构示例  2 检查任务  3 运行任务  4 查看结果  5 重放  6 恢复页面  7 公告原件核对  8 恢复中断计算  9 导入自有 CSV  10 创建策略任务  11 可选浏览器查看  12 运行历史  0 退出')
         try:choice=input('选择：').strip()
         except EOFError:return 0
         if choice=='0':return 0
@@ -153,27 +202,27 @@ def wizard(workspace):
                     context=check_task(task);print('输入检查通过；策略 '+context['definition']['title']+'；任务 '+context['task_id'])
                 else:
                     last_run=run_task(task);print('运行完成。结果目录：'+str(last_run))
-                    write_new(workspace/('last-run-'+last_run.name+'.json'),dict(run_directory=last_run.relative_to(workspace).as_posix()))
-            elif choice in {'4','5','6','8','11'}:
-                if choice=='8':
-                    candidates=sorted((workspace/'runs').glob('run-*'),key=lambda p:p.stat().st_mtime,reverse=True)
+                    try:remember_run(workspace,last_run)
+                    except (ValueError,OSError) as exc:print('运行已成功；最近运行记录未保存：'+str(exc))
+            elif choice in {'4','5','6','8','11','12'}:
+                if choice in {'8','12'}:
+                    candidates,warnings=recent_runs(workspace)
+                    for warning in warnings:print('历史记录不可用：'+warning)
                     for index,path in enumerate(candidates,1):print(str(index)+' '+path.name+('（已有报告）' if (path/'report.json').is_file() else '（未保存报告）'))
-                    number=int(input('选择要恢复的运行编号：'))
+                    number=int(input('选择历史运行编号：' if choice=='12' else '选择要恢复的运行编号：'))
                     if number<1 or number>len(candidates):raise ValueError('run_number_out_of_range')
                     last_run=candidates[number-1]
                 elif last_run is None:
-                    records=sorted(workspace.glob('last-run-*.json'),key=lambda p:p.stat().st_mtime)
-                    if records:last_run=workspace/read_document(records[-1])['run_directory']
-                    else:
-                        interrupted=sorted((workspace/'runs').glob('run-*'),key=lambda p:p.stat().st_mtime)
-                        if not interrupted:raise ValueError('no_started_run:先运行任务')
-                        last_run=interrupted[-1]
+                    candidates,warnings=recent_runs(workspace)
+                    for warning in warnings:print('历史记录不可用：'+warning)
+                    if not candidates:raise ValueError('no_started_run:先运行任务')
+                    last_run=candidates[0]
                 if choice=='5':print('重放通过。回执 '+replay_run(last_run)['receipt_hash'])
                 elif choice=='8':
                     page,runs=resume_calculation(last_run);print('恢复完成，新增离线计算 '+str(runs)+' 次；原失败保留。报告：'+str(page))
                 else:
                     report=recover_report(last_run);print('报告：'+str(report))
-                    if choice in {'4','11'}:print_result(describe_run(last_run))
+                    if choice in {'4','11','12'}:print_result(describe_run(last_run))
                     if choice=='11':request_browser_view(report)
             elif choice=='7':
                 from .source_task import prepare,report
@@ -211,6 +260,7 @@ def main(argv=None):
         if name=='init':p.add_argument('--demo',action='store_true')
     for name in ['check','run']:
         p=commands.add_parser(name);p.add_argument('--task',required=True,type=Path)
+        if name=='run':p.add_argument('--output-dir',type=Path,help='Explicit new output location; existing incomplete directories are retained.')
     for name in ['report','recover','replay']:
         p=commands.add_parser(name);p.add_argument('--run-dir',required=True,type=Path)
         if name=='recover':p.add_argument('--resume-calculation',action='store_true',help='Explicitly resume a stopped new-app computation only after its OS lock is released.')
@@ -243,7 +293,7 @@ def main(argv=None):
             context=check_task(args.task);output=dict(status='INPUTS_CHECKED_NO_SIMULATION',task_id=context['task_id'],
                 strategy=context['definition'],scoring=context['protocol'],output_dir=str(context['output']),execution_permission=dict(PERMISSIONS))
         elif args.command=='run':
-            directory=run_task(args.task);output=dict(status='OFFLINE_RUN_SAVED',run_directory=str(directory),report=str(recover_report(directory)))
+            directory=run_task(args.task,output_dir=args.output_dir);output=dict(status='OFFLINE_RUN_SAVED',run_directory=str(directory),report=str(recover_report(directory)))
         elif args.command in {'report','recover'}:
             page,runs=resume_calculation(args.run_dir) if getattr(args,'resume_calculation',False) else (recover_report(args.run_dir),0)
             output=dict(status='RETAINED_REPORT_RENDERED' if runs==0 else 'INTERRUPTED_CALCULATION_RECOVERED',report=str(page),new_economic_runs=runs,result_view=describe_run(args.run_dir))
