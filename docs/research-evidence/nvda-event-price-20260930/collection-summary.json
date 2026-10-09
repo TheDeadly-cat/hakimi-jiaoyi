@@ -1,0 +1,45 @@
+{
+  "schema_version": "nvda-quote-collection-public-summary-v1",
+  "private_raw_retained": true,
+  "raw_published": false,
+  "original_plan_sha256": "2125f21b911dd7a60b7b4fc7d07d9e9c980e19ce81153fbca777f4b1a4e2102e",
+  "first_phase": {
+    "status": "STOPPED_NO_RETRY",
+    "reason": "ACTION_SECURITY_IDENTITY_MISMATCH",
+    "started_at": "2026-09-29T16:18:28.717606Z",
+    "finished_at": "2026-09-29T16:18:29.525928Z",
+    "source_identity": {
+      "docs/studies/nvda-event-price-20260930.json": "2125f21b911dd7a60b7b4fc7d07d9e9c980e19ce81153fbca777f4b1a4e2102e",
+      "tools/collect_nvda_event_inputs.py": "8d04d22913f9c0bb17a840db341e326f0a6b0f7d1a074e62724401ce29f95a8f",
+      "tools/collect_equity_event_inputs.py": "1636a94e03246ae1624a8f664aaa9cf02825c51b4f77c5320ec9ace819476714",
+      "tools/observation_job.py": "4eaa6ced97ad066dfd77ac2db6ddb0149c557874964bcbbfed3a200994840646"
+    },
+    "business_method_calls": 2,
+    "business_protocol_query_calls": 2
+  },
+  "continuation_phase": {
+    "status": "QUOTE_COLLECTION_COMPLETED_AWAITING_ADMISSION",
+    "started_at": "2026-09-29T16:21:46.535981Z",
+    "finished_at": "2026-09-29T16:21:47.441229Z",
+    "source_identity": {
+      "docs/studies/nvda-event-price-20260930.json": "2125f21b911dd7a60b7b4fc7d07d9e9c980e19ce81153fbca777f4b1a4e2102e",
+      "tools/collect_nvda_event_inputs.py": "d58b1d121053ea332d21cbdd7382483395d35bc1d1965aec276cc8961bc39258",
+      "tools/collect_equity_event_inputs.py": "1636a94e03246ae1624a8f664aaa9cf02825c51b4f77c5320ec9ace819476714",
+      "tools/observation_job.py": "4eaa6ced97ad066dfd77ac2db6ddb0149c557874964bcbbfed3a200994840646"
+    },
+    "business_method_calls": 6,
+    "business_protocol_query_calls": 6,
+    "new_business_method_calls": 4,
+    "reused_successful_calls": 2,
+    "prior_identity": "5381ab44c267618ef7102fbab7b87bcc9e860f7ceed367eb786174d8c113e8cd"
+  },
+  "budget_interpretation": "Two separately owned 180-second phases with a debugging gap, not one completed 180-second wall run. Exactly six business queries; no successful request repeated.",
+  "daily_rows": 16,
+  "rth_hour_rows": 112,
+  "OHLC_matches": 16,
+  "volume_difference_sessions": 16,
+  "volume_difference_reason": "UNVERIFIED",
+  "account_queries": 0,
+  "order_calls": 0,
+  "economic_runs": 0
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "nvda-economic-readout-derivation-v1",
+  "study_hash": "12c1567d2d71ae82c3e0e461272ca295d493e68edd3a939a36f0d037affc627d",
+  "execution_commit": "f773c48b4dc7d9f7da893eef3a9d2e37a9f52420",
+  "canonical_report_sha256": "9993363668e246c1a79adae8d0317a60185bd1d7d761ba955a1f8562c77dfd34",
+  "readout_sha256": "47d0798e031a9238480ee7cad390b7d553093fb1e0c335a56ed6c5b9b1ac88de",
+  "exact_copies_sha256": {
+    "study.json": "cb0a34f75d38433858cfb172986a3666a6f9d90e393b3b360c46a410b490696f",
+    "approval.json": "728cd202630bc981d2d55781a3cb6b8f1bc23bd023a9402fafd886ce8da01890",
+    "retained-result-review.json": "4a70f104da5e6c54d3e21493e6863099c38c5b8d1f67488b65db04e4052161d4",
+    "canonical-report.html": "9993363668e246c1a79adae8d0317a60185bd1d7d761ba955a1f8562c77dfd34"
+  },
+  "additions": [
+    "Plain-language result and sample counts",
+    "Capital, costs, sizing and fixed exit rules",
+    "Earlier same-quarter guidance identity",
+    "Modeled entry and exit-day explanation",
+    "Daily stop timestamp limitation"
+  ],
+  "new_economic_runs": 0,
+  "new_replays": 0,
+  "new_provider_calls": 0,
+  "raw_market_data_published": false,
+  "source_and_execution_code_changed": false,
+  "human_first_use": "NOT_ACCEPTED"
+}

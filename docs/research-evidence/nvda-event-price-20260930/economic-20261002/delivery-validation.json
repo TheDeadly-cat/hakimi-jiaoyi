@@ -1,0 +1,30 @@
+{
+  "schema_version": "nvda-delivery-validation-v1",
+  "study_hash": "12c1567d2d71ae82c3e0e461272ca295d493e68edd3a939a36f0d037affc627d",
+  "status": "PASS_WITH_STATED_SCOPE",
+  "checked": [
+    "Exact retained copies and public readout hashes",
+    "Approval and study canonical hashes",
+    "Four displayed comparison rows match retained metrics",
+    "Relative report links resolve",
+    "No script or external report resource",
+    "Public output scan: no private absolute paths or raw fill/quote fields",
+    "Desktop screenshot and all four fee details expanded",
+    "390x844 viewport: page width equals scroll width 375; each table contained in 313px scroller with 542px content",
+    "Temporary viewport override reset; report shown for human feedback"
+  ],
+  "screenshots_sha256": {
+    "readout-desktop.png": "277cac0435588fbfb5ce10f4ba94d9807efc48a9ba13c53d52131b05ccb50eee",
+    "readout-narrow.png": "aa1a7f755512296eb994933fbf26e19d281f6d83ccc43b4794239bc8dc58ec85",
+    "readout-handoff.png": "3fab0d846173adc5c23ff51ef6be362602d3ecc1666e4fee6d37547e09613c84"
+  },
+  "human_first_use": "NOT_ACCEPTED_AWAITING_USER_FEEDBACK",
+  "new_simulations": 0,
+  "new_replays": 0,
+  "new_provider_calls": 0,
+  "limitations": [
+    "Agent browser checks are not human acceptance",
+    "Horizontal overflow contained within each table; narrow screenshot shows partial columns until scrolled",
+    "No full test suite rerun for the result-and-document-only delivery"
+  ]
+}

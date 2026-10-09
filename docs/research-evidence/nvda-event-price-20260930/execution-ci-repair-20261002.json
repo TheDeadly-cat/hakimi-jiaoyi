@@ -1,0 +1,19 @@
+{
+  "schema_version": "nvda-execution-ci-fixture-repair-v1",
+  "client_date": "2026-10-02",
+  "failed_head": "2b4db95d181d5866e1bee0bee470323c874c9b0b",
+  "failed_run": 37003591632,
+  "failed_job": 110826610314,
+  "repository_tests_run": 490,
+  "errors": 3,
+  "reason": "Unresolved temporary fixture root was compared with a resolved output path; production root was already resolved.",
+  "mechanism_check": "Local parent-segment alias reproduces path mismatch; canonicalizing fixture root resolves it. Exact CI temporary alias text was not logged.",
+  "production_code_unchanged": true,
+  "executor_sha256": "7009afa9b696e918cdccac1311eb1fd13245d2f5aad956a9353a7b0cd7d1f7b8",
+  "fixed_fixture_sha256": "26a909c70fd4e5faefff31f718141337afcc9d8da2b7e2a88f1113ce58de3e59",
+  "failed_log_sha256": "1ed6d3bec2e3dc73e46910c4bd5ec2c1965c46a1edb6b00fce94fb6b5b96cc26",
+  "local_regression_tests": 27,
+  "local_failures": 0,
+  "actual_NVDA_economic_runs": 0,
+  "new_remote_validation": "SEPARATE_CURRENT_PR_HEAD_NOT_OLD_CI"
+}
