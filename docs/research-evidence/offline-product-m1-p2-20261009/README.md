@@ -31,8 +31,12 @@
 
 新构建提交的[九项远端 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37820485396)成功，见[源码 CI 回执](source-ci.json)。最终证据／文档 head 的 checks 以 [PR #19](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/19) 当前状态为准。旧 dev3 的 201 项检查、首用和九项 CI 原样保留为当时范围；不把新边界回填到旧产物。
 
-PR #19 当前基于未合并 PR #18。PR #18 的受审 head 仍为 `32ef9f789ec644ec2b0f734218669c2b52f2aa60`，九项 CI 成功；其固定八次 NVIDIA 研究与用户报告阅读反馈已留存。main 仍为 `cdee7b5472981811655bf84a8a9f59298df546b4`。本轮没有把“核准字段与八次离线对照”解释为 main 合并授权。
+准备阶段的 PR #19 基于当时未合并 PR #18，main 为 `cdee7b5472981811655bf84a8a9f59298df546b4`；原准备记录保留为当时身份。PR #18 的受审 head 为 `32ef9f789ec644ec2b0f734218669c2b52f2aa60`，固定八次 NVIDIA 研究与报告阅读证据不重跑、不重签。“核准字段与八次离线对照”仍不解释为 main 合并授权。
 
-合并顺序为：单独批准并合入 PR #18；核对 main 实际差异和合并后 CI；将 PR #19 转向 main，核对只包含 M1 增量的实际差异与新 CI；按 PR #19 确切 head 单独批准合并，再核对 main 实际差异与 CI。尚未执行任一合并，不把开发分支 CI 当作 main 集成完成。M1 修复和候选验收已完成，主分支集成仍待这些步骤。
+本次用户对待批准的 PR #18 回复“授权”后，已于 2026-10-09 13:06:32（上海）合入 main `8e95f51533331a29b29caebf92347ae29f3af0db`。实际两父提交、树身份和 main 差异与受审提交逐字节核对一致；[合并后九项 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37887002186)通过，绑定实际 main 合并提交。见[依赖集成回执](main-integration-pr18.json)。原开发分支保留。
+
+PR #19 已转向 main `8e95f51`。转基线时 GitHub 与本机实际对比文件列表一致，81 个文件属于 M1 增量及证据，原 NVIDIA 研究文件和共享回测／风险／成交／账本算法没有重复差异。本次补充依赖集成说明后，最终审阅 head 的 CI 单独核对；wheel 构建提交、源码与 ZIP 原字节保持不变。
+
+下一步仍为按 PR #19 最终确切 head 单独批准 main 合并，再核对实际进入 main 的差异和 CI。PR #18 的合并批准只绑定 PR #18；M1 修复和候选验收已完成，M1 主分支集成尚未完成，不把旧开发分支 CI 当作这一验收。
 
 共享回测、风控、成交和账本算法与原候选未改；正式 Release、r3、部署及旧记录保留。T3／Unknown、账户、订单、邮件、新监控及市场研究保持现有边界；M2 不在本轮开发范围。
