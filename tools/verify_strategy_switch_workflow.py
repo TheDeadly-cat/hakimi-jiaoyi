@@ -56,6 +56,7 @@ def verify_strategy_switch_workflow(command, workspace, run, *, env, outside):
     seed_view = call('task-show', '--task', seed)
     event_input = Path(seed_view['task_file']).parent / 'inputs/event-context.json'
     source_files = frozen(seed, workspace / 'data')
+    source_files[source] = sha256(source.read_bytes()).hexdigest()
     active_params = dict(fast_window=2, slow_window=4, position_pct=.2, stop_loss_pct=.02, take_profit_pct=.05)
     active_risk = dict(max_position_pct=.3, max_single_loss_pct=.025, max_daily_loss_pct=.1, min_cash_pct=.15, max_leverage=1)
     benchmark_params = dict(target_position_pct=.3)
@@ -123,10 +124,13 @@ def verify_strategy_switch_workflow(command, workspace, run, *, env, outside):
         raise RuntimeError('installed_same_strategy_cash_edit_changed_original_rules')
     if (Path(cash['task_file']).parent / 'inputs/event-context.json').read_bytes() != event_input.read_bytes():
         raise RuntimeError('installed_same_strategy_cash_edit_changed_event_input')
-    incompatible_params = reject(seed, 'unsupported_application_strategy_parameter',
+    incompatible_params = reject(seed, 'unknown_strategy_parameter',
         '--strategy', 'price.buy_and_hold@1', '--parameters', partial_params)
-    incompatible_risk = reject(seed, 'benchmark_has_no_active_risk_controls',
+    incompatible_risk = reject(seed, 'buy_and_hold_requires_declared_full_spot_cash_policy',
         '--strategy', 'price.buy_and_hold@1', '--risk', document('incompatible-risk', active_risk))
+    inactive_risk = reject(seed, 'benchmark_has_no_active_risk_controls',
+        '--strategy', 'price.buy_and_hold@1', '--risk',
+        document('inactive-risk', dict(benchmark_risk, max_daily_loss_pct=.1)))
 
     default_family = workspace / 'tasks/switch-default-benchmark'
     default_view = call('task-copy', '--from-task', seed, '--task', default_family, '--strategy', 'price.buy_and_hold@1')
@@ -167,4 +171,5 @@ def verify_strategy_switch_workflow(command, workspace, run, *, env, outside):
         operator='AGENT', normal_installed_console_entry=True, rows=rows, menu_rows=menu_rows,
         same_strategy_cash_only_retains_implicit_eight_percent=True, declared_default_template_controls_passed=True,
         incompatible_explicit_parameters=incompatible_params, incompatible_explicit_risk=incompatible_risk,
+        incompatible_inactive_risk_control=inactive_risk,
         source_files_and_old_versions_preserved=True, transcript=transcript, provider_calls=0, order_calls=0)

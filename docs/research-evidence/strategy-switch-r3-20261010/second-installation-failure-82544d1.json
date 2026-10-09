@@ -1,0 +1,15 @@
+{
+  "schema_version": "r3-second-installation-trial-failure-v1",
+  "observed_at_utc": "2026-10-09T16:48:34.278673+00:00",
+  "build_head": "82544d15bf34dbe82c58b1b80040373c0e0acbe3",
+  "provisional_wheel_sha256": "a78215a6050a457c6fd443ff1749ef9e7cba02e1a2bdfa7a304c57d9314fb514",
+  "source_sha256": "4186c9d80351797653dd4d0e90228725be5c6d0a5b3c24827a0769a9dc1e2fcd",
+  "status": "FAILED_NOT_ACCEPTED",
+  "cause": "The new verifier expected the registry error label for incompatible parameters, but the existing specification rejects first with unknown_strategy_parameter.",
+  "actual_exit": 1,
+  "actual_error": "unknown_strategy_parameter",
+  "expected_error_in_failed_verifier": "unsupported_application_strategy_parameter",
+  "correction": "Match the existing specification error exactly; retain rejection, state and byte-preservation assertions.",
+  "runtime_changed_for_this_correction": false,
+  "failure_log_and_provisional_wheel_retained": true
+}
