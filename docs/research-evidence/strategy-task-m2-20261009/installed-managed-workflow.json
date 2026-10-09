@@ -1,0 +1,128 @@
+{
+  "checkout_data_used": false,
+  "comparison_hash": "1b5a9dc205bb23ee0d699f5885c066d2c683fe97842428c94bd04659539710f3",
+  "comparison_status": "COMPARABLE_CONDITIONS",
+  "data_kind": "SYNTHETIC_TEST",
+  "order_calls": 0,
+  "provider_calls": 0,
+  "report_hashes": [
+    "bcc15335f276d3394c2af8e3cfc150877aa259f03aa2db3817c7ce47773d0174",
+    "b3e2c22d7b0c3d746b5f6b9c0103fbd88e06f7be2db2ec94492f077623498756",
+    "fd3e1e28183ef163e87bb59e57a4f8bc0d1c25484061dbc4bbb3a2705be3b58e"
+  ],
+  "scenarios": [
+    "CREATE_AND_COPY",
+    "REVISE_NEW_VERSION",
+    "RUN_THREE_REGISTERED_STRATEGIES",
+    "COMMON_COMPARISON",
+    "INCOMPARABLE_CASH_REJECTED",
+    "PAUSED_EXECUTION_REJECTED",
+    "SELECT_HISTORICAL_CONFIGURATION",
+    "COLD_PROCESS_REOPEN",
+    "WORKSPACE_MOVED_OLD_PATH_ABSENT",
+    "THREE_REPORT_REPLAYS",
+    "SAVED_REPORT_RECOVERY_ZERO_CALCULATIONS"
+  ],
+  "schema_version": "managed-task-installed-workflow-v1",
+  "shared_portfolio": false,
+  "status": "PASS",
+  "task_ids": [
+    "9129ba536fa65b9a5b43f9820c97232006770faa4d06462cd4f2ddf850d55cbd",
+    "cbdf40dec8ff6959f002a73fb2b8ad7f6184339373398bdaaa01cefaaf252370",
+    "b60b5357e8a20b8aad17480563e85b53b71750e3650b8b0459144882de4e70c9"
+  ],
+  "transcript": [
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "compare",
+      "status": "COMPARABLE_CONDITIONS"
+    },
+    {
+      "command": "task-revise",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "compare",
+      "status": "NOT_COMPARABLE"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-select",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "replay",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "recover",
+      "status": "RETAINED_REPORT_RENDERED"
+    },
+    {
+      "command": "replay",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "recover",
+      "status": "RETAINED_REPORT_RENDERED"
+    },
+    {
+      "command": "replay",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "recover",
+      "status": "RETAINED_REPORT_RENDERED"
+    }
+  ]
+}
