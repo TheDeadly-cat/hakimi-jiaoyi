@@ -31,7 +31,8 @@ def verify_strategy_switch_workflow(command, workspace, run, *, env, outside):
             cwd=outside, env=env, text=True, encoding='utf-8', capture_output=True, timeout=120)
         stopped = json.loads(result.stdout)
         if result.returncode != 1 or stopped['status'] != 'STOPPED' or error not in stopped['error']:
-            raise RuntimeError('installed_strategy_switch_rejection_failed:' + error)
+            raise RuntimeError('installed_strategy_switch_rejection_failed:expected=' + error
+                + ',observed=' + str(stopped.get('error')) + ',exit=' + str(result.returncode))
         after = call('task-show', '--task', family)
         if any(after[name] != before[name] for name in ('family_id', 'state', 'selected_revision', 'event_hash', 'revisions')):
             raise RuntimeError('installed_rejected_strategy_switch_committed_state')
@@ -58,7 +59,7 @@ def verify_strategy_switch_workflow(command, workspace, run, *, env, outside):
     active_params = dict(fast_window=2, slow_window=4, position_pct=.2, stop_loss_pct=.02, take_profit_pct=.05)
     active_risk = dict(max_position_pct=.3, max_single_loss_pct=.025, max_daily_loss_pct=.1, min_cash_pct=.15, max_leverage=1)
     benchmark_params = dict(target_position_pct=.3)
-    benchmark_risk = dict(max_position_pct=1, max_single_loss_pct=1, max_daily_loss_pct=1, min_cash_pct=0, max_leverage=1)
+    benchmark_risk = dict(max_position_pct=1, max_single_loss_pct=.03, max_daily_loss_pct=1, min_cash_pct=0, max_leverage=1)
     targets = [('dual-ma', 'price.dual_ma@1', active_params, active_risk),
         ('buy-and-hold', 'price.buy_and_hold@1', benchmark_params, benchmark_risk)]
     active_files = ['--parameters', document('active-parameters', active_params),
@@ -106,6 +107,7 @@ def verify_strategy_switch_workflow(command, workspace, run, *, env, outside):
             raise RuntimeError('installed_copy_and_revision_switch_rules_differ')
         unchanged(original)
         rows.append(dict(target=key, explicit_legal_target_parameters_and_risk=True,
+            requested_target_parameters=params, requested_target_risk=risk,
             same_family_revision_passed=True, event_input_cleared=True, explicit_conflict=conflict,
             reverse_missing_event=reverse, explicit_reverse_event_passed=True, copy_control_passed=True,
             paused_state_preserved=True, parent_revision_bound=True, shared_configuration_and_snapshot_preserved=True,

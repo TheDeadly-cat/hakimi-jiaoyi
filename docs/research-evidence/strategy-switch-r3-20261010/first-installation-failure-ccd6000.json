@@ -1,0 +1,32 @@
+{
+  "schema_version": "r3-first-installation-trial-failure-v1",
+  "observed_at_utc": "2026-10-09T16:41:58.662785+00:00",
+  "build_head": "ccd6000dfc4f46d578f0df5fbdb963839ef0937c",
+  "provisional_wheel_sha256": "10382d8596fdef53cf6c5dd8c646007dde0ee20892193adcc8c0e4e89ff61198",
+  "source_sha256": "4186c9d80351797653dd4d0e90228725be5c6d0a5b3c24827a0769a9dc1e2fcd",
+  "status": "FAILED_NOT_ACCEPTED",
+  "cause": "The new installed-regression fixture supplied benchmark max_single_loss_pct=1, conflicting with the existing fixed .03 compatibility value.",
+  "observation": {
+    "actual_validation_error": "benchmark_has_no_active_risk_controls:use_allocation_parameter_and_fixed_benchmark_policy",
+    "supplied_risk": {
+      "max_position_pct": 1,
+      "max_single_loss_pct": 1,
+      "max_daily_loss_pct": 1,
+      "min_cash_pct": 0,
+      "max_leverage": 1
+    },
+    "canonical_benchmark_risk": {
+      "max_position_pct": 1.0,
+      "max_single_loss_pct": 0.03,
+      "max_daily_loss_pct": 1.0,
+      "max_leverage": 1.0,
+      "min_cash_pct": 0.0
+    },
+    "paused_state": "PAUSED",
+    "committed_revisions": 1,
+    "validation_probe_wrote_no_file": true
+  },
+  "correction": "Correct only the new verifier fixture to .03; keep the conflict assertion and original runtime guards.",
+  "previous_failure_log_and_candidate_retained": true,
+  "historical_dev3_or_dev2_changed": false
+}
