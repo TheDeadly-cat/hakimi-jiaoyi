@@ -27,7 +27,9 @@ def runtime_file_names(package_root: str | Path) -> set[str] | None:
         relative = Path(name)
         if relative.is_absolute() or ".." in relative.parts or "\\" in name or ":" in name:
             raise ValueError("runtime source manifest path invalid")
-        if relative.suffix not in {".py", ".json", ".lock"}:
+        if relative.suffix not in {".py", ".json", ".lock"} and not (
+            relative.parts[0] == "resources" and relative.suffix in {".csv", ".html"}
+        ):
             raise ValueError("runtime source manifest file type invalid")
         path = root / relative
         if not path.is_file() or any((root / Path(*relative.parts[:count])).is_symlink() for count in range(1, len(relative.parts) + 1)):
@@ -44,7 +46,9 @@ def package_content_identity(package_root: str | Path) -> dict:
         relative = path.relative_to(root)
         if "__pycache__" in relative.parts or path.name == BUILD_IDENTITY_FILENAME:
             continue
-        if path.is_file() and path.suffix in {".py", ".json", ".lock"}:
+        if path.is_file() and (path.suffix in {".py", ".json", ".lock"} or (
+            relative.parts[0] == "resources" and path.suffix in {".csv", ".html"}
+        )):
             if selected is not None and relative.as_posix() not in selected:
                 if checkout:
                     continue

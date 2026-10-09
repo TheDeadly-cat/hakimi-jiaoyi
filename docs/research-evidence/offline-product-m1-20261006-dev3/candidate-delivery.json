@@ -1,0 +1,20 @@
+{
+  "accepted_wheel_sha256": "e0f27a108744ab4390915ad8f2605bb1599a144fae64d96f26013cfc66527e81",
+  "candidate_directory_name": "Hakimi-M1-dev3-20261006-e0f27a10",
+  "entry": "开始使用.cmd",
+  "first_use": "PASS",
+  "formal_release_changed": false,
+  "merge_release_deployment_authorized": false,
+  "optional_human_feedback": "NOT_RECEIVED_NOT_CLAIMED",
+  "product": {
+    "archive": "supervised-research-40747e95476e592435135866c6eee0376208baa4def084e32eb97e3020675eb8.zip",
+    "archive_sha256": "ef5383050f671c2cc98f5ab1a068d4721127c6a252d0cf31711121055c86ee2e",
+    "build_id": "supervised-research-40747e95476e592435135866c6eee0376208baa4def084e32eb97e3020675eb8",
+    "directory": "supervised-research-40747e95476e592435135866c6eee0376208baa4def084e32eb97e3020675eb8"
+  },
+  "runtime_source_sha256": "c04c70a1609ca511c1f812f9d56c7e98f7464096f07b880e0cc3d23015b68dce",
+  "schema_version": "M1-offline-product-delivery-v1",
+  "scope": "EXACT_ACCEPTED_WHEEL_OFFLINE_TOOL_CANDIDATE_NOT_BROKER_OR_STRATEGY_ADMISSION",
+  "version": "0.3.0.dev3",
+  "wheel_build_commit": "e6264412d43d0130f60ca6d6c20312b8c1cce611"
+}

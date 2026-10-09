@@ -1,0 +1,34 @@
+{
+  "build_git": {
+    "commit": "e6264412d43d0130f60ca6d6c20312b8c1cce611",
+    "status": "CLEAN"
+  },
+  "build_inputs_sha256": {
+    "pyproject.toml": "e92156e3b371a83c770519a0b555d6cc3f6a6c8fb5b1c4a06473615bcd568d11",
+    "requirements.research.lock": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+    "setup.py": "16588d8df29ee30c8a27982e1974e0636dfbed0209e97f8a18533376882fea31"
+  },
+  "ci_context": {
+    "runner_system": "Windows"
+  },
+  "execution_permission": {
+    "live_order_allowed": false,
+    "order_entry_allowed": false,
+    "paper_authorized": false,
+    "research_only": true
+  },
+  "installation": {
+    "editable": false,
+    "outside_checkout": true,
+    "pythonpath_used": false,
+    "system_site_packages": false
+  },
+  "privacy": "ALLOWLISTED_METADATA_MACHINE_RECEIPT_AND_LOCAL_PATHS_OMITTED_WHEEL_UNCHANGED",
+  "schema_version": "research-wheel-acceptance-public-v1",
+  "scope": "EXACT_WHEEL_INSTALLATION_AND_OFFLINE_CONTRACTS_NOT_MARKET_OR_STRATEGY_VALIDATION",
+  "source_checkout_unchanged": true,
+  "source_content_sha256": "c04c70a1609ca511c1f812f9d56c7e98f7464096f07b880e0cc3d23015b68dce",
+  "status": "PASS",
+  "wheel": "hakimi_research-0.3.0.dev3-py3-none-any.whl",
+  "wheel_sha256": "e0f27a108744ab4390915ad8f2605bb1599a144fae64d96f26013cfc66527e81"
+}

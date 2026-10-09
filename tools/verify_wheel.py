@@ -134,6 +134,37 @@ def main() -> None:
     equity_command = environment / ("Scripts/hakimi-equity-research.exe" if os.name == "nt" else "bin/hakimi-equity-research")
     run([str(equity_command), "--help"])
     run([str(equity_command), "capabilities"])
+    trade_command = environment / ("Scripts/hakimi-trade.exe" if os.name == "nt" else "bin/hakimi-trade")
+    run([str(trade_command), "--help"])
+    run([str(trade_command), "capabilities"])
+    run([str(trade_command), "strategies"])
+    # A real console workflow against this exact installed wheel, in a new
+    # user workspace with package-owned fictional fixtures and no checkout data.
+    demo = outside / "user-workspace"
+    initialized = json.loads(run([str(trade_command), "init", "--demo", "--workspace", str(demo)], echo=False))
+    workflow = {"schema_version": "offline-tool-installed-workflow-v1", "status": "PASS",
+                "data_kind": "SYNTHETIC_TEST", "task_results": [], "source_workflow": False,
+                "checkout_data_used": False, "source_modified": False}
+    for task in initialized["tasks"]:
+        checked = json.loads(run([str(trade_command), "check", "--task", task], echo=False))
+        executed = json.loads(run([str(trade_command), "run", "--task", task], echo=False))
+        directory = Path(executed["run_directory"])
+        viewed = json.loads(run([str(trade_command), "report", "--run-dir", str(directory)], echo=False))
+        replayed = json.loads(run([str(trade_command), "replay", "--run-dir", str(directory)], echo=False))
+        if not replayed["replay_verified"]:
+            raise RuntimeError("installed_trade_workflow_replay_failed")
+        # Remove only the new synthetic view, then restore from saved results.
+        Path(viewed["report"]).unlink()
+        restored = json.loads(run([str(trade_command), "recover", "--run-dir", str(directory)], echo=False))
+        if restored["new_economic_runs"] != 0 or not Path(restored["report"]).is_file():
+            raise RuntimeError("installed_trade_view_recovery_repeated_economics")
+        workflow["task_results"].append({"task_id": checked["task_id"], "replay_verified": True,
+            "report_recovered": True, "recovery_new_economic_runs": 0})
+    source = json.loads(run([str(trade_command), "source", "run", "--manifest", initialized["source_manifest"]], echo=False))
+    verified = json.loads(run([str(trade_command), "source", "verify", "--packet", source["packet"]], echo=False))
+    if verified["status"] != "SOURCE_WORKFLOW_CHECKED":
+        raise RuntimeError("installed_source_workflow_not_completed")
+    workflow["source_workflow"] = True
     tests = outside / "tests"
     shutil.copytree(root / "tests", tests, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     # The independent Decimal reconciler is a test/audit sidecar, not a runtime
@@ -180,6 +211,8 @@ def main() -> None:
         "tests": sorted(path.name for path in tests.glob("test_*.py")),
         "console_smoke_commands": ["--help", "capabilities", "list-strategies"],
         "equity_console_smoke_commands": ["--help", "capabilities"],
+        "trade_console_smoke_commands": ["--help", "capabilities", "strategies"],
+        "trade_installed_workflow": workflow,
     }
     receipt_path = work / "wheel-acceptance.json"
     receipt_path.write_text(json.dumps(receipt, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")

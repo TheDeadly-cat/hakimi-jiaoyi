@@ -1,0 +1,87 @@
+{
+  "additional_copy_migration_scope": "COPIED_RUNS_WITH_ORIGINALS_RETAINED",
+  "broker_calls": 0,
+  "data_kind": "SYNTHETIC_TEST",
+  "editable": false,
+  "human_first_use": "PENDING",
+  "installation_receipt": {
+    "account_connected": false,
+    "build_id": "supervised-research-8514a4f6b7ed63d4796540a927efa5d3c202e6b5a12fb2cc32194284ad42d5e0",
+    "editable": false,
+    "kind": "research",
+    "monitor_started": false,
+    "order_sent": false,
+    "pythonpath_used": false,
+    "schema_version": "supervised-preview-installation-v1",
+    "system_site_packages": false
+  },
+  "installation_status": {
+    "actual": {
+      "dependencies": "VERIFIED",
+      "execution_permission": {
+        "live_order_allowed": false,
+        "order_entry_allowed": false,
+        "paper_authorized": false,
+        "research_only": true
+      },
+      "source": "BUILD_VERIFIED",
+      "source_sha256": "4e5f9bd6a4bc5c5df74ea3f4c7bedff9f2f2ade9c899c9ce14144745bc57cf19"
+    },
+    "status": "VERIFIED"
+  },
+  "installation_status_log_sha256": "87c8e820454452fa641d749517da186fee0b4bf5a0ee76318e1abc8bcefd3f62",
+  "installed_workflow": {
+    "checkout_data_used": false,
+    "data_kind": "SYNTHETIC_TEST",
+    "schema_version": "offline-tool-installed-workflow-v1",
+    "source_modified": false,
+    "source_workflow": true,
+    "status": "PASS",
+    "task_results": [
+      {
+        "recovery_new_economic_runs": 0,
+        "replay_verified": true,
+        "report_recovered": true,
+        "task_id": "bad454089cec413b4ff320d16916bc7b8bbc6f33e15f3af5c2cd44f97a865b8c"
+      },
+      {
+        "recovery_new_economic_runs": 0,
+        "replay_verified": true,
+        "report_recovered": true,
+        "task_id": "77ca49cbc29ae15484fa088f7b2c4bc4abb2c1ee27befd7b4d51a142f5163554"
+      }
+    ]
+  },
+  "migration_original_path_removal_proof": "INSTALLED_TEST_SCOPE_test_moving_workspace_keeps_task_and_report_identity",
+  "outside_checkout": true,
+  "provider_calls": 0,
+  "pythonpath_used": false,
+  "rows": [
+    {
+      "fill_count": 2,
+      "migrated_report_unchanged": true,
+      "migration_replay_verified": true,
+      "replay_verified": true,
+      "report_hash": "d0b1ea5d5140758247b8574c35acbd5ffbf1a09fd898ef670433a46b3a049328",
+      "strategy": "price.dual_ma",
+      "task_id": "bad454089cec413b4ff320d16916bc7b8bbc6f33e15f3af5c2cd44f97a865b8c",
+      "total_return": -0.01025288846153849
+    },
+    {
+      "fill_count": 0,
+      "migrated_report_unchanged": true,
+      "migration_replay_verified": true,
+      "replay_verified": true,
+      "report_hash": "be35b0a5a4f08efc5dbb0cc5f6a52ce8082e3b837c9073a1af4fce151d969933",
+      "strategy": "event.earnings_schedule",
+      "task_id": "77ca49cbc29ae15484fa088f7b2c4bc4abb2c1ee27befd7b4d51a142f5163554",
+      "total_return": 0.0
+    }
+  ],
+  "runtime_source_sha256": "4e5f9bd6a4bc5c5df74ea3f4c7bedff9f2f2ade9c899c9ce14144745bc57cf19",
+  "schema_version": "M1-profile-installed-workflow-v1",
+  "source_workflow": true,
+  "status": "PASS",
+  "system_site_packages": false,
+  "wheel_sha256": "dbcdc80385300578ad0e55c8d8516b760260f51d8e4105224b50ddb08c795a86"
+}

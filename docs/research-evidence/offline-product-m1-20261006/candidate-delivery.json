@@ -1,0 +1,25 @@
+{
+  "accepted_wheel_sha256": "dbcdc80385300578ad0e55c8d8516b760260f51d8e4105224b50ddb08c795a86",
+  "build_identity_distinct_from_review_head": true,
+  "dependencies": "EXACT_FIVE_LOCKED_WHEELS_INCLUDED_IN_LOCAL_ARCHIVE",
+  "entry": "开始使用.cmd",
+  "formal_release_changed": false,
+  "human_candidate_directory_name": "Hakimi-M1-20261006-dbcdc803",
+  "human_first_use": "PENDING",
+  "installer": "REUSED_SUPERVISED_PREVIEW_INSTALLER",
+  "main_merged": false,
+  "platform": "WINDOWS_X64_CPYTHON_3_14",
+  "product": {
+    "archive": "supervised-research-8514a4f6b7ed63d4796540a927efa5d3c202e6b5a12fb2cc32194284ad42d5e0.zip",
+    "archive_sha256": "833770267c02d9f2a7283ecade5ae2fce4aff8bb8ac0f8d027a5bba7e5c7dbc6",
+    "build_id": "supervised-research-8514a4f6b7ed63d4796540a927efa5d3c202e6b5a12fb2cc32194284ad42d5e0",
+    "directory": "supervised-research-8514a4f6b7ed63d4796540a927efa5d3c202e6b5a12fb2cc32194284ad42d5e0"
+  },
+  "release_created": false,
+  "runtime_source_sha256": "4e5f9bd6a4bc5c5df74ea3f4c7bedff9f2f2ade9c899c9ce14144745bc57cf19",
+  "schema_version": "M1-offline-product-delivery-v1",
+  "scope": "EXACT_ACCEPTED_WHEEL_OFFLINE_TOOL_CANDIDATE_NOT_BROKER_OR_STRATEGY_ADMISSION",
+  "source_bytes_and_build_inputs_match_review_checkout": true,
+  "source_contract_repair_commit": "639b0a3cfc3c57229371ccf6993e821096bc0c09",
+  "wheel_build_commit": "817195777f41070d78f56f76013b736dddd3ad4c"
+}

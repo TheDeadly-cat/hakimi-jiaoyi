@@ -1,0 +1,54 @@
+{
+  "conclusion": "success",
+  "head_sha": "e6264412d43d0130f60ca6d6c20312b8c1cce611",
+  "jobs": [
+    {
+      "conclusion": "success",
+      "name": "Market-data renderer",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37451729656/job/112229640388"
+    },
+    {
+      "conclusion": "success",
+      "name": "Deterministic references",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37451729656/job/112229640545"
+    },
+    {
+      "conclusion": "success",
+      "name": "Offline research MVP contracts",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37451729656/job/112229640554"
+    },
+    {
+      "conclusion": "success",
+      "name": "Historical developer reference replay",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37451729656/job/112229640582"
+    },
+    {
+      "conclusion": "success",
+      "name": "Python contracts",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37451729656/job/112229640648"
+    },
+    {
+      "conclusion": "success",
+      "name": "Electron capability contract",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37451729656/job/112229640670"
+    },
+    {
+      "conclusion": "success",
+      "name": "Package install smoke (windows-latest)",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37451729656/job/112229640762"
+    },
+    {
+      "conclusion": "success",
+      "name": "Package install smoke (ubuntu-latest)",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37451729656/job/112229640763"
+    },
+    {
+      "conclusion": "success",
+      "name": "Research required gate",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37451729656/job/112230557256"
+    }
+  ],
+  "run_id": 37451729656,
+  "schema_version": "M1-source-ci-v1",
+  "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37451729656"
+}

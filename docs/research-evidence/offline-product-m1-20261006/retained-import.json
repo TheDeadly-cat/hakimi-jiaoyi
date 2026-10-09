@@ -1,0 +1,65 @@
+{
+  "bundle_id": "7bdf3b90c090082f654698fb78f8d12f4b4ba632211525a481867d883fd337b5",
+  "bundle_paths_relative": true,
+  "calendar_sha256": "3781aa7ec98e429b39c9b1cbdb3677043b8ba622084b8c9d5e10fd7836d9a13b",
+  "evidence_kind": "IMPORTED_UNVERIFIED",
+  "import_mode": "HISTORICAL_CONTINUATION",
+  "limitations": [
+    "Fixed two-window NVDA importer; generic supported equities use CSV metadata import.",
+    "Provider identity and action completeness remain bounded declarations.",
+    "Daily/hour volume differences remain unexplained and do not prove liquidity."
+  ],
+  "normal_complete_collection_evidence": "SYNTHETIC_INSTALLED_CONTRACT_TESTS_ONLY",
+  "original_bindings_sha256": {
+    "inputs/continuation/03-2024Q1-K_DAY.response.private.json": "717e90b540424757f5c34e43a1d28cdcbfd6e47f7915f4255caf7a79bac1d0b1",
+    "inputs/continuation/03-2024Q1-K_DAY.started.private.json": "c24880547a42d1135daa82fb7074d435d022fd070a425207e942e11e8be63c6f",
+    "inputs/continuation/04-2024Q1-K_60M.response.private.json": "90a214aa0a247ab1fde789d203dd205b040576c45248797bf18e2e7339612f83",
+    "inputs/continuation/04-2024Q1-K_60M.started.private.json": "7896e1e57e70946b75a9952e5b5ef3440e5d3a8491794d84eb5bc69a4568fbb3",
+    "inputs/continuation/05-2024Q2-K_DAY.response.private.json": "08206e6f40d0bc577b2d1da57a8edbc090314d3346999a5f4a38ea9a9d2a36fc",
+    "inputs/continuation/05-2024Q2-K_DAY.started.private.json": "2a796bbc492571ac4e06ea6ba9b26759dc4c034d15ef0322ccd6e09b42d11113",
+    "inputs/continuation/06-2024Q2-K_60M.response.private.json": "b78a4726523a6042f926bdeb349f8a3df4163a755b5a12e1762d372212962911",
+    "inputs/continuation/06-2024Q2-K_60M.started.private.json": "37668a42d426165a9029f825a1c1d5ae05e756b10ca77b6a3c77832c27fd2b66",
+    "inputs/continuation/continuation.private.json": "81798a28f802118b9b9dbe9b88c88f9eedd19c50b147429db1fac955ad0603df",
+    "inputs/continuation/frozen-inputs.private.json": "4dc34bb286ebd7d84c0a9180d5b2e2786287a94dcd8bba1fa722617555a0ae90",
+    "inputs/continuation/process.private.json": "c08f6fc794a40fe85a6a420d2c223533f0b9727f2c2e9e12f00b30ba833b2236",
+    "inputs/continuation/summary.json": "463c37be6e4acd38cb364799646f7f1c611af63391c4716cfb18c4d20a96096f",
+    "inputs/first/01-security.response.private.json": "0afd5b1fabb4053171339bfd70f013d29b528973d919471e351b28afd419e981",
+    "inputs/first/01-security.started.private.json": "6202452fdba9bbbc3bc83d86d1165e678d1524b54c2fe90bb188cfb20a4ede4c",
+    "inputs/first/02-actions.response.private.json": "cf9005a77c791d9616a97c73dcbd867d9db3c698b3dca47847db2badcaf3593c",
+    "inputs/first/02-actions.started.private.json": "beec00218fe7fd46a32c62b8b83b3f1faaa008118f6a370e556191f871bb350b",
+    "inputs/first/failure.private.json": "3d08747519358c28f1909d5531bddd85b78e660872d3bfc2cc9923b191d0f70d",
+    "inputs/first/frozen-inputs.private.json": "bed61575ca0f578c6f9ab203c7d6d871852ab48db51a76ee9df2c53e4595b2a7",
+    "inputs/first/process.private.json": "8c0a587400ddcbd58ce0b2ee88ebf533225eccd41c406524a7866cedfaa05b5a",
+    "inputs/first/stderr.private.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "inputs/first/stdout.private.log": "ee52f9d219a5ab910aa858f1d1c2285693ff29a9a786e806f7f72c6a4685db10",
+    "inputs/first/summary.json": "e08841b3e671a469096bcf35eb9595b41deb18cbace34747e91ef4ed1c7b8f41"
+  },
+  "original_input_hashes_unchanged": true,
+  "original_lineage_sha256": "6df56e5b54dfe9062d5c478846fff2a51ccc6e463cb430965330735c49849691",
+  "permissions": {
+    "account_queries": 0,
+    "economic_runs": 0,
+    "orders": 0,
+    "provider_calls": 0
+  },
+  "real_market_research_rerun": false,
+  "schema_version": "M1-retained-import-public-v1",
+  "snapshot_ids_match_retained_originals": true,
+  "snapshots": [
+    {
+      "daily_RTH_OHLC_mismatch_sessions": 0,
+      "daily_RTH_volume_difference_sessions": 8,
+      "fiscal_quarter": "2024Q1",
+      "path": "snapshots/2024Q1/equity_dataset_eb42bcbf3f0b262b94c7267821bf6b651e2b9ff8a92df3107551a648211c6e16.json",
+      "snapshot_id": "eb42bcbf3f0b262b94c7267821bf6b651e2b9ff8a92df3107551a648211c6e16"
+    },
+    {
+      "daily_RTH_OHLC_mismatch_sessions": 0,
+      "daily_RTH_volume_difference_sessions": 8,
+      "fiscal_quarter": "2024Q2",
+      "path": "snapshots/2024Q2/equity_dataset_42f537943faa72fcf6d3a9f9bf429909049f4185f70056251a598ef1cd846cd0.json",
+      "snapshot_id": "42f537943faa72fcf6d3a9f9bf429909049f4185f70056251a598ef1cd846cd0"
+    }
+  ],
+  "status": "PASS"
+}

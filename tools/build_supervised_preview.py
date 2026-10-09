@@ -130,10 +130,84 @@ def build(receipt, output, *, root=ROOT, observation_summary=None):
         return index
 
 
+def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
+    """Reuse the accepted-wheel exporter and existing installer for the M1 profile."""
+    root, output, wheelhouse = Path(root).resolve(), Path(output).resolve(), Path(wheelhouse).resolve()
+    if output.exists():
+        raise ValueError("preview_output_exists_use_new_directory")
+    workflow = receipt.get("trade_installed_workflow", {})
+    if workflow.get("status") != "PASS" or len(workflow.get("task_results", [])) != 2:
+        raise ValueError("M1_exact_wheel_workflow_acceptance_required")
+    with tempfile.TemporaryDirectory(prefix="hakimi-M1-export-") as temp:
+        accepted = Path(temp) / "accepted"
+        public = export_bundle(receipt, accepted)
+        spec = importlib.util.spec_from_file_location("M1_source_identity", root / "src/hakimi_research/source_identity.py")
+        identity = importlib.util.module_from_spec(spec); spec.loader.exec_module(identity)
+        source = identity.package_content_identity(root / "src/hakimi_research")
+        if source["content_sha256"] != public["source_content_sha256"]:
+            raise ValueError("accepted_wheel_not_current_M1_source")
+        content = {"research/" + p.name: p.read_bytes() for p in accepted.iterdir()}
+        content["preview.py"] = (root / "tools/supervised_preview.py").read_bytes()
+        content["requirements.research.lock"] = (root / "requirements.research.lock").read_bytes()
+        content["README.md"] = (root / "docs/offline-quant-tool.md").read_bytes()
+        wheels = list(wheelhouse.glob("*.whl"))
+        pins = receipt["installed_runtime"]["environment_verified"]["packages"]
+        if len(wheels) != len(pins):
+            raise ValueError("M1_dependency_wheelhouse_inventory_changed")
+        found = {}
+        for path in wheels:
+            if path.is_symlink():raise ValueError("M1_dependency_wheel_must_be_regular")
+            if not path.name.endswith(("-win_amd64.whl", "-any.whl")):
+                raise ValueError("M1_dependency_wheel_platform_not_Windows_x64")
+            if path.name.endswith("-win_amd64.whl") and "-cp314-" not in path.name:
+                raise ValueError("M1_dependency_wheel_python_not_CP314")
+            with zipfile.ZipFile(path) as archive:
+                metadata = archive.read(next(n for n in archive.namelist() if n.endswith(".dist-info/METADATA"))).decode()
+                name = next(line[6:] for line in metadata.splitlines() if line.startswith("Name: ")).lower().replace("_", "-")
+                version = next(line[9:] for line in metadata.splitlines() if line.startswith("Version: "))
+            if name in found or name not in pins or version != pins[name]["required"]:
+                raise ValueError("M1_dependency_wheel_identity_conflict")
+            found[name] = version
+            content["wheelhouse/" + path.name] = path.read_bytes()
+        if set(found) != set(pins):raise ValueError("M1_dependency_wheel_missing")
+        suffix = public["wheel_sha256"][:12]
+        startup = ('@echo off\r\nsetlocal\r\nchcp 65001 >nul\r\n'
+            'set "PYTHONPATH="\r\nset "PYTHONHOME="\r\nset "PYTHONNOUSERSITE=1"\r\n'
+            'set "HAKIMI_OFFLINE_RUNTIME=%~dp0..\\runtime-' + suffix + '"\r\n'
+            'if not exist "%HAKIMI_OFFLINE_RUNTIME%\\research-env\\Scripts\\hakimi-trade.exe" (\r\n'
+            '  py -3.14 -B "%~dp0preview.py" install --runtime-root "%HAKIMI_OFFLINE_RUNTIME%" --wheelhouse "%~dp0wheelhouse"\r\n'
+            '  if errorlevel 1 goto failed\r\n)\r\n'
+            'py -3.14 -B "%~dp0preview.py" status --runtime-root "%HAKIMI_OFFLINE_RUNTIME%" --require-installed\r\n'
+            'if errorlevel 1 goto failed\r\n'
+            '"%HAKIMI_OFFLINE_RUNTIME%\\research-env\\Scripts\\python.exe" -I -B -m hakimi_research.trade_cli wizard --workspace "%~dp0..\\workspace"\r\n'
+            'exit /b %errorlevel%\r\n:failed\r\necho Installation or identity check stopped. Python 3.14 is required for these offline wheels.\r\npause\r\nexit /b 1\r\n')
+        content["Start-Hakimi.cmd"] = startup.encode("utf-8")
+        output.mkdir(parents=True)
+        record = write_bundle(output, "research", content, {"product_profile": "M1_OFFLINE_QUANT_TOOL", "version": public["wheel"].split('-')[1],
+            "supported_platform": "Windows x64", "supported_python": "CPython 3.14 for bundled dependency wheels",
+            "source": {"repository": "https://github.com/TheDeadly-cat/hakimi-jiaoyi", "wheel_build_git": public["build_git"]},
+            "wheel": "research/" + public["wheel"], "wheel_sha256": public["wheel_sha256"],
+            "research_source_sha256": source["content_sha256"], "automatic_account_connection": False,
+            "automatic_monitor_start": False, "automatic_orders": False})
+        index = {"schema_version": "M1-offline-product-delivery-v1", "formal_release_changed": False,
+            "accepted_wheel_sha256": public["wheel_sha256"], "product": record,
+            "scope": "EXACT_ACCEPTED_WHEEL_OFFLINE_TOOL_CANDIDATE_NOT_BROKER_OR_STRATEGY_ADMISSION"}
+        (output / "delivery.json").write_bytes(json.dumps(index, indent=2, sort_keys=True).encode() + b"\n")
+        return index
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--acceptance", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--observation-summary", type=Path)
+    parser.add_argument("--offline-product", action="store_true")
+    parser.add_argument("--wheelhouse", type=Path)
     args = parser.parse_args()
-    print(json.dumps(build(json.loads(args.acceptance.read_bytes()), args.output, observation_summary=args.observation_summary), indent=2))
+    receipt = json.loads(args.acceptance.read_bytes())
+    if args.offline_product:
+        if args.wheelhouse is None or args.observation_summary is not None:parser.error("offline product requires --wheelhouse and no observation summary")
+        result = build_offline_product(receipt, args.output, wheelhouse=args.wheelhouse)
+    else:
+        result = build(receipt, args.output, observation_summary=args.observation_summary)
+    print(json.dumps(result, indent=2))

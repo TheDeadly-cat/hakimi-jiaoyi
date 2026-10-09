@@ -43,7 +43,7 @@ class PackageMetadataV1Tests(unittest.TestCase):
         self.assertEqual(metadata["tool"]["setuptools"]["package-dir"], {"": "src"})
         self.assertEqual(
             metadata["tool"]["setuptools"]["package-data"]["hakimi_research"],
-            ["contracts/*.json", "resources/*.json", "resources/*.lock", "_build_identity.json", "runtime-files.json"],
+            ["contracts/*.json", "resources/*.json", "resources/*.lock", "resources/*.csv", "resources/*.html", "_build_identity.json", "runtime-files.json"],
         )
         self.assertTrue(CAPABILITY_DEFINITION_PATH.is_file())
 

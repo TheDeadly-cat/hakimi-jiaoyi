@@ -1,0 +1,92 @@
+{
+  "exact_scope_tests": [
+    "test_first_successful_collection_imports_without_a_historical_failure",
+    "test_legitimate_split_collection_imports_and_migrates_without_old_paths",
+    "test_bundle_conflict_and_traversal_are_rejected_without_overwriting",
+    "test_corrupt_receipt_stops_before_publishing_a_snapshot",
+    "test_unfinished_process_missing_file_and_extra_call_are_rejected",
+    "test_moving_workspace_keeps_task_and_report_identity",
+    "test_explicit_calculation_resume_preserves_failure_and_refuses_live_owner",
+    "test_interrupted_html_recovers_saved_result_without_running_engine",
+    "test_new_parameters_new_identity_but_location_is_not_a_new_strategy",
+    "test_two_registered_adapters_use_existing_results_and_replay",
+    "test_normal_menu_import_and_configuration_do_not_require_a_demo",
+    "test_saved_result_is_readable_without_a_browser_or_new_calculation",
+    "test_optional_browser_failure_and_timeout_preserve_access_to_saved_results"
+  ],
+  "final_review_head_ci": "VERIFY_PR19_CURRENT_CHECKS_AFTER_DOCUMENTATION_COMMIT",
+  "goal_file_sha256": "b14ebfb71be367cbc74de56af66333ea63598ae3754775e6e9f169b37f12a890",
+  "html_browser_optional_live_display": "UNVERIFIED_AND_NOT_REQUIRED_FOR_NORMAL_RESULT_VIEW",
+  "human_feedback": "NOT_RECEIVED_NOT_CLAIMED_OPTIONAL",
+  "normal_process_exit_code": 0,
+  "protected_scope": {
+    "M2_M4": "ROADMAP_NOT_THIS_DELIVERY",
+    "accounts_orders_email_monitoring": "PAUSED_UNCHANGED",
+    "main_merge_release_deployment": "PENDING_SEPARATE_AUTHORIZATION",
+    "new_provider_queries": 0,
+    "real_market_reruns": 0
+  },
+  "requirements": [
+    {
+      "evidence": [
+        "../../../README.md",
+        "../../../CURRENT_STATUS.md",
+        "../../quant-tool-roadmap.md",
+        "README.md"
+      ],
+      "number": 1,
+      "requirement": "Purpose roles current status and scope",
+      "status": "PROVEN"
+    },
+    {
+      "evidence": [
+        "accepted-wheel/test-scope.json",
+        "retained-import-reader.json"
+      ],
+      "number": 2,
+      "requirement": "Normal completed import historical continuation migration and conflict handling",
+      "status": "PROVEN"
+    },
+    {
+      "evidence": [
+        "accepted-wheel/wheel-acceptance.json",
+        "first-use.json",
+        "first-use-result-excerpts.txt"
+      ],
+      "number": 3,
+      "requirement": "Installed standalone entry complete offline usage without checkout injection",
+      "status": "PROVEN"
+    },
+    {
+      "evidence": [
+        "accepted-wheel/test-scope.json",
+        "first-use.json",
+        "README.md"
+      ],
+      "number": 4,
+      "requirement": "Versioned interface existing strategies and canonical engine without optimization",
+      "status": "PROVEN"
+    },
+    {
+      "evidence": [
+        "candidate-delivery.json",
+        "first-use.json",
+        "source-ci.json",
+        "README.md"
+      ],
+      "number": 5,
+      "requirement": "Same artifact fresh Windows end-to-end and reviewable pending approval items",
+      "status": "PROVEN"
+    }
+  ],
+  "schema_version": "M1-goal-requirement-audit-v1",
+  "scope": "M1_ONLY",
+  "status": "REQUIRED_DELIVERY_PROVEN",
+  "unchanged_shared_algorithms": [
+    "backtest.py",
+    "risk.py",
+    "execution.py",
+    "reporting.py",
+    "models.py"
+  ]
+}

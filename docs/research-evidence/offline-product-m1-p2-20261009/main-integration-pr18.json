@@ -1,0 +1,127 @@
+{
+  "actual_changed_files": [
+    ".gitattributes",
+    "CURRENT_STATUS.md",
+    "docs/equity-source-task.md",
+    "docs/research-evidence/nvda-event-price-20260930/README.md",
+    "docs/research-evidence/nvda-event-price-20260930/collection-summary.json",
+    "docs/research-evidence/nvda-event-price-20260930/economic-20261002/README.md",
+    "docs/research-evidence/nvda-event-price-20260930/economic-20261002/accepted-readout.html",
+    "docs/research-evidence/nvda-event-price-20260930/economic-20261002/approval.json",
+    "docs/research-evidence/nvda-event-price-20260930/economic-20261002/canonical-report.html",
+    "docs/research-evidence/nvda-event-price-20260930/economic-20261002/delivery-validation.json",
+    "docs/research-evidence/nvda-event-price-20260930/economic-20261002/derivation.json",
+    "docs/research-evidence/nvda-event-price-20260930/economic-20261002/human-readability-acceptance.json",
+    "docs/research-evidence/nvda-event-price-20260930/economic-20261002/index.html",
+    "docs/research-evidence/nvda-event-price-20260930/economic-20261002/retained-result-review.json",
+    "docs/research-evidence/nvda-event-price-20260930/economic-20261002/study.json",
+    "docs/research-evidence/nvda-event-price-20260930/economic-proposal.json",
+    "docs/research-evidence/nvda-event-price-20260930/execution-ci-repair-20261002.json",
+    "docs/research-evidence/nvda-event-price-20260930/execution-preparation-20261002.json",
+    "docs/research-evidence/nvda-event-price-20260930/publication-clock.json",
+    "docs/research-evidence/nvda-event-price-20260930/report/index.html",
+    "docs/research-evidence/nvda-event-price-20260930/report/result.json",
+    "docs/research-evidence/nvda-event-price-20260930/verification.json",
+    "docs/studies/nvda-event-price-20260930.json",
+    "scripts/reconcile_research_ledger.py",
+    "tests/repository_only/test_collect_nvda_event_inputs.py",
+    "tests/repository_only/test_nvda_economic_study.py",
+    "tests/repository_only/test_nvda_event_price_diagnostic.py",
+    "tests/repository_only/test_prepare_nvda_price_snapshots.py",
+    "tools/collect_nvda_event_inputs.py",
+    "tools/nvda_economic_study.py",
+    "tools/nvda_event_price_diagnostic.py",
+    "tools/prepare_nvda_price_snapshots.py"
+  ],
+  "actual_main_tree": "46a4970b455edc588feefcfb3e9fa2d517c28e36",
+  "actual_patch_matches_reviewed_patch": true,
+  "actual_patch_sha256": "84adc80fd437bf8a0dd002909b55b4788d9b349575c6bee0b932c50ce0b1e87b",
+  "authorization": {
+    "scope": "PENDING_PR18_EXACT_HEAD_MAIN_MERGE_ONLY",
+    "source": "DIRECT_USER_MESSAGE_AUTHORIZATION"
+  },
+  "client_timezone": "Asia/Shanghai",
+  "dependent_pr": {
+    "actual_main_base": "8e95f51533331a29b29caebf92347ae29f3af0db",
+    "core_algorithms_changed": false,
+    "final_head_ci_and_separate_merge_approval": "PENDING",
+    "head_at_base_change": "0ebec3e413b4d0f8ff1916ca72a35c8f87be93f0",
+    "main_comparison_files_at_base_change": 81,
+    "number": 19,
+    "nvidia_evidence_repeated": false,
+    "target": "main"
+  },
+  "deployment_changed": false,
+  "formal_release_changed": false,
+  "main_before": "cdee7b5472981811655bf84a8a9f59298df546b4",
+  "main_merge_commit": "8e95f51533331a29b29caebf92347ae29f3af0db",
+  "main_post_merge_ci": {
+    "branch": "main",
+    "event": "push",
+    "head": "8e95f51533331a29b29caebf92347ae29f3af0db",
+    "id": 37887002186,
+    "jobs": [
+      {
+        "completed_at": "2026-10-09T05:07:42Z",
+        "conclusion": "success",
+        "name": "Market-data renderer"
+      },
+      {
+        "completed_at": "2026-10-09T05:07:27Z",
+        "conclusion": "success",
+        "name": "Package install smoke (ubuntu-latest)"
+      },
+      {
+        "completed_at": "2026-10-09T05:07:02Z",
+        "conclusion": "success",
+        "name": "Electron capability contract"
+      },
+      {
+        "completed_at": "2026-10-09T05:08:01Z",
+        "conclusion": "success",
+        "name": "Historical developer reference replay"
+      },
+      {
+        "completed_at": "2026-10-09T05:07:23Z",
+        "conclusion": "success",
+        "name": "Deterministic references"
+      },
+      {
+        "completed_at": "2026-10-09T05:07:47Z",
+        "conclusion": "success",
+        "name": "Offline research MVP contracts"
+      },
+      {
+        "completed_at": "2026-10-09T05:07:58Z",
+        "conclusion": "success",
+        "name": "Package install smoke (windows-latest)"
+      },
+      {
+        "completed_at": "2026-10-09T05:09:36Z",
+        "conclusion": "success",
+        "name": "Python contracts"
+      },
+      {
+        "completed_at": "2026-10-09T05:09:59Z",
+        "conclusion": "success",
+        "name": "Research required gate"
+      }
+    ],
+    "status": "PASS",
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37887002186"
+  },
+  "merged_at_client": "2026-10-09 13:06:32",
+  "merged_at_utc": "2026-10-09T05:06:32Z",
+  "new_market_research_runs": 0,
+  "new_quote_queries": 0,
+  "original_development_branch_preserved": true,
+  "parents": [
+    "cdee7b5472981811655bf84a8a9f59298df546b4",
+    "32ef9f789ec644ec2b0f734218669c2b52f2aa60"
+  ],
+  "pr": 18,
+  "reviewed_head": "32ef9f789ec644ec2b0f734218669c2b52f2aa60",
+  "reviewed_tree": "46a4970b455edc588feefcfb3e9fa2d517c28e36",
+  "schema_version": "M1-dependency-main-integration-v1",
+  "status": "PR18_MAIN_VERIFIED_PR19_PENDING"
+}

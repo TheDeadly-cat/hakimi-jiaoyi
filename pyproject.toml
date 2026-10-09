@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hakimi-research"
-version = "0.3.0.dev1"
-description = "Local, reproducible, research-only quantitative strategy validation."
+version = "0.3.0.dev4"
+description = "Hakimi quantitative trading tool: installable offline workflows over an isolated research kernel."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -19,6 +19,7 @@ dependencies = [
 [project.scripts]
 hakimi-research = "hakimi_research.cli:main"
 hakimi-equity-research = "hakimi_research.equity_cli:main"
+hakimi-trade = "hakimi_research.trade_cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -28,4 +29,4 @@ include-package-data = true
 where = ["src"]
 
 [tool.setuptools.package-data]
-hakimi_research = ["contracts/*.json", "resources/*.json", "resources/*.lock", "_build_identity.json", "runtime-files.json"]
+hakimi_research = ["contracts/*.json", "resources/*.json", "resources/*.lock", "resources/*.csv", "resources/*.html", "_build_identity.json", "runtime-files.json"]

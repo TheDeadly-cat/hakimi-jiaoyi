@@ -87,6 +87,13 @@ def inspect_installation(root, manifest, runtime):
 
 def show_status(root, runtime=None):
     manifest = verify_bundle(root)
+    if manifest.get("product_profile") == "M1_OFFLINE_QUANT_TOOL":
+        return {"build_id": manifest["build_id"], "version": manifest["version"],
+            "product_target": "QUANTITATIVE_TRADING_TOOL", "current_scope": "INSTALLABLE_OFFLINE_CANDIDATE",
+            "installation": inspect_installation(root, manifest, runtime),
+            "entry": "hakimi-trade", "supported_python": manifest["supported_python"],
+            "automatic_account_connection": False, "automatic_monitor_start": False, "automatic_orders": False,
+            "first_use": "NEW_ENTRY_REQUIRES_ITS_OWN_ACCEPTANCE", "research_admission": "NOT_GRANTED_BY_INSTALLATION"}
     sample = json.loads((root / "evidence/amd-research-summary.json").read_bytes())
     history = sample["comparison"]
     retained_health = None
@@ -211,6 +218,11 @@ def install(root, runtime, *, wheelhouse=None, allow_downloads=False):
             completed = subprocess.run([str(python), "-I", "-B", "-m", "hakimi_research.equity_cli", "capabilities"], cwd=runtime, env=clean_environment(), stdout=stream, stderr=subprocess.STDOUT, timeout=30)
             if completed.returncode:
                 raise RuntimeError("research_cli_smoke_failed_see_log:" + str(log))
+            if manifest.get("product_profile") == "M1_OFFLINE_QUANT_TOOL":
+                completed = subprocess.run([str(python), "-I", "-B", "-m", "hakimi_research.trade_cli", "capabilities"], cwd=runtime,
+                    env=clean_environment(), stdout=stream, stderr=subprocess.STDOUT, timeout=30)
+                if completed.returncode:
+                    raise RuntimeError("trade_cli_smoke_failed_see_log:" + str(log))
     verify_bundle(root)
     record = {"schema_version": "supervised-preview-installation-v1", "build_id": manifest["build_id"],
         "kind": kind, "editable": False, "pythonpath_used": False, "system_site_packages": False,
@@ -229,6 +241,7 @@ def main():
     parser.add_argument("--runtime-root", type=Path)
     parser.add_argument("--wheelhouse", type=Path)
     parser.add_argument("--allow-package-downloads", action="store_true")
+    parser.add_argument("--require-installed", action="store_true", help="Fail unless the exact bundle is already verified in the supplied runtime.")
     args = parser.parse_args()
     root = Path(__file__).resolve().parent
     try:
@@ -238,6 +251,8 @@ def main():
             output = install(root, args.runtime_root, wheelhouse=args.wheelhouse, allow_downloads=args.allow_package_downloads)
         else:
             output = show_status(root, args.runtime_root)
+        if args.require_installed and output.get("installation", output).get("status") != "VERIFIED":
+            raise ValueError("exact_bundle_installation_not_verified")
         print(json.dumps(output, indent=2, ensure_ascii=True, allow_nan=False))
         return 1 if output.get("installation", {}).get("status") in {"FAILED", "MISMATCH", "DIFFERENT_BUILD"} else 0
     except (OSError, ValueError, TypeError, KeyError, RuntimeError, subprocess.SubprocessError) as exc:

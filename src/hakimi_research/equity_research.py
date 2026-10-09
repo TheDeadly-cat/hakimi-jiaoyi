@@ -199,6 +199,23 @@ class EquityExperimentRunner:
         return EquityResearchReport({**core, "report_hash": digest(core)})
 
 
+def inspect_equity_inputs(snapshot, spec, *, event_context=None):
+    """Public input check for installed task adapters; performs no simulation."""
+    data = verify_equity_snapshot(snapshot.document)
+    value = EquityExperimentSpec.from_document(spec.document).document
+    if value['snapshot_id'] != data['snapshot_id']:
+        raise ValueError('equity_spec_snapshot_mismatch')
+    if not data['research_admission']['allowed']:
+        raise ValueError('equity_economic_research_blocked:' + ','.join(data['research_admission']['block_reasons']))
+    if data['research_admission']['synthetic_only'] and value['purpose'] != 'SYNTHETIC_REGRESSION':
+        raise ValueError('synthetic_equity_cannot_be_market_evidence')
+    protocol = _protocol(data, value)
+    policy = _event_policy(value, data, event_context)
+    if policy is not None:
+        policy.require_historical_schedule(protocol['score_end'])
+    return protocol
+
+
 def _event_policy(spec, dataset, context):
     if spec["schema_version"] == SPEC_SCHEMA:
         if context is not None:

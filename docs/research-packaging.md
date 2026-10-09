@@ -1,3 +1,11 @@
+# M1 离线工具安装入口
+
+0.3.0.dev4 候选在原 wheel／依赖锁／来源身份／全新环境验收体系上增加 `hakimi-trade`，并将公告核对、正常本地采集导入和终端菜单纳入运行清单。研究内核仍保持禁单，正式 v0.2.1 和旧 r3 不改。使用与当前验收状态见[离线量化工具说明](offline-quant-tool.md)，产品目标见[路线图](quant-tool-roadmap.md)。
+
+新增 CSV 与 HTML 虚构模板只允许位于明确的 `resources` 名单，模板字节进入源身份和 wheel 验收；不允许任意路径或额外 HTML 进入受绑定运行资源。
+
+---
+
 # Standard installation and runtime evidence
 
 The formal research MVP is the installed `hakimi-research` CLI. Runtime data,

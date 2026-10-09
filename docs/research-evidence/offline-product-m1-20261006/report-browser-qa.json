@@ -1,0 +1,62 @@
+{
+  "automation_api_attempt_limitations": [
+    "BODY_KEYBOARD_PRESS_UNSUPPORTED_SELECTOR_ACTION",
+    "AX_ROOT_SCROLL_HIT_TEST_FAILED_USED_SCREENSHOT_GROUNDED_COORDINATE_SCROLL"
+  ],
+  "browser_plugin_availability": "BROWSER_PLUGIN_NOT_LISTED_CUA_BROWSER_AVAILABLE",
+  "browser_route": "CUA_CODEX_IN_APP_BROWSER",
+  "checks": {
+    "fee_position_disclosure": "PASS",
+    "framework_error_overlay_absent": "PASS",
+    "meaningful_content": "PASS",
+    "page_identity": "PASS",
+    "relevant_console_errors": 0,
+    "signal_reason_disclosure": "PASS"
+  },
+  "data_kind": "SYNTHETIC_TEST",
+  "event_result": {
+    "blocked_new_buys": 1,
+    "buy_intents": 0,
+    "fee_usd_display": "0.00",
+    "fills": 0,
+    "net_return_display": "+0.0000%",
+    "position_display": "0.0000",
+    "reason": "announced earnings schedule blocks this new buy"
+  },
+  "human_first_use": "PENDING",
+  "price_result": {
+    "blocked_new_buys": 0,
+    "buy_intents": 1,
+    "fee_usd_display": "3.92",
+    "fills": 2,
+    "net_return_display": "-1.0253%",
+    "pnl_usd_display": "-102.53",
+    "position_display": "0.0000"
+  },
+  "schema_version": "M1-installed-report-browser-qa-v1",
+  "scope": "TWO_INSTALLED_COMMAND_GENERATED_REPORTS_ONLY_NOT_HUMAN_FIRST_USE",
+  "screenshots": [
+    {
+      "height": 712,
+      "name": "event-expanded-desktop.jpg",
+      "sha256": "496a3b48cf53717d66bbe509975ada97ed285369658f03154ecab125ef52800e",
+      "storage": "LOCAL_QA_ONLY",
+      "width": 1265
+    },
+    {
+      "height": 1220,
+      "name": "price-expanded-desktop.jpg",
+      "sha256": "94c5b5d70a40900f55710a81f92e424f3f330924be9456b25206f999f0af1136",
+      "storage": "LOCAL_QA_ONLY",
+      "width": 1265
+    }
+  ],
+  "status": "PASS",
+  "untested": [
+    "MOBILE_VIEWPORT",
+    "OTHER_BROWSERS",
+    "HUMAN_INSTALLER_AND_MENU_FIRST_USE"
+  ],
+  "viewport": "DEFAULT_DESKTOP_NO_OVERRIDE",
+  "wheel_sha256": "dbcdc80385300578ad0e55c8d8516b760260f51d8e4105224b50ddb08c795a86"
+}

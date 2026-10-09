@@ -1,0 +1,18 @@
+{
+  "archive_sha256": "833770267c02d9f2a7283ecade5ae2fce4aff8bb8ac0f8d027a5bba7e5c7dbc6",
+  "candidate_directory_name": "Hakimi-M1-20261006-dbcdc803",
+  "entry": "开始使用.cmd",
+  "human_feedback": null,
+  "operator_performed_human_workspace_actions": false,
+  "previous_report_reading_acceptance_reused": false,
+  "requested_flow": [
+    "1_CREATE_SYNTHETIC_DEMO",
+    "2_CHECK_TASK",
+    "3_RUN_SAME_TASK",
+    "4_VIEW_RESULT",
+    "5_REPLAY"
+  ],
+  "schema_version": "M1-human-first-use-v1",
+  "status": "PENDING",
+  "wheel_sha256": "dbcdc80385300578ad0e55c8d8516b760260f51d8e4105224b50ddb08c795a86"
+}
