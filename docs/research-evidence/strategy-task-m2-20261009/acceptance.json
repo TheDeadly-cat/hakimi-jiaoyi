@@ -1,0 +1,97 @@
+{
+  "account_order_calls": 0,
+  "actual_startup_menu_operator": "AGENT",
+  "additional_m2_tests": 12,
+  "additional_tests_already_in_total": true,
+  "archive_sha256": "31970f417486dd0e9dac9bb5f844f9477d5f86a3b0d85d22feeabc589b0e960b",
+  "automatic_activation": false,
+  "build_git": {
+    "commit": "a61a629be59d4b54f01792c737a50eff997b099d",
+    "status": "CLEAN"
+  },
+  "committed_versions": 2,
+  "comparison_and_saved_report_recovery_new_economic_runs": 0,
+  "comparison_hash": "1bd4c99ff0bf3a4a205c9e71c678f900d412a24482e96495f27e27bbdf186d65",
+  "data_kind": "SYNTHETIC_TEST",
+  "editable": false,
+  "first_attempt_preserved": {
+    "build_head": "54bcea6f3494b4f68d06c7ef83d5136f45325e6d",
+    "cause": "NEW_MIGRATION_TEST_USED_NONCANONICAL_WINDOWS_TEMP_PATH",
+    "ci_run": 37921554838,
+    "ci_status": "FAIL",
+    "correction": "Canonicalize fixture root; original equality, identities and byte-preservation assertions retained; runtime source unchanged",
+    "local_installed_tests": 221,
+    "old_receipts_not_resigned": true,
+    "version": "0.4.0.dev1",
+    "wheel_sha256": "932a96adb6e9e8cf96691a5779eff562bc1f5b691f9db3e18a03d8c053406175"
+  },
+  "first_version_and_report_bytes_unchanged": true,
+  "frozen_file_hashes": {
+    "runs/run-ede6e90cd0a90e50421d5e9d7e5e347965abf5ff326ffb72ff1a7e99812f7037/report.json": "40c0ae707cd89da9b718e27bbe33b44545448fdb839ad1e3d8e6177aaa8b8333",
+    "tasks/alpha/versions/r0001-9267066ba283497b90a1f935dd1dae29/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "tasks/alpha/versions/r0001-9267066ba283497b90a1f935dd1dae29/task.json": "387f79c87b4312a8a97bd18d14563c57ab3b42c9fa3694b0005b2c6e73d9028a",
+    "tasks/alpha/versions/r0001-9267066ba283497b90a1f935dd1dae29/version.json": "7b972b620da06387955f5aa8782403f0eae54e4549607aafaa6dffa443a39459"
+  },
+  "human_first_use_claimed": false,
+  "incomparable_hash": "befa7fb1f99ba2e580d30173a787ed82ace496214028b1485c815de6f6b05eb9",
+  "installed_tests": 221,
+  "main_merge_authorized": false,
+  "market_studies_rerun": 0,
+  "monitors_started": 0,
+  "ordinary_install": true,
+  "private_inputs_sha256": "54efa26ecac822a5d899c9781a8de71209a50986e12a1bc5dc723fb2f4025666",
+  "private_transcript_sha256": "8259672ab2a238d452144303fea30fd4774c9cf083b9166fc51f43ce80e690ce",
+  "provider_calls": 0,
+  "pythonpath_used": false,
+  "release_changed": false,
+  "reports": [
+    {
+      "report_hash": "289e6b6409f09790c3ec3d2585fa3aaeea3fc8d8cf0bcbbaafa587387bafc59e",
+      "report_sha256": "554e595e8cac74e2929e06af8c323914dd74cf6b9dca0a78d59218dbf0fceb8d",
+      "run_id": "9dcd069a05d563a8014a5e377d08bf5b2f242739fab84e5942e132cbc13c8839",
+      "task_id": "9b7528008d9f3946d709231d33baf63792ba4f956aa89272af296bb2cc3134be"
+    },
+    {
+      "report_hash": "8a58a7199cf3fbb53b286338e45870568eb708f6ed2327729c6a25ea983f267d",
+      "report_sha256": "a246b9cddef9db78fd9853f5480a7dd471301f1d63696b2ccfa3723cd7741ab8",
+      "run_id": "cf70d0007ed36aeb7c2e1dcc9a0a09710400c432e9ba7d5a3464a29691da6a3b",
+      "task_id": "7dce1bd84ea81bfe1171378097e9f9e4f96353ec6cbc6b37604990b402ec64ed"
+    },
+    {
+      "report_hash": "4b60ab1c1c4ab57766d02f689eff586142b4e2b3d5e2f8577af03e2a3a8d06c5",
+      "report_sha256": "40c0ae707cd89da9b718e27bbe33b44545448fdb839ad1e3d8e6177aaa8b8333",
+      "run_id": "ede6e90cd0a90e50421d5e9d7e5e347965abf5ff326ffb72ff1a7e99812f7037",
+      "task_id": "652699e2a1c689e6e1a1959fe416f5d832c343ef3a5f680e6c825d0bd228b587"
+    },
+    {
+      "report_hash": "f4f734d50dece13681c65a12496ee62432f2f5cd7b58de18f4bac78146beef5a",
+      "report_sha256": "2c18ce856a1d87413108819664da16bfd4ed79cea082be9e7448486388f9910d",
+      "run_id": "f1bf93d5674b0ee2d4c6d335a155c23cb12a4d812213fb0d00d0527c59b95a90",
+      "task_id": "77ca49cbc29ae15484fa088f7b2c4bc4abb2c1ee27befd7b4d51a142f5163554"
+    }
+  ],
+  "scenarios": [
+    "CONFIGURE_ALL_SUPPORTED_FIELDS",
+    "COPY_CHANGE_STRATEGY",
+    "MODIFY_SAVE_NEW_VERSION",
+    "RUN_THREE_REGISTERED_STRATEGIES",
+    "PAUSE_REJECT_RUN",
+    "EXIT_REOPEN_STATE_PERSISTED",
+    "SELECT_HISTORICAL_VERSION",
+    "REUSE_OLD_REPORT",
+    "COMMON_CONDITIONS_COMPARISON",
+    "DIFFERENT_CAPITAL_INCOMPARABLE",
+    "CONFLICTING_STOP_REJECTED_NO_STATE_COMMIT",
+    "FULL_TRIAL_DIRECTORY_MOVED_OLD_PATH_ABSENT",
+    "MOVED_LAUNCHER_VERIFIED",
+    "MOVED_HISTORY_REPORT_REPLAY_AND_PAGE_RECOVERY"
+  ],
+  "schema_version": "m2-strategy-task-product-acceptance-v1",
+  "shared_portfolio": false,
+  "source_content_sha256": "c85218ec4d021c53786cf46adca78e70a4d1e9b8ac5c1080c2fa28703bdd169e",
+  "status": "PASS",
+  "system_site_packages": false,
+  "uncommitted_failed_preparation_retained": true,
+  "version": "0.4.0.dev2",
+  "wheel_sha256": "fa80bb26fcddd30b4752a43f2291301408c7f1e31cfa2891823361da54fa46e3"
+}

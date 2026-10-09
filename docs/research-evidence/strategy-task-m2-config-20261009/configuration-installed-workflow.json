@@ -1,0 +1,113 @@
+{
+  "backtest_used_to_validate_invalid_configurations": false,
+  "data_kind": "SYNTHETIC_TEST",
+  "order_calls": 0,
+  "provider_calls": 0,
+  "rows": [
+    {
+      "after_effective_take_profit": 0.08,
+      "before_effective_take_profit": 0.08,
+      "blank_copy_and_edit_passed": true,
+      "cash_only_edit_passed": true,
+      "committed_revisions": 3,
+      "first_task_and_report_bytes_unchanged": true,
+      "menu_transcript_sha256": {
+        "copy-partial": "19bae471ca095a8b6de781df3fd8988c63116a8971b5e1d13d621937d588b9f9",
+        "edit-partial": "f58976923963ecc3421b623a9646195e8888dd4992d9e3aeb83a4e4ef0117534"
+      },
+      "omitted_take_profit_preserved": true,
+      "rejections": [
+        {
+          "committed_state_unchanged": true,
+          "error": "research_domain_signal_stop_loss_pct_must_exceed_minimum",
+          "field": "stop_loss_pct",
+          "status": "STOPPED",
+          "value": 0
+        },
+        {
+          "committed_state_unchanged": true,
+          "error": "research_domain_signal_take_profit_pct_must_exceed_minimum",
+          "field": "take_profit_pct",
+          "status": "STOPPED",
+          "value": 0
+        },
+        {
+          "committed_state_unchanged": true,
+          "error": "research_domain_signal_take_profit_pct_above_maximum",
+          "field": "take_profit_pct",
+          "status": "STOPPED",
+          "value": 1.1
+        },
+        {
+          "committed_state_unchanged": true,
+          "error": "research_domain_signal_size_pct_below_minimum",
+          "field": "position_pct",
+          "status": "STOPPED",
+          "value": -0.1
+        },
+        {
+          "committed_state_unchanged": true,
+          "error": "Maximum daily-loss percentage must be a finite number in (0, 1].",
+          "field": "max_daily_loss_pct",
+          "status": "STOPPED",
+          "value": 0
+        }
+      ],
+      "strategy": "price.dual_ma@1"
+    },
+    {
+      "after_effective_take_profit": 0.08,
+      "before_effective_take_profit": 0.08,
+      "blank_copy_and_edit_passed": true,
+      "cash_only_edit_passed": true,
+      "committed_revisions": 3,
+      "first_task_and_report_bytes_unchanged": true,
+      "menu_transcript_sha256": {
+        "copy-partial": "98c53dd916b6db470006a1e238bdefd4de92122ac8301e46f29cc19a87d39ceb",
+        "edit-partial": "59b21302db50e5d1a5b0488f779a5d044a3ee5299b9a55ec4d3e44f0ca8754cd"
+      },
+      "omitted_take_profit_preserved": true,
+      "rejections": [
+        {
+          "committed_state_unchanged": true,
+          "error": "research_domain_signal_stop_loss_pct_must_exceed_minimum",
+          "field": "stop_loss_pct",
+          "status": "STOPPED",
+          "value": 0
+        },
+        {
+          "committed_state_unchanged": true,
+          "error": "research_domain_signal_take_profit_pct_must_exceed_minimum",
+          "field": "take_profit_pct",
+          "status": "STOPPED",
+          "value": 0
+        },
+        {
+          "committed_state_unchanged": true,
+          "error": "research_domain_signal_take_profit_pct_above_maximum",
+          "field": "take_profit_pct",
+          "status": "STOPPED",
+          "value": 1.1
+        },
+        {
+          "committed_state_unchanged": true,
+          "error": "research_domain_signal_size_pct_below_minimum",
+          "field": "position_pct",
+          "status": "STOPPED",
+          "value": -0.1
+        },
+        {
+          "committed_state_unchanged": true,
+          "error": "Maximum daily-loss percentage must be a finite number in (0, 1].",
+          "field": "max_daily_loss_pct",
+          "status": "STOPPED",
+          "value": 0
+        }
+      ],
+      "strategy": "event.earnings_schedule@1"
+    }
+  ],
+  "same_candidate": true,
+  "schema_version": "configuration-consistency-installed-workflow-v1",
+  "status": "PASS"
+}

@@ -64,6 +64,8 @@
     "strategies/base.py",
     "strategies/templates.py",
     "strategy_registry.py",
+    "task_comparison.py",
+    "task_manager.py",
     "trade_cli.py"
   ]
 }

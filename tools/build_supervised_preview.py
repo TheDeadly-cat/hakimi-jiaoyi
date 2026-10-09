@@ -131,7 +131,7 @@ def build(receipt, output, *, root=ROOT, observation_summary=None):
 
 
 def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
-    """Reuse the accepted-wheel exporter and existing installer for the M1 profile."""
+    """Reuse the accepted-wheel exporter and existing installer for offline candidates."""
     root, output, wheelhouse = Path(root).resolve(), Path(output).resolve(), Path(wheelhouse).resolve()
     if output.exists():
         raise ValueError("preview_output_exists_use_new_directory")
@@ -141,6 +141,12 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
     with tempfile.TemporaryDirectory(prefix="hakimi-M1-export-") as temp:
         accepted = Path(temp) / "accepted"
         public = export_bundle(receipt, accepted)
+        milestone = 'M2_1' if public['wheel'].split('-')[1].startswith('0.4.') else 'M1'
+        if milestone == 'M2_1' and receipt.get('managed_task_installed_workflow',{}).get('status') != 'PASS':
+            raise ValueError('M2_exact_wheel_managed_task_workflow_acceptance_required')
+        if (milestone == 'M2_1' and public['wheel'].split('-')[1] not in {'0.4.0.dev1','0.4.0.dev2'}
+                and receipt.get('configuration_consistency_installed_workflow',{}).get('status') != 'PASS'):
+            raise ValueError('M2_configuration_consistency_exact_wheel_acceptance_required')
         spec = importlib.util.spec_from_file_location("M1_source_identity", root / "src/hakimi_research/source_identity.py")
         identity = importlib.util.module_from_spec(spec); spec.loader.exec_module(identity)
         source = identity.package_content_identity(root / "src/hakimi_research")
@@ -149,7 +155,7 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
         content = {"research/" + p.name: p.read_bytes() for p in accepted.iterdir()}
         content["preview.py"] = (root / "tools/supervised_preview.py").read_bytes()
         content["requirements.research.lock"] = (root / "requirements.research.lock").read_bytes()
-        content["README.md"] = (root / "docs/offline-quant-tool.md").read_bytes()
+        content["README.md"] = (root / ("docs/strategy-task-management.md" if milestone == 'M2_1' else "docs/offline-quant-tool.md")).read_bytes()
         wheels = list(wheelhouse.glob("*.whl"))
         pins = receipt["installed_runtime"]["environment_verified"]["packages"]
         if len(wheels) != len(pins):
@@ -183,13 +189,13 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
             'exit /b %errorlevel%\r\n:failed\r\necho Installation or identity check stopped. Python 3.14 is required for these offline wheels.\r\npause\r\nexit /b 1\r\n')
         content["Start-Hakimi.cmd"] = startup.encode("utf-8")
         output.mkdir(parents=True)
-        record = write_bundle(output, "research", content, {"product_profile": "M1_OFFLINE_QUANT_TOOL", "version": public["wheel"].split('-')[1],
+        record = write_bundle(output, "research", content, {"product_profile": milestone + "_OFFLINE_QUANT_TOOL", "version": public["wheel"].split('-')[1],
             "supported_platform": "Windows x64", "supported_python": "CPython 3.14 for bundled dependency wheels",
             "source": {"repository": "https://github.com/TheDeadly-cat/hakimi-jiaoyi", "wheel_build_git": public["build_git"]},
             "wheel": "research/" + public["wheel"], "wheel_sha256": public["wheel_sha256"],
             "research_source_sha256": source["content_sha256"], "automatic_account_connection": False,
             "automatic_monitor_start": False, "automatic_orders": False})
-        index = {"schema_version": "M1-offline-product-delivery-v1", "formal_release_changed": False,
+        index = {"schema_version": milestone + "-offline-product-delivery-v1", "formal_release_changed": False,
             "accepted_wheel_sha256": public["wheel_sha256"], "product": record,
             "scope": "EXACT_ACCEPTED_WHEEL_OFFLINE_TOOL_CANDIDATE_NOT_BROKER_OR_STRATEGY_ADMISSION"}
         (output / "delivery.json").write_bytes(json.dumps(index, indent=2, sort_keys=True).encode() + b"\n")

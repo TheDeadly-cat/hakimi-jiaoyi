@@ -1,0 +1,70 @@
+{
+  "rows": [
+    {
+      "after": 0.06,
+      "before": 0.08,
+      "case": "OMITTED_TAKE_PROFIT_BLANK_EDIT"
+    },
+    {
+      "after": 0.08,
+      "before": 0.08,
+      "case": "EXPLICIT_8_PERCENT_BLANK_EDIT"
+    },
+    {
+      "case": "stop_loss_pct",
+      "configuration": "ACCEPTED",
+      "runtime_model": "REJECTED",
+      "runtime_model_error": "research_domain_signal_stop_loss_pct_must_exceed_minimum",
+      "value": 0
+    },
+    {
+      "case": "stop_loss_pct",
+      "configuration": "ACCEPTED",
+      "runtime_model": "REJECTED",
+      "runtime_model_error": "research_domain_signal_stop_loss_pct_must_exceed_minimum",
+      "value": -0.01
+    },
+    {
+      "case": "take_profit_pct",
+      "configuration": "ACCEPTED",
+      "runtime_model": "REJECTED",
+      "runtime_model_error": "research_domain_signal_take_profit_pct_must_exceed_minimum",
+      "value": 0
+    },
+    {
+      "case": "take_profit_pct",
+      "configuration": "ACCEPTED",
+      "runtime_model": "REJECTED",
+      "runtime_model_error": "research_domain_signal_take_profit_pct_above_maximum",
+      "value": 1.1
+    },
+    {
+      "case": "position_pct",
+      "configuration": "ACCEPTED",
+      "runtime_model": "REJECTED",
+      "runtime_model_error": "research_domain_signal_size_pct_below_minimum",
+      "value": -0.1
+    },
+    {
+      "case": "max_daily_loss_pct",
+      "configuration": "ACCEPTED",
+      "runtime_model": "REJECTED",
+      "runtime_model_error": "Maximum daily-loss percentage must be a finite number in (0, 1].",
+      "value": 0
+    },
+    {
+      "case": "take_profit_pct",
+      "configuration": "ACCEPTED",
+      "runtime_model": "ACCEPTED",
+      "value": 0.08
+    },
+    {
+      "case": "max_daily_loss_pct",
+      "configuration": "ACCEPTED",
+      "runtime_model": "ACCEPTED",
+      "value": 1
+    }
+  ],
+  "scope": "INSTALLED_FUNCTIONS_NO_BACKTEST",
+  "version": "0.4.0.dev2"
+}

@@ -1,0 +1,71 @@
+{
+  "observations": [
+    {
+      "effective_take_profit": 0.08,
+      "status": "CREATED_WITH_PARTIAL_PARAMETERS",
+      "strategy": "price.dual_ma@1"
+    },
+    {
+      "effective_take_profit": 0.08,
+      "status": "CREATED_WITH_PARTIAL_PARAMETERS",
+      "strategy": "event.earnings_schedule@1"
+    },
+    {
+      "error": "research_domain_signal_stop_loss_pct_must_exceed_minimum",
+      "previously_accepted_dev2_input": "bad-stop",
+      "simulation_started": false,
+      "status": "STOPPED"
+    },
+    {
+      "error": "research_domain_signal_take_profit_pct_must_exceed_minimum",
+      "previously_accepted_dev2_input": "bad-target",
+      "simulation_started": false,
+      "status": "STOPPED"
+    },
+    {
+      "error": "research_domain_signal_size_pct_below_minimum",
+      "previously_accepted_dev2_input": "bad-position",
+      "simulation_started": false,
+      "status": "STOPPED"
+    },
+    {
+      "error": "Maximum daily-loss percentage must be a finite number in (0, 1].",
+      "previously_accepted_dev2_input": "bad-daily",
+      "simulation_started": false,
+      "status": "STOPPED"
+    }
+  ],
+  "old_input_bytes_unchanged": true,
+  "original_input_hashes": {
+    "data/equity_dataset_ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "data/event-context.json": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+    "data/source-manifest.json": "cadc873e7751efa65f0dcd24cd2ed53e2f08309e4a08a4e0e8aed0fd80fadcd2",
+    "tasks/bad-daily/family.json": "0cf139451a34fa9b0fad58fb134e435808c3c88d2f8de44471ca27d4727a7492",
+    "tasks/bad-daily/journal/000001.json": "ae753d7861d937d7d9cd58b09914b96598235f8664781990427a100aa9239eb2",
+    "tasks/bad-daily/versions/r0001-ef71d95d47324e1ea8b47f1315c52fd3/inputs/event-context.json": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+    "tasks/bad-daily/versions/r0001-ef71d95d47324e1ea8b47f1315c52fd3/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "tasks/bad-daily/versions/r0001-ef71d95d47324e1ea8b47f1315c52fd3/task.json": "de88f44e5d1a4b8df8e83570d9301299e40e1207ac3e791a3ffea8c5dbf27a03",
+    "tasks/bad-daily/versions/r0001-ef71d95d47324e1ea8b47f1315c52fd3/version.json": "0200692899936b25c72ced2256266b4d97f7fc3582f280347501e1c7f306d7ce",
+    "tasks/bad-position/family.json": "8a6c2aa91de8d3092bcb57a54d59e65f0144ab63bf5ff783f1ba0b76468cea5a",
+    "tasks/bad-position/journal/000001.json": "985130ba6f8583daf52abf4b7baf3dd65d9fea0103c1d649d87c8787a8195aa9",
+    "tasks/bad-position/versions/r0001-2b1ea12685dd40baa9a475d731190ded/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "tasks/bad-position/versions/r0001-2b1ea12685dd40baa9a475d731190ded/task.json": "08772c847faf9be53798a69b04a46e3aead59c001a2c1ab332a1340d1b6e33d3",
+    "tasks/bad-position/versions/r0001-2b1ea12685dd40baa9a475d731190ded/version.json": "ff7f00a98e7c304a1dbc2279fd6ee420f211ffaa4164bca5d00568613e17bd9d",
+    "tasks/bad-stop/family.json": "f8542659fe9453c59a328bd7f2ce2501dcfc1968fade982ffc7151c57a3cbf64",
+    "tasks/bad-stop/journal/000001.json": "a2c8f31b3d384c8c2163846442951297aef0d0492480b227a315892539b21116",
+    "tasks/bad-stop/versions/r0001-572589b63a7f4577b956ac377c2f2b8a/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "tasks/bad-stop/versions/r0001-572589b63a7f4577b956ac377c2f2b8a/task.json": "8a6af80316118780dac9bc525eb517df49ace1a4b9bd466103baea6e7edc176f",
+    "tasks/bad-stop/versions/r0001-572589b63a7f4577b956ac377c2f2b8a/version.json": "433a9b5815307002d544bd947ebdbdad5b43416c581da537f9bdd8cd53e90651",
+    "tasks/bad-target/family.json": "ec745f8bc5cf152cc1b08c3ef3caf86ea8adb31c2e264e4f4a5136d103566a8f",
+    "tasks/bad-target/journal/000001.json": "e0f37054d1dd7de239ba819dc3f06ae80ddaab8d2131f092a76e61144b8590c2",
+    "tasks/bad-target/versions/r0001-0bd2e9b3de0b46c08784463144ebb840/inputs/event-context.json": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+    "tasks/bad-target/versions/r0001-0bd2e9b3de0b46c08784463144ebb840/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "tasks/bad-target/versions/r0001-0bd2e9b3de0b46c08784463144ebb840/task.json": "087b8aa9cf0ce0076d4f0bf5ac95ba40624256b9ae18d7fbcfbced24fef85e44",
+    "tasks/bad-target/versions/r0001-0bd2e9b3de0b46c08784463144ebb840/version.json": "6f51e20547d70bbc37dcff0d9fdfc48bf497822d7627384b1ec626323e9f3650",
+    "tasks/event.json": "ec6001b2fabf1cd8f0c6000a1fca700e61ba49ef67f2e2003a9517fe417f5048",
+    "tasks/price.json": "63f20a4d4056bd2e47151d54af91dd7bb4425f9955ce2d33ab63f9c4fe3c2b61",
+    "workspace.json": "5a69ecff279b31db94b89805cd83c8b3050263afd74043e179166d11c792c6b8"
+  },
+  "producer_source_sha256": "c85218ec4d021c53786cf46adca78e70a4d1e9b8ac5c1080c2fa28703bdd169e",
+  "producer_version": "0.4.0.dev2"
+}

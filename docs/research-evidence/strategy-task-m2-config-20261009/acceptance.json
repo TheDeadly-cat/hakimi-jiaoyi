@@ -1,0 +1,111 @@
+{
+  "actual_startup_menu_operator": "AGENT",
+  "archive_sha256": "c939c470359d3b46f50578174eb79092e658011bc556e911b65943ccdb9cad1e",
+  "build_git": {
+    "commit": "6f9f02a64752467336d3899f943e575986996548",
+    "status": "CLEAN"
+  },
+  "core_strategy_risk_execution_and_accounting_algorithms_changed": false,
+  "data_kind": "SYNTHETIC_TEST",
+  "dev2_function_reproduction_cases": 10,
+  "editable": false,
+  "first_version_input_and_report_bytes_unchanged": true,
+  "frozen_file_hashes": {
+    "runs/run-4d0794dea484ac68222d10bd4df4fac1c390b427c328e9e824842560ce4590de/report.json": "cd847d6f9ef7543dc80e90bec357ce665b04c2a2bdbd0576d8c616fe164d9cc0",
+    "runs/run-fd30b314ea45ba3b3867082d8ae6501d93f18da8edbfb72ad7efbc116e564c2d/report.json": "16ac066cfd2ae3092381b26e1d1c05d40af52798d4b84f2a813e88f007837af0",
+    "tasks/kept-event/versions/r0001-029e143464b84c4396878f14c7124836/inputs/event-context.json": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+    "tasks/kept-event/versions/r0001-029e143464b84c4396878f14c7124836/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "tasks/kept-event/versions/r0001-029e143464b84c4396878f14c7124836/task.json": "b86e288f15a7f2ab520a2a019eb43c33001ff8947557b1f7553957fcfde6b1c3",
+    "tasks/kept-event/versions/r0001-029e143464b84c4396878f14c7124836/version.json": "d79d550ef44ee169f01df69739613278137d4f66a8356ae6d318eecf9057c948",
+    "tasks/kept-price/versions/r0001-ff2c4cb309a14d08bc2833bb926c0399/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "tasks/kept-price/versions/r0001-ff2c4cb309a14d08bc2833bb926c0399/task.json": "a8fd802bafe8faa2560716fcf285362f6cf3f22916d2e3d1f40480d7f0af24ca",
+    "tasks/kept-price/versions/r0001-ff2c4cb309a14d08bc2833bb926c0399/version.json": "05bd082a128671a6879435fff82bccd490ef22d3b7a80da598cd0f9c85e25b34",
+    "tasks/partial-event.json": "8802f33005c66f1ae028478d557b85e0edd5494501bd131b5a6d39305eb5b206",
+    "tasks/partial-price.json": "ec11c6b93b5178be03bdb582b7360a20a8c3c605084c37b3ed36240419d5d472"
+  },
+  "human_first_use_claimed": false,
+  "installed_tests": 232,
+  "main_merge_authorized": false,
+  "market_studies_rerun": 0,
+  "monitors_started": 0,
+  "new_configuration_test_methods": 11,
+  "new_tests_already_in_total": true,
+  "old_dev2_package_receipts_reports_and_ci_preserved": true,
+  "ordinary_install": true,
+  "paused_state_and_effective_defaults_survived_exit_reopen": true,
+  "preserved_prior_tests": 221,
+  "private_inputs_sha256": "7ee69af3ffcb986d492c3d9cbff5b0ce1c0cb124e1d93d8f4305ad9dcc5fc569",
+  "private_transcript_sha256": "aa5015738f6bbe82c16bde63c5058a427251dadd8aa0c479f399cdf5528f6f72",
+  "provider_account_and_order_calls": 0,
+  "pythonpath_used": false,
+  "r1": {
+    "adapters": [
+      {
+        "current_capital": 12000.0,
+        "effective_take_profit": 0.08,
+        "failed_preparation_retained": true,
+        "invalid_edit_committed_state_unchanged": true,
+        "original_capital": 10000.0,
+        "other_spec_fields_equal": true,
+        "requested_take_profit": "OMITTED",
+        "state": "PAUSED",
+        "strategy": "price.dual_ma@1",
+        "versions": 3
+      },
+      {
+        "current_capital": 12000.0,
+        "effective_take_profit": 0.08,
+        "failed_preparation_retained": true,
+        "invalid_edit_committed_state_unchanged": true,
+        "original_capital": 10000.0,
+        "other_spec_fields_equal": true,
+        "requested_take_profit": "OMITTED",
+        "state": "PAUSED",
+        "strategy": "event.earnings_schedule@1",
+        "versions": 3
+      }
+    ],
+    "blank_copy_and_edit_passed": true,
+    "cash_only_edit_passed": true,
+    "implicit_parameter_omission_preserved": true,
+    "new_task_template_take_profit": 0.06,
+    "original_engine_default_take_profit": 0.08,
+    "status": "PASS"
+  },
+  "r2": {
+    "failed_edits_preserved_state_selection_and_versions": true,
+    "numeric_validation": "EXISTING_SPEC_SIGNAL_AND_RISK_MANAGER",
+    "signal_and_no_signal_inputs_checked": true,
+    "simulation_required": false,
+    "status": "PASS",
+    "valid_hashed_dev2_bad_tasks_rejected": 4,
+    "zero_does_not_disable_protection": true,
+    "zero_negative_out_of_range_nonfinite_wrong_types_and_legal_boundaries_checked": true
+  },
+  "release_changed": false,
+  "reports": [
+    {
+      "observed_requested_take_profit": [
+        0.08
+      ],
+      "report_hash": "4da789cc7654fcd5ed956ca753568c5ac894dbbb3737312b6af21e39e56b5425",
+      "sha256": "cd847d6f9ef7543dc80e90bec357ce665b04c2a2bdbd0576d8c616fe164d9cc0",
+      "strategy": "price.dual_ma@1",
+      "task_id": "2e3f6debae12a4595b152c2c00f5e20bf26ba6be0c822a8e7626c04a17375b71"
+    },
+    {
+      "observed_requested_take_profit": [],
+      "report_hash": "f4e44f6c9ef60c408249e3888ef8363f20551c5311840dafe60301f4f997a1df",
+      "sha256": "16ac066cfd2ae3092381b26e1d1c05d40af52798d4b84f2a813e88f007837af0",
+      "strategy": "event.earnings_schedule@1",
+      "task_id": "c00fa434084a73278ac26e1e80c946f941c6b3df9f4126a94f64af1d0d3470e1"
+    }
+  ],
+  "reproduction_cases_not_added_to_test_total": true,
+  "schema_version": "m2-configuration-repair-acceptance-v1",
+  "source_content_sha256": "4242359ed744f8c6eae8c9924bdca3b417a83a9f3d163d59bce4af05eaebcbf5",
+  "status": "PASS",
+  "system_site_packages": false,
+  "version": "0.4.0.dev3",
+  "wheel_sha256": "420a2450e2a6a18f928cc30625304be3199c4053bb62a1896910ca31acb0c6d2"
+}

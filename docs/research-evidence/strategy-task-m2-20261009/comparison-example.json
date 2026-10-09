@@ -1,0 +1,1273 @@
+{
+  "common_conditions": {
+    "dataset": {
+      "bar_availability_lag_seconds": 60,
+      "data_hash": "d9bfd5d82250edecbdc6162bc2bc8ffc3a494e72814cf0642899aff9083389e1",
+      "evidence_kind": "SYNTHETIC_TEST",
+      "price_basis": "RAW_UNADJUSTED",
+      "research_admission": {
+        "allowed": true,
+        "block_reasons": [],
+        "scope": "ACTION_FREE_FIXED_WINDOW_ONLY",
+        "source_truth_verified": false,
+        "synthetic_only": true
+      },
+      "security": {
+        "currency": "USD",
+        "exchange": "XNYS",
+        "instrument_type": "COMMON_STOCK",
+        "security_id": "SYNTHETIC:RESEARCH:TEST",
+        "symbol": "TEST"
+      },
+      "sessions": [
+        {
+          "close_utc": "2024-11-01T20:00:00Z",
+          "date": "2024-11-01",
+          "early_close": false,
+          "open_utc": "2024-11-01T13:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-04T21:00:00Z",
+          "date": "2024-11-04",
+          "early_close": false,
+          "open_utc": "2024-11-04T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-05T21:00:00Z",
+          "date": "2024-11-05",
+          "early_close": false,
+          "open_utc": "2024-11-05T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-06T21:00:00Z",
+          "date": "2024-11-06",
+          "early_close": false,
+          "open_utc": "2024-11-06T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-07T21:00:00Z",
+          "date": "2024-11-07",
+          "early_close": false,
+          "open_utc": "2024-11-07T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-08T21:00:00Z",
+          "date": "2024-11-08",
+          "early_close": false,
+          "open_utc": "2024-11-08T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-11T21:00:00Z",
+          "date": "2024-11-11",
+          "early_close": false,
+          "open_utc": "2024-11-11T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-12T21:00:00Z",
+          "date": "2024-11-12",
+          "early_close": false,
+          "open_utc": "2024-11-12T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-13T21:00:00Z",
+          "date": "2024-11-13",
+          "early_close": false,
+          "open_utc": "2024-11-13T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-14T21:00:00Z",
+          "date": "2024-11-14",
+          "early_close": false,
+          "open_utc": "2024-11-14T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-15T21:00:00Z",
+          "date": "2024-11-15",
+          "early_close": false,
+          "open_utc": "2024-11-15T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-18T21:00:00Z",
+          "date": "2024-11-18",
+          "early_close": false,
+          "open_utc": "2024-11-18T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-19T21:00:00Z",
+          "date": "2024-11-19",
+          "early_close": false,
+          "open_utc": "2024-11-19T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-20T21:00:00Z",
+          "date": "2024-11-20",
+          "early_close": false,
+          "open_utc": "2024-11-20T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-21T21:00:00Z",
+          "date": "2024-11-21",
+          "early_close": false,
+          "open_utc": "2024-11-21T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-22T21:00:00Z",
+          "date": "2024-11-22",
+          "early_close": false,
+          "open_utc": "2024-11-22T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-25T21:00:00Z",
+          "date": "2024-11-25",
+          "early_close": false,
+          "open_utc": "2024-11-25T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-26T21:00:00Z",
+          "date": "2024-11-26",
+          "early_close": false,
+          "open_utc": "2024-11-26T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-27T21:00:00Z",
+          "date": "2024-11-27",
+          "early_close": false,
+          "open_utc": "2024-11-27T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-11-29T18:00:00Z",
+          "date": "2024-11-29",
+          "early_close": true,
+          "open_utc": "2024-11-29T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-12-02T21:00:00Z",
+          "date": "2024-12-02",
+          "early_close": false,
+          "open_utc": "2024-12-02T14:30:00Z"
+        },
+        {
+          "close_utc": "2024-12-03T21:00:00Z",
+          "date": "2024-12-03",
+          "early_close": false,
+          "open_utc": "2024-12-03T14:30:00Z"
+        }
+      ],
+      "snapshot_id": "ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec",
+      "volume_unit": "shares"
+    },
+    "dependencies": {
+      "errors": [],
+      "lock_fully_pinned": true,
+      "lock_name": "requirements.research.lock",
+      "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+      "mismatched": [],
+      "missing": [],
+      "packages": {
+        "numpy": {
+          "installed": "2.4.6",
+          "required": "2.4.6"
+        },
+        "pandas": {
+          "installed": "3.0.3",
+          "required": "3.0.3"
+        },
+        "python-dateutil": {
+          "installed": "2.9.0.post0",
+          "required": "2.9.0.post0"
+        },
+        "six": {
+          "installed": "1.17.0",
+          "required": "1.17.0"
+        },
+        "tzdata": {
+          "installed": "2026.2",
+          "required": "2026.2"
+        }
+      },
+      "python_supported": true,
+      "python_version": "3.14.6",
+      "status": "VERIFIED",
+      "verification_scope": "installed_distribution_versions_against_lock"
+    },
+    "end_policy": "MARK_TO_MARKET",
+    "fee_rate": 0.0008,
+    "initial_cash": 10000.0,
+    "purpose": "SYNTHETIC_REGRESSION",
+    "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+    "score_clock": {
+      "score_end": "2024-12-03T21:00:00Z",
+      "score_start": "2024-11-11T14:30:00Z",
+      "scored_sessions": 16,
+      "session_clock_hash": "5ec790de6ee80479366e13952dee9deae7135226fd8f07ce5b33823f975ab6ce"
+    },
+    "score_end": "2024-12-03",
+    "score_start": "2024-11-11",
+    "slippage_pct": 0.0005,
+    "source_hash": "c85218ec4d021c53786cf46adca78e70a4d1e9b8ac5c1080c2fa28703bdd169e"
+  },
+  "comparison_hash": "1bd4c99ff0bf3a4a205c9e71c678f900d412a24482e96495f27e27bbdf186d65",
+  "differences_from_first": [
+    {
+      "blocked_new_buys": 1,
+      "fills": -2,
+      "max_drawdown": -0.004416928960800037,
+      "net_return": 0.004416928960800037,
+      "row": 2,
+      "total_fees": -3.168799608
+    },
+    {
+      "blocked_new_buys": 0,
+      "fills": -1,
+      "max_drawdown": 0.00545853565458454,
+      "net_return": -0.00545853565458454,
+      "row": 3,
+      "total_fees": -1.567999608
+    }
+  ],
+  "interpretation": [
+    "每行使用独立本金；不能相加为共享资金组合。",
+    "净收益和费用来自保存的账本；回撤为评分期权益曲线峰值跌幅，均为描述性结果。",
+    "费用为比例手续费；固定滑点已进入成交价格，不计为单独手续费。",
+    "仓位、止损、事件过滤与退出规则不同会影响成交和收益；条件可比不等于证明某策略更好。",
+    "预热要求可不同，评分区间保持原值；不可比时不计算跨行收益差。"
+  ],
+  "mismatches": [],
+  "new_economic_runs": 0,
+  "per_run_conditions": [
+    {
+      "dataset": {
+        "bar_availability_lag_seconds": 60,
+        "data_hash": "d9bfd5d82250edecbdc6162bc2bc8ffc3a494e72814cf0642899aff9083389e1",
+        "evidence_kind": "SYNTHETIC_TEST",
+        "price_basis": "RAW_UNADJUSTED",
+        "research_admission": {
+          "allowed": true,
+          "block_reasons": [],
+          "scope": "ACTION_FREE_FIXED_WINDOW_ONLY",
+          "source_truth_verified": false,
+          "synthetic_only": true
+        },
+        "security": {
+          "currency": "USD",
+          "exchange": "XNYS",
+          "instrument_type": "COMMON_STOCK",
+          "security_id": "SYNTHETIC:RESEARCH:TEST",
+          "symbol": "TEST"
+        },
+        "sessions": [
+          {
+            "close_utc": "2024-11-01T20:00:00Z",
+            "date": "2024-11-01",
+            "early_close": false,
+            "open_utc": "2024-11-01T13:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-04T21:00:00Z",
+            "date": "2024-11-04",
+            "early_close": false,
+            "open_utc": "2024-11-04T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-05T21:00:00Z",
+            "date": "2024-11-05",
+            "early_close": false,
+            "open_utc": "2024-11-05T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-06T21:00:00Z",
+            "date": "2024-11-06",
+            "early_close": false,
+            "open_utc": "2024-11-06T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-07T21:00:00Z",
+            "date": "2024-11-07",
+            "early_close": false,
+            "open_utc": "2024-11-07T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-08T21:00:00Z",
+            "date": "2024-11-08",
+            "early_close": false,
+            "open_utc": "2024-11-08T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-11T21:00:00Z",
+            "date": "2024-11-11",
+            "early_close": false,
+            "open_utc": "2024-11-11T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-12T21:00:00Z",
+            "date": "2024-11-12",
+            "early_close": false,
+            "open_utc": "2024-11-12T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-13T21:00:00Z",
+            "date": "2024-11-13",
+            "early_close": false,
+            "open_utc": "2024-11-13T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-14T21:00:00Z",
+            "date": "2024-11-14",
+            "early_close": false,
+            "open_utc": "2024-11-14T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-15T21:00:00Z",
+            "date": "2024-11-15",
+            "early_close": false,
+            "open_utc": "2024-11-15T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-18T21:00:00Z",
+            "date": "2024-11-18",
+            "early_close": false,
+            "open_utc": "2024-11-18T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-19T21:00:00Z",
+            "date": "2024-11-19",
+            "early_close": false,
+            "open_utc": "2024-11-19T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-20T21:00:00Z",
+            "date": "2024-11-20",
+            "early_close": false,
+            "open_utc": "2024-11-20T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-21T21:00:00Z",
+            "date": "2024-11-21",
+            "early_close": false,
+            "open_utc": "2024-11-21T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-22T21:00:00Z",
+            "date": "2024-11-22",
+            "early_close": false,
+            "open_utc": "2024-11-22T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-25T21:00:00Z",
+            "date": "2024-11-25",
+            "early_close": false,
+            "open_utc": "2024-11-25T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-26T21:00:00Z",
+            "date": "2024-11-26",
+            "early_close": false,
+            "open_utc": "2024-11-26T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-27T21:00:00Z",
+            "date": "2024-11-27",
+            "early_close": false,
+            "open_utc": "2024-11-27T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-29T18:00:00Z",
+            "date": "2024-11-29",
+            "early_close": true,
+            "open_utc": "2024-11-29T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-12-02T21:00:00Z",
+            "date": "2024-12-02",
+            "early_close": false,
+            "open_utc": "2024-12-02T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-12-03T21:00:00Z",
+            "date": "2024-12-03",
+            "early_close": false,
+            "open_utc": "2024-12-03T14:30:00Z"
+          }
+        ],
+        "snapshot_id": "ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec",
+        "volume_unit": "shares"
+      },
+      "dependencies": {
+        "errors": [],
+        "lock_fully_pinned": true,
+        "lock_name": "requirements.research.lock",
+        "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+        "mismatched": [],
+        "missing": [],
+        "packages": {
+          "numpy": {
+            "installed": "2.4.6",
+            "required": "2.4.6"
+          },
+          "pandas": {
+            "installed": "3.0.3",
+            "required": "3.0.3"
+          },
+          "python-dateutil": {
+            "installed": "2.9.0.post0",
+            "required": "2.9.0.post0"
+          },
+          "six": {
+            "installed": "1.17.0",
+            "required": "1.17.0"
+          },
+          "tzdata": {
+            "installed": "2026.2",
+            "required": "2026.2"
+          }
+        },
+        "python_supported": true,
+        "python_version": "3.14.6",
+        "status": "VERIFIED",
+        "verification_scope": "installed_distribution_versions_against_lock"
+      },
+      "end_policy": "MARK_TO_MARKET",
+      "fee_rate": 0.0008,
+      "initial_cash": 10000.0,
+      "purpose": "SYNTHETIC_REGRESSION",
+      "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+      "score_clock": {
+        "score_end": "2024-12-03T21:00:00Z",
+        "score_start": "2024-11-11T14:30:00Z",
+        "scored_sessions": 16,
+        "session_clock_hash": "5ec790de6ee80479366e13952dee9deae7135226fd8f07ce5b33823f975ab6ce"
+      },
+      "score_end": "2024-12-03",
+      "score_start": "2024-11-11",
+      "slippage_pct": 0.0005,
+      "source_hash": "c85218ec4d021c53786cf46adca78e70a4d1e9b8ac5c1080c2fa28703bdd169e"
+    },
+    {
+      "dataset": {
+        "bar_availability_lag_seconds": 60,
+        "data_hash": "d9bfd5d82250edecbdc6162bc2bc8ffc3a494e72814cf0642899aff9083389e1",
+        "evidence_kind": "SYNTHETIC_TEST",
+        "price_basis": "RAW_UNADJUSTED",
+        "research_admission": {
+          "allowed": true,
+          "block_reasons": [],
+          "scope": "ACTION_FREE_FIXED_WINDOW_ONLY",
+          "source_truth_verified": false,
+          "synthetic_only": true
+        },
+        "security": {
+          "currency": "USD",
+          "exchange": "XNYS",
+          "instrument_type": "COMMON_STOCK",
+          "security_id": "SYNTHETIC:RESEARCH:TEST",
+          "symbol": "TEST"
+        },
+        "sessions": [
+          {
+            "close_utc": "2024-11-01T20:00:00Z",
+            "date": "2024-11-01",
+            "early_close": false,
+            "open_utc": "2024-11-01T13:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-04T21:00:00Z",
+            "date": "2024-11-04",
+            "early_close": false,
+            "open_utc": "2024-11-04T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-05T21:00:00Z",
+            "date": "2024-11-05",
+            "early_close": false,
+            "open_utc": "2024-11-05T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-06T21:00:00Z",
+            "date": "2024-11-06",
+            "early_close": false,
+            "open_utc": "2024-11-06T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-07T21:00:00Z",
+            "date": "2024-11-07",
+            "early_close": false,
+            "open_utc": "2024-11-07T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-08T21:00:00Z",
+            "date": "2024-11-08",
+            "early_close": false,
+            "open_utc": "2024-11-08T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-11T21:00:00Z",
+            "date": "2024-11-11",
+            "early_close": false,
+            "open_utc": "2024-11-11T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-12T21:00:00Z",
+            "date": "2024-11-12",
+            "early_close": false,
+            "open_utc": "2024-11-12T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-13T21:00:00Z",
+            "date": "2024-11-13",
+            "early_close": false,
+            "open_utc": "2024-11-13T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-14T21:00:00Z",
+            "date": "2024-11-14",
+            "early_close": false,
+            "open_utc": "2024-11-14T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-15T21:00:00Z",
+            "date": "2024-11-15",
+            "early_close": false,
+            "open_utc": "2024-11-15T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-18T21:00:00Z",
+            "date": "2024-11-18",
+            "early_close": false,
+            "open_utc": "2024-11-18T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-19T21:00:00Z",
+            "date": "2024-11-19",
+            "early_close": false,
+            "open_utc": "2024-11-19T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-20T21:00:00Z",
+            "date": "2024-11-20",
+            "early_close": false,
+            "open_utc": "2024-11-20T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-21T21:00:00Z",
+            "date": "2024-11-21",
+            "early_close": false,
+            "open_utc": "2024-11-21T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-22T21:00:00Z",
+            "date": "2024-11-22",
+            "early_close": false,
+            "open_utc": "2024-11-22T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-25T21:00:00Z",
+            "date": "2024-11-25",
+            "early_close": false,
+            "open_utc": "2024-11-25T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-26T21:00:00Z",
+            "date": "2024-11-26",
+            "early_close": false,
+            "open_utc": "2024-11-26T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-27T21:00:00Z",
+            "date": "2024-11-27",
+            "early_close": false,
+            "open_utc": "2024-11-27T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-29T18:00:00Z",
+            "date": "2024-11-29",
+            "early_close": true,
+            "open_utc": "2024-11-29T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-12-02T21:00:00Z",
+            "date": "2024-12-02",
+            "early_close": false,
+            "open_utc": "2024-12-02T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-12-03T21:00:00Z",
+            "date": "2024-12-03",
+            "early_close": false,
+            "open_utc": "2024-12-03T14:30:00Z"
+          }
+        ],
+        "snapshot_id": "ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec",
+        "volume_unit": "shares"
+      },
+      "dependencies": {
+        "errors": [],
+        "lock_fully_pinned": true,
+        "lock_name": "requirements.research.lock",
+        "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+        "mismatched": [],
+        "missing": [],
+        "packages": {
+          "numpy": {
+            "installed": "2.4.6",
+            "required": "2.4.6"
+          },
+          "pandas": {
+            "installed": "3.0.3",
+            "required": "3.0.3"
+          },
+          "python-dateutil": {
+            "installed": "2.9.0.post0",
+            "required": "2.9.0.post0"
+          },
+          "six": {
+            "installed": "1.17.0",
+            "required": "1.17.0"
+          },
+          "tzdata": {
+            "installed": "2026.2",
+            "required": "2026.2"
+          }
+        },
+        "python_supported": true,
+        "python_version": "3.14.6",
+        "status": "VERIFIED",
+        "verification_scope": "installed_distribution_versions_against_lock"
+      },
+      "end_policy": "MARK_TO_MARKET",
+      "fee_rate": 0.0008,
+      "initial_cash": 10000,
+      "purpose": "SYNTHETIC_REGRESSION",
+      "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+      "score_clock": {
+        "score_end": "2024-12-03T21:00:00Z",
+        "score_start": "2024-11-11T14:30:00Z",
+        "scored_sessions": 16,
+        "session_clock_hash": "5ec790de6ee80479366e13952dee9deae7135226fd8f07ce5b33823f975ab6ce"
+      },
+      "score_end": "2024-12-03",
+      "score_start": "2024-11-11",
+      "slippage_pct": 0.0005,
+      "source_hash": "c85218ec4d021c53786cf46adca78e70a4d1e9b8ac5c1080c2fa28703bdd169e"
+    },
+    {
+      "dataset": {
+        "bar_availability_lag_seconds": 60,
+        "data_hash": "d9bfd5d82250edecbdc6162bc2bc8ffc3a494e72814cf0642899aff9083389e1",
+        "evidence_kind": "SYNTHETIC_TEST",
+        "price_basis": "RAW_UNADJUSTED",
+        "research_admission": {
+          "allowed": true,
+          "block_reasons": [],
+          "scope": "ACTION_FREE_FIXED_WINDOW_ONLY",
+          "source_truth_verified": false,
+          "synthetic_only": true
+        },
+        "security": {
+          "currency": "USD",
+          "exchange": "XNYS",
+          "instrument_type": "COMMON_STOCK",
+          "security_id": "SYNTHETIC:RESEARCH:TEST",
+          "symbol": "TEST"
+        },
+        "sessions": [
+          {
+            "close_utc": "2024-11-01T20:00:00Z",
+            "date": "2024-11-01",
+            "early_close": false,
+            "open_utc": "2024-11-01T13:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-04T21:00:00Z",
+            "date": "2024-11-04",
+            "early_close": false,
+            "open_utc": "2024-11-04T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-05T21:00:00Z",
+            "date": "2024-11-05",
+            "early_close": false,
+            "open_utc": "2024-11-05T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-06T21:00:00Z",
+            "date": "2024-11-06",
+            "early_close": false,
+            "open_utc": "2024-11-06T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-07T21:00:00Z",
+            "date": "2024-11-07",
+            "early_close": false,
+            "open_utc": "2024-11-07T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-08T21:00:00Z",
+            "date": "2024-11-08",
+            "early_close": false,
+            "open_utc": "2024-11-08T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-11T21:00:00Z",
+            "date": "2024-11-11",
+            "early_close": false,
+            "open_utc": "2024-11-11T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-12T21:00:00Z",
+            "date": "2024-11-12",
+            "early_close": false,
+            "open_utc": "2024-11-12T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-13T21:00:00Z",
+            "date": "2024-11-13",
+            "early_close": false,
+            "open_utc": "2024-11-13T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-14T21:00:00Z",
+            "date": "2024-11-14",
+            "early_close": false,
+            "open_utc": "2024-11-14T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-15T21:00:00Z",
+            "date": "2024-11-15",
+            "early_close": false,
+            "open_utc": "2024-11-15T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-18T21:00:00Z",
+            "date": "2024-11-18",
+            "early_close": false,
+            "open_utc": "2024-11-18T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-19T21:00:00Z",
+            "date": "2024-11-19",
+            "early_close": false,
+            "open_utc": "2024-11-19T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-20T21:00:00Z",
+            "date": "2024-11-20",
+            "early_close": false,
+            "open_utc": "2024-11-20T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-21T21:00:00Z",
+            "date": "2024-11-21",
+            "early_close": false,
+            "open_utc": "2024-11-21T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-22T21:00:00Z",
+            "date": "2024-11-22",
+            "early_close": false,
+            "open_utc": "2024-11-22T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-25T21:00:00Z",
+            "date": "2024-11-25",
+            "early_close": false,
+            "open_utc": "2024-11-25T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-26T21:00:00Z",
+            "date": "2024-11-26",
+            "early_close": false,
+            "open_utc": "2024-11-26T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-27T21:00:00Z",
+            "date": "2024-11-27",
+            "early_close": false,
+            "open_utc": "2024-11-27T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-11-29T18:00:00Z",
+            "date": "2024-11-29",
+            "early_close": true,
+            "open_utc": "2024-11-29T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-12-02T21:00:00Z",
+            "date": "2024-12-02",
+            "early_close": false,
+            "open_utc": "2024-12-02T14:30:00Z"
+          },
+          {
+            "close_utc": "2024-12-03T21:00:00Z",
+            "date": "2024-12-03",
+            "early_close": false,
+            "open_utc": "2024-12-03T14:30:00Z"
+          }
+        ],
+        "snapshot_id": "ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec",
+        "volume_unit": "shares"
+      },
+      "dependencies": {
+        "errors": [],
+        "lock_fully_pinned": true,
+        "lock_name": "requirements.research.lock",
+        "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+        "mismatched": [],
+        "missing": [],
+        "packages": {
+          "numpy": {
+            "installed": "2.4.6",
+            "required": "2.4.6"
+          },
+          "pandas": {
+            "installed": "3.0.3",
+            "required": "3.0.3"
+          },
+          "python-dateutil": {
+            "installed": "2.9.0.post0",
+            "required": "2.9.0.post0"
+          },
+          "six": {
+            "installed": "1.17.0",
+            "required": "1.17.0"
+          },
+          "tzdata": {
+            "installed": "2026.2",
+            "required": "2026.2"
+          }
+        },
+        "python_supported": true,
+        "python_version": "3.14.6",
+        "status": "VERIFIED",
+        "verification_scope": "installed_distribution_versions_against_lock"
+      },
+      "end_policy": "MARK_TO_MARKET",
+      "fee_rate": 0.0008,
+      "initial_cash": 10000.0,
+      "purpose": "SYNTHETIC_REGRESSION",
+      "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+      "score_clock": {
+        "score_end": "2024-12-03T21:00:00Z",
+        "score_start": "2024-11-11T14:30:00Z",
+        "scored_sessions": 16,
+        "session_clock_hash": "5ec790de6ee80479366e13952dee9deae7135226fd8f07ce5b33823f975ab6ce"
+      },
+      "score_end": "2024-12-03",
+      "score_start": "2024-11-11",
+      "slippage_pct": 0.0005,
+      "source_hash": "c85218ec4d021c53786cf46adca78e70a4d1e9b8ac5c1080c2fa28703bdd169e"
+    }
+  ],
+  "rows": [
+    {
+      "blocked_new_buys": 0,
+      "buy_intents": 1,
+      "configuration": {
+        "effective": {
+          "allocation_pct": 0.2,
+          "fee_rate": 0.0008,
+          "initial_cash": 10000.0,
+          "leverage": 1,
+          "max_daily_loss_pct": 0.1,
+          "max_position_pct": 0.25,
+          "min_cash_pct": 0.05,
+          "slippage_pct": 0.0005,
+          "stop_loss_pct": 0.02,
+          "strategy_parameters": {
+            "fast_window": 2,
+            "position_pct": 0.2,
+            "slow_window": 4,
+            "stop_loss_pct": 0.02,
+            "take_profit_pct": 0.06
+          },
+          "take_profit_pct": 0.06
+        },
+        "exit_rule": "均线退出＋有效止损/止盈；期末按市值",
+        "notes": [
+          "请求和生效值以保存的配置为准；实际下单数量受现金、费用和成交约束，可低于目标仓位。",
+          "单笔约束是止损价格距离，不保证账户损失上限；日亏损约束仅阻止新 BUY，按 UTC 日计算。"
+        ],
+        "requested": {
+          "fee_rate": 0.0008,
+          "initial_cash": 10000.0,
+          "risk": {
+            "max_daily_loss_pct": 0.1,
+            "max_leverage": 1.0,
+            "max_position_pct": 0.25,
+            "max_single_loss_pct": 0.03,
+            "min_cash_pct": 0.05
+          },
+          "score_end_session": "2024-12-03",
+          "score_start_session": "2024-11-11",
+          "slippage_pct": 0.0005,
+          "strategy": {
+            "name": "dual_ma",
+            "params": {
+              "fast_window": 2,
+              "position_pct": 0.2,
+              "slow_window": 4,
+              "stop_loss_pct": 0.02,
+              "take_profit_pct": 0.06
+            }
+          }
+        },
+        "risk_policy": "STANDARD_STRATEGY_RISK"
+      },
+      "event_context_hash": null,
+      "event_rule": null,
+      "fills": 2,
+      "initial_cash": 10000.0,
+      "limitations": [
+        "Imported source/calendar/action declarations are not independently authenticated.",
+        "Only stable-identity, declared action-free windows are admitted. Corporate actions require further accounting implementation.",
+        "Fractional shares, proportional fees and constant slippage are research approximations, not broker rules or fills.",
+        "No spread, auction participation, liquidity or intraday execution guarantee is established.",
+        "This is a fixed development or synthetic regression, not a profitability or out-of-sample claim."
+      ],
+      "max_drawdown": 0.004416928960800037,
+      "net_pnl": -44.16928960800033,
+      "net_return": -0.004416928960800037,
+      "open_position_qty": 0.0,
+      "realized_pnl": -44.16928960799992,
+      "reasons": [
+        "fast MA crossed above slow MA",
+        "no MA crossover"
+      ],
+      "report_hash": "4b60ab1c1c4ab57766d02f689eff586142b4e2b3d5e2f8577af03e2a3a8d06c5",
+      "risk_semantics": {
+        "bar_event_order": "OLD_POSITION_OPEN_PROTECTION_THEN_PENDING_SIGNAL_THEN_INTRABAR_PROTECTION_THEN_CLOSE_MARK",
+        "benchmark_policy": "NOT_APPLICABLE",
+        "daily_loss": {
+          "config_key": "max_daily_loss_pct",
+          "continuous_position_liquidation": false,
+          "hold_and_sell_remain_available": true,
+          "meaning": "NEW_BUY_ADMISSION_HALT_FROM_UTC_DAY_START_EQUITY",
+          "threshold_pct": 0.1
+        },
+        "execution_policy": "STANDARD_STRATEGY_RISK",
+        "leverage": {
+          "borrowing_margin_and_liquidation": "UNSUPPORTED",
+          "effective": 1.0,
+          "policy": "SPOT_CASH_ONLY_REQUEST_NOT_APPLIED",
+          "requested": 1.0,
+          "supported": false
+        },
+        "max_position_pct": 0.25,
+        "min_cash_pct": 0.05,
+        "opening_protection_pending_signal_policy": "CANCEL_PENDING_ON_TRIGGER_EVEN_IF_EXIT_PARTIAL_OR_REJECTED",
+        "opening_protection_remainder_policy": "ONE_ATTEMPT_THIS_BAR_RETAIN_THRESHOLDS_FOR_NEXT_BAR",
+        "opening_target_price_policy": "TARGET_PRICE_WITHOUT_ASSUMED_OPEN_IMPROVEMENT",
+        "protective_exits_enabled": true,
+        "same_bar_reentry_policy": "DISALLOWED_AFTER_OPEN_PROTECTION_FRESH_CLOSE_SIGNAL_REQUIRED_FOR_LATER_BAR",
+        "schema_version": "research-risk-engine-v2",
+        "stop_loss": {
+          "account_loss_guarantee": false,
+          "config_key": "max_single_loss_pct",
+          "gap_slippage_and_capacity_can_exceed_distance": true,
+          "maximum_price_distance_pct": 0.03,
+          "meaning": "MAXIMUM_STOP_PRICE_DISTANCE_FROM_AVERAGE_ENTRY",
+          "requested_and_effective_values": "PER_BUY_SIGNAL_IN_SIGNALS_LEDGER"
+        }
+      },
+      "run_id": "ede6e90cd0a90e50421d5e9d7e5e347965abf5ff326ffb72ff1a7e99812f7037",
+      "stop_requests": [
+        {
+          "effective": 0.02,
+          "requested": 0.02
+        }
+      ],
+      "strategy": "price.dual_ma@1",
+      "task_id": "652699e2a1c689e6e1a1959fe416f5d832c343ef3a5f680e6c825d0bd228b587",
+      "task_version": {
+        "family_id": "7f35cffbd4ff4e0f8c186a8064ed408c",
+        "revision": "r0001-9267066ba283497b90a1f935dd1dae29"
+      },
+      "title": "双均线价格策略",
+      "total_fees": 3.168799608,
+      "unrealized_pnl": 0.0,
+      "warmup": {
+        "annualization": "252_REGULAR_SESSIONS_PER_YEAR_DESCRIPTIVE_ASSUMPTION",
+        "available_context_sessions": 6,
+        "bar_availability_lag_seconds": 60,
+        "company_actions": "DECLARED_ACTION_FREE_WINDOW_ONLY",
+        "confirmation_evaluation": false,
+        "parameter_selection": false,
+        "required_context_sessions": 6,
+        "score_end": "2024-12-03T21:00:00Z",
+        "score_start": "2024-11-11T14:30:00Z",
+        "scored_sessions": 16,
+        "session_clock_hash": "5ec790de6ee80479366e13952dee9deae7135226fd8f07ce5b33823f975ab6ce",
+        "warmup_trading": false
+      }
+    },
+    {
+      "blocked_new_buys": 1,
+      "buy_intents": 0,
+      "configuration": {
+        "effective": {
+          "allocation_pct": 0.25,
+          "fee_rate": 0.0008,
+          "initial_cash": 10000,
+          "leverage": 1,
+          "max_daily_loss_pct": 1.0,
+          "max_position_pct": 0.25,
+          "min_cash_pct": 0.0,
+          "slippage_pct": 0.0005,
+          "stop_loss_pct": 0.03,
+          "strategy_parameters": {
+            "fast_window": 2,
+            "position_pct": 0.25,
+            "slow_window": 4,
+            "stop_loss_pct": 0.03,
+            "take_profit_pct": 0.06
+          },
+          "take_profit_pct": 0.06
+        },
+        "exit_rule": "均线退出＋有效止损/止盈；期末按市值",
+        "notes": [
+          "请求和生效值以保存的配置为准；实际下单数量受现金、费用和成交约束，可低于目标仓位。",
+          "单笔约束是止损价格距离，不保证账户损失上限；日亏损约束仅阻止新 BUY，按 UTC 日计算。"
+        ],
+        "requested": {
+          "fee_rate": 0.0008,
+          "initial_cash": 10000,
+          "risk": {
+            "max_daily_loss_pct": 1.0,
+            "max_leverage": 1.0,
+            "max_position_pct": 0.25,
+            "max_single_loss_pct": 0.03,
+            "min_cash_pct": 0.0
+          },
+          "score_end_session": "2024-12-03",
+          "score_start_session": "2024-11-11",
+          "slippage_pct": 0.0005,
+          "strategy": {
+            "name": "dual_ma",
+            "params": {
+              "fast_window": 2,
+              "position_pct": 0.25,
+              "slow_window": 4,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.06
+            }
+          }
+        },
+        "risk_policy": "STANDARD_STRATEGY_RISK"
+      },
+      "event_context_hash": "a0b7ef1d375ea429ec87e67644fd95170c1e479d75dfbcb5cc73da6af703f558",
+      "event_rule": "DROP_NEW_BUY_ON_ANNOUNCED_EARNINGS_DATE_V1",
+      "fills": 0,
+      "initial_cash": 10000,
+      "limitations": [
+        "Imported source/calendar/action declarations are not independently authenticated.",
+        "Only stable-identity, declared action-free windows are admitted. Corporate actions require further accounting implementation.",
+        "Fractional shares, proportional fees and constant slippage are research approximations, not broker rules or fills.",
+        "No spread, auction participation, liquidity or intraday execution guarantee is established.",
+        "This is a fixed development or synthetic regression, not a profitability or out-of-sample claim.",
+        "Schedule filtering only cancels new price BUY intents; absence of a known schedule is not proof that no event exists. Numeric fields do not trigger entries."
+      ],
+      "max_drawdown": 0.0,
+      "net_pnl": 0.0,
+      "net_return": 0.0,
+      "open_position_qty": 0.0,
+      "realized_pnl": 0.0,
+      "reasons": [
+        "announced earnings schedule blocks this new buy",
+        "no MA crossover"
+      ],
+      "report_hash": "f4f734d50dece13681c65a12496ee62432f2f5cd7b58de18f4bac78146beef5a",
+      "risk_semantics": {
+        "bar_event_order": "OLD_POSITION_OPEN_PROTECTION_THEN_PENDING_SIGNAL_THEN_INTRABAR_PROTECTION_THEN_CLOSE_MARK",
+        "benchmark_policy": "NOT_APPLICABLE",
+        "daily_loss": {
+          "config_key": "max_daily_loss_pct",
+          "continuous_position_liquidation": false,
+          "hold_and_sell_remain_available": true,
+          "meaning": "NEW_BUY_ADMISSION_HALT_FROM_UTC_DAY_START_EQUITY",
+          "threshold_pct": 1.0
+        },
+        "execution_policy": "STANDARD_STRATEGY_RISK",
+        "leverage": {
+          "borrowing_margin_and_liquidation": "UNSUPPORTED",
+          "effective": 1.0,
+          "policy": "SPOT_CASH_ONLY_REQUEST_NOT_APPLIED",
+          "requested": 1.0,
+          "supported": false
+        },
+        "max_position_pct": 0.25,
+        "min_cash_pct": 0.0,
+        "opening_protection_pending_signal_policy": "CANCEL_PENDING_ON_TRIGGER_EVEN_IF_EXIT_PARTIAL_OR_REJECTED",
+        "opening_protection_remainder_policy": "ONE_ATTEMPT_THIS_BAR_RETAIN_THRESHOLDS_FOR_NEXT_BAR",
+        "opening_target_price_policy": "TARGET_PRICE_WITHOUT_ASSUMED_OPEN_IMPROVEMENT",
+        "protective_exits_enabled": true,
+        "same_bar_reentry_policy": "DISALLOWED_AFTER_OPEN_PROTECTION_FRESH_CLOSE_SIGNAL_REQUIRED_FOR_LATER_BAR",
+        "schema_version": "research-risk-engine-v2",
+        "stop_loss": {
+          "account_loss_guarantee": false,
+          "config_key": "max_single_loss_pct",
+          "gap_slippage_and_capacity_can_exceed_distance": true,
+          "maximum_price_distance_pct": 0.03,
+          "meaning": "MAXIMUM_STOP_PRICE_DISTANCE_FROM_AVERAGE_ENTRY",
+          "requested_and_effective_values": "PER_BUY_SIGNAL_IN_SIGNALS_LEDGER"
+        }
+      },
+      "run_id": "f1bf93d5674b0ee2d4c6d335a155c23cb12a4d812213fb0d00d0527c59b95a90",
+      "stop_requests": [],
+      "strategy": "event.earnings_schedule@1",
+      "task_id": "77ca49cbc29ae15484fa088f7b2c4bc4abb2c1ee27befd7b4d51a142f5163554",
+      "task_version": null,
+      "title": "公告排期过滤＋价格策略",
+      "total_fees": 0.0,
+      "unrealized_pnl": 0.0,
+      "warmup": {
+        "annualization": "252_REGULAR_SESSIONS_PER_YEAR_DESCRIPTIVE_ASSUMPTION",
+        "available_context_sessions": 6,
+        "bar_availability_lag_seconds": 60,
+        "company_actions": "DECLARED_ACTION_FREE_WINDOW_ONLY",
+        "confirmation_evaluation": false,
+        "parameter_selection": false,
+        "required_context_sessions": 6,
+        "score_end": "2024-12-03T21:00:00Z",
+        "score_start": "2024-11-11T14:30:00Z",
+        "scored_sessions": 16,
+        "session_clock_hash": "5ec790de6ee80479366e13952dee9deae7135226fd8f07ce5b33823f975ab6ce",
+        "warmup_trading": false
+      }
+    },
+    {
+      "blocked_new_buys": 0,
+      "buy_intents": 1,
+      "configuration": {
+        "effective": {
+          "allocation_pct": 0.2,
+          "fee_rate": 0.0008,
+          "initial_cash": 10000.0,
+          "leverage": 1,
+          "max_daily_loss_pct": null,
+          "max_position_pct": 1.0,
+          "min_cash_pct": 0.0,
+          "slippage_pct": 0.0005,
+          "stop_loss_pct": null,
+          "strategy_parameters": {
+            "target_position_pct": 0.2
+          },
+          "take_profit_pct": null
+        },
+        "exit_rule": "单次首次开盘入场；无策略止损/止盈、不加仓、不重新入场；期末按市值",
+        "notes": [
+          "请求和生效值以保存的配置为准；实际下单数量受现金、费用和成交约束，可低于目标仓位。",
+          "买入持有的单笔/日亏损字段为固定兼容值，不启用主动保护。"
+        ],
+        "requested": {
+          "fee_rate": 0.0008,
+          "initial_cash": 10000.0,
+          "risk": {
+            "max_daily_loss_pct": 1.0,
+            "max_leverage": 1.0,
+            "max_position_pct": 1.0,
+            "max_single_loss_pct": 0.03,
+            "min_cash_pct": 0.0
+          },
+          "score_end_session": "2024-12-03",
+          "score_start_session": "2024-11-11",
+          "slippage_pct": 0.0005,
+          "strategy": {
+            "name": "buy_and_hold",
+            "params": {
+              "target_position_pct": 0.2
+            }
+          }
+        },
+        "risk_policy": "BUY_AND_HOLD_SINGLE_ENTRY_MARK_TO_MARKET"
+      },
+      "event_context_hash": null,
+      "event_rule": null,
+      "fills": 1,
+      "initial_cash": 10000.0,
+      "limitations": [
+        "Imported source/calendar/action declarations are not independently authenticated.",
+        "Only stable-identity, declared action-free windows are admitted. Corporate actions require further accounting implementation.",
+        "Fractional shares, proportional fees and constant slippage are research approximations, not broker rules or fills.",
+        "No spread, auction participation, liquidity or intraday execution guarantee is established.",
+        "This is a fixed development or synthetic regression, not a profitability or out-of-sample claim."
+      ],
+      "max_drawdown": 0.009875464615384577,
+      "net_pnl": -98.7546461538459,
+      "net_return": -0.009875464615384577,
+      "open_position_qty": 19.23076923076923,
+      "realized_pnl": 0.0,
+      "reasons": [
+        "buy-and-hold: single score-start entry attempt",
+        "buy-and-hold: no adding, reentry, stop, or target; mark at score end"
+      ],
+      "report_hash": "289e6b6409f09790c3ec3d2585fa3aaeea3fc8d8cf0bcbbaafa587387bafc59e",
+      "risk_semantics": {
+        "bar_event_order": "OLD_POSITION_OPEN_PROTECTION_THEN_PENDING_SIGNAL_THEN_INTRABAR_PROTECTION_THEN_CLOSE_MARK",
+        "benchmark_policy": "EXPLICIT_NO_STOPS_NO_TARGETS_SINGLE_INITIAL_ATTEMPT",
+        "daily_loss": {
+          "config_key": "max_daily_loss_pct",
+          "continuous_position_liquidation": false,
+          "hold_and_sell_remain_available": true,
+          "meaning": "NEW_BUY_ADMISSION_HALT_FROM_UTC_DAY_START_EQUITY",
+          "threshold_pct": 1.0
+        },
+        "execution_policy": "BUY_AND_HOLD_SINGLE_ENTRY_MARK_TO_MARKET",
+        "leverage": {
+          "borrowing_margin_and_liquidation": "UNSUPPORTED",
+          "effective": 1.0,
+          "policy": "SPOT_CASH_ONLY_REQUEST_NOT_APPLIED",
+          "requested": 1.0,
+          "supported": false
+        },
+        "max_position_pct": 1.0,
+        "min_cash_pct": 0.0,
+        "opening_protection_pending_signal_policy": "CANCEL_PENDING_ON_TRIGGER_EVEN_IF_EXIT_PARTIAL_OR_REJECTED",
+        "opening_protection_remainder_policy": "ONE_ATTEMPT_THIS_BAR_RETAIN_THRESHOLDS_FOR_NEXT_BAR",
+        "opening_target_price_policy": "TARGET_PRICE_WITHOUT_ASSUMED_OPEN_IMPROVEMENT",
+        "protective_exits_enabled": false,
+        "same_bar_reentry_policy": "DISALLOWED_AFTER_OPEN_PROTECTION_FRESH_CLOSE_SIGNAL_REQUIRED_FOR_LATER_BAR",
+        "schema_version": "research-risk-engine-v2",
+        "stop_loss": {
+          "account_loss_guarantee": false,
+          "config_key": "max_single_loss_pct",
+          "gap_slippage_and_capacity_can_exceed_distance": true,
+          "maximum_price_distance_pct": 0.03,
+          "meaning": "MAXIMUM_STOP_PRICE_DISTANCE_FROM_AVERAGE_ENTRY",
+          "requested_and_effective_values": "PER_BUY_SIGNAL_IN_SIGNALS_LEDGER"
+        }
+      },
+      "run_id": "9dcd069a05d563a8014a5e377d08bf5b2f242739fab84e5942e132cbc13c8839",
+      "stop_requests": [
+        {
+          "effective": null,
+          "requested": null
+        }
+      ],
+      "strategy": "price.buy_and_hold@1",
+      "task_id": "9b7528008d9f3946d709231d33baf63792ba4f956aa89272af296bb2cc3134be",
+      "task_version": {
+        "family_id": "4c33ca93d5b440ea93058d1985eef931",
+        "revision": "r0001-75790147776a42df8556e72020a90991"
+      },
+      "title": "买入持有基准",
+      "total_fees": 1.6008,
+      "unrealized_pnl": -98.75464615384601,
+      "warmup": {
+        "annualization": "252_REGULAR_SESSIONS_PER_YEAR_DESCRIPTIVE_ASSUMPTION",
+        "available_context_sessions": 6,
+        "bar_availability_lag_seconds": 60,
+        "company_actions": "DECLARED_ACTION_FREE_WINDOW_ONLY",
+        "confirmation_evaluation": false,
+        "parameter_selection": false,
+        "required_context_sessions": 1,
+        "score_end": "2024-12-03T21:00:00Z",
+        "score_start": "2024-11-11T14:30:00Z",
+        "scored_sessions": 16,
+        "session_clock_hash": "5ec790de6ee80479366e13952dee9deae7135226fd8f07ce5b33823f975ab6ce",
+        "warmup_trading": false
+      }
+    }
+  ],
+  "schema_version": "hakimi-task-comparison-v1",
+  "shared_portfolio": false,
+  "status": "COMPARABLE_CONDITIONS"
+}

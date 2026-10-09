@@ -1,0 +1,12 @@
+{
+  "accepted_wheel_sha256": "420a2450e2a6a18f928cc30625304be3199c4053bb62a1896910ca31acb0c6d2",
+  "formal_release_changed": false,
+  "product": {
+    "archive": "supervised-research-0307d64bd3659c6b729591b691523a108795216143e5f01e10d79fcbb5dee8a6.zip",
+    "archive_sha256": "c939c470359d3b46f50578174eb79092e658011bc556e911b65943ccdb9cad1e",
+    "build_id": "supervised-research-0307d64bd3659c6b729591b691523a108795216143e5f01e10d79fcbb5dee8a6",
+    "directory": "supervised-research-0307d64bd3659c6b729591b691523a108795216143e5f01e10d79fcbb5dee8a6"
+  },
+  "schema_version": "M2_1-offline-product-delivery-v1",
+  "scope": "EXACT_ACCEPTED_WHEEL_OFFLINE_TOOL_CANDIDATE_NOT_BROKER_OR_STRATEGY_ADMISSION"
+}

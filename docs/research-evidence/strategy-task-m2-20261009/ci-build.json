@@ -1,0 +1,50 @@
+{
+  "actual_main_ci": false,
+  "conclusion": "success",
+  "event": "pull_request",
+  "jobs": [
+    {
+      "conclusion": "success",
+      "name": "Package install smoke (ubuntu-latest)"
+    },
+    {
+      "conclusion": "success",
+      "name": "Python contracts"
+    },
+    {
+      "conclusion": "success",
+      "name": "Deterministic references"
+    },
+    {
+      "conclusion": "success",
+      "name": "Offline research MVP contracts"
+    },
+    {
+      "conclusion": "success",
+      "name": "Package install smoke (windows-latest)"
+    },
+    {
+      "conclusion": "success",
+      "name": "Historical developer reference replay"
+    },
+    {
+      "conclusion": "success",
+      "name": "Electron capability contract"
+    },
+    {
+      "conclusion": "success",
+      "name": "Market-data renderer"
+    },
+    {
+      "conclusion": "success",
+      "name": "Research required gate"
+    }
+  ],
+  "primary_checkout_sha": "6c6d0189aad48dc01651fee9990724f8c46995b8",
+  "reviewed_head": "a61a629be59d4b54f01792c737a50eff997b099d",
+  "run_id": 37922029719,
+  "schema_version": "m2-build-ci-observation-v1",
+  "ubuntu_installed_tests": 221,
+  "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37922029719",
+  "windows_installed_tests": 221
+}
