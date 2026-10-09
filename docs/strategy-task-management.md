@@ -1,6 +1,6 @@
 # 策略任务与结果对照（M2-1）
 
-候选 `0.4.0.dev3` 在同一 `hakimi-trade` 入口中管理配置和历史版本。菜单 15 创建可管理任务，13 查看／复制修改／保存新版本／暂停启用／选择历史版本，2 检查，3 运行，14 比较保存的结果。菜单 10 的旧格式任务继续可用；在菜单 13 复制后进入版本管理，不改写原任务。三个注册策略继续共用原运行、风控、记账及恢复机制。
+候选 `0.4.0.dev4` 在同一 `hakimi-trade` 入口中管理配置和历史版本。菜单 15 创建可管理任务，13 查看／复制修改／保存新版本／暂停启用／选择历史版本，2 检查，3 运行，14 比较保存的结果。菜单 10 的旧格式任务继续可用；在菜单 13 复制后进入版本管理，不改写原任务。三个注册策略继续共用原运行、风控、记账及恢复机制。
 
 Windows x64 离线候选需 CPython 3.14。将 ZIP 解压到独立目录，双击 `Start-Hakimi.cmd`：安装器只用包内 wheel 和五个锁定依赖，在候选旁创建独立环境，检查身份后打开菜单。无须源码或浏览器；不连接行情、账户或订单。首次可选菜单 1 创建虚构数据，再从 15 配置任务；已有数据可用 9 导入。
 
@@ -9,7 +9,7 @@ Windows x64 离线候选需 CPython 3.14。将 ZIP 解压到独立目录，双�
 ```powershell
 py -3.14 -m venv .\runtime
 .\runtime\Scripts\python.exe -m pip install --no-index --find-links .\wheelhouse --requirement .\requirements.research.lock
-.\runtime\Scripts\python.exe -m pip install --no-deps .\research\hakimi_research-0.4.0.dev3-py3-none-any.whl
+.\runtime\Scripts\python.exe -m pip install --no-deps .\research\hakimi_research-0.4.0.dev4-py3-none-any.whl
 .\runtime\Scripts\hakimi-trade.exe wizard --workspace .\workspace
 ```
 
@@ -46,4 +46,13 @@ hakimi-trade run --task .\workspace\tasks\my-strategy
 hakimi-trade compare --run-dir <保存运行1> --run-dir <保存运行2> --output .\comparison.json
 ```
 
-`task-create --managed` 创建新家族，`task-copy` 复制已有配置，`task-revise` 保存新版本，`tasks` 列出工作区任务。`--parameters` 和 `--risk` 可接受自己填写的完整配置 JSON；参数变更需明确提供受支持的整组配置，未知字段不会忽略。切换策略时请明确填写新的策略参数和风险，菜单会提示；旧报告不受影响。
+`task-create --managed` 创建新家族，`task-copy` 复制已有配置，`task-revise` 保存新版本，`tasks` 列出工作区任务。`--parameters` 和 `--risk` 可接受自己填写的完整配置 JSON；参数变更需明确提供受支持的整组配置，未知字段不会忽略。复制与修改版本切换策略采用相同规则：未提供 `--parameters`／`--risk` 时使用目标策略的新建模板，不跨策略继承原参数结构或风控。提供文件时使用目标的完整配置并验证，不丢弃不兼容字段；菜单会提示并允许逐项修改。共同快照、本金、费用及评分区间保留，目标预热不满足时拒绝，不自动推迟评分。
+
+事件策略切换为价格策略只清除继承的事件输入；显式传入事件路径仍按防混用规则拒绝。反向切换仍必须提供合法 `--event-context`，不能复用先前版本的隐含输入。同策略内修改保留未改字段、必要事件输入和旧默认语义。修改失败不提交新版本，不改变原选择或暂停状态；成功修改也保留原启停状态，旧版本、输入和报告不覆盖。
+
+```powershell
+hakimi-trade task-revise --task .\workspace\tasks\my-strategy --strategy price.dual_ma@1 --parameters .\dual-ma-parameters.json --risk .\active-risk.json
+hakimi-trade task-revise --task .\workspace\tasks\my-strategy --strategy price.buy_and_hold@1 --parameters .\benchmark-parameters.json --risk .\benchmark-risk.json
+```
+
+`0.4.0.dev4` 是 R3 独立补丁；原 dev3 的包、构建与 232 项验收保持原身份。新补丁的安装入口与检查结果另记于 [R3 记录](research-evidence/strategy-switch-r3-20261010/README.md)。

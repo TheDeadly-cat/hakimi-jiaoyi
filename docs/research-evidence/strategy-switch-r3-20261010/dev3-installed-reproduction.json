@@ -1,0 +1,32 @@
+{
+  "schema_version": "strategy-switch-installed-dev3-reproduction-v1",
+  "observed_at_utc": "2026-10-09T16:22:19.188464+00:00",
+  "status": "R3_REPRODUCED",
+  "data_kind": "SYNTHETIC_TEST",
+  "candidate_version": "0.4.0.dev3",
+  "wheel_sha256": "420a2450e2a6a18f928cc30625304be3199c4053bb62a1896910ca31acb0c6d2",
+  "actual_installed_source_sha256": "4242359ed744f8c6eae8c9924bdca3b417a83a9f3d163d59bce4af05eaebcbf5",
+  "normal_console_entry": true,
+  "pythonpath_used": false,
+  "test_doubles_used": false,
+  "rows": [
+    {
+      "target": "price.dual_ma@1",
+      "explicit_legal_target_parameters_and_risk": true,
+      "status": "STOPPED",
+      "error": "price_strategy_must_not_silently_use_event_inputs",
+      "paused_state_and_selection_unchanged": true,
+      "old_inputs_and_report_bytes_unchanged": true
+    },
+    {
+      "target": "price.buy_and_hold@1",
+      "explicit_legal_target_parameters_and_risk": true,
+      "status": "STOPPED",
+      "error": "price_strategy_must_not_silently_use_event_inputs",
+      "paused_state_and_selection_unchanged": true,
+      "old_inputs_and_report_bytes_unchanged": true
+    }
+  ],
+  "provider_calls": 0,
+  "order_calls": 0
+}
