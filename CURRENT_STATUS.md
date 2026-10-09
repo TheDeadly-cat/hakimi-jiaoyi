@@ -1,16 +1,17 @@
 # 当前项目状态
 
-本页为 PR #19 合并前的交付与审阅快照。后续主分支集成以 [PR #19 的实际合并记录](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/19)及其 main 提交的检查为准；以下记录保留核对时的提交身份。
+本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1 已结案，当前开发阶段为 M2-1。主分支集成以实际合并提交及其检查为准。
 
-整理日期：2026-10-09。本页区分功能基线、开发候选、正式版本、本机安装与实际外部验收。项目最终交付交易量化工具；本轮 M1 为可独立安装使用的离线候选，研究内核隔离及交易权限保持原状态。项目职责、后续 M2–M4 和验收目标见[产品路线图](docs/quant-tool-roadmap.md)。
+整理日期：2026-10-09。本页区分功能基线、开发候选、正式版本、本机安装与外部验收。M2-1 在已集成 M1 基线上提供策略／风险配置、版本与启停管理、统一条件对照；候选版本 `0.4.0.dev1`，同一产物的仓库外验收及远端检查尚待完成。见[使用说明](docs/strategy-task-management.md)和[产品路线图](docs/quant-tool-roadmap.md)。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
 | 层次 | 已核实状态 |
 |---|---|
-| 当前 main | 用户就 PR #18 `32ef9f7` 的待批准事项回复“授权”后，已于 2026-10-09 13:06:32（上海）合并为 `8e95f51533331a29b29caebf92347ae29f3af0db`。实际 main 树与受审提交一致，实际差异逐字节匹配；[合并后 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37887002186) 九项成功，绑定该 main 合并提交。M1／dev4 尚在 PR #19 待单独批准，不能据此视为已进入 main。见[依赖集成回执](docs/research-evidence/offline-product-m1-p2-20261009/main-integration-pr18.json) |
+| 当前 main | PR #19 经用户单独批准受审 `669b348` 后，已合入 `17b2c15891aab7caf30dbb1addbb1f495f92dea0`；内容树 `26215045b3becf7dd6bf6e5d7292011a6e837379` 与受审版本一致。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005) 九项成功，Windows 安装后 209 项通过；M1 结案。集成回执保存在 PR #19 实际合并记录与本机 M1 存档目录 |
 | 前一 main 集成 | 用户单独批准 [PR #17](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/17) 的 `46d938a` 后，已于 2026-09-29 12:57:03 UTC 合并至 `cdee7b5472981811655bf84a8a9f59298df546b4`；[合并后 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36571592538) 九项成功，实际检出 main 合并提交。PR #16 与旧测试身份保留 |
-| 本轮 M1 开发及安装候选 | [PR #19](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/19) 已转向 main `8e95f51`，仍为草稿 M1 增量；构建时 PR #18 基线 `32ef9f7` 的原身份保留。0.3.0.dev4 修复初始化互斥、未封存中断重试和外部历史；构建提交 `ac8c77b`、wheel `e10cbb02ab71…` 与 ZIP 完成全新仓库外 Windows 安装、209 项安装后检查和实际启动器菜单使用。默认、同盘外部、真实跨盘的退出重开／查看／重放／历史恢复通过，已保存结果恢复新增计算 0。八项定向回归包含真实双进程与初始化故障，旧 dev3 同一接管回归明确失败；旧包、201 项旧验收与九项 CI 原样保留。新构建 head 九项 CI 成功，最终文档 head checks 独立核对。新首用操作者为代理；旧 NVIDIA 报告人工阅读反馈不视为新包验收。PR #18 已按单独授权进入 main，实际差异及其合并后九项 CI 通过；PR #19 的 main 合并仍待确切 head 单独批准及合并后核对。正式发布和部署未批准。见[最新修复与候选验收](docs/research-evidence/offline-product-m1-p2-20261009/README.md) |
+| M1 存档候选 | `0.3.0.dev4` 构建 `ac8c77b`，wheel `e10cbb02ab71…`；原仓库外 209 项安装验收与默认／同盘外部／真实跨盘菜单使用原样保留。PR #19 现已合并；原候选没有改签为 main 构建。旧 dev3 的包、失败和 201 项验收保留。见[原修复与候选验收](docs/research-evidence/offline-product-m1-p2-20261009/README.md) |
+| 本轮 M2-1 开发候选 | 在 main `17b2c15` 的独立目录开发 `0.4.0.dev1`，增加配置、追加式版本／启停及保存结果对照；源码定向检查完成，最终同一 wheel 安装、首用与远端检查待记录。主分支合并仍需受审 head 单独批准 |
 | 已进入 main 的两事件诊断 | [NVIDIA 两事件离线对照已完成](docs/research-evidence/nvda-event-price-20260930/economic-20261002/README.md)：用户明确核准字段和固定 8 次范围后，8 次模拟、8 次重放及 8 份独立账本核对通过（512 项账本检查）；原始输入与执行代码未变。两组结果完全相同，内容干预 0 次：常规成本下 Q1 +1.4463%、Q2 −0.8019%，双倍成本分别 +1.3925%、−0.8539%。本轮新增取数 0；此前 6 次查询、两个 8 日快照及 16 日成交量差异保留。报告桌面／窄窗口及费用展开已核对，用户已确认“能找到，展示清楚”，报告阅读验收通过；独立安装或命令行使用未据此验收。原至少 3 候选门槛未达，研究接纳 0；PR #18 已按本次单独授权合入 main `8e95f51`，合并后九项 CI 通过；原研究与阅读证据不重跑、不重签。正式发布、r3 和部署未更新 |
 | 正式 Release | 仍为 [v0.2.1](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1)，未发布新正式版本；独立富途工具不是研究 wheel 的组成部分 |
 | 真实 AMD 原始闭环 | 37个交易日、259条真实 RTH 分时聚合。OHLC 与供应商日线一致，全部37日成交量差异原因未确认。保留原件和有限窗口公司行为来源边界 |
@@ -34,4 +35,4 @@
 
 ed19之后的研究诊断与剩余事项见[本轮D1/D2/D3/O2清单](docs/research-evidence/equity-diagnostics-20260923/README.md)。原O1结案、十事件研究和r3安装任务保持关闭；亏损与可靠性未通过的结论不因补充诊断而改写。
 
-2026-10-09：PR #19 的三个 P2 已修复，dev4 安装和三种实际输出位置的完整使用回归已通过；PR #18 已单独授权并合入 main `8e95f51`，实际差异及合并后 CI 已核对；PR #19 已转向 main，其合并仍待确切 head 单独批准和合并后核验。旧 dev3 原件与失败证据保留，不回填。见[本轮修复与验收](docs/research-evidence/offline-product-m1-p2-20261009/README.md)。
+2026-10-09：M1 的三个流程缺陷及 PR #19 集成保持关闭；当前进入 M2-1。日常状态已更新，历史证据、旧包、旧回执和研究原身份不变。

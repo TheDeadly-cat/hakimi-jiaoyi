@@ -112,12 +112,16 @@ def run_lock(directory):
             yield
 
 
-def check_task(task_file):
-    task_file = Path(task_file).resolve()
+def check_task(task_file, *, inspect_only=False):
+    from .task_manager import resolve_managed_task, TASK_SCHEMA
+    task_file = resolve_managed_task(task_file, inspect_only=inspect_only)
     task = read_document(task_file)
-    if set(task) != {'schema_version', 'strategy', 'state', 'snapshot', 'event_context', 'experiment', 'output_dir'} or task['schema_version'] != 'hakimi-offline-task-v1':
+    fields = {'schema_version', 'strategy', 'state', 'snapshot', 'event_context', 'experiment', 'output_dir'}
+    if task.get('schema_version') == TASK_SCHEMA:
+        fields.add('management')
+    if set(task) != fields or task['schema_version'] not in {'hakimi-offline-task-v1', TASK_SCHEMA}:
         raise ValueError('offline_task_fields_or_schema_invalid')
-    if task['state'] != 'ENABLED':
+    if task['state'] not in {'ENABLED', 'PAUSED'} or (task['state'] != 'ENABLED' and not inspect_only):
         raise ValueError('task_paused:enable_in_configuration_before_running')
     entry = definition(task['strategy'])
     snapshot_path = resolve_input(task_file, task['snapshot'])
@@ -125,6 +129,9 @@ def check_task(task_file):
     context_path = resolve_input(task_file, task['event_context']) if task['event_context'] is not None else None
     context = verify_event_context(read_document(context_path)) if context_path else None
     spec = validate_strategy(task['strategy'], task['experiment'], context).document
+    if task['schema_version'] == TASK_SCHEMA:
+        from .trade_cli import validate_configuration
+        validate_configuration(spec)
     if spec['snapshot_id'] != snapshot.snapshot_id:
         raise ValueError('task_snapshot_identity_conflict')
     if not snapshot.document['research_admission']['allowed']:
@@ -138,6 +145,8 @@ def check_task(task_file):
     semantics = dict(schema_version=task['schema_version'], strategy=task['strategy'], state=task['state'],
         strategy_identity=strategy_identity(task['strategy']), experiment=spec,
         event_context_hash=context['context_hash'] if context else None)
+    if 'management' in task:
+        semantics['management'] = task['management']
     task_id = digest(semantics)
     output = resolve_location(task_file.parent, task['output_dir'])
     return dict(task_id=task_id, semantics=semantics, definition=entry, snapshot=snapshot,
@@ -183,6 +192,12 @@ def _prepare_run(context, runtime, run_id, destination):
 
 
 def run_task(task_file, *, output_dir=None):
+    from .task_manager import execution_guard
+    with execution_guard(task_file) as selected:
+        return _run_task(selected, output_dir=output_dir)
+
+
+def _run_task(task_file, *, output_dir=None):
     context = check_task(task_file)
     runtime = build_runtime_provenance()
     if runtime['source_identity']['status'] not in {'CONTENT_HASHED', 'BUILD_VERIFIED'} or runtime['environment_verified']['status'] != 'VERIFIED':

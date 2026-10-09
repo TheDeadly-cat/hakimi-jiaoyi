@@ -165,6 +165,8 @@ def main() -> None:
     if verified["status"] != "SOURCE_WORKFLOW_CHECKED":
         raise RuntimeError("installed_source_workflow_not_completed")
     workflow["source_workflow"] = True
+    from verify_managed_workflow import verify_managed_workflow
+    managed_workflow = verify_managed_workflow(trade_command, demo, run, env=clean_env, outside=outside)
     tests = outside / "tests"
     shutil.copytree(root / "tests", tests, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     # The independent Decimal reconciler is a test/audit sidecar, not a runtime
@@ -213,6 +215,7 @@ def main() -> None:
         "equity_console_smoke_commands": ["--help", "capabilities"],
         "trade_console_smoke_commands": ["--help", "capabilities", "strategies"],
         "trade_installed_workflow": workflow,
+        "managed_task_installed_workflow": managed_workflow,
     }
     receipt_path = work / "wheel-acceptance.json"
     receipt_path.write_text(json.dumps(receipt, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")

@@ -1,4 +1,4 @@
-"""Normal installed entry for the M1 offline quantitative-tool candidate."""
+"""Normal installed entry for configurable offline strategy tasks."""
 from __future__ import annotations
 import argparse
 from importlib.resources import files
@@ -20,21 +20,22 @@ from .source_layout import default_artifact_root
 from .strategy_registry import definition, strategies
 
 
-def create_task(path, *, strategy, snapshot, event_context=None, params=None, score_start=None, score_end=None,
-                initial_cash=10000, fee_rate=0.0008, slippage_pct=0.0005, output_dir=None):
+def build_task_document(path, *, strategy, snapshot, event_context=None, params=None, score_start=None, score_end=None,
+                initial_cash=10000, fee_rate=0.0008, slippage_pct=0.0005, risk=None, output_dir=None):
     path, snapshot = Path(path).resolve(), Path(snapshot).resolve()
     data = load_equity_snapshot(snapshot)
     entry = definition(strategy)
     params = params if params is not None else (dict(target_position_pct=0.25) if entry['engine_strategy']=='buy_and_hold'
         else dict(fast_window=20, slow_window=60, position_pct=0.25, stop_loss_pct=0.03, take_profit_pct=0.06))
-    warmup = 1 if entry['engine_strategy']=='buy_and_hold' else int(params.get('slow_window',60))+2
+    from .experiment import required_context
+    warmup = required_context(entry['engine_strategy'], params)
     if not score_start and len(data.document['sessions']) <= warmup:
         raise ValueError('insufficient_demo_or_data_warmup:choose_parameters_or_supply_more_sessions')
     spec = dict(schema_version='us-equity-experiment-spec-v1', name=entry['title'], snapshot_id=data.snapshot_id,
         score_start_session=score_start or data.document['sessions'][warmup]['date'],
         score_end_session=score_end or data.document['sessions'][-1]['date'], strategy=dict(name=entry['engine_strategy'],params=params),
         initial_cash=initial_cash, fee_rate=fee_rate, slippage_pct=slippage_pct,
-        risk=dict(max_position_pct=1.0 if entry['engine_strategy']=='buy_and_hold' else 0.25,max_single_loss_pct=0.03,max_daily_loss_pct=1.0,max_leverage=1.0,min_cash_pct=0.0),
+        risk=default_risk(strategy) if risk is None else risk,
         end_policy='MARK_TO_MARKET', purpose='SYNTHETIC_REGRESSION' if data.document['evidence_kind']=='SYNTHETIC_TEST' else 'DESCRIPTIVE_DEVELOPMENT',
         quantity_policy='FRACTIONAL_SHARES_RESEARCH_APPROXIMATION',
         execution_policy=BUY_AND_HOLD_POLICY if entry['engine_strategy']=='buy_and_hold' else STANDARD_RISK_POLICY)
@@ -52,10 +53,60 @@ def create_task(path, *, strategy, snapshot, event_context=None, params=None, sc
     # Validate before publishing a usable task configuration.
     from .strategy_registry import validate_strategy
     from .equity_research import inspect_equity_inputs
+    validate_configuration(spec)
     inspect_equity_inputs(data,validate_strategy(strategy,spec,read_document(context_path) if context_path else None),
         event_context=read_document(context_path) if context_path else None)
+    return task
+
+
+def create_task(path, **options):
+    task = build_task_document(path, **options)
     write_new(path,task)
-    return path
+    return Path(path).resolve()
+
+
+def default_risk(strategy):
+    return dict(max_position_pct=1.0 if definition(strategy)['engine_strategy']=='buy_and_hold' else 0.25,
+        max_single_loss_pct=0.03, max_daily_loss_pct=1.0, max_leverage=1.0, min_cash_pct=0.0)
+
+
+def validate_configuration(spec):
+    from .config import RiskConfig
+    risk, params = spec['risk'], spec['strategy']['params']
+    keys = set(default_risk('price.dual_ma@1'))
+    if type(risk) is not dict or set(risk) != keys:
+        raise ValueError('risk_fields_must_explicitly_match_supported_configuration')
+    RiskConfig(**risk)
+    if risk['max_leverage'] != 1:
+        raise ValueError('spot_mvp_requires_leverage_one')
+    if spec['strategy']['name'] == 'buy_and_hold':
+        if risk != default_risk('price.buy_and_hold@1'):
+            raise ValueError('benchmark_has_no_active_risk_controls:use_allocation_parameter_and_fixed_benchmark_policy')
+    else:
+        position = params.get('position_pct', 0.25)
+        if position > risk['max_position_pct'] or position > 1 - risk['min_cash_pct']:
+            raise ValueError('position_request_conflicts_with_risk_limit_or_cash_reserve')
+        if params.get('stop_loss_pct', 0.03) > risk['max_single_loss_pct']:
+            raise ValueError('stop_request_exceeds_maximum_stop_distance')
+
+
+def configuration_view(spec):
+    params, risk = spec['strategy']['params'], spec['risk']
+    benchmark = spec['strategy']['name'] == 'buy_and_hold'
+    effective = dict(initial_cash=spec['initial_cash'], fee_rate=spec['fee_rate'], slippage_pct=spec['slippage_pct'],
+        allocation_pct=params.get('target_position_pct', 0.25) if benchmark else params.get('position_pct', 0.25),
+        max_position_pct=risk['max_position_pct'], min_cash_pct=risk['min_cash_pct'], leverage=1,
+        stop_loss_pct=None if benchmark else min(params.get('stop_loss_pct', 0.03), risk['max_single_loss_pct']),
+        take_profit_pct=None if benchmark else params.get('take_profit_pct', 0.08),
+        max_daily_loss_pct=None if benchmark else risk['max_daily_loss_pct'])
+    effective['strategy_parameters'] = dict(params)
+    if not benchmark:
+        effective['strategy_parameters'].update(position_pct=effective['allocation_pct'],stop_loss_pct=effective['stop_loss_pct'],take_profit_pct=effective['take_profit_pct'])
+    return dict(requested={k: spec[k] for k in ['strategy','risk','initial_cash','fee_rate','slippage_pct','score_start_session','score_end_session']},
+        effective=effective, risk_policy=spec['execution_policy'],
+        exit_rule='单次首次开盘入场；无策略止损/止盈、不加仓、不重新入场；期末按市值' if benchmark else '均线退出＋有效止损/止盈；期末按市值',
+        notes=['请求和生效值以保存的配置为准；实际下单数量受现金、费用和成交约束，可低于目标仓位。',
+            '买入持有的单笔/日亏损字段为固定兼容值，不启用主动保护。' if benchmark else '单笔约束是止损价格距离，不保证账户损失上限；日亏损约束仅阻止新 BUY，按 UTC 日计算。'])
 
 
 def initialize_demo(workspace):
@@ -157,12 +208,14 @@ def recent_runs(workspace):
         except (ValueError, OSError, KeyError, TypeError) as exc:
             warnings.append(record_path.name + ': ' + str(exc))
     roots={workspace/'runs'}
-    for task_path in (workspace/'tasks').glob('*.json'):
+    from .task_manager import list_tasks, resolve_managed_task
+    for original_path in list_tasks(workspace):
         try:
+            task_path=resolve_managed_task(original_path,inspect_only=True)
             task=read_document(task_path)
-            if task.get('schema_version') != 'hakimi-offline-task-v1':raise ValueError('task_schema_invalid')
+            if task.get('schema_version') not in {'hakimi-offline-task-v1','hakimi-offline-task-v2'}:raise ValueError('task_schema_invalid')
             roots.add(resolve_location(task_path.parent,task['output_dir']))
-        except (ValueError,OSError,KeyError,TypeError) as exc:warnings.append(task_path.name+': '+str(exc))
+        except (ValueError,OSError,KeyError,TypeError) as exc:warnings.append(original_path.name+': '+str(exc))
     for root in roots:
         try:
             for directory in root.glob('run-*'):
@@ -171,13 +224,83 @@ def recent_runs(workspace):
     return sorted(found, key=lambda path: found[path], reverse=True), warnings
 
 
+def choose_item(items, prompt, label=str):
+    for index,item in enumerate(items,1):print(str(index)+' '+label(item))
+    number=int(input(prompt))
+    if not 1<=number<=len(items):raise ValueError('selection_number_out_of_range')
+    return items[number-1]
+
+
+def configuration_form(options):
+    """Normal entry for every supported configuration; blank preserves values."""
+    options=dict(options)
+    entries=list(strategies())
+    old=options.get('strategy')
+    print('策略编号：'+'；'.join(str(i)+' '+definition(k)['title'] for i,k in enumerate(entries,1)))
+    number=int(input('策略（默认 '+str(entries.index(old)+1 if old else 1)+'）：') or str(entries.index(old)+1 if old else 1))
+    if not 1<=number<=len(entries):raise ValueError('strategy_number_out_of_range')
+    key=entries[number-1];entry=definition(key)
+    params=dict(options.get('params',{})) if old==key else {}
+    labels={'target_position_pct':('目标仓位比例',0.25,float),'fast_window':('快均线周期',20,int),
+        'slow_window':('慢均线周期',60,int),'position_pct':('每次目标仓位比例',0.25,float),
+        'stop_loss_pct':('止损价格距离比例',0.03,float),'take_profit_pct':('止盈比例',0.06,float)}
+    for name in entry['parameters']:
+        label,default,cast=labels[name];value=params.get(name,default)
+        params[name]=cast(input(label+'（默认 '+str(value)+'）：') or str(value))
+    risk=dict(options.get('risk',default_risk(key))) if old==key else default_risk(key)
+    if entry['engine_strategy']!='buy_and_hold':
+        for name,label in [('max_position_pct','最大仓位比例'),('max_single_loss_pct','最大止损价格距离比例'),
+                ('max_daily_loss_pct','UTC 日亏损后暂停新买入比例'),('min_cash_pct','最低现金比例')]:
+            value=risk[name];risk[name]=float(input(label+'（默认 '+str(value)+'）：') or str(value))
+    else:print('买入持有使用固定基准政策：无策略止损/止盈，单次入场、不加仓或重新入场。')
+    print('有效杠杆固定为 1；期末按市值。')
+    for name,label,default in [('initial_cash','初始本金（美元）',10000),('fee_rate','比例手续费',0.0008),('slippage_pct','固定滑点比例',0.0005)]:
+        value=options.get(name,default);options[name]=float(input(label+'（默认 '+str(value)+'）：') or str(value))
+    for name,label in [('score_start','评分首个交易日'),('score_end','评分最后交易日')]:
+        value=options.get(name)
+        text=input(label+' YYYY-MM-DD（默认 '+str(value or '按数据及预热选择，创建后固定')+'）：').strip()
+        options[name]=text or value
+    if entry['event_rule']:
+        value=options.get('event_context')
+        text=input('事件上下文路径（默认 '+str(value or '必填')+'）：').strip().strip('"')
+        options['event_context']=Path(text) if text else value
+    else:options['event_context']=None
+    options.update(strategy=key,params=params,risk=risk)
+    return options
+
+
+def print_configuration(config, prefix=''):
+    requested,effective=config['requested'],config['effective']
+    print(prefix+f"本金 {requested['initial_cash']} / {effective['initial_cash']} 美元；手续费 {requested['fee_rate']} / {effective['fee_rate']}；滑点 {requested['slippage_pct']} / {effective['slippage_pct']}（请求 / 生效）")
+    print(prefix+'评分区间 '+requested['score_start_session']+' 至 '+requested['score_end_session'])
+    labels={'target_position_pct':'目标仓位','fast_window':'快均线周期','slow_window':'慢均线周期',
+        'position_pct':'每次目标仓位','stop_loss_pct':'止损距离','take_profit_pct':'止盈距离'}
+    actual=effective['strategy_parameters']
+    for name,value in requested['strategy']['params'].items():
+        print(prefix+labels.get(name,name)+' '+str(value)+' / '+str(actual.get(name)))
+    for name,label in [('max_position_pct','最大仓位'),('max_single_loss_pct','最大止损距离'),('max_daily_loss_pct','UTC 日亏损暂停新 BUY'),('min_cash_pct','最低现金')]:
+        value=effective.get(name,requested['risk'][name] if effective['stop_loss_pct'] is not None else None)
+        print(prefix+label+' '+str(requested['risk'][name])+' / '+('未应用' if value is None else str(value)))
+    print(prefix+'有效杠杆 1；退出：'+config['exit_rule'])
+    for note in config['notes']:print(prefix+note)
+
+
+def print_task(view):
+    print('任务：'+view.get('title','旧格式任务')+'；状态 '+view['state']+'；策略 '+definition(view['strategy'])['title'])
+    if view.get('revisions'):
+        for i,revision in enumerate(view['revisions'],1):print('版本 '+str(i)+' '+revision+('（当前选择）' if revision==view['selected_revision'] else ''))
+        print('正在查看：'+view['viewed_revision'])
+    print('请求配置与生效配置：');print_configuration(view['configuration'])
+    if view.get('uncommitted_versions_retained'):print('有未提交版本保留，未激活：'+', '.join(view['uncommitted_versions_retained']))
+
+
 def wizard(workspace):
     """A small terminal menu over the same commands; no separate GUI or runner."""
     workspace=Path(workspace).resolve()
     print('哈基米交易 · 离线量化工具候选\n数据、账户和订单边界以任务及报告为准。')
     last_run=None
     while True:
-        print('\n1 创建虚构示例  2 检查任务  3 运行任务  4 查看结果  5 重放  6 恢复页面  7 公告原件核对  8 恢复中断计算  9 导入自有 CSV  10 创建策略任务  11 可选浏览器查看  12 运行历史  0 退出')
+        print('\n1 创建虚构示例  2 检查任务  3 运行任务  4 查看结果  5 重放  6 恢复页面  7 公告原件核对  8 恢复中断计算  9 导入自有 CSV  10 创建旧格式任务  11 可选浏览器查看  12 运行历史  13 任务版本与启停  14 结果对照  15 创建可管理任务  0 退出')
         try:choice=input('选择：').strip()
         except EOFError:return 0
         if choice=='0':return 0
@@ -193,13 +316,15 @@ def wizard(workspace):
             if not (workspace/'workspace.json').is_file():
                 raise ValueError('workspace_not_ready:先选择 1 或使用 init 创建工作区')
             if choice in {'2','3'}:
-                tasks=sorted((workspace/'tasks').glob('*.json'))
+                from .task_manager import list_tasks, describe_task
+                tasks=list_tasks(workspace)
                 for index,path in enumerate(tasks,1):print(str(index)+' '+path.stem)
                 number=int(input('任务编号：'))
                 if number<1 or number>len(tasks):raise ValueError('task_number_out_of_range')
                 task=tasks[number-1]
                 if choice=='2':
                     context=check_task(task);print('输入检查通过；策略 '+context['definition']['title']+'；任务 '+context['task_id'])
+                    print_task(describe_task(task))
                 else:
                     last_run=run_task(task);print('运行完成。结果目录：'+str(last_run))
                     try:remember_run(workspace,last_run)
@@ -229,15 +354,9 @@ def wizard(workspace):
                 packet=prepare(workspace/'data/source-manifest.json');print('公告核对页面：'+str(report(packet)))
             elif choice=='10':
                 snapshots=sorted((workspace/'data').rglob('equity_dataset_*.json'))
-                for index,path in enumerate(snapshots,1):print(str(index)+' '+path.relative_to(workspace).as_posix())
-                number=int(input('选择数据编号：'))
-                if number<1 or number>len(snapshots):raise ValueError('data_number_out_of_range')
-                chosen_snapshot=snapshots[number-1]
-                entries=list(strategies())
-                for index,key in enumerate(entries,1):print(str(index)+' '+definition(key)['title']+' '+key)
-                number=int(input('选择策略编号：'))
-                if number<1 or number>len(entries):raise ValueError('strategy_number_out_of_range')
-                key=entries[number-1];entry=definition(key)
+                chosen_snapshot=choose_item(snapshots,'选择数据编号：',lambda p:p.relative_to(workspace).as_posix())
+                key=choose_item(list(strategies()),'选择策略编号：',lambda k:definition(k)['title']+' '+k)
+                entry=definition(key)
                 if entry['engine_strategy']=='buy_and_hold':params=dict(target_position_pct=float(input('目标仓位比例（默认 0.25）：') or '0.25'))
                 else:params=dict(fast_window=int(input('快均线周期（默认 20）：') or '20'),slow_window=int(input('慢均线周期（默认 60）：') or '60'),position_pct=0.25,stop_loss_pct=0.03,take_profit_pct=0.06)
                 event=input('事件上下文 JSON 路径：').strip().strip('"') if entry['event_rule'] else None
@@ -245,13 +364,55 @@ def wizard(workspace):
                 import re
                 if not re.fullmatch(r'[\w-]{1,64}',name):raise ValueError('task_name_invalid')
                 print('任务已保存：'+str(create_task(workspace/'tasks'/(name+'.json'),strategy=key,snapshot=chosen_snapshot,event_context=event,params=params)))
+            elif choice=='15':
+                from .task_manager import create_family, describe_task
+                snapshots=sorted((workspace/'data').rglob('equity_dataset_*.json'))
+                for index,path in enumerate(snapshots,1):print(str(index)+' '+path.relative_to(workspace).as_posix())
+                number=int(input('选择数据编号：'))
+                if number<1 or number>len(snapshots):raise ValueError('data_number_out_of_range')
+                chosen_snapshot=snapshots[number-1]
+                options=configuration_form(dict(snapshot=chosen_snapshot))
+                name=input('任务名称（默认 new-task）：').strip() or 'new-task'
+                import re
+                if not re.fullmatch(r'[\w-]{1,64}',name):raise ValueError('task_name_invalid')
+                family=workspace/'tasks'/name
+                create_family(family,**options);print('任务版本已保存：'+str(family));print_task(describe_task(family))
+            elif choice=='13':
+                from .task_manager import list_tasks, describe_task, version_options, create_family, revise_family, change_state, select_version
+                task=choose_item(list_tasks(workspace),'任务编号：',lambda p:p.stem)
+                print_task(describe_task(task))
+                action=input('1 查看  2 修改为新版本  3 复制为新任务  4 暂停  5 启用  6 选择历史版本：').strip()
+                if action in {'2','3'}:
+                    options=configuration_form(version_options(task))
+                    if action=='3':
+                        name=input('新任务名称：').strip();target=workspace/'tasks'/name
+                        create_family(target,**options);print_task(describe_task(target))
+                    else:
+                        if not task.is_dir():raise ValueError('legacy_task_is_immutable:copy_into_managed_task_first')
+                        revise_family(task,**options);print_task(describe_task(task))
+                elif action in {'4','5','6'}:
+                    if not task.is_dir():raise ValueError('legacy_task_is_immutable:copy_into_managed_task_first')
+                    if action=='6':select_version(task,int(input('历史版本编号：')))
+                    else:change_state(task,'PAUSED' if action=='4' else 'ENABLED')
+                    print_task(describe_task(task))
+                elif action!='1':raise ValueError('task_action_invalid')
+            elif choice=='14':
+                from .task_comparison import compare_runs, print_comparison
+                candidates,warnings=recent_runs(workspace)
+                for warning in warnings:print('历史记录不可用：'+warning)
+                saved=[p for p in candidates if (p/'report.json').is_file()]
+                for index,path in enumerate(saved,1):print(str(index)+' '+path.name)
+                numbers=[int(v.strip()) for v in input('对照运行编号（至少两个，逗号分隔）：').split(',')]
+                if any(not 1<=n<=len(saved) for n in numbers):raise ValueError('run_number_out_of_range')
+                view=compare_runs([saved[n-1] for n in numbers]);target=workspace/'comparisons'/(view['comparison_hash']+'.json')
+                write_new(target,view);print_comparison(view);print('对照已保存：'+str(target))
             else:print('请输入菜单中的编号。')
         except (ValueError,OSError,KeyError,TypeError) as exc:print('操作停止：'+str(exc))
 
 
 def main(argv=None):
     sys.addaudithook(_deny_network)
-    parser=argparse.ArgumentParser(description='哈基米交易：任务／策略、数据、离线运行、结果与恢复（M1 候选）')
+    parser=argparse.ArgumentParser(description='哈基米交易：策略配置、任务版本、离线运行与结果对照（M2-1 候选）')
     commands=parser.add_subparsers(dest='command')
     commands.add_parser('capabilities')
     commands.add_parser('strategies')
@@ -271,19 +432,31 @@ def main(argv=None):
     p=commands.add_parser('bundle-check');p.add_argument('--bundle',required=True,type=Path)
     p=commands.add_parser('snapshot-import')
     for name in ['csv','metadata','output-dir']:p.add_argument('--'+name,required=True,type=Path)
-    p=commands.add_parser('task-create')
-    for name in ['task','snapshot']:p.add_argument('--'+name,required=True,type=Path)
-    p.add_argument('--strategy',required=True);p.add_argument('--event-context',type=Path);p.add_argument('--parameters',type=Path)
-    p.add_argument('--score-start');p.add_argument('--score-end');p.add_argument('--initial-cash',type=float,default=10000)
-    p.add_argument('--fee-rate',type=float,default=0.0008);p.add_argument('--slippage-pct',type=float,default=0.0005);p.add_argument('--output-dir',type=Path)
+    for command in ['task-create','task-copy','task-revise']:
+        p=commands.add_parser(command);p.add_argument('--task',required=True,type=Path)
+        p.add_argument('--snapshot',required=command=='task-create',type=Path)
+        p.add_argument('--strategy',required=command=='task-create')
+        p.add_argument('--event-context',type=Path);p.add_argument('--parameters',type=Path);p.add_argument('--risk',type=Path)
+        p.add_argument('--score-start');p.add_argument('--score-end');p.add_argument('--initial-cash',type=float)
+        p.add_argument('--fee-rate',type=float);p.add_argument('--slippage-pct',type=float)
+        if command=='task-create':
+            p.add_argument('--managed',action='store_true',help='Create an immutable version family under workspace/tasks/name.')
+            p.add_argument('--output-dir',type=Path)
+        if command=='task-copy':p.add_argument('--from-task',required=True,type=Path)
+    p=commands.add_parser('task-show');p.add_argument('--task',required=True,type=Path)
+    p=commands.add_parser('tasks');p.add_argument('--workspace',required=True,type=Path)
+    p=commands.add_parser('task-state');p.add_argument('--task',required=True,type=Path);p.add_argument('--state',required=True,choices=['ENABLED','PAUSED'])
+    p=commands.add_parser('task-select');p.add_argument('--task',required=True,type=Path);p.add_argument('--version',required=True,type=int)
+    p=commands.add_parser('compare');p.add_argument('--run-dir',required=True,action='append',type=Path);p.add_argument('--output',type=Path)
     p=commands.add_parser('source');p.add_argument('source_arguments',nargs=argparse.REMAINDER)
     args=parser.parse_args(argv)
     try:
         if args.command is None:return wizard(default_artifact_root()/'trade-offline')
         if args.command=='wizard':return wizard(args.workspace)
         if args.command=='capabilities':
-            output=dict(product_target='交易量化工具',current_milestone='M1_INSTALLABLE_OFFLINE_CANDIDATE',
-                supported=['Versioned task adapters','Existing price and earnings-schedule strategies','CSV and completed/resumed local quote import',
+            output=dict(product_target='交易量化工具',current_milestone='M2_1_STRATEGY_TASKS_CANDIDATE',
+                supported=['Configurable strategy and risk parameters','Immutable task revisions, copy, selection and pause','Verified saved-run comparison',
+                    'Existing price and earnings-schedule strategies','CSV and completed/resumed local quote import',
                     'Offline source workflow','Existing canonical engine and risk','Results, replay and saved-report recovery'],
                 not_implemented=['Portfolio-level shared-capital risk','Supervised incremental monitoring','Broker execution in this entry'],
                 execution_permission=dict(PERMISSIONS))
@@ -292,6 +465,7 @@ def main(argv=None):
         elif args.command=='check':
             context=check_task(args.task);output=dict(status='INPUTS_CHECKED_NO_SIMULATION',task_id=context['task_id'],
                 strategy=context['definition'],scoring=context['protocol'],output_dir=str(context['output']),execution_permission=dict(PERMISSIONS))
+            output['configuration']=configuration_view(context['semantics']['experiment'])
         elif args.command=='run':
             directory=run_task(args.task,output_dir=args.output_dir);output=dict(status='OFFLINE_RUN_SAVED',run_directory=str(directory),report=str(recover_report(directory)))
         elif args.command in {'report','recover'}:
@@ -306,11 +480,34 @@ def main(argv=None):
         elif args.command=='snapshot-import':
             snapshot=build_equity_snapshot(args.csv.read_bytes(),args.metadata.read_bytes())
             output=dict(snapshot=str(save_equity_snapshot(snapshot,args.output_dir)),snapshot_id=snapshot.snapshot_id)
-        elif args.command=='task-create':
-            path=create_task(args.task,strategy=args.strategy,snapshot=args.snapshot,event_context=args.event_context,
-                params=read_document(args.parameters) if args.parameters else None,score_start=args.score_start,score_end=args.score_end,
-                initial_cash=args.initial_cash,fee_rate=args.fee_rate,slippage_pct=args.slippage_pct,output_dir=args.output_dir)
-            output=dict(task=str(path),task_id=check_task(path)['task_id'])
+        elif args.command in {'task-create','task-copy','task-revise'}:
+            from .task_manager import create_family, revise_family, version_options, describe_task
+            options={name:getattr(args,name) for name in ['strategy','snapshot','event_context','score_start','score_end','initial_cash','fee_rate','slippage_pct'] if getattr(args,name) is not None}
+            if args.parameters:options['params']=read_document(args.parameters)
+            if args.risk:options['risk']=read_document(args.risk)
+            if args.command=='task-revise':
+                revise_family(args.task,**options);output=describe_task(args.task)
+            elif args.command=='task-copy':
+                original=version_options(args.from_task)
+                if 'strategy' in options and options['strategy']!=original['strategy']:
+                    original.update(params=None,risk=None,event_context=None)
+                original.update(options);create_family(args.task,**original);output=describe_task(args.task)
+            elif args.managed:
+                create_family(args.task,output_dir=args.output_dir,**options);output=describe_task(args.task)
+            else:
+                path=create_task(args.task,output_dir=args.output_dir,**options)
+                output=dict(task=str(path),task_id=check_task(path)['task_id'],configuration=configuration_view(read_document(path)['experiment']))
+        elif args.command in {'task-show','tasks'}:
+            from .task_manager import describe_task, list_tasks
+            output=describe_task(args.task) if args.command=='task-show' else [describe_task(p) for p in list_tasks(args.workspace)]
+        elif args.command in {'task-state','task-select'}:
+            from .task_manager import change_state, select_version, describe_task
+            if args.command=='task-state':change_state(args.task,args.state)
+            else:select_version(args.task,args.version)
+            output=describe_task(args.task)
+        elif args.command=='compare':
+            from .task_comparison import compare_runs
+            output=compare_runs(args.run_dir,output=args.output)
         else:
             from .source_task import main as source_main
             return source_main(args.source_arguments)
