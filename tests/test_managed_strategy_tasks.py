@@ -20,7 +20,7 @@ class ManagedStrategyTaskTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory(prefix='hakimi-m2-tasks-')
         self.addCleanup(self.temp.cleanup)
-        self.root=Path(self.temp.name);self.workspace=self.root/'workspace'
+        self.root=Path(self.temp.name).resolve();self.workspace=self.root/'workspace'
         initialize_demo(self.workspace)
         self.options=version_options(self.workspace/'tasks/price.json')
         self.family=self.workspace/'tasks/managed'

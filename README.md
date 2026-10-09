@@ -6,7 +6,7 @@
 
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 M1 已交付并合入 main `17b2c15`（PR #19 受审 `669b348`），实际 main [九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005)。M1 存档候选为 `0.3.0.dev4`；正式 Release 仍为 `v0.2.1`。旧产物、失败记录与验收身份保留。
-当前在该 main 基线上开发 M2-1 候选 `0.4.0.dev1`，新增可配置策略／风险、追加式任务版本与启停、已保存结果的条件对照，复用同一隔离研究内核。统一入口仍为 `hakimi-trade`；[任务管理与对照说明](docs/strategy-task-management.md)、[使用说明](docs/offline-quant-tool.md)与[产品路线图](docs/quant-tool-roadmap.md)说明范围。候选的安装与 GitHub 状态在[当前状态页](CURRENT_STATUS.md)分别核对。
+当前在该 main 基线上开发 M2-1 候选 `0.4.0.dev2`，新增可配置策略／风险、追加式任务版本与启停、已保存结果的条件对照，复用同一隔离研究内核。统一入口仍为 `hakimi-trade`；[任务管理与对照说明](docs/strategy-task-management.md)、[使用说明](docs/offline-quant-tool.md)与[产品路线图](docs/quant-tool-roadmap.md)说明范围。候选的安装与 GitHub 状态在[当前状态页](CURRENT_STATUS.md)分别核对。
 0.3.0.dev4 已修复初始化互斥、中断重试和外部历史三项流程问题；同一新产物完成全新 Windows 仓库外安装、209 项安装后检查及默认／同盘外部／真实跨盘菜单退出重开、查看、重放和恢复。菜单直接展示费用、损益、持仓与信号原因；实际首用由代理完成，未声称新包人工验收。旧 dev3 的 201 项检查、首用和产物及更早 dev2 证据原样保留。见[最新修复与交付记录](docs/research-evidence/offline-product-m1-p2-20261009/README.md)。
 两个市场复用同一成交与记账引擎，快照、交易日历及报告分别保存明确的格式与身份。
 历史模拟不授予 paper、live、账户操作、下单或自动参数选择权限。

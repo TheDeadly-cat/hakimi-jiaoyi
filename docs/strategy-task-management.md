@@ -1,6 +1,17 @@
 # 策略任务与结果对照（M2-1）
 
-候选 `0.4.0.dev1` 在同一 `hakimi-trade` 入口中管理配置和历史版本。菜单 15 创建可管理任务，13 查看／复制修改／保存新版本／暂停启用／选择历史版本，2 检查，3 运行，14 比较保存的结果。菜单 10 的旧格式任务继续可用；在菜单 13 复制后进入版本管理，不改写原任务。三个注册策略继续共用原运行、风控、记账及恢复机制。
+候选 `0.4.0.dev2` 在同一 `hakimi-trade` 入口中管理配置和历史版本。菜单 15 创建可管理任务，13 查看／复制修改／保存新版本／暂停启用／选择历史版本，2 检查，3 运行，14 比较保存的结果。菜单 10 的旧格式任务继续可用；在菜单 13 复制后进入版本管理，不改写原任务。三个注册策略继续共用原运行、风控、记账及恢复机制。
+
+Windows x64 离线候选需 CPython 3.14。将 ZIP 解压到独立目录，双击 `Start-Hakimi.cmd`：安装器只用包内 wheel 和五个锁定依赖，在候选旁创建独立环境，检查身份后打开菜单。无须源码或浏览器；不连接行情、账户或订单。首次可选菜单 1 创建虚构数据，再从 15 配置任务；已有数据可用 9 导入。
+
+使用独立 wheel 时，普通安装至新的仓库外环境，再打开入口：
+
+```powershell
+py -3.14 -m venv .\runtime
+.\runtime\Scripts\python.exe -m pip install --no-index --find-links .\wheelhouse --requirement .\requirements.research.lock
+.\runtime\Scripts\python.exe -m pip install --no-deps .\research\hakimi_research-0.4.0.dev2-py3-none-any.whl
+.\runtime\Scripts\hakimi-trade.exe wizard --workspace .\workspace
+```
 
 创建或修改时逐项填写策略参数、美元本金、手续费、固定滑点、评分首尾交易日、仓位、现金比例和风险约束。留空沿用提示中的值；修改版本保留原评分区间，即使新预热要求不足也明确停止，不能自动推迟开始日期。新任务未填评分日期时，首次根据数据与预热选定并显示，此后固定；跨策略默认日期可能不同，比较会报告不可比。
 

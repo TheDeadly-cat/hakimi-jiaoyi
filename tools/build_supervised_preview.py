@@ -152,7 +152,7 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
         content = {"research/" + p.name: p.read_bytes() for p in accepted.iterdir()}
         content["preview.py"] = (root / "tools/supervised_preview.py").read_bytes()
         content["requirements.research.lock"] = (root / "requirements.research.lock").read_bytes()
-        content["README.md"] = (root / "docs/offline-quant-tool.md").read_bytes()
+        content["README.md"] = (root / ("docs/strategy-task-management.md" if milestone == 'M2_1' else "docs/offline-quant-tool.md")).read_bytes()
         wheels = list(wheelhouse.glob("*.whl"))
         pins = receipt["installed_runtime"]["environment_verified"]["packages"]
         if len(wheels) != len(pins):
