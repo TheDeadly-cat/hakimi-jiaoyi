@@ -6,7 +6,7 @@
 
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 M1 已交付并合入 main `17b2c15`（PR #19 受审 `669b348`），实际 main [九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005)。M1 存档候选为 `0.3.0.dev4`；正式 Release 仍为 `v0.2.1`。旧产物、失败记录与验收身份保留。
-M2-1 已通过 [PR #20](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/20) 合入 main `9085eab`，[实际 main 九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37945097181)。R1 默认语义与 R2 数值提前拒绝保持关闭，存档 `0.4.0.dev3`、232 项安装验收及原构建 `6f9f02a` 不改签；dev2 原包与旧记录保留。当前限定处理 R3：命令行修改版本切换策略残留事件输入，独立补丁版本为 `0.4.0.dev4`，尚未集成。见[R3 范围与验收](docs/research-evidence/strategy-switch-r3-20261010/README.md)、[原配置修复验收](docs/research-evidence/strategy-task-m2-config-20261009/README.md)和[任务说明](docs/strategy-task-management.md)。
+M2-1 已通过 [PR #20](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/20) 合入 main `9085eab`，[实际 main 九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37945097181)。R1 默认语义与 R2 数值提前拒绝保持关闭，存档 `0.4.0.dev3`、232 项安装验收及原构建 `6f9f02a` 不改签；dev2 原包与旧记录保留。当前限定处理 R3：命令行修改版本切换策略残留事件输入，独立补丁 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/21) 的 `0.4.0.dev4` 已完成仓库外 241 项检查及实际修改／菜单切换，构建提交九项 CI 全通过；尚未集成。见[R3 范围与验收](docs/research-evidence/strategy-switch-r3-20261010/README.md)、[原配置修复验收](docs/research-evidence/strategy-task-m2-config-20261009/README.md)和[任务说明](docs/strategy-task-management.md)。
 0.3.0.dev4 已修复初始化互斥、中断重试和外部历史三项流程问题；同一新产物完成全新 Windows 仓库外安装、209 项安装后检查及默认／同盘外部／真实跨盘菜单退出重开、查看、重放和恢复。菜单直接展示费用、损益、持仓与信号原因；实际首用由代理完成，未声称新包人工验收。旧 dev3 的 201 项检查、首用和产物及更早 dev2 证据原样保留。见[最新修复与交付记录](docs/research-evidence/offline-product-m1-p2-20261009/README.md)。
 两个市场复用同一成交与记账引擎，快照、交易日历及报告分别保存明确的格式与身份。
 历史模拟不授予 paper、live、账户操作、下单或自动参数选择权限。

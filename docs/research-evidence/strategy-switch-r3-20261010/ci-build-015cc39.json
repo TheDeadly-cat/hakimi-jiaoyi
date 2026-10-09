@@ -1,0 +1,32 @@
+{
+  "run_id": 37962837541,
+  "reviewed_head": "015cc397f8e8c8df6e36cdd26f2b4293e8d41a23",
+  "event": "pull_request",
+  "status": "SUCCESS",
+  "nine_jobs_successful": true,
+  "actual_log_proof": {
+    "Package install smoke (windows-latest)": {
+      "actual_checkout": "53e28a24e5af1e37c4ad69b8afe4a23f11cc9e7e",
+      "test_count": 241,
+      "test_seconds": 124.469,
+      "result": "OK",
+      "installed_strategy_switch_workflow_passed": true
+    },
+    "Package install smoke (ubuntu-latest)": {
+      "actual_checkout": "53e28a24e5af1e37c4ad69b8afe4a23f11cc9e7e",
+      "test_count": 241,
+      "test_seconds": 16.331,
+      "result": "OK",
+      "installed_strategy_switch_workflow_passed": true
+    },
+    "Offline research MVP contracts": {
+      "actual_checkout": "53e28a24e5af1e37c4ad69b8afe4a23f11cc9e7e",
+      "test_count": 241,
+      "test_seconds": 123.319,
+      "result": "OK",
+      "installed_strategy_switch_workflow_passed": false
+    }
+  },
+  "raw_log_sha256": "6a1d1c1e3c166cc27c5a7de3593bd0754a6d9f339d7095f20d1482bc911e19f9",
+  "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37962837541"
+}

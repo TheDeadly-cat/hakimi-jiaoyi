@@ -1,0 +1,15 @@
+{
+  "schema_version": "r3-local-interrupted-trial-v1",
+  "observed_at_utc": "2026-10-09T17:12:04.127631+00:00",
+  "build_head": "015cc397f8e8c8df6e36cdd26f2b4293e8d41a23",
+  "provisional_wheel_sha256": "e0f38cf63d125ed07ddb43c50e860d068546b7252b4acaad4c6b50bf196ea20e",
+  "status": "INCOMPLETE_NOT_ACCEPTED",
+  "tool_session_id": 79703,
+  "tool_handle_missing": true,
+  "matching_python_or_trade_processes": 0,
+  "complete_acceptance_receipt_present": false,
+  "cause": "Original process ended without a complete receipt; termination reason is not proven.",
+  "original_trial_and_wheel_retained": true,
+  "no_transaction_retried_in_original_workspace": true,
+  "fresh_final_trial_separate_process_pid": 38796
+}
