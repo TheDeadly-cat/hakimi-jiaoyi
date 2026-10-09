@@ -144,6 +144,9 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
         milestone = 'M2_1' if public['wheel'].split('-')[1].startswith('0.4.') else 'M1'
         if milestone == 'M2_1' and receipt.get('managed_task_installed_workflow',{}).get('status') != 'PASS':
             raise ValueError('M2_exact_wheel_managed_task_workflow_acceptance_required')
+        if (milestone == 'M2_1' and public['wheel'].split('-')[1] not in {'0.4.0.dev1','0.4.0.dev2'}
+                and receipt.get('configuration_consistency_installed_workflow',{}).get('status') != 'PASS'):
+            raise ValueError('M2_configuration_consistency_exact_wheel_acceptance_required')
         spec = importlib.util.spec_from_file_location("M1_source_identity", root / "src/hakimi_research/source_identity.py")
         identity = importlib.util.module_from_spec(spec); spec.loader.exec_module(identity)
         source = identity.package_content_identity(root / "src/hakimi_research")

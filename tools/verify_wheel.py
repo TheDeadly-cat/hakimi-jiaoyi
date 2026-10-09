@@ -167,6 +167,9 @@ def main() -> None:
     workflow["source_workflow"] = True
     from verify_managed_workflow import verify_managed_workflow
     managed_workflow = verify_managed_workflow(trade_command, demo, run, env=clean_env, outside=outside)
+    from verify_configuration_workflow import verify_configuration_workflow
+    configuration_workflow = verify_configuration_workflow(trade_command, outside / 'migrated-user-workspace', run,
+        env=clean_env, outside=outside)
     tests = outside / "tests"
     shutil.copytree(root / "tests", tests, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     # The independent Decimal reconciler is a test/audit sidecar, not a runtime
@@ -216,6 +219,7 @@ def main() -> None:
         "trade_console_smoke_commands": ["--help", "capabilities", "strategies"],
         "trade_installed_workflow": workflow,
         "managed_task_installed_workflow": managed_workflow,
+        "configuration_consistency_installed_workflow": configuration_workflow,
     }
     receipt_path = work / "wheel-acceptance.json"
     receipt_path.write_text(json.dumps(receipt, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")

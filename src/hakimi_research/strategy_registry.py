@@ -42,6 +42,27 @@ def strategy_identity(strategy_key):
     return digest(definition(strategy_key))
 
 
+def effective_parameters(engine_strategy, params):
+    """Interpret existing v1 adapters without changing their engine fallbacks.
+
+    Blank edits retain omitted fields. This detached projection is shared by
+    the form, configuration view and input admission, never a rewritten spec.
+    """
+    defaults = {'dual_ma': dict(fast_window=20, slow_window=60, position_pct=0.25,
+        stop_loss_pct=0.03, take_profit_pct=0.08), 'buy_and_hold': dict(target_position_pct=0.25)}
+    if engine_strategy not in defaults:
+        raise ValueError('unsupported_application_engine_strategy:' + str(engine_strategy))
+    return {**defaults[engine_strategy], **deepcopy(params)}
+
+
+def new_task_parameters(engine_strategy):
+    """New-task template; its 6% target is not an existing-rule default."""
+    params = effective_parameters(engine_strategy, {})
+    if engine_strategy == 'dual_ma':
+        params['take_profit_pct'] = 0.06
+    return params
+
+
 def validate_strategy(strategy_key, spec, event_context):
     entry = definition(strategy_key)
     checked = EquityExperimentSpec.from_document(spec)

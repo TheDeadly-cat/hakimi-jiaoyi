@@ -17,7 +17,7 @@ from .equity_research import PERMISSIONS
 from .collection_import import import_collection, verify_bundle
 from .offline_app import check_task, run_task, recover_report, replay_run, resume_calculation, write_new, describe_run, portable_location, resolve_location
 from .source_layout import default_artifact_root
-from .strategy_registry import definition, strategies
+from .strategy_registry import definition, strategies, effective_parameters, new_task_parameters
 
 
 def build_task_document(path, *, strategy, snapshot, event_context=None, params=None, score_start=None, score_end=None,
@@ -25,8 +25,7 @@ def build_task_document(path, *, strategy, snapshot, event_context=None, params=
     path, snapshot = Path(path).resolve(), Path(snapshot).resolve()
     data = load_equity_snapshot(snapshot)
     entry = definition(strategy)
-    params = params if params is not None else (dict(target_position_pct=0.25) if entry['engine_strategy']=='buy_and_hold'
-        else dict(fast_window=20, slow_window=60, position_pct=0.25, stop_loss_pct=0.03, take_profit_pct=0.06))
+    params = params if params is not None else new_task_parameters(entry['engine_strategy'])
     from .experiment import required_context
     warmup = required_context(entry['engine_strategy'], params)
     if not score_start and len(data.document['sessions']) <= warmup:
@@ -70,36 +69,58 @@ def default_risk(strategy):
         max_single_loss_pct=0.03, max_daily_loss_pct=1.0, max_leverage=1.0, min_cash_pct=0.0)
 
 
-def validate_configuration(spec):
+def validate_runtime_configuration(spec):
+    """Validate inputs against the actual models, without a strategy decision.
+
+    Constructing a validation-only Signal checks its native numeric domains;
+    no strategy, backtest, broker, order or signal publication is started.
+    """
     from .config import RiskConfig
-    risk, params = spec['risk'], spec['strategy']['params']
+    from .risk import RiskManager
+    from .models import Signal
+    from .equity_research import EquityExperimentSpec
+    checked = EquityExperimentSpec.from_document(spec).document
+    risk, strategy = checked['risk'], checked['strategy']
+    RiskManager(RiskConfig(**risk))
+    params = effective_parameters(strategy['name'], strategy['params'])
+    if strategy['name'] == 'buy_and_hold':
+        Signal.buy('configuration validation only', params['target_position_pct'])
+    else:
+        Signal.buy('configuration validation only', params['position_pct'],
+            stop_loss_pct=params['stop_loss_pct'], take_profit_pct=params['take_profit_pct'])
+    return params
+
+
+def validate_configuration(spec):
+    risk = spec['risk']
     keys = set(default_risk('price.dual_ma@1'))
     if type(risk) is not dict or set(risk) != keys:
         raise ValueError('risk_fields_must_explicitly_match_supported_configuration')
-    RiskConfig(**risk)
+    resolved = validate_runtime_configuration(spec)
     if risk['max_leverage'] != 1:
         raise ValueError('spot_mvp_requires_leverage_one')
     if spec['strategy']['name'] == 'buy_and_hold':
         if risk != default_risk('price.buy_and_hold@1'):
             raise ValueError('benchmark_has_no_active_risk_controls:use_allocation_parameter_and_fixed_benchmark_policy')
     else:
-        position = params.get('position_pct', 0.25)
+        position = resolved['position_pct']
         if position > risk['max_position_pct'] or position > 1 - risk['min_cash_pct']:
             raise ValueError('position_request_conflicts_with_risk_limit_or_cash_reserve')
-        if params.get('stop_loss_pct', 0.03) > risk['max_single_loss_pct']:
+        if resolved['stop_loss_pct'] > risk['max_single_loss_pct']:
             raise ValueError('stop_request_exceeds_maximum_stop_distance')
 
 
 def configuration_view(spec):
     params, risk = spec['strategy']['params'], spec['risk']
     benchmark = spec['strategy']['name'] == 'buy_and_hold'
+    resolved = effective_parameters(spec['strategy']['name'], params)
     effective = dict(initial_cash=spec['initial_cash'], fee_rate=spec['fee_rate'], slippage_pct=spec['slippage_pct'],
-        allocation_pct=params.get('target_position_pct', 0.25) if benchmark else params.get('position_pct', 0.25),
+        allocation_pct=resolved['target_position_pct'] if benchmark else resolved['position_pct'],
         max_position_pct=risk['max_position_pct'], min_cash_pct=risk['min_cash_pct'], leverage=1,
-        stop_loss_pct=None if benchmark else min(params.get('stop_loss_pct', 0.03), risk['max_single_loss_pct']),
-        take_profit_pct=None if benchmark else params.get('take_profit_pct', 0.08),
+        stop_loss_pct=None if benchmark else min(resolved['stop_loss_pct'], risk['max_single_loss_pct']),
+        take_profit_pct=None if benchmark else resolved['take_profit_pct'],
         max_daily_loss_pct=None if benchmark else risk['max_daily_loss_pct'])
-    effective['strategy_parameters'] = dict(params)
+    effective['strategy_parameters'] = dict(resolved)
     if not benchmark:
         effective['strategy_parameters'].update(position_pct=effective['allocation_pct'],stop_loss_pct=effective['stop_loss_pct'],take_profit_pct=effective['take_profit_pct'])
     return dict(requested={k: spec[k] for k in ['strategy','risk','initial_cash','fee_rate','slippage_pct','score_start_session','score_end_session']},
@@ -241,12 +262,17 @@ def configuration_form(options):
     if not 1<=number<=len(entries):raise ValueError('strategy_number_out_of_range')
     key=entries[number-1];entry=definition(key)
     params=dict(options.get('params',{})) if old==key else {}
-    labels={'target_position_pct':('目标仓位比例',0.25,float),'fast_window':('快均线周期',20,int),
-        'slow_window':('慢均线周期',60,int),'position_pct':('每次目标仓位比例',0.25,float),
-        'stop_loss_pct':('止损价格距离比例',0.03,float),'take_profit_pct':('止盈比例',0.06,float)}
+    existing = old==key
+    defaults = effective_parameters(entry['engine_strategy'],params) if existing else new_task_parameters(entry['engine_strategy'])
+    labels={'target_position_pct':('目标仓位比例',float),'fast_window':('快均线周期',int),
+        'slow_window':('慢均线周期',int),'position_pct':('每次目标仓位比例',float),
+        'stop_loss_pct':('止损价格距离比例',float),'take_profit_pct':('止盈比例',float)}
     for name in entry['parameters']:
-        label,default,cast=labels[name];value=params.get(name,default)
-        params[name]=cast(input(label+'（默认 '+str(value)+'）：') or str(value))
+        label,cast=labels[name];value=defaults[name]
+        answer=input(label+'（默认 '+str(value)+'）：').strip()
+        # Blank preserves the existing raw omission as well as explicit values.
+        if answer or not existing:
+            params[name]=cast(answer or str(value))
     risk=dict(options.get('risk',default_risk(key))) if old==key else default_risk(key)
     if entry['engine_strategy']!='buy_and_hold':
         for name,label in [('max_position_pct','最大仓位比例'),('max_single_loss_pct','最大止损价格距离比例'),
@@ -276,8 +302,9 @@ def print_configuration(config, prefix=''):
     labels={'target_position_pct':'目标仓位','fast_window':'快均线周期','slow_window':'慢均线周期',
         'position_pct':'每次目标仓位','stop_loss_pct':'止损距离','take_profit_pct':'止盈距离'}
     actual=effective['strategy_parameters']
-    for name,value in requested['strategy']['params'].items():
-        print(prefix+labels.get(name,name)+' '+str(value)+' / '+str(actual.get(name)))
+    for name,value in actual.items():
+        request=requested['strategy']['params'].get(name,'策略默认')
+        print(prefix+labels.get(name,name)+' '+str(request)+' / '+str(value))
     for name,label in [('max_position_pct','最大仓位'),('max_single_loss_pct','最大止损距离'),('max_daily_loss_pct','UTC 日亏损暂停新 BUY'),('min_cash_pct','最低现金')]:
         value=effective.get(name,requested['risk'][name] if effective['stop_loss_pct'] is not None else None)
         print(prefix+label+' '+str(requested['risk'][name])+' / '+('未应用' if value is None else str(value)))

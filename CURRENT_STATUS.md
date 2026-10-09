@@ -2,7 +2,7 @@
 
 本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1 已结案，当前开发阶段为 M2-1。主分支集成以实际合并提交及其检查为准。
 
-整理日期：2026-10-09。本页区分功能基线、开发候选、正式版本、本机安装与外部验收。M2-1 在已集成 M1 基线上提供策略／风险配置、版本与启停管理、统一条件对照；候选 `0.4.0.dev2` 已完成仓库外普通安装、221 项检查及实际启动器菜单首用／整目录迁移；构建 head 九项 CI 成功。交付为草稿 PR #20，最终受审 head 的检查另在 PR 记录，不据此视为已合入 main。见[使用说明](docs/strategy-task-management.md)和[产品路线图](docs/quant-tool-roadmap.md)。
+整理日期：2026-10-09。M1 已集成结案；M2-1 主体已交付，但 dev2 检阅发现留空默认值与数值提前校验两处配置缺口。当前仅修复 R1／R2，新候选 `0.4.0.dev3` 的 11 项定向检查通过，同一产物安装和当前 head CI 待核对。原报告、dev2 及旧回执保持原身份。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
@@ -11,7 +11,8 @@
 | 当前 main | PR #19 经用户单独批准受审 `669b348` 后，已合入 `17b2c15891aab7caf30dbb1addbb1f495f92dea0`；内容树 `26215045b3becf7dd6bf6e5d7292011a6e837379` 与受审版本一致。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005) 九项成功，Windows 安装后 209 项通过；M1 结案。集成回执保存在 PR #19 实际合并记录与本机 M1 存档目录 |
 | 前一 main 集成 | 用户单独批准 [PR #17](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/17) 的 `46d938a` 后，已于 2026-09-29 12:57:03 UTC 合并至 `cdee7b5472981811655bf84a8a9f59298df546b4`；[合并后 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36571592538) 九项成功，实际检出 main 合并提交。PR #16 与旧测试身份保留 |
 | M1 存档候选 | `0.3.0.dev4` 构建 `ac8c77b`，wheel `e10cbb02ab71…`；原仓库外 209 项安装验收与默认／同盘外部／真实跨盘菜单使用原样保留。PR #19 现已合并；原候选没有改签为 main 构建。旧 dev3 的包、失败和 201 项验收保留。见[原修复与候选验收](docs/research-evidence/offline-product-m1-p2-20261009/README.md) |
-| 本轮 M2-1 候选交付 | [PR #20](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/20) 草稿；`0.4.0.dev2` 构建 `a61a629`（CLEAN），wheel `fa80bb26fcdd…`。同一候选全新 Windows 仓库外安装、221 项安装后检查（含 12 项新增）、实际菜单创建／复制修改／新版本／暂停拒绝／退出重开／历史选择／对照／冲突拒绝／整目录迁移／重放和保存报告恢复通过。首用为代理，虚构数据不代表市场效果。构建 [九项 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37922029719) 通过，最终文档 head 检查以 PR 实时记录单独核对。首轮路径别名测试失败及 dev1 产物保留；没有修改运行算法或旧断言。主分支合并仍待受审 head 单独批准。见[验收记录](docs/research-evidence/strategy-task-m2-20261009/README.md) |
+| 当前 M2-1 配置修复 | PR #20 保持 OPEN/DRAFT；dev3 保留旧规则的有效默认值并复用现有 Signal／RiskManager 数值校验。只改配置管理与入口，不改回测、风控、成交或账本算法。新候选的仓库外验收与确切 head CI 待完成；main 合并仍需单独批准 |
+| dev2 存档与检阅边界 | 构建 `a61a629`、原 wheel `fa80bb26fcdd…`、221 项安装后检查和菜单首用／迁移保持原身份；原受审 head `931da97` 的九项检查保留。它们没有覆盖本次两类配置缺口；本机未改动的 dev2 安装已直接复现，原记录不回填。见[旧候选验收](docs/research-evidence/strategy-task-m2-20261009/README.md) |
 | 已进入 main 的两事件诊断 | [NVIDIA 两事件离线对照已完成](docs/research-evidence/nvda-event-price-20260930/economic-20261002/README.md)：用户明确核准字段和固定 8 次范围后，8 次模拟、8 次重放及 8 份独立账本核对通过（512 项账本检查）；原始输入与执行代码未变。两组结果完全相同，内容干预 0 次：常规成本下 Q1 +1.4463%、Q2 −0.8019%，双倍成本分别 +1.3925%、−0.8539%。本轮新增取数 0；此前 6 次查询、两个 8 日快照及 16 日成交量差异保留。报告桌面／窄窗口及费用展开已核对，用户已确认“能找到，展示清楚”，报告阅读验收通过；独立安装或命令行使用未据此验收。原至少 3 候选门槛未达，研究接纳 0；PR #18 已按本次单独授权合入 main `8e95f51`，合并后九项 CI 通过；原研究与阅读证据不重跑、不重签。正式发布、r3 和部署未更新 |
 | 正式 Release | 仍为 [v0.2.1](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1)，未发布新正式版本；独立富途工具不是研究 wheel 的组成部分 |
 | 真实 AMD 原始闭环 | 37个交易日、259条真实 RTH 分时聚合。OHLC 与供应商日线一致，全部37日成交量差异原因未确认。保留原件和有限窗口公司行为来源边界 |

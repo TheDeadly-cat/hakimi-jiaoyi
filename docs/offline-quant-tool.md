@@ -1,6 +1,6 @@
 # 哈基米交易 M1：离线量化工具候选
 
-M1 已通过 PR #19 集成至 main `17b2c15`，下文保留 dev4 安装用法与历史候选位置。当前 M2-1 候选 `0.4.0.dev2` 的任务版本、风险配置、启停和结果对照见[新增使用说明](strategy-task-management.md)。新候选 ZIP 同样使用 `Start-Hakimi.cmd`；菜单 15 创建可管理任务，13 管理版本／启停，14 比较结果。正式 Release 仍为 v0.2.1。
+M1 已通过 PR #19 集成至 main `17b2c15`，下文保留 dev4 安装用法与历史候选位置。当前 M2-1 候选 `0.4.0.dev3` 的任务版本、风险配置、启停和结果对照见[新增使用说明](strategy-task-management.md)。新候选 ZIP 同样使用 `Start-Hakimi.cmd`；菜单 15 创建可管理任务，13 管理版本／启停，14 比较结果。正式 Release 仍为 v0.2.1。
 
 本轮将现有能力整合为可安装的 `hakimi-trade` 入口。包名仍为 `hakimi-research`，候选版本为 `0.3.0.dev4`；不重命名代码库。双均线、买入持有和公告排期过滤复用原策略、`EquityExperimentRunner`、风险和记账实现，公告资料流程也进入安装包。旧固定 AMD／NVIDIA 任务、方案、预算及原件继续保留。
 

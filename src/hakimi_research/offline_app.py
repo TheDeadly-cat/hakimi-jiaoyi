@@ -132,6 +132,11 @@ def check_task(task_file, *, inspect_only=False):
     if task['schema_version'] == TASK_SCHEMA:
         from .trade_cli import validate_configuration
         validate_configuration(spec)
+    else:
+        # Legacy inputs share numeric admission, but retain their historical
+        # clipping policy. Frozen run verification still uses its original spec.
+        from .trade_cli import validate_runtime_configuration
+        validate_runtime_configuration(spec)
     if spec['snapshot_id'] != snapshot.snapshot_id:
         raise ValueError('task_snapshot_identity_conflict')
     if not snapshot.document['research_admission']['allowed']:
