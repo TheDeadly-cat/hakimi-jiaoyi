@@ -1,6 +1,6 @@
 # 行情与研究输入（M2-2）
 
-候选 `0.4.0.dev5` 使用同一 `hakimi-trade` 入口，CLEAN 构建 `51b0f17` 的同一 wheel 已通过仓库外 253 项安装后测试和实际冷进程输入流程。候选 ZIP 内的 `research/wheel-acceptance.json`、`research/test-scope.json` 与 `research/installed-input-workflow.json` 保留确切验收范围；[PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 记录本轮交付。M1、M2-1 和 R1／R2／R3 已结案；PR #22 已集成到 main `57b6bd4`；后续新候选 `0.4.0.dev6` 修复两项 P2，安装与集成待验收。安装、首用与对应提交的 CI 分别记录，不用旧 dev4 的安装记录代替新候选验收。
+候选 `0.4.0.dev5` 使用同一 `hakimi-trade` 入口，CLEAN 构建 `51b0f17` 的同一 wheel 已通过仓库外 253 项安装后测试和实际冷进程输入流程。候选 ZIP 内的 `research/wheel-acceptance.json`、`research/test-scope.json` 与 `research/installed-input-workflow.json` 保留确切验收范围；[PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 记录本轮交付。M1、M2-1 和 R1／R2／R3 已结案；PR #22 已集成到 main `57b6bd4`；后续新候选 `0.4.0.dev6` 修复两项 P2，同一 wheel 的仓库外 262 项及启动器首用通过，main 集成待单独核准。安装、首用与对应提交的 CI 分别记录，不用旧 dev4 的安装记录代替新候选验收。
 
 Windows x64 ZIP 使用 CPython 3.14。解压到新的仓库外目录，双击 `Start-Hakimi.cmd`；依赖只从包内 wheelhouse 安装。也可在新环境普通安装 `research/hakimi_research-0.4.0.dev6-py3-none-any.whl` 后执行 `hakimi-trade wizard --workspace .\workspace`。
 

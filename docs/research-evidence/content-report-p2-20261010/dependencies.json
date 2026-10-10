@@ -1,0 +1,28 @@
+{
+  "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+  "packages": {
+    "numpy": {
+      "installed": "2.4.6",
+      "required": "2.4.6"
+    },
+    "pandas": {
+      "installed": "3.0.3",
+      "required": "3.0.3"
+    },
+    "python-dateutil": {
+      "installed": "2.9.0.post0",
+      "required": "2.9.0.post0"
+    },
+    "six": {
+      "installed": "1.17.0",
+      "required": "1.17.0"
+    },
+    "tzdata": {
+      "installed": "2026.2",
+      "required": "2026.2"
+    }
+  },
+  "python_version": "3.14.6",
+  "schema_version": "research-accepted-dependencies-v1",
+  "status": "VERIFIED"
+}

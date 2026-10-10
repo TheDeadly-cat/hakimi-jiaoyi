@@ -1,0 +1,48 @@
+{
+  "schema_version": "dev6-delivered-launcher-first-use-v1",
+  "status": "PASS",
+  "operator": "AGENT",
+  "verification_trial": 3,
+  "wheel_sha256": "e70f3fc9fd06d6858b39b06b6466abef49be06c40e594c5520dff414b0aea29a",
+  "zip_sha256": "6138b3767b5cd2b2b0e5d74a6edfdb0f5cf86d5c7a856598b3a1e5f3681e3176",
+  "product_profile": "M2_2_OFFLINE_QUANT_TOOL",
+  "entry": "开始使用.cmd",
+  "fresh_archive_unpacked": true,
+  "actual_offline_install": true,
+  "actual_identity_check": true,
+  "actual_input_menu_opened": true,
+  "exit_code": 0,
+  "identity": {
+    "version": "0.4.0.dev6",
+    "source_sha256": "11079b07ef017a2b5d6491584681ec21be522a825eb3df18c9d9119fa6fbb4e4",
+    "build_git": {
+      "commit": "30ece7d2d4369850586258690a4276c9e48baafe",
+      "status": "CLEAN"
+    },
+    "source_status": "BUILD_VERIFIED",
+    "environment_status": "VERIFIED"
+  },
+  "phases": [
+    "NATIVE_FRESH_INSTALL_STATUS_MENU_EOF",
+    "BINARY_CMD_INPUT_CENTER_LIST_RETURN_EXIT",
+    "BINARY_CMD_REOPEN_EXPLICIT_EXIT"
+  ],
+  "delivered_entry_reopened": true,
+  "delivered_entry_reopen_exit_code": 0,
+  "packaged_input_guide_alias_resolves": true,
+  "editable": false,
+  "pythonpath_used": false,
+  "system_site_packages": false,
+  "human_review_claimed": false,
+  "new_economic_runs": 0,
+  "provider_calls": 0,
+  "account_calls": 0,
+  "order_calls": 0,
+  "capture_encoding": "gbk",
+  "two_failed_verifier_launch_trials_preserved": true,
+  "proof_checker_assumptions_corrected": 2,
+  "product_runtime_changed_for_verifier": false,
+  "installation_log_sha256": "4a79c257f2fa202def409b2aa5ca70fe7ce1e61b8e52e92532c4df4e31edcb00",
+  "input_menu_log_sha256": "966de50a9e3087d414c7147a4cfcc7ff752ccee2c2ce24ccdff5dbbe1b2f3995",
+  "reopen_log_sha256": "c73b565881cc7d24d0a1b5658a38b756e6113420de876b8270fb3216b3fedaba"
+}

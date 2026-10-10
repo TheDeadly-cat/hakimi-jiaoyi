@@ -1,0 +1,238 @@
+{
+  "account_calls": 0,
+  "actual_installed_cold_console": true,
+  "actual_menu_csv_import": true,
+  "actual_menu_research_binding": true,
+  "approved_fixture_content_no_intervention_matches_price_result": true,
+  "checkout_data_used": false,
+  "comparison_new_economic_runs": 0,
+  "data_kind": "SYNTHETIC_TEST",
+  "exit_reopen": true,
+  "fixture_review": "SYNTHETIC_CONTRACT_RECEIPT_ONLY",
+  "human_review_claimed": false,
+  "input_checks_new_economic_runs": 0,
+  "migrated_replay_verified": true,
+  "migrated_view_new_economic_runs": 0,
+  "missing_context_rejected": true,
+  "old_reports_unchanged": true,
+  "operator": "AGENT",
+  "order_calls": 0,
+  "pause_preserved": true,
+  "paused_task_rejected": true,
+  "provider_calls": 0,
+  "rejections_keep_committed_state": true,
+  "research_packet_original_bytes_preserved": true,
+  "schedule_version_changes_filter": true,
+  "schema_version": "installed-offline-input-workflow-v1",
+  "snapshot_original_bytes_preserved": true,
+  "source_modified": false,
+  "status": "PASS",
+  "task_version_binding": true,
+  "transcript": [
+    {
+      "command": "init",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "init",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "wizard",
+      "status": "REAL_COLD_MENU_COMPLETED"
+    },
+    {
+      "command": "input-import",
+      "status": "OFFLINE_INPUT_RETAINED"
+    },
+    {
+      "command": "input-import",
+      "status": "OFFLINE_INPUT_RETAINED"
+    },
+    {
+      "command": "input-import",
+      "status": "OFFLINE_INPUT_RETAINED"
+    },
+    {
+      "command": "input-check",
+      "expected_reason": "event_strategy_context_required",
+      "status": "STOPPED"
+    },
+    {
+      "command": "input-check",
+      "status": "INPUTS_APPLICABLE_NO_SIMULATION"
+    },
+    {
+      "command": "task-create",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-create",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-bind",
+      "expected_reason": "event_strategy_context_required",
+      "status": "STOPPED"
+    },
+    {
+      "command": "input-import",
+      "status": "OFFLINE_INPUT_RETAINED"
+    },
+    {
+      "command": "task-bind",
+      "status": "INPUTS_BOUND_TO_NEW_TASK_VERSION"
+    },
+    {
+      "command": "inputs",
+      "status": "OFFLINE_INPUT_INVENTORY"
+    },
+    {
+      "command": "wizard",
+      "status": "REAL_COLD_MENU_COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "compare",
+      "status": "COMPARABLE_CONDITIONS"
+    },
+    {
+      "command": "content-import",
+      "status": "OFFLINE_INPUT_RETAINED"
+    },
+    {
+      "command": "input-check",
+      "status": "INPUTS_APPLICABLE_NO_SIMULATION"
+    },
+    {
+      "command": "task-create",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "input-check",
+      "status": "INPUTS_APPLICABLE_NO_SIMULATION"
+    },
+    {
+      "command": "task-create",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "report",
+      "status": "RETAINED_REPORT_RENDERED"
+    },
+    {
+      "command": "content-import",
+      "status": "OFFLINE_INPUT_RETAINED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-bind",
+      "status": "INPUTS_BOUND_TO_NEW_TASK_VERSION"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "run",
+      "expected_reason": "task_paused",
+      "status": "STOPPED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "report",
+      "status": "RETAINED_REPORT_RENDERED"
+    },
+    {
+      "command": "compare",
+      "status": "COMPARABLE_CONDITIONS"
+    },
+    {
+      "command": "wizard",
+      "status": "REAL_COLD_MENU_COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "report",
+      "status": "RETAINED_REPORT_RENDERED"
+    },
+    {
+      "command": "recover",
+      "status": "RETAINED_REPORT_RENDERED"
+    },
+    {
+      "command": "replay",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "wizard",
+      "status": "REAL_COLD_MENU_COMPLETED"
+    }
+  ],
+  "unapproved_content_holds": true,
+  "workspace_migration": true
+}

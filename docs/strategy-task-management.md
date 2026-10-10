@@ -57,4 +57,4 @@ hakimi-trade task-revise --task .\workspace\tasks\my-strategy --strategy price.b
 
 R3 存档 `0.4.0.dev4` 已通过 PR #21 合入 main，M2-1 与 R1／R2／R3 均结案。原 dev4／dev3／dev2 的包、构建与安装回执保持原身份。原 M2-2 `0.4.0.dev5` 的同一 wheel 已通过仓库外 253 项及实际输入流程；原候选首用与 CI 单独记录于 [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)，不复用旧候选的通过结论。
 
-2026-10-10：PR #22 已经用户对 `0059359` 单独核准合入 main `57b6bd4`，实际 main 九项 CI 与 Windows／Ubuntu 各 253 项通过。原 dev5 产物保留，后续两项 P2 在新候选修复：菜单 10 同样使用共享配置表单，支持五种注册策略；保存报告的成交约束和唯一内容入场机会在查看、恢复和比较前验证，不重算。新候选安装、交付与合并尚待完成，见[修复记录](research-evidence/content-report-p2-20261010/README.md)。
+2026-10-10：PR #22 已经用户对 `0059359` 单独核准合入 main `57b6bd4`，实际 main 九项 CI 与 Windows／Ubuntu 各 253 项通过。原 dev5 产物保留，后续两项 P2 在新候选修复：菜单 10 同样使用共享配置表单，支持五种注册策略；保存报告的成交约束和唯一内容入场机会在查看、恢复和比较前验证，不重算。新候选同一 wheel 262 项、实际菜单／边界和交付启动器已通过，合并待单独核准，见[修复记录](research-evidence/content-report-p2-20261010/README.md)。

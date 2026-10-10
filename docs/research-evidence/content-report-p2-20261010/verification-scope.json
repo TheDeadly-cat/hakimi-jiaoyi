@@ -1,0 +1,22 @@
+{
+  "schema_version": "dev6-final-source-and-wheel-scope-v1",
+  "status": "PASS",
+  "accepted_build": "30ece7d2d4369850586258690a4276c9e48baafe",
+  "source_sha256": "11079b07ef017a2b5d6491584681ec21be522a825eb3df18c9d9119fa6fbb4e4",
+  "wheel_sha256": "e70f3fc9fd06d6858b39b06b6466abef49be06c40e594c5520dff414b0aea29a",
+  "installed_root_tests": 262,
+  "new_root_tests_included": 9,
+  "repository_export_tests": 8,
+  "repository_bundle_tests": 8,
+  "source_focused_tests_not_added_to_installed_total": true,
+  "negative_copies_rehashed": true,
+  "original_reports_unchanged": true,
+  "engine_forbidden_during_read": true,
+  "legacy_menu_strategies_checked": 5,
+  "installed_bad_copy_paths_checked": 21,
+  "human_first_use_claimed": false,
+  "new_market_studies": 0,
+  "provider_calls": 0,
+  "account_calls": 0,
+  "order_calls": 0
+}

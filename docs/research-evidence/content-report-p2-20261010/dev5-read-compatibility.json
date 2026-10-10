@@ -1,0 +1,20 @@
+{
+  "schema_version": "dev5-report-dev6-read-compatibility-v1",
+  "status": "PASS",
+  "operator": "AGENT",
+  "data_kind": "SYNTHETIC_TEST",
+  "old_build": "51b0f170f201c9ba62c9cae2e263efad123b212c",
+  "new_build": "30ece7d2d4369850586258690a4276c9e48baafe",
+  "original_report_sha256": "49817b436106495106d1e7f6bf4e623fd5b12049a285bebe3f5d00b4ad742f20",
+  "whole_run_unchanged": true,
+  "read_forbids_engines": true,
+  "new_economic_runs": 0,
+  "historical_report_resigned": false,
+  "provider_calls": 0,
+  "account_calls": 0,
+  "order_calls": 0,
+  "view": {
+    "report_hash": "07d35e91fa0dda24eaf53e9b32f9710b4e12b4d27af560a16a110bbf3974f9d2",
+    "fill_count": 2
+  }
+}

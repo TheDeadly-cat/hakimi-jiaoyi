@@ -1,0 +1,25 @@
+{
+  "schema_version": "dev6-launcher-verifier-failures-v1",
+  "status": "VERIFIER_FAILURES_PRESERVED",
+  "trials": [
+    {
+      "trial": 1,
+      "exit_code": 1,
+      "cause": "PYTHON_CMD_ARGUMENT_QUOTING",
+      "product_started": false,
+      "log_sha256": "b33e0794399f574f777223ac4eaec2a420980f276af1f9084be9f1fcca418876"
+    },
+    {
+      "trial": 2,
+      "exit_code": 1,
+      "cause": "VERIFIER_UNPACKED_TO_WRONG_DIRECTORY",
+      "product_started": false,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3c33cd9e7f4e01692decf4b7844853853f041d6b6e07318bb7ef86eec9fbf22f"
+    }
+  ],
+  "product_runtime_changed": false,
+  "new_economic_runs": 0,
+  "account_calls": 0,
+  "order_calls": 0
+}

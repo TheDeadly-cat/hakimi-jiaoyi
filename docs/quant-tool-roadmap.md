@@ -31,4 +31,4 @@ M4 复用已有富途适配器及 SQLite 状态机，逐步衔接策略信号、
 
 当前进入 M2-2，[PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 候选 `0.4.0.dev5` 完成正常离线输入流程；同一 wheel 仓库外 253 项和实际输入流程通过，见[本轮证据](research-evidence/input-workflow-m2-20261010/README.md)与[输入使用说明](input-workflow.md)。复用公告排期过滤，以及原 C 价格确认／D 已核准下季指引条件；不替换旧 NVIDIA 研究协议。新候选构建、交付首用、最终 head CI 和 main 集成分别记录；共享资金、券商执行与新监控不在本轮范围。
 
-2026-10-10 后续检阅：原 dev5 安装中复现报告成交校验和菜单 10 参数两项 P2；新候选 `0.4.0.dev6` 修复，待同一 wheel 安装、交付及单独核准集成。见[修复记录](research-evidence/content-report-p2-20261010/README.md)。M1 与 R1／R2／R3 不重开，不新增策略或市场研究。
+2026-10-10 后续检阅：原 dev5 安装中复现报告成交校验和菜单 10 参数两项 P2；新候选 `0.4.0.dev6` 修复，同一 wheel 262 项、交付启动器与构建 CI 已通过，待最终检查及单独核准集成。见[修复记录](research-evidence/content-report-p2-20261010/README.md)。M1 与 R1／R2／R3 不重开，不新增策略或市场研究。
