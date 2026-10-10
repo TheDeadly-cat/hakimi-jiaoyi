@@ -1,0 +1,106 @@
+{
+  "schema_version": "m3-exact-pr-ci-verification-v1",
+  "status": "PASS",
+  "run_id": 38055503091,
+  "event": "pull_request",
+  "run_attempt": 2,
+  "reviewed_head": "f2fac8cec30669f137b376747e44a53c43c42c79",
+  "all_nine_success": true,
+  "head_tree": "5c5a7c465ec83c61d51c0390349913bd6ec80aac",
+  "jobs": [
+    {
+      "name": "Market-data renderer",
+      "job_id": 114225131679,
+      "conclusion": "success"
+    },
+    {
+      "name": "Electron capability contract",
+      "job_id": 114225130671,
+      "conclusion": "success"
+    },
+    {
+      "name": "Package install smoke (windows-latest)",
+      "job_id": 114225142423,
+      "conclusion": "success"
+    },
+    {
+      "name": "Offline research MVP contracts",
+      "job_id": 114225112288,
+      "conclusion": "success"
+    },
+    {
+      "name": "Package install smoke (ubuntu-latest)",
+      "job_id": 114225142425,
+      "conclusion": "success"
+    },
+    {
+      "name": "Python contracts",
+      "job_id": 114225111151,
+      "conclusion": "success"
+    },
+    {
+      "name": "Historical developer reference replay",
+      "job_id": 114225137183,
+      "conclusion": "success"
+    },
+    {
+      "name": "Deterministic references",
+      "job_id": 114225111935,
+      "conclusion": "success"
+    },
+    {
+      "name": "Research required gate",
+      "job_id": 114225633239,
+      "conclusion": "success"
+    }
+  ],
+  "verified_logs": [
+    {
+      "name": "Package install smoke (windows-latest)",
+      "job_id": 114225142423,
+      "conclusion": "success",
+      "actual_checkout": "c25ca69f8a4768a2ab5366df6321cc9e67b8c79c",
+      "checkout_kind": "PR_MERGE_PREVIEW",
+      "tree_equals_reviewed_head": true,
+      "tests_run": 292,
+      "test_seconds": 171.911,
+      "complete_ok_footer": true,
+      "raw_log_sha256": "25ed395afd883fdd9f5471ab6233571cd786783a3b769a08a68782e0f2a5258d",
+      "installed_source_sha256": "026d079e7679c1226265b6e1c841514d7d5f60df23337b7e8a9cfbbae08e3fef",
+      "shared_workflow": "PASS",
+      "input_workflow": "PASS",
+      "content_boundary_workflow": "PASS"
+    },
+    {
+      "name": "Offline research MVP contracts",
+      "job_id": 114225112288,
+      "conclusion": "success",
+      "actual_checkout": "c25ca69f8a4768a2ab5366df6321cc9e67b8c79c",
+      "checkout_kind": "PR_MERGE_PREVIEW",
+      "tree_equals_reviewed_head": true,
+      "tests_run": 292,
+      "test_seconds": 216.572,
+      "complete_ok_footer": true,
+      "raw_log_sha256": "3f73c3fb0f7ff2f5e4bad5b7aab07aa443e0a8ccea8e8ed53c17da3e1876ffde"
+    },
+    {
+      "name": "Package install smoke (ubuntu-latest)",
+      "job_id": 114225142425,
+      "conclusion": "success",
+      "actual_checkout": "c25ca69f8a4768a2ab5366df6321cc9e67b8c79c",
+      "checkout_kind": "PR_MERGE_PREVIEW",
+      "tree_equals_reviewed_head": true,
+      "tests_run": 292,
+      "test_seconds": 25.663,
+      "complete_ok_footer": true,
+      "raw_log_sha256": "059c3345f98455e835bc0686ce84b19ca08fcd9f3d0c1d17af0de5b34f851c2f",
+      "installed_source_sha256": "026d079e7679c1226265b6e1c841514d7d5f60df23337b7e8a9cfbbae08e3fef",
+      "shared_workflow": "PASS",
+      "input_workflow": "PASS",
+      "content_boundary_workflow": "PASS"
+    }
+  ],
+  "formal_release_changed": false,
+  "external_account_calls": 0,
+  "broker_order_calls": 0
+}
