@@ -63,6 +63,21 @@ def new_task_parameters(engine_strategy):
     return params
 
 
+def reconfigure_task_options(original, changes):
+    """Preserve same-strategy omissions; switch to the target's new-task defaults.
+
+    Only inherited strategy parameters, risk and event input are replaced on a
+    strategy change. Explicit overrides remain subject to ordinary validation;
+    shared snapshot, score, capital and costs are retained.
+    """
+    options = dict(original)
+    if 'strategy' in changes and changes['strategy'] != original.get('strategy'):
+        definition(changes['strategy'])
+        options.update(params=None, risk=None, event_context=None)
+    options.update(changes)
+    return options
+
+
 def validate_strategy(strategy_key, spec, event_context):
     entry = definition(strategy_key)
     checked = EquityExperimentSpec.from_document(spec)

@@ -1,0 +1,19 @@
+{
+  "base": "9085eabce88f9834b0a87ff01c237963a959b8d5",
+  "candidate_clean_build_head": "015cc397f8e8c8df6e36cdd26f2b4293e8d41a23",
+  "new_wheel_sha256": "1a04a086b93111ea2b8b5b3e4be228910e2bde895d85c54109b1e4f36251d31c",
+  "runtime_source_sha256": "4186c9d80351797653dd4d0e90228725be5c6d0a5b3c24827a0769a9dc1e2fcd",
+  "runtime_changed_files": [
+    "src/hakimi_research/strategy_registry.py",
+    "src/hakimi_research/task_manager.py",
+    "src/hakimi_research/trade_cli.py"
+  ],
+  "runtime_test_and_build_inputs_unchanged_since_ccd6000": true,
+  "existing_test_files_unchanged": true,
+  "core_engine_risk_execution_spec_bytes_equal_to_main": true,
+  "all_historical_evidence_directories_unchanged": true,
+  "candidate_not_yet_accepted_at_this_observation": false,
+  "observed_at_utc": "2026-10-09T17:25:12.107672+00:00",
+  "status": "ACCEPTED_AFTER_COMPLETE_NEW_TRIAL",
+  "failed_and_incomplete_candidates_retained": true
+}

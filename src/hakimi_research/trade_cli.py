@@ -17,7 +17,7 @@ from .equity_research import PERMISSIONS
 from .collection_import import import_collection, verify_bundle
 from .offline_app import check_task, run_task, recover_report, replay_run, resume_calculation, write_new, describe_run, portable_location, resolve_location
 from .source_layout import default_artifact_root
-from .strategy_registry import definition, strategies, effective_parameters, new_task_parameters
+from .strategy_registry import definition, strategies, effective_parameters, new_task_parameters, reconfigure_task_options
 
 
 def build_task_document(path, *, strategy, snapshot, event_context=None, params=None, score_start=None, score_end=None,
@@ -261,6 +261,9 @@ def configuration_form(options):
     number=int(input('策略（默认 '+str(entries.index(old)+1 if old else 1)+'）：') or str(entries.index(old)+1 if old else 1))
     if not 1<=number<=len(entries):raise ValueError('strategy_number_out_of_range')
     key=entries[number-1];entry=definition(key)
+    options=reconfigure_task_options(options,dict(strategy=key))
+    if old and old!=key:
+        print('切换策略：使用目标策略的新建参数和风控模板；可逐项修改。本金、费用和评分日期保留。')
     params=dict(options.get('params',{})) if old==key else {}
     existing = old==key
     defaults = effective_parameters(entry['engine_strategy'],params) if existing else new_task_parameters(entry['engine_strategy'])
@@ -462,7 +465,8 @@ def main(argv=None):
     for command in ['task-create','task-copy','task-revise']:
         p=commands.add_parser(command);p.add_argument('--task',required=True,type=Path)
         p.add_argument('--snapshot',required=command=='task-create',type=Path)
-        p.add_argument('--strategy',required=command=='task-create')
+        p.add_argument('--strategy',required=command=='task-create',
+            help='切换策略时使用目标的新建参数和风控模板；--parameters/--risk 可显式覆盖，共同数据和评分配置保留。')
         p.add_argument('--event-context',type=Path);p.add_argument('--parameters',type=Path);p.add_argument('--risk',type=Path)
         p.add_argument('--score-start');p.add_argument('--score-end');p.add_argument('--initial-cash',type=float)
         p.add_argument('--fee-rate',type=float);p.add_argument('--slippage-pct',type=float)
@@ -516,9 +520,7 @@ def main(argv=None):
                 revise_family(args.task,**options);output=describe_task(args.task)
             elif args.command=='task-copy':
                 original=version_options(args.from_task)
-                if 'strategy' in options and options['strategy']!=original['strategy']:
-                    original.update(params=None,risk=None,event_context=None)
-                original.update(options);create_family(args.task,**original);output=describe_task(args.task)
+                create_family(args.task,**reconfigure_task_options(original,options));output=describe_task(args.task)
             elif args.managed:
                 create_family(args.task,output_dir=args.output_dir,**options);output=describe_task(args.task)
             else:

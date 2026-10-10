@@ -1,0 +1,28 @@
+{
+  "schema_version": "r3-delivered-launcher-process-v1",
+  "operator": "AGENT",
+  "started_at_utc": "2026-10-09T17:21:17.2919269Z",
+  "completed_at_utc": "2026-10-09T17:21:53.0696534Z",
+  "cmd_pid": 46676,
+  "exit_code": 0,
+  "scope": "DELIVERED_CMD_INSTALL_STATUS_MENU_EXIT_ONLY",
+  "new_strategy_runs": 0,
+  "human_acceptance_claimed": false,
+  "status": "PASS",
+  "actual_runtime": {
+    "version": "0.4.0.dev4",
+    "repo_root": null,
+    "source": "4186c9d80351797653dd4d0e90228725be5c6d0a5b3c24827a0769a9dc1e2fcd",
+    "source_status": "BUILD_VERIFIED",
+    "environment_status": "VERIFIED",
+    "build_git": {
+      "commit": "015cc397f8e8c8df6e36cdd26f2b4293e8d41a23",
+      "status": "CLEAN"
+    }
+  },
+  "accepted_wheel_sha256": "1a04a086b93111ea2b8b5b3e4be228910e2bde895d85c54109b1e4f36251d31c",
+  "stdout_sha256": "db818e3187c350cd31438bf95c6ac3db06722ae9c2e8f54181f6355d184dba63",
+  "capture_codec": "gb18030",
+  "menu_opened_and_exit_requested": true,
+  "encoding_scope": "Redirected isolated Python console log decoded using its actual Windows file encoding; source UI unchanged."
+}

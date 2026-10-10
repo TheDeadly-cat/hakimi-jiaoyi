@@ -1,0 +1,320 @@
+{
+  "wheel_sha256": "1a04a086b93111ea2b8b5b3e4be228910e2bde895d85c54109b1e4f36251d31c",
+  "clean_build_head": "015cc397f8e8c8df6e36cdd26f2b4293e8d41a23",
+  "schema_version": "strategy-switch-installed-workflow-v1",
+  "status": "PASS",
+  "data_kind": "SYNTHETIC_TEST",
+  "operator": "AGENT",
+  "normal_installed_console_entry": true,
+  "rows": [
+    {
+      "target": "price.dual_ma@1",
+      "explicit_legal_target_parameters_and_risk": true,
+      "requested_target_parameters": {
+        "fast_window": 2,
+        "slow_window": 4,
+        "position_pct": 0.2,
+        "stop_loss_pct": 0.02,
+        "take_profit_pct": 0.05
+      },
+      "requested_target_risk": {
+        "max_position_pct": 0.3,
+        "max_single_loss_pct": 0.025,
+        "max_daily_loss_pct": 0.1,
+        "min_cash_pct": 0.15,
+        "max_leverage": 1
+      },
+      "same_family_revision_passed": true,
+      "event_input_cleared": true,
+      "explicit_conflict": {
+        "status": "STOPPED",
+        "error": "price_strategy_must_not_silently_use_event_inputs",
+        "committed_state_and_original_bytes_unchanged": true
+      },
+      "reverse_missing_event": {
+        "status": "STOPPED",
+        "error": "event_strategy_context_required",
+        "committed_state_and_original_bytes_unchanged": true
+      },
+      "explicit_reverse_event_passed": true,
+      "copy_control_passed": true,
+      "paused_state_preserved": true,
+      "parent_revision_bound": true,
+      "shared_configuration_and_snapshot_preserved": true,
+      "original_files_verified": 14,
+      "original_task_inputs_and_report_bytes_unchanged": true
+    },
+    {
+      "target": "price.buy_and_hold@1",
+      "explicit_legal_target_parameters_and_risk": true,
+      "requested_target_parameters": {
+        "target_position_pct": 0.3
+      },
+      "requested_target_risk": {
+        "max_position_pct": 1,
+        "max_single_loss_pct": 0.03,
+        "max_daily_loss_pct": 1,
+        "min_cash_pct": 0,
+        "max_leverage": 1
+      },
+      "same_family_revision_passed": true,
+      "event_input_cleared": true,
+      "explicit_conflict": {
+        "status": "STOPPED",
+        "error": "price_strategy_must_not_silently_use_event_inputs",
+        "committed_state_and_original_bytes_unchanged": true
+      },
+      "reverse_missing_event": {
+        "status": "STOPPED",
+        "error": "event_strategy_context_required",
+        "committed_state_and_original_bytes_unchanged": true
+      },
+      "explicit_reverse_event_passed": true,
+      "copy_control_passed": true,
+      "paused_state_preserved": true,
+      "parent_revision_bound": true,
+      "shared_configuration_and_snapshot_preserved": true,
+      "original_files_verified": 14,
+      "original_task_inputs_and_report_bytes_unchanged": true
+    }
+  ],
+  "menu_rows": [
+    {
+      "target": "price.dual_ma@1",
+      "status": "PASS",
+      "paused_state_and_original_version_preserved": true,
+      "transcript_sha256": "e21821f646518dfb1dab7e8f5880b529a419eb33780d66e2677cb53c8c752e39"
+    },
+    {
+      "target": "price.buy_and_hold@1",
+      "status": "PASS",
+      "paused_state_and_original_version_preserved": true,
+      "transcript_sha256": "f20545dda8c871af1c21213845acf3253cbcacf01db37348e397468af3d87742"
+    }
+  ],
+  "same_strategy_cash_only_retains_implicit_eight_percent": true,
+  "declared_default_template_controls_passed": true,
+  "incompatible_explicit_parameters": {
+    "status": "STOPPED",
+    "error": "unknown_strategy_parameter",
+    "committed_state_and_original_bytes_unchanged": true
+  },
+  "incompatible_explicit_risk": {
+    "status": "STOPPED",
+    "error": "buy_and_hold_requires_declared_full_spot_cash_policy",
+    "committed_state_and_original_bytes_unchanged": true
+  },
+  "incompatible_inactive_risk_control": {
+    "status": "STOPPED",
+    "error": "benchmark_has_no_active_risk_controls:use_allocation_parameter_and_fixed_benchmark_policy",
+    "committed_state_and_original_bytes_unchanged": true
+  },
+  "source_files_and_old_versions_preserved": true,
+  "transcript": [
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-revise",
+      "status": "STOPPED",
+      "error": "price_strategy_must_not_silently_use_event_inputs"
+    },
+    {
+      "command": "task-revise",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-revise",
+      "status": "STOPPED",
+      "error": "event_strategy_context_required"
+    },
+    {
+      "command": "task-revise",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "run",
+      "status": "OFFLINE_RUN_SAVED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-revise",
+      "status": "STOPPED",
+      "error": "price_strategy_must_not_silently_use_event_inputs"
+    },
+    {
+      "command": "task-revise",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-revise",
+      "status": "STOPPED",
+      "error": "event_strategy_context_required"
+    },
+    {
+      "command": "task-revise",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-revise",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-revise",
+      "status": "STOPPED",
+      "error": "unknown_strategy_parameter"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-revise",
+      "status": "STOPPED",
+      "error": "buy_and_hold_requires_declared_full_spot_cash_policy"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-revise",
+      "status": "STOPPED",
+      "error": "benchmark_has_no_active_risk_controls:use_allocation_parameter_and_fixed_benchmark_policy"
+    },
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-revise",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-copy",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-state",
+      "status": "COMPLETED"
+    },
+    {
+      "command": "task-show",
+      "status": "COMPLETED"
+    }
+  ],
+  "provider_calls": 0,
+  "order_calls": 0
+}

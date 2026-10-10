@@ -1,23 +1,23 @@
-# 哈基米交易 M1：离线量化工具候选
+# 哈基米交易：离线量化工具候选
 
-M1 已通过 PR #19 集成至 main `17b2c15`，下文保留 dev4 安装用法与历史候选位置。当前 M2-1 候选 `0.4.0.dev3` 的任务版本、风险配置、启停和结果对照见[新增使用说明](strategy-task-management.md)。新候选 ZIP 同样使用 `Start-Hakimi.cmd`；菜单 15 创建可管理任务，13 管理版本／启停，14 比较结果。正式 Release 仍为 v0.2.1。
+M1 已结案；M2-1 已通过 PR #20 集成至 main `9085eab`，R1／R2 保持关闭。当前 R3 补丁候选为 **`0.4.0.dev4`**，修复事件策略修改为价格策略时残留旧事件输入的问题，见[任务使用说明](strategy-task-management.md)和[R3 验收与交付](research-evidence/strategy-switch-r3-20261010/README.md)。PR #21 尚未集成；旧 M2 dev3／dev2 及 M1 候选与历史验收保留原身份。正式 Release 仍为 v0.2.1。
 
-本轮将现有能力整合为可安装的 `hakimi-trade` 入口。包名仍为 `hakimi-research`，候选版本为 `0.3.0.dev4`；不重命名代码库。双均线、买入持有和公告排期过滤复用原策略、`EquityExperimentRunner`、风险和记账实现，公告资料流程也进入安装包。旧固定 AMD／NVIDIA 任务、方案、预算及原件继续保留。
+当前候选使用可安装的 `hakimi-trade` 入口，包名仍为 `hakimi-research`，版本为 `0.4.0.dev4`。双均线、买入持有和公告排期过滤复用原策略、`EquityExperimentRunner`、风险和记账实现，公告资料流程也进入安装包。旧固定 AMD／NVIDIA 任务、方案、预算及原件继续保留。
 
 ## 安装与第一次使用
 
 Python 包支持 3.11 或以上；本轮 Windows x64 离线候选附带的 NumPy／pandas 依赖轮子使用 **CPython 3.14**，该候选应由 Python 3.14 安装。使用同一份受验收 wheel 和锁定依赖，普通安装到仓库外虚拟环境。不能用 editable 安装替代首次使用验收，也不借用仓库 `src` 或设置 `PYTHONPATH`。
 
-候选 ZIP 解压到仓库外后，双击 `Start-Hakimi.cmd`。它复用原安装器，在候选目录旁建立独立环境，使用包内 wheelhouse 离线安装，核对本候选身份后打开菜单；不会下载依赖或改动其他安装。第一次选择 1 创建虚构示例，再选 2 检查、3 运行、4 看报告、5 重放或 6 恢复页面。
+本轮 dev4 下载目录为 `Hakimi-M2-dev4-R3-20261010`，使用该目录中的“开始使用.cmd”，或将其中候选 ZIP 解压到新的仓库外目录后双击 `Start-Hakimi.cmd`。它复用原安装器，在候选目录旁建立独立环境，使用包内 wheelhouse 离线安装，核对本候选身份后打开菜单；不会下载依赖或改动其他安装。第一次选择 1 创建虚构示例，再选 2 检查、3 运行、4 看报告、5 重放或 6 恢复页面。
 
-当前受验收候选为 0.3.0.dev4，本机下载目录 `Hakimi-M1-dev4-20261009-e10cbb02` 的“开始使用.cmd”启动。209 项安装后检查，以及默认／同盘外部／实际跨盘的菜单退出重开、查看、重放与历史恢复已通过；身份和范围见[最新修复与交付记录](research-evidence/offline-product-m1-p2-20261009/README.md)。旧 `Hakimi-M1-dev3-20261006-e0f27a10` 的 dev3 包、201 项检查和首用证据与更早 dev2 包保留原身份。新包实际首用由代理完成，不声称用户人工验收；NVIDIA 原报告的阅读反馈只支持该报告。
+M1 存档候选为 0.3.0.dev4，历史下载目录 `Hakimi-M1-dev4-20261009-e10cbb02` 的“开始使用.cmd”启动。209 项安装后检查，以及默认／同盘外部／实际跨盘的菜单退出重开、查看、重放与历史恢复已通过；身份和范围见[最新修复与交付记录](research-evidence/offline-product-m1-p2-20261009/README.md)。旧 `Hakimi-M1-dev3-20261006-e0f27a10` 的 dev3 包、201 项检查和首用证据与更早 dev2 包保留原身份。新包实际首用由代理完成，不声称用户人工验收；NVIDIA 原报告的阅读反馈只支持该报告。
 
 以下是使用单独 wheel／依赖目录时的手动安装方式，路径按候选目录的实际位置选择；无须源码：
 
 ```powershell
 python -m venv .\runtime
 .\runtime\Scripts\python.exe -m pip install --no-index --find-links .\wheelhouse --requirement .\requirements.research.lock
-.\runtime\Scripts\python.exe -m pip install --no-deps .\hakimi_research-0.3.0.dev4-py3-none-any.whl
+.\runtime\Scripts\python.exe -m pip install --no-deps .\research\hakimi_research-0.4.0.dev4-py3-none-any.whl
 .\runtime\Scripts\hakimi-trade.exe wizard --workspace .\workspace
 ```
 
@@ -77,7 +77,7 @@ hakimi-trade bundle-check --bundle <导入打印的 quote-bundle 目录>
 
 run 目录保留输入副本、任务语义、源代码／依赖身份、启动、原报告、失败、恢复尝试和重放回执。迁移后原报告不回写；只派生显示新位置的页面。页面写入中断使用 `recover`。计算未保存报告时不会自动重复；用户可显式 `--resume-calculation`，活动进程锁或身份改变会阻挡恢复。旧八次 NVIDIA 预算目录不是新应用任务，不能通过此入口恢复计算。
 
-## 本轮验收与待批准事项
+## M1 历史验收记录
 
 | 要求 | 当前证据／尚需完成 |
 |---|---|
@@ -87,7 +87,7 @@ run 目录保留输入副本、任务语义、源代码／依赖身份、启动�
 | 策略接入接口准备 | 版本化注册目录、配置与公开输入检查，已有价格与排期过滤共用原引擎；没有新的策略逻辑或寻优 |
 | 首次使用与最终交付 | 0.3.0.dev4 同一新产物通过 209 项安装后检查，默认／同盘外部／实际跨盘菜单退出重开、结果读取、重放及历史恢复通过；构建源码九项 CI 成功，最终审阅 head checks 独立核对。新首用由代理完成，旧 dev3 产物与首用证据保留；NVIDIA 人工阅读验收保持原范围 |
 
-M1 为离线候选，M2—M4 是后续路线图。多证券共享现金与组合风险、增量监控、账户和订单衔接尚未由本入口实现。有效杠杆 1；碎股、固定滑点、比例费用及声明无公司行为窗口继续可见。PR #18 已按单独授权进入主分支；M1／PR #19 的主分支合并、正式发布、部署和实际模拟订单各有独立授权范围，不以本轮安装检查开放权限。
+M1 已结案，当前限定处理 M2-1 的 R3 补丁；更广的数据接口及 M3—M4 属于后续路线。多证券共享现金与组合风险、增量监控、账户和订单衔接尚未由本入口实现。有效杠杆 1；碎股、固定滑点、比例费用及声明无公司行为窗口继续可见。PR #18 已按单独授权进入主分支；M1／PR #19 的主分支合并、正式发布、部署和实际模拟订单各有独立授权范围，不以本轮安装检查开放权限。
 
 ## 2026-10-09 流程修复与安全重试
 

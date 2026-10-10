@@ -1,0 +1,13 @@
+{
+  "schema_version": "r3-focused-verifier-failure-v1",
+  "observed_at_utc": "2026-10-09T16:52:49.432218+00:00",
+  "wheel_sha256": "a78215a6050a457c6fd443ff1749ef9e7cba02e1a2bdfa7a304c57d9314fb514",
+  "status": "FOCUSED_WORKFLOW_FAILED_NOT_COMPLETE",
+  "scope": "Focused R3 only, unchanged installed 82544d1 provisional wheel.",
+  "cause": "The existing spec rejects active max-position/cash risk first with buy_and_hold_requires_declared_full_spot_cash_policy.",
+  "actual_error": "buy_and_hold_requires_declared_full_spot_cash_policy",
+  "expected_error_in_failed_verifier": "benchmark_has_no_active_risk_controls",
+  "correction": "Keep the original incompatible risk case with its existing policy rejection; add a separate fixed-allocation case with a custom inactive daily threshold.",
+  "runtime_changed_for_this_correction": false,
+  "failed_trial_preserved": true
+}

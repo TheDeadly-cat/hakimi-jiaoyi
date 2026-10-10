@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from .documents import digest, read_document
 from .offline_app import _file_lock, write_new, immutable_write, portable_location
+from .strategy_registry import reconfigure_task_options
 
 FAMILY_SCHEMA = 'hakimi-task-family-v1'
 TASK_SCHEMA = 'hakimi-offline-task-v2'
@@ -230,7 +231,7 @@ def revise_family(family, **changes):
         options = version_options(family)
         if set(changes) - set(options):
             raise ValueError('unsupported_task_change:' + ','.join(sorted(set(changes) - set(options))))
-        options.update(changes)
+        options = reconfigure_task_options(options, changes)
         revision = _prepare_version(family, family.parent.parent, view['family_id'], len(view['revisions']) + 1,
             view['selected_revision'], options)
         _commit(family, view, 'REVISE', revision, view['state'])
