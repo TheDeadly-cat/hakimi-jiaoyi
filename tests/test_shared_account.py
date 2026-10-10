@@ -116,6 +116,43 @@ class SharedAccountTests(unittest.TestCase):
             with self.assertRaises(ValueError):transact_shared_account(other,operation_id='bad',kind='RESERVE',at=AT,payload=payload)
             self.assertEqual(describe_shared_account(other)['sequence'],0)
 
+    def test_duplicate_symbol_aliases_are_rejected_before_account_publication(self):
+        for symbol in ['TEST', 'test']:
+            with self.subTest(symbol=symbol):
+                config=deepcopy(self.config)
+                config['securities']['SYNTHETIC:ALIAS']=dict(symbol=symbol,price=101)
+                config['limits']['max_symbol_position_pct']=.6
+                with self.assertRaisesRegex(ValueError,'duplicate_symbol_aliases_not_allowed'):
+                    self.init(config)
+                self.assertFalse(self.account.exists())
+                self.assertEqual(list(self.root.iterdir()),[])
+
+    def test_distinct_symbols_share_cash_without_collapsing_independent_symbol_limits(self):
+        config=deepcopy(self.config);config['limits']['max_symbol_position_pct']=.6
+        config['securities']['SYNTHETIC:OTHER']=dict(symbol='OTHER',price=101);self.init(config)
+        inputs=deepcopy(self.inputs);inputs[0]['signal']['size_pct']=.59;inputs[1]['signal']['size_pct']=.39
+        inputs[1]['security_id']='SYNTHETIC:OTHER'
+        for number,p in enumerate(inputs,1):
+            identity=self.first(self.reserve('reserve-'+str(number),[self.reidentify(p)]))
+            self.assertEqual(self.transact('fill-'+str(number),'SETTLE',dict(intent_id=identity))['outcome']['status'],'SETTLED')
+        view=self.view();self.assertFalse(view['symbol_aliases_read_only'])
+        self.assertAlmostEqual(float(view['total_position_value']),9800)
+        self.assertAlmostEqual(float(view['available_cash']),200)
+        self.assertEqual(view['sequence'],4)
+
+    def test_original_installed_v2_alias_bytes_are_read_only_without_resigning(self):
+        fixture=json.loads(files('hakimi_research').joinpath('resources/shared-account-v2-alias.json').read_bytes())
+        self.account.mkdir()
+        for name,proof in fixture['files'].items():
+            raw=base64.b64decode(proof['base64']);self.assertEqual(sha256(raw).hexdigest(),proof['sha256'])
+            (self.account/name).write_bytes(raw)
+        view=self.view();self.assertFalse(view['legacy_read_only']);self.assertTrue(view['symbol_aliases_read_only'])
+        self.assertEqual(view['sequence'],4);self.assertAlmostEqual(float(view['total_position_value']),9800)
+        self.assertEqual(view['clock_policy'],'ONLY_EXPLICIT_MARK_ADVANCES_CLOCK')
+        with self.assertRaisesRegex(ValueError,'duplicate_symbol_aliases_not_allowed'):
+            self.transact('new-write','PAUSE',dict(reason='blocked'))
+        for name,proof in fixture['files'].items():self.assertEqual(sha256((self.account/name).read_bytes()).hexdigest(),proof['sha256'])
+
     def test_canonical_fee_and_slippage_fill_preserves_shared_funds(self):
         self.init();p=deepcopy(self.inputs[0]);p.update(fee_rate=.02,slippage_pct=.01)
         r=self.reserve(inputs=[p]);row=r['outcome']['decisions'][0]

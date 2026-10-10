@@ -36,3 +36,5 @@ M4 复用已有富途适配器及 SQLite 状态机，逐步衔接策略信号、
 2026-10-10 M3-1：[共享资金说明](shared-funds.md)，[候选交付记录](research-evidence/shared-funds-m3-20261010/README.md)。按用户选定的实际提交顺序整笔通过或拒绝，复用五类既有策略；不累加独立本金回测收益。M3-1 为固定时点合成账户基础，不代表整个 M3 的观察列表、完整增量运行和真实执行已完成。
 
 M3-1 首候选 dev1 的操作时钟缺口另行修复为 dev2，旧 288 项和候选原件保留范围；v2 新账户限制显式价格推进，旧账户仅只读。[时间修复](research-evidence/shared-clock-m3-20261010/README.md)。不重开 M2-2 或原两项 P2。
+
+2026-10-10 单证券修复：PR #24 原 `deccb78` 获批后，自动审阅新增同 symbol 别名 P2；原 dev2 中已复现 60% 上限下 98% 占用。dev3 在新配置及写入前拒绝别名，历史原字节只读保留；安装及最终 head 检查待验收。[修复记录](research-evidence/shared-symbol-m3-20261010/README.md)。原核准只绑定 deccb78，新代码 head 须单独核准。

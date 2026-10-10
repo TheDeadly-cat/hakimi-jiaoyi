@@ -83,7 +83,8 @@ def dispatch(args):
 
 def print_account(view):
     print('合成共享账户 · USD · '+view['account_id'])
-    if view['legacy_read_only']:print('dev1 账户仅可读取，原记录保留；新操作使用 dev2 新账户。')
+    if view['legacy_read_only']:print('dev1 账户仅可读取，原记录保留；新操作使用当前版本的新账户。')
+    elif view['symbol_aliases_read_only']:print('账户含同名证券别名，仅可读取；新操作使用 symbol 唯一的新账户。')
     else:print('操作使用当前固定时点；先更新全体价格才可推进时点。')
     print('现金 '+view['cash']+'；预留 '+view['reserved_cash']+'；可用 '+view['available_cash']+'；权益 '+view['equity'])
     print('按提交流水顺序，整笔通过或拒绝；暂停 '+str(view['state']['paused'])+'；损失停机 '+str(view['state']['loss_halted']))

@@ -1,0 +1,30 @@
+{
+  "schema_version": "m3-dev2-symbol-alias-reproduction-v1",
+  "status": "REPRODUCED_ON_ORIGINAL_INSTALLED_WHEEL",
+  "data_kind": "SYNTHETIC_TEST",
+  "accepted_build": "f2fac8cec30669f137b376747e44a53c43c42c79",
+  "original_wheel_sha256": "816f93eb81c74ac5ba4bbf3d092ee00447b093377f28aa2f017559c75f6a93f6",
+  "installed_source_sha256": "026d079e7679c1226265b6e1c841514d7d5f60df23337b7e8a9cfbbae08e3fef",
+  "review_head": "deccb7877af1a0ccc9b592c5d413e3fe7fa9a0d7",
+  "review_comment_id": 4237926677,
+  "symbol_limit": 0.6,
+  "same_symbol_exposure_ratio": 0.98,
+  "account_sequence": 4,
+  "decisions": [
+    {
+      "security_id": "SYNTHETIC:RESEARCH:TEST",
+      "symbol": "TEST",
+      "decision": "RESERVED",
+      "settlement": "SETTLED"
+    },
+    {
+      "security_id": "SYNTHETIC:ALIAS",
+      "symbol": "TEST",
+      "decision": "RESERVED",
+      "settlement": "SETTLED"
+    }
+  ],
+  "provider_calls": 0,
+  "external_account_calls": 0,
+  "broker_order_calls": 0
+}

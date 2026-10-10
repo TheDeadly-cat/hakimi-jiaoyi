@@ -189,7 +189,45 @@ else:raise AssertionError('legacy account mutated')
 for name,proof in fixture['files'].items():assert hashlib.sha256((legacy/name).read_bytes()).hexdigest()==proof['sha256']
 '''
     run([python,'-I','-X','utf8','-B','-c',clock_checks,str(outside/'shared-clock-api')],echo=False)
-    return dict(schema_version='installed-shared-funds-workflow-v2',status='PASS',operator='AGENT',data_kind='SYNTHETIC_TEST',
+    config=json.loads(run([python,'-I','-X','utf8','-B','-c',
+        'import json;from hakimi_research.shared_account import demo_account_config;print(json.dumps(demo_account_config()))'],echo=False))
+    for number,symbol in enumerate(['TEST','test'],1):
+        alias_config=json.loads(json.dumps(config));alias_config['limits']['max_symbol_position_pct']=.6
+        alias_config['securities']['SYNTHETIC:ALIAS']=dict(symbol=symbol,price=101)
+        path=document('shared-alias-'+str(number)+'.json',alias_config);account=outside/('shared-alias-'+str(number))
+        process=subprocess.run([command,'shared-init','--account',str(account),'--config',str(path)],
+            cwd=outside,env=env,capture_output=True,text=True,encoding='utf-8',timeout=90)
+        check(process.returncode==1 and 'duplicate_symbol_aliases_not_allowed' in json.loads(process.stdout)['error'],'duplicate_symbol_config')
+        check(not account.exists(),'duplicate_symbol_account_published')
+    symbol_checks=r'''import base64,hashlib,json,sys
+from pathlib import Path
+from importlib.resources import files
+from hakimi_research.shared_account import create_shared_account,demo_account_config,describe_shared_account,transact_shared_account,opportunity_identity
+from hakimi_research.shared_signals import demo_competing_intents
+root=Path(sys.argv[1]);root.mkdir();config=demo_account_config();config['limits']['max_symbol_position_pct']=.6
+config['securities']['SYNTHETIC:OTHER']=dict(symbol='OTHER',price=101);account=root/'distinct';create_shared_account(account,config)
+inputs=demo_competing_intents();inputs[0]['signal']['size_pct']=.59;inputs[1]['signal']['size_pct']=.39;inputs[1]['security_id']='SYNTHETIC:OTHER'
+for i,p in enumerate(inputs,1):
+ p['opportunity_id']=opportunity_identity(p)
+ r=transact_shared_account(account,operation_id='r'+str(i),kind='RESERVE',at=config['as_of'],payload=dict(intents=[p]))
+ d=r['outcome']['decisions'][0];assert d['status']=='RESERVED'
+ r=transact_shared_account(account,operation_id='f'+str(i),kind='SETTLE',at=config['as_of'],payload=dict(intent_id=d['intent_id']))
+ assert r['outcome']['status']=='SETTLED'
+v=describe_shared_account(account);assert not v['symbol_aliases_read_only'] and abs(float(v['total_position_value'])-9800)<1e-8 and abs(float(v['cash'])-200)<1e-8
+fixture=json.loads(files('hakimi_research').joinpath('resources/shared-account-v2-alias.json').read_bytes());legacy=root/'original-v2-alias';legacy.mkdir()
+for name,proof in fixture['files'].items():
+ raw=base64.b64decode(proof['base64']);assert hashlib.sha256(raw).hexdigest()==proof['sha256'];(legacy/name).write_bytes(raw)
+print(json.dumps(dict(account=str(legacy),at=config['as_of'],hashes={n:p['sha256'] for n,p in fixture['files'].items()})))
+'''
+    original=json.loads(run([python,'-I','-X','utf8','-B','-c',symbol_checks,str(outside/'shared-symbol-api')],echo=False))
+    old_view=call('shared-show','--account',original['account'],'--journal')
+    check(old_view['symbol_aliases_read_only'] and not old_view['legacy_read_only'] and old_view['sequence']==4,'original_alias_read')
+    process=subprocess.run([command,'shared-pause','--account',original['account'],'--operation-id','blocked-alias',
+        '--at',original['at'],'--reason','read only'],cwd=outside,env=env,capture_output=True,text=True,encoding='utf-8',timeout=90)
+    check(process.returncode==1 and 'duplicate_symbol_aliases_not_allowed' in json.loads(process.stdout)['error'],'original_alias_write')
+    check(call('shared-show','--account',original['account'],'--journal')==old_view,'original_alias_view_changed')
+    check(all(sha256((Path(original['account'])/name).read_bytes()).hexdigest()==value for name,value in original['hashes'].items()),'original_alias_bytes_changed')
+    return dict(schema_version='installed-shared-funds-workflow-v3',status='PASS',operator='AGENT',data_kind='SYNTHETIC_TEST',
         competition='COMMITTED_RECEIPT_FIFO_ALL_OR_NOTHING',registered_strategies=keys,process_proof=proof,
         actual_cold_console=True,actual_menu=True,exit_reopen=True,task_capital_ignored=True,all_or_nothing=True,
         duplicate_operation_idempotent=True,terminal_signal_not_reopened=True,cancel_releases_funds=True,
@@ -197,4 +235,6 @@ for name,proof in fixture['files'].items():assert hashlib.sha256((legacy/name).r
         receipt_lookup=True,workspace_migration=True,read_preserves_bytes=True,independent_backtests_forbidden=True,
         wrong_clock_rejected_without_account_change=True,no_op_does_not_poison_clock=True,
         legacy_v1_readable_with_original_bytes=True,legacy_v1_mutation_blocked=True,
+        duplicate_symbol_config_rejected_before_publication=True,distinct_symbol_limits_preserved=True,
+        legacy_v2_aliases_read_only_original_bytes=True,
         provider_calls=0,external_account_calls=0,broker_order_calls=0,checkout_data_used=False,source_modified=False)

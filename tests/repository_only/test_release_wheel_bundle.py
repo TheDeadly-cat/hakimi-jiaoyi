@@ -84,6 +84,14 @@ class ReleaseWheelBundleTests(unittest.TestCase):
             for flag in flags:
                 bad=deepcopy(clock);bad[flag]=False
                 with self.subTest(flag=flag),self.assertRaises(ValueError):BUNDLE.validate_shared_workflow(bad)
+            symbols=deepcopy(clock);symbols['schema_version']='installed-shared-funds-workflow-v3'
+            symbol_flags=['duplicate_symbol_config_rejected_before_publication','distinct_symbol_limits_preserved',
+                'legacy_v2_aliases_read_only_original_bytes']
+            for flag in symbol_flags:symbols[flag]=True
+            BUNDLE.validate_shared_workflow(symbols)
+            for flag in symbol_flags:
+                bad=deepcopy(symbols);bad[flag]=False
+                with self.subTest(flag=flag),self.assertRaises(ValueError):BUNDLE.validate_shared_workflow(bad)
             mutations=[lambda w:w.update(provider_calls=True),lambda w:w.update(broker_order_calls=1),
                 lambda w:w.update(actual_menu=False),lambda w:w.update(registered_strategies=[]),
                 lambda w:w['process_proof'].update(concurrent_statuses=['RESERVED','RESERVED']),

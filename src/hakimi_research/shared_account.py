@@ -102,7 +102,12 @@ def opportunity_identity(proposal):
     raise ValueError('shared_signal_source_kind_unsupported')
 
 
-def validate_account_config(config):
+def _symbol_aliases(config):
+    symbols = [row['symbol'].upper() for row in config['securities'].values()]
+    return len(symbols) != len(set(symbols))
+
+
+def validate_account_config(config, *, allow_historical_symbol_aliases=False):
     fields = {'schema_version', 'evidence_kind', 'currency', 'initial_cash', 'initial_positions',
         'securities', 'as_of', 'limits', 'competition'}
     if (type(config) is not dict or set(config) != fields or type(config['schema_version']) is not str
@@ -129,6 +134,8 @@ def validate_account_config(config):
         if type(row) is not dict or set(row) != {'symbol', 'price'}:
             raise ValueError('shared_security_fields_invalid')
         _key(row['symbol']); _number(row['price'], positive=True)
+    if not allow_historical_symbol_aliases and _symbol_aliases(config):
+        raise ValueError('shared_duplicate_symbol_aliases_not_allowed')
     if type(config['initial_positions']) is not list:
         raise ValueError('shared_initial_positions_list_required')
     slots = set()
@@ -397,7 +404,9 @@ def _manifest(directory):
     value=parse_document(path.read_bytes())
     if set(value)!={'config','runtime','account_id'} or value['account_id']!=digest({k:v for k,v in value.items() if k!='account_id'}):
         raise ValueError('shared_account_manifest_identity_invalid')
-    validate_account_config(value['config'])
+    # Historical journals keep their original per-ID admission semantics.
+    # Reading cannot silently invalidate or rewrite previously committed bytes.
+    validate_account_config(value['config'], allow_historical_symbol_aliases=True)
     return value
 
 
@@ -468,6 +477,7 @@ def transact_shared_account(directory, *, operation_id, kind, at, payload):
     manifest=_manifest(directory)
     if manifest['config']['schema_version']!=ACCOUNT_SCHEMA:
         raise ValueError('shared_legacy_v1_account_is_read_only_original_bytes_retained')
+    validate_account_config(manifest['config'])
     runtime=build_runtime_provenance()
     if manifest['runtime']!=dict(source_sha256=runtime['source_identity']['content_sha256'],dependencies=runtime['environment_verified']):
         raise ValueError('shared_mutation_requires_original_code_and_dependencies')
@@ -493,6 +503,7 @@ def describe_shared_account(directory):
     legacy=manifest['config']['schema_version']==LEGACY_ACCOUNT_SCHEMA
     return dict(schema_version='synthetic-shared-account-view-v2',account_id=manifest['account_id'],evidence_kind='SYNTHETIC_TEST',currency='USD',
         account_schema_version=manifest['config']['schema_version'],legacy_read_only=legacy,
+        symbol_aliases_read_only=_symbol_aliases(manifest['config']),
         clock_policy='LEGACY_V1_REPLAY_ONLY' if legacy else 'ONLY_EXPLICIT_MARK_ADVANCES_CLOCK',
         competition=COMPETITION,limits=deepcopy(manifest['config']['limits']),state=state,sequence=len(receipts),receipt_head=head,
         cash=state['cash'],reserved_cash=str(_reserved(state)),available_cash=str(_d(state['cash'])-_reserved(state)),
