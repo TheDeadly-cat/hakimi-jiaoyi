@@ -74,8 +74,8 @@ from hakimi_research.shared_signals import step_shared_tasks
 root=Path(sys.argv[1]);w=root/'inputs';init=initialize_demo(w);e=init['input_examples'];snapshot=next((w/'data').glob('equity_dataset_*.json'))
 context=Path(import_content_packet(e['packet'],w,event_id=e['event_id'],texts_dir=e['texts_dir'],originals_dir=e['originals_dir'],synthetic=True)['path'])
 tasks=[]
-for i,entry in enumerate(strategies()):
- key=entry['key'];opts=dict(snapshot=snapshot,strategy=key,score_start='2024-11-11',score_end='2024-12-03',fee_rate=0,slippage_pct=0)
+for i,key in enumerate(strategies()):
+ opts=dict(snapshot=snapshot,strategy=key,score_start='2024-11-11',score_end='2024-12-03',fee_rate=0,slippage_pct=0)
  if key=='price.buy_and_hold@1':opts['params']=dict(target_position_pct=.8)
  elif key.startswith('content.'):
   opts.update(params=dict(position_pct=.8,stop_loss_pct=.03,take_profit_pct=.06),event_context=context)
@@ -89,7 +89,7 @@ create_shared_account(root/'account',config)
 with patch('hakimi_research.offline_app.run_strategy',side_effect=AssertionError('independent backtest')):
  r=step_shared_tasks(root/'account',tasks,operation_id='all-five',at=config['as_of'])
 assert len(r['outcome']['decisions'])==5
-print(json.dumps([entry['key'] for entry in strategies()]))
+print(json.dumps(list(strategies())))
 '''
     keys=json.loads(run([python,'-I','-X','utf8','-B','-c',adapters,str(outside/'shared-all-five')],echo=False))
     processes=r'''import json,os,sys,time,subprocess
