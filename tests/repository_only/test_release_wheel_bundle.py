@@ -124,6 +124,34 @@ class ReleaseWheelBundleTests(unittest.TestCase):
                     self.assertFalse(target.exists())
                     self.assertEqual(Path(receipt['wheel']).read_bytes(), original)
 
+    def test_content_boundary_export_rejects_missing_paths_private_fields_and_repeat_economics(self):
+        # These are exporter schema fixtures, never installed proof.
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);receipt=fixture(root)
+            keys=['price.dual_ma@1','price.buy_and_hold@1','event.earnings_schedule@1',
+                'content.price_confirmation@1','content.reviewed_outlook@1']
+            flags=['actual_cold_legacy_menu','normal_content_readable','legal_zero_fill_readable',
+                'blocked_content_readable','protective_exit_readable','reads_forbid_engines',
+                'original_reports_unchanged','rejected_copies_unchanged']
+            workflow=dict(schema_version='installed-content-boundary-workflow-v1',status='PASS',operator='AGENT',
+                data_kind='SYNTHETIC_TEST',**{k:True for k in flags},checkout_data_used=False,historical_reports_modified=False,
+                **{k:0 for k in ['view_recovery_compare_new_economic_runs','provider_calls','account_calls','order_calls']},
+                menu_tasks=[dict(strategy=k,configuration_checked=True,run_view_checked=True) for k in keys],
+                rehashed_bad_copy_rejections=[dict(case=c,command=v,status='STOPPED',reason='contract_rejected')
+                    for c in ['symbol','fill_time','signal_time','fill_basis','wrong-opportunity','duplicate','filtered']
+                    for v in ['report','recover','compare']])
+            receipt['content_boundary_installed_workflow']=workflow
+            BUNDLE.export_bundle(receipt,root/'valid-content')
+            self.assertEqual(json.loads((root/'valid-content/installed-content-boundary.json').read_bytes()),workflow)
+            changes=[lambda w:w['rehashed_bad_copy_rejections'].pop(),lambda w:w['menu_tasks'].pop(),
+                lambda w:w.update(local_path=str(root)),lambda w:w.update(view_recovery_compare_new_economic_runs=1),
+                lambda w:w.update(reads_forbid_engines=False),
+                lambda w:w['rehashed_bad_copy_rejections'][0].update(reason='C:/Users/PRIVATE_USER/error')]
+            for i,change in enumerate(changes):
+                bad=deepcopy(receipt);change(bad['content_boundary_installed_workflow']);target=root/f'bad-content-{i}'
+                with self.subTest(i=i),self.assertRaises(ValueError):BUNDLE.export_bundle(bad,target)
+                self.assertFalse(target.exists())
+
     def test_changed_wheel_or_mismatched_source_cannot_export(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

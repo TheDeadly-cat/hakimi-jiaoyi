@@ -140,7 +140,7 @@ class OfflineAppTests(unittest.TestCase):
         csv.write_bytes(resources.joinpath('trade-demo.csv').read_bytes())
         metadata.write_bytes(resources.joinpath('trade-demo-import.json').read_bytes())
         empty=self.root/'normal-user'
-        inputs=['9',str(csv),str(metadata),'10','1','2','','baseline','2','1','3','1','0']
+        inputs=['9',str(csv),str(metadata),'10','1','2',*(['']*6),'baseline','2','1','3','1','0']
         with patch('builtins.input',side_effect=inputs),redirect_stdout(io.StringIO()) as output:
             self.assertEqual(wizard(empty),0)
         self.assertTrue((empty/'tasks/baseline.json').is_file())

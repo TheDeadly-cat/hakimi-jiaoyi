@@ -198,6 +198,29 @@ def export_bundle(receipt: dict, output_dir: Path, *, ci_context: dict | None = 
             if 'expected_reason' in row:
                 _require(type(row['expected_reason']) is str and re.fullmatch(r'[a-z0-9_]+',row['expected_reason']), 'input rejection receipt must omit local paths')
         files['installed-input-workflow.json'] = _json_bytes(workflow)
+    if 'content_boundary_installed_workflow' in receipt:
+        workflow = receipt['content_boundary_installed_workflow']
+        true_fields = {'actual_cold_legacy_menu','normal_content_readable','legal_zero_fill_readable',
+            'blocked_content_readable','protective_exit_readable','reads_forbid_engines','original_reports_unchanged','rejected_copies_unchanged'}
+        false_fields = {'checkout_data_used','historical_reports_modified'}
+        zero_fields = {'view_recovery_compare_new_economic_runs','provider_calls','account_calls','order_calls'}
+        headers = {'schema_version','status','operator','data_kind','menu_tasks','rehashed_bad_copy_rejections'}
+        _require(set(workflow)==headers|true_fields|false_fields|zero_fields, 'content boundary receipt shape changed')
+        _require(workflow['schema_version']=='installed-content-boundary-workflow-v1' and workflow['status']=='PASS'
+            and workflow['operator']=='AGENT' and workflow['data_kind']=='SYNTHETIC_TEST', 'content boundary workflow not proven')
+        _require(all(workflow[k] is True for k in true_fields) and all(workflow[k] is False for k in false_fields)
+            and all(type(workflow[k]) is int and workflow[k]==0 for k in zero_fields), 'content boundary proof incomplete')
+        keys = ['price.dual_ma@1','price.buy_and_hold@1','event.earnings_schedule@1','content.price_confirmation@1','content.reviewed_outlook@1']
+        _require(type(workflow['menu_tasks']) is list and [r.get('strategy') for r in workflow['menu_tasks']]==keys, 'legacy menu strategy coverage incomplete')
+        _require(all(set(r)=={'strategy','configuration_checked','run_view_checked'} and r['configuration_checked'] is True
+            and r['run_view_checked'] is True for r in workflow['menu_tasks']), 'legacy menu task receipt invalid')
+        cases = {'symbol','fill_time','signal_time','fill_basis','wrong-opportunity','duplicate','filtered'}
+        rows = workflow['rehashed_bad_copy_rejections']
+        _require(type(rows) is list and len(rows)==21, 'content rejection coverage incomplete')
+        _require({(r.get('case'),r.get('command')) for r in rows}=={(c,v) for c in cases for v in ['report','recover','compare']}, 'content rejection paths incomplete')
+        _require(all(set(r)=={'case','command','status','reason'} and r['status']=='STOPPED'
+            and type(r['reason']) is str and re.fullmatch(r'[a-z_]+',r['reason']) for r in rows), 'content rejection receipt must omit local paths')
+        files['installed-content-boundary.json'] = _json_bytes(workflow)
     files["SHA256SUMS.txt"] = "".join(f"{_sha(data)}  {name}\n" for name, data in sorted(files.items())).encode()
     output_dir = Path(output_dir)
     _require(not output_dir.exists(), "public bundle destination already exists")

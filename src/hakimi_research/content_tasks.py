@@ -21,7 +21,7 @@ from .documents import canonical_bytes, digest, parse_document
 from .environment import build_runtime_provenance
 from .equity_dataset import EquitySnapshot, verify_equity_snapshot
 from .equity_events import build_equity_event, event_snapshot_eligibility, select_event_versions
-from .equity_research import PERMISSIONS, _SessionEngine, _projection
+from .equity_research import PERMISSIONS, _SessionEngine, _projection, _verify_equity_fills
 from .models import Signal
 from .risk import RiskManager
 from .strategies.base import StrategyBase
@@ -357,7 +357,41 @@ def verify_content_report(document, snapshot):
     expected = [pd.Timestamp(s['close_utc']) + pd.Timedelta(seconds=60) for s in data['sessions'][first - 1:last - 1]]
     if [pd.Timestamp(r['time']) for r in value['result']['signals']] != expected:
         raise ValueError('content_report_signal_availability_mismatch')
+    _verify_equity_fills(value['result'], data, first, last, expected)
+    _verify_content_execution(value['result'], plan, data['sessions'][first:last])
     return value
+
+
+def _verify_content_execution(result, plan, sessions):
+    """Bind saved intents/fills to the one admitted opportunity, without replay."""
+    opens = {pd.Timestamp(s['open_utc']) for s in sessions}
+    entry = next((r for r in plan if r['action'] == 'BUY' and pd.Timestamp(r['execution_at']) in opens), None)
+    decision = pd.Timestamp(entry['decision_at']) if entry is not None else None
+    execution = pd.Timestamp(entry['execution_at']) if entry is not None else None
+    for signal in result['signals']:
+        expected = 'BUY' if decision is not None and pd.Timestamp(signal['time']) == decision else 'HOLD'
+        if signal['action'] != expected:
+            raise ValueError('content_report_signal_not_bound_to_plan')
+    if type(result['fill_count']) is not int or result['fill_count'] != len(result['fills']):
+        raise ValueError('content_report_fill_count_mismatch')
+    bought = exited = False
+    previous = None
+    for fill in result['fills']:
+        at, signal_at = pd.Timestamp(fill['fill_time']), pd.Timestamp(fill['signal_time'])
+        if previous is not None and at < previous:
+            raise ValueError('content_report_fill_order_invalid')
+        previous = at
+        if fill['action'] == 'BUY':
+            if bought or entry is None or at != execution or signal_at != decision or fill['fill_basis'] != 'NEXT_BAR_OPEN':
+                raise ValueError('content_report_buy_not_bound_to_plan')
+            bought = True
+        elif fill['action'] == 'SELL':
+            if (not bought or exited or signal_at != at
+                    or fill['fill_basis'] not in {'GAP_OPEN', 'OPEN_TARGET', 'INTRABAR_STOP', 'INTRABAR_TARGET'}):
+                raise ValueError('content_report_exit_not_protective_or_without_entry')
+            exited = True
+        else:
+            raise ValueError('content_report_fill_action_invalid')
 
 
 def replay_content_report(snapshot, report):

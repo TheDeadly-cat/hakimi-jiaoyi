@@ -1,0 +1,48 @@
+{
+  "schema_version": "m2-content-p2-installed-dev5-reproduction-v1",
+  "status": "BOTH_P2_REPRODUCED",
+  "operator": "AGENT",
+  "data_kind": "SYNTHETIC_TEST",
+  "upstream_stubs_used": false,
+  "installed_source": "8c85724cdf8f1d487d07b932de6a56fd36efd6fa0b794cfcbbafdf1becaf3a86",
+  "installed_build": {
+    "commit": "51b0f170f201c9ba62c9cae2e263efad123b212c",
+    "status": "CLEAN"
+  },
+  "fill_rejections_missing": [
+    {
+      "field": "fill_time",
+      "status": "ACCEPTED_INVALID_REHASHED_COPY"
+    },
+    {
+      "field": "symbol",
+      "status": "ACCEPTED_INVALID_REHASHED_COPY"
+    },
+    {
+      "field": "signal_time",
+      "status": "ACCEPTED_INVALID_REHASHED_COPY"
+    },
+    {
+      "field": "fill_basis",
+      "status": "ACCEPTED_INVALID_REHASHED_COPY"
+    }
+  ],
+  "menu_reproductions": [
+    {
+      "strategy": 4,
+      "status": "CONTENT_TASK_PARAMETER_REJECTION_REPRODUCED",
+      "log_sha256": "2ddf1aaab754fa14b7cd358aef2028358de4b924e4f2cacc3e0a0a3e8698b495"
+    },
+    {
+      "strategy": 5,
+      "status": "CONTENT_TASK_PARAMETER_REJECTION_REPRODUCED",
+      "log_sha256": "2ddf1aaab754fa14b7cd358aef2028358de4b924e4f2cacc3e0a0a3e8698b495"
+    }
+  ],
+  "original_report_unchanged": true,
+  "original_report_sha256": "49817b436106495106d1e7f6bf4e623fd5b12049a285bebe3f5d00b4ad742f20",
+  "historical_reports_modified": false,
+  "provider_calls": 0,
+  "account_calls": 0,
+  "order_calls": 0
+}

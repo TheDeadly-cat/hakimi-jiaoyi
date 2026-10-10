@@ -258,6 +258,19 @@ def _verify_event_reviews(result, policy, sessions):
             raise ValueError("equity_event_blocked_buy_must_not_fill")
 
 
+def _verify_equity_fills(result, dataset, first, last, expected_signals):
+    """Shared security/session/basis/signal boundary; no economic calculation."""
+    opens = {pd.Timestamp(row["open_utc"]) for row in dataset["sessions"][first:last]}
+    prior_availability = dict(zip((pd.Timestamp(row["open_utc"]) for row in dataset["sessions"][first:last]), expected_signals))
+    for fill in result["fills"]:
+        at = pd.Timestamp(fill["fill_time"])
+        if (fill["fill_basis"] not in {"NEXT_BAR_OPEN", "GAP_OPEN", "OPEN_TARGET", "INTRABAR_STOP", "INTRABAR_TARGET"}
+                or at not in opens or fill["symbol"] != dataset["security"]["symbol"]
+                or (fill["fill_basis"] == "NEXT_BAR_OPEN" and (
+                    pd.Timestamp(fill["signal_time"]) != prior_availability[at] or prior_availability[at] >= at))):
+            raise ValueError("equity_fill_before_signal_or_outside_session")
+
+
 def verify_equity_report(document):
     value = parse_document(canonical_bytes(document))
     fields = {"schema_version", "spec", "spec_hash", "dataset", "scoring_protocol", "result", "result_hash",
@@ -297,15 +310,7 @@ def verify_equity_report(document):
     if [pd.Timestamp(row["time"]) for row in result["signals"]] != expected_signals:
         raise ValueError("equity_report_signal_availability_mismatch")
     _verify_event_reviews(result, policy, dataset["sessions"][first:last])
-    opens = {pd.Timestamp(row["open_utc"]) for row in dataset["sessions"][first:last]}
-    prior_availability = dict(zip((pd.Timestamp(row["open_utc"]) for row in dataset["sessions"][first:last]), expected_signals))
-    for fill in result["fills"]:
-        at = pd.Timestamp(fill["fill_time"])
-        if (fill["fill_basis"] not in {"NEXT_BAR_OPEN", "GAP_OPEN", "OPEN_TARGET", "INTRABAR_STOP", "INTRABAR_TARGET"}
-                or at not in opens or fill["symbol"] != dataset["security"]["symbol"]
-                or (fill["fill_basis"] == "NEXT_BAR_OPEN" and (
-                    pd.Timestamp(fill["signal_time"]) != prior_availability[at] or prior_availability[at] >= at))):
-            raise ValueError("equity_fill_before_signal_or_outside_session")
+    _verify_equity_fills(result, dataset, first, last, expected_signals)
     return value
 
 

@@ -1,14 +1,14 @@
 # 哈基米交易：离线量化工具候选
 
-M1、M2-1 与 R1／R2／R3 已结案，当前 main 基线为 `4732bcc`；PR #21 已合并。当前 M2-2 候选为 **`0.4.0.dev5`**，提供统一离线输入、任务版本绑定与既有规则的正常入口，见[输入流程](input-workflow.md)和[PR #22 的候选验收](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)。同一 wheel 仓库外 253 项和实际输入流程通过；PR #22 尚未合入 main。旧 M2 dev4／dev3／dev2 与 M1 回执保留，正式 Release 仍为 v0.2.1。
+M1、M2-1 与 R1／R2／R3 已结案，当前 main 基线为 `57b6bd4`；PR #22 已合并。当前 M2-2 候选为 **`0.4.0.dev6`**，提供统一离线输入、任务版本绑定与既有规则的正常入口，见[输入流程](input-workflow.md)和[PR #22 的候选验收](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)。原 dev5 同一 wheel 仓库外 253 项和实际输入流程通过；PR #22 已集成，原 dev5 同一 wheel 的通过范围保留；后续报告校验和菜单参数两项 P2 由新候选修复，安装、交付与集成待验收，见[修复记录](research-evidence/content-report-p2-20261010/README.md)。旧 M2 dev4／dev3／dev2 与 M1 回执保留，正式 Release 仍为 v0.2.1。
 
-当前候选使用可安装的 `hakimi-trade` 入口，包名仍为 `hakimi-research`，版本为 `0.4.0.dev5`。原价格／排期策略保持原规则与身份；两个财报内容入口复用既有 C/D 条件，全部沿用同一成交、风控和账本。旧 AMD／NVIDIA 研究、预算与原件保留。
+当前候选使用可安装的 `hakimi-trade` 入口，包名仍为 `hakimi-research`，版本为 `0.4.0.dev6`。原价格／排期策略保持原规则与身份；两个财报内容入口复用既有 C/D 条件，全部沿用同一成交、风控和账本。旧 AMD／NVIDIA 研究、预算与原件保留。
 
 ## 安装与第一次使用
 
 Python 包支持 3.11 或以上；本轮 Windows x64 离线候选附带的 NumPy／pandas 依赖轮子使用 **CPython 3.14**，该候选应由 Python 3.14 安装。使用同一份受验收 wheel 和锁定依赖，普通安装到仓库外虚拟环境。不能用 editable 安装替代首次使用验收，也不借用仓库 `src` 或设置 `PYTHONPATH`。
 
-本轮 M2-2 下载目录为 `Hakimi-M2-dev5-Inputs-20261010`。使用“开始使用.cmd”，或将候选 ZIP 解压到新目录后双击 `Start-Hakimi.cmd`，只从包内 wheelhouse 安装并核对身份。可先在主菜单 1 创建虚构示例，再用 16 输入中心导入、检查和绑定；2 检查、3 运行、4 看结果、14 比较、5 重放。M2-1 存档目录 `Hakimi-M2-dev4-R3-20261010` 保留。
+本轮 M2-2 下载目录为 `Hakimi-M2-dev6-ReportFix-20261010`。使用“开始使用.cmd”，或将候选 ZIP 解压到新目录后双击 `Start-Hakimi.cmd`，只从包内 wheelhouse 安装并核对身份。可先在主菜单 1 创建虚构示例，再用 16 输入中心导入、检查和绑定；2 检查、3 运行、4 看结果、14 比较、5 重放。M2-1 存档目录 `Hakimi-M2-dev4-R3-20261010` 保留。
 
 M1 存档候选为 0.3.0.dev4，历史下载目录 `Hakimi-M1-dev4-20261009-e10cbb02` 的“开始使用.cmd”启动。209 项安装后检查，以及默认／同盘外部／实际跨盘的菜单退出重开、查看、重放与历史恢复已通过；身份和范围见[最新修复与交付记录](research-evidence/offline-product-m1-p2-20261009/README.md)。旧 `Hakimi-M1-dev3-20261006-e0f27a10` 的 dev3 包、201 项检查和首用证据与更早 dev2 包保留原身份。新包实际首用由代理完成，不声称用户人工验收；NVIDIA 原报告的阅读反馈只支持该报告。
 
@@ -17,7 +17,7 @@ M1 存档候选为 0.3.0.dev4，历史下载目录 `Hakimi-M1-dev4-20261009-e10c
 ```powershell
 python -m venv .\runtime
 .\runtime\Scripts\python.exe -m pip install --no-index --find-links .\wheelhouse --requirement .\requirements.research.lock
-.\runtime\Scripts\python.exe -m pip install --no-deps .\research\hakimi_research-0.4.0.dev5-py3-none-any.whl
+.\runtime\Scripts\python.exe -m pip install --no-deps .\research\hakimi_research-0.4.0.dev6-py3-none-any.whl
 .\runtime\Scripts\hakimi-trade.exe wizard --workspace .\workspace
 ```
 
