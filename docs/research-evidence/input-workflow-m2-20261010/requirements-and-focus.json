@@ -1,0 +1,36 @@
+{
+  "schema_version": "m2-input-requirement-scope-v1",
+  "base": "4732bcc1e924414b7b15c29b6444900cff894bc1",
+  "feature_build_head": "51b0f170f201c9ba62c9cae2e263efad123b212c",
+  "objective_sha256": "af1657004bb8effd5084f9d5a1ff4ea7bc7846e81cff6348629f5037d186e1c3",
+  "user_rule_scope": "BOTH_SCHEDULE_FILTER_AND_REVIEWED_CONTENT_PREDICATES",
+  "deliverables": [
+    "EXISTING_INPUT_IMPORT_SELECT_CHECK_BIND",
+    "IMMUTABLE_SOURCE_SECURITY_TIME_VERSION_BINDING",
+    "EXISTING_RULES_IN_NORMAL_INSTALLED_FLOW",
+    "INSTALLED_IMPORT_CHECK_BIND_RUN_COMPARE_REOPEN_MIGRATE_REPLAY"
+  ],
+  "preserved_closed": [
+    "M1",
+    "M2-1",
+    "R1",
+    "R2",
+    "R3"
+  ],
+  "input_test_log_sha256": {
+    "focused-inputs-20261010T071354224.log": "dc40340acacbb4a4160712cc02959f38ea2e43064608139d91a77a29b9a98223",
+    "focused-inputs-20261010T071708082.log": "457ffb68d2806e115490cc2afc10634a6480a792fc351943b73112a8e94cf3b8",
+    "focused-test_input_workflow-20261010T155100255830.log": "bdc7dda16cac4a67b19f617d5750f66d11f8684516808ebec99441730649128d",
+    "focused-test_input_workflow-20261010T155154801458.log": "1d9b3b96c46ee8e23d4858d0c58f7946329d32ac52c656075ef42d6f2a74287e",
+    "focused-test_release_wheel_bundle-20261010T155251589518.log": "b0afdd7ae9ebdd0f6d5eca6d21d7c54cd6909ea707f0d48a99472b362ef1e173",
+    "focused-test_strategy_switching-20261010T155217671074.log": "0f65f34635d713df35a3169b39e989695b8bde32f0ca4426dcc54fd064878d91",
+    "focused-test_supervised_preview-20261010T155252044603.log": "e682b6f46956320e48bb6e4bd404f014b7d09bc5f4ece5c5f359deaa99621bd8"
+  },
+  "old_research_reruns": 0,
+  "provider_calls": 0,
+  "account_calls": 0,
+  "order_calls": 0,
+  "canonical_core_changes": false,
+  "formal_release_changed": false,
+  "new_main_merge_authorized": false
+}

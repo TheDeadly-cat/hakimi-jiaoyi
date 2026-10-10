@@ -1,0 +1,41 @@
+{
+  "schema_version": "m2-input-delivered-launcher-first-use-v1",
+  "status": "PASS",
+  "operator": "AGENT",
+  "wheel_sha256": "b935fde7b4369e8900ccabddcab5817fa68f59b0191e0585fff6b9cc669d8c20",
+  "zip_sha256": "f55c4a08bdbac88f491f51ec1ef4b44c2ac54aa21b441de751790c7c605ed208",
+  "product_profile": "M2_2_OFFLINE_QUANT_TOOL",
+  "entry": "开始使用.cmd",
+  "verification_trial": 3,
+  "fresh_archive_unpacked": true,
+  "actual_offline_install": true,
+  "actual_identity_check": true,
+  "actual_input_menu_opened": true,
+  "exit_code": 0,
+  "identity": {
+    "version": "0.4.0.dev5",
+    "source_sha256": "8c85724cdf8f1d487d07b932de6a56fd36efd6fa0b794cfcbbafdf1becaf3a86",
+    "build_git": {
+      "commit": "51b0f170f201c9ba62c9cae2e263efad123b212c",
+      "status": "CLEAN"
+    },
+    "source_status": "BUILD_VERIFIED",
+    "environment_status": "VERIFIED"
+  },
+  "delivered_entry_reopened": true,
+  "delivered_entry_reopen_exit_code": 0,
+  "packaged_input_guide_alias_resolves": true,
+  "editable": false,
+  "pythonpath_used": false,
+  "system_site_packages": false,
+  "human_review_claimed": false,
+  "new_economic_runs": 0,
+  "provider_calls": 0,
+  "account_calls": 0,
+  "order_calls": 0,
+  "capture_encoding": "gbk",
+  "two_failed_capture_trials_preserved": true,
+  "production_runtime_changed_for_capture": false,
+  "log_sha256": "99a9d7b17cb2d0243551e08526737b3120292dbd2faab4aeb22cfd3010aeddb4",
+  "reopen_log_sha256": "33e98f8d7eb355fc3eece836fbab29845b5da940e3101abcb1752224bfb48510"
+}

@@ -55,4 +55,4 @@ hakimi-trade task-revise --task .\workspace\tasks\my-strategy --strategy price.d
 hakimi-trade task-revise --task .\workspace\tasks\my-strategy --strategy price.buy_and_hold@1 --parameters .\benchmark-parameters.json --risk .\benchmark-risk.json
 ```
 
-R3 存档 `0.4.0.dev4` 已通过 PR #21 合入 main，M2-1 与 R1／R2／R3 均结案。原 dev4／dev3／dev2 的包、构建与安装回执保持原身份。本轮 M2-2 `0.4.0.dev5` 的安装、首用与 CI 单独记录，不复用旧候选的通过结论。
+R3 存档 `0.4.0.dev4` 已通过 PR #21 合入 main，M2-1 与 R1／R2／R3 均结案。原 dev4／dev3／dev2 的包、构建与安装回执保持原身份。本轮 M2-2 `0.4.0.dev5` 的同一 wheel 已通过仓库外 253 项及实际输入流程；新候选首用与 CI 单独记录于 [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)，不复用旧候选的通过结论。

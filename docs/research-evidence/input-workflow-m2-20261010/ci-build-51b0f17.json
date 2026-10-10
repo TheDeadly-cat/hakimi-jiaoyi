@@ -1,0 +1,96 @@
+{
+  "schema_version": "m2-input-ci-evidence-v1",
+  "status": "PASS",
+  "run_id": 38036110148,
+  "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38036110148",
+  "event": "pull_request",
+  "reviewed_head": "51b0f170f201c9ba62c9cae2e263efad123b212c",
+  "actual_checkout_sha": "d5bcd40b735d3492b85423e18f9970a69aa861e8",
+  "checkout_tree": "6955c93fcedf3dd8335884a57f47379ef97d6bfc",
+  "checkout_tree_matches_reviewed_head": true,
+  "jobs": [
+    {
+      "name": "Electron capability contract",
+      "id": 114166749395,
+      "conclusion": "success"
+    },
+    {
+      "name": "Python contracts",
+      "id": 114166749535,
+      "conclusion": "success"
+    },
+    {
+      "name": "Deterministic references",
+      "id": 114166749541,
+      "conclusion": "success"
+    },
+    {
+      "name": "Historical developer reference replay",
+      "id": 114166749553,
+      "conclusion": "success"
+    },
+    {
+      "name": "Market-data renderer",
+      "id": 114166749564,
+      "conclusion": "success"
+    },
+    {
+      "name": "Offline research MVP contracts",
+      "id": 114166749604,
+      "conclusion": "success"
+    },
+    {
+      "name": "Package install smoke (windows-latest)",
+      "id": 114166749619,
+      "conclusion": "success"
+    },
+    {
+      "name": "Package install smoke (ubuntu-latest)",
+      "id": 114166749623,
+      "conclusion": "success"
+    },
+    {
+      "name": "Research required gate",
+      "id": 114167913061,
+      "conclusion": "success"
+    }
+  ],
+  "layers": [
+    {
+      "layer": "WINDOWS_INSTALLED",
+      "actual_checkout_sha": "d5bcd40b735d3492b85423e18f9970a69aa861e8",
+      "tests_run": 253,
+      "elapsed_seconds": 156.107,
+      "status": "PASS",
+      "log_sha256": "496bc9fcdc423ec4c0e0566738b2606408065ec30f7c9bce1a5a81bd46bfe528",
+      "input_workflow": "PASS",
+      "strategy_switch_workflow": "PASS",
+      "runtime_content_sha256": "8c85724cdf8f1d487d07b932de6a56fd36efd6fa0b794cfcbbafdf1becaf3a86",
+      "runtime_matches_local_accepted_wheel": true
+    },
+    {
+      "layer": "UBUNTU_INSTALLED",
+      "actual_checkout_sha": "d5bcd40b735d3492b85423e18f9970a69aa861e8",
+      "tests_run": 253,
+      "elapsed_seconds": 18.126,
+      "status": "PASS",
+      "log_sha256": "aba7e32978707fb997e367422dd0fb6a133abac021fa3f82424abe62cbacf73b",
+      "input_workflow": "PASS",
+      "strategy_switch_workflow": "PASS",
+      "runtime_content_sha256": "8c85724cdf8f1d487d07b932de6a56fd36efd6fa0b794cfcbbafdf1becaf3a86",
+      "runtime_matches_local_accepted_wheel": true
+    },
+    {
+      "layer": "WINDOWS_CHECKOUT_MVP",
+      "actual_checkout_sha": "d5bcd40b735d3492b85423e18f9970a69aa861e8",
+      "tests_run": 253,
+      "elapsed_seconds": 162.485,
+      "status": "PASS",
+      "log_sha256": "d13e5a330088e4e669cf7c92d3004027324b297d98c6ad48e00715d123bb5aac"
+    }
+  ],
+  "proof": "COMPLETED_JOB_LOGS_AND_GITHUB_COMMIT_TREES",
+  "local_accepted_wheel_build": "51b0f170f201c9ba62c9cae2e263efad123b212c",
+  "ci_wheel_is_same_local_wheel": false,
+  "not_main_integration": true
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": "m2-input-development-failures-v1",
+  "status": "PRESERVED_NOT_ACCEPTED",
+  "trials": [
+    {
+      "stage": "SOURCE_FOCUSED",
+      "tests_run": 5,
+      "failures": 0,
+      "errors": 2,
+      "reason": "Adapter StrategyBase.get called without required default",
+      "correction": "Pass explicit None defaults to existing StrategyBase.get; keep execution assertions",
+      "log_sha256": "dc40340acacbb4a4160712cc02959f38ea2e43064608139d91a77a29b9a98223"
+    },
+    {
+      "stage": "SOURCE_FOCUSED",
+      "tests_run": 12,
+      "failures": 1,
+      "errors": 0,
+      "reason": "Wrong-context negative fixture omitted usable MA parameters; warmup rejected first",
+      "correction": "Supply existing valid 2/4 fixture parameters; preserve wrong-context rejection assertion",
+      "log_sha256": "bdc7dda16cac4a67b19f617d5750f66d11f8684516808ebec99441730649128d"
+    }
+  ],
+  "full_wheel_trial": {
+    "build": "51b0f170f201c9ba62c9cae2e263efad123b212c",
+    "status": "PASS",
+    "tests_run": 253,
+    "elapsed_seconds": 146.545,
+    "exit_code": 0,
+    "log_sha256": "f0cca0c6bbd19dba914bc7fdc5f914753d4aab171c89a53834c21e861461d4ba"
+  },
+  "failed_trials_relabelled": false,
+  "old_artifacts_modified": false
+}

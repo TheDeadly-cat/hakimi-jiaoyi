@@ -23,10 +23,10 @@ M4 复用已有富途适配器及 SQLite 状态机，逐步衔接策略信号、
 
 当前开发基线为 PR #21 已合并的 main `4732bcc1e924414b7b15c29b6444900cff894bc1`，内容树与受审 `63adb41` 一致；[实际 main 九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38028969246)，Windows／Ubuntu 安装各 241 项及 R3 流程通过。M1、M2-1 和 R1／R2／R3 均已关闭。原 dev4／dev3／dev2 绑定各自构建和验收；正式 Release 仍为 v0.2.1。旧 r3、NVIDIA 两事件八次对照及阅读验收保持原身份。
 
-M1 已结案，进入 M2-1：候选 `0.4.0.dev2` 完成正常配置入口、不可变版本／启停和条件对照，同一产物完成仓库外 221 项安装后检查、实际启动器使用及整目录迁移／重放，首用为代理；构建 head 九项 CI 成功，见[候选验收](research-evidence/strategy-task-m2-20261009/README.md)和[任务说明](strategy-task-management.md)。多任务各自独立本金，不是共享资金组合；评分区间不因预热暗改，买入持有与主动策略的仓位／止损／退出差异必须显示。保持 Unknown／T3、旧观察、客服邮件和新监控原状态，不重跑已结案研究。主分支合并、正式发布和订单均需相应单独授权。
+2026-10-09 的 M2-1 存档：候选 `0.4.0.dev2` 完成正常配置入口、不可变版本／启停和条件对照，同一产物完成仓库外 221 项安装后检查、实际启动器使用及整目录迁移／重放，首用为代理；构建 head 九项 CI 成功，见[候选验收](research-evidence/strategy-task-m2-20261009/README.md)和[任务说明](strategy-task-management.md)。多任务各自独立本金，不是共享资金组合；评分区间不因预热暗改，买入持有与主动策略的仓位／止损／退出差异必须显示。保持 Unknown／T3、旧观察、客服邮件和新监控原状态，不重跑已结案研究。主分支合并、正式发布和订单均需相应单独授权。
 
 2026-10-09 配置检阅：M2-1 的结构与原 dev2 交付保留，当前限定修复 PR #20 的 R1 默认语义保持与 R2 数值提前拒绝；dev3 独立候选已完成仓库外 232 项检查、实际菜单／命令及启动器首用；构建 head 九项 CI 成功，最终 head 单独核对。见[配置修复验收](research-evidence/strategy-task-m2-config-20261009/README.md)，不回填 dev2，不扩展其他里程碑。
 
 2026-10-10：R3 独立补丁与主分支集成已完成，见[原 R3 记录](research-evidence/strategy-switch-r3-20261010/README.md)及 PR #21 集成说明。同策略语义、失败不提交、暂停及旧报告保持；不重开旧问题。
 
-当前进入 M2-2，开发候选 `0.4.0.dev5` 完善正常离线输入流程，见[输入使用说明](input-workflow.md)。复用公告排期过滤，以及原 C 价格确认／D 已核准下季指引条件；不替换旧 NVIDIA 研究协议。新增安装、首用及精确提交 CI 另行验收，统一同步日常状态；共享资金、券商执行与新监控不在本轮范围。
+当前进入 M2-2，[PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 候选 `0.4.0.dev5` 完成正常离线输入流程；同一 wheel 仓库外 253 项和实际输入流程通过，见[本轮证据](research-evidence/input-workflow-m2-20261010/README.md)与[输入使用说明](input-workflow.md)。复用公告排期过滤，以及原 C 价格确认／D 已核准下季指引条件；不替换旧 NVIDIA 研究协议。新候选构建、交付首用、最终 head CI 和 main 集成分别记录；共享资金、券商执行与新监控不在本轮范围。

@@ -6,7 +6,7 @@
 
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 M1 已交付并合入 main `17b2c15`（PR #19 受审 `669b348`），实际 main [九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005)。M1 存档候选为 `0.3.0.dev4`；正式 Release 仍为 `v0.2.1`。旧产物、失败记录与验收身份保留。
-M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/21) 集成，R1／R2／R3 均关闭；实际 main `4732bcc` 的[九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38028969246)。原 dev4 的 241 项、dev3 的 232 项与 dev2 原验收保留。本轮进入 **M2-2**，候选 `0.4.0.dev5` 提供统一离线输入中心、适用性检查、新版本绑定和既有排期／内容规则入口，见[输入使用说明](docs/input-workflow.md)与[任务说明](docs/strategy-task-management.md)。新候选的安装及对应提交 CI 另行验收。
+M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/21) 集成，R1／R2／R3 均关闭；实际 main `4732bcc` 的[九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38028969246)。本轮 **M2-2** [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 候选 `0.4.0.dev5` 提供统一离线输入中心、适用性检查、新版本绑定和既有排期／内容规则入口；同一 wheel 的仓库外 253 项及实际输入流程通过，见[本轮候选验收](docs/research-evidence/input-workflow-m2-20261010/README.md)、[输入使用说明](docs/input-workflow.md)与[任务说明](docs/strategy-task-management.md)。候选构建、最终 head CI 和 main 集成分别记录；原 dev4／dev3／dev2 验收保留。
 0.3.0.dev4 已修复初始化互斥、中断重试和外部历史三项流程问题；同一新产物完成全新 Windows 仓库外安装、209 项安装后检查及默认／同盘外部／真实跨盘菜单退出重开、查看、重放和恢复。菜单直接展示费用、损益、持仓与信号原因；实际首用由代理完成，未声称新包人工验收。旧 dev3 的 201 项检查、首用和产物及更早 dev2 证据原样保留。见[最新修复与交付记录](docs/research-evidence/offline-product-m1-p2-20261009/README.md)。
 两个市场复用同一成交与记账引擎，快照、交易日历及报告分别保存明确的格式与身份。
 历史模拟不授予 paper、live、账户操作、下单或自动参数选择权限。

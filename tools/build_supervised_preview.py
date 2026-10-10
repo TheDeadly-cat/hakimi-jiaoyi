@@ -161,6 +161,7 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
         guide = 'docs/input-workflow.md' if milestone=='M2_2' else 'docs/strategy-task-management.md' if milestone=='M2_1' else 'docs/offline-quant-tool.md'
         content['README.md'] = (root/guide).read_bytes()
         if milestone=='M2_2':
+            content['input-workflow.md'] = content['README.md']
             for name in ['strategy-task-management.md','offline-quant-tool.md']:
                 content[name] = (root/'docs'/name).read_bytes()
         wheels = list(wheelhouse.glob("*.whl"))

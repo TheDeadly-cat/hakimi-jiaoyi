@@ -1,0 +1,12 @@
+{
+  "accepted_wheel_sha256": "b935fde7b4369e8900ccabddcab5817fa68f59b0191e0585fff6b9cc669d8c20",
+  "formal_release_changed": false,
+  "product": {
+    "archive": "supervised-research-b289f46e9afabb025bb6f6be5e6633603a219b5d07abb8f33cdc5f1e3c5f8ca9.zip",
+    "archive_sha256": "f55c4a08bdbac88f491f51ec1ef4b44c2ac54aa21b441de751790c7c605ed208",
+    "build_id": "supervised-research-b289f46e9afabb025bb6f6be5e6633603a219b5d07abb8f33cdc5f1e3c5f8ca9",
+    "directory": "supervised-research-b289f46e9afabb025bb6f6be5e6633603a219b5d07abb8f33cdc5f1e3c5f8ca9"
+  },
+  "schema_version": "M2_2-offline-product-delivery-v1",
+  "scope": "EXACT_ACCEPTED_WHEEL_OFFLINE_TOOL_CANDIDATE_NOT_BROKER_OR_STRATEGY_ADMISSION"
+}

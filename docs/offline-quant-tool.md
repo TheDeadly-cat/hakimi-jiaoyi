@@ -1,6 +1,6 @@
 # 哈基米交易：离线量化工具候选
 
-M1、M2-1 与 R1／R2／R3 已结案，当前 main 基线为 `4732bcc`；PR #21 已合并。当前 M2-2 开发候选为 **`0.4.0.dev5`**，完善统一离线输入、任务版本绑定与既有规则的正常使用入口，见[输入流程](input-workflow.md)和[任务使用说明](strategy-task-management.md)。新候选的安装验收另记；旧 M2 dev4／dev3／dev2 与 M1 回执保留。正式 Release 仍为 v0.2.1。
+M1、M2-1 与 R1／R2／R3 已结案，当前 main 基线为 `4732bcc`；PR #21 已合并。当前 M2-2 候选为 **`0.4.0.dev5`**，提供统一离线输入、任务版本绑定与既有规则的正常入口，见[输入流程](input-workflow.md)和[PR #22 的候选验收](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)。同一 wheel 仓库外 253 项和实际输入流程通过；PR #22 尚未合入 main。旧 M2 dev4／dev3／dev2 与 M1 回执保留，正式 Release 仍为 v0.2.1。
 
 当前候选使用可安装的 `hakimi-trade` 入口，包名仍为 `hakimi-research`，版本为 `0.4.0.dev5`。原价格／排期策略保持原规则与身份；两个财报内容入口复用既有 C/D 条件，全部沿用同一成交、风控和账本。旧 AMD／NVIDIA 研究、预算与原件保留。
 

@@ -1,0 +1,13 @@
+{
+  "schema_version": "m2-input-first-use-capture-failure-v1",
+  "status": "VERIFIER_CAPTURE_ENCODING_FAILED",
+  "verifier_exit_code": 1,
+  "entry_process_exit_code": "NOT_RETAINED_IN_FAILED_VERIFIER",
+  "cause": "Windows redirected Python stdout used locale encoding; verifier decoded UTF8 with replacements",
+  "correction": "Retain failed capture; fresh unpack and installation with UTF8 capture environment and strict decoding",
+  "log_sha256": "cbadf38b20934368a6c915250b10ce051966e527c4bdee2a8c0d7e9b55f42517",
+  "log_scope": "DECODED_WITH_REPLACEMENTS_NOT_ORIGINAL_PROCESS_BYTES",
+  "wheel_sha256": "b935fde7b4369e8900ccabddcab5817fa68f59b0191e0585fff6b9cc669d8c20",
+  "accepted_first_use": false,
+  "production_runtime_changed": false
+}
