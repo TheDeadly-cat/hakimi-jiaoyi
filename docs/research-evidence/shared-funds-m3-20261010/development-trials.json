@@ -1,0 +1,37 @@
+{
+  "schema_version": "m3-development-trials-v1",
+  "data_kind": "SYNTHETIC_TEST",
+  "scope": "SOURCE_FOCUSED_NOT_INSTALLED_PROOF",
+  "prior_failures_preserved": [
+    {
+      "trial": "shared-account-trial1",
+      "tests_run": 14,
+      "errors": 1,
+      "reason": "Test corruption helper left SQLite handle open; explicit close fixed Windows temporary cleanup."
+    },
+    {
+      "trial": "shared-signals-trial1",
+      "tests_run": 6,
+      "errors": 1,
+      "reason": "Next-session test used 107 but packaged fixture open is 103; derive quote from sealed snapshot, exact-mark gate preserved."
+    },
+    {
+      "trial": "shared-source-trial3",
+      "tests_run": 26,
+      "failures": 1,
+      "reason": "CLI assertion expected ALREADY_RECORDED after account-state source changed; DUPLICATE_SIGNAL correctly prevented new reservation. Assertion now checks that outcome."
+    },
+    {
+      "trial": "wheel-acceptance-9828aba-trial1",
+      "status": "FAILED_BEFORE_FULL_INSTALLED_TESTS",
+      "wheel_sha256": "37496bdd4847ef7ba69d7e26054b431d7631971841101c9c10007654c62636aa",
+      "build_commit": "9828abadcc9b499be41f3c2c228f41b3b742ffe1",
+      "reason": "Installed harness iterated strategy registry dictionary as list entries; all-five segment stopped. Fixed harness uses registry keys. No accepted bundle exported.",
+      "ci_run_id": 38051755250,
+      "ubuntu_failure_confirmed": true
+    }
+  ],
+  "broker_order_calls": 0,
+  "external_account_calls": 0,
+  "provider_calls": 0
+}

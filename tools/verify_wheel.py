@@ -180,6 +180,9 @@ def main() -> None:
     from verify_content_boundary_workflow import verify_content_boundary_workflow
     content_boundary = verify_content_boundary_workflow(trade_command, python, run, env=clean_env, outside=outside)
     print('Installed content-boundary workflow: ' + content_boundary['status'], flush=True)
+    from verify_shared_workflow import verify_shared_workflow
+    shared_workflow = verify_shared_workflow(trade_command, python, run, env=clean_env, outside=outside)
+    print('Installed shared-funds workflow: ' + shared_workflow['status'], flush=True)
     tests = outside / "tests"
     shutil.copytree(root / "tests", tests, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     # The independent Decimal reconciler is a test/audit sidecar, not a runtime
@@ -233,6 +236,7 @@ def main() -> None:
         "strategy_switch_installed_workflow": strategy_switch_workflow,
         "input_workflow_installed_workflow": input_workflow,
         "content_boundary_installed_workflow": content_boundary,
+        "shared_funds_installed_workflow": shared_workflow,
     }
     receipt_path = work / "wheel-acceptance.json"
     receipt_path.write_text(json.dumps(receipt, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")

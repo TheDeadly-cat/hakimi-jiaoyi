@@ -1,0 +1,105 @@
+{
+  "schema_version": "m3-exact-pr-ci-verification-v1",
+  "status": "PASS",
+  "run_id": 38052188722,
+  "event": "pull_request",
+  "reviewed_head": "d6c99ef76d5f3666e9f46935b3245eb33f06c513",
+  "all_nine_success": true,
+  "head_tree": "ede37a31bf0511b395cfa4988e84219b59ecde19",
+  "jobs": [
+    {
+      "name": "Offline research MVP contracts",
+      "job_id": 114213379543,
+      "conclusion": "success"
+    },
+    {
+      "name": "Package install smoke (windows-latest)",
+      "job_id": 114213379559,
+      "conclusion": "success"
+    },
+    {
+      "name": "Electron capability contract",
+      "job_id": 114213379645,
+      "conclusion": "success"
+    },
+    {
+      "name": "Python contracts",
+      "job_id": 114213379656,
+      "conclusion": "success"
+    },
+    {
+      "name": "Deterministic references",
+      "job_id": 114213379658,
+      "conclusion": "success"
+    },
+    {
+      "name": "Package install smoke (ubuntu-latest)",
+      "job_id": 114213379672,
+      "conclusion": "success"
+    },
+    {
+      "name": "Historical developer reference replay",
+      "job_id": 114213379702,
+      "conclusion": "success"
+    },
+    {
+      "name": "Market-data renderer",
+      "job_id": 114213380099,
+      "conclusion": "success"
+    },
+    {
+      "name": "Research required gate",
+      "job_id": 114215054582,
+      "conclusion": "success"
+    }
+  ],
+  "verified_logs": [
+    {
+      "name": "Offline research MVP contracts",
+      "job_id": 114213379543,
+      "conclusion": "success",
+      "actual_checkout": "a24e95e3f3a1d4ba63438fcb1a87bd94f362994e",
+      "checkout_kind": "PR_MERGE_PREVIEW",
+      "tree_equals_reviewed_head": true,
+      "tests_run": 288,
+      "test_seconds": 172.105,
+      "complete_ok_footer": true,
+      "raw_log_sha256": "b378816f46843ac88b6c634b9fb88130a14ada86c18aeddc1481f8174b453c84"
+    },
+    {
+      "name": "Package install smoke (windows-latest)",
+      "job_id": 114213379559,
+      "conclusion": "success",
+      "actual_checkout": "a24e95e3f3a1d4ba63438fcb1a87bd94f362994e",
+      "checkout_kind": "PR_MERGE_PREVIEW",
+      "tree_equals_reviewed_head": true,
+      "tests_run": 288,
+      "test_seconds": 222.336,
+      "complete_ok_footer": true,
+      "raw_log_sha256": "7ecf0b930d422344cdf3cd07743ea8a3eaeb798f0a01a7fbc20df79ccf1881a3",
+      "installed_source_sha256": "b2d0a7ba356dcc4d3b322a91b8b7d648fdb1e8314f9394e2eba7f9d4322b4064",
+      "shared_workflow": "PASS",
+      "input_workflow": "PASS",
+      "content_boundary_workflow": "PASS"
+    },
+    {
+      "name": "Package install smoke (ubuntu-latest)",
+      "job_id": 114213379672,
+      "conclusion": "success",
+      "actual_checkout": "a24e95e3f3a1d4ba63438fcb1a87bd94f362994e",
+      "checkout_kind": "PR_MERGE_PREVIEW",
+      "tree_equals_reviewed_head": true,
+      "tests_run": 288,
+      "test_seconds": 47.143,
+      "complete_ok_footer": true,
+      "raw_log_sha256": "6c610f5e4467d5bfd72a3aa4b2c653f04c2cc0056533897d0a03fba9785cfdf1",
+      "installed_source_sha256": "b2d0a7ba356dcc4d3b322a91b8b7d648fdb1e8314f9394e2eba7f9d4322b4064",
+      "shared_workflow": "PASS",
+      "input_workflow": "PASS",
+      "content_boundary_workflow": "PASS"
+    }
+  ],
+  "formal_release_changed": false,
+  "external_account_calls": 0,
+  "broker_order_calls": 0
+}

@@ -1,0 +1,61 @@
+{
+  "actual_cold_console": true,
+  "actual_menu": true,
+  "all_or_nothing": true,
+  "broker_order_calls": 0,
+  "cancel_releases_funds": true,
+  "canonical_settlement": true,
+  "checkout_data_used": false,
+  "competition": "COMMITTED_RECEIPT_FIFO_ALL_OR_NOTHING",
+  "conditional_resume": true,
+  "data_kind": "SYNTHETIC_TEST",
+  "distinct_symbol_limits_preserved": true,
+  "duplicate_operation_idempotent": true,
+  "duplicate_symbol_config_rejected_before_publication": true,
+  "exit_reopen": true,
+  "external_account_calls": 0,
+  "global_loss_latch": true,
+  "independent_backtests_forbidden": true,
+  "legacy_v1_mutation_blocked": true,
+  "legacy_v1_readable_with_original_bytes": true,
+  "legacy_v2_aliases_read_only_original_bytes": true,
+  "manual_pause_preserved": true,
+  "no_op_does_not_poison_clock": true,
+  "operator": "AGENT",
+  "process_proof": {
+    "concurrent_sequence": 2,
+    "concurrent_statuses": [
+      "REJECTED",
+      "RESERVED"
+    ],
+    "crashes": [
+      {
+        "boundary": "before",
+        "committed_receipts": 0,
+        "exit_code": 74
+      },
+      {
+        "boundary": "after",
+        "committed_receipts": 1,
+        "exit_code": 75
+      }
+    ]
+  },
+  "provider_calls": 0,
+  "read_preserves_bytes": true,
+  "receipt_lookup": true,
+  "registered_strategies": [
+    "price.dual_ma@1",
+    "price.buy_and_hold@1",
+    "event.earnings_schedule@1",
+    "content.price_confirmation@1",
+    "content.reviewed_outlook@1"
+  ],
+  "schema_version": "installed-shared-funds-workflow-v3",
+  "source_modified": false,
+  "status": "PASS",
+  "task_capital_ignored": true,
+  "terminal_signal_not_reopened": true,
+  "workspace_migration": true,
+  "wrong_clock_rejected_without_account_change": true
+}

@@ -142,15 +142,15 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
         accepted = Path(temp) / "accepted"
         public = export_bundle(receipt, accepted)
         version = public['wheel'].split('-')[1]
-        milestone = 'M2_2' if version=='0.4.0.dev5' or 'input_workflow_installed_workflow' in receipt else 'M2_1' if version.startswith('0.4.') else 'M1'
-        if milestone.startswith('M2_') and receipt.get('managed_task_installed_workflow',{}).get('status') != 'PASS':
+        milestone = 'M3_1' if version.startswith('0.5.') else 'M2_2' if version=='0.4.0.dev5' or 'input_workflow_installed_workflow' in receipt else 'M2_1' if version.startswith('0.4.') else 'M1'
+        if milestone in {'M2_1','M2_2','M3_1'} and receipt.get('managed_task_installed_workflow',{}).get('status') != 'PASS':
             raise ValueError('M2_exact_wheel_managed_task_workflow_acceptance_required')
-        if (milestone.startswith('M2_') and version not in {'0.4.0.dev1','0.4.0.dev2'}
+        if (milestone in {'M2_1','M2_2','M3_1'} and version not in {'0.4.0.dev1','0.4.0.dev2'}
                 and receipt.get('configuration_consistency_installed_workflow',{}).get('status') != 'PASS'):
             raise ValueError('M2_configuration_consistency_exact_wheel_acceptance_required')
-        if milestone=='M2_2' and receipt.get('input_workflow_installed_workflow',{}).get('status')!='PASS':
+        if milestone in {'M2_2','M3_1'} and receipt.get('input_workflow_installed_workflow',{}).get('status')!='PASS':
             raise ValueError('M2_unified_input_exact_wheel_acceptance_required')
-        if milestone=='M2_2' and version!='0.4.0.dev5' and receipt.get('content_boundary_installed_workflow',{}).get('status')!='PASS':
+        if milestone in {'M2_2','M3_1'} and version!='0.4.0.dev5' and receipt.get('content_boundary_installed_workflow',{}).get('status')!='PASS':
             raise ValueError('M2_content_boundary_exact_wheel_acceptance_required')
         spec = importlib.util.spec_from_file_location("M1_source_identity", root / "src/hakimi_research/source_identity.py")
         identity = importlib.util.module_from_spec(spec); spec.loader.exec_module(identity)
@@ -160,10 +160,10 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
         content = {"research/" + p.name: p.read_bytes() for p in accepted.iterdir()}
         content["preview.py"] = (root / "tools/supervised_preview.py").read_bytes()
         content["requirements.research.lock"] = (root / "requirements.research.lock").read_bytes()
-        guide = 'docs/input-workflow.md' if milestone=='M2_2' else 'docs/strategy-task-management.md' if milestone=='M2_1' else 'docs/offline-quant-tool.md'
+        guide = 'docs/shared-funds.md' if milestone=='M3_1' else 'docs/input-workflow.md' if milestone=='M2_2' else 'docs/strategy-task-management.md' if milestone=='M2_1' else 'docs/offline-quant-tool.md'
         content['README.md'] = (root/guide).read_bytes()
-        if milestone=='M2_2':
-            content['input-workflow.md'] = content['README.md']
+        if milestone in {'M2_2','M3_1'}:
+            content['input-workflow.md'] = (root/'docs/input-workflow.md').read_bytes()
             for name in ['strategy-task-management.md','offline-quant-tool.md']:
                 content[name] = (root/'docs'/name).read_bytes()
         wheels = list(wheelhouse.glob("*.whl"))

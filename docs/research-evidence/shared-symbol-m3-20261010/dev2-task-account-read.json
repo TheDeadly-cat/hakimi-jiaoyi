@@ -1,0 +1,21 @@
+{
+  "schema_version": "m3-dev2-task-account-read-by-dev3-v1",
+  "status": "PASS",
+  "original_candidate": "0.5.0.dev2",
+  "original_build": "f2fac8cec30669f137b376747e44a53c43c42c79",
+  "reader_candidate": "0.5.0.dev3",
+  "reader_wheel_sha256": "633cff60f43cd498cdd54eadc3d765d092c79d75ec9543075936d9a1807fbcde",
+  "actual_original_registered_task_account": true,
+  "sequence": 1,
+  "reserved_cash": "8000.00",
+  "clock_policy": "ONLY_EXPLICIT_MARK_ADVANCES_CLOCK",
+  "original_file_hashes": {
+    "account.json": "f8c43560f3abdf8d505e11717d35b29661045d682d5cba38b67fcd77799ada60",
+    "ledger.sqlite3": "b40d57263ca74f38f112d055c960a5915bb44fab315e6daac7aa1db493f67fb9"
+  },
+  "read_preserves_original_bytes": true,
+  "historical_candidate_not_resigned": true,
+  "provider_calls": 0,
+  "external_account_calls": 0,
+  "broker_order_calls": 0
+}

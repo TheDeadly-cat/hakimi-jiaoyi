@@ -62,6 +62,47 @@ def fixture(directory, *, code=b'value = 1\norigin = "https://example.test"\n'):
 
 
 class ReleaseWheelBundleTests(unittest.TestCase):
+    def test_shared_proof_rejects_partial_concurrency_crash_and_private_fields(self):
+        workflow=dict(schema_version='installed-shared-funds-workflow-v1',status='PASS',operator='AGENT',data_kind='SYNTHETIC_TEST',
+            competition='COMMITTED_RECEIPT_FIFO_ALL_OR_NOTHING',registered_strategies=['price.dual_ma@1','price.buy_and_hold@1',
+                'event.earnings_schedule@1','content.price_confirmation@1','content.reviewed_outlook@1'],
+            process_proof=dict(concurrent_statuses=['REJECTED','RESERVED'],concurrent_sequence=2,
+                crashes=[dict(boundary='before',exit_code=74,committed_receipts=0),dict(boundary='after',exit_code=75,committed_receipts=1)]),
+            provider_calls=0,external_account_calls=0,broker_order_calls=0,checkout_data_used=False,source_modified=False)
+        for flag in ['actual_cold_console','actual_menu','exit_reopen','task_capital_ignored','all_or_nothing','duplicate_operation_idempotent',
+                'terminal_signal_not_reopened','cancel_releases_funds','canonical_settlement','global_loss_latch','conditional_resume',
+                'manual_pause_preserved','receipt_lookup','workspace_migration','read_preserves_bytes','independent_backtests_forbidden']:
+            workflow[flag]=True
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);receipt=fixture(root);receipt['shared_funds_installed_workflow']=workflow
+            BUNDLE.export_bundle(receipt,root/'good')
+            self.assertEqual(json.loads((root/'good/installed-shared-funds.json').read_bytes()),workflow)
+            clock=deepcopy(workflow);clock['schema_version']='installed-shared-funds-workflow-v2'
+            flags=['wrong_clock_rejected_without_account_change','no_op_does_not_poison_clock','legacy_v1_readable_with_original_bytes','legacy_v1_mutation_blocked']
+            for flag in flags:clock[flag]=True
+            BUNDLE.validate_shared_workflow(clock)
+            for flag in flags:
+                bad=deepcopy(clock);bad[flag]=False
+                with self.subTest(flag=flag),self.assertRaises(ValueError):BUNDLE.validate_shared_workflow(bad)
+            symbols=deepcopy(clock);symbols['schema_version']='installed-shared-funds-workflow-v3'
+            symbol_flags=['duplicate_symbol_config_rejected_before_publication','distinct_symbol_limits_preserved',
+                'legacy_v2_aliases_read_only_original_bytes']
+            for flag in symbol_flags:symbols[flag]=True
+            BUNDLE.validate_shared_workflow(symbols)
+            for flag in symbol_flags:
+                bad=deepcopy(symbols);bad[flag]=False
+                with self.subTest(flag=flag),self.assertRaises(ValueError):BUNDLE.validate_shared_workflow(bad)
+            mutations=[lambda w:w.update(provider_calls=True),lambda w:w.update(broker_order_calls=1),
+                lambda w:w.update(actual_menu=False),lambda w:w.update(registered_strategies=[]),
+                lambda w:w['process_proof'].update(concurrent_statuses=['RESERVED','RESERVED']),
+                lambda w:w['process_proof']['crashes'][0].update(committed_receipts=1),
+                lambda w:w['process_proof']['crashes'][1].update(private_path='C:\\Users\\PRIVATE\\account'),
+                lambda w:w.update(private_account='PRIVATE')]
+            for i,change in enumerate(mutations):
+                bad=deepcopy(receipt);change(bad['shared_funds_installed_workflow'])
+                with self.subTest(i=i),self.assertRaises(ValueError):BUNDLE.export_bundle(bad,root/('bad-'+str(i)))
+                self.assertFalse((root/('bad-'+str(i))).exists())
+
     def test_exact_wheel_is_exported_with_allowlisted_evidence_and_checkable_hashes(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

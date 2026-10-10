@@ -1,0 +1,20 @@
+{
+  "schema_version": "m3-dev1-task-account-read-compatibility-v1",
+  "status": "PASS",
+  "new_version": "0.5.0.dev2",
+  "legacy_version": "0.5.0.dev1",
+  "account_id": "a0c7f6ae4c56e80bbb49cd2c3a3690b2d469caee00c2805dc905df19180acd5d",
+  "account_sequence": 1,
+  "reserved_cash": "8000.00",
+  "original_files_sha256": {
+    "account.json": "ae5a74cc0ef0abffbe0bc79a3b62f82db4fefc4506d8ce050a546f2d4a4046a9",
+    "ledger.sqlite3": "bfe9aaab9bd014e635953d47a10a64305456df08accb42c7bd3bcd0ed6b10841"
+  },
+  "original_bytes_unchanged": true,
+  "registered_task_journal_verified": true,
+  "legacy_read_only": true,
+  "resigned": false,
+  "provider_calls": 0,
+  "external_account_calls": 0,
+  "broker_order_calls": 0
+}
