@@ -68,6 +68,83 @@ class SharedSignalTests(unittest.TestCase):
         self.assertEqual([d['status'] for d in r['outcome']['decisions']],['RESERVED','DUPLICATE_SIGNAL'])
         self.assertEqual(Decimal(describe_shared_account(self.account)['reserved_cash']),8000)
 
+    def managed_pair(self,key='price.dual_ma@1'):
+        from hakimi_research.task_manager import create_family,read_family
+        families=[self.workspace/'tasks'/name for name in ['owner-a','owner-b']]
+        options=dict(strategy=key,snapshot=self.snapshot,score_start='2024-11-11',score_end='2024-12-03',fee_rate=0,slippage_pct=0)
+        if key=='price.buy_and_hold@1':options['params']=dict(target_position_pct=.8)
+        else:
+            options['params']=dict(fast_window=2,slow_window=4,position_pct=.8,stop_loss_pct=.03,take_profit_pct=.06)
+            options['risk']=dict(max_position_pct=.8,max_single_loss_pct=.03,max_daily_loss_pct=1,max_leverage=1,min_cash_pct=0)
+        for index,family in enumerate(families):create_family(family,initial_cash=[1234,99999][index],**options)
+        return families,['family:'+read_family(f)['family_id'] for f in families]
+
+    def owned_config(self,owners):
+        config=deepcopy(self.config)
+        config['initial_positions']=[dict(owner=owner,security_id=SECURITY,quantity=quantity,
+            avg_entry_price=90,entry_fees=0,realized_pnl=0) for owner,quantity in zip(owners,[10,20])]
+        return config
+
+    def test_registered_owner_exits_reserve_and_settle_both_slots_under_all_guards(self):
+        families,owners=self.managed_pair()
+        for order in [[0,1],[1,0]]:
+            for guard in ['normal','paused','loss']:
+                with self.subTest(order=order,guard=guard):
+                    account=self.root/('account-'+str(order[0])+'-'+guard);config=self.owned_config(owners)
+                    if guard=='loss':
+                        config['as_of']='2024-11-11T14:00:00Z';config['securities'][SECURITY]['price']=120
+                        config['limits']['max_daily_loss_pct']=.01
+                    create_shared_account(account,config)
+                    if guard=='paused':transact_shared_account(account,operation_id='pause',kind='PAUSE',at=AT,payload=dict(reason='synthetic'))
+                    if guard=='loss':
+                        transact_shared_account(account,operation_id='loss',kind='MARK',at=AT,payload=dict(prices={SECURITY:104}))
+                        self.assertTrue(describe_shared_account(account)['state']['loss_halted'])
+                    receipt=step_shared_tasks(account,[families[i] for i in order],operation_id='exit',at=AT)
+                    decisions=receipt['outcome']['decisions']
+                    self.assertEqual([d['status'] for d in decisions],['RESERVED','RESERVED'])
+                    self.assertEqual([Decimal(d['requested_quantity']) for d in decisions],[[10,20][i] for i in order])
+                    view=describe_shared_account(account)
+                    self.assertEqual(Decimal(view['cash']),10000);self.assertEqual(Decimal(view['available_cash']),10000)
+                    self.assertEqual(Decimal(view['reserved_cash']),0)
+                    self.assertEqual(len(view['state']['opportunities']),2)
+                    for number,d in enumerate(decisions):
+                        r=transact_shared_account(account,operation_id='fill-'+str(number),kind='SETTLE',at=AT,payload=dict(intent_id=d['intent_id']))
+                        self.assertEqual(r['outcome']['status'],'SETTLED')
+                        positions={p['owner']:Decimal(p['quantity']) for p in describe_shared_account(account)['state']['positions'].values()}
+                        self.assertEqual(positions[owners[order[number]]],0)
+                        if number==0:self.assertEqual(positions[owners[order[1]]],[10,20][order[1]])
+                    self.assertEqual(Decimal(describe_shared_account(account)['cash']),13120)
+                    self.assertEqual(transact_shared_account(account,operation_id='fill-again',kind='SETTLE',at=AT,
+                        payload=dict(intent_id=decisions[0]['intent_id']))['outcome']['status'],'ALREADY_TERMINAL')
+                    self.assertEqual(Decimal(describe_shared_account(account)['cash']),13120)
+
+    def test_owner_exit_cancel_and_task_revision_cannot_reopen_same_clock(self):
+        from hakimi_research.task_manager import revise_family,read_family
+        families,owners=self.managed_pair();self.config=self.owned_config(owners);self.init()
+        receipt=step_shared_tasks(self.account,[families[0]],operation_id='exit',at=AT)
+        self.assertEqual(step_shared_tasks(self.account,[families[0]],operation_id='exit',at=AT),receipt)
+        self.assertEqual(step_shared_tasks(self.account,[families[0]],operation_id='other-op',at=AT)['outcome']['decisions'][0]['status'],'DUPLICATE_SIGNAL')
+        transact_shared_account(self.account,operation_id='cancel',kind='CANCEL',at=AT,
+            payload=dict(intent_id=receipt['outcome']['decisions'][0]['intent_id'],reason='synthetic review'))
+        original_family=read_family(families[0])['family_id']
+        revise_family(families[0],initial_cash=77777,params=dict(fast_window=2,slow_window=4,position_pct=.7,stop_loss_pct=.02,take_profit_pct=.05))
+        self.assertEqual(read_family(families[0])['family_id'],original_family)
+        self.assertEqual(step_shared_tasks(self.account,[families[0]],operation_id='changed-version',at=AT)['outcome']['decisions'][0]['status'],'DUPLICATE_SIGNAL')
+        before=describe_shared_account(self.account)
+        with self.assertRaisesRegex(ValueError,'operation_id_payload_conflict'):
+            step_shared_tasks(self.account,[families[0]],operation_id='exit',at=AT)
+        self.assertEqual(describe_shared_account(self.account),before)
+        self.assertEqual({p['owner']:Decimal(p['quantity']) for p in before['state']['positions'].values()},dict(zip(owners,[10,20])))
+        self.assertEqual(sum(r['status']=='RESERVED' for r in before['state']['intents'].values()),0)
+        second=step_shared_tasks(self.account,[families[1]],operation_id='other-owner',at=AT)['outcome']['decisions'][0]
+        self.assertEqual(second['status'],'RESERVED');self.assertEqual(Decimal(second['requested_quantity']),20)
+
+    def test_managed_buy_copies_still_share_one_global_opportunity(self):
+        families,_=self.managed_pair('price.buy_and_hold@1');self.init()
+        r=step_shared_tasks(self.account,families,operation_id='copied-buy',at=AT)
+        self.assertEqual([d['status'] for d in r['outcome']['decisions']],['RESERVED','DUPLICATE_SIGNAL'])
+        self.assertEqual(Decimal(describe_shared_account(self.account)['reserved_cash']),8000)
+
     def test_managed_version_changes_preserve_owned_position_and_pause_guard(self):
         from hakimi_research.task_manager import create_family,revise_family,change_state,read_family
         family=self.workspace/'tasks/managed'

@@ -221,13 +221,15 @@ print(json.dumps(dict(account=str(legacy),at=config['as_of'],hashes={n:p['sha256
 '''
     original=json.loads(run([python,'-I','-X','utf8','-B','-c',symbol_checks,str(outside/'shared-symbol-api')],echo=False))
     old_view=call('shared-show','--account',original['account'],'--journal')
-    check(old_view['symbol_aliases_read_only'] and not old_view['legacy_read_only'] and old_view['sequence']==4,'original_alias_read')
+    check(old_view['symbol_aliases_read_only'] and old_view['legacy_read_only'] and old_view['sequence']==4,'original_alias_read')
     process=subprocess.run([command,'shared-pause','--account',original['account'],'--operation-id','blocked-alias',
         '--at',original['at'],'--reason','read only'],cwd=outside,env=env,capture_output=True,text=True,encoding='utf-8',timeout=90)
     check(process.returncode==1 and 'duplicate_symbol_aliases_not_allowed' in json.loads(process.stdout)['error'],'original_alias_write')
     check(call('shared-show','--account',original['account'],'--journal')==old_view,'original_alias_view_changed')
     check(all(sha256((Path(original['account'])/name).read_bytes()).hexdigest()==value for name,value in original['hashes'].items()),'original_alias_bytes_changed')
-    return dict(schema_version='installed-shared-funds-workflow-v3',status='PASS',operator='AGENT',data_kind='SYNTHETIC_TEST',
+    from verify_shared_owner_exit import verify_owner_exits
+    owner_exit_proof=verify_owner_exits(command,python,run,env=env,outside=outside)
+    return dict(schema_version='installed-shared-funds-workflow-v4',status='PASS',operator='AGENT',data_kind='SYNTHETIC_TEST',
         competition='COMMITTED_RECEIPT_FIFO_ALL_OR_NOTHING',registered_strategies=keys,process_proof=proof,
         actual_cold_console=True,actual_menu=True,exit_reopen=True,task_capital_ignored=True,all_or_nothing=True,
         duplicate_operation_idempotent=True,terminal_signal_not_reopened=True,cancel_releases_funds=True,
@@ -236,5 +238,5 @@ print(json.dumps(dict(account=str(legacy),at=config['as_of'],hashes={n:p['sha256
         wrong_clock_rejected_without_account_change=True,no_op_does_not_poison_clock=True,
         legacy_v1_readable_with_original_bytes=True,legacy_v1_mutation_blocked=True,
         duplicate_symbol_config_rejected_before_publication=True,distinct_symbol_limits_preserved=True,
-        legacy_v2_aliases_read_only_original_bytes=True,
+        legacy_v2_aliases_read_only_original_bytes=True,**owner_exit_proof,
         provider_calls=0,external_account_calls=0,broker_order_calls=0,checkout_data_used=False,source_modified=False)

@@ -92,6 +92,16 @@ class ReleaseWheelBundleTests(unittest.TestCase):
             for flag in symbol_flags:
                 bad=deepcopy(symbols);bad[flag]=False
                 with self.subTest(flag=flag),self.assertRaises(ValueError):BUNDLE.validate_shared_workflow(bad)
+            owners=deepcopy(symbols);owners['schema_version']='installed-shared-funds-workflow-v4'
+            owner_flags=['registered_owner_exit_both_orders','paused_and_loss_halted_owner_exits','owner_only_settlement',
+                'pending_sell_does_not_credit_cash','owner_exit_new_operation_and_revision_not_reopened',
+                'owner_exit_cancel_not_reopened','concurrent_registered_owner_exits','managed_buy_copy_dedup_preserved',
+                'legacy_v2_task_step_readable_with_original_bytes','legacy_v2_mutation_blocked']
+            for flag in owner_flags:owners[flag]=True
+            BUNDLE.validate_shared_workflow(owners)
+            for flag in owner_flags:
+                bad=deepcopy(owners);bad[flag]=False
+                with self.subTest(flag=flag),self.assertRaises(ValueError):BUNDLE.validate_shared_workflow(bad)
             mutations=[lambda w:w.update(provider_calls=True),lambda w:w.update(broker_order_calls=1),
                 lambda w:w.update(actual_menu=False),lambda w:w.update(registered_strategies=[]),
                 lambda w:w['process_proof'].update(concurrent_statuses=['RESERVED','RESERVED']),
