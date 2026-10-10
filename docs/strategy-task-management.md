@@ -1,6 +1,6 @@
 # 策略任务与结果对照
 
-候选 `0.4.0.dev5` 在同一 `hakimi-trade` 入口中管理配置、历史版本及行情／研究输入。菜单 16 提供选择、导入、只读检查和版本绑定，见[输入流程](input-workflow.md)。菜单 15 创建可管理任务，13 管理版本与启停，2 检查，3 运行，14 比较保存结果；旧格式任务先复制后管理。原三个注册策略保持原身份，新增的两个内容适配入口复用既有价格确认／字段条件和同一引擎。
+候选 `0.4.0.dev6` 在同一 `hakimi-trade` 入口中管理配置、历史版本及行情／研究输入。菜单 16 提供选择、导入、只读检查和版本绑定，见[输入流程](input-workflow.md)。菜单 15 创建可管理任务，13 管理版本与启停，2 检查，3 运行，14 比较保存结果；旧格式任务先复制后管理。原三个注册策略保持原身份，新增的两个内容适配入口复用既有价格确认／字段条件和同一引擎。
 
 Windows x64 离线候选需 CPython 3.14。将 ZIP 解压到独立目录，双击 `Start-Hakimi.cmd`：安装器只用包内 wheel 和五个锁定依赖，在候选旁创建独立环境，检查身份后打开菜单。无须源码或浏览器；不连接行情、账户或订单。首次可选菜单 1 创建虚构数据，再从 15 配置任务；已有数据可用 9 导入。
 
@@ -9,7 +9,7 @@ Windows x64 离线候选需 CPython 3.14。将 ZIP 解压到独立目录，双�
 ```powershell
 py -3.14 -m venv .\runtime
 .\runtime\Scripts\python.exe -m pip install --no-index --find-links .\wheelhouse --requirement .\requirements.research.lock
-.\runtime\Scripts\python.exe -m pip install --no-deps .\research\hakimi_research-0.4.0.dev5-py3-none-any.whl
+.\runtime\Scripts\python.exe -m pip install --no-deps .\research\hakimi_research-0.4.0.dev6-py3-none-any.whl
 .\runtime\Scripts\hakimi-trade.exe wizard --workspace .\workspace
 ```
 
@@ -55,4 +55,6 @@ hakimi-trade task-revise --task .\workspace\tasks\my-strategy --strategy price.d
 hakimi-trade task-revise --task .\workspace\tasks\my-strategy --strategy price.buy_and_hold@1 --parameters .\benchmark-parameters.json --risk .\benchmark-risk.json
 ```
 
-R3 存档 `0.4.0.dev4` 已通过 PR #21 合入 main，M2-1 与 R1／R2／R3 均结案。原 dev4／dev3／dev2 的包、构建与安装回执保持原身份。本轮 M2-2 `0.4.0.dev5` 的同一 wheel 已通过仓库外 253 项及实际输入流程；新候选首用与 CI 单独记录于 [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)，不复用旧候选的通过结论。
+R3 存档 `0.4.0.dev4` 已通过 PR #21 合入 main，M2-1 与 R1／R2／R3 均结案。原 dev4／dev3／dev2 的包、构建与安装回执保持原身份。原 M2-2 `0.4.0.dev5` 的同一 wheel 已通过仓库外 253 项及实际输入流程；原候选首用与 CI 单独记录于 [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)，不复用旧候选的通过结论。
+
+2026-10-10：PR #22 已经用户对 `0059359` 单独核准合入 main `57b6bd4`，实际 main 九项 CI 与 Windows／Ubuntu 各 253 项通过。原 dev5 产物保留，后续两项 P2 在新候选修复：菜单 10 同样使用共享配置表单，支持五种注册策略；保存报告的成交约束和唯一内容入场机会在查看、恢复和比较前验证，不重算。新候选同一 wheel 262 项、实际菜单／边界和交付启动器已通过，合并待单独核准，见[修复记录](research-evidence/content-report-p2-20261010/README.md)。

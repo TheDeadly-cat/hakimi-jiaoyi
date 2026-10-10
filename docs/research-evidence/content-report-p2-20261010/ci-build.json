@@ -1,0 +1,106 @@
+{
+  "schema_version": "dev6-build-ci-v1",
+  "status": "success",
+  "run_id": 38044626387,
+  "reviewed_head": "30ece7d2d4369850586258690a4276c9e48baafe",
+  "actual_checkout": "40e7d8608e05416dd96dc90fcda9fa4e5ba32b4c",
+  "tree": "dc8fd9921b9dd904e2d06b5edeb0a55bb2e26801",
+  "reviewed_and_preview_trees_equal": true,
+  "jobs": [
+    {
+      "name": "Package install smoke (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Package install smoke (windows-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Electron capability contract",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python contracts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Market-data renderer",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Deterministic references",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Offline research MVP contracts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Historical developer reference replay",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Research required gate",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "read_job_evidence": [
+    {
+      "job_id": 114191549261,
+      "job": "Package install smoke (ubuntu-latest)",
+      "actual_checkouts": [
+        "40e7d8608e05416dd96dc90fcda9fa4e5ba32b4c"
+      ],
+      "footers": [
+        [
+          "262",
+          "23.544"
+        ]
+      ],
+      "log_sha256": "f9950cee2df89d4f190001eccc1fd2bbaca0c03c1cfc9b125099570c0e0e9e93",
+      "installed_content_boundary_pass": true,
+      "input_workflow_pass": true
+    },
+    {
+      "job_id": 114191549266,
+      "job": "Package install smoke (windows-latest)",
+      "actual_checkouts": [
+        "40e7d8608e05416dd96dc90fcda9fa4e5ba32b4c"
+      ],
+      "footers": [
+        [
+          "262",
+          "153.760"
+        ]
+      ],
+      "log_sha256": "b01c9fea215cd40b06dd3fe9c70ac9866f40985b06780601350528f90ea4c7b2",
+      "installed_content_boundary_pass": true,
+      "input_workflow_pass": true
+    },
+    {
+      "job_id": 114191549318,
+      "job": "Offline research MVP contracts",
+      "actual_checkouts": [
+        "40e7d8608e05416dd96dc90fcda9fa4e5ba32b4c"
+      ],
+      "footers": [
+        [
+          "262",
+          "185.451"
+        ]
+      ],
+      "log_sha256": "ea9cbf4ad83b2c7704652ca661f38fc4150d6081bb2aac17ab2e2bf5a1ed5808",
+      "installed_content_boundary_pass": false,
+      "input_workflow_pass": false
+    }
+  ]
+}

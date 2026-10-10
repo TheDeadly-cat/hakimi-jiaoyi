@@ -150,6 +150,8 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
             raise ValueError('M2_configuration_consistency_exact_wheel_acceptance_required')
         if milestone=='M2_2' and receipt.get('input_workflow_installed_workflow',{}).get('status')!='PASS':
             raise ValueError('M2_unified_input_exact_wheel_acceptance_required')
+        if milestone=='M2_2' and version!='0.4.0.dev5' and receipt.get('content_boundary_installed_workflow',{}).get('status')!='PASS':
+            raise ValueError('M2_content_boundary_exact_wheel_acceptance_required')
         spec = importlib.util.spec_from_file_location("M1_source_identity", root / "src/hakimi_research/source_identity.py")
         identity = importlib.util.module_from_spec(spec); spec.loader.exec_module(identity)
         source = identity.package_content_identity(root / "src/hakimi_research")

@@ -1,8 +1,8 @@
 # 行情与研究输入（M2-2）
 
-候选 `0.4.0.dev5` 使用同一 `hakimi-trade` 入口，CLEAN 构建 `51b0f17` 的同一 wheel 已通过仓库外 253 项安装后测试和实际冷进程输入流程。候选 ZIP 内的 `research/wheel-acceptance.json`、`research/test-scope.json` 与 `research/installed-input-workflow.json` 保留确切验收范围；[PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 记录本轮交付。M1、M2-1 和 R1／R2／R3 已结案；本轮从 main `4732bcc` 扩展正常输入流程。安装、首用与对应提交的 CI 分别记录，不用旧 dev4 的安装记录代替新候选验收。
+候选 `0.4.0.dev5` 使用同一 `hakimi-trade` 入口，CLEAN 构建 `51b0f17` 的同一 wheel 已通过仓库外 253 项安装后测试和实际冷进程输入流程。候选 ZIP 内的 `research/wheel-acceptance.json`、`research/test-scope.json` 与 `research/installed-input-workflow.json` 保留确切验收范围；[PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 记录本轮交付。M1、M2-1 和 R1／R2／R3 已结案；PR #22 已集成到 main `57b6bd4`；后续新候选 `0.4.0.dev6` 修复两项 P2，同一 wheel 的仓库外 262 项及启动器首用通过，main 集成待单独核准。安装、首用与对应提交的 CI 分别记录，不用旧 dev4 的安装记录代替新候选验收。
 
-Windows x64 ZIP 使用 CPython 3.14。解压到新的仓库外目录，双击 `Start-Hakimi.cmd`；依赖只从包内 wheelhouse 安装。也可在新环境普通安装 `research/hakimi_research-0.4.0.dev5-py3-none-any.whl` 后执行 `hakimi-trade wizard --workspace .\workspace`。
+Windows x64 ZIP 使用 CPython 3.14。解压到新的仓库外目录，双击 `Start-Hakimi.cmd`；依赖只从包内 wheelhouse 安装。也可在新环境普通安装 `research/hakimi_research-0.4.0.dev6-py3-none-any.whl` 后执行 `hakimi-trade wizard --workspace .\workspace`。
 
 ## 正常使用
 
@@ -76,3 +76,7 @@ hakimi-trade content-import --workspace .\workspace --packet .\candidates.json -
 保存整个工作区，包括 `data`、`tasks` 和 `runs`。在同一候选环境打开新位置即可查看封存版本和原报告，使用 `replay --run-dir <迁移后目录>` 重放；页面恢复不新增计算。报告原字节保留，只派生显示新位置的页面。
 
 升级不自动替旧报告改签。跨代码版本重放需原代码／依赖环境；本轮整目录迁移验收使用同一候选。账户、订单、共享资金及增量监控不属于这个输入流程。
+
+## 报告校验与旧格式创建修复
+
+新候选 `0.4.0.dev6` 在读取内容报告时检查成交证券、评分内交易日开盘、支持的成交依据和信号时点，并将 BUY 绑定到计划中唯一获准的入场；被过滤入场、错误机会及重复入场明确拒绝。查看、恢复和比较不重新运行回测。合法零仓位／风控拒绝、内容 HOLD、保护性退出与期末持仓仍可读取；原报告不改签。菜单 10 复用正常配置表单，按五种策略各自的注册参数创建旧格式任务；不兼容参数仍提前拒绝。见[本轮修复与验收范围](research-evidence/content-report-p2-20261010/README.md)。

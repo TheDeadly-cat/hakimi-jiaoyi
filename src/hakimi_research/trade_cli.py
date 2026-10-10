@@ -425,15 +425,11 @@ def wizard(workspace):
             elif choice=='10':
                 from .input_menu import choose_snapshot
                 chosen_snapshot=choose_snapshot(workspace)
-                key=choose_item(list(strategies()),'选择策略编号：',lambda k:definition(k)['title']+' '+k)
-                entry=definition(key)
-                if entry['engine_strategy']=='buy_and_hold':params=dict(target_position_pct=float(input('目标仓位比例（默认 0.25）：') or '0.25'))
-                else:params=dict(fast_window=int(input('快均线周期（默认 20）：') or '20'),slow_window=int(input('慢均线周期（默认 60）：') or '60'),position_pct=0.25,stop_loss_pct=0.03,take_profit_pct=0.06)
-                event=input('事件上下文 JSON 路径：').strip().strip('"') if entry['event_rule'] else None
+                options=configuration_form(dict(snapshot=chosen_snapshot),workspace=workspace)
                 name=input('任务文件名（默认 new-task）：').strip() or 'new-task'
                 import re
                 if not re.fullmatch(r'[\w-]{1,64}',name):raise ValueError('task_name_invalid')
-                print('任务已保存：'+str(create_task(workspace/'tasks'/(name+'.json'),strategy=key,snapshot=chosen_snapshot,event_context=event,params=params)))
+                print('任务已保存：'+str(create_task(workspace/'tasks'/(name+'.json'),**options)))
             elif choice=='15':
                 from .task_manager import create_family, describe_task
                 from .input_menu import choose_snapshot

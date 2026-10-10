@@ -2,14 +2,14 @@
 
 本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1、M2-1 和 R1／R2／R3 已结案，当前开发阶段为 M2-2。主分支集成以实际合并提交及其检查为准。
 
-整理日期：2026-10-10。PR #21 已经用户单独批准合入 main `4732bcc`，R3 已关闭。本轮 M2-2 候选 `0.4.0.dev5` 已完成统一离线行情／研究输入、版本绑定与既有排期／内容规则入口；同一 wheel 仓库外 253 项和实际冷进程输入流程通过。新候选首用及 CI 分别记录，见[本轮验收](docs/research-evidence/input-workflow-m2-20261010/README.md)；旧 dev4／dev3／dev2 与 M1 原件保持原身份。
+整理日期：2026-10-10。PR #22 已经用户对 `0059359` 单独批准合入 main `57b6bd4`，实际 main 九项 CI 成功，Windows／Ubuntu 安装各 253 项通过。原 M2-2 候选 `0.4.0.dev5` 已完成统一离线行情／研究输入、版本绑定与既有排期／内容规则入口；同一 wheel 仓库外 253 项和实际冷进程输入流程通过。新候选首用及 CI 分别记录，见[本轮验收](docs/research-evidence/input-workflow-m2-20261010/README.md)；旧 dev4／dev3／dev2 与 M1 原件保持原身份。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
 | 层次 | 已核实状态 |
 |---|---|
-| 当前 main | [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/21) 经用户对 `63adb41` 单独批准后，于 2026-10-10 13:52:11 UTC+8 合入 `4732bcc1e924414b7b15c29b6444900cff894bc1`；内容树 `f0207d7ac6514236be3d751fd7e37d2a59d1cdc5` 与受审 head 相同。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38028969246) 九项成功，Windows／Ubuntu 安装各 241 项及 R3 冷进程流程通过。M1、M2-1 和 R1／R2／R3 均关闭 |
-| M2-2 功能候选 | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)，`0.4.0.dev5` CLEAN 构建 `51b0f17`，wheel `b935fde7b436…`，运行源码 `8c85724cdf8f…`；同一 wheel 仓库外 253 项、实际输入菜单／冷进程、输入更新与状态保持、运行比较、迁移和重放通过。新交付 `Hakimi-M2-dev5-Inputs-20261010` 的启动器离线安装／身份检查／重开通过，ZIP `f55c4a08bdb…`；[构建 CI 九项成功](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38036110148)，最终 PR head 检查另记于 PR。尚未合入 main；[新候选证据](docs/research-evidence/input-workflow-m2-20261010/README.md) |
+| 当前 main | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 经用户对 `0059359` 单独批准，于 2026-10-10 17:30:04 UTC+8 合入 `57b6bd4ec2263f6d390257fde7e787f44a084d85`；内容树 `3f694f17be4e85aa4ca5fb696482c5bb1125a366` 与受审 head 相同。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339) 九项成功，Windows／Ubuntu 安装各 253 项、输入及 R3 流程通过。M1、M2-1 和 R1／R2／R3 保持关闭 |
+| M2-2 功能候选 | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)，`0.4.0.dev5` CLEAN 构建 `51b0f17`，wheel `b935fde7b436…`，运行源码 `8c85724cdf8f…`；同一 wheel 仓库外 253 项、实际输入菜单／冷进程、输入更新与状态保持、运行比较、迁移和重放通过。新交付 `Hakimi-M2-dev5-Inputs-20261010` 的启动器离线安装／身份检查／重开通过，ZIP `f55c4a08bdb…`；[构建 CI 九项成功](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38036110148)，最终 PR head 检查另记于 PR。已通过 PR #22 集成；该 dev5 存档随后复现两项 P2 缺口，原通过范围不回填。[原候选证据](docs/research-evidence/input-workflow-m2-20261010/README.md) |
 | M1 main 集成 | PR #19 经用户单独批准受审 `669b348` 后，已合入 `17b2c15891aab7caf30dbb1addbb1f495f92dea0`；内容树 `26215045b3becf7dd6bf6e5d7292011a6e837379` 与受审版本一致。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005) 九项成功，Windows 安装后 209 项通过；M1 结案。集成回执保存在 PR #19 实际合并记录与本机 M1 存档目录 |
 | 前一 main 集成 | 用户单独批准 [PR #17](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/17) 的 `46d938a` 后，已于 2026-09-29 12:57:03 UTC 合并至 `cdee7b5472981811655bf84a8a9f59298df546b4`；[合并后 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36571592538) 九项成功，实际检出 main 合并提交。PR #16 与旧测试身份保留 |
 | M1 存档候选 | `0.3.0.dev4` 构建 `ac8c77b`，wheel `e10cbb02ab71…`；原仓库外 209 项安装验收与默认／同盘外部／真实跨盘菜单使用原样保留。PR #19 现已合并；原候选没有改签为 main 构建。旧 dev3 的包、失败和 201 项验收保留。见[原修复与候选验收](docs/research-evidence/offline-product-m1-p2-20261009/README.md) |
@@ -42,3 +42,5 @@ ed19之后的研究诊断与剩余事项见[本轮D1/D2/D3/O2清单](docs/resear
 2026-10-09：M1 的三个流程缺陷及 PR #19 集成保持关闭；当前进入 M2-1。日常状态已更新，历史证据、旧包、旧回执和研究原身份不变。
 
 2026-10-10：M2-1 与 R1／R2／R3 已结案。本轮从 main `4732bcc` 开展 M2-2，复用现有快照、事件版本、价格确认和内容条件；[正常输入使用说明](docs/input-workflow.md)。共享资金、增量监控与券商执行不在本轮范围，Unknown／T3 与已结案市场研究保持原状态。
+
+2026-10-10 修复跟进：在原已安装 dev5 中独立复现 M2-2-01（自洽重哈希成交缺少证券／会话／信号／依据验证）和 M2-2-02（菜单 10 给内容策略传均线参数）。新候选 `0.4.0.dev6` 复用成交约束并绑定唯一内容入场机会，菜单 10 共用配置表单；源码定向检查通过，同一新 wheel 仓库外 262 项／实际五策略菜单与报告边界、交付启动器通过；[PR #23](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/23) 最终检查及单独核准集成待完成。见[修复验收](docs/research-evidence/content-report-p2-20261010/README.md)。不改签或覆盖 dev5 与旧报告。
