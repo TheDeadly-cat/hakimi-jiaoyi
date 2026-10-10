@@ -1,0 +1,17 @@
+{
+  "schema_version": "m3-proof-helper-trials-v1",
+  "scope": "CI_LOG_PARSER_ONLY",
+  "failure": {
+    "reason": "Windows checkout command uses git.exe; overly narrow git log regex failed to find the actual checkout.",
+    "original_log_sha256": "d92dd78f160165100fefd7aa793cf82c1e6c09ad69e5f1a6fa4f0cc0d7c82e68",
+    "prior_failed_log_preserved": true
+  },
+  "repair": {
+    "command_pattern": "log -1 --format=%H",
+    "actual_commit_and_parent_and_tree_checks_retained": true,
+    "completed_proof": "ci-build.json"
+  },
+  "runtime_changed": false,
+  "tests_changed": false,
+  "ci_changed": false
+}
