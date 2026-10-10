@@ -173,6 +173,31 @@ def export_bundle(receipt: dict, output_dir: Path, *, ci_context: dict | None = 
         "dependencies.json": _json_bytes({"schema_version": "research-accepted-dependencies-v1", "status": "VERIFIED", "python_version": python_version, "lock_sha256": _sha(lock_bytes), "packages": packages}),
         "test-scope.json": _json_bytes(test_scope),
     }
+    if 'input_workflow_installed_workflow' in receipt:
+        workflow = receipt['input_workflow_installed_workflow']
+        true_flags = ['actual_installed_cold_console','actual_menu_csv_import','actual_menu_research_binding',
+            'snapshot_original_bytes_preserved','research_packet_original_bytes_preserved','missing_context_rejected',
+            'paused_task_rejected','rejections_keep_committed_state','task_version_binding','pause_preserved',
+            'old_reports_unchanged','schedule_version_changes_filter','unapproved_content_holds',
+            'approved_fixture_content_no_intervention_matches_price_result','exit_reopen','workspace_migration','migrated_replay_verified']
+        zero_fields = ['input_checks_new_economic_runs','comparison_new_economic_runs','migrated_view_new_economic_runs',
+            'provider_calls','account_calls','order_calls']
+        false_flags = ['human_review_claimed','checkout_data_used','source_modified']
+        headers = {'schema_version','status','operator','data_kind','fixture_review','transcript'}
+        _require(set(workflow)==headers|set(true_flags)|set(zero_fields)|set(false_flags), 'input workflow receipt shape changed')
+        _require(workflow['schema_version']=='installed-offline-input-workflow-v1' and workflow['status']=='PASS'
+            and workflow['operator']=='AGENT' and workflow['data_kind']=='SYNTHETIC_TEST'
+            and workflow['fixture_review']=='SYNTHETIC_CONTRACT_RECEIPT_ONLY', 'installed input workflow not proven')
+        _require(all(workflow[k] is True for k in true_flags) and all(workflow[k] is False for k in false_flags)
+            and all(type(workflow[k]) is int and workflow[k]==0 for k in zero_fields), 'input workflow proof incomplete')
+        _require(type(workflow['transcript']) is list and len(workflow['transcript'])>=30, 'input workflow console transcript missing')
+        for row in workflow['transcript']:
+            _require(set(row) in ({'command','status'},{'command','status','expected_reason'}), 'input transcript shape invalid')
+            _require(type(row['command']) is str and re.fullmatch(r'[a-z-]+',row['command'])
+                and type(row['status']) is str and re.fullmatch(r'[A-Z0-9_]+',row['status']), 'input transcript must omit local paths')
+            if 'expected_reason' in row:
+                _require(type(row['expected_reason']) is str and re.fullmatch(r'[a-z0-9_]+',row['expected_reason']), 'input rejection receipt must omit local paths')
+        files['installed-input-workflow.json'] = _json_bytes(workflow)
     files["SHA256SUMS.txt"] = "".join(f"{_sha(data)}  {name}\n" for name, data in sorted(files.items())).encode()
     output_dir = Path(output_dir)
     _require(not output_dir.exists(), "public bundle destination already exists")

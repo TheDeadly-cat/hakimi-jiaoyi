@@ -174,6 +174,9 @@ def main() -> None:
     strategy_switch_workflow = verify_strategy_switch_workflow(trade_command, outside / 'migrated-user-workspace', run,
         env=clean_env, outside=outside)
     print('Installed strategy-switch workflow: ' + strategy_switch_workflow['status'], flush=True)
+    from verify_input_workflow import verify_input_workflow
+    input_workflow = verify_input_workflow(trade_command, python, run, env=clean_env, outside=outside)
+    print('Installed unified input workflow: ' + input_workflow['status'], flush=True)
     tests = outside / "tests"
     shutil.copytree(root / "tests", tests, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     # The independent Decimal reconciler is a test/audit sidecar, not a runtime
@@ -225,6 +228,7 @@ def main() -> None:
         "managed_task_installed_workflow": managed_workflow,
         "configuration_consistency_installed_workflow": configuration_workflow,
         "strategy_switch_installed_workflow": strategy_switch_workflow,
+        "input_workflow_installed_workflow": input_workflow,
     }
     receipt_path = work / "wheel-acceptance.json"
     receipt_path.write_text(json.dumps(receipt, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
