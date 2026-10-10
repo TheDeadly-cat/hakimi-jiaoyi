@@ -1,0 +1,116 @@
+{
+  "schema_version": "m3-owner-exit-original-installed-reproduction-v1",
+  "status": "REPRODUCED",
+  "evidence_kind": "SYNTHETIC_TEST",
+  "original_version": "0.5.0.dev3",
+  "original_build": "554a430c21aaef2f1779b8a3eaa1635ac3c54e40",
+  "original_wheel_sha256": "633cff60f43cd498cdd54eadc3d765d092c79d75ec9543075936d9a1807fbcde",
+  "original_source_sha256": "557d53a28eaceaeb8dcd78b21f2d82cfe3d1355899616e150d5aee8950a8cf33",
+  "actual_ordinary_installed_module": true,
+  "actual_registered_tasks": true,
+  "actual_sqlite_persistence": true,
+  "no_domain_or_risk_stubs": true,
+  "cases": [
+    {
+      "case": "a-first",
+      "order": [
+        0,
+        1
+      ],
+      "guard": "normal",
+      "decisions": [
+        {
+          "status": "RESERVED",
+          "reason": "GLOBAL_LIMITS_AND_FUNDS_ALLOWED",
+          "intent_id": "782ebc54abc27cf0f4b8fc62ce9ff5a2161c017f96d1e1475cf856a5f0bcb635",
+          "requested_quantity": "10.0",
+          "reserved_cash": "0"
+        },
+        {
+          "status": "DUPLICATE_SIGNAL",
+          "intent_id": "ea02ad22a590f6a7b96d32b0ada3f77a2758b4ec921624d423a6b7079030befc",
+          "original_intent": "782ebc54abc27cf0f4b8fc62ce9ff5a2161c017f96d1e1475cf856a5f0bcb635"
+        }
+      ],
+      "sequence": 1,
+      "receipt_head": "a466a8cd7d814d1819ddf157cdb4ef10f8bf0d38f116b42c98543e3054fac728",
+      "same_owner_repeat_blocked": true,
+      "second_owner_position_survives_first_fill": true
+    },
+    {
+      "case": "b-first",
+      "order": [
+        1,
+        0
+      ],
+      "guard": "normal",
+      "decisions": [
+        {
+          "status": "RESERVED",
+          "reason": "GLOBAL_LIMITS_AND_FUNDS_ALLOWED",
+          "intent_id": "ea02ad22a590f6a7b96d32b0ada3f77a2758b4ec921624d423a6b7079030befc",
+          "requested_quantity": "20.0",
+          "reserved_cash": "0"
+        },
+        {
+          "status": "DUPLICATE_SIGNAL",
+          "intent_id": "782ebc54abc27cf0f4b8fc62ce9ff5a2161c017f96d1e1475cf856a5f0bcb635",
+          "original_intent": "ea02ad22a590f6a7b96d32b0ada3f77a2758b4ec921624d423a6b7079030befc"
+        }
+      ],
+      "sequence": 1,
+      "receipt_head": "a25c7f539aa9e02733272b8ddaa7589390b413ab542092753b8a17d074f58d21"
+    },
+    {
+      "case": "paused",
+      "order": [
+        0,
+        1
+      ],
+      "guard": "paused",
+      "decisions": [
+        {
+          "status": "RESERVED",
+          "reason": "GLOBAL_LIMITS_AND_FUNDS_ALLOWED",
+          "intent_id": "5913468276b4849c5627312aa18dcdf007753a23272dd47d44670c0f00d46e64",
+          "requested_quantity": "10.0",
+          "reserved_cash": "0"
+        },
+        {
+          "status": "DUPLICATE_SIGNAL",
+          "intent_id": "712a158dc3abccce1697b9a21574c8dc00c9b0e8cf949d09340188bbbb4e575b",
+          "original_intent": "5913468276b4849c5627312aa18dcdf007753a23272dd47d44670c0f00d46e64"
+        }
+      ],
+      "sequence": 2,
+      "receipt_head": "be34c78925e7456235d7a353bd5d0cb798dd9722026fad917779adbfb9e05287"
+    },
+    {
+      "case": "loss-halted",
+      "order": [
+        1,
+        0
+      ],
+      "guard": "loss",
+      "decisions": [
+        {
+          "status": "RESERVED",
+          "reason": "GLOBAL_LIMITS_AND_FUNDS_ALLOWED",
+          "intent_id": "997fc6153bd434260e5192e393a32b1fc4ef7495225ea8238cb02389c488dfee",
+          "requested_quantity": "20.0",
+          "reserved_cash": "0"
+        },
+        {
+          "status": "DUPLICATE_SIGNAL",
+          "intent_id": "1cd0ce49bb620ee65052fb4665678814bc25f877ab504a1027e9ba7cba9e8517",
+          "original_intent": "997fc6153bd434260e5192e393a32b1fc4ef7495225ea8238cb02389c488dfee"
+        }
+      ],
+      "sequence": 2,
+      "receipt_head": "d2314d94c3ec2816a97749166560e63f86f148e159796e6cd8d9ac7f54eb216a"
+    }
+  ],
+  "fixture_sha256": "c36ea85cb943936393a9ec96a6fc31f3def846e8035e1fd56303ff92644e7abf",
+  "broker_order_calls": 0,
+  "external_account_connected": false
+}

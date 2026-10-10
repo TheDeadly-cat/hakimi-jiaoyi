@@ -1,0 +1,95 @@
+{
+  "schema_version": "m3-owner-exit-initial-ci-observation-v1",
+  "run_id": 38081251332,
+  "head": "e003dd8b731923b8c1203812fd47804c7de99b19",
+  "conclusion": "cancelled",
+  "run_attempt": 1,
+  "jobs": [
+    {
+      "id": 114298454431,
+      "name": "Electron capability contract",
+      "conclusion": "success",
+      "started_at": "2026-10-10T19:48:24Z",
+      "completed_at": "2026-10-10T19:48:47Z"
+    },
+    {
+      "id": 114298454507,
+      "name": "Package install smoke (ubuntu-latest)",
+      "conclusion": "success",
+      "started_at": "2026-10-10T19:48:24Z",
+      "completed_at": "2026-10-10T19:52:01Z",
+      "raw_log_sha256": "235938d919628edb1a7cf2c2322cdfc4e6541c5e6cdf39326b3d2e11c2577362",
+      "complete_test_footers": [
+        [
+          "299",
+          "34.843"
+        ]
+      ],
+      "installed_source_hashes": [
+        "520a37e80803b76ef31e12f1919f0f6ac11f10805b9e9d50e26247e4a3756894"
+      ]
+    },
+    {
+      "id": 114298454514,
+      "name": "Deterministic references",
+      "conclusion": "success",
+      "started_at": "2026-10-10T19:48:24Z",
+      "completed_at": "2026-10-10T19:49:08Z"
+    },
+    {
+      "id": 114298454523,
+      "name": "Python contracts",
+      "conclusion": "success",
+      "started_at": "2026-10-10T19:48:24Z",
+      "completed_at": "2026-10-10T19:50:33Z"
+    },
+    {
+      "id": 114298454560,
+      "name": "Historical developer reference replay",
+      "conclusion": "success",
+      "started_at": "2026-10-10T19:48:24Z",
+      "completed_at": "2026-10-10T19:50:02Z"
+    },
+    {
+      "id": 114298454612,
+      "name": "Package install smoke (windows-latest)",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-10T19:48:24Z",
+      "completed_at": "2026-10-10T19:58:28Z",
+      "raw_log_sha256": "2e80d4238568ba2f8ca02c715f19b0e09df98bfcbe0f3a823145143f1e96b3d7",
+      "complete_test_footers": [],
+      "installed_source_hashes": [
+        "520a37e80803b76ef31e12f1919f0f6ac11f10805b9e9d50e26247e4a3756894"
+      ]
+    },
+    {
+      "id": 114298454617,
+      "name": "Offline research MVP contracts",
+      "conclusion": "success",
+      "started_at": "2026-10-10T19:48:24Z",
+      "completed_at": "2026-10-10T19:52:49Z",
+      "raw_log_sha256": "e8085c77f651ccfc2384f56055f2af177f5021dc030a2e9aa94c1d02fa7fb9a8",
+      "complete_test_footers": [
+        [
+          "299",
+          "211.770"
+        ]
+      ],
+      "installed_source_hashes": []
+    },
+    {
+      "id": 114298454675,
+      "name": "Market-data renderer",
+      "conclusion": "success",
+      "started_at": "2026-10-10T19:48:24Z",
+      "completed_at": "2026-10-10T19:49:28Z"
+    },
+    {
+      "id": 114300352376,
+      "name": "Research required gate",
+      "conclusion": "failure",
+      "started_at": "2026-10-10T19:58:29Z",
+      "completed_at": "2026-10-10T19:58:51Z"
+    }
+  ]
+}
