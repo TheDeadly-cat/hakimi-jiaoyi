@@ -1,12 +1,12 @@
 # 哈基米交易（Hakimi Jiaoyi）
 
-本文版本与安装验收状态为 PR #19 合并前的审阅记录；实时主分支集成见 [PR #19](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/19) 的合并记录和 main 检查。
+本页是日常产品入口；M1、M2-1 与 R1／R2／R3 已结案。当前 main 基线为 `4732bcc`，新候选与历史产物的精确身份分别记录在状态页和各自验收目录。
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
 
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 M1 已交付并合入 main `17b2c15`（PR #19 受审 `669b348`），实际 main [九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005)。M1 存档候选为 `0.3.0.dev4`；正式 Release 仍为 `v0.2.1`。旧产物、失败记录与验收身份保留。
-M2-1 已通过 [PR #20](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/20) 合入 main `9085eab`，[实际 main 九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37945097181)。R1 默认语义与 R2 数值提前拒绝保持关闭，存档 `0.4.0.dev3`、232 项安装验收及原构建 `6f9f02a` 不改签；dev2 原包与旧记录保留。当前限定处理 R3：命令行修改版本切换策略残留事件输入，独立补丁 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/21) 的 `0.4.0.dev4` 已完成仓库外 241 项检查及实际修改／菜单切换，构建提交九项 CI 全通过；尚未集成。见[R3 范围与验收](docs/research-evidence/strategy-switch-r3-20261010/README.md)、[原配置修复验收](docs/research-evidence/strategy-task-m2-config-20261009/README.md)和[任务说明](docs/strategy-task-management.md)。
+M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/21) 集成，R1／R2／R3 均关闭；实际 main `4732bcc` 的[九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38028969246)。本轮 **M2-2** [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 候选 `0.4.0.dev5` 提供统一离线输入中心、适用性检查、新版本绑定和既有排期／内容规则入口；同一 wheel 的仓库外 253 项及实际输入流程通过，见[本轮候选验收](docs/research-evidence/input-workflow-m2-20261010/README.md)、[输入使用说明](docs/input-workflow.md)与[任务说明](docs/strategy-task-management.md)。候选构建、最终 head CI 和 main 集成分别记录；原 dev4／dev3／dev2 验收保留。
 0.3.0.dev4 已修复初始化互斥、中断重试和外部历史三项流程问题；同一新产物完成全新 Windows 仓库外安装、209 项安装后检查及默认／同盘外部／真实跨盘菜单退出重开、查看、重放和恢复。菜单直接展示费用、损益、持仓与信号原因；实际首用由代理完成，未声称新包人工验收。旧 dev3 的 201 项检查、首用和产物及更早 dev2 证据原样保留。见[最新修复与交付记录](docs/research-evidence/offline-product-m1-p2-20261009/README.md)。
 两个市场复用同一成交与记账引擎，快照、交易日历及报告分别保存明确的格式与身份。
 历史模拟不授予 paper、live、账户操作、下单或自动参数选择权限。
@@ -15,7 +15,7 @@ M2-1 已通过 [PR #20](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/20) 
 
 正式版本从 [v0.2.1 Release](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1) 下载 Windows 或 Ubuntu ZIP；核对发布页的 `SHA256SUMS.txt` 后解压，再核对包内校验和。两个 ZIP 各自保留确切受验收 wheel 与构建、依赖、测试证据；安装解压出的 `hakimi_research-0.2.1-py3-none-any.whl` 会按精确版本安装依赖，离线安装需另备依赖 wheel。该版本固定在 `45850899992361970043f2da70e785210025ae9e`，[发布下载与安装验收](docs/research-evidence/release-0.2.1-20260909/README.md)记录实际验证范围。
 
-普通使用按[离线工具安装与首次使用](docs/offline-quant-tool.md)操作，可从候选包安装到仓库外。以下源码开发流程对应 0.3.0.dev4 开发版本；它与已发布的 0.2.1、历史 0.2.2／0.3.0.dev1 研究分别保留来源和结果。
+普通使用按[离线工具安装与首次使用](docs/offline-quant-tool.md)和[统一输入流程](docs/input-workflow.md)操作，可从候选包安装到仓库外。以下源码开发流程对应 0.4.0.dev5；它与正式 v0.2.1、M1 和 M2-1 历史产物分别保留来源与结果。
 
 开发环境在仓库根目录安装精确依赖与 editable 包：
 
@@ -34,7 +34,7 @@ hakimi-research list-strategies
 python -m pip install "setuptools>=77" wheel
 python -m pip wheel . --no-deps --no-build-isolation --wheel-dir dist
 python -m venv ..\hakimi-research-use\hakimi-env
-..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.3.0.dev4-py3-none-any.whl
+..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.4.0.dev5-py3-none-any.whl
 Set-Location ..\hakimi-research-use
 .\hakimi-env\Scripts\hakimi-research.exe capabilities
 ```

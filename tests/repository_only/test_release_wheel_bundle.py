@@ -89,6 +89,41 @@ class ReleaseWheelBundleTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "already exists"):
                 BUNDLE.export_bundle(receipt, output)
 
+    def test_installed_input_receipt_preserves_scope_and_rejects_private_or_partial_proof(self):
+        # Schema fixtures exercise export rejection, not installed acceptance.
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            receipt = fixture(root)
+            flags = ['actual_installed_cold_console','actual_menu_csv_import','actual_menu_research_binding',
+                'snapshot_original_bytes_preserved','research_packet_original_bytes_preserved','missing_context_rejected',
+                'paused_task_rejected','rejections_keep_committed_state','task_version_binding','pause_preserved',
+                'old_reports_unchanged','schedule_version_changes_filter','unapproved_content_holds',
+                'approved_fixture_content_no_intervention_matches_price_result','exit_reopen','workspace_migration','migrated_replay_verified']
+            workflow = dict(schema_version='installed-offline-input-workflow-v1',status='PASS',operator='AGENT',
+                data_kind='SYNTHETIC_TEST',fixture_review='SYNTHETIC_CONTRACT_RECEIPT_ONLY',
+                transcript=[dict(command='input-check',status='INPUTS_APPLICABLE_NO_SIMULATION') for _ in range(30)],
+                **{k:True for k in flags}, **{k:0 for k in ['input_checks_new_economic_runs',
+                    'comparison_new_economic_runs','migrated_view_new_economic_runs','provider_calls','account_calls','order_calls']},
+                human_review_claimed=False,checkout_data_used=False,source_modified=False)
+            receipt['input_workflow_installed_workflow'] = workflow
+            original = Path(receipt['wheel']).read_bytes()
+            BUNDLE.export_bundle(receipt, root/'valid')
+            self.assertEqual(json.loads((root/'valid/installed-input-workflow.json').read_bytes()), workflow)
+            self.assertEqual(Path(receipt['wheel']).read_bytes(), original)
+            changes = [lambda r:r.update(human_review_claimed=True),lambda r:r.update(order_calls=False),
+                lambda r:r.update(actual_menu_research_binding=False),lambda r:r.update(local_path=str(root)),
+                lambda r:r['transcript'][0].update(command=str(root)),
+                lambda r:r['transcript'][0].update(expected_reason='C:/Users/PRIVATE_USER/error')]
+            for index, change in enumerate(changes):
+                with self.subTest(index=index):
+                    bad = deepcopy(receipt)
+                    change(bad['input_workflow_installed_workflow'])
+                    target = root/f'rejected-input-{index}'
+                    with self.assertRaises(ValueError):
+                        BUNDLE.export_bundle(bad,target)
+                    self.assertFalse(target.exists())
+                    self.assertEqual(Path(receipt['wheel']).read_bytes(), original)
+
     def test_changed_wheel_or_mismatched_source_cannot_export(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

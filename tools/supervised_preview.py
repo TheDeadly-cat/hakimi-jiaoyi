@@ -87,7 +87,7 @@ def inspect_installation(root, manifest, runtime):
 
 def show_status(root, runtime=None):
     manifest = verify_bundle(root)
-    if manifest.get("product_profile") in {"M1_OFFLINE_QUANT_TOOL", "M2_1_OFFLINE_QUANT_TOOL"}:
+    if manifest.get("product_profile") in {"M1_OFFLINE_QUANT_TOOL", "M2_1_OFFLINE_QUANT_TOOL", "M2_2_OFFLINE_QUANT_TOOL"}:
         return {"build_id": manifest["build_id"], "version": manifest["version"],
             "product_target": "QUANTITATIVE_TRADING_TOOL", "current_scope": "INSTALLABLE_OFFLINE_CANDIDATE",
             "installation": inspect_installation(root, manifest, runtime),
@@ -218,7 +218,7 @@ def install(root, runtime, *, wheelhouse=None, allow_downloads=False):
             completed = subprocess.run([str(python), "-I", "-B", "-m", "hakimi_research.equity_cli", "capabilities"], cwd=runtime, env=clean_environment(), stdout=stream, stderr=subprocess.STDOUT, timeout=30)
             if completed.returncode:
                 raise RuntimeError("research_cli_smoke_failed_see_log:" + str(log))
-            if manifest.get("product_profile") in {"M1_OFFLINE_QUANT_TOOL", "M2_1_OFFLINE_QUANT_TOOL"}:
+            if manifest.get("product_profile") in {"M1_OFFLINE_QUANT_TOOL", "M2_1_OFFLINE_QUANT_TOOL", "M2_2_OFFLINE_QUANT_TOOL"}:
                 completed = subprocess.run([str(python), "-I", "-B", "-m", "hakimi_research.trade_cli", "capabilities"], cwd=runtime,
                     env=clean_environment(), stdout=stream, stderr=subprocess.STDOUT, timeout=30)
                 if completed.returncode:

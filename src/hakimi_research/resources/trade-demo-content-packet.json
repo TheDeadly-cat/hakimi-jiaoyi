@@ -1,0 +1,57 @@
+{
+  "schema_version": "announcement-human-review-candidates-v1",
+  "evidence_kind": "SYNTHETIC_TEST",
+  "events": [
+    {
+      "event_id": "SYNTHETIC:CONTENT:Q3",
+      "security_id": "SYNTHETIC:RESEARCH:TEST",
+      "fiscal_quarter": "2024Q3",
+      "version": 1,
+      "prior_version_hash": null,
+      "first_public_at": "2024-11-06T21:15:00Z",
+      "version_public_at": "2024-11-06T21:15:00Z",
+      "retrieved_at": "2024-12-05T00:00:00Z",
+      "extraction_completed_at": "2024-12-05T00:01:00Z",
+      "source_url": "https://example.invalid/fictional-content",
+      "raw_sha256": "617ea078f4d246dfa1a8529dd6836659c80df500a922a2c00cf753fcfe5a12c8",
+      "plain_text_sha256": "617ea078f4d246dfa1a8529dd6836659c80df500a922a2c00cf753fcfe5a12c8",
+      "facts": [
+        {
+          "name": "actual_revenue",
+          "status": "UNCERTAIN",
+          "value": "100",
+          "scale": "1000000",
+          "currency": "USD",
+          "unit": "CURRENCY",
+          "fiscal_period": "2024Q3",
+          "basis": "GAAP",
+          "reason": "PENDING_HUMAN_SEMANTIC_REVIEW",
+          "evidence": {
+            "plain_text_start": 23,
+            "plain_text_end": 26,
+            "quote": "100"
+          }
+        },
+        {
+          "name": "next_revenue_guidance_midpoint",
+          "status": "UNCERTAIN",
+          "value": "120",
+          "scale": "1000000",
+          "currency": "USD",
+          "unit": "CURRENCY",
+          "fiscal_period": "2024Q4",
+          "basis": "REVENUE_OUTLOOK",
+          "reason": "PENDING_HUMAN_SEMANTIC_REVIEW",
+          "evidence": {
+            "plain_text_start": 57,
+            "plain_text_end": 60,
+            "quote": "120"
+          }
+        }
+      ],
+      "candidate_hash": "5d610a720cc99bbfb5d2c2a605f71f420b4e4b8f92cd4caa12db8b73b3ef740b"
+    }
+  ],
+  "human_review": "NOT_APPROVED",
+  "packet_hash": "d8059aa3744f7f08d5173e98238b4e98ffcc7e354a5df4c9d4d66051d8207793"
+}

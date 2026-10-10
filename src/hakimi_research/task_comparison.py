@@ -25,6 +25,8 @@ def compare_runs(directories, *, output=None):
         from .trade_cli import configuration_view
         result, spec = report['result'], report['spec']
         signals = result['signals']
+        from .input_workflow import saved_input_outcome
+        outcome = saved_input_outcome(report)
         conditions.append(_conditions(manifest, report))
         rows.append(dict(task_id=manifest['task_id'], run_id=manifest['run_id'], report_hash=report['report_hash'],
             strategy=manifest['task']['strategy'], title=definition(manifest['task']['strategy'])['title'],
@@ -35,7 +37,7 @@ def compare_runs(directories, *, output=None):
             net_return=result['total_return'], net_pnl=result['final_equity'] - spec['initial_cash'],
             max_drawdown=result['max_drawdown'], total_fees=result['total_fees'], fills=result['fill_count'],
             buy_intents=sum(row['action'] == 'BUY' for row in signals),
-            blocked_new_buys=sum(any(v.get('disposition') == 'BLOCK_NEW_BUY' for v in row.get('event_filter', {}).values()) for row in signals),
+            blocked_new_buys=outcome['blocked_new_buys'], research_input_outcome=outcome,
             realized_pnl=result['realized_pnl'], unrealized_pnl=result['unrealized_pnl'],
             open_position_qty=result['open_position_qty'], risk_semantics=result['risk_semantics'],
             stop_requests=[dict(requested=r['requested_stop_loss_pct'], effective=r['effective_stop_loss_pct']) for r in signals if r['action'] == 'BUY'],

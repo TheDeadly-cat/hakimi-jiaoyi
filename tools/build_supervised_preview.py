@@ -141,12 +141,15 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
     with tempfile.TemporaryDirectory(prefix="hakimi-M1-export-") as temp:
         accepted = Path(temp) / "accepted"
         public = export_bundle(receipt, accepted)
-        milestone = 'M2_1' if public['wheel'].split('-')[1].startswith('0.4.') else 'M1'
-        if milestone == 'M2_1' and receipt.get('managed_task_installed_workflow',{}).get('status') != 'PASS':
+        version = public['wheel'].split('-')[1]
+        milestone = 'M2_2' if version=='0.4.0.dev5' or 'input_workflow_installed_workflow' in receipt else 'M2_1' if version.startswith('0.4.') else 'M1'
+        if milestone.startswith('M2_') and receipt.get('managed_task_installed_workflow',{}).get('status') != 'PASS':
             raise ValueError('M2_exact_wheel_managed_task_workflow_acceptance_required')
-        if (milestone == 'M2_1' and public['wheel'].split('-')[1] not in {'0.4.0.dev1','0.4.0.dev2'}
+        if (milestone.startswith('M2_') and version not in {'0.4.0.dev1','0.4.0.dev2'}
                 and receipt.get('configuration_consistency_installed_workflow',{}).get('status') != 'PASS'):
             raise ValueError('M2_configuration_consistency_exact_wheel_acceptance_required')
+        if milestone=='M2_2' and receipt.get('input_workflow_installed_workflow',{}).get('status')!='PASS':
+            raise ValueError('M2_unified_input_exact_wheel_acceptance_required')
         spec = importlib.util.spec_from_file_location("M1_source_identity", root / "src/hakimi_research/source_identity.py")
         identity = importlib.util.module_from_spec(spec); spec.loader.exec_module(identity)
         source = identity.package_content_identity(root / "src/hakimi_research")
@@ -155,7 +158,12 @@ def build_offline_product(receipt, output, *, wheelhouse, root=ROOT):
         content = {"research/" + p.name: p.read_bytes() for p in accepted.iterdir()}
         content["preview.py"] = (root / "tools/supervised_preview.py").read_bytes()
         content["requirements.research.lock"] = (root / "requirements.research.lock").read_bytes()
-        content["README.md"] = (root / ("docs/strategy-task-management.md" if milestone == 'M2_1' else "docs/offline-quant-tool.md")).read_bytes()
+        guide = 'docs/input-workflow.md' if milestone=='M2_2' else 'docs/strategy-task-management.md' if milestone=='M2_1' else 'docs/offline-quant-tool.md'
+        content['README.md'] = (root/guide).read_bytes()
+        if milestone=='M2_2':
+            content['input-workflow.md'] = content['README.md']
+            for name in ['strategy-task-management.md','offline-quant-tool.md']:
+                content[name] = (root/'docs'/name).read_bytes()
         wheels = list(wheelhouse.glob("*.whl"))
         pins = receipt["installed_runtime"]["environment_verified"]["packages"]
         if len(wheels) != len(pins):

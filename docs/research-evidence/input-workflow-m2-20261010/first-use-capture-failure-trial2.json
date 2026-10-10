@@ -1,0 +1,12 @@
+{
+  "schema_version": "m2-input-first-use-capture-failure-v1",
+  "status": "VERIFIER_UTF8_DECODE_FAILED",
+  "verifier_exit_code": 1,
+  "entry_process_exit_code": "NOT_RETAINED_BEFORE_DECODE_FAILURE",
+  "reason": "Isolated Python ignores encoding environment variables; observed redirected stdout encoding is GBK",
+  "log_sha256": "8b371630b7b9a779eb9ec0aa985f2cc6f32d0feb2153f39b5b22b86fb23aad7c",
+  "log_scope": "ORIGINAL_PROCESS_BYTES_RETAINED",
+  "correction": "Probe actual isolated stdout encoding; strict decode new raw capture; retain both failed verification trials",
+  "accepted_first_use": false,
+  "production_runtime_changed": false
+}

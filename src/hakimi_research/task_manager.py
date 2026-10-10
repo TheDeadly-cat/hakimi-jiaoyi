@@ -273,7 +273,8 @@ def describe_task(path):
     checked = check_task(path, inspect_only=True)
     family = _family_for_task(path)
     view = read_family(family) if family else dict(state=checked['semantics']['state'], revisions=[], legacy_task=True)
-    return dict(**view, task_id=checked['task_id'], strategy=checked['semantics']['strategy'],
+    from .input_workflow import bound_input_view
+    return dict(**view, task_id=checked['task_id'], strategy=checked['semantics']['strategy'], inputs=bound_input_view(checked),
         viewed_revision=checked['semantics'].get('management',{}).get('revision'),
         configuration=configuration_view(checked['semantics']['experiment']), scoring=checked['protocol'],
         task_file=str(checked['task_path']))

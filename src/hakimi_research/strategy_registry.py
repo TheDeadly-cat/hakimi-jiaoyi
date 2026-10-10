@@ -27,6 +27,20 @@ _ENTRIES = {
         extra_input_requirements=['Versioned, point-in-time event context for the same security']),
 }
 
+# Additive adapters: existing entries and their identity hashes remain unchanged.
+for _key, _title, _rule in [
+    ('content.price_confirmation@1', '公告后价格确认基准', 'FIRST_FULL_POST_RELEASE_CLOSE_CONFIRMATION_V1'),
+    ('content.reviewed_outlook@1', '已核准下季指引条件＋价格确认', 'REVIEWED_NEXT_QUARTER_OUTLOOK_ABOVE_CURRENT_REVENUE_V1'),
+]:
+    _ENTRIES[_key] = dict(_COMMON, strategy_id=_key.split('@')[0], version='1', title=_title,
+        engine_strategy='equity_post_release_confirmation', event_rule=_rule,
+        signal_rule='Existing first full post-release close predicate; optionally existing approved outlook predicate',
+        entry_rule='Single confirmation opportunity; next regular-session open',
+        exit_rule='Canonical configured stop/take-profit; no retry or re-entry; mark to market at end',
+        parameters=['position_pct', 'stop_loss_pct', 'take_profit_pct'],
+        extra_input_requirements=['Existing candidate packet, normalized and original source bytes, exact publication clock',
+            'Scoped field receipt for content acceptance; missing approval remains UNKNOWN/HOLD'])
+
 
 def strategies():
     return deepcopy(_ENTRIES)
@@ -49,7 +63,8 @@ def effective_parameters(engine_strategy, params):
     the form, configuration view and input admission, never a rewritten spec.
     """
     defaults = {'dual_ma': dict(fast_window=20, slow_window=60, position_pct=0.25,
-        stop_loss_pct=0.03, take_profit_pct=0.08), 'buy_and_hold': dict(target_position_pct=0.25)}
+        stop_loss_pct=0.03, take_profit_pct=0.08), 'buy_and_hold': dict(target_position_pct=0.25),
+        'equity_post_release_confirmation': dict(position_pct=0.25, stop_loss_pct=0.03, take_profit_pct=0.06)}
     if engine_strategy not in defaults:
         raise ValueError('unsupported_application_engine_strategy:' + str(engine_strategy))
     return {**defaults[engine_strategy], **deepcopy(params)}
@@ -80,6 +95,15 @@ def reconfigure_task_options(original, changes):
 
 def validate_strategy(strategy_key, spec, event_context):
     entry = definition(strategy_key)
+    if entry['engine_strategy'] == 'equity_post_release_confirmation':
+        from .content_tasks import CONTEXT_SCHEMA, ContentTaskSpec, verify_content_context
+        if type(event_context) is not dict or event_context.get('schema_version') != CONTEXT_SCHEMA:
+            raise ValueError('research_input_not_applicable:content_rule_requires_content_context')
+        checked = ContentTaskSpec.from_document(spec)
+        context = verify_content_context(event_context)
+        if checked.document['event_rule'] != entry['event_rule'] or checked.document['event_context_hash'] != context['context_hash']:
+            raise ValueError('content_task_registered_rule_or_context_mismatch')
+        return checked
     checked = EquityExperimentSpec.from_document(spec)
     doc = checked.document
     if doc['strategy']['name'] != entry['engine_strategy']:
@@ -91,9 +115,44 @@ def validate_strategy(strategy_key, spec, event_context):
             raise ValueError('price_strategy_must_not_silently_use_event_inputs')
     elif doc['schema_version'] != EVENT_SPEC_SCHEMA or doc['event_rule'] != entry['event_rule'] or event_context is None:
         raise ValueError('registered_event_strategy_requires_bound_event_context')
+    elif event_context.get('schema_version') != 'equity-event-context-v1':
+        raise ValueError('research_input_not_applicable:schedule_rule_requires_schedule_context')
     return checked
 
 
 def run_strategy(strategy_key, snapshot, spec, event_context=None):
     checked = validate_strategy(strategy_key, spec, event_context)
+    if definition(strategy_key)['engine_strategy'] == 'equity_post_release_confirmation':
+        from .content_tasks import run_content_task
+        return run_content_task(snapshot, checked, event_context)
     return EquityExperimentRunner().run(snapshot, checked, event_context=event_context)
+
+
+def required_task_context(strategy_key, params):
+    from .experiment import required_context
+    entry = definition(strategy_key)
+    return 1 if entry['engine_strategy'] == 'equity_post_release_confirmation' else required_context(entry['engine_strategy'], params)
+
+
+def inspect_task_inputs(snapshot, spec, *, event_context=None):
+    from .content_tasks import SPEC_SCHEMA, inspect_content_inputs
+    if spec.document['schema_version'] == SPEC_SCHEMA:
+        return inspect_content_inputs(snapshot, spec, event_context)
+    from .equity_research import inspect_equity_inputs
+    return inspect_equity_inputs(snapshot, spec, event_context=event_context)
+
+
+def verify_task_report(document, snapshot):
+    from .content_tasks import REPORT_SCHEMA, verify_content_report
+    if document.get('schema_version') == REPORT_SCHEMA:
+        return verify_content_report(document, snapshot)
+    from .equity_research import verify_equity_report
+    return verify_equity_report(document)
+
+
+def replay_task_report(snapshot, report):
+    from .content_tasks import REPORT_SCHEMA, replay_content_report
+    if report.document.get('schema_version') == REPORT_SCHEMA:
+        return replay_content_report(snapshot, report)
+    from .equity_research import replay_equity_report
+    return replay_equity_report(snapshot, report)

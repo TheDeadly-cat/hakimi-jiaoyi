@@ -16,7 +16,8 @@ from .equity_research import EquityResearchReport, EquityExperimentSpec, inspect
 from .environment import build_runtime_provenance
 from .reporting import _save_encoded_report
 from .report_style import CARD_STYLE
-from .strategy_registry import definition, strategy_identity, validate_strategy, run_strategy
+from .strategy_registry import (definition, strategy_identity, validate_strategy, run_strategy,
+    inspect_task_inputs, verify_task_report, replay_task_report)
 
 
 def write_new(path, value):
@@ -127,8 +128,10 @@ def check_task(task_file, *, inspect_only=False):
     snapshot_path = resolve_input(task_file, task['snapshot'])
     snapshot = load_equity_snapshot(snapshot_path)
     context_path = resolve_input(task_file, task['event_context']) if task['event_context'] is not None else None
-    context = verify_event_context(read_document(context_path)) if context_path else None
-    spec = validate_strategy(task['strategy'], task['experiment'], context).document
+    from .input_workflow import verify_research_context
+    context = verify_research_context(read_document(context_path)) if context_path else None
+    checked_spec = validate_strategy(task['strategy'], task['experiment'], context)
+    spec = checked_spec.document
     if task['schema_version'] == TASK_SCHEMA:
         from .trade_cli import validate_configuration
         validate_configuration(spec)
@@ -146,7 +149,7 @@ def check_task(task_file, *, inspect_only=False):
     if snapshot.document['research_admission']['synthetic_only'] and spec['purpose'] != 'SYNTHETIC_REGRESSION':
         raise ValueError('synthetic_inputs_cannot_be_market_evidence')
     # Validate the scoring and warmup clocks without running a strategy.
-    protocol = inspect_equity_inputs(snapshot, EquityExperimentSpec.from_document(spec), event_context=context)
+    protocol = inspect_task_inputs(snapshot, checked_spec, event_context=context)
     semantics = dict(schema_version=task['schema_version'], strategy=task['strategy'], state=task['state'],
         strategy_identity=strategy_identity(task['strategy']), experiment=spec,
         event_context_hash=context['context_hash'] if context else None)
@@ -267,14 +270,14 @@ def verify_run_inputs(directory, *, allow_preparation=False):
             raise ValueError('retained_input_missing_or_changed:' + name)
     snapshot = load_equity_snapshot(directory / 'inputs/snapshot.json')
     context = read_document(directory / 'inputs/event-context.json') if 'event-context.json' in manifest['input_sha256'] else None
-    inspect_equity_inputs(snapshot, validate_strategy(manifest['task']['strategy'], manifest['task']['experiment'], context), event_context=context)
+    inspect_task_inputs(snapshot, validate_strategy(manifest['task']['strategy'], manifest['task']['experiment'], context), event_context=context)
     return manifest, snapshot, context
 
 
 def verify_run(directory):
     directory = Path(directory).resolve()
     manifest, snapshot, context = verify_run_inputs(directory)
-    report = verify_equity_report(read_document(directory / 'report.json'))
+    report = verify_task_report(read_document(directory / 'report.json'), snapshot)
     runtime = manifest['runtime']
     if (report['provenance']['source_identity']['content_sha256'] != runtime['source_identity']['content_sha256']
             or report['provenance']['environment_verified'] != runtime['environment_verified']):
@@ -316,7 +319,25 @@ def render_run(manifest, report, directory):
     entry = definition(manifest['task']['strategy'])
     result = report['result']
     signals = result['signals']
-    blocked = [r for r in signals if any(v.get('disposition') == 'BLOCK_NEW_BUY' for v in r.get('event_filter', {}).values())]
+    from .input_workflow import saved_input_outcome, context_view
+    outcome = saved_input_outcome(report)
+    inputs_html = '<p>行情身份 <code>'+report['dataset']['snapshot_id']+'</code>；研究状态 '+escape(outcome['status'])+'。</p><p>'+escape(outcome['explanation'])+'</p>'
+    if report.get('event_context') is not None:
+        view = context_view(report['event_context'])
+        inputs_html += '<p>研究内容身份 <code>'+view['input_id']+'</code>。</p><ul>'
+        for row in view['versions']:
+            available=row['availability']
+            inputs_html += '<li>'+escape(row['event_id'])+' v'+str(row['version'])+'；可用 '+escape(str(available['available_at']))+' / '+escape(available['available_at_kind'])+'；来源 '+escape(row['source_url'])
+            if 'field_review' in row:inputs_html += '；字段核准 '+escape(row['field_review'])
+            inputs_html += '</li>'
+        inputs_html += '</ul>'
+    if report.get('input_reviews') is not None:
+        inputs_html += '<ul>'
+        for row in outcome['reviews']:
+            if row['price_action']=='BUY':
+                versions=', '.join(v['event_id']+' v'+str(v['version'])+' / '+v['field_review'] for v in row['known_versions'])
+                inputs_html += '<li>'+escape(row['decision_at'])+'：价格 '+escape(row['price_action'])+' → '+escape(row['output_action'])+'；'+escape(row['reason'])+'；'+escape(row['applicability'])+'；所用版本 '+escape(versions or '无可用版本')+'</li>'
+        inputs_html += '</ul>'
     reasons = list(dict.fromkeys(r['reason'] for r in signals))
     net = result['final_equity'] - report['spec']['initial_cash']
     title = escape(entry['title'])
@@ -328,10 +349,11 @@ def render_run(manifest, report, directory):
         '<h1>' + title + '</h1></header><article class="card"><h2>本次运行</h2><p>策略版本 ' + escape(entry['version']) + '；任务状态 ENABLED。</p>'
         '<p>证券 ' + escape(report['dataset']['security']['symbol']) + '；评分区间 ' + escape(report['spec']['score_start_session']) + ' 至 ' + escape(report['spec']['score_end_session']) + '。</p>'
         '<p>数据类型 ' + escape(report['dataset']['evidence_kind']) + '；日线、碎股、比例费用和固定滑点为模型近似。有效杠杆 1；公司行为记账暂不支持。</p>'
-        '<p>BUY 意图 ' + str(sum(r['action'] == 'BUY' for r in signals)) + '；成交 ' + str(result['fill_count']) + '；事件过滤阻挡 ' + str(len(blocked)) + '。</p>'
+        '<p>BUY 意图 ' + str(sum(r['action'] == 'BUY' for r in signals)) + '；成交 ' + str(result['fill_count']) + '；研究过滤阻挡 ' + str(outcome['blocked_new_buys']) + '。</p>'
         '<p><strong>净收益率 ' + f"{result['total_return']*100:+.4f}%" + '；扣费后损益 ' + f'{net:+.2f}' + ' 美元。</strong></p>'
         '<details><summary>费用与期末持仓</summary><p>费用 ' + f"{result['total_fees']:.2f}" + ' 美元；已实现 ' + f"{result['realized_pnl']:+.2f}" + '；未实现 ' + f"{result['unrealized_pnl']:+.2f}" + '；期末持仓 ' + f"{result['open_position_qty']:.4f}" + ' 股。</p></details>'
         '<details><summary>信号与阻挡原因</summary><ul>' + detail + '</ul></details></article>'
+        '<article class="card"><h2>输入与规则影响</h2>'+inputs_html+'</article>'
         '<article class="card"><h2>数据与成交模型边界</h2><ul>' + warnings + '</ul></article>'
         '<footer>输出位置：<code>' + escape(str(directory)) + '</code><br>任务身份：<code>' + manifest['task_id'] + '</code><br>报告身份：<code>' + report['report_hash'] + '</code>'
         '<p>研究内核隔离运行；账户、模拟订单和真实订单权限保持关闭。重放或页面恢复使用保留输入，不访问网络。</p></footer></main></html>')
@@ -357,12 +379,14 @@ def describe_run(directory):
     entry = definition(manifest['task']['strategy'])
     result = report['result']
     signals = result['signals']
+    from .input_workflow import saved_input_outcome
+    outcome = saved_input_outcome(report)
     return dict(schema_version='hakimi-offline-result-view-v1',
         strategy=dict(key=manifest['task']['strategy'], title=entry['title'], version=entry['version'], state=manifest['task']['state']),
         symbol=report['dataset']['security']['symbol'], data_kind=report['dataset']['evidence_kind'],
         score_start=report['spec']['score_start_session'], score_end=report['spec']['score_end_session'],
         buy_intents=sum(row['action'] == 'BUY' for row in signals), fill_count=result['fill_count'],
-        blocked_new_buys=sum(any(value.get('disposition') == 'BLOCK_NEW_BUY' for value in row.get('event_filter', {}).values()) for row in signals),
+        blocked_new_buys=outcome['blocked_new_buys'], research_input_outcome=outcome,
         reasons=list(dict.fromkeys(row['reason'] for row in signals)),
         total_return=result['total_return'], net_pnl=result['final_equity'] - report['spec']['initial_cash'],
         total_fees=result['total_fees'], realized_pnl=result['realized_pnl'], unrealized_pnl=result['unrealized_pnl'],
@@ -373,7 +397,7 @@ def describe_run(directory):
 def replay_run(directory):
     directory = Path(directory).resolve()
     _, report, snapshot = verify_run(directory)
-    receipt = replay_equity_report(snapshot, EquityResearchReport(report))
+    receipt = replay_task_report(snapshot, EquityResearchReport(report))
     write_new(directory / 'replays' / (receipt['receipt_hash'] + '.json'), receipt)
     if not receipt['replay_verified']:
         raise ValueError('replay_failed_original_result_retained')

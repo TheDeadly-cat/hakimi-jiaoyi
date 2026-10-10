@@ -1,6 +1,6 @@
-# 策略任务与结果对照（M2-1）
+# 策略任务与结果对照
 
-候选 `0.4.0.dev4` 在同一 `hakimi-trade` 入口中管理配置和历史版本。菜单 15 创建可管理任务，13 查看／复制修改／保存新版本／暂停启用／选择历史版本，2 检查，3 运行，14 比较保存的结果。菜单 10 的旧格式任务继续可用；在菜单 13 复制后进入版本管理，不改写原任务。三个注册策略继续共用原运行、风控、记账及恢复机制。
+候选 `0.4.0.dev5` 在同一 `hakimi-trade` 入口中管理配置、历史版本及行情／研究输入。菜单 16 提供选择、导入、只读检查和版本绑定，见[输入流程](input-workflow.md)。菜单 15 创建可管理任务，13 管理版本与启停，2 检查，3 运行，14 比较保存结果；旧格式任务先复制后管理。原三个注册策略保持原身份，新增的两个内容适配入口复用既有价格确认／字段条件和同一引擎。
 
 Windows x64 离线候选需 CPython 3.14。将 ZIP 解压到独立目录，双击 `Start-Hakimi.cmd`：安装器只用包内 wheel 和五个锁定依赖，在候选旁创建独立环境，检查身份后打开菜单。无须源码或浏览器；不连接行情、账户或订单。首次可选菜单 1 创建虚构数据，再从 15 配置任务；已有数据可用 9 导入。
 
@@ -9,7 +9,7 @@ Windows x64 离线候选需 CPython 3.14。将 ZIP 解压到独立目录，双�
 ```powershell
 py -3.14 -m venv .\runtime
 .\runtime\Scripts\python.exe -m pip install --no-index --find-links .\wheelhouse --requirement .\requirements.research.lock
-.\runtime\Scripts\python.exe -m pip install --no-deps .\research\hakimi_research-0.4.0.dev4-py3-none-any.whl
+.\runtime\Scripts\python.exe -m pip install --no-deps .\research\hakimi_research-0.4.0.dev5-py3-none-any.whl
 .\runtime\Scripts\hakimi-trade.exe wizard --workspace .\workspace
 ```
 
@@ -55,4 +55,4 @@ hakimi-trade task-revise --task .\workspace\tasks\my-strategy --strategy price.d
 hakimi-trade task-revise --task .\workspace\tasks\my-strategy --strategy price.buy_and_hold@1 --parameters .\benchmark-parameters.json --risk .\benchmark-risk.json
 ```
 
-`0.4.0.dev4` 是 R3 独立补丁；原 dev3 的包、构建与 232 项验收保持原身份。新补丁的安装入口与检查结果另记于 [R3 记录](research-evidence/strategy-switch-r3-20261010/README.md)。
+R3 存档 `0.4.0.dev4` 已通过 PR #21 合入 main，M2-1 与 R1／R2／R3 均结案。原 dev4／dev3／dev2 的包、构建与安装回执保持原身份。本轮 M2-2 `0.4.0.dev5` 的同一 wheel 已通过仓库外 253 项及实际输入流程；新候选首用与 CI 单独记录于 [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)，不复用旧候选的通过结论。
