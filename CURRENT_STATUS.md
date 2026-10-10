@@ -2,7 +2,7 @@
 
 本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1、M2-1 和 R1／R2／R3 已结案，当前开发阶段为 M3-1 离线共享资金与全局风控。M2-2 的两项 P2 已通过 PR #23 修复并集成，保持关闭。主分支集成以实际合并提交及其检查为准。
 
-整理日期：2026-10-10。PR #23 已经用户单独核准合入实际 main `d9baa08`，九项 CI 与两平台 262 项安装检查通过，M2-2 与两项 P2 结案。M3-1 当前修复候选为 `0.5.0.dev3`，单 symbol 别名缺口已复现并修复，安装和最终远端检查待验收；[最新修复记录](docs/research-evidence/shared-symbol-m3-20261010/README.md)。dev2 存档，同一新 wheel 仓库外 292 项、实际共享流程 v2、新启动器首用与原 dev1 账户只读兼容通过；操作时钟缺口已修复。见[dev2 交付](docs/research-evidence/shared-clock-m3-20261010/README.md)。原 dev1／dev6／dev5 与更早产物和失败保留其范围；最终 PR head CI 与单独 main 核准分别记录，当前未合入 main。
+整理日期：2026-10-10。PR #23 已经用户单独核准合入实际 main `d9baa08`，M2-2 与两项 P2 保持关闭。M3-1 当前候选 `0.5.0.dev3` 修复操作时钟和同 symbol 别名缺口；CLEAN 构建 `554a430`，同一 wheel 仓库外 295 项、共享流程 v3、新启动器首用及原 dev2 任务账户只读兼容通过，构建九项 CI 成功。见[dev3 交付](docs/research-evidence/shared-symbol-m3-20261010/README.md)。原 dev1／dev2／dev6／dev5 与更早产物和失败保留其范围；最终 PR head CI 与新 head 的单独 main 核准分别记录，当前未合入 main。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
@@ -10,7 +10,7 @@
 |---|---|
 | 当前 main | [PR #23](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/23) 经用户对 `ad16e81` 单独批准，于 2026-10-10 18:45:40 UTC+8 合入 `d9baa08e9723df09f40e461f008fce1939fc8023`；内容树 `0fb0352e8661b5fa89e70db8870c11be2e916bf8` 与受审 head 相同。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38046028854) 九项成功，Windows／Ubuntu 安装各 262 项；M2-2 及两项 P2 已关闭 |
 | 前一 M2-2 main | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 经用户对 `0059359` 单独批准，于 2026-10-10 17:30:04 UTC+8 合入 `57b6bd4ec2263f6d390257fde7e787f44a084d85`；内容树 `3f694f17be4e85aa4ca5fb696482c5bb1125a366` 与受审 head 相同。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339) 九项成功，Windows／Ubuntu 安装各 253 项、输入及 R3 流程通过。M1、M2-1 和 R1／R2／R3 保持关闭 |
-| M3-1 功能候选 | [PR #24](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/24)，dev3 修复同 symbol 别名风控缺口；共享账户 23 项及包导出 9 项源码检查通过，新 wheel 安装及最终远端检查待验收。原 deccb78 获批后未合并，新 head 另行核准；dev2 原 292 项、ZIP 与回执保持存档身份 |
+| M3-1 功能候选 | [PR #24](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/24)，dev3 CLEAN `554a430`，同一 wheel 仓库外 295 项及共享 v3、启动器首用、原 dev2 任务账户原字节只读通过；操作时钟与 symbol 别名均修复。构建九项 CI 成功，最终 head 另在 PR 核对；原 deccb78 获批后未合并，新 head 另行核准。增量监控与券商执行为后续范围 |
 | M2-2 功能候选 | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)，`0.4.0.dev5` CLEAN 构建 `51b0f17`，wheel `b935fde7b436…`，运行源码 `8c85724cdf8f…`；同一 wheel 仓库外 253 项、实际输入菜单／冷进程、输入更新与状态保持、运行比较、迁移和重放通过。新交付 `Hakimi-M2-dev5-Inputs-20261010` 的启动器离线安装／身份检查／重开通过，ZIP `f55c4a08bdb…`；[构建 CI 九项成功](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38036110148)，最终 PR head 检查另记于 PR。已通过 PR #22 集成；该 dev5 存档随后复现两项 P2 缺口，原通过范围不回填。[原候选证据](docs/research-evidence/input-workflow-m2-20261010/README.md) |
 | M1 main 集成 | PR #19 经用户单独批准受审 `669b348` 后，已合入 `17b2c15891aab7caf30dbb1addbb1f495f92dea0`；内容树 `26215045b3becf7dd6bf6e5d7292011a6e837379` 与受审版本一致。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005) 九项成功，Windows 安装后 209 项通过；M1 结案。集成回执保存在 PR #19 实际合并记录与本机 M1 存档目录 |
 | 前一 main 集成 | 用户单独批准 [PR #17](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/17) 的 `46d938a` 后，已于 2026-09-29 12:57:03 UTC 合并至 `cdee7b5472981811655bf84a8a9f59298df546b4`；[合并后 CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/36571592538) 九项成功，实际检出 main 合并提交。PR #16 与旧测试身份保留 |

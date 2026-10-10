@@ -37,4 +37,4 @@ M4 复用已有富途适配器及 SQLite 状态机，逐步衔接策略信号、
 
 M3-1 首候选 dev1 的操作时钟缺口另行修复为 dev2，旧 288 项和候选原件保留范围；v2 新账户限制显式价格推进，旧账户仅只读。[时间修复](research-evidence/shared-clock-m3-20261010/README.md)。不重开 M2-2 或原两项 P2。
 
-2026-10-10 单证券修复：PR #24 原 `deccb78` 获批后，自动审阅新增同 symbol 别名 P2；原 dev2 中已复现 60% 上限下 98% 占用。dev3 在新配置及写入前拒绝别名，历史原字节只读保留；安装及最终 head 检查待验收。[修复记录](research-evidence/shared-symbol-m3-20261010/README.md)。原核准只绑定 deccb78，新代码 head 须单独核准。
+2026-10-10 单证券修复：PR #24 原 `deccb78` 获批后，自动审阅新增同 symbol 别名 P2；原 dev2 中已复现 60% 上限下 98% 占用。dev3 在新配置及写入前拒绝别名，历史原字节只读保留；同一 dev3 wheel 仓库外 295 项、真实安装流程 v3、启动器首用及构建九项 CI 通过；最终 head 检查另在 PR 核对。[修复记录](research-evidence/shared-symbol-m3-20261010/README.md)。原核准只绑定 deccb78，新代码 head 须单独核准。
