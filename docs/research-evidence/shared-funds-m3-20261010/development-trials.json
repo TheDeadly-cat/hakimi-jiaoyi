@@ -1,0 +1,28 @@
+{
+  "schema_version": "m3-development-trials-v1",
+  "data_kind": "SYNTHETIC_TEST",
+  "scope": "SOURCE_FOCUSED_NOT_INSTALLED_PROOF",
+  "prior_failures_preserved": [
+    {
+      "trial": "shared-account-trial1",
+      "tests_run": 14,
+      "errors": 1,
+      "reason": "Test corruption helper left SQLite handle open; explicit close fixed Windows temporary cleanup."
+    },
+    {
+      "trial": "shared-signals-trial1",
+      "tests_run": 6,
+      "errors": 1,
+      "reason": "Next-session test used 107 but packaged fixture open is 103; derive quote from sealed snapshot, exact-mark gate preserved."
+    },
+    {
+      "trial": "shared-source-trial3",
+      "tests_run": 26,
+      "failures": 1,
+      "reason": "CLI assertion expected ALREADY_RECORDED after account-state source changed; DUPLICATE_SIGNAL correctly prevented new reservation. Assertion now checks that outcome."
+    }
+  ],
+  "broker_order_calls": 0,
+  "external_account_calls": 0,
+  "provider_calls": 0
+}

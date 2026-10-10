@@ -40,6 +40,16 @@ def bundle(path, kind="research", *, followup=False):
 
 
 class SupervisedPreviewTests(unittest.TestCase):
+    def test_m3_status_uses_offline_product_entry_without_historical_account_calls(self):
+        with tempfile.TemporaryDirectory() as temp:
+            base=Path(temp)
+            record=BUILD.write_bundle(base,'research',{'preview.py':(ROOT/'tools/supervised_preview.py').read_bytes()},
+                dict(version='0.5.0.dev1',product_profile='M3_1_OFFLINE_QUANT_TOOL',supported_python='CPython 3.14'))
+            with patch.object(PREVIEW.subprocess,'run',side_effect=AssertionError('unexpected account/runtime query')):
+                status=PREVIEW.show_status(base/record['directory'])
+            self.assertEqual(status['entry'],'hakimi-trade');self.assertEqual(status['installation']['status'],'NOT_CHECKED')
+            self.assertFalse(status['automatic_orders']);self.assertFalse(status['automatic_monitor_start'])
+
     def test_latest_evidence_preserves_first_failure_unknown_and_excluded_events_without_running(self):
         with tempfile.TemporaryDirectory() as temp:
             root = bundle(Path(temp), followup=True)

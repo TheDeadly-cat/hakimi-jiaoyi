@@ -22,6 +22,17 @@ def _finite_number(value: object, *, label: str) -> float:
     return parsed
 
 
+def daily_loss_allowed(equity: float, baseline: float, maximum_loss_pct: float) -> bool:
+    """Shared existing UTC-baseline predicate, without logging or mutation."""
+    equity=_finite_number(equity,label='Daily equity')
+    baseline=_finite_number(baseline,label='Daily baseline')
+    limit=_finite_number(maximum_loss_pct,label='Daily loss limit')
+    if equity<0 or baseline<0 or not 0<=limit<=1:
+        raise ValueError('daily_loss_inputs_invalid')
+    drawdown=(baseline-equity)/max(baseline,1)
+    return not (drawdown>0 and drawdown>=limit)
+
+
 class _RiskManagerCore:
     def __init__(self, config: RiskConfig):
         self.config = config
@@ -59,7 +70,7 @@ class _RiskManagerCore:
             self.reset_day(parsed_equity)
             return True
         drawdown = (self.day_start_equity - parsed_equity) / max(self.day_start_equity, 1)
-        if drawdown > 0 and drawdown >= max_daily_loss_pct:
+        if not daily_loss_allowed(parsed_equity,self.day_start_equity,max_daily_loss_pct):
             self.trading_halted = True
             logger.warning("Daily loss circuit breaker triggered: %.2f%%", drawdown * 100)
             return False

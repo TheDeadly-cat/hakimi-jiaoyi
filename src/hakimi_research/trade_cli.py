@@ -365,7 +365,7 @@ def wizard(workspace):
     print('哈基米交易 · 离线量化工具候选\n数据、账户和订单边界以任务及报告为准。')
     last_run=None
     while True:
-        print('\n1 创建虚构示例  2 检查任务  3 运行任务  4 查看结果  5 重放  6 恢复页面  7 公告原件核对  8 恢复中断计算  9 导入自有 CSV  10 创建旧格式任务  11 可选浏览器查看  12 运行历史  13 任务版本与启停  14 结果对照  15 创建可管理任务  16 行情与研究输入中心  0 退出')
+        print('\n1 创建虚构示例  2 检查任务  3 运行任务  4 查看结果  5 重放  6 恢复页面  7 公告原件核对  8 恢复中断计算  9 导入自有 CSV  10 创建旧格式任务  11 可选浏览器查看  12 运行历史  13 任务版本与启停  14 结果对照  15 创建可管理任务  16 行情与研究输入中心  17 离线共享资金台  0 退出')
         try:choice=input('选择：').strip()
         except EOFError:return 0
         if choice=='0':return 0
@@ -383,6 +383,9 @@ def wizard(workspace):
                 if not (workspace/'workspace.json').is_file():initialize_empty(workspace)
                 from .input_menu import input_wizard
                 input_wizard(workspace);continue
+            if choice=='17':
+                from .shared_cli import shared_wizard
+                shared_wizard(workspace);continue
             if not (workspace/'workspace.json').is_file():
                 raise ValueError('workspace_not_ready:先选择 1 或使用 init 创建工作区')
             if choice in {'2','3'}:
@@ -483,8 +486,10 @@ def _task_options(args):
 
 def main(argv=None):
     sys.addaudithook(_deny_network)
-    parser=argparse.ArgumentParser(description='哈基米交易：统一离线输入、策略任务版本、运行与结果对照（M2-2 候选）')
+    parser=argparse.ArgumentParser(description='哈基米交易：离线输入、策略任务、共享资金与全局风控（M3-1 候选）')
     commands=parser.add_subparsers(dest='command')
+    from .shared_cli import add_commands
+    add_commands(commands)
     commands.add_parser('capabilities')
     commands.add_parser('strategies')
     for name in ['init','wizard']:
@@ -543,13 +548,17 @@ def main(argv=None):
         if args.command is None:return wizard(default_artifact_root()/'trade-offline')
         if args.command=='wizard':return wizard(args.workspace)
         if args.command=='capabilities':
-            output=dict(product_target='交易量化工具',current_milestone='M2_2_OFFLINE_INPUT_WORKFLOW_CANDIDATE',
+            output=dict(product_target='交易量化工具',current_milestone='M3_1_OFFLINE_SHARED_FUNDS_CANDIDATE',
                 supported=['Configurable strategy and risk parameters','Immutable task revisions, copy, selection and pause','Verified saved-run comparison',
                     'Existing price and earnings-schedule strategies; existing reviewed-content predicates',
                     'Unified offline input selection, import, applicability checks and immutable task binding','CSV and completed/resumed local quote import',
-                    'Offline source workflow','Existing canonical engine and risk','Results, replay and saved-report recovery'],
-                not_implemented=['Portfolio-level shared-capital risk','Supervised incremental monitoring','Broker execution in this entry'],
+                    'Offline source workflow','Existing canonical engine and risk','Results, replay and saved-report recovery',
+                    'Synthetic shared cash and positions; FIFO all-or-nothing reservations; canonical task intents and global risk; durable recovery'],
+                not_implemented=['Supervised incremental monitoring','Broker execution in this entry','Short selling, corporate-action accounting and live account reconciliation'],
                 execution_permission=dict(PERMISSIONS))
+        elif args.command.startswith('shared-'):
+            from .shared_cli import dispatch
+            output=dispatch(args)
         elif args.command=='strategies':output=strategies()
         elif args.command=='init':output=initialize_demo(args.workspace) if args.demo else initialize_empty(args.workspace)
         elif args.command=='check':

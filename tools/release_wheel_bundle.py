@@ -50,6 +50,35 @@ def _git(value):
     return {"commit": commit, "status": value["status"]}
 
 
+def validate_shared_workflow(workflow):
+    true_fields={'actual_cold_console','actual_menu','exit_reopen','task_capital_ignored','all_or_nothing',
+        'duplicate_operation_idempotent','terminal_signal_not_reopened','cancel_releases_funds','canonical_settlement',
+        'global_loss_latch','conditional_resume','manual_pause_preserved','receipt_lookup','workspace_migration',
+        'read_preserves_bytes','independent_backtests_forbidden'}
+    zeros={'provider_calls','external_account_calls','broker_order_calls'}
+    false_fields={'checkout_data_used','source_modified'}
+    headers={'schema_version','status','operator','data_kind','competition','registered_strategies','process_proof'}
+    _require(type(workflow) is dict and set(workflow)==headers|true_fields|zeros|false_fields,'shared workflow receipt shape changed')
+    _require(workflow['schema_version']=='installed-shared-funds-workflow-v1' and workflow['status']=='PASS'
+        and workflow['operator']=='AGENT' and workflow['data_kind']=='SYNTHETIC_TEST'
+        and workflow['competition']=='COMMITTED_RECEIPT_FIFO_ALL_OR_NOTHING','shared workflow identity invalid')
+    _require(all(workflow[k] is True for k in true_fields) and all(workflow[k] is False for k in false_fields)
+        and all(type(workflow[k]) is int and workflow[k]==0 for k in zeros),'shared workflow proof incomplete')
+    _require(workflow['registered_strategies']==['price.dual_ma@1','price.buy_and_hold@1','event.earnings_schedule@1',
+        'content.price_confirmation@1','content.reviewed_outlook@1'],'shared strategy coverage incomplete')
+    proof=workflow['process_proof']
+    _require(type(proof) is dict and set(proof)=={'concurrent_statuses','concurrent_sequence','crashes'}
+        and proof['concurrent_statuses']==['REJECTED','RESERVED'] and type(proof['concurrent_sequence']) is int
+        and proof['concurrent_sequence']==2,'shared concurrent process proof incomplete')
+    rows=proof['crashes']
+    _require(type(rows) is list and len(rows)==2,'shared crash proof missing')
+    for row,mode,code,count in zip(rows,['before','after'],[74,75],[0,1]):
+        _require(type(row) is dict and set(row)=={'boundary','exit_code','committed_receipts'} and row['boundary']==mode
+            and type(row['exit_code']) is int and row['exit_code']==code and type(row['committed_receipts']) is int
+            and row['committed_receipts']==count,'shared crash proof invalid')
+    return workflow
+
+
 def export_bundle(receipt: dict, output_dir: Path, *, ci_context: dict | None = None) -> dict:
     """Validate all links before writing; never redact, rebuild, or rewrite the wheel."""
     _require(receipt.get("schema_version") == "research-wheel-acceptance-v1" and receipt.get("status") == "PASS", "wheel acceptance did not pass")
@@ -221,6 +250,10 @@ def export_bundle(receipt: dict, output_dir: Path, *, ci_context: dict | None = 
         _require(all(set(r)=={'case','command','status','reason'} and r['status']=='STOPPED'
             and type(r['reason']) is str and re.fullmatch(r'[a-z_]+',r['reason']) for r in rows), 'content rejection receipt must omit local paths')
         files['installed-content-boundary.json'] = _json_bytes(workflow)
+    if wheel.name.split('-')[1].startswith('0.5.'):
+        _require('shared_funds_installed_workflow' in receipt,'M3 shared funds installed proof required')
+    if 'shared_funds_installed_workflow' in receipt:
+        files['installed-shared-funds.json']=_json_bytes(validate_shared_workflow(receipt['shared_funds_installed_workflow']))
     files["SHA256SUMS.txt"] = "".join(f"{_sha(data)}  {name}\n" for name, data in sorted(files.items())).encode()
     output_dir = Path(output_dir)
     _require(not output_dir.exists(), "public bundle destination already exists")

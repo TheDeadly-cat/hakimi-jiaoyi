@@ -1,12 +1,12 @@
 # 哈基米交易（Hakimi Jiaoyi）
 
-本页是日常产品入口；M1、M2-1 与 R1／R2／R3 已结案。当前 main 基线为 `57b6bd4`，新候选与历史产物的精确身份分别记录在状态页和各自验收目录。
+本页是日常产品入口；M1、M2-1 与 R1／R2／R3 已结案。当前 main 基线为 `d9baa08`，新候选与历史产物的精确身份分别记录在状态页和各自验收目录。
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
 
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 M1 已交付并合入 main `17b2c15`（PR #19 受审 `669b348`），实际 main [九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005)。M1 存档候选为 `0.3.0.dev4`；正式 Release 仍为 `v0.2.1`。旧产物、失败记录与验收身份保留。
-M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/21) 集成，R1／R2／R3 均关闭；实际 main `4732bcc` 的[九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38028969246)。本轮 **M2-2** [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 存档候选 `0.4.0.dev5` 提供统一离线输入中心、适用性检查、新版本绑定和既有排期／内容规则入口；同一 wheel 的仓库外 253 项及实际输入流程通过，见[本轮候选验收](docs/research-evidence/input-workflow-m2-20261010/README.md)、[输入使用说明](docs/input-workflow.md)与[任务说明](docs/strategy-task-management.md)。PR #22 已经用户对 `0059359` 单独核准合入 main `57b6bd4`，[实际 main 九项 CI 通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339)。随后复现报告成交校验和菜单 10 参数两项 P2；新候选 `0.4.0.dev6` 修复，同一 wheel 的仓库外 262 项及启动器首用通过，main 集成待单独核准，见[修复记录](docs/research-evidence/content-report-p2-20261010/README.md)。原 dev5／dev4／dev3／dev2 验收保留。
+M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/21) 集成，R1／R2／R3 均关闭；实际 main `4732bcc` 的[九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38028969246)。本轮 **M2-2** [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 存档候选 `0.4.0.dev5` 提供统一离线输入中心、适用性检查、新版本绑定和既有排期／内容规则入口；同一 wheel 的仓库外 253 项及实际输入流程通过，见[本轮候选验收](docs/research-evidence/input-workflow-m2-20261010/README.md)、[输入使用说明](docs/input-workflow.md)与[任务说明](docs/strategy-task-management.md)。PR #22 已经用户对 `0059359` 单独核准合入 main `57b6bd4`，[实际 main 九项 CI 通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339)。随后复现报告成交校验和菜单 10 参数两项 P2；新候选 `0.4.0.dev6` 修复，同一 wheel 的仓库外 262 项及启动器首用通过，已单独核准并通过 PR #23 集成到 main `d9baa08`，实际 main 九项 CI 及两平台 262 项安装检查通过，见[修复记录](docs/research-evidence/content-report-p2-20261010/README.md)。原 dev5／dev4／dev3／dev2 验收保留。
 0.3.0.dev4 已修复初始化互斥、中断重试和外部历史三项流程问题；同一新产物完成全新 Windows 仓库外安装、209 项安装后检查及默认／同盘外部／真实跨盘菜单退出重开、查看、重放和恢复。菜单直接展示费用、损益、持仓与信号原因；实际首用由代理完成，未声称新包人工验收。旧 dev3 的 201 项检查、首用和产物及更早 dev2 证据原样保留。见[最新修复与交付记录](docs/research-evidence/offline-product-m1-p2-20261009/README.md)。
 两个市场复用同一成交与记账引擎，快照、交易日历及报告分别保存明确的格式与身份。
 历史模拟不授予 paper、live、账户操作、下单或自动参数选择权限。
@@ -15,7 +15,7 @@ M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoy
 
 正式版本从 [v0.2.1 Release](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1) 下载 Windows 或 Ubuntu ZIP；核对发布页的 `SHA256SUMS.txt` 后解压，再核对包内校验和。两个 ZIP 各自保留确切受验收 wheel 与构建、依赖、测试证据；安装解压出的 `hakimi_research-0.2.1-py3-none-any.whl` 会按精确版本安装依赖，离线安装需另备依赖 wheel。该版本固定在 `45850899992361970043f2da70e785210025ae9e`，[发布下载与安装验收](docs/research-evidence/release-0.2.1-20260909/README.md)记录实际验证范围。
 
-普通使用按[离线工具安装与首次使用](docs/offline-quant-tool.md)和[统一输入流程](docs/input-workflow.md)操作，可从候选包安装到仓库外。以下源码开发流程对应 0.4.0.dev6；它与正式 v0.2.1、M1 和 M2-1 历史产物分别保留来源与结果。
+普通使用按[离线工具安装与首次使用](docs/offline-quant-tool.md)和[统一输入流程](docs/input-workflow.md)操作，可从候选包安装到仓库外。以下源码开发流程对应 0.5.0.dev1；它与正式 v0.2.1、M1 和 M2-1 历史产物分别保留来源与结果。
 
 开发环境在仓库根目录安装精确依赖与 editable 包：
 
@@ -34,7 +34,7 @@ hakimi-research list-strategies
 python -m pip install "setuptools>=77" wheel
 python -m pip wheel . --no-deps --no-build-isolation --wheel-dir dist
 python -m venv ..\hakimi-research-use\hakimi-env
-..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.4.0.dev6-py3-none-any.whl
+..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.5.0.dev1-py3-none-any.whl
 Set-Location ..\hakimi-research-use
 .\hakimi-env\Scripts\hakimi-research.exe capabilities
 ```
@@ -146,3 +146,5 @@ Windows/Linux wheel matrix 已配置；没有实际运行证据的平台标记 N
 逐项覆盖及本地证据见 [交付审计](docs/research-delivery-audit.md)。
 
 本轮 2026-10-09 收尾修复运行／恢复互斥、初始化中断及外部输出历史记录，候选版本 0.3.0.dev4。[修复与新候选验收](docs/research-evidence/offline-product-m1-p2-20261009/README.md)分别记录，不回填旧 dev3 产物。
+
+本轮 M3-1 候选增加共享合成账户、统一意图、全局风险与持久化预留恢复，入口为菜单 17／`shared-*`。见[共享资金使用说明](docs/shared-funds.md)与[实际交付记录](docs/research-evidence/shared-funds-m3-20261010/README.md)。按提交顺序整笔准入，五类既有策略使用同一账户本金；增量监控与券商执行仍为后续工作。
