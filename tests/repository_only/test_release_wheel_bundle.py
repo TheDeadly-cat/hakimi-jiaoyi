@@ -77,6 +77,13 @@ class ReleaseWheelBundleTests(unittest.TestCase):
             root=Path(directory);receipt=fixture(root);receipt['shared_funds_installed_workflow']=workflow
             BUNDLE.export_bundle(receipt,root/'good')
             self.assertEqual(json.loads((root/'good/installed-shared-funds.json').read_bytes()),workflow)
+            clock=deepcopy(workflow);clock['schema_version']='installed-shared-funds-workflow-v2'
+            flags=['wrong_clock_rejected_without_account_change','no_op_does_not_poison_clock','legacy_v1_readable_with_original_bytes','legacy_v1_mutation_blocked']
+            for flag in flags:clock[flag]=True
+            BUNDLE.validate_shared_workflow(clock)
+            for flag in flags:
+                bad=deepcopy(clock);bad[flag]=False
+                with self.subTest(flag=flag),self.assertRaises(ValueError):BUNDLE.validate_shared_workflow(bad)
             mutations=[lambda w:w.update(provider_calls=True),lambda w:w.update(broker_order_calls=1),
                 lambda w:w.update(actual_menu=False),lambda w:w.update(registered_strategies=[]),
                 lambda w:w['process_proof'].update(concurrent_statuses=['RESERVED','RESERVED']),

@@ -26,8 +26,10 @@ from .offline_app import _file_lock
 from .risk import RiskManager, daily_loss_allowed
 from .strategy_registry import definition
 
-ACCOUNT_SCHEMA = 'synthetic-shared-account-v1'
-RECEIPT_SCHEMA = 'synthetic-shared-account-receipt-v1'
+ACCOUNT_SCHEMA = 'synthetic-shared-account-v2'
+RECEIPT_SCHEMA = 'synthetic-shared-account-receipt-v2'
+LEGACY_ACCOUNT_SCHEMA = 'synthetic-shared-account-v1'
+LEGACY_RECEIPT_SCHEMA = 'synthetic-shared-account-receipt-v1'
 COMPETITION = 'COMMITTED_RECEIPT_FIFO_ALL_OR_NOTHING'
 ZERO = '0' * 64
 
@@ -103,7 +105,8 @@ def opportunity_identity(proposal):
 def validate_account_config(config):
     fields = {'schema_version', 'evidence_kind', 'currency', 'initial_cash', 'initial_positions',
         'securities', 'as_of', 'limits', 'competition'}
-    if type(config) is not dict or set(config) != fields or config['schema_version'] != ACCOUNT_SCHEMA:
+    if (type(config) is not dict or set(config) != fields or type(config['schema_version']) is not str
+            or config['schema_version'] not in {ACCOUNT_SCHEMA,LEGACY_ACCOUNT_SCHEMA}):
         raise ValueError('shared_account_config_fields_invalid')
     if config['evidence_kind'] != 'SYNTHETIC_TEST' or config['currency'] != 'USD' or config['competition'] != COMPETITION:
         raise ValueError('shared_only_synthetic_usd_fifo_accounts_supported')
@@ -294,6 +297,8 @@ def _transition(previous, request, config, head):
     state = deepcopy(previous); kind = request['kind']; at = _clock(request['at'])
     if at < state['current_at']:
         raise ValueError('shared_clock_cannot_move_backwards')
+    if config['schema_version']==ACCOUNT_SCHEMA and kind!='MARK' and at!=state['current_at']:
+        raise ValueError('shared_operation_requires_current_account_clock_use_mark_to_advance')
     if at[:10] != state['day'] and kind in {'RESERVE','TASK_STEP','RESUME'}:
         raise ValueError('shared_new_day_requires_explicit_baseline_reset')
     payload = request['payload']; state['current_at'] = at
@@ -415,7 +420,8 @@ def _restore(conn,manifest):
     for sequence,operation_id,raw in conn.execute('SELECT seq, operation_id, receipt FROM events ORDER BY seq'):
         value=parse_document(raw)
         fields={'schema_version','account_id','sequence','operation_id','previous_receipt','request','outcome','state_hash','receipt_hash'}
-        if (set(value)!=fields or value['schema_version']!=RECEIPT_SCHEMA or value['account_id']!=manifest['account_id']
+        expected_schema=RECEIPT_SCHEMA if manifest['config']['schema_version']==ACCOUNT_SCHEMA else LEGACY_RECEIPT_SCHEMA
+        if (set(value)!=fields or value['schema_version']!=expected_schema or value['account_id']!=manifest['account_id']
                 or sequence!=len(receipts)+1 or value['sequence']!=sequence or operation_id!=value['operation_id']
                 or value['previous_receipt']!=head or value['receipt_hash']!=digest({k:v for k,v in value.items() if k!='receipt_hash'})):
             raise ValueError('shared_journal_identity_or_sequence_invalid')
@@ -429,6 +435,7 @@ def _restore(conn,manifest):
 @_precision
 def create_shared_account(directory,config):
     directory=Path(directory).resolve();config=validate_account_config(config)
+    if config['schema_version']!=ACCOUNT_SCHEMA:raise ValueError('shared_new_account_requires_current_version_config')
     if directory.exists():raise ValueError('shared_new_account_directory_required')
     _invariants(_initial(config))
     runtime=build_runtime_provenance()
@@ -458,7 +465,10 @@ def create_shared_account(directory,config):
 def transact_shared_account(directory, *, operation_id, kind, at, payload):
     _key(operation_id);_clock(at)
     request=dict(kind=kind,at=at,payload=parse_document(canonical_bytes(payload)))
-    manifest=_manifest(directory);runtime=build_runtime_provenance()
+    manifest=_manifest(directory)
+    if manifest['config']['schema_version']!=ACCOUNT_SCHEMA:
+        raise ValueError('shared_legacy_v1_account_is_read_only_original_bytes_retained')
+    runtime=build_runtime_provenance()
     if manifest['runtime']!=dict(source_sha256=runtime['source_identity']['content_sha256'],dependencies=runtime['environment_verified']):
         raise ValueError('shared_mutation_requires_original_code_and_dependencies')
     with _connection(directory,write=True) as conn:
@@ -480,7 +490,10 @@ def transact_shared_account(directory, *, operation_id, kind, at, payload):
 def describe_shared_account(directory):
     manifest=_manifest(directory)
     with _connection(directory) as conn:state,head,receipts=_restore(conn,manifest)
-    return dict(schema_version='synthetic-shared-account-view-v1',account_id=manifest['account_id'],evidence_kind='SYNTHETIC_TEST',currency='USD',
+    legacy=manifest['config']['schema_version']==LEGACY_ACCOUNT_SCHEMA
+    return dict(schema_version='synthetic-shared-account-view-v2',account_id=manifest['account_id'],evidence_kind='SYNTHETIC_TEST',currency='USD',
+        account_schema_version=manifest['config']['schema_version'],legacy_read_only=legacy,
+        clock_policy='LEGACY_V1_REPLAY_ONLY' if legacy else 'ONLY_EXPLICIT_MARK_ADVANCES_CLOCK',
         competition=COMPETITION,limits=deepcopy(manifest['config']['limits']),state=state,sequence=len(receipts),receipt_head=head,
         cash=state['cash'],reserved_cash=str(_reserved(state)),available_cash=str(_d(state['cash'])-_reserved(state)),
         equity=str(_equity(state)),total_position_value=str(_equity(state)-_d(state['cash'])),projected_total_position_value=str(_exposure(state)),

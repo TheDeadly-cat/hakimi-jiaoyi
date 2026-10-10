@@ -1,8 +1,10 @@
 """One account, real process contention and durable crash outcomes."""
 from copy import deepcopy
+import base64
 from decimal import Decimal,localcontext
 from hashlib import sha256
 import json
+from importlib.resources import files
 from pathlib import Path
 import sqlite3
 import subprocess
@@ -57,6 +59,53 @@ class SharedAccountTests(unittest.TestCase):
         p=deepcopy(self.inputs[0]);p['signal']['reason']='another caller text'
         d=self.reserve('other-operation',[p])['outcome']['decisions'][0]
         self.assertEqual(d['status'],'DUPLICATE_SIGNAL');self.assertEqual(Decimal(self.view()['reserved_cash']),8000)
+
+    def test_future_reserve_clock_cannot_burn_a_valid_execution_opportunity(self):
+        self.init();later='2024-11-08T15:30:00Z'
+        with self.assertRaisesRegex(ValueError,'requires_current_account_clock'):
+            self.transact('wrong-clock','RESERVE',dict(intents=[self.inputs[0]]),at=later)
+        self.assertEqual(self.view()['sequence'],0);self.assertEqual(self.view()['state']['current_at'],AT)
+        identity=self.first(self.reserve(inputs=[self.inputs[0]]))
+        self.assertEqual(self.transact('valid-fill','SETTLE',dict(intent_id=identity))['outcome']['status'],'SETTLED')
+
+    def test_unknown_lifecycle_operations_do_not_poison_another_reservation_clock(self):
+        self.init();identity=self.first(self.reserve(inputs=[self.inputs[0]]));later='2024-11-08T15:30:00Z'
+        for kind in ['CANCEL','REJECT','SETTLE']:
+            payload=dict(intent_id='unknown')
+            if kind!='SETTLE':payload['reason']='synthetic unknown'
+            before=self.view()
+            with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'requires_current_account_clock'):
+                self.transact('wrong-'+kind,kind,payload,at=later)
+            self.assertEqual(self.view(),before)
+            self.assertEqual(self.transact('current-'+kind,kind,payload)['outcome']['status'],'INTENT_NOT_FOUND')
+            self.assertEqual(self.view()['state']['current_at'],AT)
+        self.assertEqual(self.transact('valid-fill','SETTLE',dict(intent_id=identity))['outcome']['status'],'SETTLED')
+
+    def test_terminal_no_op_wrong_clock_cannot_expire_a_second_reservation(self):
+        self.init();inputs=deepcopy(self.inputs)
+        for p in inputs:p['signal']['size_pct']=.4
+        r=self.reserve(inputs=inputs);one,two=[d['intent_id'] for d in r['outcome']['decisions']]
+        self.transact('cancel-one','CANCEL',dict(intent_id=one,reason='synthetic release'))
+        for kind in ['CANCEL','REJECT','SETTLE']:
+            payload=dict(intent_id=one)
+            if kind!='SETTLE':payload['reason']='repeat'
+            before=self.view()
+            with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'requires_current_account_clock'):
+                self.transact('late-'+kind,kind,payload,at='2024-11-08T15:30:00Z')
+            self.assertEqual(self.view(),before)
+        self.assertEqual(self.transact('fill-two','SETTLE',dict(intent_id=two))['outcome']['status'],'SETTLED')
+
+    def test_original_installed_v1_bytes_are_read_only_without_resigning(self):
+        fixture=json.loads(files('hakimi_research').joinpath('resources/shared-account-v1.json').read_bytes())
+        self.account.mkdir()
+        for name,proof in fixture['files'].items():
+            raw=base64.b64decode(proof['base64']);self.assertEqual(sha256(raw).hexdigest(),proof['sha256'])
+            (self.account/name).write_bytes(raw)
+        view=self.view();self.assertTrue(view['legacy_read_only']);self.assertEqual(view['clock_policy'],'LEGACY_V1_REPLAY_ONLY')
+        self.assertEqual(view['sequence'],1);self.assertEqual(Decimal(view['reserved_cash']),8000)
+        with self.assertRaisesRegex(ValueError,'legacy_v1_account_is_read_only'):
+            self.transact('new-write','PAUSE',dict(reason='blocked'))
+        for name,proof in fixture['files'].items():self.assertEqual(sha256((self.account/name).read_bytes()).hexdigest(),proof['sha256'])
 
     def test_existing_directory_and_invalid_payloads_leave_account_unchanged(self):
         self.account.mkdir();(self.account/'original').write_bytes(b'preserve')

@@ -55,11 +55,15 @@ def validate_shared_workflow(workflow):
         'duplicate_operation_idempotent','terminal_signal_not_reopened','cancel_releases_funds','canonical_settlement',
         'global_loss_latch','conditional_resume','manual_pause_preserved','receipt_lookup','workspace_migration',
         'read_preserves_bytes','independent_backtests_forbidden'}
+    version=workflow.get('schema_version') if type(workflow) is dict else None
+    if version=='installed-shared-funds-workflow-v2':
+        true_fields|={'wrong_clock_rejected_without_account_change','no_op_does_not_poison_clock',
+            'legacy_v1_readable_with_original_bytes','legacy_v1_mutation_blocked'}
     zeros={'provider_calls','external_account_calls','broker_order_calls'}
     false_fields={'checkout_data_used','source_modified'}
     headers={'schema_version','status','operator','data_kind','competition','registered_strategies','process_proof'}
     _require(type(workflow) is dict and set(workflow)==headers|true_fields|zeros|false_fields,'shared workflow receipt shape changed')
-    _require(workflow['schema_version']=='installed-shared-funds-workflow-v1' and workflow['status']=='PASS'
+    _require(version in {'installed-shared-funds-workflow-v1','installed-shared-funds-workflow-v2'} and workflow['status']=='PASS'
         and workflow['operator']=='AGENT' and workflow['data_kind']=='SYNTHETIC_TEST'
         and workflow['competition']=='COMMITTED_RECEIPT_FIFO_ALL_OR_NOTHING','shared workflow identity invalid')
     _require(all(workflow[k] is True for k in true_fields) and all(workflow[k] is False for k in false_fields)
@@ -252,6 +256,9 @@ def export_bundle(receipt: dict, output_dir: Path, *, ci_context: dict | None = 
         files['installed-content-boundary.json'] = _json_bytes(workflow)
     if wheel.name.split('-')[1].startswith('0.5.'):
         _require('shared_funds_installed_workflow' in receipt,'M3 shared funds installed proof required')
+        if wheel.name.split('-')[1]!='0.5.0.dev1':
+            _require(receipt['shared_funds_installed_workflow'].get('schema_version')=='installed-shared-funds-workflow-v2',
+                'M3 current clock and legacy read-only installed proof required')
     if 'shared_funds_installed_workflow' in receipt:
         files['installed-shared-funds.json']=_json_bytes(validate_shared_workflow(receipt['shared_funds_installed_workflow']))
     files["SHA256SUMS.txt"] = "".join(f"{_sha(data)}  {name}\n" for name, data in sorted(files.items())).encode()

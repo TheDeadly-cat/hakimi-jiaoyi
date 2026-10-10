@@ -46,6 +46,7 @@
     "resources/experiment.example.json",
     "resources/nvda-collection-plan.json",
     "resources/requirements.research.lock",
+    "resources/shared-account-v1.json",
     "resources/trade-demo-content-packet.json",
     "resources/trade-demo-content-source.html",
     "resources/trade-demo-event-context.json",

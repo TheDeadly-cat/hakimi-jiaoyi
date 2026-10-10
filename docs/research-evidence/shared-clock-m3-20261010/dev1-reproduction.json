@@ -1,0 +1,42 @@
+{
+  "schema_version": "m3-dev1-clock-reproduction-v1",
+  "status": "REPRODUCED_ON_ORIGINAL_INSTALLED_WHEEL",
+  "data_kind": "SYNTHETIC_TEST",
+  "build_commit": "d6c99ef76d5f3666e9f46935b3245eb33f06c513",
+  "wheel_sha256": "d8fb67d48d9289cce57c705fcd25f468fad24ef5a8f598c47c43600c6f100a19",
+  "review_comment_id": 4237703206,
+  "review_head": "0631f76d2a0782dffcb00e25a96168099f40d62e",
+  "cases": [
+    {
+      "case": "reserve",
+      "original_reserved_cash": "8000.00",
+      "current_at": "2024-11-08T15:30:00Z",
+      "original_clock_blocked": true,
+      "stale_settlement_releases": true
+    },
+    {
+      "case": "cancel-unknown",
+      "original_reserved_cash": "8000.00",
+      "current_at": "2024-11-08T15:30:00Z",
+      "original_clock_blocked": true,
+      "stale_settlement_releases": true
+    },
+    {
+      "case": "settle-unknown",
+      "original_reserved_cash": "8000.00",
+      "current_at": "2024-11-08T15:30:00Z",
+      "original_clock_blocked": true,
+      "stale_settlement_releases": true
+    },
+    {
+      "case": "valid",
+      "original_reserved_cash": "8000.00",
+      "current_at": "2024-11-08T14:30:00Z",
+      "original_clock_blocked": false,
+      "stale_settlement_releases": false
+    }
+  ],
+  "provider_calls": 0,
+  "external_account_calls": 0,
+  "broker_order_calls": 0
+}

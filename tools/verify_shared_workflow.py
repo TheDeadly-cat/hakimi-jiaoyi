@@ -148,10 +148,53 @@ for mode,count in [('before',0),('after',1)]:
 print(json.dumps(dict(concurrent_statuses=sorted(statuses),concurrent_sequence=2,crashes=rows)))
 '''
     proof=json.loads(run([python,'-I','-X','utf8','-B','-c',processes,str(outside/'shared-processes')],echo=False))
-    return dict(schema_version='installed-shared-funds-workflow-v1',status='PASS',operator='AGENT',data_kind='SYNTHETIC_TEST',
+    # Actual cold rejection must preserve both the clock and the complete view.
+    clock_account=outside/'shared-clock-cli'
+    before=call('shared-init','--account',clock_account,'--demo')
+    for verb,tail in [('shared-reserve',['--demo']),('shared-settle',['--intent-id','unknown']),
+            ('shared-cancel',['--intent-id','unknown','--reason','synthetic typo'])]:
+        process=subprocess.run([command,verb,'--account',str(clock_account),'--operation-id','bad-'+verb,
+            '--at','2024-11-08T15:30:00Z',*tail],cwd=outside,env=env,capture_output=True,text=True,encoding='utf-8',timeout=90)
+        check(process.returncode==1 and 'requires_current_account_clock' in json.loads(process.stdout)['error'],'wrong_clock_rejection')
+        check(call('shared-show','--account',clock_account)==before,'wrong_clock_changed_account')
+    clock_checks=r'''import base64,hashlib,json,sys
+from pathlib import Path
+from importlib.resources import files
+from hakimi_research.shared_account import create_shared_account,demo_account_config,describe_shared_account,transact_shared_account
+from hakimi_research.shared_signals import demo_competing_intents
+root=Path(sys.argv[1]);account=root/'live';at='2024-11-08T14:30:00Z';later='2024-11-08T15:30:00Z'
+create_shared_account(account,demo_account_config());inputs=demo_competing_intents()
+for p in inputs:p['signal']['size_pct']=.4
+r=transact_shared_account(account,operation_id='two',kind='RESERVE',at=at,payload=dict(intents=inputs))
+one,two=[d['intent_id'] for d in r['outcome']['decisions']]
+transact_shared_account(account,operation_id='release-one',kind='CANCEL',at=at,payload=dict(intent_id=one,reason='synthetic cancel'))
+for identity in ['unknown',one]:
+ for kind in ['CANCEL','REJECT','SETTLE']:
+  payload=dict(intent_id=identity)
+  if kind!='SETTLE':payload['reason']='synthetic no-op'
+  before=describe_shared_account(account)
+  try:transact_shared_account(account,operation_id=kind+'-'+identity,kind=kind,at=later,payload=payload)
+  except ValueError as e:assert 'requires_current_account_clock' in str(e)
+  else:raise AssertionError('bad lifecycle clock accepted')
+  assert describe_shared_account(account)==before
+r=transact_shared_account(account,operation_id='settle-two',kind='SETTLE',at=at,payload=dict(intent_id=two));assert r['outcome']['status']=='SETTLED'
+fixture=json.loads(files('hakimi_research').joinpath('resources/shared-account-v1.json').read_bytes())
+legacy=root/'legacy';legacy.mkdir()
+for name,proof in fixture['files'].items():
+ raw=base64.b64decode(proof['base64']);assert hashlib.sha256(raw).hexdigest()==proof['sha256'];(legacy/name).write_bytes(raw)
+view=describe_shared_account(legacy);assert view['legacy_read_only'] and view['sequence']==1 and float(view['reserved_cash'])==8000
+try:transact_shared_account(legacy,operation_id='blocked',kind='PAUSE',at=at,payload=dict(reason='read only'))
+except ValueError as e:assert 'legacy_v1_account_is_read_only' in str(e)
+else:raise AssertionError('legacy account mutated')
+for name,proof in fixture['files'].items():assert hashlib.sha256((legacy/name).read_bytes()).hexdigest()==proof['sha256']
+'''
+    run([python,'-I','-X','utf8','-B','-c',clock_checks,str(outside/'shared-clock-api')],echo=False)
+    return dict(schema_version='installed-shared-funds-workflow-v2',status='PASS',operator='AGENT',data_kind='SYNTHETIC_TEST',
         competition='COMMITTED_RECEIPT_FIFO_ALL_OR_NOTHING',registered_strategies=keys,process_proof=proof,
         actual_cold_console=True,actual_menu=True,exit_reopen=True,task_capital_ignored=True,all_or_nothing=True,
         duplicate_operation_idempotent=True,terminal_signal_not_reopened=True,cancel_releases_funds=True,
         canonical_settlement=True,global_loss_latch=True,conditional_resume=True,manual_pause_preserved=True,
         receipt_lookup=True,workspace_migration=True,read_preserves_bytes=True,independent_backtests_forbidden=True,
+        wrong_clock_rejected_without_account_change=True,no_op_does_not_poison_clock=True,
+        legacy_v1_readable_with_original_bytes=True,legacy_v1_mutation_blocked=True,
         provider_calls=0,external_account_calls=0,broker_order_calls=0,checkout_data_used=False,source_modified=False)
