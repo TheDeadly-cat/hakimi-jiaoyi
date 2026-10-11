@@ -26,10 +26,14 @@ from .offline_app import _file_lock
 from .risk import RiskManager, daily_loss_allowed
 from .strategy_registry import definition
 
-ACCOUNT_SCHEMA = 'synthetic-shared-account-v2'
-RECEIPT_SCHEMA = 'synthetic-shared-account-receipt-v2'
+ACCOUNT_SCHEMA = 'synthetic-shared-account-v3'
+RECEIPT_SCHEMA = 'synthetic-shared-account-receipt-v3'
+LEGACY_V2_ACCOUNT_SCHEMA = 'synthetic-shared-account-v2'
 LEGACY_ACCOUNT_SCHEMA = 'synthetic-shared-account-v1'
 LEGACY_RECEIPT_SCHEMA = 'synthetic-shared-account-receipt-v1'
+RECEIPT_SCHEMAS = {ACCOUNT_SCHEMA: RECEIPT_SCHEMA,
+    LEGACY_V2_ACCOUNT_SCHEMA: 'synthetic-shared-account-receipt-v2',
+    LEGACY_ACCOUNT_SCHEMA: LEGACY_RECEIPT_SCHEMA}
 COMPETITION = 'COMMITTED_RECEIPT_FIFO_ALL_OR_NOTHING'
 ZERO = '0' * 64
 
@@ -111,7 +115,7 @@ def validate_account_config(config, *, allow_historical_symbol_aliases=False):
     fields = {'schema_version', 'evidence_kind', 'currency', 'initial_cash', 'initial_positions',
         'securities', 'as_of', 'limits', 'competition'}
     if (type(config) is not dict or set(config) != fields or type(config['schema_version']) is not str
-            or config['schema_version'] not in {ACCOUNT_SCHEMA,LEGACY_ACCOUNT_SCHEMA}):
+            or config['schema_version'] not in RECEIPT_SCHEMAS):
         raise ValueError('shared_account_config_fields_invalid')
     if config['evidence_kind'] != 'SYNTHETIC_TEST' or config['currency'] != 'USD' or config['competition'] != COMPETITION:
         raise ValueError('shared_only_synthetic_usd_fifo_accounts_supported')
@@ -304,7 +308,7 @@ def _transition(previous, request, config, head):
     state = deepcopy(previous); kind = request['kind']; at = _clock(request['at'])
     if at < state['current_at']:
         raise ValueError('shared_clock_cannot_move_backwards')
-    if config['schema_version']==ACCOUNT_SCHEMA and kind!='MARK' and at!=state['current_at']:
+    if config['schema_version']!=LEGACY_ACCOUNT_SCHEMA and kind!='MARK' and at!=state['current_at']:
         raise ValueError('shared_operation_requires_current_account_clock_use_mark_to_advance')
     if at[:10] != state['day'] and kind in {'RESERVE','TASK_STEP','RESUME'}:
         raise ValueError('shared_new_day_requires_explicit_baseline_reset')
@@ -429,7 +433,7 @@ def _restore(conn,manifest):
     for sequence,operation_id,raw in conn.execute('SELECT seq, operation_id, receipt FROM events ORDER BY seq'):
         value=parse_document(raw)
         fields={'schema_version','account_id','sequence','operation_id','previous_receipt','request','outcome','state_hash','receipt_hash'}
-        expected_schema=RECEIPT_SCHEMA if manifest['config']['schema_version']==ACCOUNT_SCHEMA else LEGACY_RECEIPT_SCHEMA
+        expected_schema=RECEIPT_SCHEMAS[manifest['config']['schema_version']]
         if (set(value)!=fields or value['schema_version']!=expected_schema or value['account_id']!=manifest['account_id']
                 or sequence!=len(receipts)+1 or value['sequence']!=sequence or operation_id!=value['operation_id']
                 or value['previous_receipt']!=head or value['receipt_hash']!=digest({k:v for k,v in value.items() if k!='receipt_hash'})):
@@ -475,9 +479,10 @@ def transact_shared_account(directory, *, operation_id, kind, at, payload):
     _key(operation_id);_clock(at)
     request=dict(kind=kind,at=at,payload=parse_document(canonical_bytes(payload)))
     manifest=_manifest(directory)
-    if manifest['config']['schema_version']!=ACCOUNT_SCHEMA:
-        raise ValueError('shared_legacy_v1_account_is_read_only_original_bytes_retained')
     validate_account_config(manifest['config'])
+    if manifest['config']['schema_version']!=ACCOUNT_SCHEMA:
+        version=manifest['config']['schema_version'].rsplit('-',1)[1]
+        raise ValueError('shared_legacy_'+version+'_account_is_read_only_original_bytes_retained')
     runtime=build_runtime_provenance()
     if manifest['runtime']!=dict(source_sha256=runtime['source_identity']['content_sha256'],dependencies=runtime['environment_verified']):
         raise ValueError('shared_mutation_requires_original_code_and_dependencies')
@@ -500,11 +505,12 @@ def transact_shared_account(directory, *, operation_id, kind, at, payload):
 def describe_shared_account(directory):
     manifest=_manifest(directory)
     with _connection(directory) as conn:state,head,receipts=_restore(conn,manifest)
-    legacy=manifest['config']['schema_version']==LEGACY_ACCOUNT_SCHEMA
-    return dict(schema_version='synthetic-shared-account-view-v2',account_id=manifest['account_id'],evidence_kind='SYNTHETIC_TEST',currency='USD',
+    legacy=manifest['config']['schema_version']!=ACCOUNT_SCHEMA
+    return dict(schema_version='synthetic-shared-account-view-v3',account_id=manifest['account_id'],evidence_kind='SYNTHETIC_TEST',currency='USD',
         account_schema_version=manifest['config']['schema_version'],legacy_read_only=legacy,
         symbol_aliases_read_only=_symbol_aliases(manifest['config']),
-        clock_policy='LEGACY_V1_REPLAY_ONLY' if legacy else 'ONLY_EXPLICIT_MARK_ADVANCES_CLOCK',
+        clock_policy='LEGACY_V1_REPLAY_ONLY' if manifest['config']['schema_version']==LEGACY_ACCOUNT_SCHEMA else 'ONLY_EXPLICIT_MARK_ADVANCES_CLOCK',
+        opportunity_policy='LEGACY_RULE_CLOCK_V1' if legacy else 'OWNER_SLOT_REDUCTION_CLOCK_V1',
         competition=COMPETITION,limits=deepcopy(manifest['config']['limits']),state=state,sequence=len(receipts),receipt_head=head,
         cash=state['cash'],reserved_cash=str(_reserved(state)),available_cash=str(_d(state['cash'])-_reserved(state)),
         equity=str(_equity(state)),total_position_value=str(_equity(state)-_d(state['cash'])),projected_total_position_value=str(_exposure(state)),

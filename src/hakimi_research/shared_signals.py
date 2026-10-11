@@ -8,10 +8,10 @@ from .content_tasks import ContentSignalAdapter, content_plan
 from .documents import digest
 from .equity_dataset import EquitySnapshot, verify_equity_snapshot
 from .equity_event_context import EventSchedulePolicy
-from .models import Portfolio, Signal
+from .models import Action, Portfolio, Signal
 from .offline_app import check_task
 from .risk import RiskManager
-from .shared_account import _d, _equity, _reserved, _slot, signal_document, transact_shared_account
+from .shared_account import ACCOUNT_SCHEMA, _d, _equity, _reserved, _slot, signal_document, transact_shared_account
 from .strategies.templates import build_strategy
 from .strategy_registry import definition, effective_parameters, inspect_task_inputs, strategy_identity, validate_strategy
 from .task_manager import _family_for_task, family_lock
@@ -126,6 +126,13 @@ def task_proposals(bindings,state,config,at):
             parameters=effective_parameters(entry['engine_strategy'],params),signal_at=signal_at,execution_at=at,
             security_id=security,action=signal.action.value,signal_size_pct=signal.size_pct,
             stop_loss_pct=signal.stop_loss_pct,take_profit_pct=signal.take_profit_pct)
+        if config['schema_version']==ACCOUNT_SCHEMA and signal.action in {Action.SELL,Action.EXIT}:
+            # A reduction consumes this owner's position slot at this clock.
+            # Mutable rule parameters, task revisions and SELL/EXIT wording
+            # cannot reopen it after cancellation. BUY identities stay global.
+            # Legacy journals must reconstruct their original rule identities.
+            opportunity_inputs=dict(schema_version='shared-owned-reduction-opportunity-v1',
+                owner=owner,security_id=security,signal_at=signal_at,execution_at=at)
         proposal=dict(owner=owner,strategy=key,security_id=security,signal=signal_document(signal),signal_at=signal_at,execution_at=at,
             risk=deepcopy(spec['risk']),fee_rate=spec['fee_rate'],slippage_pct=spec['slippage_pct'],
             source=dict(kind='REGISTERED_TASK_SIGNAL',evidence_kind='SYNTHETIC_TEST',binding_hash=binding['binding_hash'],

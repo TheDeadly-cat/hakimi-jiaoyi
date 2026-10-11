@@ -146,11 +146,33 @@ class SharedAccountTests(unittest.TestCase):
         for name,proof in fixture['files'].items():
             raw=base64.b64decode(proof['base64']);self.assertEqual(sha256(raw).hexdigest(),proof['sha256'])
             (self.account/name).write_bytes(raw)
-        view=self.view();self.assertFalse(view['legacy_read_only']);self.assertTrue(view['symbol_aliases_read_only'])
+        view=self.view();self.assertTrue(view['legacy_read_only']);self.assertTrue(view['symbol_aliases_read_only'])
         self.assertEqual(view['sequence'],4);self.assertAlmostEqual(float(view['total_position_value']),9800)
         self.assertEqual(view['clock_policy'],'ONLY_EXPLICIT_MARK_ADVANCES_CLOCK')
         with self.assertRaisesRegex(ValueError,'duplicate_symbol_aliases_not_allowed'):
             self.transact('new-write','PAUSE',dict(reason='blocked'))
+        for name,proof in fixture['files'].items():self.assertEqual(sha256((self.account/name).read_bytes()).hexdigest(),proof['sha256'])
+
+    def test_original_installed_v2_registered_exit_journal_replays_old_identity_without_writes(self):
+        fixture=json.loads(files('hakimi_research').joinpath('resources/shared-account-v2-task-exit.json').read_bytes())
+        self.account.mkdir()
+        for name,proof in fixture['files'].items():
+            raw=base64.b64decode(proof['base64']);self.assertEqual(sha256(raw).hexdigest(),proof['sha256'])
+            (self.account/name).write_bytes(raw)
+        view=self.view();expected=fixture['expected']
+        self.assertTrue(view['legacy_read_only']);self.assertEqual(view['account_schema_version'],'synthetic-shared-account-v2')
+        self.assertEqual(view['opportunity_policy'],'LEGACY_RULE_CLOCK_V1')
+        self.assertEqual(view['clock_policy'],'ONLY_EXPLICIT_MARK_ADVANCES_CLOCK')
+        self.assertEqual(view['sequence'],expected['sequence']);self.assertEqual(view['receipt_head'],expected['receipt_head'])
+        self.assertEqual([d['status'] for d in view['history'][0]['outcome']['decisions']],expected['decisions'])
+        self.assertEqual(view['history'][0]['request']['kind'],'TASK_STEP')
+        self.assertEqual(len(view['state']['opportunities']),1)
+        self.assertEqual({p['owner']:Decimal(p['quantity']) for p in view['state']['positions'].values()},
+            dict(zip(expected['owners'],expected['quantities'])))
+        with self.assertRaisesRegex(ValueError,'legacy_v2_account_is_read_only'):
+            self.transact('new-write','PAUSE',dict(reason='blocked'),at=view['state']['current_at'])
+        self.assertEqual(self.view(),view)
+        self.assertEqual(set(p.name for p in self.account.iterdir()),set(fixture['files']))
         for name,proof in fixture['files'].items():self.assertEqual(sha256((self.account/name).read_bytes()).hexdigest(),proof['sha256'])
 
     def test_canonical_fee_and_slippage_fill_preserves_shared_funds(self):

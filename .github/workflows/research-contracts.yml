@@ -331,7 +331,9 @@ jobs:
       matrix:
         os: [windows-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    # Cold Windows console processes plus the complete installed suite need
+    # room to finish; every existing and owner-exit check remains mandatory.
+    timeout-minutes: 20
     env:
       PIP_DISABLE_PIP_VERSION_CHECK: "1"
       PIP_NO_INPUT: "1"

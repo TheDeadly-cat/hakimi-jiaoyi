@@ -1,0 +1,28 @@
+{
+  "schema_version": "m3-original-dev3-task-account-read-by-dev4-v1",
+  "status": "PASS",
+  "operator": "AGENT",
+  "data_kind": "SYNTHETIC_TEST",
+  "original_version": "0.5.0.dev3",
+  "original_wheel_sha256": "633cff60f43cd498cdd54eadc3d765d092c79d75ec9543075936d9a1807fbcde",
+  "original_delivered_account": true,
+  "actual_registered_task_step": true,
+  "account_schema_version": "synthetic-shared-account-v2",
+  "original_sequence": 1,
+  "original_receipt_head": "b431ec23cbea8b9d424d2c5bf4d1087df27d129259eef9718802c83ff3f18f66",
+  "original_reserved_cash": "8000.00",
+  "before_hashes": {
+    "account.json": "25bf652f1c76f1f1ac6e6a3c2424ee398f751de9cf167133f132cea18a449f94",
+    "ledger.sqlite3": "268a9ef2ed6d1a8eeef37bb2a75c6705929bd7602599694132c09c74c5a76c3b"
+  },
+  "after_hashes": {
+    "account.json": "25bf652f1c76f1f1ac6e6a3c2424ee398f751de9cf167133f132cea18a449f94",
+    "ledger.sqlite3": "268a9ef2ed6d1a8eeef37bb2a75c6705929bd7602599694132c09c74c5a76c3b"
+  },
+  "original_bytes_retained": true,
+  "new_write_blocked": true,
+  "read_stdout_sha256": "88dd9aa3a5848fb3f6cb59de727b081456fbdd8a8baa2ef4b682f43ba5e97a3b",
+  "blocked_stdout_sha256": "b761b35745a84eb35e0fc16d94778feec1e2bd8ae206d6977d597f07df2cebbc",
+  "broker_order_calls": 0,
+  "external_account_calls": 0
+}

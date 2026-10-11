@@ -1,0 +1,33 @@
+{
+  "schema_version": "m3-dev4-delivered-launcher-first-use-v1",
+  "status": "PASS",
+  "operator": "AGENT",
+  "data_kind": "SYNTHETIC_TEST",
+  "accepted_wheel_sha256": "697af8ce48f541735cb853b04e77dc808394be62a80e0f62e457992fd3adbcd5",
+  "archive_sha256": "975473d4af161683f02744b18228aedcf08c606e20f6ce1a3ec82a71ca7adcc6",
+  "build_id": "supervised-research-598ffb87d5755bdc95544f958dcdf4e4390ad1c81894ae6243dd59b2487b62e9",
+  "installation": "VERIFIED",
+  "installed_source_sha256": "520a37e80803b76ef31e12f1919f0f6ac11f10805b9e9d50e26247e4a3756894",
+  "capture_encoding": "gbk",
+  "actual_outer_launcher": true,
+  "fresh_offline_install": true,
+  "actual_shared_menu": true,
+  "exit_reopen": true,
+  "read_only_reopen_preserves_account_bytes": true,
+  "account_sequence": 1,
+  "reserved_cash": "8000.00",
+  "available_cash": "2000.00",
+  "logs": [
+    {
+      "exit_code": 0,
+      "log_sha256": "9da119d4b908e19ab8e80329359103ea035eb904a526ca7b60a749db74596c0f"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "81a38bbc52bd5bae31a26f84feb10d8901edf55d8e32fb5d510ae01a508dcc74"
+    }
+  ],
+  "provider_calls": 0,
+  "external_account_calls": 0,
+  "broker_order_calls": 0
+}
