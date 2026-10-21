@@ -23,6 +23,16 @@
       && value.blockers.length <= 20 && value.blockers.every((item) => text(item, 300))
       && (value.ai_evidence === undefined || validAiEvidence(value.ai_evidence, value));
   }
+  function validInsightsContext(value) {
+    const date = (v) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v)
+      && Number.isFinite(Date.parse(v+"T00:00:00Z")) && new Date(v+"T00:00:00Z").toISOString().slice(0,10) === v;
+    return plain(value) && Object.keys(value).every(key => ["symbol","input_id","as_of","frozen","section"].includes(key))
+      && text(value.symbol,40) && typeof value.frozen === "boolean"
+      && ["structure","peers","indicators"].includes(value.section)
+      && typeof value.input_id === "string" && typeof value.as_of === "string"
+      && (value.frozen ? text(value.input_id,150) && !value.input_id.includes("\0") && (!value.as_of || date(value.as_of))
+        : value.input_id === "" && value.as_of === "");
+  }
   function validAiEvidence(value, context = null) {
     const required = ["schema_version","symbol","bar","session","question","generated_at","input_identity","providers"];
     const daily = (bar) => ["1d","1dutc","daily","day"].includes(String(bar).toLowerCase());
@@ -103,7 +113,7 @@
     const keys = new Set((catalog.find((entry) => entry.id === strategyId)?.parameter_fields || []).map((field) => field.key));
     return Object.fromEntries(Object.entries(params).filter(([key]) => keys.has(key)));
   }
-  const protocol = { SCHEMA, ENGINE, validMessage, validContext, validReplay, validConfiguration, chartRows, contextSourceId, researchBlocker, comparisonSignalParams, validAiEvidence };
+  const protocol = { SCHEMA, ENGINE, validMessage, validContext, validInsightsContext, validReplay, validConfiguration, chartRows, contextSourceId, researchBlocker, comparisonSignalParams, validAiEvidence };
   globalThis.HakimiTerminalQuantProtocol = protocol;
   if (typeof module === "object" && module.exports) module.exports = protocol;
 
@@ -140,7 +150,7 @@
     function send(kind, payload) { parent.postMessage({schema:SCHEMA, kind, payload}, location.origin); }
     function show(view = "dashboard", replaceHistory = false) {
       const wasVisible = state.visible;
-      state.unifiedView = ["dashboard","tasks","results"].includes(view) ? view : "dashboard";
+      state.unifiedView = ["dashboard","tasks","results","insights"].includes(view) ? view : "dashboard";
       state.visible = true; coreMain.hidden = true; $("terminalQuantWorkspace").hidden = false;
       if (location.hash !== "#" + state.unifiedView) history[replaceHistory ? "replaceState" : "pushState"](null,"","#" + state.unifiedView);
       syncUnifiedNavigation();
@@ -148,8 +158,9 @@
       if (state.unifiedView === "dashboard") {
         requestAnimationFrame(() => window.scrollTo({top:0,left:0,behavior:"auto"}));
       } else {
-        const scrollTarget = $(state.unifiedView === "tasks" ? "tq-tasks" : "tq-runs").closest(".panel");
+        const scrollTarget = state.unifiedView === "insights" ? $("terminalInsightsWorkspace") : $(state.unifiedView === "tasks" ? "tq-tasks" : "tq-runs").closest(".panel");
         requestAnimationFrame(() => {
+          if (state.unifiedView === "insights" && insightsUI) { insightsUI.reveal(); return; }
           const navigationHeight = navRoot.closest(".sidebar")?.getBoundingClientRect().height || 0;
           scrollTarget.style.scrollMarginTop = `${Math.ceil(navigationHeight) + 8}px`;
           scrollTarget.scrollIntoView({block:"start"});
@@ -161,7 +172,7 @@
         const active = item.dataset.view === state.unifiedView;
         item.classList.toggle("active",active); item.setAttribute("aria-current",active ? "page" : "false");
       });
-      if ($("breadcrumb")) $("breadcrumb").textContent = {dashboard:"研究工作台",tasks:"全部策略任务",results:"全部回测结果"}[state.unifiedView];
+      if ($("breadcrumb")) $("breadcrumb").textContent = {dashboard:"研究工作台",tasks:"全部策略任务",results:"全部回测结果",insights:"行情洞察"}[state.unifiedView];
     }
     function hide() {
       state.visible = false; coreMain.hidden = false; $("terminalQuantWorkspace").hidden = true;
@@ -172,6 +183,8 @@
     navButton.id = "terminalQuantNav";
     const navLabel = navButton.querySelector("span");
     if (navLabel) navLabel.textContent = "研究工作台"; else navButton.textContent = "研究工作台";
+    const insightsNav = document.createElement("button"); insightsNav.type="button";insightsNav.className=navButton.className;
+    insightsNav.dataset.view="insights";insightsNav.textContent="行情洞察";navButton.after(insightsNav);
     const host = document.createElement("section"); host.id = "terminalQuantWorkspace"; host.className = "main tq"; host.hidden = true;
     host.setAttribute("aria-label", "统一量化研究工作台");
     host.innerHTML = `
@@ -220,6 +233,12 @@
     const exitResearchUI = typeof globalThis.installTerminalExitResearchUI === "function"
       ? globalThis.installTerminalExitResearchUI({host,api,perform,notify,validReplay,sendReplay:(chart) => send("replay-result",chart)})
       : null;
+    const insightsUI = typeof globalThis.installTerminalInsightsUI === "function"
+      ? globalThis.installTerminalInsightsUI({host,api,notify,openMarket:async (symbol) => {
+        $("tq-symbol").value=symbol;await readMarket("");
+        const card=$("tq-market").closest(".panel");card.scrollIntoView({block:"start"});$("tq-symbol").focus();
+      }}) : null;
+    insightsNav.hidden = !insightsUI;
 
     function renderCatalog() {
       const selected = value("tq-strategy");
@@ -300,6 +319,8 @@
       await judgmentUI?.refresh();
       exitResearchUI?.setSources({inputs:state.inputs,runs:state.runs,catalog:state.catalog});
       await exitResearchUI?.refresh();
+      insightsUI?.setSources({inputs:state.inputs});
+      await insightsUI?.refresh();
       const warnings = [catalog,inputs,tasks,runs,history,reports,coreOverview,coreInputs].flatMap((item) => item.warnings || []);
       if (warnings.length) notify(`有 ${warnings.length} 项记录需要核对，未自动修复或重跑。`, true);
     }
@@ -551,17 +572,22 @@
     document.addEventListener("click", (event) => {
       const control = event.target.closest("[data-view]");
       if (!control) return;
-      if (["dashboard","tasks","results"].includes(control.dataset.view)) {
+      if (["dashboard","tasks","results","insights"].includes(control.dataset.view)) {
         event.preventDefault(); event.stopImmediatePropagation(); show(control.dataset.view); send("context-request",{});
       } else hide();
     }, true);
     window.addEventListener("popstate", () => {
       const view = location.hash.slice(1) || "dashboard";
-      if (["dashboard","tasks","results"].includes(view)) show(view,true); else hide();
+      if (["dashboard","tasks","results","insights"].includes(view)) show(view,true); else hide();
     });
-    window.addEventListener("message", (event) => {
-      if (!validMessage(event,parent,location.origin,["open-terminal","terminal-context","bridge-error"])) return;
+    window.addEventListener("message", async (event) => {
+      if (!validMessage(event,parent,location.origin,["open-terminal","terminal-context","open-insights","bridge-error"])) return;
       if (event.data.kind === "bridge-error") { if (text(event.data.payload.message,1000)) notify(event.data.payload.message,true); return; }
+      if (event.data.kind === "open-insights") {
+        if (!validInsightsContext(event.data.payload) || !insightsUI) return;
+        try { await refreshAll();show("insights");await insightsUI.open(event.data.payload); }
+        catch(error) { notify(error.message,true); } return;
+      }
       if (!validContext(event.data.payload)) return;
       applyContext(event.data.payload); if (event.data.kind === "open-terminal") show();
     });
@@ -583,7 +609,7 @@
     });
     coreObserver.observe(coreMain,{childList:true,subtree:true});
     const initialView = location.hash.slice(1) || "dashboard";
-    if (["dashboard","tasks","results"].includes(initialView)) show(initialView,true);
+    if (["dashboard","tasks","results","insights"].includes(initialView)) show(initialView,true);
     send("bridge-ready",{});
   };
 })();

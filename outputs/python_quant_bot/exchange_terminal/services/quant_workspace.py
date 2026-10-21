@@ -28,7 +28,7 @@ _IMPORT_LOCK = RLock()
 _READ_RESOURCES = frozenset({"status", "strategies", "tasks", "inputs", "runs", "csv_templates",
     "terminal_catalog", "terminal_market", "terminal_inputs", "terminal_tasks", "terminal_runs", "terminal_history", "terminal_reports", "terminal_core_inputs", "core_replay",
     "terminal_judgments", "terminal_judgment_replay", "terminal_exit_experiments",
-    "terminal_exit_runs", "terminal_exit_replay", "terminal_structure_replay"})
+    "terminal_exit_runs", "terminal_exit_replay", "terminal_structure_replay", "terminal_insights", "terminal_peers"})
 
 
 def _no_links(path: Path) -> None:
@@ -166,7 +166,8 @@ def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
     ui_path = Path(__file__).resolve().parents[1] / "static" / "terminal-quant-ui.js"
     judgment_path = ui_path.with_name("terminal-judgment-ui.js")
     exit_path = ui_path.with_name("terminal-exit-research-ui.js")
-    ui_source = "\n".join(path.read_text(encoding="utf-8") for path in (judgment_path, exit_path, ui_path)).replace("</script>", "<\\/script>")
+    insights_path = ui_path.with_name("terminal-insights-ui.js")
+    ui_source = "\n".join(path.read_text(encoding="utf-8") for path in (judgment_path, exit_path, insights_path, ui_path)).replace("</script>", "<\\/script>")
     html = html.replace("程序版本", "股票回测内核版本")
     html = html.replace("共享资金演练目前通过安装目录中的", "共享资金演练保留在原命令行工具中。旧包中的")
     html = html.replace(" 使用。这里保留现有命令行能力；", " 是归档入口；日常继续使用当前交易窗口。")

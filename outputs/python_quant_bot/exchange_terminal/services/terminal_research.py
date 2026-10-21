@@ -23,6 +23,7 @@ from .strategy_signals import SIGNAL_ENGINE_VERSION, strategy_startup_candles_fo
 from .indicator_math import CONTRACT as INDICATOR_CONTRACT
 from .terminal_judgment import TerminalJudgmentService
 from .terminal_exit_research import TerminalExitResearchService
+from .terminal_insights import TerminalInsightsService
 
 
 ENGINE_ID = "terminal." + SIGNAL_ENGINE_VERSION
@@ -269,7 +270,7 @@ def _core_input_adapter(snapshot, identity, file_hash):
 
 
 class TerminalResearchService:
-    def __init__(self, service, market_reader, catalog, runner, fingerprint, history_reader=None):
+    def __init__(self, service, market_reader, catalog, runner, fingerprint, history_reader=None, group_reader=None):
         self.core = service
         self.workspace = Path(service.workspace).absolute()
         self.market_reader, self.catalog, self.runner, self.fingerprint = market_reader, catalog, runner, fingerprint
@@ -278,6 +279,7 @@ class TerminalResearchService:
         self._safe(self.workspace)
         self.judgments = TerminalJudgmentService(self)
         self.exit_research = TerminalExitResearchService(self)
+        self.insights = TerminalInsightsService(self, group_reader)
 
     def _safe(self, path):
         path = Path(path).absolute()
@@ -847,6 +849,9 @@ class TerminalResearchService:
                                    "每项是独立本金的描述性研究，未认证数据与结果不能授予模拟或实盘权限。"]}
 
     def read(self, resource, identity=None):
+        if resource in {"terminal_insights", "terminal_peers"}:
+            with self._lock:
+                return self.insights.read(resource, identity)
         if resource in {"terminal_exit_experiments", "terminal_exit_runs", "terminal_exit_replay",
                         "terminal_structure_replay"}:
             with self._lock:

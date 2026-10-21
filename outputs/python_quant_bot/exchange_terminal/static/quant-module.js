@@ -19,6 +19,7 @@
   let slowTimer = null;
   let bridgeReady = false;
   let pendingContext = null;
+  let pendingInsights = null;
   const protocol = globalThis.HakimiTerminalQuantProtocol;
 
   function postContext(kind, context) {
@@ -29,12 +30,26 @@
   function openTerminal(context) {
     if (!protocol?.validContext(context)) return;
     pendingContext = context;
+    pendingInsights = null;
     select("quant");
     globalThis.setInterfaceView?.("bot");
     host.scrollIntoView({behavior:"smooth",block:"start"});
     if (bridgeReady) {
       postContext("open-terminal", pendingContext);
       pendingContext = null;
+    }
+  }
+
+  function openInsights(section = "structure") {
+    const context = globalThis.HakimiTerminalBridge?.insightsContext?.();
+    const payload = {...context,section};
+    if (!protocol?.validInsightsContext(payload)) return;
+    pendingInsights = payload; pendingContext = null;
+    select("quant"); globalThis.setInterfaceView?.("bot");
+    host.scrollIntoView({behavior:"smooth",block:"start"});
+    if (bridgeReady) {
+      frame.contentWindow.postMessage({schema:protocol.SCHEMA,kind:"open-insights",payload},location.origin);
+      pendingInsights = null;
     }
   }
 
@@ -142,13 +157,19 @@
   document.querySelectorAll("[data-open-terminal-research]").forEach((button) => {
     button.addEventListener("click", () => openTerminal(globalThis.HakimiTerminalBridge?.context(button.dataset.openTerminalResearch)));
   });
+  document.querySelectorAll("[data-open-terminal-insights]").forEach((button) => {
+    button.addEventListener("click", () => openInsights(button.dataset.openTerminalInsights));
+  });
   window.addEventListener("message", (event) => {
     if (!protocol?.validMessage(event,frame.contentWindow,location.origin,
       ["bridge-ready","context-request","replay-result","copy-parameters","open-original"])) return;
     try {
       if (event.data.kind === "bridge-ready") {
         bridgeReady = true;
-        postContext(pendingContext ? "open-terminal" : "terminal-context",pendingContext || globalThis.HakimiTerminalBridge?.context());
+        if (pendingInsights) {
+          frame.contentWindow.postMessage({schema:protocol.SCHEMA,kind:"open-insights",payload:pendingInsights},location.origin);
+          pendingInsights = null;
+        } else postContext(pendingContext ? "open-terminal" : "terminal-context",pendingContext || globalThis.HakimiTerminalBridge?.context());
         pendingContext = null;
       } else if (event.data.kind === "context-request") {
         postContext("terminal-context",globalThis.HakimiTerminalBridge?.context());
@@ -167,6 +188,7 @@
   globalThis.HakimiQuantModule = {
     select,
     openTerminal,
+    openInsights,
     onView(next) {
       view = next;
       render();

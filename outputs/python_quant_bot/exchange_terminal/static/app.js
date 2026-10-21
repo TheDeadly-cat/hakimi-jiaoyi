@@ -14647,7 +14647,13 @@ function openOriginalResearch(section) {
   HakimiQuantModule.select("legacy"); setInterfaceView("bot");
   focusModule(section === "portfolio" ? "#internalBacktestPackBoundary" : ".strategy-desk",false);
 }
-globalThis.HakimiTerminalBridge = {context:currentTerminalResearchContext,replay:applyFrozenQuantReplay,copyParameters:copyFrozenTerminalParameters,openOriginal:openOriginalResearch};
+function currentTerminalInsightsContext() {
+  const replay = state.frozenQuantReplay;
+  const visible = replay ? frozenReplayPresentation() : null;
+  return {symbol:replay?.symbol || state.symbol,input_id:replay?.input_id || "",
+    as_of:visible?.row?.date || "",frozen:Boolean(replay)};
+}
+globalThis.HakimiTerminalBridge = {context:currentTerminalResearchContext,insightsContext:currentTerminalInsightsContext,replay:applyFrozenQuantReplay,copyParameters:copyFrozenTerminalParameters,openOriginal:openOriginalResearch};
 $("terminalReplayExit")?.addEventListener("click",() => exitFrozenQuantReplay());
 $("terminalLocalSource")?.addEventListener("change",(event) => {
   if (state.frozenQuantReplay) return;

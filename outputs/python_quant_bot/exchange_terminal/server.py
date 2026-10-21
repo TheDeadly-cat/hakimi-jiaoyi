@@ -539,7 +539,7 @@ QUANT_WORKSPACE = QuantWorkspace(
         core, market_reader=TERMINAL_MARKET_READER, catalog=terminal_strategy_catalog,
         runner=lambda **kwargs: run_strategy_backtest(**kwargs, include_full_history=True),
         fingerprint=strategy_implementation_fingerprint,
-        history_reader=TerminalHistoryReader(RUNTIME_DIR)),
+        history_reader=TerminalHistoryReader(RUNTIME_DIR), group_reader=lambda: STOCK_MARKETS),
 )
 STOCK_HISTORY_PRIORITY = [
     "AAPL", "NVDA", "MSFT", "AMZN", "GOOGL", "META", "TSLA",
