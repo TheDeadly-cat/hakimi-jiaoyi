@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hakimi.local/contracts/product-capabilities.schema.json",
+  "title": "Hakimi product capability definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "definition_schema_version",
+    "catalog"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "./product-capabilities.schema.json"
+    },
+    "definition_schema_version": {
+      "const": "product-capability-definition-v1"
+    },
+    "catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "product_mode",
+        "authority",
+        "capabilities",
+        "cli_bindings"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "product-capability-catalog-v2"
+        },
+        "product_mode": {
+          "const": "research_only"
+        },
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_version",
+            "product_mode",
+            "research_only",
+            "paper_allowed",
+            "live_allowed"
+          ],
+          "properties": {
+            "schema_version": {
+              "const": "capability-v1"
+            },
+            "product_mode": {
+              "const": "research_only"
+            },
+            "research_only": {
+              "const": true
+            },
+            "paper_allowed": {
+              "const": false
+            },
+            "live_allowed": {
+              "const": false
+            }
+          }
+        },
+        "capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "status"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "status": {
+                "enum": [
+                  "Supported",
+                  "Experimental",
+                  "Archived",
+                  "Disabled"
+                ]
+              }
+            }
+          }
+        },
+        "cli_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "command",
+              "capability"
+            ],
+            "properties": {
+              "command": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "capability": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

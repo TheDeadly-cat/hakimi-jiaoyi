@@ -21,6 +21,7 @@
       letter-spacing: .02em;
     }
   </style>
+  <link rel="stylesheet" href="./quant-module.css?v=20261020-integrated-1">
 </head>
 <body>
   <div class="app-shell">
@@ -168,6 +169,27 @@
         当前产品仅支持本地数据研究、历史回测、确定性 Frozen benchmark、证据审阅与报告导出。参数优化、paper、live 已归档，订单输入已禁用。
       </section>
 
+      <section id="quantStrategyWorkspace" class="quant-strategy-workspace" aria-labelledby="quantWorkspaceTitle" hidden>
+        <div class="quant-workspace-heading">
+          <div>
+            <h2 id="quantWorkspaceTitle">策略研究</h2>
+            <p>导入行情、设置任务、比较结果，都在当前交易工作区完成。</p>
+          </div>
+          <div class="quant-workspace-tabs" role="group" aria-label="策略研究内容">
+            <button type="button" class="active" data-strategy-panel="quant" aria-pressed="true">任务与回测</button>
+            <button type="button" data-strategy-panel="legacy" aria-pressed="false">策略分析与模拟记录</button>
+          </div>
+        </div>
+        <div id="quantModulePanel" class="quant-module-panel" role="region" aria-label="量化任务与回测">
+          <div id="quantModuleFeedback" class="quant-module-feedback" role="status" aria-live="polite">
+            <span id="quantModuleFeedbackText">进入后打开本地任务与回测。</span>
+            <button id="quantModuleRetry" class="ghost-button" type="button" hidden>重新打开</button>
+          </div>
+          <iframe id="quantModuleFrame" class="quant-module-frame" title="量化任务与回测" sandbox="allow-scripts allow-same-origin allow-forms allow-downloads" allow="clipboard-write" referrerpolicy="no-referrer"></iframe>
+        </div>
+        <p id="quantLegacyHint" class="quant-legacy-hint" hidden>查看策略参数、信号解释、模拟记录与风险检查。切换功能时，任务与回测中尚未提交的配置会继续保留。</p>
+      </section>
+
       <section id="platformControlCenter" class="platform-control-center evidence-calibrated" aria-label="研究证据与权限控制中心">
         <header class="platform-control-head">
           <div>
@@ -177,7 +199,8 @@
           </div>
           <div class="platform-control-actions">
             <button id="platformValidate" type="button" title="只核对已有证据，不触发回测或参数搜索">核对当前证据</button>
-            <button id="platformOpenStrategy" class="ghost-button" type="button">策略工作台</button>
+            <button type="button" data-open-quant>任务与回测</button>
+            <button id="platformOpenStrategy" class="ghost-button" type="button">策略分析与历史记录</button>
             <button id="platformRefresh" class="ghost-button" type="button" title="刷新交易总控">刷新</button>
           </div>
         </header>
@@ -634,6 +657,7 @@
               <button id="clearDrawings">清除</button>
             </div>
           </div>
+          <div class="terminal-research-actions"><button type="button" data-open-terminal-research="chart">用当前标的创建任务</button><label id="terminalLocalSourceLabel" hidden>本地日线来源 <select id="terminalLocalSource" aria-label="本地日线来源"></select></label></div>
           <div id="chartQualityStrip" class="chart-quality-strip flat">
             <div><span>数据源</span><strong id="chartQualitySource">--</strong></div>
             <div><span>新鲜度</span><strong id="chartQualityFreshness">--</strong></div>
@@ -657,6 +681,11 @@
               <em id="liveNewsDetail">外部新闻和财报日历异步补充</em>
             </div>
           </div>
+          <div id="terminalReplayNotice" class="terminal-replay-notice" hidden>
+            <div><strong id="terminalReplayTitle">冻结研究复盘</strong><p id="terminalReplayDetail"></p><details><summary>来源与记录编号</summary><p id="terminalReplayIdentity"></p></details></div>
+            <div><button type="button" data-open-terminal-research="chart">返回研究任务</button><button id="terminalReplayExit" type="button">退出冻结复盘</button></div>
+          </div>
+          <div id="terminalResearchChartControls" class="terminal-research-chart-controls" hidden></div>
           <canvas id="priceChart" width="1100" height="560"></canvas>
           <div id="chartTooltip" class="chart-tooltip hidden"></div>
           <div id="chartAiBox" class="chart-ai-box hidden"></div>
@@ -848,6 +877,7 @@
                 <option value="CURRENT">现价</option>
               </select>
             </div>
+            <button type="button" data-open-terminal-research="strategy">将当前参数保存为研究任务</button>
             <button id="armStrategy" data-archived-capability-control disabled>模拟执行已归档</button>
             <button id="stopStrategy" class="ghost-button" data-archived-capability-control disabled>停止</button>
             <button id="resetPaper" class="ghost-button" data-archived-capability-control disabled>重置</button>
@@ -1663,6 +1693,7 @@
             </div>
             <div class="anomaly-actions">
               <button id="refreshAnomalyRadar" class="ghost-button">刷新雷达</button>
+              <button type="button" data-open-terminal-research="radar">对此标的创建任务</button>
               <button id="pushAnomalyNotice" class="ghost-button">推送提醒</button>
               <button id="anomalyToAi" class="ghost-button">带入AI行情</button>
             </div>
@@ -2073,10 +2104,14 @@
     </main>
   </div>
 
+  <script src="./indicator_math.js?v=20261020-indicators-1"></script>
+  <script src="./terminal-research-chart.js?v=20261021-research-1"></script>
   <script src="./chart_quality.js?v=20260801-market-session-32"></script>
   <script src="./chart_controller.js?v=20260810-refresh-coordinator-1"></script>
   <script src="./stock_quote_guard.js?v=20260811-stock-quote-context-1"></script>
   <script src="./evidence_presentation.js?v=20260821-correlation-multiplicity-ledger-1"></script>
+  <script src="./terminal-quant-ui.js?v=20261020-linked-1"></script>
+  <script src="./quant-module.js?v=20261020-integrated-1"></script>
   <script src="./app.js?v=20260821-correlation-multiplicity-ledger-1"></script>
 </body>
 </html>

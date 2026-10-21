@@ -1,0 +1,270 @@
+{
+  "schema_version": "us-equity-daily-import-v1",
+  "security": {
+    "security_id": "SYNTHETIC:RESEARCH:TEST",
+    "symbol": "TEST",
+    "exchange": "XNYS",
+    "currency": "USD",
+    "instrument_type": "COMMON_STOCK"
+  },
+  "identity": {
+    "stable_within_coverage": true,
+    "valid_from": "2024-11-01",
+    "valid_through": "2024-12-03",
+    "selection_basis": "Fictional fixed fixture, not a historical stock universe",
+    "source": {
+      "name": "SYNTHETIC_identity",
+      "reference": "urn:synthetic:equity-research:identity",
+      "retrieved_at": "2024-12-04T00:00:00Z",
+      "raw_base64": "RmljdGlvbmFsIHN0YWJsZSBURVNUIGlkZW50aXR5"
+    }
+  },
+  "calendar": {
+    "timezone": "America/New_York",
+    "coverage_start": "2024-11-01",
+    "coverage_end": "2024-12-03",
+    "source": {
+      "name": "SYNTHETIC_calendar",
+      "reference": "urn:synthetic:equity-research:calendar",
+      "retrieved_at": "2024-12-04T00:00:00Z",
+      "raw_base64": "W3siZGF0ZSI6ICIyMDI0LTExLTAxIiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTAxVDEzOjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0wMVQyMDowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTAyIiwgImtpbmQiOiAiQ0xPU0VEIiwgInJlYXNvbiI6ICJXRUVLRU5EIn0sIHsiZGF0ZSI6ICIyMDI0LTExLTAzIiwgImtpbmQiOiAiQ0xPU0VEIiwgInJlYXNvbiI6ICJXRUVLRU5EIn0sIHsiZGF0ZSI6ICIyMDI0LTExLTA0IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTA0VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0wNFQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTA1IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTA1VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0wNVQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTA2IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTA2VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0wNlQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTA3IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTA3VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0wN1QyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTA4IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTA4VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0wOFQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTA5IiwgImtpbmQiOiAiQ0xPU0VEIiwgInJlYXNvbiI6ICJXRUVLRU5EIn0sIHsiZGF0ZSI6ICIyMDI0LTExLTEwIiwgImtpbmQiOiAiQ0xPU0VEIiwgInJlYXNvbiI6ICJXRUVLRU5EIn0sIHsiZGF0ZSI6ICIyMDI0LTExLTExIiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTExVDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0xMVQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTEyIiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTEyVDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0xMlQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTEzIiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTEzVDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0xM1QyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTE0IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTE0VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0xNFQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTE1IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTE1VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0xNVQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTE2IiwgImtpbmQiOiAiQ0xPU0VEIiwgInJlYXNvbiI6ICJXRUVLRU5EIn0sIHsiZGF0ZSI6ICIyMDI0LTExLTE3IiwgImtpbmQiOiAiQ0xPU0VEIiwgInJlYXNvbiI6ICJXRUVLRU5EIn0sIHsiZGF0ZSI6ICIyMDI0LTExLTE4IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTE4VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0xOFQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTE5IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTE5VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0xOVQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTIwIiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTIwVDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0yMFQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTIxIiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTIxVDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0yMVQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTIyIiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTIyVDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0yMlQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTIzIiwgImtpbmQiOiAiQ0xPU0VEIiwgInJlYXNvbiI6ICJXRUVLRU5EIn0sIHsiZGF0ZSI6ICIyMDI0LTExLTI0IiwgImtpbmQiOiAiQ0xPU0VEIiwgInJlYXNvbiI6ICJXRUVLRU5EIn0sIHsiZGF0ZSI6ICIyMDI0LTExLTI1IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTI1VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0yNVQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTI2IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTI2VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0yNlQyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTI3IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTI3VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0yN1QyMTowMDowMFoiLCAiZWFybHlfY2xvc2UiOiBmYWxzZX0sIHsiZGF0ZSI6ICIyMDI0LTExLTI4IiwgImtpbmQiOiAiQ0xPU0VEIiwgInJlYXNvbiI6ICJIT0xJREFZIn0sIHsiZGF0ZSI6ICIyMDI0LTExLTI5IiwgImtpbmQiOiAiT1BFTiIsICJvcGVuX3V0YyI6ICIyMDI0LTExLTI5VDE0OjMwOjAwWiIsICJjbG9zZV91dGMiOiAiMjAyNC0xMS0yOVQxODowMDowMFoiLCAiZWFybHlfY2xvc2UiOiB0cnVlfSwgeyJkYXRlIjogIjIwMjQtMTEtMzAiLCAia2luZCI6ICJDTE9TRUQiLCAicmVhc29uIjogIldFRUtFTkQifSwgeyJkYXRlIjogIjIwMjQtMTItMDEiLCAia2luZCI6ICJDTE9TRUQiLCAicmVhc29uIjogIldFRUtFTkQifSwgeyJkYXRlIjogIjIwMjQtMTItMDIiLCAia2luZCI6ICJPUEVOIiwgIm9wZW5fdXRjIjogIjIwMjQtMTItMDJUMTQ6MzA6MDBaIiwgImNsb3NlX3V0YyI6ICIyMDI0LTEyLTAyVDIxOjAwOjAwWiIsICJlYXJseV9jbG9zZSI6IGZhbHNlfSwgeyJkYXRlIjogIjIwMjQtMTItMDMiLCAia2luZCI6ICJPUEVOIiwgIm9wZW5fdXRjIjogIjIwMjQtMTItMDNUMTQ6MzA6MDBaIiwgImNsb3NlX3V0YyI6ICIyMDI0LTEyLTAzVDIxOjAwOjAwWiIsICJlYXJseV9jbG9zZSI6IGZhbHNlfV0="
+    },
+    "days": [
+      {
+        "date": "2024-11-01",
+        "kind": "OPEN",
+        "open_utc": "2024-11-01T13:30:00Z",
+        "close_utc": "2024-11-01T20:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-02",
+        "kind": "CLOSED",
+        "reason": "WEEKEND"
+      },
+      {
+        "date": "2024-11-03",
+        "kind": "CLOSED",
+        "reason": "WEEKEND"
+      },
+      {
+        "date": "2024-11-04",
+        "kind": "OPEN",
+        "open_utc": "2024-11-04T14:30:00Z",
+        "close_utc": "2024-11-04T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-05",
+        "kind": "OPEN",
+        "open_utc": "2024-11-05T14:30:00Z",
+        "close_utc": "2024-11-05T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-06",
+        "kind": "OPEN",
+        "open_utc": "2024-11-06T14:30:00Z",
+        "close_utc": "2024-11-06T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-07",
+        "kind": "OPEN",
+        "open_utc": "2024-11-07T14:30:00Z",
+        "close_utc": "2024-11-07T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-08",
+        "kind": "OPEN",
+        "open_utc": "2024-11-08T14:30:00Z",
+        "close_utc": "2024-11-08T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-09",
+        "kind": "CLOSED",
+        "reason": "WEEKEND"
+      },
+      {
+        "date": "2024-11-10",
+        "kind": "CLOSED",
+        "reason": "WEEKEND"
+      },
+      {
+        "date": "2024-11-11",
+        "kind": "OPEN",
+        "open_utc": "2024-11-11T14:30:00Z",
+        "close_utc": "2024-11-11T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-12",
+        "kind": "OPEN",
+        "open_utc": "2024-11-12T14:30:00Z",
+        "close_utc": "2024-11-12T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-13",
+        "kind": "OPEN",
+        "open_utc": "2024-11-13T14:30:00Z",
+        "close_utc": "2024-11-13T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-14",
+        "kind": "OPEN",
+        "open_utc": "2024-11-14T14:30:00Z",
+        "close_utc": "2024-11-14T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-15",
+        "kind": "OPEN",
+        "open_utc": "2024-11-15T14:30:00Z",
+        "close_utc": "2024-11-15T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-16",
+        "kind": "CLOSED",
+        "reason": "WEEKEND"
+      },
+      {
+        "date": "2024-11-17",
+        "kind": "CLOSED",
+        "reason": "WEEKEND"
+      },
+      {
+        "date": "2024-11-18",
+        "kind": "OPEN",
+        "open_utc": "2024-11-18T14:30:00Z",
+        "close_utc": "2024-11-18T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-19",
+        "kind": "OPEN",
+        "open_utc": "2024-11-19T14:30:00Z",
+        "close_utc": "2024-11-19T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-20",
+        "kind": "OPEN",
+        "open_utc": "2024-11-20T14:30:00Z",
+        "close_utc": "2024-11-20T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-21",
+        "kind": "OPEN",
+        "open_utc": "2024-11-21T14:30:00Z",
+        "close_utc": "2024-11-21T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-22",
+        "kind": "OPEN",
+        "open_utc": "2024-11-22T14:30:00Z",
+        "close_utc": "2024-11-22T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-23",
+        "kind": "CLOSED",
+        "reason": "WEEKEND"
+      },
+      {
+        "date": "2024-11-24",
+        "kind": "CLOSED",
+        "reason": "WEEKEND"
+      },
+      {
+        "date": "2024-11-25",
+        "kind": "OPEN",
+        "open_utc": "2024-11-25T14:30:00Z",
+        "close_utc": "2024-11-25T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-26",
+        "kind": "OPEN",
+        "open_utc": "2024-11-26T14:30:00Z",
+        "close_utc": "2024-11-26T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-27",
+        "kind": "OPEN",
+        "open_utc": "2024-11-27T14:30:00Z",
+        "close_utc": "2024-11-27T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-11-28",
+        "kind": "CLOSED",
+        "reason": "HOLIDAY"
+      },
+      {
+        "date": "2024-11-29",
+        "kind": "OPEN",
+        "open_utc": "2024-11-29T14:30:00Z",
+        "close_utc": "2024-11-29T18:00:00Z",
+        "early_close": true
+      },
+      {
+        "date": "2024-11-30",
+        "kind": "CLOSED",
+        "reason": "WEEKEND"
+      },
+      {
+        "date": "2024-12-01",
+        "kind": "CLOSED",
+        "reason": "WEEKEND"
+      },
+      {
+        "date": "2024-12-02",
+        "kind": "OPEN",
+        "open_utc": "2024-12-02T14:30:00Z",
+        "close_utc": "2024-12-02T21:00:00Z",
+        "early_close": false
+      },
+      {
+        "date": "2024-12-03",
+        "kind": "OPEN",
+        "open_utc": "2024-12-03T14:30:00Z",
+        "close_utc": "2024-12-03T21:00:00Z",
+        "early_close": false
+      }
+    ]
+  },
+  "corporate_actions": {
+    "coverage_start": "2024-11-01",
+    "coverage_end": "2024-12-03",
+    "coverage_status": "DECLARED_COMPLETE",
+    "source": {
+      "name": "SYNTHETIC_actions",
+      "reference": "urn:synthetic:equity-research:actions",
+      "retrieved_at": "2024-12-04T00:00:00Z",
+      "raw_base64": "U3ludGhldGljIGNvbXBsZXRlIGVtcHR5IGFjdGlvbiBsaXN0"
+    },
+    "actions": []
+  },
+  "price_source": {
+    "name": "SYNTHETIC_price",
+    "reference": "urn:synthetic:equity-research:price",
+    "retrieved_at": "2024-12-04T00:00:00Z",
+    "raw_base64": "c2Vzc2lvbl9kYXRlLG9wZW4saGlnaCxsb3csY2xvc2Usdm9sdW1lCjIwMjQtMTEtMDEsMTAwLDEwMSw5OSwxMDAsMTAwMDAKMjAyNC0xMS0wNCw5OSwxMDAsOTgsOTksMTAwMDAKMjAyNC0xMS0wNSw5OCw5OSw5Nyw5OCwxMDAwMAoyMDI0LTExLTA2LDk3LDk4LDk2LDk3LDEwMDAwCjIwMjQtMTEtMDcsOTgsOTksOTcsOTgsMTAwMDAKMjAyNC0xMS0wOCwxMDEsMTAyLDEwMCwxMDEsMTAwMDAKMjAyNC0xMS0xMSwxMDQsMTA1LDEwMywxMDQsMTAwMDAKMjAyNC0xMS0xMiwxMDMsMTA0LDEwMiwxMDMsMTAwMDAKMjAyNC0xMS0xMywxMDIsMTAzLDEwMSwxMDIsMTAwMDAKMjAyNC0xMS0xNCwxMDAsMTAxLDk5LDEwMCwxMDAwMAoyMDI0LTExLTE1LDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTExLTE4LDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTExLTE5LDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTExLTIwLDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTExLTIxLDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTExLTIyLDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTExLTI1LDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTExLTI2LDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTExLTI3LDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTExLTI5LDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTEyLTAyLDk5LDEwMCw5OCw5OSwxMDAwMAoyMDI0LTEyLTAzLDk5LDEwMCw5OCw5OSwxMDAwMAo="
+  },
+  "price_basis": "RAW_UNADJUSTED",
+  "volume_unit": "shares",
+  "bar_timestamp_semantics": "SESSION_DATE",
+  "completed_bars_only": true,
+  "as_of": "2024-12-03T21:01:00Z",
+  "retrieved_at": "2024-12-04T00:00:00Z",
+  "bar_availability_lag_seconds": 60,
+  "evidence_kind": "SYNTHETIC_TEST"
+}

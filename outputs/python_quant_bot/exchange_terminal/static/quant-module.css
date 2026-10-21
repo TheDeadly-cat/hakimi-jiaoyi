@@ -1,0 +1,263 @@
+.quant-strategy-workspace {
+  min-width: 0;
+  margin: 16px 0;
+  scroll-margin-top: 16px;
+}
+
+.quant-strategy-workspace[hidden],
+.quant-strategy-workspace [hidden] {
+  display: none !important;
+}
+
+.quant-strategy-workspace.quant-parked,
+.quant-module-panel.quant-panel-parked {
+  position: fixed !important;
+  top: 0 !important;
+  left: -20000px !important;
+  width: var(--quant-parked-width, 960px) !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.quant-workspace-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.quant-workspace-heading h2 {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 20px;
+}
+
+.quant-workspace-heading p,
+.quant-legacy-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.terminal-research-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+}
+
+.terminal-research-actions select {
+  max-width: 420px;
+  min-height: 34px;
+  color: var(--text);
+  background: var(--panel);
+}
+
+.terminal-replay-notice {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 12px;
+  padding: 12px;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid #4676c0;
+  border-radius: 6px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.terminal-replay-notice[hidden],
+.terminal-research-actions [hidden] {
+  display: none !important;
+}
+
+.terminal-replay-notice p { margin: 6px 0 0; color: var(--muted); }
+.terminal-replay-notice { flex-wrap: wrap; }
+.terminal-replay-notice > div:first-child { flex: 1 1 280px; min-width: 0; }
+.terminal-replay-notice > div:last-child { display: flex; flex-wrap: wrap; gap: 6px; }
+.terminal-replay-notice button { margin: 0; min-height: 34px; white-space: nowrap; }
+.terminal-research-chart-controls[hidden], .terminal-research-chart-controls [hidden] { display: none !important; }
+.terminal-research-chart-controls { margin: 8px 12px; padding: 10px; border: 1px solid var(--line); font-size: 12px; }
+.terminal-research-chart-controls p { margin: 6px 0 0; color: var(--muted); }
+.research-chart-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.research-chart-controls label { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.research-chart-controls input { width: 160px; }
+.research-chart-controls select { max-width: 240px; }
+.research-chart-controls select, .research-chart-controls button { min-height: 34px; }
+.terminal-replay-notice details { margin-top: 6px; }
+.terminal-replay-notice summary { cursor: pointer; }
+.chart-panel:has(#terminalReplayNotice:not([hidden])) .chart-footer { grid-template-columns: minmax(0, 1fr); }
+.chart-panel:has(#terminalReplayNotice:not([hidden])) .chart-strategy-overlay { display: block; min-width: 0; line-height: 1.5; }
+
+/* Added research rows must not inherit the old chart's fourth, flexible row. */
+body .workspace-grid .chart-panel {
+  grid-template-rows: none;
+  grid-auto-rows: max-content;
+  height: auto;
+  min-height: 0;
+}
+body .workspace-grid .chart-panel #priceChart {
+  height: clamp(360px, 45vh, 540px);
+  min-height: 360px;
+  min-width: 0;
+}
+
+.quant-workspace-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.quant-workspace-tabs button {
+  min-height: 42px;
+  padding: 9px 16px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.quant-workspace-tabs button.active {
+  background: #2255a2;
+  color: #fff;
+  border-color: #4676c0;
+}
+
+.quant-workspace-tabs button:focus-visible,
+.quant-module-feedback button:focus-visible {
+  outline: 3px solid #8ab7ff;
+  outline-offset: 3px;
+}
+
+.quant-module-panel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+}
+
+.quant-module-feedback {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  color: var(--text);
+  background: var(--panel-2);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.quant-module-feedback.failed {
+  border-bottom: 1px solid var(--line);
+}
+
+.quant-module-feedback button {
+  min-height: 38px;
+  flex-shrink: 0;
+}
+
+.quant-module-frame {
+  display: block;
+  width: 100%;
+  height: var(--quant-available-height, calc(100vh - 190px));
+  min-height: 360px;
+  border: 0;
+  background: #f3f5f8;
+}
+
+/* Hide existing sections only while the integrated quant panel is selected.
+   Their DOM and the persistent iframe survive navigation in either direction. */
+body.view-bot.quant-active .terminal > :not(.shell-titlebar):not(.desktop-statusbar):not(.module-bar):not(.quant-strategy-workspace):not(.research-only-boundary-banner):not(#commandOverlay),
+body.view-bot .interface-focus-banner {
+  display: none !important;
+}
+
+/* The left rail and main view switch remain the shared app navigation. */
+body.view-bot.quant-active .module-bar,
+body.view-bot.quant-active .shell-tabs,
+body.view-bot.quant-active .statusbar-left,
+body.view-bot.quant-active .statusbar-right,
+body.view-bot.quant-active .shell-title-main span {
+  display: none !important;
+}
+
+body.view-bot.quant-active .shell-titlebar {
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-height: 48px;
+  padding: 8px 14px;
+}
+
+body.view-bot.quant-active .desktop-statusbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 12px;
+  min-height: 48px;
+}
+
+body.view-bot.quant-active .interface-switch {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  gap: 4px;
+}
+
+body.view-bot.quant-active .interface-switch button {
+  min-height: 34px;
+  padding: 7px 11px;
+}
+
+body.view-bot.quant-active .command-trigger {
+  min-width: 140px;
+  min-height: 34px;
+}
+
+body.view-bot.quant-active .quant-strategy-workspace {
+  margin: 10px 0 0;
+}
+
+body.view-bot.quant-active .quant-workspace-heading {
+  margin-bottom: 10px;
+  gap: 12px;
+}
+
+body.view-bot.quant-active .quant-workspace-heading h2 {
+  font-size: 18px;
+  margin-bottom: 3px;
+}
+
+.quant-legacy-hint {
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+}
+
+@media (max-width: 1100px) {
+  .quant-workspace-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .quant-module-frame {
+    min-height: 360px;
+  }
+}
