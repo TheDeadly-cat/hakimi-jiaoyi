@@ -2,16 +2,16 @@
 
 本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1、M2、M3-1 与 R1／R2／R3 已集成，M2-2 的两项 P2 和 PR #25 跨归属退出修复保持关闭。当前开发范围为 P0 整合、美股日线 M3-2 连续运行及一种财报排期研究输入；P2 数据范围增强和 P3 受控交易留待后续。主分支集成以实际合并提交及其检查为准。
 
-整理日期：2026-10-22。[PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合并至 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`，[该 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 结论为成功，原 Windows／Ubuntu 安装各 299 项。`0.5.0.dev4` CLEAN 构建 `e003dd8` 的 wheel、共享流程 v4、启动器及旧 dev3 只读兼容证据保留原身份；首次时限取消日志不抹去。见[修复证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。本轮在 `1c07e88` 洞察功能基础上开发 `0.6.0.dev1`，默认新计算收敛至正式 `hakimi_research`，旧引擎和原桌面保留；[当前入口与兼容方式](docs/workbench.md)。候选工程检查、实际工作台流程、真实数据与远端 CI 分别验收，正在进行。
+整理日期：2026-10-23。[PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合并至 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`，[该 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 结论为成功，原 Windows／Ubuntu 安装各 299 项。`0.5.0.dev4` CLEAN 构建 `e003dd8` 的 wheel、共享流程 v4、启动器及旧 dev3 只读兼容证据保留原身份；首次时限取消日志不抹去。见[修复证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。本轮在 `1c07e88` 洞察功能基础上开发 `0.6.0.dev1`，默认新计算收敛至正式 `hakimi_research`，旧引擎和原桌面保留；[当前入口与兼容方式](docs/workbench.md)。候选工程检查、实际工作台流程、真实数据与远端 CI 分别验收。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
-本轮已建立[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)。`55db99e` 的[十一项 CI 已全部成功](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/39702356053)，对应普通安装包 350 项通过。原生 NDAQ/KO 工作流、暂停后保护退出与安装后重开已有实测；轮询页面跳动修复通过新包桌面回归，旧账户收据保持原身份。真实 NDAQ 排期已在 GUI 保存原文、时间及用户本次接纳记录；创建排期任务被既有历史可用时间检查明确拒绝，尚无任务或运行。需新增完整日线后继续。详见[本轮交付证据与剩余项](docs/research-evidence/workbench-m32-20261022/README.md)。
+本轮已建立[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)。CLEAN `166e18e` 的[十一项 CI 已全部成功](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/39770005525)，对应普通安装包 350 项通过；此前 `55db99e` 安装与桌面回归仍保留原身份。原生 NDAQ/KO 工作流、暂停后保护退出与安装后重开已有实测。旧 26 根日线 NDAQ 排期建任务操作因历史可用时间门槛被拒绝；另以截至 10 月 22 日的 27 根完整日线建立新任务并完成运行、冻结反馈及交易分析房间资料导入。见[本轮交付证据](docs/research-evidence/workbench-m32-20261022/README.md)和[简要闭环回执](docs/research-evidence/workbench-m32-20261022/ndaq-schedule-closeout-20261023.json)。
 
 | 层次 | 已核实状态 |
 |---|---|
 | 当前 main | [PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合入 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`；[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 成功，Windows／Ubuntu 安装各 299 项；M3-1 主体与跨归属退出修复已集成 |
-| 当前开发候选 | `0.6.0.dev1`，草稿 PR #26；新增终端 Python 与完整桌面检查已纳入必需 CI。普通任务、真实日线连续账户、暂停后保护与安装后重开已有实测；轮询修复新包和对应十一项检查通过，真实排期已人工接纳，等待覆盖其实际可用时间之后的完整日线。各构建身份见[本轮记录](docs/research-evidence/workbench-m32-20261022/README.md) |
+| 当前开发候选 | `0.6.0.dev1`，草稿 PR #26；新增终端 Python 与完整桌面检查已纳入必需 CI。普通任务、真实日线连续账户、暂停后保护与安装后重开已有实测；`166e18e` 普通安装和对应十一项检查通过。人工接纳的 NDAQ 排期在新 27 根日线输入上已建立任务、运行、导出并由研究侧资料回读；零次拦截不是有效性结论。各构建与操作身份见[本轮记录](docs/research-evidence/workbench-m32-20261022/README.md) |
 | 前一 M3-1 main | PR #24 的 `09ee21ed2354fb1338b5b6519efa261146036b0b`、受审 `1ee0a78`、原九项 CI 和两平台 295 项均为历史身份；后由 PR #25 修复跨归属退出 |
 | 前一 M2-2 main | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 经用户对 `0059359` 单独批准，于 2026-10-10 17:30:04 UTC+8 合入 `57b6bd4ec2263f6d390257fde7e787f44a084d85`；内容树 `3f694f17be4e85aa4ca5fb696482c5bb1125a366` 与受审 head 相同。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339) 九项成功，Windows／Ubuntu 安装各 253 项、输入及 R3 流程通过。M1、M2-1 和 R1／R2／R3 保持关闭 |
 | M3-1 功能存档 | [PR #24](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/24) 已集成；dev3 CLEAN `554a430`，同一 wheel 仓库外 295 项及共享 v3、启动器首用、原 dev2 任务账户原字节只读通过。原证据没有覆盖跨归属退出；原包已真实复现 M3-1-01，原记录不回填。增量监控与券商执行为后续范围 |
