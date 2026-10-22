@@ -45,6 +45,7 @@
     "report_style.py",
     "reporting.py",
     "reporting_legacy_v2.py",
+    "research_feedback.py",
     "resources/config.example.json",
     "resources/experiment.example.json",
     "resources/nvda-collection-plan.json",

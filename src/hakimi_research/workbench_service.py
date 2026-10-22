@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import base64
 from datetime import datetime, timezone
+import hashlib
 from importlib import metadata
+import json
 import os
 from pathlib import Path
 import re
@@ -21,6 +23,7 @@ from .equity_research import PERMISSIONS
 from .input_workflow import _retain, list_inputs, import_price_csv
 from .offline_app import (describe_run, immutable_write, run_task, verify_run,
                           write_new, _file_lock)
+from .research_feedback import build_feedback_markdown
 from .task_manager import create_family, describe_task, list_tasks, change_state
 from .strategy_registry import strategies, new_task_parameters, required_task_context
 from .source_identity import package_content_identity
@@ -454,16 +457,30 @@ class Workbench:
                 raise ValueError('saved_result_research_approval_binding_mismatch')
             target = self.root / 'exports' / ('research-return-' + op)
             # Return native contracts and frozen evidence, not a new protocol.
-            for source, name in ((run / 'report.json', 'quant-report.json'),
+            sources = ((run / 'report.json', 'quant-report.json'),
                     (folder / 'collaboration-result.json', 'collaboration-result.json'),
                     (folder / 'event-context.json', 'event-context.json'),
                     (folder / 'assessment.json', 'input-assessment.json'),
                     (folder / 'confirmation.json', 'human-confirmation.json'),
-                    (folder / 'project-source.raw', 'project-source.raw')):
-                immutable_write(target / name, source.read_bytes())
-            write_new(target / 'result-view.json', describe_run(run))
-            immutable_write(target / 'task-input-binding.json', binding_path.read_bytes())
+                    (folder / 'project-source.raw', 'project-source.raw'))
+            exported_bytes = {name: source.read_bytes() for source, name in sources}
+            view = describe_run(run)
+            exported_bytes['result-view.json'] = (json.dumps(view, ensure_ascii=False, indent=2,
+                allow_nan=False).encode('utf-8') + b'\n')
+            exported_bytes['task-input-binding.json'] = binding_path.read_bytes()
+            feedback = build_feedback_markdown(manifest, report, assessment,
+                read_document(folder / 'confirmation.json'), binding, exported_bytes)
+            feedback_sha256 = hashlib.sha256(feedback).hexdigest()
+            feedback_filename = 'research-feedback-' + feedback_sha256 + '.md'
+            for name, raw in exported_bytes.items():
+                immutable_write(target / name, raw)
+            immutable_write(target / feedback_filename, feedback)
             return dict(status='FROZEN_RESEARCH_RETURN_READY', directory=str(target), ref=self.ref(target),
-                research_input_outcome=describe_run(run)['research_input_outcome'],
-                report_hash=report['report_hash'], external_database_modified=False)
+                research_input_outcome=view['research_input_outcome'], report_hash=report['report_hash'],
+                feedback_filename=feedback_filename, feedback_sha256=feedback_sha256,
+                feedback_ref=self.ref(target / feedback_filename),
+                feedback_bytes=len(feedback), feedback_characters=len(feedback.decode('utf-8')),
+                feedback_material_import_ready=(len(feedback) <= 2_000_000
+                    and len(feedback.decode('utf-8')) <= 50_000),
+                delivery_status='LOCAL_EXPORT_ONLY_NOT_RECEIVED', external_database_modified=False)
         raise ValueError('unsupported_workbench_action')

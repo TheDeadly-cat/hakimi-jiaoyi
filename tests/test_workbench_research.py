@@ -154,6 +154,34 @@ class WorkbenchResearchTests(unittest.TestCase):
         self.assertFalse(read_document(self.app.path(run['ref'], 'runs') / 'inputs.json')
                          ['execution_permission']['order_allowed'])
 
+        feedback = folder / exported['feedback_filename']
+        feedback_raw = feedback.read_bytes()
+        feedback_text = feedback_raw.decode('utf-8')
+        self.assertEqual(hashlib.sha256(feedback_raw).hexdigest(), exported['feedback_sha256'])
+        self.assertEqual(exported['feedback_filename'], 'research-feedback-' + exported['feedback_sha256'] + '.md')
+        self.assertEqual(self.app.path(exported['feedback_ref'], 'exports'), feedback)
+        self.assertEqual(exported['delivery_status'], 'LOCAL_EXPORT_ONLY_NOT_RECEIVED')
+        self.assertTrue(exported['feedback_material_import_ready'])
+        self.assertIn(reviewed['research_result_sha256'], feedback_text)
+        self.assertIn(reviewed['context_hash'], feedback_text)
+        self.assertIn(reviewed['event_versions'][0]['event_hash'], feedback_text)
+        self.assertIn(run['view']['research_input_outcome']['status'], feedback_text)
+        self.assertIn('原公告仅是财报排期输入来源', feedback_text)
+        self.assertIn('[quant-report.json](quant-report.json)', feedback_text)
+        self.assertIn(hashlib.sha256((folder / 'quant-report.json').read_bytes()).hexdigest(), feedback_text)
+        self.assertNotIn(str(self.root), feedback_text)
+        self.assertEqual(feedback_text.count('| decision /'), len(run['signals']))
+
+        repeated = self.act('export_research_result', research=reviewed['ref'], run=run['ref'])
+        self.assertEqual(repeated['feedback_sha256'], exported['feedback_sha256'])
+        self.assertEqual(self.app.path(repeated['feedback_ref'], 'exports').read_bytes(), feedback_raw)
+        self.assertEqual(repeated['report_hash'], exported['report_hash'])
+
+        confirmation_path = self.app.path(reviewed['ref'], 'research-imports') / 'confirmation.json'
+        confirmation_path.write_bytes(confirmation_path.read_bytes() + b' ')
+        with self.assertRaisesRegex(ValueError, 'research_confirmation_or_retained_bytes_changed'):
+            self.act('export_research_result', research=reviewed['ref'], run=run['ref'])
+
     def test_previous_run_cannot_be_retroactively_claimed_by_later_review(self):
         prices = self.prices()
         direct = self.act('import_input', content_base64=self.b64(self.context_raw))
