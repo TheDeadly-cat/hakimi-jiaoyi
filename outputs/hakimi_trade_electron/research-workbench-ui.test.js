@@ -1,0 +1,166 @@
+"use strict";
+const test=require("node:test"),assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
+const html=fs.readFileSync(path.resolve(__dirname,"../../src/hakimi_research/resources/workbench.html"),"utf8");
+const source=html.match(/<script>\s*([\s\S]*?)<\/script>/)[1];let id=0;
+const box={module:{exports:{}},crypto:{randomUUID:()=>"operation-"+(++id)},btoa:s=>Buffer.from(s,"binary").toString("base64"),console};
+vm.runInNewContext(source,box);const ui=box.module.exports,copy=value=>JSON.parse(JSON.stringify(value));
+const data=()=>({engine:{name:"hakimi_research",version:"test",permissions:{live_trading_allowed:false}},workspace:"temporary",inputs:[],tasks:[],runs:[],accounts:[],watches:[],operations:[],strategies:{"price.dual_ma@1":{title:"双均线",parameters:["fast_window","slow_window","position_pct","stop_loss_pct","take_profit_pct"],defaults:{fast_window:20,slow_window:60,position_pct:.25,stop_loss_pct:.03,take_profit_pct:.06},required_context_sessions:61,continuous_supported:true,event_rule:null}}});
+const input=()=>({ref:"data/snapshots/a.json",kind:"PRICE_SNAPSHOT",status:"READY",security:{symbol:"AAPL",security_id:"US:AAPL"},coverage_start:"2024-01-01",coverage_end:"2024-12-31",sessions:252,source:{name:"fixture"}});
+const taskRow=()=>({ref:"tasks/task-a",family_id:"family-a",title:"观察任务",state:"ENABLED",strategy:"price.dual_ma@1",inputs:{snapshot:input()},configuration:{requested:{},effective:{},exit_rule:"均线与保护退出"}});
+const run=()=>({ref:"runs/run-a",view:{symbol:"AAPL",strategy:{title:"双均线"},score_start:"2024-04-01",score_end:"2024-12-31"},summary:{total_return:.03,max_drawdown:.02,total_fees:4,fill_count:1},signals:[{time:"2024-04-01",action:"BUY",reason:"cross"}],fills:[{time:"2024-04-02",side:"BUY",price:100,quantity:2,fee:.16}],equity_curve:[{time:"2024-04-01",equity:10000},{time:"2024-12-31",equity:10300}]});
+const account=()=>({ref:"continuous/account-a",title:"连续观察",continuous:{status:"READY",task_paused:{"family:family-a":false},session_results:[]},state:{paused:false,positions:{}},cash:"10000",available_cash:"10000",equity:"10000",history:[],limits:{}});
+const storage=()=>{const map=new Map();return {getItem:key=>map.get(key),setItem:(key,value)=>map.set(key,value),removeItem:key=>map.delete(key)};};
+
+test("formal HTML defines an isolated same-origin token client and never starts a monitor on load",()=>{
+  assert.match(html,/content="__SESSION_TOKEN__"/);assert.match(source,/"X-Hakimi-Token":token/);
+  assert.doesNotMatch(source,/setInterval|\/api\/(?:orders|paper|broker)|hakimi_terminal_research/);
+  assert.match(html,/重启后不会自动恢复观察/);assert.match(html,/暂停新增后/);
+});
+test("visible percentages become canonical ratios exactly once and rules keep their explicit input binding",()=>{
+  const entry=data().strategies["price.dual_ma@1"],values={title:"MA",strategy:"price.dual_ma@1",snapshot:"data/a.json",event_context:null,params:{fast_window:"20",slow_window:"60",position_pct:"25",stop_loss_pct:"3",take_profit_pct:"6"},score_start:"2024-04-01",score_end:"2024-12-31",initial_cash:"10000",fee_rate:"0.08",slippage_pct:"0.05"};
+  const result=ui.taskPayload(values,entry);assert.equal(result.params.position_pct,.25);assert.equal(result.params.stop_loss_pct,.03);assert.equal(result.fee_rate,.0008);assert.equal(result.slippage_pct,.0005);assert.equal(values.params.position_pct,"25");
+  assert.throws(()=>ui.taskPayload(values,{...entry,event_rule:"schedule"}),/需要明确选择/);
+  assert.throws(()=>ui.taskPayload({...values,params:{...values.params,fast_window:"2.5"}},entry),/参数/);
+});
+test("old refresh cannot replace a newer selection and unverified saves remain locked across refresh",async()=>{
+  const waits=[],saved=storage(),controller=ui.createController({storage:saved,uuid:()=>"operation-exact",request:(route)=>route==="/api/state"?new Promise(resolve=>waits.push(resolve)):Promise.reject(Error("connection lost"))});
+  const first=controller.refresh(),second=controller.refresh();waits[1]({...data(),workspace:"new"});await second;waits[0]({...data(),workspace:"old"});await first;assert.equal(controller.state.data.workspace,"new");
+  const action=controller.action("run_task",{task:"tasks/a"});await new Promise(setImmediate);waits.at(-1)({...data(),operations:[{operation_id:"operation-exact",status:"UNKNOWN_REQUIRES_REVIEW"}]});await assert.rejects(action,/尚未核实/);assert.equal(controller.state.pending,"operation-exact");
+  await assert.rejects(controller.action("run_task",{task:"tasks/a"}),/上一项/);
+  const reopened=ui.createController({storage:saved,request:async()=>({...data(),operations:[{operation_id:"different",status:"COMMITTED"}]})});await reopened.refresh();assert.equal(reopened.state.pending,"operation-exact");
+  const reconciled=ui.createController({storage:saved,request:async()=>({...data(),operations:[{operation_id:"operation-exact",status:"COMMITTED"}]})});await reconciled.refresh();assert.equal(reconciled.state.pending,"");
+});
+test("one successful explicit operation yields one write and a durable known rejection can be cleared",async()=>{
+  const calls=[];let receipt=null;
+  const controller=ui.createController({uuid:()=>"operation-owned",request:async(route,payload)=>{calls.push({route,payload});if(route==="/api/state")return {...data(),operations:receipt?[receipt]:[]};receipt={operation_id:payload.operation_id,status:"STOPPED",ok:false};throw Error("invalid window");}});
+  await assert.rejects(controller.action("create_task",{operation_id:"forged",action:"forged"}),/invalid window/);
+  assert.equal(calls[0].payload.operation_id,"operation-owned");assert.equal(calls[0].payload.action,"create_task");assert.equal(controller.state.pending,"");assert.equal(calls.filter(v=>v.route==="/api/action").length,1);
+});
+test("saved metrics, unavailable comparison and untrusted sources remain distinct",()=>{
+  assert.match(ui.runHtml(run()),/3%/);assert.match(ui.runHtml(run()),/最大回撤/);assert.match(ui.runHtml(run()),/cross/);
+  const malicious=run();malicious.signals[0].reason='<img src=x onerror="bad">';assert.ok(!ui.runHtml(malicious).includes('<img src=x'));
+  const result=ui.comparisonHtml({status:"NOT_COMPARABLE",mismatches:[{row:2,fields:["dataset"]}],rows:[],differences_from_first:[]});assert.match(result,/不计算跨结果收益差/);assert.match(result,/独立本金/);
+});
+
+function documentFixture(){
+  const ids=new Map(),all=new Set(),listeners={};let document;
+  const camel=name=>name.replace(/-([a-z])/g,(_c,l)=>l.toUpperCase());
+  class Element{
+    constructor(tag,attrs=""){this.tagName=tag.toUpperCase();this.dataset={};this.children=[];this.hidden=false;this.value="";this.disabled=false;this.checked=false;this.textContent="";this.files=[];this.attributes={};all.add(this);for(const [,key,value] of attrs.matchAll(/([\w-]+)(?:="([^"]*)")?/g)){if(key==="id"){this.id=value;ids.set(value,this);}else if(key.startsWith("data-"))this.dataset[camel(key.slice(5))]=value??"";else if(key==="value")this.value=value;else if(key==="checked")this.checked=true;else if(key==="disabled")this.disabled=true;else if(key==="hidden")this.hidden=true;}}
+    set innerHTML(value){for(const child of this.children){all.delete(child);if(child.id)ids.delete(child.id);}this.children=[];this.html=value;for(const [,tag,attrs] of value.matchAll(/<([a-z][\w-]*)\b([^>]*)>/g)){const child=new Element(tag,attrs);child.parent=this;this.children.push(child);}}
+    get innerHTML(){return this.html||"";}setAttribute(key,value){this.attributes[key]=value;}focus(){document.activeElement=this;}reportValidity(){return true;}closest(selector){if(selector==="button")return this.tagName==="BUTTON"?this:null;if(selector==="[data-watch-ref]")return this.parent;return null;}querySelector(selector){return this.children.find(v=>v.tagName.toLowerCase()===selector)||null;}
+  }
+  function query(selector){const match=/\[data-([\w-]+)\]/.exec(selector);if(!match)return[];const key=camel(match[1]);return [...all].filter(v=>Object.hasOwn(v.dataset,key)&&(!selector.includes(":checked")||v.checked));}
+  document={getElementById:id=>ids.get(id),querySelectorAll:query,addEventListener:(kind,handler)=>{listeners[kind]=handler;}};
+  const root=new Element("body");root.innerHTML=html.split("<script>")[0];
+  return {document,get:id=>ids.get(id),all,listeners,button:(action,ref)=>[...all].find(v=>v.dataset.action===action&&(!ref||v.dataset.ref===ref)),submit:id=>listeners.submit({target:ids.get(id),preventDefault(){}}),click:button=>listeners.click({target:button})};
+}
+const flush=()=>new Promise(setImmediate);
+test("mounted workflow imports, saves, runs, reopens and creates paused-by-default local observation without external requests",async()=>{
+  const dom=documentFixture(),current=data(),calls=[];let detail=account();
+  const request=async(route,payload)=>{calls.push({route,payload});if(route==="/api/state")return copy(current);if(route.startsWith("/api/run?"))return run();if(route.startsWith("/api/account?"))return copy(detail);assert.equal(route,"/api/action");let result={};switch(payload.action){case"import_input":current.inputs=[input()];result=input();break;case"create_task":current.tasks=[taskRow()];result=taskRow();break;case"run_task":current.runs=[{...run().view,ref:run().ref,total_return:.03,fill_count:1,total_fees:4}];result=run();break;case"create_account":current.accounts=[copy(detail)];result=detail;break;case"pause_account":detail.state.paused=payload.paused;detail.continuous.status="PAUSED_NEW_ENTRIES";current.accounts=[copy(detail)];result={account:detail};break;case"configure_watch":current.watches=[{ref:"watches/a",account:detail.ref,monitoring:false,status:"STOPPED"}];result=current.watches[0];break;default:throw Error(payload.action);}current.operations.push({operation_id:payload.operation_id,status:"COMMITTED",ok:true});return {ok:true,result:copy(result)};};
+  const app=ui.mount(dom.document,request,storage());await flush();
+  dom.get("snapshot-file").files=[{name:"snapshot.json",size:2,arrayBuffer:async()=>new Uint8Array([123,125]).buffer}];await dom.submit("snapshot-form");assert.match(dom.get("input-list").innerHTML,/AAPL/);
+  await dom.click(dom.button("new-task"));dom.get("task-title").value="观察任务";dom.get("task-snapshot").value=input().ref;dom.get("score-start").value="2024-04-01";dom.get("score-end").value="2024-12-31";
+  await dom.submit("task-form");assert.equal(calls.find(v=>v.payload?.action==="create_task").payload.params.position_pct,.25);assert.match(dom.get("task-list").innerHTML,/观察任务/);
+  await dom.click(dom.button("run-task",taskRow().ref));assert.match(dom.get("run-detail").innerHTML,/3%/);await app.controller.refresh();await app.openRun(run().ref);assert.equal(calls.filter(v=>v.payload?.action==="run_task").length,1);
+  dom.document.querySelectorAll("[data-account-task]")[0].checked=true;dom.get("account-title").value="连续观察";await dom.submit("account-form");assert.match(dom.get("account-summary").innerHTML,/下次提供完整有效数据/);
+  await dom.click(dom.button("pause-account"));assert.equal(detail.state.paused,true);assert.match(dom.get("account-summary").innerHTML,/暂停新增/);
+  dom.document.querySelectorAll("[data-advance-input]")[0].checked=true;await dom.submit("watch-form");assert.match(dom.get("watch-list").innerHTML,/观察已停止/);assert.equal(calls.filter(v=>v.payload?.action==="start_watch").length,0);
+  assert.ok(calls.every(v=>v.route.startsWith("/api/")));assert.equal(app.controller.state.pending,"");
+});
+
+test("research preview requires a fresh human decision and binds the exact approved record only when selected",async()=>{
+  const dom=documentFixture(),current=data(),calls=[];
+  current.inputs=[input()];current.research_imports=[];
+  current.strategies["event.earnings_schedule@1"]={title:"财报排期",parameters:["target_position_pct"],defaults:{target_position_pct:.25},required_context_sessions:1,continuous_supported:true,event_rule:"schedule"};
+  const preview={ref:"research-imports/preview-a",status:"REJECTED",security_id:"US:AAPL",reasons:["human_confirmation_required"],event_versions:[{event_id:"event-a",version:1,source_url:"https://source.example/announcement",version_public_at:"2024-03-01T12:00:00Z",available_at:"2024-03-01T12:00:00Z",scheduled_date:"2024-04-15",time_precision:"DATE_ONLY",schedule_status:"SCHEDULED"}]};
+  const approved={...preview,ref:"research-imports/review-accepted",status:"READY_FOR_EXPLICIT_INPUT_CHECK",reasons:[],confirmation_declaration:{actor:"人工核对者",decision:"ACCEPT_FOR_INPUT_CHECK"}};
+  const context={ref:"data/contexts/schedule.json",kind:"SCHEDULE_CONTEXT",status:"READY",security_id:"US:AAPL",versions:preview.event_versions};
+  const eventTask={...taskRow(),strategy:"event.earnings_schedule@1"};
+  const request=async(route,payload)=>{calls.push({route,payload});if(route==="/api/state")return copy(current);assert.equal(route,"/api/action");let result={};switch(payload.action){
+    case"preview_research":current.research_imports.push(preview);result=preview;break;
+    case"review_research":if(payload.decision==="REJECT"){result={...preview,ref:"research-imports/review-rejected",confirmation_declaration:{actor:payload.actor,decision:"REJECT"}};}else{result=approved;current.inputs.push(context);}current.research_imports.push(result);break;
+    case"create_task":current.tasks=[eventTask];result=eventTask;break;
+    case"bind_research":result={...eventTask,viewed_revision:"2-bound"};current.runs=[{...run().view,ref:run().ref}];break;
+    case"export_research_result":result={ref:"exports/return-a",external_database_modified:false};break;
+    default:throw Error(payload.action);
+  }current.operations.push({operation_id:payload.operation_id,status:"COMMITTED",ok:true});return {ok:true,result:copy(result)};};
+  const app=ui.mount(dom.document,request,storage());await flush();
+  const file=(name,text)=>({name,size:Buffer.byteLength(text),arrayBuffer:async()=>Uint8Array.from(Buffer.from(text)).buffer});
+  dom.get("research-result-file").files=[file("result.json","{}")];dom.get("research-context-file").files=[file("context.json","{}")];dom.get("research-source-file").files=[file("source.html","<h1>Original</h1>")];dom.get("research-security").value="US:AAPL";
+  await dom.submit("research-preview-form");assert.equal(calls.filter(v=>v.payload?.action==="review_research").length,0);assert.equal(calls.find(v=>v.payload?.action==="preview_research").payload.source_base64,Buffer.from("<h1>Original</h1>").toString("base64"));
+  assert.equal(dom.get("research-decision").value,"");assert.equal(dom.get("research-actor").value,"");assert.equal(dom.get("research-reason").value,"");assert.equal(dom.get("research-use").hidden,true);assert.match(dom.get("research-preview").innerHTML,/2024-03-01T12:00:00Z/);
+  await dom.submit("research-review-form");assert.equal(calls.filter(v=>v.payload?.action==="review_research").length,0);
+  dom.get("research-decision").value="REJECT";dom.get("research-actor").value="人工核对者";dom.get("research-reason").value="先保留异议";await dom.submit("research-review-form");assert.equal(dom.get("research-use").hidden,true);
+  await dom.click(dom.button("research-detail",preview.ref));assert.equal(dom.get("research-actor").value,"");dom.get("research-decision").value="ACCEPT_FOR_INPUT_CHECK";dom.get("research-actor").value="人工核对者";dom.get("research-reason").value="已逐项核对原始来源和可用时间";await dom.submit("research-review-form");assert.equal(dom.get("research-use").hidden,false);assert.equal(dom.get("task-research").value,"");
+  dom.get("task-strategy").value="event.earnings_schedule@1";dom.listeners.change({target:dom.get("task-strategy")});dom.get("task-title").value="排期观察";dom.get("task-snapshot").value=input().ref;dom.get("task-event").value=context.ref;dom.get("task-research").value=approved.ref;dom.get("score-start").value="2024-04-01";dom.get("score-end").value="2024-12-31";await dom.submit("task-form");
+  const saved=calls.find(v=>v.payload?.action==="create_task").payload;assert.equal(saved.research,approved.ref);assert.equal(saved.event_context,context.ref);assert.equal(saved.params.target_position_pct,.25);
+  dom.get("research-bind-task").value=eventTask.ref;await dom.click(dom.button("bind-research"));assert.equal(calls.find(v=>v.payload?.action==="bind_research").payload.research,approved.ref);
+  dom.get("research-export-run").value=run().ref;await dom.click(dom.button("export-research"));assert.equal(calls.find(v=>v.payload?.action==="export_research_result").payload.research,approved.ref);assert.match(dom.get("research-export-result").innerHTML,/未写入研究侧数据库/);
+  await app.controller.refresh();assert.equal(calls.filter(v=>v.payload?.action==="create_task").length,1);assert.equal(calls.filter(v=>v.payload?.action==="export_research_result").length,1);
+});
+
+test("late or mismatched saved-result reads never replace the explicitly selected result",async()=>{
+  const dom=documentFixture(),waiting=[];const app=ui.mount(dom.document,route=>route==="/api/state"?Promise.resolve(data()):new Promise(resolve=>waiting.push(resolve)),storage());await flush();
+  const first=app.openRun("runs/old"),second=app.openRun("runs/new");waiting[1]({...run(),ref:"runs/new",view:{...run().view,symbol:"NEW"}});await second;waiting[0]({...run(),ref:"runs/old",view:{...run().view,symbol:"OLD"}});await first;assert.match(dom.get("run-detail").innerHTML,/NEW/);assert.doesNotMatch(dom.get("run-detail").innerHTML,/OLD/);
+  const mismatch=app.openRun("runs/exact");waiting[2]({...run(),ref:"runs/other"});await mismatch;assert.match(dom.get("run-detail").innerHTML,/读取失败/);assert.match(dom.get("error").textContent,/身份不一致/);
+});
+
+test("changed runtime stays readable but blocks new operations before a pending request is created",async()=>{
+  const dom=documentFixture(),calls=[],current={...data(),runtime_guard:{restart_required:true}};
+  const app=ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});return copy(current);},storage());await flush();
+  assert.equal(dom.get("restart").hidden,false);assert.ok(dom.document.querySelectorAll("[data-write]").every(button=>button.disabled));
+  await assert.rejects(app.controller.action("create_account",{}),/程序文件已更新/);assert.equal(app.controller.state.pending,"");assert.equal(calls.filter(v=>v.route==="/api/action").length,0);
+  await app.controller.refresh();assert.equal(calls.length,2);
+});
+
+test("stopping local observation remains available after a runtime change and requires a positive receipt",async()=>{
+  const dom=documentFixture(),current={...data(),runtime_guard:{restart_required:true},accounts:[account()],watches:[{ref:"watches/live",account:account().ref,monitoring:true,status:"CURRENT"}]};let accepted=false;const calls=[];
+  const app=ui.mount(dom.document,async(route,payload)=>{if(route==="/api/state")return copy(current);if(route.startsWith("/api/account?"))return account();calls.push(payload);if(!accepted)return {ok:false,error:"stop not confirmed"};current.watches[0].monitoring=false;return {ok:true,result:current.watches[0]};},storage());await flush();await app.openAccount(account().ref);
+  const stop=dom.button("stop-watch");assert.equal(stop.disabled,false);await dom.click(stop);assert.match(dom.get("error").textContent,/stop not confirmed/);assert.doesNotMatch(dom.get("status").textContent,/已停止观察/);
+  accepted=true;await dom.click(stop);assert.match(dom.get("status").textContent,/已停止观察/);assert.equal(calls.length,2);assert.ok(calls.every(row=>row.action==="stop_watch"));
+});
+
+test("loss recovery requires a later completed session and sends the explicitly reviewed receipt head",async()=>{
+  const same={...account(),receipt_head:"receipt-current",state:{paused:true,loss_halted:true,positions:{}},continuous:{status:"LOSS_HALTED",loss_halt_session:"2024-04-02",last_session:"2024-04-02"}};
+  assert.match(ui.lossResetHtml(same),/data-unavailable="true"/);assert.equal(ui.lossResetHtml(account()),"");
+  const detail={...same,continuous:{...same.continuous,last_session:"2024-04-03"}},dom=documentFixture(),current={...data(),accounts:[detail]},calls=[];
+  const app=ui.mount(dom.document,async(route,payload)=>{if(route==="/api/state")return copy(current);if(route.startsWith("/api/account?"))return copy(detail);calls.push(payload);assert.equal(payload.action,"reset_loss");detail.state.loss_halted=false;detail.continuous.status="PAUSED_NEW_ENTRIES";return {ok:true,result:{account:detail}};},storage());await flush();await app.openAccount(detail.ref);
+  assert.equal(calls.length,0);await dom.click(dom.button("reset-loss"));assert.equal(calls.length,1);assert.equal(calls[0].expected_head,"receipt-current");assert.equal(calls[0].account,detail.ref);assert.equal(detail.state.paused,true);assert.equal(dom.button("reset-loss"),undefined);
+});
+
+test("only a stopped review-required watch can explicitly discard an exact uncommitted request with a reason",async()=>{
+  const watch={ref:"watches/review",account:account().ref,status:"PENDING_REVIEW_REQUIRED",pending_operation_id:"pending-exact",monitoring:false};
+  assert.match(ui.watchRecoveryHtml(watch),/放弃理由/);assert.equal(ui.watchRecoveryHtml({...watch,monitoring:true}),"");assert.equal(ui.watchRecoveryHtml({...watch,status:"SUBMISSION_UNKNOWN"}),"");
+  const dom=documentFixture(),current={...data(),accounts:[account()],watches:[watch]},calls=[];
+  const app=ui.mount(dom.document,async(route,payload)=>{if(route==="/api/state")return copy(current);if(route.startsWith("/api/account?"))return account();calls.push(payload);watch.pending_operation_id=null;watch.status="STOPPED";return {ok:true,result:watch};},storage());await flush();await app.openAccount(account().ref);
+  const button=dom.button("discard-watch"),reason={value:""};button.closest=selector=>selector==="button"?button:{querySelector:()=>reason};
+  await dom.click(button);assert.equal(calls.length,0);reason.value="已核对未提交请求与旧控制状态，保留原始记录";await dom.click(button);assert.equal(calls.length,1);assert.equal(calls[0].action,"discard_watch_pending");assert.equal(calls[0].expected_operation_id,"pending-exact");assert.equal(calls[0].reason,reason.value);assert.equal(calls.some(row=>row.action==="start_watch"),false);
+});
+
+test("edited rule parameters use canonical context, discard late defaults and preserve manually entered dates",async()=>{
+  const dom=documentFixture(),current=data(),reads=[];current.inputs=[{...input(),security:{symbol:"NDAQ",security_id:"US:NDAQ"},sessions:26,coverage_end:"2024-02-05"}];current.strategies["price.dual_ma@1"].required_context_sessions=62;
+  ui.mount(dom.document,(route,payload)=>{if(route==="/api/state")return Promise.resolve(copy(current));assert.equal(route,"/api/action");assert.equal(payload.action,"task_context");assert.equal(payload.operation_id,undefined);return new Promise(resolve=>reads.push({payload,resolve}));},storage());await flush();
+  dom.get("task-snapshot").value=input().ref;const old=dom.listeners.change({target:dom.get("task-snapshot")});assert.match(dom.get("input-note").textContent,/正在按当前参数/);assert.doesNotMatch(dom.get("input-note").textContent,/62 根预热/);
+  dom.get("param-fast_window").value="5";dom.get("param-slow_window").value="10";const edited=dom.listeners.input({target:dom.get("param-slow_window")});assert.equal(reads[1].payload.params.fast_window,5);assert.equal(reads[1].payload.params.slow_window,10);assert.equal(reads[1].payload.params.position_pct,.25);assert.equal(reads[1].payload.snapshot,input().ref);
+  const context={required_context_sessions:12,suggested_score_start:"2024-01-17",coverage_end:"2024-02-05",sessions:26};reads[1].resolve({ok:true,result:context});await edited;assert.match(dom.get("input-note").textContent,/12 根预热/);assert.equal(dom.get("score-start").value,"2024-01-17");assert.equal(dom.get("score-end").value,"2024-02-05");
+  reads[0].resolve({ok:true,result:{...context,required_context_sessions:62,suggested_score_start:null}});await old;assert.match(dom.get("input-note").textContent,/12 根预热/);assert.equal(dom.get("score-start").value,"2024-01-17");
+  dom.get("score-start").value="2024-01-19";dom.listeners.input({target:dom.get("score-start")});dom.get("score-end").value="";dom.listeners.change({target:dom.get("score-end")});dom.get("param-slow_window").value="11";const revised=dom.listeners.input({target:dom.get("param-slow_window")});reads[2].resolve({ok:true,result:{...context,required_context_sessions:13,suggested_score_start:"2024-01-18"}});await revised;assert.match(dom.get("input-note").textContent,/13 根预热/);assert.equal(dom.get("score-start").value,"2024-01-19");assert.equal(dom.get("score-end").value,"");
+  const pending=dom.listeners.change({target:dom.get("task-snapshot")});dom.get("task-snapshot").value="";await dom.listeners.change({target:dom.get("task-snapshot")});reads[3].resolve({ok:true,result:context});await pending;assert.match(dom.get("input-note").textContent,/先选择/);assert.doesNotMatch(dom.get("input-note").textContent,/12 根预热/);
+});
+
+test("context failures and invalid parameters remove prior requirements instead of reusing catalog defaults",async()=>{
+  const dom=documentFixture(),current={...data(),inputs:[input()]},calls=[];let fail=false;
+  ui.mount(dom.document,async(route,payload)=>{if(route==="/api/state")return copy(current);calls.push(payload);if(fail)throw Error("context unavailable");return {ok:true,result:{required_context_sessions:62,suggested_score_start:"2024-04-01",coverage_end:"2024-12-31",sessions:252}};},storage());await flush();
+  dom.get("task-snapshot").value=input().ref;await dom.listeners.change({target:dom.get("task-snapshot")});assert.match(dom.get("input-note").textContent,/62 根预热/);
+  fail=true;dom.get("param-fast_window").value="5";await dom.listeners.input({target:dom.get("param-fast_window")});assert.match(dom.get("input-note").textContent,/尚未核实/);assert.doesNotMatch(dom.get("input-note").textContent,/62 根预热/);
+  dom.get("param-fast_window").value="";await dom.listeners.input({target:dom.get("param-fast_window")});assert.equal(calls.length,2);assert.match(dom.get("input-note").textContent,/请核对规则参数/);
+});
+
+test("watch conditions explain stopping and unavailable protection in ordinary language",()=>{
+  for(const [status,label] of Object.entries({WAITING_STABLE_INPUT:"等待输入稳定",INPUT_MISSING:"缺少本地输入",INPUT_STALE:"数据已过期",INPUT_NOT_YET_AVAILABLE:"等待数据可用",INPUT_ERROR:"本地输入读取或校验失败",INPUT_REJECTED:"本次输入未通过检查",SUBMISSION_UNKNOWN:"需要核对提交结果",PENDING_REVIEW_REQUIRED:"未提交请求需要人工复核"})){
+    const result=ui.watchStatusHtml({status,reason:"Raw internal diagnostic"});assert.ok(result.includes(label),status);assert.match(result,/持仓保护/);assert.doesNotMatch(result,/Raw internal diagnostic|待核对/);assert.ok(!result.includes(status));
+  }
+  assert.match(ui.watchStatusHtml({status:"NEW_UNKNOWN_STATUS"}),/不能确认/);
+});

@@ -1,6 +1,6 @@
 # 哈基米交易（Hakimi Jiaoyi）
 
-本页是日常产品入口；M1、M2 与 R1／R2／R3 已结案。当前 main 基线为 PR #24 已集成的 `09ee21e`；M3-1 主体保留，跨持仓归属退出 P2 通过 PR #25 限定修复，仍待单独核准集成。新候选与历史产物的精确身份分别记录在状态页和各自验收目录。
+本页是日常产品入口；M1、M2 与 R1／R2／R3 已结案。当前 main 为 PR #25 已合并的 `e33c1ef`，M3-1 及跨持仓归属退出修复已集成，[该 main 的检查已通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777)。当前开发候选 `0.6.0.dev1` 整合三项行情洞察、正式研究工作台、美股日线连续运行及财报排期输入；候选验证与 main、正式 Release 分开记录。
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
 
@@ -13,9 +13,11 @@ M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoy
 
 ## 安装与输出目录
 
+**使用当前开发能力：**安装本候选的 `hakimi-research` wheel，运行 `hakimi-trade-workbench --open-browser` 打开正式工作台，或使用候选 Electron 的“正式研究工作台”入口。新任务默认调用 `hakimi_research`；工作区可显式选择，关闭重开保留输入、任务版本与结果。完整步骤、旧引擎兼容和验证状态见[正式工作台与版本入口](docs/workbench.md)。当前候选仍在验收，不把历史 Release 的验收移用到新代码。
+
 正式版本从 [v0.2.1 Release](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1) 下载 Windows 或 Ubuntu ZIP；核对发布页的 `SHA256SUMS.txt` 后解压，再核对包内校验和。两个 ZIP 各自保留确切受验收 wheel 与构建、依赖、测试证据；安装解压出的 `hakimi_research-0.2.1-py3-none-any.whl` 会按精确版本安装依赖，离线安装需另备依赖 wheel。该版本固定在 `45850899992361970043f2da70e785210025ae9e`，[发布下载与安装验收](docs/research-evidence/release-0.2.1-20260909/README.md)记录实际验证范围。
 
-普通使用按[离线工具安装与首次使用](docs/offline-quant-tool.md)和[统一输入流程](docs/input-workflow.md)操作，可从候选包安装到仓库外。以下源码开发流程对应 0.5.0.dev4；归属退出修复已通过同一 wheel 的仓库外 299 项及实际共享流程 v4，交付首用和最终 PR head 检查分别记录于[本轮证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。dev3、dev2、正式 v0.2.1、M1 和 M2 历史产物分别保留来源与结果。
+原命令行继续按[离线工具安装与首次使用](docs/offline-quant-tool.md)和[统一输入流程](docs/input-workflow.md)操作。以下源码开发流程对应 `0.6.0.dev1`。归属退出修复的 `0.5.0.dev4` 已作为 PR #25 集成，原同一 wheel 的仓库外 299 项及共享流程 v4 记录见[历史证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。不同候选、正式 v0.2.1、M1 和 M2 历史产物分别保留来源与结果。
 
 开发环境在仓库根目录安装精确依赖与 editable 包：
 
@@ -132,7 +134,7 @@ python tools/collect_btc_snapshot.py --start 2026-08-01T00:00:00Z --end 2026-09-
 Python 在 [`capability_definition.py`](src/hakimi_research/capability_definition.py) 定义唯一能力目录；`tools/generate_product_capabilities.py` 生成 Node 消费的版本受控 JSON 投影，CI 以 `--check` 严格检查漂移。
 [完整能力表](outputs/python_quant_bot/README.md) 包含新增快照导入、重放和只读报告能力；paper/live/optimization 仍 Archived，order entry 仍 Disabled。
 
-Electron 与旧网页终端明确是 **Legacy Preview**，使用不同的旧研究模型，未纳入本次正式 CLI 首发或桌面验收，其结果不能与正式 runner 混用。
+旧 Electron `main.js` 与原网页终端仍是 **Legacy Preview**，保留不同的旧研究模型及原入口；其结果不能与正式 runner 混用。新 `research-main.js` 正式工作台入口使用本候选安装的 `hakimi_research`，新普通任务与连续账本由正式内核计算。旧封存 `hakimi_terminal_research` 不再作为新增普通任务的默认内核；旧数据和结果不自动改签或迁移。
 旧入口 `run_bot.py` 仅转发现有正式命令，旧 provider stack 已移除。见 [消费者与管理边界](docs/research-consumer-boundary.md)。
 
 历史 [deterministic_experiment](outputs/python_quant_bot/examples/deterministic_experiment) 是合成身份样例。

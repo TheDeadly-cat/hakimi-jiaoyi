@@ -324,6 +324,109 @@ jobs:
         if: ${{ !cancelled() }}
         run: node outputs/python_quant_bot/exchange_terminal/static/evidence_presentation.test.js
 
+  terminal-python-contracts:
+    name: Offline terminal Python contracts
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PIP_NO_INPUT: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONIOENCODING: "utf-8"
+      HAKIMI_RUNTIME_READ_ONLY: "1"
+      HAKIMI_SKIP_LOCAL_AI_ENV: "1"
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Enable Windows Git long paths before checkout
+        run: git config --global core.longpaths true
+
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up locked Python runtime
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Set up Node for indicator parity contracts
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Install terminal contract dependency closure
+        run: python -m pip install --requirement requirements.terminal-ci.lock
+
+      - name: Install canonical research package
+        run: python -m pip install --no-deps --editable .
+
+      - name: Check installed dependency consistency
+        run: python -m pip check
+
+      - name: Verify terminal coverage and fail-closed test runner
+        run: |
+          python -B tools/run_terminal_contracts.py --check-coverage
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B -m unittest discover -s tools -p "test_terminal_ci_gate.py" -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Run every terminal contract using fixtures and loopback HTTP only
+        run: python -B tools/run_terminal_contracts.py
+
+  desktop-full-check:
+    name: Complete desktop check
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PIP_NO_INPUT: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONIOENCODING: "utf-8"
+      HAKIMI_RUNTIME_READ_ONLY: "1"
+      HAKIMI_SKIP_LOCAL_AI_ENV: "1"
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Enable Windows Git long paths before checkout
+        run: git config --global core.longpaths true
+
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up locked Python runtime for evidence fixtures
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Set up Node runtime
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Install terminal contract dependency closure
+        run: python -m pip install --requirement requirements.terminal-ci.lock
+
+      - name: Install canonical research package
+        run: python -m pip install --no-deps --editable .
+
+      - name: Check installed dependency consistency
+        run: python -m pip check
+
+      # The check command uses Node built-ins and Python fixture projections;
+      # it neither requires the Electron binary nor starts the desktop/server.
+      - name: Verify completed-candle evidence at the chart boundary
+        run: node --test outputs/python_quant_bot/exchange_terminal/static/candle-completion.test.js
+
+      - name: Run the complete maintained desktop check script
+        working-directory: outputs/hakimi_trade_electron
+        run: npm run check
+
   package-install-smoke:
     name: Package install smoke
     strategy:
@@ -383,6 +486,8 @@ jobs:
       - mvp-contracts
       - electron-capability-contract
       - market-data-renderer
+      - terminal-python-contracts
+      - desktop-full-check
       - package-install-smoke
     runs-on: windows-latest
     timeout-minutes: 5

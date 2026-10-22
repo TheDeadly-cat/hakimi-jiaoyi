@@ -17,7 +17,7 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
         cls.workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
         cls.jobs = cls.workflow.split("\njobs:\n", 1)[1]
 
-    def test_seven_failure_domains_are_independent_and_gate_requires_them_all(self) -> None:
+    def test_nine_failure_domains_are_independent_and_gate_requires_them_all(self) -> None:
         job_ids = re.findall(r"^  ([a-z][a-z0-9-]+):\s*$", self.jobs, re.MULTILINE)
         self.assertEqual(
             job_ids,
@@ -28,6 +28,8 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
                 "mvp-contracts",
                 "electron-capability-contract",
                 "market-data-renderer",
+                "terminal-python-contracts",
+                "desktop-full-check",
                 "package-install-smoke",
                 "research-required",
             ],
@@ -54,10 +56,10 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
 
     def test_workflow_is_read_only_and_does_not_persist_checkout_credentials(self) -> None:
         self.assertIn("permissions:\n  contents: read", self.workflow)
-        self.assertEqual(self.workflow.count("uses: actions/checkout@v7"), 9)
-        self.assertEqual(self.workflow.count("persist-credentials: false"), 9)
-        self.assertEqual(self.workflow.count("uses: actions/setup-python@v7"), 6)
-        self.assertEqual(self.workflow.count("uses: actions/setup-node@v7"), 5)
+        self.assertEqual(self.workflow.count("uses: actions/checkout@v7"), 11)
+        self.assertEqual(self.workflow.count("persist-credentials: false"), 11)
+        self.assertEqual(self.workflow.count("uses: actions/setup-python@v7"), 8)
+        self.assertEqual(self.workflow.count("uses: actions/setup-node@v7"), 7)
         for forbidden in (
             "permissions:\n  contents: write",
             "pull_request_target:",
@@ -99,13 +101,13 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
         )
         self.assertEqual(
             self.workflow.count("python -m pip install --no-deps --editable ."),
-            4,
+            6,
         )
         self.assertEqual(
             self.workflow.count("python -m pip install --no-deps ."),
             0,
         )
-        self.assertEqual(self.workflow.count("python -m pip check"), 5)
+        self.assertEqual(self.workflow.count("python -m pip check"), 7)
         self.assertIn("python -B tools/generate_product_capabilities.py --check", self.workflow)
 
     def test_mvp_job_discovers_all_new_root_behavior_tests(self) -> None:
@@ -220,6 +222,38 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
         self.assertIn('overwrite: false', package_job)
         self.assertIn('include-hidden-files: false', package_job)
         self.assertNotIn('if: ${{ always() }}', package_job.split('  research-required:\n', 1)[0])
+
+    def test_terminal_gate_runs_complete_fixture_suite_and_full_desktop_script(self) -> None:
+        terminal = self.jobs.split("  terminal-python-contracts:\n", 1)[1].split("  desktop-full-check:\n", 1)[0]
+        desktop = self.jobs.split("  desktop-full-check:\n", 1)[1].split("  package-install-smoke:\n", 1)[0]
+        for job in (terminal, desktop):
+            self.assertIn('python-version: "3.14"', job)
+            self.assertIn('node-version: "22"', job)
+            self.assertIn("python -m pip install --requirement requirements.terminal-ci.lock", job)
+            self.assertIn("python -m pip install --no-deps --editable .", job)
+            self.assertIn("python -m pip check", job)
+            self.assertIn('HAKIMI_RUNTIME_READ_ONLY: "1"', job)
+            self.assertIn('HAKIMI_SKIP_LOCAL_AI_ENV: "1"', job)
+            self.assertNotIn("\n        if:", job)
+        self.assertIn("python -B tools/run_terminal_contracts.py --check-coverage", terminal)
+        self.assertIn('python -B -m unittest discover -s tools -p "test_terminal_ci_gate.py" -v', terminal)
+        self.assertIn("run: python -B tools/run_terminal_contracts.py\n", terminal)
+        self.assertIn("working-directory: outputs/hakimi_trade_electron\n        run: npm run check", desktop)
+        self.assertIn("node --test outputs/python_quant_bot/exchange_terminal/static/candle-completion.test.js", desktop)
+        self.assertNotRegex(desktop, r"--if-present|--test-name-pattern|--test-skip-pattern|\|\|\s*true")
+        package = json.loads((REPO_ROOT / "outputs/hakimi_trade_electron/package.json").read_text(encoding="utf-8"))
+        check = package["scripts"]["check"]
+        static = REPO_ROOT / "outputs/python_quant_bot/exchange_terminal/static"
+        for test_file in sorted(static.glob("terminal-*.test.js")) + [static / "indicator_math.test.js"]:
+            self.assertIn(test_file.name, check, f"not in complete desktop check: {test_file.name}")
+        self.assertNotRegex(check, r"--test-name-pattern|--test-skip-pattern|\|\|\s*true")
+
+    def test_terminal_ci_dependency_additions_do_not_change_canonical_wheel_closure(self) -> None:
+        lines = (REPO_ROOT / "requirements.terminal-ci.lock").read_text(encoding="utf-8").splitlines()
+        active = [line for line in lines if line and not line.startswith("#")]
+        self.assertEqual(active, ["-r requirements.research.lock", "exchange-calendars==4.13.2",
+                                  "pyluach==2.3.0", "toolz==1.1.0", "korean-lunar-calendar==0.4.0"])
+        self.assertNotIn("exchange-calendars", (REPO_ROOT / "requirements.research.lock").read_text(encoding="utf-8"))
 
     def test_stacked_pull_requests_trigger_and_later_steps_collect_evidence(self) -> None:
         pull_request = self.workflow.split("  pull_request:\n", 1)[1].split(

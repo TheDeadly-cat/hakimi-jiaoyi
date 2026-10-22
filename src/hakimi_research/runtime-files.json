@@ -7,10 +7,13 @@
     "benchmarks.py",
     "capability_definition.py",
     "cli.py",
+    "collaboration_schedule_adapter.py",
     "collection_import.py",
     "config.py",
     "content_protocol.py",
     "content_tasks.py",
+    "continuous_runtime.py",
+    "continuous_watch.py",
     "contracts/product-capabilities.json",
     "contracts/product-capabilities.schema.json",
     "data.py",
@@ -57,6 +60,7 @@
     "resources/trade-demo-source-manifest.json",
     "resources/trade-demo-source-prior.html",
     "resources/trade-demo.csv",
+    "resources/workbench.html",
     "risk.py",
     "runtime-files.json",
     "shared_account.py",
@@ -77,6 +81,8 @@
     "strategy_registry.py",
     "task_comparison.py",
     "task_manager.py",
-    "trade_cli.py"
+    "trade_cli.py",
+    "workbench_server.py",
+    "workbench_service.py"
   ]
 }
