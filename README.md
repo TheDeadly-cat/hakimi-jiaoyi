@@ -4,6 +4,8 @@
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
 
+本轮候选见[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)及[桌面、安装与连续运行记录](docs/research-evidence/workbench-m32-20261022/README.md)。普通任务和双股票账户已完成原生窗口操作及安装后重开；轮询交互修复已通过新包安装、桌面回归和对应十一项 CI。真实研究排期仍等待具体人工接纳。
+
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 M1 已交付并合入 main `17b2c15`（PR #19 受审 `669b348`），实际 main [九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005)。M1 存档候选为 `0.3.0.dev4`；正式 Release 仍为 `v0.2.1`。旧产物、失败记录与验收身份保留。
 M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/21) 集成，R1／R2／R3 均关闭；实际 main `4732bcc` 的[九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38028969246)。本轮 **M2-2** [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 存档候选 `0.4.0.dev5` 提供统一离线输入中心、适用性检查、新版本绑定和既有排期／内容规则入口；同一 wheel 的仓库外 253 项及实际输入流程通过，见[本轮候选验收](docs/research-evidence/input-workflow-m2-20261010/README.md)、[输入使用说明](docs/input-workflow.md)与[任务说明](docs/strategy-task-management.md)。PR #22 已经用户对 `0059359` 单独核准合入 main `57b6bd4`，[实际 main 九项 CI 通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339)。随后复现报告成交校验和菜单 10 参数两项 P2；新候选 `0.4.0.dev6` 修复，同一 wheel 的仓库外 262 项及启动器首用通过，已单独核准并通过 PR #23 集成到 main `d9baa08`，实际 main 九项 CI 及两平台 262 项安装检查通过，见[修复记录](docs/research-evidence/content-report-p2-20261010/README.md)。原 dev5／dev4／dev3／dev2 验收保留。
@@ -36,7 +38,7 @@ hakimi-research list-strategies
 python -m pip install "setuptools>=77" wheel
 python -m pip wheel . --no-deps --no-build-isolation --wheel-dir dist
 python -m venv ..\hakimi-research-use\hakimi-env
-..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.5.0.dev4-py3-none-any.whl
+..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.6.0.dev1-py3-none-any.whl
 Set-Location ..\hakimi-research-use
 .\hakimi-env\Scripts\hakimi-research.exe capabilities
 ```

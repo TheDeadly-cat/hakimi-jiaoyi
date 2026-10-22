@@ -6,10 +6,12 @@
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
+本轮已建立[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)。`55db99e` 的[十一项 CI 已全部成功](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/39702356053)，对应普通安装包 350 项通过。原生 NDAQ/KO 工作流、暂停后保护退出与安装后重开已有实测；轮询页面跳动修复通过新包桌面回归，旧账户收据保持原身份。真实 NDAQ 排期已在 GUI 保存原文与时间，仍为待人工接纳，没有绑定策略或运行。详见[本轮交付证据与剩余项](docs/research-evidence/workbench-m32-20261022/README.md)。
+
 | 层次 | 已核实状态 |
 |---|---|
 | 当前 main | [PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合入 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`；[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 成功，Windows／Ubuntu 安装各 299 项；M3-1 主体与跨归属退出修复已集成 |
-| 当前开发候选 | `0.6.0.dev1`；独立开发分支整合三项洞察、正式工作台、连续日线账本与排期适配。新增终端 Python 及完整 npm 检查纳入必需 CI；候选的实际检查与界面验收正在进行，不沿用 main 或旧版结论 |
+| 当前开发候选 | `0.6.0.dev1`，草稿 PR #26；新增终端 Python 与完整桌面检查已纳入必需 CI。普通任务、真实日线连续账户、暂停后保护与安装后重开已有实测；轮询修复新包和对应十一项检查通过，真实排期仍待具体人工接纳。各构建身份见[本轮记录](docs/research-evidence/workbench-m32-20261022/README.md) |
 | 前一 M3-1 main | PR #24 的 `09ee21ed2354fb1338b5b6519efa261146036b0b`、受审 `1ee0a78`、原九项 CI 和两平台 295 项均为历史身份；后由 PR #25 修复跨归属退出 |
 | 前一 M2-2 main | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 经用户对 `0059359` 单独批准，于 2026-10-10 17:30:04 UTC+8 合入 `57b6bd4ec2263f6d390257fde7e787f44a084d85`；内容树 `3f694f17be4e85aa4ca5fb696482c5bb1125a366` 与受审 head 相同。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339) 九项成功，Windows／Ubuntu 安装各 253 项、输入及 R3 流程通过。M1、M2-1 和 R1／R2／R3 保持关闭 |
 | M3-1 功能存档 | [PR #24](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/24) 已集成；dev3 CLEAN `554a430`，同一 wheel 仓库外 295 项及共享 v3、启动器首用、原 dev2 任务账户原字节只读通过。原证据没有覆盖跨归属退出；原包已真实复现 M3-1-01，原记录不回填。增量监控与券商执行为后续范围 |
