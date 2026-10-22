@@ -285,7 +285,7 @@ def _candidate(raw, baseline, calendar, calendar_raw, latest, retrieved, url, qu
             source=_source('Published NYSE/Nasdaq 2026 schedule; temporary closures not covered',
                 calendar['sources'][0], calendar_raw, calendar['recorded_at']), days=days),
         corporate_actions=dict(coverage_start=first, coverage_end=latest, coverage_status='DECLARED_COMPLETE',
-            source=_source('Requested Yahoo dividend/split/capital-gain events; completeness is declared, not authenticated',
+            source=_source('Requested Yahoo dividend/split events; completeness is declared, not authenticated',
                 url, raw, retrieved), actions=[]),
         price_source=_source('Yahoo chart raw quote OHLCV; source response retained with update check', url, csv_raw, retrieved),
         price_basis='RAW_UNADJUSTED', volume_unit='shares', bar_timestamp_semantics='SESSION_DATE',
