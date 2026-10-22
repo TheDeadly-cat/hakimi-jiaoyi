@@ -188,8 +188,8 @@ class QuantWorkspaceTests(unittest.TestCase):
         status, headers, raw = self.request("/api/quant/status")
         value = json.loads(raw)["data"]
         self.assertEqual(status, 200)
-        self.assertEqual(value["workspace"], str(self.root / "runtime" / "research-workspace"))
-        self.assertEqual(value["product_workspace"], str(self.root / "runtime"))
+        self.assertEqual(Path(value["workspace"]).resolve(), (self.root / "runtime" / "research-workspace").resolve())
+        self.assertEqual(Path(value["product_workspace"]).resolve(), (self.root / "runtime").resolve())
         self.assertEqual(value["version"], "0.5.0.dev8")
         self.assertTrue(value["session"]["embedded"])
         self.assertTrue(value["execution_permission"]["research_only"])
