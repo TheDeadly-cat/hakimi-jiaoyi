@@ -76,6 +76,45 @@ class WorkbenchTests(unittest.TestCase):
             self.app.action(request)
         self.assertEqual(list((self.root / 'tasks').iterdir()), [])
 
+    def test_reopened_workbench_recovers_only_original_watch_receipt_without_starting(self):
+        from hakimi_research.documents import read_document
+        from hakimi_research.continuous_watch import LocalInputWatcher
+        from hakimi_research import continuous_watch as watch_module
+        data = self.seed()
+        task = self.task(data)
+        account = self.act('create_account', title='恢复演练', tasks=[task['ref']], initial_cash=10000,
+            limits=dict(max_total_position_pct=.8, max_symbol_position_pct=.5,
+                        min_cash_pct=.1, max_daily_loss_pct=.05, max_leverage=1))
+        watch = self.act('configure_watch', account=account['ref'], snapshots=[data['ref']],
+            interval_seconds=1, max_data_age_seconds=30*86400)
+        directory = self.app.path(watch['ref'], 'watches')
+        local = LocalInputWatcher(directory, clock=lambda:'2024-12-04T00:00:00Z')
+        self.assertEqual(local.poll_once()['status'], 'WAITING_STABLE_INPUT')
+        original = watch_module.transact_shared_account
+        def commit_then_lose(*args, **kwargs):
+            original(*args, **kwargs)
+            raise RuntimeError('response lost after durable commit')
+        with patch.object(watch_module, 'transact_shared_account', commit_then_lose):
+            self.assertEqual(local.poll_once()['status'], 'SUBMISSION_UNKNOWN')
+        pending = read_document(directory/'pending.json')['operation_id']
+        sequence = self.app.account_view(account['ref'])['sequence']
+        reopened = Workbench(self.root)
+        state = reopened.state()
+        self.assertEqual(state['watches'][0]['pending_operation_id'], pending)
+        self.assertFalse(state['watches'][0]['monitoring'])
+        request = dict(action='recover_watch_pending', operation_id='recover-watch-original-123',
+            watch=watch['ref'], expected_operation_id=pending)
+        with patch.object(watch_module, 'transact_shared_account', side_effect=AssertionError('must reuse receipt')):
+            recovered = reopened.action(request)
+        self.assertEqual(recovered['status'], 'CURRENT')
+        self.assertFalse(recovered['pending_present'])
+        self.assertFalse(recovered['monitoring'])
+        self.assertEqual(reopened.action(request), recovered)
+        self.assertEqual(reopened.account_view(account['ref'])['sequence'], sequence)
+        with self.assertRaisesRegex(ValueError, 'watch_pending_request_required'):
+            reopened.action(dict(request, operation_id='recover-watch-absent-123'))
+        self.assertEqual(reopened.account_view(account['ref'])['sequence'], sequence)
+
     def test_loaded_process_rejects_mutation_after_disk_identity_changes(self):
         from hakimi_research.environment import build_runtime_provenance
         runtime = build_runtime_provenance()

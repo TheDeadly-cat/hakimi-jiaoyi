@@ -489,8 +489,12 @@ def create_shared_account(directory,config):
     return describe_shared_account(directory)
 
 
+class SharedExpectedHeadChanged(ValueError):
+    """A guarded new transaction lost its expected ledger position."""
+
+
 @_precision
-def transact_shared_account(directory, *, operation_id, kind, at, payload):
+def transact_shared_account(directory, *, operation_id, kind, at, payload, expected_head=None):
     _key(operation_id);_clock(at)
     request=dict(kind=kind,at=at,payload=parse_document(canonical_bytes(payload)))
     manifest=_manifest(directory)
@@ -507,6 +511,8 @@ def transact_shared_account(directory, *, operation_id, kind, at, payload):
         if old is not None:
             if old['request']!=request:raise ValueError('shared_operation_id_payload_conflict')
             return old
+        if expected_head is not None and expected_head!=head:
+            raise SharedExpectedHeadChanged('shared_expected_receipt_head_changed')
         outcome,next_state=_transition(state,request,manifest['config'],head)
         core=dict(schema_version=RECEIPT_SCHEMAS[manifest['config']['schema_version']],account_id=manifest['account_id'],sequence=len(receipts)+1,
             operation_id=operation_id,previous_receipt=head,request=request,outcome=outcome,state_hash=digest(next_state))

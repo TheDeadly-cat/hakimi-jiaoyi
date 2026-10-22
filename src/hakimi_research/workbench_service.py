@@ -333,6 +333,11 @@ class Workbench:
                 raise ValueError('stop_observation_and_review_pending_request_before_discard')
             discard_uncommitted_pending(directory, expected_operation_id=r['expected_operation_id'], reason=r['reason'])
             return self.watch_view(r['watch'])
+        if action == 'recover_watch_pending':
+            from .continuous_watch import recover_watch_pending
+            directory = self.path(r['watch'], 'watches')
+            recover_watch_pending(directory, expected_operation_id=r['expected_operation_id'])
+            return self.watch_view(r['watch'])
         if action == 'configure_watch':
             from .continuous_watch import configure_watch
             from .equity_dataset import verify_equity_snapshot

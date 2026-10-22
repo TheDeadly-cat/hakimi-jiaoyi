@@ -18,7 +18,7 @@ from .continuous_runtime import (_available, describe_continuous_account,
 from .documents import canonical_bytes, digest, read_document
 from .equity_dataset import verify_equity_snapshot
 from .offline_app import _file_lock, write_new
-from .shared_account import _clock, _manifest, transact_shared_account
+from .shared_account import _clock, _manifest, SharedExpectedHeadChanged, transact_shared_account
 
 WATCH_SCHEMA = 'continuous-local-watch-v1'
 _ACTIVE = {}
@@ -88,9 +88,35 @@ class LocalInputWatcher:
         return self.describe()
 
     def describe(self):
-        result = read_document(self.directory/'status.json')
+        try:
+            result = read_document(self.directory/'status.json')
+            if type(result) is not dict: raise ValueError('watch_status_not_object')
+        except (ValueError, OSError, KeyError, TypeError):
+            result = dict(status='SUBMISSION_UNKNOWN', reason='Watch status cannot be verified; inspect retained files before starting observation.',
+                last_poll_at=None, last_success_at=None)
+        pointer = self.directory/'pending.json'
+        pending_present = False
+        pending_operation_id = None
+        pending_error = None
+        if pointer.is_symlink():
+            pending_present = True
+            pending_error = 'Pending pointer is not a regular file; inspect retained request and receipt.'
+        elif pointer.exists():
+            try:
+                marker = read_document(pointer)
+                if marker != {'operation_id': None}:
+                    pending_present = True
+                    pending = self._pending()
+                    pending_operation_id = pending['operation_id'] if pending is not None else None
+            except (ValueError, OSError, KeyError, TypeError) as exc:
+                pending_present = True
+                pending_error = 'Pending pointer or request cannot be verified: ' + str(exc)
+        if pending_present and (pending_error or result.get('status') not in {'SUBMISSION_UNKNOWN', 'PENDING_REVIEW_REQUIRED'}):
+            result = {**result, 'status':'SUBMISSION_UNKNOWN',
+                'reason':pending_error or 'Durable pending request exists; explicitly recover its original receipt before starting observation.'}
         alive = bool(self._thread and self._thread.is_alive())
-        return {**result, 'watch_id':self.config['watch_id'], 'monitoring':alive,
+        return {**result, 'pending_present':pending_present, 'pending_operation_id':pending_operation_id,
+            'watch_id':self.config['watch_id'], 'monitoring':alive,
             'observation_state':'STOPPING' if alive and self._stop.is_set() else 'RUNNING' if alive else 'STOPPED',
             'inputs':deepcopy(self.config['inputs']), 'account_dir':self.config['account_dir'], 'account_id':self.config['account_id'],
             'task_files':deepcopy(self.config['task_files']), 'interval_seconds':self.config['interval_seconds'],
@@ -99,6 +125,7 @@ class LocalInputWatcher:
 
     def _pending(self):
         pointer = self.directory/'pending.json'
+        if pointer.is_symlink(): raise ValueError('watch_pending_pointer_not_regular')
         if not pointer.exists(): return None
         value = read_document(pointer)
         if value == {'operation_id':None}: return None
@@ -107,7 +134,9 @@ class LocalInputWatcher:
         operation_id=value['operation_id']
         if type(operation_id) is not str or not operation_id.startswith('watch-') or len(operation_id)!=70 or any(c not in '0123456789abcdef' for c in operation_id[6:]):
             raise ValueError('watch_pending_operation_identity_invalid')
-        document=read_document(self.directory/'requests'/(operation_id+'.json'))
+        request_path=self.directory/'requests'/(operation_id+'.json')
+        if request_path.is_symlink(): raise ValueError('watch_pending_request_not_regular')
+        document=read_document(request_path)
         if (type(document) is not dict or set(document) != {'account_id','request','source_hashes','operation_id','receipt_head_at_observation'}
                 or document['account_id'] != self.config['account_id'] or document['operation_id'] != operation_id
                 or operation_id != 'watch-'+digest({k:v for k,v in document.items() if k!='operation_id'})):
@@ -136,17 +165,22 @@ class LocalInputWatcher:
                 return self._status('PENDING_REVIEW_REQUIRED','Uncommitted pending request has older task controls; explicit discard or restore controls required.',now,
                     pending_operation_id=pending['operation_id'])
             request=pending['request']
-            receipt=transact_shared_account(self.config['account_dir'], operation_id=pending['operation_id'], **request)
+            try:
+                receipt=transact_shared_account(self.config['account_dir'], operation_id=pending['operation_id'],
+                    expected_head=pending['receipt_head_at_observation'], **request)
+            except SharedExpectedHeadChanged:
+                return self._status('PENDING_REVIEW_REQUIRED','Account receipt head changed after this uncommitted request; inspect controls and receipts before retry.',now,
+                    pending_operation_id=pending['operation_id'])
         view=describe_continuous_account(self.config['account_dir'])
         outcome=receipt['outcome']; blocked=outcome['status']=='BLOCKED'
-        result=self._status('INPUT_REJECTED' if blocked else 'CURRENT',outcome.get('reason'),now,
+        self._status('INPUT_REJECTED' if blocked else 'CURRENT',outcome.get('reason'),now,
             pending_operation_id=None, receipt_hash=receipt['receipt_hash'],
             last_success_at=view['continuous']['last_success_at'], latest_common_session=pending['request']['payload']['through'],
             last_source_hashes=pending['source_hashes'], account_status=view['continuous']['status'],
             last_controls_hash=digest(dict(states=pending['request']['payload']['task_states'],warnings=pending['request']['payload']['task_configuration_warnings'])))
         # Clearing only follows a durable, verified receipt and published status.
         _atomic(self.directory/'pending.json',{'operation_id':None})
-        return result
+        return self.describe()
 
     def poll_once(self, *, now=None):
         now=_clock(now or self.clock())
@@ -231,7 +265,41 @@ def start_watch(directory):
     with _ACTIVE_LOCK:
         watcher=_ACTIVE.get(key)
         if watcher is None:watcher=LocalInputWatcher(directory);_ACTIVE[key]=watcher
-        watcher.start();return watcher
+        with watcher._lock:
+            view=watcher.describe()
+            if view['pending_present'] or view['status'] in {'SUBMISSION_UNKNOWN','PENDING_REVIEW_REQUIRED'}:
+                raise ValueError('watch_pending_requires_explicit_recovery_or_review_before_start')
+            watcher.start();return watcher
+
+
+def recover_watch_pending(directory, *, expected_operation_id, now=None):
+    """Resolve only the retained request/receipt; never poll fresh input or start a thread."""
+    if type(expected_operation_id) is not str or not expected_operation_id:
+        raise ValueError('watch_expected_pending_identity_required')
+    key=str(Path(directory).resolve())
+    with _ACTIVE_LOCK:
+        watcher=_ACTIVE.get(key)
+        if watcher is None:watcher=LocalInputWatcher(directory);_ACTIVE[key]=watcher
+        with watcher._lock, _file_lock(watcher.directory/'.watch.lock'), ExitStack() as stack:
+            if watcher._thread and watcher._thread.is_alive():
+                raise ValueError('stop_observation_before_pending_recovery')
+            task_family_locks(stack,watcher.config['task_files'])
+            timestamp=_clock(now or watcher.clock())
+            try:
+                if _load(watcher.directory)!=watcher.config:raise ValueError('watch_configuration_changed_restart_required')
+                view=describe_continuous_account(watcher.config['account_dir'])
+                if view['account_id']!=watcher.config['account_id']:raise ValueError('watch_account_identity_changed')
+                pending=watcher._pending()
+            except Exception as exc:
+                return watcher._status('SUBMISSION_UNKNOWN','Pending identity or account cannot be verified: '+str(exc),timestamp,
+                    pending_operation_id=None)
+            if pending is None:raise ValueError('watch_pending_request_required')
+            if pending['operation_id']!=expected_operation_id:
+                raise ValueError('watch_expected_pending_identity_required')
+            try:return watcher._resolve(pending,timestamp)
+            except Exception as exc:
+                return watcher._status('SUBMISSION_UNKNOWN','Read the durable receipt before retry: '+str(exc),timestamp,
+                    pending_operation_id=pending['operation_id'])
 
 
 def stop_watch(directory):

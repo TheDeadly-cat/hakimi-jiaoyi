@@ -190,11 +190,61 @@ test("loss recovery requires a later completed session and sends the explicitly 
 
 test("only a stopped review-required watch can explicitly discard an exact uncommitted request with a reason",async()=>{
   const watch={ref:"watches/review",account:account().ref,status:"PENDING_REVIEW_REQUIRED",pending_operation_id:"pending-exact",monitoring:false};
-  assert.match(ui.watchRecoveryHtml(watch),/放弃理由/);assert.equal(ui.watchRecoveryHtml({...watch,monitoring:true}),"");assert.equal(ui.watchRecoveryHtml({...watch,status:"SUBMISSION_UNKNOWN"}),"");
+  assert.match(ui.watchRecoveryHtml(watch),/放弃理由/);assert.equal(ui.watchRecoveryHtml({...watch,monitoring:true}),"");assert.doesNotMatch(ui.watchRecoveryHtml({...watch,status:"SUBMISSION_UNKNOWN"}),/discard-watch/);
   const dom=documentFixture(),current={...data(),accounts:[account()],watches:[watch]},calls=[];
   const app=ui.mount(dom.document,async(route,payload)=>{if(route==="/api/state")return copy(current);if(route.startsWith("/api/account?"))return account();calls.push(payload);watch.pending_operation_id=null;watch.status="STOPPED";return {ok:true,result:watch};},storage());await flush();await app.openAccount(account().ref);
   const button=dom.button("discard-watch"),reason={value:""};button.closest=selector=>selector==="button"?button:{querySelector:()=>reason};
   await dom.click(button);assert.equal(calls.length,0);reason.value="已核对未提交请求与旧控制状态，保留原始记录";await dom.click(button);assert.equal(calls.length,1);assert.equal(calls[0].action,"discard_watch_pending");assert.equal(calls[0].expected_operation_id,"pending-exact");assert.equal(calls[0].reason,reason.value);assert.equal(calls.some(row=>row.action==="start_watch"),false);
+});
+
+test("reopening an unknown watch offers explicit recovery of its original request without starting observation",async()=>{
+  for(const outcome of ["CURRENT","INPUT_REJECTED","PENDING_REVIEW_REQUIRED","SUBMISSION_UNKNOWN"]){
+    const watch={ref:"watches/interrupted",account:account().ref,status:"SUBMISSION_UNKNOWN",pending_operation_id:"watch-original",monitoring:false};
+    const dom=documentFixture(),current={...data(),accounts:[account()],watches:[watch]},calls=[];
+    const app=ui.mount(dom.document,async(route,payload)=>{
+      if(route==="/api/state")return copy(current);
+      if(route.startsWith("/api/account?"))return account();
+      calls.push(payload);assert.equal(payload.action,"recover_watch_pending");
+      assert.equal(payload.watch,watch.ref);assert.equal(payload.expected_operation_id,"watch-original");
+      watch.status=outcome;if(["CURRENT","INPUT_REJECTED"].includes(outcome))watch.pending_operation_id=null;
+      current.operations.push({operation_id:payload.operation_id,status:"COMMITTED",ok:true});
+      return {ok:true,result:copy(watch)};
+    },storage());
+    await flush();await app.openAccount(account().ref);await app.controller.refresh();
+    assert.equal(calls.length,0);assert.equal(dom.button("start-watch").disabled,true);
+    const recover=dom.button("recover-watch");assert.ok(recover,"a reopened pending watch needs a visible recovery entry");assert.equal(recover.disabled,false);
+    await dom.click(recover);assert.equal(calls.length,1);assert.equal(watch.monitoring,false);
+    assert.equal(calls.some(row=>row.action==="start_watch"),false);
+    if(["CURRENT","INPUT_REJECTED"].includes(outcome)){
+      assert.equal(dom.button("recover-watch"),undefined);assert.equal(dom.button("start-watch").disabled,false);
+      assert.match(dom.get("status").textContent,/原回执|原提交/);
+    }else{
+      assert.equal(dom.button("start-watch").disabled,true);assert.ok(dom.button("recover-watch"));
+      assert.equal(Boolean(dom.button("discard-watch")),outcome==="PENDING_REVIEW_REQUIRED");
+      assert.match(dom.get("status").textContent,outcome==="SUBMISSION_UNKNOWN"?/仍未确认/:/人工复核/);
+    }
+  }
+});
+
+test("pending recovery keeps normal controls and generic unknown-operation locks",async()=>{
+  for(const status of ["STOPPED","SUBMISSION_UNKNOWN","PENDING_REVIEW_REQUIRED"]){
+    const watch={ref:"watches/interrupted",account:account().ref,status,pending_operation_id:"watch-original",monitoring:false};
+    assert.match(ui.watchRecoveryHtml(watch),/核对原提交并恢复/);
+    assert.equal(ui.watchRecoveryHtml({...watch,pending_operation_id:null}),"");
+    assert.equal(ui.watchRecoveryHtml({...watch,monitoring:true}),"");
+    const dom=documentFixture(),current={...data(),accounts:[account()],watches:[watch],operations:[{operation_id:"other-unknown",status:"UNKNOWN_REQUIRES_REVIEW"}]};
+    const app=ui.mount(dom.document,async route=>route==="/api/state"?copy(current):account(),storage());await flush();await app.openAccount(account().ref);
+    assert.equal(dom.button("recover-watch").disabled,true);
+    assert.equal(dom.button("start-watch").disabled,true);
+  }
+});
+
+test("an unreadable durable pending record blocks a new watch without inventing a recoverable identity",async()=>{
+  const watch={ref:"watches/corrupt",account:account().ref,status:"SUBMISSION_UNKNOWN",pending_present:true,pending_operation_id:null,monitoring:false};
+  const dom=documentFixture(),current={...data(),accounts:[account()],watches:[watch]};
+  const app=ui.mount(dom.document,async route=>route==="/api/state"?copy(current):account(),storage());await flush();await app.openAccount(account().ref);
+  assert.equal(dom.button("start-watch").disabled,true);assert.equal(dom.button("recover-watch"),undefined);assert.equal(dom.button("discard-watch"),undefined);
+  assert.match(dom.get("watch-list").textContent,/原提交记录暂时无法核实/);
 });
 
 test("edited rule parameters use canonical context, discard late defaults and preserve manually entered dates",async()=>{

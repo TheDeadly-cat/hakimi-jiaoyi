@@ -83,7 +83,7 @@ lookup = lookup_continuous_receipt(account_dir, 'user-confirmed-first-advance')
 
 ## 显式本地输入观察
 
-`continuous_watch` 只观察用户明确配置的本地完整快照文件，不拉行情、不调用模型或券商、不重开 Unknown/T3。配置和第一次启动分别进行。主程序退出或进程重启后默认停止观察；用户点击续接后检查原 pending 回执，再继续。停止观察不修改任何账户暂停；账户暂停新增也不会停止观察已有仓位保护。
+`continuous_watch` 只观察用户明确配置的本地完整快照文件，不拉行情、不调用模型或券商、不重开 Unknown/T3。配置和第一次启动分别进行。主程序退出或进程重启后默认停止观察；有待核实提交时，先通过“核对原提交并恢复”处理原请求，核对完成后再明确“开始观察”。停止观察不修改任何账户暂停；账户暂停新增也不会停止观察已有仓位保护。
 
 ```python
 from hakimi_research.continuous_watch import (
@@ -103,3 +103,16 @@ stop_watch(watch_dir)   # 服务退出前停止；返回 STOPPING 时等待在�
 `describe_watch` 返回 `observation_state`（STOPPED/RUNNING/STOPPING）与数据 `status`，两者分开：WAITING_STABLE_INPUT、CURRENT、INPUT_MISSING、INPUT_STALE、INPUT_NOT_YET_AVAILABLE、INPUT_ERROR、INPUT_REJECTED、SUBMISSION_UNKNOWN、PENDING_REVIEW_REQUIRED。含 `reason`、`last_poll_at`、`last_success_at`、`latest_common_session`、`pending_operation_id`、`receipt_hash`、`account_status`。CURRENT 只表示已处理当前文件，不证明网络在线、市场输入真实、持续监控到交易所最新时点或账户未暂停。
 
 观察器先保存完整请求及原始快照并建立 pending 指针，再进入共享账户事务。重启先查询同一 operation_id 的 durable 回执；COMMITTED 只确认原回执，NOT_RECORDED 只重发原请求和原 ID。若未提交请求期间任务族控制已经改变，则停止自动恢复，显示 PENDING_REVIEW_REQUIRED。显式 `discard_uncommitted_pending(watch_dir, expected_operation_id=..., reason=...)` 仅允许已查明 NOT_RECORDED 的请求；保留原请求和用户处置记录，禁止丢弃已提交结果。无法读取账本不等于未提交，不可自动换 ID。
+
+### 中断后从界面核对原提交
+
+在“连续观察”中选中原组合，观察停止且存在待核实请求时，可点击“核对原提交并恢复”。该动作只处理界面显示的原请求，不扫描新输入，不开始后台观察：
+
+- 已有原回执：验证并读取原回执，不增加经济记账。
+- 尚未提交且数据、任务控制及账本位置仍匹配：按原请求和原操作 ID 恢复一次。账本位置在写事务内再次检查。
+- 输入已过期或控制/账本位置已变：保留请求并进入人工复核；只有确定尚未记账的请求才允许填写理由后放弃。
+- 账本或请求仍无法确认：保留未知状态与原件。指针或请求损坏时没有可执行的恢复或放弃入口，须先核对记录。
+
+`recover_watch_pending(watch_dir, expected_operation_id=...)` 是同一显式入口；运行中的观察器必须先停止。重开时依据持久 pending 指针显示 `pending_present` 与已校验的 `pending_operation_id`，因此进程在写完请求、尚未更新状态页时退出，也能看到待核对提示。通用工作台的其他未知操作继续保留原有锁定规则，不能借此入口重做无关任务。
+
+新候选不会改写旧包或旧账户的代码身份。已有账户仍须用其原运行版本读取和续接，新的故障演练使用独立合成工作区。

@@ -11,7 +11,7 @@ import test_continuous_runtime as fixtures
 from hakimi_research.documents import canonical_bytes,read_document
 from hakimi_research.continuous_runtime import describe_continuous_account,set_continuous_task_state
 from hakimi_research.continuous_watch import (configure_watch,LocalInputWatcher,describe_watch,
-    discard_uncommitted_pending)
+    discard_uncommitted_pending,recover_watch_pending,start_watch,stop_watch)
 from hakimi_research.task_manager import change_state
 from hakimi_research import continuous_watch as watch_module
 
@@ -81,6 +81,107 @@ class ContinuousWatchTests(unittest.TestCase):
             self.assertEqual(reopened.poll_once()['status'],'CURRENT')
         self.assertEqual(self.view()['sequence'],sequence)
         self.assertIsNone(read_document(self.watch_dir/'pending.json')['operation_id'])
+
+    def test_explicit_recovery_uses_committed_receipt_and_stays_stopped(self):
+        self.watcher.poll_once();original=watch_module.transact_shared_account
+        def commit_then_lose(*args,**kwargs):
+            original(*args,**kwargs);raise RuntimeError('response lost after durable commit')
+        with patch.object(watch_module,'transact_shared_account',commit_then_lose):
+            self.assertEqual(self.watcher.poll_once()['status'],'SUBMISSION_UNKNOWN')
+        pending=read_document(self.watch_dir/'pending.json')['operation_id']
+        committed=self.view()['history'][0]
+        owner=next(iter(self.view()['continuous']['task_paused']))
+        set_continuous_task_state(self.account,owner,True,operation_id='later-manual-control')
+        sequence=self.view()['sequence']
+        with patch.object(watch_module,'transact_shared_account',side_effect=AssertionError('receipt must be reused')):
+            recovered=recover_watch_pending(self.watch_dir,expected_operation_id=pending,now=fixtures.OBSERVED)
+        self.assertEqual(recovered['status'],'CURRENT')
+        self.assertEqual(recovered['receipt_hash'],committed['receipt_hash'])
+        self.assertFalse(recovered['pending_present'])
+        self.assertFalse(recovered['monitoring'])
+        self.assertEqual(self.view()['sequence'],sequence)
+        self.assertIsNone(read_document(self.watch_dir/'pending.json')['operation_id'])
+
+    def test_crash_after_pending_pointer_is_visible_and_explicitly_resumes_same_request(self):
+        self.watcher.poll_once()
+        with patch.object(watch_module,'transact_shared_account',side_effect=KeyboardInterrupt('process stopped')):
+            with self.assertRaises(KeyboardInterrupt):self.watcher.poll_once()
+        pending=read_document(self.watch_dir/'pending.json')['operation_id']
+        reopened=describe_watch(self.watch_dir)
+        self.assertTrue(reopened['pending_present'])
+        self.assertEqual(reopened['pending_operation_id'],pending)
+        self.assertEqual(reopened['status'],'SUBMISSION_UNKNOWN')
+        self.assertFalse(reopened['monitoring'])
+        with self.assertRaisesRegex(ValueError,'explicit_recovery'):
+            start_watch(self.watch_dir)
+        with patch.object(watch_module,'transact_shared_account',wraps=watch_module.transact_shared_account) as submit:
+            result=recover_watch_pending(self.watch_dir,expected_operation_id=pending,now=fixtures.OBSERVED)
+        self.assertEqual(submit.call_count,1)
+        self.assertEqual(submit.call_args.kwargs['operation_id'],pending)
+        self.assertEqual(result['status'],'CURRENT')
+        self.assertFalse(result['monitoring'])
+        self.assertEqual(self.view()['history'][0]['operation_id'],pending)
+
+    def test_explicit_recovery_keeps_expired_or_changed_control_pending_for_review(self):
+        self.watcher.poll_once()
+        with patch.object(watch_module,'transact_shared_account',side_effect=RuntimeError('before commit')):
+            self.assertEqual(self.watcher.poll_once()['status'],'SUBMISSION_UNKNOWN')
+        pending=read_document(self.watch_dir/'pending.json')['operation_id']
+        with patch.object(watch_module,'transact_shared_account',side_effect=AssertionError('stale must not submit')):
+            stale=recover_watch_pending(self.watch_dir,expected_operation_id=pending,now='2025-02-01T00:00:00Z')
+        self.assertEqual(stale['status'],'PENDING_REVIEW_REQUIRED')
+        self.assertTrue(stale['pending_present'])
+        owner=next(iter(self.view()['continuous']['task_paused']))
+        set_continuous_task_state(self.account,owner,True,operation_id='manual-control-change')
+        with patch.object(watch_module,'transact_shared_account',wraps=watch_module.transact_shared_account) as guarded:
+            changed=recover_watch_pending(self.watch_dir,expected_operation_id=pending,now=fixtures.OBSERVED)
+        self.assertEqual(guarded.call_count,1)
+        self.assertEqual(changed['status'],'PENDING_REVIEW_REQUIRED')
+        self.assertIn('receipt head changed',changed['reason'])
+        self.assertEqual(self.view()['sequence'],1)
+        self.assertEqual(read_document(self.watch_dir/'pending.json')['operation_id'],pending)
+
+    def test_control_receipt_inserted_after_precheck_is_rejected_in_write_transaction(self):
+        self.watcher.poll_once()
+        with patch.object(watch_module,'transact_shared_account',side_effect=RuntimeError('before commit')):
+            self.watcher.poll_once()
+        pending=read_document(self.watch_dir/'pending.json')['operation_id']
+        owner=next(iter(self.view()['continuous']['task_paused']))
+        original=watch_module.transact_shared_account
+        def interleave_control(*args,**kwargs):
+            set_continuous_task_state(self.account,owner,True,operation_id='interleaved-manual-control')
+            return original(*args,**kwargs)
+        with patch.object(watch_module,'transact_shared_account',interleave_control):
+            result=recover_watch_pending(self.watch_dir,expected_operation_id=pending,now=fixtures.OBSERVED)
+        self.assertEqual(result['status'],'PENDING_REVIEW_REQUIRED')
+        self.assertIn('receipt head changed',result['reason'])
+        self.assertEqual([r['operation_id'] for r in self.view()['history']],['interleaved-manual-control'])
+        self.assertEqual(read_document(self.watch_dir/'pending.json')['operation_id'],pending)
+        self.assertFalse(result['monitoring'])
+
+    def test_corrupt_pending_pointer_remains_visible_but_has_no_recoverable_id(self):
+        self.watcher.poll_once()
+        with patch.object(watch_module,'transact_shared_account',side_effect=RuntimeError('before commit')):
+            self.watcher.poll_once()
+        pending=read_document(self.watch_dir/'pending.json')['operation_id']
+        self.watch_dir.joinpath('pending.json').write_bytes(b'{broken')
+        view=describe_watch(self.watch_dir)
+        self.assertTrue(view['pending_present'])
+        self.assertIsNone(view['pending_operation_id'])
+        self.assertEqual(view['status'],'SUBMISSION_UNKNOWN')
+        with self.assertRaisesRegex(ValueError,'explicit_recovery'):
+            start_watch(self.watch_dir)
+        with patch.object(watch_module,'transact_shared_account',side_effect=AssertionError('corrupt pointer must not submit')):
+            recovered=recover_watch_pending(self.watch_dir,expected_operation_id=pending,now=fixtures.OBSERVED)
+        self.assertEqual(recovered['status'],'SUBMISSION_UNKNOWN')
+        self.assertIsNone(recovered['pending_operation_id'])
+        self.assertEqual(self.view()['sequence'],0)
+
+    def test_explicit_recovery_rejects_running_observation(self):
+        start_watch(self.watch_dir)
+        self.addCleanup(stop_watch,self.watch_dir)
+        with self.assertRaisesRegex(ValueError,'stop_observation_before_pending_recovery'):
+            recover_watch_pending(self.watch_dir,expected_operation_id='watch-'+'0'*64,now=fixtures.OBSERVED)
 
     def test_precommit_failure_retries_only_exact_durable_request(self):
         self.watcher.poll_once()
