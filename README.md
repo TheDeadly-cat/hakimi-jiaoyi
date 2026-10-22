@@ -15,6 +15,8 @@ M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoy
 
 ## 安装与输出目录
 
+第二批日常入口现已接入：按需检查少量美股完整日线、审阅修订后冻结、新任务版本绑定，以及保存结果的样本诊断和基准/成本验证。完整操作与来源范围见[日常更新与结果验证](docs/daily-workbench.md)。
+
 2026-10-23 的 `2036fdb` 补齐观察中断后的显式恢复入口及账本位置校验；[独立恢复演练](docs/research-evidence/watch-recovery-20261023/README.md)记录普通安装、真实子进程中断、桌面点击、重开与历史文件保全。原 NDAQ 真实反馈成果继续保留，未重复运行。
 
 **使用当前开发能力：**安装本候选的 `hakimi-research` wheel，运行 `hakimi-trade-workbench --open-browser` 打开正式工作台，或使用候选 Electron 的“正式研究工作台”入口。新任务默认调用 `hakimi_research`；工作区可显式选择，关闭重开保留输入、任务版本与结果。完整步骤、旧引擎兼容和验证状态见[正式工作台与版本入口](docs/workbench.md)。当前候选仍在验收，不把历史 Release 的验收移用到新代码。

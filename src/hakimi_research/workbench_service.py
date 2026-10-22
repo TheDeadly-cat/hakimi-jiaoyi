@@ -68,7 +68,7 @@ class Workbench:
         self.lock = RLock()
         self.loaded_source = _LOADED_SOURCE
         self.loaded_environment = build_runtime_provenance()['environment_verified']
-        for name in ('data', 'tasks', 'runs', 'continuous', 'operations', 'watches', 'research-imports', 'research-bindings', 'exports'):
+        for name in ('data', 'tasks', 'runs', 'continuous', 'operations', 'watches', 'research-imports', 'research-bindings', 'exports', 'updates', 'validations'):
             (self.root / name).mkdir(parents=True, exist_ok=True)
 
     def path(self, ref, area=None):
@@ -94,6 +94,7 @@ class Workbench:
             return dict(ref=self.ref(path), status='STOPPED', error=str(exc))
 
     def run_view(self, ref):
+        from .task_validation import saved_run_diagnostics
         path = self.path(ref, 'runs')
         manifest, report, _ = verify_run(path)
         result = report['result']
@@ -101,7 +102,21 @@ class Workbench:
             summary={key: result.get(key) for key in ('total_return', 'max_drawdown', 'final_equity',
                 'total_fees', 'fill_count', 'realized_pnl', 'unrealized_pnl', 'open_position_qty')},
             signals=result['signals'], fills=result['fills'], equity_curve=result['equity_curve'],
-            runtime=manifest['runtime'], inputs=manifest['task'])
+            runtime=manifest['runtime'], inputs=manifest['task'], diagnostics=saved_run_diagnostics(path))
+
+    def daily_update_view(self, ref):
+        from .daily_updates import read_daily_update
+        result = read_daily_update(self.path(ref, 'updates'))
+        receipt = result.get('freeze_receipt') or {}
+        if receipt:
+            frozen = self.path(receipt['input_ref'], 'data')
+            if hashlib.sha256(frozen.read_bytes()).hexdigest() != receipt['input_file_sha256']:
+                raise ValueError('daily_update_frozen_input_missing_or_changed')
+        return dict(result, ref=ref, frozen_input_ref=receipt.get('input_ref'))
+
+    def validation_view(self, ref):
+        from .task_validation import read_validation
+        return dict(read_validation(self.path(ref, 'validations')), ref=ref)
 
     def account_view(self, ref):
         from .continuous_runtime import describe_continuous_account
@@ -183,14 +198,23 @@ class Workbench:
                        if p.is_dir() and not p.name.startswith('.')]
             research = [dict(read_document(p), ref=self.ref(p.parent))
                         for p in sorted((self.root / 'research-imports').glob('*/assessment.json'))]
+            updates = [self._item(p, lambda q: self.daily_update_view(self.ref(q)))
+                       for p in sorted((self.root / 'updates').glob('check-*')) if p.is_dir()]
+            validations = [self._item(p, lambda q: self.validation_view(self.ref(q)))
+                           for p in sorted((self.root / 'validations').glob('validation-*')) if p.is_dir()]
+            validation_summaries = [{k:v for k,v in row.items()
+                if k in {'ref','base','symbol','status','validation_hash','error'}} for row in validations]
             return dict(engine=dict(name='hakimi_research', version=version,
                 source_identity=runtime['source_identity'], environment=runtime['environment_verified'],
                 permissions=dict(PERMISSIONS), new_task_default=True), workspace=str(self.root),
                 inputs=inputs, tasks=tasks, runs=runs, accounts=accounts, strategies=catalog,
                 operations=operations[-20:] + pending, watches=watches, research_imports=research,
+                daily_updates=updates[-50:], validations=validation_summaries,
+                data_update_policy=dict(calendar_years=[2026], source='Yahoo Finance', max_symbols=1,
+                    network='EXPLICIT_CHECK_ONLY', existing_snapshot_required=True),
                 server_time=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
                 runtime_guard=dict(restart_required=restart_required, loaded_source_sha256=self.loaded_source),
-                mode='LOCAL_RESEARCH_ONLY', source_collection='EXPLICIT_FILE_IMPORT',
+                mode='LOCAL_RESEARCH_ONLY', source_collection='EXPLICIT_FILE_IMPORT_OR_PUBLIC_DAILY_CHECK',
                 legacy_policy='Historical engines and results retain their own original identities and entry points.')
 
     def action(self, request):
@@ -254,6 +278,79 @@ class Workbench:
             immutable_write(stage / 'metadata.json', _bytes(r['manifest_base64']))
             result = import_price_csv(stage / 'prices.csv', stage / 'metadata.json', self.root)
             return dict(result, ref=self.ref(result['path']))
+        if action == 'check_stock_update':
+            from .daily_updates import check_daily_update
+            directory = self.root / 'updates' / ('check-' + op)
+            check_daily_update(self.path(r['snapshot'], 'data'), directory)
+            return self.daily_update_view(self.ref(directory))
+        if action == 'freeze_stock_update':
+            from .daily_updates import freeze_daily_update
+            acknowledged = r.get('acknowledge_revisions', False)
+            if type(acknowledged) is not bool:
+                raise ValueError('revision_acknowledgment_exact_bool_required')
+            result = freeze_daily_update(self.path(r['update'], 'updates'), self.root,
+                acknowledge_revisions=acknowledged)
+            return dict(result, ref=self.ref(result['path']))
+        if action == 'validate_run':
+            from .task_validation import create_validation
+            options = {}
+            if r.get('followup_snapshot'):
+                options = dict(followup_snapshot=self.path(r['followup_snapshot'], 'data'),
+                    followup_start=r.get('followup_start'), followup_end=r.get('followup_end'))
+            elif r.get('followup_start') or r.get('followup_end'):
+                raise ValueError('followup_snapshot_required_for_dates')
+            run = self.path(r['run'], 'runs')
+            manifest, report, _ = verify_run(run)
+            key = digest(dict(method='hakimi-task-validation-v1', run_id=manifest['run_id'],
+                report_hash=report['report_hash'], followup_sha256=hashlib.sha256(
+                    options['followup_snapshot'].read_bytes()).hexdigest() if options else None,
+                followup_start=options.get('followup_start'), followup_end=options.get('followup_end')))
+            directory = self.root / 'validations' / ('validation-' + key)
+            _regular(directory)
+            reused = directory.exists()
+            if not reused:
+                create_validation(run, directory, **options)
+            result = self.validation_view(self.ref(directory))
+            return dict(result, reused_saved_validation=reused,
+                action_new_economic_runs=0 if reused else result['new_economic_runs'])
+        if action == 'bind_task_input':
+            from .equity_dataset import verify_equity_snapshot
+            from .task_manager import revise_family, version_options
+            family = self.path(r['task'], 'tasks')
+            if not family.is_dir():
+                raise ValueError('managed_task_required_for_input_version_update')
+            expected = r.get('expected_task_id')
+            before = describe_task(family)
+            if not expected or expected != before['task_id']:
+                raise ValueError('task_changed_reload_before_updating_inputs')
+            options = version_options(family)
+            snapshot = self.path(r['snapshot'], 'data')
+            previous = verify_equity_snapshot(read_document(options['snapshot']))
+            updated = verify_equity_snapshot(read_document(snapshot))
+            if previous['security'] != updated['security']:
+                raise ValueError('input_update_requires_same_security')
+            if type(r.get('score_end')) is not str or r['score_end'] < options['score_end']:
+                raise ValueError('input_update_requires_explicit_non_decreasing_score_end')
+            if previous['snapshot_id'] == updated['snapshot_id'] and r['score_end'] == options['score_end']:
+                return dict(before, ref=r['task'], input_update_status='UNCHANGED_NO_NEW_VERSION')
+            old_binding = self.root / 'research-bindings' / (expected + '.json')
+            approved, research_ref = None, None
+            if old_binding.exists():
+                _regular(old_binding)
+                binding = read_document(old_binding)
+                if (binding.get('task_id') != expected or binding.get('binding_hash') !=
+                        digest({k:v for k,v in binding.items() if k != 'binding_hash'})):
+                    raise ValueError('research_binding_identity_changed')
+                research_ref = binding['research']
+                _, approved = self._research_bundle(research_ref)
+                if (options['strategy'] != 'event.earnings_schedule@1' or not options['event_context'] or
+                        read_document(options['event_context'])['context_hash'] != approved['context_hash']):
+                    raise ValueError('research_binding_context_mismatch')
+            revised = revise_family(family, expected_task_id=expected, snapshot=snapshot, score_end=r['score_end'])
+            version = family / 'versions' / revised['selected_revision'] / 'task.json'
+            if approved is not None:
+                self._bind_receipt(version, research_ref, approved)
+            return dict(describe_task(version), ref=r['task'], input_update_status='NEW_IMMUTABLE_VERSION')
         if action == 'create_task':
             options = {k: r[k] for k in ('strategy', 'params', 'score_start', 'score_end',
                         'initial_cash', 'fee_rate', 'slippage_pct', 'risk') if k in r and r[k] is not None}

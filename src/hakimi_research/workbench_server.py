@@ -70,6 +70,10 @@ def create_server(workspace, port=0):
                     result = service.account_view(args['ref'][0])
                 elif parsed.path == '/api/watch':
                     result = service.watch_view(args['ref'][0])
+                elif parsed.path == '/api/daily-update':
+                    result = service.daily_update_view(args['ref'][0])
+                elif parsed.path == '/api/validation':
+                    result = service.validation_view(args['ref'][0])
                 else:
                     self._json(404, dict(ok=False, error='not_found'))
                     return
