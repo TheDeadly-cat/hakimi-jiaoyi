@@ -44,14 +44,50 @@ test("saved metrics, unavailable comparison and untrusted sources remain distinc
 
 function documentFixture(){
   const ids=new Map(),all=new Set(),listeners={};let document;
-  const camel=name=>name.replace(/-([a-z])/g,(_c,l)=>l.toUpperCase());
-  class Element{
-    constructor(tag,attrs=""){this.tagName=tag.toUpperCase();this.dataset={};this.children=[];this.hidden=false;this.value="";this.disabled=false;this.checked=false;this.textContent="";this.files=[];this.attributes={};all.add(this);for(const [,key,value] of attrs.matchAll(/([\w-]+)(?:="([^"]*)")?/g)){if(key==="id"){this.id=value;ids.set(value,this);}else if(key.startsWith("data-"))this.dataset[camel(key.slice(5))]=value??"";else if(key==="value")this.value=value;else if(key==="checked")this.checked=true;else if(key==="disabled")this.disabled=true;else if(key==="hidden")this.hidden=true;}}
-    set innerHTML(value){for(const child of this.children){all.delete(child);if(child.id)ids.delete(child.id);}this.children=[];this.html=value;for(const [,tag,attrs] of value.matchAll(/<([a-z][\w-]*)\b([^>]*)>/g)){const child=new Element(tag,attrs);child.parent=this;this.children.push(child);}}
-    get innerHTML(){return this.html||"";}setAttribute(key,value){this.attributes[key]=value;}focus(){document.activeElement=this;}reportValidity(){return true;}closest(selector){if(selector==="button")return this.tagName==="BUTTON"?this:null;if(selector==="[data-watch-ref]")return this.parent;return null;}querySelector(selector){return this.children.find(v=>v.tagName.toLowerCase()===selector)||null;}
+  const camel=name=>name.replace(/-([a-z])/g,(_c,l)=>l.toUpperCase()),dash=name=>name.replace(/[A-Z]/g,c=>"-"+c.toLowerCase());
+  const decode=value=>String(value).replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&");
+  const escape=value=>String(value).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const voids=new Set(["INPUT","META","LINK","BR","HR","IMG"]);
+  function descendants(node){return node.children.flatMap(child=>[child,...descendants(child)]);}
+  function matches(node,selector){
+    const parts=selector.trim().split(/\s+/),last=parts.pop();if(parts.length&&!node.closest(parts.join(" ")))return false;
+    if(last.startsWith("."))return String(node.className||"").split(/\s+/).includes(last.slice(1));
+    const attr=/^\[([\w-]+)(?:="([^"]*)")?\](:checked)?$/.exec(last);
+    if(attr)return Object.hasOwn(node.attributes,attr[1])&&(attr[2]===undefined||node.attributes[attr[1]]===attr[2])&&(!attr[3]||node.checked);
+    return node.tagName.toLowerCase()===last;
   }
-  function query(selector){const match=/\[data-([\w-]+)\]/.exec(selector);if(!match)return[];const key=camel(match[1]);return [...all].filter(v=>Object.hasOwn(v.dataset,key)&&(!selector.includes(":checked")||v.checked));}
-  document={getElementById:id=>ids.get(id),querySelectorAll:query,addEventListener:(kind,handler)=>{listeners[kind]=handler;}};
+  function detach(node){for(const child of [...node.children])detach(child);all.delete(node);if(node.id&&ids.get(node.id)===node)ids.delete(node.id);if(document?.activeElement===node)document.activeElement=null;}
+  class Element{
+    constructor(tag,attrs=""){this.tagName=tag.toUpperCase();this.childNodes=[];this._hidden=false;this.hiddenHistory=[];this._value="";this.disabled=false;this.checked=false;this.open=false;this.files=[];this.attributes={};this.scrollTop=0;this.scrollLeft=0;this.dataset=new Proxy({}, {set:(object,key,value)=>{object[key]=String(value);this.attributes["data-"+dash(key)]=String(value);return true;},deleteProperty:(object,key)=>{delete object[key];delete this.attributes["data-"+dash(key)];return true;}});all.add(this);for(const [,key,value] of attrs.matchAll(/([\w-]+)(?:="([^"]*)")?/g))this.setAttribute(key,decode(value??""));}
+    get children(){return this.childNodes.filter(child=>child instanceof Element);}get firstElementChild(){return this.children[0]||null;}
+    get className(){return this.attributes.class||"";}set className(value){this.attributes.class=value;}
+    get hidden(){return this._hidden;}set hidden(value){this._hidden=Boolean(value);this.hiddenHistory.push(this._hidden);}
+    get value(){return this._value;}set value(value){this._value=String(value);}
+    get options(){return descendants(this).filter(child=>child.tagName==="OPTION");}
+    get textContent(){return this.childNodes.map(child=>child instanceof Element?child.textContent:child.text).join("");}
+    set textContent(value){for(const child of this.children)detach(child);this.childNodes=[{text:String(value)}];}
+    set innerHTML(value){
+      for(const child of this.children)detach(child);this.childNodes=[];const stack=[this];
+      for(const token of String(value).match(/<[^>]*>|[^<]+/g)||[]){
+        if(token.startsWith("<!"))continue;
+        const closing=/^<\/([\w-]+)/.exec(token);if(closing){for(let i=stack.length-1;i>0;i--)if(stack[i].tagName.toLowerCase()===closing[1]){stack.length=i;break;}continue;}
+        const opening=/^<([a-z][\w-]*)\b([^>]*)>/i.exec(token);
+        if(opening){const child=new Element(opening[1],opening[2]);stack.at(-1).appendChild(child);if(!voids.has(child.tagName)&&!token.endsWith("/>"))stack.push(child);}
+        else stack.at(-1).childNodes.push({text:decode(token)});
+      }
+      if(this.tagName==="SELECT")this.value=this.options[0]?.value||"";
+    }
+    get innerHTML(){return this.childNodes.map(child=>child instanceof Element?child.outerHTML:escape(child.text)).join("");}
+    get outerHTML(){const attrs=Object.entries(this.attributes).map(([key,value])=>` ${key}="${escape(value)}"`).join("");return `<${this.tagName.toLowerCase()}${attrs}>`+(voids.has(this.tagName)?"":this.innerHTML+`</${this.tagName.toLowerCase()}>`);}
+    appendChild(child){if(child.parent){child.parent.childNodes=child.parent.childNodes.filter(item=>item!==child);}child.parent=this;this.childNodes.push(child);return child;}
+    remove(){if(this.parent)this.parent.childNodes=this.parent.childNodes.filter(item=>item!==this);detach(this);this.parent=null;}
+    setAttribute(key,value){this.attributes[key]=String(value);if(key==="id"){this.id=String(value);ids.set(this.id,this);}else if(key.startsWith("data-"))this.dataset[camel(key.slice(5))]=value;else if(key==="value")this.value=value;else if(key==="checked")this.checked=true;else if(key==="disabled")this.disabled=true;else if(key==="hidden")this.hidden=true;else if(key==="open")this.open=true;}
+    removeAttribute(key){delete this.attributes[key];if(key.startsWith("data-"))delete this.dataset[camel(key.slice(5))];if(key==="disabled")this.disabled=false;if(key==="hidden")this.hidden=false;}
+    focus(){document.activeElement=this;}reportValidity(){return true;}
+    closest(selector){for(let node=this;node;node=node.parent)if(matches(node,selector))return node;return null;}
+    querySelectorAll(selector){return descendants(this).filter(node=>matches(node,selector));}querySelector(selector){return this.querySelectorAll(selector)[0]||null;}
+  }
+  document={getElementById:id=>ids.get(id),querySelectorAll:selector=>[...all].filter(node=>matches(node,selector)),createElement:tag=>new Element(tag),addEventListener:(kind,handler)=>{listeners[kind]=handler;},scrollingElement:{scrollTop:0,scrollLeft:0},hidden:false};
   const root=new Element("body");root.innerHTML=html.split("<script>")[0];
   return {document,get:id=>ids.get(id),all,listeners,button:(action,ref)=>[...all].find(v=>v.dataset.action===action&&(!ref||v.dataset.ref===ref)),submit:id=>listeners.submit({target:ids.get(id),preventDefault(){}}),click:button=>listeners.click({target:button})};
 }
@@ -119,7 +155,7 @@ test("stopping local observation remains available after a runtime change and re
   const dom=documentFixture(),current={...data(),runtime_guard:{restart_required:true},accounts:[account()],watches:[{ref:"watches/live",account:account().ref,monitoring:true,status:"CURRENT"}]};let accepted=false;const calls=[];
   const app=ui.mount(dom.document,async(route,payload)=>{if(route==="/api/state")return copy(current);if(route.startsWith("/api/account?"))return account();calls.push(payload);if(!accepted)return {ok:false,error:"stop not confirmed"};current.watches[0].monitoring=false;return {ok:true,result:current.watches[0]};},storage());await flush();await app.openAccount(account().ref);
   const stop=dom.button("stop-watch");assert.equal(stop.disabled,false);await dom.click(stop);assert.match(dom.get("error").textContent,/stop not confirmed/);assert.doesNotMatch(dom.get("status").textContent,/已停止观察/);
-  accepted=true;await dom.click(stop);assert.match(dom.get("status").textContent,/已停止观察/);assert.equal(calls.length,2);assert.ok(calls.every(row=>row.action==="stop_watch"));
+  accepted=true;await dom.click(stop);assert.match(dom.get("status").textContent,/已停止观察/);assert.equal(calls.length,2);assert.ok(calls.every(row=>row.action==="stop_watch"));assert.equal(dom.button("start-watch").disabled,true);
 });
 
 test("loss recovery requires a later completed session and sends the explicitly reviewed receipt head",async()=>{
@@ -163,4 +199,58 @@ test("watch conditions explain stopping and unavailable protection in ordinary l
     const result=ui.watchStatusHtml({status,reason:"Raw internal diagnostic"});assert.ok(result.includes(label),status);assert.match(result,/持仓保护/);assert.doesNotMatch(result,/Raw internal diagnostic|待核对/);assert.ok(!result.includes(status));
   }
   assert.match(ui.watchStatusHtml({status:"NEW_UNKNOWN_STATUS"}),/不能确认/);
+});
+
+test("the real polling callback preserves focused controls, open records and the user's latest scroll without hiding cards",async()=>{
+  const timers=new Map();let timerId=0;box.setTimeout=callback=>{timers.set(++timerId,callback);return timerId;};box.clearTimeout=id=>timers.delete(id);
+  try{
+    const dom=documentFixture(),current={...data(),inputs:[input()],tasks:[taskRow()],accounts:[account()],watches:[{ref:"watches/live",account:account().ref,monitoring:true,status:"CURRENT",last_poll_at:"2024-04-01T12:00:00Z"},{ref:"watches/review",account:account().ref,monitoring:false,status:"PENDING_REVIEW_REQUIRED",pending_operation_id:"pending-kept"}]},calls=[],waiting=[];let background=false,detail=account();
+    const request=async(route,payload)=>{calls.push({route,payload});if(background&&!payload)return new Promise(resolve=>waiting.push({route,resolve}));if(route==="/api/state")return copy(current);if(route.startsWith("/api/account?"))return copy(detail);assert.equal(payload.action,"stop_watch");current.watches[0].monitoring=false;return {ok:true,result:copy(current.watches[0])};};
+    const app=ui.mount(dom.document,request,storage());await flush();app.switchView("continuous");await app.openAccount(account().ref);
+    const stop=dom.button("stop-watch"),card=stop.closest("[data-watch-ref]"),select=card.querySelector("select"),record=card.querySelector("details"),pre=record.querySelector("pre"),reason=dom.document.querySelectorAll("[data-discard-reason]")[0],accountRecord=dom.document.querySelectorAll('[data-account-record="history"]')[0],history=accountRecord.querySelector("pre"),checkbox=dom.document.querySelectorAll("[data-advance-input]")[0],date=dom.get("advance-through");
+    select.value=input().ref;record.open=true;pre.scrollTop=37;accountRecord.open=true;history.scrollTop=29;checkbox.checked=true;date.value="2024-04-02";stop.focus();dom.document.scrollingElement.scrollTop=740;
+    for(const id of ["advance-card","account-detail-card","watch-card"])dom.get(id).hiddenHistory=[];
+    const callback=timers.values().next().value;timers.clear();background=true;const poll=callback();await flush();assert.equal(waiting[0].route,"/api/state");
+    for(const id of ["advance-card","account-detail-card","watch-card"])assert.equal(dom.get(id).hidden,false);
+    reason.value="保留尚未提交的复核草稿";reason.selectionStart=2;reason.selectionEnd=5;reason.focus();dom.document.scrollingElement.scrollTop=918;
+    current.watches[0].last_poll_at="2024-04-01T12:00:05Z";waiting[0].resolve(copy(current));await flush();assert.match(waiting[1].route,/^\/api\/account/);assert.equal(dom.document.activeElement,reason);
+    detail={...detail,receipt_head:"new-head",equity:"10002",history:[{operation_id:"one-new-record"}],continuous:{...detail.continuous,last_session:"2024-04-02"}};waiting[1].resolve(copy(detail));await poll;
+    assert.equal(dom.button("stop-watch"),stop);assert.equal(card.querySelector("select"),select);assert.equal(select.value,input().ref);assert.equal(card.querySelector("details"),record);assert.equal(record.open,true);assert.equal(record.querySelector("pre"),pre);assert.equal(pre.scrollTop,37);assert.equal(accountRecord.querySelector("pre"),history);assert.equal(history.scrollTop,29);assert.equal(accountRecord.open,true);assert.match(history.textContent,/one-new-record/);
+    assert.equal(dom.document.activeElement,reason);assert.equal(reason.value,"保留尚未提交的复核草稿");assert.equal(reason.selectionStart,2);assert.equal(reason.selectionEnd,5);assert.equal(dom.document.querySelectorAll("[data-advance-input]")[0],checkbox);assert.equal(checkbox.checked,true);assert.equal(dom.get("advance-through"),date);assert.equal(date.value,"2024-04-02");assert.equal(dom.document.scrollingElement.scrollTop,918);assert.ok(["advance-card","account-detail-card","watch-card"].every(id=>dom.get(id).hiddenHistory.every(value=>value===false)));
+    assert.match(card.querySelector('[data-watch-field="poll"]').textContent,/12:00:05/);assert.equal(calls.filter(row=>row.payload).length,0);
+    background=false;await dom.click(stop);assert.equal(calls.filter(row=>row.payload?.action==="stop_watch").length,1);assert.equal(timers.size,0);
+  }finally{delete box.setTimeout;delete box.clearTimeout;}
+});
+
+test("stopping observation invalidates an in-flight poll so an older monitoring state cannot come back",async()=>{
+  const dom=documentFixture(),current={...data(),accounts:[account()],watches:[{ref:"watches/live",account:account().ref,monitoring:true,status:"CURRENT"}]},waiting=[];let hold=false;const calls=[];
+  const app=ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});if(route==="/api/state"&&hold){hold=false;return new Promise(resolve=>waiting.push(resolve));}if(route==="/api/state")return copy(current);if(route.startsWith("/api/account?"))return account();assert.equal(payload.action,"stop_watch");current.watches[0].monitoring=false;return {ok:true,result:copy(current.watches[0])};},storage());await flush();app.switchView("continuous");await app.openAccount(account().ref);
+  hold=true;const stale=copy(current),poll=app.pollContinuous();await flush();await dom.click(dom.button("stop-watch"));assert.equal(app.controller.state.data.watches[0].monitoring,false);waiting[0](stale);await poll;
+  assert.equal(app.controller.state.data.watches[0].monitoring,false);assert.equal(dom.button("stop-watch"),undefined);assert.ok(dom.button("start-watch"));assert.equal(calls.filter(row=>row.payload).length,1);
+});
+
+test("a stop awaiting its receipt cannot become an enabled start button after another status read",async()=>{
+  const dom=documentFixture(),current={...data(),accounts:[account()],watches:[{ref:"watches/live",account:account().ref,monitoring:true,status:"CURRENT"}]};let finishStop;
+  const app=ui.mount(dom.document,async(route,payload)=>{if(route==="/api/state")return copy(current);if(route.startsWith("/api/account?"))return account();assert.equal(payload.action,"stop_watch");return new Promise(resolve=>{finishStop=resolve;});},storage());await flush();app.switchView("continuous");await app.openAccount(account().ref);
+  const control=dom.button("stop-watch"),stopping=dom.click(control);await flush();current.watches[0].monitoring=false;await app.controller.refresh({background:true});assert.equal(dom.button("start-watch"),control);assert.equal(control.disabled,true);
+  finishStop({ok:true,result:current.watches[0]});await stopping;assert.equal(control.disabled,false);
+});
+
+test("a failed stop that cancels a manual refresh does not leave the refresh control permanently busy",async()=>{
+  const dom=documentFixture(),current={...data(),accounts:[account()],watches:[{ref:"watches/live",account:account().ref,monitoring:true,status:"CURRENT"}]};let hold=false,finishRead;
+  const app=ui.mount(dom.document,async(route,payload)=>{if(route==="/api/state"&&hold){hold=false;return new Promise(resolve=>{finishRead=resolve;});}if(route==="/api/state")return copy(current);if(route.startsWith("/api/account?"))return account();return {ok:false,error:"stop receipt not confirmed"};},storage());await flush();app.switchView("continuous");await app.openAccount(account().ref);
+  hold=true;const refresh=app.controller.refresh();await flush();assert.equal(dom.get("refresh").disabled,true);await dom.click(dom.button("stop-watch"));assert.equal(app.controller.state.loading,false);assert.equal(dom.get("refresh").disabled,false);finishRead(copy(current));await refresh;assert.equal(dom.get("refresh").disabled,false);
+});
+
+test("background account failures retain confirmed records and stop controls but block dependent writes until verified",async()=>{
+  const dom=documentFixture(),current={...data(),accounts:[account()],watches:[{ref:"watches/live",account:account().ref,monitoring:true,status:"CURRENT"}]};let failed=false;
+  const app=ui.mount(dom.document,async route=>{if(route==="/api/state")return copy(current);if(failed)throw Error("read temporarily failed");return account();},storage());await flush();app.switchView("continuous");await app.openAccount(account().ref);const history=dom.document.querySelectorAll('[data-account-record="history"]')[0],stop=dom.button("stop-watch");history.open=true;
+  failed=true;await app.pollContinuous();assert.equal(dom.document.querySelectorAll('[data-account-record="history"]')[0],history);assert.equal(history.open,true);assert.equal(dom.get("advance-card").hidden,false);assert.match(dom.get("account-read-state").textContent,/仍显示上次已核实状态/);assert.equal(dom.button("pause-account").disabled,true);assert.equal(dom.button("stop-watch"),stop);assert.equal(stop.disabled,false);
+  failed=false;await app.pollContinuous();assert.equal(dom.button("pause-account").disabled,false);assert.match(dom.get("account-read-state").textContent,/当前状态已核实/);
+});
+
+test("late account reads from a background poll cannot overwrite a newly selected account",async()=>{
+  const dom=documentFixture(),first=account(),second={...account(),ref:"continuous/account-b",title:"另一个组合"},current={...data(),accounts:[first,second],watches:[{ref:"watches/a",account:first.ref,monitoring:true,status:"CURRENT"}]};let hold=false,resolveOld;
+  const app=ui.mount(dom.document,async route=>{if(route==="/api/state")return copy(current);if(route.includes(encodeURIComponent(first.ref))&&hold)return new Promise(resolve=>{resolveOld=resolve;});return route.includes(encodeURIComponent(second.ref))?second:first;},storage());await flush();app.switchView("continuous");await app.openAccount(first.ref);hold=true;const poll=app.pollContinuous();await flush();await app.openAccount(second.ref);const button=dom.button("pause-account");resolveOld({...first,title:"旧组合迟到结果"});await poll;
+  assert.match(dom.get("account-summary").textContent,/另一个组合/);assert.doesNotMatch(dom.get("account-summary").textContent,/旧组合迟到结果/);assert.equal(dom.button("pause-account"),button);
 });
