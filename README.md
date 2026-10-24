@@ -19,7 +19,7 @@ M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoy
 
 2026-10-23 的 `2036fdb` 补齐观察中断后的显式恢复入口及账本位置校验；[独立恢复演练](docs/research-evidence/watch-recovery-20261023/README.md)记录普通安装、真实子进程中断、桌面点击、重开与历史文件保全。原 NDAQ 真实反馈成果继续保留，未重复运行。
 
-**使用当前开发能力：**安装本候选的 `hakimi-research` wheel，运行 `hakimi-trade-workbench --open-browser` 打开正式工作台，或使用候选 Electron 的“正式研究工作台”入口。新任务默认调用 `hakimi_research`；工作区可显式选择，关闭重开保留输入、任务版本与结果。完整步骤、旧引擎兼容和验证状态见[正式工作台与版本入口](docs/workbench.md)。本候选的本机普通安装与原生桌面验收见[日常交付验收](docs/daily-delivery-acceptance-20261025.md)，运行构建与最新 GitHub 检查分别核对；未发布为正式 Release。
+**使用当前开发能力：**安装本候选的 `hakimi-research` wheel，运行 `hakimi-trade-workbench --open-browser` 打开正式工作台，或使用候选 Electron 的“正式研究工作台”入口。新任务默认调用 `hakimi_research`；工作区可显式选择，关闭重开保留输入、任务版本与结果。完整步骤、旧引擎兼容和验证状态见[正式工作台与版本入口](docs/workbench.md)。本候选的普通安装、后台验证和原生桌面待验状态见[数据持续使用验收](docs/data-continuity-acceptance-20261025.md)，运行构建与最新 GitHub 检查分别核对；未发布为正式 Release。
 
 正式版本从 [v0.2.1 Release](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1) 下载 Windows 或 Ubuntu ZIP；核对发布页的 `SHA256SUMS.txt` 后解压，再核对包内校验和。两个 ZIP 各自保留确切受验收 wheel 与构建、依赖、测试证据；安装解压出的 `hakimi_research-0.2.1-py3-none-any.whl` 会按精确版本安装依赖，离线安装需另备依赖 wheel。该版本固定在 `45850899992361970043f2da70e785210025ae9e`，[发布下载与安装验收](docs/research-evidence/release-0.2.1-20260909/README.md)记录实际验证范围。
 

@@ -13,7 +13,7 @@
 | 层次 | 已核实状态 |
 |---|---|
 | 当前 main | [PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合入 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`；[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 成功，Windows／Ubuntu 安装各 299 项；M3-1 主体与跨归属退出修复已集成 |
-| 当前开发候选 | `0.6.0.dev3`，草稿 PR #26；新增 XNYS 2027 与跨年处理、历史修订影响和公司行为停止说明。[当前功能范围](docs/daily-workbench.md) · [入口与旧账户处理](docs/daily-delivery.md)。本轮安装、桌面与精确 HEAD CI 分别核对；前一 dev2 CLEAN `6680aa9` 的 382 项和 7 项流程通过保持[原验收身份](docs/daily-delivery-acceptance-20261025.md)，不作为 dev3 通过证据 |
+| 当前开发候选 | `0.6.0.dev3`，CLEAN 运行构建 `4338490`，草稿 PR #26；普通安装 391 项、7 项流程通过，浏览器 11 个案例通过；原生窗口身份已核对，点击流程及正式入口重开按用户要求暂缓。[当前验收与边界](docs/data-continuity-acceptance-20261025.md) · [使用流程](docs/daily-workbench.md)。XNAS 2027 年表尚未核实；最新 HEAD CI 在 PR 单独核对。前一 dev2 构建、包和记录继续保留 |
 | 正式公开 Release | `v0.2.1` 是封存发行版本；本日常候选未合并、未发布为 Release，不把候选能力写成该发行版已有能力 |
 | 前一 M3-1 main | PR #24 的 `09ee21ed2354fb1338b5b6519efa261146036b0b`、受审 `1ee0a78`、原九项 CI 和两平台 295 项均为历史身份；后由 PR #25 修复跨归属退出 |
 | 前一 M2-2 main | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 经用户对 `0059359` 单独批准，于 2026-10-10 17:30:04 UTC+8 合入 `57b6bd4ec2263f6d390257fde7e787f44a084d85`；内容树 `3f694f17be4e85aa4ca5fb696482c5bb1125a366` 与受审 head 相同。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339) 九项成功，Windows／Ubuntu 安装各 253 项、输入及 R3 流程通过。M1、M2-1 和 R1／R2／R3 保持关闭 |
