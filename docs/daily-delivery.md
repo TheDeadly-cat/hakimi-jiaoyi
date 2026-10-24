@@ -2,7 +2,7 @@
 
 本轮日常候选为 `0.6.0.dev3`，仍是开发候选。已合并主分支、开发候选和正式 Release 是三种不同身份，以 [当前状态](../CURRENT_STATUS.md) 为入口核对。`v0.2.1` 不包含本候选的工作台能力。
 
-前一 `0.6.0.dev2` 的精确运行构建、安装、桌面重开与保全证据见[2026-10-25 验收记录](daily-delivery-acceptance-20261025.md)，保留原身份。本轮 dev3 补充按交易所区分的日历、历史修订影响及公司行为停止说明，具体范围见[数据持续使用流程](daily-workbench.md)，精确安装和原生待验状态见[dev3 验收记录](data-continuity-acceptance-20261025.md)。
+前一 `0.6.0.dev2` 的精确运行构建、安装、桌面重开与保全证据见[2026-10-25 验收记录](daily-delivery-acceptance-20261025.md)，保留原身份。本轮 dev3 补充按交易所区分的日历、历史修订影响及公司行为停止说明，具体范围见[数据持续使用流程](daily-workbench.md)，精确安装见[dev3 后台验收记录](data-continuity-acceptance-20261025.md)，恢复后的实际点击和关闭重开见[原生桌面验收](data-continuity-native-acceptance-20261025.md)。本机当前快捷方式为“哈基米研究工作台（dev3数据候选）”，旧入口保留。
 
 ## 打开与识别
 
