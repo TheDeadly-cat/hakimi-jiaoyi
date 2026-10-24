@@ -1,0 +1,7 @@
+# Offline terminal contract tests only; not part of the canonical wheel closure.
+# Reuse the canonical numeric versions and pin the market-calendar additions.
+-r requirements.research.lock
+exchange-calendars==4.13.2
+pyluach==2.3.0
+toolz==1.1.0
+korean-lunar-calendar==0.4.0

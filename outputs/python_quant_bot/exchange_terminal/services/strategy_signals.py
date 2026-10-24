@@ -5,9 +5,10 @@ import json
 import math
 from pathlib import Path
 from typing import Any, Callable
+from . import indicator_math
 
 
-SIGNAL_ENGINE_VERSION = "causal-long-only-signals-v6"
+SIGNAL_ENGINE_VERSION = "causal-long-only-signals-v7"
 
 
 _CAPABILITIES: dict[str, dict[str, Any]] = {
@@ -153,13 +154,7 @@ def _average(values: list[float]) -> float:
 
 
 def _ema_series(values: list[float], span: int) -> list[float]:
-    if not values:
-        return []
-    alpha = 2.0 / (max(int(span), 1) + 1.0)
-    result = [float(values[0])]
-    for value in values[1:]:
-        result.append(alpha * float(value) + (1.0 - alpha) * result[-1])
-    return result
+    return indicator_math.ema(values, span)
 
 
 def _macd_state(closes: list[float], fast: int, slow: int, signal: int) -> tuple[float, float, float, float]:
@@ -197,6 +192,8 @@ def rolling_strategy_signal(
 
     values = [float(value) for value in closes]
     settings = dict(params or {})
+    if any(not math.isfinite(value) for value in values) or not math.isfinite(price):
+        return {"action": "HOLD", "reason": "invalid_indicator_history"}
     if len(values) < 30 or price <= 0:
         return {"action": "HOLD", "reason": "insufficient_history"}
 
@@ -215,10 +212,11 @@ def rolling_strategy_signal(
     elif clean_id == "bollinger":
         window = max(10, int(settings.get("window") or 20))
         std_mult = max(0.5, float(settings.get("std_mult") or 2.0))
-        recent = values[-window:]
-        mid = _average(recent)
-        band = _average([(value - mid) ** 2 for value in recent]) ** 0.5 * std_mult
-        if price < mid - band and not has_position:
+        if len(values) < window:
+            return {"action": "HOLD", "reason": "insufficient_history"}
+        band = indicator_math.bollinger(values[-window:], window, std_mult)[-1]
+        mid = band["mid"]
+        if price < band["lower"] and not has_position:
             return {"action": "BUY", "reason": "close_below_lower_band"}
         if price > mid and has_position:
             return {"action": "EXIT", "reason": "close_reverted_above_mid_band"}
@@ -241,11 +239,7 @@ def rolling_strategy_signal(
         overbought = float(settings.get("overbought") or 70)
         if len(values) < window + 1:
             return {"action": "HOLD", "reason": "insufficient_history"}
-        changes = [current - previous for previous, current in zip(values[-window - 1:-1], values[-window:])]
-        gains = [max(change, 0.0) for change in changes]
-        losses = [abs(min(change, 0.0)) for change in changes]
-        average_loss = _average(losses)
-        rsi = 100.0 if average_loss <= 1e-12 else 100.0 - 100.0 / (1.0 + _average(gains) / average_loss)
+        rsi = indicator_math.rsi(values[-window - 1:], window)[-1]
         if rsi < oversold and not has_position:
             return {"action": "BUY", "reason": f"rsi_oversold:{rsi:.2f}"}
         if rsi > overbought and has_position:
@@ -329,16 +323,10 @@ def _normalized_bars(bars: list[dict[str, Any]]) -> list[dict[str, float]] | Non
 
 
 def _average_true_range(values: list[dict[str, float]], window: int) -> float:
-    true_ranges: list[float] = []
-    for index in range(len(values) - window, len(values)):
-        previous_close = values[index - 1]["close"]
-        row = values[index]
-        true_ranges.append(max(
-            row["high"] - row["low"],
-            abs(row["high"] - previous_close),
-            abs(row["low"] - previous_close),
-        ))
-    return _average(true_ranges)
+    value = indicator_math.atr(values[-window - 1:], window)[-1]
+    if value is None:
+        raise ValueError("atr_requires_complete_window_and_previous_close")
+    return value
 
 
 def _trend_pullback_signal(
@@ -735,6 +723,8 @@ def strategy_signal_fingerprint(strategy_id: str, params: dict[str, Any]) -> str
         "params": params,
         "signal_engine_version": SIGNAL_ENGINE_VERSION,
         "source_hash": source_hash,
+        "indicator_formula_version": indicator_math.FORMULA_VERSION,
+        "indicator_source_hash": indicator_math.assert_loaded_source_current(),
     }
     raw = json.dumps(payload, ensure_ascii=True, sort_keys=True, separators=(",", ":"), default=str)
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()

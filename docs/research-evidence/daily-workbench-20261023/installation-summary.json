@@ -1,0 +1,35 @@
+{
+  "schema_version": "research-wheel-acceptance-v1",
+  "status": "PASS",
+  "wheel_sha256": "aa8d8c511d11bd9bf70af160aabceb899b8ac97bdc3616c4c9694419a9f51695",
+  "editable": false,
+  "pythonpath_used": false,
+  "system_site_packages": false,
+  "source_checkout_unchanged": true,
+  "runner_system": "Windows",
+  "source_commit": "7f61da41eb01ec8666ac6f96dd3b5754d99dfa3e",
+  "source_content_sha256": "3adcc31e3aba61d838751e2c6a2fccd48487447016a4fbc799e5e6ebb7d825dd",
+  "test_execution": {
+    "errors": 0,
+    "expected_failures": 0,
+    "failures": 0,
+    "network_policy": "OUTBOUND_PYTHON_SOCKET_ACCESS_DENIED",
+    "schema_version": "research-installed-test-results-v1",
+    "skipped": 0,
+    "status": "PASS",
+    "tests_run": 379,
+    "unexpected_successes": 0
+  },
+  "workflow_status": {
+    "trade_installed_workflow": "PASS",
+    "managed_task_installed_workflow": "PASS",
+    "configuration_consistency_installed_workflow": "PASS",
+    "strategy_switch_installed_workflow": "PASS",
+    "input_workflow_installed_workflow": "PASS",
+    "content_boundary_installed_workflow": "PASS",
+    "shared_funds_installed_workflow": "PASS"
+  },
+  "local_receipt_sha256": "0cd1fae75232255bc1e8d136a7d8a4a5cd394f10be2abfe63848d12fa616e97f",
+  "focused_python_tests": 53,
+  "frontend_tests": 30
+}

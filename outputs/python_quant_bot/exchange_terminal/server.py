@@ -35,6 +35,18 @@ from typing import Any, Callable
 from zoneinfo import ZoneInfo
 
 
+try:
+    from services.quant_workspace import QuantWorkspace
+    from services.terminal_market_data import TerminalMarketReader
+    from services.terminal_research import TerminalResearchService, validate_terminal_strategy_params
+    from services.terminal_history import TerminalHistoryReader
+except ModuleNotFoundError:  # Package import path.
+    from exchange_terminal.services.quant_workspace import QuantWorkspace
+    from exchange_terminal.services.terminal_market_data import TerminalMarketReader
+    from exchange_terminal.services.terminal_research import TerminalResearchService, validate_terminal_strategy_params
+    from exchange_terminal.services.terminal_history import TerminalHistoryReader
+
+
 RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_RUNTIME_READ_ONLY") or "1").strip().lower() not in {
     "0", "false", "no", "off",
 }
@@ -518,7 +530,17 @@ STOCK_QUOTE_CACHE: dict[str, Any] = {"time": 0, "rows": []}
 STOCK_SINGLE_QUOTE_CACHE: dict[str, dict[str, Any]] = {}
 STOCK_CANDLE_CACHE: dict[str, dict[str, Any]] = {}
 STOCK_HISTORY_PREWARM_SERVICE: StockHistoryPrewarmService | None = None
-RUNTIME_BUILD_GUARD = RuntimeBuildGuard(project_root=PROJECT_DIR, source_roots=[ROOT_DIR])
+RUNTIME_BUILD_GUARD = RuntimeBuildGuard(project_root=PROJECT_DIR, source_roots=[ROOT_DIR, PROJECT_DIR / "vendor" / "research"])
+TERMINAL_MARKET_READER = TerminalMarketReader(RUNTIME_DIR)
+QUANT_WORKSPACE = QuantWorkspace(
+    RUNTIME_DIR, read_only=RUNTIME_READ_ONLY, local_only=True,
+    mutation_guard=lambda: RUNTIME_BUILD_GUARD.snapshot(force=True),
+    service_factory=lambda core: TerminalResearchService(
+        core, market_reader=TERMINAL_MARKET_READER, catalog=terminal_strategy_catalog,
+        runner=lambda **kwargs: run_strategy_backtest(**kwargs, include_full_history=True),
+        fingerprint=strategy_implementation_fingerprint,
+        history_reader=TerminalHistoryReader(RUNTIME_DIR), group_reader=lambda: STOCK_MARKETS),
+)
 STOCK_HISTORY_PRIORITY = [
     "AAPL", "NVDA", "MSFT", "AMZN", "GOOGL", "META", "TSLA",
     "MU", "WDC", "STX", "PSTG", "NTAP", "AMD", "AVGO", "TSM", "ASML",
@@ -1070,6 +1092,25 @@ def choose_strategy(strategy_id: str) -> dict[str, Any]:
         "params": {},
         "unsupported": True,
     }
+
+
+def terminal_strategy_parameters(strategy: dict[str, Any]) -> dict[str, Any]:
+    if strategy_validation_capability(strategy["id"]).get("backtest_supported") is True:
+        return validate_terminal_strategy_params(strategy, {})
+    return dict(strategy.get("params") or {})
+
+
+def terminal_strategy_catalog() -> dict[str, Any]:
+    """Expose original research semantics without granting execution authority."""
+    return {"items": [{
+        **strategy,
+        "params": terminal_strategy_parameters(strategy),
+        "capability": strategy_validation_capability(strategy["id"]),
+        "implementation_fingerprint": strategy_implementation_fingerprint(strategy["id"], terminal_strategy_parameters(strategy)),
+        "execution_model": EXECUTION_MODEL_VERSION,
+        "equivalence_to_core": "NONE",
+        "paper_allowed": False, "live_allowed": False,
+    } for strategy in STRATEGIES]}
 
 
 def strategy_playbook(strategy_id: str) -> dict[str, Any]:
@@ -4343,6 +4384,7 @@ def run_strategy_backtest(
     slippage_bps: float = 2.0,
     evaluation_start_index: int | None = None,
     strategy_params: dict[str, Any] | None = None,
+    include_full_history: bool = False,
 ) -> dict[str, Any]:
     capability = strategy_validation_capability(strategy_id)
     if not capability.get("backtest_supported"):
@@ -4357,6 +4399,16 @@ def run_strategy_backtest(
     source = str(payload.get("source") or "")
     strategy = choose_strategy(strategy_id)
     bound_params = dict(strategy_params) if isinstance(strategy_params, dict) else dict(strategy.get("params") or {})
+    market_kind = "stock" if is_stock_symbol(symbol) else "crypto"
+    if payload.get("frozen_input") is True:
+        # This payload is supplied internally from the verified frozen input.
+        # Its asset identity takes precedence over the legacy ticker heuristic.
+        frozen_meta = payload.get("meta")
+        asset_markets = {"US_EQUITY": "stock", "EQUITY": "stock", "HK_EQUITY": "stock", "CRYPTO": "crypto"}
+        if (payload.get("symbol") != symbol or not isinstance(frozen_meta, dict)
+                or frozen_meta.get("asset_class") not in asset_markets):
+            raise ValueError("frozen_input_market_identity_invalid")
+        market_kind = asset_markets[frozen_meta["asset_class"]]
     report = run_causal_long_only_backtest(
         rows=list(payload.get("rows") or []),
         symbol=symbol,
@@ -4369,7 +4421,7 @@ def run_strategy_backtest(
         fee_rate=fee_rate,
         slippage_bps=slippage_bps,
         leverage=leverage,
-        market="stock" if is_stock_symbol(symbol) else "crypto",
+        market=market_kind,
         timeframe=str(payload.get("bar") or "1D"),
         evaluation_start_index=evaluation_start_index,
         signal_input=strategy_signal_input(strategy_id),
@@ -4388,8 +4440,8 @@ def run_strategy_backtest(
     full_curve = list(report.get("equity_curve") or [])
     report["segments"] = equity_segment_report(full_curve)
     report["risk_label"] = backtest_risk_label(report)
-    report["trades"] = full_trades[-24:]
-    report["equity_curve"] = full_curve[-240:]
+    report["trades"] = full_trades if include_full_history else full_trades[-24:]
+    report["equity_curve"] = full_curve if include_full_history else full_curve[-240:]
     return report
 
 
@@ -4542,6 +4594,15 @@ def strategy_backtest_report(query: dict[str, str], *, dataset_lineage_id: str =
     direction_mode = str(query.get("directionMode", "LONG_ONLY") or "LONG_ONLY").upper()
     if direction_mode != "LONG_ONLY":
         raise ValueError("当前因果回测内核仅支持 LONG_ONLY；做空模型尚未完成独立验证。")
+    if "strategyParams" in query:
+        # Explicit task parameters must never be silently changed on return
+        # to the original research form's narrower risk contract.
+        for field, fallback, lower, upper in (("positionPct", "35", 1, 100),
+                ("takeProfitPct", "2.4", 0, 80), ("stopLossPct", "1.2", 0, 80),
+                ("leverage", "1", 1, 1)):
+            value = float(query.get(field, fallback))
+            if not math.isfinite(value) or not lower <= value <= upper:
+                raise ValueError("original_form_parameter_not_compatible:" + field)
     position_pct = clamp(pct(query.get("positionPct", "35")), 1, 100)
     take_profit_pct = clamp(pct(query.get("takeProfitPct", "2.4")), 0, 80)
     stop_loss_pct = clamp(pct(query.get("stopLossPct", "1.2")), 0, 80)
@@ -4550,9 +4611,19 @@ def strategy_backtest_report(query: dict[str, str], *, dataset_lineage_id: str =
     market_payload = backtest_market_rows(symbol, limit, dataset_lineage_id=dataset_lineage_id)
     strategy = choose_strategy(strategy_id)
     strategy_params = dict(strategy.get("params") or {})
+    if "strategyParams" in query:
+        def unique_fields(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in result:
+                    raise ValueError("duplicate_strategy_parameter")
+                result[key] = value
+            return result
+        supplied = json.loads(query["strategyParams"], object_pairs_hook=unique_fields)
+        strategy_params = validate_terminal_strategy_params(strategy, supplied)
     implementation_fingerprint = strategy_implementation_fingerprint(strategy_id, strategy_params)
     backtest_params = {
-        "strategy_params": strategy.get("params", {}),
+        "strategy_params": strategy_params,
         "position_pct": round(position_pct, 4),
         "take_profit_pct": round(take_profit_pct, 4),
         "stop_loss_pct": round(stop_loss_pct, 4),
@@ -11822,6 +11893,11 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
         print(f"{self.address_string()} - {fmt % args}")
 
     def do_OPTIONS(self) -> None:
+        if self.path.startswith(("/api/quant/", "/quant/")):
+            self.send_response(405)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
         origin = allowed_cors_origin(self)
         if self.headers.get("Origin") and not origin:
             self.send_response(403)
@@ -11837,6 +11913,8 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         if block_non_loopback_client(self):
+            return
+        if QUANT_WORKSPACE.handle(self):
             return
         parsed = urllib.parse.urlparse(self.path)
         query = {key: values[-1] for key, values in urllib.parse.parse_qs(parsed.query).items()}
@@ -11878,6 +11956,8 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         if block_non_loopback_client(self):
+            return
+        if QUANT_WORKSPACE.handle(self):
             return
         parsed = urllib.parse.urlparse(self.path)
         if parsed.path not in POST_API_PATHS | MUTATION_PATHS:
@@ -12025,6 +12105,22 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                     }),
                     423,
                 )
+                return
+            if path in {"/api/local/terminal-markets", "/api/local/terminal-market", "/api/local/terminal-account"}:
+                QUANT_WORKSPACE._boundary(self, authenticated=False)
+                if path == "/api/local/terminal-markets":
+                    json_response(self, {"ok": True, **TERMINAL_MARKET_READER.catalog()})
+                elif path == "/api/local/terminal-market":
+                    snapshot = TERMINAL_MARKET_READER(query.get("symbol", ""), limit=int(query.get("limit", "1600")), source_id=query.get("source_id") or None)
+                    json_response(self, {"ok": True, "available": bool(snapshot.get("rows")), **snapshot})
+                else:
+                    # This is the saved in-memory paper state, without refreshing
+                    # prices, polling a broker, marking to market, or persisting it.
+                    saved = PAPER_ACCOUNT.snapshot(0.0)
+                    json_response(self, {"ok": True, "paper": saved,
+                        "source": "saved_local_state", "valuation": "saved_entry_price",
+                        "as_of": int(STATE_FILE.stat().st_mtime * 1000) if STATE_FILE.is_file() else None,
+                        "read_only": True, "paper_allowed": False, "live_allowed": False})
                 return
             if path == "/api/health":
                 runtime_build = RUNTIME_BUILD_GUARD.snapshot()
@@ -12859,6 +12955,7 @@ def main() -> None:
     finally:
         if guardian_started:
             stop_guardian_worker()
+        QUANT_WORKSPACE.close()
         server.server_close()
 
 

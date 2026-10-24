@@ -401,11 +401,23 @@ function numericMarketValue(value) {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+function syncQuoteFieldLabels(stock, session = null) {
+  const reference = stock && (session?.active_session !== "regular" || session?.active_price_is_fallback);
+  const highLabel = $("high24h")?.parentElement?.querySelector("span");
+  const lowLabel = $("low24h")?.parentElement?.querySelector("span");
+  if (highLabel) highLabel.textContent = stock ? `常规高${reference ? " · 参考" : ""}` : "24h 高";
+  if (lowLabel) lowLabel.textContent = stock ? `常规低${reference ? " · 参考" : ""}` : "24h 低";
+}
+
 function stockQuoteContextSource(context = {}) {
-  return String(context.source || context.origin_source || context.originSource || "").trim();
+  return String(context?.source || context?.origin_source || context?.originSource || "").trim();
 }
 
 function stockQuoteContextForMarket(market = currentMarket()) {
+  if (state.frozenQuantReplay) {
+    const view = frozenReplayPresentation();
+    return view.row ? {symbol:state.symbol,source:"frozen_research",last:view.row.close,ts:view.row.ts ?? view.row.ts_ms,frozen:true} : null;
+  }
   if (state.stockQuoteContext?.symbol === state.symbol && Number(state.stockQuoteContext.last) > 0) {
     return state.stockQuoteContext;
   }
@@ -421,6 +433,7 @@ function stockQuoteContextForMarket(market = currentMarket()) {
 }
 
 function acceptStockQuoteContext(data = {}) {
+  if (state.frozenQuantReplay) return false;
   if (!isStockMarket(data.symbol || data.instId || state.symbol)) return true;
   const incoming = {
     ...data,
@@ -447,6 +460,7 @@ function acceptStockQuoteContext(data = {}) {
 }
 
 function activeStockPriceLogRows(limit = 48) {
+  if (state.frozenQuantReplay) return [];
   const context = stockQuoteContextForMarket();
   const source = window.HakimiStockQuoteGuard?.normalizeSource
     ? window.HakimiStockQuoteGuard.normalizeSource(stockQuoteContextSource(context))
@@ -468,6 +482,10 @@ function marketVolumeForDisplay(market = {}) {
 }
 
 function activeSymbolMetaText(market = currentMarket()) {
+  if (state.frozenQuantReplay) {
+    const view = frozenReplayPresentation();
+    return `${view.asset} / ${view.label} / ${view.source} / 截止 ${view.cutoff} / 非实时`;
+  }
   const stock = market.type === "stock";
   const marketSession = state.marketSession || market.marketSession || {};
   const activeSessionPrice = Number(marketSession.active_price || 0);
@@ -477,7 +495,50 @@ function activeSymbolMetaText(market = currentMarket()) {
   return `${marketTypeLabel(market)} / ${stock ? stockSourceLabel(market) : "OKX 实时行情"}${sessionDetail} / 仅研究观察`;
 }
 
+function frozenReplayPresentation() {
+  const replay = state.frozenQuantReplay;
+  if (!replay) return null;
+  const rows = state.candles || [];
+  const end = state.replay?.active
+    ? Math.max(0,Math.min(rows.length,Math.floor(Number(state.replay.index) || 0))) : rows.length;
+  const row = end ? rows[end-1] : null;
+  const labels = {JUDGMENT_FROZEN_INPUT:"判断引用行情",JUDGMENT_FROZEN_RUN:"判断引用回测",STRUCTURE_FROZEN:"冻结结构观察",EXIT_RESEARCH_FROZEN:"冻结出场研究"};
+  return {row,count:end,cutoff:row?.date || "未到首根",label:labels[replay.source] || "冻结结果复盘",
+    source:replay.meta?.provider || replay.meta?.source || "封存输入",
+    asset:replay.meta?.asset_class === "EQUITY" ? "股票" : replay.meta?.asset_class === "CRYPTO" ? "数字资产" : "冻结标的",
+    priceBasis:replay.meta?.price_basis || "口径未记录",inputId:replay.input_id};
+}
+
+function renderFrozenReplaySummary() {
+  const view = frozenReplayPresentation();
+  if (!view) return false;
+  const write = (id,value) => { if ($(id)) $(id).textContent = value; };
+  const price = (value) => Number.isFinite(value) ? priceText(value) : "--";
+  write("activeSymbol",state.symbol);
+  const meta = document.querySelector(".symbol-meta");
+  if (meta) meta.textContent = activeSymbolMetaText();
+  write("lastPrice",price(view.row?.close));
+  write("priceChange",`${view.cutoff} 收盘 · 冻结非实时`);
+  if ($("lastPrice")) $("lastPrice").className = "last-price flat";
+  if ($("priceChange")) $("priceChange").className = "price-change flat";
+  for (const [id,key,label] of [["high24h","high","截止日高"],["low24h","low","截止日低"]]) {
+    write(id,price(view.row?.[key]));
+    if ($(id)) $(id).title = "仅当前回放截止日这根完整 K 线";
+    const caption = $(id)?.parentElement?.querySelector("span");
+    if (caption) caption.textContent = label;
+  }
+  write("vol24hLabel","截止日成交量");
+  write("vol24h",Number.isFinite(view.row?.volume) ? compact(view.row.volume) : "--");
+  write("bidAsk","--");
+  if ($("bidAsk")) $("bidAsk").title = "冻结日线没有盘口快照";
+  write("shellDataSource",`${view.label} / ${state.symbol} / ${view.cutoff}`);
+  setConnection(`冻结复盘 · ${state.symbol} · 截止 ${view.cutoff}`,"flat");
+  renderSideInsights(); renderLiveSourceBar(); renderBook(); renderTrades();
+  return true;
+}
+
 function syncActiveSymbolHeader(statusText = "") {
+  if (state.frozenQuantReplay) { renderFrozenReplaySummary(); renderMarketWorkflowStrip(); return; }
   const market = currentMarket();
   const stock = market.type === "stock";
   const spot = market.type === "spot";
@@ -495,12 +556,14 @@ function syncActiveSymbolHeader(statusText = "") {
   $("low24h").textContent = market.low24h ? number(market.low24h, price > 100 ? 2 : 4) : "--";
   $("vol24hLabel").textContent = stock ? "当日成交量" : spot ? "24h 成交额" : "24h 成交量";
   $("vol24h").textContent = compact(marketVolumeForDisplay(market));
+  syncQuoteFieldLabels(stock, state.marketSession || market.marketSession);
   $("bidAsk").textContent = bidAskText(market.bidPx, market.askPx, price > 100 ? 2 : 4);
   setConnection(statusText || (stock ? "股票数据准备中" : "行情数据准备中"), "flat");
   renderMarketWorkflowStrip();
 }
 
 function syncActiveMarketQuote(reason = "报价已同步") {
+  if (state.frozenQuantReplay) return false;
   const market = currentMarket();
   const last = numericMarketValue(market.price);
   if (!last) return false;
@@ -591,6 +654,14 @@ function renderMarketWorkflowStrip() {
   const dataState = quality.mode || (quality.realtime ? "实时" : quality.fallback ? "兜底" : "等待");
   const dataDetail = quality.sourceText ? `${quality.sourceText}${quality.freshnessText ? ` / ${quality.freshnessText}` : ""}` : "等待行情快照";
   workflowSetCard("workflowDataCard", "workflowDataState", "workflowDataDetail", dataTone, dataState, dataDetail);
+
+  if (state.frozenQuantReplay) {
+    workflowSetCard("workflowTrendCard", "workflowTrendState", "workflowTrendDetail", "flat", "冻结复盘", "观察范围以图中截止位置为准");
+    workflowSetCard("workflowAnomalyCard", "workflowAnomalyState", "workflowAnomalyDetail", "flat", "未读取雷达", "当前仅查看冻结数据");
+    workflowSetCard("workflowEvidenceCard", "workflowEvidenceState", "workflowEvidenceDetail", "flat", "冻结来源", "可展开核对原始来源与记录编号");
+    workflowSetCard("workflowActionCard", "workflowActionState", "workflowActionDetail", "flat", "复核当时信息", "确认时点与发生时点分开查看");
+    return;
+  }
 
   const trendSummary = workflowTrendLabel(trend, local);
   const trendTone = "flat";
@@ -717,6 +788,8 @@ function renderInterfaceView() {
   document.querySelectorAll("[data-interface-view]").forEach((button) => {
     button.classList.toggle("active", button.dataset.interfaceView === view);
   });
+  window.HakimiQuantModule?.onView(view);
+  syncWorkspaceNav(({platform:".platform-control-center",trade:".ticker-header",bot:".strategy-desk",marketai:".ticker-header",research:".ticker-header",system:".history-panel",all:".ticker-header"})[view]);
   const meta = INTERFACE_VIEWS[view];
   const banner = $("interfaceFocusBanner");
   if (banner) {
@@ -733,6 +806,11 @@ function renderInterfaceView() {
 
 function setInterfaceView(view, persist = true) {
   const requestedView = INTERFACE_VIEWS[view] ? view : "platform";
+  if (state.frozenQuantReplay && ["marketai","research"].includes(requestedView)) {
+    $("terminalReplayDetail").textContent = "当前为冻结记录 " + (state.frozenQuantReplay.run_id || state.frozenQuantReplay.judgment_id || state.frozenQuantReplay.exit_run_id || state.frozenQuantReplay.input_id) + "。请先退出冻结复盘，再打开当前行情的AI分析或异动雷达。";
+    $("terminalReplayNotice").scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
   state.interfaceView = requestedView === "trade" && runtime.forceMarketAiUntil > Date.now() ? "marketai" : requestedView;
   if (persist) {
     try {
@@ -742,7 +820,17 @@ function setInterfaceView(view, persist = true) {
     }
   }
   renderInterfaceView();
-  if (["trade", "marketai", "research", "all"].includes(state.interfaceView)) {
+  if (window.HAKIMI_RUNTIME_MODE?.localOnly) {
+    if (state.interfaceView === "trade" && !state.frozenQuantReplay) loadTerminalLocalMarket(state.symbol).catch(showTerminalLocalError);
+    if (state.interfaceView === "bot") loadTerminalLocalAccount().catch(showTerminalLocalError);
+    if (state.interfaceView === "system") {
+      loadProfile().catch(() => {});
+      loadLedger().catch(() => {});
+      loadHistoryTable().catch(() => {});
+    }
+    return;
+  }
+  if (!state.frozenQuantReplay && ["trade", "marketai", "research", "all"].includes(state.interfaceView)) {
     const needsChartLoad = state.chartDataSymbol !== state.symbol
       || !state.candles.length
       || !chartIsVisibleForSymbol(state.symbol)
@@ -818,6 +906,10 @@ function renderDesktopStatus() {
   setLamp("riskStatusLamp", riskOk ? "up" : risk === "--" ? "flat" : "down");
   $("desktopRiskText").textContent = risk;
   $("shellDataSource").textContent = `${state.desktop.quoteSource || "AUTO"} / ${market.source?.toUpperCase?.() || "LOCAL"}`;
+  if (state.frozenQuantReplay) {
+    const view = frozenReplayPresentation();
+    $("shellDataSource").textContent = `${view.label} / ${state.symbol} / ${view.cutoff}`;
+  }
   $("shellGuardState").textContent = state.desktop.mode === "LOCKED" ? "实盘永久硬锁" : state.desktop.mode === "WATCH" ? "观察模式" : "模拟未授权";
   renderStrategyCommandStrip();
 }
@@ -1188,6 +1280,12 @@ function setupChartToolMenus() {
       const button = moved.get(id);
       if (button) body.appendChild(button);
     });
+    if (group.id === "indicator") {
+      const note = document.createElement("p");
+      note.className = "section-note";
+      note.textContent = "图表指标：统一口径 v1。MA 使用完整周期；BOLL 使用总体标准差。历史成交与回测结果保持原记录。";
+      body.appendChild(note);
+    }
     popover.appendChild(body);
   });
   if (canvas.parentElement === panel) {
@@ -1385,6 +1483,7 @@ function priceFitsCurrentChart(price, referencePrice) {
 }
 
 function chartScaleAnchorPrices(rawMinPrice, rawMaxPrice, referencePrice) {
+  if (state.frozenQuantReplay) return [];
   const rawRange = chartPriceSpan(rawMinPrice, rawMaxPrice);
   const extension = Math.max(rawRange * 0.55, Math.abs(referencePrice) * 0.012, 1e-10);
   return strategyAnchorLines()
@@ -1652,6 +1751,7 @@ function activeStockChartQuoteGuard(data = {}, symbol = state.symbol) {
 }
 
 function updateMarketFromTicker(data, options = {}) {
+  if (state.frozenQuantReplay) return;
   if (!data?.instId && !data?.symbol) return;
   const key = data.symbol || data.instId;
   const last = Number(data.last);
@@ -1937,6 +2037,18 @@ function renderSideInsights() {
   document.querySelectorAll("[data-side-insight]").forEach((button) => {
     button.classList.toggle("active", button.dataset.sideInsight === state.sideInsight);
   });
+  if (state.frozenQuantReplay) {
+    const view = frozenReplayPresentation(), row = view.row;
+    if ($("sideInsightState")) $("sideInsightState").textContent = `${state.symbol} / ${view.label}`;
+    target.innerHTML = [
+      sideInsightRow("回放截止",view.cutoff,`${view.count} 根完整 K 线 · ${view.priceBasis}`),
+      sideInsightRow("截止日收盘",row ? priceText(row.close) : "--","历史值，非当前报价"),
+      sideInsightRow("截止日高 / 低",row ? `${priceText(row.high)} / ${priceText(row.low)}` : "--","仅截止日这一根 K 线"),
+      sideInsightRow("截止日成交量",row ? compact(row.volume) : "--",view.source),
+      sideInsightRow("盘口 / 资金 / 新闻 / 估值","未封存，无法提供当时值","当前报价与事后研究内容不进入冻结复盘"),
+    ].join("");
+    return;
+  }
   const market = currentMarket();
   const last = Number(state.lastPrice || String(market.price || "").replaceAll(",", ""));
   const high = Number(market.high24h || $("high24h")?.textContent?.replaceAll(",", ""));
@@ -2134,12 +2246,20 @@ function insightRecordRows(records = [], labelKeys = [], valueKeys = [], detailK
 
 function selectStockSession(session = "all") {
   if (!isStockMarket()) return;
+  if (state.frozenQuantReplay || window.HAKIMI_RUNTIME_MODE?.localOnly) {
+    $("chartStatus").textContent = state.frozenQuantReplay
+      ? "冻结复盘保持原封存时段；请先退出复盘再切换行情。"
+      : "本地模式按所选日线来源展示真实时段；请使用图表上方的来源选择，未提供盘前、盘后或夜盘分钟切换。";
+    syncStockSessionTabs();
+    return;
+  }
   state.stockSession = ["all", "pre", "regular", "post", "overnight"].includes(session) ? session : "all";
   if (!isStockMinuteBar(state.bar)) {
     state.bar = "1m";
     syncTimeframeTabs();
   }
   state.chartMode = "line";
+  resetAiResearchContext();
   syncStockSessionTabs();
   state.chartView.offset = 0;
   state.chartView.visible = stockVisibleBarsForBar(state.bar);
@@ -2156,6 +2276,9 @@ function syncStockSessionTabs() {
   tabs.classList.toggle("hidden", !isStockMarket());
   tabs.querySelectorAll("button").forEach((button) => {
     button.classList.toggle("active", button.dataset.stockSession === state.stockSession);
+    const fixedSource = Boolean(state.frozenQuantReplay || window.HAKIMI_RUNTIME_MODE?.localOnly);
+    button.disabled = fixedSource;
+    button.title = fixedSource ? "日线时段由封存行情或所选本地来源确定" : "";
   });
   syncChartControlLabels();
 }
@@ -2414,6 +2537,7 @@ function focusActiveChart(smooth = true) {
 }
 
 function selectSymbol(symbol, options = {}) {
+  if (state.frozenQuantReplay) exitFrozenQuantReplay(false);
   const sameSymbol = state.symbol === symbol;
   const version = ++runtime.symbolVersion;
   clearSymbolTasks();
@@ -2421,6 +2545,18 @@ function selectSymbol(symbol, options = {}) {
   runtime.stockQuoteSeq += 1;
   runtime.stockQuoteInFlight = false;
   state.symbol = symbol;
+  resetAiResearchContext();
+  if (window.HAKIMI_RUNTIME_MODE?.localOnly) {
+    state.bar = "1Dutc";
+    state.chartDataSymbol = "";
+    state.candles = [];
+    state.chartView.offset = 0;
+    state.latestStrategyAnalysis = null;
+    renderMarkets(); syncTimeframeTabs(); syncStockSessionTabs();
+    loadTerminalLocalMarket(symbol, version).catch(showTerminalLocalError);
+    if (options.focusChart) focusModule(".ticker-header");
+    return;
+  }
   state.marketSession = null;
   state.stockQuoteContext = null;
   state.marketSnapshotContext = null;
@@ -2485,12 +2621,17 @@ function selectSymbol(symbol, options = {}) {
 }
 
 function setConnection(text, kind = "flat") {
+  if (state.frozenQuantReplay) {
+    const view = frozenReplayPresentation();
+    text = `冻结复盘 · ${state.symbol} · 截止 ${view.cutoff}`; kind = "flat";
+  }
   const el = $("connectionState");
   el.textContent = text;
   el.className = kind;
 }
 
 async function api(path, options = {}) {
+  assertTerminalReplayRequest(path);
   const response = await fetch(path, { cache: "no-store", ...options });
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
   const data = await response.json();
@@ -2499,6 +2640,7 @@ async function api(path, options = {}) {
 }
 
 async function apiPost(path, payload) {
+  assertTerminalReplayRequest(path);
   const idempotencyKey = String(payload?.idempotencyKey || "");
   const response = await fetch(path, {
     method: "POST",
@@ -5411,6 +5553,7 @@ async function reviewPlatformEvidence() {
 }
 
 async function apiPostStream(path, payload, onEvent, signal) {
+  assertTerminalReplayRequest(path);
   const response = await fetch(path, {
     method: "POST",
     cache: "no-store",
@@ -5461,6 +5604,7 @@ function escapeHtml(value) {
 
 function candleFromOkx(row) {
   return {
+    ...([0, 1, "0", "1"].includes(row[8]) ? { complete: Number(row[8]) === 1 } : {}),
     ts: Number(row[0]),
     open: Number(row[1]),
     high: Number(row[2]),
@@ -5471,7 +5615,14 @@ function candleFromOkx(row) {
 }
 
 function candleFromCsv(row) {
+  const completion = {};
+  for (const key of ["complete", "provisional"]) {
+    const value = row[key];
+    if (value === true || value === false) completion[key] = value;
+    else if (value === 0 || value === 1 || value === "0" || value === "1") completion[key] = Number(value) === 1;
+  }
   return {
+    ...completion,
     ts: Number(row.ts_ms),
     open: Number(row.open),
     high: Number(row.high),
@@ -5482,7 +5633,14 @@ function candleFromCsv(row) {
 }
 
 function candleFromApi(row) {
+  const completion = {};
+  for (const key of ["complete", "provisional"]) {
+    const value = row[key];
+    if (value === true || value === false) completion[key] = value;
+    else if (value === 0 || value === 1 || value === "0" || value === "1") completion[key] = Number(value) === 1;
+  }
   return {
+    ...completion,
     ts: Number(row.ts ?? row.ts_ms ?? row.time ?? 0),
     open: Number(row.open ?? row.close ?? 0),
     high: Number(row.high ?? row.close ?? 0),
@@ -5753,6 +5911,9 @@ function snapshotConsumerLabel(value = "") {
 
 function applySharedSnapshotContext(context = {}) {
   if (!context?.snapshot_id || (context.symbol && context.symbol !== state.symbol)) return;
+  const canonicalBar = (value) => ({ "1dutc": "1d", day: "1d", daily: "1d" }[String(value || "").toLowerCase()] || String(value || "").toLowerCase());
+  if (context.bar && canonicalBar(context.bar) !== canonicalBar(state.bar)) return;
+  if (isStockMarket() && context.session && state.stockSession && context.session !== state.stockSession) return;
   const consumers = [...new Set([
     ...((state.marketSnapshotContext?.symbol === state.symbol && state.marketSnapshotContext?.consumers) || []),
     ...(context.consumers || []),
@@ -5961,7 +6122,14 @@ function normalizeChartRows(rows = []) {
     const high = Number.isFinite(rawHigh) && rawHigh > 0 ? Math.max(rawHigh, open, close) : Math.max(open, close);
     const low = Number.isFinite(rawLow) && rawLow > 0 ? Math.min(rawLow, open, close) : Math.min(open, close);
     const ts = Number.isFinite(Number(row.ts)) && Number(row.ts) > 0 ? Number(row.ts) : Date.now() - (rows.length - index) * barToMs(state.bar);
+    const completion = {};
+    for (const key of ["complete", "provisional"]) {
+      const value = row[key];
+      if (value === true || value === false) completion[key] = value;
+      else if (value === 0 || value === 1 || value === "0" || value === "1") completion[key] = Number(value) === 1;
+    }
     return {
+      ...completion,
       ts,
       open,
       high,
@@ -5980,6 +6148,7 @@ function stockSessionAllowsPriceOverlay(symbol, marketSession = state.marketSess
 }
 
 function applyChartRows({ symbol, bar, rows, status, source, cacheKey, warning = "", originSource = "", latestTs = 0, latestAt = "", realtime = null, fallback = false, cached = false, cacheAgeMs = 0, dataAgeMs = null, candleQuality = null, marketSession = null }) {
+  if (state.frozenQuantReplay) return false;
   const cleanRows = normalizeChartRows(rows);
   if (!cleanRows.length) return false;
   if (symbol === state.symbol && marketSession) state.marketSession = marketSession;
@@ -6288,6 +6457,7 @@ function stockQuoteOverlayDecision(price, candleClose, quoteData = {}) {
 }
 
 function syncLiveCandle(price, quoteData = {}) {
+  if (state.frozenQuantReplay || window.HAKIMI_RUNTIME_MODE?.localOnly) return;
   const parsed = Number(price);
   if (!Number.isFinite(parsed) || !state.candles.length) return;
   if (state.chartDataSymbol && state.chartDataSymbol !== state.symbol) return;
@@ -6393,25 +6563,16 @@ function maybeRefreshActiveStockCandles(reason = "quote", manual = false) {
 }
 
 function movingAverage(candles, window) {
-  return candles.map((_, index) => {
-    if (index + 1 < window) return null;
-    const slice = candles.slice(index + 1 - window, index + 1);
-    return slice.reduce((sum, candle) => sum + candle.close, 0) / window;
-  });
+  return globalThis.HakimiIndicators.sma(candles.map((candle) => candle.close), window);
 }
 
 function bollingerBands(candles, window = 20, mult = 2) {
-  return candles.map((_, index) => {
-    if (index + 1 < window) return null;
-    const slice = candles.slice(index + 1 - window, index + 1).map((candle) => candle.close);
-    const mid = slice.reduce((sum, value) => sum + value, 0) / window;
-    const variance = slice.reduce((sum, value) => sum + (value - mid) ** 2, 0) / window;
-    const band = Math.sqrt(variance) * mult;
-    return { upper: mid + band, mid, lower: mid - band };
-  });
+  return globalThis.HakimiIndicators.bollinger(candles.map((candle) => candle.close), window, mult);
 }
 
 async function loadCandles(requestVersion = runtime.symbolVersion) {
+  if (state.frozenQuantReplay) return;
+  if (window.HAKIMI_RUNTIME_MODE?.localOnly) return loadTerminalLocalMarket(state.symbol, requestVersion);
   runtime.chartRequestAbortController?.abort();
   const controller = new AbortController();
   runtime.chartRequestAbortController = controller;
@@ -6635,11 +6796,15 @@ async function refreshStockCandlesInBackground({ requestVersion, requestSymbol, 
 }
 
 async function loadLocalHistory() {
+  if (state.frozenQuantReplay) exitFrozenQuantReplay(false);
+  if (window.HAKIMI_RUNTIME_MODE?.localOnly) return loadTerminalLocalMarket(state.symbol);
   if (state.symbol !== "BTC-USDT") {
     $("chartStatus").textContent = "Local history currently contains BTC-USDT only";
     return;
   }
+  const requestVersion = runtime.symbolVersion, requestSymbol = state.symbol;
   const local = await api("/api/local/btc-daily?limit=1000");
+  if (state.frozenQuantReplay || runtime.symbolVersion !== requestVersion || state.symbol !== requestSymbol) return;
   state.candles = (local.rows || []).map(candleFromCsv);
   state.chartView.offset = 0;
   $("chartStatus").textContent = "Local BTC history loaded";
@@ -6654,6 +6819,7 @@ function stockQuoteStamp(data = {}) {
 }
 
 function addStockPriceLog(data = {}, source = "STOCK") {
+  if (state.frozenQuantReplay) return;
   if (!isStockMarket()) return;
   const price = Number(data.last);
   if (!Number.isFinite(price) || price <= 0) return;
@@ -6694,6 +6860,7 @@ function addStockPriceLog(data = {}, source = "STOCK") {
 }
 
 function mergeFutuTickerRowsIntoStockLog(data = {}) {
+  if (state.frozenQuantReplay) return;
   if (!isStockMarket() || data.symbol !== state.symbol) return;
   const rows = (data.ticker || []).slice(-20).reverse();
   if (!rows.length) return;
@@ -6732,6 +6899,7 @@ function canonicalTickerSymbol(value = "") {
 }
 
 function updateTicker(data, source = "WS") {
+  if (state.frozenQuantReplay) return;
   const last = Number(data.last);
   if (!Number.isFinite(last) || last <= 0) return;
   const incomingSymbol = canonicalTickerSymbol(data.symbol || data.instId || "");
@@ -6808,8 +6976,11 @@ function updateTicker(data, source = "WS") {
 }
 
 async function loadMarkets() {
+  if (state.frozenQuantReplay) return;
+  if (window.HAKIMI_RUNTIME_MODE?.localOnly) return loadTerminalLocalMarkets();
   try {
     const data = await api("/api/markets");
+    if (state.frozenQuantReplay) return;
     const existing = new Map(markets.map((item) => [item.symbol, item]));
     markets = (data.markets || markets).map((item) => {
       const prev = existing.get(item.symbol) || {};
@@ -7807,6 +7978,7 @@ function maybeAutoRefreshStockResearch(data = state.research || {}, stock = data
 }
 
 function maybeAutoRefreshChartStale(quality = state.chartQuality) {
+  if (state.frozenQuantReplay || window.HAKIMI_RUNTIME_MODE?.localOnly) return;
   const symbol = quality?.symbol || state.symbol;
   if (!chartQualityNeedsStockRefresh(quality, symbol) || symbol !== state.symbol) return;
   refreshStaleStockData(symbol, "chart_quality", { auto: true }).catch(() => {});
@@ -8587,6 +8759,13 @@ function setLiveSourceItem(itemId, stateId, detailId, tone, stateText, detailTex
 
 function renderLiveSourceBar() {
   if (!$("liveSourceBar")) return;
+  if (state.frozenQuantReplay) {
+    const view = frozenReplayPresentation();
+    setLiveSourceItem("liveSourceBarFutu","liveFutuState","liveFutuDetail","flat","冻结复盘","当前报价不用于此图；没有当时盘口快照");
+    setLiveSourceItem("liveSourceBarCandle","liveCandleState","liveCandleDetail","flat",view.label,`${state.symbol} / 截止 ${view.cutoff} / ${view.count} 根 / ${view.source} / ${view.priceBasis}`);
+    setLiveSourceItem("liveSourceBarNews","liveNewsState","liveNewsDetail","flat","当时资料未封存","无法提供截止日新闻与财报快照；不引用当前补全内容");
+    return;
+  }
   const stock = isStockMarket();
   const futu = state.futu || {};
   const futuOnline = futuOpenDOnline(futu);
@@ -8716,6 +8895,7 @@ async function loadResearchPanel(requestVersion = runtime.symbolVersion) {
 }
 
 function updateBook(data) {
+  if (state.frozenQuantReplay) return;
   state.orderBook = {
     asks: (data.asks || []).slice(0, 8).map((row) => ({ price: Number(row[0]), size: Number(row[1]) })).reverse(),
     bids: (data.bids || []).slice(0, 8).map((row) => ({ price: Number(row[0]), size: Number(row[1]) })),
@@ -8793,6 +8973,16 @@ function renderStockOrderBook() {
 }
 
 function renderBook() {
+  if (state.frozenQuantReplay) {
+    $("asks").innerHTML = "";
+    $("bids").innerHTML = "";
+    $("midPrice").textContent = "--";
+    $("bookSpread").textContent = "冻结复盘仅展示封存行情与已记录成交，不展示实时盘口";
+    if ($("bookPressureBar")) $("bookPressureBar").textContent = "冻结复盘";
+    if ($("microSignal")) { $("microSignal").className = "micro-signal flat"; $("microSignal").textContent = "冻结复盘未封存盘口与实时逐笔，微观盘面不可用"; }
+    renderBookStrategyHint();
+    return;
+  }
   if (isStockMarket()) {
     renderStockOrderBook();
     return;
@@ -8856,6 +9046,7 @@ function applyBookPrice(price, bookSide = "") {
 }
 
 function addTrades(rows) {
+  if (state.frozenQuantReplay) return;
   for (const row of rows) {
     state.trades.unshift({
       price: Number(row.px),
@@ -8884,6 +9075,7 @@ function filteredTrades() {
 }
 
 function renderStockMicroSignal() {
+  if (state.frozenQuantReplay) { renderBook(); return; }
   if (!$("microSignal")) return;
   const rows = activeStockPriceLogRows(12);
   const latest = Number(rows[0]?.price || state.lastPrice || 0);
@@ -8953,6 +9145,14 @@ function renderStockPriceLog() {
 }
 
 function renderTrades() {
+  if (state.frozenQuantReplay) {
+    const view = frozenReplayPresentation();
+    const count = view.row ? (state.frozenQuantReplay.trades || []).filter(trade => typeof trade.date === "string" && trade.date <= view.cutoff).length : 0;
+    $("tradeCount").textContent = `${count} 条回测记录`;
+    $("trades").innerHTML = "";
+    if ($("tradeTapeSummary")) $("tradeTapeSummary").textContent = `冻结截止 ${view.cutoff} · 未封存实时逐笔；已记录回测成交见原图`;
+    return;
+  }
   if (isStockMarket()) {
     renderStockPriceLog();
     return;
@@ -8995,6 +9195,7 @@ function renderTrades() {
 }
 
 function renderMicroSignal() {
+  if (state.frozenQuantReplay) { renderBook(); return; }
   if (!$("microSignal")) return;
   const recent = state.trades.slice(0, 24);
   const buyVolume = recent.filter((trade) => trade.side === "buy").reduce((sum, trade) => sum + Number(trade.size || 0), 0);
@@ -9018,6 +9219,10 @@ function renderMicroSignal() {
 function renderBookStrategyHint() {
   const target = $("bookStrategyHint");
   if (!target) return;
+  if (state.frozenQuantReplay) {
+    target.className = "book-strategy-hint flat"; target.textContent = "冻结研究复盘 · 当前策略规划与持仓不作为当时依据";
+    target.title = "没有冻结的盘口策略快照"; delete target.dataset.rawPaperArmed; return;
+  }
   const paper = state.paper || {};
   const analysis = state.latestStrategyAnalysis || paper.ai_analysis || {};
   const probability = Number(analysis.profit_probability || 0);
@@ -9032,6 +9237,7 @@ function renderBookStrategyHint() {
 }
 
 function updateCandle(row) {
+  if (state.frozenQuantReplay) return;
   const candle = candleFromOkx(row);
   const last = state.candles[state.candles.length - 1];
   if (last && last.ts === candle.ts) {
@@ -9061,7 +9267,8 @@ function clampNumber(value, min, max) {
 function visibleCandles() {
   const source = state.replay.active ? state.candles.slice(0, clampNumber(state.replay.index, 1, state.candles.length || 1)) : state.candles;
   const total = source.length;
-  const visible = clampNumber(state.chartView.visible, 40, Math.max(40, Math.min(800, total || 180)));
+  const maximum = state.frozenQuantReplay ? total : Math.min(800, total || 180);
+  const visible = clampNumber(state.chartView.visible, 40, Math.max(40, maximum));
   state.chartView.visible = visible;
   const maxOffset = Math.max(0, total - visible);
   state.chartView.offset = clampNumber(state.chartView.offset, 0, maxOffset);
@@ -9077,7 +9284,14 @@ function visibleCandles() {
 
 function formatCandleTime(ts) {
   const date = new Date(ts);
-  if (state.bar === "1Dutc") return date.toISOString().slice(0, 10);
+  if (["1d", "1dutc"].includes(String(state.bar).toLowerCase())) {
+    const frozenDate = state.frozenQuantReplay && (state.candles || []).find((row) => row.ts === ts)?.date;
+    if (typeof frozenDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(frozenDate)) return frozenDate;
+    if (String(state.symbol || "").startsWith("HK.")) {
+      return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Hong_Kong", year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
+    }
+    return date.toISOString().slice(0, 10);
+  }
   return date.toLocaleString("zh-CN", { hour12: false, month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" });
 }
 
@@ -9323,6 +9537,15 @@ function drawStrategyAnchors(ctx, meta) {
 function renderChartStrategyOverlay() {
   const target = $("chartStrategyOverlay");
   if (!target) return;
+  if (state.frozenQuantReplay) {
+    target.className = "chart-strategy-overlay muted evidence-neutral";
+    target.textContent = ["STRUCTURE_FROZEN","EXIT_RESEARCH_FROZEN"].includes(state.frozenQuantReplay.source)
+      ? "已确认结构与独立入场样本 · 仅显示截止位置已经可知的标注和阈值，不生成账户成交。"
+      : state.frozenQuantReplay.source === "JUDGMENT_FROZEN_INPUT"
+      ? "判断引用行情 " + state.frozenQuantReplay.judgment_id + " · 仅显示当时冻结数据，没有执行成交。"
+      : "冻结结果 " + state.frozenQuantReplay.run_id + " · 显示已记录成交；图表指标按当前口径派生，原回测不重算。";
+    return;
+  }
   const paper = state.paper || {};
   const analysis = state.latestStrategyAnalysis || paper.ai_analysis || {};
   const explanation = currentStrategyExplanation();
@@ -9605,6 +9828,72 @@ function renderMarketAiLocal(local = null) {
   `;
   renderMarketWorkflowStrip();
   renderAiRoomHeader();
+}
+
+function currentAiResearchEvidence(targetSymbol = state.symbol) {
+  if (!["1d", "1dutc", "day", "daily"].includes(String(state.bar).toLowerCase())) return null;
+  const candidates = [state.strategyAi, state.marketAi].filter((data) => data?.request_context?.context_key === aiChartContextKey()
+    && data.request_context.symbol === targetSymbol
+    && (!data.strategy_form_key || data.strategy_form_key === JSON.stringify(strategyAiFormInput())));
+  candidates.sort((a, b) => (b.generated_at || 0) - (a.generated_at || 0));
+  for (const data of candidates) {
+    const identity = data.input_identity;
+    if (!identity || !/^[a-f0-9]{64}$/.test(identity.rows_sha256 || "")) continue;
+    const providers = [["deepseek", data.deepseek], ["openai", data.gpt]].filter(([, result]) =>
+      result?.ok === true && result.completion_status === "complete" && result.finish_reason === "stop" && result.content?.trim()
+    ).map(([provider, result]) => ({provider, model: result.model || data.status?.[provider === "openai" ? "gpt" : provider]?.model || "",
+      content: result.content.slice(0, 16000), summary: String(result.json?.summary || "").slice(0, 2000)}));
+    if (!providers.length) continue;
+    return { schema_version: "hakimi-ai-research-evidence-v1",
+      symbol: data.request_context.symbol, bar: data.request_context.bar, session: data.request_context.session,
+      question: data.request_context.question, generated_at: data.generated_at,
+      input_identity: {rows_sha256: identity.rows_sha256, row_count: identity.row_count,
+        first_ts: identity.first_ts, last_ts: identity.last_ts, source: identity.source,
+        price_basis: identity.price_basis, snapshot_id: identity.snapshot_id || null}, providers };
+  }
+  return null;
+}
+
+function strategyAiFormInput() {
+  const strategyId = $("strategySelect")?.value || "dual_ma";
+  const strategy = (state.strategies || []).find((item) => item.id === strategyId);
+  const params = { ...(strategy?.params || {}) };
+  for (const input of document.querySelectorAll("#strategyParamRows [data-strategy-param]")) {
+    const original = params[input.dataset.strategyParam];
+    params[input.dataset.strategyParam] = typeof original === "number" ? Number(input.value)
+      : typeof original === "boolean" ? input.value === "true" : input.value;
+  }
+  return { strategy_id: strategyId, strategy_params: params,
+    risk_config: Object.fromEntries(new URLSearchParams(riskQueryParams())) };
+}
+
+function resetAiResearchContext(reason = "行情上下文已切换，请重新分析") {
+  state.aiContextGeneration = (state.aiContextGeneration || 0) + 1;
+  state.marketAi = null;
+  state.deepseek = null;
+  state.strategyAi = null;
+  state.currentStrategyLocal = null;
+  state.latestStrategyAnalysis = null;
+  for (const id of ["marketAiState", "strategyAiState", "deepseekState"]) {
+    const element = $(id);
+    if (element) {
+      element.textContent = reason;
+      for (const key of Object.keys(element.dataset || {})) delete element.dataset[key];
+    }
+  }
+  for (const id of ["marketAiDeepSeekReport", "marketAiGptReport", "strategyAiReport", "strategyAnalysis", "deepseekSummary"]) {
+    if ($(id)) $(id).textContent = "等待当前标的、周期和时段的分析。";
+  }
+  for (const id of ["marketAiDeepSeekBadge", "marketAiGptBadge", "deepseekHeadline"]) {
+    if ($(id)) $(id).textContent = "等待重新分析";
+  }
+  if ($("deepseekRows")) $("deepseekRows").innerHTML = "";
+}
+
+function aiChartContextKey() {
+  const bar = ["1d", "1dutc", "day", "daily"].includes(String(state.bar).toLowerCase()) ? "1d" : String(state.bar || "");
+  return JSON.stringify([state.symbol || "", bar, state.stockSession || "all",
+    state.frozenQuantReplay?.run_id || state.frozenQuantReplay?.judgment_id || state.frozenQuantReplay?.exit_run_id || state.frozenQuantReplay?.input_id || "", state.aiContextGeneration || 0]);
 }
 
 function marketAiPayload() {
@@ -10163,6 +10452,7 @@ function drawStockIntradayAverageLine(ctx, candles, x, y, colors) {
 }
 
 function drawChart() {
+  if (state.frozenQuantReplay) renderFrozenReplaySummary();
   const canvas = $("priceChart");
   const parent = canvas.parentElement;
   const dpr = window.devicePixelRatio || 1;
@@ -10293,22 +10583,25 @@ function drawChart() {
     });
   }
 
+  const indicatorView = window.HakimiIndicators.chartWindow(state.candles.slice(0, view.end), view.start, view.end);
+  canvas.dataset.indicatorVersion = indicatorView.version;
   if (state.indicators.ma) {
-    const ma20 = movingAverage(candles, 20);
-    const ma60 = movingAverage(candles, 60);
+    const ma20 = indicatorView.ma20;
+    const ma60 = indicatorView.ma60;
     drawLineOverlay(ctx, ma20, x, y, "#f5b642");
     drawLineOverlay(ctx, ma60, x, y, "#43d7ff");
   }
 
   if (state.indicators.bollinger) {
-    const bands = bollingerBands(candles, 20, 2);
+    const bands = indicatorView.bollinger;
     drawLineOverlay(ctx, bands.map((band) => band?.upper ?? null), x, y, "rgba(143,155,150,.85)");
     drawLineOverlay(ctx, bands.map((band) => band?.mid ?? null), x, y, "rgba(143,155,150,.45)");
     drawLineOverlay(ctx, bands.map((band) => band?.lower ?? null), x, y, "rgba(143,155,150,.85)");
   }
 
-  if (state.indicators.signals && state.paper?.signals?.length) {
-    drawSignalMarkers(ctx, candles, x, y);
+  if (state.indicators.signals) {
+    if (state.frozenQuantReplay) drawFrozenQuantMarkers(ctx, candles, x, y);
+    else if (state.paper?.signals?.length) drawSignalMarkers(ctx, candles, x, y);
   }
 
   if (showVolume) {
@@ -10335,7 +10628,8 @@ function drawChart() {
   drawVolumeProfile(ctx, candles, state.chartMeta);
   drawAutoMarks(ctx, state.chartMeta);
   drawUserDrawings(ctx, state.chartMeta);
-  drawStrategyAnchors(ctx, state.chartMeta);
+  window.HakimiResearchChart?.draw(ctx, state.frozenQuantReplay, state.chartMeta);
+  if (!state.frozenQuantReplay) drawStrategyAnchors(ctx, state.chartMeta);
 
   const lastPrice = state.lastPrice || candles[candles.length - 1].close;
   if (Number.isFinite(lastPrice) && priceFitsCurrentChart(lastPrice, referencePrice) && lastPrice >= minPrice && lastPrice <= maxPrice) {
@@ -10383,8 +10677,10 @@ function drawLineOverlay(ctx, values, x, y, color) {
   ctx.lineWidth = 1.4;
   ctx.beginPath();
   let started = false;
+  let hasPoint = false;
   values.forEach((value, index) => {
     if (value === null || value === undefined || !Number.isFinite(value)) {
+      started = false;
       return;
     }
     const xx = x(index);
@@ -10395,8 +10691,9 @@ function drawLineOverlay(ctx, values, x, y, color) {
     } else {
       ctx.lineTo(xx, yy);
     }
+    hasPoint = true;
   });
-  if (started) ctx.stroke();
+  if (hasPoint) ctx.stroke();
 }
 
 function drawSignalMarkers(ctx, candles, x, y) {
@@ -10529,6 +10826,7 @@ function connectSocket() {
     state.socket = null;
   }
   clearTimeout(state.reconnectTimer);
+  if (window.HAKIMI_RUNTIME_MODE?.localOnly || state.frozenQuantReplay) return;
   const requestVersion = runtime.symbolVersion;
   const requestSymbol = state.symbol;
   const requestInstId = okxInstId(requestSymbol);
@@ -10580,6 +10878,7 @@ function connectSocket() {
 }
 
 function connectMarketSocket() {
+  if (window.HAKIMI_RUNTIME_MODE?.localOnly || state.frozenQuantReplay) return;
   if (state.marketSocket) {
     state.marketSocket.onclose = null;
     state.marketSocket.close();
@@ -10638,6 +10937,7 @@ async function fallbackPoll() {
 }
 
 async function pollLiveTicker(force = false) {
+  if (state.frozenQuantReplay || window.HAKIMI_RUNTIME_MODE?.localOnly) return;
   const requestVersion = runtime.symbolVersion;
   const requestSymbol = state.symbol;
   const requestIsStock = isStockMarket(requestSymbol);
@@ -10806,7 +11106,7 @@ function applyStrategyPreset(presetId, options = {}) {
   renderStrategyCommandStrip();
   renderStrategyExplainPanel();
   $("strategyAnalysis").textContent = `已套用 ${preset.label}，可继续手动微调或点击 AI 分析`;
-  if (options.refresh !== false) {
+  if (options.refresh !== false && !window.HAKIMI_RUNTIME_MODE?.localOnly) {
     loadStrategyWarRoom();
     loadStrategyDoctor();
     estimateOrder();
@@ -10829,6 +11129,7 @@ function renderStrategyCards() {
     card.addEventListener("click", () => {
       $("strategySelect").value = card.dataset.strategy;
       renderStrategyCards();
+      if (window.HAKIMI_RUNTIME_MODE?.localOnly) return;
       loadStrategyLab();
       loadStrategyWarRoom();
       loadStrategyDoctor();
@@ -11000,6 +11301,7 @@ async function analyzeStrategy() {
 }
 
 async function refreshPaper(evaluate = false) {
+  if (window.HAKIMI_RUNTIME_MODE?.localOnly) return loadTerminalLocalAccount();
   const price = state.lastPrice || (state.candles[state.candles.length - 1]?.close || 0);
   const shouldEvaluate = evaluate && Boolean(state.paper?.armed || state.paper?.conditional_orders?.some((order) => ["WAITING", "WAITING_LIMIT", "WAITING_OCO", "MAKER_WAIT"].includes(order.status)));
   const endpoint = shouldEvaluate
@@ -11128,7 +11430,6 @@ function renderPaper() {
   $("liqMetric").textContent = paper.liquidation_price ? number(paper.liquidation_price, 2) : "--";
   $("liqMetric").className = "flat";
   const analysis = paper.ai_analysis || {};
-  $("directionMode").value = paper.direction_mode === "SHORT_ONLY" ? "SHORT_ONLY" : "LONG_ONLY";
   if (paper.armed) {
     $("marginMode").value = paper.margin_mode || "CROSS";
     $("directionMode").value = paper.direction_mode === "SHORT_ONLY" ? "SHORT_ONLY" : "LONG_ONLY";
@@ -13167,7 +13468,8 @@ async function loadBacktest(options = {}) {
       return;
     }
     $("backtestSummary").textContent = record ? "正在冻结因果回测" : "正在预览因果回测";
-    const query = `symbol=${encodeURIComponent(state.symbol)}&strategy=${encodeURIComponent(strategy)}&positionPct=${encodeURIComponent(positionPct)}&takeProfitPct=${encodeURIComponent(takeProfitPct)}&stopLossPct=${encodeURIComponent(stopLossPct)}&leverage=${encodeURIComponent(leverage)}&directionMode=${encodeURIComponent(directionMode)}&limit=1800`;
+    const selectedParams = currentTerminalResearchContext().strategy_params;
+    const query = `symbol=${encodeURIComponent(state.symbol)}&strategy=${encodeURIComponent(strategy)}&strategyParams=${encodeURIComponent(JSON.stringify(selectedParams))}&positionPct=${encodeURIComponent(positionPct)}&takeProfitPct=${encodeURIComponent(takeProfitPct)}&stopLossPct=${encodeURIComponent(stopLossPct)}&leverage=${encodeURIComponent(leverage)}&directionMode=${encodeURIComponent(directionMode)}&limit=1800`;
     const data = record
       ? await apiMutation(`/api/strategy/backtest?${query}`)
       : await api(`/api/strategy/backtest/preview?${query}`);
@@ -13401,8 +13703,9 @@ async function saveIndicators() {
 }
 
 function focusModule(selector, autoView = true) {
+  const focusSelector = window.HakimiQuantModule?.focusTarget(selector) || selector;
   if (autoView) setInterfaceView(viewForSelector(selector));
-  const target = document.querySelector(selector);
+  const target = document.querySelector(focusSelector);
   if (!target) return;
   target.scrollIntoView({ behavior: "smooth", block: "start" });
   syncWorkspaceNav(selector);
@@ -13583,6 +13886,7 @@ function bindEvents() {
     setPlatformBlock("platformStrategyCard", "BLOCK", error.message);
   }));
   $("platformOpenStrategy")?.addEventListener("click", () => {
+    window.HakimiQuantModule?.select("legacy");
     setInterfaceView("bot");
     setTimeout(() => focusModule(".strategy-desk", false), 0);
   });
@@ -13730,6 +14034,7 @@ function bindEvents() {
   $("loadLocalHistory")?.addEventListener("click", loadLocalHistory);
   $("strategySelect")?.addEventListener("change", () => {
     renderStrategyCards();
+    if (window.HAKIMI_RUNTIME_MODE?.localOnly) return;
     loadStrategyLab();
     loadStrategyCompare();
     loadStrategyWarRoom();
@@ -13904,9 +14209,14 @@ function bindEvents() {
   bindChartEvents();
   $("timeframeTabs").querySelectorAll("button").forEach((button) => {
     button.addEventListener("click", () => {
+      if (state.frozenQuantReplay || (window.HAKIMI_RUNTIME_MODE?.localOnly && button.dataset.bar !== "1Dutc")) {
+        $("chartStatus").textContent = state.frozenQuantReplay ? "冻结复盘按原日线展示；退出复盘后可切换其它数据。" : "当前本地数据为日线，不生成其它周期或触发外部读取。";
+        return;
+      }
       $("timeframeTabs").querySelectorAll("button").forEach((item) => item.classList.remove("active"));
       button.classList.add("active");
       state.bar = button.dataset.bar;
+      resetAiResearchContext();
       if (isStockMarket()) {
         if (state.bar === "1m" && state.stockSession === "all") state.stockSession = "regular";
         state.chartMode = isStockMinuteBar(state.bar) ? "line" : "candles";
@@ -13953,7 +14263,36 @@ function runForInterface(views, task) {
   }
 }
 
+async function bootLocalWorkspace() {
+  if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
+  syncMarketRailDisclosure();
+  renderMarketRailDisclosureSummary();
+  applyMarketResearchCopy();
+  updateDesktopClock();
+  setupFutuStyleWorkspace();
+  bindEvents();
+  syncTimeframeTabs();
+  syncStockSessionTabs();
+  renderLiveSourceBar();
+  renderMarketWorkflowStrip();
+  if (new URLSearchParams(location.search).get("workspace") === "quant") {
+    HakimiQuantModule.select("quant");
+    state.interfaceView = "bot";
+  }
+  renderDesktopStatus();
+  if ($("chartStatus")) $("chartStatus").textContent = "本地研究模式：未连接外部行情，历史数据与量化任务可用。";
+  await Promise.allSettled([loadStrategies(), loadProfile(), loadLedger(), loadHistoryTable(), loadInternalBacktestReturnQuality(), loadTerminalLocalMarkets(), loadTerminalLocalAccount()]);
+  await loadTerminalLocalMarket(state.symbol).catch(showTerminalLocalError);
+  renderDesktopStatus();
+  window.scrollTo(0, 0);
+  setInterval(updateDesktopClock, 1000);
+}
+
 async function boot() {
+  if (window.HAKIMI_RUNTIME_MODE?.localOnly) {
+    await bootLocalWorkspace();
+    return;
+  }
   if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
   const bootStartedAt = Date.now();
   const restoreTop = () => {
@@ -13966,6 +14305,10 @@ async function boot() {
   syncMarketRailDisclosure();
   renderMarketRailDisclosureSummary();
   applyMarketResearchCopy();
+  if (new URLSearchParams(location.search).get("workspace") === "quant") {
+    HakimiQuantModule.select("quant");
+    state.interfaceView = "bot";
+  }
   const chartWorkspace = ["trade", "research", "marketai", "all"].includes(state.interfaceView);
   updateDesktopClock();
   renderDesktopStatus();
@@ -14029,6 +14372,7 @@ async function boot() {
   deferBootLoad(1900, () => loadProfile().then(() => {
     if (
       state.profile?.settings?.start_module
+      && new URLSearchParams(location.search).get("workspace") !== "quant"
       && !runtime.userInteractionStarted
       && !["platform", "research"].includes(state.interfaceView)
     ) {
@@ -14086,6 +14430,238 @@ async function boot() {
   setInterval(() => runForInterface(["system"], loadStrategyMarketplace), 60000);
   setInterval(updateDesktopClock, 1000);
 }
+
+
+function showTerminalLocalError(error) {
+  if (state.frozenQuantReplay) { renderFrozenReplaySummary(); return; }
+  if ($("chartStatus")) $("chartStatus").textContent = "本地记录读取失败：" + error.message;
+}
+
+async function loadTerminalLocalMarkets() {
+  if (state.frozenQuantReplay) return;
+  const data = await api("/api/local/terminal-markets");
+  if (state.frozenQuantReplay) return;
+  const items = data.items || [];
+  const saved = new Map(items.map((item) => [item.symbol, item]));
+  const known = new Map(markets.map((item) => [item.symbol, item]));
+  for (const item of items) {
+    if (!known.has(item.symbol)) known.set(item.symbol, {symbol:item.symbol,instId:item.symbol,name:item.symbol,
+      category:item.asset_class === "CRYPTO" ? "spot" : "stocks",type:item.asset_class === "CRYPTO" ? "crypto" : "stock"});
+  }
+  markets = [...known.values()].map((item) => ({...item,source:saved.has(item.symbol)?"local_history":"local_unavailable",
+    price:"--",change:"--",rawChange:0,quoteQuality:{},lastUpdated:0,available:saved.get(item.symbol)?.available === true}));
+  renderMarkets();
+  return data;
+}
+
+async function loadTerminalLocalMarket(symbol, version = runtime.symbolVersion) {
+  if (state.frozenQuantReplay) return;
+  const selectedSource = state.terminalLocalSources?.[symbol] || "";
+  const result = await api("/api/local/terminal-market?symbol=" + encodeURIComponent(symbol) + (selectedSource ? "&source_id=" + encodeURIComponent(selectedSource) : ""));
+  const market = result.market || result;
+  if (version !== runtime.symbolVersion || symbol !== state.symbol || state.frozenQuantReplay) return;
+  state.bar = "1Dutc"; state.chartMode = "candles"; state.chartDataSymbol = symbol;
+  state.chartView.offset = 0; state.chartView.visible = 220; state.lastPrice = 0;
+  state.marketSession = null; state.stockQuoteContext = null; state.marketSnapshotContext = null;
+  state.trades = []; state.orderBook = {asks:[],bids:[]};
+  const blocked = market.quality?.status === "BLOCK" || !market.rows?.length;
+  state.candles = [];
+  if (market.rows?.length) state.candles = HakimiTerminalQuantProtocol.chartRows(market.rows);
+  state.terminalLocalMarket = market;
+  state.stockSession = market.meta?.session || "UNKNOWN";
+  resetAiResearchContext("已切换本地行情来源，请重新分析");
+  state.terminalLocalSources ||= {};
+  if (market.source_id) state.terminalLocalSources[symbol] = market.source_id;
+  const sourceSelect = $("terminalLocalSource");
+  if (sourceSelect) {
+    $("terminalLocalSourceLabel").hidden = false;
+    sourceSelect.innerHTML = (market.available_sources || []).map((item) => `<option value="${escapeHtml(item.source_id)}">${escapeHtml(item.provider || item.source_id)} / ${escapeHtml(item.session || "UNKNOWN")} / ${escapeHtml(item.price_basis || "UNKNOWN")} / ${item.completed_count ?? 0} 日</option>`).join("");
+    sourceSelect.value = market.source_id || "";
+  }
+  state.chartQuality = {symbol,bar:"1Dutc",source:market.source_id || "local_history",sourceText:market.source_id || "本地历史",
+    freshnessText:market.rows?.at(-1)?.date ? "历史末日 " + market.rows.at(-1).date : "无本地日线",mode:blocked ? "本地预览 · 不可回测" : "本地历史 · 来源待复核",
+    warningText:blocked ? (market.quality?.blockers || ["缺少可用日线"]).join("；") : "原缓存未获外部认证；未读取实时行情，不提供交易授权。",
+    realtime:false,preview:false,fallback:true,tone:"flat"};
+  syncTimeframeTabs(); syncStockSessionTabs(); syncActiveSymbolHeader("本地历史");
+  $("lastPrice").textContent = state.candles.length ? priceText(state.candles.at(-1).close) : "--";
+  $("priceChange").textContent = "历史收盘 · 非实时";
+  for (const id of ["high24h","low24h","vol24hLabel","bidAsk"]) if ($(id)) $(id).textContent = id === "vol24hLabel" ? "历史数据" : "--";
+  renderChartQuality(state.chartQuality);
+  $("chartStatus").textContent = blocked ? state.chartQuality.warningText : `${symbol} 本地日线 ${market.rows[0].date} 至 ${market.rows.at(-1).date} · 来源待复核`;
+  loadDrawings(); drawChart(); renderBook(); renderTrades(); renderChartStrategyOverlay();
+  renderSideInsights(); renderLiveSourceBar();
+}
+
+async function loadTerminalLocalAccount() {
+  const data = await api("/api/local/terminal-account");
+  if (!data.paper || typeof data.paper !== "object") throw new Error("本地模拟记录缺少有效快照");
+  state.paper = data.paper;
+  renderPaper(); renderStrategyCommandStrip();
+  const caption = document.querySelector(".positions-panel .panel-title span");
+  if (caption) caption.textContent = "已有模拟记录 · 非实时估值";
+  if ($("signalSummary")) $("signalSummary").textContent = "本地已有信号与订单 · 只读 · 未运行策略";
+  return data;
+}
+
+function currentTerminalResearchContext(source = "strategy") {
+  const targetSymbol = source === "radar" && state.selectedAnomaly?.symbol ? state.selectedAnomaly.symbol : state.symbol;
+  const strategyId = $("strategySelect")?.value || state.strategies[0]?.id || "dual_ma";
+  const entry = state.strategies.find((item) => item.id === strategyId);
+  const params = {...(entry?.params || {})};
+  for (const input of document.querySelectorAll("#strategyParamRows [data-strategy-param]")) {
+    const original = params[input.dataset.strategyParam];
+    params[input.dataset.strategyParam] = typeof original === "number" ? Number(input.value) : typeof original === "boolean" ? input.value === "true" : input.value;
+  }
+  const blockers = [];
+  if (!HakimiTerminalQuantProtocol.validConfiguration({engine_id:HakimiTerminalQuantProtocol.ENGINE,strategy_id:strategyId,strategy_params:params,
+    risk:{position_pct:Number($("positionInput")?.value),take_profit_pct:Number($("takeProfitInput")?.value || 0),stop_loss_pct:Number($("stopLossInput")?.value || 0),leverage:Number($("leverageInput")?.value)}})) blockers.push("存在无效参数或仓位，请先核对数字");
+  if ($("directionMode")?.value !== "LONG_ONLY") blockers.push("当前研究任务仅支持只做多");
+  if ($("riskSource")?.value !== "MANUAL" || $("riskValueMode")?.value !== "PCT") blockers.push("止盈止损需要明确的手动百分比；不会根据当前报价换算");
+  if ($("trailingTakeEnabled")?.checked || $("trailingStopEnabled")?.checked) blockers.push("当前任务不支持移动止盈止损");
+  if (Number($("leverageInput")?.value) !== 1) blockers.push("当前任务只支持1倍杠杆");
+  if ($("strategyOrderType")?.value !== "CURRENT" || $("marginMode")?.value !== "CROSS") blockers.push("当前任务按现价开盘成交与全仓1倍模型核算");
+  return {symbol:targetSymbol,
+    bar:source === "radar" && targetSymbol !== state.symbol ? "待核对" : state.bar,session:source === "radar" && targetSymbol !== state.symbol ? "由所选缓存确定" : state.frozenQuantReplay?.meta?.session || (state.terminalLocalMarket?.symbol === targetSymbol ? state.terminalLocalMarket.meta?.session : null) || state.stockSession || "未指定",
+    chart_source:source === "radar" && targetSymbol !== state.symbol ? "雷达选择，尚未载入该标的图表" : state.frozenQuantReplay ? "冻结记录 " + (state.frozenQuantReplay.run_id || state.frozenQuantReplay.judgment_id || state.frozenQuantReplay.exit_run_id || state.frozenQuantReplay.input_id) : state.chartQuality?.sourceText || state.chartQuality?.source || "未指定",
+    source_id:HakimiTerminalQuantProtocol.contextSourceId(targetSymbol,state.terminalLocalMarket,Boolean(state.frozenQuantReplay)),
+    strategy_id:strategyId,strategy_name:entry?.name || strategyId,strategy_params:params,
+    risk:{position_pct:Number($("positionInput")?.value),take_profit_pct:Number($("takeProfitInput")?.value || 0),stop_loss_pct:Number($("stopLossInput")?.value || 0),leverage:Number($("leverageInput")?.value)},
+    blockers,source,...(currentAiResearchEvidence(targetSymbol) ? {ai_evidence:currentAiResearchEvidence(targetSymbol)} : {})};
+}
+
+function applyFrozenQuantReplay(replay) {
+  if (!HakimiTerminalQuantProtocol.validReplay(replay)) throw new Error("冻结复盘身份或行情校验失败");
+  const candles = HakimiTerminalQuantProtocol.chartRows(replay.rows);
+  const isJudgment = replay.source === "JUDGMENT_FROZEN_INPUT";
+  const isStructure = replay.source === "STRUCTURE_FROZEN", isExitResearch = replay.source === "EXIT_RESEARCH_FROZEN";
+  const isDerived = isStructure || isExitResearch;
+  const replayLabel = isStructure ? "冻结行情的结构观察" : isExitResearch ? "同入场出场规则对照" : isJudgment ? "判断引用的冻结行情" : "冻结研究结果复盘";
+  if (!state.frozenQuantReplay) state.beforeFrozenQuantReplay = {symbol:state.symbol,bar:state.bar,candles:state.candles,
+    chartDataSymbol:state.chartDataSymbol,chartQuality:state.chartQuality,lastPrice:state.lastPrice,chartMode:state.chartMode,stockSession:state.stockSession,
+    chartView:{...state.chartView},chartUserZoomed:runtime.chartUserZoomed};
+  clearSymbolTasks(); abortMarketRequests(); runtime.symbolVersion += 1;
+  clearInterval(state.replay.timer); state.replay.active = false; state.replay.timer = null;
+  $("toggleReplay")?.classList.remove("active");
+  state.frozenQuantReplay = replay; state.symbol = replay.symbol; state.bar = "1Dutc"; state.chartMode = "candles";
+  state.stockSession = replay.meta.session || "UNKNOWN";
+  resetAiResearchContext("已进入冻结复盘，请按该数据重新分析");
+  if ($("terminalLocalSourceLabel")) $("terminalLocalSourceLabel").hidden = true;
+  if (!markets.some((item) => item.symbol === replay.symbol)) markets.push({symbol:replay.symbol,instId:replay.symbol,name:replay.symbol,
+    type:replay.meta.asset_class === "CRYPTO" ? "crypto" : "stock",category:replay.meta.asset_class === "CRYPTO" ? "spot" : "stocks",source:"frozen_research",price:"--",change:"--"});
+  state.candles = candles; state.chartDataSymbol = replay.symbol; state.chartView.offset = 0; state.chartView.visible = Math.min(220,candles.length);
+  state.lastPrice = 0; state.latestStrategyAnalysis = null; state.marketSession = null; state.stockQuoteContext = null; state.marketSnapshotContext = null;
+  state.orderBook = {asks:[],bids:[]}; state.trades = []; state.stockPriceLog = []; state.microSignal = null;
+  renderBook(); renderTrades();
+  state.chartQuality = {sourceText:"已封存研究输入 " + replay.input_id,source:"frozen_research",freshnessText:"冻结记录，不读取当前行情",mode:isDerived ? replayLabel : isJudgment ? "判断引用行情" : "冻结结果复盘",tone:"flat",preview:false,realtime:false,
+    warningText:`${replay.meta.price_basis} · ${replay.meta.asset_class} · 来源 ${replay.meta.source_authenticated === true ? "有来源声明，仍需审阅" : "待复核"} · 不授予模拟或实盘权限`};
+  $("terminalReplayNotice").hidden = false;
+  $("terminalReplayTitle").textContent = `${replay.symbol} · ${replayLabel}`;
+  $("terminalReplayDetail").textContent = `${candles[0].date} 至 ${candles.at(-1).date} · ${isStructure ? "当前公式派生结构，未改写历史输入" : isExitResearch ? "独立入场样本，无账户权益曲线" : isJudgment ? "判断记录，无执行成交" : replay.trades.length + " 条记录成交"} · 时段 ${replay.meta.session || "未记录"} · 价格口径 ${replay.meta.price_basis}`;
+  $("terminalReplayIdentity").textContent = `${isStructure ? "结构观察" : isExitResearch ? "出场研究 " + replay.exit_run_id : isJudgment ? "判断 " + replay.judgment_id : "结果 " + replay.run_id} · 数据 ${replay.input_id} · SHA-256 ${isDerived || isJudgment ? replay.record_hash : replay.report_hash}`;
+  window.HakimiResearchChart?.configure(replay,{redraw:drawChart,cutoff:(end,options={}) => {
+    clearInterval(state.replay.timer); state.replay.timer = null; state.replay.active = true; state.replay.index = end;
+    if (options.fitAll === true) state.chartView.visible = candles.length;
+    state.chartView.offset = 0; $("toggleReplay")?.classList.remove("active"); drawChart();
+  }});
+  setInterfaceView("trade"); syncWorkspaceNav(".ticker-header"); syncTimeframeTabs(); syncStockSessionTabs(); renderMarkets(); syncActiveSymbolHeader("冻结研究结果"); renderDesktopStatus();
+  $("lastPrice").textContent = priceText(candles.at(-1).close); $("priceChange").textContent = "冻结末日收盘 · 非实时";
+  renderChartQuality(state.chartQuality); $("chartStatus").textContent = isDerived
+    ? "结构按确认时点显示 · 出场阈值按当时可知信息计算 · 研究观察，不是成交授权"
+    : isJudgment
+    ? "判断引用的冻结前缀 · 图表指标按当前口径派生 · 没有执行成交"
+    : "冻结行情与已记录成交复盘 · 图表指标按当前口径派生 · 原回测不重算";
+  renderChartStrategyOverlay(); requestAnimationFrame(drawChart);
+  renderFrozenReplaySummary();
+  document.querySelector(".chart-panel")?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function exitFrozenQuantReplay(reload = true) {
+  if (!state.frozenQuantReplay) return;
+  const previous = state.beforeFrozenQuantReplay;
+  clearInterval(state.replay.timer); state.replay.active = false; state.replay.timer = null;
+  $("toggleReplay")?.classList.remove("active"); window.HakimiResearchChart?.configure(null);
+  state.frozenQuantReplay = null; state.beforeFrozenQuantReplay = null;
+  if (previous) {
+    const {chartUserZoomed,...originalState} = previous;
+    Object.assign(state,originalState); runtime.chartUserZoomed = chartUserZoomed;
+  }
+  resetAiResearchContext("已退出冻结复盘，请重新分析");
+  $("terminalReplayNotice").hidden = true;
+  runtime.symbolVersion += 1;
+  if (reload) {
+    syncActiveSymbolHeader("已退出冻结复盘"); syncTimeframeTabs(); syncStockSessionTabs(); renderMarkets(); renderDesktopStatus();
+    const symbol = state.symbol, version = runtime.symbolVersion;
+    const restoreViewport = () => {
+      if (!previous?.chartView || state.symbol !== symbol || runtime.symbolVersion !== version || state.frozenQuantReplay) return;
+      state.chartView = {...previous.chartView}; runtime.chartUserZoomed = previous.chartUserZoomed; drawChart();
+      renderSideInsights(); renderLiveSourceBar();
+    };
+    const request = window.HAKIMI_RUNTIME_MODE?.localOnly ? loadTerminalLocalMarket(state.symbol) : loadCandles();
+    request.then(restoreViewport).catch(error => {showTerminalLocalError(error);restoreViewport();});
+  }
+}
+
+function copyFrozenTerminalParameters(configuration) {
+  if (!HakimiTerminalQuantProtocol.validConfiguration(configuration)) throw new Error("此配置不属于原工作台策略引擎，未复制参数");
+  if (configuration.risk.position_pct < 1 || configuration.risk.take_profit_pct > 80 || configuration.risk.stop_loss_pct > 80) {
+    throw new Error("原策略表单仅支持仓位 1–100%、止盈和止损 0–80%；该冻结配置超出范围，未复制或调整数值。");
+  }
+  const entry = state.strategies.find((item) => item.id === configuration.strategy_id);
+  if (!entry || Object.keys(configuration.strategy_params).some((key) => !(key in (entry.params || {})))) throw new Error("原策略目录或参数字段不兼容，未覆盖表单");
+  $("strategySelect").value = configuration.strategy_id; renderStrategyCards();
+  for (const input of document.querySelectorAll("#strategyParamRows [data-strategy-param]")) {
+    if (Object.hasOwn(configuration.strategy_params,input.dataset.strategyParam)) input.value = String(configuration.strategy_params[input.dataset.strategyParam]);
+  }
+  $("positionInput").value = configuration.risk.position_pct; $("takeProfitInput").value = configuration.risk.take_profit_pct;
+  $("stopLossInput").value = configuration.risk.stop_loss_pct; $("leverageInput").value = 1;
+  $("riskSource").value = "MANUAL"; $("riskValueMode").value = "PCT"; $("directionMode").value = "LONG_ONLY";
+  $("trailingTakeEnabled").checked = false; $("trailingStopEnabled").checked = false;
+  $("strategyOrderType").value = "CURRENT"; $("marginMode").value = "CROSS"; state.activeStrategyPreset = null;
+  syncRiskPlaceholders(); renderStrategyCommandStrip();
+  HakimiQuantModule.select("legacy"); setInterfaceView("bot"); focusModule(".strategy-desk",false);
+  $("strategyAnalysis").textContent = "已显式复制冻结版本的策略与风险参数 · 费用仍保留在研究任务中 · 未保存、未运行、未授权";
+}
+
+function drawFrozenQuantMarkers(ctx,candles,x,y) {
+  if (!state.frozenQuantReplay) return;
+  const positions = new Map(candles.map((row,index) => [row.date,index]));
+  ctx.save(); ctx.font = "11px Segoe UI";
+  for (const trade of state.frozenQuantReplay.trades) {
+    const index = positions.get(trade.date),price=Number(trade.price);
+    if (index === undefined || !Number.isFinite(price) || price <= 0) continue;
+    const buy = ["BUY","ADD"].includes(String(trade.side).toUpperCase());
+    const px=x(index),py=y(price);ctx.fillStyle=buy?"#ff4d5e":"#19c37d";
+    ctx.beginPath();ctx.arc(px,py,4,0,Math.PI*2);ctx.fill();ctx.fillText(buy?"买":"卖",px+6,py+(buy?14:-7));
+  }
+  ctx.restore();
+}
+
+function assertTerminalReplayRequest(path) {
+  if (!state.frozenQuantReplay) return;
+  const route = new URL(path,location.origin).pathname;
+  if (/^\/api\/(ai\/|market\/|stocks\/|okx\/|futu\/|contract\/|strategy\/(analyze|lab|backtest|war-room|doctor))/.test(route)) {
+    throw new Error("当前为冻结结果复盘；请先退出复盘，再读取或分析当前行情。");
+  }
+}
+function openOriginalResearch(section) {
+  HakimiQuantModule.select("legacy"); setInterfaceView("bot");
+  focusModule(section === "portfolio" ? "#internalBacktestPackBoundary" : ".strategy-desk",false);
+}
+function currentTerminalInsightsContext() {
+  const replay = state.frozenQuantReplay;
+  const visible = replay ? frozenReplayPresentation() : null;
+  return {symbol:replay?.symbol || state.symbol,input_id:replay?.input_id || "",
+    as_of:visible?.row?.date || "",frozen:Boolean(replay)};
+}
+globalThis.HakimiTerminalBridge = {context:currentTerminalResearchContext,insightsContext:currentTerminalInsightsContext,replay:applyFrozenQuantReplay,copyParameters:copyFrozenTerminalParameters,openOriginal:openOriginalResearch};
+$("terminalReplayExit")?.addEventListener("click",() => exitFrozenQuantReplay());
+$("terminalLocalSource")?.addEventListener("change",(event) => {
+  if (state.frozenQuantReplay) return;
+  state.terminalLocalSources ||= {};
+  state.terminalLocalSources[state.symbol] = event.target.value;
+  runtime.symbolVersion += 1;
+  loadTerminalLocalMarket(state.symbol).catch(showTerminalLocalError);
+});
 
 boot();
 

@@ -1,14 +1,21 @@
 # 当前项目状态
 
-本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1、M2-1 和 R1／R2／R3 已结案，当前开发阶段为 M3-1 离线共享资金与全局风控。M2-2 的两项 P2 已通过 PR #23 修复并集成，保持关闭。主分支集成以实际合并提交及其检查为准。
+本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1、M2、M3-1 与 R1／R2／R3 已集成，M2-2 的两项 P2 和 PR #25 跨归属退出修复保持关闭。当前开发范围为 P0 整合、美股日线 M3-2 连续运行及一种财报排期研究输入；P2 数据范围增强和 P3 受控交易留待后续。主分支集成以实际合并提交及其检查为准。
 
-整理日期：2026-10-11。PR #24 已经用户单独核准受审 `1ee0a78` 并合入实际 main `09ee21e`，M3-1 的共享合成账户、统一意图、预留和全局风控已集成；操作时钟及 symbol 别名修复保持关闭。该 main 九项 CI 成功，Windows／Ubuntu 安装各 295 项。M3-1-01／P2 的注册任务跨持仓归属退出碰撞已在原 dev3 包真实复现；[PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 的 `0.5.0.dev4` CLEAN 构建 `e003dd8` 完成同一 wheel 仓库外 299 项、共享流程 v4、新启动器首用及原 dev3 任务账户原字节只读兼容。第一轮远端 Windows 安装任务在 10 分钟上限被取消，原日志保留；安装任务时限调整为 20 分钟，最终 head CI 与单独 main 核准分别在 PR 核对，P2 仍待集成关闭。见[本轮修复证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。BUY 去重、M1／M2 已完成范围和 dev3 原交付保留，不回滚 M3-1，也不进入 M3-2。
+整理日期：2026-10-25。[PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合并至 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`，[该 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 结论为成功，原 Windows／Ubuntu 安装各 299 项。`0.5.0.dev4` CLEAN 构建 `e003dd8` 的 wheel、共享流程 v4、启动器及旧 dev3 只读兼容证据保留原身份；首次时限取消日志不抹去。见[修复证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。日常交付候选升为 `0.6.0.dev2`，默认新计算使用正式 `hakimi_research`，旧引擎和原桌面保留；[当前入口、构建身份与旧账户处理](docs/daily-delivery.md)。候选工程检查、实际工作台流程、真实数据与远端 CI 分别验收。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
+当前开发仍在[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)。本轮收口版本卡、可复现桌面入口及旧账户兼容提示，工程验收和策略证据分别展示。运行构建 CLEAN `6680aa921458431fa8a20d5c52d3d2568ec8100a` 的普通安装 382 项和 7 项流程通过，原生版本卡、旧账户只读与关闭重开已验证；[本次验收](docs/daily-delivery-acceptance-20261025.md)。后续文档提交不改签该包；最新 GitHub HEAD 检查见 PR，不继承前一构建的通过状态。
+
+前一已验收日常候选为 `528181c961bdc6307d88334971568ba42285aaee`，运行源码构建 `7f61da4`、包版本 `0.6.0.dev1`：[11 项 CI 成功](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/39874347914)，普通安装 379 项及 7 项安装流程通过，详见[日常验收](docs/daily-workbench-acceptance-20261023.md)。更早的 `166e18e`（350 项）及 NDAQ 排期闭环保持原身份，它们不是本轮当前构建。两份日常 NDAQ/KO 结果各为 15 个评估交易日、1 次完整买卖、2 次成交；后续固定参数检查仍为 NOT_RUN，不能由工程通过推导策略有效。
+
 | 层次 | 已核实状态 |
 |---|---|
-| 当前 main | [PR #24](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/24) 经用户对 `1ee0a78` 单独批准，于 2026-10-10 23:55:17 UTC+8 合入 `09ee21ed2354fb1338b5b6519efa261146036b0b`；内容树 `50b3e8297cc24f58f59ad04645e147f11d6595eb` 与受审 head 相同。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38065561486) 九项成功，Windows／Ubuntu 安装各 295 项；M3-1 主体已集成，跨归属退出 P2 待关闭 |
+| 当前 main | [PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合入 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`；[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 成功，Windows／Ubuntu 安装各 299 项；M3-1 主体与跨归属退出修复已集成 |
+| 当前开发候选 | `0.6.0.dev2`，CLEAN 运行构建 `6680aa9`，草稿 PR #26；普通安装 382 项、7 项流程通过，原生重开和旧记录读取通过。[当前验收](docs/daily-delivery-acceptance-20261025.md) · [入口与旧账户处理](docs/daily-delivery.md)。最新远端 HEAD 检查见 PR；前一 `528181c` 的 379 项和 11 项 CI 仍仅归属原构建 |
+| 正式公开 Release | `v0.2.1` 是封存发行版本；本日常候选未合并、未发布为 Release，不把候选能力写成该发行版已有能力 |
+| 前一 M3-1 main | PR #24 的 `09ee21ed2354fb1338b5b6519efa261146036b0b`、受审 `1ee0a78`、原九项 CI 和两平台 295 项均为历史身份；后由 PR #25 修复跨归属退出 |
 | 前一 M2-2 main | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 经用户对 `0059359` 单独批准，于 2026-10-10 17:30:04 UTC+8 合入 `57b6bd4ec2263f6d390257fde7e787f44a084d85`；内容树 `3f694f17be4e85aa4ca5fb696482c5bb1125a366` 与受审 head 相同。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339) 九项成功，Windows／Ubuntu 安装各 253 项、输入及 R3 流程通过。M1、M2-1 和 R1／R2／R3 保持关闭 |
 | M3-1 功能存档 | [PR #24](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/24) 已集成；dev3 CLEAN `554a430`，同一 wheel 仓库外 295 项及共享 v3、启动器首用、原 dev2 任务账户原字节只读通过。原证据没有覆盖跨归属退出；原包已真实复现 M3-1-01，原记录不回填。增量监控与券商执行为后续范围 |
 | M2-2 功能候选 | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22)，`0.4.0.dev5` CLEAN 构建 `51b0f17`，wheel `b935fde7b436…`，运行源码 `8c85724cdf8f…`；同一 wheel 仓库外 253 项、实际输入菜单／冷进程、输入更新与状态保持、运行比较、迁移和重放通过。新交付 `Hakimi-M2-dev5-Inputs-20261010` 的启动器离线安装／身份检查／重开通过，ZIP `f55c4a08bdb…`；[构建 CI 九项成功](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38036110148)，最终 PR head 检查另记于 PR。已通过 PR #22 集成；该 dev5 存档随后复现两项 P2 缺口，原通过范围不回填。[原候选证据](docs/research-evidence/input-workflow-m2-20261010/README.md) |

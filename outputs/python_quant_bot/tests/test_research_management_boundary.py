@@ -13,6 +13,7 @@ from exchange_terminal.services.http_contract import (
     MUTATION_PATHS, POST_API_PATHS, RETIRED_MANAGEMENT_PATHS,
     archived_execution_route_state,
 )
+from exchange_terminal.services.quant_workspace import QuantWorkspace
 
 SERVER_PATH = Path(__file__).resolve().parents[1] / "exchange_terminal" / "server.py"
 
@@ -32,6 +33,9 @@ class ResearchManagementBoundaryTests(unittest.TestCase):
             "archived_execution_route_state": archived_execution_route_state,
             "MUTATION_PATHS": MUTATION_PATHS, "POST_API_PATHS": POST_API_PATHS,
             "block_non_loopback_client": lambda _handler: False,
+            # Exercise the real routing prefix check without constructing its kernel.
+            # Legacy management paths must pass through to the existing rejection.
+            "QUANT_WORKSPACE": SimpleNamespace(handle=lambda handler: QuantWorkspace.handle(None, handler)),
             "json_response": lambda _handler, body, status=200: responses.append((body, status)),
             "urllib": urllib, "Any": object,
             **dependencies,

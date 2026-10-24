@@ -2,10 +2,13 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
+import io
 import json
 from pathlib import Path, PurePosixPath
 import re
+import tokenize
 import zipfile
 
 
@@ -14,6 +17,86 @@ _COMMIT = re.compile(r"[0-9a-f]{40}|[0-9a-f]{64}")
 _PATH = re.compile(r"[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*")
 _VERSION = re.compile(r"[A-Za-z0-9][A-Za-z0-9.!+_-]*")
 _PRIVATE_PATH = re.compile(rb"(?i)(?<![A-Za-z0-9])(?:[a-z]:[\\/]|/(?:home|Users|tmp|private)/)")
+
+
+def _path_matches(data):
+    """Include overlapping roots, e.g. the Unix root inside d:/home/name."""
+    start = 0
+    while match := _PRIVATE_PATH.search(data, start):
+        yield match
+        start = match.start() + 1
+
+
+def _digit_category_only(pattern):
+    r"""A regex \d category followed by ':' is not a literal drive letter."""
+    raw = pattern.encode("utf-8") if isinstance(pattern, str) else pattern
+    matches = list(_path_matches(raw))
+    for match in matches:
+        if match.group() not in (b"d:\\", b"d:/"):
+            return False
+        previous = match.start() - 1
+        while previous >= 0 and raw[previous] == 92:
+            previous -= 1
+        if (match.start() - previous - 1) % 2 != 1:
+            return False
+    return bool(matches)
+
+
+def _contains_private_path(name, data):
+    matches = list(_path_matches(data))
+    if not matches:
+        return False
+    # Only a complete, single literal used directly as a Python re pattern may
+    # explain a \d: false positive. Comments, data files and path literals retain
+    # the original scan; parsing uncertainty is rejected rather than exempted.
+    if not name.endswith(".py"):
+        return True
+    try:
+        source = data.decode("utf-8")
+        tree = ast.parse(source)
+        lines = data.splitlines(keepends=True)
+        offsets = [0]
+        for line in lines:
+            offsets.append(offsets[-1] + len(line))
+        spans = []
+        for node in ast.walk(tree):
+            if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                    and isinstance(node.func.value, ast.Name) and node.func.value.id == "re"
+                    and node.func.attr in {"compile", "fullmatch", "match", "search", "findall", "finditer", "split", "sub", "subn"}):
+                continue
+            pattern = node.args[0] if node.args else next((k.value for k in node.keywords if k.arg == "pattern"), None)
+            if not (isinstance(pattern, ast.Constant) and isinstance(pattern.value, (str, bytes))):
+                continue
+            segment = ast.get_source_segment(source, pattern)
+            tokens = [t for t in tokenize.generate_tokens(io.StringIO(segment).readline)
+                      if t.type not in {tokenize.NEWLINE, tokenize.NL, tokenize.ENDMARKER}]
+            if len(tokens) != 1 or tokens[0].type != tokenize.STRING:
+                continue
+            re.compile(pattern.value)
+            if _digit_category_only(pattern.value):
+                prefix = re.match(r"(?i)[rub]*", tokens[0].string).group().lower()
+                spans.append((offsets[pattern.lineno - 1] + pattern.col_offset,
+                              offsets[pattern.end_lineno - 1] + pattern.end_col_offset, "r" in prefix))
+        for match in matches:
+            if match.group() not in (b"d:\\", b"d:/"):
+                return True
+            for start, end, raw_literal in spans:
+                if not start <= match.start() < match.end() <= end:
+                    continue
+                previous = match.start() - 1
+                while previous >= start and data[previous] == 92:
+                    previous -= 1
+                slashes = match.start() - previous - 1
+                # Normal Python literals decode each pair of slashes; raw
+                # literals preserve them. Only an odd regex slash count is \d.
+                decoded_slashes = slashes if raw_literal else (slashes + 1) // 2
+                if decoded_slashes % 2 == 1:
+                    break
+            else:
+                return True
+        return False
+    except (UnicodeError, SyntaxError, ValueError, TypeError, tokenize.TokenError, re.error):
+        return True
 
 
 def _require(condition, message):
@@ -114,7 +197,7 @@ def export_bundle(receipt: dict, output_dir: Path, *, ci_context: dict | None = 
         _require(len(names) == len(set(names)), "wheel contains duplicate members")
         for name in names:
             _relative(name)
-            _require(not _PRIVATE_PATH.search(archive.read(name)), "wheel contains a machine-specific absolute path")
+            _require(not _contains_private_path(name, archive.read(name)), "wheel contains a machine-specific absolute path")
         package_files = {name.removeprefix("hakimi_research/") for name in names if name.startswith("hakimi_research/")}
         _require(package_files == set(file_hashes) | {"_build_identity.json"}, "wheel runtime files differ from installed evidence")
         actual_hashes = {name: _sha(archive.read("hakimi_research/" + name)) for name in file_hashes}
