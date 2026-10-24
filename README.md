@@ -1,6 +1,6 @@
 # 哈基米交易（Hakimi Jiaoyi）
 
-本页是日常产品入口；M1、M2 与 R1／R2／R3 已结案。当前 main 为 PR #25 已合并的 `e33c1ef`，M3-1 及跨持仓归属退出修复已集成，[该 main 的检查已通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777)。当前开发候选 `0.6.0.dev1` 整合三项行情洞察、正式研究工作台、美股日线连续运行及财报排期输入；候选验证与 main、正式 Release 分开记录。
+本页是日常产品入口；M1、M2 与 R1／R2／R3 已结案。当前 main 为 PR #25 已合并的 `e33c1ef`，M3-1 及跨持仓归属退出修复已集成，[该 main 的检查已通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777)。当前开发候选 `0.6.0.dev2` 整合三项行情洞察、正式研究工作台、美股日线连续运行及财报排期输入；候选验证与 main、正式 Release 分开记录。
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
 
@@ -19,11 +19,11 @@ M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoy
 
 2026-10-23 的 `2036fdb` 补齐观察中断后的显式恢复入口及账本位置校验；[独立恢复演练](docs/research-evidence/watch-recovery-20261023/README.md)记录普通安装、真实子进程中断、桌面点击、重开与历史文件保全。原 NDAQ 真实反馈成果继续保留，未重复运行。
 
-**使用当前开发能力：**安装本候选的 `hakimi-research` wheel，运行 `hakimi-trade-workbench --open-browser` 打开正式工作台，或使用候选 Electron 的“正式研究工作台”入口。新任务默认调用 `hakimi_research`；工作区可显式选择，关闭重开保留输入、任务版本与结果。完整步骤、旧引擎兼容和验证状态见[正式工作台与版本入口](docs/workbench.md)。当前候选仍在验收，不把历史 Release 的验收移用到新代码。
+**使用当前开发能力：**安装本候选的 `hakimi-research` wheel，运行 `hakimi-trade-workbench --open-browser` 打开正式工作台，或使用候选 Electron 的“正式研究工作台”入口。新任务默认调用 `hakimi_research`；工作区可显式选择，关闭重开保留输入、任务版本与结果。完整步骤、旧引擎兼容和验证状态见[正式工作台与版本入口](docs/workbench.md)。本候选的本机普通安装与原生桌面验收见[日常交付验收](docs/daily-delivery-acceptance-20261025.md)，运行构建与最新 GitHub 检查分别核对；未发布为正式 Release。
 
 正式版本从 [v0.2.1 Release](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1) 下载 Windows 或 Ubuntu ZIP；核对发布页的 `SHA256SUMS.txt` 后解压，再核对包内校验和。两个 ZIP 各自保留确切受验收 wheel 与构建、依赖、测试证据；安装解压出的 `hakimi_research-0.2.1-py3-none-any.whl` 会按精确版本安装依赖，离线安装需另备依赖 wheel。该版本固定在 `45850899992361970043f2da70e785210025ae9e`，[发布下载与安装验收](docs/research-evidence/release-0.2.1-20260909/README.md)记录实际验证范围。
 
-原命令行继续按[离线工具安装与首次使用](docs/offline-quant-tool.md)和[统一输入流程](docs/input-workflow.md)操作。以下源码开发流程对应 `0.6.0.dev1`。归属退出修复的 `0.5.0.dev4` 已作为 PR #25 集成，原同一 wheel 的仓库外 299 项及共享流程 v4 记录见[历史证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。不同候选、正式 v0.2.1、M1 和 M2 历史产物分别保留来源与结果。
+原命令行继续按[离线工具安装与首次使用](docs/offline-quant-tool.md)和[统一输入流程](docs/input-workflow.md)操作。以下源码开发流程对应 `0.6.0.dev2`。归属退出修复的 `0.5.0.dev4` 已作为 PR #25 集成，原同一 wheel 的仓库外 299 项及共享流程 v4 记录见[历史证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。不同候选、正式 v0.2.1、M1 和 M2 历史产物分别保留来源与结果。
 
 开发环境在仓库根目录安装精确依赖与 editable 包：
 
@@ -42,7 +42,7 @@ hakimi-research list-strategies
 python -m pip install "setuptools>=77" wheel
 python -m pip wheel . --no-deps --no-build-isolation --wheel-dir dist
 python -m venv ..\hakimi-research-use\hakimi-env
-..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.6.0.dev1-py3-none-any.whl
+..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.6.0.dev2-py3-none-any.whl
 Set-Location ..\hakimi-research-use
 .\hakimi-env\Scripts\hakimi-research.exe capabilities
 ```
