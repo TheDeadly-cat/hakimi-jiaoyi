@@ -133,6 +133,71 @@ class DailyWorkbenchTests(unittest.TestCase):
         self.assertEqual(original_binding.read_bytes(), before)
         self.assertEqual(len(self.app.state()['runs']), 0)
 
+    def test_revision_impact_reads_actual_consumed_prefix_and_preserves_all_records(self):
+        import test_daily_updates as fixtures
+        from hakimi_research import daily_updates
+        from hakimi_research.continuous_runtime import _snapshots
+        from hakimi_research.documents import read_document
+        prior = fixtures.baseline('2026-10-05', '2026-10-22')
+        data = self.act('import_input', content_base64=base64.b64encode(fixtures.encoded(prior)).decode())
+        task = self.act('create_task', title='FICTIONAL revision impact', strategy='price.dual_ma@1',
+            snapshot=data['ref'], params=dict(fast_window=2, slow_window=4, position_pct=.25,
+                stop_loss_pct=.03, take_profit_pct=.06), score_start='2026-10-13', score_end='2026-10-22',
+            initial_cash=10000, fee_rate=.0008, slippage_pct=.0005)
+        limits = dict(max_total_position_pct=.8, max_symbol_position_pct=.5,
+            min_cash_pct=.1, max_daily_loss_pct=.05, max_leverage=1)
+        consumed = self.act('create_account', title='FICTIONAL consumed history', tasks=[task['ref']],
+            initial_cash=10000, limits=limits)
+        seed_only = self.act('create_account', title='FICTIONAL seed only', tasks=[task['ref']],
+            initial_cash=10000, limits=limits)
+        self.act('advance', account=consumed['ref'], snapshots=[data['ref']], through='2026-10-20',
+            observed_at='2026-10-23T21:00:00Z')
+        source = fixtures.source_reply('2026-10-05', '2026-10-23')
+        source['chart']['result'][0]['indicators']['quote'][0]['high'][10] += 1  # 19 October
+        directory = self.root / 'updates/check-revision-impact'
+        daily_updates.check_daily_update(self.app.path(data['ref']), directory,
+            now=daily_updates._clock('2026-10-23T21:00:00Z'), fetcher=lambda _url:fixtures.encoded(source))
+        before = self.hashes(self.root)
+        view = self.app.daily_update_view(self.app.ref(directory))
+        impact = view['revision_impact']
+        self.assertEqual(view['status'], 'REVISION_REVIEW_REQUIRED')
+        self.assertEqual(impact['status'], 'CHECKED')
+        self.assertEqual([row['ref'] for row in impact['tasks']], [task['ref']])
+        accounts = {row['ref']:row for row in impact['accounts']}
+        self.assertEqual(accounts[consumed['ref']]['status'], 'INPUT_CONFLICT_REQUIRES_NEW_ACCOUNT')
+        self.assertEqual(accounts[consumed['ref']]['changed_row_dates'], ['2026-10-19'])
+        self.assertEqual(accounts[consumed['ref']]['last_processed_session'], '2026-10-20')
+        self.assertEqual(accounts[seed_only['ref']]['status'], 'RETAINED_PREFIX_UNCHANGED')
+        self.assertIsNone(accounts[seed_only['ref']]['last_processed_session'])
+        self.assertEqual(accounts[seed_only['ref']]['retained_through'], '2026-10-12')
+        self.assertEqual((impact['new_economic_runs'], impact['ledger_writes']), (0, 0))
+        self.assertEqual(self.hashes(self.root), before)
+        # The informational projection does not weaken the existing ledger gate.
+        account = self.app.account_view(consumed['ref'])
+        manifest = read_document(self.app.path(consumed['ref']) / 'account.json')
+        candidate = read_document(directory / 'candidate-snapshot.json')
+        with self.assertRaisesRegex(ValueError, 'DATA_CONSUMED_PREFIX_REVISED_OR_MISSING:.*2026-10-19'):
+            _snapshots(account['state'], {candidate['security']['security_id']:candidate},
+                manifest['config'], '2026-10-23', '2026-10-23T21:00:00Z')
+        self.assertEqual(self.hashes(self.root), before)
+        # An unreadable account must remain unknown, never reported unaffected.
+        with patch('hakimi_research.continuous_runtime.describe_continuous_account',
+                   side_effect=ValueError('FICTIONAL damaged retained ledger')):
+            unknown = self.app.daily_update_view(self.app.ref(directory))['revision_impact']
+        self.assertEqual(unknown['status'], 'INCOMPLETE')
+        self.assertEqual(len(unknown['unresolved']), 2)
+        self.assertEqual(unknown['accounts'], [])
+        self.assertEqual(self.hashes(self.root), before)
+
+    def test_calendar_policy_comes_from_available_exchange_resources(self):
+        from hakimi_research.daily_updates import calendar_support
+        support = calendar_support()
+        policy = self.app.state()['data_update_policy']
+        self.assertEqual(policy['calendar_years'], support['supported_years'])
+        self.assertEqual(policy['exchanges'], support['exchanges'])
+        self.assertIn(2027, policy['exchanges']['XNYS'])
+        self.assertNotIn(2027, policy['exchanges']['XNAS'])
+
 
 if __name__ == '__main__':
     unittest.main()

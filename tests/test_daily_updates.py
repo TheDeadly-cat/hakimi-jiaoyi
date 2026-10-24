@@ -18,11 +18,11 @@ def encoded(value):
 
 
 def calendar_rows(first, last):
-    calendar, _ = updates._calendar()
+    calendar, _ = updates._calendar_window(date.fromisoformat(first).year, date.fromisoformat(last).year, 'XNYS')
     return updates._days(calendar, date.fromisoformat(first), date.fromisoformat(last))
 
 
-def source_reply(first='2026-10-19', last='2026-10-23'):
+def source_reply(first='2026-10-19', last='2026-10-23', *, exchange='XNAS'):
     sessions = [row for row in calendar_rows(first, last) if row['kind'] == 'OPEN']
     values = {key: [] for key in updates._FIELDS}
     for i, _ in enumerate(sessions):
@@ -31,13 +31,13 @@ def source_reply(first='2026-10-19', last='2026-10-23'):
     epoch = lambda value: int(updates._clock(value).timestamp())
     regular = {'start': epoch(sessions[-1]['open_utc']), 'end': epoch(sessions[-1]['close_utc'])}
     return {'chart': {'error': None, 'result': [{'meta': {'symbol': 'TEST', 'currency': 'USD',
-        'exchangeName': 'NMS', 'instrumentType': 'EQUITY', 'exchangeTimezoneName': 'America/New_York',
+        'exchangeName': 'NYQ' if exchange == 'XNYS' else 'NMS', 'instrumentType': 'EQUITY', 'exchangeTimezoneName': 'America/New_York',
         'regularMarketTime': regular['end'], 'currentTradingPeriod': {'regular': regular}},
         'timestamp': [epoch(row['open_utc']) for row in sessions], 'events': {},
         'indicators': {'quote': [values], 'adjclose': [{'adjclose': values['close'][:]}]}}]}}
 
 
-def baseline(first='2026-10-19', last='2026-10-22'):
+def baseline(first='2026-10-19', last='2026-10-22', *, exchange='XNAS'):
     days = calendar_rows(first, last)
     sessions = [row for row in days if row['kind'] == 'OPEN']
     raw = ('session_date,open,high,low,close,volume\n' + ''.join(
@@ -47,7 +47,7 @@ def baseline(first='2026-10-19', last='2026-10-22'):
         'reference': 'urn:synthetic:daily-update:' + kind, 'retrieved_at': retrieved,
         'raw_base64': base64.b64encode(content).decode()}
     manifest = {'schema_version': 'us-equity-daily-import-v1',
-        'security': {'security_id': 'SYNTHETIC:DAILY:TEST', 'symbol': 'TEST', 'exchange': 'XNAS',
+        'security': {'security_id': 'SYNTHETIC:DAILY:TEST', 'symbol': 'TEST', 'exchange': exchange,
                      'currency': 'USD', 'instrument_type': 'COMMON_STOCK'},
         'identity': {'stable_within_coverage': True, 'valid_from': first, 'valid_through': last,
             'selection_basis': 'Fictional input; imported flag exercises the production gate only.',
@@ -243,6 +243,8 @@ class DailyUpdateTests(unittest.TestCase):
     def test_unsupported_year_and_failed_source_do_not_retry(self):
         target, checked = self.check(now='2027-01-05T22:00:00Z')
         self.assertEqual(checked['status'], 'CALENDAR_UNAVAILABLE')
+        self.assertEqual(checked['reason'], 'EXCHANGE_CALENDAR_NOT_PUBLISHED:XNAS:2027')
+        self.assertEqual(checked['stop_detail']['details']['exchange'], 'XNAS')
         self.assertEqual(self.fetches, [])
         self.assertFalse((target / 'source-yahoo-chart.json').exists())
         path = self.root / 'baseline-for-failure.json'; path.write_bytes(encoded(baseline()))
@@ -257,6 +259,130 @@ class DailyUpdateTests(unittest.TestCase):
         self.assertEqual(checked['reason'], 'SOURCE_HTTP_429')
         self.assertEqual((target / 'source-yahoo-chart.json').read_bytes(), b'Rate limited')
         self.assertFalse(checked['source_response_truncated'])
+
+    def test_installed_calendar_inventory_preserves_2026_and_scopes_2027_to_nyse(self):
+        _, raw = updates._calendar()
+        self.assertEqual(sha256(raw).hexdigest(), 'c367399cdb316fecae4e63b95d0d183b4959b61237145b8e01a0f3b1a2561491')
+        support = updates.calendar_support()
+        self.assertEqual(support['supported_years'], [2026, 2027])
+        self.assertEqual(support['exchanges'], {'XNAS': [2026], 'XNYS': [2026, 2027]})
+        self.assertEqual(support['max_history_calendar_days'], 366)
+        self.assertEqual(support['max_source_rows'], 370)
+        cal, _ = updates._calendar(2027)
+        self.assertEqual(len(cal['holidays']), 10)
+        days = updates._days(cal, date(2027, 1, 1), date(2027, 12, 31))
+        self.assertEqual(sum(row['kind'] == 'OPEN' for row in days), 251)
+        by_day = {row['date']: row for row in days}
+        self.assertEqual(by_day['2027-12-24']['kind'], 'CLOSED')
+        self.assertEqual(by_day['2027-07-02']['close_utc'], '2027-07-02T20:00:00Z')
+        self.assertEqual(by_day['2027-12-31']['close_utc'], '2027-12-31T21:00:00Z')
+        self.assertEqual([row['date'] for row in days if row.get('early_close')], ['2027-11-26'])
+
+    def test_2027_early_close_holidays_and_dst_use_new_york_dates(self):
+        cal, _ = updates._calendar(2027)
+        for day, opened, closed in [
+            ('2027-03-12', '14:30:00Z', '21:00:00Z'), ('2027-03-15', '13:30:00Z', '20:00:00Z'),
+            ('2027-11-05', '13:30:00Z', '20:00:00Z'), ('2027-11-08', '14:30:00Z', '21:00:00Z')]:
+            row = calendar_rows(day, day)[0]
+            self.assertEqual(row['open_utc'], day + 'T' + opened)
+            self.assertEqual(row['close_utc'], day + 'T' + closed)
+        self.assertEqual(updates._last_complete(cal, updates._clock('2027-11-26T18:00:59Z')), '2027-11-24')
+        self.assertEqual(updates._last_complete(cal, updates._clock('2027-11-26T18:01:00Z')), '2027-11-26')
+        prior = baseline('2027-11-22', '2027-11-24', exchange='XNYS')
+        target, checked = self.check(source_reply('2027-11-22', '2027-11-26', exchange='XNYS'),
+                                     prior=prior, now='2027-11-26T18:01:00Z')
+        self.assertEqual(checked['status'], 'READY')
+        self.assertEqual(checked['new_dates'], ['2027-11-26'])
+        self.assertEqual(checked['calendar_years'], [2027])
+        self.assertEqual(checked['calendar_coverage'][0]['exchanges'], ['XNYS'])
+        self.assertEqual(json.loads((target / 'candidate-snapshot.json').read_bytes())['sessions'][-1]['close_utc'],
+                         '2027-11-26T18:00:00Z')
+
+    def test_cross_year_append_retains_each_calendar_and_does_not_add_holiday_bars(self):
+        prior = baseline('2026-12-28', '2026-12-31', exchange='XNYS')
+        payload = source_reply('2026-12-28', '2027-01-04', exchange='XNYS')
+        target, checked = self.check(payload, prior=prior, now='2027-01-04T21:01:00Z')
+        self.assertEqual(checked['status'], 'READY')
+        self.assertEqual(checked['new_dates'], ['2027-01-04'])
+        self.assertEqual(checked['calendar_years'], [2026, 2027])
+        merged = json.loads((target / 'calendar.json').read_bytes())
+        for part in merged['components']:
+            original = updates._calendar(part['year'])[1]
+            self.assertEqual(base64.b64decode(part['raw_base64']), original)
+            self.assertEqual(part['sha256'], sha256(original).hexdigest())
+        candidate = json.loads((target / 'candidate-snapshot.json').read_bytes())
+        self.assertEqual([r['date'] for r in candidate['sessions']],
+                         ['2026-12-28', '2026-12-29', '2026-12-30', '2026-12-31', '2027-01-04'])
+        self.assertEqual(checked['revisions'], [])
+        frozen = updates.freeze_daily_update(target, self.root / 'cross-year')
+        self.assertEqual(Path(frozen['path']).read_bytes(), (target / 'candidate-snapshot.json').read_bytes())
+        _, holiday = self.check(source_reply('2026-12-28', '2026-12-31', exchange='XNYS'),
+                                prior=prior, now='2027-01-01T23:00:00Z')
+        self.assertEqual(holiday['status'], 'UNCHANGED')
+        self.assertEqual(holiday['latest_completed_session'], '2026-12-31')
+
+    def test_request_crossing_new_york_year_boundary_freezes_actual_calendar_once(self):
+        moments = iter(['2027-01-01T04:59:59+00:00', '2027-01-01T05:00:01+00:00'])
+        class BoundaryClock(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return cls.fromisoformat(next(moments)).astimezone(tz)
+        prior = baseline('2026-12-28', '2026-12-30', exchange='XNYS')
+        path = self.root / 'midnight-baseline.json'; path.write_bytes(encoded(prior))
+        payload = encoded(source_reply('2026-12-28', '2026-12-31', exchange='XNYS'))
+        with patch.object(updates, 'datetime', BoundaryClock):
+            checked = updates.check_daily_update(path, self.root / 'midnight', fetcher=lambda url: payload)
+        self.assertEqual(checked['status'], 'READY')
+        self.assertEqual(checked['new_dates'], ['2026-12-31'])
+        self.assertEqual(checked['calendar_years'], [2026, 2027])
+        self.assertEqual(checked['retrieved_at'], '2027-01-01T05:00:01Z')
+
+    def test_unsupported_calendar_future_availability_and_window_limit_stop_before_fetch(self):
+        prior = baseline(exchange='XNYS')
+        _, unavailable = self.check(prior=prior, now='2028-01-04T22:00:00Z')
+        self.assertEqual(unavailable['reason'], 'PUBLISHED_CALENDAR_YEAR_UNAVAILABLE:2028')
+        self.assertEqual(self.fetches, [])
+        cal, raw = updates._calendar()
+        future = deepcopy(cal); future['recorded_at'] = '2026-10-24T00:00:00Z'
+        with patch.object(updates, '_calendar_window', return_value=(future, encoded(future))):
+            _, unavailable = self.check()
+        self.assertEqual(unavailable['reason'], 'CALENDAR_NOT_YET_RECORDED')
+        self.assertEqual(self.fetches, [])
+        prior = baseline('2026-01-02', '2026-01-05', exchange='XNYS')
+        _, too_long = self.check(prior=prior, now='2027-01-04T22:00:00Z')
+        self.assertEqual(too_long['reason'], 'HISTORY_WINDOW_LIMIT_EXCEEDED')
+        self.assertEqual(too_long['stop_detail']['details']['maximum'], 366)
+        self.assertEqual(self.fetches, [])
+
+    def test_corporate_action_details_are_explicit_and_never_create_a_candidate(self):
+        for kind in ('dividends', 'splits', 'capitalGains'):
+            reply = source_reply()
+            row = reply['chart']['result'][0]
+            row['events'] = {kind: {'test': {'date': row['timestamp'][0], 'amount': .1}}}
+            # A known event explains the stop even if adjusted prices also differ.
+            row['indicators']['adjclose'][0]['adjclose'][0] -= 1
+            target, checked = self.check(reply)
+            self.assertEqual(checked['status'], 'BLOCKED')
+            self.assertFalse(checked['can_freeze'])
+            self.assertEqual(checked['stop_detail']['details']['kind'], kind)
+            self.assertEqual(checked['stop_detail']['details']['date'], '2026-10-19')
+            self.assertFalse((target / 'candidate-snapshot.json').exists())
+            self.assertEqual((target / 'source-yahoo-chart.json').read_bytes(), encoded(reply))
+        reply = source_reply(); reply['chart']['result'][0]['indicators']['adjclose'][0]['adjclose'][0] -= 1
+        _, checked = self.check(reply)
+        self.assertEqual(checked['stop_detail']['details'], dict(date='2026-10-19', raw_close=101, adjusted_close=100))
+        reply = source_reply(); reply['chart']['result'][0].pop('events')
+        _, checked = self.check(reply)
+        self.assertEqual(checked['stop_detail']['code'], 'SOURCE_CORPORATE_ACTION_COVERAGE_UNKNOWN')
+
+    def test_original_v1_check_without_new_explanation_fields_remains_readable(self):
+        target, _ = self.check()
+        checked = json.loads((target / 'check.json').read_bytes())
+        for name in ('calendar_years', 'calendar_coverage', 'stop_detail', 'check_hash'):
+            checked.pop(name)
+        checked['check_hash'] = updates.digest(checked)
+        (target / 'check.json').write_bytes(encoded(checked))
+        self.assertEqual(updates.read_daily_update(target)['status'], 'READY')
 
 
 if __name__ == '__main__':

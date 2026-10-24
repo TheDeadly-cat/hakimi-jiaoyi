@@ -4,7 +4,7 @@
 
 | 入口 | 计算来源 | 使用范围 |
 |---|---|---|
-| 本开发候选 `0.6.0.dev2` 的正式工作台 | `hakimi_research`，与正式 CLI 同一安装包 | 新普通任务、保存结果对照、美股日线连续研究、财报排期输入 |
+| 本开发候选 `0.6.0.dev3` 的正式工作台 | `hakimi_research`，与正式 CLI 同一安装包 | 新普通任务、保存结果对照、美股日线连续研究、财报排期输入 |
 | `hakimi-trade` 原 CLI | 同一正式内核 | 已有五类规则、任务版本、统一输入、旧共享合成账户等完整命令能力 |
 | 原终端 / Legacy Preview / 三项行情洞察 | 各自保留原始引擎和数据身份 | 原图表、结构/同行比较/指标说明及历史研究；其结果不与正式计算混作同一口径 |
 | GitHub Release `v0.2.1` | 该 Release 封存的历史版本 | 旧发行能力；不包含本开发候选新增能力 |
@@ -19,7 +19,7 @@
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install .\hakimi_research-0.6.0.dev2-py3-none-any.whl
+.\.venv\Scripts\python.exe -m pip install .\hakimi_research-0.6.0.dev3-py3-none-any.whl
 .\.venv\Scripts\hakimi-trade-workbench.exe --workspace .\我的研究 --open-browser
 ```
 

@@ -144,7 +144,56 @@ class Workbench:
             signals=result['signals'], fills=result['fills'], equity_curve=result['equity_curve'],
             runtime=manifest['runtime'], inputs=manifest['task'], diagnostics=saved_run_diagnostics(path))
 
-    def daily_update_view(self, ref):
+    def _daily_revision_impact(self, result, directory):
+        """Compare immutable candidate bytes with retained account prefixes, without writes."""
+        from .continuous_runtime import _prefix, describe_continuous_account
+        from .equity_dataset import verify_equity_snapshot
+        candidate = verify_equity_snapshot(read_document(directory / 'candidate-snapshot.json'))
+        security = candidate['security']['security_id']
+        tasks, accounts, unresolved = [], [], []
+        for path in list_tasks(self.root):
+            row = self._item(path, describe_task)
+            if row.get('error'):
+                unresolved.append(dict(kind='TASK', ref=row['ref'], reason=row['error']))
+            elif row.get('inputs', {}).get('snapshot', {}).get('input_id') == result['baseline_snapshot_id']:
+                tasks.append(dict(ref=row['ref'], title=row.get('title'), task_id=row['task_id'],
+                    revision=row.get('viewed_revision')))
+        for path in sorted((self.root / 'continuous').iterdir()):
+            if not path.is_dir() or path.name.startswith('.'):
+                continue
+            row = self._item(path, describe_continuous_account)
+            if row.get('error'):
+                unresolved.append(dict(kind='ACCOUNT', ref=row['ref'], reason=row['error']))
+                continue
+            old = row.get('continuous', {}).get('inputs', {}).get(security)
+            if old is None:
+                continue
+            try:
+                _regular(path / 'workbench-binding.json')
+                binding = read_document(path / 'workbench-binding.json')
+                through = max([*old['rows'], *old['calendar']])
+                new = _prefix(candidate, through)
+                changed_rows = sorted(day for day, value in old['rows'].items() if new['rows'].get(day) != value)
+                changed_calendar = sorted(day for day, value in old['calendar'].items() if new['calendar'].get(day) != value)
+                changed_identity = [key for key in ('security', 'price_basis', 'lag', 'evidence_kind')
+                                    if old[key] != new[key]]
+                conflict = bool(changed_rows or changed_calendar or changed_identity)
+                accounts.append(dict(ref=row['ref'], title=binding.get('title') or path.name,
+                    account_id=row['account_id'], receipt_head=row['receipt_head'],
+                    last_processed_session=row['continuous'].get('last_session'), retained_through=through,
+                    status='INPUT_CONFLICT_REQUIRES_NEW_ACCOUNT' if conflict else 'RETAINED_PREFIX_UNCHANGED',
+                    changed_row_dates=changed_rows, changed_calendar_dates=changed_calendar,
+                    changed_identity_fields=changed_identity))
+            except (ValueError, OSError, KeyError, TypeError) as exc:
+                unresolved.append(dict(kind='ACCOUNT', ref=row['ref'], reason=str(exc)))
+        return dict(status='INCOMPLETE' if unresolved else 'CHECKED', view_only=True,
+            checked_at=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
+            check_hash=result['check_hash'], candidate_snapshot_id=result['candidate_snapshot_id'],
+            security_id=security, tasks=tasks, accounts=accounts, unresolved=unresolved,
+            new_economic_runs=0, ledger_writes=0,
+            policy='READ_CURRENT_RETAINED_PREFIXES_ONLY_NOT_AUTHORIZATION_TO_ADVANCE')
+
+    def daily_update_view(self, ref, *, include_impact=True):
         from .daily_updates import read_daily_update
         result = read_daily_update(self.path(ref, 'updates'))
         receipt = result.get('freeze_receipt') or {}
@@ -152,6 +201,8 @@ class Workbench:
             frozen = self.path(receipt['input_ref'], 'data')
             if hashlib.sha256(frozen.read_bytes()).hexdigest() != receipt['input_file_sha256']:
                 raise ValueError('daily_update_frozen_input_missing_or_changed')
+        if include_impact and result.get('revisions') and result.get('can_freeze'):
+            result = dict(result, revision_impact=self._daily_revision_impact(result, self.path(ref, 'updates')))
         return dict(result, ref=ref, frozen_input_ref=receipt.get('input_ref'))
 
     def validation_view(self, ref):
@@ -242,12 +293,14 @@ class Workbench:
                        if p.is_dir() and not p.name.startswith('.')]
             research = [dict(read_document(p), ref=self.ref(p.parent))
                         for p in sorted((self.root / 'research-imports').glob('*/assessment.json'))]
-            updates = [self._item(p, lambda q: self.daily_update_view(self.ref(q)))
+            updates = [self._item(p, lambda q: self.daily_update_view(self.ref(q), include_impact=False))
                        for p in sorted((self.root / 'updates').glob('check-*')) if p.is_dir()]
             validations = [self._item(p, lambda q: self.validation_view(self.ref(q)))
                            for p in sorted((self.root / 'validations').glob('validation-*')) if p.is_dir()]
             validation_summaries = [{k:v for k,v in row.items()
                 if k in {'ref','base','symbol','status','validation_hash','error'}} for row in validations]
+            from .daily_updates import calendar_support
+            calendar_policy = calendar_support()
             return dict(engine=dict(name='hakimi_research', version=version,
                 delivery=_delivery_identity(runtime, version, self.loaded_source),
                 source_identity=runtime['source_identity'], environment=runtime['environment_verified'],
@@ -255,7 +308,7 @@ class Workbench:
                 inputs=inputs, tasks=tasks, runs=runs, accounts=accounts, strategies=catalog,
                 operations=operations[-20:] + pending, watches=watches, research_imports=research,
                 daily_updates=updates[-50:], validations=validation_summaries,
-                data_update_policy=dict(calendar_years=[2026], source='Yahoo Finance', max_symbols=1,
+                data_update_policy=dict(calendar_policy, calendar_years=calendar_policy['supported_years'], source='Yahoo Finance', max_symbols=1,
                     network='EXPLICIT_CHECK_ONLY', existing_snapshot_required=True),
                 server_time=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
                 runtime_guard=dict(restart_required=restart_required, loaded_source_sha256=self.loaded_source),

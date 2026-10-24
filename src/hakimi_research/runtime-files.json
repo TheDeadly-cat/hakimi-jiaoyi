@@ -63,6 +63,7 @@
     "resources/trade-demo-source-prior.html",
     "resources/trade-demo.csv",
     "resources/us-equity-calendar-2026.json",
+    "resources/us-equity-calendar-2027-v1.json",
     "resources/workbench.html",
     "risk.py",
     "runtime-files.json",

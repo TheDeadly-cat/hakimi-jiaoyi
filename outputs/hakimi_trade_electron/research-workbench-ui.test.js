@@ -381,3 +381,32 @@ test("read-only old account keeps records and stop control accessible while disa
   await dom.click(dom.button("pause-account"));assert.equal(calls.filter(row=>row.payload).length,0);
   assert.match(ui.accountCompatibilityHtml({}),/兼容性尚未核实/);
 });
+
+
+test("revision review explains consumed history and prepares a new task version without writing",async()=>{
+  const dom=documentFixture(),oldTask={...taskRow(),task_id:"old-task-identity"},frozen={...input(),ref:"data/snapshots/revised.json",coverage_end:"2026-10-23"};
+  const update={ref:"updates/check-revised",symbol:"AAPL",status:"REVISION_REVIEW_REQUIRED",can_freeze:true,frozen:true,frozen_input_ref:frozen.ref,revisions:[{date:"2026-10-19",field:"high",old_value:102,new_value:103}],revision_impact:{status:"CHECKED",view_only:true,checked_at:"2026-10-23T21:00:00Z",tasks:[{ref:oldTask.ref,title:oldTask.title}],accounts:[{ref:"continuous/old",title:"旧组合",status:"INPUT_CONFLICT_REQUIRES_NEW_ACCOUNT",last_processed_session:"2026-10-20",retained_through:"2026-10-20",changed_row_dates:["2026-10-19"],changed_calendar_dates:[]},{ref:"continuous/seed",title:"未处理该日期的组合",status:"RETAINED_PREFIX_UNCHANGED",last_processed_session:null,retained_through:"2026-10-12",changed_row_dates:[],changed_calendar_dates:[]}],unresolved:[],new_economic_runs:0,ledger_writes:0}},current={...data(),inputs:[input(),frozen],tasks:[oldTask],daily_updates:[update]},calls=[];
+  ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});if(route==="/api/state")return copy(current);if(route.startsWith("/api/daily-update?"))return copy(update);assert.equal(payload.action,"bind_task_input");current.operations.push({operation_id:payload.operation_id,status:"COMMITTED",ok:true});return {ok:true,result:{...oldTask,task_id:"new-task-identity",input_update_status:"NEW_IMMUTABLE_VERSION"}};},storage());await flush();
+  await dom.click(dom.button("daily-update-detail",update.ref));const text=dom.get("daily-update-detail").textContent;
+  assert.match(text,/2026-10-19/);assert.match(text,/已锁定历史与候选不一致/);assert.match(text,/本证券已锁定历史未变化/);assert.match(text,/尚未评分/);assert.match(text,/没有重算收益或追加记账/);assert.match(text,/新本金、空仓/);assert.match(text,/不搬移旧持仓/);
+  await dom.click(dom.button("prepare-task-input",frozen.ref));assert.equal(calls.filter(row=>row.payload).length,0);assert.equal(dom.get("bind-snapshot").value,frozen.ref);assert.equal(dom.get("bind-task").value,oldTask.ref);assert.equal(dom.get("bind-score-end").value,"2026-10-23");
+  await dom.submit("bind-task-input-form");assert.equal(calls.filter(row=>row.payload).length,1);assert.equal(calls.find(row=>row.payload).payload.expected_task_id,"old-task-identity");assert.ok(!calls.some(row=>["advance","run_task","create_account"].includes(row.payload?.action)));
+  assert.match(ui.revisionImpactHtml({...update,revision_impact:undefined}),/尚未完成账户影响核对/);
+  assert.match(ui.revisionImpactHtml({...update,revision_impact:{accounts:[],tasks:[],unresolved:[{ref:"continuous/broken"}]}}),/影响未知/);
+});
+
+test("company action stops identify dates and types and preserve the unsupported boundary",()=>{
+  const row={status:"BLOCKED",can_freeze:false,reason:"CORPORATE_ACTION_IN_WINDOW:dividends:2026-10-20",stop_detail:{category:"CORPORATE_ACTION",summary:"2026-10-20 有现金分红，当前未支持现金处理。",action:"保留原件；不能删除事件后继续。",details:{date:"2026-10-20",kind:"dividends"}}};
+  let result=ui.dailyUpdateHtml(row);assert.match(result,/2026-10-20/);assert.match(result,/现金分红/);assert.match(result,/下一步/);assert.match(result,/不能删除事件/);assert.doesNotMatch(result,/data-action="freeze-stock-update"/);
+  result=ui.dailyUpdateHtml({...row,stop_detail:undefined,reason:"CORPORATE_ACTION_IN_WINDOW:splits:2026-10-21"});assert.match(result,/2026-10-21/);assert.match(result,/拆股或合股/);assert.match(result,/现金、股数或价格调整/);
+  result=ui.dailyUpdateHtml({...row,stop_detail:undefined,reason:"SOURCE_CORPORATE_ACTION_COVERAGE_UNKNOWN"});assert.match(result,/不能证明本窗口没有分红或拆股/);
+  result=ui.dailyUpdateHtml({...row,reason:"SOURCE_ADJUSTED_RAW_MISMATCH",stop_detail:{summary:"原始与调整收盘不一致。",action:"核对价格口径。",details:{date:"2026-10-19",raw_close:100,adjusted_close:98}}});assert.match(result,/原始收盘/);assert.match(result,/调整后收盘/);assert.match(result,/98/);
+  const blocked=ui.accountInputStopHtml({continuous:{stop_reason:"DATA_CONSUMED_PREFIX_REVISED_OR_MISSING:US:AAPL:2026-10-19"}});assert.match(blocked,/2026-10-19/);assert.match(blocked,/原账户不能用此输入继续/);assert.match(blocked,/空仓/);assert.doesNotMatch(blocked,/DATA_CONSUMED_PREFIX/);
+});
+
+test("selected exchange displays only its verified calendar years without querying data",async()=>{
+  const dom=documentFixture(),nyse={...input(),ref:"data/nyse",security:{symbol:"NYSETEST",exchange:"XNYS"}},nasdaq={...input(),ref:"data/nasdaq",security:{symbol:"NASDAQTEST",exchange:"XNAS"}},current={...data(),inputs:[nyse,nasdaq],data_update_policy:{calendar_years:[2026,2027],exchanges:{XNYS:[2026,2027],XNAS:[2026]},source:"Yahoo Finance",max_symbols:1,max_history_calendar_days:366}},calls=[];
+  ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});return copy(current);},storage());await flush();
+  dom.get("stock-update-snapshot").value=nyse.ref;dom.listeners.change({target:dom.get("stock-update-snapshot")});assert.match(dom.get("stock-update-policy").textContent,/NYSE 已核对年份：2026、2027/);assert.match(dom.get("stock-update-policy").textContent,/366 个自然日/);
+  dom.get("stock-update-snapshot").value=nasdaq.ref;dom.listeners.change({target:dom.get("stock-update-snapshot")});assert.match(dom.get("stock-update-policy").textContent,/Nasdaq 已核对年份：2026/);assert.doesNotMatch(dom.get("stock-update-policy").textContent,/2027/);assert.match(dom.get("stock-update-policy").textContent,/跨年须覆盖每一年的对应交易所年表/);assert.equal(calls.filter(row=>row.payload).length,0);
+});
