@@ -4,7 +4,7 @@
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
 
-本轮候选见[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)及[桌面、安装与连续运行记录](docs/research-evidence/workbench-m32-20261022/README.md)。普通任务和双股票账户已完成原生窗口操作及安装后重开；`166e18e` 的独立普通安装与十一项 CI 已通过。用户接纳的 NDAQ 排期使用截至 10 月 22 日的 27 根完整日线创建新任务、运行并导出反馈；反馈已由交易分析“股票观察组”房间资料导入并回读。[本轮闭环摘要](docs/research-evidence/workbench-m32-20261022/ndaq-schedule-closeout-20261023.json)保留身份及范围。10 月 21 日止的旧输入因资料当时尚不可用而停止的记录仍是独立历史证据；本次不据收益或零次拦截宣称策略有效。
+日常开发候选为 `0.6.0.dev2`，仍在[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)。先看[日常入口、版本身份与旧账户处理](docs/daily-delivery.md)，再按[当前状态](CURRENT_STATUS.md)核对精确安装、桌面与 CI 证据。原终端和旧工作区保持独立。前一候选 `528181c` 的 379 项安装测试、11 项 CI，以及更早 NDAQ 财报排期反馈闭环，均保留原构建身份；工程验收不代表策略有效。
 
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 M1 已交付并合入 main `17b2c15`（PR #19 受审 `669b348`），实际 main [九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005)。M1 存档候选为 `0.3.0.dev4`；正式 Release 仍为 `v0.2.1`。旧产物、失败记录与验收身份保留。

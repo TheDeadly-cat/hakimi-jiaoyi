@@ -4,6 +4,16 @@ const path = require("node:path");
 const { spawn } = require("node:child_process");
 const { configureRemoteDebugging, installNavigationPolicy, stopOwnedBackend } = require("./desktop-security-policy");
 
+function desktopSettings(appData, env = process.env) {
+  const profile = env.HAKIMI_RESEARCH_DESKTOP_PROFILE;
+  if (profile !== undefined && !/^[a-f0-9]{64}$/.test(profile)) {
+    throw new Error("候选桌面身份无效，请使用已核对的启动入口。");
+  }
+  return { userData: profile ? path.join(appData, "HakimiResearchWorkbench", "candidates", profile)
+    : path.join(appData, "HakimiResearchWorkbench"),
+    title: profile ? "哈基米研究工作台（日常候选）" : "哈基米研究工作台" };
+}
+
 function launchSpec({ workspace, python = "python", env = process.env }) {
   if (typeof workspace !== "string" || !workspace.trim() || typeof python !== "string" || !python.trim()) {
     throw new Error("请选择有效的工作区与 Python 程序。");
@@ -55,8 +65,9 @@ function startServer(spec, { spawnProcess = spawn, timeoutMs = 20000 } = {}) {
 
 async function runDesktop(electron) {
   const { app, BrowserWindow, Menu, dialog, shell } = electron;
+  const desktop = desktopSettings(app.getPath("appData"));
   app.setName("Hakimi Research Workbench");
-  app.setPath("userData", path.join(app.getPath("appData"), "HakimiResearchWorkbench"));
+  app.setPath("userData", desktop.userData);
   configureRemoteDebugging(app, process.env);
   if (!app.requestSingleInstanceLock()) { app.quit(); return; }
   let window = null, backend = null, quitting = false;
@@ -70,11 +81,14 @@ async function runDesktop(electron) {
     backend = started.child;
     const identity = await started.ready;
     if (quitting) return;
-    window = new BrowserWindow({ title: "哈基米研究工作台", width: 1440, height: 960, minWidth: 1000, minHeight: 680,
+    window = new BrowserWindow({ title: desktop.title, width: 1440, height: 960, minWidth: 1000, minHeight: 680,
       backgroundColor: "#f3f6fa", show: false, webPreferences: { contextIsolation: true, nodeIntegration: false,
         sandbox: true, webSecurity: true, devTools: !app.isPackaged } });
     installNavigationPolicy(window.webContents, { baseUrl: identity.url, bootUrl: "", openExternal: url => shell.openExternal(url) });
     window.webContents.session.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
+    // The page title describes its contents; the native title identifies the
+    // isolated candidate entry even after navigation or reload.
+    window.on("page-title-updated", event => { event.preventDefault(); });
     window.once("ready-to-show", () => window?.show());
     window.on("closed", () => { window = null; });
     backend.on("exit", () => { if (!quitting && window) dialog.showMessageBox(window, { type: "error", title: "研究服务已停止",
@@ -104,4 +118,4 @@ function isResearchEntry(runtime = process, filename = __filename, nodeMain = re
 }
 
 if (isResearchEntry()) runDesktop(require("electron"));
-module.exports = { launchSpec, validateAnnouncement, startServer, runDesktop, isResearchEntry };
+module.exports = { desktopSettings, launchSpec, validateAnnouncement, startServer, runDesktop, isResearchEntry };

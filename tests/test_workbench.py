@@ -124,6 +124,72 @@ class WorkbenchTests(unittest.TestCase):
                 self.act('import_input', content_base64=base64.b64encode(b'{}').decode())
         self.assertEqual(list((self.root / 'operations').glob('*/request.json')), [])
 
+    def test_delivery_identity_uses_verified_build_commit_not_current_git(self):
+        from copy import deepcopy
+        from hakimi_research.environment import build_runtime_provenance
+        from hakimi_research.workbench_service import _delivery_identity
+        runtime = deepcopy(build_runtime_provenance())
+        source = runtime['source_identity']
+        source.update(status='BUILD_VERIFIED', git=dict(commit='b' * 40, status='CLEAN'),
+            build_receipt=dict(git=dict(commit='a' * 40, status='DIRTY')))
+        identity = _delivery_identity(runtime, 'test-package', self.app.loaded_source)
+        self.assertEqual(identity['build_commit'], 'a' * 40)
+        self.assertEqual(identity['build_worktree_status'], 'DIRTY')
+        self.assertEqual(identity['origin'], 'INSTALLED_BUILD')
+        self.assertEqual(identity['loaded_source_sha256'], self.app.loaded_source)
+        self.assertEqual(identity['package_version'], 'test-package')
+        source['status'] = 'BUILD_MISMATCH'
+        self.assertIsNone(_delivery_identity(runtime, 'test-package', self.app.loaded_source)['build_commit'])
+        source['status'] = 'CONTENT_HASHED'
+        identity = _delivery_identity(runtime, 'unrelated-installed-package', self.app.loaded_source)
+        self.assertEqual(identity['origin'], 'SOURCE_CHECKOUT')
+        self.assertIsNone(identity['package_version'])
+        self.assertIsNone(identity['build_commit'])
+        self.assertEqual(identity['checkout_git']['commit'], 'b' * 40)
+
+    def test_account_compatibility_is_read_only_and_ignores_git_only_changes(self):
+        from copy import deepcopy
+        import hashlib
+        from hakimi_research.environment import build_runtime_provenance
+        data = self.seed()
+        task = self.task(data)
+        account = self.act('create_account', title='身份核对', tasks=[task['ref']], initial_cash=10000,
+            limits=dict(max_total_position_pct=.8, max_symbol_position_pct=.5,
+                        min_cash_pct=.1, max_daily_loss_pct=.05, max_leverage=1))
+        hashes = lambda: {str(p.relative_to(self.root)): hashlib.sha256(p.read_bytes()).hexdigest()
+                          for p in self.root.rglob('*') if p.is_file()}
+        before = hashes()
+        original = self.app.account_view(account['ref'])
+        self.assertTrue(original['compatibility']['can_continue'])
+        runtime = deepcopy(build_runtime_provenance())
+        runtime['source_identity']['git'] = dict(commit='b' * 40, status='DIRTY')
+        with patch('hakimi_research.workbench_service.build_runtime_provenance', return_value=runtime):
+            self.assertTrue(self.app.account_view(account['ref'])['compatibility']['can_continue'])
+        runtime['source_identity']['content_sha256'] = 'f' * 64
+        with patch('hakimi_research.workbench_service.build_runtime_provenance', return_value=runtime):
+            changed = self.app.account_view(account['ref'])
+            self.assertEqual(changed['compatibility']['status'], 'READ_ONLY')
+            self.assertIn('CODE_CONTENT_CHANGED', changed['compatibility']['reasons'])
+            self.assertFalse(changed['compatibility']['can_continue'])
+            self.assertFalse(self.app.state()['accounts'][0]['compatibility']['can_continue'])
+        self.assertEqual(changed['history'], original['history'])
+        self.assertEqual(changed['state'], original['state'])
+        self.assertEqual(hashes(), before)
+
+    def test_missing_account_binding_and_changed_dependencies_do_not_claim_continuation(self):
+        from copy import deepcopy
+        from hakimi_research.environment import build_runtime_provenance
+        from hakimi_research.workbench_service import _account_compatibility
+        runtime = build_runtime_provenance()
+        missing = _account_compatibility(None, runtime, self.app.loaded_source, self.app.loaded_environment)
+        self.assertFalse(missing['can_continue'])
+        self.assertEqual(missing['reasons'], ['SAVED_RUNTIME_UNKNOWN'])
+        saved = dict(source_sha256=self.app.loaded_source, dependencies=deepcopy(self.app.loaded_environment))
+        saved['dependencies']['python_version'] = 'different'
+        changed = _account_compatibility(saved, runtime, self.app.loaded_source, self.app.loaded_environment)
+        self.assertFalse(changed['can_continue'])
+        self.assertEqual(changed['reasons'], ['DEPENDENCIES_CHANGED'])
+
     def test_task_context_uses_current_parameters_without_creating_task(self):
         data = self.seed()
         default = self.app.action(dict(action='task_context', strategy='price.dual_ma@1', snapshot=data['ref']))

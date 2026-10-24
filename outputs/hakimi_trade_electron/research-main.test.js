@@ -1,6 +1,21 @@
 "use strict";
 const test = require("node:test"), assert = require("node:assert/strict"), { EventEmitter } = require("node:events");
-const { launchSpec, validateAnnouncement, startServer, isResearchEntry } = require("./research-main");
+const { desktopSettings, launchSpec, validateAnnouncement, startServer, isResearchEntry } = require("./research-main");
+
+test("verified candidate profiles cannot be captured by the original single-instance window", () => {
+  const original = desktopSettings("profile-root", {});
+  const first = desktopSettings("profile-root", { HAKIMI_RESEARCH_DESKTOP_PROFILE: "a".repeat(64) });
+  const repeated = desktopSettings("profile-root", { HAKIMI_RESEARCH_DESKTOP_PROFILE: "a".repeat(64) });
+  const second = desktopSettings("profile-root", { HAKIMI_RESEARCH_DESKTOP_PROFILE: "b".repeat(64) });
+  assert.notEqual(first.userData, original.userData);
+  assert.notEqual(first.userData, second.userData);
+  assert.deepEqual(first, repeated);
+  assert.match(first.title, /日常候选/);
+  assert.equal(original.title, "哈基米研究工作台");
+  for (const value of ["", "../original", "a".repeat(63), "A".repeat(64)]) {
+    assert.throws(() => desktopSettings("profile-root", { HAKIMI_RESEARCH_DESKTOP_PROFILE: value }), /身份无效/);
+  }
+});
 
 test("Electron explicit file entry starts without require.main while imports and renderer processes remain inert", () => {
   const filename = require.resolve("./research-main"), runtime = {versions:{electron:"31.7.7"},type:"browser",argv:["electron",filename],platform:process.platform};

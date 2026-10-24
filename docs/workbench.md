@@ -4,12 +4,12 @@
 
 | 入口 | 计算来源 | 使用范围 |
 |---|---|---|
-| 本开发候选 `0.6.0.dev1` 的正式工作台 | `hakimi_research`，与正式 CLI 同一安装包 | 新普通任务、保存结果对照、美股日线连续研究、财报排期输入 |
+| 本开发候选 `0.6.0.dev2` 的正式工作台 | `hakimi_research`，与正式 CLI 同一安装包 | 新普通任务、保存结果对照、美股日线连续研究、财报排期输入 |
 | `hakimi-trade` 原 CLI | 同一正式内核 | 已有五类规则、任务版本、统一输入、旧共享合成账户等完整命令能力 |
 | 原终端 / Legacy Preview / 三项行情洞察 | 各自保留原始引擎和数据身份 | 原图表、结构/同行比较/指标说明及历史研究；其结果不与正式计算混作同一口径 |
 | GitHub Release `v0.2.1` | 该 Release 封存的历史版本 | 旧发行能力；不包含本开发候选新增能力 |
 
-当前候选的原生普通任务、双股票连续账户和安装后重开已有实际记录；`166e18e` 已完成独立普通安装及对应十一项 CI。NDAQ 排期经人工接纳后，使用 10 月 22 日收盘的新增冻结日线建立任务、运行、导出反馈，并经交易分析房间资料导入回读；旧输入的时间门槛拒绝仍保留。[本轮验收记录](research-evidence/workbench-m32-20261022/README.md)分别说明安装、原桌面、浏览器工作台、CI 与实际数据观察，不能将后台浏览器完成的整条新流程称作原生窗口截图验收。原已安装版本、工作区与历史报告保持原身份。
+当前日常候选的唯一交付入口、版本卡和旧账户处理方式见[日常交付说明](daily-delivery.md)。前一日常候选 `528181c`（构建 `7f61da4`）的普通安装 379 项与 11 项 CI 已通过，详见[日常验收](daily-workbench-acceptance-20261023.md)；该历史通过结论不能替代新构建验收。更早的 `166e18e` 安装、NDAQ 财报排期接纳和冻结反馈闭环继续保留原身份。
 
 ## 安装与打开
 
@@ -19,7 +19,7 @@
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install .\hakimi_research-0.6.0.dev1-py3-none-any.whl
+.\.venv\Scripts\python.exe -m pip install .\hakimi_research-0.6.0.dev2-py3-none-any.whl
 .\.venv\Scripts\hakimi-trade-workbench.exe --workspace .\我的研究 --open-browser
 ```
 

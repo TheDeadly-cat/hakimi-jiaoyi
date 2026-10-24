@@ -53,6 +53,46 @@ def _bytes(value):
     return result
 
 
+def _delivery_identity(runtime, version, loaded_source):
+    """Present existing provenance; a commit alone is not a build-byte identity."""
+    source = runtime['source_identity']
+    build = source.get('build_receipt')
+    verified_build = source.get('status') == 'BUILD_VERIFIED' and type(build) is dict
+    git = build.get('git', {}) if verified_build else {}
+    commit = git.get('commit') if type(git) is dict else None
+    if type(commit) is not str or not re.fullmatch(r'[0-9a-f]{40}|[0-9a-f]{64}', commit):
+        commit = None
+    checkout = source.get('status') == 'CONTENT_HASHED'
+    return dict(package_version=None if checkout else version,
+        origin='SOURCE_CHECKOUT' if checkout else 'INSTALLED_BUILD' if verified_build else 'UNKNOWN',
+        build_commit=commit, build_worktree_status=git.get('status', 'UNKNOWN') if type(git) is dict else 'UNKNOWN',
+        source_status=source.get('status', 'UNKNOWN'),
+        checkout_git=source.get('git') if checkout else None,
+        loaded_source_sha256=loaded_source, disk_source_sha256=source.get('content_sha256'),
+        package_location=runtime.get('machine_receipt', {}).get('package_location'),
+        environment_status=runtime['environment_verified'].get('status', 'UNKNOWN'),
+        dependency_lock_sha256=runtime['environment_verified'].get('lock_sha256'))
+
+
+def _account_compatibility(saved, runtime, loaded_source, loaded_environment):
+    """Read-only projection of the ledger's original code/dependency binding."""
+    current = dict(source_sha256=runtime['source_identity'].get('content_sha256'),
+        dependencies=runtime['environment_verified'])
+    reasons = []
+    if type(saved) is not dict or set(saved) != set(current):
+        reasons.append('SAVED_RUNTIME_UNKNOWN')
+    else:
+        if saved['source_sha256'] != current['source_sha256']:
+            reasons.append('CODE_CONTENT_CHANGED')
+        if saved['dependencies'] != current['dependencies']:
+            reasons.append('DEPENDENCIES_CHANGED')
+    if current['source_sha256'] != loaded_source or current['dependencies'] != loaded_environment:
+        reasons.append('PROCESS_RESTART_REQUIRED')
+    return dict(status='READ_ONLY' if reasons else 'CONTINUABLE', can_continue=not reasons,
+        reasons=reasons, saved_runtime=saved, current_runtime=current,
+        policy='ORIGINAL_CODE_AND_DEPENDENCIES_REQUIRED_NO_POSITION_MIGRATION')
+
+
 def _project_source_hashes(result):
     rows = result.get('source_manifest')
     if type(rows) is not list or any(type(row) is not dict for row in rows):
@@ -118,12 +158,16 @@ class Workbench:
         from .task_validation import read_validation
         return dict(read_validation(self.path(ref, 'validations')), ref=ref)
 
-    def account_view(self, ref):
+    def account_view(self, ref, *, runtime=None):
         from .continuous_runtime import describe_continuous_account
         path = self.path(ref, 'continuous')
         result = describe_continuous_account(path)
         connection = read_document(path / 'workbench-binding.json')
-        return dict(result, ref=ref, title=connection['title'], task_refs=connection['tasks'])
+        manifest = read_document(path / 'account.json')
+        compatibility = _account_compatibility(manifest.get('runtime'), runtime or build_runtime_provenance(),
+            self.loaded_source, self.loaded_environment)
+        return dict(result, ref=ref, title=connection['title'], task_refs=connection['tasks'],
+            compatibility=compatibility)
 
     def watch_view(self, ref):
         from .continuous_watch import describe_watch
@@ -165,13 +209,14 @@ class Workbench:
 
     def state(self):
         with self.lock:
+            runtime = build_runtime_provenance()
             inputs = [item for item in list_inputs(self.root)['items']
                       if not Path(item['path']).is_relative_to(self.root / 'data' / 'watch-inbox')]
             for item in inputs:
                 item['ref'] = self.ref(item['path'])
             tasks = [self._item(p, describe_task) for p in list_tasks(self.root)]
             runs = [self._item(p, describe_run) for p in sorted((self.root / 'runs').glob('run-*')) if p.is_dir()]
-            accounts = [self._item(p, lambda q: self.account_view(self.ref(q)))
+            accounts = [self._item(p, lambda q: self.account_view(self.ref(q), runtime=runtime))
                         for p in sorted((self.root / 'continuous').iterdir())
                         if p.is_dir() and not p.name.startswith('.')]
             # State summaries exclude the complete immutable snapshots/ledger.
@@ -181,7 +226,6 @@ class Workbench:
                 request_hash=read_document(p)['request_hash'])
                 for p in sorted((self.root / 'operations').glob('*/request.json'))
                 if not (p.parent / 'result.json').exists()]
-            runtime = build_runtime_provenance()
             restart_required = (runtime['source_identity'].get('content_sha256') != self.loaded_source
                                 or runtime['environment_verified'] != self.loaded_environment)
             try:
@@ -205,6 +249,7 @@ class Workbench:
             validation_summaries = [{k:v for k,v in row.items()
                 if k in {'ref','base','symbol','status','validation_hash','error'}} for row in validations]
             return dict(engine=dict(name='hakimi_research', version=version,
+                delivery=_delivery_identity(runtime, version, self.loaded_source),
                 source_identity=runtime['source_identity'], environment=runtime['environment_verified'],
                 permissions=dict(PERMISSIONS), new_task_default=True), workspace=str(self.root),
                 inputs=inputs, tasks=tasks, runs=runs, accounts=accounts, strategies=catalog,

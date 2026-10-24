@@ -8,7 +8,7 @@ const data=()=>({engine:{name:"hakimi_research",version:"test",permissions:{live
 const input=()=>({ref:"data/snapshots/a.json",kind:"PRICE_SNAPSHOT",status:"READY",security:{symbol:"AAPL",security_id:"US:AAPL"},coverage_start:"2024-01-01",coverage_end:"2024-12-31",sessions:252,source:{name:"fixture"}});
 const taskRow=()=>({ref:"tasks/task-a",family_id:"family-a",title:"观察任务",state:"ENABLED",strategy:"price.dual_ma@1",inputs:{snapshot:input()},configuration:{requested:{},effective:{},exit_rule:"均线与保护退出"}});
 const run=()=>({ref:"runs/run-a",view:{symbol:"AAPL",strategy:{title:"双均线"},score_start:"2024-04-01",score_end:"2024-12-31"},summary:{total_return:.03,max_drawdown:.02,total_fees:4,fill_count:1},signals:[{time:"2024-04-01",action:"BUY",reason:"cross"}],fills:[{time:"2024-04-02",side:"BUY",price:100,quantity:2,fee:.16}],equity_curve:[{time:"2024-04-01",equity:10000},{time:"2024-12-31",equity:10300}]});
-const account=()=>({ref:"continuous/account-a",title:"连续观察",continuous:{status:"READY",task_paused:{"family:family-a":false},session_results:[]},state:{paused:false,positions:{}},cash:"10000",available_cash:"10000",equity:"10000",history:[],limits:{}});
+const account=()=>({compatibility:{status:"CONTINUABLE",can_continue:true,reasons:[]},ref:"continuous/account-a",title:"连续观察",continuous:{status:"READY",task_paused:{"family:family-a":false},session_results:[]},state:{paused:false,positions:{}},cash:"10000",available_cash:"10000",equity:"10000",history:[],limits:{}});
 const storage=()=>{const map=new Map();return {getItem:key=>map.get(key),setItem:(key,value)=>map.set(key,value),removeItem:key=>map.delete(key)};};
 
 test("formal HTML defines an isolated same-origin token client and never starts a monitor on load",()=>{
@@ -361,4 +361,23 @@ test("saved run diagnostics and cost validation stay read-only until the explici
   assert.equal(dom.button("validate-run",run().ref),undefined);assert.ok(dom.button("validation-detail",validation.ref));await app.controller.refresh();await dom.click(dom.button("validation-detail",validation.ref));assert.equal(calls.filter(row=>row.payload).length,1);
   dom.get("validation-followup-snapshot").value=followupInput.ref;dom.get("validation-followup-start").value="2025-01-02";dom.get("validation-followup-end").value="2025-02-28";await dom.click(dom.button("validate-run-followup",run().ref));
   const followupWrite=calls.filter(row=>row.payload)[1].payload;assert.equal(followupWrite.action,"validate_run");assert.equal(followupWrite.run,run().ref);assert.equal(followupWrite.followup_snapshot,followupInput.ref);assert.equal(followupWrite.followup_start,"2025-01-02");assert.equal(followupWrite.followup_end,"2025-02-28");
+});
+
+
+test("delivery identity is visible without raw JSON and distinguishes engineering from strategy evidence",async()=>{
+  const dom=documentFixture(),current=data(),commit="a".repeat(40),digest="b".repeat(64);
+  current.engine.delivery={package_version:"0.6.0.dev2",origin:"INSTALLED_BUILD",build_commit:commit,build_worktree_status:"CLEAN",source_status:"BUILD_VERIFIED",loaded_source_sha256:digest,package_location:"C:\\installed\\hakimi_research",environment_status:"VERIFIED"};current.workspace="C:\\saved workspace";
+  ui.mount(dom.document,async()=>copy(current),storage());await flush();
+  assert.match(dom.get("delivery-label").textContent,/0.6.0.dev2/);assert.match(dom.get("engine-label").textContent,/aaaaaaaaaaaa/);
+  const text=dom.get("engine-detail").textContent;assert.ok(text.includes(commit));assert.ok(text.includes(digest));assert.ok(text.includes(current.workspace));assert.match(text,/分别判断交付与策略证据/);assert.match(text,/不迁移旧持仓/);
+  const unknown=ui.deliveryHtml({...data(),engine:{delivery:{build_commit:null,source_status:"UNKNOWN"}}});assert.match(unknown,/未提供，不能推断/);assert.doesNotMatch(unknown,/undefined/);
+});
+
+test("read-only old account keeps records and stop control accessible while disabling continuation",async()=>{
+  const dom=documentFixture(),detail={...account(),compatibility:{status:"READ_ONLY",can_continue:false,reasons:["CODE_CONTENT_CHANGED"]}},current={...data(),accounts:[detail],inputs:[input()],watches:[{ref:"watches/old",account:detail.ref,monitoring:true,status:"CURRENT"}]},calls=[];
+  const app=ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});if(route==="/api/state")return copy(current);if(route.startsWith("/api/account?"))return copy(detail);throw Error("unexpected mutation");},storage());await flush();await app.openAccount(detail.ref);
+  assert.match(dom.get("account-summary").textContent,/此组合在当前版本中只读/);assert.match(dom.get("account-summary").textContent,/程序内容已变化/);assert.equal(dom.get("account-detail-card").hidden,false);
+  assert.ok(dom.document.querySelectorAll("[data-account-write]").every(button=>button.disabled));assert.equal(dom.button("stop-watch","watches/old").disabled,false);
+  await dom.click(dom.button("pause-account"));assert.equal(calls.filter(row=>row.payload).length,0);
+  assert.match(ui.accountCompatibilityHtml({}),/兼容性尚未核实/);
 });
