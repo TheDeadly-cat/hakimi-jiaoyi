@@ -90,9 +90,9 @@ class WorkbenchDesktopTests(unittest.TestCase):
             run.return_value.returncode = 0
             self.assertEqual(DESKTOP.launch(self.output), 0)
             args, kwargs = run.call_args
-            self.assertEqual(args[0], [str(self.electron.resolve()), str(self.output / "research-main.js")])
+            self.assertEqual(args[0], [str(self.electron.resolve()), str((self.output / "research-main.js").resolve())])
             self.assertFalse(kwargs["shell"])
-            self.assertEqual(kwargs["env"]["HAKIMI_RESEARCH_WORKSPACE"], str(self.workspace))
+            self.assertEqual(kwargs["env"]["HAKIMI_RESEARCH_WORKSPACE"], str(self.workspace.resolve()))
             self.assertEqual(kwargs["env"]["HAKIMI_RESEARCH_DESKTOP_PROFILE"], manifest["profile"])
             run.reset_mock()
             self.probe.return_value = {**self.actual, "source_sha256": "f" * 64}
