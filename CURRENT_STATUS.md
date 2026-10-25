@@ -2,7 +2,7 @@
 
 本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1、M2、M3-1 与 R1／R2／R3 已集成，M2-2 的两项 P2 和 PR #25 跨归属退出修复保持关闭。当前开发范围为 P0 整合、美股日线 M3-2 连续运行及一种财报排期研究输入；P2 数据范围增强和 P3 受控交易留待后续。主分支集成以实际合并提交及其检查为准。
 
-整理日期：2026-10-25。[PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合并至 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`，[该 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 结论为成功，原 Windows／Ubuntu 安装各 299 项。`0.5.0.dev4` CLEAN 构建 `e003dd8` 的 wheel、共享流程 v4、启动器及旧 dev3 只读兼容证据保留原身份；首次时限取消日志不抹去。见[修复证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。日常交付候选升为 `0.6.0.dev3`，默认新计算使用正式 `hakimi_research`，旧引擎和原桌面保留；[当前入口、构建身份与旧账户处理](docs/daily-delivery.md)。候选工程检查、实际工作台流程、真实数据与远端 CI 分别验收。
+整理日期：2026-10-26。[PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合并至 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`，[该 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 结论为成功，原 Windows／Ubuntu 安装各 299 项。`0.5.0.dev4` CLEAN 构建 `e003dd8` 的 wheel、共享流程 v4、启动器及旧 dev3 只读兼容证据保留原身份；首次时限取消日志不抹去。见[修复证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。日常交付候选升为 `0.6.0.dev3`，默认新计算使用正式 `hakimi_research`，旧引擎和原桌面保留；[当前入口、构建身份与旧账户处理](docs/daily-delivery.md)。候选工程检查、实际工作台流程、真实数据与远端 CI 分别验收。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
@@ -37,6 +37,8 @@
 | 受监督预览 T5 | 研究和Windows富途r3新包已分别在全新仓库外环境安装通过，包含只读修复与最终十事件摘要；状态、离线帮助和封装校验通过。见[r3交付](docs/research-evidence/supervised-preview-20260920/README-r3.md)。r1/r2保留原字节，未发布Release、部署或启动监控 |
 | 财报内容 C/D | 9月24日十行人工核准和原件复查通过；原七个接纳窗口、两档成本完成28份报告，重放与独立账本均通过。C/D完全相同，仅两个事件入场且止损，内容条件零次干预；三个旧排除保留，无晋级依据。见[固定比较结果](docs/research-evidence/equity-content-20260924/README.md) |
 | 同财季指引来源配对 | 原十事件全保留，九个口径可比；七个数值高于、两个精度方向不确定，2022Q1 因 Xilinx 不可直接比较，2022Q3 已纳入初步业绩。独立审计的指引／初步值及摘要绑定缺口已修复：59项定向测试、17份原件513项检查通过；原134项回执保留为范围有限的历史记录。新增17个审阅项有条件用于历史开发，新增人工核准0；有限来源核查带明确缺口结案，完整历史链仍未证实。原价格信号2个，数值交集仅2024Q2一个候选，获准新研究0，新内容干预未运行。本批开发诊断结案，不扩展收益研究。见[修复与研究决定](docs/research-evidence/equity-guidance-20260927/audit-repair/README.md)及[新版卡片](docs/research-evidence/equity-guidance-20260927/audit-repair/report/index.html) |
+
+本轮按用户选择完成NDAQ、KO固定8月历史隔离回放，参数与区间先封存，42次策略回调均通过前缀隔离核对；原生运行、结果读取及关闭重开通过，440文件重开前后不变。[实际结果、停止记录和限制](docs/fixed-month-replay-acceptance-20261026.md)。它不是原10月基线之后的自然前瞻或独立盲测；产品运行源码与dev3安装保持原身份。
 
 原模拟提案仍为 US.AMD、BUY 1股、1美元限价、DAY/RTH，最多一次提交和一次同订单撤单；未知不重试、拒单不调价、意外成交不授权额外卖出。实际周期需要单独有效授权及当前环境核对。接口路径通过、会计通过、策略证据与实盘权限分别验收。
 

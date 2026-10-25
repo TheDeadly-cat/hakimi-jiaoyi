@@ -1,0 +1,332 @@
+{
+  "schema_version": "fixed-month-replay-acceptance-v1",
+  "status": "LOCAL_ACCEPTANCE_PASS_REMOTE_CI_PENDING",
+  "recorded_at": "2026-10-25T21:45:19.409183+00:00",
+  "protocol_commit": "ca99bc35b3f6ebc9892ff9c8bb7533f6e5fcb14a",
+  "version": "0.6.0.dev3",
+  "runtime_build": "4338490f26dec70c79778cd5d1a85a2aaa3474d5",
+  "runtime_source_sha256": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+  "runtime_files_unchanged": 88,
+  "plan_hash": "b49906e9bf34a7b5ef891a1839ec0028061c993ef9db2ed00ba9fb4b92934d9b",
+  "symbols": {
+    "KO": {
+      "run_id": "d3856be786a5133a26e74ad68669caa6240f1b2241284c72855997571a304b8b",
+      "report_hash": "f44dde00e992c5656a6f3db30f490df0df59d565f09b93d64cbace99d64a8ab0",
+      "task_id": "31bd430e865243b76275a5bae0677328945f0294fc7d369e003f9f0a3e9c0194",
+      "snapshot_id": "c3a3e8f05123145e13ba48fd2c4a438221c8fd04f54640f9653a968ea9aca295",
+      "validation_hash": "cf3581d1a96ab9d3c82b3cdd8260f19332eeac8222ecc64594a1e9340c6ff648",
+      "score_start": "2026-08-03",
+      "score_end": "2026-08-31",
+      "scored_sessions": 21,
+      "summary": {
+        "total_return": 0.0035981390381916167,
+        "max_drawdown": 0.009384455604351416,
+        "total_fees": 2.001,
+        "fill_count": 1,
+        "round_trip_count": 0,
+        "scored_sessions": 21
+      },
+      "costs": [
+        {
+          "multiplier": 1,
+          "status": "REUSED_SAVED_RESULT",
+          "summary": {
+            "total_return": 0.0035981390381916167,
+            "max_drawdown": 0.009384455604351416,
+            "total_fees": 2.001,
+            "fill_count": 1,
+            "round_trip_count": 0,
+            "scored_sessions": 21
+          }
+        },
+        {
+          "multiplier": 2,
+          "status": "COMPLETED",
+          "summary": {
+            "total_return": 0.003272839038191533,
+            "max_drawdown": 0.0093874698449109,
+            "total_fees": 4.004,
+            "fill_count": 1,
+            "round_trip_count": 0,
+            "scored_sessions": 21
+          }
+        },
+        {
+          "multiplier": 3,
+          "status": "COMPLETED",
+          "summary": {
+            "total_return": 0.0029473390381913322,
+            "max_drawdown": 0.009390487877404374,
+            "total_fees": 6.009,
+            "fill_count": 1,
+            "round_trip_count": 0,
+            "scored_sessions": 21
+          }
+        }
+      ],
+      "benchmarks": [
+        {
+          "benchmark": "cash",
+          "status": "COMPLETED",
+          "summary": {
+            "total_return": 0.0,
+            "max_drawdown": 0.0,
+            "total_fees": 0.0,
+            "fill_count": 0,
+            "round_trip_count": 0,
+            "scored_sessions": 21
+          }
+        },
+        {
+          "benchmark": "buy_and_hold",
+          "status": "COMPLETED",
+          "summary": {
+            "total_return": 0.0008458192962370603,
+            "max_drawdown": 0.03609087691308266,
+            "total_fees": 7.993605115907276,
+            "fill_count": 1,
+            "round_trip_count": 0,
+            "scored_sessions": 21
+          }
+        }
+      ],
+      "followup_status": "NOT_RUN",
+      "causality": {
+        "status": "PASS",
+        "decisions": 21,
+        "visible_rows_min": 12,
+        "visible_rows_max": 32,
+        "economic_result_exact_match": true,
+        "original_files_unchanged": true,
+        "additional_validation_calculations": 1,
+        "evidence_sha256": "d876a12985280bc59f6f5dd02eb3f4466641cf0a01012a195fa45af471361660"
+      }
+    },
+    "NDAQ": {
+      "run_id": "e70e16f38033adfff937ef30d6fa43387f80d93532df81d35ccc714be6394f23",
+      "report_hash": "37cca8bb8214cc07bd9c12dc1b66fd3e8d1fa79bbaf0eae38236562330d6b26a",
+      "task_id": "95d125788e40be85e1416c2b76399eaade81d3593f33970804518bd18b87f1e9",
+      "snapshot_id": "2b10f7bfb398ed82a2f14815d599b17910ca4f8c7c63c359bb636b1e91b6097b",
+      "validation_hash": "37d2e8612b4865207cef7e3ba3338829e12f64738ca9a1c4b632f21c275a5f7d",
+      "score_start": "2026-08-03",
+      "score_end": "2026-08-31",
+      "scored_sessions": 21,
+      "summary": {
+        "total_return": 0.014462833802999953,
+        "max_drawdown": 0.003261028955828915,
+        "total_fees": 4.12099947,
+        "fill_count": 2,
+        "round_trip_count": 1,
+        "scored_sessions": 21
+      },
+      "costs": [
+        {
+          "multiplier": 1,
+          "status": "REUSED_SAVED_RESULT",
+          "summary": {
+            "total_return": 0.014462833802999953,
+            "max_drawdown": 0.003261028955828915,
+            "total_fees": 4.12099947,
+            "fill_count": 2,
+            "round_trip_count": 1,
+            "scored_sessions": 21
+          }
+        },
+        {
+          "multiplier": 2,
+          "status": "COMPLETED",
+          "summary": {
+            "total_return": 0.013925335424000096,
+            "max_drawdown": 0.003262081159899899,
+            "total_fees": 8.243995759999999,
+            "fill_count": 2,
+            "round_trip_count": 1,
+            "scored_sessions": 21
+          }
+        },
+        {
+          "multiplier": 3,
+          "status": "COMPLETED",
+          "summary": {
+            "total_return": 0.013387505180999959,
+            "max_drawdown": 0.0032631346907386893,
+            "total_fees": 12.368985690000002,
+            "fill_count": 2,
+            "round_trip_count": 1,
+            "scored_sessions": 21
+          }
+        }
+      ],
+      "benchmarks": [
+        {
+          "benchmark": "cash",
+          "status": "COMPLETED",
+          "summary": {
+            "total_return": 0.0,
+            "max_drawdown": 0.0,
+            "total_fees": 0.0,
+            "fill_count": 0,
+            "round_trip_count": 0,
+            "scored_sessions": 21
+          }
+        },
+        {
+          "benchmark": "buy_and_hold",
+          "status": "COMPLETED",
+          "summary": {
+            "total_return": 0.03730705889071162,
+            "max_drawdown": 0.015184168895597039,
+            "total_fees": 7.993605115907276,
+            "fill_count": 1,
+            "round_trip_count": 0,
+            "scored_sessions": 21
+          }
+        }
+      ],
+      "followup_status": "NOT_RUN",
+      "causality": {
+        "status": "PASS",
+        "decisions": 21,
+        "visible_rows_min": 12,
+        "visible_rows_max": 32,
+        "economic_result_exact_match": true,
+        "original_files_unchanged": true,
+        "additional_validation_calculations": 1,
+        "evidence_sha256": "f53299ba3e1130488f5dc30718e374b89ce3bfdebf171d1c9c00c38f7e4f444e"
+      }
+    }
+  },
+  "calculation_counts": {
+    "new_product_runs": 2,
+    "new_cost_and_benchmark_calculations": 8,
+    "additional_validation_replays": 2,
+    "total_real_calculations": 12,
+    "source_preparation_economic_runs": 0,
+    "source_network_requests": 0,
+    "native_duplicate_validation_new_calculations": 0
+  },
+  "native": {
+    "first_window": 526158,
+    "first_port": 60205,
+    "reopened_window": 526146,
+    "reopened_port": 56063,
+    "closed_processes_and_listener_confirmed": true,
+    "ui_run_actions": 2,
+    "ui_duplicate_validation_actions": 1,
+    "task_preparation_path": "EXISTING_WORKBENCH_API",
+    "initial_cost_computation_path": "EXISTING_WORKBENCH_API",
+    "reopened_readback": "SAVED_NDAQ_AUGUST_RESULT_AND_RETAINED_KO_NDAQ_VALIDATION_ROWS",
+    "images": {
+      "01-version-and-workspace.jpg": {
+        "sha256": "84c73b836e46989b9763528bd1a3510b360df0ff43556d9cb9a4ca6abf686de6",
+        "bytes": 134080
+      },
+      "02-ko-result.jpg": {
+        "sha256": "47bebd0483a1c0f23b9c59832dd6a78da5626ea8484b53d700798312356bd265",
+        "bytes": 101629
+      },
+      "03-ko-costs.jpg": {
+        "sha256": "aadfb74a0621f0075f6af7b9b7a9ebaa92c8a414b0e8729063175850c47f7bed",
+        "bytes": 114581
+      },
+      "04-ndaq-costs.jpg": {
+        "sha256": "716097b44fdd9edeafdbe6b6a6fe7e6d5b15163d3331e1633af71da8d21da995",
+        "bytes": 115012
+      },
+      "05-reopened-ndaq-result.jpg": {
+        "sha256": "92eb6adbfbbf67945591fd2d300c971238a7484497b13e09d79b51a43b391609",
+        "bytes": 105492
+      }
+    },
+    "observation_limits": [
+      "A non-target image was returned while the window was occluded; excluded from evidence and reobserved after activation.",
+      "One accessibility element had no cached bounds; reobserved and clicked the visible saved-result control, without rerunning research."
+    ]
+  },
+  "operations": [
+    {
+      "operation_id": "50a87638-6770-4421-87c4-42ad621a2a87",
+      "action": "validate_run",
+      "status": "COMMITTED",
+      "reused_saved_validation": true,
+      "action_new_economic_runs": 0
+    },
+    {
+      "operation_id": "9ff84da1-67ae-403d-ba9c-20853bb88287",
+      "action": "run_task",
+      "status": "COMMITTED",
+      "reused_saved_validation": null,
+      "action_new_economic_runs": null
+    },
+    {
+      "operation_id": "b4563480-3a18-47af-97c1-baa3fb979c26",
+      "action": "run_task",
+      "status": "COMMITTED",
+      "reused_saved_validation": null,
+      "action_new_economic_runs": null
+    },
+    {
+      "operation_id": "sealed-b49906e9bf34a7b5ef89-ko-create_task",
+      "action": "create_task",
+      "status": "COMMITTED",
+      "reused_saved_validation": null,
+      "action_new_economic_runs": null
+    },
+    {
+      "operation_id": "sealed-b49906e9bf34a7b5ef89-ko-import_input",
+      "action": "import_input",
+      "status": "COMMITTED",
+      "reused_saved_validation": null,
+      "action_new_economic_runs": null
+    },
+    {
+      "operation_id": "sealed-b49906e9bf34a7b5ef89-ko-validate",
+      "action": "validate_run",
+      "status": "COMMITTED",
+      "reused_saved_validation": false,
+      "action_new_economic_runs": 4
+    },
+    {
+      "operation_id": "sealed-b49906e9bf34a7b5ef89-ndaq-create_task",
+      "action": "create_task",
+      "status": "COMMITTED",
+      "reused_saved_validation": null,
+      "action_new_economic_runs": null
+    },
+    {
+      "operation_id": "sealed-b49906e9bf34a7b5ef89-ndaq-import_input",
+      "action": "import_input",
+      "status": "COMMITTED",
+      "reused_saved_validation": null,
+      "action_new_economic_runs": null
+    },
+    {
+      "operation_id": "sealed-b49906e9bf34a7b5ef89-ndaq-validate",
+      "action": "validate_run",
+      "status": "COMMITTED",
+      "reused_saved_validation": false,
+      "action_new_economic_runs": 4
+    }
+  ],
+  "preservation": {
+    "before_reopen_files": 440,
+    "after_reopen_files": 440,
+    "reopen_file_set_and_hashes_identical": true,
+    "original_dev3_files_unchanged": 366,
+    "copied_original_files_unchanged": 366,
+    "older_files_unchanged": 731,
+    "original_documents_git_status_unchanged": true,
+    "before_reopen_inventory_sha256": "e59f241823f0e37c5328683da4ed2dd0b6a4eb60e0007371daa6f6fdebbee0c4",
+    "after_reopen_inventory_sha256": "e59f241823f0e37c5328683da4ed2dd0b6a4eb60e0007371daa6f6fdebbee0c4"
+  },
+  "limits": [
+    "Fixed retrospective August replay; October parameter-source runs are later than the replay interval.",
+    "Not original October baseline followup, not global unseen holdout, not natural forward or profitability proof.",
+    "V1 admission STOP retained; V2 historical source-policy refinement followed field diagnostics and preceded strategy execution.",
+    "Price source is IMPORTED_UNVERIFIED with real October acquisition time, not August point-in-time evidence.",
+    "Callback prefix isolation is not an OS sandbox against malicious Python side channels.",
+    "Original daily-update gates, installation, records and pending future followup states remain unchanged."
+  ],
+  "projection_note": "Summary scored_sessions is projected from report.scoring_protocol; the result object has no such field.",
+  "local_acceptance_source_sha256": "ae5dbbc8a9bcc57cd8263573a3986992d3df4a88483242af9b801bc232fdbb2e"
+}

@@ -1,0 +1,575 @@
+{
+  "additional_validation_calculations": 1,
+  "blind_holdout_proven": false,
+  "design_sha256": "6f2a7ed165cebae74f1675f34e8ff7d3102dfd2b02a03de3e2d4582f02d75c5b",
+  "economic_result_exact_match": true,
+  "economic_result_sha256": "26f3f4479fd9ed86ac60319f23324f598cf77aa3befc9d1a275a3f574a5c9641",
+  "limitations": [
+    "Checks the registered Python strategy callback arguments, not an OS security sandbox.",
+    "Does not prevent malicious reflection, module globals, files, network or other side channels.",
+    "Historical input may have been revised or viewed before this design; blind holdout is not proven.",
+    "A verification replay is one additional calculation; the original product run stays unchanged."
+  ],
+  "new_product_runs": 0,
+  "original_file_sha256": {
+    "index.html": "00fd075da4888adf1da8c5db835dd4c37309ec9b526b291dfcb09f5d86df5486",
+    "inputs.json": "7e2785bf8eb27d1aa821ac8c96efe3af47e838aa47c4b90d3c3364c826a350c9",
+    "inputs/snapshot.json": "70cb3fe4ffb9e1df3924921634a00391daa759a90630b2d6981637eac5fe74fd",
+    "preparation.json": "6d3caaad5920019267b673cdfc0441b1caef658f44f02a9aa64fb812ccad6905",
+    "report.json": "65c0153b27a72193b01d0cdd93d1157480c811550baf0834c3368442fcbebbe2",
+    "started.json": "a5ff0efdbad8afc541b9713923d7888a302262e9cb348cb94f076b6d6e7414ee"
+  },
+  "original_files_unchanged": true,
+  "os_sandbox": false,
+  "plan_hash": "b49906e9bf34a7b5ef891a1839ec0028061c993ef9db2ed00ba9fb4b92934d9b",
+  "recorded_at": "2026-10-25T21:38:15.660493+00:00",
+  "report_hash": "37cca8bb8214cc07bd9c12dc1b66fd3e8d1fa79bbaf0eae38236562330d6b26a",
+  "run_id": "e70e16f38033adfff937ef30d6fa43387f80d93532df81d35ccc714be6394f23",
+  "runtime": {
+    "environment": {
+      "errors": [],
+      "lock_fully_pinned": true,
+      "lock_name": "requirements.research.lock",
+      "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+      "mismatched": [],
+      "missing": [],
+      "packages": {
+        "numpy": {
+          "installed": "2.4.6",
+          "required": "2.4.6"
+        },
+        "pandas": {
+          "installed": "3.0.3",
+          "required": "3.0.3"
+        },
+        "python-dateutil": {
+          "installed": "2.9.0.post0",
+          "required": "2.9.0.post0"
+        },
+        "six": {
+          "installed": "1.17.0",
+          "required": "1.17.0"
+        },
+        "tzdata": {
+          "installed": "2026.2",
+          "required": "2026.2"
+        }
+      },
+      "python_supported": true,
+      "python_version": "3.14.6",
+      "status": "VERIFIED",
+      "verification_scope": "installed_distribution_versions_against_lock"
+    },
+    "source": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537"
+  },
+  "schema_version": "strategy-prefix-observation-v1",
+  "snapshot_id": "2b10f7bfb398ed82a2f14815d599b17910ca4f8c7c63c359bb636b1e91b6097b",
+  "status": "PASS",
+  "trace": [
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-07-31T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-03T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 480,
+          "backing_elements": 60,
+          "visible_bytes": 480,
+          "visible_elements": 60
+        }
+      ],
+      "ordinal": 1,
+      "portfolio_sha256": "fdc4d2224309b0466787c906926adca146f898e9f4ae859c5440de070b9003f1",
+      "prefix_sha256": "ba086a597690b54de1d04c323e621d62439b8a338d21a579f24bcab9be690dba",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-07-31T20:00:00Z",
+      "visible_rows": 12,
+      "visible_through": "2026-07-31T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-03T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-04T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 520,
+          "backing_elements": 65,
+          "visible_bytes": 520,
+          "visible_elements": 65
+        }
+      ],
+      "ordinal": 2,
+      "portfolio_sha256": "fdc4d2224309b0466787c906926adca146f898e9f4ae859c5440de070b9003f1",
+      "prefix_sha256": "d578b01e390ab3c7e8df03495b0d5b99fd03e2e86f651070055f15c46b5b22a5",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-03T20:00:00Z",
+      "visible_rows": 13,
+      "visible_through": "2026-08-03T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-04T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-05T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 560,
+          "backing_elements": 70,
+          "visible_bytes": 560,
+          "visible_elements": 70
+        }
+      ],
+      "ordinal": 3,
+      "portfolio_sha256": "fdc4d2224309b0466787c906926adca146f898e9f4ae859c5440de070b9003f1",
+      "prefix_sha256": "20a1c5fd09278dc38815e691139ee0b63be696c3c37b176ccd4aa61ad504d17c",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-04T20:00:00Z",
+      "visible_rows": 14,
+      "visible_through": "2026-08-04T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-05T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-06T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 600,
+          "backing_elements": 75,
+          "visible_bytes": 600,
+          "visible_elements": 75
+        }
+      ],
+      "ordinal": 4,
+      "portfolio_sha256": "fdc4d2224309b0466787c906926adca146f898e9f4ae859c5440de070b9003f1",
+      "prefix_sha256": "2e4089cbe0d3291e68caba540dd0d6cbe5d0eee00e41f7472b4314669e59991b",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-05T20:00:00Z",
+      "visible_rows": 15,
+      "visible_through": "2026-08-05T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-06T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-07T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 640,
+          "backing_elements": 80,
+          "visible_bytes": 640,
+          "visible_elements": 80
+        }
+      ],
+      "ordinal": 5,
+      "portfolio_sha256": "fdc4d2224309b0466787c906926adca146f898e9f4ae859c5440de070b9003f1",
+      "prefix_sha256": "8d46098e84c27ef8dd69d8fa7d994c30f2d04bba3fd57de911dff17c111ba77d",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-06T20:00:00Z",
+      "visible_rows": 16,
+      "visible_through": "2026-08-06T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-07T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-10T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 680,
+          "backing_elements": 85,
+          "visible_bytes": 680,
+          "visible_elements": 85
+        }
+      ],
+      "ordinal": 6,
+      "portfolio_sha256": "fdc4d2224309b0466787c906926adca146f898e9f4ae859c5440de070b9003f1",
+      "prefix_sha256": "3905239de829b75a81b25b4f29c7c3a088a3a6b2be496b0b3624793392e55ddf",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-07T20:00:00Z",
+      "visible_rows": 17,
+      "visible_through": "2026-08-07T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-10T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-11T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 720,
+          "backing_elements": 90,
+          "visible_bytes": 720,
+          "visible_elements": 90
+        }
+      ],
+      "ordinal": 7,
+      "portfolio_sha256": "fdc4d2224309b0466787c906926adca146f898e9f4ae859c5440de070b9003f1",
+      "prefix_sha256": "b6e6445c13cca9aaf3d18cd3073ffacc8c9050820c0d14c1c8666359885ff2c3",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-10T20:00:00Z",
+      "visible_rows": 18,
+      "visible_through": "2026-08-10T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-11T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-12T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 760,
+          "backing_elements": 95,
+          "visible_bytes": 760,
+          "visible_elements": 95
+        }
+      ],
+      "ordinal": 8,
+      "portfolio_sha256": "fdc4d2224309b0466787c906926adca146f898e9f4ae859c5440de070b9003f1",
+      "prefix_sha256": "674f4ab36dceb1ca34d0e9807e3e66aaa217ee67d0c588f803302038195bdf6c",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "bce68f975e88136190c052f8cfad20011b4b77320d9aaa9e66682627ebf9066f",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-11T20:00:00Z",
+      "visible_rows": 19,
+      "visible_through": "2026-08-11T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-12T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-13T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 800,
+          "backing_elements": 100,
+          "visible_bytes": 800,
+          "visible_elements": 100
+        }
+      ],
+      "ordinal": 9,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "d7cbec6f85ae29de3767e49e2ffcd7c58011a90641b2325c43c649caa266060e",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-12T20:00:00Z",
+      "visible_rows": 20,
+      "visible_through": "2026-08-12T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-13T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-14T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 840,
+          "backing_elements": 105,
+          "visible_bytes": 840,
+          "visible_elements": 105
+        }
+      ],
+      "ordinal": 10,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "172ab4667257e8630f648e5e4c6a29698925a1921365c4b8050a6cd92bb86c82",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-13T20:00:00Z",
+      "visible_rows": 21,
+      "visible_through": "2026-08-13T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-14T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-17T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 880,
+          "backing_elements": 110,
+          "visible_bytes": 880,
+          "visible_elements": 110
+        }
+      ],
+      "ordinal": 11,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "43a76499115d41d5e262c42688ab8c1b3ab36034ba9a1e1bf36c1e59d56d92f9",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-14T20:00:00Z",
+      "visible_rows": 22,
+      "visible_through": "2026-08-14T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-17T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-18T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 920,
+          "backing_elements": 115,
+          "visible_bytes": 920,
+          "visible_elements": 115
+        }
+      ],
+      "ordinal": 12,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "3f53f27ea1435c469e6fbec2850db0c3350dc2d7abee1c8beb7ec8d5110e7e41",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-17T20:00:00Z",
+      "visible_rows": 23,
+      "visible_through": "2026-08-17T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-18T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-19T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 960,
+          "backing_elements": 120,
+          "visible_bytes": 960,
+          "visible_elements": 120
+        }
+      ],
+      "ordinal": 13,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "e2f20b57afcf6df4077d76125321d1d954eb0d2fb7a5e17dc703a307eb67440e",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-18T20:00:00Z",
+      "visible_rows": 24,
+      "visible_through": "2026-08-18T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-19T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-20T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 1000,
+          "backing_elements": 125,
+          "visible_bytes": 1000,
+          "visible_elements": 125
+        }
+      ],
+      "ordinal": 14,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "0dad421b02cfb29582a641cea766340c9981a0c0ba04c2c1233b58626286eaf0",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-19T20:00:00Z",
+      "visible_rows": 25,
+      "visible_through": "2026-08-19T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-20T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-21T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 1040,
+          "backing_elements": 130,
+          "visible_bytes": 1040,
+          "visible_elements": 130
+        }
+      ],
+      "ordinal": 15,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "ccaad94b3b8191d3800d3191298c5055649df4a93d84dd72478c31a395b93817",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-20T20:00:00Z",
+      "visible_rows": 26,
+      "visible_through": "2026-08-20T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-21T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-24T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 1080,
+          "backing_elements": 135,
+          "visible_bytes": 1080,
+          "visible_elements": 135
+        }
+      ],
+      "ordinal": 16,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "a29e1d2b97a1c963415a464514a906238f05e68d4553b117c2a0188ab7e55ecf",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-21T20:00:00Z",
+      "visible_rows": 27,
+      "visible_through": "2026-08-21T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-24T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-25T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 1120,
+          "backing_elements": 140,
+          "visible_bytes": 1120,
+          "visible_elements": 140
+        }
+      ],
+      "ordinal": 17,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "a6c1e1f00e2f66ae635cab2579cce55f821b41d589b4dbac165b01554e16ac04",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-24T20:00:00Z",
+      "visible_rows": 28,
+      "visible_through": "2026-08-24T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-25T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-26T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 1160,
+          "backing_elements": 145,
+          "visible_bytes": 1160,
+          "visible_elements": 145
+        }
+      ],
+      "ordinal": 18,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "9be765d928c7e899aece3474ca7f0ef41f1fabc696a8ff85ce522dc22381200f",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-25T20:00:00Z",
+      "visible_rows": 29,
+      "visible_through": "2026-08-25T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-26T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-27T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 1200,
+          "backing_elements": 150,
+          "visible_bytes": 1200,
+          "visible_elements": 150
+        }
+      ],
+      "ordinal": 19,
+      "portfolio_sha256": "c86d5cbb89b51003e66091048c78f4575cdcad2375c1b0a99be6920438fc7c81",
+      "prefix_sha256": "bf59081506f0a4ad1fdd00f64ac67845a0514f2ebe9b9ffd8151702f97185a18",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-26T20:00:00Z",
+      "visible_rows": 30,
+      "visible_through": "2026-08-26T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-27T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-28T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 1240,
+          "backing_elements": 155,
+          "visible_bytes": 1240,
+          "visible_elements": 155
+        }
+      ],
+      "ordinal": 20,
+      "portfolio_sha256": "3d58dbe0f43492f390af7228054c9b4c24206e7e730dcc3f540949ef99ced9e5",
+      "prefix_sha256": "e463a23e6a44afb5305fdd7ebb883352bedd3b2164998469abb17e21eb17372a",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-27T20:00:00Z",
+      "visible_rows": 31,
+      "visible_through": "2026-08-27T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    },
+    {
+      "dataframe_attrs_empty": true,
+      "decision_available_at": "2026-08-28T20:01:00+00:00",
+      "future_row_index_rejected": true,
+      "next_execution_open": "2026-08-31T13:30:00+00:00",
+      "numeric_allocations": [
+        {
+          "backing_bytes": 1280,
+          "backing_elements": 160,
+          "visible_bytes": 1280,
+          "visible_elements": 160
+        }
+      ],
+      "ordinal": 21,
+      "portfolio_sha256": "3d58dbe0f43492f390af7228054c9b4c24206e7e730dcc3f540949ef99ced9e5",
+      "prefix_sha256": "3f765c297c5b6092cfec7ad29afe421d45aa62c60823fdcb03b451f7eb199021",
+      "shares_engine_price_storage": false,
+      "signal_sha256": "8829f30a184d669a1b16469c94ffe0608d7948dc57eb3930e9e402b5cf0b3b42",
+      "visible_first": "2026-07-16T13:30:00+00:00",
+      "visible_last_session_close": "2026-08-28T20:00:00Z",
+      "visible_rows": 32,
+      "visible_through": "2026-08-28T13:30:00+00:00",
+      "visible_timestamp_semantics": "BAR_OPEN"
+    }
+  ],
+  "trace_sha256": "b23b6c206d0bfd1487ec06c0dac99502ca5de9fc537171426890b5c00e78b03c"
+}

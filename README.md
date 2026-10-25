@@ -6,6 +6,8 @@
 
 日常开发候选为 `0.6.0.dev3`，仍在[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)。先看[日常入口、版本身份与旧账户处理](docs/daily-delivery.md)，再按[当前状态](CURRENT_STATUS.md)核对精确安装、桌面与 CI 证据。原终端和旧工作区保持独立。前一候选 `528181c` 的 379 项安装测试、11 项 CI，以及更早 NDAQ 财报排期反馈闭环，均保留原构建身份；工程验收不代表策略有效。
 
+新增实测：[NDAQ、KO固定月份历史隔离回放](docs/fixed-month-replay-acceptance-20261026.md)，包含冻结参数、来源口径、禁止读取未来价格的逐步证据、成本基准及原生关闭重开记录；自然前瞻与独立盲测保持另行区分。
+
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 M1 已交付并合入 main `17b2c15`（PR #19 受审 `669b348`），实际 main [九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005)。M1 存档候选为 `0.3.0.dev4`；正式 Release 仍为 `v0.2.1`。旧产物、失败记录与验收身份保留。
 M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/21) 集成，R1／R2／R3 均关闭；实际 main `4732bcc` 的[九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38028969246)。本轮 **M2-2** [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 存档候选 `0.4.0.dev5` 提供统一离线输入中心、适用性检查、新版本绑定和既有排期／内容规则入口；同一 wheel 的仓库外 253 项及实际输入流程通过，见[本轮候选验收](docs/research-evidence/input-workflow-m2-20261010/README.md)、[输入使用说明](docs/input-workflow.md)与[任务说明](docs/strategy-task-management.md)。PR #22 已经用户对 `0059359` 单独核准合入 main `57b6bd4`，[实际 main 九项 CI 通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339)。随后复现报告成交校验和菜单 10 参数两项 P2；新候选 `0.4.0.dev6` 修复，同一 wheel 的仓库外 262 项及启动器首用通过，已单独核准并通过 PR #23 集成到 main `d9baa08`，实际 main 九项 CI 及两平台 262 项安装检查通过，见[修复记录](docs/research-evidence/content-report-p2-20261010/README.md)。原 dev5／dev4／dev3／dev2 验收保留。

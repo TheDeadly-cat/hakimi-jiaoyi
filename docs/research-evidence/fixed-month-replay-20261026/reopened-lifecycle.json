@@ -1,0 +1,80 @@
+{
+  "recorded_at": "2026-10-25T21:43:54.0514028Z",
+  "window_id": 526146,
+  "port": 56063,
+  "processes": [
+    {
+      "ProcessId": 28432,
+      "ParentProcessId": 8912,
+      "Name": "cmd.exe",
+      "CreationDate": "2026-10-26T05:41:48.43382+08:00"
+    },
+    {
+      "ProcessId": 19580,
+      "ParentProcessId": 28432,
+      "Name": "conhost.exe",
+      "CreationDate": "2026-10-26T05:41:48.44316+08:00"
+    },
+    {
+      "ProcessId": 24980,
+      "ParentProcessId": 28432,
+      "Name": "python.exe",
+      "CreationDate": "2026-10-26T05:41:48.514101+08:00"
+    },
+    {
+      "ProcessId": 22556,
+      "ParentProcessId": 24980,
+      "Name": "python.exe",
+      "CreationDate": "2026-10-26T05:41:48.52625+08:00"
+    },
+    {
+      "ProcessId": 2268,
+      "ParentProcessId": 22556,
+      "Name": "electron.exe",
+      "CreationDate": "2026-10-26T05:41:49.222264+08:00"
+    },
+    {
+      "ProcessId": 21840,
+      "ParentProcessId": 2268,
+      "Name": "electron.exe",
+      "CreationDate": "2026-10-26T05:41:49.374479+08:00"
+    },
+    {
+      "ProcessId": 28472,
+      "ParentProcessId": 2268,
+      "Name": "python.exe",
+      "CreationDate": "2026-10-26T05:41:49.377901+08:00"
+    },
+    {
+      "ProcessId": 23464,
+      "ParentProcessId": 28472,
+      "Name": "conhost.exe",
+      "CreationDate": "2026-10-26T05:41:49.384809+08:00"
+    },
+    {
+      "ProcessId": 13976,
+      "ParentProcessId": 2268,
+      "Name": "electron.exe",
+      "CreationDate": "2026-10-26T05:41:49.388325+08:00"
+    },
+    {
+      "ProcessId": 7556,
+      "ParentProcessId": 28472,
+      "Name": "python.exe",
+      "CreationDate": "2026-10-26T05:41:49.40159+08:00"
+    },
+    {
+      "ProcessId": 16264,
+      "ParentProcessId": 2268,
+      "Name": "electron.exe",
+      "CreationDate": "2026-10-26T05:41:50.544056+08:00"
+    }
+  ],
+  "listener": [
+    {
+      "LocalAddress": "127.0.0.1",
+      "LocalPort": 56063,
+      "OwningProcess": 7556
+    }
+  ]
+}
