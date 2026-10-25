@@ -1,0 +1,156 @@
+{
+  "schema_version": "sealed-month-replay-preparation-v2",
+  "plan_hash": "b49906e9bf34a7b5ef891a1839ec0028061c993ef9db2ed00ba9fb4b92934d9b",
+  "status": "READY",
+  "mode": "HISTORICAL_PREFIX_ISOLATION_REPLAY_NOT_BLIND_NOT_NATURAL_FORWARD",
+  "prepared_at": "2026-10-25T21:31:04.913544Z",
+  "symbols": {
+    "KO": {
+      "status": "READY",
+      "symbol": "KO",
+      "snapshot_id": "c3a3e8f05123145e13ba48fd2c4a438221c8fd04f54640f9653a968ea9aca295",
+      "source_rows": 109,
+      "excluded_source_rows": 76,
+      "selected_rows": 33,
+      "source_sha256": "37aebce807f53eb34b3f6c7878135efd63c4d39f1271ccaaae9c92a728f4bef6",
+      "derived_source_sha256": "fa89672526fc7e480dc5aceee11d76ff02c732a6be03a6bcac2fab9373fbe484",
+      "csv_sha256": "7541b47c2a08f82ae7a9cac0083e51a806eb2546b0c85a8079a6f8bb705a4890",
+      "source_retrieved_at": "2026-10-22T23:35:26.234344Z",
+      "original_security_id": "US:COMMON:NYSE:KO",
+      "replay_security_id": "REPLAY:KO:b49906e9bf34a7b5ef89",
+      "historical_identity_authenticated": false,
+      "original_identity_coverage_reused": false,
+      "historical_receipt_time_proven": false,
+      "blind_holdout_proven": false,
+      "outside_window_action_count": 2,
+      "automatic_window_reselection": false,
+      "historical_price_policy": "YAHOO_QUOTE_POST_WINDOW_DIVIDEND_RECONCILIATION_V1",
+      "reconciliation_sha256": "4d66ca372f8b0747eee76feb85569dc5af13b322022b35ae638affed647d04d2",
+      "snapshot_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-fixed-replay-20261026\\prepared-r2\\KO\\snapshot.json",
+      "spec_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-fixed-replay-20261026\\prepared-r2\\KO\\spec.json",
+      "retained_files": {
+        "source-original.json": {
+          "expected_sha256": "37aebce807f53eb34b3f6c7878135efd63c4d39f1271ccaaae9c92a728f4bef6",
+          "retained_sha256": "37aebce807f53eb34b3f6c7878135efd63c4d39f1271ccaaae9c92a728f4bef6",
+          "matches_design": true
+        },
+        "baseline-original.json": {
+          "expected_sha256": "234ffdd7cc7d063405e7a4f6db685ffc0cf3892127ee0b481c171143326401fa",
+          "retained_sha256": "234ffdd7cc7d063405e7a4f6db685ffc0cf3892127ee0b481c171143326401fa",
+          "matches_design": true
+        },
+        "source-check-original.json": {
+          "expected_sha256": "b523a15d74256b9f3d52fe9a8cd7ae878d2e3f1554c4dce6cd126c3de2b2dc7c",
+          "retained_sha256": "b523a15d74256b9f3d52fe9a8cd7ae878d2e3f1554c4dce6cd126c3de2b2dc7c",
+          "matches_design": true
+        }
+      },
+      "retained_complete": true
+    },
+    "NDAQ": {
+      "status": "READY",
+      "symbol": "NDAQ",
+      "snapshot_id": "2b10f7bfb398ed82a2f14815d599b17910ca4f8c7c63c359bb636b1e91b6097b",
+      "source_rows": 109,
+      "excluded_source_rows": 76,
+      "selected_rows": 33,
+      "source_sha256": "7b718813306a174eb8412e5f52bb553ef9ad237294c6600a5efeee2e79e57a71",
+      "derived_source_sha256": "3c37682509b2c16e59ca8f620c9f6bac3d42efece6fb875bd5189ee65d0ccedc",
+      "csv_sha256": "e9a9113c7d49c6232efb7d12e4c6713d455a56b10d9afa93ac8fc3dbc933be0b",
+      "source_retrieved_at": "2026-10-22T23:33:58.818302Z",
+      "original_security_id": "US:COMMON:NASDAQ:NDAQ",
+      "replay_security_id": "REPLAY:NDAQ:b49906e9bf34a7b5ef89",
+      "historical_identity_authenticated": false,
+      "original_identity_coverage_reused": false,
+      "historical_receipt_time_proven": false,
+      "blind_holdout_proven": false,
+      "outside_window_action_count": 2,
+      "automatic_window_reselection": false,
+      "historical_price_policy": "YAHOO_QUOTE_POST_WINDOW_DIVIDEND_RECONCILIATION_V1",
+      "reconciliation_sha256": "6faf3ef98909f811909e7d21d66ed2c1010898b67b0eb844d81d6e02a00bd714",
+      "snapshot_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-fixed-replay-20261026\\prepared-r2\\NDAQ\\snapshot.json",
+      "spec_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-fixed-replay-20261026\\prepared-r2\\NDAQ\\spec.json",
+      "retained_files": {
+        "source-original.json": {
+          "expected_sha256": "7b718813306a174eb8412e5f52bb553ef9ad237294c6600a5efeee2e79e57a71",
+          "retained_sha256": "7b718813306a174eb8412e5f52bb553ef9ad237294c6600a5efeee2e79e57a71",
+          "matches_design": true
+        },
+        "baseline-original.json": {
+          "expected_sha256": "6988c83552fdd89889a03429a9a29658dede922493470490cb2e1fe4dcc894b8",
+          "retained_sha256": "6988c83552fdd89889a03429a9a29658dede922493470490cb2e1fe4dcc894b8",
+          "matches_design": true
+        },
+        "source-check-original.json": {
+          "expected_sha256": "f89a6c8e473102e39aa1b434fd5dc415fe0c0011a4ad5477a22054886bcd2825",
+          "retained_sha256": "f89a6c8e473102e39aa1b434fd5dc415fe0c0011a4ad5477a22054886bcd2825",
+          "matches_design": true
+        }
+      },
+      "retained_complete": true
+    }
+  },
+  "retained_files": {
+    "KO/source-original.json": {
+      "expected_sha256": "37aebce807f53eb34b3f6c7878135efd63c4d39f1271ccaaae9c92a728f4bef6",
+      "retained_sha256": "37aebce807f53eb34b3f6c7878135efd63c4d39f1271ccaaae9c92a728f4bef6",
+      "matches_design": true
+    },
+    "KO/baseline-original.json": {
+      "expected_sha256": "234ffdd7cc7d063405e7a4f6db685ffc0cf3892127ee0b481c171143326401fa",
+      "retained_sha256": "234ffdd7cc7d063405e7a4f6db685ffc0cf3892127ee0b481c171143326401fa",
+      "matches_design": true
+    },
+    "KO/source-check-original.json": {
+      "expected_sha256": "b523a15d74256b9f3d52fe9a8cd7ae878d2e3f1554c4dce6cd126c3de2b2dc7c",
+      "retained_sha256": "b523a15d74256b9f3d52fe9a8cd7ae878d2e3f1554c4dce6cd126c3de2b2dc7c",
+      "matches_design": true
+    },
+    "NDAQ/source-original.json": {
+      "expected_sha256": "7b718813306a174eb8412e5f52bb553ef9ad237294c6600a5efeee2e79e57a71",
+      "retained_sha256": "7b718813306a174eb8412e5f52bb553ef9ad237294c6600a5efeee2e79e57a71",
+      "matches_design": true
+    },
+    "NDAQ/baseline-original.json": {
+      "expected_sha256": "6988c83552fdd89889a03429a9a29658dede922493470490cb2e1fe4dcc894b8",
+      "retained_sha256": "6988c83552fdd89889a03429a9a29658dede922493470490cb2e1fe4dcc894b8",
+      "matches_design": true
+    },
+    "NDAQ/source-check-original.json": {
+      "expected_sha256": "f89a6c8e473102e39aa1b434fd5dc415fe0c0011a4ad5477a22054886bcd2825",
+      "retained_sha256": "f89a6c8e473102e39aa1b434fd5dc415fe0c0011a4ad5477a22054886bcd2825",
+      "matches_design": true
+    }
+  },
+  "retained_complete": true,
+  "original_source_bytes_retained": true,
+  "derived_bytes_are_not_provider_originals": true,
+  "source_acquisition_not_backdated": true,
+  "economic_runs": 0,
+  "network_requests": 0,
+  "preparer_sha256": "32f4771a5ae9e4436d0bd71fd3500e7fc3e9b71d8e6d5578a7fd296a14eee118",
+  "files": {
+    "calendar-original.json": "c367399cdb316fecae4e63b95d0d183b4959b61237145b8e01a0f3b1a2561491",
+    "KO/baseline-original.json": "234ffdd7cc7d063405e7a4f6db685ffc0cf3892127ee0b481c171143326401fa",
+    "KO/historical-adjustment-reconciliation.json": "878c0d18c19e69cc8ef6e803ac585250226ed9baab29db70f1bbddfcbf83c8b1",
+    "KO/import-manifest.json": "05ba9e756e5a5ddedc643e451d9179a97a9d315b4f710d9a12f8a7df33d159c1",
+    "KO/preparation.json": "78a124d0c6936f6505fb0f08e1cd389f26a7004510b0df407172505ae5d44b4d",
+    "KO/prices-derived.csv": "7541b47c2a08f82ae7a9cac0083e51a806eb2546b0c85a8079a6f8bb705a4890",
+    "KO/snapshot.json": "c0ee163fcd107f7b9dfd141160aff360ab014a5756e36a42dd3b89c553142d93",
+    "KO/source-check-original.json": "b523a15d74256b9f3d52fe9a8cd7ae878d2e3f1554c4dce6cd126c3de2b2dc7c",
+    "KO/source-original.json": "37aebce807f53eb34b3f6c7878135efd63c4d39f1271ccaaae9c92a728f4bef6",
+    "KO/source-window-derived.json": "fa89672526fc7e480dc5aceee11d76ff02c732a6be03a6bcac2fab9373fbe484",
+    "KO/spec.json": "c17015a0900f1d5234044eeaa82946941a3409b070d77c1655c7dc35df1acba0",
+    "NDAQ/baseline-original.json": "6988c83552fdd89889a03429a9a29658dede922493470490cb2e1fe4dcc894b8",
+    "NDAQ/historical-adjustment-reconciliation.json": "2dcf411b64b005d7d28fa5745893a56e22397e50f76b919b9d2ce3c326778aa2",
+    "NDAQ/import-manifest.json": "dd3853fd0cb1cd0ab473a57c66741556d4a7e4ab89da858d7330ed6e8b1ba220",
+    "NDAQ/preparation.json": "cd67433c8615ef379bdf6fb75b7f8f5844b93c0f55f3308913d132dae4f5efca",
+    "NDAQ/prices-derived.csv": "e9a9113c7d49c6232efb7d12e4c6713d455a56b10d9afa93ac8fc3dbc933be0b",
+    "NDAQ/snapshot.json": "70cb3fe4ffb9e1df3924921634a00391daa759a90630b2d6981637eac5fe74fd",
+    "NDAQ/source-check-original.json": "f89a6c8e473102e39aa1b434fd5dc415fe0c0011a4ad5477a22054886bcd2825",
+    "NDAQ/source-original.json": "7b718813306a174eb8412e5f52bb553ef9ad237294c6600a5efeee2e79e57a71",
+    "NDAQ/source-window-derived.json": "3c37682509b2c16e59ca8f620c9f6bac3d42efece6fb875bd5189ee65d0ccedc",
+    "NDAQ/spec.json": "01d0103f79deec998ebfe91de9b49cf5953367104f59e40c59d5c2a3b04ce0aa",
+    "research-design.json": "6f2a7ed165cebae74f1675f34e8ff7d3102dfd2b02a03de3e2d4582f02d75c5b"
+  }
+}

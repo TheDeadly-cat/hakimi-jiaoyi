@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-10-25T21:31:03.403471+00:00",
+  "source_head": "40f2d3612f44145e5108d8ea0ab83a1702799bb0",
+  "tool_sha256": {
+    "tools/prepare_sealed_month_replay.py": "32f4771a5ae9e4436d0bd71fd3500e7fc3e9b71d8e6d5578a7fd296a14eee118",
+    "tools/verify_strategy_prefix_isolation.py": "e3c18a45f46b5bacbb78bba3703de5e04c27c1325f4c255e3fdec386f9a88b72",
+    "tests/repository_only/test_sealed_month_replay.py": "69b091a000adacbacfeb2d827cab1f293a64d6415c7236046e75395bbc53e889",
+    "tests/repository_only/test_strategy_prefix_isolation.py": "a9faeda72afe54e8f096a0decfa47a12131ef5ac85b4ffe68e949b77358d9c3a"
+  },
+  "design_sha256": "6f2a7ed165cebae74f1675f34e8ff7d3102dfd2b02a03de3e2d4582f02d75c5b",
+  "v1_stop_retained": true,
+  "new_strategy_runs_before_seal": 0
+}
