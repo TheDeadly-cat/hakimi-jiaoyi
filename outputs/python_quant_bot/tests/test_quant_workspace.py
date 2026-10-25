@@ -248,6 +248,11 @@ class QuantWorkspaceTests(unittest.TestCase):
         self.assertTrue(self.module.initialized)
         service.release.set()
         self.terminal(body["request_id"])
+        # A saved result can precede the worker finally releasing ownership.
+        deadline = time.monotonic() + 3
+        while self.module.pending and time.monotonic() < deadline:
+            time.sleep(.01)
+        self.assertFalse(self.module.pending, "worker did not release job ownership")
         self.assertTrue(self.module.close())
         self.assertFalse(self.module.initialized)
         self.assertEqual(self.request("/api/quant/actions/run_task", dict(body, request_id="quant-close-request-0002"))[0], 400)

@@ -39,3 +39,12 @@
 ![重开后读取旧 NDAQ 成本报告](research-evidence/data-continuity-native-20261025/images/08-native-reopened-old-costs.jpg)
 
 完整本机证据位于 `C:\Users\Administrator\.codex\worktrees\insights-github-20261022\m32-data-continuity-20261025\native-acceptance-20261025-r1`。后验读取器曾按错误的请求外层结构解析而停止；改为读取已保存请求封套后通过，失败过程不写业务数据。GitHub 最新提交的 CI 仍单独核对，不将此前 b283162 的 11 项通过挪作新提交结果。PR 保持草稿，未合并或发布。
+
+
+## 2026-10-26：CI 时序检查收尾
+
+验收证据提交 `d89321c` 的 [CI 40139045445](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40139045445) 最终为 9 项成功、终端检查及汇总门禁 2 项失败。唯一具体失败是关闭测试将“结果已保存为成功”当作“作业已释放占用”；运行代码在占用未释放时拒绝关闭是正确保护。
+
+单次受控复现确认：结果已成功但 `pending=True` 时关闭返回 False；释放后关闭成功，后续提交仍返回 HTTP 400，模拟操作仅一次、真实经济运行零次。测试仅增加最多 3 秒的占用释放等待和明确断言，原有保护断言全部保留，没有改变产品运行代码或候选安装。
+
+相关测试模块 13 项通过。尝试使用普通安装候选运行全部终端测试时，因其不含仅供仓库兼容入口使用的 `market_calendar`／`http_contract`，发现 78 项并有 8 个导入错误；该尝试不算完整验收，日志保留，未修改安装环境。完整终端门禁继续由采用仓库可编辑安装的 GitHub CI 验证，新提交结果在 PR #26 单独核对。[修复和验证凭据](research-evidence/data-continuity-native-20261025/ci-followup-20261026.json)。
