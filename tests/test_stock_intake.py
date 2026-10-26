@@ -65,7 +65,7 @@ class StockIntakeTests(unittest.TestCase):
         self.assertFalse(doc['order_allowed'])
         self.assertEqual(saved['suggested_task']['params']['slow_window'], 10)
         self.assertEqual(saved['suggested_task']['score_start'], doc['sessions'][12]['date'])
-        self.assertEqual(intake.read_stock_import(folder)['frozen_input_ref'], Path(saved['path']).relative_to(self.root).as_posix())
+        self.assertEqual(intake.read_stock_import(folder)['frozen_input_ref'], Path(saved['path']).resolve().relative_to(self.root.resolve()).as_posix())
 
     def test_bounded_counts_and_unsupported_inputs_reject_before_fetch(self):
         for symbol, count in (('bad/symbol',20),('TEST',True),('TEST',21),('TEST',1000)):
