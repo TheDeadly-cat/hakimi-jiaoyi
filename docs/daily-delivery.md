@@ -1,12 +1,16 @@
 # 日常候选：版本、入口与旧记录
 
-当前日常候选为 `0.6.0.dev4`，增加[新手首次使用与第二天继续](first-use.md)。新用户使用自带 Python、Electron 的完整 Windows x64 ZIP，解压后双击 `HakimiWorkbench.exe`；精确身份与验收见[新手首用验收](first-use-acceptance-20261026.md)，打包与独立数据目录规则见[试用包说明](windows-trial-package.md)。干净新机和独立真人试用由用户后续安排。已合并主分支、开发候选和正式 Release 是三种不同身份，以 [当前状态](../CURRENT_STATUS.md) 为入口核对。`v0.2.1` 不包含本候选的工作台能力。
+当前日常候选为 `0.6.0.dev5`，CLEAN 构建 `f778020`，本机包为 `Downloads/哈基米试用 dev5-f778020-r1.zip`。它修复 Windows 环境的代理选择差异，并把结果列表信号及读取错误接入中文说明；保留[新手首次使用与第二天继续](first-use.md)。完整 ZIP 自带 Python、Electron，解压后使用其中的 `HakimiWorkbench.exe`；精确身份与415项安装检查、7项流程见[dev5进度记录](first-stock-live-progress-20261027.md)，打包规则见[试用包说明](windows-trial-package.md)。
+
+当前只完成新包从中文、空格目录打开首屏。用户正在使用电脑，已要求稍后继续桌面操作；版本详情、真实NDAQ获取与保存运行、成功结果重开和“今天可以做什么”仍未验收，不用接口替代点击或自动重试。诊断对照和离线修复不能证明真实新包联网成功。干净新机和独立真人试用仍由用户后续安排。已合并主分支、开发候选和正式 Release 分开核对，`v0.2.1` 不包含本候选能力。
+
+dev4的示例、成本及两轮关闭重开见[原首用验收](first-use-acceptance-20261026.md)。其两次NDAQ STOP、46份工作区文件和原包保持，不因新修复回填。
 
 前一 `0.6.0.dev2` 的精确运行构建、安装、桌面重开与保全证据见[2026-10-25 验收记录](daily-delivery-acceptance-20261025.md)，保留原身份。本轮 dev3 补充按交易所区分的日历、历史修订影响及公司行为停止说明，具体范围见[数据持续使用流程](daily-workbench.md)，精确安装见[dev3 后台验收记录](data-continuity-acceptance-20261025.md)，恢复后的实际点击和关闭重开见[原生桌面验收](data-continuity-native-acceptance-20261025.md)。本机当前快捷方式为“哈基米研究工作台（dev3数据候选）”，旧入口保留。
 
 ## 已有本机入口与版本识别
 
-以下 `Start-Workbench.cmd` 是保留的 dev3 及早期本机入口，与 dev4 自带运行时试用包分别使用自己的程序和数据目录。旧快捷方式没有替换。
+以下 `Start-Workbench.cmd` 是保留的 dev3 及早期本机入口，与 dev4、dev5 自带运行时试用包分别使用自己的程序和数据目录。旧快捷方式没有替换。
 
 本机交付使用独立目录中的 `Start-Workbench.cmd`。一个入口绑定一个已验收 Python 安装、候选包及明确数据工作区。首次使用和重开均从该入口进入；它不会选择原终端的默认数据目录，也不替换旧快捷方式。
 

@@ -1,0 +1,52 @@
+{
+  "schema_version": "daily-transport-independent-review-v1",
+  "recorded_at": "2026-10-26T16:43:54.889169Z",
+  "status": "PASS_BOUNDED_SOURCE_AND_OFFLINE_TEST_REVIEW",
+  "source_files": {
+    "src/hakimi_research/daily_updates.py": "09531e09a514f76dcf438630504dc4180f4e2c712480e8016dfb0472cc02d518",
+    "tests/test_daily_updates.py": "50d72b4788c249200d7be3f8c35b49c9ab37075e96e29b49c317e020de29c2cd"
+  },
+  "diagnostic_comparison": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\transport-comparison.json",
+    "sha256": "08e838337dac02252730c1be238bdef56e60de7664e6f2d254607b9b3e132bb6"
+  },
+  "fixture_validation": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\transport-fix-validation-r1.json",
+    "sha256": "94d44f501c4ef2cd7fa9326d98dc39333648d794cd6f5e3b1adb5b21c07f4953"
+  },
+  "fixture_log": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\transport-fix-tests-r1.log",
+    "sha256": "1a5f4c80c2a7b5fd322f14031ed6a127e5a226acc4ff274bc6fb6ce45f39dbce"
+  },
+  "reviewed_properties": {
+    "windows_only_registry_fallback": true,
+    "fallback_only_for_no_proxy_only_environment": true,
+    "explicit_environment_scheme_values_and_empty_values_keep_precedence": true,
+    "uses_existing_user_registry_no_hardcoded_proxy": true,
+    "no_proxy_bypass_preserved_by_actual_proxyhandler_fixture": true,
+    "no_credentials_added_to_saved_receipts_or_error_text": true,
+    "non_windows_default_behavior_unchanged": true,
+    "url_allowlist_headers_timeout_12s_size_4mib_and_redirect_guard_unchanged": true,
+    "no_automatic_retry": true,
+    "calendar_rows_adjustments_corporate_actions_and_source_admission_guards_unchanged": true,
+    "existing_workbench_first_input_calls_same_daily_fetch": true
+  },
+  "observed_offline_tests": {
+    "elapsed_seconds": 12.599245,
+    "errors": 0,
+    "expected": 41,
+    "failures": 0,
+    "run": 41,
+    "skipped": 0
+  },
+  "reviewer_executed_tests": 0,
+  "reviewer_new_market_requests": 0,
+  "reviewer_source_edits": 0,
+  "new_economic_runs": 0,
+  "findings": [],
+  "boundaries": [
+    "This is a source and offline fixture review, not acceptance of a new installed wheel or real new source.",
+    "The external diagnostic body remains outside the product; a later normal workbench acquisition and save must provide real first-use evidence.",
+    "The old r3 installation and its 46 records retain their original identity; do not rewrite its stopped source evidence."
+  ]
+}

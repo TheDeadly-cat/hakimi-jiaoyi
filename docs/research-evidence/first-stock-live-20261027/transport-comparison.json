@@ -1,0 +1,105 @@
+{
+  "schema_version": "independent-source-transport-comparison-v1",
+  "recorded_at": "2026-10-26T16:35:58.060269Z",
+  "status": "ENVIRONMENT_NO_PROXY_ONLY_SHADOWS_WINDOWS_REGISTRY_CONFIRMED",
+  "request_contract_sha256": "9fcb7307dac92872849459ac748a5f6ad28e3cc4d0fa4a8649998792f077905b",
+  "same_private_python_and_request_contract": true,
+  "network_requests_total": 2,
+  "network_requests_codex": 1,
+  "network_requests_true_explorer": 1,
+  "preflight_only_failed_dispatches": 1,
+  "automatic_retry": false,
+  "codex": {
+    "receipt": {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\codex\\receipt.json",
+      "sha256": "c1681dc148083e840f2d167d79525026602a4a8ba092b2fb5b87b4e408d37321",
+      "bytes": 5331
+    },
+    "status": "FULL_BODY_RECEIVED",
+    "open_seconds": 0.6581356999959098,
+    "read_seconds": 0.05281920000561513,
+    "body_original": {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\codex\\source-original.bin",
+      "sha256": "2ac9f2836f92227b6e488a2761458f74343e381320531db0ddc1e440f67b3c22",
+      "bytes": 11989
+    },
+    "proxy_source": "environment"
+  },
+  "explorer": {
+    "receipt": {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\explorer-desktop-dispatch\\explorer\\receipt.json",
+      "sha256": "47388b3a66c8aae4c188200bcb1eab7838010949efceb1d8b2e322fe0527de27",
+      "bytes": 2793
+    },
+    "status": "SOURCE_REQUEST_FAILED_NO_RETRY",
+    "failed_phase": "open",
+    "open_seconds": 12.231675700008054,
+    "exception": {
+      "type": "URLError",
+      "reason_type": "TimeoutError",
+      "errno": null,
+      "winerror": null,
+      "timeout": true,
+      "ssl_error": false,
+      "ssl_verify_code": null
+    },
+    "verified_chain": [
+      {
+        "pid": 32556,
+        "parent_pid": 31028,
+        "executable_name": "python.exe"
+      },
+      {
+        "pid": 31028,
+        "parent_pid": 10328,
+        "executable_name": "electron.exe"
+      },
+      {
+        "pid": 10328,
+        "parent_pid": 11156,
+        "executable_name": "explorer.exe"
+      }
+    ],
+    "proxy_source": "environment",
+    "effective_proxy_protocols": []
+  },
+  "failed_host_preflight": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\explorer\\receipt.json",
+    "sha256": "6637ee8fd9d2acd754ec5639b9243315997781fe3a53039798228d6da256974b",
+    "bytes": 4370
+  },
+  "proxy_registry_https_endpoint_same": true,
+  "explorer_only_no_proxy_environment": true,
+  "stdlib_selection": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\stdlib-proxy-selection.json",
+    "sha256": "70207d093777b7281b050f42e4c4ec6974b7389bbc5517222110e104e9a2cd2f",
+    "bytes": 607
+  },
+  "preservation": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\diagnostic-preservation-after.json",
+    "sha256": "b17f86369d0820624592258a7f92c770daf242c1f95e266e567be1b3517e4b31",
+    "bytes": 8590
+  },
+  "diagnostic_script": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\diagnose_source_transport.py",
+    "sha256": "c8f969f8f88d829a94bc21cfdf1d7e20e0420ad8bb620eab2fc5cbb337c8608a",
+    "bytes": 11758
+  },
+  "diagnostic_launcher": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\diagnostic-entry.js",
+    "sha256": "9ddd68fda61d2b4dc9d71d76282a4bc6d5ef901e448a12a1a2c27939f24d3302",
+    "bytes": 1762
+  },
+  "config": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\diagnostic-config.json",
+    "sha256": "504b63936f12d3806d4ede7a74d5ebb940f07ff8cca0a86b686526eabd95ee8b",
+    "bytes": 1665
+  },
+  "source_original_imported_into_product": false,
+  "new_economic_runs": 0,
+  "product_workspace_writes": 0,
+  "product_or_system_proxy_changed": false,
+  "raw_response_prices_or_returns_examined": false,
+  "next_boundary": "A normal workbench request and explicit candidate save are still required; the external diagnostic body is never substituted for a successful product chain.",
+  "minimal_fix_direction": "Windows only: when bypass-only environment suppresses proxy selection and no explicit scheme-proxy environment setting exists, select the existing Windows registry proxies while preserving NO_PROXY bypass and all request limits. No Codex-specific address, retry, source fallback or system changes."
+}
