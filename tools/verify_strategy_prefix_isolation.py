@@ -10,8 +10,11 @@ import argparse
 from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
+import importlib.util
 import json
 from pathlib import Path
+import re
+import subprocess
 import sys
 
 import numpy as np
@@ -27,6 +30,8 @@ from hakimi_research.strategies.templates import DualMovingAverageStrategy, buil
 from hakimi_research.strategy_registry import run_strategy
 
 SCHEMA = 'strategy-prefix-observation-v1'
+HOLDOUT_SCHEMA = 'independent-historical-holdout-design-v1'
+HOLDOUT_MODE = 'PROJECT_HISTORICAL_HOLDOUT_PREACQUISITION'
 FIELDS = ('open', 'high', 'low', 'close', 'volume')
 LIMITATIONS = [
     'Checks the registered Python strategy callback arguments, not an OS security sandbox.',
@@ -207,11 +212,13 @@ def _check_amendment(design):
 
 
 def check_design(design, manifest, report, snapshot, current, started):
-    if (design.get('schema_version') not in {'fixed-month-replay-design-v1', 'fixed-month-replay-design-v2'}
+    if (design.get('schema_version') not in {'fixed-month-replay-design-v1', 'fixed-month-replay-design-v2', HOLDOUT_SCHEMA}
             or design.get('plan_hash') != digest({k: v for k, v in design.items() if k != 'plan_hash'})):
         raise ValueError('audit_design_identity_invalid')
     if design['schema_version'] == 'fixed-month-replay-design-v2':
         _check_amendment(design)
+    if design['schema_version'] == HOLDOUT_SCHEMA and design.get('mode') != HOLDOUT_MODE:
+        raise ValueError('audit_holdout_mode_conflict')
     if _date(design['recorded_at']) > _date(started['started_at']):
         raise ValueError('audit_design_postdates_formal_run')
     if manifest['task']['strategy'] != 'price.dual_ma@1':
@@ -238,13 +245,162 @@ def check_design(design, manifest, report, snapshot, current, started):
     return first, last
 
 
+def _holdout_protocol_checker():
+    """Load only the adjacent, separately frozen repository preparation tool."""
+    path = Path(__file__).with_name('prepare_blind_holdout.py')
+    spec = importlib.util.spec_from_file_location('prefix_holdout_preparation', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.check_design_protocol
+
+
+def _bound_file(base, reference, expected):
+    path = Path(reference)
+    if not path.is_absolute():
+        path = base / path
+    resolved = path.resolve()
+    if (not resolved.is_relative_to(base.resolve()) or path.is_symlink() or not path.is_file()
+            or any(parent.is_symlink() for parent in path.parents)):
+        raise ValueError('audit_holdout_artifact_outside_receipt_directory')
+    raw = path.read_bytes()
+    if type(expected) is not str or sha256(raw).hexdigest() != expected:
+        raise ValueError('audit_holdout_artifact_bytes_changed')
+    return resolved, raw
+
+
+def _git_output(repository, *args):
+    return subprocess.check_output(['git', *args], cwd=repository, stderr=subprocess.PIPE)
+
+
+def _check_holdout_bindings(design, raw, design_path, preparation_path, preparation_sha256,
+                            report, snapshot, started):
+    if preparation_path is None or not preparation_sha256:
+        raise ValueError('audit_holdout_requires_preparation_and_sha256')
+    checked = _holdout_protocol_checker()(design_path, expected_sha256=sha256(raw).hexdigest())
+    if checked != design:
+        raise ValueError('audit_holdout_protocol_validator_identity_conflict')
+    preparation_path = Path(preparation_path).resolve()
+    fixed_output = Path(design['acquisition_output_path'])
+    if not fixed_output.is_absolute() or preparation_path.parent != fixed_output.resolve():
+        raise ValueError('audit_holdout_preparation_outside_frozen_destination')
+    prep = _referenced_document(preparation_path, preparation_sha256)
+    if (prep.get('schema_version') != 'blind-holdout-preparation-v1' or prep.get('status') != 'READY'
+            or prep.get('plan_hash') != design['plan_hash'] or prep.get('design_sha256') != sha256(raw).hexdigest()
+            or set(prep.get('symbols', {})) != set(design['sources'])
+            or any(row.get('status') != 'READY' for row in prep['symbols'].values())):
+        raise ValueError('audit_holdout_preparation_identity_conflict')
+    acquisition_path = Path(prep['acquisition_path'])
+    if not acquisition_path.is_absolute():
+        acquisition_path = preparation_path.parent / acquisition_path
+    acquisition_path = acquisition_path.resolve()
+    if acquisition_path.parent != preparation_path.parent:
+        raise ValueError('audit_holdout_acquisition_outside_preparation_directory')
+    acquisition = _referenced_document(acquisition_path, prep['acquisition_sha256'])
+    commit = prep.get('commit')
+    if (type(commit) is not str or not re.fullmatch(r'[0-9a-f]{40}', commit)
+            or acquisition.get('schema_version') != 'blind-holdout-acquisition-v1'
+            or acquisition.get('status') != 'ACQUIRED' or acquisition.get('commit') != commit
+            or acquisition.get('plan_hash') != design['plan_hash']
+            or acquisition.get('design_sha256') != sha256(raw).hexdigest()
+            or set(acquisition.get('sources', {})) != set(design['sources'])):
+        raise ValueError('audit_holdout_acquisition_identity_conflict')
+    repository = Path(design['repository_path']).resolve()
+    protocol_relative = Path(design['protocol_repo_path'])
+    if protocol_relative.is_absolute() or '..' in protocol_relative.parts:
+        raise ValueError('audit_holdout_protocol_repository_path_invalid')
+    if _git_output(repository, 'show', commit + ':' + protocol_relative.as_posix()) != raw:
+        raise ValueError('audit_holdout_preacquisition_commit_bytes_conflict')
+    commit_at = _date(_git_output(repository, 'show', '-s', '--format=%cI', commit).decode().strip())
+    if commit_at != _date(acquisition['commit_time']):
+        raise ValueError('audit_holdout_commit_time_conflict')
+    frozen_at = _date(design['recorded_at'])
+    prepared_at = _date(prep['prepared_at'])
+    if not (frozen_at <= commit_at < _date(acquisition['started_at'])
+            <= _date(acquisition['completed_at']) <= prepared_at < _date(started['started_at'])):
+        raise ValueError('audit_holdout_preparation_chronology_conflict')
+    if type(prep.get('files')) is not dict or not prep['files']:
+        raise ValueError('audit_holdout_preparation_inventory_missing')
+    inventory = {}
+    for reference, expected in prep['files'].items():
+        path, _ = _bound_file(preparation_path.parent, reference, expected)
+        inventory[path] = expected
+    if inventory.get(acquisition_path) != prep['acquisition_sha256']:
+        raise ValueError('audit_holdout_acquisition_missing_from_inventory')
+    sources = {}
+    for symbol, source in acquisition['sources'].items():
+        if source.get('status') != 'ACQUIRED' or source.get('reference') != design['sources'][symbol]['reference']:
+            raise ValueError('audit_holdout_source_identity_conflict')
+        requested_at, retrieved_at = _date(source['request_started_at']), _date(source['retrieved_at'])
+        if not (commit_at < _date(acquisition['started_at']) <= requested_at <= retrieved_at
+                <= _date(acquisition['completed_at'])):
+            raise ValueError('audit_holdout_source_predates_commitment')
+        _bound_file(acquisition_path.parent, source['raw_path'], source['raw_sha256'])
+        attempts = source.get('attempts')
+        policy = design['acquisition_policy']
+        maximum = policy['max_requests_per_symbol']
+        if (type(maximum) is not int or type(attempts) is not list or not 1 <= len(attempts) <= maximum
+                or attempts[-1].get('status') != 'ACQUIRED'):
+            raise ValueError('audit_holdout_source_attempt_history_missing')
+        previous = _date(acquisition['started_at'])
+        for ordinal, attempt in enumerate(attempts, 1):
+            begin, end = _date(attempt['request_started_at']), _date(attempt['completed_at'])
+            earliest = previous + (timedelta(seconds=policy['retry_delay_seconds']) if ordinal > 1 else timedelta())
+            if (attempt.get('number') != ordinal or attempt.get('reference') != source['reference']
+                    or not (earliest <= begin <= end <= retrieved_at)):
+                raise ValueError('audit_holdout_source_attempt_chronology_conflict')
+            if ordinal < len(attempts) and (attempt.get('status') != 'FAILED'
+                    or attempt.get('outcome_known') is not True or attempt.get('successful_response_received') is not False
+                    or attempt.get('reason') not in policy['retry_reason_codes'] or attempt.get('response_status') == 200):
+                raise ValueError('audit_holdout_retry_after_disallowed_or_successful_response')
+            previous = end
+            if 'raw_path' in attempt or 'raw_sha256' in attempt:
+                _bound_file(acquisition_path.parent, attempt['raw_path'], attempt['raw_sha256'])
+        last = attempts[-1]
+        if (last['request_started_at'] != source['request_started_at'] or last['completed_at'] != source['retrieved_at']
+                or last.get('raw_sha256') != source['raw_sha256'] or last.get('raw_path') != source['raw_path']
+                or last.get('response_status') != 200):
+            raise ValueError('audit_holdout_selected_source_attempt_conflict')
+        sources[symbol] = dict(request_started_at=source['request_started_at'], retrieved_at=source['retrieved_at'],
+                               raw_sha256=source['raw_sha256'], attempts=len(attempts))
+    symbol = report['dataset']['security']['symbol']
+    prepared = prep['symbols'][symbol]
+    if prepared.get('status') != 'READY' or prepared.get('snapshot_id') != snapshot.snapshot_id:
+        raise ValueError('audit_holdout_prepared_snapshot_identity_conflict')
+    snapshot_path, snapshot_raw = _bound_file(preparation_path.parent, prepared['snapshot_path'], prepared['snapshot_sha256'])
+    spec_path, spec_raw = _bound_file(preparation_path.parent, prepared['spec_path'], prepared['spec_sha256'])
+    if (inventory.get(snapshot_path) != prepared['snapshot_sha256'] or inventory.get(spec_path) != prepared['spec_sha256']
+            or json.loads(snapshot_raw) != snapshot.document):
+        raise ValueError('audit_holdout_saved_snapshot_differs_from_preparation')
+    prepared_spec = json.loads(spec_raw)
+    for key in ('snapshot_id', 'strategy', 'initial_cash', 'fee_rate', 'slippage_pct', 'risk', 'end_policy',
+                'execution_policy', 'quantity_policy', 'purpose', 'score_start_session', 'score_end_session'):
+        if prepared_spec[key] != report['spec'][key]:
+            raise ValueError('audit_holdout_prepared_spec_conflict:' + key)
+    for recorded_source in (snapshot.document['security_identity']['source'], snapshot.document['corporate_actions']['source']):
+        if (recorded_source['raw_sha256'] != sources[symbol]['raw_sha256']
+                or recorded_source['retrieved_at'] != sources[symbol]['retrieved_at']
+                or recorded_source['reference'] != design['sources'][symbol]['reference']):
+            raise ValueError('audit_holdout_snapshot_source_binding_conflict')
+    return dict(scope='PROJECT_HISTORICAL_HOLDOUT_PREACQUISITION',
+        exposure_audit_sha256=design['exposure_audit']['sha256'], parameter_design_sha256=design['parameter_design']['sha256'],
+        exposure_addendum_sha256=design['exposure_addendum']['sha256'],
+        project_exposure_audit_verified=True, frozen_parameter_source_verified=True,
+        protocol_commit=commit, protocol_committed_at=acquisition['commit_time'],
+        preacquisition_commitment_verified=True, preparation_sha256=preparation_sha256,
+        acquisition_sha256=prep['acquisition_sha256'], prepared_at=prep['prepared_at'],
+        prepared_snapshot_matches_formal_run=True, frozen_economics_match_preparation=True, sources=sources,
+        chronological_oos=False, historical_point_in_time_source=False,
+        global_unseen_data_proven=False, callback_observer_alone_proves_blind_holdout=False)
+
+
 def _write_new(path, value):
     with path.open('x', encoding='utf-8', newline='\n') as stream:
         json.dump(value, stream, ensure_ascii=False, allow_nan=False, indent=2, sort_keys=True)
         stream.write('\n')
 
 
-def verify_saved_run(run_dir, *, design_path, design_sha256, output_path):
+def verify_saved_run(run_dir, *, design_path, design_sha256, output_path,
+                     preparation_path=None, preparation_sha256=None):
     root, design_path, output = Path(run_dir).resolve(), Path(design_path).resolve(), Path(output_path).resolve()
     if output.is_relative_to(root) or output == design_path:
         raise ValueError('audit_output_cannot_modify_run_or_design')
@@ -258,7 +414,12 @@ def verify_saved_run(run_dir, *, design_path, design_sha256, output_path):
     before = _inventory(root)
     manifest, report, snapshot = verify_run(root)
     current = build_runtime_provenance()
-    first, last = check_design(design, manifest, report, snapshot, current, read_document(root / 'started.json'))
+    started = read_document(root / 'started.json')
+    first, last = check_design(design, manifest, report, snapshot, current, started)
+    blinding_evidence = None
+    if design['schema_version'] == HOLDOUT_SCHEMA:
+        blinding_evidence = _check_holdout_bindings(design, raw, design_path, preparation_path,
+            preparation_sha256, report, snapshot, started)
     data = snapshot.frame()
     output.parent.mkdir(parents=True, exist_ok=True)
     _write_new(started_path, dict(schema_version=SCHEMA, run_id=manifest['run_id'],
@@ -283,6 +444,9 @@ def verify_saved_run(run_dir, *, design_path, design_sha256, output_path):
             raise ValueError('audit_runtime_or_input_changed_during_verification')
         if before != _inventory(root) or design_path.read_bytes() != raw:
             raise ValueError('audit_original_artifacts_changed')
+        if blinding_evidence is not None and blinding_evidence != _check_holdout_bindings(
+                design, raw, design_path, preparation_path, preparation_sha256, report, snapshot, started):
+            raise ValueError('audit_holdout_bindings_changed_during_verification')
         result = dict(schema_version=SCHEMA, status='PASS', recorded_at=datetime.now(timezone.utc).isoformat(),
             run_id=manifest['run_id'], report_hash=report['report_hash'], snapshot_id=snapshot.snapshot_id,
             design_sha256=design_sha256, plan_hash=design['plan_hash'],
@@ -291,6 +455,8 @@ def verify_saved_run(run_dir, *, design_path, design_sha256, output_path):
             economic_result_sha256=digest(report['result']), additional_validation_calculations=1,
             new_product_runs=0, blind_holdout_proven=False, os_sandbox=False,
             trace=observer.rows, trace_sha256=digest(observer.rows), limitations=LIMITATIONS)
+        if blinding_evidence is not None:
+            result['blinding_evidence'] = blinding_evidence
         _write_new(output, result)
         return result
     except BaseException as exc:
@@ -348,6 +514,8 @@ def main(argv=None):
     mode.add_argument('--run', type=Path)
     parser.add_argument('--design', type=Path)
     parser.add_argument('--design-sha256')
+    parser.add_argument('--preparation', type=Path)
+    parser.add_argument('--preparation-sha256')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args(argv)
     if args.synthetic:
@@ -359,7 +527,8 @@ def main(argv=None):
     else:
         if not args.design or not args.design_sha256:
             parser.error('--run requires --design and --design-sha256')
-        result = verify_saved_run(args.run, design_path=args.design, design_sha256=args.design_sha256, output_path=args.output)
+        result = verify_saved_run(args.run, design_path=args.design, design_sha256=args.design_sha256, output_path=args.output,
+            preparation_path=args.preparation, preparation_sha256=args.preparation_sha256)
     print(json.dumps({k: result[k] for k in ('schema_version', 'status')}, ensure_ascii=False))
     return 0
 

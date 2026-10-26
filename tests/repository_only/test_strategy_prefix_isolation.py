@@ -2,9 +2,12 @@
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
+import base64
 import importlib.util
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -231,6 +234,201 @@ class PrefixIsolationTests(unittest.TestCase):
             stopped.write_bytes(stopped.read_bytes() + b' ')
             with self.assertRaisesRegex(ValueError, 'reference_bytes_changed'):
                 AUDIT._check_amendment(design)
+
+    def holdout_seed(self, root):
+        """Fictional prices and a real temporary Git commitment; no market source."""
+        moment = datetime.now(timezone.utc).replace(microsecond=0) - timedelta(minutes=10)
+        stamp = lambda seconds: (moment + timedelta(seconds=seconds)).isoformat().replace('+00:00', 'Z')
+        source_raw = b'{"kind":"synthetic-only holdout source"}'
+        raw, declaration = FIXTURE.stock_inputs()
+        source = dict(name='SYNTHETIC_HOLDOUT', reference='https://example.test/holdout/TEST',
+                      retrieved_at=stamp(182), raw_base64=base64.b64encode(source_raw).decode())
+        declaration['identity']['source'] = deepcopy(source)
+        declaration['corporate_actions']['source'] = deepcopy(source)
+        declaration['price_source']['retrieved_at'] = stamp(182)
+        declaration['retrieved_at'] = stamp(182)
+        snapshot = build_equity_snapshot(raw, declaration)
+        prepared_root = root / 'prepared'
+        prepared_root.mkdir()
+        snapshot_path = prepared_root / 'snapshot.json'
+        write_new(snapshot_path, snapshot.document)
+        task = root / 'task.json'
+        create_task(task, snapshot=snapshot_path, strategy='price.dual_ma@1',
+            params=dict(fast_window=2, slow_window=4, position_pct=.25, stop_loss_pct=.03, take_profit_pct=.06),
+            score_start='2024-11-11', score_end='2024-12-03', initial_cash=10000,
+            fee_rate=.0008, slippage_pct=.0005, output_dir=root / 'runs')
+        run = run_task(task)
+        manifest, report, _ = verify_run(run)
+        spec, dates = report['spec'], [r['date'] for r in snapshot.document['sessions']]
+        first = dates.index(spec['score_start_session'])
+        design = dict(schema_version=AUDIT.HOLDOUT_SCHEMA, mode=AUDIT.HOLDOUT_MODE, recorded_at=stamp(0),
+            score_start=spec['score_start_session'], score_end=spec['score_end_session'],
+            score_sessions=dates[first:], context_dates=dates[:first], context_start=dates[0], context_sessions=first,
+            **{key: spec[key] for key in ('strategy', 'initial_cash', 'fee_rate', 'slippage_pct', 'risk',
+                'end_policy', 'execution_policy', 'quantity_policy', 'purpose')},
+            cost_multipliers=[1, 2, 3], benchmarks=['cash', 'buy_and_hold'],
+            sources={'TEST': {'reference': source['reference']}}, repository_path=str(root), protocol_repo_path='design.json',
+            acquisition_output_path=str(prepared_root),
+            acquisition_policy=dict(max_requests_per_symbol=2, retry_delay_seconds=3, same_url_only=True,
+                retry_only_without_successful_response=True,
+                retry_reason_codes=['SOURCE_HTTP_429', 'SOURCE_HTTP_502', 'SOURCE_HTTP_503', 'SOURCE_REQUEST_FAILED_NO_RETRY']),
+            exposure_audit={'sha256': 'a' * 64}, parameter_design={'sha256': 'b' * 64},
+            exposure_addendum={'path': str(root / 'synthetic-attribution.json'), 'sha256': 'c' * 64},
+            execution_runtime_source_sha256=manifest['runtime']['source_identity']['content_sha256'])
+        design['plan_hash'] = digest(design)
+        path = root / 'design.json'
+        write_new(path, design)
+        subprocess.run(['git', 'init', '-q', str(root)], check=True, capture_output=True)
+        subprocess.run(['git', 'add', '--', 'design.json'], cwd=root, check=True, capture_output=True)
+        environment = {**os.environ, 'GIT_AUTHOR_DATE': stamp(60), 'GIT_COMMITTER_DATE': stamp(60)}
+        subprocess.run(['git', '-c', 'user.name=Synthetic fixture', '-c', 'user.email=fixture@example.invalid',
+                        'commit', '-qm', 'synthetic pre-acquisition commitment'], cwd=root, env=environment,
+                       check=True, capture_output=True)
+        commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
+        acquired_root = prepared_root
+        (acquired_root / 'source.json').write_bytes(source_raw)
+        acquired_source = dict(status='ACQUIRED', reference=source['reference'], request_started_at=stamp(181),
+            retrieved_at=stamp(182), raw_path='source.json', raw_sha256=sha256(source_raw).hexdigest(),
+            attempts=[dict(number=1, status='ACQUIRED', request_started_at=stamp(181), completed_at=stamp(182),
+                           reference=source['reference'], response_status=200,
+                           raw_path='source.json', raw_sha256=sha256(source_raw).hexdigest())])
+        acquisition = dict(schema_version='blind-holdout-acquisition-v1', status='ACQUIRED',
+            plan_hash=design['plan_hash'], design_sha256=sha256(path.read_bytes()).hexdigest(), commit=commit,
+            commit_time=stamp(60), started_at=stamp(180), completed_at=stamp(183), sources={'TEST': acquired_source})
+        acquisition_path = acquired_root / 'acquisition.json'
+        write_new(acquisition_path, acquisition)
+        spec_path = prepared_root / 'spec.json'
+        write_new(spec_path, spec)
+        snapshot_sha, spec_sha = sha256(snapshot_path.read_bytes()).hexdigest(), sha256(spec_path.read_bytes()).hexdigest()
+        prep = dict(schema_version='blind-holdout-preparation-v1', status='READY', plan_hash=design['plan_hash'],
+            design_sha256=sha256(path.read_bytes()).hexdigest(), commit=commit, prepared_at=stamp(240),
+            acquisition_path=str(acquisition_path), acquisition_sha256=sha256(acquisition_path.read_bytes()).hexdigest(),
+            symbols={'TEST': dict(status='READY', snapshot_path=str(snapshot_path), snapshot_sha256=snapshot_sha,
+                                 snapshot_id=snapshot.snapshot_id, spec_path=str(spec_path), spec_sha256=spec_sha)},
+            files={'snapshot.json': snapshot_sha, 'spec.json': spec_sha,
+                   'acquisition.json': sha256(acquisition_path.read_bytes()).hexdigest()})
+        prep_path = prepared_root / 'preparation.json'
+        write_new(prep_path, prep)
+        return run, path, design, prep_path, prep, acquisition_path, acquisition
+
+    def test_holdout_receipts_bind_real_commit_source_snapshot_and_preserve_scope(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            run, path, design, prep_path, prep, _, _ = self.holdout_seed(root)
+            before = AUDIT._inventory(run)
+            # The companion tool owns protocol-selection validation. This test
+            # exercises the observer's independent commit/receipt/run bindings.
+            with patch.object(AUDIT, '_holdout_protocol_checker', return_value=lambda *a, **k: design):
+                result = AUDIT.verify_saved_run(run, design_path=path, design_sha256=sha256(path.read_bytes()).hexdigest(),
+                    output_path=root / 'verified-holdout.json', preparation_path=prep_path,
+                    preparation_sha256=sha256(prep_path.read_bytes()).hexdigest())
+            self.assertEqual(AUDIT._inventory(run), before)
+            self.assertTrue(result['economic_result_exact_match'])
+            self.assertFalse(result['blind_holdout_proven'])
+            self.assertEqual(result['blinding_evidence']['protocol_commit'], prep['commit'])
+            self.assertTrue(result['blinding_evidence']['preacquisition_commitment_verified'])
+            self.assertEqual(result['blinding_evidence']['exposure_addendum_sha256'], 'c' * 64)
+            self.assertFalse(result['blinding_evidence']['chronological_oos'])
+            self.assertFalse(result['blinding_evidence']['global_unseen_data_proven'])
+            self.assertEqual(result['additional_validation_calculations'], 1)
+
+    def test_holdout_requires_preparation_before_any_recalculation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            run, path, design, prep_path, *_ = self.holdout_seed(root)
+            with patch.object(AUDIT, 'run_strategy', side_effect=AssertionError('must not calculate')):
+                with self.assertRaisesRegex(ValueError, 'requires_preparation'):
+                    self.audit(run, path, root / 'missing.json')
+                with patch.object(AUDIT, '_holdout_protocol_checker', return_value=lambda *a, **k: design):
+                    with self.assertRaisesRegex(ValueError, 'reference_bytes_changed'):
+                        AUDIT.verify_saved_run(run, design_path=path, design_sha256=sha256(path.read_bytes()).hexdigest(),
+                            output_path=root / 'wrong-hash.json', preparation_path=prep_path, preparation_sha256='0' * 64)
+            self.assertFalse((root / 'missing.json.started.json').exists())
+            self.assertFalse((root / 'wrong-hash.json.started.json').exists())
+
+    def test_holdout_rejects_postdated_commit_wrong_source_and_snapshot(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            run, path, design, prep_path, prep, acquisition_path, acquisition = self.holdout_seed(root)
+            _, report, snapshot = verify_run(run)
+            started = read_document(run / 'started.json')
+            def check(current_prep, current_acquisition):
+                acquisition_path.write_text(json.dumps(current_acquisition), encoding='utf-8')
+                current_prep['acquisition_sha256'] = sha256(acquisition_path.read_bytes()).hexdigest()
+                current_prep['files']['acquisition.json'] = current_prep['acquisition_sha256']
+                prep_path.write_text(json.dumps(current_prep), encoding='utf-8')
+                return AUDIT._check_holdout_bindings(design, path.read_bytes(), path, prep_path,
+                    sha256(prep_path.read_bytes()).hexdigest(), report, snapshot, started)
+            with patch.object(AUDIT, '_holdout_protocol_checker', return_value=lambda *a, **k: design):
+                for label in ('commit-time', 'retrieved-before-commit', 'reference', 'snapshot-id', 'prepared-after-run',
+                              'attempt-history', 'inventory', 'retry-response-200', 'retry-unknown', 'retry-reason',
+                              'retry-too-soon', 'excess-attempts', 'retry-valid'):
+                    changed_prep, changed_acquisition = deepcopy(prep), deepcopy(acquisition)
+                    if label == 'commit-time':
+                        changed_acquisition['commit_time'] = changed_acquisition['completed_at']
+                    elif label == 'retrieved-before-commit':
+                        changed_acquisition['sources']['TEST']['request_started_at'] = design['recorded_at']
+                    elif label == 'reference':
+                        changed_acquisition['sources']['TEST']['reference'] = 'https://example.test/OTHER'
+                    elif label == 'snapshot-id':
+                        changed_prep['symbols']['TEST']['snapshot_id'] = 'f' * 64
+                    elif label == 'prepared-after-run':
+                        changed_prep['prepared_at'] = '2100-01-01T00:00:00Z'
+                    elif label == 'attempt-history':
+                        changed_acquisition['sources']['TEST']['attempts'] = []
+                    elif label == 'inventory':
+                        changed_prep['files'] = {'spec.json': prep['files']['spec.json']}
+                    else:
+                        source = changed_acquisition['sources']['TEST']
+                        last = source['attempts'][0]
+                        begin = AUDIT._date(last['request_started_at'])
+                        first = dict(number=1, status='FAILED', reason='SOURCE_HTTP_429', response_status=429,
+                            outcome_known=True, successful_response_received=False, reference=source['reference'],
+                            request_started_at=changed_acquisition['started_at'],
+                            completed_at=changed_acquisition['started_at'])
+                        # Move the initial request so a valid three-second retry
+                        # interval fits inside the fictional acquisition clock.
+                        changed_acquisition['started_at'] = (begin - timedelta(seconds=5)).isoformat()
+                        first['request_started_at'] = first['completed_at'] = changed_acquisition['started_at']
+                        last['number'] = 2
+                        source['attempts'] = [first, last]
+                        if label == 'retry-response-200':
+                            first['response_status'] = 200
+                        elif label == 'retry-unknown':
+                            first['outcome_known'] = False
+                        elif label == 'retry-reason':
+                            first['reason'] = 'SOURCE_ALREADY_RECEIVED_BUT_BAD_PRICES'
+                        elif label == 'retry-too-soon':
+                            first['completed_at'] = (begin - timedelta(seconds=2)).isoformat()
+                        elif label == 'excess-attempts':
+                            source['attempts'].insert(1, deepcopy(first))
+                    if label == 'retry-valid':
+                        self.assertEqual(check(changed_prep, changed_acquisition)['sources']['TEST']['attempts'], 2)
+                        continue
+                    with self.subTest(label=label), self.assertRaises(ValueError):
+                        check(changed_prep, changed_acquisition)
+
+    def test_holdout_rejects_uncommitted_protocol_and_mutated_source_bytes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            run, path, design, prep_path, prep, acquisition_path, acquisition = self.holdout_seed(root)
+            _, report, snapshot = verify_run(run)
+            started = read_document(run / 'started.json')
+            with patch.object(AUDIT, '_holdout_protocol_checker', return_value=lambda *a, **k: design):
+                (acquisition_path.parent / 'source.json').write_bytes(b'changed source')
+                with self.assertRaisesRegex(ValueError, 'artifact_bytes_changed'):
+                    AUDIT._check_holdout_bindings(design, path.read_bytes(), path, prep_path,
+                        sha256(prep_path.read_bytes()).hexdigest(), report, snapshot, started)
+                altered_raw = path.read_bytes() + b' '
+                changed_prep, changed_acquisition = deepcopy(prep), deepcopy(acquisition)
+                changed_prep['design_sha256'] = changed_acquisition['design_sha256'] = sha256(altered_raw).hexdigest()
+                acquisition_path.write_text(json.dumps(changed_acquisition), encoding='utf-8')
+                changed_prep['acquisition_sha256'] = sha256(acquisition_path.read_bytes()).hexdigest()
+                changed_prep['files']['acquisition.json'] = changed_prep['acquisition_sha256']
+                prep_path.write_text(json.dumps(changed_prep), encoding='utf-8')
+                with self.assertRaisesRegex(ValueError, 'preacquisition_commit_bytes_conflict'):
+                    AUDIT._check_holdout_bindings(design, altered_raw, path, prep_path,
+                        sha256(prep_path.read_bytes()).hexdigest(), report, snapshot, started)
 
 
 if __name__ == '__main__':
