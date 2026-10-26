@@ -40,6 +40,8 @@
 
 本轮按用户选择完成NDAQ、KO固定8月历史隔离回放，参数与区间先封存，42次策略回调均通过前缀隔离核对；原生运行、结果读取及关闭重开通过，440文件重开前后不变。[实际结果、停止记录和限制](docs/fixed-month-replay-acceptance-20261026.md)。它不是原10月基线之后的自然前瞻或独立盲测；产品运行源码与dev3安装保持原身份。
 
+随后新增项目内未使用区间的[四月盲测取价前协议](docs/research-evidence/independent-holdout-20261026/README.md)，封存提交`aa79352`早于首次取价，54项合成定向检查通过。首次来源准入因NDAQ预热首日03-16分红停止，KO虽准备成功但未单独运行，真实研究及经济计算均为0；[停止记录与待决定的下一步](docs/research-evidence/independent-holdout-20261026/STOP.md)保留。本轮盲测和桌面验收尚未完成，不替换前述八月结果。
+
 原模拟提案仍为 US.AMD、BUY 1股、1美元限价、DAY/RTH，最多一次提交和一次同订单撤单；未知不重试、拒单不调价、意外成交不授权额外卖出。实际周期需要单独有效授权及当前环境核对。接口路径通过、会计通过、策略证据与实盘权限分别验收。
 
 历史证据继续保留原身份：[集成与真实样本](docs/research-evidence/real-amd-rth-20260913/README.md)、[首次失败及恢复](docs/research-evidence/observation-activation-20260913/first-cycle-recovery.md)、[9月13日模拟只读准备](docs/research-evidence/futu-official-cycle-20260913/correction-preparation.json)、[v0.2.1发布验收](docs/research-evidence/release-0.2.1-20260909/README.md)。旧72小时窗口的144策略小时统计不被新清单替换。

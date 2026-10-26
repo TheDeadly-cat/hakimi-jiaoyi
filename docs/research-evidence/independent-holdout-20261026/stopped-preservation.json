@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "recorded_at": "2026-10-26T10:25:18.073101+00:00",
+  "original_replay_files_unchanged": 440,
+  "copied_workspace_files_unchanged": 440,
+  "original_dev3_files_unchanged": 366,
+  "original_documents_status_unchanged": true,
+  "new_workbench_tasks": 0,
+  "new_workbench_runs": 0,
+  "new_economic_calculations": 0,
+  "desktop_actions": 0
+}
