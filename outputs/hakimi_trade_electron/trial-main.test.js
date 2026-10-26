@@ -1,13 +1,13 @@
 "use strict";
 const test = require("node:test"), assert = require("node:assert/strict"), fs = require("node:fs"), path = require("node:path"), os = require("node:os"), crypto = require("node:crypto");
 const { EventEmitter } = require("node:events");
-const { canonical, verifyBundle, probeRuntime, trialPaths, workspacePathAssessment, bindWorkspace } = require("./trial-main");
+const { canonical, verifyBundle, probeRuntime, trialPaths, workspacePathAssessment, bindWorkspace, isTrialEntry } = require("./trial-main");
 const hash = value => crypto.createHash("sha256").update(value).digest("hex");
 
 function fixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "hakimi-trial-node-"));
   const files = {};
-  for (const name of ["runtime/python/python.exe", "runtime/python/Lib/site-packages/hakimi_research/__init__.py", "resources/app/runtime-probe.py", "HakimiWorkbench.exe"]) {
+  for (const name of ["runtime/python/python.exe", "runtime/python/Lib/site-packages/hakimi_research/__init__.py", "resources/app/runtime-probe.py", "resources/default_app.asar", "HakimiWorkbench.exe"]) {
     fs.mkdirSync(path.dirname(path.join(root, name)), { recursive: true }); fs.writeFileSync(path.join(root, name), "FAKE_NOT_EXECUTED"); files[name] = hash("FAKE_NOT_EXECUTED");
   }
   const expected = { version: "0.6.0.dev4", source_status: "BUILD_VERIFIED", source_sha256: "a".repeat(64), build_receipt: { content_sha256: "a".repeat(64) }, environment_status: "VERIFIED", lock_sha256: "b".repeat(64) };
@@ -28,6 +28,32 @@ test("trial accepts the complete frozen tree and rejects additions or changed by
     fs.writeFileSync(path.join(f.root, f.manifest.python), "changed");
     assert.throws(() => verifyBundle(f.root), /hash_changed/);
   } finally { f.close(); }
+});
+
+test("archive bytes remain part of the frozen manifest", () => {
+  const f = fixture();
+  try {
+    assert.equal(verifyBundle(f.root).bundle_id, f.manifest.bundle_id);
+    fs.appendFileSync(path.join(f.root, "resources/default_app.asar"), "changed");
+    assert.throws(() => verifyBundle(f.root), /trial_file_hash_changed:resources\/default_app.asar/);
+  } finally { f.close(); }
+});
+
+test("Electron explicit and package entries run while imported verifier stays inert", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "hakimi-trial-entry-"));
+  const filename = path.join(root, "trial-main.js");
+  const runtime = { versions: { electron: "31.7.7" }, type: "browser", platform: process.platform, argv: ["electron", "unrelated-probe.js"] };
+  try {
+    assert.equal(isTrialEntry(runtime, filename, false, root), false);
+    fs.writeFileSync(path.join(root, "package.json"), JSON.stringify({ main: "probe-main.js" }));
+    assert.equal(isTrialEntry(runtime, filename, false, root), false);
+    fs.writeFileSync(path.join(root, "package.json"), JSON.stringify({ main: "trial-main.js" }));
+    assert.equal(isTrialEntry(runtime, filename, false, root), true);
+    assert.equal(isTrialEntry({ ...runtime, argv: ["electron", filename] }, filename, false), true);
+    assert.equal(isTrialEntry(runtime, filename, true), true);
+    assert.equal(isTrialEntry({ ...runtime, type: "renderer" }, filename, true, root), false);
+    assert.equal(isTrialEntry({ ...runtime, versions: {} }, filename, true, root), false);
+  } finally { fs.rmSync(root, { recursive: true }); }
 });
 
 test("default trial data stays outside program files and ignores legacy workspace overrides", () => {

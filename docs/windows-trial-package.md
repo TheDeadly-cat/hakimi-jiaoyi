@@ -8,6 +8,8 @@
 
 ## 构建与来源
 
+Electron 对 `.asar` 提供虚拟目录语义。试用入口使用 Electron 内置 `original-fs` 遍历和计算原始文件哈希，清单仍包含整个 `.asar`，不跳过它。普通 Node 检查不能代替真实 Electron 启动检查。维护者还应执行 `npm run test:trial-electron -- --electron <原始Electron.exe> --bundle <保留的r1程序目录> --output <新证据目录>`：它在真实 browser 进程复现旧校验失败、验证完整文件清单和修改档案后的拒绝，并以无效合成清单验证打包入口；不启动 Python、研究窗口或创建研究记录。该回归使用已保留的 r1 失败包，所有新探针输出独占保存，仍不能代替新包的原生完整流程验收。
+
 维护者使用 `tools/build_windows_trial.py`，输入完整通过的普通 wheel 验收回执、本地 Python/Electron 压缩包、与锁文件一致的依赖 wheelhouse 和全新的输出目录。工具不下载、不全局安装、不启动研究，也不复制已有用户数据。失败输出保留，不能自动覆盖重试。
 
 当前来源锁为 CPython 3.14.6 Windows x64 完整发行 ZIP、Electron 31.7.7 Windows x64 ZIP。版本、官方来源 URL 和精确 SHA256 固定在构建工具中；缓存来源不能只凭文件名认定，必须匹配这些字节。保留各运行时及 wheel 的许可证。Electron 31 仅沿用当前候选环境；对外正式发布前另行评估受支持版本与签名，不把本轮离线试用等同正式发布验收。

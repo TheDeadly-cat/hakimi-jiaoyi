@@ -2,7 +2,9 @@
 
 // A separate packaged entry. It neither selects a global interpreter nor writes
 // inside the immutable distribution. The existing local/developer entry remains.
-const fs = require("node:fs");
+// Electron's node:fs treats *.asar as virtual directories. Integrity checks must
+// hash the archive's original bytes and inventory the actual on-disk tree.
+const fs = process.versions.electron ? require("original-fs") : require("node:fs");
 const path = require("node:path");
 const crypto = require("node:crypto");
 const { spawn } = require("node:child_process");
@@ -158,5 +160,20 @@ async function runTrial(electron, root = path.resolve(__dirname, "../..")) {
   }
 }
 
-if (process.versions.electron && process.type === "browser") runTrial(require("electron"));
-module.exports = { canonical, boundPath, verifyBundle, probeRuntime, trialPaths, workspacePathAssessment, bindWorkspace, runTrial };
+function isTrialEntry(runtime = process, filename = __filename, nodeMain = require.main === module, appPath = null) {
+  if (!runtime.versions?.electron || runtime.type !== "browser") return false;
+  if (nodeMain) return true;
+  const normalize = value => runtime.platform === "win32" ? path.resolve(value).toLowerCase() : path.resolve(value);
+  if (runtime.argv?.[1] && normalize(runtime.argv[1]) === normalize(filename)) return true;
+  // Electron 31 may omit require.main when loading package.json's main. Match
+  // the actual application entry; importing this verifier from a probe is inert.
+  if (!appPath) return false;
+  try {
+    const main = JSON.parse(fs.readFileSync(path.join(appPath, "package.json"), "utf8")).main || "index.js";
+    return typeof main === "string" && normalize(path.resolve(appPath, main)) === normalize(filename);
+  } catch { return false; }
+}
+
+if (process.versions.electron && process.type === "browser"
+    && isTrialEntry(process, __filename, require.main === module, require("electron").app.getAppPath())) runTrial(require("electron"));
+module.exports = { canonical, boundPath, verifyBundle, probeRuntime, trialPaths, workspacePathAssessment, bindWorkspace, runTrial, isTrialEntry };
