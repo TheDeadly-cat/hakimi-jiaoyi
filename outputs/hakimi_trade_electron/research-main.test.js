@@ -1,6 +1,6 @@
 "use strict";
 const test = require("node:test"), assert = require("node:assert/strict"), { EventEmitter } = require("node:events");
-const { desktopSettings, expectedIdentity, writeDiagnostic, launchSpec, validateAnnouncement, startServer, isResearchEntry } = require("./research-main");
+const { desktopSettings, expectedIdentity, writeDiagnostic, launchSpec, validateAnnouncement, startServer, verifyWorkspaceState, isResearchEntry } = require("./research-main");
 
 test("verified candidate profiles cannot be captured by the original single-instance window", () => {
   const original = desktopSettings("profile-root", {});
@@ -47,6 +47,8 @@ test("bound candidates reject shadow packages and strip startup injection variab
   assert.deepEqual(expectedIdentity({ HAKIMI_RESEARCH_EXPECTED_IDENTITY: JSON.stringify(identity) }), identity);
   assert.throws(() => expectedIdentity({ HAKIMI_RESEARCH_DESKTOP_PROFILE: "a".repeat(64) }), /缺少/);
   assert.throws(() => expectedIdentity({ HAKIMI_RESEARCH_EXPECTED_IDENTITY: "{}" }), /不完整/);
+  assert.deepEqual(expectedIdentity({ HAKIMI_RESEARCH_EXPECTED_IDENTITY: JSON.stringify({ ...identity, workspace: "C:/data" }) }), { ...identity, workspace: "C:/data" });
+  assert.throws(() => expectedIdentity({ HAKIMI_RESEARCH_EXPECTED_IDENTITY: JSON.stringify({ ...identity, workspace: "relative" }) }), /不完整/);
   const spec = launchSpec({ workspace: "C:/data", python: identity.python_executable, identity,
     env: { PYTHONPATH: "shadow", PYTHONHOME: "shadow", NODE_OPTIONS: "--require shadow", ELECTRON_RUN_AS_NODE: "1" } });
   for (const key of ["PYTHONPATH", "PYTHONHOME", "NODE_OPTIONS", "ELECTRON_RUN_AS_NODE"]) assert.equal(spec.options.env[key], undefined);
@@ -59,6 +61,38 @@ test("bound candidates reject shadow packages and strip startup injection variab
   const process = child(); const started = startServer(spec, { spawnProcess: () => process });
   process.stdout.emit("data", JSON.stringify({ ...valid, package_location: "C:/shadow/hakimi_research" }) + "\n");
   await assert.rejects(started.ready, /回执无效/); assert.equal(process.killed, true);
+});
+
+test("startup workspace check uses authenticated read-only requests and separates access failure from drift", async () => {
+  const http = require("node:http"), token = "SYNTHETIC_SESSION_TOKEN_NOT_A_SECRET", requests = [];
+  let mode = "same";
+  const server = http.createServer((request, response) => {
+    requests.push({ method: request.method, path: request.url, authenticated: request.headers['x-hakimi-token'] === token });
+    response.setHeader("Connection", "close");
+    if (request.url === "/") {
+      if (mode === "redirect") { response.writeHead(302, { Location: "http://example.invalid/" }); response.end(); return; }
+      response.end(mode === "missing-token" ? "<html></html>" : `<meta name="hakimi-session" content="${token}">`); return;
+    }
+    assert.equal(request.url, "/api/state");
+    if (mode === "denied" || request.headers['x-hakimi-token'] !== token) {
+      response.writeHead(400); response.end(JSON.stringify({ error: "session_token_required" })); return;
+    }
+    response.end(JSON.stringify({ workspace: mode === "different" ? "C:/host/private/data" : "C:/normal/data" }));
+  });
+  await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
+  const url = `http://127.0.0.1:${server.address().port}/`;
+  try {
+    assert.deepEqual(await verifyWorkspaceState(url, "C:/normal/data"), { workspace: "C:/normal/data" });
+    mode = "different"; await assert.rejects(verifyWorkspaceState(url, "C:/normal/data"), /实际数据目录.*不一致/);
+    for (mode of ["denied", "missing-token", "redirect"]) {
+      await assert.rejects(verifyWorkspaceState(url, "C:/normal/data"), error => {
+        assert.match(error.message, /无法核对工作区/); assert.doesNotMatch(error.message, /不一致|SYNTHETIC_SESSION|session_token_required/); return true;
+      });
+    }
+    await assert.rejects(verifyWorkspaceState("http://example.invalid/", "C:/normal/data"), /本机服务/);
+    assert.ok(requests.every(request => request.method === "GET" && ["/", "/api/state"].includes(request.path)));
+    assert.ok(requests.filter(request => request.path === "/api/state").every(request => request.authenticated));
+  } finally { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); }
 });
 
 test("diagnostics append new readable files and do not modify existing records", () => {

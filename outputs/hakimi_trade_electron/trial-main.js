@@ -111,21 +111,36 @@ function workspacePathAssessment(directory) {
     scope: "Known first-use snapshot, CSV original, task, run, validation and operation layouts with generated IDs; not arbitrary external filenames." };
 }
 
-function bindWorkspace(directory, bundleId) {
+function physicalWorkspaceAssessment(directory, resolveNative = fs.realpathSync.native) {
+  const requested = path.resolve(directory), physical = resolveNative(directory), assessment = workspacePathAssessment(physical);
+  if (assessment.maximum_characters >= assessment.legacy_windows_limit) {
+    const redirected = identityPath(requested) !== identityPath(physical);
+    const error = new Error(`${redirected ? "trial_workspace_redirected_path_too_long" : "trial_workspace_path_too_long"}:${assessment.maximum_characters}`);
+    error.workspace_paths = { requested, physical, maximum_characters: assessment.maximum_characters, legacy_windows_limit: assessment.legacy_windows_limit };
+    throw error;
+  }
+  return { ...assessment, requested_directory: requested, directory: physical };
+}
+
+function bindWorkspace(directory, bundleId, { resolveNative = fs.realpathSync.native } = {}) {
   if (!/^[a-f0-9]{64}$/.test(bundleId)) throw new Error("trial_workspace_identity_invalid");
   const assessment = workspacePathAssessment(directory);
   if (assessment.maximum_characters >= assessment.legacy_windows_limit) throw new Error(`trial_workspace_path_too_long:${assessment.maximum_characters}`);
   if (fs.existsSync(directory) && fs.lstatSync(directory).isSymbolicLink()) throw new Error("trial_workspace_symlink_not_allowed");
   fs.mkdirSync(directory, { recursive: true });
+  // A packaged host can redirect AppData without exposing a symlink. The
+  // native API observes the physical path used by the private Python backend.
+  const physical = physicalWorkspaceAssessment(directory, resolveNative);
+  directory = physical.directory;
   const marker = path.join(directory, "trial-workspace-identity.json"), expected = { schema_version: "research-trial-workspace-v1", bundle_id: bundleId };
   function check() {
     if (fs.lstatSync(marker).isSymbolicLink() || canonical(JSON.parse(fs.readFileSync(marker, "utf8"))) !== canonical(expected)) throw new Error("trial_workspace_identity_conflict");
   }
-  if (fs.existsSync(marker)) { check(); return assessment; }
+  if (fs.existsSync(marker)) { check(); return physical; }
   if (fs.readdirSync(directory).length) throw new Error("trial_workspace_existing_records_not_adopted");
   try { fs.writeFileSync(marker, canonical(expected) + "\n", { encoding: "utf8", flag: "wx" }); }
   catch (error) { if (error.code !== "EEXIST") throw error; check(); }
-  return assessment;
+  return physical;
 }
 
 async function runTrial(electron, root = path.resolve(__dirname, "../..")) {
@@ -136,23 +151,26 @@ async function runTrial(electron, root = path.resolve(__dirname, "../..")) {
     manifest = verifyBundle(root);
     locations = trialPaths(app, manifest);
     const actual = await probeRuntime(root, manifest);
-    bindWorkspace(locations.workspace, manifest.bundle_id);
+    const workspace = bindWorkspace(locations.workspace, manifest.bundle_id);
     process.env.HAKIMI_RESEARCH_PYTHON = actual.python;
-    process.env.HAKIMI_RESEARCH_WORKSPACE = locations.workspace;
+    process.env.HAKIMI_RESEARCH_WORKSPACE = workspace.directory;
     process.env.HAKIMI_RESEARCH_DESKTOP_PROFILE = manifest.bundle_id;
     process.env.HAKIMI_RESEARCH_TRIAL = "1";
     process.env.HAKIMI_RESEARCH_EXPECTED_IDENTITY = JSON.stringify({ package_location: actual.package_directory,
-      python_executable: actual.python, loaded_source_sha256: actual.source_sha256 });
+      python_executable: actual.python, loaded_source_sha256: actual.source_sha256, workspace: workspace.directory });
     await runDesktop(electron);
   } catch (error) {
     await app.whenReady();
     let saved = null;
     try { saved = writeDiagnostic(locations.diagnostics, { state: "TRIAL_STARTUP_FAILED", error: String(error.message).slice(0, 2000),
-      bundle_id: manifest?.bundle_id || null, new_economic_calculations: 0 }); } catch {}
+      bundle_id: manifest?.bundle_id || null, workspace_path_check: error.workspace_paths || null, new_economic_calculations: 0 }); } catch {}
     const dataPathTooLong = String(error.message).startsWith("trial_workspace_path_too_long");
+    const redirectedPathTooLong = String(error.message).startsWith("trial_workspace_redirected_path_too_long");
     const choice = await dialog.showMessageBox({ type: "error", title: "试用版暂时无法打开",
-      message: dataPathTooLong ? "当前用户的数据目录过长，已在创建研究记录前停止。" : "程序文件或运行环境未通过检查。已有数据和结果保持不变。",
-      detail: (dataPathTooLong ? "请复制诊断信息，联系维护者选择较短的数据位置。已有记录保持不变，不需要启用系统功能。"
+      message: redirectedPathTooLong ? "启动来源改变了实际数据目录，路径过长，已在创建研究记录前停止。"
+        : dataPathTooLong ? "当前用户的数据目录过长，已在创建研究记录前停止。" : "程序文件或运行环境未通过检查。已有数据和结果保持不变。",
+      detail: (redirectedPathTooLong ? "请关闭此提示，在 Windows 文件资源管理器中打开试用包文件夹，双击 HakimiWorkbench.exe。已有目录和记录保持不变，不会自动迁移。"
+        : dataPathTooLong ? "请复制诊断信息，联系维护者选择较短的数据位置。已有记录保持不变，不需要启用系统功能。"
         : "请将同一试用包完整解压到较短的新文件夹后重试。仍有问题时复制诊断信息。") + (saved ? `\n诊断文件：${saved.filename}` : ""),
       buttons: saved ? ["复制诊断信息", "关闭"] : ["关闭"], defaultId: saved ? 1 : 0, cancelId: saved ? 1 : 0 });
     if (saved && choice.response === 0) clipboard.writeText(saved.text);
@@ -176,4 +194,4 @@ function isTrialEntry(runtime = process, filename = __filename, nodeMain = requi
 
 if (process.versions.electron && process.type === "browser"
     && isTrialEntry(process, __filename, require.main === module, require("electron").app.getAppPath())) runTrial(require("electron"));
-module.exports = { canonical, boundPath, verifyBundle, probeRuntime, trialPaths, workspacePathAssessment, bindWorkspace, runTrial, isTrialEntry };
+module.exports = { canonical, boundPath, verifyBundle, probeRuntime, trialPaths, workspacePathAssessment, physicalWorkspaceAssessment, bindWorkspace, runTrial, isTrialEntry };

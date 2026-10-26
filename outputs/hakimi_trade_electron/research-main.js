@@ -4,6 +4,7 @@ const path = require("node:path");
 const fs = require("node:fs");
 const crypto = require("node:crypto");
 const { spawn } = require("node:child_process");
+const http = require("node:http");
 const { configureRemoteDebugging, installNavigationPolicy, stopOwnedBackend } = require("./desktop-security-policy");
 
 function desktopSettings(appData, env = process.env) {
@@ -25,7 +26,8 @@ function expectedIdentity(env = process.env) {
   let value;
   try { value = JSON.parse(env.HAKIMI_RESEARCH_EXPECTED_IDENTITY); } catch { throw new Error("候选程序身份格式不正确。"); }
   if (!value || !/^[a-f0-9]{64}$/.test(value.loaded_source_sha256)
-      || ![value.package_location, value.python_executable].every(v => typeof v === "string" && (path.isAbsolute(v) || path.win32.isAbsolute(v)))) {
+      || ![value.package_location, value.python_executable, ...(value.workspace === undefined ? [] : [value.workspace])]
+        .every(v => typeof v === "string" && (path.isAbsolute(v) || path.win32.isAbsolute(v)))) {
     throw new Error("候选程序身份不完整。");
   }
   return value;
@@ -102,6 +104,41 @@ function writeDiagnostic(directory, details) {
   return { filename, text };
 }
 
+function readLocalText(url, headers = {}, { maximumBytes = 32 * 1024 * 1024, timeoutMs = 20000 } = {}) {
+  return new Promise((resolve, reject) => {
+    const request = http.get(url, { headers }, response => {
+      if (response.statusCode !== 200) { response.resume(); reject(new Error("workspace_read_failed")); return; }
+      const chunks = []; let size = 0;
+      response.on("data", chunk => {
+        size += chunk.length;
+        if (size > maximumBytes) request.destroy(new Error("workspace_read_too_large")); else chunks.push(chunk);
+      });
+      response.on("error", reject);
+      response.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+    });
+    request.setTimeout(timeoutMs, () => request.destroy(new Error("workspace_read_timeout")));
+    request.on("error", reject);
+  });
+}
+
+async function verifyWorkspaceState(baseUrl, workspace, { readText = readLocalText } = {}) {
+  if (!/^http:\/\/127\.0\.0\.1:\d+\/$/.test(baseUrl)) throw new Error("工作区核对必须使用本次本机服务。");
+  let value;
+  try {
+    const html = await readText(baseUrl, {}, { maximumBytes: 2 * 1024 * 1024 });
+    const token = /<meta\s+name="hakimi-session"\s+content="([A-Za-z0-9_-]{20,256})"\s*\/?>/.exec(html)?.[1];
+    if (!token) throw new Error("missing_session");
+    // Use the existing authenticated read path. Never log the session token,
+    // submit an action, or interpret an authentication failure as path drift.
+    value = JSON.parse(await readText(baseUrl + "api/state", { "X-Hakimi-Token": token }));
+    if (!value || typeof value.workspace !== "string") throw new Error("missing_workspace");
+  } catch { throw new Error("无法核对工作区，请关闭后从文件资源管理器重新打开试用包。已有记录保持不变。"); }
+  if (identityPath(value.workspace) !== identityPath(workspace)) {
+    throw new Error("后台实际数据目录与已核对的位置不一致，未打开工作台。请从文件资源管理器重新打开试用包。");
+  }
+  return { workspace: value.workspace };
+}
+
 async function runDesktop(electron) {
   const { app, BrowserWindow, Menu, dialog, shell, clipboard } = electron;
   const desktop = desktopSettings(app.getPath("appData"));
@@ -121,9 +158,12 @@ async function runDesktop(electron) {
     new_economic_calculations: 0,
   });
   try {
-    const started = startServer(launchSpec({ workspace, python: process.env.HAKIMI_RESEARCH_PYTHON || "python", identity: expectedIdentity() }));
+    const expected = expectedIdentity();
+    const started = startServer(launchSpec({ workspace, python: process.env.HAKIMI_RESEARCH_PYTHON || "python", identity: expected }));
     backend = started.child;
     const identity = await started.ready;
+    if (quitting) return;
+    if (expected?.workspace) await verifyWorkspaceState(identity.url, expected.workspace);
     if (quitting) return;
     window = new BrowserWindow({ title: desktop.title, width: 1440, height: 960, minWidth: 1000, minHeight: 680,
       backgroundColor: "#f3f6fa", show: false, webPreferences: { contextIsolation: true, nodeIntegration: false,
@@ -168,4 +208,4 @@ function isResearchEntry(runtime = process, filename = __filename, nodeMain = re
 }
 
 if (isResearchEntry()) runDesktop(require("electron"));
-module.exports = { desktopSettings, expectedIdentity, identityPath, writeDiagnostic, launchSpec, validateAnnouncement, startServer, runDesktop, isResearchEntry };
+module.exports = { desktopSettings, expectedIdentity, identityPath, writeDiagnostic, launchSpec, validateAnnouncement, startServer, readLocalText, verifyWorkspaceState, runDesktop, isResearchEntry };

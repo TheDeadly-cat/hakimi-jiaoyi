@@ -1,7 +1,7 @@
 "use strict";
 const test = require("node:test"), assert = require("node:assert/strict"), fs = require("node:fs"), path = require("node:path"), os = require("node:os"), crypto = require("node:crypto");
 const { EventEmitter } = require("node:events");
-const { canonical, verifyBundle, probeRuntime, trialPaths, workspacePathAssessment, bindWorkspace, isTrialEntry } = require("./trial-main");
+const { canonical, verifyBundle, probeRuntime, trialPaths, workspacePathAssessment, physicalWorkspaceAssessment, bindWorkspace, isTrialEntry } = require("./trial-main");
 const hash = value => crypto.createHash("sha256").update(value).digest("hex");
 
 function fixture() {
@@ -64,7 +64,9 @@ test("default trial data stays outside program files and ignores legacy workspac
 });
 
 test("short workspace name binds the full identity and never adopts or overwrites another workspace", () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), "hakimi-workspace-")), data = path.join(root, "data"), id = "a".repeat(64);
+  // AppData can be virtualized by the process host. Normal-path fixtures use a
+  // short user-owned directory; redirection itself is explicitly tested below.
+  const root = fs.mkdtempSync(path.join(os.homedir(), "hakimi-workspace-")), data = path.join(root, "data"), id = "a".repeat(64);
   try {
     bindWorkspace(data, id); const marker = path.join(data, "trial-workspace-identity.json"), before = fs.readFileSync(marker);
     fs.writeFileSync(path.join(data, "old.json"), "retained"); bindWorkspace(data, id);
@@ -78,6 +80,27 @@ test("short workspace name binds the full identity and never adopts or overwrite
     assert.ok(workspacePathAssessment(tooLong).maximum_characters >= 260);
     assert.throws(() => bindWorkspace(tooLong, id), /path_too_long/);
     assert.equal(fs.existsSync(tooLong), false);
+  } finally { fs.rmSync(root, { recursive: true }); }
+});
+
+test("physical workspace length is checked before a marker or research record is written", () => {
+  const root = fs.mkdtempSync(path.join(os.homedir(), "hakimi-path-")), data = path.join(root, "data"), id = "a".repeat(64);
+  const redirected = path.join(root, "Packages", "host".repeat(20), "LocalCache", "Local", "data");
+  try {
+    assert.ok(workspacePathAssessment(data).maximum_characters < 260);
+    assert.ok(workspacePathAssessment(redirected).maximum_characters >= 260);
+    assert.throws(() => bindWorkspace(data, id, { resolveNative: () => redirected }), error => {
+      assert.match(error.message, /trial_workspace_redirected_path_too_long/);
+      assert.equal(error.workspace_paths.physical, redirected); return true;
+    });
+    assert.deepEqual(fs.readdirSync(data), []);
+    const actual = physicalWorkspaceAssessment(data);
+    assert.equal(actual.directory, fs.realpathSync.native(data));
+    const bound = bindWorkspace(data, id);
+    assert.equal(bound.directory, actual.directory);
+    const marker = path.join(data, "trial-workspace-identity.json"), before = fs.readFileSync(marker);
+    assert.throws(() => bindWorkspace(data, id, { resolveNative: () => redirected }), /redirected_path_too_long/);
+    assert.deepEqual(fs.readFileSync(marker), before);
   } finally { fs.rmSync(root, { recursive: true }); }
 });
 

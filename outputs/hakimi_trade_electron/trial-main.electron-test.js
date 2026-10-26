@@ -21,6 +21,10 @@ async function browserProbe() {
   try {
     const trial = require("./trial-main");
     assert.equal(trial.isTrialEntry(process, path.join(__dirname, "trial-main.js"), false, app.getAppPath()), false);
+    const driveRoot = path.parse(output).root;
+    const nativePath = trial.physicalWorkspaceAssessment(driveRoot);
+    assert.equal(nativePath.directory, fs.realpathSync.native(driveRoot));
+    result.original_fs_native_path = nativePath.directory;
     const archive = path.join(bundle, "resources/default_app.asar"), raw = fs.readFileSync(archive);
     let virtualError;
     try { require("node:fs").readFileSync(archive); } catch (error) { virtualError = { code: error.code, message: error.message }; }
