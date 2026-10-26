@@ -4,6 +4,7 @@ import importlib.util
 import json
 from pathlib import Path
 import sys
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -94,6 +95,9 @@ class WorkbenchDesktopTests(unittest.TestCase):
             self.assertFalse(kwargs["shell"])
             self.assertEqual(kwargs["env"]["HAKIMI_RESEARCH_WORKSPACE"], str(self.workspace.resolve()))
             self.assertEqual(kwargs["env"]["HAKIMI_RESEARCH_DESKTOP_PROFILE"], manifest["profile"])
+            bound = json.loads(kwargs["env"]["HAKIMI_RESEARCH_EXPECTED_IDENTITY"])
+            self.assertEqual(bound, dict(package_location=manifest["package_directory"],
+                python_executable=manifest["python"], loaded_source_sha256=manifest["expected_installation"]["source_sha256"]))
             run.reset_mock()
             self.probe.return_value = {**self.actual, "source_sha256": "f" * 64}
             with self.assertRaisesRegex(ValueError, "不匹配"):
@@ -122,6 +126,22 @@ class WorkbenchDesktopTests(unittest.TestCase):
         self.assertNotIn("call ", command.lower())
         with self.assertRaisesRegex(ValueError, "换行或引号"):
             DESKTOP._cmd(Path('C:/bad"path/python.exe'))
+
+    def test_actual_backend_flags_match_isolated_probe_with_a_shadow_package_in_cwd(self):
+        shadow = self.root / 'hakimi_research'
+        shadow.mkdir()
+        (shadow / '__init__.py').write_text('raise RuntimeError("SHADOW_MUST_NEVER_EXECUTE")\n', encoding='utf-8')
+        node = subprocess.run(['node', '-e', "const x=require(process.argv[1]); console.log(JSON.stringify(x.launchSpec({workspace:'data'}).args));",
+            str(ROOT / 'outputs/hakimi_trade_electron/research-main.js')], capture_output=True, text=True, check=True)
+        args = json.loads(node.stdout)
+        flags = args[:args.index('-m')]
+        probe = "import importlib.util,json; s=importlib.util.find_spec('hakimi_research'); print(json.dumps(s.origin if s else None))"
+        def origin(arguments):
+            return json.loads(subprocess.run([sys.executable, *arguments, '-c', probe], cwd=self.root,
+                capture_output=True, text=True, check=True, env=DESKTOP._clean_env()).stdout)
+        self.assertEqual(origin(flags), origin(['-I', '-B']))
+        self.assertEqual(origin(['-B']), str(shadow / '__init__.py'))
+        self.assertFalse((shadow / '__pycache__').exists())
 
 
 if __name__ == "__main__":

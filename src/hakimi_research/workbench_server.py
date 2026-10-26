@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import secrets
+import sys
 from urllib.parse import parse_qs, urlsplit
 
 from .documents import parse_document
@@ -37,8 +38,16 @@ def create_server(workspace, port=0):
 
         def _json(self, status, value):
             raw = json.dumps(value, ensure_ascii=False, allow_nan=False, default=str).encode('utf-8')
-            self._headers(status, 'application/json; charset=utf-8', len(raw))
-            self.wfile.write(raw)
+            self._respond(status, 'application/json; charset=utf-8', raw)
+
+        def _respond(self, status, content_type, raw):
+            try:
+                self._headers(status, content_type, len(raw))
+                self.wfile.write(raw)
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                # A closed client cannot receive another error response. Keep
+                # domain/file errors outside this transport-only exception path.
+                self.close_connection = True
 
         def _boundary(self, *, api=False):
             origin = 'http://127.0.0.1:' + str(self.server.server_port)
@@ -58,8 +67,7 @@ def create_server(workspace, port=0):
                 if parsed.path == '/':
                     raw = files('hakimi_research').joinpath('resources/workbench.html').read_text(encoding='utf-8')
                     raw = raw.replace('__SESSION_TOKEN__', token).replace('<script>', '<script nonce="' + token + '">').encode('utf-8')
-                    self._headers(200, 'text/html; charset=utf-8', len(raw))
-                    self.wfile.write(raw)
+                    self._respond(200, 'text/html; charset=utf-8', raw)
                     return
                 args = parse_qs(parsed.query)
                 if parsed.path == '/api/state':
@@ -72,6 +80,8 @@ def create_server(workspace, port=0):
                     result = service.watch_view(args['ref'][0])
                 elif parsed.path == '/api/daily-update':
                     result = service.daily_update_view(args['ref'][0])
+                elif parsed.path == '/api/stock-intake':
+                    result = service.stock_intake_view(args['ref'][0])
                 elif parsed.path == '/api/validation':
                     result = service.validation_view(args['ref'][0])
                 else:
@@ -115,7 +125,9 @@ def main(argv=None):
     server = create_server(args.workspace, args.port)
     url = 'http://127.0.0.1:' + str(server.server_port) + '/'
     print(json.dumps(dict(url=url, port=server.server_port, pid=os.getpid(), parent_pid=os.getppid(),
-                         engine='hakimi_research')), flush=True)
+                         engine='hakimi_research', package_location=str(Path(__file__).resolve().parent),
+                         loaded_source_sha256=server.workbench.loaded_source,
+                         python_executable=str(Path(sys.executable).resolve()))), flush=True)
     if args.open_browser:
         import webbrowser
         webbrowser.open(url)

@@ -154,7 +154,7 @@ test("a durable schedule rejection explains the time boundary and preserves the 
     const app=ui.mount(dom.document,async(route,payload)=>{if(route==="/api/state")return copy(current);if(payload.action==="task_context")return {ok:true,result:{required_context_sessions:1,suggested_score_start:"2026-09-16",coverage_end:"2026-10-21",sessions:26}};calls.push(payload);assert.equal(payload.action,"create_task");if(confirmed)current.operations.push({operation_id:payload.operation_id,ok:false,status:"STOPPED",error:code,automatic_retry:false});return {ok:false,error:code,automatic_retry:false};},storage());await flush();
     await dom.click(dom.button("new-task"));dom.get("task-strategy").value="event.earnings_schedule@1";dom.listeners.change({target:dom.get("task-strategy")});dom.get("task-title").value="NDAQ 排期演示";dom.get("task-snapshot").value=snapshot.ref;dom.get("task-event").value=context.ref;dom.get("score-start").value="2026-10-21";dom.get("score-end").value="2026-10-21";dom.listeners.input({target:dom.get("score-start")});dom.listeners.input({target:dom.get("score-end")});await dom.submit("task-form");
     assert.equal(calls.length,1);assert.equal(current.tasks.length,0);assert.equal(dom.get("task-editor").hidden,false);assert.equal(dom.get("task-title").value,"NDAQ 排期演示");assert.equal(dom.get("task-event").value,context.ref);assert.equal(dom.get("score-start").value,"2026-10-21");assert.equal(dom.get("score-end").value,"2026-10-21");assert.doesNotMatch(dom.get("status").textContent,/正在保存/);
-    if(confirmed){assert.equal(app.controller.state.pending,"");assert.match(dom.get("status").textContent,/本次未保存/);assert.equal(dom.get("error").textContent,"当前行情窗口内还没有可用的排期版本，任务未创建。请在新增完整日线并核对后重试；不可提前使用公告。");assert.ok(dom.get("engine-detail").textContent.includes(code));}
+    if(confirmed){const original="当前行情窗口内还没有可用的排期版本，任务未创建。请在新增完整日线并核对后重试；不可提前使用公告。";assert.equal(app.controller.state.pending,"");assert.match(dom.get("status").textContent,/本次未保存/);assert.equal(app.controller.state.error,original);assert.ok(dom.get("error").textContent.includes(original));assert.match(dom.get("error").textContent,/刷新并核对记录/);assert.match(dom.get("error").textContent,/查看技术详情/);assert.ok(dom.button("copy-diagnostics"));assert.ok(dom.get("engine-detail").textContent.includes(code));}
     else{assert.ok(app.controller.state.pending);assert.match(dom.get("status").textContent,/尚未核实/);assert.doesNotMatch(dom.get("status").textContent,/未保存/);assert.doesNotMatch(dom.get("error").textContent,/任务未创建/);current.operations.push({operation_id:calls[0].operation_id,ok:false,status:"STOPPED",error:code,automatic_retry:false});await app.controller.refresh();assert.equal(app.controller.state.pending,"");assert.match(dom.get("status").textContent,/本次未保存/);assert.match(dom.get("error").textContent,/任务未创建/);assert.equal(calls.length,1);}
   }
 });
@@ -368,7 +368,7 @@ test("delivery identity is visible without raw JSON and distinguishes engineerin
   const dom=documentFixture(),current=data(),commit="a".repeat(40),digest="b".repeat(64);
   current.engine.delivery={package_version:"0.6.0.dev2",origin:"INSTALLED_BUILD",build_commit:commit,build_worktree_status:"CLEAN",source_status:"BUILD_VERIFIED",loaded_source_sha256:digest,package_location:"C:\\installed\\hakimi_research",environment_status:"VERIFIED"};current.workspace="C:\\saved workspace";
   ui.mount(dom.document,async()=>copy(current),storage());await flush();
-  assert.match(dom.get("delivery-label").textContent,/0.6.0.dev2/);assert.match(dom.get("engine-label").textContent,/aaaaaaaaaaaa/);
+  assert.match(dom.get("delivery-label").textContent,/0.6.0.dev2/);assert.match(dom.get("engine-label").textContent,/0.6.0.dev2/);assert.doesNotMatch(dom.get("engine-label").textContent,/aaaaaaaaaaaa|bbbbbbbbbbbb/);
   const text=dom.get("engine-detail").textContent;assert.ok(text.includes(commit));assert.ok(text.includes(digest));assert.ok(text.includes(current.workspace));assert.match(text,/分别判断交付与策略证据/);assert.match(text,/不迁移旧持仓/);
   const unknown=ui.deliveryHtml({...data(),engine:{delivery:{build_commit:null,source_status:"UNKNOWN"}}});assert.match(unknown,/未提供，不能推断/);assert.doesNotMatch(unknown,/undefined/);
 });
@@ -409,4 +409,312 @@ test("selected exchange displays only its verified calendar years without queryi
   ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});return copy(current);},storage());await flush();
   dom.get("stock-update-snapshot").value=nyse.ref;dom.listeners.change({target:dom.get("stock-update-snapshot")});assert.match(dom.get("stock-update-policy").textContent,/NYSE 已核对年份：2026、2027/);assert.match(dom.get("stock-update-policy").textContent,/366 个自然日/);
   dom.get("stock-update-snapshot").value=nasdaq.ref;dom.listeners.change({target:dom.get("stock-update-snapshot")});assert.match(dom.get("stock-update-policy").textContent,/Nasdaq 已核对年份：2026/);assert.doesNotMatch(dom.get("stock-update-policy").textContent,/2027/);assert.match(dom.get("stock-update-policy").textContent,/跨年须覆盖每一年的对应交易所年表/);assert.equal(calls.filter(row=>row.payload).length,0);
+});
+
+// Read the initial explanation without borrowing text hidden in technical details.
+function primaryText(markup){
+  const dom=documentFixture(),section=dom.document.createElement("section");section.innerHTML=markup;
+  const text=node=>node.tagName==="DETAILS"?"":(node.childNodes||[]).map(child=>Object.hasOwn(child,"text")?child.text:text(child)).join("");
+  return text(section);
+}
+function explainedRun({fills=0,buys,blocked,signals=[{action:"HOLD",reason:"no MA crossover"}],synthetic=false}={}){
+  return {...run(),view:{...run().view,...(buys===undefined?{}:{buy_intents:buys}),...(blocked===undefined?{}:{blocked_new_buys:blocked})},
+    summary:{...run().summary,fill_count:fills,total_return:0,total_fees:0},signals,fills:[],
+    diagnostics:{sample:{scored_sessions:19,return_observations:19,completed_round_trips:0,fill_count:fills,
+      evidence_kind:synthetic?"SYNTHETIC_TEST":"IMPORTED_UNVERIFIED"},statistical_status:{status:"INSUFFICIENT_EVIDENCE",annualized_return:"SHORT_SAMPLE"}}};
+}
+
+test("zero fills distinguish waiting signals, blocked buys and unknown old evidence without inventing success",()=>{
+  const waiting=explainedRun(),original=copy(waiting),item=ui.outcomeExplanation(waiting),visible=primaryText(ui.runHtml(waiting));
+  assert.match(item.explanation,/没有出现满足买卖规则的信号/);assert.match(visible,/零成交不代表程序失败/);
+  assert.match(visible,/快慢均线没有形成新的交叉/);assert.doesNotMatch(visible,/no MA crossover/);
+  assert.deepEqual(waiting,original);
+  for(const blocked of [explainedRun({buys:1,signals:[{action:"BUY",reason:"fast MA crossed above slow MA"}]}),explainedRun({blocked:1})]){
+    const reason=ui.outcomeExplanation(blocked).explanation;
+    assert.match(reason,/出现过买入判断.*没有形成模拟成交/);assert.match(reason,/资金和风险限制/);
+    assert.doesNotMatch(reason,/没有出现满足买卖规则的信号/);
+  }
+  const old=explainedRun({signals:[]});delete old.diagnostics;
+  const unknown=ui.outcomeExplanation(old),oldText=primaryText(ui.outcomeHtml(old));
+  assert.match(unknown.explanation,/不足以确认具体原因/);assert.equal(unknown.sessions,undefined);
+  assert.match(oldText,/评分区间：— 个交易日/);assert.doesNotMatch(oldText,/评分区间：0 个交易日|满足买卖规则/);
+  const exampleText=primaryText(ui.outcomeHtml(explainedRun({synthetic:true})));
+  assert.match(exampleText,/虚构的教学示例/);assert.match(exampleText,/不能作为真实股票收益依据/);
+});
+
+test("run and completed cost comparison show sample insufficiency before technical details",()=>{
+  const result=explainedRun({fills:2,buys:1});result.diagnostics.sample.completed_round_trips=1;
+  const visible=primaryText(ui.runHtml(result));assert.match(visible,/本次回测已完成/);
+  assert.match(visible,/当前样本不足，无法判断长期表现/);assert.match(visible,/19 个交易日/);assert.match(visible,/完整买卖：1 次/);
+  const pack={status:"COMPLETED",base:{symbol:"TEST"},diagnostics:result.diagnostics,cost_scenarios:[],benchmarks:[],followup:{status:"NOT_RUN"}};
+  const costText=primaryText(ui.validationHtml(pack));assert.match(costText,/成本比较.*完成/);
+  assert.match(costText,/不等于策略已经通过验证/);assert.match(costText,/当前样本不足/);
+  assert.match(costText,/评分 19 个交易日/);assert.match(costText,/完整买卖 1 次/);assert.match(costText,/用后面的数据继续测试：未运行/);
+  assert.doesNotMatch(costText,/策略已经通过验证[。！]/);
+});
+
+test("partial or unknown cost calculations never receive an unconditional completed headline",()=>{
+  for(const status of ["COMPLETED_WITH_STOPPED_SCENARIOS","STOPPED","UNRECOGNIZED_STATE"]){
+    const text=primaryText(ui.validationHtml({status,base:{symbol:"TEST"},cost_scenarios:[],benchmarks:[]}));
+    assert.doesNotMatch(text,/成本比较(?:已)?完成/);assert.match(text,/未完成|未确认|待核对|核对/);
+    assert.match(text,/不等于策略已经通过验证/);
+  }
+});
+
+test("file and source errors provide a Chinese recovery path while retaining exact escaped details",()=>{
+  for(const error of ["event_context_shape_invalid","Expecting property name enclosed in double quotes: line 1 column 2"]){
+    const explanation=ui.errorExplanation(error),markup=ui.errorHtml(error),text=primaryText(markup);
+    assert.equal(explanation.detail,error);assert.match(text,/这份文件暂时无法读取/);assert.match(text,/已有记录不会被覆盖/);
+    assert.match(text,/添加股票/);assert.ok(markup.includes('data-action="add-stock"'));
+    assert.match(markup,/查看技术详情/);assert.ok(markup.includes(error));assert.ok(!text.includes(error));
+  }
+  const network=primaryText(ui.errorHtml("SOURCE_HTTP_429"));assert.match(network,/数据获取未完成/);
+  assert.match(network,/明确检查/);assert.match(network,/查看数据与检查记录/);
+  const unknown=primaryText(ui.errorHtml("SOURCE_HTTP_429",{unknown:true}));
+  assert.match(unknown,/可能已经保存/);assert.match(unknown,/不要重新提交或重复运行/);
+  assert.doesNotMatch(unknown,/没有保存|未保存|没有写入|尚未生成|已有记录不会被覆盖/);
+  const malicious=ui.errorHtml('<img src=x onerror="bad">');assert.ok(!malicious.includes('<img src=x'));
+});
+
+test("an uncertain mounted run offers receipt refresh without resubmitting or claiming no writes",async()=>{
+  const dom=documentFixture(),current={...data(),tasks:[taskRow()]},calls=[];
+  const app=ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});if(route==="/api/state")return copy(current);
+    assert.equal(payload.action,"run_task");current.operations.push({operation_id:payload.operation_id,status:"UNKNOWN_REQUIRES_REVIEW"});throw Error("network connection lost");},storage());
+  await flush();await dom.click(dom.button("run-task",taskRow().ref));
+  assert.ok(app.controller.state.pending);assert.match(dom.get("error").textContent,/可能已经保存/);
+  assert.doesNotMatch(primaryText(dom.get("error").innerHTML),/没有保存|没有写入|未保存|尚未生成/);
+  assert.equal(dom.button("run-task",taskRow().ref).disabled,true);
+  await dom.click(dom.button("refresh-error"));
+  assert.equal(calls.filter(call=>call.payload?.action==="run_task").length,1);
+  assert.ok(app.controller.state.pending);assert.equal(current.runs.length,0);
+});
+
+test("copy diagnostics uses only identity and counts and its manual fallback performs no operation",async()=>{
+  const dom=documentFixture(),current=data(),calls=[];
+  current.engine.delivery={package_version:"trial-test",build_commit:"a".repeat(40),source_status:"BUILD_VERIFIED",loaded_source_sha256:"b".repeat(64),environment_status:"VERIFIED"};
+  current.token="TOKEN_SENTINEL_PRIVATE";current.engine.secret="ENGINE_SECRET_SENTINEL";
+  current.inputs=[{...input(),source:{raw_base64:"ENCODED_SOURCE_SENTINEL_PRIVATE",original:"RAW_PRICE_SENTINEL_PRIVATE"}}];
+  current.operations=[{request:{headers:{"X-Hakimi-Token":"HEADER_SENTINEL_PRIVATE"},content_base64:"REQUEST_SOURCE_SENTINEL_PRIVATE"}}];
+  ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});assert.equal(route,"/api/state");return copy(current);},storage());
+  await flush();await dom.click(dom.button("copy-diagnostics"));
+  const text=dom.get("diagnostic-text").value,diagnostic=JSON.parse(text);
+  assert.equal(diagnostic.version,"trial-test");assert.equal(diagnostic.build,"a".repeat(40));assert.equal(diagnostic.counts.inputs,1);
+  assert.doesNotMatch(text,/SENTINEL_PRIVATE|ENGINE_SECRET_SENTINEL|raw_base64|content_base64|X-Hakimi-Token/);
+  assert.equal(dom.get("diagnostic-copy").hidden,false);assert.equal(dom.document.activeElement,dom.get("diagnostic-text"));
+  assert.match(dom.get("status").textContent,/手动复制/);assert.equal(calls.filter(call=>call.payload).length,0);
+});
+
+test("copy diagnostics does not leak raw source or access-token text embedded in an error",()=>{
+  const secret="DIAGNOSTIC_TOKEN_SENTINEL_PRIVATE",payload="DIAGNOSTIC_RAW_BASE64_SENTINEL_PRIVATE";
+  for(const message of [`X-Hakimi-Token: ${secret}; raw_base64=${payload}`,`JSON failed; token=${secret}; source={"raw_base64":"${payload}"}`]){
+    const text=ui.diagnosticText(data(),message),diagnostic=JSON.parse(text);
+    assert.doesNotMatch(text,/SENTINEL_PRIVATE|raw_base64|X-Hakimi-Token/);
+    assert.ok(Object.values(diagnostic).some(value=>typeof value==="string"&&/[\u4e00-\u9fff]/.test(value)));
+    assert.notEqual(diagnostic.error,message);
+  }
+});
+
+const introPlan=()=>({title:"虚构行情操作示例",strategy:"price.dual_ma@1",params:{fast_window:2,slow_window:4,position_pct:.25,stop_loss_pct:.03,take_profit_pct:.06},score_start:"2024-11-11",score_end:"2024-12-03",initial_cash:10000,fee_rate:.0008,slippage_pct:.0005});
+const exampleInput=()=>({...input(),ref:"data/snapshots/example.json",input_id:"example-snapshot",security:{symbol:"TEST",security_id:"SYNTHETIC:TEST"},coverage_start:"2024-11-01",coverage_end:"2024-12-03",sessions:22,evidence_kind:"SYNTHETIC_TEST"});
+const firstUseData=()=>({...data(),stock_imports:[],first_use:{history_sessions:[20,60,120],history_count_kind:"TOTAL_COMPLETED_SESSIONS_INCLUDING_CONTEXT",examples:[{id:"dual_ma_intro",suggested_task:introPlan()}],real_stock_template:{suggested_task:{...introPlan(),title:"双均线入门 5/10",params:{...introPlan().params,fast_window:5,slow_window:10}}},progress:{status:"NOT_STARTED"}}});
+function saveGuideReceipt(current,payload,step,fields,result){
+  const workflow={guided:true,guide_id:payload.guide_id||payload.operation_id,step,recorded_at:"2026-10-26T13:00:00Z",operation_id:payload.operation_id,...copy(fields)};
+  const previous=current.first_use.progress.guide_id===workflow.guide_id?current.first_use.progress:{};
+  current.first_use.progress={...previous,...workflow,status:"RESTORABLE"};
+  current.operations.push({operation_id:payload.operation_id,status:"COMMITTED",ok:true,recorded_at:workflow.recorded_at,workflow:copy(workflow)});
+  return {ok:true,result:{...copy(result),workflow:copy(workflow)}};
+}
+
+test("first-use example requires separate template, save and run decisions and restores its saved result without browser storage",async()=>{
+  const current=firstUseData(),calls=[],example=exampleInput(),plan=introPlan();
+  const task={...taskRow(),ref:"tasks/example-task",task_id:"example-task-id",title:plan.title,inputs:{snapshot:example},configuration:{requested:copy(plan.params),effective:copy(plan.params),exit_rule:"双均线与保护退出"}};
+  const saved={...explainedRun({fills:0,synthetic:true}),ref:"runs/example-run",view:{symbol:"TEST",strategy:{title:"双均线操作示例"},run_id:"example-run",report_hash:"example-report-hash",score_start:plan.score_start,score_end:plan.score_end}};
+  const request=async(route,payload)=>{
+    calls.push({route,payload:payload?copy(payload):undefined});if(route==="/api/state")return copy(current);
+    if(route==="/api/run?ref="+encodeURIComponent(saved.ref))return copy(saved);
+    assert.equal(route,"/api/action");
+    if(payload.action==="task_context"){assert.equal(payload.snapshot,example.ref);assert.deepEqual(copy(payload.params),plan.params);return {ok:true,result:{required_context_sessions:6,sessions:22,suggested_score_start:plan.score_start,coverage_end:plan.score_end}};}
+    assert.equal(payload.guided,true);
+    if(payload.action==="load_example"){
+      assert.equal(payload.example,"dual_ma_intro");current.inputs=[copy(example)];
+      return saveGuideReceipt(current,payload,"INPUT_SAVED",{snapshot_ref:example.ref,snapshot_id:example.input_id,suggested_task:plan},{ref:example.ref,input_id:example.input_id,suggested_task:plan,new_economic_runs:0});
+    }
+    assert.equal(payload.guide_id,current.first_use.progress.guide_id);
+    if(payload.action==="create_task"){
+      assert.deepEqual(copy(payload.params),plan.params);assert.equal(payload.snapshot,example.ref);assert.equal(payload.fee_rate,.0008);assert.equal(payload.slippage_pct,.0005);
+      assert.equal(payload.score_start,plan.score_start);assert.equal(payload.score_end,plan.score_end);current.tasks=[copy(task)];
+      return saveGuideReceipt(current,payload,"TASK_CREATED",{task_ref:task.ref,task_id:task.task_id},task);
+    }
+    assert.equal(payload.action,"run_task");assert.equal(payload.task,task.ref);
+    current.runs=[{...copy(saved.view),ref:saved.ref,total_return:0,fill_count:0,total_fees:0}];
+    return saveGuideReceipt(current,payload,"RESULT_SAVED",{task_ref:task.ref,run_ref:saved.ref,report_hash:saved.view.report_hash},saved);
+  };
+  const dom=documentFixture(),app=ui.mount(dom.document,request,null);await flush();
+  assert.equal(dom.get("view-home").hidden,false);assert.match(dom.get("first-resume").textContent,/还没有开始/);
+  assert.equal(calls.filter(c=>c.payload).length,0);
+  await dom.click(dom.button("load-example"));
+  assert.equal(current.inputs.length,1);assert.equal(current.tasks.length,0);assert.equal(current.runs.length,0);
+  assert.deepEqual(calls.filter(c=>c.payload).map(c=>c.payload.action),["load_example"]);
+  assert.equal(dom.get("guide-panel").hidden,false);assert.equal(dom.get("guide-create").disabled,true);assert.match(dom.get("guide-data-note").textContent,/固定虚构数据/);
+  await dom.click(dom.button("guide-back"));assert.equal(dom.get("guide-panel").hidden,true);
+  await dom.click(dom.button("resume-guide"));assert.equal(dom.get("guide-panel").hidden,false);assert.equal(calls.filter(c=>c.payload).length,1);
+  dom.get("guide-template").value="intro";await dom.listeners.change({target:dom.get("guide-template")});
+  assert.equal(dom.get("guide-create").disabled,false);assert.match(dom.get("guide-context").textContent,/前 6 根日线仅用于预热/);
+  assert.equal(current.tasks.length,0);assert.equal(current.runs.length,0);
+  await dom.submit("guide-form");assert.equal(current.tasks.length,1);assert.equal(current.runs.length,0);
+  assert.equal(dom.get("guide-run-panel").hidden,false);assert.equal(dom.get("guide-run").hidden,false);
+  await dom.click(dom.get("guide-run"));assert.equal(current.runs.length,1);assert.match(dom.get("run-detail").textContent,/虚构的教学示例/);
+  assert.equal(calls.filter(c=>c.payload?.action==="run_task").length,1);assert.equal(dom.get("guide-run").hidden,true);
+  const afterRun=calls.filter(c=>c.payload).length;await app.controller.refresh();
+  const reopened=documentFixture();ui.mount(reopened.document,request,null);await flush();
+  assert.match(reopened.get("first-resume").textContent,/结果已保存，可直接查看/);
+  assert.equal(reopened.get("guide-run").hidden,true);await reopened.click(reopened.button("guide-open-run"));
+  assert.match(reopened.get("run-detail").textContent,/TEST/);assert.equal(calls.filter(c=>c.payload).length,afterRun);
+  assert.equal(calls.filter(c=>c.payload?.action==="load_example").length,1);assert.equal(calls.filter(c=>c.payload?.action==="create_task").length,1);
+  assert.equal(calls.filter(c=>c.payload?.action==="run_task").length,1);assert.ok(calls.every(c=>c.route.startsWith("/api/")));
+  assert.equal(current.strategies["price.dual_ma@1"].defaults.fast_window,20);assert.equal(current.strategies["price.dual_ma@1"].defaults.slow_window,60);
+});
+
+const intakeReview=()=>({ref:"stock-intakes/check-fixture",status:"REVIEW_REQUIRED",can_save:true,check_hash:"exact-review-hash",symbol:"NDAQ",company_name:"Fixture company",security:{security_id:"IMPORTED:YAHOO:XNAS:NDAQ:check-fixture",symbol:"NDAQ",exchange:"XNAS",currency:"USD",instrument_type:"COMMON_STOCK"},coverage_start:"2026-09-25",coverage_end:"2026-10-23",session_count:20,retrieved_at:"2026-10-26T13:00:00Z",source:{name:"Fixture retained source"},limitations:["Fixture only; no network request."]});
+
+test("first stock check requires exact security acknowledgement and saving never fetches again or creates a task",async()=>{
+  const current=firstUseData(),review=intakeReview(),calls=[],plan=copy(current.first_use.real_stock_template.suggested_task);
+  const stock={...input(),ref:"data/snapshots/first-stock.json",input_id:"first-stock-id",security:review.security,evidence_kind:"IMPORTED_UNVERIFIED",coverage_start:review.coverage_start,coverage_end:review.coverage_end,sessions:20};
+  const request=async(route,payload)=>{calls.push({route,payload:payload?copy(payload):undefined});if(route==="/api/state")return copy(current);
+    if(route==="/api/stock-intake?ref="+encodeURIComponent(review.ref))return copy(review);
+    assert.equal(route,"/api/action");assert.equal(payload.guided,true);
+    if(payload.action==="check_stock_import"){
+      assert.equal(payload.symbol,"NDAQ");assert.equal(payload.history_sessions,20);current.stock_imports=[copy(review)];
+      return saveGuideReceipt(current,payload,"DATA_REVIEW",{intake_ref:review.ref,check_hash:review.check_hash,intake_status:review.status},review);
+    }
+    assert.equal(payload.action,"save_stock_import");assert.equal(payload.intake,review.ref);assert.equal(payload.expected_check_hash,review.check_hash);
+    assert.deepEqual(copy(payload.confirmed_security),review.security);assert.equal(payload.guide_id,current.first_use.progress.guide_id);
+    current.inputs=[copy(stock)];review.frozen_input_ref=stock.ref;current.stock_imports=[copy(review)];
+    return saveGuideReceipt(current,payload,"INPUT_SAVED",{snapshot_ref:stock.ref,snapshot_id:stock.input_id,suggested_task:plan},{ref:stock.ref,input_id:stock.input_id,suggested_task:plan,new_economic_runs:0});
+  };
+  const dom=documentFixture();ui.mount(dom.document,request,null);await flush();await dom.click(dom.button("add-stock"));
+  assert.equal(dom.get("view-inputs").hidden,false);assert.equal(calls.filter(c=>c.payload).length,0);
+  dom.get("first-stock-symbol").value=" ndaq ";dom.get("first-stock-history").value="20";await dom.submit("first-stock-form");
+  assert.equal(current.inputs.length,0);assert.equal(current.tasks.length,0);assert.match(dom.get("stock-intake-result").textContent,/Fixture company/);
+  assert.match(dom.get("stock-intake-result").textContent,/Nasdaq/);assert.match(dom.get("stock-intake-result").textContent,/USD/);
+  assert.equal(dom.button("save-intake").disabled,true);await dom.click(dom.button("save-intake"));assert.equal(calls.filter(c=>c.payload).length,1);
+  dom.get("intake-security-confirm").checked=true;await dom.listeners.change({target:dom.get("intake-security-confirm")});
+  assert.equal(dom.button("save-intake").disabled,false);await dom.click(dom.button("save-intake"));
+  assert.equal(current.inputs.length,1);assert.equal(current.tasks.length,0);assert.equal(current.runs.length,0);
+  assert.equal(dom.get("view-home").hidden,false);assert.match(dom.get("first-resume").textContent,/数据已准备/);
+  assert.deepEqual(calls.filter(c=>c.payload).map(c=>c.payload.action),["check_stock_import","save_stock_import"]);
+  await dom.click(dom.button("intake-detail",review.ref));assert.match(dom.get("stock-intake-result").textContent,/这份数据已保存/);
+  assert.equal(dom.button("save-intake"),undefined);assert.equal(calls.filter(c=>c.payload?.action==="check_stock_import").length,1);
+});
+
+test("a stopped first-stock review retains the cause and never offers a save control",async()=>{
+  const current=firstUseData(),row={...intakeReview(),status:"BLOCKED",can_save:false,reason:"CORPORATE_ACTION_IN_WINDOW:dividends:2026-10-02"},calls=[];
+  const dom=documentFixture();ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});if(route==="/api/state")return copy(current);
+    assert.equal(payload.action,"check_stock_import");current.stock_imports=[copy(row)];
+    return saveGuideReceipt(current,payload,"DATA_REVIEW",{intake_ref:row.ref,check_hash:row.check_hash,intake_status:row.status},row);},null);
+  await flush();await dom.click(dom.button("add-stock"));dom.get("first-stock-symbol").value="NDAQ";dom.get("first-stock-history").value="20";
+  await dom.submit("first-stock-form");assert.match(dom.get("stock-intake-result").textContent,/2026-10-02.*现金分红/);
+  assert.match(dom.get("stock-intake-result").textContent,/不能处理/);assert.equal(dom.button("save-intake"),undefined);assert.equal(dom.get("intake-security-confirm"),undefined);
+  assert.equal(current.inputs.length,0);assert.equal(current.tasks.length,0);assert.equal(current.runs.length,0);
+  assert.deepEqual(calls.filter(c=>c.payload).map(c=>c.payload.action),["check_stock_import"]);
+});
+
+test("today navigation does not fetch and an old unknown receipt blocks every first-use write",async()=>{
+  const current=firstUseData(),real={...input(),evidence_kind:"IMPORTED_UNVERIFIED"},example=exampleInput(),calls=[];
+  current.inputs=[real,example];current.operations=[{operation_id:"old-unknown",status:"UNKNOWN_REQUIRES_REVIEW"}];
+  current.first_use.progress={status:"NOT_STARTED",pending_operations:[{operation_id:"old-unknown",status:"UNKNOWN_REQUIRES_REVIEW"}]};
+  const dom=documentFixture(),app=ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});assert.equal(route,"/api/state");return copy(current);},null);await flush();
+  assert.equal(app.controller.unknown(),true);assert.equal(dom.button("load-example").disabled,true);
+  assert.equal(dom.get("today-actions").querySelectorAll('[data-action="today-stock"]').length,1);
+  assert.match(dom.get("today-actions").textContent,/是否有新日线，须明确检查后才能知道/);
+  await dom.click(dom.button("today-stock",real.ref));assert.equal(dom.get("view-inputs").hidden,false);assert.equal(dom.get("stock-update-snapshot").value,real.ref);
+  assert.equal(dom.document.activeElement,dom.get("stock-update-snapshot"));assert.equal(calls.filter(c=>c.payload).length,0);
+  await dom.click(dom.button("load-example"));dom.get("first-stock-symbol").value="NDAQ";dom.get("first-stock-history").value="20";await dom.submit("first-stock-form");
+  assert.equal(calls.filter(c=>c.payload).length,0);assert.equal(current.tasks.length,0);assert.match(dom.get("error").textContent,/可能已经保存/);
+});
+
+test("a newly selected template with insufficient context cannot reuse the previous valid guide settings",async()=>{
+  const current=firstUseData(),example=exampleInput(),plan=introPlan(),calls=[];
+  current.inputs=[example];current.first_use.progress={status:"RESTORABLE",guide_id:"restored-guide",step:"INPUT_SAVED",recorded_at:"2026-10-26T13:00:00Z",snapshot_ref:example.ref,snapshot_id:example.input_id,suggested_task:plan};
+  const dom=documentFixture();ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload:payload?copy(payload):undefined});if(route==="/api/state")return copy(current);
+    assert.equal(payload.action,"task_context");return {ok:true,result:{required_context_sessions:payload.params.slow_window===4?6:62,sessions:22,suggested_score_start:payload.params.slow_window===4?plan.score_start:null,coverage_end:plan.score_end}};},null);await flush();
+  assert.equal(calls.filter(c=>c.payload).length,0);dom.get("guide-template").value="intro";await dom.listeners.change({target:dom.get("guide-template")});
+  assert.equal(dom.get("guide-create").disabled,false);dom.get("guide-template").value="standard";await dom.listeners.change({target:dom.get("guide-template")});
+  assert.equal(dom.get("guide-create").disabled,true);assert.match(dom.get("guide-context").textContent,/当前 22 根日线.*62 根预热/);
+  await dom.submit("guide-form");assert.equal(calls.filter(c=>c.payload?.action==="create_task").length,0);
+  assert.deepEqual(calls.filter(c=>c.payload).map(c=>c.payload.params.slow_window),[4,60]);assert.equal(current.tasks.length,0);
+});
+
+test("a late stock-review read cannot replace the latest selected security or its confirmation",async()=>{
+  const first=intakeReview(),second={...intakeReview(),ref:"stock-intakes/check-ko",check_hash:"ko-check-hash",symbol:"KO",company_name:"Selected KO fixture",security:{...intakeReview().security,security_id:"IMPORTED:YAHOO:XNYS:KO:check-ko",symbol:"KO",exchange:"XNYS"}};
+  const current=firstUseData(),pending=new Map(),writes=[];current.stock_imports=[first,second];
+  current.first_use.progress={status:"RESTORABLE",guide_id:"selected-ko-guide",step:"DATA_REVIEW",recorded_at:"2026-10-26T13:00:00Z",intake_ref:second.ref,check_hash:second.check_hash};
+  const dom=documentFixture();ui.mount(dom.document,async(route,payload)=>{
+    if(route==="/api/state")return copy(current);
+    if(route.startsWith("/api/stock-intake?ref="))return new Promise(resolve=>pending.set(decodeURIComponent(route.split("ref=")[1]),resolve));
+    writes.push(copy(payload));assert.equal(payload.action,"save_stock_import");
+    const stock={...input(),ref:"data/snapshots/selected-ko.json",input_id:"selected-ko-input",security:second.security};current.inputs=[stock];
+    return saveGuideReceipt(current,payload,"INPUT_SAVED",{snapshot_ref:stock.ref,snapshot_id:stock.input_id,suggested_task:introPlan()},{ref:stock.ref,input_id:stock.input_id,suggested_task:introPlan()});
+  },null);await flush();
+  const oldRead=dom.click(dom.button("intake-detail",first.ref)),latestRead=dom.click(dom.button("intake-detail",second.ref));
+  pending.get(second.ref)(copy(second));await latestRead;
+  dom.get("intake-security-confirm").checked=true;await dom.listeners.change({target:dom.get("intake-security-confirm")});
+  pending.get(first.ref)(copy(first));await oldRead;
+  assert.match(dom.get("stock-intake-result").textContent,/Selected KO fixture/);assert.equal(dom.get("intake-security-confirm").checked,true);
+  await dom.click(dom.button("save-intake"));assert.equal(writes.length,1);
+  assert.equal(writes[0].intake,second.ref);assert.equal(writes[0].expected_check_hash,second.check_hash);
+  assert.deepEqual(writes[0].confirmed_security,second.security);assert.equal(writes[0].guide_id,"selected-ko-guide");
+});
+
+test("opening another stock review disables the previous confirmation and cannot borrow its guide identity",async()=>{
+  const first=intakeReview(),second={...intakeReview(),ref:"stock-intakes/check-other",check_hash:"other-check-hash",symbol:"KO",company_name:"Other selected stock",security:{...intakeReview().security,security_id:"IMPORTED:YAHOO:XNYS:KO:check-other",symbol:"KO",exchange:"XNYS"}};
+  const current=firstUseData(),writes=[];let finishRead;
+  current.stock_imports=[first,second];current.first_use.progress={status:"RESTORABLE",guide_id:"original-stock-guide",step:"DATA_REVIEW",recorded_at:"2026-10-26T13:00:00Z",intake_ref:first.ref,check_hash:first.check_hash};
+  const dom=documentFixture();ui.mount(dom.document,async(route,payload)=>{
+    if(route==="/api/state")return copy(current);
+    if(route==="/api/stock-intake?ref="+encodeURIComponent(first.ref))return copy(first);
+    if(route==="/api/stock-intake?ref="+encodeURIComponent(second.ref))return new Promise(resolve=>{finishRead=resolve;});
+    writes.push(copy(payload));assert.equal(payload.action,"save_stock_import");
+    const stock={...input(),ref:"data/snapshots/other-stock.json",input_id:"other-stock-id",security:second.security};current.inputs=[stock];
+    return saveGuideReceipt(current,payload,"INPUT_SAVED",{snapshot_ref:stock.ref,snapshot_id:stock.input_id,suggested_task:introPlan()},{ref:stock.ref,input_id:stock.input_id,suggested_task:introPlan()});
+  },null);await flush();
+  await dom.click(dom.button("intake-detail",first.ref));dom.get("intake-security-confirm").checked=true;
+  await dom.listeners.change({target:dom.get("intake-security-confirm")});assert.equal(dom.button("save-intake").disabled,false);
+  const pendingRead=dom.click(dom.button("intake-detail",second.ref));
+  const waitingSave=dom.button("save-intake");assert.ok(!waitingSave||waitingSave.disabled);
+  if(waitingSave)await dom.click(waitingSave);assert.equal(writes.length,0);
+  finishRead(copy(second));await pendingRead;assert.equal(dom.get("intake-security-confirm").checked,false);
+  assert.equal(dom.button("save-intake").disabled,true);await dom.click(dom.button("save-intake"));assert.equal(writes.length,0);
+  dom.get("intake-security-confirm").checked=true;await dom.listeners.change({target:dom.get("intake-security-confirm")});await dom.click(dom.button("save-intake"));
+  assert.equal(writes.length,1);assert.equal(writes[0].guide_id,undefined);assert.equal(writes[0].intake,second.ref);
+  assert.equal(writes[0].expected_check_hash,second.check_hash);assert.deepEqual(writes[0].confirmed_security,second.security);
+  assert.notEqual(current.first_use.progress.guide_id,"original-stock-guide");
+});
+
+test("a committed source-check receipt with UNKNOWN content keeps first-use writes locked while saved steps remain readable",async()=>{
+  for(const step of ["INPUT_SAVED","RESULT_SAVED"]){
+    const current=firstUseData(),example=exampleInput(),calls=[],saved=run();current.inputs=[example];
+    current.operations=[{operation_id:"source-check-unknown",ok:true,status:"COMMITTED",result:{status:"UNKNOWN",ref:"stock-intakes/check-source-unknown",can_save:false}}];
+    current.first_use.progress={status:"RESTORABLE",guide_id:"retained-first-use",step,recorded_at:"2026-10-26T13:00:00Z",snapshot_ref:example.ref,snapshot_id:example.input_id,suggested_task:introPlan(),pending_operations:[{operation_id:"source-check-unknown",guide_id:"retained-first-use",status:"UNKNOWN_REQUIRES_REVIEW"}]};
+    if(step==="RESULT_SAVED"){
+      current.tasks=[taskRow()];current.runs=[{...saved.view,ref:saved.ref}];
+      Object.assign(current.first_use.progress,{task_ref:taskRow().ref,run_ref:saved.ref,report_hash:"saved-before-unknown-check"});
+    }
+    const original=copy(current.operations),dom=documentFixture();
+    const app=ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});if(route==="/api/state")return copy(current);
+      assert.equal(route,"/api/run?ref="+encodeURIComponent(saved.ref));assert.equal(payload,undefined);return copy(saved);},null);await flush();
+    assert.equal(app.controller.state.pending,"");assert.equal(app.controller.unknown(),true);
+    assert.equal(dom.get("pending").hidden,false);assert.match(dom.get("pending-id").textContent,/首次数据检查待核实.*source-check-unknown/);
+    assert.ok(dom.document.querySelectorAll("[data-write]").every(button=>button.disabled));
+    if(step==="RESULT_SAVED"){
+      await dom.click(dom.button("guide-open-run"));assert.match(dom.get("run-detail").textContent,/3%/);
+    }else{
+      await dom.click(dom.button("resume-guide"));assert.equal(dom.get("guide-panel").hidden,false);assert.match(dom.get("guide-data-note").textContent,/TEST/);
+    }
+    await dom.click(dom.get("refresh"));assert.equal(app.controller.unknown(),true);
+    await assert.rejects(app.controller.action("load_example",{example:"dual_ma_intro",guided:true}),/核对上一项/);
+    dom.get("first-stock-symbol").value="NDAQ";dom.get("first-stock-history").value="20";await dom.submit("first-stock-form");
+    assert.match(dom.get("error").textContent,/可能已经保存/);assert.equal(calls.filter(call=>call.payload).length,0);
+    assert.deepEqual(current.operations,original);assert.equal(current.first_use.progress.step,step);
+  }
 });

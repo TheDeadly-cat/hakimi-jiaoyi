@@ -108,7 +108,7 @@ class Workbench:
         self.lock = RLock()
         self.loaded_source = _LOADED_SOURCE
         self.loaded_environment = build_runtime_provenance()['environment_verified']
-        for name in ('data', 'tasks', 'runs', 'continuous', 'operations', 'watches', 'research-imports', 'research-bindings', 'exports', 'updates', 'validations'):
+        for name in ('data', 'tasks', 'runs', 'continuous', 'operations', 'watches', 'research-imports', 'research-bindings', 'exports', 'updates', 'validations', 'stock-intakes'):
             (self.root / name).mkdir(parents=True, exist_ok=True)
 
     def path(self, ref, area=None):
@@ -209,6 +209,122 @@ class Workbench:
         from .task_validation import read_validation
         return dict(read_validation(self.path(ref, 'validations')), ref=ref)
 
+    def stock_intake_view(self, ref):
+        from .stock_intake import read_stock_import
+        result = read_stock_import(self.path(ref, 'stock-intakes'))
+        receipt = result.get('freeze_receipt')
+        if receipt and hashlib.sha256(self.path(receipt['input_ref'], 'data').read_bytes()).hexdigest() != receipt['input_file_sha256']:
+            raise ValueError('stock_intake_saved_input_changed')
+        return dict(result, ref=ref)
+
+    def _guided_receipt(self, request, result, recorded_at):
+        if request.get('guided') is not True:
+            return None
+        action = request['action']
+        steps = {'load_example':'INPUT_SAVED', 'check_stock_import':'DATA_REVIEW',
+                 'save_stock_import':'INPUT_SAVED', 'create_task':'TASK_CREATED', 'run_task':'RESULT_SAVED'}
+        if action not in steps:
+            return None
+        if action == 'check_stock_import' and result['status'] == 'UNKNOWN':
+            return None  # An unknown source outcome cannot advance a saved step.
+        body = dict(guided=True, guide_id=request.get('guide_id') or request['operation_id'],
+                    step=steps[action], recorded_at=recorded_at, operation_id=request['operation_id'])
+        if action in {'load_example', 'save_stock_import'}:
+            body.update(snapshot_ref=result['ref'], snapshot_id=result['input_id'], suggested_task=result['suggested_task'])
+            if action == 'save_stock_import':
+                body.update(intake_ref=request['intake'], check_hash=result['check_hash'])
+        elif action == 'check_stock_import':
+            body.update(intake_ref=result['ref'], check_hash=result['check_hash'], intake_status=result['status'])
+        elif action == 'create_task':
+            body.update(snapshot_ref=request['snapshot'], snapshot_id=result['inputs']['snapshot']['input_id'],
+                        task_ref=result['ref'], task_id=result['task_id'])
+        elif action == 'run_task':
+            body.update(task_ref=request['task'], run_ref=result['ref'], report_hash=result['view']['report_hash'])
+        return dict(body, workflow_hash=digest(body))
+
+    def _first_use_progress(self, operations, pending):
+        """Project persisted operation receipts, never browser origin or UUID order."""
+        from .input_workflow import inspect_input
+        rows, unknown, invalid_guided = [], 0, []
+        for record in operations:
+            workflow = record.get('workflow')
+            if not workflow:
+                if not record.get('recorded_at'):
+                    unknown += 1
+                continue
+            try:
+                stamp = datetime.fromisoformat(record['recorded_at'].replace('Z', '+00:00'))
+                if stamp.tzinfo is None or workflow['recorded_at'] != record['recorded_at']:
+                    raise ValueError('guided_progress_clock_invalid')
+                rows.append((stamp, record))
+            except (KeyError, TypeError, ValueError):
+                invalid_guided.append(record.get('operation_id'))
+        guided_pending = []
+        for item in pending:
+            request = read_document(self.root/'operations'/item['operation_id']/'request.json')['request']
+            if request.get('guided') is True:
+                guided_pending.append(dict(operation_id=item['operation_id'], guide_id=request.get('guide_id') or item['operation_id'], status='UNKNOWN_REQUIRES_REVIEW'))
+        for record in operations:
+            if record.get('result', {}).get('status') != 'UNKNOWN':
+                continue
+            operation_id = record.get('operation_id')
+            if type(operation_id) is not str or not re.fullmatch(r'[A-Za-z0-9_-]{8,80}', operation_id):
+                continue
+            request = read_document(self.root/'operations'/operation_id/'request.json')['request']
+            if request.get('guided') is True:
+                guided_pending.append(dict(operation_id=operation_id, guide_id=request.get('guide_id') or operation_id,
+                                           status='UNKNOWN_REQUIRES_REVIEW'))
+        if invalid_guided:
+            return dict(status='UNAVAILABLE_REQUIRES_REVIEW', reason='GUIDED_RECEIPT_CLOCK_INVALID',
+                        invalid_operation_ids=invalid_guided, pending_operations=guided_pending,
+                        unknown_legacy_operation_count=unknown)
+        if not rows:
+            return dict(status='NOT_STARTED', unknown_legacy_operation_count=unknown, pending_operations=guided_pending)
+        rows.sort(key=lambda row: row[0])
+        if len(rows) > 1 and rows[-1][0] == rows[-2][0]:
+            return dict(status='AMBIGUOUS_REQUIRES_REVIEW', reason='GUIDED_RECEIPT_TIMES_TIED',
+                        pending_operations=guided_pending, unknown_legacy_operation_count=unknown)
+        latest = rows[-1][1]
+        guide_id = latest['workflow']['guide_id']
+        progress = dict(status='RESTORABLE', guide_id=guide_id, unknown_legacy_operation_count=unknown,
+                        pending_operations=guided_pending)
+        try:
+            for _, record in rows:
+                workflow = record['workflow']
+                if workflow['guide_id'] != guide_id:
+                    continue
+                if (not record.get('ok') or record['result'].get('workflow') != workflow
+                        or workflow['operation_id'] != record['operation_id']
+                        or workflow['workflow_hash'] != digest({k:v for k,v in workflow.items() if k != 'workflow_hash'})):
+                    raise ValueError('guided_progress_receipt_invalid')
+                if workflow['step'] in {'DATA_REVIEW', 'INPUT_SAVED'}:
+                    for key in ('snapshot_ref', 'snapshot_id', 'suggested_task', 'task_ref', 'task_id',
+                                'run_ref', 'report_hash', 'intake_ref', 'check_hash', 'intake_status'):
+                        progress.pop(key, None)
+                elif workflow['step'] == 'TASK_CREATED':
+                    for key in ('run_ref', 'report_hash'):
+                        progress.pop(key, None)
+                progress.update({k:v for k,v in workflow.items() if k != 'workflow_hash'})
+            if progress.get('snapshot_ref'):
+                snapshot = inspect_input(self.path(progress['snapshot_ref'], 'data'))
+                if progress.get('snapshot_id') and snapshot['input_id'] != progress['snapshot_id']:
+                    raise ValueError('guided_progress_snapshot_changed')
+            if progress.get('intake_ref'):
+                intake = self.stock_intake_view(progress['intake_ref'])
+                if intake['check_hash'] != progress['check_hash']:
+                    raise ValueError('guided_progress_intake_changed')
+            if progress.get('task_ref'):
+                task = describe_task(self.path(progress['task_ref'], 'tasks'))
+                if progress.get('task_id') and task['task_id'] != progress['task_id']:
+                    progress.update(status='REVIEW_REQUIRED', reason='TASK_VERSION_CHANGED')
+            if progress.get('run_ref'):
+                _, report, _ = verify_run(self.path(progress['run_ref'], 'runs'))
+                if report['report_hash'] != progress['report_hash']:
+                    raise ValueError('guided_progress_report_changed')
+        except (ValueError, OSError, KeyError, TypeError) as exc:
+            progress.update(status='UNAVAILABLE_REQUIRES_REVIEW', reason=str(exc))
+        return progress
+
     def account_view(self, ref, *, runtime=None):
         from .continuous_runtime import describe_continuous_account
         path = self.path(ref, 'continuous')
@@ -300,7 +416,10 @@ class Workbench:
             validation_summaries = [{k:v for k,v in row.items()
                 if k in {'ref','base','symbol','status','validation_hash','error'}} for row in validations]
             from .daily_updates import calendar_support
+            from .stock_intake import first_use_catalog
             calendar_policy = calendar_support()
+            intakes = [self._item(p, lambda q:self.stock_intake_view(self.ref(q)))
+                       for p in sorted((self.root/'stock-intakes').glob('check-*')) if p.is_dir()]
             return dict(engine=dict(name='hakimi_research', version=version,
                 delivery=_delivery_identity(runtime, version, self.loaded_source),
                 source_identity=runtime['source_identity'], environment=runtime['environment_verified'],
@@ -308,6 +427,7 @@ class Workbench:
                 inputs=inputs, tasks=tasks, runs=runs, accounts=accounts, strategies=catalog,
                 operations=operations[-20:] + pending, watches=watches, research_imports=research,
                 daily_updates=updates[-50:], validations=validation_summaries,
+                stock_imports=intakes[-50:], first_use=dict(first_use_catalog(), progress=self._first_use_progress(operations, pending)),
                 data_update_policy=dict(calendar_policy, calendar_years=calendar_policy['supported_years'], source='Yahoo Finance', max_symbols=1,
                     network='EXPLICIT_CHECK_ONLY', existing_snapshot_required=True),
                 server_time=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
@@ -337,6 +457,10 @@ class Workbench:
         op = request.get('operation_id')
         if type(op) is not str or not re.fullmatch(r'[A-Za-z0-9_-]{8,80}', op):
             raise ValueError('explicit_operation_id_required')
+        if 'guided' in request and type(request['guided']) is not bool:
+            raise ValueError('guided_flag_exact_bool_required')
+        if 'guide_id' in request and (type(request['guide_id']) is not str or not re.fullmatch(r'[A-Za-z0-9_-]{8,80}', request['guide_id'])):
+            raise ValueError('guided_identifier_invalid')
         folder = self.root / 'operations' / op
         fingerprint = digest(request)
         with self.lock, _file_lock(self.root / '.workbench.lock'):
@@ -355,18 +479,39 @@ class Workbench:
             if action != 'stop_watch' and (runtime['source_identity'].get('content_sha256') != self.loaded_source
                     or runtime['environment_verified'] != self.loaded_environment):
                 raise ValueError('workbench_restart_required_source_or_dependencies_changed')
-            write_new(folder / 'request.json', dict(request_hash=fingerprint, request=request))
+            write_new(folder / 'request.json', dict(request_hash=fingerprint, request=request,
+                      recorded_at=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')))
             try:
                 result = self._dispatch(request)
             except (ValueError, OSError, KeyError, TypeError) as exc:
                 write_new(folder / 'result.json', dict(operation_id=op, ok=False,
-                    status='STOPPED', error=str(exc), automatic_retry=False))
+                    status='STOPPED', error=str(exc), automatic_retry=False,
+                    recorded_at=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')))
                 raise
-            write_new(folder / 'result.json', dict(operation_id=op, ok=True, status='COMMITTED', result=result))
+            recorded_at = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
+            workflow = self._guided_receipt(request, result, recorded_at)
+            if workflow:
+                result = dict(result, workflow=workflow)
+            write_new(folder / 'result.json', dict(operation_id=op, ok=True, status='COMMITTED', result=result,
+                      recorded_at=recorded_at, **({'workflow':workflow} if workflow else {})))
             return result
 
     def _dispatch(self, r):
         action, op = r['action'], r['operation_id']
+        if action == 'load_example':
+            from .stock_intake import load_example
+            result = load_example(self.root, r['example'])
+            return dict(result, ref=self.ref(result['path']))
+        if action == 'check_stock_import':
+            from .stock_intake import check_stock_import
+            directory = self.root/'stock-intakes'/('check-' + op)
+            check_stock_import(r['symbol'], r['history_sessions'], directory)
+            return self.stock_intake_view(self.ref(directory))
+        if action == 'save_stock_import':
+            from .stock_intake import save_stock_import
+            result = save_stock_import(self.path(r['intake'], 'stock-intakes'), self.root,
+                expected_check_hash=r['expected_check_hash'], confirmed_security=r['confirmed_security'])
+            return dict(result, ref=self.ref(result['path']), intake_ref=r['intake'])
         if action == 'import_input':
             result = _retain(self.root, _bytes(r['content_base64']))
             return dict(result, ref=self.ref(result['path']))

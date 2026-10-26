@@ -35,24 +35,30 @@ def _clean_env():
     return env
 
 
-def _probe_installation(python):
-    code = """
+INSTALLATION_PROBE = """
 import importlib.metadata, json, pathlib, sys
 import hakimi_research
 from hakimi_research.environment import build_runtime_provenance
 p = build_runtime_provenance()
 s, e = p['source_identity'], p['environment_verified']
 package = pathlib.Path(hakimi_research.__file__).resolve().parent
+prefix = pathlib.Path(sys.prefix).resolve()
 print(json.dumps(dict(
     version=importlib.metadata.version('hakimi-research'),
     source_status=s['status'], source_sha256=s['content_sha256'],
     build_receipt=s.get('build_receipt'), environment_status=e['status'],
     lock_sha256=e['lock_sha256'], python=str(pathlib.Path(sys.executable).resolve()),
     package_directory=str(package), isolated_venv=sys.prefix != sys.base_prefix,
-    package_inside_venv=package.is_relative_to(pathlib.Path(sys.prefix).resolve())
+    package_inside_venv=package.is_relative_to(prefix),
+    python_version='.'.join(map(str, sys.version_info[:3])), python_prefix=str(prefix),
+    python_base_prefix=str(pathlib.Path(sys.base_prefix).resolve()),
+    import_search_paths=[str(pathlib.Path(p).resolve()) for p in sys.path if p]
 ), ensure_ascii=True))
 """
-    result = subprocess.run([str(python), "-I", "-B", "-c", code], capture_output=True,
+
+
+def _probe_installation(python):
+    result = subprocess.run([str(python), "-I", "-B", "-c", INSTALLATION_PROBE], capture_output=True,
                             text=True, encoding="utf-8", env=_clean_env(), timeout=30)
     _require(result.returncode == 0, "无法核对已安装候选，请检查该独立 Python 环境。")
     return json.loads(result.stdout)
@@ -142,7 +148,10 @@ def launch(directory):
     manifest = verify(directory)
     env = _clean_env()
     env.update(HAKIMI_RESEARCH_PYTHON=manifest["python"], HAKIMI_RESEARCH_WORKSPACE=manifest["workspace"],
-               HAKIMI_RESEARCH_DESKTOP_PROFILE=manifest["profile"])
+               HAKIMI_RESEARCH_DESKTOP_PROFILE=manifest["profile"],
+               HAKIMI_RESEARCH_EXPECTED_IDENTITY=json.dumps(dict(
+                   package_location=manifest["package_directory"], python_executable=manifest["python"],
+                   loaded_source_sha256=manifest["expected_installation"]["source_sha256"]), ensure_ascii=True))
     return subprocess.run([manifest["electron"], str(directory / "research-main.js")],
                           cwd=directory, env=env, shell=False).returncode
 

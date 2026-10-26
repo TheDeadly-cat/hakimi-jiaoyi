@@ -1,6 +1,6 @@
 "use strict";
 const test = require("node:test"), assert = require("node:assert/strict"), { EventEmitter } = require("node:events");
-const { desktopSettings, launchSpec, validateAnnouncement, startServer, isResearchEntry } = require("./research-main");
+const { desktopSettings, expectedIdentity, writeDiagnostic, launchSpec, validateAnnouncement, startServer, isResearchEntry } = require("./research-main");
 
 test("verified candidate profiles cannot be captured by the original single-instance window", () => {
   const original = desktopSettings("profile-root", {});
@@ -34,11 +34,45 @@ function child() {
 test("independent entry launches only the canonical workbench with an argument array and ephemeral loopback port", () => {
   const spec = launchSpec({ workspace: "C:/research workspace", python: "C:/python path/python.exe", env: { HAKIMI_RUNTIME_READ_ONLY: "1" } });
   assert.equal(spec.executable, "C:/python path/python.exe");
-  assert.deepEqual(spec.args.slice(0, 2), ["-m", "hakimi_research.workbench_server"]);
+  assert.deepEqual(spec.args.slice(0, 7), ["-I", "-B", "-u", "-X", "utf8", "-m", "hakimi_research.workbench_server"]);
   assert.deepEqual(spec.args.slice(-2), ["--port", "0"]);
   assert.equal(spec.options.shell, false); assert.equal(spec.options.windowsHide, true);
   assert.equal(spec.options.env.HAKIMI_RUNTIME_READ_ONLY, "1", "never relax legacy read-only mode");
   assert.ok(!JSON.stringify(spec).includes("exchange_terminal"));
+});
+
+test("bound candidates reject shadow packages and strip startup injection variables", async () => {
+  const identity = { package_location: "C:/trial/runtime/Lib/site-packages/hakimi_research",
+    python_executable: "C:/trial/runtime/python.exe", loaded_source_sha256: "a".repeat(64) };
+  assert.deepEqual(expectedIdentity({ HAKIMI_RESEARCH_EXPECTED_IDENTITY: JSON.stringify(identity) }), identity);
+  assert.throws(() => expectedIdentity({ HAKIMI_RESEARCH_DESKTOP_PROFILE: "a".repeat(64) }), /缺少/);
+  assert.throws(() => expectedIdentity({ HAKIMI_RESEARCH_EXPECTED_IDENTITY: "{}" }), /不完整/);
+  const spec = launchSpec({ workspace: "C:/data", python: identity.python_executable, identity,
+    env: { PYTHONPATH: "shadow", PYTHONHOME: "shadow", NODE_OPTIONS: "--require shadow", ELECTRON_RUN_AS_NODE: "1" } });
+  for (const key of ["PYTHONPATH", "PYTHONHOME", "NODE_OPTIONS", "ELECTRON_RUN_AS_NODE"]) assert.equal(spec.options.env[key], undefined);
+  const valid = { url: "http://127.0.0.1:8766/", port: 8766, pid: 123, engine: "hakimi_research", ...identity };
+  assert.equal(validateAnnouncement(valid, 123, identity).port, 8766);
+  for (const change of [{ package_location: "C:/shadow/hakimi_research" }, { loaded_source_sha256: "b".repeat(64) },
+    { python_executable: "C:/other/python.exe" }, { package_location: undefined }]) {
+    assert.throws(() => validateAnnouncement({ ...valid, ...change }, 123, identity), /不一致/);
+  }
+  const process = child(); const started = startServer(spec, { spawnProcess: () => process });
+  process.stdout.emit("data", JSON.stringify({ ...valid, package_location: "C:/shadow/hakimi_research" }) + "\n");
+  await assert.rejects(started.ready, /回执无效/); assert.equal(process.killed, true);
+});
+
+test("diagnostics append new readable files and do not modify existing records", () => {
+  const fs = require("node:fs"), os = require("node:os"), path = require("node:path");
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "hakimi-diagnostic-"));
+  try {
+    const old = path.join(root, "old.json"); fs.writeFileSync(old, "retained");
+    const first = writeDiagnostic(root, { state: "USER_REQUESTED", new_economic_calculations: 0 });
+    const second = writeDiagnostic(root, { state: "STARTUP_FAILED", error: "identity mismatch" });
+    assert.notEqual(first.filename, second.filename);
+    assert.equal(fs.readFileSync(first.filename, "utf8"), first.text);
+    assert.equal(JSON.parse(first.text).schema_version, "workbench-desktop-diagnostic-v1");
+    assert.equal(fs.readFileSync(old, "utf8"), "retained");
+  } finally { fs.rmSync(root, { recursive: true }); }
 });
 test("only the owned process and announced canonical loopback URL are accepted", () => {
   const valid = { url: "http://127.0.0.1:8766/", port: 8766, pid: 123, engine: "hakimi_research" };

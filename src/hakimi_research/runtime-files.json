@@ -79,6 +79,7 @@
     "source_pairs.py",
     "source_task.py",
     "source_task_card.py",
+    "stock_intake.py",
     "strategies/__init__.py",
     "strategies/base.py",
     "strategies/templates.py",
