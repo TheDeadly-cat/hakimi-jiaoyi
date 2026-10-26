@@ -1,0 +1,85 @@
+{
+  "recorded_at": "2026-10-26T11:36:45.0849029Z",
+  "window_id": 5637570,
+  "launcher_pid": 12724,
+  "port": 65344,
+  "processes": [
+    {
+      "pid": 12724,
+      "parent_pid": 31456,
+      "name": "cmd.exe",
+      "created_utc": "2026-10-26T11:12:51.5337720Z",
+      "command_line": "C:\\Windows\\system32\\cmd.exe /c \"\"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\\Start-Workbench.cmd\" \""
+    },
+    {
+      "pid": 19356,
+      "parent_pid": 12724,
+      "name": "conhost.exe",
+      "created_utc": "2026-10-26T11:12:51.5442230Z",
+      "command_line": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+    },
+    {
+      "pid": 32068,
+      "parent_pid": 12724,
+      "name": "python.exe",
+      "created_utc": "2026-10-26T11:12:51.6191420Z",
+      "command_line": "\"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\acceptance\\venv\\Scripts\\python.exe\"  -I -B \"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\\launch_workbench.py\" --launch"
+    },
+    {
+      "pid": 11776,
+      "parent_pid": 32068,
+      "name": "python.exe",
+      "created_utc": "2026-10-26T11:12:51.6305980Z",
+      "command_line": "\"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\acceptance\\venv\\Scripts\\python.exe\"  -I -B \"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\\launch_workbench.py\" --launch"
+    },
+    {
+      "pid": 31236,
+      "parent_pid": 11776,
+      "name": "electron.exe",
+      "created_utc": "2026-10-26T11:12:52.2684990Z",
+      "command_line": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules\\electron\\dist\\electron.exe C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\\research-main.js"
+    },
+    {
+      "pid": 31620,
+      "parent_pid": 31236,
+      "name": "electron.exe",
+      "created_utc": "2026-10-26T11:12:52.4265230Z",
+      "command_line": "\"C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules\\electron\\dist\\electron.exe\" --type=gpu-process --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\HakimiResearchWorkbench\\candidates\\2c09461ea66a84c1b79d4d38fa4d695b8aca88f68c45f4f43cdfdd1e391bc7fc\" --gpu-preferences=WAAAAAAAAADgAAAMAAAAAAAAAAAAAAAAAABgAAEAAAA4AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAYAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --field-trial-handle=1756,i,3040159083252384301,4267458389394640077,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=1748 /prefetch:2"
+    },
+    {
+      "pid": 31652,
+      "parent_pid": 31236,
+      "name": "python.exe",
+      "created_utc": "2026-10-26T11:12:52.4290960Z",
+      "command_line": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\acceptance\\venv\\Scripts\\python.exe -m hakimi_research.workbench_server --workspace C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace --port 0"
+    },
+    {
+      "pid": 8820,
+      "parent_pid": 31652,
+      "name": "conhost.exe",
+      "created_utc": "2026-10-26T11:12:52.4363320Z",
+      "command_line": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+    },
+    {
+      "pid": 19060,
+      "parent_pid": 31236,
+      "name": "electron.exe",
+      "created_utc": "2026-10-26T11:12:52.4414360Z",
+      "command_line": "\"C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules\\electron\\dist\\electron.exe\" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=zh-CN --service-sandbox-type=none --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\HakimiResearchWorkbench\\candidates\\2c09461ea66a84c1b79d4d38fa4d695b8aca88f68c45f4f43cdfdd1e391bc7fc\" --field-trial-handle=2024,i,3040159083252384301,4267458389394640077,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=2020 /prefetch:11"
+    },
+    {
+      "pid": 21904,
+      "parent_pid": 31652,
+      "name": "python.exe",
+      "created_utc": "2026-10-26T11:12:52.4535430Z",
+      "command_line": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\acceptance\\venv\\Scripts\\python.exe -m hakimi_research.workbench_server --workspace C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace --port 0"
+    },
+    {
+      "pid": 32164,
+      "parent_pid": 31236,
+      "name": "electron.exe",
+      "created_utc": "2026-10-26T11:12:53.5364440Z",
+      "command_line": "\"C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules\\electron\\dist\\electron.exe\" --type=renderer --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\HakimiResearchWorkbench\\candidates\\2c09461ea66a84c1b79d4d38fa4d695b8aca88f68c45f4f43cdfdd1e391bc7fc\" --app-path=\"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\" --enable-sandbox --lang=zh-CN --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=4 --time-ticks-at-unix-epoch=-1792962165709715 --launch-time-ticks=51007821179 --field-trial-handle=2940,i,3040159083252384301,4267458389394640077,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=2936 /prefetch:1"
+    }
+  ]
+}

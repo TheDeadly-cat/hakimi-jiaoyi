@@ -8,7 +8,7 @@
 
 新增实测：[NDAQ、KO固定月份历史隔离回放](docs/fixed-month-replay-acceptance-20261026.md)，包含冻结参数、来源口径、禁止读取未来价格的逐步证据、成本基准及原生关闭重开记录；自然前瞻与独立盲测保持另行区分。
 
-后续[四月独立历史留出协议](docs/research-evidence/independent-holdout-20261026/README.md)已在首次取价前封存；NDAQ预热首日分红触发冻结条件，整体准备停止、真实运行0，完整盲测尚未完成。原协议及来源已保留，见[停止证据](docs/research-evidence/independent-holdout-20261026/STOP.md)。
+后续[四月独立历史留出协议](docs/research-evidence/independent-holdout-20261026/README.md)已在首次取价前封存；NDAQ预热首日分红触发冻结条件，整体准备停止、真实运行0，见保留的[停止证据](docs/research-evidence/independent-holdout-20261026/STOP.md)。用户另行确认后，已完成[二月历史留出测试与桌面验收](docs/independent-holdout-feb-acceptance-20261026.md)：先提交协议再取价，19个交易日、38次回调检查，NDAQ +1.4463%、KO零成交；512份文件关闭重开不变。原件编码曾在核查输出中显示，此偏差已披露，不能称全过程严格盲态或自然前瞻。
 
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 M1 已交付并合入 main `17b2c15`（PR #19 受审 `669b348`），实际 main [九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005)。M1 存档候选为 `0.3.0.dev4`；正式 Release 仍为 `v0.2.1`。旧产物、失败记录与验收身份保留。
