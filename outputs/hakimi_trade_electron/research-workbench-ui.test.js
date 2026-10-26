@@ -442,6 +442,28 @@ test("zero fills distinguish waiting signals, blocked buys and unknown old evide
   assert.match(exampleText,/虚构的教学示例/);assert.match(exampleText,/不能作为真实股票收益依据/);
 });
 
+test("saved result list explains signals in Chinese and keeps unknown reasons and read errors escaped in collapsed details",async()=>{
+  const current=data(),dom=documentFixture(),calls=[];
+  const reasons=["fast MA crossed above slow MA","no MA crossover","stop_loss"];
+  const unknown='unmapped_reason <img src=x onerror="bad">',error='report_hash_mismatch <script>bad()</script>';
+  current.runs=[{...run().view,ref:"runs/known",fill_count:2,reasons},
+    {...run().view,ref:"runs/unknown",fill_count:0,reasons:[unknown]},
+    {ref:"runs/unreadable",error}];
+  const before=copy(current);
+  ui.mount(dom.document,async(route,payload)=>{calls.push({route,payload});assert.equal(route,"/api/state");assert.equal(payload,undefined);return copy(current);},null);await flush();
+  const markup=dom.get("run-list").innerHTML,visible=primaryText(markup);
+  assert.match(visible,/快均线上穿慢均线，产生买入判断/);assert.match(visible,/快慢均线没有形成新的交叉，继续等待/);
+  assert.match(visible,/具体判断见原始原因详情/);assert.match(visible,/这份结果暂时无法读取.*请刷新记录/);
+  assert.doesNotMatch(visible,/fast MA|no MA crossover|stop_loss|unmapped_reason|report_hash_mismatch/);
+  assert.match(markup,/原始原因/);assert.match(markup,/读取错误详情/);assert.match(markup,/stop_loss/);
+  assert.match(markup,/&lt;img/);assert.match(markup,/&lt;script/);assert.doesNotMatch(markup,/<img|<script/);
+  const details=dom.get("run-list").querySelectorAll("details");assert.ok(details.every(item=>!item.open));
+  const retained=details.map(item=>JSON.parse(item.querySelector("pre").textContent));
+  assert.ok(retained.some(value=>Array.isArray(value)&&value.includes(unknown)));assert.ok(retained.includes(error));
+  assert.equal(dom.button("run-detail","runs/unreadable").disabled,true);assert.equal(dom.button("run-detail","runs/known").disabled,false);
+  assert.equal(calls.length,1);assert.deepEqual(current,before);
+});
+
 test("run and completed cost comparison show sample insufficiency before technical details",()=>{
   const result=explainedRun({fills:2,buys:1});result.diagnostics.sample.completed_round_trips=1;
   const visible=primaryText(ui.runHtml(result));assert.match(visible,/本次回测已完成/);

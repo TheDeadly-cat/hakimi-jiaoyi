@@ -385,5 +385,125 @@ class DailyUpdateTests(unittest.TestCase):
         self.assertEqual(updates.read_daily_update(target)['status'], 'READY')
 
 
+class DailyTransportTests(unittest.TestCase):
+    """Only fake openers and synthetic proxy settings; no network traffic."""
+    url = 'https://query1.finance.yahoo.com/v8/finance/chart/TEST?interval=1d'
+
+    def test_no_proxy_only_uses_registry_and_keeps_real_proxyhandler_bypass(self):
+        registry = {'https': 'http://synthetic-proxy.invalid:8888'}
+        with patch.dict(updates.os.environ, {'NO_PROXY': '.internal.test,localhost'}, clear=True), \
+                patch.object(updates.sys, 'platform', 'win32'), \
+                patch.object(updates.urllib_request, 'getproxies_registry', return_value=registry, create=True) as lookup, \
+                patch.object(updates, 'build_opener', side_effect=lambda *handlers: handlers):
+            original_environment = dict(updates.os.environ)
+            handlers = updates._source_opener()
+            self.assertEqual(lookup.call_count, 1)
+            self.assertIsInstance(handlers[0], updates._NoRedirect)
+            proxy = handlers[1]
+            self.assertIsInstance(proxy, updates.urllib_request.ProxyHandler)
+            self.assertEqual(proxy.proxies, registry)
+            excluded = updates.Request('https://quote.internal.test/data')
+            with patch.object(excluded, 'set_proxy', side_effect=AssertionError('NO_PROXY must bypass')):
+                self.assertIsNone(proxy.https_open(excluded))
+            ordinary = updates.Request(self.url)
+            self.assertIsNone(proxy.https_open(ordinary))  # Sets a route; does not make a request.
+            self.assertEqual(ordinary.host, 'synthetic-proxy.invalid:8888')
+            self.assertEqual(dict(updates.os.environ), original_environment)
+
+    def test_explicit_environment_proxy_values_and_empty_overrides_keep_priority(self):
+        for name, value in (('HTTPS_PROXY','http://explicit.invalid:1'),('HTTP_PROXY','http://explicit.invalid:2'),
+                            ('ALL_PROXY','http://explicit.invalid:3'),('HTTP_PROXY',''),('HTTPS_PROXY',''),('ALL_PROXY','')):
+            with self.subTest(name=name,value=value), \
+                    patch.dict(updates.os.environ, {'NO_PROXY':'localhost', name:value}, clear=True), \
+                    patch.object(updates.sys, 'platform', 'win32'), \
+                    patch.object(updates.urllib_request, 'getproxies_registry', side_effect=AssertionError('explicit env wins'), create=True), \
+                    patch.object(updates, 'build_opener', side_effect=lambda *handlers: handlers):
+                handlers = updates._source_opener()
+                self.assertEqual(len(handlers), 1)
+                self.assertIsInstance(handlers[0], updates._NoRedirect)
+
+    def test_no_system_proxy_preserves_existing_direct_behavior(self):
+        with patch.dict(updates.os.environ, {'NO_PROXY':'localhost'}, clear=True), \
+                patch.object(updates.sys, 'platform', 'win32'), \
+                patch.object(updates.urllib_request, 'getproxies_registry', return_value={}, create=True) as lookup, \
+                patch.object(updates, 'build_opener', side_effect=lambda *handlers: handlers):
+            handlers = updates._source_opener()
+            self.assertEqual(lookup.call_count, 1)
+            self.assertEqual(len(handlers), 1)
+
+    def test_non_windows_does_not_access_windows_only_proxy_lookup(self):
+        with patch.dict(updates.os.environ, {'NO_PROXY':'localhost'}, clear=True), \
+                patch.object(updates.sys, 'platform', 'linux'), \
+                patch.object(updates.urllib_request, 'getproxies_environment', side_effect=AssertionError('unchanged platform path')), \
+                patch.object(updates.urllib_request, 'getproxies_registry', side_effect=AssertionError('not a Windows API'), create=True), \
+                patch.object(updates, 'build_opener', side_effect=lambda *handlers: handlers):
+            self.assertEqual(len(updates._source_opener()), 1)
+
+    def test_registry_lookup_failure_stops_without_saving_private_detail(self):
+        for failure in (OSError('synthetic proxy credential must not be retained'), {'https':None}):
+            with self.subTest(failure=type(failure).__name__), \
+                    patch.dict(updates.os.environ, {'NO_PROXY':'localhost'}, clear=True), \
+                    patch.object(updates.sys, 'platform', 'win32'), \
+                    patch.object(updates.urllib_request, 'getproxies_registry', create=True) as lookup, \
+                    patch.object(updates, 'build_opener', side_effect=AssertionError('must not request')):
+                if isinstance(failure, Exception): lookup.side_effect = failure
+                else: lookup.return_value = failure
+                with self.assertRaises(updates._Stop) as caught:
+                    updates._fetch(self.url)
+                self.assertEqual(caught.exception.reason, 'SOURCE_SYSTEM_PROXY_LOOKUP_FAILED')
+                self.assertIsNone(caught.exception.received_raw)
+        with patch.dict(updates.os.environ, {'NO_PROXY':'localhost'}, clear=True), \
+                patch.object(updates.sys, 'platform', 'win32'), \
+                patch.object(updates.urllib_request, 'getproxies_registry', None, create=True):
+            with self.assertRaisesRegex(updates._Stop,'SOURCE_SYSTEM_PROXY_LOOKUP_UNAVAILABLE'):
+                updates._fetch(self.url)
+
+    def test_fallback_fetch_keeps_host_timeout_size_and_redirect_guards(self):
+        observed = {}
+        case = self
+        class Response:
+            status = 200
+            def __enter__(self): return self
+            def __exit__(self, *_): return False
+            def geturl(self): return case.url
+            def read(self, size): observed['read_limit'] = size; return b'synthetic response'
+        class Opener:
+            def open(self, request, timeout):
+                observed.update(url=request.full_url, timeout=timeout)
+                return Response()
+        def build(*handlers):
+            observed['handlers'] = handlers
+            return Opener()
+        with patch.dict(updates.os.environ, {'NO_PROXY':'localhost'}, clear=True), \
+                patch.object(updates.sys, 'platform', 'win32'), \
+                patch.object(updates.urllib_request, 'getproxies_registry', return_value={'https':'http://synthetic.invalid:8888'}, create=True), \
+                patch.object(updates, 'build_opener', side_effect=build) as builder:
+            self.assertEqual(updates._fetch(self.url), b'synthetic response')
+            self.assertEqual(builder.call_count, 1)
+            self.assertEqual(observed['timeout'], 12)
+            self.assertEqual(observed['read_limit'], updates._MAX + 1)
+            self.assertEqual(observed['url'], self.url)
+            with self.assertRaisesRegex(updates._Stop,'SOURCE_REDIRECT_REFUSED'):
+                observed['handlers'][0].redirect_request()
+            with self.assertRaisesRegex(updates._Stop,'SOURCE_URL_NOT_ALLOWED'):
+                updates._fetch('https://different.invalid/data')
+            self.assertEqual(builder.call_count, 1)
+
+    def test_network_failure_has_no_automatic_retry_with_system_proxy(self):
+        class Opener:
+            calls = 0
+            def open(self, request, timeout):
+                self.calls += 1
+                raise updates.URLError('synthetic connection failure')
+        opener = Opener()
+        with patch.dict(updates.os.environ, {'NO_PROXY':'localhost'}, clear=True), \
+                patch.object(updates.sys, 'platform', 'win32'), \
+                patch.object(updates.urllib_request, 'getproxies_registry', return_value={'https':'http://synthetic.invalid:8888'}, create=True), \
+                patch.object(updates, 'build_opener', return_value=opener):
+            with self.assertRaisesRegex(updates._Stop,'SOURCE_REQUEST_FAILED_NO_RETRY'):
+                updates._fetch(self.url)
+            self.assertEqual(opener.calls, 1)
+
+
 if __name__ == '__main__':
     unittest.main()

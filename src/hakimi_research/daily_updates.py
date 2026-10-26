@@ -19,9 +19,12 @@ from importlib.resources import files
 import io
 import json
 import math
+import os
 from pathlib import Path
 import re
 import stat
+import sys
+from urllib import request as urllib_request
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
@@ -198,13 +201,41 @@ class _NoRedirect(HTTPRedirectHandler):
         raise _Stop('SOURCE_REDIRECT_REFUSED')
 
 
+def _source_opener():
+    handlers = [_NoRedirect()]
+    if sys.platform == 'win32':
+        environment = urllib_request.getproxies_environment()
+        # NO_PROXY alone is a bypass rule, but makes Windows urllib's
+        # environment-or-registry lookup skip its configured system proxy.
+        # Explicit scheme settings, including empty ones, keep their precedence.
+        explicit_proxy = any(name.lower().endswith('_proxy') and name.lower() != 'no_proxy'
+                             for name in os.environ)
+        if set(environment) == {'no'} and not explicit_proxy:
+            registry = getattr(urllib_request, 'getproxies_registry', None)
+            if not callable(registry):
+                raise _Stop('SOURCE_SYSTEM_PROXY_LOOKUP_UNAVAILABLE')
+            try:
+                proxies = registry()
+                if type(proxies) is not dict or any(type(key) is not str or type(value) is not str
+                                                    for key, value in proxies.items()):
+                    raise ValueError('invalid system proxy mapping')
+                if proxies:
+                    # ProxyHandler still uses urllib.proxy_bypass, so the
+                    # original NO_PROXY exclusions remain effective. Proxy
+                    # addresses/credentials are not added to saved source receipts.
+                    handlers.append(urllib_request.ProxyHandler(proxies))
+            except (OSError, ValueError, TypeError):
+                raise _Stop('SOURCE_SYSTEM_PROXY_LOOKUP_FAILED') from None
+    return build_opener(*handlers)
+
+
 def _fetch(url):
     parsed = urlsplit(url)
     _require(parsed.scheme == 'https' and parsed.netloc == 'query1.finance.yahoo.com'
              and parsed.path.startswith('/v8/finance/chart/'), 'SOURCE_URL_NOT_ALLOWED')
     request = Request(url, headers={'User-Agent': 'Mozilla/5.0 HakimiResearch/0.6', 'Accept': 'application/json'})
     try:
-        with build_opener(_NoRedirect()).open(request, timeout=12) as response:
+        with _source_opener().open(request, timeout=12) as response:
             _require(response.geturl() == url and response.status == 200, 'SOURCE_RESPONSE_NOT_SUCCESSFUL')
             raw = response.read(_MAX + 1)
     except HTTPError as exc:
