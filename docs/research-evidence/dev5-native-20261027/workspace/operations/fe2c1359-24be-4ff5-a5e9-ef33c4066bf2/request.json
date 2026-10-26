@@ -1,0 +1,9 @@
+{
+  "request_hash": "2919d6b448d2eef5b71aa33d1653b549c5ff83fe150e82fad74db5f2e9de48f9",
+  "request": {
+    "snapshot": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+    "action": "check_stock_update",
+    "operation_id": "fe2c1359-24be-4ff5-a5e9-ef33c4066bf2"
+  },
+  "recorded_at": "2026-10-26T23:37:27.452925Z"
+}

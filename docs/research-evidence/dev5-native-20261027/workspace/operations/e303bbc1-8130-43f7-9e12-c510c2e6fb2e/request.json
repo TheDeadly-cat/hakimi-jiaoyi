@@ -1,0 +1,26 @@
+{
+  "request_hash": "d4d325dfdf65e2a73574b4a9c3f3aaf558d5d12f9b04fec037cac73d07cb5f90",
+  "request": {
+    "guided": true,
+    "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "title": "NDAQ 双均线入门 5/10",
+    "strategy": "price.dual_ma@1",
+    "params": {
+      "fast_window": 5,
+      "slow_window": 10,
+      "position_pct": 0.25,
+      "stop_loss_pct": 0.03,
+      "take_profit_pct": 0.06
+    },
+    "score_start": "2026-10-15",
+    "score_end": "2026-10-26",
+    "initial_cash": 10000,
+    "fee_rate": 0.0008,
+    "slippage_pct": 0.0005,
+    "snapshot": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+    "event_context": null,
+    "action": "create_task",
+    "operation_id": "e303bbc1-8130-43f7-9e12-c510c2e6fb2e"
+  },
+  "recorded_at": "2026-10-26T23:35:12.338394Z"
+}

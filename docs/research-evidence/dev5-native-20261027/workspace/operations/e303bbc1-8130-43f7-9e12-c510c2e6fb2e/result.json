@@ -1,0 +1,154 @@
+{
+  "operation_id": "e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+  "ok": true,
+  "status": "COMMITTED",
+  "result": {
+    "family": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+    "family_id": "051add03c1a4439da748a63ca582a5a5",
+    "title": "NDAQ 双均线入门 5/10",
+    "state": "ENABLED",
+    "selected_revision": "r0001-111fe0f7bd3c4083a92ebe47ecce5196",
+    "revisions": [
+      "r0001-111fe0f7bd3c4083a92ebe47ecce5196"
+    ],
+    "sequence": 1,
+    "event_hash": "8606b583a8388a2b24787930713c0b64ceb3845b4a6eefdaa7cdc2d17fae87e5",
+    "uncommitted_versions_retained": [],
+    "task_id": "dce07104c4d5ec53a7772030f8239c836abacf1626851dafa8c78ca8168fb133",
+    "strategy": "price.dual_ma@1",
+    "inputs": {
+      "snapshot": {
+        "kind": "PRICE_SNAPSHOT",
+        "input_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+        "security": {
+          "currency": "USD",
+          "exchange": "XNAS",
+          "instrument_type": "COMMON_STOCK",
+          "security_id": "IMPORTED:YAHOO:XNAS:NDAQ:check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+          "symbol": "NDAQ"
+        },
+        "coverage_start": "2026-09-29",
+        "coverage_end": "2026-10-26",
+        "sessions": 20,
+        "price_basis": "RAW_UNADJUSTED",
+        "volume_unit": "shares",
+        "timezone": "America/New_York",
+        "as_of": "2026-10-26T23:34:13.738139Z",
+        "retrieved_at": "2026-10-26T23:34:13.738139Z",
+        "bar_availability_lag_seconds": 60,
+        "availability_policy": "SESSION_CLOSE_PLUS_DECLARED_LAG_NOT_HISTORICAL_RECEIPT",
+        "source": {
+          "name": "Yahoo raw quote CSV; eight-decimal formatting, no adjustment",
+          "reference": "https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?period1=1780286400&period2=1793073600&interval=1d&events=div%2Csplits&includePrePost=false",
+          "retrieved_at": "2026-10-26T23:34:13.738139Z",
+          "raw_sha256": "16a9f22c8afef7bb4aef03584a4f346d241fe98dfd66cc1e3ea1c143d119b887"
+        },
+        "security_identity_status": true,
+        "calendar_coverage": "SOURCE_BACKED_IMPORTER_DECLARATION_NOT_EXTERNAL_TRUTH",
+        "corporate_actions": "ACTION_FREE_FIXED_WINDOW_ONLY",
+        "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+        "evidence_kind": "IMPORTED_UNVERIFIED",
+        "status": "READY",
+        "reasons": [],
+        "path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\versions\\r0001-111fe0f7bd3c4083a92ebe47ecce5196\\inputs\\snapshot.json",
+        "file_sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c"
+      },
+      "research": null,
+      "event_rule": null,
+      "input_change_policy": "NEW_IMMUTABLE_TASK_VERSION_OLD_RUNS_KEEP_FROZEN_INPUTS"
+    },
+    "viewed_revision": "r0001-111fe0f7bd3c4083a92ebe47ecce5196",
+    "configuration": {
+      "requested": {
+        "strategy": {
+          "name": "dual_ma",
+          "params": {
+            "fast_window": 5,
+            "position_pct": 0.25,
+            "slow_window": 10,
+            "stop_loss_pct": 0.03,
+            "take_profit_pct": 0.06
+          }
+        },
+        "risk": {
+          "max_daily_loss_pct": 1.0,
+          "max_leverage": 1.0,
+          "max_position_pct": 0.25,
+          "max_single_loss_pct": 0.03,
+          "min_cash_pct": 0.0
+        },
+        "initial_cash": 10000,
+        "fee_rate": 0.0008,
+        "slippage_pct": 0.0005,
+        "score_start_session": "2026-10-15",
+        "score_end_session": "2026-10-26"
+      },
+      "effective": {
+        "initial_cash": 10000,
+        "fee_rate": 0.0008,
+        "slippage_pct": 0.0005,
+        "allocation_pct": 0.25,
+        "max_position_pct": 0.25,
+        "min_cash_pct": 0.0,
+        "leverage": 1,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.06,
+        "max_daily_loss_pct": 1.0,
+        "strategy_parameters": {
+          "fast_window": 5,
+          "slow_window": 10,
+          "position_pct": 0.25,
+          "stop_loss_pct": 0.03,
+          "take_profit_pct": 0.06
+        }
+      },
+      "risk_policy": "STANDARD_STRATEGY_RISK",
+      "exit_rule": "均线退出＋有效止损/止盈；期末按市值",
+      "notes": [
+        "请求和生效值以保存的配置为准；实际下单数量受现金、费用和成交约束，可低于目标仓位。",
+        "单笔约束是止损价格距离，不保证账户损失上限；日亏损约束仅阻止新 BUY，按 UTC 日计算。"
+      ]
+    },
+    "scoring": {
+      "score_start": "2026-10-15T13:30:00Z",
+      "score_end": "2026-10-26T20:00:00Z",
+      "available_context_sessions": 12,
+      "required_context_sessions": 12,
+      "scored_sessions": 8,
+      "warmup_trading": false,
+      "annualization": "252_REGULAR_SESSIONS_PER_YEAR_DESCRIPTIVE_ASSUMPTION",
+      "bar_availability_lag_seconds": 60,
+      "session_clock_hash": "b2a078f67001260ad92aa5f83843b6dac746d7fe8e94e30acb2dca1c7f410013",
+      "company_actions": "DECLARED_ACTION_FREE_WINDOW_ONLY",
+      "parameter_selection": false,
+      "confirmation_evaluation": false
+    },
+    "task_file": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\versions\\r0001-111fe0f7bd3c4083a92ebe47ecce5196\\task.json",
+    "ref": "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+    "workflow": {
+      "guided": true,
+      "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+      "step": "TASK_CREATED",
+      "recorded_at": "2026-10-26T23:35:12.736595Z",
+      "operation_id": "e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+      "snapshot_ref": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+      "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+      "task_ref": "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+      "task_id": "dce07104c4d5ec53a7772030f8239c836abacf1626851dafa8c78ca8168fb133",
+      "workflow_hash": "7d536e02abe4c0a78b1f3a4d4bc185d4f1d00971a64828c2d9cdac3982334a8a"
+    }
+  },
+  "recorded_at": "2026-10-26T23:35:12.736595Z",
+  "workflow": {
+    "guided": true,
+    "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "step": "TASK_CREATED",
+    "recorded_at": "2026-10-26T23:35:12.736595Z",
+    "operation_id": "e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+    "snapshot_ref": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+    "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+    "task_ref": "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+    "task_id": "dce07104c4d5ec53a7772030f8239c836abacf1626851dafa8c78ca8168fb133",
+    "workflow_hash": "7d536e02abe4c0a78b1f3a4d4bc185d4f1d00971a64828c2d9cdac3982334a8a"
+  }
+}

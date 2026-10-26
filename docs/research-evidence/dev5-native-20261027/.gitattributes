@@ -1,0 +1,3 @@
+native/*.jpg binary -whitespace
+native/*.txt -whitespace
+workspace/**/*.bin binary -whitespace

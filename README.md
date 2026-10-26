@@ -4,9 +4,9 @@
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
 
-第一次使用请看[新手首用说明](docs/first-use.md)：取得维护者交付的完整 Windows x64 试用 ZIP，解压后双击 `HakimiWorkbench.exe`。程序自带运行时，无须输入安装命令；当前包 `哈基米试用 dev5-f778020-r1.zip` 的身份与进度见[dev5 后台修复与桌面待续记录](docs/first-stock-live-progress-20261027.md)，打包范围见[Windows 试用包说明](docs/windows-trial-package.md)。干净新机和独立真人试用由用户后续安排，目前没有替代这两项验收。
+第一次使用请看[新手首用说明](docs/first-use.md)：取得维护者交付的完整 Windows x64 试用 ZIP，解压后双击 `HakimiWorkbench.exe`。程序自带运行时，无须输入安装命令；当前包 `哈基米试用 dev5-f778020-r1.zip` 已完成[本机原生首用验收](docs/dev5-native-acceptance-20261027.md)，打包范围见[Windows 试用包说明](docs/windows-trial-package.md)。干净新机、非管理员和独立真人试用由用户后续安排。
 
-**dev5已完成415项安装检查和7项流程，并从中文、空格目录打开首屏；真实NDAQ获取、保存、运行、成功后重开及“今天可以做什么”入口仍未验收。** 用户正在使用电脑，已明确要求稍后继续桌面操作；当前不再点击或写入工作台，也不以接口替代点击。传输对照与离线修复通过不能当成新包真实联网成功。旧dev4示例、成本和重开证据，以及两次NDAQ STOP和46份记录，原样保留在[旧首用验收](docs/first-use-acceptance-20261026.md)。
+**dev5已通过本机NDAQ真实获取、确认保存、固定参数运行及同入口关闭重开。** “今天可以做什么”入口已实际点击，明确检查一次得到无新完整日线；原结果重开可读，没有重跑。此次8个评分日、0成交、收益0，样本不足，不代表策略有效。[此前桌面暂停记录](docs/first-stock-live-progress-20261027.md)及[旧dev4验收](docs/first-use-acceptance-20261026.md)保留当时结论，两次NDAQ STOP和旧46份记录保持不变。
 
 开发候选仍在[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)，未作为正式 Release 发布。已有用户可查看[日常入口、版本身份与旧账户处理](docs/daily-delivery.md)。原终端、旧安装和旧工作区保持独立；dev3 及更早验收、NDAQ 财报排期反馈闭环均保留原构建身份。工程验收不代表策略有效。
 
@@ -27,7 +27,7 @@ M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoy
 
 2026-10-23 的 `2036fdb` 补齐观察中断后的显式恢复入口及账本位置校验；[独立恢复演练](docs/research-evidence/watch-recovery-20261023/README.md)记录普通安装、真实子进程中断、桌面点击、重开与历史文件保全。原 NDAQ 真实反馈成果继续保留，未重复运行。
 
-**维护者手动安装（可选）：**安装本候选的 `hakimi-research` wheel，运行 `hakimi-trade-workbench --open-browser` 打开正式工作台，或使用候选 Electron 的“正式研究工作台”入口。新任务默认调用 `hakimi_research`；工作区可显式选择，关闭重开保留输入、任务版本与结果。完整步骤、旧引擎兼容和验证状态见[正式工作台与版本入口](docs/workbench.md)。当前dev5的安装证据与待验收项见[进度记录](docs/first-stock-live-progress-20261027.md)；dev4的本机流程见[旧首用验收](docs/first-use-acceptance-20261026.md)。前一dev3的安装和后台验证见[数据持续使用验收](docs/data-continuity-acceptance-20261025.md)，其实际点击与关闭重开见[原生桌面验收](docs/data-continuity-native-acceptance-20261025.md)，运行构建与最新 GitHub 检查分别核对；未发布为正式 Release。
+**维护者手动安装（可选）：**安装本候选的 `hakimi-research` wheel，运行 `hakimi-trade-workbench --open-browser` 打开正式工作台，或使用候选 Electron 的“正式研究工作台”入口。新任务默认调用 `hakimi_research`；工作区可显式选择，关闭重开保留输入、任务版本与结果。完整步骤、旧引擎兼容和验证状态见[正式工作台与版本入口](docs/workbench.md)。当前dev5的安装身份与实际点击流程见[原生首用验收](docs/dev5-native-acceptance-20261027.md)；[此前暂停记录](docs/first-stock-live-progress-20261027.md)及dev4的[旧首用验收](docs/first-use-acceptance-20261026.md)保持原样。前一dev3的安装和后台验证见[数据持续使用验收](docs/data-continuity-acceptance-20261025.md)，其实际点击与关闭重开见[原生桌面验收](docs/data-continuity-native-acceptance-20261025.md)，运行构建与最新 GitHub 检查分别核对；未发布为正式 Release。
 
 正式版本从 [v0.2.1 Release](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1) 下载 Windows 或 Ubuntu ZIP；核对发布页的 `SHA256SUMS.txt` 后解压，再核对包内校验和。两个 ZIP 各自保留确切受验收 wheel 与构建、依赖、测试证据；安装解压出的 `hakimi_research-0.2.1-py3-none-any.whl` 会按精确版本安装依赖，离线安装需另备依赖 wheel。该版本固定在 `45850899992361970043f2da70e785210025ae9e`，[发布下载与安装验收](docs/research-evidence/release-0.2.1-20260909/README.md)记录实际验证范围。
 
