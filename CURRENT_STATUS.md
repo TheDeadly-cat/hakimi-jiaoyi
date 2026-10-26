@@ -2,18 +2,20 @@
 
 本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1、M2、M3-1 与 R1／R2／R3 已集成，M2-2 的两项 P2 和 PR #25 跨归属退出修复保持关闭。当前开发范围为 P0 整合、美股日线 M3-2 连续运行及一种财报排期研究输入；P2 数据范围增强和 P3 受控交易留待后续。主分支集成以实际合并提交及其检查为准。
 
-整理日期：2026-10-26。[PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合并至 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`，[该 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 结论为成功，原 Windows／Ubuntu 安装各 299 项。`0.5.0.dev4` CLEAN 构建 `e003dd8` 的 wheel、共享流程 v4、启动器及旧 dev3 只读兼容证据保留原身份；首次时限取消日志不抹去。见[修复证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。日常交付候选升为 `0.6.0.dev3`，默认新计算使用正式 `hakimi_research`，旧引擎和原桌面保留；[当前入口、构建身份与旧账户处理](docs/daily-delivery.md)。候选工程检查、实际工作台流程、真实数据与远端 CI 分别验收。
+整理日期：2026-10-26。[PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合并至 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`，[该 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 结论为成功，原 Windows／Ubuntu 安装各 299 项。`0.5.0.dev4` CLEAN 构建 `e003dd8` 的 wheel、共享流程 v4、启动器及旧 dev3 只读兼容证据保留原身份；首次时限取消日志不抹去。见[修复证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。日常交付候选升为 `0.6.0.dev4`，默认新计算使用正式 `hakimi_research`，旧引擎和原桌面保留；[当前入口、构建身份与旧账户处理](docs/daily-delivery.md)。候选工程检查、实际工作台流程、真实数据与远端 CI 分别验收。
 
 用户已要求暂时放下Unknown记录：异常排查及T3实际验收暂缓，等待明确恢复；其余已完成交付保留。以下T3证据为暂缓前的历史状态。
 
-当前开发仍在[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)。dev3 CLEAN 运行构建 `4338490` 的普通安装 391 项和 7 项流程通过；现已完成原生修订确认、冻结、新任务版本、独立账户及同入口关闭重开，366 文件重开前后逐字一致，见[新增原生验收](docs/data-continuity-native-acceptance-20261025.md)。前一 dev2 构建 `6680aa9` 的[382 项及原生验收](docs/daily-delivery-acceptance-20261025.md)保留原身份。文档提交不改签安装包，最新 GitHub HEAD CI 在 PR 单独核对。
+当前开发仍在[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)。dev4 增加自带运行时试用包、虚构示例、首只股票准备、步骤引导、中文错误解释及已保存进度恢复；[首用说明](docs/first-use.md)和[独立首用验收](docs/first-use-acceptance-20261026.md)记录实际范围。CLEAN 产品构建 `0ea9c99` 的普通安装408项、7项流程通过；最终桌面壳为`b1bdc57`。本机示例、成本和重开通过，但NDAQ两次在线检查停止，真实首次取数未通过，真实新增运行0。用户已明确后续安排干净新机与独立真人试用，本轮不冒称完成。
+
+dev3 CLEAN 运行构建 `4338490` 的普通安装 391 项和 7 项流程，以及原生修订确认、冻结、新任务版本、独立账户与同入口关闭重开的366文件保全证据，见[原生验收](docs/data-continuity-native-acceptance-20261025.md)。前一 dev2 构建 `6680aa9` 的[382 项及原生验收](docs/daily-delivery-acceptance-20261025.md)保留原身份。文档提交不改签安装包，最新 GitHub HEAD CI 在 PR 单独核对。
 
 前一已验收日常候选为 `528181c961bdc6307d88334971568ba42285aaee`，运行源码构建 `7f61da4`、包版本 `0.6.0.dev1`：[11 项 CI 成功](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/39874347914)，普通安装 379 项及 7 项安装流程通过，详见[日常验收](docs/daily-workbench-acceptance-20261023.md)。更早的 `166e18e`（350 项）及 NDAQ 排期闭环保持原身份，它们不是本轮当前构建。两份日常 NDAQ/KO 结果各为 15 个评估交易日、1 次完整买卖、2 次成交；后续固定参数检查仍为 NOT_RUN，不能由工程通过推导策略有效。
 
 | 层次 | 已核实状态 |
 |---|---|
 | 当前 main | [PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合入 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`；[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 成功，Windows／Ubuntu 安装各 299 项；M3-1 主体与跨归属退出修复已集成 |
-| 当前开发候选 | `0.6.0.dev3`，CLEAN 运行构建 `4338490`，草稿 PR #26；普通安装 391 项、7 项流程、后台界面与原生点击及关闭重开均已验收。[原生验收与保全](docs/data-continuity-native-acceptance-20261025.md) · [先前后台验收](docs/data-continuity-acceptance-20261025.md) · [使用流程](docs/daily-workbench.md)。XNAS 2027 年表尚未核实；最新 HEAD CI 在 PR 单独核对。旧构建、包和记录继续保留 |
+| 当前开发候选 | `0.6.0.dev4`，CLEAN 产品构建 `0ea9c99`，草稿 PR #26；普通安装408项、7项流程，首用、错误恢复、启动身份与原生证据见[首用验收](docs/first-use-acceptance-20261026.md)。[首次使用](docs/first-use.md) · [试用包](docs/windows-trial-package.md) · [日常流程](docs/daily-workbench.md)。干净新机和真人试用后置；XNAS 2027 年表尚未核实。最新 HEAD CI 在 PR 单独核对；旧构建、包和记录继续保留 |
 | 正式公开 Release | `v0.2.1` 是封存发行版本；本日常候选未合并、未发布为 Release，不把候选能力写成该发行版已有能力 |
 | 前一 M3-1 main | PR #24 的 `09ee21ed2354fb1338b5b6519efa261146036b0b`、受审 `1ee0a78`、原九项 CI 和两平台 295 项均为历史身份；后由 PR #25 修复跨归属退出 |
 | 前一 M2-2 main | [PR #22](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/22) 经用户对 `0059359` 单独批准，于 2026-10-10 17:30:04 UTC+8 合入 `57b6bd4ec2263f6d390257fde7e787f44a084d85`；内容树 `3f694f17be4e85aa4ca5fb696482c5bb1125a366` 与受审 head 相同。[实际 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38041602339) 九项成功，Windows／Ubuntu 安装各 253 项、输入及 R3 流程通过。M1、M2-1 和 R1／R2／R3 保持关闭 |

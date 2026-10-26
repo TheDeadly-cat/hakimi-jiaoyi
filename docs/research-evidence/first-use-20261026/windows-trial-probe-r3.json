@@ -1,0 +1,50 @@
+{
+  "schema_version": "windows-trial-private-runtime-probe-v1",
+  "recorded_at": "2026-10-26T15:29:08.538Z",
+  "status": "PASS_PRIVATE_RUNTIME_AND_FILE_IDENTITY",
+  "program_root": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3",
+  "bundle_id": "a1988ddf2481d46629ddf3393b565daac3aec711f8692eecf5d44a775046ff7f",
+  "hashed_files_verified_before_and_after": 7095,
+  "manifest_unchanged": true,
+  "program_files_unchanged": true,
+  "command": {
+    "executable": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\python.exe",
+    "args": [
+      "-I",
+      "-B",
+      "-X",
+      "utf8",
+      "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\resources\\app\\runtime-probe.py"
+    ],
+    "cwd": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3",
+    "shell": false,
+    "windowsHide": true,
+    "externalPythonHomeRemoved": true,
+    "externalPythonPathRemoved": true
+  },
+  "python_version": "3.14.6",
+  "package_directory": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\Lib\\site-packages\\hakimi_research",
+  "source_sha256": "695522c5f77e02f8189484ef97eb30f48ea64b30a582c64a4e18c08710eba766",
+  "source_build_commit": "0ea9c9977545285a963b548eb5b4ebe953414a06",
+  "source_build_status": "CLEAN",
+  "python_prefix": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python",
+  "python_base_prefix": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python",
+  "import_search_paths": [
+    "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\python314.zip",
+    "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\DLLs",
+    "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\Lib",
+    "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python",
+    "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\Lib\\site-packages"
+  ],
+  "probe_subprocesses": 1,
+  "new_economic_runs": 0,
+  "new_backend_servers": 0,
+  "new_desktop_windows": 0,
+  "new_market_requests": 0,
+  "workspace_accessed_by_this_probe": false,
+  "clean_windows_acceptance": "NOT_PERFORMED",
+  "limitations": [
+    "Existing developer host and host Node used as read-only harness; actual private runtime and full search paths verified.",
+    "No relocation copy or native Electron product launch by this probe; parent native acceptance proceeds independently."
+  ]
+}

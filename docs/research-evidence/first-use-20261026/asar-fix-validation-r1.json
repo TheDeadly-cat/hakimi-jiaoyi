@@ -1,0 +1,54 @@
+{
+  "schema_version": "trial-asar-fix-validation-v1",
+  "recorded_at": "2026-10-26T14:51:34.903165Z",
+  "status": "PASS_TARGETED_CHECKS_NATIVE_R2_PENDING",
+  "base_commit": "0ea9c9977545285a963b548eb5b4ebe953414a06",
+  "changed_files_sha256": {
+    "outputs/hakimi_trade_electron/trial-main.js": "7831933c6f152c561e61b647051884b7ac1445db9fe13281088850f6fb7387be",
+    "outputs/hakimi_trade_electron/trial-main.test.js": "180addc9744bf252c0fcc8c908ff20eadc94ab199d3094dafb3f16771103ddba",
+    "outputs/hakimi_trade_electron/trial-main.electron-test.js": "bedd083da309a426e26e54c817a0614fd2b1f6c9c43746dfd8d05937e56e97f4",
+    "outputs/hakimi_trade_electron/package.json": "099b31e0bc596331c2bd5862fc3fd420a1f85d860ae8bf073009c3312733b1cd",
+    "docs/windows-trial-package.md": "b2e00935492a614bff8bfdeea1e4b9d46c65d7686f2c2224d511d208c2c1f524"
+  },
+  "evidence_sha256": {
+    "asar-fix-node-tests-r1.log": "13cdfbd0298f0a758c480b5051443498e9260def08e8e5a5f602bb628c6afc49",
+    "electron-asar-regression-r1/browser-result.json": "593005590f820ef0786d18649a84118ef1f4a4ff9b6b7a1e61176ec2eb69c4b3",
+    "electron-asar-regression-r1/package-entry-result.json": "f4bb06f004b937d0efbe10f763107a940d507cdb8ef7fd16fa2a60483df51d0f",
+    "electron-asar-regression-r1/summary.json": "e8a9b243d5ae01dbff0fade812f2ec9ccf7c15dce93c3f4d921e1db3a8e09130"
+  },
+  "preserved": [
+    {
+      "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-0ea9c99-r1\\trial-manifest.json",
+      "expected_sha256": "7cb2e519b88a5c2ae4c5bcbcd6bba561c1886f69c142534e00189cd4fafadf45",
+      "actual_sha256": "7cb2e519b88a5c2ae4c5bcbcd6bba561c1886f69c142534e00189cd4fafadf45",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-0ea9c99-r1.zip",
+      "expected_sha256": "e7fe95fbc76f41bcddcdb8d6e54d4474336abeb2b1acad56a060cf7e8eec4483",
+      "actual_sha256": "e7fe95fbc76f41bcddcdb8d6e54d4474336abeb2b1acad56a060cf7e8eec4483",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\acceptance-r2\\dist\\hakimi_research-0.6.0.dev4-py3-none-any.whl",
+      "expected_sha256": "13a95c28bb4717a98f9fc5abb5076142e855212c457e9e0c9939830fe3f0a846",
+      "actual_sha256": "13a95c28bb4717a98f9fc5abb5076142e855212c457e9e0c9939830fe3f0a846",
+      "unchanged": true
+    }
+  ],
+  "node_tests": {
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0
+  },
+  "actual_electron_browser_processes": 2,
+  "verified_r1_program_files": 7095,
+  "asar_excluded_from_verification": false,
+  "new_backend_starts": 0,
+  "new_windows": 0,
+  "new_economic_runs": 0,
+  "product_python_changed": false,
+  "packaged_r2_created": false,
+  "clean_windows_acceptance": "NOT_PERFORMED",
+  "scope": "Original archive bytes verified with Electron original-fs. Real browser imports and synthetic package entry validated; original failed bundle and accepted wheel unchanged. Does not replace native complete acceptance of r2."
+}

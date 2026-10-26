@@ -1,0 +1,8 @@
+{
+  "schema_version": "workbench-desktop-diagnostic-v1",
+  "recorded_at": "2026-10-26T14:37:30.348Z",
+  "state": "TRIAL_STARTUP_FAILED",
+  "error": "ENOENT,  not found in C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-0ea9c99-r1\\resources\\default_app.asar",
+  "bundle_id": null,
+  "new_economic_calculations": 0
+}
