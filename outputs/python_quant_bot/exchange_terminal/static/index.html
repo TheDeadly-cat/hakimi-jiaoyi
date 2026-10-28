@@ -754,7 +754,9 @@
           <div class="market-ai-form">
             <textarea id="marketAiQuestion" placeholder="向AI提问：当前标的是趋势延续、回调还是反转？多空证据分别是什么？"></textarea>
             <div>
-              <button id="runMarketAiAnalysis">双AI分析</button>
+              <label for="marketAiLength">分析长度</label>
+              <select id="marketAiLength"><option value="1800">完整</option><option value="768">简要</option></select>
+              <button id="runMarketAiAnalysis">开始AI分析</button>
               <button id="refreshMarketAiSnapshot" class="ghost-button">刷新快照</button>
             </div>
           </div>
@@ -762,17 +764,17 @@
           <div class="market-ai-reports">
             <article class="market-ai-report deepseek">
               <header>
-                <strong>DeepSeek 第一遍</strong>
+                <strong>DeepSeek 分析</strong>
                 <span id="marketAiDeepSeekBadge">等待</span>
               </header>
-              <div id="marketAiDeepSeekReport">点击“双AI分析”后显示初评。</div>
+              <div id="marketAiDeepSeekReport">点击“开始AI分析”后显示分析；未配置时会明确跳过。</div>
             </article>
             <article class="market-ai-report gpt">
               <header>
-                <strong>GPT 第二遍复核</strong>
+                <strong>GPT 分析 / 复核</strong>
                 <span id="marketAiGptBadge">等待</span>
               </header>
-              <div id="marketAiGptReport">DeepSeek 初评完成后交给 GPT 做二次复核。</div>
+              <div id="marketAiGptReport">有 DeepSeek 初评时进行复核，否则按当前行情独立分析。</div>
             </article>
           </div>
           <section class="trading-agents-panel">
@@ -790,7 +792,7 @@
                 <span id="runtimeKeyState">环境接入 + 运行时内存</span>
               </div>
               <div class="runtime-key-note">
-                OpenAI 可从本机忽略文件载入；在这里手动粘贴的其他密钥只进入当前后端进程内存，刷新不显示明文，重启自动失效。
+                AI 可从本机配置载入；在这里手动粘贴的密钥只保存在当前后端进程内存中，重启后失效。
               </div>
               <div class="runtime-key-grid">
                 <label><span>GPT</span><input id="runtimeOpenAIKey" type="password" autocomplete="off" placeholder="OPENAI / GPT Key"></label>
@@ -925,9 +927,16 @@
               <input id="reduceOnly" type="checkbox">
               <span>只减仓</span>
             </label>
-            <button id="analyzeStrategy">AI分析</button>
             <div id="strategyAnalysis" class="strategy-analysis">等待策略分析</div>
           </div>
+          <section class="strategy-ai-panel" aria-label="当前图表策略分析">
+            <div class="strategy-ai-actions">
+              <button id="analyzeLocalStrategy">本地规则分析</button>
+              <button id="analyzeStrategy">DeepSeek 策略分析</button>
+            </div>
+            <div id="strategyAiState" class="strategy-analysis" aria-live="polite">等待当前图表与策略参数的 AI 分析</div>
+            <div id="strategyAiReport" class="market-ai-raw"></div>
+          </section>
           <div id="aiAnalysisCards" class="ai-analysis-cards"></div>
           <div class="manual-trade-layout" data-archived-capability-surface>
             <div>
@@ -1659,7 +1668,7 @@
 
       <section class="history-panel">
         <div class="panel-title">
-          <strong>往期日线价格库</strong>
+          <strong>BTC 本地日线价格库</strong>
           <span id="historySummary">读取中</span>
         </div>
         <div class="history-wrap">
@@ -2069,18 +2078,18 @@
         <section class="code-worker-panel">
           <div class="panel-title">
             <strong>DeepSeek 开发助手</strong>
-            <span id="codeWorkerState">草稿模式</span>
+            <span id="codeWorkerState">已归档 · 不执行</span>
           </div>
           <div class="code-worker-form">
-            <textarea id="codeWorkerTask" placeholder="整理开发任务、生成说明、起草测试或重构计划。"></textarea>
-            <select id="codeWorkerMode">
+            <textarea id="codeWorkerTask" disabled aria-disabled="true" placeholder="开发助手已归档，旧草稿文件保留。"></textarea>
+            <select id="codeWorkerMode" disabled aria-disabled="true">
               <option value="draft">代码草稿</option>
               <option value="explain">解释整理</option>
               <option value="refactor_plan">重构计划</option>
               <option value="test_draft">测试草稿</option>
             </select>
-            <button id="runCodeWorker">交给 DeepSeek</button>
-            <button id="refreshCodeWorker" class="ghost-button">刷新</button>
+            <button id="runCodeWorker" disabled aria-disabled="true">开发助手已归档</button>
+            <button id="refreshCodeWorker" class="ghost-button">查看说明</button>
           </div>
           <div id="codeWorkerRows" class="code-worker-list"></div>
         </section>
@@ -2110,9 +2119,10 @@
   <script src="./chart_controller.js?v=20260810-refresh-coordinator-1"></script>
   <script src="./stock_quote_guard.js?v=20260811-stock-quote-context-1"></script>
   <script src="./evidence_presentation.js?v=20260821-correlation-multiplicity-ledger-1"></script>
-  <script src="./terminal-quant-ui.js?v=20261020-linked-1"></script>
+  <script src="./terminal-quant-ui.js?v=20261029-integrated-1"></script>
   <script src="./quant-module.js?v=20261020-integrated-1"></script>
-  <script src="./app.js?v=20260821-correlation-multiplicity-ledger-1"></script>
+  <script src="./market-websocket.js?v=20261029-integrated-1"></script>
+  <script src="./app.js?v=20261029-integrated-1"></script>
 </body>
 </html>
 

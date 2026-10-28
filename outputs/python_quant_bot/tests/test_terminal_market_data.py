@@ -1,11 +1,13 @@
 """Synthetic SQLite fixtures only; no real runtime, broker, provider or model."""
+from copy import deepcopy
 from hashlib import sha256
 import importlib.util
 from pathlib import Path
 import sqlite3
 import tempfile
+from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 
 SPEC = importlib.util.spec_from_file_location("terminal_market_data_under_test",
@@ -148,7 +150,7 @@ class TerminalMarketDataTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "symbol_invalid"):
                     self.read(symbol)
 
-    def test_digest_ignores_read_clock_but_includes_database_file_identity(self):
+    def test_confirmation_ignores_fetch_clock_and_retains_full_observation(self):
         db = self.database(rows=[{}])
         one = market.TerminalMarketReader(self.root, now_ms=lambda: 1)("BTC-USDT")
         two = market.TerminalMarketReader(self.root, now_ms=lambda: 9999999999999)("BTC-USDT")
@@ -157,7 +159,110 @@ class TerminalMarketDataTests(unittest.TestCase):
         connection = sqlite3.connect(db)
         connection.execute("UPDATE market_daily_candles SET fetched_at=fetched_at+1")
         connection.commit();connection.close()
-        self.assertNotEqual(one["digest"], self.read()["digest"])
+        three = self.read()
+        self.assertEqual(one["digest"], three["digest"])
+        self.assertNotEqual(one["observation_digest"], three["observation_digest"])
+        self.assertNotEqual(one["meta"]["file_identity"], three["meta"]["file_identity"])
+        self.assertEqual(three["rows"][0]["fetched_at"], one["rows"][0]["fetched_at"] + 1)
+        self.assertEqual(three["meta"]["preview_digest_schema"], "hakimi-terminal-market-preview-v2")
+
+    def research_service(self, reader):
+        from exchange_terminal.services.terminal_research import TerminalResearchService
+        return TerminalResearchService(SimpleNamespace(workspace=self.root / "research-workspace"),
+                                       reader, Mock(), Mock(), Mock())
+
+    @staticmethod
+    def freeze_preview(service, preview):
+        return service.mutate("terminal_freeze_market", {"symbol": preview["symbol"],
+            "source_id": preview["source_id"], "expected_digest": preview["digest"]})
+
+    @staticmethod
+    def update_database(db, sql, params=()):
+        connection = sqlite3.connect(db)
+        try:
+            connection.execute(sql, params)
+            connection.commit()
+        finally:
+            connection.close()
+
+    def test_shared_database_unrelated_writes_do_not_block_selected_freeze(self):
+        db = self.database("stock", [{"symbol": "HK.00836"}, {"symbol": "HK.00836"},
+            {"symbol": "AAPL"}, {"symbol": "HK.00836", "interval": "1m"},
+            {"symbol": "HK.00836", "query_session": "all"},
+            {"symbol": "HK.00836", "source": "yahoo_adjusted"}])
+        reader = market.TerminalMarketReader(self.root)
+        preview = reader("HK.00836")
+        service = self.research_service(reader)
+        for where in ("symbol='AAPL'", "interval='1m'", "query_session='all'", "source='yahoo_adjusted'"):
+            with self.subTest(unrelated_selection=where):
+                self.update_database(db, "UPDATE stock_candles SET close=close+0.1 WHERE " + where)
+                current = reader("HK.00836", source_id=preview["source_id"])
+                self.assertEqual(preview["rows"], current["rows"])
+                self.assertEqual(preview["digest"], current["digest"])
+                self.assertNotEqual(preview["observation_digest"], current["observation_digest"])
+                frozen = self.freeze_preview(service, preview)
+                self.assertEqual(frozen["source_digest"], preview["digest"])
+                self.assertEqual(frozen["meta"]["file_identity"], current["meta"]["file_identity"])
+                self.assertEqual(frozen["rows"], current["rows"])
+                service.runner.assert_not_called()
+
+    def test_fetch_timestamp_refresh_freezes_current_provenance_and_retains_prior_input(self):
+        db = self.database("stock", [{"symbol": "HK.00836"}, {"symbol": "HK.00836"}])
+        reader = market.TerminalMarketReader(self.root)
+        preview = reader("HK.00836")
+        service = self.research_service(reader)
+        first = self.freeze_preview(service, preview)
+        path = service.workspace / "terminal-inputs" / (first["id"] + ".json")
+        before = path.read_bytes()
+        self.update_database(db, "UPDATE stock_candles SET fetched_at=fetched_at+1")
+        second = self.freeze_preview(service, preview)
+        self.assertEqual(second["source_digest"], first["source_digest"])
+        self.assertNotEqual(second["id"], first["id"])
+        self.assertNotEqual(second["meta"]["file_identity"], first["meta"]["file_identity"])
+        self.assertEqual(second["rows"][0]["fetched_at"], first["rows"][0]["fetched_at"] + 1)
+        self.assertEqual(service._input(first["id"])["rows"], first["rows"])
+        self.assertEqual(path.read_bytes(), before)
+
+    def test_selected_prices_dates_completion_and_source_changes_still_reject_freeze(self):
+        changes = {"open": 10.5, "high": 12.5, "low": 8.5, "close": 11.5, "volume": 101,
+                   "trading_date": "2024-01-05", "ts_ms": 1704412800000, "complete": 0,
+                   "source": "yahoo_adjusted", "query_session": "all", "interval": "1dutc"}
+        for field, value in changes.items():
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                db = self.database("stock", [{"symbol": "HK.00836"}], path=root / "stock_candles_cache.sqlite")
+                reader = market.TerminalMarketReader(root)
+                preview = reader("HK.00836")
+                service = self.research_service(reader)
+                self.update_database(db, "UPDATE stock_candles SET " + field + "=?", (value,))
+                with self.assertRaisesRegex(ValueError, "terminal_market_changed_preview_again"):
+                    self.freeze_preview(service, preview)
+                self.assertFalse(service.workspace.exists())
+                service.runner.assert_not_called()
+
+    def test_legacy_frozen_observation_digest_stays_readable_without_rewrite(self):
+        self.database("stock", [{"symbol": "HK.00836"}])
+        reader = market.TerminalMarketReader(self.root)
+        legacy = deepcopy(reader("HK.00836"))
+        legacy["meta"].pop("preview_digest_schema")
+        legacy.pop("observation_digest")
+        legacy["digest"] = market._digest({key: value for key, value in legacy.items()
+            if key not in ("digest", "available_sources", "source_diagnostics")})
+        service = self.research_service(Mock(return_value=legacy))
+        frozen = self.freeze_preview(service, legacy)
+        path = service.workspace / "terminal-inputs" / (frozen["id"] + ".json")
+        before = path.read_bytes()
+        service.market_reader = reader
+        self.assertNotEqual(reader("HK.00836")["digest"], legacy["digest"])
+        stored = service._input(frozen["id"])
+        self.assertEqual(stored["source_digest"], legacy["digest"])
+        self.assertEqual(stored["rows"], legacy["rows"])
+        self.assertNotIn("preview_digest_schema", stored["meta"])
+        self.assertEqual(path.read_bytes(), before)
+        # Provenance still participates in the immutable record seal.
+        path.write_bytes(before.replace(b'"fetched_at":1705000000000', b'"fetched_at":1705000000001'))
+        with self.assertRaisesRegex(ValueError, "terminal_record_changed_or_schema_invalid"):
+            service._input(frozen["id"])
 
     def test_catalog_is_local_deduplicated_and_does_not_touch_database_bytes(self):
         crypto = self.database(rows=[{}, {"symbol": "ETH-USDT"}])

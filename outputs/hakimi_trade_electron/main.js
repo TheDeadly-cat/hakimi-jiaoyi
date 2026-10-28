@@ -1,15 +1,18 @@
-const { app, BrowserWindow, Menu, Tray, dialog, shell } = require("electron");
+const { app, BrowserWindow, Menu, Tray, dialog, shell, session } = require("electron");
+const crypto = require("crypto");
 const childProcess = require("child_process");
 const fs = require("fs");
 const http = require("http");
 const net = require("net");
 const path = require("path");
 const { pathToFileURL } = require("url");
-const { configureRemoteDebugging, installNavigationPolicy, stopOwnedBackend } = require("./desktop-security-policy");
+const { configureRemoteDebugging, installNavigationPolicy } = require("./desktop-security-policy");
 const {
   classifyBackendHealthResponse,
   isLoopbackHost,
 } = require("./backend-runtime-contract");
+
+const { localResourceAllowed, quantPendingState, stopOwnedBackend } = require("./desktop-lifecycle");
 
 const APP_TITLE = "哈基米研究 · Legacy Preview";
 const HOST = String(process.env.HAKIMI_HOST || "127.0.0.1").trim().toLowerCase();
@@ -19,6 +22,8 @@ if (!isLoopbackHost(HOST) || !Number.isInteger(PORT) || PORT < 1 || PORT > 65535
 }
 const BASE_URL = `http://${HOST === "::1" ? "[::1]" : HOST}:${PORT}`;
 const HEALTH_URL = `${BASE_URL}/api/health`;
+const LOCAL_ONLY = ["1", "true", "yes", "on"].includes(String(process.env.HAKIMI_LOCAL_ONLY || "").trim().toLowerCase());
+const START_URL = process.env.HAKIMI_START_QUANT === "1" ? `${BASE_URL}/?workspace=quant` : BASE_URL;
 const ROOT_DIR = path.resolve(__dirname, "..");
 const PYTHON_ROOT = path.join(ROOT_DIR, "python_quant_bot");
 const SERVER_PATH = path.join(PYTHON_ROOT, "exchange_terminal", "server.py");
@@ -42,6 +47,12 @@ let backendProcess = null;
 let backendStartedByShell = false;
 let statusTimer = null;
 let quitting = false;
+let quitReady = false;
+let lifecycleBusy = false;
+let backendControlToken = null;
+let backendShutdownAccepted = false;
+let backendStopping = false;
+let localNetworkGuardInstalled = false;
 
 const singleInstanceLock = app.requestSingleInstanceLock();
 if (!singleInstanceLock) {
@@ -113,7 +124,11 @@ async function isPortOpen(host, port, timeoutMs = 700) {
 async function readBackendHealth() {
   try {
     const response = await request(HEALTH_URL, 1200);
-    return classifyBackendHealthResponse(response);
+    const health = classifyBackendHealthResponse(response);
+    if (health.healthy && health.payload?.local_only !== LOCAL_ONLY) {
+      return { ...health, healthy: false, status: "MODE_MISMATCH", reason: "local_mode_mismatch" };
+    }
+    return health;
   } catch {
     return { healthy: false, reachable: false, status: "OFFLINE", reason: "health_unavailable", payload: null };
   }
@@ -140,6 +155,7 @@ function writeShellState(patch) {
 }
 
 function startFutuOpenDIfNeeded() {
+  if (LOCAL_ONLY) return { ok: false, status: "BLOCKED_LOCAL_MODE" };
   if (!fs.existsSync(FUTU_OPEND_EXE)) return false;
   isPortOpen(FUTU_HOST, FUTU_PORT, 500).then((online) => {
     if (online || quitting) return;
@@ -173,12 +189,22 @@ function startBackend() {
     `& $py.Exe @($py.Args) '${SERVER_PATH.replace(/'/g, "''")}' --host ${HOST} --port ${PORT} --no-browser`
   ].join("; ");
 
+  backendControlToken = crypto.randomBytes(32).toString("hex");
+  backendShutdownAccepted = false;
+  backendStopping = false;
   backendProcess = childProcess.spawn(
     "powershell.exe",
     ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
     {
       cwd: PYTHON_ROOT,
-      env: { ...process.env, HAKIMI_RUNTIME_READ_ONLY: "1" },
+      env: {
+        ...process.env,
+        HAKIMI_DESKTOP_CONTROL_TOKEN: backendControlToken,
+        HAKIMI_RUNTIME_READ_ONLY: "1",
+        HAKIMI_QUANT_READ_ONLY: process.env.HAKIMI_QUANT_READ_ONLY || "0",
+        HAKIMI_LOAD_LOCAL_AI_ENV: process.env.HAKIMI_LOAD_LOCAL_AI_ENV || "1",
+        HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY: process.env.HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY || "1",
+      },
       windowsHide: true,
       stdio: ["ignore", "pipe", "pipe"]
     }
@@ -192,16 +218,57 @@ function startBackend() {
     console.error(`[hakimi-backend] ${chunk.toString().trim()}`);
   });
   backendProcess.once("exit", (code) => {
-    if (!quitting && code !== 0) {
+    if (!quitting && !backendStopping && code !== 0) {
       showBootMessage("后台服务已退出", `Python 后台进程退出，代码 ${code ?? "unknown"}。`);
     }
   });
 }
 
-function stopBackend() {
-  try {
-    return stopOwnedBackend(backendProcess, backendStartedByShell);
-  } catch { return false; }
+async function prepareBackendStop() {
+  if (!backendStartedByShell || !backendProcess) {
+    if (!await isPortOpen(HOST, PORT)) return { ok: true, status: "STOPPED" };
+    const pending = quantPendingState(await readBackendHealth());
+    return { ok: false, status: pending === "BUSY" ? "BUSY" : pending === "UNKNOWN" ? "UNKNOWN" : "NOT_OWNED" };
+  }
+  backendStopping = true;
+  const result = await stopOwnedBackend({
+    child: backendProcess,
+    token: backendControlToken,
+    origin: BASE_URL,
+    accepted: backendShutdownAccepted,
+  });
+  backendShutdownAccepted = result.accepted;
+  if (result.ok) {
+    backendProcess = null;
+    backendStartedByShell = false;
+    backendControlToken = null;
+  } else if (!result.accepted) {
+    backendStopping = false;
+  }
+  return result;
+}
+
+function explainStopBlocked(result, action) {
+  const messages = {
+    BUSY: "量化操作仍在执行，请等待操作结束后再" + action + "。当前窗口和后台已保留。",
+    WAITING: "后台已接受关闭请求，仍在保存和退出，请稍候再" + action + "。不会强制结束进程。",
+    NOT_OWNED: "当前后台由另一个入口启动。请从原来的窗口正常退出后再重试，当前窗口不会强制关闭它。",
+    UNKNOWN: "未能确认后台可以安全关闭。请查看任务与回测的操作记录，等待操作结束后再重试。当前后台已保留。",
+  };
+  showMainWindow();
+  const options = { type: "info", title: APP_TITLE, message: "暂未" + action,
+    detail: messages[result.status] || "后台状态仍需核对，当前进程已保留。", buttons: ["知道了"] };
+  const pendingDialog = mainWindow && !mainWindow.isDestroyed()
+    ? dialog.showMessageBox(mainWindow, options) : dialog.showMessageBox(options);
+  pendingDialog.catch(() => {});
+}
+
+function configureLocalNetworkGuard() {
+  if (!LOCAL_ONLY || localNetworkGuardInstalled) return;
+  localNetworkGuardInstalled = true;
+  session.defaultSession.webRequest.onBeforeRequest({ urls: ["<all_urls>"] }, (details, callback) => {
+    callback({ cancel: !localResourceAllowed(details.url, BASE_URL) });
+  });
 }
 
 function showMainWindow() {
@@ -212,9 +279,29 @@ function showMainWindow() {
 }
 
 async function restartBackend() {
-  dialog.showMessageBox(mainWindow, { type: "info", title: APP_TITLE,
-    message: "请在启动后台的终端中手动重启。",
-    detail: "Legacy Preview 不依据端口、进程名称或相对路径结束既有服务。" });
+  if (lifecycleBusy || quitting) return;
+  lifecycleBusy = true;
+  try {
+    const result = await prepareBackendStop();
+    if (!result.ok) {
+      explainStopBlocked(result, "重启");
+      return;
+    }
+    if (await isPortOpen(HOST, PORT)) {
+      explainStopBlocked({ status: "NOT_OWNED" }, "重启");
+      return;
+    }
+    showBootMessage("正在重启后台", "重新启动 Python 行情与策略服务。");
+    startBackend();
+    await waitForPort(HOST, PORT, 18000);
+    if (await isBackendHealthy()) {
+      await mainWindow?.loadURL(START_URL);
+    } else {
+      showBootMessage("重启失败", "后台服务没有在预期时间内就绪。");
+    }
+  } finally {
+    lifecycleBusy = false;
+  }
 }
 
 function setAppMenu() {
@@ -305,6 +392,9 @@ function createWindow() {
     if (!quitting && state.minimizeToTray !== false && tray) {
       event.preventDefault();
       mainWindow.hide();
+    } else if (!quitting) {
+      event.preventDefault();
+      app.quit();
     }
   });
 
@@ -322,7 +412,7 @@ async function pollRuntimeStatus() {
   if (quitting) return;
   const backendHealth = await readBackendHealth();
   const backend = backendHealth.healthy;
-  const futu = await isPortOpen(FUTU_HOST, FUTU_PORT, 500);
+  const futu = LOCAL_ONLY ? false : await isPortOpen(FUTU_HOST, FUTU_PORT, 500);
   if (tray) {
     const backendLabel = backend ? "在线" : backendHealth.reachable ? "需要重启" : "离线";
     tray.setToolTip(`${APP_TITLE}\n后台：${backendLabel}\nFutuOpenD：${futu ? "在线" : "离线"}`);
@@ -339,6 +429,7 @@ function startStatusMonitor() {
 }
 
 async function boot() {
+  configureLocalNetworkGuard();
   createWindow();
   setAppMenu();
   createTray();
@@ -348,7 +439,7 @@ async function boot() {
   if (!initialHealth.healthy) {
     const portOccupied = initialHealth.reachable || await isPortOpen(HOST, PORT, 700);
     if (portOccupied) {
-      showBootMessage("后台不可复用", "端口已有未通过只读合同的服务，请手动处理；未结束任何进程。");
+      showBootMessage("后台不可复用", "端口已有未通过当前运行模式与只读合同的服务，请从原窗口正常退出后处理；未结束任何进程。");
       dialog.showErrorBox(APP_TITLE, `端口 ${PORT} 已被既有服务占用；未执行自动终止。`);
       return;
     }
@@ -365,7 +456,7 @@ async function boot() {
   }
 
   showBootMessage("正在打开交易台", BASE_URL);
-  await mainWindow.loadURL(BASE_URL);
+  await mainWindow.loadURL(START_URL);
   startStatusMonitor();
 }
 
@@ -375,16 +466,34 @@ app.on("second-instance", () => {
 
 app.whenReady().then(boot);
 
-app.on("before-quit", () => {
-  quitting = true;
-  if (statusTimer) clearInterval(statusTimer);
-  if (mainWindow && !mainWindow.isDestroyed()) {
-    writeShellState({
-      windowBounds: mainWindow.getNormalBounds(),
-      maximized: mainWindow.isMaximized()
-    });
+app.on("before-quit", (event) => {
+  if (quitReady) {
+    quitting = true;
+    if (statusTimer) clearInterval(statusTimer);
+    return;
   }
-  stopBackend();
+  event.preventDefault();
+  if (lifecycleBusy) return;
+  lifecycleBusy = true;
+  (async () => {
+    // A shell that only attached to an existing service leaves that service
+    // running. It has no process authority or private control token for it.
+    const result = backendStartedByShell ? await prepareBackendStop() : { ok: true };
+    if (!result.ok) {
+      explainStopBlocked(result, "退出");
+      return;
+    }
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      writeShellState({ windowBounds: mainWindow.getNormalBounds(), maximized: mainWindow.isMaximized() });
+    }
+    quitReady = true;
+    quitting = true;
+    app.quit();
+  })().catch(() => {
+    explainStopBlocked({ status: "UNKNOWN" }, "退出");
+  }).finally(() => {
+    lifecycleBusy = false;
+  });
 });
 
 app.on("window-all-closed", () => {

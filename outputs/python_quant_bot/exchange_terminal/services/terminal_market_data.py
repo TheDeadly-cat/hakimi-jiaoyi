@@ -27,6 +27,7 @@ _CRYPTO = re.compile(r"[A-Z][A-Z0-9]{0,14}-(?:USDT|USDC|USD|BTC|ETH)(?:-SWAP)?\Z
 _DATE = re.compile(r"\d{4}-\d{2}-\d{2}\Z")
 _BASE_FIELDS = ("symbol", "trading_date", "ts_ms", "open", "high", "low", "close", "volume", "source")
 _PERMISSIONS = {"research_only": True, "paper_allowed": False, "live_allowed": False, "order_allowed": False}
+_PREVIEW_DIGEST_SCHEMA = "hakimi-terminal-market-preview-v2"
 
 
 class _Unavailable(RuntimeError):
@@ -39,6 +40,19 @@ def _canonical(value):
 
 def _digest(value):
     return sha256(_canonical(value)).hexdigest()
+
+
+def _preview_digest(body):
+    # Confirmation binds the selected data and its research meaning. A refresh
+    # timestamp or another symbol's write to the shared cache is not a change
+    # to that selection. Keep those observations in the returned body so the
+    # immutable frozen input still seals the full provenance observed at freeze.
+    return _digest({
+        "schema_version": _PREVIEW_DIGEST_SCHEMA,
+        **{key: body[key] for key in ("symbol", "bar", "source_id", "quality", "excluded_incomplete_count")},
+        "rows": [{key: value for key, value in row.items() if key != "fetched_at"} for row in body["rows"]],
+        "meta": {key: value for key, value in body["meta"].items() if key != "file_identity"},
+    })
 
 
 def _symbol(value):
@@ -433,6 +447,7 @@ class TerminalMarketReader:
                 "invalid_row_count": invalid, "unknown_completion_count": unknown,
                 "completion_evidence_field": source["completion"], "excluded_count_scope": "LATEST_REQUESTED_ROWS",
                 "source_authentication": "NOT_EXTERNALLY_AUTHENTICATED", "diagnostics": []}
+        meta["preview_digest_schema"] = _PREVIEW_DIGEST_SCHEMA
         quality = {"status": "BLOCK" if blockers else "REVIEW", "blockers": blockers, "warnings": warnings,
                    "source_authenticated": False, "research_admission": "NOT_GRANTED",
                    "core_us_equity_import_allowed": False,
@@ -441,7 +456,7 @@ class TerminalMarketReader:
         body = {"symbol": symbol, "bar": "1D", "source_id": "terminal-cache:" + _digest({k: v for k, v in selection.items() if k != "limit"}),
                 "rows": rows if not blockers else [], "meta": meta, "quality": quality,
                 "excluded_incomplete_count": excluded}
-        # The selection menu and availability of other databases are not part
-        # of the chosen snapshot. The chosen DB's byte identity still is.
-        return {**body, "digest": _digest(body), "available_sources": available,
+        # The full observation is retained separately from preview confirmation;
+        # neither digest grants source authentication or execution permission.
+        return {**body, "digest": _preview_digest(body), "observation_digest": _digest(body), "available_sources": available,
                 "source_diagnostics": diagnostics}

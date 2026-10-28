@@ -78,6 +78,28 @@ def _research_status(value: Any) -> str:
     return "RESEARCH_OBSERVE"
 
 
+def _project_runtime_status(status: dict[str, Any]) -> dict[str, Any]:
+    """Keep transport state separate from model-authored research severity."""
+    allowed_providers = {"deepseek", "openai"}
+    analysis = status.get("analysis")
+    result: dict[str, Any] = {
+        "analysis": analysis if isinstance(analysis, str) and analysis in {"complete", "partial", "unavailable", "paused_data_quality"} else "unknown",
+        "live_trading": "hard_blocked",
+    }
+    for field in ("providers_requested", "providers_completed"):
+        values = status.get(field)
+        result[field] = list(dict.fromkeys(item for item in values if isinstance(item, str) and item in allowed_providers)) if isinstance(values, list) else []
+    for key, provider in (("deepseek", "deepseek"), ("gpt", "openai")):
+        raw = status.get(key)
+        raw = raw if isinstance(raw, dict) else {}
+        model = raw.get("model")
+        valid_model = (isinstance(model, str) and 0 < len(model) <= 120 and "sk-" not in model.lower()
+                       and all(char.isascii() and (char.isalnum() or char in "._:/-") for char in model))
+        result[key] = {"provider": provider, "configured": raw.get("configured") is True,
+                       "model": model if valid_model else ""}
+    return result
+
+
 def _sanitize(value: Any, *, path: str = "market_ai") -> tuple[Any, list[str]]:
     if isinstance(value, dict):
         clean: dict[Any, Any] = {}
@@ -100,6 +122,9 @@ def _sanitize(value: Any, *, path: str = "market_ai") -> tuple[Any, list[str]]:
                 clean[key] = None
                 if nested is not None:
                     paths.append(nested_path)
+                continue
+            if key == "status" and path == "market_ai" and isinstance(nested, dict):
+                clean[key] = _project_runtime_status(nested)
                 continue
             if key in _STATUS_FIELDS:
                 clean[f"raw_{key}"] = _normalise(nested)

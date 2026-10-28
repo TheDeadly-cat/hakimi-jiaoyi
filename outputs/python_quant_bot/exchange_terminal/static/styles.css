@@ -12484,3 +12484,16 @@ body.theme-light .platform-control-center.evidence-calibrated {
     background: CanvasText;
   }
 }
+
+/* Captured strategy reports need their own full-width row, outside risk controls. */
+.strategy-risk-layout > #strategyAnalysis { grid-column: 1 / -1; white-space: normal; }
+.strategy-ai-panel { margin: 12px; min-width: 0; display: grid; gap: 10px; }
+.strategy-ai-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.strategy-ai-panel #strategyAiState { min-height: 38px; white-space: normal; padding: 10px; }
+.strategy-ai-panel #strategyAiReport { min-width: 0; overflow-wrap: anywhere; white-space: normal; }
+.strategy-ai-panel #strategyAiReport:empty { display: none; }
+
+/* Keep the research handoff reachable within the strategy column. */
+.strategy-desk .strategy-layout { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.strategy-desk .strategy-layout > div { min-width: 0; }
+.strategy-desk .strategy-layout > [data-open-terminal-research="strategy"] { grid-column: 1 / -1; justify-self: start; max-width: 100%; white-space: normal; }

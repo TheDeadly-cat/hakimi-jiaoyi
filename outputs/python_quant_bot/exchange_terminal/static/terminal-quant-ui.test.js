@@ -60,6 +60,41 @@ test("source identity follows target symbol and never leaks an unrelated chart s
   assert.equal(protocol.contextSourceId("AAPL",{symbol:"AAPL",source_id:"futu-all"},true),"");
 });
 
+test("explicit completion evidence survives local chart conversion and analysis payload without filling unknown flags", () => {
+  const original = [{...row(1000), complete:true, provisional:false, source:"futu"},
+    {...row(2000), complete:false, provisional:true}, row(3000), {...row(4000), complete:"true"}];
+  const candles = protocol.chartRows(original);
+  assert.equal(candles[0].date,original[0].date); assert.equal(candles[0].source,"futu");
+  const context = vm.createContext({state:{symbol:"AAPL",bar:"1Dutc",chartDataSymbol:"AAPL",candles,
+    drawings:[],stockSession:"regular",chartQuality:{source:"terminal-cache:existing"}},
+    frontendMarketAiLocal:()=>({}), visibleCandles:()=>({candles}), latestFibLevels:()=>[], $:()=>null});
+  vm.runInContext(appFunction("marketAiPayload"), context);
+  const payload = context.marketAiPayload();
+  assert.equal(payload.candles[0].date, original[0].date);
+  assert.equal(payload.candles[0].source, "futu");
+  assert.equal(Object.hasOwn(payload.candles[2], "source"), false);
+  assert.equal(payload.candles[0].complete,true); assert.equal(payload.candles[0].provisional,false);
+  assert.equal(payload.candles[1].complete,false); assert.equal(payload.candles[1].provisional,true);
+  for (const index of [2,3]) {
+    assert.equal(Object.hasOwn(payload.candles[index],"complete"),false);
+    assert.equal(Object.hasOwn(payload.candles[index],"provisional"),false);
+  }
+  assert.equal(payload.chart_context.snapshot_source,"terminal-cache:existing");
+  assert.equal(original[3].complete,"true");
+});
+
+test("analysis payload does not invent date or provider provenance for unknown chart rows", () => {
+  const candles=[{ts:1000,open:100,high:105,low:99,close:102,volume:10,date:null,source:undefined,complete:true}];
+  const context=vm.createContext({state:{symbol:"AAPL",bar:"5m",chartDataSymbol:"AAPL",candles,
+    drawings:[],stockSession:"regular",chartQuality:{source:"unverified-client"}},
+    frontendMarketAiLocal:()=>({}),visibleCandles:()=>({candles}),latestFibLevels:()=>[],$:()=>null});
+  vm.runInContext(appFunction("marketAiPayload"),context);
+  const payload=context.marketAiPayload();
+  assert.equal(Object.hasOwn(payload.candles[0],"date"),false);
+  assert.equal(Object.hasOwn(payload.candles[0],"source"),false);
+  assert.equal(payload.candles[0].complete,true);
+});
+
 test("current context reads the edited parameter form and radar target safely",() => {
   const elements={strategySelect:{value:"dual_ma"},positionInput:{value:"25"},takeProfitInput:{value:"6"},stopLossInput:{value:"8"},leverageInput:{value:"1"},
     directionMode:{value:"LONG_ONLY"},riskSource:{value:"MANUAL"},riskValueMode:{value:"PCT"},trailingTakeEnabled:{checked:false},trailingStopEnabled:{checked:false},strategyOrderType:{value:"CURRENT"},marginMode:{value:"CROSS"}};
@@ -89,6 +124,30 @@ function uiFunction(name) {
   const match=next.exec(ui);return ui.slice(start,match?.index??ui.length).trim();
 }
 
+test("market read failures show structured session guidance or native errors as plain text without retry",async () => {
+  const cases = [
+    [{info:{code:"PermissionError",message:"量化模块操作未完成",detail:"session_token_required:请重新打开量化模块"}},"后台已重启，请刷新整个交易台后继续。已保存任务和结果仍保留。"],
+    [{info:{message:"本地来源不可用",detail:"请核对已保存的日线"}},"本地来源不可用；请核对已保存的日线"],
+    [new Error("连接暂不可用"),"连接暂不可用"],
+    [{info:{message:"<img src=x onerror=alert(1)>"}},"<img src=x onerror=alert(1)>"],
+    [null,"本地行情读取未完成，请查看设置与日志中的操作记录。"],
+  ];
+  for (const [failure,expected] of cases) {
+    const panel={textContent:"",innerHTML:"unchanged fixture"},tasks=[{id:"saved-task"}],runs=[{id:"saved-result"}];
+    const state={marketRequest:0,market:{symbol:"HK.00836"},tasks,runs};
+    let calls=0;
+    const context=vm.createContext({state,$:()=>panel,value:id=>id==="tq-symbol"?"HK.00836":"",notify(){},
+      api:async()=>{calls++;throw failure;}});
+    vm.runInContext(uiFunction("operationErrorText")+"\n"+uiFunction("readMarket"),context);
+    await context.readMarket();
+    assert.equal(panel.textContent,expected);
+    assert.equal(panel.innerHTML,"unchanged fixture");
+    assert.equal(calls,1);
+    assert.equal(state.market,null);
+    assert.equal(state.tasks,tasks); assert.equal(state.runs,runs);
+  }
+});
+
 test("dashboard returns to the unified host top while task and result links retain their anchors",() => {
   const scrolled=[];const host={hidden:false};const windowScroll=[];
   const panels=Object.fromEntries(["tasks","results"].map(name=>[name,{style:{},scrollIntoView:()=>scrolled.push(name)}]));
@@ -117,7 +176,7 @@ test("frozen replay and exit refresh the original desktop summary for the actual
     marketTypeLabel:market=>market.type==="crypto"?"数字资产":"股票",setLamp:noop,futuOpenDOnline:()=>false,renderStrategyCommandStrip:noop,
     loadTerminalLocalMarket:()=>new Promise(resolve=>reloads.push(resolve)),showTerminalLocalError:noop,resetAiResearchContext:noop,renderBook:noop,renderTrades:noop,
     renderFrozenReplaySummary:noop,renderSideInsights:noop,renderLiveSourceBar:noop});
-  vm.runInContext(appFunction("frozenReplayPresentation")+"\n"+appFunction("renderDesktopStatus")+"\n"+appFunction("applyFrozenQuantReplay")+"\n"+appFunction("exitFrozenQuantReplay"),context);
+  vm.runInContext(appFunction("frozenReplayPresentation")+"\n"+appFunction("futuStatusPresentation")+"\n"+appFunction("renderDesktopStatus")+"\n"+appFunction("applyFrozenQuantReplay")+"\n"+appFunction("exitFrozenQuantReplay"),context);
   vm.runInContext("applyFrozenQuantReplay(replay)",context);
   assert.equal(state.symbol,"BTC-USDT");assert.equal(get("desktopSession").textContent,"数字资产 / BTC-USDT");
   assert.equal(state.replay.active,false);assert.equal(state.replay.timer,null);assert.deepEqual(cleared,[101]);

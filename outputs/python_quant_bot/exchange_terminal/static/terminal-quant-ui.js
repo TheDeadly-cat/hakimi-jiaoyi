@@ -69,7 +69,10 @@
         || row.open <= 0 || row.close <= 0 || row.low <= 0 || row.high < Math.max(row.open, row.close)
         || row.low > Math.min(row.open, row.close) || row.volume < 0) throw new Error("冻结行情时间或价格字段不完整，未替换原图表。");
       previous = ts;
-      return { ts, date: row.date, open: row.open, high: row.high, low: row.low, close: row.close, volume: row.volume };
+      return { ts, date: row.date, open: row.open, high: row.high, low: row.low, close: row.close, volume: row.volume,
+        ...(typeof row.complete === "boolean" ? {complete: row.complete} : {}),
+        ...(typeof row.provisional === "boolean" ? {provisional: row.provisional} : {}),
+        ...(typeof row.source === "string" ? {source: row.source} : {}) };
     });
   }
   function validReplay(value) {
@@ -324,6 +327,15 @@
       const warnings = [catalog,inputs,tasks,runs,history,reports,coreOverview,coreInputs].flatMap((item) => item.warnings || []);
       if (warnings.length) notify(`有 ${warnings.length} 项记录需要核对，未自动修复或重跑。`, true);
     }
+    function operationErrorText(error) {
+      const parts = [error?.info?.message, error?.info?.detail, error?.message]
+        .filter((item) => typeof item === "string" && item.trim())
+        .map((item) => item.replace(/\0/g, "").trim().slice(0, 1000));
+      if ([error?.info?.code, error?.code, ...parts].some((item) => typeof item === "string" && item.includes("session_token_required"))) {
+        return "后台已重启，请刷新整个交易台后继续。已保存任务和结果仍保留。";
+      }
+      return [...new Set(parts)].join("；") || "本地行情读取未完成，请查看设置与日志中的操作记录。";
+    }
     async function readMarket(explicitSource = null) {
       const symbol = value("tq-symbol").trim();
       if (!symbol) return notify("请填写需要研究的标的。", true);
@@ -344,7 +356,7 @@
           <dl class="kv section-gap"><dt>标的 / 周期</dt><dd>${esc(market.symbol)} / 日线</dd><dt>范围</dt><dd>${esc(rows[0]?.date || "—")} 至 ${esc(rows.at(-1)?.date || "—")} · ${rows.length} 日</dd><dt>来源</dt><dd>${esc(market.source_id || "UNKNOWN")}</dd><dt>价格口径</dt><dd>${esc(market.meta?.price_basis || "UNKNOWN")}</dd><dt>已排除未完成K线</dt><dd>${esc(market.excluded_incomplete_count ?? 0)}</dd></dl>
           <div class="tq-table section-gap"><table><thead><tr><th>日期</th><th>开</th><th>高</th><th>低</th><th>收</th><th>成交量</th></tr></thead><tbody>${rows.slice(-5).map((row) => `<tr><td>${esc(row.date)}</td>${[row.open,row.high,row.low,row.close,row.volume].map((number) => `<td>${fmt(number)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
           <label class="check-label section-gap"><input id="tq-confirm-market" type="checkbox" ${blocked ? "disabled" : ""}>我已核对标的、日线范围和来源，保留“来源待复核”的研究状态。</label><div class="actions section-gap">${button("冻结这份行情","freeze","","disabled")}</div>`;
-      } catch (error) { if (generation !== state.marketRequest) return; state.market = null; $("tq-market").textContent = error.message; }
+      } catch (error) { if (generation !== state.marketRequest) return; state.market = null; $("tq-market").textContent = operationErrorText(error); }
     }
     function aiEvidenceHtml(evidence, binding = null) {
       if (!validAiEvidence(evidence)) return '<p class="section-note">没有可带入的日线 AI 研究依据。请在行情页对当前标的完成分析后再进入；失败、过期或其它周期的报告不会自动附入。</p>';

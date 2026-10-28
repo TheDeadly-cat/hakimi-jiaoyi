@@ -1,13 +1,27 @@
 # 哈基米交易 v2 Electron 桌面壳
 
-这是 **Legacy Preview** 桌面包装层，不属于正式研究 MVP 的发布范围。
+这是原程序的 Electron 源码入口；当前整合候选保留行情、策略分析、量化任务、旧结果与记录导出。
+本次源码整合不改变已安装的 dev5 试用包；`tools/build_windows_trial.py` 打包的是另一条
+`trial-main.js` / `workbench_server` 入口，不能用旧包验收代替本入口的验证。
 正式入口是安装后的 `hakimi-research snapshot-import / research / replay / report-show`。
 桌面仍承载旧终端及其 `signal-close-next-open-ohlc-conservative-v3` 核心；
 其结果不能冒充正式 `ExperimentRunner` 报告或与其混合比较。
 
-桌面启动的后端强制 `HAKIMI_RUNTIME_READ_ONLY=1`，不自动启动 FutuOpenD，
-移除了 Futu 管理菜单。已有后台只有明确只读、未启动 guardian、未 armed 才可接入。
-下列历史功能清单仅用于识别旧界面，不构成当前可用性或发布验收声明。
+桌面启动的旧运行层强制 `HAKIMI_RUNTIME_READ_ONLY=1`，不自动启动 FutuOpenD，
+移除了 Futu 管理菜单。量化工作区单独使用 `HAKIMI_QUANT_READ_ONLY`：桌面默认为 `0`，
+允许明确保存新任务和运行研究；直接运行 Python 时默认跟随旧运行层的只读状态。
+旧任务/结果仍按原身份读取，只有明确运行操作才计算，paper/live/order 仍封存。
+已有后台必须通过严格健康检查且 `local_only` 与桌面模式一致；不匹配时保留原进程并拒绝复用。
+9 个原策略允许新研究；趋势回调、波动挤压突破禁止新研究，网格、马丁、反马丁仍锁定。
+下列历史功能清单用于识别原界面，已归档功能以当前能力目录为准，不构成正式发布验收声明。
+
+只读导出默认写入用户下载目录 `Hakimi-Exports`，可用 `HAKIMI_EXPORT_DIR` 指定原数据目录之外的位置。
+CSV 及请求去重记录都留在导出目录；读取原订单、事件和账户时不会创建源数据库的 WAL/SHM。
+已有 AI 配置可由明确的 `HAKIMI_LOAD_LOCAL_AI_ENV=1` 读取忽略文件 `.env.local`；
+在旧运行层只读时还需 `HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY=1`（桌面显式设置）。
+白名单同时支持 DeepSeek 和 OpenAI，已有进程配置优先；`HAKIMI_AI_ENV_FILE` 可指定已有配置文件。
+本地模式、测试模式或显式跳过配置均不读取文件。不要提交或打印密钥；加载配置不会调用模型。
+`HAKIMI_LOCAL_ONLY=1` 时页面与后台共同阻止外部模型分析。
 
 产品能力由 `src/hakimi_research/capability_definition.py` 定义，生成
 `src/hakimi_research/contracts/product-capabilities.json` 投影供 Electron 读取。
@@ -77,7 +91,8 @@ npm.cmd run smoke
 新窗口在已受保护的当前窗口内处理，不创建不受导航规则约束的子窗口。
 管理路由清单及退出首发注册表的范围见 `../../docs/research-consumer-boundary.md`。
 
-关闭窗口默认会隐藏到系统托盘。要完全退出，请从顶部菜单或托盘菜单选择“退出”。
+关闭窗口或退出前，自有后台通过私有 token 协商退出。研究仍忙、响应未知或尚未退出时保留窗口；
+只有确认后台正常退出后才结束桌面。附着到其他入口的后台不会被关闭，不按端口结束进程。
 
 ## 后续升级
 
