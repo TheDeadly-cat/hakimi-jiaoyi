@@ -150,8 +150,11 @@ test("market read failures show structured session guidance or native errors as 
 
 test("dashboard returns to the unified host top while task and result links retain their anchors",() => {
   const scrolled=[];const host={hidden:false};const windowScroll=[];
+  const executionHost={hidden:true},dailyHost={hidden:true,scrollIntoView:()=>scrolled.push("daily")};
+  let dailyHides=0;
   const panels=Object.fromEntries(["tasks","results"].map(name=>[name,{style:{},scrollIntoView:()=>scrolled.push(name)}]));
-  const context=vm.createContext({state:{visible:true,loaded:true},coreMain:{hidden:true},host,location:{hash:"#dashboard"},
+  const context=vm.createContext({state:{visible:true,loaded:true},coreMain:{hidden:true},host,executionHost,dailyHost,
+    dailyUI:{reveal:async()=>{},hide:()=>dailyHides++},executionUI:{refresh:async()=>{},reveal:()=>scrolled.push("execution")},location:{hash:"#dashboard"},
     history:{pushState(){},replaceState(){}},$:id=>id==="terminalQuantWorkspace"?host:{closest:()=>panels[id==="tq-tasks"?"tasks":"results"]},
     window:{scrollTo:options=>windowScroll.push(JSON.parse(JSON.stringify(options)))},navRoot:{closest:()=>({getBoundingClientRect:()=>({height:48.2})})},
     syncUnifiedNavigation(){},requestAnimationFrame:callback=>callback()});
@@ -159,6 +162,11 @@ test("dashboard returns to the unified host top while task and result links reta
   vm.runInContext('show("dashboard");show("tasks");show("results")',context);
   assert.deepEqual(windowScroll,[{top:0,left:0,behavior:"auto"}]);assert.deepEqual(scrolled,["tasks","results"]);
   assert.equal(panels.tasks.style.scrollMarginTop,"57px");assert.equal(panels.results.style.scrollMarginTop,"57px");
+  vm.runInContext('show("daily")',context);
+  assert.equal(host.hidden,true);assert.equal(dailyHost.hidden,false);assert.equal(executionHost.hidden,true);
+  vm.runInContext('show("execution")',context);
+  assert.equal(dailyHides,1);assert.equal(dailyHost.hidden,true);assert.equal(executionHost.hidden,false);
+  assert.deepEqual(scrolled,["tasks","results","daily","execution"]);
 });
 
 test("frozen replay and exit refresh the original desktop summary for the actual chart symbol",async () => {

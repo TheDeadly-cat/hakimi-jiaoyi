@@ -20,13 +20,18 @@ from threading import RLock
 from types import SimpleNamespace
 from urllib.parse import unquote, urlsplit
 
+from .terminal_public_daily_access import ACTIONS as PUBLIC_DAILY_ACTIONS, PublicDailyAccess, PublicDailyAccessError
+
 
 ACCEPTED_SOURCE_SHA256 = "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918"
 MAX_REQUEST = 24 * 1024 * 1024
 _VENDOR = Path(__file__).resolve().parents[2] / "vendor" / "research"
 _IMPORT_LOCK = RLock()
 _READ_RESOURCES = frozenset({"status", "strategies", "tasks", "inputs", "runs", "csv_templates",
-    "terminal_catalog", "terminal_preflight", "terminal_workspace_history", "terminal_market", "terminal_inputs", "terminal_tasks", "terminal_runs", "terminal_history", "terminal_reports", "terminal_core_inputs", "core_replay",
+    "terminal_strategy_candidates",
+    "terminal_daily_catalog", "terminal_daily_inputs", "terminal_daily_intakes", "terminal_daily_updates", "terminal_daily_tasks",
+    "terminal_catalog", "terminal_preflight", "terminal_saved_comparison", "terminal_workspace_history", "terminal_market", "terminal_inputs", "terminal_tasks", "terminal_runs", "terminal_history", "terminal_reports", "terminal_core_inputs", "core_replay",
+    "terminal_execution_accounts", "terminal_execution_account", "terminal_execution_receipt", "terminal_execution_history", "terminal_execution_compare", "terminal_execution_research",
     "terminal_judgments", "terminal_judgment_replay", "terminal_exit_experiments",
     "terminal_exit_runs", "terminal_exit_replay", "terminal_structure_replay", "terminal_insights", "terminal_peers"})
 
@@ -195,7 +200,8 @@ def _adapt_core_completion(html: str) -> str:
                  "return perform('run_task',{task_id:task.id,expected_task_id:task.task_id},{button,onSuccess:detail=>{"
                  "if(detail?.id){S.runCache.set(detail.id,detail);S.selectedRun=detail.id;}S.runTab='equity';nav('results');}});}")
     return once(html, initializer,
-                run_saved + "\nconst coreCompletion=window.createCoreCompletionAdapter({api,state:S,render,refresh,showError,esc,runTask:runSavedCoreTask});\n" + initializer)
+                run_saved + "\nconst coreCompletion=window.createCoreCompletionAdapter({api,state:S,render,refresh,showError,esc,runTask:runSavedCoreTask,"
+                "openResult:id=>{window.dispatchEvent(new CustomEvent('hakimi-core-open'));S.selectedRun=id;nav('results');}});\n" + initializer)
 
 
 def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
@@ -224,13 +230,31 @@ def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
     completion_path = ui_path.with_name("terminal-core-completion.js")
     ai_binding_path = ui_path.with_name("terminal-ai-binding.js")
     summary_path = ui_path.with_name("terminal-result-summary.js")
-    ui_source = "\n".join(path.read_text(encoding="utf-8") for path in (completion_path, ai_binding_path, summary_path, judgment_path, exit_path, insights_path, ui_path)).replace("</script>", "<\\/script>")
+    comparison_path = ui_path.with_name("terminal-result-comparison.js")
+    execution_path = ui_path.with_name("terminal-execution-ui.js")
+    daily_path = ui_path.with_name("terminal-daily-ui.js")
+    candidates_path = ui_path.with_name("terminal-strategy-candidates-ui.js")
+    ui_paths = [completion_path, ai_binding_path, summary_path, comparison_path, execution_path, daily_path,
+                judgment_path, exit_path, insights_path, candidates_path]
+    ui_paths.append(ui_path)
+    ui_source = "\n".join(path.read_text(encoding="utf-8") for path in ui_paths).replace("</script>", "<\\/script>")
     html = html.replace("程序版本", "股票回测内核版本")
     html = html.replace("共享资金演练目前通过安装目录中的", "共享资金演练保留在原命令行工具中。旧包中的")
     html = html.replace(" 使用。这里保留现有命令行能力；", " 是归档入口；日常继续使用当前交易窗口。")
-    labels = "terminal_register_exit_experiment:'登记同入场出场研究',terminal_run_exit_experiment:'运行已登记出场研究',terminal_save_judgment:'保存判断与冻结依据',terminal_append_judgment_event:'追加复盘记录',terminal_import_core_input:'复用已导入行情',terminal_freeze_market:'保存当前行情快照',terminal_save_task:'保存原策略任务版本',terminal_set_task_state:'更改研究任务状态',terminal_run_task:'运行原策略回测',terminal_compare:'比较原策略结果',"
+    labels = "terminal_daily_check_stock:'检查股票日线',terminal_daily_save_stock:'保存股票日线',terminal_daily_check_update:'检查日线更新',terminal_daily_freeze_update:'保存日线新版本',terminal_daily_create_task:'保存日线研究任务',terminal_daily_adopt_update:'采用日线新版本',terminal_import_daily_input:'复用日线到原策略',terminal_register_exit_experiment:'登记同入场出场研究',terminal_run_exit_experiment:'运行已登记出场研究',terminal_save_judgment:'保存判断与冻结依据',terminal_append_judgment_event:'追加复盘记录',terminal_import_core_input:'复用已导入行情',terminal_freeze_market:'保存当前行情快照',terminal_save_task:'保存原策略任务版本',terminal_set_task_state:'更改研究任务状态',terminal_run_task:'运行原策略回测',terminal_compare:'比较原策略结果',"
     html = html.replace("const ACTIONS={", "const ACTIONS={" + labels, 1)
-    hook = ("\nwindow.installTerminalQuantUI({api,perform,esc,modal,closeDialog,showError,"
+    old_compare = "case'compare':await perform('compare',{run_ids:[...S.compare]},{button:target,onSuccess:showComparison});break;"
+    if html.count(old_compare) != 1:
+        raise ValueError("quant_core_saved_comparison_adapter_source_mismatch")
+    html = html.replace(old_compare, "case'compare':await showStrictSavedComparison(target);break;", 1)
+    hook = ("\nasync function showStrictSavedComparison(button){if(button?.disabled)return;"
+            "const references=[...S.compare].map(id=>({kind:'core_run',id}));"
+            "if(references.length<2)throw Error('请选择至少两份保存结果。');if(button)button.disabled=true;"
+            "try{const value=await api('terminal_saved_comparison/'+encodeURIComponent(JSON.stringify({references})));"
+            "modal('保存结果与成本对照','每项保留其原有规则和条件，缺失记录保持未知。',"
+            "window.HakimiResultComparison.renderComparison(value,esc),btn('关闭','close-dialog'));}"
+            "finally{if(button)button.disabled=false;}}\n"
+            "window.installTerminalQuantUI({api,perform,esc,modal,closeDialog,showError,"
             "runCoreTask:(id,task_id,button)=>runSavedCoreTask({id,task_id},button),"
             "getSelectedCoreRun:()=>S.selectedRun,openCoreTask:async id=>{nav('tasks');await showTask(id);},"
             "openCoreRun:async id=>{S.selectedRun=id;nav('results');await loadRun(id);},"
@@ -252,7 +276,8 @@ class QuantWorkspace:
     handle() returns False for unrelated routes. close() returns False while a
     durable operation is live, leaving ownership and the worker intact.
     """
-    def __init__(self, runtime_dir, read_only=False, local_only=True, service_factory=None, mutation_guard=None, product_identity=None):
+    def __init__(self, runtime_dir, read_only=False, local_only=True, service_factory=None, mutation_guard=None, product_identity=None,
+                 public_daily_fetcher=None, public_daily_clock=None):
         raw_runtime = Path(runtime_dir).expanduser().absolute()
         _no_links(raw_runtime)
         self.runtime_dir = raw_runtime.resolve()
@@ -263,6 +288,9 @@ class QuantWorkspace:
         self._mutation_guard = mutation_guard
         self.product_identity = dict(product_identity or {})
         self._token = secrets.token_urlsafe(32)
+        options = {} if public_daily_clock is None else {"clock": public_daily_clock}
+        self._public_daily = (PublicDailyAccess(self._token, fetcher=public_daily_fetcher, **options)
+                              if public_daily_fetcher is not None else None)
         self._mutex = RLock()
         self._kernel = self._service = self._jobs = self._instance_lock = None
         self._closed = False
@@ -287,6 +315,9 @@ class QuantWorkspace:
                 service = kernel.service(self.workspace)
                 if self._service_factory is not None:
                     service = self._service_factory(service)
+                bind_daily = getattr(service, "configure_public_daily_access", None)
+                if callable(bind_daily):
+                    bind_daily(self._public_daily, self._token)
                 jobs = kernel.desktop.Jobs(service, control / "jobs")
             except BaseException:
                 lock.close()
@@ -308,16 +339,45 @@ class QuantWorkspace:
                 return bool(self._jobs.live)
 
     def close(self):
+        if self._public_daily is not None:
+            self._public_daily.revoke()
         with self._mutex:
             if self.pending:
                 return False
             self._closed = True
+            if self._public_daily is not None:
+                self._public_daily.close()
             if self._jobs is not None:
                 self._jobs.close()
+            service_close = getattr(self._service, "close", None)
+            if callable(service_close):
+                service_close()
             if self._instance_lock is not None:
                 self._instance_lock.close()
                 self._instance_lock = None
             return True
+
+    def _daily_state(self):
+        if self._public_daily is not None:
+            return self._public_daily.status()
+        return {"schema_version": "hakimi-public-daily-access-v1", "state": "UNAVAILABLE",
+                "provider": "Yahoo Finance", "scope": "ONE_EXPLICIT_DAILY_CHECK", "actual_attempts": 0,
+                "automatic_retry": False, "broker_allowed": False, "model_requests_allowed": False}
+
+    def _daily_request_allowed(self, action, payload):
+        if self._public_daily is None:
+            raise PublicDailyAccessError("PUBLIC_DAILY_NOT_CONFIGURED")
+        current = self._public_daily.request_status(self._token, action, payload)
+        for key, code in (("consumed", "CONSUMED"), ("revoked", "REVOKED"), ("expired", "EXPIRED")):
+            if current[key]:
+                raise PublicDailyAccessError("PUBLIC_DAILY_PERMISSION_" + code)
+
+    def _check_mutation_guard(self):
+        if self._mutation_guard is not None:
+            current = self._mutation_guard()
+            if (not isinstance(current, dict) or current.get("schema_version") != "hakimi-runtime-build-v1"
+                    or current.get("status") != "PASS" or current.get("restart_required") is not False):
+                raise RuntimeError("source_changed_restart_required:运行代码已变化，请正常重启原交易窗口后再保存或运行。")
 
     def _boundary(self, handler, authenticated=True):
         address, port = handler.server.server_address[:2]
@@ -367,7 +427,8 @@ class QuantWorkspace:
 
     def _fail(self, handler, error, status=400):
         detail = str(error).replace(self._token, "[redacted]")[:2000]
-        self._send(handler, status, {"ok": False, "error": {"code": type(error).__name__,
+        code = error.code if isinstance(error, PublicDailyAccessError) else type(error).__name__
+        self._send(handler, status, {"ok": False, "error": {"code": code,
                    "message": "量化模块操作未完成，请核对输入或查看具体原因。", "detail": detail}})
 
     def handle(self, handler):
@@ -381,6 +442,9 @@ class QuantWorkspace:
             if parsed.query:
                 raise ValueError("quant_query_parameters_not_supported")
             if handler.command == "GET":
+                if path == "/api/quant/public-daily-access":
+                    self._answer(handler, self._daily_state())
+                    return True
                 self._ensure()
                 if is_page:
                     nonce = secrets.token_urlsafe(20)
@@ -397,6 +461,11 @@ class QuantWorkspace:
                     if resource not in _READ_RESOURCES:
                         self._fail(handler, ValueError("quant_route_not_found"), 404)
                         return True
+                    if resource == "terminal_strategy_candidates":
+                        # Current-rule calculation must not pair already-loaded
+                        # signals with a changed on-disk implementation identity.
+                        # Saved historical reads deliberately remain available.
+                        self._check_mutation_guard()
                     result = self._service.read(resource, unquote(identity) if identity else None)
                     if resource == "status" and isinstance(result, dict):
                         result.update(version=self._kernel.version,
@@ -409,10 +478,11 @@ class QuantWorkspace:
             if handler.command != "POST":
                 self._fail(handler, ValueError("quant_method_not_allowed"), 405)
                 return True
-            if self.read_only:
+            daily_control = path.removeprefix("/api/quant/public-daily-access/") if path.startswith("/api/quant/public-daily-access/") else None
+            if self.read_only and daily_control != "revoke":
                 self._fail(handler, PermissionError("runtime_is_read_only"), 423)
                 return True
-            if not path.startswith("/api/quant/actions/"):
+            if not path.startswith("/api/quant/actions/") and daily_control not in {"allow-once", "revoke"}:
                 self._fail(handler, ValueError("quant_route_not_found"), 404)
                 return True
             if handler.headers.get_all("Content-Type", []) not in [["application/json"], ["application/json; charset=utf-8"]]:
@@ -431,16 +501,33 @@ class QuantWorkspace:
             payload = json.loads(raw, object_pairs_hook=_json_object,
                                  parse_constant=lambda value: (_ for _ in ()).throw(ValueError("finite_json_required")))
             _finite_json(payload)
+            if daily_control is not None:
+                if type(payload) is not dict:
+                    raise ValueError("public_daily_control_object_required")
+                if daily_control == "revoke":
+                    if payload:
+                        raise ValueError("public_daily_revoke_empty_object_required")
+                    result = self._public_daily.revoke() if self._public_daily is not None else self._daily_state()
+                else:
+                    if set(payload) != {"action", "payload"}:
+                        raise ValueError("public_daily_control_fields_invalid")
+                    self._check_mutation_guard()
+                    if self._public_daily is None:
+                        raise PublicDailyAccessError("PUBLIC_DAILY_NOT_CONFIGURED")
+                    result = self._public_daily.allow_once(self._token, payload["action"], payload["payload"])
+                # These controls never acquire a service/job lock or initialize
+                # the canonical writer. Revocation can run during transport.
+                self._answer(handler, result)
+                return True
             if type(payload) is not dict or set(payload) - {"payload", "request_id"}:
                 raise ValueError("request_object_required")
+            action = path.removeprefix("/api/quant/actions/")
             with self._mutex:
-                if self._mutation_guard is not None:
-                    current = self._mutation_guard()
-                    if (not isinstance(current, dict) or current.get("schema_version") != "hakimi-runtime-build-v1"
-                            or current.get("status") != "PASS" or current.get("restart_required") is not False):
-                        raise RuntimeError("source_changed_restart_required:运行代码已变化，请正常重启原交易窗口后再保存或运行。")
+                self._check_mutation_guard()
+                if action in PUBLIC_DAILY_ACTIONS:
+                    self._daily_request_allowed(action, payload.get("payload", {}))
                 self._ensure()
-                job = self._jobs.submit(path.removeprefix("/api/quant/actions/"), payload.get("payload", {}), payload.get("request_id"))
+                job = self._jobs.submit(action, payload.get("payload", {}), payload.get("request_id"))
             self._answer(handler, job, 202)
         except PermissionError as error:
             self._fail(handler, error, 403)

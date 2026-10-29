@@ -221,12 +221,21 @@
     function send(kind, payload) { parent.postMessage({schema:SCHEMA, kind, payload}, location.origin); }
     function show(view = "dashboard", replaceHistory = false) {
       const wasVisible = state.visible;
-      state.unifiedView = ["dashboard","tasks","results","insights"].includes(view) ? view : "dashboard";
-      state.visible = true; coreMain.hidden = true; $("terminalQuantWorkspace").hidden = false;
+      if (state.unifiedView === "daily" && view !== "daily") dailyUI.hide?.();
+      state.unifiedView = ["dashboard","tasks","results","insights","execution","daily"].includes(view) ? view : "dashboard";
+      state.visible = true; coreMain.hidden = true; $("terminalQuantWorkspace").hidden = ["execution","daily"].includes(state.unifiedView);
+      executionHost.hidden = state.unifiedView !== "execution";
+      dailyHost.hidden = state.unifiedView !== "daily";
       if (location.hash !== "#" + state.unifiedView) history[replaceHistory ? "replaceState" : "pushState"](null,"","#" + state.unifiedView);
       syncUnifiedNavigation();
       if (!state.loaded || !wasVisible) refreshAll().catch((error) => notify(error.message, true));
-      if (state.unifiedView === "dashboard") {
+      if (state.unifiedView === "daily") {
+        dailyUI.reveal().catch(error => notify(operationErrorText(error),true));
+        requestAnimationFrame(() => dailyHost.scrollIntoView({block:"start"}));
+      } else if (state.unifiedView === "execution") {
+        executionUI.refresh().catch(error => notify(operationErrorText(error),true));
+        requestAnimationFrame(() => executionUI.reveal());
+      } else if (state.unifiedView === "dashboard") {
         requestAnimationFrame(() => window.scrollTo({top:0,left:0,behavior:"auto"}));
       } else {
         const scrollTarget = state.unifiedView === "insights" ? $("terminalInsightsWorkspace") : $(state.unifiedView === "tasks" ? "tq-tasks" : "tq-runs").closest(".panel");
@@ -243,10 +252,13 @@
         const active = item.dataset.view === state.unifiedView;
         item.classList.toggle("active",active); item.setAttribute("aria-current",active ? "page" : "false");
       });
-      if ($("breadcrumb")) $("breadcrumb").textContent = {dashboard:"研究工作台",tasks:"全部策略任务",results:"全部回测结果",insights:"行情洞察"}[state.unifiedView];
+      if ($("breadcrumb")) $("breadcrumb").textContent = {dashboard:"研究工作台",tasks:"全部策略任务",results:"全部回测结果",insights:"行情洞察",execution:"执行演练",daily:"股票与数据"}[state.unifiedView];
     }
     function hide() {
       state.visible = false; coreMain.hidden = false; $("terminalQuantWorkspace").hidden = true;
+      executionHost.hidden = true;
+      if (!dailyHost.hidden) dailyUI.hide?.();
+      dailyHost.hidden = true;
       // Core detail navigation owns its existing active state while visible.
     }
     const navButton = navRoot.querySelector('[data-view="dashboard"]');
@@ -256,10 +268,14 @@
     if (navLabel) navLabel.textContent = "研究工作台"; else navButton.textContent = "研究工作台";
     const insightsNav = document.createElement("button"); insightsNav.type="button";insightsNav.className=navButton.className;
     insightsNav.dataset.view="insights";insightsNav.textContent="行情洞察";navButton.after(insightsNav);
+    const executionNav = document.createElement("button"); executionNav.type="button"; executionNav.className=navButton.className;
+    executionNav.dataset.view="execution"; executionNav.textContent="执行演练"; insightsNav.after(executionNav);
+    const dailyNav = document.createElement("button"); dailyNav.type="button";dailyNav.className=navButton.className;
+    dailyNav.dataset.view="daily";dailyNav.textContent="股票与数据";navButton.after(dailyNav);
     const host = document.createElement("section"); host.id = "terminalQuantWorkspace"; host.className = "main tq"; host.hidden = true;
     host.setAttribute("aria-label", "统一量化研究工作台");
     host.innerHTML = `
-      <div class="page-heading"><div><h1>研究工作台</h1><p>选股票和规则，核对数据，保存后明确运行。已有任务与结果在同一个窗口继续查看。</p></div><div class="actions">${button("新建研究","new-research")}${button("导入行情","core-import")}${button("刷新记录","refresh")}</div></div>
+      <div class="page-heading"><div><h1>研究工作台</h1><p>选股票，查看策略条件与理由，保存回测后核对订单。已有任务与结果在同一个窗口继续使用。</p></div><div class="actions">${button("选股票与数据","daily")}${button("新建研究","new-research")}${button("导入行情","core-import")}${button("刷新记录","refresh")}</div></div>
       <div id="tq-example" class="notice section-gap" hidden>可使用明确标注的虚构行情熟悉操作。示例不代表真实市场，不能复用为工作台策略的真实行情。${button("准备虚构教学示例","core-example")}</div>
       <div id="tq-message" class="notice" role="status" aria-live="polite" hidden></div>
       <div id="tq-completion" class="notice section-gap" role="status" aria-live="polite" hidden></div>
@@ -303,6 +319,37 @@
       <div class="actions section-gap">${button("读取旧任务与结果","workspace-records")}</div>
       <div id="tq-workspace-records" class="section-gap"></div><div id="tq-workspace-detail" class="section-gap"></div></div></section>`);
     coreMain.before(host);
+    const executionHost = document.createElement("section"); executionHost.id="terminalExecutionPage"; executionHost.className="main tq"; executionHost.hidden=true;
+    executionHost.setAttribute("aria-label","执行演练"); coreMain.before(executionHost);
+    const executionUI = globalThis.installTerminalExecutionUI({host:executionHost,api,perform,notify});
+    const dailyHost = document.createElement("section"); dailyHost.id="terminalDailyPage";dailyHost.className="main tq";dailyHost.hidden=true;
+    dailyHost.setAttribute("aria-label","股票与数据");coreMain.before(dailyHost);
+    const dailyUI = globalThis.installTerminalDailyUI({host:dailyHost,api,perform,notify,allowPublicDataRequest:true,
+      onInputImported:async (input) => {
+        let saved;
+        const result = await act("terminal_import_daily_input",{input_id:input.id},{onCommitted:value => {saved=value;}});
+        const receipt = saved || result;
+        if (receipt?.status !== "IMPORTED" || !text(receipt.input_id,150)) return receipt;
+        await refreshRecords();renderInputs(receipt.input_id);show("dashboard");
+        candidateUI.reveal();
+        notify(value("tq-input") === receipt.input_id
+          ? "行情已保存并选入研究。下一步查看策略条件，确认参数后保存回测任务。"
+          : "行情已保存；列表暂未读出，重新读取后再选择策略。无需重复导入。");
+        return receipt;
+      }});
+    const candidateHost=document.createElement("div");candidateHost.id="terminalStrategyCandidates";$("tq-context").after(candidateHost);
+    const candidateUI=globalThis.installTerminalStrategyCandidatesUI({host:candidateHost,api,notify,
+      onAcquireData:()=>show("daily"),
+      getDraft:()=>({input_id:value("tq-input"),strategy_id:value("tq-strategy"),strategy_params:currentSignalParams()}),
+      onChoose:async diagnostic=>{
+        const entry=state.catalog.find(row=>row.id===diagnostic.strategy_id);
+        if(researchBlocker(entry) || !state.inputs.some(row=>identity(row)===diagnostic.input_id))throw Error("所选行情或规则已经变化，请重新读取后核对。");
+        state.revisionOf=null;$("tq-form-title").textContent="2 · 保存所选策略";$("tq-saved-task").hidden=true;
+        $("tq-input").value=diagnostic.input_id;$("tq-strategy").value=diagnostic.strategy_id;
+        $("tq-name").value=`${diagnostic.symbol} · ${diagnostic.name || entry.name} · ${diagnostic.cutoff_session}`.slice(0,64);
+        renderParams(diagnostic.strategy_params);renderAiEvidence();
+        $("tq-form-title").scrollIntoView({block:"start"});$("tq-name").focus();
+      }});
     const flow = host.querySelector(".tq-flow");
     flow.before($("tq-tasks").closest(".panel"),$("tq-runs").closest(".panel"));
     const style = document.createElement("style");
@@ -392,6 +439,8 @@
       const selected = preferred || value("tq-input");
       $("tq-input").innerHTML = '<option value="">请选择已封存行情</option>' + state.inputs.map((row) => `<option value="${esc(identity(row))}">${esc(row.symbol)} · ${esc(row.date_start || "")} 至 ${esc(row.date_end || "")} · ${esc(row.row_count)} 日 · 来源待复核</option>`).join("");
       if (state.inputs.some((row) => identity(row) === selected)) $("tq-input").value = selected;
+      candidateUI.setSources({inputs:state.inputs});
+      if(preferred)candidateUI.selectInput(preferred);
       updatePreflight();
     }
     function renderCoreInputs() {
@@ -442,6 +491,10 @@
       state.inputs = inputs.items || []; state.tasks = tasks.items || []; state.runs = runs.items || [];
       state.history = history.items || []; state.reports = reports.items || []; state.reportsPage = reports;
       state.coreOverview = coreOverview; state.coreTasks = coreOverview.tasks || []; state.coreRuns = coreOverview.runs || [];
+      executionUI.setSources([
+        ...state.runs.filter(row => row.status === "COMPLETED").map(row => ({kind:"terminal_run",id:identity(row),label:`${row.title || row.strategy_id || "原策略结果"} · 版本 ${row.version ?? "未记录"}`})),
+        ...state.coreRuns.map(row => ({kind:"core_run",id:row.id,label:`${row.task_display_name || row.label || "股票研究结果"} · ${row.task_version_label || "已保存版本"}`}))
+      ]);
       state.coreStrategies = catalog.core_items || []; state.coreInputs = coreInputs.items || [];
       $("tq-workspace-path").textContent = coreOverview.product_workspace || coreOverview.workspace || "当前版本未提供工作区位置";
       const product = coreOverview.terminal_product;
@@ -629,7 +682,7 @@
       const result = run.result || {}, config = run.configuration || {}, trades = result.trades || [];
       $("tq-run-detail").innerHTML = `<h3>${esc(run.title || run.strategy_id)} · 版本 ${esc(run.version)}</h3>${warning("冻结研究结果 · 来源待复核 · 不授予模拟或实盘权限")}
         ${globalThis.HakimiTerminalResultSummary.renderResultSummary(run,esc)}
-        <div class="actions">${button("在行情图表复盘","replay",id)}${button("复制参数到策略分析","copy-params",id)}${button("记录这次结果的判断","judgment-run",id)}${button("出场对照研究","exit-research-run",id,researchBlocker(state.catalog.find((entry) => entry.id === run.strategy_id)) ? "disabled" : "")}</div>
+        <div class="actions">${button("用此版本准备订单演练","execution-source",id)}${button("在行情图表复盘","replay",id)}${button("复制参数到策略分析","copy-params",id)}${button("记录这次结果的判断","judgment-run",id)}${button("出场对照研究","exit-research-run",id,researchBlocker(state.catalog.find((entry) => entry.id === run.strategy_id)) ? "disabled" : "")}</div>
         <details class="section-gap"><summary>本次冻结配置与来源</summary><pre class="code-detail">${esc(JSON.stringify({engine:run.engine_id,configuration:config,input:run.input_summary,report_hash:run.report_hash},null,2))}</pre></details>
         ${config.ai_evidence ? '<h3 class="section-gap">本任务保存的 AI 研究依据</h3>' + aiEvidenceHtml(config.ai_evidence,config.ai_evidence_binding) : ""}
         <div class="tq-table section-gap"><table><thead><tr><th>日期</th><th>动作</th><th>价格</th><th>数量</th><th>原因</th></tr></thead><tbody>${trades.map((trade) => `<tr><td>${esc(trade.date)}</td><td>${esc(trade.side)}</td><td>${fmt(trade.price)}</td><td>${fmt(trade.quantity)}</td><td>${esc(trade.reason || "")}</td></tr>`).join("")}</tbody></table></div>`;
@@ -671,19 +724,17 @@
       if (!ids.length) return notify("请至少选择一份原工作台冻结结果。",true);
       if (value("tq-core-comparison")) ids.push(value("tq-core-comparison"));
       if (ids.length < 2) return notify("请选择两份结果进行版本比较。",true);
-      await act("terminal_compare",{run_ids:ids},{button:target,onSuccess:(comparison) => {
-        const rows = comparison.rows || [], comparable = comparison.status === "COMPARABLE_CONDITIONS";
-        const keys = new Set(rows.flatMap((row) => Object.keys(comparisonSignalParams(row,state.catalog))));
-        const fields = [["引擎规则",(row) => row.engine_id],["策略",(row) => row.configuration?.strategy_id || row.title],
-          ...[...keys].map((key) => [key,(row) => comparisonSignalParams(row,state.catalog)[key] ?? "不适用"]),
-          ...[["仓位（%）","position_pct"],["止盈（%）","take_profit_pct"],["止损（%）","stop_loss_pct"]].map(([label,key]) => [label,(row) => row.configuration?.risk?.[key] ?? "不适用"]),
-          ["收益率（%）",(row) => row.metrics?.total_return_pct ?? "—"],["最大回撤（%）",(row) => row.metrics?.max_drawdown_pct ?? "—"]];
-        $("tq-run-detail").innerHTML = `<h3>版本与参数对照</h3>${warning(comparable ? "数据与评分条件可比；参数差异按冻结配置展示。结果仍是独立本金研究。" : "条件不可比：只并排展示参数与结果，不计算跨结果收益差。")}
-          <div class="tq-table section-gap"><table><thead><tr><th>字段</th>${rows.map((row) => `<th>${esc(row.title || row.engine_id)}<br>版本 ${esc(row.version ?? "未知")}</th>`).join("")}</tr></thead><tbody>${fields.map(([label,get]) => {const values=rows.map(get);return `<tr><th>${esc(label)}</th>${values.map((value) => `<td ${new Set(values.map(String)).size > 1 ? 'style="background:var(--blue-pale)"' : ""}>${esc(value)}</td>`).join("")}</tr>`;}).join("")}</tbody></table></div>
-          ${comparable ? `<p class="section-note section-gap">${(comparison.differences_from_first || []).map((row) => `第 ${row.row} 项相对第一项收益差：${fmt(row.total_return_pct)} 个百分点`).join("；")}</p>` : `<p class="section-note section-gap">差异条件：${esc((comparison.mismatches || []).flatMap((row) => row.fields || []).join("、"))}</p>`}
-          <details><summary>完整冻结配置、费用与比较条件</summary><pre class="code-detail">${esc(JSON.stringify(comparison,null,2))}</pre></details>`;
-        notify("已展示所选冻结版本，未新增回测。");
-      }});
+      if (target?.disabled) return;
+      const references = ids.map(id => ({kind:state.comparison.has(id) ? "terminal_run" : "core_run",id}));
+      if (target) target.disabled = true;
+      try {
+        notify("正在读取所选保存结果与比较条件。");
+        const comparison = await api("terminal_saved_comparison/" + encodeURIComponent(JSON.stringify({references})));
+        $("tq-run-detail").innerHTML = globalThis.HakimiResultComparison.renderComparison(comparison,esc);
+        notify("已展示所选保存结果，未新增回测。");
+      } finally {
+        if (target) target.disabled = false;
+      }
     }
     async function dispatch(action, id, target) {
       if (action === "exit-research-run" || action === "structure-input") {
@@ -698,6 +749,11 @@
         return judgmentUI.openSource(kind,selectedId);
       }
       if (action === "refresh") return refreshRecords();
+      if (action === "daily") return show("daily");
+      if (action === "execution-source") {
+        show("execution");
+        return executionUI.controller.openResearch({kind:"terminal_run",id});
+      }
       if (action === "new-research" || action === "new-task-form") {
         await dispatch("new","",target); $("tq-saved-task").hidden = true;
         $("tq-form-title").scrollIntoView({behavior:"smooth",block:"start"}); $("tq-name").focus(); return;
@@ -801,13 +857,13 @@
     document.addEventListener("click", (event) => {
       const control = event.target.closest("[data-view]");
       if (!control) return;
-      if (["dashboard","tasks","results","insights"].includes(control.dataset.view)) {
+      if (["dashboard","tasks","results","insights","execution","daily"].includes(control.dataset.view)) {
         event.preventDefault(); event.stopImmediatePropagation(); show(control.dataset.view); send("context-request",{});
       } else hide();
     }, true);
     window.addEventListener("popstate", () => {
       const view = location.hash.slice(1) || "dashboard";
-      if (["dashboard","tasks","results","insights"].includes(view)) show(view,true); else hide();
+      if (["dashboard","tasks","results","insights","execution","daily"].includes(view)) show(view,true); else hide();
     });
     window.addEventListener("hakimi-core-open", () => hide());
     window.addEventListener("hakimi-core-task-saved", (event) => {
@@ -843,10 +899,19 @@
         } catch (error) { showError(error); }
       });
       heading.append(control);
+      const executionControl = document.createElement("button");executionControl.type="button";executionControl.className="btn small";
+      executionControl.textContent="用此版本准备订单演练";
+      executionControl.addEventListener("click",async () => {
+        try {
+          const id=getSelectedCoreRun();if(!id)throw new Error("请先选择一份已保存结果。");
+          show("execution");await executionUI.controller.openResearch({kind:"core_run",id});
+        } catch(error) {showError(error);}
+      });
+      heading.append(executionControl);
     });
     coreObserver.observe(coreMain,{childList:true,subtree:true});
     const initialView = location.hash.slice(1) || "dashboard";
-    if (["dashboard","tasks","results","insights"].includes(initialView)) show(initialView,true);
+    if (["dashboard","tasks","results","insights","execution","daily"].includes(initialView)) show(initialView,true);
     send("bridge-ready",{});
   };
 })();

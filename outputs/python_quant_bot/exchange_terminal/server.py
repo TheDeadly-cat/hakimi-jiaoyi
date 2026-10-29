@@ -549,9 +549,19 @@ STOCK_HISTORY_PREWARM_SERVICE: StockHistoryPrewarmService | None = None
 RUNTIME_BUILD_GUARD = RuntimeBuildGuard(project_root=PROJECT_DIR, source_roots=[ROOT_DIR, PROJECT_DIR / "vendor" / "research"])
 TERMINAL_MARKET_READER = TerminalMarketReader(RUNTIME_DIR)
 QUANT_WORKSPACE_DIR = Path(os.getenv("HAKIMI_QUANT_WORKSPACE_DIR") or RUNTIME_DIR).expanduser().absolute()
+
+
+def _fetch_explicit_public_daily(url):
+    # Only QuantWorkspace's ephemeral, payload-bound gate calls this transport.
+    # It never enables any legacy market, broker, model or background endpoint.
+    from hakimi_research.daily_updates import _fetch
+    return _fetch(url)
+
+
 QUANT_WORKSPACE = QuantWorkspace(
     QUANT_WORKSPACE_DIR, read_only=QUANT_RUNTIME_READ_ONLY, local_only=True,
     product_identity={"version": TERMINAL_PACKAGE_VERSION, "bundle_id": TERMINAL_PACKAGE_ID, "build_commit": TERMINAL_BUILD_COMMIT},
+    public_daily_fetcher=_fetch_explicit_public_daily,
     mutation_guard=lambda: RUNTIME_BUILD_GUARD.snapshot(force=True),
     service_factory=lambda core: TerminalResearchService(
         core, market_reader=TERMINAL_MARKET_READER, catalog=terminal_strategy_catalog,
@@ -1996,7 +2006,26 @@ def json_response(handler: BaseHTTPRequestHandler, payload: dict[str, Any], stat
         handler.close_connection = True
 
 
+def current_product_copy(filename, body):
+    """Current shell wording only; archived engine permissions stay unchanged."""
+    replacements = {
+        "index.html": (("当前产品仅支持本地数据研究、历史回测、确定性 Frozen benchmark、证据审阅与报告导出。参数优化、paper、live 已归档，订单输入已禁用。",
+                        "当前提供本地研究、历史回测、证据审阅与本地合成演练。公开日线仅在明确点击检查时获取；外部券商与实盘未开启。旧优化、paper/live 和机器人订单入口仍为归档功能。"),),
+        "app.js": (("? \"本地研究 · 实盘永久硬锁\"", "? \"本地研究 / 合成演练 · 外部券商与实盘未开启\""),
+                   ("\"本地工作区 · 外部连接未开启\"", "\"本地工作区 · 公开日线仅按次检查\"")),
+    }
+    for before, after in replacements.get(filename, ()):
+        body = body.replace(before.encode("utf-8"), after.encode("utf-8"), 1)
+    return body
+
+
+def _require_legacy_market_network():
+    if LOCAL_ONLY:
+        raise PermissionError("LOCAL_ONLY_MARKET_NETWORK_BLOCKED:本地模式未请求旧行情入口。")
+
+
 def read_bodyless_okx(path: str, query: dict[str, str]) -> dict[str, Any]:
+    _require_legacy_market_network()
     return read_bodyless_okx_io(path, query)
 
 
@@ -2021,6 +2050,7 @@ def okx_private_credentials() -> tuple[dict[str, str], dict[str, str], list[str]
 
 
 def read_signed_okx(path: str, query: dict[str, str] | None = None) -> dict[str, Any]:
+    _require_legacy_market_network()
     _, credentials, missing = okx_private_credentials()
     if missing:
         raise RuntimeError(f"missing OKX private env: {', '.join(missing)}")
@@ -3397,10 +3427,12 @@ def fetch_okx_daily_history(symbol: str, limit: int = 300) -> list[dict[str, Any
 
 
 def okx_rows_with_error(path: str, query: dict[str, str]) -> tuple[list[Any], str]:
+    _require_legacy_market_network()
     return okx_rows_with_error_io(path, query)
 
 
 def binance_daily_history(symbol: str, limit: int = 300) -> tuple[list[Any], str, str]:
+    _require_legacy_market_network()
     text = (symbol or "BTC-USDT").upper()
     base = text.replace("-USDT-SWAP", "").replace("-USDT", "")
     if base not in CORE_CRYPTO_BASES:
@@ -4901,10 +4933,12 @@ def strategy_implementation_fingerprint(strategy_id: str, strategy_params: dict[
 
 
 def okx_first(path: str, query: dict[str, str]) -> dict[str, Any]:
+    _require_legacy_market_network()
     return okx_first_io(path, query)
 
 
 def okx_rows(path: str, query: dict[str, str]) -> list[Any]:
+    _require_legacy_market_network()
     return okx_rows_io(path, query)
 
 
@@ -12526,6 +12560,12 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
         if LOCAL_ONLY and path in {"/api/ai/deepseek/opportunities", "/api/ai/deepseek/platform-review"}:
             json_response(self, {"ok": False, "error": "当前为本地模式，未调用外部模型。", "request_attempts": 0}, 423)
             return
+        if LOCAL_ONLY and path in {"/api/okx/candles", "/api/okx/history-candles", "/api/okx/ticker",
+                                   "/api/okx/tickers", "/api/okx/index-tickers", "/api/okx/trades"}:
+            json_response(self, {"ok": False, "error": "当前为本地模式，未请求 OKX 行情。公开日线授权不适用于此旧入口。",
+                                 "code": "LOCAL_ONLY_MARKET_NETWORK_BLOCKED", "request_attempts": 0,
+                                 "local_only": True, "live_order_allowed": False}, 423)
+            return
         try:
             archived_route_state = archived_execution_route_state(
                 str(getattr(self, "command", "GET")), path
@@ -13334,7 +13374,7 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
             self.send_error(404)
             return
         content_type = mimetypes.guess_type(str(target))[0] or "application/octet-stream"
-        body = target.read_bytes()
+        body = current_product_copy(target.name, target.read_bytes())
         if target.name == "index.html":
             mode = json.dumps({"localOnly": LOCAL_ONLY, "readOnly": RUNTIME_READ_ONLY}, separators=(",", ":"))
             body = body.replace(b"<head>", ("<head><script>window.HAKIMI_RUNTIME_MODE=" + mode + ";</script>").encode("utf-8"), 1)

@@ -301,17 +301,88 @@ def _core_input_adapter(snapshot, identity, file_hash):
 
 
 class TerminalResearchService:
-    def __init__(self, service, market_reader, catalog, runner, fingerprint, history_reader=None, group_reader=None, workspace_history=None):
+    def __init__(self, service, market_reader, catalog, runner, fingerprint, history_reader=None, group_reader=None, workspace_history=None, daily_factory=None):
         self.core = service
         self.workspace = Path(service.workspace).absolute()
         self.market_reader, self.catalog, self.runner, self.fingerprint = market_reader, catalog, runner, fingerprint
         self.history_reader = history_reader
         self.workspace_history = workspace_history
         self._lock = RLock()
+        self._execution_service = None
+        self._daily_backend = None
+        self._daily_factory = daily_factory
+        self._daily_access = self._daily_session = None
+        self._daily_request_bindings = {}
         self._safe(self.workspace)
         self.judgments = TerminalJudgmentService(self)
         self.exit_research = TerminalExitResearchService(self)
         self.insights = TerminalInsightsService(self, group_reader)
+
+    def _execution(self):
+        if self._execution_service is None:
+            from .terminal_execution_service import TerminalExecutionService
+            from .terminal_saved_results import resolve_execution_research
+            self._execution_service = TerminalExecutionService(
+                self.workspace, lambda reference: resolve_execution_research(self, reference))
+        return self._execution_service
+
+    def close(self):
+        # Revocation never waits for the service lock held by a network check.
+        if self._daily_access is not None:
+            self._daily_access.close()
+        with self._lock:
+            if self._execution_service is not None:
+                self._execution_service.close()
+
+    def configure_public_daily_access(self, access, session):
+        """Trusted session binding, never a request payload or durable setting."""
+        with self._lock:
+            if self._daily_backend is not None:
+                raise RuntimeError("public_daily_binding_must_precede_backend")
+            self._daily_access, self._daily_session = access, session
+
+    def _daily(self):
+        if self._daily_backend is None:
+            from .terminal_daily_research import TerminalDailyResearch
+            from .terminal_public_daily_access import PublicDailyAccessError
+            def unavailable(_url):
+                raise PublicDailyAccessError("PUBLIC_DAILY_PERMISSION_REQUIRED")
+            factory = self._daily_factory or TerminalDailyResearch
+            self._daily_backend = factory(self.workspace, fetcher=self._daily_access.fetch if self._daily_access is not None else unavailable)
+        return self._daily_backend
+
+    def _daily_mutate(self, action, payload):
+        from .terminal_public_daily_access import ACTIONS, PublicDailyAccessError
+        if action not in ACTIONS:
+            return self._daily().mutate(action, payload)
+        access = self._daily_access
+        if access is None:
+            raise PublicDailyAccessError("PUBLIC_DAILY_PERMISSION_REQUIRED")
+        try:
+            result = access.run_once(self._daily_session, action, payload, lambda: self._daily().mutate(action, payload))
+        except PublicDailyAccessError as error:
+            # A known zero-transport denial is a completed refusal, not a claim
+            # that canonical intake ran or an UNKNOWN economic calculation.
+            return {"status": "PUBLIC_DAILY_REQUEST_REFUSED", "error": {"code": error.code, "message": str(error)},
+                    "public_daily_request": access.request_status(self._daily_session, action, payload),
+                    "new_economic_runs": 0, "automatic_retry": False, "permissions": dict(PERMISSIONS)}
+        # Keep canonical planned-request counts and UNKNOWN records intact.
+        if type(result.get("id")) is str:
+            self._daily_request_bindings[result["id"]] = (action, _detached(payload))
+        return self._daily_request_view(result)
+
+    def _daily_request_view(self, value):
+        """Current-session transport facts supplement immutable source records."""
+        if type(value) is not dict:
+            return value
+        result = dict(value)
+        if type(value.get("items")) is list:
+            result["items"] = [self._daily_request_view(item) for item in value["items"]]
+        binding = self._daily_request_bindings.get(value.get("id"))
+        if binding is not None and self._daily_access is not None:
+            result["public_daily_request"] = self._daily_access.request_status(self._daily_session, *binding)
+            result["public_daily_request_scope"] = "CURRENT_SESSION_ACTUAL_TRANSPORT"
+        return result
 
     def _safe(self, path):
         path = Path(path).absolute()
@@ -487,6 +558,19 @@ class TerminalResearchService:
         value = self._read(self.workspace / "terminal-inputs" / (identity + ".json"), schema="hakimi-terminal-input-v1")
         if value["id"] != identity:
             raise ValueError("terminal_input_identity_conflict")
+        if "daily_reference" in value:
+            from .terminal_daily_bridge import verify_native_daily_input
+            reference = value["daily_reference"]
+            file_hash = reference.get("file_sha256") if type(reference) is dict else None
+            if type(file_hash) is not str or not _HASH.fullmatch(file_hash):
+                raise ValueError("terminal_daily_original_identity_invalid")
+            # Never follow original_bytes_path supplied by a client/receipt.
+            path = self._safe(self.workspace / "terminal-inputs" / "daily-originals" / (file_hash + ".json"))
+            with path.open("rb") as stream:
+                raw = stream.read(64 * 1024 * 1024 + 1)
+            if sha256(raw).hexdigest() != file_hash:
+                raise ValueError("terminal_daily_original_bytes_changed")
+            return verify_native_daily_input(value, raw)
         reference = value.get("core_reference")
         if reference is not None:
             file_hash = reference.get("file_sha256")
@@ -553,6 +637,19 @@ class TerminalResearchService:
         self._write_bytes(path, raw)
         self._write(self.workspace / "terminal-inputs" / (record["id"] + ".json"), record)
         return self._input_view(record)
+
+    def _import_daily_input(self, payload):
+        from .terminal_daily_bridge import build_native_daily_input, verify_native_daily_input
+        _fields(payload, {"input_id"}, {"input_id"})
+        raw, snapshot = self._daily().verified_input(payload["input_id"])
+        record = build_native_daily_input(raw, snapshot, payload["input_id"])
+        verify_native_daily_input(record, raw)
+        original = self.workspace / "terminal-inputs" / "daily-originals" / (record["daily_reference"]["file_sha256"] + ".json")
+        self._write_bytes(original, raw)
+        self._write(self.workspace / "terminal-inputs" / (record["id"] + ".json"), record)
+        # Read the published bytes through the same verification path as later
+        # use. Duplicate imports are immutable no-ops, including original bytes.
+        return {**self._input_view(self._input(record["id"])), "status": "IMPORTED"}
 
     @staticmethod
     def _input_view(value, *, rows=True):
@@ -920,6 +1017,18 @@ class TerminalResearchService:
                                    "每项是独立本金的描述性研究，未认证数据与结果不能授予模拟或实盘权限。"]}
 
     def read(self, resource, identity=None):
+        if isinstance(resource, str) and resource.startswith("terminal_daily_"):
+            with self._lock:
+                return self._daily_request_view(self._daily().read(resource, identity))
+        if isinstance(resource, str) and resource.startswith("terminal_execution_"):
+            with self._lock:
+                return self._execution().read(resource, identity)
+        if resource == "terminal_saved_comparison":
+            from .terminal_saved_results import compare_saved_references
+            if type(identity) is not str or len(identity) > 12000:
+                raise ValueError("saved_comparison_references_required")
+            with self._lock:
+                return compare_saved_references(self, json.loads(identity))
         if resource == "terminal_workspace_history":
             if self.workspace_history is None:
                 return {"items": [], "warnings": ["旧工作区读取入口未配置。"], "read_only": True, "new_economic_runs": 0}
@@ -943,6 +1052,12 @@ class TerminalResearchService:
                 return self.judgments.read(resource, identity)
         if resource == "terminal_catalog":
             return self._catalog()
+        if resource == "terminal_strategy_candidates":
+            if type(identity) is not str or len(identity) > 8000:
+                raise ValueError("terminal_strategy_candidates_configuration_required")
+            with self._lock:
+                from .terminal_candidate_service import strategy_candidates
+                return strategy_candidates(self, json.loads(identity))
         if resource == "terminal_preflight":
             if type(identity) is not str or len(identity) > 8000:
                 raise ValueError("terminal_preflight_configuration_required")
@@ -983,8 +1098,15 @@ class TerminalResearchService:
         return self.core.read(resource, identity)
 
     def mutate(self, action, payload):
+        if isinstance(action, str) and action.startswith("terminal_daily_"):
+            with self._lock:
+                return self._daily_mutate(action, _detached(payload))
+        if isinstance(action, str) and action.startswith("terminal_execution_"):
+            with self._lock:
+                return self._execution().mutate(action, _detached(payload))
         handlers = {"terminal_freeze_market": self._freeze, "terminal_save_task": self._save_task,
                     "terminal_import_core_input": self._import_core_input,
+                    "terminal_import_daily_input": self._import_daily_input,
                     "terminal_set_task_state": self._set_state, "terminal_run_task": self._run,
                      "terminal_compare": self._compare,
                      "terminal_save_judgment": self.judgments.save,
