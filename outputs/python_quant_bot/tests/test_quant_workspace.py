@@ -173,7 +173,7 @@ class QuantWorkspaceTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(headers["X-Frame-Options"], "SAMEORIGIN")
         self.assertIn("frame-ancestors 'self'", headers["Content-Security-Policy"])
-        self.assertIn("量化任务与回测 · 哈基米交易 v2", html)
+        self.assertIn("<title>量化任务与回测 · 哈基米交易</title>", html)
         for feature in ("save_csv_template", "prepare_teaching_examples", "configuration_differences_from_first"):
             self.assertIn(feature, html)
         self.assertIn("fetch('/api/quant/'+path", html)
