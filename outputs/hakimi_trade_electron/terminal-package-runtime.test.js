@@ -23,7 +23,9 @@ function fixture(t) {
     source_provenance: { git: { commit: "a".repeat(40) } }, files };
   const manifest = { ...core, bundle_id: runtime.hash(runtime.canonical(core)) };
   fs.writeFileSync(path.join(root, "terminal-manifest.json"), JSON.stringify(manifest));
-  return { base, root, manifest, context: { root, manifest, workspace: path.join(base, "工作 区") } };
+  const diagnosticsDirectory = path.join(base, "诊断 记录");
+  fs.mkdirSync(diagnosticsDirectory);
+  return { base, root, manifest, context: { root, manifest, workspace: path.join(base, "工作 区"), diagnosticsDirectory } };
 }
 test("verified original route uses only private Python with separate Unicode arguments", t => {
   const { root, context, manifest } = fixture(t);
@@ -33,6 +35,7 @@ test("verified original route uses only private Python with separate Unicode arg
   assert.equal(launch.executable, path.join(root, "runtime/python/python.exe"));
   assert.deepEqual(launch.args.slice(0, 5), ["-I", "-S", "-B", "-X", "utf8"]);
   assert.equal(launch.options.shell, false);
+  assert.equal(launch.options.cwd, context.diagnosticsDirectory);
   assert.equal(launch.options.env.SAFE, "kept");
   assert.equal(Object.keys(launch.options.env).some(key => key.toUpperCase().startsWith("PYTHON")), false);
   assert.equal(launch.options.env.HAKIMI_TERMINAL_PACKAGE_ID, manifest.bundle_id);
@@ -44,6 +47,9 @@ test("changed executable bytes and unexpected modules fail before launch", t => 
   fs.writeFileSync(path.join(root, "injected.py"), "raise RuntimeError('unsafe')");
   assert.throws(() => runtime.verifyBundle(root), /inventory_changed/);
   fs.unlinkSync(path.join(root, "injected.py"));
+  fs.writeFileSync(path.join(root, "debug.log"), "early crashpad diagnostic");
+  assert.throws(() => runtime.verifyBundle(root), /inventory_changed/);
+  fs.unlinkSync(path.join(root, "debug.log"));
   fs.appendFileSync(path.join(root, "runtime/python/python.exe"), "changed");
   assert.throws(() => runtime.verifyBundle(root), /hash_changed/);
 });
@@ -80,6 +86,7 @@ test("quant workspace stays distinct from the legacy read root and singleton key
   const args = { resourcesPath: path.join(root, "resources"), localAppData: base, home: base,
     runtimeDirectory: path.join(base, "旧数据"), quantWorkspaceDirectory: path.join(base, "新量化 空间") };
   const context = runtime.createContext(args);
+  context.diagnosticsDirectory = path.join(base, "诊断 记录");
   const again = runtime.createContext({ ...args, quantWorkspaceDirectory: path.join(base, "ignored", "..", "新量化 空间") });
   const other = runtime.createContext({ ...args, quantWorkspaceDirectory: path.join(base, "另一个工作区") });
   assert.equal(context.instanceId, again.instanceId);
@@ -154,13 +161,19 @@ test("actual packaged main resolves boot, icon, contract and private backend wit
   const { EventEmitter } = require("node:events");
   const { createRequire } = require("node:module");
   const vm = require("node:vm");
-  const observed = { paths: {}, spawns: [] };
+  const observed = { paths: {}, spawns: [], switches: {}, events: [] };
   const app = { isPackaged: true, getPath: key => observed.paths[key] || base,
     setPath: (key, value) => { observed.paths[key] = value; }, setName: value => { observed.name = value; },
-    requestSingleInstanceLock: () => true, commandLine: { appendSwitch() {}, removeSwitch() {} },
+    setAppLogsPath: value => { observed.logs = value; observed.events.push("logs"); },
+    requestSingleInstanceLock: () => { observed.events.push("singleton"); return true; },
+    commandLine: { appendSwitch(key, value) { observed.switches[key] = value; }, removeSwitch() {} },
     on() {}, whenReady: () => ({ then() {} }), quit() {} };
   class Window extends EventEmitter {
-    constructor() { super(); this.webContents = { on() {}, setWindowOpenHandler() {}, executeJavaScript: async () => {} }; }
+    constructor() {
+      super(); observed.events.push("window");
+      assert.equal(vm.runInContext("process.env.CHROME_CRASHPAD_PIPE_NAME", context), undefined);
+      this.webContents = { on() {}, setWindowOpenHandler() {}, executeJavaScript: async () => {} };
+    }
     isDestroyed() { return false; }
     loadFile(file) { assert.equal(fs.existsSync(file), true); observed.bootFile = file; }
     loadURL(url) { observed.loadedURL = url; }
@@ -172,12 +185,17 @@ test("actual packaged main resolves boot, icon, contract and private backend wit
   const fromPackage = createRequire(path.join(appDirectory, "main.js"));
   const child = new EventEmitter(); child.stdout = new EventEmitter(); child.stderr = new EventEmitter();
   const context = vm.createContext({ __dirname: appDirectory, console, URL, setTimeout, clearTimeout, setInterval, clearInterval,
-    process: { platform: "win32", resourcesPath: path.join(root, "resources"), env: { LOCALAPPDATA: base, HAKIMI_LOCAL_ONLY: "1" } },
+    process: { platform: "win32", resourcesPath: path.join(root, "resources"), env: { LOCALAPPDATA: base, HAKIMI_LOCAL_ONLY: "1",
+      CHROME_CRASHPAD_PIPE_NAME: "unowned-launcher-pipe", CHROME_CRASHPAD_SERVER_URL: "https://unowned.invalid" },
+      chdir(directory) { observed.cwd = directory; observed.events.push("cwd"); } },
     require(name) {
       if (name === "electron") return { app, BrowserWindow: Window, Tray,
         Menu: { buildFromTemplate: value => value, setApplicationMenu() {} },
         session: { defaultSession: { webRequest: { onBeforeRequest() {} } } }, dialog: {}, shell: {} };
-      if (name === "child_process") return { spawn(executable, args, options) { observed.spawns.push({ executable, args, options }); return child; } };
+      if (name === "child_process") return { spawn(executable, args, options) {
+        observed.events.push("backend"); observed.spawns.push({ executable, args, options });
+        queueMicrotask(() => child.stderr.emit("data", "Synthetic startup trace\n")); return child;
+      } };
       return fromPackage(name);
     },
   });
@@ -190,6 +208,89 @@ test("actual packaged main resolves boot, icon, contract and private backend wit
   assert.equal(observed.spawns.length, 1);
   assert.equal(observed.spawns[0].executable, path.join(root, "runtime/python/python.exe"));
   assert.equal(observed.spawns[0].options.shell, false);
+  assert.equal(observed.spawns[0].options.cwd, observed.logs);
+  assert.equal(observed.cwd, observed.logs);
+  assert.deepEqual(observed.events, ["logs", "cwd", "singleton", "window", "backend"]);
+  assert.equal(observed.switches["log-file"], path.join(observed.logs, "electron.log"));
+  assert.equal(observed.switches["enable-logging"], "file");
+  assert.equal(vm.runInContext("process.env.ELECTRON_LOG_FILE", context), observed.switches["log-file"]);
+  const diagnostic = fs.readdirSync(observed.logs).find(name => name.startsWith("backend-startup-"));
+  const recorded = JSON.parse(fs.readFileSync(path.join(observed.logs, diagnostic), "utf8"));
+  assert.equal(recorded.status, "READY");
+  assert.match(recorded.stderr, /Synthetic startup trace/);
+  // Relative application diagnostics use the safe cwd; Windows Crashpad's
+  // pre-init EXE-directory fallback is prevented by removing its foreign pipe.
+  fs.writeFileSync(path.join(observed.cwd, "debug.log"), "early child diagnostic");
+  assert.equal(runtime.verifyBundle(root).bundle_id, manifest.bundle_id);
+  assert.equal(observed.spawns[0].options.env.CHROME_CRASHPAD_PIPE_NAME, undefined);
+  assert.equal(observed.spawns[0].options.env.CHROME_CRASHPAD_SERVER_URL, undefined);
   assert.equal(observed.spawns[0].options.env.HAKIMI_QUANT_WORKSPACE_DIR, vm.runInContext("WORKSPACE_CONTEXT.workspace", context));
   assert.equal(fs.existsSync(path.join(root, "src")), false);
+});
+
+test("diagnostic configuration overrides inherited log destinations without writing program files", t => {
+  const { root, base } = fixture(t);
+  const environment = { ELECTRON_LOG_FILE: path.join(root, "debug.log"), ELECTRON_ENABLE_LOGGING: "1",
+    CHROME_CRASHPAD_PIPE_NAME: "unowned-launcher-pipe", chrome_crashpad_server_url: "https://unowned.invalid" };
+  const switches = {}, observed = {};
+  const app = { commandLine: { appendSwitch: (key, value) => { switches[key] = value; } },
+    setAppLogsPath: directory => { observed.logs = directory; } };
+  const diagnostics = runtime.configureDiagnostics({ app, programRoot: root, profile: path.join(base, "壳 配置"),
+    environment, changeDirectory: directory => { observed.cwd = directory; } });
+  assert.equal(environment.ELECTRON_LOG_FILE, diagnostics.chromiumLog);
+  assert.equal(environment.ELECTRON_ENABLE_LOGGING, "file");
+  assert.equal(environment.CHROME_CRASHPAD_PIPE_NAME, undefined);
+  assert.equal(environment.chrome_crashpad_server_url, undefined);
+  assert.equal(switches["log-file"], diagnostics.chromiumLog);
+  assert.equal(observed.cwd, diagnostics.directory);
+  assert.equal(observed.logs, diagnostics.directory);
+  assert.throws(() => runtime.configureDiagnostics({ app, programRoot: root, profile: root, environment,
+    changeDirectory() { assert.fail("cannot enter program"); } }), /inside_program/);
+  const alias = path.join(base, "诊断别名");
+  fs.symlinkSync(diagnostics.directory, alias, process.platform === "win32" ? "junction" : "dir");
+  assert.throws(() => runtime.configureDiagnostics({ app, programRoot: root, profile: alias, environment,
+    changeDirectory() { assert.fail("cannot enter alias"); } }), /reparse/);
+  assert.doesNotThrow(() => runtime.verifyBundle(root));
+});
+
+test("startup stderr is bounded, redacted across chunks and frozen at completion", t => {
+  const { context } = fixture(t);
+  const token = "private-control-" + "a".repeat(48), apiKey = "private-api-key-value";
+  const recorder = runtime.createStartupDiagnostic({ directory: context.diagnosticsDirectory, secrets: [token],
+    environment: { API_KEY: apiKey, NORMAL: "must-not-be-dumped" } });
+  recorder.append("Traceback (most recent call last):\nterminal_file_inventory_changed\n" + token.slice(0, 10));
+  recorder.append(token.slice(10) + "\nAuthorization: Bearer provider-secret\nAPI_KEY=" + apiKey + "\n");
+  recorder.append("Authorization: Basic encoded-auth-value\npassword='multiple secret words'\n");
+  recorder.append("x".repeat(70000) + "secret-cut-in-final-line");
+  recorder.finish("EXITED", 1);
+  const before = fs.readFileSync(recorder.file, "utf8");
+  const record = JSON.parse(before);
+  assert.match(record.stderr, /terminal_file_inventory_changed/);
+  for (const secret of [token, apiKey, "provider-secret", "encoded-auth-value", "multiple secret words", "must-not-be-dumped", "secret-cut"]) assert.equal(before.includes(secret), false);
+  assert.equal(record.truncated, true);
+  assert.ok(record.stderr.length <= 8192);
+  assert.equal(record.exit_code, 1);
+  recorder.append("late provider error"); recorder.finish("READY");
+  assert.equal(fs.readFileSync(recorder.file, "utf8"), before);
+});
+
+test("absent Crashpad pipe stays absent and mixed-case foreign endpoints never reach Python", t => {
+  const { context, root, base } = fixture(t);
+  const environment = { SAFE: "preserved" };
+  const app = { commandLine: { appendSwitch() {} }, setAppLogsPath() {} };
+  runtime.configureDiagnostics({ app, programRoot: root, profile: path.join(base, "no-pipe"), environment, changeDirectory() {} });
+  assert.equal(Object.keys(environment).some(key => key.toUpperCase().startsWith("CHROME_CRASHPAD")), false);
+  const launch = runtime.backendLaunch(context, { host: "127.0.0.1", port: 18765, token: "test", localOnly: true,
+    environment: { ...environment, chrome_crashpad_pipe_name: "foreign", Chrome_Crashpad_Server_Url: "https://foreign.invalid" } });
+  assert.equal(Object.keys(launch.options.env).some(key => key.toUpperCase().startsWith("CHROME_CRASHPAD")), false);
+  assert.equal(launch.options.env.SAFE, "preserved");
+});
+
+test("a startup diagnostic write failure preserves existing bytes and cannot interrupt lifecycle", t => {
+  const { context } = fixture(t);
+  const recorder = runtime.createStartupDiagnostic({ directory: context.diagnosticsDirectory });
+  fs.writeFileSync(recorder.file, "preserved-existing-record");
+  recorder.append("Traceback\n");
+  assert.equal(recorder.finish("SPAWN_ERROR"), null);
+  assert.equal(fs.readFileSync(recorder.file, "utf8"), "preserved-existing-record");
 });

@@ -30,8 +30,8 @@
 | T11 | DOING | T02 | 原终端独立组件与闭包实现中 | 脱离仓库的真实启动验证 |
 | T12 | DOING | T11 | 包内 Python / 资源验证启动实现中 | 中文空格路径、全局 Python / 同名模块污染隔离 |
 | T13 | DOING | T11 | workspace-history-verification-20261029.json；四个旧工作区字节/mtime 不变；DOM 旧记录/复盘仅 GET | 已接入选择与当前路径，待新包核对 |
-| T14 | DOING | T03-T13 | terminal-packaging-foundations-summary-r1.json、terminal-packaging-readonly-review-r1.json（开发探测） | 冻结阶段 A 干净提交后构建最终候选，旧 r1 DIRTY 不作为交付包 |
-| T15 | TODO | T14 | 待证据 | 实际包 Windows 原生保存/运行/复盘/退出/重开及端口检查 |
+| T14 | DOING | T03-T13 | 6ca4015 CLEAN r1 构建、9043 ZIP 条目哈希通过；final-candidate-package-verification-r1.json | 原生启动发现日志污染程序清单，r1 作为失败候选保留；修复后重建 r2 |
+| T15 | DOING | T14 | native-startup-inventory-failure-r1.json；真实窗口提示后台未就绪，程序根新增 debug.log；正常关闭且无任务运行 | 修正继承诊断环境并把日志写到包外后，验证新 r2 的完整原生路径 |
 | T16 | DOING | T14 | windows-original-terminal-candidate.md、README、first-use、CURRENT_STATUS、包内 FIRST_USE.md | 新入口/身份说明已更新，待实际包回执补齐 |
 | T17 | BLOCKED_HUMAN | T14 | 尚无未参与开发者的独立操作证据 | 候选完成后给出简短任务卡；其他工作继续 |
 
@@ -63,3 +63,7 @@
 本轮外部证据目录：`C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029`。旧整合回执目录和旧 CI 完整保留。本清单不会以单元测试代替包内启动、原生操作或真人验收。相关代码不变时不重复已结案的历史研究。
 
 阶段 A 完整桌面检查：`stage-a-desktop-full-r4.log` 通过。根任务合并后的定向 Python：`stage-a-source-final-r1.log` 29 项通过；`stage-a-python-r1.log` 42 项通过（范围重叠，不相加作为独立总数）。浏览器使用完整 render_quant_html 与模拟后端，1440/1280；它证明界面交互，不代替包内真实计算。旧失败截图/日志均保留。
+
+阶段 A 已提交并推送 `6ca4015b45bf02f765b933bb82725cc730a715c5`。干净冻结树的终端全门禁为 205/205、完整桌面检查和 6 项新打包检查通过。对应 CI run 144 / 40809973324 完整结束为 failure：两项 Windows 8.3 路径问题（健康测试预期与当前工作区排除）已定位；原运行不重跑或取消，修复提交单独接受新 CI。原生 r1 暴露的问题不被上述源码检查覆盖，相关失败包/日志/原 ZIP 均保留。
+
+后续修复将当前工作区与测试预期统一为物理路径，并在窗口创建前清除外部 Crashpad 继承配置，将日志、后台工作目录和限长脱敏启动诊断移到独立数据目录。严格程序文件清单不放宽。`stage-a-r2-desktop-full-r1.log` 完整桌面检查通过；`ci144-focused-correction-tests-r1.log` 15/15 通过。新 r2 包的实际启动与生命周期验证仍待完成，这些源码检查不能证明原生问题已解决。

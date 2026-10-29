@@ -175,6 +175,13 @@ function desktopHarness(stopResult, { locked = true, state = {}, environment = {
       if (name === "./desktop-lifecycle") return { ...lifecycle,
         stopOwnedBackend: async (options) => { observed.stop = options; return stopResult; },
       };
+      if (name === "./terminal-package-runtime") return { ...require(name),
+        configureDiagnostics: ({ profile }) => ({ directory: path.join(profile, "diagnostics") }),
+        createStartupDiagnostic: () => ({
+          append(value) { observed.startupStderr = (observed.startupStderr || "") + value; },
+          finish(status) { observed.startupStatus = status; },
+        }),
+      };
       return require(name);
     },
   });
@@ -335,4 +342,19 @@ test("occupied service for a different workspace never attaches, spawns or recei
   await new Promise(setImmediate);
   assert.equal(h.observed.allowedQuit, 1);
   assert.equal(h.observed.stop, null);
+});
+
+test("backend spawn error records a bounded-diagnostic status and leaves no process authority", async () => {
+  const h = desktopHarness({ ok: true });
+  vm.runInContext("startBackend()", h.context);
+  h.child.stderr.emit("data", "Synthetic startup failure\n");
+  h.child.emit("error", new Error("private spawn arguments must not be recorded"));
+  assert.equal(h.observed.startupStatus, "SPAWN_ERROR");
+  assert.equal(h.observed.startupStderr, "Synthetic startup failure\n");
+  assert.equal(vm.runInContext("backendStartedByShell", h.context), false);
+  assert.equal(vm.runInContext("backendProcess", h.context), null);
+  h.app.quit();
+  await new Promise(setImmediate);
+  assert.equal(h.observed.stop, null);
+  assert.equal(h.observed.allowedQuit, 1);
 });

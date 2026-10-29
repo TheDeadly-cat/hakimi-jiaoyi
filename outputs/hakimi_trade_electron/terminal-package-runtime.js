@@ -95,7 +95,72 @@ function createContext({ resourcesPath, localAppData, home, runtimeDirectory, qu
 }
 function cleanEnvironment(environment) {
   return Object.fromEntries(Object.entries(environment).filter(([key]) => !key.toUpperCase().startsWith("PYTHON")
-    && !["NODE_OPTIONS", "ELECTRON_RUN_AS_NODE"].includes(key.toUpperCase())));
+    && !["NODE_OPTIONS", "ELECTRON_RUN_AS_NODE", "CHROME_CRASHPAD_PIPE_NAME", "CHROME_CRASHPAD_SERVER_URL"].includes(key.toUpperCase())));
+}
+function configureDiagnostics({ app, programRoot, profile, environment, changeDirectory }) {
+  // This application does not enable crashReporter. Do not let Windows child
+  // processes register with an unrelated launcher's inherited Crashpad pipe.
+  // Chromium does this before Electron initializes renderer logging, and a
+  // failed registration writes debug.log beside the EXE, irrespective of cwd.
+  for (const key of Object.keys(environment)) {
+    if (["CHROME_CRASHPAD_PIPE_NAME", "CHROME_CRASHPAD_SERVER_URL"].includes(key.toUpperCase())) delete environment[key];
+  }
+  const directory = dataDirectory(path.join(profile, "diagnostics"), programRoot);
+  fs.mkdirSync(directory, { recursive: true });
+  const physical = dataDirectory(directory, programRoot);
+  const chromiumLog = path.join(physical, "electron.log");
+  environment.ELECTRON_LOG_FILE = chromiumLog;
+  environment.ELECTRON_ENABLE_LOGGING = "file";
+  app.commandLine.appendSwitch("log-file", chromiumLog);
+  app.commandLine.appendSwitch("enable-logging", "file");
+  app.commandLine.appendSwitch("log-level", "2");
+  app.setAppLogsPath(physical);
+  // Keep relative diagnostics and subprocess defaults outside the bundle too.
+  // This alone cannot redirect Windows pre-initialization Crashpad logging.
+  // Run synchronously before singleton setup, readiness, windows or children.
+  changeDirectory(physical);
+  return { directory: physical, chromiumLog };
+}
+function createStartupDiagnostic({ directory, secrets = [], environment = {} }) {
+  const destination = physicalDirectory(directory);
+  const file = path.join(destination, `backend-startup-${Date.now()}-${crypto.randomBytes(6).toString("hex")}.json`);
+  const privateValues = [...secrets, ...Object.entries(environment)
+    .filter(([key]) => /token|secret|password|api.?key|credential|authorization/i.test(key)).map(([, value]) => value)]
+    .filter(value => typeof value === "string" && value.length >= 4).sort((a, b) => b.length - a.length);
+  const inputLimit = 65536, outputLimit = 8192;
+  let captured = "", truncated = false, finished = false, saved = null;
+  return {
+    file,
+    append(chunk) {
+      if (finished || truncated) return;
+      const value = String(chunk);
+      const remaining = inputLimit - captured.length;
+      captured += value.slice(0, remaining);
+      truncated = value.length > remaining;
+    },
+    finish(status, exitCode = null) {
+      if (finished) return saved;
+      finished = true;
+      // Discard a cut-off line before redaction so a partial secret is never
+      // persisted when the input bound falls within its value.
+      let stderr = truncated ? captured.slice(0, Math.max(0, captured.lastIndexOf("\n") + 1)) : captured;
+      for (const value of privateValues) stderr = stderr.split(value).join("[REDACTED]");
+      stderr = stderr.replace(/^.*(?:authorization|[\w-]*(?:token|secret|password|api[_-]?key|credential)[\w-]*)["']?\s*[:=].*$/gmi, "[REDACTED credential line]")
+        .replace(/\bsk-[A-Za-z0-9_-]{8,}\b/g, "[REDACTED]");
+      truncated ||= stderr.length > outputLimit;
+      const record = { schema_version: "terminal-startup-diagnostic-v1",
+        status: ["READY", "NOT_READY", "EXITED", "SPAWN_ERROR"].includes(status) ? status : "NOT_READY",
+        exit_code: Number.isInteger(exitCode) ? exitCode : null, stderr: stderr.slice(0, outputLimit), truncated };
+      captured = "";
+      // A diagnostic-write failure must not replace the startup result or
+      // interrupt cooperative shutdown (for example when storage is full).
+      try {
+        fs.writeFileSync(file, JSON.stringify(record, null, 2) + "\n", { encoding: "utf8", flag: "wx", mode: 0o600 });
+        saved = file;
+      } catch {}
+      return saved;
+    },
+  };
 }
 function backendLaunch(context, { host, port, token, localOnly, environment = process.env }) {
   // No shell parsing, global Python discovery, inherited PYTHONPATH, or current
@@ -103,7 +168,7 @@ function backendLaunch(context, { host, port, token, localOnly, environment = pr
   return {
     executable: boundPath(context.root, context.manifest.python),
     args: ["-I", "-S", "-B", "-X", "utf8", boundPath(context.root, context.manifest.bootstrap), "--host", host, "--port", String(port), "--no-browser"],
-    options: { cwd: context.root, shell: false, windowsHide: true, stdio: ["ignore", "pipe", "pipe"],
+    options: { cwd: physicalDirectory(dataDirectory(context.diagnosticsDirectory, context.root)), shell: false, windowsHide: true, stdio: ["ignore", "pipe", "pipe"],
       env: { ...cleanEnvironment(environment), HAKIMI_RUNTIME_DIR: context.legacyRuntime || context.workspace,
         HAKIMI_QUANT_WORKSPACE_DIR: context.workspace,
         HAKIMI_DESKTOP_CONTROL_TOKEN: token, HAKIMI_RUNTIME_READ_ONLY: "1", HAKIMI_QUANT_READ_ONLY: "0",
@@ -126,4 +191,4 @@ function matchesBackend(context, payload, localOnly) {
     && physicalPath(payload?.terminal_workspace_root) === physicalPath(context.workspace);
 }
 module.exports = { canonical, hash, boundPath, verifyBundle, createContext, cleanEnvironment, backendLaunch, matchesBackend,
-  physicalDirectory, dataDirectory, instanceIdentity };
+  physicalDirectory, dataDirectory, instanceIdentity, configureDiagnostics, createStartupDiagnostic };

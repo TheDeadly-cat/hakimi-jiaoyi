@@ -29,7 +29,9 @@ class ResearchManagementBoundaryTests(unittest.TestCase):
     def setUp(self):
         temporary_runtime = tempfile.TemporaryDirectory()
         self.addCleanup(temporary_runtime.cleanup)
-        self.runtime_dir = Path(temporary_runtime.name)
+        # Windows CI may return an 8.3 TEMP alias; the real workspace exposes
+        # the resolved physical path, which is the status contract under test.
+        self.runtime_dir = Path(temporary_runtime.name).resolve()
         self.quant_workspace = QuantWorkspace(self.runtime_dir, read_only=True)
         self.addCleanup(self.quant_workspace.close)
 

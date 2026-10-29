@@ -204,7 +204,7 @@ def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
     if html.count("<script>") != 1 or html.count("let token='',pollTimer=null") != 1:
         raise ValueError("quant_html_adapter_source_mismatch")
     html = _adapt_core_completion(html)
-    html = html.replace("<title>哈基米 · 离线量化</title>", "<title>量化任务与回测 · 哈基米交易 v2</title>")
+    html = html.replace("<title>哈基米 · 离线量化</title>", "<title>量化任务与回测 · 哈基米交易</title>")
     html = html.replace("</style>", _EMBEDDED_STYLE + "\n</style>", 1)
     html = html.replace('<div class="brand"><div class="brand-mark" aria-hidden="true">H</div><div><div class="brand-name">哈基米</div><div class="brand-sub">离线量化</div></div></div>', "")
     html = html.replace('aria-label="主导航"', 'aria-label="量化功能"')

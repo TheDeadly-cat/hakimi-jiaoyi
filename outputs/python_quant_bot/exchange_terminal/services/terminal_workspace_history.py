@@ -150,7 +150,7 @@ class TerminalWorkspaceHistory:
         self.local_app_data = Path(local_app_data if local_app_data is not None
                                    else os.environ.get("LOCALAPPDATA", str(Path.home() / "AppData" / "Local")))
         self.extra_roots = tuple(Path(path) for path in extra_roots)
-        self.current_workspace = Path(current_workspace).absolute() if current_workspace is not None else None
+        self.current_workspace = _no_links(current_workspace).resolve() if current_workspace is not None else None
         self.known_original_root = Path(known_original_root) if known_original_root is not None else (
             Path.home() / "Documents" / "哈基米v2交易" / "outputs" / "python_quant_bot" / "runtime" / "research-workspace")
 

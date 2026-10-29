@@ -53,6 +53,31 @@ class WorkspaceHistoryTests(unittest.TestCase):
         self.assertEqual(item["new_economic_runs"], 0)
         self.assertEqual(tree_identity(self.root), before)
 
+    def test_current_workspace_physical_alias_is_excluded_without_writes(self):
+        trial = self.local / "HakimiTradeTrial" / "workspaces"
+        for name in ("old", "active"):
+            self.write(trial / name / "trial-workspace-identity.json",
+                       {"schema_version": "research-trial-workspace-v1", "bundle_id": name})
+        active = trial / "active"
+        aliases = [active / ".." / "active"]
+        # Hosted Windows TEMP may use RUNNER~1 rather than runneradmin. Exercise
+        # a real 8.3 spelling where available; the lexical alias covers all OSes.
+        import os
+        if os.name == "nt":
+            import ctypes
+            buffer = ctypes.create_unicode_buffer(32768)
+            if ctypes.windll.kernel32.GetShortPathNameW(str(active), buffer, len(buffer)):
+                aliases.append(Path(buffer.value))
+        before = tree_identity(self.root)
+        for alias in aliases:
+            with self.subTest(alias=str(alias)):
+                with patch.object(Path, "mkdir", side_effect=AssertionError("history must not create paths")):
+                    reader = self.reader(current_workspace=alias)
+                    items = reader.list_workspaces()["items"]
+                self.assertEqual(reader.current_workspace, active.resolve())
+                self.assertEqual([item["physical_root"] for item in items], [str((trial / "old").resolve())])
+                self.assertEqual(tree_identity(self.root), before)
+
     def test_unknown_run_is_retained_without_verifier_retry_or_new_files(self):
         self.write(self.original / "runs" / "run-interrupted" / "started.json",
                    {"run_id": "historical-unknown", "started_at": "2026-01-01T00:00:00Z"})
@@ -163,6 +188,8 @@ class WorkspaceHistoryTests(unittest.TestCase):
             link.symlink_to(real, target_is_directory=True)
         except OSError as exc:
             self.skipTest("Creating a local symlink unavailable: " + str(exc))
+        with self.assertRaisesRegex(ValueError, "history_reparse_path_not_supported"):
+            self.reader(current_workspace=link)
         inventory = self.reader(link).list_workspaces()
         self.assertEqual(inventory["items"], [])
         self.assertTrue(any("reparse" in item for item in inventory["warnings"]))

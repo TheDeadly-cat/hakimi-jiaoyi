@@ -47,6 +47,11 @@ app.setName("哈基米交易");
 fs.mkdirSync(SHELL_PROFILE, { recursive: true });
 app.setPath("userData", SHELL_PROFILE);
 app.setPath("sessionData", SHELL_PROFILE);
+const DIAGNOSTICS = terminalPackage.configureDiagnostics({
+  app, programRoot: WORKSPACE_CONTEXT.root, profile: SHELL_PROFILE,
+  environment: process.env, changeDirectory: directory => process.chdir(directory),
+});
+if (PACKAGE_CONTEXT) PACKAGE_CONTEXT.diagnosticsDirectory = DIAGNOSTICS.directory;
 const SERVER_PATH = path.join(PYTHON_ROOT, "exchange_terminal", "server.py");
 const FIND_PYTHON = path.join(PYTHON_ROOT, "find_python.ps1");
 const ICON_PATH = path.join(PYTHON_ROOT, "assets", "hakimi_trade_v2.ico");
@@ -65,6 +70,7 @@ const SHELL_STATE_FILE = path.join(app.getPath("userData"), "desktop-shell-state
 let mainWindow = null;
 let tray = null;
 let backendProcess = null;
+let backendStartup = null;
 let backendStartedByShell = false;
 let statusTimer = null;
 let quitting = false;
@@ -216,36 +222,50 @@ function startBackend() {
   backendControlToken = crypto.randomBytes(32).toString("hex");
   backendShutdownAccepted = false;
   backendStopping = false;
+  const startup = terminalPackage.createStartupDiagnostic({
+    directory: DIAGNOSTICS.directory, secrets: [backendControlToken], environment: process.env,
+  });
+  backendStartup = startup;
   const packagedLaunch = PACKAGE_CONTEXT ? terminalPackage.backendLaunch(PACKAGE_CONTEXT, {
     host: HOST, port: PORT, token: backendControlToken, localOnly: LOCAL_ONLY,
   }) : null;
-  backendProcess = childProcess.spawn(
-    packagedLaunch?.executable || "powershell.exe",
-    packagedLaunch?.args || ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
-    packagedLaunch?.options || {
-      cwd: PYTHON_ROOT,
-      env: {
-        ...process.env,
-        HAKIMI_DESKTOP_CONTROL_TOKEN: backendControlToken,
-        HAKIMI_RUNTIME_DIR: WORKSPACE_CONTEXT.legacyRuntime,
-        HAKIMI_QUANT_WORKSPACE_DIR: WORKSPACE_CONTEXT.workspace,
-        HAKIMI_RUNTIME_READ_ONLY: "1",
-        HAKIMI_QUANT_READ_ONLY: process.env.HAKIMI_QUANT_READ_ONLY || "0",
-        HAKIMI_LOAD_LOCAL_AI_ENV: process.env.HAKIMI_LOAD_LOCAL_AI_ENV || "1",
-        HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY: process.env.HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY || "1",
-      },
-      windowsHide: true,
-      stdio: ["ignore", "pipe", "pipe"]
-    }
-  );
+  try {
+    backendProcess = childProcess.spawn(
+      packagedLaunch?.executable || "powershell.exe",
+      packagedLaunch?.args || ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
+      packagedLaunch?.options || {
+        cwd: DIAGNOSTICS.directory,
+        env: {
+          ...process.env,
+          HAKIMI_DESKTOP_CONTROL_TOKEN: backendControlToken,
+          HAKIMI_RUNTIME_DIR: WORKSPACE_CONTEXT.legacyRuntime,
+          HAKIMI_QUANT_WORKSPACE_DIR: WORKSPACE_CONTEXT.workspace,
+          HAKIMI_RUNTIME_READ_ONLY: "1",
+          HAKIMI_QUANT_READ_ONLY: process.env.HAKIMI_QUANT_READ_ONLY || "0",
+          HAKIMI_LOAD_LOCAL_AI_ENV: process.env.HAKIMI_LOAD_LOCAL_AI_ENV || "1",
+          HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY: process.env.HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY || "1",
+        },
+        windowsHide: true,
+        stdio: ["ignore", "pipe", "pipe"]
+      }
+    );
+  } catch {
+    startup.finish("SPAWN_ERROR");
+    throw new Error(`后台程序未能创建。诊断记录：${DIAGNOSTICS.directory}`);
+  }
   backendStartedByShell = true;
 
-  backendProcess.stdout.on("data", (chunk) => {
-    console.log(`[hakimi-backend] ${chunk.toString().trim()}`);
+  // Consume both pipes without copying arbitrary provider output into Chromium
+  // logs. Only bounded, redacted stderr during startup is retained separately.
+  backendProcess.stdout.on("data", () => {});
+  backendProcess.stderr.on("data", chunk => startup.append(chunk));
+  const child = backendProcess;
+  child.once("error", () => {
+    startup.finish("SPAWN_ERROR");
+    if (backendProcess === child) { backendProcess = null; backendStartedByShell = false; }
+    showBootMessage("后台未能启动", `诊断记录：${DIAGNOSTICS.directory}`);
   });
-  backendProcess.stderr.on("data", (chunk) => {
-    console.error(`[hakimi-backend] ${chunk.toString().trim()}`);
-  });
+  child.once("close", code => startup.finish("EXITED", code));
   backendProcess.once("exit", (code) => {
     if (!quitting && !backendStopping && code !== 0) {
       showBootMessage("后台服务已退出", `Python 后台进程退出，代码 ${code ?? "unknown"}。`);
@@ -324,9 +344,11 @@ async function restartBackend() {
     startBackend();
     await waitForPort(HOST, PORT, 18000);
     if (await isBackendHealthy()) {
+      backendStartup?.finish("READY");
       await mainWindow?.loadURL(START_URL);
     } else {
-      showBootMessage("重启失败", "后台服务没有在预期时间内就绪。");
+      backendStartup?.finish("NOT_READY");
+      showBootMessage("重启失败", `后台服务没有在预期时间内就绪。诊断记录：${DIAGNOSTICS.directory}`);
     }
   } finally {
     lifecycleBusy = false;
@@ -343,6 +365,7 @@ function setAppMenu() {
         { label: "重启后台", click: restartBackend },
         { label: "回到交易台", click: () => mainWindow?.loadURL(BASE_URL) },
         { label: "在浏览器打开", click: () => shell.openExternal(BASE_URL) },
+        { label: "打开诊断文件夹", click: () => shell.openPath(DIAGNOSTICS.directory) },
         { label: "关闭窗口后留在托盘（后台继续运行）", type: "checkbox",
           checked: readShellState().minimizeToTray === true, enabled: fs.existsSync(ICON_PATH),
           click: item => { writeShellState({ minimizeToTray: item.checked === true }); setAppMenu(); updateTrayMenu(); } },
@@ -489,11 +512,13 @@ async function boot() {
   const ready = await waitForPort(HOST, PORT, 18000);
   const healthy = ready && (await isBackendHealthy());
   if (!healthy) {
+    backendStartup?.finish("NOT_READY");
     showBootMessage("启动失败", PACKAGE_CONTEXT ? "包内后台未能就绪，请检查程序文件与端口占用。" : "后台服务没有在预期时间内就绪。请确认 Python 环境可用。");
-    dialog.showErrorBox(APP_TITLE, PACKAGE_CONTEXT ? `包内后台没有启动成功。请检查程序文件和端口 ${PORT}。` : "后台服务没有启动成功。请先检查 Python 环境和端口 8765。");
+    dialog.showErrorBox(APP_TITLE, (PACKAGE_CONTEXT ? `包内后台没有启动成功。请检查程序文件和端口 ${PORT}。` : "后台服务没有启动成功。请先检查 Python 环境和端口 8765。") + `\n诊断记录：${DIAGNOSTICS.directory}`);
     return;
   }
 
+  backendStartup?.finish("READY");
   showBootMessage("正在打开交易台", BASE_URL);
   await mainWindow.loadURL(START_URL);
   startStatusMonitor();
