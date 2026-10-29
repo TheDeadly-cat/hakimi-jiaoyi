@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "exit_code": 0,
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "outputs/python_quant_bot/tests",
+    "-p",
+    "test_terminal_broker_plan_routes.py",
+    "-v"
+  ],
+  "elapsed_seconds": 1.059,
+  "before": {
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "0f5a4ae7ba425b8baba6a69c121f3a51f661acb951f25e2bbad7462bdae570cd",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": "ee6d59f4a4ba87e0d0dff891d35b36f7ab4057927e37cd922bd638fb0e8da0b8",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py": "014f8109512d8d664667550fb76bb54195598dad7a43032ca852ad7f369a95ed",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_plan_service.py": "7b4ee146c1f5d4213a1c4855bf637762908f50266012864984d0605264e33441",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_package_loader.py": "1c34c69b5e5d5987b707e69f25f70bf7480ae4954456dc65c5fed08694f25b8b",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "outputs/python_quant_bot/tests/test_terminal_broker_plan_routes.py": "6b586881e8da09b40c7107ee045e62634931f9eeebbcef0f8adf4fafe75cf135"
+  },
+  "after": {
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "0f5a4ae7ba425b8baba6a69c121f3a51f661acb951f25e2bbad7462bdae570cd",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": "ee6d59f4a4ba87e0d0dff891d35b36f7ab4057927e37cd922bd638fb0e8da0b8",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py": "014f8109512d8d664667550fb76bb54195598dad7a43032ca852ad7f369a95ed",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_plan_service.py": "7b4ee146c1f5d4213a1c4855bf637762908f50266012864984d0605264e33441",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_package_loader.py": "1c34c69b5e5d5987b707e69f25f70bf7480ae4954456dc65c5fed08694f25b8b",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "outputs/python_quant_bot/tests/test_terminal_broker_plan_routes.py": "6b586881e8da09b40c7107ee045e62634931f9eeebbcef0f8adf4fafe75cf135"
+  },
+  "tests": 4,
+  "server_or_gui_started": false,
+  "market_or_broker_calls": 0,
+  "runner_calls": 0,
+  "scope": "Actual authenticated handler, immediate job stub, new TEMP stores and explicit fictional trusted inputs"
+}

@@ -1,0 +1,38 @@
+{
+  "status": "PASS_FROZEN_FOR_ROOT_REVIEW",
+  "baseline_head": "0413a5b8181349f5a6eac52884fc8f4ce13a9e33",
+  "files_before_edit": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_plan_service.py": null,
+    "outputs/python_quant_bot/tests/test_terminal_broker_plan_service.py": null,
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py": "da84dbf1d6bb187757a5e59a05bf4804317719a0a9ac3b97ee20e11e90d02822",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": "e14eaf6e735d2cdf658bf8ca96f422504fa8c82eed433fbf0dd8f34125f94638",
+    "outputs/python_quant_bot/tests/test_terminal_broker_plan_integration.py": null
+  },
+  "files_after": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_plan_service.py": "7b4ee146c1f5d4213a1c4855bf637762908f50266012864984d0605264e33441",
+    "outputs/python_quant_bot/tests/test_terminal_broker_plan_service.py": "2c6e770f4369381e603f6f7e40fe4610794e535213cf799b8cb2a0a169ef2c43",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py": "014f8109512d8d664667550fb76bb54195598dad7a43032ca852ad7f369a95ed",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": "ee6d59f4a4ba87e0d0dff891d35b36f7ab4057927e37cd922bd638fb0e8da0b8",
+    "outputs/python_quant_bot/tests/test_terminal_broker_plan_integration.py": "38374bef3bc90f31e08d2ce521f09e66080dd1b00057cf8ede2be92cebd1ab4c"
+  },
+  "new_targeted_tests": 25,
+  "seconds": 7.492,
+  "log": "targeted-r3.log",
+  "log_sha256": "3b1a4adb226005160b474f8909e5352f436bf6bac4e8b17a38e3d0319745bc4e",
+  "source_module_test_count": 19,
+  "integration_test_count": 6,
+  "first_attempt_log_preserved": "targeted-r1.log",
+  "first_attempt_issue": "two test-only sqlite mutation connections needed explicit closing; corrected without changing production store lifetime",
+  "runner_calls": 0,
+  "sdk_calls": 0,
+  "provider_calls": 0,
+  "server_or_native_gui_started": false,
+  "old_profile_qa_db_reads": false,
+  "source_gate_or_routes_or_ui_edits_by_this_agent": false,
+  "commit_or_push": false,
+  "remaining": [
+    "root route/UI/official gate integration",
+    "actual scoped worker and external admission not implemented",
+    "PACKAGE identity is not SDK compatibility, authorization or execution acceptance"
+  ]
+}

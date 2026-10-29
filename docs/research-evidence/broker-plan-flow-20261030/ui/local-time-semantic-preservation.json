@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "original_source": "full-host-rendered.html (initial frozen source)",
+  "unchanged_function_regions": {
+    "function boundsFromForm(": true,
+    "function validPayload(": true,
+    "async function save(){": true
+  },
+  "source_hashes_after": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-plan-ui.js": "4b8aae7e1c1499b8b60de5277af9b50a64b4658f0193120e243b8eed387a4471",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-plan-ui.test.js": "18aae8b63b626c56df5eecb5a3085e55df9a84093a5cd9c3b8e718f5690b96a3",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-candidate-ui.js": "b37fa0a64633a29ff0516d4dcc3d480eef3aa6551f0f395d375394cb482ee120",
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "0f5a4ae7ba425b8baba6a69c121f3a51f661acb951f25e2bbad7462bdae570cd",
+    "outputs/hakimi_trade_electron/package.json": "a809088070ff1de8458062f197b95f4d612894a256422960e1b4ae60a4fcdce5"
+  }
+}

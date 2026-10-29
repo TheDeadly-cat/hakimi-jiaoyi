@@ -517,6 +517,36 @@ class BrokerCandidateService:
     def _saved(self, mode, config_id):
         return self._read(self._mode(mode) / "configs" / (_id(config_id) + ".json"), mode, "configs")
 
+    def read_plan_records(self, mode, config_id, intent_id):
+        """Trusted server use: read exact existing originals, never client bodies."""
+        with self._lock:
+            saved = self._saved(mode, config_id)
+            intent = self._read(self._mode(mode) / "intents" / (_id(intent_id) + ".json"), mode, "intents")
+            if intent["config_id"] != saved["id"]:
+                raise CandidateError("candidate_plan_originals_mismatch")
+            return deepcopy(saved), deepcopy(intent)
+
+    def read_plan_control(self, mode):
+        """A lazy read; neither creates a control database nor grants permission."""
+        with self._control(mode) as connection:
+            return {"mode": mode, "control": deepcopy(self._control_state(mode, connection))}
+
+    @contextmanager
+    def plan_commit_barrier(self, mode, expected_revision):
+        """Short cross-instance barrier for another store's final local commit.
+
+        The caller must acquire its plan-store write transaction first. Loader,
+        resolver, original-file reads and any long work belong outside this
+        barrier. No control event is appended and stop never takes a plan lock.
+        """
+        if type(expected_revision) is not int or not 0 <= expected_revision <= MAX_RECORDS:
+            raise CandidateError("candidate_plan_control_revision_invalid")
+        with self._control(mode, write=True) as connection:
+            current = self._control_state(mode, connection)
+            if current["revision"] != expected_revision or current["new_intents_blocked"]:
+                raise CandidateError("candidate_plan_control_changed_or_stopped")
+            yield {"mode": mode, "control": deepcopy(current)}
+
     def _is_stopped(self, mode):
         with self._control(mode) as connection:
             return self._control_state(mode, connection)["new_intents_blocked"]

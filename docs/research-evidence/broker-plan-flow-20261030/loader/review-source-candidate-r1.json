@@ -1,0 +1,13 @@
+{
+  "status": "SOURCE_READY_FOR_REVIEW_TEST_CORRECTION_RERUN_PENDING",
+  "files": {
+    "tools/terminal_package_bootstrap.py": "00c5e73d25282be010cc55968dac7e33346e644bd9333b8cf985dd54cb78e1d1",
+    "tools/build_windows_terminal.py": "ca3c608e593c43a812e57b207d05b33ff55b4c0d40064928046fd35adbbac621",
+    "tests/repository_only/test_windows_terminal.py": "ffb15a5747ea597b663b77ab0a55e17ae42fd42b47f21988387fd8e078a20673",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_package_loader.py": "1c34c69b5e5d5987b707e69f25f70bf7480ae4954456dc65c5fed08694f25b8b",
+    "outputs/python_quant_bot/tests/test_terminal_broker_package_loader.py": "2e3bf4dfc884dd2a49e2be30e17c20c4fbe4829068b8f7651eec45c60cd6ddea"
+  },
+  "loader_test_methods": 24,
+  "packaging_test_methods": 15,
+  "loader_targeted_first_run": "24/24 PASS; concurrent candidate dependency changed, not final combined acceptance"
+}

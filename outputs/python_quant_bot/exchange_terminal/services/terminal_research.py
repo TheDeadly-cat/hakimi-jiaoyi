@@ -311,6 +311,8 @@ class TerminalResearchService:
         self._execution_service = None
         self._broker_service = None
         self._broker_init_lock = RLock()
+        self._broker_plan_service = None
+        self._broker_plan_init_lock = RLock()
         self._replay_api = None
         self._replay_init_lock = RLock()
         self._replay_runtime_guard = runtime_guard
@@ -352,6 +354,21 @@ class TerminalResearchService:
         """Stop local intent preparation directly; no broker orders are sent."""
         return self._broker().stop(_detached(payload))
 
+    def _broker_plans(self):
+        with self._broker_plan_init_lock:
+            if self._broker_plan_service is None:
+                from .terminal_broker_plan_service import BrokerPlanService
+                from .terminal_broker_package_loader import load_broker_runtime_identity
+                from .terminal_saved_results import resolve_execution_research
+
+                def resolve(reference):
+                    with self._lock:
+                        return resolve_execution_research(self, reference, include_recorded_source=True)
+
+                self._broker_plan_service = BrokerPlanService(self.workspace, candidates=self._broker(),
+                    research_resolver=resolve, runtime_loader=load_broker_runtime_identity)
+            return self._broker_plan_service
+
     def _replay(self):
         with self._replay_init_lock:
             if self._replay_api is None:
@@ -378,6 +395,8 @@ class TerminalResearchService:
                 self._execution_service.close()
             if self._replay_api is not None:
                 self._replay_api.close()
+            if self._broker_plan_service is not None:
+                self._broker_plan_service.close()
 
     def configure_public_daily_access(self, access, session):
         """Trusted session binding, never a request payload or durable setting."""
@@ -1062,6 +1081,10 @@ class TerminalResearchService:
                                    "每项是独立本金的描述性研究，未认证数据与结果不能授予模拟或实盘权限。"]}
 
     def read(self, resource, identity=None):
+        if resource in {"terminal_broker_plan_capabilities", "terminal_broker_plans", "terminal_broker_plan", "terminal_broker_plan_receipt"}:
+            if type(identity) is not str or len(identity) > 16384:
+                raise ValueError("broker_plan_reference_required")
+            return self._broker_plans().read(resource, json.loads(identity))
         if isinstance(resource, str) and resource.startswith("terminal_replay_"):
             if identity is None and resource == "terminal_replay_accounts":
                 payload = {}
@@ -1157,6 +1180,8 @@ class TerminalResearchService:
         return self.core.read(resource, identity)
 
     def mutate(self, action, payload):
+        if action == "terminal_broker_prepare_plan":
+            return self._broker_plans().mutate(action, _detached(payload))
         if isinstance(action, str) and action.startswith("terminal_replay_"):
             if action == "terminal_replay_pause":
                 raise ValueError("replay_pause_direct_route_required")
