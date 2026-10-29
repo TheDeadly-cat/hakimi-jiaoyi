@@ -251,7 +251,14 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
             self.assertTrue(dependency["resolved"].startswith("https://registry.npmjs.org/"))
             self.assertTrue(dependency["integrity"].startswith("sha512-"))
         self.assertIn("NODE_PATH: ${{ github.workspace }}/outputs/hakimi_trade_electron/node_modules", desktop)
-        self.assertIn("PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/hakimi-playwright", desktop)
+        # GitHub does not make runner context available to jobs.<job_id>.env.
+        # Resolve it only on steps, after the runner has been assigned.
+        self.assertNotIn("runner.", desktop.split("    steps:", 1)[0])
+        browser_path = "PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/hakimi-playwright"
+        for step_name in ("Install the locked Playwright Chromium for isolated DOM tests",
+                          "Run the complete maintained desktop check script"):
+            step = desktop.split("- name: " + step_name, 1)[1].split("\n      - name:", 1)[0]
+            self.assertIn("        env:\n          " + browser_path, step)
         for command in ("npm ci --ignore-scripts --no-audit --no-fund", "npx --no-install playwright install chromium"):
             self.assertIn("working-directory: outputs/hakimi_trade_electron\n        run: " + command, desktop)
             self.assertLess(desktop.index("run: " + command), desktop.index("run: npm run check"))
