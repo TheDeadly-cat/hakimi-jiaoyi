@@ -993,6 +993,9 @@ class TerminalResearchService:
                      "terminal_run_exit_experiment": self.exit_research.run}
         if action not in handlers:
             with self._lock:
+                if action in {"create_task", "copy_task"}:
+                    from .terminal_task_names import core_task_name_payload
+                    payload = core_task_name_payload(payload)
                 if action == "run_task" and "expected_task_id" in payload:
                     _fields(payload, {"task_id", "expected_task_id"}, {"task_id", "expected_task_id"})
                     current = self.core.read("tasks", payload["task_id"])

@@ -208,6 +208,7 @@ def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
     html = html.replace("</style>", _EMBEDDED_STYLE + "\n</style>", 1)
     html = html.replace('<div class="brand"><div class="brand-mark" aria-hidden="true">H</div><div><div class="brand-name">哈基米</div><div class="brand-sub">离线量化</div></div></div>', "")
     html = html.replace('aria-label="主导航"', 'aria-label="量化功能"')
+    html = html.replace("中文、字母、数字或连字符；新任务使用新目录。", "为任务起一个易于辨认的名称，最多 64 个字符。")
     html = html.replace("fetch('/api/'+path", "fetch('/api/quant/'+path")
     html = html.replace("const unresolvedKey='hakimi-unresolved-'+location.origin", "const unresolvedKey='hakimi-quant-unresolved-'+location.origin")
     token_initialization = re.compile(r"^try\{const h=new URLSearchParams\(location\.hash\.slice\(1\)\).*?^const fmt=", re.MULTILINE | re.DOTALL)

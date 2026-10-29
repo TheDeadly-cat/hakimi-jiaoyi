@@ -33,6 +33,7 @@ TEST_FILES = (
     "test_terminal_judgment.py",
     "test_terminal_market_data.py",
     "test_terminal_research.py",
+    "test_terminal_task_names.py",
     "test_terminal_workspace_history.py",
 )
 TEST_PATTERNS = (
