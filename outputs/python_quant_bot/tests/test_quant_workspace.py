@@ -103,7 +103,17 @@ class QuantWorkspaceTests(unittest.TestCase):
                 connection.putheader(key, value)
         for key, value in headers:
             connection.putheader(key, value)
-        connection.endheaders(raw)
+        # Keep these small fixture headers/body in one send. Otherwise an early
+        # header rejection can close the socket before http.client sends its
+        # separate body chunk, replacing the 400/403 response with a Windows RST.
+        send = connection.send
+        chunks = []
+        connection.send = chunks.append
+        try:
+            connection.endheaders(raw)
+        finally:
+            connection.send = send
+        send(b"".join(chunks))
         response = connection.getresponse()
         result = response.status, dict(response.getheaders()), response.read()
         connection.close()
@@ -208,15 +218,17 @@ class QuantWorkspaceTests(unittest.TestCase):
     def test_invalid_lengths_types_and_nonfinite_json_never_dispatch(self):
         request = b'{"request_id":"invalid-request-0001","payload":{}}'
         cases = [
-            dict(raw=request, headers=[("Content-Length", str(len(request))), ("Content-Length", str(len(request)))]),
-            dict(raw=request, headers=[("Transfer-Encoding", "chunked")]),
-            dict(raw=request, headers=[("Content-Type", "application/json"), ("Content-Type", "application/json")]),
+            # Invalid framing is refused before body reads. Do not race an
+            # unread body against the server's early close on Windows TCP.
+            dict(raw=b"", length=len(request), headers=[("Content-Length", str(len(request))), ("Content-Length", str(len(request)))]),
+            dict(raw=b"", length=len(request), headers=[("Transfer-Encoding", "chunked")]),
+            dict(raw=b"", length=len(request), headers=[("Content-Type", "application/json"), ("Content-Type", "application/json")]),
             dict(raw=b'{"request_id":"invalid-request-0001","payload":{"number":NaN}}'),
             dict(raw=b'{"request_id":"invalid-request-0001","payload":{"number":1e309}}'),
             dict(raw=b'{"request_id":"invalid-request-0001","payload":{},"payload":{}}'),
         ]
-        for kwargs in cases:
-            with self.subTest(kwargs=list(kwargs)):
+        for case_index, kwargs in enumerate(cases):
+            with self.subTest(case=case_index, kwargs=list(kwargs)):
                 self.assertEqual(self.request("/api/quant/actions/create_task", **kwargs)[0], 400)
         self.assertEqual(self.request("/api/quant/actions/create_task", method="POST", length=quant.MAX_REQUEST + 1)[0], 413)
         self.loader_mock.assert_not_called()

@@ -567,6 +567,7 @@ QUANT_WORKSPACE = QuantWorkspace(
         core, market_reader=TERMINAL_MARKET_READER, catalog=terminal_strategy_catalog,
         runner=lambda **kwargs: run_strategy_backtest(**kwargs, include_full_history=True),
         fingerprint=strategy_implementation_fingerprint,
+        runtime_guard=lambda: RUNTIME_BUILD_GUARD.snapshot(force=True),
         history_reader=TerminalHistoryReader(RUNTIME_DIR), group_reader=lambda: STOCK_MARKETS,
         workspace_history=TerminalWorkspaceHistory(runtime_dir=RUNTIME_DIR, current_workspace=core.workspace,
             msix_package_roots=msix_history_roots_for_workspace(core.workspace))),

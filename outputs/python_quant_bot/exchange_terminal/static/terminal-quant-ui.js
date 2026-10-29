@@ -223,11 +223,13 @@
       const wasVisible = state.visible;
       if (state.unifiedView === "daily" && view !== "daily") dailyUI.hide?.();
       if (state.unifiedView === "broker" && view !== "broker") brokerUI.hide();
-      state.unifiedView = ["dashboard","tasks","results","insights","execution","daily","broker"].includes(view) ? view : "dashboard";
-      state.visible = true; coreMain.hidden = true; $("terminalQuantWorkspace").hidden = ["execution","daily","broker"].includes(state.unifiedView);
+      if (state.unifiedView === "continuous" && view !== "continuous") continuousUI.hide();
+      state.unifiedView = ["dashboard","tasks","results","insights","execution","daily","broker","continuous"].includes(view) ? view : "dashboard";
+      state.visible = true; coreMain.hidden = true; $("terminalQuantWorkspace").hidden = ["execution","daily","broker","continuous"].includes(state.unifiedView);
       executionHost.hidden = state.unifiedView !== "execution";
       dailyHost.hidden = state.unifiedView !== "daily";
       brokerHost.hidden = state.unifiedView !== "broker";
+      continuousHost.hidden = state.unifiedView !== "continuous";
       if (location.hash !== "#" + state.unifiedView) history[replaceHistory ? "replaceState" : "pushState"](null,"","#" + state.unifiedView);
       syncUnifiedNavigation();
       if (!state.loaded || !wasVisible) refreshAll().catch((error) => notify(error.message, true));
@@ -237,6 +239,9 @@
         requestAnimationFrame(() => window.scrollTo({top:0,left:0,behavior:"auto"}));
       } else if (state.unifiedView === "broker") {
         brokerUI.reveal().catch(error => notify(operationErrorText(error),true));
+        requestAnimationFrame(() => window.scrollTo({top:0,left:0,behavior:"auto"}));
+      } else if (state.unifiedView === "continuous") {
+        continuousUI.reveal().catch(error => notify(operationErrorText(error),true));
         requestAnimationFrame(() => window.scrollTo({top:0,left:0,behavior:"auto"}));
       } else if (state.unifiedView === "execution") {
         executionUI.refresh().catch(error => notify(operationErrorText(error),true));
@@ -258,15 +263,16 @@
     }
     function syncUnifiedNavigation() {
       navRoot.querySelectorAll("[data-view]").forEach((item) => {
-        const active = item.dataset.view === (state.unifiedView === "broker" ? "execution" : state.unifiedView);
+        const active = item.dataset.view === (["broker","continuous"].includes(state.unifiedView) ? "execution" : state.unifiedView);
         item.classList.toggle("active",active); item.setAttribute("aria-current",active ? "page" : "false");
       });
-      if ($("breadcrumb")) $("breadcrumb").textContent = {dashboard:"研究工作台",tasks:"全部策略任务",results:"全部回测结果",insights:"行情洞察",execution:"执行演练",daily:"股票与数据",broker:"券商接入准备"}[state.unifiedView];
+      if ($("breadcrumb")) $("breadcrumb").textContent = {dashboard:"研究工作台",tasks:"全部策略任务",results:"全部回测结果",insights:"行情洞察",execution:"执行演练",daily:"股票与数据",broker:"券商接入准备",continuous:"逐日模拟"}[state.unifiedView];
     }
     function hide() {
       state.visible = false; coreMain.hidden = false; $("terminalQuantWorkspace").hidden = true;
       executionHost.hidden = true;
       brokerUI.hide(); brokerHost.hidden = true;
+      continuousUI.hide(); continuousHost.hidden = true;
       if (!dailyHost.hidden) dailyUI.hide?.();
       dailyHost.hidden = true;
       // Core detail navigation owns its existing active state while visible.
@@ -333,12 +339,16 @@
     executionHost.setAttribute("aria-label","执行演练"); coreMain.before(executionHost);
     const executionUI = globalThis.installTerminalExecutionUI({host:executionHost,api,perform,notify});
     const brokerEntry = document.createElement("div"); brokerEntry.className="actions";
-    brokerEntry.innerHTML='<button type="button" class="btn" data-view="broker">券商接入准备</button>';
+    brokerEntry.innerHTML='<button type="button" class="btn" data-view="continuous">逐日模拟</button><button type="button" class="btn" data-view="broker">券商接入准备</button>';
     executionHost.prepend(brokerEntry);
     const brokerHost = document.createElement("section"); brokerHost.id="terminalBrokerPage"; brokerHost.className="main tq"; brokerHost.hidden=true;
     brokerHost.setAttribute("aria-label","券商接入准备"); coreMain.before(brokerHost);
     const brokerUI = globalThis.installTerminalBrokerCandidateUI({host:brokerHost,api,perform,notify,
       stopCandidate:payload=>api("broker-candidate/stop","POST",payload),onBack:()=>show("execution")});
+    const continuousHost = document.createElement("section"); continuousHost.id="terminalContinuousPage"; continuousHost.className="main tq"; continuousHost.hidden=true;
+    continuousHost.setAttribute("aria-label","逐日模拟"); coreMain.before(continuousHost);
+    const continuousUI = globalThis.installTerminalContinuousUI({host:continuousHost,api,perform,notify,
+      pauseReplay:payload=>api("continuous-replay/pause","POST",payload),onBack:()=>show("execution")});
     const dailyHost = document.createElement("section"); dailyHost.id="terminalDailyPage";dailyHost.className="main tq";dailyHost.hidden=true;
     dailyHost.setAttribute("aria-label","股票与数据");coreMain.before(dailyHost);
     const dailyUI = globalThis.installTerminalDailyUI({host:dailyHost,api,perform,notify,allowPublicDataRequest:true,
@@ -514,6 +524,11 @@
       ];
       executionUI.setSources(savedExecutionSources);
       brokerUI.setSources(savedExecutionSources);
+      continuousUI.setSources(savedExecutionSources.filter(row => row.kind === "terminal_run"));
+      continuousUI.setInputs(state.inputs.filter(row => row.quality?.status === "REVIEW" && !row.quality.blockers?.length
+        && (row.daily_reference || row.core_reference) && row.meta?.asset_class === "US_EQUITY" && row.meta?.currency === "USD"
+        && row.meta?.price_basis === "RAW_UNADJUSTED").map(row => ({id:identity(row),available:true,
+          label:`${row.symbol} · ${row.date_start} 至 ${row.date_end} · ${row.row_count} 日`})));
       state.coreStrategies = catalog.core_items || []; state.coreInputs = coreInputs.items || [];
       $("tq-workspace-path").textContent = coreOverview.product_workspace || coreOverview.workspace || "当前版本未提供工作区位置";
       const product = coreOverview.terminal_product;
@@ -888,13 +903,13 @@
     document.addEventListener("click", (event) => {
       const control = event.target.closest("[data-view]");
       if (!control) return;
-      if (["dashboard","tasks","results","insights","execution","daily","broker"].includes(control.dataset.view)) {
+      if (["dashboard","tasks","results","insights","execution","daily","broker","continuous"].includes(control.dataset.view)) {
         event.preventDefault(); event.stopImmediatePropagation(); show(control.dataset.view); send("context-request",{});
       } else hide();
     }, true);
     window.addEventListener("popstate", () => {
       const view = location.hash.slice(1) || "dashboard";
-      if (["dashboard","tasks","results","insights","execution","daily","broker"].includes(view)) show(view,true); else hide();
+      if (["dashboard","tasks","results","insights","execution","daily","broker","continuous"].includes(view)) show(view,true); else hide();
     });
     window.addEventListener("hakimi-core-open", () => hide());
     window.addEventListener("hakimi-core-task-saved", (event) => {
@@ -942,7 +957,7 @@
     });
     coreObserver.observe(coreMain,{childList:true,subtree:true});
     const initialView = location.hash.slice(1) || "dashboard";
-    if (["dashboard","tasks","results","insights","execution","daily","broker"].includes(initialView)) show(initialView,true);
+    if (["dashboard","tasks","results","insights","execution","daily","broker","continuous"].includes(initialView)) show(initialView,true);
     send("bridge-ready",{});
   };
 })();

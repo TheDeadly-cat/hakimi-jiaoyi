@@ -301,7 +301,7 @@ def _core_input_adapter(snapshot, identity, file_hash):
 
 
 class TerminalResearchService:
-    def __init__(self, service, market_reader, catalog, runner, fingerprint, history_reader=None, group_reader=None, workspace_history=None, daily_factory=None):
+    def __init__(self, service, market_reader, catalog, runner, fingerprint, history_reader=None, group_reader=None, workspace_history=None, daily_factory=None, runtime_guard=None):
         self.core = service
         self.workspace = Path(service.workspace).absolute()
         self.market_reader, self.catalog, self.runner, self.fingerprint = market_reader, catalog, runner, fingerprint
@@ -311,6 +311,9 @@ class TerminalResearchService:
         self._execution_service = None
         self._broker_service = None
         self._broker_init_lock = RLock()
+        self._replay_api = None
+        self._replay_init_lock = RLock()
+        self._replay_runtime_guard = runtime_guard
         self._daily_backend = None
         self._daily_factory = daily_factory
         self._daily_access = self._daily_session = None
@@ -349,6 +352,23 @@ class TerminalResearchService:
         """Stop local intent preparation directly; no broker orders are sent."""
         return self._broker().stop(_detached(payload))
 
+    def _replay(self):
+        with self._replay_init_lock:
+            if self._replay_api is None:
+                from .terminal_replay_service import ReplayAPI, TrustedReplayAdapter
+                guard = self._replay_runtime_guard or (lambda: {
+                    "schema_version": "hakimi-runtime-build-v1", "status": "UNAVAILABLE", "restart_required": True})
+                self._replay_api = ReplayAPI(TrustedReplayAdapter(self, runtime_guard=guard))
+            return self._replay_api
+
+    def pause_continuous_replay(self, payload):
+        """Pause the saved local replay directly, independent of research work."""
+        return self._replay_view(self._replay().mutate("pause", _detached(payload)))
+
+    def _replay_view(self, result):
+        return {**_detached(result), "schema_version": "hakimi-terminal-replay-view-v1",
+                "workspace_context": sha256(str(self.workspace.resolve()).casefold().encode()).hexdigest()}
+
     def close(self):
         # Revocation never waits for the service lock held by a network check.
         if self._daily_access is not None:
@@ -356,6 +376,8 @@ class TerminalResearchService:
         with self._lock:
             if self._execution_service is not None:
                 self._execution_service.close()
+            if self._replay_api is not None:
+                self._replay_api.close()
 
     def configure_public_daily_access(self, access, session):
         """Trusted session binding, never a request payload or durable setting."""
@@ -1040,6 +1062,14 @@ class TerminalResearchService:
                                    "每项是独立本金的描述性研究，未认证数据与结果不能授予模拟或实盘权限。"]}
 
     def read(self, resource, identity=None):
+        if isinstance(resource, str) and resource.startswith("terminal_replay_"):
+            if identity is None and resource == "terminal_replay_accounts":
+                payload = {}
+            elif type(identity) is str and len(identity) <= 16384:
+                payload = json.loads(identity)
+            else:
+                raise ValueError("replay_read_identity_required")
+            return self._replay_view(self._replay().read(resource.removeprefix("terminal_replay_"), payload))
         if isinstance(resource, str) and resource.startswith("terminal_broker_"):
             if resource in {"terminal_broker_research", "terminal_broker_check", "terminal_broker_receipt"}:
                 if type(identity) is not str or len(identity) > 8000:
@@ -1127,6 +1157,10 @@ class TerminalResearchService:
         return self.core.read(resource, identity)
 
     def mutate(self, action, payload):
+        if isinstance(action, str) and action.startswith("terminal_replay_"):
+            if action == "terminal_replay_pause":
+                raise ValueError("replay_pause_direct_route_required")
+            return self._replay_view(self._replay().mutate(action.removeprefix("terminal_replay_"), _detached(payload)))
         if isinstance(action, str) and action.startswith("terminal_broker_"):
             if action == "terminal_broker_stop":
                 raise ValueError("broker_stop_direct_route_required")

@@ -150,11 +150,12 @@ test("market read failures show structured session guidance or native errors as 
 
 test("dashboard and daily page retain their headers while task and result links retain anchors",() => {
   const scrolled=[];const host={hidden:false};const windowScroll=[];
-  const executionHost={hidden:true},dailyHost={hidden:true,scrollIntoView:()=>scrolled.push("daily")},brokerHost={hidden:true};
-  let dailyHides=0,brokerHides=0,brokerReads=0;
+  const executionHost={hidden:true},dailyHost={hidden:true,scrollIntoView:()=>scrolled.push("daily")},brokerHost={hidden:true},continuousHost={hidden:true};
+  let dailyHides=0,brokerHides=0,brokerReads=0,continuousHides=0,continuousReads=0;
   const panels=Object.fromEntries(["tasks","results"].map(name=>[name,{style:{},scrollIntoView:()=>scrolled.push(name)}]));
-  const context=vm.createContext({state:{visible:true,loaded:true},coreMain:{hidden:true},host,executionHost,dailyHost,brokerHost,
+  const context=vm.createContext({state:{visible:true,loaded:true},coreMain:{hidden:true},host,executionHost,dailyHost,brokerHost,continuousHost,
     brokerUI:{reveal:async()=>{brokerReads++;},hide:()=>{brokerHides++;}},
+    continuousUI:{reveal:async()=>{continuousReads++;},hide:()=>{continuousHides++;}},
     dailyUI:{reveal:async()=>{},hide:()=>dailyHides++},executionUI:{refresh:async()=>{},reveal:()=>scrolled.push("execution")},location:{hash:"#dashboard"},
     history:{pushState(){},replaceState(){}},$:id=>id==="terminalQuantWorkspace"?host:{closest:()=>panels[id==="tq-tasks"?"tasks":"results"]},
     window:{scrollTo:options=>windowScroll.push(JSON.parse(JSON.stringify(options)))},navRoot:{closest:()=>({getBoundingClientRect:()=>({height:48.2})})},
@@ -173,6 +174,10 @@ test("dashboard and daily page retain their headers while task and result links 
   assert.equal(brokerReads,1);assert.equal(brokerHost.hidden,false);assert.equal(executionHost.hidden,true);assert.equal(host.hidden,true);
   vm.runInContext('show("execution")',context);
   assert.equal(brokerHides,1);assert.equal(brokerHost.hidden,true);assert.equal(executionHost.hidden,false);
+  vm.runInContext('show("continuous")',context);
+  assert.equal(continuousReads,1);assert.equal(continuousHost.hidden,false);assert.equal(executionHost.hidden,true);assert.equal(host.hidden,true);
+  vm.runInContext('show("execution")',context);
+  assert.equal(continuousHides,1);assert.equal(continuousHost.hidden,true);assert.equal(executionHost.hidden,false);
 });
 
 test("old task and unverified records never masquerade as completed result summaries",async () => {
