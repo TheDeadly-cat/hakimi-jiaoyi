@@ -39,19 +39,24 @@ from zoneinfo import ZoneInfo
 try:
     from services.quant_workspace import QuantWorkspace
     from services.terminal_market_data import TerminalMarketReader
-    from services.terminal_research import TerminalResearchService, validate_terminal_strategy_params
+    from services.terminal_research import TerminalResearchService, validate_terminal_strategy_params, terminal_strategy_presentation
     from services.terminal_history import TerminalHistoryReader
+    from services.terminal_workspace_history import TerminalWorkspaceHistory
 except ModuleNotFoundError:  # Package import path.
     from exchange_terminal.services.quant_workspace import QuantWorkspace
     from exchange_terminal.services.terminal_market_data import TerminalMarketReader
-    from exchange_terminal.services.terminal_research import TerminalResearchService, validate_terminal_strategy_params
+    from exchange_terminal.services.terminal_research import TerminalResearchService, validate_terminal_strategy_params, terminal_strategy_presentation
     from exchange_terminal.services.terminal_history import TerminalHistoryReader
+    from exchange_terminal.services.terminal_workspace_history import TerminalWorkspaceHistory
 
 
 RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_RUNTIME_READ_ONLY") or "1").strip().lower() not in {
     "0", "false", "no", "off",
 }
 LOCAL_ONLY = str(os.getenv("HAKIMI_LOCAL_ONLY") or "").strip().lower() in {"1", "true", "yes", "on"}
+TERMINAL_PACKAGE_ID = str(os.getenv("HAKIMI_TERMINAL_PACKAGE_ID") or "")
+TERMINAL_PACKAGE_VERSION = str(os.getenv("HAKIMI_TERMINAL_PACKAGE_VERSION") or "")
+TERMINAL_BUILD_COMMIT = str(os.getenv("HAKIMI_TERMINAL_BUILD_COMMIT") or "")
 QUANT_RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_QUANT_READ_ONLY") or ("1" if RUNTIME_READ_ONLY else "0")).strip().lower() not in {
     "0", "false", "no", "off",
 }
@@ -543,14 +548,17 @@ STOCK_CANDLE_CACHE: dict[str, dict[str, Any]] = {}
 STOCK_HISTORY_PREWARM_SERVICE: StockHistoryPrewarmService | None = None
 RUNTIME_BUILD_GUARD = RuntimeBuildGuard(project_root=PROJECT_DIR, source_roots=[ROOT_DIR, PROJECT_DIR / "vendor" / "research"])
 TERMINAL_MARKET_READER = TerminalMarketReader(RUNTIME_DIR)
+QUANT_WORKSPACE_DIR = Path(os.getenv("HAKIMI_QUANT_WORKSPACE_DIR") or RUNTIME_DIR).expanduser().absolute()
 QUANT_WORKSPACE = QuantWorkspace(
-    RUNTIME_DIR, read_only=QUANT_RUNTIME_READ_ONLY, local_only=True,
+    QUANT_WORKSPACE_DIR, read_only=QUANT_RUNTIME_READ_ONLY, local_only=True,
+    product_identity={"version": TERMINAL_PACKAGE_VERSION, "bundle_id": TERMINAL_PACKAGE_ID, "build_commit": TERMINAL_BUILD_COMMIT},
     mutation_guard=lambda: RUNTIME_BUILD_GUARD.snapshot(force=True),
     service_factory=lambda core: TerminalResearchService(
         core, market_reader=TERMINAL_MARKET_READER, catalog=terminal_strategy_catalog,
         runner=lambda **kwargs: run_strategy_backtest(**kwargs, include_full_history=True),
         fingerprint=strategy_implementation_fingerprint,
-        history_reader=TerminalHistoryReader(RUNTIME_DIR), group_reader=lambda: STOCK_MARKETS),
+        history_reader=TerminalHistoryReader(RUNTIME_DIR), group_reader=lambda: STOCK_MARKETS,
+        workspace_history=TerminalWorkspaceHistory(runtime_dir=RUNTIME_DIR, current_workspace=core.workspace)),
 )
 STOCK_HISTORY_PRIORITY = [
     "AAPL", "NVDA", "MSFT", "AMZN", "GOOGL", "META", "TSLA",
@@ -8607,7 +8615,8 @@ def deepseek_strategy_snapshot_analysis(payload: dict[str, Any], *, include_mode
                        "reason": str(evaluated.get("reason") or "已完成原信号计算；具体原因见result")})
     local.update({"evidence_kind": "LOCAL_DETERMINISTIC_RULES", "uncalibrated_probability": True, "signal": signal,
                   "price": chart_price, "price_basis": "SUPPLIED_LAST_CANDLE_CLOSE", "risk_config": risk, "strategy_params": params})
-    strategy_context = {"strategy_id": strategy_id, "strategy_name": strategy["name"], "strategy_params": params,
+    strategy_context = {"engine_id": "terminal." + SIGNAL_ENGINE_VERSION,
+                        "strategy_id": strategy_id, "strategy_name": strategy["name"], "strategy_params": params,
                         "risk_config": risk, "bar": bar, "session": identity["session"], "source": identity["source"],
                         "price": chart_price, "price_basis": "SUPPLIED_LAST_CANDLE_CLOSE", "completion_counts": counts,
                         "capability": capability, "engine_version": SIGNAL_ENGINE_VERSION}
@@ -12566,7 +12575,12 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                         runtime_mutations_allowed=not RUNTIME_READ_ONLY,
                         live_trading_hard_block=LIVE_TRADING_HARD_BLOCK is True,
                         guardian_worker_running=bool(GUARDIAN_SERVICE.thread and GUARDIAN_SERVICE.thread.is_alive()),
-                    ), "local_only": LOCAL_ONLY, "quant_workspace": {"pending": QUANT_WORKSPACE.pending, "read_only": QUANT_RUNTIME_READ_ONLY, "root": str(RUNTIME_DIR / "research-workspace")}},
+                    ), "local_only": LOCAL_ONLY,
+                       "terminal_package_id": TERMINAL_PACKAGE_ID,
+                       "terminal_package_version": TERMINAL_PACKAGE_VERSION,
+                       "terminal_build_commit": TERMINAL_BUILD_COMMIT,
+                       "terminal_workspace_root": str(QUANT_WORKSPACE.runtime_dir),
+                       "quant_workspace": {"pending": QUANT_WORKSPACE.pending, "read_only": QUANT_RUNTIME_READ_ONLY, "root": str(QUANT_WORKSPACE.runtime_dir / "research-workspace")}},
                 )
                 return
             if path == "/api/platform/control-center":
@@ -12695,6 +12709,7 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                     "strategies": [
                         {
                             **strategy,
+                            **terminal_strategy_presentation(strategy),
                             "validation": strategy_validation_capability(strategy["id"]),
                             "research_risk_profile": strategy_research_risk_profile(strategy["id"], {
                                 "position_pct": 20.0,

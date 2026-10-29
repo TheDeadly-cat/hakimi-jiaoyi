@@ -113,18 +113,21 @@ test("invalid control destinations never dispatch a shutdown request", async () 
   await assert.rejects(requestPrepareExit("http://127.0.0.1:8765", "", 10, transport), /destination_invalid/);
 });
 
-function desktopHarness(stopResult) {
+function desktopHarness(stopResult, { locked = true, state = {}, environment = {} } = {}) {
   const handlers = new Map();
-  const observed = { prevented: 0, allowedQuit: 0, notices: 0, spawn: null, stop: null, filter: null };
+  const observed = { prevented: 0, allowedQuit: 0, notices: 0, spawn: null, stop: null, filter: null,
+    shown: 0, focused: 0, hidden: 0, paths: {}, shellState: { ...state } };
   const app = {
-    getPath: () => "C:/test-only/hakimi",
-    requestSingleInstanceLock: () => true,
+    getPath: name => observed.paths[name] || path.join(require("node:os").tmpdir(), "test-only-hakimi"),
+    setName: name => { observed.appName = name; },
+    setPath: (name, value) => { observed.paths[name] = value; },
+    requestSingleInstanceLock: data => { observed.lockData = data; return locked; },
     commandLine: { appendSwitch() {}, removeSwitch() {} },
-    whenReady: () => ({ then() {} }),
+    whenReady: () => ({ then(callback) { observed.ready = callback; } }),
     on: (name, callback) => handlers.set(name, callback),
     quit() {
       let prevented = false;
-      handlers.get("before-quit")({ preventDefault() { prevented = true; observed.prevented++; } });
+      handlers.get("before-quit")?.({ preventDefault() { prevented = true; observed.prevented++; } });
       if (!prevented) observed.allowedQuit++;
     },
   };
@@ -133,29 +136,38 @@ function desktopHarness(stopResult) {
   class MockWindow extends EventEmitter {
     constructor() {
       super(); observed.window = this;
-      this.webContents = { on() {}, setWindowOpenHandler() {}, loadURL() {} };
+      this.webContents = { on() {}, setWindowOpenHandler() {}, loadURL() {}, executeJavaScript: async () => {} };
     }
     getNormalBounds() { return { width: 1500, height: 940 }; }
     isMaximized() { return false; }
     isDestroyed() { return false; }
     isMinimized() { return false; }
     loadFile() {}
-    show() {}
-    focus() {}
+    loadURL(url) { observed.loadedURL = url; }
+    show() { observed.shown++; }
+    focus() { observed.focused++; }
+    hide() { observed.hidden++; }
+  }
+  class MockTray extends EventEmitter {
+    setToolTip() {}
+    setContextMenu(menu) { observed.trayMenu = menu; }
   }
   const lifecycle = require("./desktop-lifecycle");
   const context = vm.createContext({
     __dirname,
     console,
     URL,
-    process: { env: { HAKIMI_LOCAL_ONLY: "1", HAKIMI_START_QUANT: "1" }, platform: "win32" },
+    process: { env: { HAKIMI_LOCAL_ONLY: "1", HAKIMI_START_QUANT: "1", ...environment }, platform: "win32" },
     setTimeout, clearTimeout, setInterval, clearInterval,
     require(name) {
-      if (name === "electron") return { app, BrowserWindow: MockWindow,
-        dialog: { showMessageBox: async () => { observed.notices++; } },
+      if (name === "electron") return { app, BrowserWindow: MockWindow, Tray: MockTray,
+        Menu: { buildFromTemplate: value => value, setApplicationMenu: value => { observed.menu = value; } },
+        dialog: { showMessageBox: async () => { observed.notices++; }, showErrorBox: () => { observed.errors = (observed.errors || 0) + 1; } },
         session: { defaultSession: { webRequest: { onBeforeRequest: (_filter, callback) => { observed.filter = callback; } } } },
       };
-      if (name === "fs") return { existsSync: () => true };
+      if (name === "fs") return { existsSync: () => true, mkdirSync() {},
+        readFileSync: () => JSON.stringify(observed.shellState),
+        writeFileSync: (_file, raw) => { observed.shellState = JSON.parse(raw); } };
       if (name === "child_process") return {
         spawn(executable, args, options) { observed.spawn = { executable, args, options }; return child; },
         spawnSync() { assert.fail("Desktop shutdown must never force-stop a process"); },
@@ -167,7 +179,7 @@ function desktopHarness(stopResult) {
     },
   });
   vm.runInContext(fs.readFileSync(path.join(__dirname, "main.js"), "utf8"), context);
-  return { app, child, context, observed };
+  return { app, child, context, observed, handlers };
 }
 
 test("backend reuse requires explicit matching local-only mode and preserves stricter health failures", async () => {
@@ -176,15 +188,17 @@ test("backend reuse requires explicit matching local-only mode and preserves str
   const end = source.indexOf("async function isBackendHealthy()", start);
   for (const [localOnly, payloadMode, expected] of [[true, true, true], [false, false, true],
     [true, false, false], [false, true, false], [false, undefined, false], [true, undefined, false]]) {
-    const context = vm.createContext({ LOCAL_ONLY: localOnly, HEALTH_URL: "http://127.0.0.1:8765/api/health",
+    const context = vm.createContext({ WORKSPACE_CONTEXT: { workspace: path.resolve("test-workspace") },
+      terminalPackage: require("./terminal-package-runtime"), LOCAL_ONLY: localOnly, HEALTH_URL: "http://127.0.0.1:8765/api/health",
       request: async () => ({}), classifyBackendHealthResponse: () => ({ healthy: true, reachable: true,
-        status: "PASS", payload: { local_only: payloadMode } }) });
+        status: "PASS", payload: { local_only: payloadMode, terminal_workspace_root: path.resolve("test-workspace") } }) });
     vm.runInContext(source.slice(start, end), context);
     const result = await context.readBackendHealth();
     assert.equal(result.healthy, expected);
     if (!expected) { assert.equal(result.status, "MODE_MISMATCH"); assert.equal(result.reachable, true); }
   }
-  const context = vm.createContext({ LOCAL_ONLY: true, HEALTH_URL: "http://127.0.0.1:8765/api/health",
+  const context = vm.createContext({ WORKSPACE_CONTEXT: { workspace: path.resolve("test-workspace") },
+    terminalPackage: require("./terminal-package-runtime"), LOCAL_ONLY: true, HEALTH_URL: "http://127.0.0.1:8765/api/health",
     request: async () => ({}), classifyBackendHealthResponse: () => ({ healthy: false, reachable: true,
       status: "RESTART_REQUIRED", payload: { local_only: true } }) });
   vm.runInContext(source.slice(start, end), context);
@@ -252,4 +266,73 @@ test("desktop local session guard covers websocket requests and quant startup ro
   assert.equal(blocked.ok, false);
   assert.equal(blocked.status, "BLOCKED_LOCAL_MODE");
   assert.equal(h.observed.spawn, null);
+});
+
+test("close exits by default even with a tray and keeps owned shutdown cooperative", async () => {
+  const h = desktopHarness({ ok: true, status: "STOPPED", accepted: true });
+  vm.runInContext("createWindow(); createTray(); startBackend()", h.context);
+  h.observed.window.emit("close", { preventDefault() {} });
+  await new Promise(setImmediate);
+  assert.equal(h.observed.hidden, 0);
+  assert.equal(h.observed.allowedQuit, 1);
+  assert.equal(h.observed.stop.child, h.child);
+  assert.equal(h.observed.trayMenu[0].label, "关闭窗口将退出哈基米交易");
+  assert.equal(h.observed.appName, "哈基米交易");
+});
+
+test("tray retention requires explicit opt-in and menu exit still stops owned backend", async () => {
+  const h = desktopHarness({ ok: true, status: "STOPPED", accepted: true }, { state: { minimizeToTray: true } });
+  vm.runInContext("createWindow(); createTray(); setAppMenu(); startBackend()", h.context);
+  h.observed.window.emit("close", { preventDefault() {} });
+  assert.equal(h.observed.hidden, 1);
+  assert.equal(h.observed.allowedQuit, 0);
+  assert.equal(h.observed.stop, null);
+  assert.match(h.observed.trayMenu[0].label, /后台继续运行/);
+  h.observed.trayMenu.at(-1).click();
+  await new Promise(setImmediate);
+  assert.equal(h.observed.allowedQuit, 1);
+  assert.equal(h.observed.stop.child, h.child);
+});
+
+test("repeat launch focuses existing window and a losing instance never boots", async () => {
+  const owner = desktopHarness({ ok: true });
+  vm.runInContext("createWindow()", owner.context);
+  owner.handlers.get("second-instance")();
+  assert.equal(owner.observed.focused, 1);
+  assert.equal(owner.observed.shown, 1);
+  const duplicate = desktopHarness({ ok: true }, { locked: false });
+  assert.equal(duplicate.observed.paths.userData, owner.observed.paths.userData);
+  assert.equal(duplicate.observed.lockData.instanceId, owner.observed.lockData.instanceId);
+  await duplicate.observed.ready();
+  assert.equal(duplicate.observed.allowedQuit, 1);
+  assert.equal(duplicate.observed.window, undefined);
+  assert.equal(duplicate.observed.spawn, null);
+});
+
+test("different quant workspace gets a distinct singleton and launch keeps legacy source separate", () => {
+  const temporary = require("node:os").tmpdir();
+  const old = path.join(temporary,"legacy-runtime-test");
+  const first = desktopHarness({ ok: true }, { environment: { HAKIMI_RUNTIME_DIR: old, HAKIMI_QUANT_WORKSPACE_DIR: path.join(temporary,"quant-a-test") } });
+  const second = desktopHarness({ ok: true }, { environment: { HAKIMI_RUNTIME_DIR: old, HAKIMI_QUANT_WORKSPACE_DIR: path.join(temporary,"quant-b-test") } });
+  assert.notEqual(first.observed.paths.userData, second.observed.paths.userData);
+  assert.notEqual(first.observed.lockData.instanceId, second.observed.lockData.instanceId);
+  vm.runInContext("startBackend()", second.context);
+  assert.equal(second.observed.spawn.options.env.HAKIMI_RUNTIME_DIR, old);
+  assert.equal(second.observed.spawn.options.env.HAKIMI_QUANT_WORKSPACE_DIR, path.join(temporary,"quant-b-test"));
+});
+
+test("occupied service for a different workspace never attaches, spawns or receives stop", async () => {
+  const h = desktopHarness({ ok: true });
+  // Exercise the actual boot control flow with a service that is reachable but
+  // did not pass the package/workspace match; no socket or process is started.
+  vm.runInContext("readBackendHealth = async () => ({healthy:false,reachable:true,status:'PACKAGE_OR_WORKSPACE_MISMATCH'});", h.context);
+  await vm.runInContext("boot()", h.context);
+  assert.equal(h.observed.errors, 1);
+  assert.equal(h.observed.loadedURL, undefined);
+  assert.equal(h.observed.spawn, null);
+  assert.equal(h.observed.stop, null);
+  h.app.quit();
+  await new Promise(setImmediate);
+  assert.equal(h.observed.allowedQuit, 1);
+  assert.equal(h.observed.stop, null);
 });

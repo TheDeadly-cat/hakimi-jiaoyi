@@ -49,6 +49,7 @@ class ResearchManagementBoundaryTests(unittest.TestCase):
             "QUANT_WORKSPACE": self.quant_workspace,
             "RUNTIME_DIR": self.runtime_dir,
             "LOCAL_ONLY": False, "QUANT_RUNTIME_READ_ONLY": True,
+            "TERMINAL_PACKAGE_ID": "", "TERMINAL_PACKAGE_VERSION": "", "TERMINAL_BUILD_COMMIT": "",
             "json_response": lambda _handler, body, status=200: responses.append((body, status)),
             "urllib": urllib, "Any": object,
             **dependencies,
@@ -117,7 +118,8 @@ class ResearchManagementBoundaryTests(unittest.TestCase):
                 method(SimpleNamespace(), route, {})
                 expected = {"ok": True, "status": "fixture"}
                 if route == "/api/health":
-                    expected.update(local_only=False, quant_workspace={
+                    expected.update(local_only=False, terminal_package_id="", terminal_package_version="",
+                                    terminal_build_commit="", terminal_workspace_root=str(self.runtime_dir), quant_workspace={
                         "pending": False, "read_only": True,
                         "root": str(self.runtime_dir / "research-workspace"),
                     })

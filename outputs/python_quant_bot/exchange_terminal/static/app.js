@@ -10022,12 +10022,7 @@ function invalidateStrategyAiReport() {
 function strategyAiFormInput() {
   const strategyId = $("strategySelect")?.value || "dual_ma";
   const strategy = (state.strategies || []).find((item) => item.id === strategyId);
-  const params = { ...(strategy?.params || {}) };
-  for (const input of document.querySelectorAll("#strategyParamRows [data-strategy-param]")) {
-    const original = params[input.dataset.strategyParam];
-    params[input.dataset.strategyParam] = typeof original === "number" ? Number(input.value)
-      : typeof original === "boolean" ? input.value === "true" : input.value;
-  }
+  const params = HakimiTerminalQuantProtocol.readStrategyParameters(strategy, document.querySelectorAll("#strategyParamRows [data-strategy-param]"));
   return { strategy_id: strategyId, strategy_params: params,
     risk_config: Object.fromEntries(new URLSearchParams(riskQueryParams())) };
 }
@@ -10046,12 +10041,17 @@ function currentAiResearchEvidence(targetSymbol = state.symbol) {
     ).map(([provider, result]) => ({provider, model: result.model || data.status?.[provider === "openai" ? "gpt" : provider]?.model || "",
       content: result.content.slice(0, 16000), summary: String(result.json?.summary || "").slice(0, 2000)}));
     if (!providers.length) continue;
+    const recordedContext = data.strategy_context;
+    const strategyContext = recordedContext && Object.fromEntries(["engine_id","strategy_id","strategy_params"]
+      .filter((key) => Object.hasOwn(recordedContext,key)).map((key) => [key,recordedContext[key]]));
     return { schema_version: "hakimi-ai-research-evidence-v1",
       symbol: data.request_context.symbol, bar: data.request_context.bar, session: data.request_context.session,
       question: data.request_context.question, generated_at: data.generated_at,
       input_identity: {rows_sha256: identity.rows_sha256, row_count: identity.row_count,
         first_ts: identity.first_ts, last_ts: identity.last_ts, source: identity.source,
-        price_basis: identity.price_basis, snapshot_id: identity.snapshot_id || null}, providers };
+        price_basis: identity.price_basis, snapshot_id: identity.snapshot_id || null}, providers,
+      ...(strategyContext && Object.keys(strategyContext).length && globalThis.HakimiAiBinding.validStrategyContext(strategyContext)
+        ? {strategy_context:JSON.parse(JSON.stringify(strategyContext))} : {}) };
   }
   return null;
 }
@@ -11348,7 +11348,7 @@ function renderStrategyCards() {
     <div class="strategy-card ${strategy.id === selected ? "active" : ""}" data-strategy="${strategy.id}">
       <div class="strategy-tag">${strategy.style}</div>
       <h3>${strategy.name}</h3>
-      <p>${strategy.description}</p>
+      <p>${escapeHtml(strategy.research_description || strategy.description)}</p>
     </div>
   `).join("");
   document.querySelectorAll(".strategy-card").forEach((card) => {
@@ -11383,7 +11383,7 @@ function renderStrategyDetail() {
     ? evidenceStrategyActionPresentation(recentSignal.action)
     : null;
   $("strategyDetail").innerHTML = `
-    <div class="strategy-detail-card"><span>策略说明</span><strong>${strategy.description || "--"}</strong></div>
+    <div class="strategy-detail-card"><span>策略说明</span><strong>${escapeHtml(strategy.research_description || strategy.description || "--")}</strong></div>
     <div class="strategy-detail-card"><span>适用风格</span><strong>${strategy.style || "--"}</strong></div>
     <div class="strategy-detail-card"><span>核心参数</span><strong>${Object.entries(params).map(([key, value]) => `${key}: ${value}`).join(" / ") || "--"}</strong></div>
     <div class="strategy-detail-card"><span>最近研究信号</span><strong>${recentSignal ? `${recentSignalPresentation?.conclusionText || "研究观察"} / ${recentSignal.reason || "--"}` : "暂无信号"}</strong></div>
@@ -11398,10 +11398,11 @@ function renderStrategyParams() {
   const params = strategy?.params || {};
   const target = $("strategyParamRows");
   if (!target) return;
-  target.innerHTML = Object.entries(params).map(([key, value]) => `
+  const fields = strategy?.parameter_fields || Object.keys(params).map((key) => ({key,label:key}));
+  target.innerHTML = fields.map((field) => `
     <label class="param-row">
-      <span>${key}</span>
-      <input data-strategy-param="${key}" value="${value}">
+      <span>${escapeHtml(field.label || field.key)}${field.display_unit ? `（${escapeHtml(field.display_unit)}）` : ""}</span>
+      <input type="number" step="${escapeHtml(field.step || "any")}" data-strategy-param="${escapeHtml(field.key)}" value="${HakimiTerminalQuantProtocol.parameterUnits(field,params[field.key]) ?? ""}">
     </label>
   `).join("") || `<div class="param-row"><span>暂无参数</span><input disabled value="--"></div>`;
 }
@@ -14809,11 +14810,7 @@ function currentTerminalResearchContext(source = "strategy") {
   const targetSymbol = source === "radar" && state.selectedAnomaly?.symbol ? state.selectedAnomaly.symbol : state.symbol;
   const strategyId = $("strategySelect")?.value || state.strategies[0]?.id || "dual_ma";
   const entry = state.strategies.find((item) => item.id === strategyId);
-  const params = {...(entry?.params || {})};
-  for (const input of document.querySelectorAll("#strategyParamRows [data-strategy-param]")) {
-    const original = params[input.dataset.strategyParam];
-    params[input.dataset.strategyParam] = typeof original === "number" ? Number(input.value) : typeof original === "boolean" ? input.value === "true" : input.value;
-  }
+  const params = HakimiTerminalQuantProtocol.readStrategyParameters(entry, document.querySelectorAll("#strategyParamRows [data-strategy-param]"));
   const blockers = [];
   if (!HakimiTerminalQuantProtocol.validConfiguration({engine_id:HakimiTerminalQuantProtocol.ENGINE,strategy_id:strategyId,strategy_params:params,
     risk:{position_pct:Number($("positionInput")?.value),take_profit_pct:Number($("takeProfitInput")?.value || 0),stop_loss_pct:Number($("stopLossInput")?.value || 0),leverage:Number($("leverageInput")?.value)}})) blockers.push("存在无效参数或仓位，请先核对数字");
@@ -14912,7 +14909,8 @@ function copyFrozenTerminalParameters(configuration) {
   if (!entry || Object.keys(configuration.strategy_params).some((key) => !(key in (entry.params || {})))) throw new Error("原策略目录或参数字段不兼容，未覆盖表单");
   $("strategySelect").value = configuration.strategy_id; renderStrategyCards();
   for (const input of document.querySelectorAll("#strategyParamRows [data-strategy-param]")) {
-    if (Object.hasOwn(configuration.strategy_params,input.dataset.strategyParam)) input.value = String(configuration.strategy_params[input.dataset.strategyParam]);
+    const key = input.dataset.strategyParam, field = entry.parameter_fields?.find((item) => item.key === key);
+    input.value = Object.hasOwn(configuration.strategy_params,key) ? String(HakimiTerminalQuantProtocol.parameterUnits(field,configuration.strategy_params[key])) : "";
   }
   $("positionInput").value = configuration.risk.position_pct; $("takeProfitInput").value = configuration.risk.take_profit_pct;
   $("stopLossInput").value = configuration.risk.stop_loss_pct; $("leverageInput").value = 1;

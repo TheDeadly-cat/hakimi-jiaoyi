@@ -68,7 +68,7 @@ assert.match(main, /HAKIMI_QUANT_READ_ONLY: process\.env\.HAKIMI_QUANT_READ_ONLY
 assert.match(main, /HAKIMI_DESKTOP_CONTROL_TOKEN: backendControlToken/);
 assert.match(main, /const \{ localResourceAllowed, quantPendingState, stopOwnedBackend \} = require\("\.\/desktop-lifecycle"\)/);
 assert.equal((main.match(/startFutuOpenDIfNeeded\(/g) || []).length, 1); // Historical function only; no caller.
-assert.match(main, /Legacy Preview/);
+assert.match(main, /app\.setName\("哈基米交易"\)/);
 let stopped = 0;
 const owned = { pid: 123, exitCode: null, signalCode: null, killed: false, kill: () => { stopped += 1; return true; } };
 assert.equal(stopOwnedBackend(owned, false), false);

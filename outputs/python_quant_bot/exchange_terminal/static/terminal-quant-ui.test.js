@@ -205,7 +205,8 @@ test("native parameter editor renders only declared signal keys and leaves risk 
   const entry={id:"dual_ma",name:"双均线",params:{fast:20,slow:60,position_pct:0.25,stop_loss_pct:0.08},
     parameter_fields:[{key:"fast",label:"快均线"},{key:"slow",label:"慢均线"}],capability:{backtest_supported:true,new_research_allowed:true}};
   const elements={"tq-strategy-note":{},"tq-save-task":{},"tq-params":{},"tq-position":{value:25},"tq-stop":{value:8}};
-  const context=vm.createContext({state:{catalog:[entry]},value:()=>"dual_ma",$:id=>elements[id],esc:String,researchBlocker:protocol.researchBlocker});
+  const context=vm.createContext({state:{catalog:[entry]},value:()=>"dual_ma",$:id=>elements[id],esc:String,researchBlocker:protocol.researchBlocker,
+    parameterUnits:protocol.parameterUnits,updatePreflight(){}});
   vm.runInContext(uiFunction("renderParams"),context);vm.runInContext("renderParams()",context);
   const keys=[...elements["tq-params"].innerHTML.matchAll(/data-tq-param="([^"]+)"/g)].map(match=>match[1]);
   assert.deepEqual(keys,["fast","slow"]);assert.equal(elements["tq-position"].value,25);assert.equal(elements["tq-stop"].value,8);
@@ -259,8 +260,12 @@ test("same-symbol context source change overrides stale inner source selection",
 test("unknown terminal run is not announced as complete or opened as a verified result",async () => {
   let shown=0;const notices=[];
   const context=dispatchContext({state:{tasks:[{id:"task",strategy_id:"dual_ma"}],catalog:[{id:"dual_ma",capability:{backtest_supported:true,new_research_allowed:true}}]},
-    identity:(row)=>row.id,researchBlocker:protocol.researchBlocker,act:async(_action,_payload,options)=>options.onSuccess({id:"operation",status:"UNKNOWN",message:"结果待核对"}),
-    refreshAll:async()=>{},showRun:async()=>shown++,notify:(message,error)=>notices.push({message,error})});
+    identity:(row)=>row.id,researchBlocker:protocol.researchBlocker,act:async(_action,_payload,options)=>{
+      const run={id:"operation",status:"UNKNOWN",message:"结果待核对"};options.onCommitted(run);return options.onSuccess(run);
+    },$:()=>({hidden:false}),text:value=>typeof value==="string"&&value.length>0,
+    api:async()=>({status:"DATA_READY"}),preflightHtml:()=>"数据足够",
+    refreshRecords:async()=>{},showRun:async()=>shown++,notify:(message,error)=>notices.push({message,error})});
+  vm.runInContext(uiFunction("recordRunOutcome")+"\n"+uiFunction("readRunOutcome"),context);
   await vm.runInContext('dispatch("run","task",{})',context);
   assert.equal(shown,0);assert.deepEqual(notices,[{message:"结果待核对",error:true}]);
 });

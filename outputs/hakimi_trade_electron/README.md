@@ -1,9 +1,11 @@
 # 哈基米交易 v2 Electron 桌面壳
 
 这是原程序的 Electron 源码入口；当前整合候选保留行情、策略分析、量化任务、旧结果与记录导出。
-本次源码整合不改变已安装的 dev5 试用包；`tools/build_windows_trial.py` 打包的是另一条
-`trial-main.js` / `workbench_server` 入口，不能用旧包验收代替本入口的验证。
-正式入口是安装后的 `hakimi-research snapshot-import / research / replay / report-show`。
+新的 Windows 原终端候选由 `tools/build_windows_terminal.py` 构建，日常入口为包内 `HakimiTrade.exe`，
+使用经过资源清单核验的包内 Python 启动原终端，并进入同窗 `/quant/`。
+[首用与验收范围](../../docs/windows-original-terminal-candidate.md)记录新候选操作；
+`tools/build_windows_trial.py` 和已安装 dev5 的 `trial-main.js` / `workbench_server` 保留历史身份。
+原正式命令行 `hakimi-research snapshot-import / research / replay / report-show` 继续保留。
 桌面仍承载旧终端及其 `signal-close-next-open-ohlc-conservative-v3` 核心；
 其结果不能冒充正式 `ExperimentRunner` 报告或与其混合比较。
 
@@ -32,9 +34,9 @@ Electron 对 `product-capability-catalog-v2` 和永久 research-only 权限做�
 - 如果后台未启动，自动拉起 `outputs/python_quant_bot/exchange_terminal/server.py`
 - 后台就绪后加载 `http://127.0.0.1:8765/`
 - 不自动启动本机 `FutuOpenD.exe`
-- 只允许一个哈基米交易窗口运行
+- 同一安装和物理工作区重复启动聚焦已有窗口
 - 记住窗口大小、位置和最大化状态
-- 托盘常驻，可快速显示窗口、回到交易台、打开富途配置、重启后台
+- 默认关闭即退出；托盘常驻需明确勾选，菜单说明后台是否继续运行
 - 顶部桌面控制台提供模拟/观察/实盘锁模式、行情源切换、手动刷新和富途入口
 - 命令面板支持市场、模块和动作分组，可快速跳转
 - 新增软件标题栏、工作区导航和策略指挥条，便于把交易台、策略、订单和账户作为桌面软件工作区使用
@@ -94,9 +96,9 @@ npm.cmd run smoke
 关闭窗口或退出前，自有后台通过私有 token 协商退出。研究仍忙、响应未知或尚未退出时保留窗口；
 只有确认后台正常退出后才结束桌面。附着到其他入口的后台不会被关闭，不按端口结束进程。
 
-## 后续升级
+## 交付边界
 
-- 加安装包：引入 `electron-builder`
+- 新的完整文件夹候选已具备独立组件、运行时与资源清单构建路径，实际候选验收按具体构建另记
 - 加自动更新：拆分 release 通道
 - 加本机配置中心：端口、FutuOpenD 路径、主题、启动模块
 - 加崩溃恢复：后台异常时自动重启并提示

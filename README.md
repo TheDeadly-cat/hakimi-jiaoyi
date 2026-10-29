@@ -1,10 +1,12 @@
 # 哈基米交易（Hakimi Jiaoyi）
 
-本页是日常产品入口；M1、M2 与 R1／R2／R3 已结案。当前 main 为 PR #25 已合并的 `e33c1ef`，M3-1 及跨持仓归属退出修复已集成，[该 main 的检查已通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777)。当前开发候选 `0.6.0.dev5` 修复 Windows 启动环境的代理选择差异并补齐结果列表中文说明，保留自带运行时试用包、首次数据引导、三项行情洞察、正式研究工作台及既有研究能力；候选验证与 main、正式 Release 分开记录。
+当前产品整改以整合后的原终端及同窗量化页为主入口，新的 Windows 候选为 **0.7.0.dev1 / HakimiTrade.exe**。请先阅读[原终端候选首用说明](docs/windows-original-terminal-candidate.md)和[30 项交付清单](docs/astra-backlog.md)；实际包、原生操作和真人验收分别记录。下面 dev5 与正式旧 Release 的事实保留为历史，不能替代新候选验收。
+
+以下为截至 2026-10-27 的历史交付基线；M1、M2 与 R1／R2／R3 已结案。当时 main 为 PR #25 已合并的 `e33c1ef`，M3-1 及跨持仓归属退出修复已集成，[该 main 的检查已通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777)。旧开发候选 `0.6.0.dev5` 修复 Windows 启动环境的代理选择差异并补齐结果列表中文说明，保留自带运行时试用包、首次数据引导、三项行情洞察、正式研究工作台及既有研究能力；候选验证与 main、正式 Release 分开记录。
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
 
-第一次使用请看[新手首用说明](docs/first-use.md)：取得维护者交付的完整 Windows x64 试用 ZIP，解压后双击 `HakimiWorkbench.exe`。程序自带运行时，无须输入安装命令；当前包 `哈基米试用 dev5-f778020-r1.zip` 已完成[本机原生首用验收](docs/dev5-native-acceptance-20261027.md)，打包范围见[Windows 试用包说明](docs/windows-trial-package.md)。干净新机、非管理员和独立真人试用由用户后续安排。
+旧 dev5 使用者请看[历史首用说明](docs/first-use.md)：该旧 Windows x64 试用 ZIP 解压后双击 `HakimiWorkbench.exe`。程序自带运行时，无须输入安装命令；当前包 `哈基米试用 dev5-f778020-r1.zip` 已完成[本机原生首用验收](docs/dev5-native-acceptance-20261027.md)，打包范围见[Windows 试用包说明](docs/windows-trial-package.md)。干净新机、非管理员和独立真人试用由用户后续安排。
 
 **dev5已通过本机NDAQ真实获取、确认保存、固定参数运行及同入口关闭重开。** “今天可以做什么”入口已实际点击，明确检查一次得到无新完整日线；原结果重开可读，没有重跑。此次8个评分日、0成交、收益0，样本不足，不代表策略有效。[此前桌面暂停记录](docs/first-stock-live-progress-20261027.md)及[旧dev4验收](docs/first-use-acceptance-20261026.md)保留当时结论，两次NDAQ STOP和旧46份记录保持不变。
 

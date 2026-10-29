@@ -3,6 +3,7 @@
   "use strict";
   const SCHEMA = "hakimi-terminal-quant-bridge-v1";
   const ENGINE = "terminal.causal-long-only-signals-v7";
+  const aiBinding = typeof module === "object" && module.exports ? require("./terminal-ai-binding") : globalThis.HakimiAiBinding;
   const READABLE_ENGINES = new Set([ENGINE, "terminal.causal-long-only-signals-v6"]);
   const plain = (value) => Boolean(value && typeof value === "object" && !Array.isArray(value));
   const finite = (value) => typeof value === "number" && Number.isFinite(value);
@@ -38,9 +39,10 @@
     const daily = (bar) => ["1d","1dutc","daily","day"].includes(String(bar).toLowerCase());
     const bounded = (value,max) => typeof value === "string" && value.length <= max && !value.includes("\0");
     const integer = (value) => Number.isSafeInteger(value) && value > 0 && value <= 8640000000000000;
-    if (!plain(value) || Object.keys(value).some((key) => !required.includes(key)) || required.some((key) => !(key in value))
+    if (!plain(value) || Object.keys(value).some((key) => !required.includes(key) && key !== "strategy_context") || required.some((key) => !(key in value))
       || value.schema_version !== "hakimi-ai-research-evidence-v1" || !text(value.symbol,40) || !text(value.session,40)
       || !daily(value.bar) || !bounded(value.question,900) || !integer(value.generated_at)) return false;
+    if (Object.hasOwn(value,"strategy_context") && !aiBinding?.validStrategyContext(value.strategy_context)) return false;
     if (context && (value.symbol !== context.symbol || !daily(context.bar)
       || value.session.toLowerCase() !== String(context.session).toLowerCase())) return false;
     const input = value.input_identity, keys = ["rows_sha256","row_count","first_ts","last_ts","source","price_basis","snapshot_id"];
@@ -116,19 +118,41 @@
     const keys = new Set((catalog.find((entry) => entry.id === strategyId)?.parameter_fields || []).map((field) => field.key));
     return Object.fromEntries(Object.entries(params).filter(([key]) => keys.has(key)));
   }
-  const protocol = { SCHEMA, ENGINE, validMessage, validContext, validInsightsContext, validReplay, validConfiguration, chartRows, contextSourceId, researchBlocker, comparisonSignalParams, validAiEvidence };
+  function parameterUnits(field, value, toDisplay = true) {
+    if (value === undefined || value === null || value === "") return null;
+    const number = Number(value);
+    if (!Number.isFinite(number)) throw new Error("参数必须是有限数值。");
+    const shift = field?.display_scale === 100 ? (toDisplay ? 2 : -2) : 0;
+    const [coefficient, exponent = "0"] = String(number).split("e");
+    return Number(`${coefficient}e${Number(exponent) + shift}`);
+  }
+  function readStrategyParameters(entry, inputs) {
+    const params = {...(entry?.params || {})};
+    for (const input of inputs) {
+      const key = input.dataset.strategyParam;
+      if (!Object.hasOwn(params,key)) throw new Error("策略参数字段与当前目录不一致。");
+      const original = params[key], field = entry?.parameter_fields?.find((item) => item.key === key);
+      if (typeof original === "number") {
+        const raw = parameterUnits(field,input.value,false);
+        if (raw === null) throw new Error("原记录未记录此参数，请明确填写后再继续。");
+        params[key] = raw;
+      } else params[key] = typeof original === "boolean" ? input.value === "true" : input.value;
+    }
+    return params;
+  }
+  const protocol = { SCHEMA, ENGINE, validMessage, validContext, validInsightsContext, validReplay, validConfiguration, chartRows, contextSourceId, researchBlocker, comparisonSignalParams, validAiEvidence, parameterUnits, readStrategyParameters };
   globalThis.HakimiTerminalQuantProtocol = protocol;
   if (typeof module === "object" && module.exports) module.exports = protocol;
 
   globalThis.installTerminalQuantUI = function installTerminalQuantUI({ api, perform, esc, modal, closeDialog,
     showError, getSelectedCoreRun = () => null, openCoreTask, openCoreRun,
-    openCoreTaskForm, openCoreImport, initializeCoreExample }) {
+    openCoreTaskForm, openCoreImport, initializeCoreExample, runCoreTask }) {
     if (document.getElementById("terminalQuantWorkspace")) return;
     const coreMain = document.getElementById("main");
     const navRoot = document.getElementById("navigation");
     if (!coreMain || !navRoot) throw new Error("terminal_quant_ui_mount_missing");
     const state = { catalog: [], inputs: [], tasks: [], runs: [], coreTasks: [], coreRuns: [], coreInputs: [], coreStrategies: [], coreOverview: null, comparison: new Set(), history: [], reports: [], context: null, market: null,
-      selectedRun: null, revisionOf: null, aiEvidence: null, aiEvidenceBinding: null, aiEvidenceEnabled: false, visible: false, loaded: false, marketRequest: 0, unifiedView: "dashboard", refreshPromise: null };
+      selectedRun: null, selectedRunId: null, runReadRequest: 0, completedRun: null, revisionOf: null, aiEvidence: null, aiEvidenceBinding: null, aiEvidenceEnabled: false, visible: false, loaded: false, marketRequest: 0, preflightRequest: 0, unifiedView: "dashboard", refreshPromise: null };
     const $ = (id) => document.getElementById(id);
     const value = (id) => $(id)?.value ?? "";
     const fmt = (number) => finite(Number(number)) ? Number(number).toLocaleString("zh-CN", {maximumFractionDigits:4}) : "—";
@@ -141,14 +165,58 @@
       $("tq-message").hidden = !message;
     }
     async function act(action, payload, options = {}) {
-      const {errorTarget: _unused, ...jobOptions} = options;
+      const {errorTarget: _unused, onSuccess, onCommitted, ...jobOptions} = options;
       notify("正在处理本地操作，请勿重复提交；操作记录会保留在当前工作区。");
       // The core errorTarget option is scoped to its modal dialog. This panel is
       // persistent, so let the durable job finish independently of that dialog.
-      const result = await perform(action, payload, jobOptions);
-      if (result === null) notify(coreMain.querySelector(".global-message")?.textContent?.trim()
-        || "操作未完成。请查看设置与日志中的原操作记录，不要自动重试。", true);
-      return result;
+      // Capture the durable acknowledgement before the frozen shell's own refresh.
+      // UI callbacks run outside perform's operation-error catch and cannot turn a
+      // succeeded job into a failed job or cause a second submission.
+      let acknowledged = false, savedResult, presentationError;
+      const result = await perform(action, payload, {...jobOptions,onSuccess:(value) => {
+        acknowledged = true; savedResult = value;
+        try { onCommitted?.(value); } catch (error) { presentationError = error; }
+      }});
+      if (!acknowledged) {
+        if (result === null) notify(coreMain.querySelector(".global-message")?.textContent?.trim()
+          || "操作结果尚未确认。请查看设置与日志中的原操作记录，不要自动重试。", true);
+        return result;
+      }
+      if (result === null) showRefreshFailure(new Error("后台已确认这次操作；窗口刷新未完成，请重新读取记录。"));
+      if (presentationError) showRefreshFailure(presentationError);
+      try { await onSuccess?.(savedResult); }
+      catch (error) { showRefreshFailure(error); }
+      return savedResult;
+    }
+    function showRefreshFailure(error) {
+      const panel = $("tq-refresh-message");
+      panel.innerHTML = `<strong>辅助记录读取未完成</strong><p>${esc(operationErrorText(error))}</p><p>已确认的保存或完成状态仍保留；重新读取不会运行回测。</p>${button("重新读取记录","refresh")}`;
+      panel.hidden = false;
+    }
+    async function refreshRecords() {
+      try { await refreshAll(); $("tq-refresh-message").hidden = true; }
+      catch (error) { showRefreshFailure(error); }
+    }
+    function recordRunOutcome(run) {
+      const id = run?.run_id || run?.id;
+      if (run?.status !== "COMPLETED" || !text(id,150)) {
+        notify(run?.message || run?.error || "运行结果待核对；保留原操作，不自动重跑。",true);
+        return;
+      }
+      state.completedRun = {id,task_id:run.task_id};
+      const panel = $("tq-completion");
+      panel.innerHTML = `<strong>回测已完成，结果已保存。</strong><p>结果编号：${esc(id)}</p>${button("查看已保存结果","result",id)}`;
+      panel.hidden = false;
+      notify("回测已完成，结果已保存。查看详情无需再次运行。");
+      // The acknowledged receipt is already a saved fact even if the list read
+      // fails; do not leave an empty-results placeholder beside that fact.
+      state.runs = [run,...state.runs.filter((item) => identity(item) !== id)];
+      renderRuns();
+    }
+    async function readRunOutcome(run) {
+      const id = run?.run_id || run?.id;
+      if (run?.status !== "COMPLETED" || !text(id,150)) return;
+      await Promise.all([refreshRecords(),showRun(id)]);
     }
     function send(kind, payload) { parent.postMessage({schema:SCHEMA, kind, payload}, location.origin); }
     function show(view = "dashboard", replaceHistory = false) {
@@ -191,9 +259,11 @@
     const host = document.createElement("section"); host.id = "terminalQuantWorkspace"; host.className = "main tq"; host.hidden = true;
     host.setAttribute("aria-label", "统一量化研究工作台");
     host.innerHTML = `
-      <div class="page-heading"><div><h1>研究工作台</h1><p>统一查看已有任务和结果，核对行情、参数与版本。不同策略保留各自的计算规则。</p></div><div class="actions">${button("新建工作台策略任务","new-task-form")}${button("新建股票研究任务","core-create")}${button("导入行情","core-import")}${button("刷新记录","refresh")}</div></div>
+      <div class="page-heading"><div><h1>研究工作台</h1><p>选股票和规则，核对数据，保存后明确运行。已有任务与结果在同一个窗口继续查看。</p></div><div class="actions">${button("新建研究","new-research")}${button("导入行情","core-import")}${button("刷新记录","refresh")}</div></div>
       <div id="tq-example" class="notice section-gap" hidden>可使用明确标注的虚构行情熟悉操作。示例不代表真实市场，不能复用为工作台策略的真实行情。${button("准备虚构教学示例","core-example")}</div>
       <div id="tq-message" class="notice" role="status" aria-live="polite" hidden></div>
+      <div id="tq-completion" class="notice section-gap" role="status" aria-live="polite" hidden></div>
+      <div id="tq-refresh-message" class="notice warning section-gap" role="status" aria-live="polite" hidden></div>
       <div id="tq-context" class="notice section-gap">从行情、雷达或策略分析进入，可带入当前标的和表单参数。</div>
       <div class="tq-flow" aria-label="研究步骤"><span>1 核对并冻结行情</span><span>2 保存策略任务</span><span>3 运行与复盘结果</span></div>
       <section class="panel"><div class="panel-head"><h2>1 · 核对本地缓存日线</h2><div class="actions"><label for="tq-symbol">标的</label><input id="tq-symbol" maxlength="40" placeholder="例如 AAPL / BTC-USDT">${button("读取本地日线","market")}</div></div><div class="panel-body"><div class="field"><label for="tq-source">单一来源、时段与价格口径</label><select id="tq-source"><option value="">先读取标的，再选择本地来源</option></select><span class="hint">不同来源、时段和复权口径不会拼接。更换来源后需要重新核对。</span></div></div><div class="panel-body" id="tq-market">尚未读取。这里只读取已有本地行情，不连接外部来源。</div></section>
@@ -204,12 +274,13 @@
         <label class="check-label section-gap"><input id="tq-confirm-core-input" type="checkbox" disabled>我已核对原来源与校验值，保留原输入的研究限制。</label>
         <div class="actions section-gap">${button("复用这份行情","import-core-input","","disabled")}</div>
       </div></section>
-      <section class="panel section-gap"><div class="panel-head"><h2 id="tq-form-title">2 · 新建策略任务</h2>${button("重新填写新任务","new")}</div><div class="panel-body"><form id="tq-task-form">
+      <section class="panel section-gap"><div class="panel-head"><h2 id="tq-form-title">2 · 新建研究</h2>${button("重新填写新任务","new")}</div><div class="panel-body"><form id="tq-task-form">
         <div id="tq-task-error" class="form-error"></div><div class="form-grid">
           <div class="field"><label for="tq-name">任务名称</label><input id="tq-name" maxlength="64" required placeholder="例如 AAPL 日线研究"></div>
-          <div class="field"><label for="tq-strategy">原工作台策略</label><select id="tq-strategy" required></select></div>
+          <div class="field"><label for="tq-strategy">研究规则</label><select id="tq-strategy" required></select><span class="hint">按规则含义选择；程序会打开对应表单。同名规则可能有不同的买卖条件。</span></div>
           <div class="field span-2"><label for="tq-input">封存行情</label><select id="tq-input" required><option value="">先核对并冻结行情</option></select><span class="hint">每个任务绑定一份不再变化的行情；新版本保留旧数据与结果。</span><div class="actions">${button("记录这份行情的判断","judgment-input")}${button("查看已确认结构","structure-input")}</div></div>
         </div><div id="tq-strategy-note" class="section-note section-gap"></div><div id="tq-params" class="form-grid"></div>
+        <div id="tq-preflight" class="notice section-gap" role="status" aria-live="polite">选择规则与冻结行情后，会显示完整数据、预热和可评分区间。</div>
         <div class="form-section"><h3>仓位、费用与保护</h3><div class="form-grid">
           <div class="field"><label for="tq-position">仓位（%）</label><input id="tq-position" type="number" min="0.000001" max="100" step="any" value="25" required></div>
           <div class="field"><label for="tq-stop">止损价格距离（%）</label><input id="tq-stop" type="number" min="0" max="100" step="any" value="8" required></div>
@@ -219,17 +290,25 @@
           <div class="field"><label>当前执行模型</label><p>日线 · 只做多 · 1 倍杠杆；收盘形成信号，下一根开盘成交。止盈止损为 0 时不启用该项。</p></div>
         </div></div><p class="section-note">本地缓存需要来源复核。保存任务与研究结果不会开启模拟或实盘权限。</p>
         <div class="form-section"><h3>AI 研究依据（可选）</h3><label class="check-label"><input id="tq-use-ai" type="checkbox" disabled>随任务保存这份 AI 研究依据，不改变策略参数</label><div id="tq-ai-evidence" class="section-gap"></div></div>
-        <div class="actions"><button id="tq-save-task" type="submit" class="btn primary">保存策略任务</button>${button("采用当前策略表单参数","apply-context")}</div>
+        <div class="actions"><button id="tq-save-task" type="submit" class="btn primary">保存研究任务</button>${button("采用当前策略表单参数","apply-context")}</div>
+        <div id="tq-saved-task" class="notice section-gap" role="status" aria-live="polite" hidden></div>
       </form></div></section>
       <section class="panel section-gap"><div class="panel-head"><h2>全部策略任务与版本</h2></div><div id="tq-tasks" class="panel-body"></div></section>
       <section class="panel section-gap"><div class="panel-head"><h2>全部回测结果与复盘</h2>${button("比较选中的版本","compare")}</div><div id="tq-runs" class="panel-body"></div><div class="panel-body"><label for="tq-core-comparison">可选：并排查看一份已有导入任务结果（不同引擎不计算收益差）</label><select id="tq-core-comparison"><option value="">不加入</option></select></div><div id="tq-run-detail" class="panel-body"></div></section>
       <section class="panel section-gap"><div class="panel-head"><h2>原研究记录</h2><div class="actions">${button("查看原组合研究报告","original-portfolio")}${button("策略分析与模拟记录","original-strategy")}</div></div><div class="panel-body"><p class="section-note">直接读取原研究报告文件和策略流水线记录，保留各自身份；历史报告不作为当前报告，不补算、不重签。原组合报告、账户、日志和导出仍在工作台原位置。</p><h3>原研究报告文件</h3><div id="tq-reports"></div><div id="tq-report-detail"></div><h3 class="section-gap">原策略流水线记录</h3><div id="tq-history"></div><div id="tq-history-detail"></div></div></section>`;
+    host.insertAdjacentHTML("beforeend", `<section class="panel section-gap"><div class="panel-head"><h2>工作区与旧结果</h2>${button("查找已有工作区","workspace-list")}</div><div class="panel-body">
+      <p id="tq-product-identity">正在读取程序版本</p><p>新任务与结果保存在：<strong id="tq-workspace-path">正在读取当前工作区</strong></p>
+      <p class="hint">打开旧工作区只读取原任务与结果，不搬迁、不改写，也不会重新运行。</p>
+      <label for="tq-old-workspace">已知旧工作区</label><select id="tq-old-workspace"><option value="">点击查找已有工作区</option></select>
+      <div class="actions section-gap">${button("读取旧任务与结果","workspace-records")}</div>
+      <div id="tq-workspace-records" class="section-gap"></div><div id="tq-workspace-detail" class="section-gap"></div></div></section>`);
     coreMain.before(host);
     const flow = host.querySelector(".tq-flow");
     flow.before($("tq-tasks").closest(".panel"),$("tq-runs").closest(".panel"));
     const style = document.createElement("style");
     style.textContent = `.tq{padding-top:20px}.tq [hidden]{display:none!important}.tq-flow{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;color:var(--muted);font-size:13px}.tq-flow span{padding:8px 12px;background:var(--surface);border:1px solid var(--line);border-radius:6px}.tq input,.tq select{min-width:0}.tq-row{padding:14px 0;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.tq-row:last-child{border:0}.tq-row p{margin:5px 0;color:var(--muted);font-size:12px}.tq-table{overflow:auto;max-height:310px}.tq-table table{min-width:600px}.tq-metrics{display:flex;gap:24px;flex-wrap:wrap;margin:16px 0}.tq-metrics strong{display:block;font-size:22px}.tq .form-grid{margin-bottom:15px}.tq .actions{flex-wrap:wrap}.tq .page-heading p{max-width:680px}@media(max-width:760px){.tq-row{display:block}.tq-row .actions{margin-top:10px}.tq .panel-head{align-items:flex-start}.tq .form-grid{grid-template-columns:1fr}.tq .span-2{grid-column:auto}}`;
     document.head.append(style);
+    style.textContent += "#tq-workspace-path,#tq-completion,#tq-saved-task,#tq-workspace-detail{overflow-wrap:anywhere}";
     const judgmentUI = typeof globalThis.installTerminalJudgmentUI === "function"
       ? globalThis.installTerminalJudgmentUI({host,api,perform,notify,validReplay,sendReplay:(chart) => send("replay-result",chart)})
       : null;
@@ -245,28 +324,75 @@
 
     function renderCatalog() {
       const selected = value("tq-strategy");
-      $("tq-strategy").innerHTML = state.catalog.map((row) => `<option value="${esc(row.id)}">${esc(row.name || row.id)}${row.capability?.new_research_allowed === false ? " · 仅历史记录" : researchBlocker(row) ? " · 当前不可新建" : ""}</option>`).join("");
+      $("tq-strategy").innerHTML = state.catalog.map((row) => `<option value="${esc(row.id)}">${esc(row.name || row.id)}${row.id === "dual_ma" ? " · 快线高于慢线" : ""}${row.capability?.new_research_allowed === false ? " · 仅历史记录" : researchBlocker(row) ? " · 当前不可新建" : ""}</option>`).join("")
+        + state.coreStrategies.map((row) => `<option value="core:${esc(row.key)}">${esc(row.title || row.key)}${row.key === "price.dual_ma@1" ? " · 快线由下向上穿越" : ""}</option>`).join("");
       if (state.catalog.some((row) => row.id === selected)) $("tq-strategy").value = selected;
       renderParams();
     }
     function renderParams(params = null) {
       const entry = state.catalog.find((row) => row.id === value("tq-strategy"));
-      const values = {...(entry?.params || {}),...(params || {})};
+      if (entry) state.lastNativeStrategy = entry.id;
+      const values = params === null ? (entry?.params || {}) : params;
       const blocked = researchBlocker(entry);
-      $("tq-strategy-note").textContent = blocked ? `仅历史记录 · ${blocked}` : `${entry.description || entry.name} · 使用原工作台信号引擎；与其它同名策略分别保留规则身份。`;
+      $("tq-strategy-note").textContent = blocked ? `仅历史记录 · ${blocked}` : `${entry.research_description || entry.description || entry.name} · ${entry.parameter_note || "不同规则保留各自身份。"}`;
       $("tq-save-task").disabled = Boolean(blocked);
-      const signalKeys = new Set((entry?.parameter_fields || []).map((field) => field.key));
-      $("tq-params").innerHTML = Object.entries(values).filter(([key]) => signalKeys.has(key)).map(([key, val]) => {
-        const field = entry?.parameter_fields?.find((item) => item.key === key);
+      $("tq-params").innerHTML = (entry?.parameter_fields || []).map((field) => {
+        const key = field.key, val = values[key], display = parameterUnits(field,val);
         const input = typeof val === "boolean" ? `<select id="tq-param-${esc(key)}" data-tq-param="${esc(key)}" data-tq-type="boolean"><option value="true" ${val ? "selected" : ""}>是</option><option value="false" ${!val ? "selected" : ""}>否</option></select>`
-          : `<input id="tq-param-${esc(key)}" data-tq-param="${esc(key)}" data-tq-type="${typeof val}" type="${typeof val === "number" ? "number" : "text"}" step="any" value="${esc(val)}" required>`;
-        return `<div class="field"><label for="tq-param-${esc(key)}">${esc(field?.label || key)}</label>${input}</div>`;
+          : `<input id="tq-param-${esc(key)}" data-tq-param="${esc(key)}" data-tq-type="number" type="number" step="${esc(field.step || "any")}" value="${display === null ? "" : esc(display)}" placeholder="${display === null ? "原记录未记录，请明确填写" : ""}" required>`;
+        return `<div class="field"><label for="tq-param-${esc(key)}">${esc(field.label || key)}${field.display_unit ? `（${esc(field.display_unit)}）` : ""}</label>${input}${field.help ? `<span class="hint">${esc(field.help)}</span>` : ""}</div>`;
       }).join("");
+      updatePreflight();
+    }
+    async function openCoreRule(key) {
+      if (!state.coreStrategies.some((entry) => entry.key === key)) throw new Error("未找到所选研究规则。");
+      // Keep the complete native draft together while the other rule's form is open.
+      $("tq-strategy").value = state.lastNativeStrategy || state.catalog.find((entry) => !researchBlocker(entry))?.id || "";
+      hide();
+      try { await openCoreTaskForm(key); }
+      catch (error) { show(); notify(operationErrorText(error),true); }
+    }
+    function currentSignalParams() {
+      const fields = state.catalog.find((entry) => entry.id === value("tq-strategy"))?.parameter_fields || [];
+      const params = {};
+      for (const field of fields) {
+        const input = $("tq-param-" + field.key);
+        const number = parameterUnits(field,input?.value,false);
+        if (number === null) throw new Error("请先填写完整的规则参数；原记录缺失的值不会自动补齐。");
+        params[field.key] = number;
+      }
+      return params;
+    }
+    function preflightHtml(check) {
+      const sufficient = check.data_sufficient === true;
+      return `<strong>${check.status === "DATA_READY" ? "数据数量满足运行条件" : "运行前仍需处理"}</strong>
+        <p>完整数据 ${esc(check.complete_rows)} 条 · 预热 ${esc(check.warmup_rows)} 条 · 可评分 ${esc(check.evaluated_rows)} 条</p>
+        <p>至少需要 ${esc(check.required_rows)} 条${sufficient ? "" : `，还缺 ${esc(check.missing_rows)} 条`}；已排除未完成数据 ${esc(check.excluded_incomplete_count)} 条。</p>
+        <p>可评分区间：${esc(check.evaluation_start || "尚无")} 至 ${esc(check.evaluation_end || "尚无")}。${esc(check.minimum_reason || "")}</p>
+        ${check.status === "BLOCKED" && sufficient ? warning((check.blockers || []).join("；")) : ""}
+        <p class="hint">${esc(check.interpretation || "数量足够不代表策略有效；仍需核对来源与数据质量。")}</p>`;
+    }
+    async function updatePreflight() {
+      const request = ++state.preflightRequest, panel = $("tq-preflight");
+      if (!panel) return;
+      if (!value("tq-input") || !value("tq-strategy")) {
+        panel.textContent = "选择规则与冻结行情后，会显示完整数据、预热和可评分区间。"; return;
+      }
+      panel.textContent = "正在核对已保存的数据与当前参数，不会运行回测。";
+      try {
+        const payload = {strategy_id:value("tq-strategy"),strategy_params:currentSignalParams(),input_id:value("tq-input")};
+        const check = await api("terminal_preflight/" + encodeURIComponent(JSON.stringify(payload)));
+        if (request !== state.preflightRequest) return;
+        panel.innerHTML = preflightHtml(check);
+      } catch (error) {
+        if (request === state.preflightRequest) panel.textContent = `预检查未完成：${operationErrorText(error)}。不会自动运行。`;
+      }
     }
     function renderInputs(preferred = null) {
       const selected = preferred || value("tq-input");
       $("tq-input").innerHTML = '<option value="">请选择已封存行情</option>' + state.inputs.map((row) => `<option value="${esc(identity(row))}">${esc(row.symbol)} · ${esc(row.date_start || "")} 至 ${esc(row.date_end || "")} · ${esc(row.row_count)} 日 · 来源待复核</option>`).join("");
       if (state.inputs.some((row) => identity(row) === selected)) $("tq-input").value = selected;
+      updatePreflight();
     }
     function renderCoreInputs() {
       const selected = value("tq-core-input");
@@ -290,7 +416,7 @@
       const nativeRows = state.tasks.map((row) => `<div class="tq-row"><div><strong>${esc(row.title || row.name)}</strong><p>工作台信号规则 · ${esc(row.strategy_name || row.strategy_id)} · 版本 ${esc(row.version)} · ${esc(row.input_summary?.symbol || "")} · ${row.state === "PAUSED" ? "已暂停" : "已启用"}</p><p>仓位 ${fmt(row.risk?.position_pct)}% · 止损 ${fmt(row.risk?.stop_loss_pct)}% · 止盈 ${fmt(row.risk?.take_profit_pct)}%</p>${row.requires_revision ? '<p>计算规则已更新；旧记录可查看，请修订为新版本后运行。</p>' : ""}</div><div class="actions">${button("查看 / 修订","edit",row.family_id)}${button(row.state === "PAUSED" ? "启用" : "暂停","state",row.family_id)}${button("运行回测","run",identity(row),row.requires_revision || row.state === "PAUSED" || researchBlocker(state.catalog.find((entry) => entry.id === row.strategy_id)) ? "disabled" : "")}${button("记录判断","judgment-task",identity(row))}</div></div>`);
       const importedRows = state.coreTasks.map((row) => {
         const snapshot = row.inputs?.snapshot, strategy = state.coreStrategies.find((entry) => entry.key === row.strategy);
-        return `<div class="tq-row"><div><strong>${esc(row.title || row.name || row.label || "策略任务")}</strong><p>股票研究规则 · ${esc(strategy?.title || row.strategy || "规则未记录")} · ${esc(row.revisions?.length || 1)} 个保存版本 · ${esc(snapshot?.security?.symbol || snapshot?.security_id || snapshot?.label || "标的未记录")} · ${row.state === "PAUSED" ? "已暂停" : row.state === "ENABLED" ? "已启用" : esc(row.state || "状态未记录")}</p><p>${row.legacy_task ? "旧格式原任务只读保留；可复制后修订。" : "按此任务原有的输入、参数和执行规则管理。"}${snapshot?.evidence_kind === "SYNTHETIC_TEST" ? " 虚构教学数据，不代表真实市场。" : ""}</p></div>${button("查看 / 管理","core-task",row.id)}</div>`;
+        return `<div class="tq-row"><div><strong>${esc(row.title || row.name || row.label || "策略任务")}</strong><p>股票研究规则 · ${esc(strategy?.title || row.strategy || "规则未记录")} · ${esc(row.revisions?.length || 1)} 个保存版本 · ${esc(snapshot?.security?.symbol || snapshot?.security_id || snapshot?.label || "标的未记录")} · ${row.state === "PAUSED" ? "已暂停" : row.state === "ENABLED" ? "已启用" : esc(row.state || "状态未记录")}</p><p>${row.legacy_task ? "旧格式原任务只读保留；可复制后修订。" : "按此任务原有的输入、参数和执行规则管理。"}${snapshot?.evidence_kind === "SYNTHETIC_TEST" ? " 虚构教学数据，不代表真实市场。" : ""}</p></div><div class="actions">${button("查看 / 管理","core-task",row.id)}${!row.legacy_task ? button("运行当前保存版本","core-run",row.id,row.state !== "ENABLED" ? "disabled" : "") : ""}</div></div>`;
       });
       $("tq-tasks").innerHTML = nativeRows.concat(importedRows).join("") || '<p class="muted">尚无策略任务。可使用现有行情或导入数据，核对规则后保存任务。</p>';
     }
@@ -311,11 +437,15 @@
     }
     async function loadAllRecords() {
       const [catalog, inputs, tasks, runs, history, reports, coreOverview, coreInputs] = await Promise.all([api("terminal_catalog"),api("terminal_inputs"),api("terminal_tasks"),api("terminal_runs"),api("terminal_history"),api("terminal_reports"),api("status"),api("terminal_core_inputs")]);
+      state.coreStrategies = catalog.core_items || [];
       if (!state.loaded) { state.catalog = catalog.items || []; renderCatalog(); }
       state.inputs = inputs.items || []; state.tasks = tasks.items || []; state.runs = runs.items || [];
       state.history = history.items || []; state.reports = reports.items || []; state.reportsPage = reports;
       state.coreOverview = coreOverview; state.coreTasks = coreOverview.tasks || []; state.coreRuns = coreOverview.runs || [];
       state.coreStrategies = catalog.core_items || []; state.coreInputs = coreInputs.items || [];
+      $("tq-workspace-path").textContent = coreOverview.product_workspace || coreOverview.workspace || "当前版本未提供工作区位置";
+      const product = coreOverview.terminal_product;
+      $("tq-product-identity").textContent = `哈基米交易 · ${product?.version || "源码开发预览"}${product?.build_commit ? " · 构建 " + product.build_commit.slice(0,12) : ""} · 股票回测内核 ${coreOverview.version || "未记录"}`;
       $("tq-example").hidden = coreOverview.initialized !== false || Boolean(coreOverview.inputs?.length);
       renderCoreInputs(); renderInputs(); renderTasks(); renderRuns(); renderHistory(); renderReports(); state.loaded = true;
       judgmentUI?.setSources({inputs:state.inputs,tasks:state.tasks,runs:state.runs});
@@ -362,10 +492,15 @@
       if (!validAiEvidence(evidence)) return '<p class="section-note">没有可带入的日线 AI 研究依据。请在行情页对当前标的完成分析后再进入；失败、过期或其它周期的报告不会自动附入。</p>';
       const input = evidence.input_identity;
       const match = binding?.status === "SAME_NUMERIC_ROWS" ? "与任务封存行情的数值和时段一致，来源仍未独立认证。"
-        : binding ? "与本次封存行情不同，仅保留为参考依据；不代表分析过这份回测数据。"
+        : binding?.status ? "与本次封存行情不同，仅保留为参考依据；不代表分析过这份回测数据。"
         : "保存时将核对封存行情。AI 图表快照可能与任务历史范围、时段或来源不同。";
+      const strategy = binding?.strategy_binding;
+      const strategyText = strategy?.status === "MATCH" ? "分析中记录的规则与信号参数和本任务一致；费用与独立风控仍需另行核对。"
+        : strategy?.status === "MISMATCH" ? `分析与当前任务的规则或参数不一致${strategy.differing_parameters?.length ? "：" + strategy.differing_parameters.join("、") : ""}。这里只保存原参考，不会自动改参数。`
+        : "原分析未完整记录规则或参数，无法确认与当前任务一致；缺失字段保持未记录。";
       return `<p><strong>${esc(evidence.symbol)} · ${esc(evidence.bar)} · ${esc(evidence.session)}</strong> · ${esc(new Date(evidence.generated_at).toISOString())}</p>
         <p>图表来源 ${esc(input.source)} · 价格说明 ${esc(input.price_basis)} · ${esc(input.row_count)} 根</p><p class="section-note">${esc(match)} AI 文字未经独立核验，不提供参数选定、模拟或实盘权限。</p>
+        <p class="section-note">${esc(strategyText)}</p>
         <p>研究问题：${esc(evidence.question || "未填写")}</p>${evidence.providers.map((item) => `<details class="section-gap"><summary>${esc(item.provider)} / ${esc(item.model)} · 查看原始研究文字</summary><p>${esc(item.summary || "")}</p><pre class="code-detail">${esc(item.content)}</pre></details>`).join("")}
         <details class="section-gap"><summary>研究快照身份</summary><pre class="code-detail">${esc(JSON.stringify({input_identity:input,binding},null,2))}</pre></details>`;
     }
@@ -373,7 +508,12 @@
       const checkbox = $("tq-use-ai");
       checkbox.disabled = !validAiEvidence(state.aiEvidence);
       checkbox.checked = !checkbox.disabled && state.aiEvidenceEnabled;
-      $("tq-ai-evidence").innerHTML = aiEvidenceHtml(state.aiEvidence,state.aiEvidenceBinding);
+      let current;
+      try { current = {engine_id:ENGINE,strategy_id:value("tq-strategy"),strategy_params:{...(state.catalog.find((row) => row.id === value("tq-strategy"))?.params || {}),...currentSignalParams()}}; }
+      catch (_) { current = {engine_id:ENGINE}; }
+      const savedBinding = state.aiEvidenceBinding?.task_input_id === value("tq-input") ? state.aiEvidenceBinding : null;
+      const binding = {...(savedBinding || {}),strategy_binding:aiBinding.compareStrategy(state.aiEvidence,current)};
+      $("tq-ai-evidence").innerHTML = aiEvidenceHtml(state.aiEvidence,binding);
     }
     function applyContext(context) {
       state.context = context;
@@ -415,32 +555,80 @@
       event.preventDefault(); const form = $("tq-task-form"); if (!form.reportValidity()) return;
       const blocked = researchBlocker(state.catalog.find((entry) => entry.id === value("tq-strategy")));
       if (blocked) return notify(blocked,true);
-      const params = {};
-      const signalKeys = new Set((state.catalog.find((entry) => entry.id === value("tq-strategy"))?.parameter_fields || []).map((field) => field.key));
-      for (const input of form.querySelectorAll("[data-tq-param]")) {
-        if (signalKeys.has(input.dataset.tqParam)) params[input.dataset.tqParam] = input.dataset.tqType === "number" ? Number(input.value) : input.dataset.tqType === "boolean" ? input.value === "true" : input.value;
-      }
+      const params = currentSignalParams();
       const payload = {name:value("tq-name").trim(),strategy_id:value("tq-strategy"),strategy_params:params,input_id:value("tq-input"),
         risk:{position_pct:Number(value("tq-position")),take_profit_pct:Number(value("tq-take")),stop_loss_pct:Number(value("tq-stop")),leverage:1},
         costs:{fee_rate:Number(value("tq-fee"))/100,slippage_bps:Number(value("tq-slippage"))},
         ...(state.revisionOf ? {parent_task_id:state.revisionOf} : {}),
         ...(state.aiEvidenceEnabled && validAiEvidence(state.aiEvidence) ? {ai_evidence:state.aiEvidence} : {})};
-      await act("terminal_save_task", payload, {button:event.submitter,onSuccess:async (task) => {
+      await act("terminal_save_task", payload, {button:event.submitter,onCommitted:(task) => {
+        state.completedRun = null; $("tq-completion").hidden = true;
         state.revisionOf = task.task_id || task.id; $("tq-form-title").textContent = `2 · 修订任务 · 当前版本 ${task.version}`;
         state.aiEvidence = task.ai_evidence || null; state.aiEvidenceBinding = task.ai_evidence_binding || null;
         state.aiEvidenceEnabled = Boolean(state.aiEvidence); renderAiEvidence();
-        await refreshAll(); notify(`任务版本 ${task.version} 已保存。请在任务列表明确选择运行。`);
-      }});
+        state.tasks = [task,...state.tasks.filter((row) => row.family_id !== task.family_id)]; renderTasks();
+        const check = task.data_preflight;
+        $("tq-saved-task").innerHTML = `<strong>“${esc(task.title || task.name)}”版本 ${esc(task.version)} 已保存。</strong>
+          <p>保存没有运行回测；下面按钮只运行刚保存的这个版本。</p>
+          ${check ? preflightHtml({...check,status:check.data_sufficient ? "DATA_READY" : "BLOCKED"}) : ""}
+          ${button("运行这次回测","run",task.task_id || task.id,task.state === "PAUSED" || !check?.data_sufficient ? "disabled" : "")}
+          ${button("在任务列表找到此版本","saved-task",task.task_id || task.id)}`;
+        $("tq-saved-task").hidden = false;
+        notify(`任务版本 ${task.version} 已保存。${check?.data_sufficient ? "可以继续运行这次回测。" : "数据尚不足，请先查看预检查。"}`);
+      },onSuccess:refreshRecords});
+    }
+    async function listOldWorkspaces() {
+      const result = await api("terminal_workspace_history");
+      state.oldWorkspaces = result.items || [];
+      $("tq-old-workspace").innerHTML = '<option value="">请选择要查看的旧工作区</option>' + state.oldWorkspaces.map((row) => `<option value="${esc(row.id)}">${esc(row.label)} · ${esc(row.physical_root)}</option>`).join("");
+      $("tq-workspace-records").textContent = state.oldWorkspaces.length ? "选择后读取原记录，当前写入位置保持不变。" : "未发现可读取的已知旧工作区。";
+      if (result.warnings?.length) $("tq-workspace-records").textContent += " " + result.warnings.join("；");
+    }
+    async function readOldWorkspace() {
+      const id = value("tq-old-workspace");
+      if (!state.oldWorkspaces?.some((row) => row.id === id)) return notify("请先选择已知旧工作区。",true);
+      const request = state.oldWorkspaceRequest = (state.oldWorkspaceRequest || 0) + 1;
+      const [tasks,runs] = await Promise.all([api(`terminal_workspace_history/${id}/tasks`),api(`terminal_workspace_history/${id}/runs`)]);
+      if (request !== state.oldWorkspaceRequest) return;
+      $("tq-workspace-records").innerHTML = `<p>只读位置：${esc(tasks.physical_root)}</p>` + [["旧任务",tasks,"tasks"],["旧结果",runs,"runs"]].map(([label,page,resource]) => `<h3>${label}</h3>${page.items?.length ? page.items.map((row) => `<div class="tq-row"><div><strong>${esc(row.label)}</strong><p>${esc(row.status || row.state || "状态未记录")} · ${row.verification_status === "VERIFIED_RECORD" ? "保存记录校验通过" : "仅原元数据，未核验"}</p></div>${button("查看原记录","workspace-detail",`${id}/${resource}/${row.id}`)}</div>`).join("") : '<p class="muted">此工作区没有这类记录。</p>'}`).join("");
+      $("tq-workspace-detail").textContent = "";
+    }
+    async function readOldDetail(reference) {
+      const request = state.oldDetailRequest = (state.oldDetailRequest || 0) + 1;
+      const detail = await api("terminal_workspace_history/" + reference.split("/").map(encodeURIComponent).join("/"));
+      if (request !== state.oldDetailRequest) return;
+      state.oldDetail = detail;
+      $("tq-workspace-detail").innerHTML = `<h3>${esc(detail.label)}</h3>${warning(detail.verification_note)}
+        ${globalThis.HakimiTerminalResultSummary.renderResultSummary(detail,esc)}
+        ${detail.status === "UNKNOWN" ? warning("历史 UNKNOWN 保留，不补算、不重跑。") : ""}
+        ${detail.chart_available && validReplay(detail.chart) ? button("在原图表查看旧结果","workspace-replay") : ""}
+        <details class="section-gap"><summary>原记录与真实规则身份</summary><pre class="code-detail">${esc(JSON.stringify(detail,null,2))}</pre></details>`;
     }
     async function showRun(id) {
-      const run = await api("terminal_runs/" + encodeURIComponent(id)); state.selectedRun = run;
+      const request = ++state.runReadRequest;
+      state.selectedRunId = id; state.selectedRun = null;
+      $("tq-run-detail").textContent = "正在读取这份已保存结果，不会重新运行回测。";
+      try {
+        const run = await api("terminal_runs/" + encodeURIComponent(id));
+        if (request !== state.runReadRequest) return;
+        if ((run.run_id || run.id) !== id) throw new Error("返回的结果编号与所选结果不一致，请核对原操作记录。");
+        renderRun(run,id);
+        state.selectedRun = run;
+      } catch (error) {
+        if (request !== state.runReadRequest) return;
+        const saved = state.completedRun?.id === id ? "回测已完成且结果已保存。" : "原结果记录保持不变。";
+        $("tq-run-detail").innerHTML = `${warning(`${saved} 结果详情读取未完成：${operationErrorText(error)}`)}
+          <p class="section-note">结果编号：${esc(id)}。重试只读取同一份结果，不会新建回测。</p>${button("重新读取这份结果","result",id)}`;
+      }
+    }
+    function renderRun(run,id) {
       if (run.status !== "COMPLETED") {
         $("tq-run-detail").innerHTML = warning(run.message || run.error || "此运行未取得完整结果。原记录保留，不自动重跑，也不使用当前行情补齐。");
         return;
       }
       const result = run.result || {}, config = run.configuration || {}, trades = result.trades || [];
       $("tq-run-detail").innerHTML = `<h3>${esc(run.title || run.strategy_id)} · 版本 ${esc(run.version)}</h3>${warning("冻结研究结果 · 来源待复核 · 不授予模拟或实盘权限")}
-        <div class="tq-metrics"><div>收益率<strong>${fmt(result.total_return_pct)}%</strong></div><div>最大回撤<strong>${fmt(result.max_drawdown_pct)}%</strong></div><div>成交事件<strong>${fmt(result.order_event_count ?? trades.length)}</strong></div></div>
+        ${globalThis.HakimiTerminalResultSummary.renderResultSummary(run,esc)}
         <div class="actions">${button("在行情图表复盘","replay",id)}${button("复制参数到策略分析","copy-params",id)}${button("记录这次结果的判断","judgment-run",id)}${button("出场对照研究","exit-research-run",id,researchBlocker(state.catalog.find((entry) => entry.id === run.strategy_id)) ? "disabled" : "")}</div>
         <details class="section-gap"><summary>本次冻结配置与来源</summary><pre class="code-detail">${esc(JSON.stringify({engine:run.engine_id,configuration:config,input:run.input_summary,report_hash:run.report_hash},null,2))}</pre></details>
         ${config.ai_evidence ? '<h3 class="section-gap">本任务保存的 AI 研究依据</h3>' + aiEvidenceHtml(config.ai_evidence,config.ai_evidence_binding) : ""}
@@ -509,13 +697,29 @@
         if (!selectedId) throw new Error("请先选择一份已封存行情。");
         return judgmentUI.openSource(kind,selectedId);
       }
-      if (action === "refresh") return refreshAll();
-      if (action === "new-task-form") return $("tq-form-title").scrollIntoView({behavior:"smooth",block:"start"});
+      if (action === "refresh") return refreshRecords();
+      if (action === "new-research" || action === "new-task-form") {
+        await dispatch("new","",target); $("tq-saved-task").hidden = true;
+        $("tq-form-title").scrollIntoView({behavior:"smooth",block:"start"}); $("tq-name").focus(); return;
+      }
+      if (action === "saved-task") { show("tasks"); return notify("刚保存的版本已列在任务列表，保存和查看不会运行。"); }
+      if (action === "workspace-list") return listOldWorkspaces();
+      if (action === "workspace-records") return readOldWorkspace();
+      if (action === "workspace-detail") return readOldDetail(id);
+      if (action === "workspace-replay") {
+        if (!state.oldDetail?.chart_available || !validReplay(state.oldDetail.chart)) throw new Error("旧结果没有可校验的冻结图表。");
+        return send("replay-result",state.oldDetail.chart);
+      }
       if (action === "core-task" || action === "core-result") {
         const records = action === "core-task" ? state.coreTasks : state.coreRuns;
         const callback = action === "core-task" ? openCoreTask : openCoreRun;
         if (!records.some((row) => row.id === id) || typeof callback !== "function") throw new Error("未找到对应的原任务或结果详情入口。");
         hide(); return callback(id);
+      }
+      if (action === "core-run") {
+        const task = state.coreTasks.find((row) => row.id === id);
+        if (!task || task.legacy_task || task.state !== "ENABLED" || typeof runCoreTask !== "function") throw new Error("当前任务不可运行，请核对保存版本与状态。");
+        hide(); return runCoreTask(id,task.task_id,target);
       }
       if (action === "core-create" || action === "core-import") {
         const callback = action === "core-create" ? openCoreTaskForm : openCoreImport;
@@ -559,7 +763,11 @@
         const task = state.tasks.find((row) => identity(row) === id);
         const blocked = researchBlocker(state.catalog.find((entry) => entry.id === task?.strategy_id));
         if (blocked) return notify(blocked,true);
-        return act("terminal_run_task",{task_id:id},{button:target,onSuccess:async (run) => {await refreshAll(); if(run.status !== "COMPLETED") return notify(run.message || run.error || "运行结果待核对；保留原操作，不自动重跑。",true);await showRun(run.run_id || run.id);notify("回测完成，已保留数据、参数版本和结果。");}});
+        const check = await api("terminal_preflight/" + encodeURIComponent(JSON.stringify({task_id:id})));
+        $("tq-preflight").innerHTML = preflightHtml(check);
+        if (check.status !== "DATA_READY") return notify(`本次未运行：完整数据 ${check.complete_rows} 条，至少需要 ${check.required_rows} 条；请查看数据预检查。`,true);
+        state.completedRun = null; $("tq-completion").hidden = true;
+        return act("terminal_run_task",{task_id:id},{button:target,onCommitted:recordRunOutcome,onSuccess:readRunOutcome});
       }
       if (action === "state") {
         const task = state.tasks.find((row) => row.family_id === id);
@@ -571,13 +779,22 @@
       if (target && !target.disabled) dispatch(target.dataset.tqAction,target.dataset.tqId,target).catch((error) => notify(error.message,true));
     });
     host.addEventListener("change", (event) => {
-      if (event.target.id === "tq-strategy") renderParams();
+      if (event.target.id === "tq-strategy") {
+        const selected = event.target.value;
+        if (selected.startsWith("core:")) {
+          openCoreRule(selected.slice(5)).catch((error) => notify(operationErrorText(error),true)); return;
+        }
+        renderParams();
+      }
+      if (event.target.id === "tq-input" || event.target.dataset.tqParam) updatePreflight();
+      if (["tq-strategy","tq-input"].includes(event.target.id) || event.target.dataset.tqParam) renderAiEvidence();
       if (event.target.id === "tq-core-input") renderCoreInputSelection();
       if (event.target.id === "tq-confirm-core-input") host.querySelector('[data-tq-action="import-core-input"]').disabled = !event.target.checked || !state.coreInputs.some((row) => identity(row) === value("tq-core-input") && row.available === true);
       if (event.target.id === "tq-source") readMarket(event.target.value).catch((error) => notify(error.message,true));
       if (event.target.id === "tq-confirm-market") host.querySelector('[data-tq-action="freeze"]').disabled = !event.target.checked;
       if (event.target.dataset.tqCompare) event.target.checked ? state.comparison.add(event.target.dataset.tqCompare) : state.comparison.delete(event.target.dataset.tqCompare);
     });
+    host.addEventListener("input", (event) => { if (event.target.dataset.tqParam) renderAiEvidence(); });
     $("tq-use-ai").addEventListener("change", (event) => { state.aiEvidenceEnabled = event.target.checked && validAiEvidence(state.aiEvidence); });
     renderAiEvidence();
     $("tq-task-form").addEventListener("submit", (event) => saveTask(event).catch((error) => notify(error.message,true)));
@@ -591,6 +808,14 @@
     window.addEventListener("popstate", () => {
       const view = location.hash.slice(1) || "dashboard";
       if (["dashboard","tasks","results","insights"].includes(view)) show(view,true); else hide();
+    });
+    window.addEventListener("hakimi-core-open", () => hide());
+    window.addEventListener("hakimi-core-task-saved", (event) => {
+      const task = event.detail;
+      if (!task?.id || !task.task_id || !["ENABLED","PAUSED"].includes(task.state)) return;
+      state.coreTasks = [task,...state.coreTasks.filter((row) => row.id !== task.id)]; renderTasks(); show("tasks");
+      notify("研究任务已保存。上方“运行这次回测”只使用刚保存的版本；查看记录不会运行。");
+      requestAnimationFrame(() => $("core-completion-feedback")?.scrollIntoView({block:"start",behavior:"auto"}));
     });
     window.addEventListener("message", async (event) => {
       if (!validMessage(event,parent,location.origin,["open-terminal","terminal-context","open-insights","bridge-error"])) return;

@@ -89,8 +89,9 @@ test("save action includes only selected reference and leaves execution values u
   const payloads = [];
   const form = {reportValidity:()=>true,querySelectorAll:()=>[{dataset:{tqParam:"fast",tqType:"number"},value:"7"}]};
   const h = vm.createContext({state,validAiEvidence:protocol.validAiEvidence,value:id=>values[id],
-    $:()=>form,researchBlocker:()=>"",notify(){},act:async(action,payload)=>payloads.push({action,payload})});
-  vm.runInContext(uiFunction("saveTask"),h);
+    $:id=>id==="tq-param-fast"?{value:"7"}:form,parameterUnits:protocol.parameterUnits,
+    researchBlocker:()=>"",refreshRecords:async()=>{},notify(){},act:async(action,payload)=>payloads.push({action,payload})});
+  vm.runInContext(uiFunction("currentSignalParams")+"\n"+uiFunction("saveTask"),h);
   await h.saveTask({preventDefault(){},submitter:{}});
   assert.equal("ai_evidence" in payloads[0].payload,false);
   state.aiEvidenceEnabled = true;

@@ -4983,7 +4983,7 @@ assert.ok(indexSource.includes("展开首次到期决策、后续描述与人工
 assert.ok(indexSource.includes("首次到期决策未核验 · 后续样本仅可描述"));
 assert.ok(indexSource.includes("styles.css?v=20260822-evidence-calibration-rail-2"));
 assert.ok(indexSource.includes("evidence_presentation.js?v=20260821-correlation-multiplicity-ledger-1"));
-assert.ok(indexSource.includes("app.js?v=20261029-integrated-1"));
+assert.ok(indexSource.includes("app.js?v=20261029-astra-1"));
 assert.equal((indexSource.match(/20260821-correlation-multiplicity-ledger-1/g) || []).length, 1);
 assert.ok(!indexSource.includes("20260814-forward-local-source-binding-1"));
 assert.ok(!indexSource.includes("20260814-schema14-search-lineage-1"));

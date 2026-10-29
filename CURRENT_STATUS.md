@@ -1,5 +1,11 @@
 # 当前项目状态
 
+## 2026-10-29 原终端产品交付
+
+当前工作按[第二版 30 项任务清单](docs/astra-backlog.md)推进。日常入口固定为原终端及同窗 `/quant/`；新候选 **0.7.0.dev1 / HakimiTrade.exe** 使用包内解释器和完整资源。见[新候选说明](docs/windows-original-terminal-candidate.md)。功能基线 `db443e6` 的 run 143 已成功；新修改、候选构建和原生验收不能沿用该旧 CI。以下 2026-10-27 及更早状态保留为历史。
+
+## 历史基线（2026-10-27）
+
 本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1、M2、M3-1 与 R1／R2／R3 已集成，M2-2 的两项 P2 和 PR #25 跨归属退出修复保持关闭。当前开发范围为 P0 整合、美股日线 M3-2 连续运行及一种财报排期研究输入；P2 数据范围增强和 P3 受控交易留待后续。主分支集成以实际合并提交及其检查为准。
 
 整理日期：2026-10-27。[PR #25](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/25) 已合并至 `e33c1ef324f142be3889bbef44b663b6b5f54a1a`，[该 main CI](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777) 结论为成功，原 Windows／Ubuntu 安装各 299 项。`0.5.0.dev4` CLEAN 构建 `e003dd8` 的 wheel、共享流程 v4、启动器及旧 dev3 只读兼容证据保留原身份；首次时限取消日志不抹去。见[修复证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。日常交付候选升为 `0.6.0.dev5`，默认新计算使用正式 `hakimi_research`，旧引擎和原桌面保留；[当前入口、构建身份与旧账户处理](docs/daily-delivery.md)。候选工程检查、实际工作台流程、真实数据与远端 CI 分别验收。

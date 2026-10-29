@@ -20,8 +20,12 @@ TEST_FILES = (
     "test_indicator_contract.py",
     "test_indicator_migration.py",
     "test_quant_kernel_isolation.py",
+    "test_quant_completion_adapter.py",
     "test_quant_workspace.py",
+    "test_strategy_presentation.py",
     "test_terminal_ai_evidence.py",
+    "test_terminal_ai_strategy_binding.py",
+    "test_terminal_data_preflight.py",
     "test_terminal_exit_research.py",
     "test_terminal_history.py",
     "test_terminal_insights.py",
@@ -29,10 +33,12 @@ TEST_FILES = (
     "test_terminal_judgment.py",
     "test_terminal_market_data.py",
     "test_terminal_research.py",
+    "test_terminal_workspace_history.py",
 )
 TEST_PATTERNS = (
     "test_terminal_*.py", "test_indicator_*.py", "test_quant_workspace.py",
-    "test_quant_kernel_isolation.py", "test_causal_structure.py", "test_exit_comparison_math.py",
+    "test_quant_kernel_isolation.py", "test_quant_completion_adapter.py", "test_strategy_presentation.py",
+    "test_causal_structure.py", "test_exit_comparison_math.py",
 )
 
 

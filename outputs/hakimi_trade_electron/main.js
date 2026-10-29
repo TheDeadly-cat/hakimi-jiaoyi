@@ -13,19 +13,40 @@ const {
 } = require("./backend-runtime-contract");
 
 const { localResourceAllowed, quantPendingState, stopOwnedBackend } = require("./desktop-lifecycle");
+const terminalPackage = require("./terminal-package-runtime");
+const PACKAGE_CONTEXT = app.isPackaged ? terminalPackage.createContext({
+  resourcesPath: process.resourcesPath,
+  localAppData: process.env.LOCALAPPDATA,
+  home: app.getPath("home"),
+  runtimeDirectory: process.env.HAKIMI_RUNTIME_DIR,
+  quantWorkspaceDirectory: process.env.HAKIMI_QUANT_WORKSPACE_DIR,
+}) : null;
 
-const APP_TITLE = "哈基米研究 · Legacy Preview";
+const APP_TITLE = PACKAGE_CONTEXT ? `哈基米交易 · ${PACKAGE_CONTEXT.manifest.version}` : "哈基米交易 · 开发预览";
 const HOST = String(process.env.HAKIMI_HOST || "127.0.0.1").trim().toLowerCase();
 const PORT = Number(process.env.HAKIMI_PORT || 8765);
 if (!isLoopbackHost(HOST) || !Number.isInteger(PORT) || PORT < 1 || PORT > 65535) {
-  throw new Error("Legacy preview requires a valid loopback host and port");
+  throw new Error("哈基米交易需要有效的本机地址和端口");
 }
 const BASE_URL = `http://${HOST === "::1" ? "[::1]" : HOST}:${PORT}`;
 const HEALTH_URL = `${BASE_URL}/api/health`;
-const LOCAL_ONLY = ["1", "true", "yes", "on"].includes(String(process.env.HAKIMI_LOCAL_ONLY || "").trim().toLowerCase());
-const START_URL = process.env.HAKIMI_START_QUANT === "1" ? `${BASE_URL}/?workspace=quant` : BASE_URL;
+const LOCAL_ONLY = ["1", "true", "yes", "on"].includes(String(process.env.HAKIMI_LOCAL_ONLY ?? (PACKAGE_CONTEXT ? "1" : "")).trim().toLowerCase());
+const START_URL = PACKAGE_CONTEXT || process.env.HAKIMI_START_QUANT === "1" ? `${BASE_URL}/?workspace=quant` : BASE_URL;
 const ROOT_DIR = path.resolve(__dirname, "..");
-const PYTHON_ROOT = path.join(ROOT_DIR, "python_quant_bot");
+const PYTHON_ROOT = PACKAGE_CONTEXT?.pythonRoot || path.join(ROOT_DIR, "python_quant_bot");
+const SOURCE_RUNTIME = PACKAGE_CONTEXT ? null : terminalPackage.dataDirectory(
+  process.env.HAKIMI_RUNTIME_DIR || path.join(PYTHON_ROOT, "runtime"), __dirname);
+const WORKSPACE_CONTEXT = PACKAGE_CONTEXT || {
+  root: __dirname, legacyRuntime: SOURCE_RUNTIME,
+  workspace: terminalPackage.dataDirectory(process.env.HAKIMI_QUANT_WORKSPACE_DIR || SOURCE_RUNTIME, __dirname),
+};
+const INSTANCE_ID = PACKAGE_CONTEXT?.instanceId || terminalPackage.instanceIdentity(__dirname, WORKSPACE_CONTEXT.workspace);
+const SHELL_PROFILE = PACKAGE_CONTEXT?.userData || terminalPackage.dataDirectory(
+  path.join(app.getPath("appData"), "HakimiTradeTerminal", "developer-shells", INSTANCE_ID), __dirname);
+app.setName("哈基米交易");
+fs.mkdirSync(SHELL_PROFILE, { recursive: true });
+app.setPath("userData", SHELL_PROFILE);
+app.setPath("sessionData", SHELL_PROFILE);
 const SERVER_PATH = path.join(PYTHON_ROOT, "exchange_terminal", "server.py");
 const FIND_PYTHON = path.join(PYTHON_ROOT, "find_python.ps1");
 const ICON_PATH = path.join(PYTHON_ROOT, "assets", "hakimi_trade_v2.ico");
@@ -54,7 +75,7 @@ let backendShutdownAccepted = false;
 let backendStopping = false;
 let localNetworkGuardInstalled = false;
 
-const singleInstanceLock = app.requestSingleInstanceLock();
+const singleInstanceLock = app.requestSingleInstanceLock({ instanceId: INSTANCE_ID });
 if (!singleInstanceLock) {
   app.quit();
 }
@@ -128,6 +149,9 @@ async function readBackendHealth() {
     if (health.healthy && health.payload?.local_only !== LOCAL_ONLY) {
       return { ...health, healthy: false, status: "MODE_MISMATCH", reason: "local_mode_mismatch" };
     }
+    if (health.healthy && !terminalPackage.matchesBackend(WORKSPACE_CONTEXT, health.payload, LOCAL_ONLY)) {
+      return { ...health, healthy: false, status: "PACKAGE_OR_WORKSPACE_MISMATCH", reason: "package_or_workspace_mismatch" };
+    }
     return health;
   } catch {
     return { healthy: false, reachable: false, status: "OFFLINE", reason: "health_unavailable", payload: null };
@@ -177,7 +201,7 @@ function startBackend() {
   if (!fs.existsSync(SERVER_PATH)) {
     throw new Error(`找不到后端入口：${SERVER_PATH}`);
   }
-  if (!fs.existsSync(FIND_PYTHON)) {
+  if (!PACKAGE_CONTEXT && !fs.existsSync(FIND_PYTHON)) {
     throw new Error(`找不到 Python 检测脚本：${FIND_PYTHON}`);
   }
 
@@ -192,14 +216,19 @@ function startBackend() {
   backendControlToken = crypto.randomBytes(32).toString("hex");
   backendShutdownAccepted = false;
   backendStopping = false;
+  const packagedLaunch = PACKAGE_CONTEXT ? terminalPackage.backendLaunch(PACKAGE_CONTEXT, {
+    host: HOST, port: PORT, token: backendControlToken, localOnly: LOCAL_ONLY,
+  }) : null;
   backendProcess = childProcess.spawn(
-    "powershell.exe",
-    ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
-    {
+    packagedLaunch?.executable || "powershell.exe",
+    packagedLaunch?.args || ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
+    packagedLaunch?.options || {
       cwd: PYTHON_ROOT,
       env: {
         ...process.env,
         HAKIMI_DESKTOP_CONTROL_TOKEN: backendControlToken,
+        HAKIMI_RUNTIME_DIR: WORKSPACE_CONTEXT.legacyRuntime,
+        HAKIMI_QUANT_WORKSPACE_DIR: WORKSPACE_CONTEXT.workspace,
         HAKIMI_RUNTIME_READ_ONLY: "1",
         HAKIMI_QUANT_READ_ONLY: process.env.HAKIMI_QUANT_READ_ONLY || "0",
         HAKIMI_LOAD_LOCAL_AI_ENV: process.env.HAKIMI_LOAD_LOCAL_AI_ENV || "1",
@@ -314,10 +343,13 @@ function setAppMenu() {
         { label: "重启后台", click: restartBackend },
         { label: "回到交易台", click: () => mainWindow?.loadURL(BASE_URL) },
         { label: "在浏览器打开", click: () => shell.openExternal(BASE_URL) },
+        { label: "关闭窗口后留在托盘（后台继续运行）", type: "checkbox",
+          checked: readShellState().minimizeToTray === true, enabled: fs.existsSync(ICON_PATH),
+          click: item => { writeShellState({ minimizeToTray: item.checked === true }); setAppMenu(); updateTrayMenu(); } },
         { type: "separator" },
         ...(!app.isPackaged ? [{ label: "开发者工具", accelerator: "F12", click: () => mainWindow?.webContents.openDevTools({ mode: "detach" }) }] : []),
         { type: "separator" },
-        { label: "退出", role: "quit" }
+        { label: "退出哈基米交易（关闭本程序后台）", role: "quit" }
       ]
     }
   ];
@@ -328,14 +360,21 @@ function createTray() {
   if (tray || !fs.existsSync(ICON_PATH)) return;
   tray = new Tray(ICON_PATH);
   tray.setToolTip(APP_TITLE);
+  updateTrayMenu();
+  tray.on("double-click", showMainWindow);
+}
+
+function updateTrayMenu() {
+  if (!tray) return;
+  const keepRunning = readShellState().minimizeToTray === true;
   tray.setContextMenu(Menu.buildFromTemplate([
+    { label: keepRunning ? "关闭窗口会留在托盘，后台继续运行" : "关闭窗口将退出哈基米交易", enabled: false },
     { label: "显示哈基米交易", click: showMainWindow },
     { label: "回到交易台", click: () => { showMainWindow(); mainWindow?.loadURL(BASE_URL); } },
     { label: "重启后台", click: restartBackend },
     { type: "separator" },
-    { label: "退出", click: () => app.quit() }
+    { label: "退出哈基米交易（关闭本程序后台）", click: () => app.quit() }
   ]));
-  tray.on("double-click", showMainWindow);
 }
 
 function createWindow() {
@@ -389,7 +428,7 @@ function createWindow() {
         maximized: mainWindow.isMaximized()
       });
     }
-    if (!quitting && state.minimizeToTray !== false && tray) {
+    if (!quitting && readShellState().minimizeToTray === true && tray) {
       event.preventDefault();
       mainWindow.hide();
     } else if (!quitting) {
@@ -439,8 +478,8 @@ async function boot() {
   if (!initialHealth.healthy) {
     const portOccupied = initialHealth.reachable || await isPortOpen(HOST, PORT, 700);
     if (portOccupied) {
-      showBootMessage("后台不可复用", "端口已有未通过当前运行模式与只读合同的服务，请从原窗口正常退出后处理；未结束任何进程。");
-      dialog.showErrorBox(APP_TITLE, `端口 ${PORT} 已被既有服务占用；未执行自动终止。`);
+      showBootMessage("此工作区暂未打开", "本机端口已有其他程序版本、工作区或运行模式的服务。请先从原窗口退出，或为当前工作区选择另一个端口。已有后台保持运行。");
+      dialog.showErrorBox(APP_TITLE, `端口 ${PORT} 正由既有服务使用，当前窗口没有连接或停止它。`);
       return;
     }
     showBootMessage("正在启动后台", "启动 Python 行情与策略服务。");
@@ -450,8 +489,8 @@ async function boot() {
   const ready = await waitForPort(HOST, PORT, 18000);
   const healthy = ready && (await isBackendHealthy());
   if (!healthy) {
-    showBootMessage("启动失败", "后台服务没有在预期时间内就绪。请确认 Python 环境可用。");
-    dialog.showErrorBox(APP_TITLE, "后台服务没有启动成功。请先检查 Python 环境和端口 8765。");
+    showBootMessage("启动失败", PACKAGE_CONTEXT ? "包内后台未能就绪，请检查程序文件与端口占用。" : "后台服务没有在预期时间内就绪。请确认 Python 环境可用。");
+    dialog.showErrorBox(APP_TITLE, PACKAGE_CONTEXT ? `包内后台没有启动成功。请检查程序文件和端口 ${PORT}。` : "后台服务没有启动成功。请先检查 Python 环境和端口 8765。");
     return;
   }
 
@@ -461,12 +500,13 @@ async function boot() {
 }
 
 app.on("second-instance", () => {
-  showMainWindow();
+  if (singleInstanceLock) showMainWindow();
 });
 
-app.whenReady().then(boot);
+app.whenReady().then(() => { if (singleInstanceLock) return boot(); });
 
 app.on("before-quit", (event) => {
+  if (!singleInstanceLock) return;
   if (quitReady) {
     quitting = true;
     if (statusTimer) clearInterval(statusTimer);
@@ -501,5 +541,5 @@ app.on("window-all-closed", () => {
 });
 
 app.on("activate", () => {
-  if (BrowserWindow.getAllWindows().length === 0) boot();
+  if (singleInstanceLock && BrowserWindow.getAllWindows().length === 0) boot();
 });

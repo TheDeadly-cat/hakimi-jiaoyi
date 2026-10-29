@@ -19,28 +19,28 @@
 |---|---|---|---|---|
 | T01 | DONE | 无 | 本文实时 Git、PR、包 manifest、目录核对 | 保留两个源码与旧数据，后续只改交付目录 |
 | T02 | DONE | T01 | 本文入口、规则身份、工作区与接入顺序 | 按原终端主线实现 |
-| T03 | DOING | T02 | 完成状态与刷新分离，定向测试待记录 | 完成/辅助失败/详情失败/未知/读旧结果逐项验证 |
-| T04 | DOING | T02 | 原计算最低为预热 + 2；预检查实现中 | 79/80/81/82 与长窗口边界；前后端同源 |
-| T05 | DOING | T02 | 九策略语义审计中 | 展示说明独立于旧规则指纹；不改公式 |
-| T06 | TODO | T05 | 待证据 | 参数单位、默认值、百分比四条往返路径 |
-| T07 | TODO | T03,T06 | 待证据 | 一个“新建研究”入口、保存版本直达运行、草稿可找回 |
-| T08 | TODO | T03,T05 | 待证据 | 摘要完整、缺字段未记录、零成交只按证据解释 |
-| T09 | TODO | T06 | 待证据 | AI 绑定数据/参数，改动显示不一致，旧字段不补造 |
-| T10 | TODO | T02 | 既有退出协议待随新包验证 | 名称、重复启动、退出/托盘与后台所有权一致 |
+| T03 | DONE | T02 | 阶段 A 源码；T03-completion-20261029、core-render-verification.json；真实渲染脚本故障注入 | 原/冻结核心均先确认保存，再分别处理辅助/详情失败；包内实走归 T15 |
+| T04 | DONE | T02 | stage-a-source-final-r1.log、bounded-dom-qa-r3；79/80/81 阻止、82 就绪、长窗口与真实 runner 对照 | 只读预检查同源；失败先于 started 记录，不产生 UNKNOWN |
+| T05 | DONE | T02 | strategy-semantics-audit.md、test_strategy_presentation（含实际 API 路径） | 独立展示层；原 STRATEGIES、公式及指纹文件未改 |
+| T06 | DONE | T05 | terminal-parameter-preflight.test.js、bounded-dom-qa-r3 | 新建/修订/带入/回读统一单位；旧缺字段不补默认 |
+| T07 | DONE | T03,T06 | bounded-dom-qa-r5；完整渲染真实点击，core-run-posts.json | 单入口；两条路径显示保存版本并明确运行；core 验证 expected_task_id；导航保留草稿 |
+| T08 | DONE | T03,T05 | terminal-result-summary.test.js（9 项）、bounded-dom-qa-r3 | 摘要缺值未记录；零成交只引用实际保存证据 |
+| T09 | DONE | T06 | T09-ai-binding-20261029；Python 14/14、JS 4/4；DOM 参数变更检查 | 数值行情与规则参数分别表达；费用/风控/来源真实性不扩大为 MATCH |
+| T10 | DOING | T02 | terminal-lifecycle-workspace-summary-r1.json；完整桌面检查通过 | 原生重复启动/关闭仍在 T15 验证 |
 | T11 | DOING | T02 | 原终端独立组件与闭包实现中 | 脱离仓库的真实启动验证 |
 | T12 | DOING | T11 | 包内 Python / 资源验证启动实现中 | 中文空格路径、全局 Python / 同名模块污染隔离 |
-| T13 | TODO | T11 | 待证据 | 当前工作区明确，旧工作区只读选择与连续性 |
-| T14 | TODO | T03-T13 | 待证据 | 构建真实入口新包、提交/资源清单、离线样例 |
+| T13 | DOING | T11 | workspace-history-verification-20261029.json；四个旧工作区字节/mtime 不变；DOM 旧记录/复盘仅 GET | 已接入选择与当前路径，待新包核对 |
+| T14 | DOING | T03-T13 | terminal-packaging-foundations-summary-r1.json、terminal-packaging-readonly-review-r1.json（开发探测） | 冻结阶段 A 干净提交后构建最终候选，旧 r1 DIRTY 不作为交付包 |
 | T15 | TODO | T14 | 待证据 | 实际包 Windows 原生保存/运行/复盘/退出/重开及端口检查 |
-| T16 | TODO | T14 | 待证据 | README、首用、状态页指向同一新候选 |
+| T16 | DOING | T14 | windows-original-terminal-candidate.md、README、first-use、CURRENT_STATUS、包内 FIRST_USE.md | 新入口/身份说明已更新，待实际包回执补齐 |
 | T17 | BLOCKED_HUMAN | T14 | 尚无未参与开发者的独立操作证据 | 候选完成后给出简短任务卡；其他工作继续 |
 
 ## 阶段 B：日常继续使用
 
 | ID | 状态 | 依赖 | 修改提交 / 验证证据 | 阻塞与下一步 |
 |---|---|---|---|---|
-| T18 | TODO | T02,T11 | 已有 dev5 能力待接入 | 同窗首次股票获取与身份/来源/范围/口径检查 |
-| T19 | TODO | T18 | 待证据 | 无变化/新日线/修订/失败分开；采用才建版本 |
+| T18 | DOING | T02,T11 | 独立后端适配已通过六项离线检查，尚未纳入阶段 A 冻结包 | 接入同窗页面/路由与独立 canonical namespace |
+| T19 | DOING | T18 | daily-research-adapter-verification-20261029.json；旧核心列表无变化 | 更新/采用后端可用，页面和原策略输入桥待接入 |
 | T20 | TODO | T08 | 待证据 | 成本/基准前提明确，异条件不排行 |
 | T21 | TODO | T18 | 待证据 | 分阶段公司行为真实数据/核算；未支持明确限制 |
 | T22 | TODO | T19,T24 | 待证据 | 持续本地模拟状态与中断恢复，不重复运行/补成交 |
@@ -50,10 +50,10 @@
 
 | ID | 状态 | 依赖 | 修改提交 / 验证证据 | 阻塞与下一步 |
 |---|---|---|---|---|
-| T24 | TODO | 稳定研究合同 | 待证据 | 编辑/回测/模拟/实盘版本关系和独立账户权限 |
-| T25 | TODO | T24 | 待证据 | 接受/拒绝/部分/全成/撤销/超时待核对离线适配器 |
-| T26 | TODO | T24,T25 | 待证据 | 账户/规则/资金/预留/持仓/行情时效，共享资金不重复 |
-| T27 | TODO | T25,T26 | 待证据 | 中断核对原订单、幂等恢复、部分成交现金持仓对应 |
+| T24 | DOING | 稳定研究合同 | 新离线账本独立实现，尚未接入产品或阶段 A 包 | 需根任务核对研究版本绑定；外部权限保持关闭 |
+| T25 | DOING | T24 | T24-T28-offline-execution-20261029（临时合成用例） | 独立审阅发现问题，修复后复验再接入 |
+| T26 | DOING | T24,T25 | offline-execution-correctness-review-20261029.json | 晚到成交/股份预留/恢复停止/回执绑定等修复复验中 |
+| T27 | DOING | T25,T26 | 子进程中断/重开/对账定向测试已有，未宣称产品验收 | 等独立复验；不触碰旧 UNKNOWN 或旧账本 |
 | T28 | TODO | T20,T25 | 待证据 | 数据/规则/时点/撮合/成本/未知差异分解 |
 | T29 | TODO | T25-T28 | 待证据 | 先离线候选与有界方案；真实券商模拟另需账户授权 |
 | T30 | TODO | T29 | 待证据 | 模式隔离/风险/停止恢复候选；真实资金另需账户资产额度授权 |
@@ -61,3 +61,5 @@
 ## 验证记录
 
 本轮外部证据目录：`C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029`。旧整合回执目录和旧 CI 完整保留。本清单不会以单元测试代替包内启动、原生操作或真人验收。相关代码不变时不重复已结案的历史研究。
+
+阶段 A 完整桌面检查：`stage-a-desktop-full-r4.log` 通过。根任务合并后的定向 Python：`stage-a-source-final-r1.log` 29 项通过；`stage-a-python-r1.log` 42 项通过（范围重叠，不相加作为独立总数）。浏览器使用完整 render_quant_html 与模拟后端，1440/1280；它证明界面交互，不代替包内真实计算。旧失败截图/日志均保留。

@@ -26,7 +26,7 @@ MAX_REQUEST = 24 * 1024 * 1024
 _VENDOR = Path(__file__).resolve().parents[2] / "vendor" / "research"
 _IMPORT_LOCK = RLock()
 _READ_RESOURCES = frozenset({"status", "strategies", "tasks", "inputs", "runs", "csv_templates",
-    "terminal_catalog", "terminal_market", "terminal_inputs", "terminal_tasks", "terminal_runs", "terminal_history", "terminal_reports", "terminal_core_inputs", "core_replay",
+    "terminal_catalog", "terminal_preflight", "terminal_workspace_history", "terminal_market", "terminal_inputs", "terminal_tasks", "terminal_runs", "terminal_history", "terminal_reports", "terminal_core_inputs", "core_replay",
     "terminal_judgments", "terminal_judgment_replay", "terminal_exit_experiments",
     "terminal_exit_runs", "terminal_exit_replay", "terminal_structure_replay", "terminal_insights", "terminal_peers"})
 
@@ -146,11 +146,64 @@ _EMBEDDED_STYLE = """
 """
 
 
+_CORE_PRESENTATION_FUNCTIONS = {
+    "perform": "4da9f9bb611dd4e416e6649ad3f4c79b11a6a01e61771846b31e240014e359dc",
+    "refresh": "c8e73cf87942236ce1848bb8e116840c6b0c56207c1dd0aaa2d86ab6e4f762c1",
+    "loadRun": "779f21f30d5e7625429c28b1af10b42f07095b5e6c0651fe5399c6bf293de0e6",
+    "resultsPage": "272ac1ffd0c40de8ea6908a8b42e4cf5c991f6413492dd44fa5670c14a31cb16",
+    "dashboard": "313b5fb8ef979f1a5a0fb6b327f63a3c64ff629963339b52b2871816bf74b0c1",
+}
+
+
+def _adapt_core_completion(html: str) -> str:
+    """Guard exact frozen functions, then adapt only their rendered presentation."""
+    def once(value, before, after):
+        if value.count(before) != 1:
+            raise ValueError("quant_core_completion_adapter_source_mismatch")
+        return value.replace(before, after, 1)
+
+    fragments = {}
+    for name, expected in _CORE_PRESENTATION_FUNCTIONS.items():
+        matches = re.findall(r"^(?:async )?function " + name + r"\(.*$", html, re.MULTILINE)
+        if len(matches) != 1 or sha256(matches[0].encode()).hexdigest() != expected:
+            raise ValueError("quant_core_completion_adapter_source_mismatch:" + name)
+        fragments[name] = matches[0]
+    adapted = dict(fragments)
+    adapted["perform"] = once(adapted["perform"], "if(button?.disabled)return;",
+                              "if(button?.disabled)return;coreCompletion.begin(action);")
+    adapted["perform"] = once(adapted["perform"], "announce((ACTIONS[action]||'操作')+'已完成');",
+                              "coreCompletion.confirm(action,job.result);announce((ACTIONS[action]||'操作')+'已完成');")
+    adapted["perform"] = once(adapted["perform"], "if(onSuccess)await onSuccess(job.result);",
+                              "if(onSuccess)await coreCompletion.present(onSuccess,job.result,action);")
+    adapted["perform"] = once(adapted["perform"], "showError(e,current()?errorTarget:null);return null;",
+                              "return coreCompletion.operationError(action,job,e,current()?errorTarget:null);")
+    adapted["refresh"] = once(adapted["refresh"], "applyOverview(overview);",
+                              "applyOverview(overview);coreCompletion.restoreRuns();coreCompletion.clearReadFailure('refresh');")
+    adapted["refresh"] = once(adapted["refresh"], "catch(e){showError(e);}",
+                              "catch(e){coreCompletion.readFailure('refresh',e);}")
+    adapted["refresh"] = once(adapted["refresh"], "render();if(S.runs.length)",
+                              "render();coreCompletion.clearRenderedDetail();if(S.runs.length)")
+    adapted["loadRun"] = "async function loadRun(id,quiet=false){return coreCompletion.loadRun(id,quiet);}"
+    loading = '<div class="loading-block"><span class="spinner" aria-hidden="true"></span>正在读取保存的结果…</div>'
+    adapted["resultsPage"] = once(adapted["resultsPage"], loading, "${coreCompletion.resultPlaceholder(id)}")
+    adapted["dashboard"] = once(adapted["dashboard"], "'" + loading + "'", "coreCompletion.resultPlaceholder(recent.id)")
+    for name, original in fragments.items():
+        html = once(html, original, adapted[name])
+    initializer = "$('#navigation').innerHTML="
+    run_saved = ("async function runSavedCoreTask(task,button){if(!task?.id||!task.task_id)throw Error('请重新核对已保存版本。');"
+                 "window.dispatchEvent(new CustomEvent('hakimi-core-open'));"
+                 "return perform('run_task',{task_id:task.id,expected_task_id:task.task_id},{button,onSuccess:detail=>{"
+                 "if(detail?.id){S.runCache.set(detail.id,detail);S.selectedRun=detail.id;}S.runTab='equity';nav('results');}});}")
+    return once(html, initializer,
+                run_saved + "\nconst coreCompletion=window.createCoreCompletionAdapter({api,state:S,render,refresh,showError,esc,runTask:runSavedCoreTask});\n" + initializer)
+
+
 def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
     """Adapt the verified resource in memory; never change accepted package bytes."""
     html = raw.decode("utf-8").replace("\r\n", "\n")
     if html.count("<script>") != 1 or html.count("let token='',pollTimer=null") != 1:
         raise ValueError("quant_html_adapter_source_mismatch")
+    html = _adapt_core_completion(html)
     html = html.replace("<title>哈基米 · 离线量化</title>", "<title>量化任务与回测 · 哈基米交易 v2</title>")
     html = html.replace("</style>", _EMBEDDED_STYLE + "\n</style>", 1)
     html = html.replace('<div class="brand"><div class="brand-mark" aria-hidden="true">H</div><div><div class="brand-name">哈基米</div><div class="brand-sub">离线量化</div></div></div>', "")
@@ -167,16 +220,22 @@ def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
     judgment_path = ui_path.with_name("terminal-judgment-ui.js")
     exit_path = ui_path.with_name("terminal-exit-research-ui.js")
     insights_path = ui_path.with_name("terminal-insights-ui.js")
-    ui_source = "\n".join(path.read_text(encoding="utf-8") for path in (judgment_path, exit_path, insights_path, ui_path)).replace("</script>", "<\\/script>")
+    completion_path = ui_path.with_name("terminal-core-completion.js")
+    ai_binding_path = ui_path.with_name("terminal-ai-binding.js")
+    summary_path = ui_path.with_name("terminal-result-summary.js")
+    ui_source = "\n".join(path.read_text(encoding="utf-8") for path in (completion_path, ai_binding_path, summary_path, judgment_path, exit_path, insights_path, ui_path)).replace("</script>", "<\\/script>")
     html = html.replace("程序版本", "股票回测内核版本")
     html = html.replace("共享资金演练目前通过安装目录中的", "共享资金演练保留在原命令行工具中。旧包中的")
     html = html.replace(" 使用。这里保留现有命令行能力；", " 是归档入口；日常继续使用当前交易窗口。")
     labels = "terminal_register_exit_experiment:'登记同入场出场研究',terminal_run_exit_experiment:'运行已登记出场研究',terminal_save_judgment:'保存判断与冻结依据',terminal_append_judgment_event:'追加复盘记录',terminal_import_core_input:'复用已导入行情',terminal_freeze_market:'保存当前行情快照',terminal_save_task:'保存原策略任务版本',terminal_set_task_state:'更改研究任务状态',terminal_run_task:'运行原策略回测',terminal_compare:'比较原策略结果',"
     html = html.replace("const ACTIONS={", "const ACTIONS={" + labels, 1)
     hook = ("\nwindow.installTerminalQuantUI({api,perform,esc,modal,closeDialog,showError,"
+            "runCoreTask:(id,task_id,button)=>runSavedCoreTask({id,task_id},button),"
             "getSelectedCoreRun:()=>S.selectedRun,openCoreTask:async id=>{nav('tasks');await showTask(id);},"
             "openCoreRun:async id=>{S.selectedRun=id;nav('results');await loadRun(id);},"
-            "openCoreTaskForm:async()=>{nav('tasks');await openTaskForm();},openCoreImport:async()=>{nav('inputs');await openImport();},"
+            "openCoreTaskForm:async strategyKey=>{if(strategyKey!==undefined&&!S.strategies.some(entry=>entry.key===strategyKey))throw new Error('所选研究规则尚未就绪，请刷新记录后重试。');"
+            "nav('tasks');await openTaskForm();if(strategyKey!==undefined){const field=$('#task-strategy');if(!field||!S.taskDraft||S.taskDraft.task)throw new Error('新建研究表单尚未就绪。');"
+            "field.value=strategyKey;S.taskDraft.strategy=strategyKey;renderStrategyFields(true);}},openCoreImport:async()=>{nav('inputs');await openImport();},"
             "initializeCoreExample:button=>dispatch('demo',button)});\n")
     ending = "})();\n</script>"
     if html.count(ending) != 1:
@@ -192,7 +251,7 @@ class QuantWorkspace:
     handle() returns False for unrelated routes. close() returns False while a
     durable operation is live, leaving ownership and the worker intact.
     """
-    def __init__(self, runtime_dir, read_only=False, local_only=True, service_factory=None, mutation_guard=None):
+    def __init__(self, runtime_dir, read_only=False, local_only=True, service_factory=None, mutation_guard=None, product_identity=None):
         raw_runtime = Path(runtime_dir).expanduser().absolute()
         _no_links(raw_runtime)
         self.runtime_dir = raw_runtime.resolve()
@@ -201,6 +260,7 @@ class QuantWorkspace:
         self.local_only = bool(local_only)
         self._service_factory = service_factory
         self._mutation_guard = mutation_guard
+        self.product_identity = dict(product_identity or {})
         self._token = secrets.token_urlsafe(32)
         self._mutex = RLock()
         self._kernel = self._service = self._jobs = self._instance_lock = None
@@ -341,7 +401,8 @@ class QuantWorkspace:
                         result.update(version=self._kernel.version,
                                       log_path=str(self.runtime_dir / ".hakimi-ui"),
                                       session={"offline": True, "embedded": True, "read_only": self.read_only},
-                                      product_workspace=str(self.runtime_dir))
+                                      product_workspace=str(self.runtime_dir),
+                                      terminal_product={"name": "哈基米交易", **self.product_identity})
                 self._answer(handler, result)
                 return True
             if handler.command != "POST":

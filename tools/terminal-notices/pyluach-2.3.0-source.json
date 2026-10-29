@@ -1,0 +1,11 @@
+{
+  "component": "pyluach",
+  "version": "2.3.0",
+  "source_url": "https://raw.githubusercontent.com/simlist/pyluach/c1ffe4265f25ab7f5d850f4720111470f27e7ce5/license.txt",
+  "upstream_tag": "v2.3.0",
+  "upstream_commit": "c1ffe4265f25ab7f5d850f4720111470f27e7ce5",
+  "sha256": "a6900a379815872f27df1aac58d8c249ddd085259f6bab6768e162cc82d346b1",
+  "downloaded_at": "2026-10-29T01:48:56.469065+00:00",
+  "original_wheel_unchanged": true,
+  "reason": "Upstream wheel omits license text; supplementary exact-tag notice"
+}
