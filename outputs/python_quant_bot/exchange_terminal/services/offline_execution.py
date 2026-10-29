@@ -151,8 +151,10 @@ def compare_research_context(reference_binding, plan, reference_assumptions=None
                  "quantity_policy": "WHOLE_SHARES_LONG_ONLY", "timing_policy": "EXPLICIT_SIGNAL_AND_EXECUTION_TIMESTAMPS"}
     return dict(schema_version="hakimi-offline-execution-context-comparison-v1",
                 status="CONTEXT_ONLY_NOT_RETURN_COMPARISON",
-                data={name: field(name) for name in ("security_id", "input_id", "source_hash")},
-                rules={name: field(name) for name in ("engine_id", "strategy_id", "strategy_params", "risk")},
+                data={name: field(name) for name in ("security_id", "input_id")},
+                # The trusted saved-result resolver supplies the core's code
+                # source_identity hash here, not a price-provider digest.
+                rules={name: field(name) for name in ("engine_id", "strategy_id", "strategy_params", "risk", "source_hash")},
                 costs=field("costs"), saved_report=field("report_hash"),
                 execution_assumptions={name: dict(status="UNKNOWN" if name not in assumptions else "MATCH" if assumptions[name] == value else "DIFFERENT",
                                                  reference=assumptions.get(name), execution=value) for name, value in execution.items()},

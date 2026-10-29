@@ -409,10 +409,13 @@ class OfflineExecutionTests(unittest.TestCase):
         reference = deepcopy(plan["research_binding"])
         reference["strategy_params"]["fast"] = 6
         reference["input_id"] = "different-saved-input"
+        reference["source_hash"] = "a" * 64
         before = deepcopy(plan)
         result = compare_research_context(reference, plan, {"fill_model": "NEXT_BAR_OPEN", "quantity_policy": "FRACTIONAL_SHARES"})
         self.assertEqual(result["data"]["input_id"]["status"], "DIFFERENT")
         self.assertEqual(result["rules"]["strategy_params"]["status"], "DIFFERENT")
+        self.assertNotIn("source_hash", result["data"])
+        self.assertEqual(result["rules"]["source_hash"]["status"], "UNKNOWN")
         self.assertEqual(result["costs"]["status"], "UNKNOWN")
         self.assertEqual(result["execution_assumptions"]["fill_model"]["status"], "DIFFERENT")
         self.assertEqual(result["execution_assumptions"]["timing_policy"]["status"], "UNKNOWN")
