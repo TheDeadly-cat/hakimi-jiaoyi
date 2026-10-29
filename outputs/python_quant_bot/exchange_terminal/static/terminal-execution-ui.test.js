@@ -245,3 +245,98 @@ test("human version formatting cannot weaken exact preview version binding",asyn
   await assert.rejects(()=>f.controller.confirmOrder(true),/预览已失效/);
   assert.equal(f.writes.filter(row=>row.action==="terminal_execution_submit").length,0);
 });
+
+// Explicitly fictional protocol fixtures; no research, market or ledger runs.
+function factorFixture(options={}) {
+  const ref={kind:"terminal_run",id:"b".repeat(64),label:"QA · 已保存动量研究 · 版本 1"};
+  const engine="terminal.fixture-signals-v1",params={window:20,threshold:0.015},sources=Object.fromEntries(["backtest_engine.py","strategy_signals.py","market_calendar.py","indicator_math.py"].map(k=>[k,"c".repeat(64)]));
+  const binding={status:"COMPLETED",engine_id:engine,strategy_id:"momentum",strategy_params:copy(params),task_id:"d".repeat(64),task_version:1,input_id:"e".repeat(64),report_id:ref.id,report_hash:ref.id,security_id:"TEST:id",risk:{position_pct:25},costs:{fee_rate:0.001,slippage_bps:5}};
+  const researchValue={reference:{kind:ref.kind,id:ref.id},binding,display:{symbol:"TEST",security_id:"TEST:id",currency:"USD",asset_class:"US_EQUITY"},permissions:copy(permissions)};
+  const report={schema_version:"hakimi-terminal-run-v1",status:"COMPLETED",id:ref.id,run_id:ref.id,report_hash:ref.id,task_id:binding.task_id,version:1,engine_id:engine,strategy_id:"momentum",
+    configuration:{engine_id:engine,strategy_params:copy(params),risk:copy(binding.risk),costs:copy(binding.costs),input_id:binding.input_id,fingerprint:"f".repeat(64),engine_source_identity:sources,indicator_contract:{version:"FICTIONAL_UNIT_CONTRACT"}},
+    input_summary:{id:binding.input_id,input_id:binding.input_id,source_digest:"a".repeat(64),digest:"a".repeat(64),symbol:"TEST",date_start:"2026-01-05",date_end:"2026-06-05",meta:{security_id:"TEST:id"}}};
+  const closed={research_only:true,paper_allowed:false,live_allowed:false,order_allowed:false};
+  const diagnostic=holding=>({schema_version:"hakimi-terminal-strategy-diagnostic-v1",diagnostic_id:"1".repeat(64),input_id:binding.input_id,source_digest:report.input_summary.source_digest,symbol:"TEST",cutoff_session:"2026-06-05",
+    engine_id:engine,signal_engine_version:"fixture-signals-v1",strategy_id:"momentum",strategy_params:copy(params),fingerprint:report.configuration.fingerprint,engine_source_identity:copy(sources),indicator_contract:copy(report.configuration.indicator_contract),
+    position_context:{has_position:holding},freshness:{context:"SAVED_HISTORICAL_INPUT",live_quote_verified:false,cutoff_session:"2026-06-05"},status:"READY",decision_matches_factors:true,signal:{action:holding?"EXIT":"BUY"},
+    factors:[{key:"momentum",label:"20 日动量",value:holding?-0.03:0.03,operator:holding?"<":">",threshold:holding?-0.015:0.015,unit:"ratio",cutoff_session:"2026-06-05",passed:true,applies_to_position:true}],new_economic_runs:0,permissions:copy(closed)});
+  const response=holding=>({schema_version:"hakimi-terminal-strategy-candidates-v1",read_only:true,input_id:binding.input_id,cutoff_session:"2026-06-05",new_economic_runs:0,permissions:copy(closed),groups:[{key:holding?"EXIT_MATCH":"ENTRY_MATCH",items:[diagnostic(holding)]}]});
+  const view=account();view.ledger.plans=[{plan_id:"plan-one",stage:"SIMULATION",owner_id:"owner-one",research_binding:copy(binding)}];view.plan_links=[{plan_id:"plan-one",reference:researchValue.reference}];
+  const reads=[],writes=[];
+  const api=async resource=>{reads.push(resource);if(options.read){const value=await options.read(resource);if(value!==undefined)return value;}
+    if(resource==="terminal_execution_accounts")return {items:[{account_id:view.account_id,label:"QA 合成账户"}]};
+    if(resource.startsWith("terminal_execution_research/"))return copy(researchValue);
+    if(resource.startsWith("terminal_runs/"))return copy(report);
+    if(resource.startsWith("terminal_execution_account/"))return copy(view);
+    if(resource.startsWith("terminal_strategy_candidates/")){const p=JSON.parse(decodeURIComponent(resource.split('/')[1]));return response(p.position_context.has_position);}
+    throw Error('unexpected read '+resource);
+  };
+  const c=ui.createController({api,perform:async(...args)=>{writes.push(args);throw Error('factor fixture forbids mutations');}});c.setSources([ref]);
+  return {c,api,ref,researchValue,report,view,diagnostic,response,reads,writes};
+}
+async function factorPlanned(f){await f.c.openResearch(f.ref);await f.c.openAccount(f.view.account_id);f.c.selectPlan("plan-one");return f;}
+
+test("saved report review requires every report/task/input/engine/parameter/source/fingerprint binding",()=>{
+  const f=factorFixture(),valid=ui.savedRuleContext(f.report,f.researchValue,f.ref);assert.equal(valid.cutoff_session,"2026-06-05");assert.deepEqual(valid.strategy_params,{window:20,threshold:0.015});
+  const reordered=copy(f.report);reordered.configuration.strategy_params={threshold:0.015,window:20};assert.deepEqual(ui.savedRuleContext(reordered,f.researchValue,f.ref).strategy_params,reordered.configuration.strategy_params);
+  for(const corrupt of [r=>r.id="2".repeat(64),r=>r.run_id="2".repeat(64),r=>r.report_hash="2".repeat(64),r=>r.task_id="2".repeat(64),r=>r.version=2,r=>r.status="UNKNOWN",r=>r.engine_id="other",r=>r.configuration.engine_id="other",r=>r.strategy_id="dual_ma",r=>r.configuration.input_id="2".repeat(64),r=>r.input_summary.id="2".repeat(64),r=>r.input_summary.input_id="2".repeat(64),r=>delete r.input_summary.source_digest,r=>r.input_summary.digest="2".repeat(64),r=>r.input_summary.symbol="OTHER",r=>r.input_summary.meta.security_id="OTHER",r=>delete r.configuration.fingerprint,r=>delete r.configuration.engine_source_identity['indicator_math.py'],r=>delete r.configuration.indicator_contract,r=>r.configuration.strategy_params.threshold=0.02,r=>delete r.configuration.strategy_params.window,r=>r.configuration.risk.position_pct=50,r=>r.configuration.costs.fee_rate=0.02,r=>r.input_summary.date_end="2026-02-31"]){const r=copy(f.report);corrupt(r);assert.throws(()=>ui.savedRuleContext(r,f.researchValue,f.ref),/无法取得一致解释/);}
+});
+test("read-only factors use exact saved raw parameters/cutoff and an explicitly selected position scenario",async()=>{
+  const f=await factorPlanned(factorFixture()),c=f.c;assert.equal(c.state.factorPosition,"");await c.readFactors();assert.equal(f.reads.filter(r=>r.startsWith('terminal_strategy_candidates/')).length,0);
+  c.setFactorPosition("flat");const preview=c.previewOrder(orderForm());await c.readFactors();assert.deepEqual(c.state.orderPreview,preview);assert.equal(c.state.factorReview.row.signal.action,"BUY");
+  const p=JSON.parse(decodeURIComponent(f.reads.at(-1).split('/')[1]));assert.deepEqual(p,{input_id:f.report.configuration.input_id,strategy_id:"momentum",strategy_params:{window:20,threshold:0.015},cutoff_session:"2026-06-05",position_context:{has_position:false}});assert.equal(f.writes.length,0);
+  c.setFactorPosition("holding");assert.equal(c.state.factorReview,null);assert.equal(c.state.orderPreview,null);await c.readFactors();assert.equal(c.state.factorReview.row.signal.action,"EXIT");assert.equal(f.writes.length,0);
+});
+test("matching report IDs cannot hide different plan rule parameters in an order preview",async()=>{
+  const f=await factorPlanned(factorFixture());f.c.state.account.ledger.plans[0].research_binding.strategy_params.threshold=0.02;
+  assert.throws(()=>f.c.previewOrder(orderForm()),/所选保存结果不同/);assert.equal(f.writes.length,0);
+});
+test("factor identity, raw parameters, code fingerprint, historical cutoff and scenario cannot be substituted",()=>{
+  const f=factorFixture(),context=ui.savedRuleContext(f.report,f.researchValue,f.ref);
+  for(const corrupt of [v=>v.input_id="2".repeat(64),v=>v.cutoff_session="2026-06-08",v=>v.read_only=false,v=>v.new_economic_runs=1,v=>v.groups.push(copy(v.groups[0])),v=>v.permissions.order_allowed=true,
+    v=>v.groups[0].items[0].engine_id="other",v=>v.groups[0].items[0].input_id="2".repeat(64),v=>v.groups[0].items[0].source_digest="2".repeat(64),v=>v.groups[0].items[0].strategy_id="dual_ma",v=>v.groups[0].items[0].strategy_params.threshold=0.02,v=>delete v.groups[0].items[0].strategy_params.window,v=>v.groups[0].items[0].fingerprint="2".repeat(64),v=>v.groups[0].items[0].engine_source_identity['backtest_engine.py']="2".repeat(64),v=>v.groups[0].items[0].indicator_contract.version="other",v=>v.groups[0].items[0].position_context.has_position=true,v=>v.groups[0].items[0].cutoff_session="2026-06-08",v=>v.groups[0].items[0].factors[0].cutoff_session="2026-06-08",v=>v.groups[0].items[0].freshness.live_quote_verified=true,v=>v.groups[0].items[0].status="DATA_INSUFFICIENT",v=>v.groups[0].items[0].decision_matches_factors=false]){const v=f.response(false);corrupt(v);assert.throws(()=>ui.savedFactorContext(v,context,false),/无法取得一致解释/);}
+});
+test("factor read errors preserve an already successful order preview and prior completion fact",async()=>{
+  const f=await factorPlanned(factorFixture({read:async r=>{if(r.startsWith('terminal_strategy_candidates/'))throw Error('read unavailable');}})),c=f.c;c.setFactorPosition('flat');const preview=c.previewOrder(orderForm());c.state.fact={message:'原保存已确认',status:'ACCEPTED'};
+  await c.readFactors();assert.deepEqual(c.state.orderPreview,preview);assert.equal(c.state.factorReview,null);assert.match(c.state.factorError,/read unavailable.*已有订单预览仍保留/);assert.equal(c.state.fact.message,'原保存已确认');assert.equal(c.state.error,'');assert.equal(f.writes.length,0);
+});
+test("late factor success and failure cannot replace a changed source, account revision, scenario or newer preview",async()=>{
+  for(const change of ['source','revision','scenario','preview'])for(const rejectRead of [false,true]){
+    let resolve,reject;const f=await factorPlanned(factorFixture({read:r=>r.startsWith('terminal_strategy_candidates/')?new Promise((a,b)=>{resolve=a;reject=b;}):undefined})),c=f.c;c.setFactorPosition('flat');c.previewOrder(orderForm());const pending=c.readFactors();await new Promise(r=>setImmediate(r));
+    if(change==='source')await c.openResearch(null);if(change==='revision'){f.view.ledger.revision++;await c.openAccount(f.view.account_id);}if(change==='scenario')c.setFactorPosition('holding');if(change==='preview'){c.invalidatePreview();c.previewOrder({...orderForm(),quantity:'2'});}
+    const preview=copy(c.state.orderPreview);c.state.factorError='当前提示';if(rejectRead)reject(Error('old read failure'));else resolve(f.response(false));await pending;assert.equal(c.state.factorReview,null);assert.equal(c.state.factorError,'当前提示');assert.deepEqual(c.state.orderPreview,preview);assert.equal(c.state.factorBusy,false);assert.equal(f.writes.length,0);
+  }
+});
+test("old-engine or incomplete report stays unavailable and never falls back to a same-name strategy",async()=>{
+  const f=factorFixture({read:r=>r.startsWith('terminal_runs/')?{}:undefined});await f.c.openResearch(f.ref);assert.equal(f.c.state.sourceRuleContext,null);assert.match(f.c.state.sourceRuleError,/无法取得一致解释/);f.c.setFactorPosition('flat');await f.c.readFactors();assert.equal(f.reads.some(r=>r.startsWith('terminal_strategy_candidates/')),false);
+  const core=factorFixture();await core.c.openResearch({kind:'core_run',id:'other-engine'});assert.equal(core.reads.some(r=>r.startsWith('terminal_runs/')),false);assert.equal(core.c.state.sourceRuleContext,null);
+});
+test("rule review displays historical dates, percent units and explicit explanation provenance without HTML injection",()=>{
+  const f=factorFixture(),context=ui.savedRuleContext(f.report,f.researchValue,f.ref),row=ui.savedFactorContext(f.response(true),context,true);row.factors[0].label='<img src=x onerror=bad()>';
+  const html=ui.renderRuleReview(context,{row});assert.match(html,/历史数据截至 2026-06-05/);assert.match(html,/1.5%/);assert.match(html,/已有持仓.*历史日满足退出条件/);assert.match(html,/不是原报告已保存的因子/);assert.match(html,/不是当前买入指令/);assert.match(html,/&lt;img/);assert.doesNotMatch(html,/<img|<button|<input/);
+});
+test("rule review separates legacy 3% stop compatibility from the report's actual 8% execution risk without changing raw parameters",()=>{
+  const f=factorFixture(),params={fast_window:20,slow_window:60,position_pct:0.25,stop_loss_pct:0.03,take_profit_pct:0.06,unknown_legacy_field:0.07},risk={position_pct:25,stop_loss_pct:8,take_profit_pct:0,leverage:1};
+  f.report.strategy_id=f.researchValue.binding.strategy_id='dual_ma';f.report.configuration.strategy_params=copy(params);f.researchValue.binding.strategy_params=copy(params);f.report.configuration.risk=copy(risk);f.researchValue.binding.risk=copy(risk);
+  const before=copy({report:f.report,research:f.researchValue}),context=ui.savedRuleContext(f.report,f.researchValue,f.ref),html=ui.renderRuleReview(context,null);
+  const signals=html.match(/<details open data-tex-signal-params>(.*?)<\/details>/s)[1],compatibility=html.match(/<details data-tex-compatibility-params>(.*?)<\/details>/s)[1],saved=html.match(/<p data-tex-saved-risk>(.*?)<\/p>/s)[1],other=html.match(/<details data-tex-other-params>(.*?)<\/details>/s)[1];
+  assert.match(signals,/快均线周期.*20.*慢均线周期.*60/);assert.doesNotMatch(signals,/旧仓位|旧止损|旧止盈|unknown_legacy/);assert.match(compatibility,/旧仓位比例.*25%.*旧止损比例.*3%.*旧止盈比例.*6%/);assert.match(compatibility,/不作为本报告的执行风险条件/);assert.match(saved,/仓位 25%.*止损 8%.*止盈 0%/);assert.doesNotMatch(saved,/止损 3%/);assert.match(other,/unknown_legacy_field.*0.07/);assert.doesNotMatch(other,/7%/);
+  assert.deepEqual(context.strategy_params,params);assert.deepEqual(context.execution_risk,risk);assert.deepEqual({report:f.report,research:f.researchValue},before);
+});
+
+test("factor-review DOM: explicit GET only, preview survives read failure, scenario invalidates at 1280 and 480",async t=>{
+  const fs=require('node:fs'),path=require('node:path'),{chromium}=require('playwright');const executablePath=[process.env.PLAYWRIGHT_BROWSER_EXECUTABLE,chromium.executablePath(),'C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(v=>v&&fs.existsSync(v));
+  const browser=await chromium.launch({headless:true,...(executablePath?{executablePath}:{}),args:['--disable-background-networking','--no-first-run']});t.after(()=>browser.close());
+  for(const width of [1280,480]){
+    let failFactors=false;const f=factorFixture({read:r=>{if(failFactors&&r.startsWith('terminal_strategy_candidates/'))throw Error('explicit synthetic read failure');}}),context=await browser.newContext({viewport:{width,height:960}}),page=await context.newPage(),errors=[],external=[];t.after(()=>context.close());page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+    await context.route('**/*',r=>{if(r.request().url()==='http://127.0.0.1:55321/')return r.fulfill({contentType:'text/html',body:'<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font:16px/1.6 system-ui;margin:24px}.panel{border:1px solid #ccd4e0;padding:16px}.section-gap{margin-top:20px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field label{display:block}input,select{max-width:100%;box-sizing:border-box;width:100%}input[type=checkbox]{width:auto}.kv{display:grid;grid-template-columns:1fr 1fr}.notice{padding:12px;background:#eef4ff}.actions{display:flex;gap:10px;flex-wrap:wrap}button,input,select{font:inherit}.btn{padding:8px 14px}</style><main id="host"></main>'});external.push(r.request().url());return r.abort();});
+    await page.exposeFunction('readFixture',f.api);await page.exposeFunction('writeFixture',()=>{f.writes.push('unexpected');throw Error('No mutation allowed');});await page.goto('http://127.0.0.1:55321/');await page.addScriptTag({content:fs.readFileSync(path.join(__dirname,'terminal-execution-ui.js'),'utf8')});
+    await page.evaluate(ref=>{window.ui=installTerminalExecutionUI({host:document.querySelector('#host'),api:readFixture,perform:writeFixture});ui.setSources([ref]);ui.reveal();},f.ref);assert.equal(f.reads.length,0);
+    await page.selectOption('#tex-source','0');await page.waitForFunction(()=>ui.controller.state.sourceRuleContext);await page.evaluate(async()=>{await ui.refresh();});await page.selectOption('#tex-account','account-a');await page.waitForFunction(()=>ui.controller.state.account&&!ui.controller.state.accountStale);await page.evaluate(()=>ui.controller.selectPlan('plan-one'));
+    assert.equal(await page.locator('#tex-side').inputValue(),'');assert.equal(await page.locator('#tex-factor-position').inputValue(),'');assert.equal(await page.locator('[data-tex-action=read-factors]').isDisabled(),true);await page.selectOption('#tex-factor-position','flat');await page.locator('[data-tex-action=read-factors]').click();await page.waitForFunction(()=>ui.controller.state.factorReview);assert.equal(await page.locator('#tex-side').inputValue(),'');
+    await page.selectOption('#tex-side','BUY');await page.fill('#tex-quantity','1');await page.fill('#tex-limit','10');await page.fill('#tex-quote','10');await page.locator('#tex-preview-order').click();await page.waitForFunction(()=>ui.controller.state.orderPreview);assert.match(await page.locator('[data-tex-preview-cutoff]').innerText(),/2026-06-05/);assert.equal(await page.locator('[data-tex-preview-evidence]').getAttribute('open'),null);assert.equal(await page.evaluate(()=>document.querySelector('#tex-preview-detail .tex-metrics').getBoundingClientRect().top<document.querySelector('[data-tex-preview-cutoff]').getBoundingClientRect().top),true);await page.locator('[data-tex-preview-evidence]>summary').click();assert.match(await page.locator('[data-tex-preview-rule]').innerText(),/历史数据截至 2026-06-05/);assert.match(await page.locator('[data-tex-preview-rule]').innerText(),/1.5%/);assert.match(await page.locator('[data-tex-preview-rule]').innerText(),/不是原报告已保存的因子/);
+    failFactors=true;await page.locator('[data-tex-action=read-factors]').click();await page.waitForFunction(()=>!ui.controller.state.factorBusy&&ui.controller.state.factorError);assert.equal(await page.locator('#tex-confirm-form').isVisible(),true);assert.equal(await page.locator('#tex-confirm-order').isChecked(),false);assert.equal(f.writes.length,0);
+    await page.selectOption('#tex-factor-position','holding');assert.equal(await page.locator('#tex-confirm-form').isVisible(),false);failFactors=false;await page.locator('[data-tex-action=read-factors]').click();await page.waitForFunction(()=>ui.controller.state.factorReview?.row.signal.action==='EXIT');assert.equal(await page.locator('#tex-side').inputValue(),'BUY');await page.locator('#tex-preview-order').click();await page.waitForFunction(()=>ui.controller.state.orderPreview);assert.equal(await page.locator('[data-tex-preview-evidence]').getAttribute('open'),null);await page.locator('[data-tex-preview-evidence]>summary').click();assert.match(await page.locator('[data-tex-preview-rule]').innerText(),/已有持仓.*历史日满足退出条件/);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);if(process.env.EXECUTION_FACTOR_EVIDENCE_DIR)await page.screenshot({path:path.join(process.env.EXECUTION_FACTOR_EVIDENCE_DIR,'order-factor-'+width+'.png'),fullPage:true});assert.equal(f.writes.length,0);assert.deepEqual(errors,[]);assert.deepEqual(external,[]);await context.close();
+  }
+});

@@ -1,0 +1,82 @@
+{
+  "schema_version": "native-ui-observations-v1",
+  "recorded_from": "Root CUA native window observations in this task; screenshots are in tool transcript",
+  "source_commit": "500d69105ff3f33e95c8d35cbef6da9704ca8c2f",
+  "bundle_id": "c0792eda05fccd08ca7c969b6ab6aacc9f14056b67220657b65232d54c50c7b1",
+  "window_title": "哈基米交易 · 0.7.0.dev3",
+  "first_window_id": 2359514,
+  "port": 8873,
+  "fixture": "dev3-native-readonly-plan-20261030/fixtures/dev3-qa-ordinary-import.json",
+  "fictional": true,
+  "core_imports": 1,
+  "native_imports": 1,
+  "saved_native_task_versions": 1,
+  "explicit_native_research_runs": 1,
+  "task_id": "efb38357c0dace53b622c552304397b164748b10904901fcfae47c5cedae2cc1",
+  "report_id": "fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+  "research_status": "COMPLETED",
+  "strategy": "dual_ma",
+  "params": {
+    "fast_window": 20,
+    "slow_window": 60
+  },
+  "native_risk_ui": {
+    "position_percent": 25,
+    "stop_loss_percent": 8,
+    "take_profit_percent": 0
+  },
+  "native_cost_ui": {
+    "fee_percent": 0.05,
+    "slippage_bps": 2
+  },
+  "replay_name": "dev3 QA 单股逐日模拟",
+  "replay_settings": {
+    "initial_cash": "10000",
+    "unit_quantity": 1,
+    "fee_percent": "0.1",
+    "slippage_bps": "5"
+  },
+  "preview": {
+    "seed_date": "2024-04-25",
+    "next_date": "2024-04-26",
+    "store_existed": false
+  },
+  "actions": [
+    "create",
+    "seed",
+    "step",
+    "pause"
+  ],
+  "seed": {
+    "processed_date": "2024-04-25",
+    "cash": "10000.00000000",
+    "shares": 0,
+    "signal": "BUY"
+  },
+  "after_step": {
+    "processed_date": "2024-04-26",
+    "next_date": "2024-04-29",
+    "cash": "9895.47419402",
+    "shares": 1,
+    "signal_display": "继续等待"
+  },
+  "pause_ack_visible": true,
+  "pause_reason": "dev3 虚构验收：关闭重开前核对",
+  "normal_window_close": true,
+  "candidate_processes_after_close": 0,
+  "port_listeners_after_close": 0,
+  "reopen_performed": false,
+  "finding": {
+    "id": "native-saved-task-card-completion",
+    "fact": "Saved task card still displays Run after COMPLETED; separate announcer reports completion.",
+    "impact": "Misleading completion feedback",
+    "repeated_run_requested": false,
+    "existing_backend_same_task_reuses_saved_report": true
+  },
+  "cua_screenshot_timeout": {
+    "count": 1,
+    "stage": "after seed",
+    "recovered": true,
+    "extra_business_action": false
+  }
+}

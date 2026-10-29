@@ -152,7 +152,7 @@
     const navRoot = document.getElementById("navigation");
     if (!coreMain || !navRoot) throw new Error("terminal_quant_ui_mount_missing");
     const state = { catalog: [], inputs: [], tasks: [], runs: [], coreTasks: [], coreRuns: [], coreInputs: [], coreStrategies: [], coreOverview: null, comparison: new Set(), history: [], reports: [], context: null, market: null,
-      selectedRun: null, selectedRunId: null, runReadRequest: 0, completedRun: null, revisionOf: null, aiEvidence: null, aiEvidenceBinding: null, aiEvidenceEnabled: false, visible: false, loaded: false, marketRequest: 0, preflightRequest: 0, unifiedView: "dashboard", refreshPromise: null };
+      selectedRun: null, selectedRunId: null, runReadRequest: 0, completedRun: null, savedTask: null, confirmedTaskRuns: new Map(), revisionOf: null, aiEvidence: null, aiEvidenceBinding: null, aiEvidenceEnabled: false, visible: false, loaded: false, marketRequest: 0, preflightRequest: 0, unifiedView: "dashboard", refreshPromise: null };
     const $ = (id) => document.getElementById(id);
     const value = (id) => $(id)?.value ?? "";
     const fmt = (number) => finite(Number(number)) ? Number(number).toLocaleString("zh-CN", {maximumFractionDigits:4}) : "—";
@@ -197,6 +197,20 @@
       try { await refreshAll(); $("tq-refresh-message").hidden = true; }
       catch (error) { showRefreshFailure(error); }
     }
+    function renderSavedTask() {
+      const task = state.savedTask;
+      if (!task) return;
+      const taskId = task.task_id || task.id, check = task.data_preflight;
+      const completed = state.confirmedTaskRuns?.get(taskId);
+      $("tq-saved-task").innerHTML = `<strong>“${esc(task.title || task.name)}”版本 ${esc(task.version)} 已保存。</strong>
+        ${completed
+          ? `<p>这个版本的回测已完成，结果已保存。查看详情无需再次运行。</p><p>结果编号：${esc(completed.id)}</p>${button("查看已保存结果","result",completed.id)}`
+          : `<p>保存没有运行回测；下面按钮只运行刚保存的这个版本。</p>
+            ${check ? preflightHtml({...check,status:check.data_sufficient ? "DATA_READY" : "BLOCKED"}) : ""}
+            ${button("运行这次回测","run",taskId,task.state === "PAUSED" || !check?.data_sufficient ? "disabled" : "")}`}
+        ${button("在任务列表找到此版本","saved-task",taskId)}`;
+      $("tq-saved-task").hidden = false;
+    }
     function recordRunOutcome(run) {
       const id = run?.run_id || run?.id;
       if (run?.status !== "COMPLETED" || !text(id,150)) {
@@ -204,6 +218,13 @@
         return;
       }
       state.completedRun = {id,task_id:run.task_id};
+      if (text(run.task_id,150)) {
+        // Only durable acknowledgements populate this map. Auxiliary lists can
+        // be stale, and a different task's completion must not replace this card.
+        state.confirmedTaskRuns ||= new Map();
+        if (!state.confirmedTaskRuns.has(run.task_id)) state.confirmedTaskRuns.set(run.task_id,{id,task_id:run.task_id});
+        if ((state.savedTask?.task_id || state.savedTask?.id) === run.task_id) renderSavedTask();
+      }
       const panel = $("tq-completion");
       panel.innerHTML = `<strong>回测已完成，结果已保存。</strong><p>结果编号：${esc(id)}</p>${button("查看已保存结果","result",id)}`;
       panel.hidden = false;
@@ -371,7 +392,7 @@
       onChoose:async diagnostic=>{
         const entry=state.catalog.find(row=>row.id===diagnostic.strategy_id);
         if(researchBlocker(entry) || !state.inputs.some(row=>identity(row)===diagnostic.input_id))throw Error("所选行情或规则已经变化，请重新读取后核对。");
-        state.revisionOf=null;$("tq-form-title").textContent="2 · 保存所选策略";$("tq-saved-task").hidden=true;
+        state.revisionOf=null;state.savedTask=null;$("tq-form-title").textContent="2 · 保存所选策略";$("tq-saved-task").hidden=true;
         $("tq-input").value=diagnostic.input_id;$("tq-strategy").value=diagnostic.strategy_id;
         $("tq-name").value=`${diagnostic.symbol} · ${diagnostic.name || entry.name} · ${diagnostic.cutoff_session}`.slice(0,64);
         renderParams(diagnostic.strategy_params);renderAiEvidence();
@@ -654,14 +675,9 @@
         state.aiEvidence = task.ai_evidence || null; state.aiEvidenceBinding = task.ai_evidence_binding || null;
         state.aiEvidenceEnabled = Boolean(state.aiEvidence); renderAiEvidence();
         state.tasks = [task,...state.tasks.filter((row) => row.family_id !== task.family_id)]; renderTasks();
-        const check = task.data_preflight;
-        $("tq-saved-task").innerHTML = `<strong>“${esc(task.title || task.name)}”版本 ${esc(task.version)} 已保存。</strong>
-          <p>保存没有运行回测；下面按钮只运行刚保存的这个版本。</p>
-          ${check ? preflightHtml({...check,status:check.data_sufficient ? "DATA_READY" : "BLOCKED"}) : ""}
-          ${button("运行这次回测","run",task.task_id || task.id,task.state === "PAUSED" || !check?.data_sufficient ? "disabled" : "")}
-          ${button("在任务列表找到此版本","saved-task",task.task_id || task.id)}`;
-        $("tq-saved-task").hidden = false;
-        notify(`任务版本 ${task.version} 已保存。${check?.data_sufficient ? "可以继续运行这次回测。" : "数据尚不足，请先查看预检查。"}`);
+        state.savedTask = task; renderSavedTask();
+        const alreadyCompleted = state.confirmedTaskRuns?.has(task.task_id || task.id);
+        notify(`任务版本 ${task.version} 已保存。${alreadyCompleted ? "这个版本已有完成结果，可直接查看。" : task.data_preflight?.data_sufficient ? "可以继续运行这次回测。" : "数据尚不足，请先查看预检查。"}`);
       },onSuccess:refreshRecords});
     }
     async function listOldWorkspaces() {
@@ -837,7 +853,7 @@
       if (action === "market") return readMarket();
       if (action === "context-market") { $("tq-symbol").value = state.context.symbol; return readMarket(state.context.source_id || ""); }
       if (action === "apply-context") return applyContextParams();
-      if (action === "new") { state.revisionOf = null; state.aiEvidence = null; state.aiEvidenceBinding = null; state.aiEvidenceEnabled = false; if (state.context) applyContext(state.context); else renderAiEvidence(); $("tq-form-title").textContent = "2 · 新建策略任务"; $("tq-name").value = ""; return notify("正在填写新任务；原任务、版本与结果保持不变。"); }
+      if (action === "new") { state.revisionOf = null; state.savedTask = null; $("tq-saved-task").hidden = true; state.aiEvidence = null; state.aiEvidenceBinding = null; state.aiEvidenceEnabled = false; if (state.context) applyContext(state.context); else renderAiEvidence(); $("tq-form-title").textContent = "2 · 新建策略任务"; $("tq-name").value = ""; return notify("正在填写新任务；原任务、版本与结果保持不变。"); }
       if (action === "edit") return editTask(id);
       if (action === "result") return showRun(id);
       if (action === "compare") return compareSelected(target);

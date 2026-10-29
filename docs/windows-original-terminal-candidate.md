@@ -1,10 +1,12 @@
-# 哈基米交易 0.7.0.dev2：原终端候选
+# 哈基米交易 0.7.0.dev3：原终端候选
 
 这是包含整合原终端的 Windows x64 候选。入口是 `HakimiTrade.exe`，同一窗口内包含行情、研究任务、保存结果和原图表复盘。包内自带 Python、Electron、所需组件及资源，日常使用不依赖源码仓库或全局 Python。
 
 此页说明新候选的入口与操作。最终包身份以包内 `terminal-manifest.json` 的版本、构建提交和 bundle ID 为准；源码、打包探测、实际 Windows 操作和独立新手试用分别记录在 `astra-backlog.md`。尚未发布为正式 Release。
 
-当前新候选为 **dev2 r1 / 构建 0a29882**，包含日线检查、策略因子说明及本地订单演练。本机已完成新合成账户与计划、订单预览/单独确认、接受预留和关闭重开；真实 TSLA 检查因公司行为覆盖资料不足而阻断。[dev2 身份、验收与限制](research-evidence/terminal-070dev2-native-20261030/README.md)。此前 **dev1 r4 / a53068b** 的一次新合成回测、复盘、重复启动与端口冲突结果保留在[旧候选验收](research-evidence/terminal-070dev1-native-20261029/README.md)，不替代 dev2 未实走的步骤。独立新手试用仍待完成。
+当前新候选为 **dev3 r1 / 构建 500d691**，包含日线检查、策略因子说明、本地订单演练、逐日历史模拟与券商候选准备。冻结 464 项终端检查、完整桌面/打包检查、全部程序与 ZIP 字节校验以及包内运行通过；[dev3 身份与构建边界](research-evidence/terminal-070dev3-build-20261030/README.md)。已完成本机一次新虚构研究、逐日模拟一步、暂停、关闭重开、核对及恢复，日期与资金未额外推进；245 个受保护业务文件和全部程序文件不变。[原生记录及已发现界面问题](research-evidence/terminal-070dev3-native-20261030/README.md)另列。保存卡片完成反馈及订单因子核对的后续修复尚未进入此包；独立无源码环境与新手试用尚未完成。
+
+旧 **dev2 r1 / 0a29882** 已完成本机合成账户与计划、订单预览/单独确认、接受预留和关闭重开；真实 TSLA 检查因公司行为覆盖资料不足而阻断。[dev2 身份、验收与限制](research-evidence/terminal-070dev2-native-20261030/README.md)。此前 **dev1 r4 / a53068b** 的一次新合成回测、复盘、重复启动与端口冲突结果保留在[旧候选验收](research-evidence/terminal-070dev1-native-20261029/README.md)，各自验收不自动覆盖新包。
 
 ## 打开与第一次研究
 

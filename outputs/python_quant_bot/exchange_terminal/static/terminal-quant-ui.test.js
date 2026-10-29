@@ -324,6 +324,165 @@ test("unknown terminal run is not announced as complete or opened as a verified 
   assert.equal(shown,0);assert.deepEqual(notices,[{message:"结果待核对",error:true}]);
 });
 
+// This is the actual persisted native job/result envelope shape observed in the
+// dev3 QA flow. Identifiers and values here are fictional, not saved user data.
+function savedNativeJob(taskId="a".repeat(64),runId="b".repeat(64)) {
+  return {job_id:"qa-native-run-job",action:"terminal_run_task",status:"succeeded",automatic_retry:false,
+    result:{schema_version:"hakimi-terminal-run-v1",engine_id:protocol.ENGINE,
+      id:runId,run_id:runId,report_hash:runId,task_id:taskId,status:"COMPLETED",
+      title:"虚构 QA 原策略",strategy_id:"dual_ma",version:1,reused:false,automatic_retry:false,
+      operation_id:"c".repeat(64),result:{trades:[]},configuration:{},chart:{},permissions:{}}};
+}
+function savedTaskCardFixture(options={}) {
+  const job=options.job||savedNativeJob(),taskId="a".repeat(64);
+  const task={id:taskId,task_id:taskId,title:"虚构 QA 原策略",version:1,state:"ENABLED",data_preflight:{data_sufficient:true}};
+  const elements=new Map(),notices=[],posts=[],reads=[];
+  const element=id=>{if(!elements.has(id))elements.set(id,{innerHTML:"",hidden:true,textContent:"",disabled:false,
+    isConnected:true,dataset:{},setAttribute(){},removeAttribute(){}});return elements.get(id);};
+  const esc=value=>String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll('"',"&quot;");
+  const state={savedTask:task,confirmedTaskRuns:new Map(),tasks:[task],runs:[],coreRuns:[],catalog:[],
+    loaded:true,runReadRequest:0,selectedRun:null,completedRun:null,refreshPromise:null};
+  const context=dispatchContext({state,$:element,text:value=>typeof value==="string"&&value.length>0,esc,
+    identity:row=>row.id||row.task_id,preflightHtml:()=>"预检查已通过",
+    button:(label,action,id)=>`<button data-tq-action="${action}" data-tq-id="${esc(id)}">${label}</button>`,
+    notify:(message,error)=>notices.push({message,error}),renderRuns(){},renderRun(){},
+    operationErrorText:error=>error.message,coreMain:{querySelector:()=>({textContent:"原请求待核对"})},
+    S:{jobs:[],pending:new Map(),dialogSerial:1},crypto:{randomUUID:()=>"qa-request-0001"},ACTIONS:{},
+    announce(){},updateJobs(){},render(){},closeDialog(){},syncMappingState(){},showError(){},unresolved:[],saveUnresolved(){},
+    refresh:async()=>{if(options.shellRefreshFailure)throw Error("壳层刷新失败");},
+    refreshAll:async()=>{if(options.refreshFailure)throw Error("辅助列表失败");},
+    api:async(resource,method="GET",body)=>{
+      if(method==="POST"){posts.push({resource,body});return job;}
+      reads.push(resource);if(options.detailFailure)throw Error("详情读取失败");return job.result;
+    }});
+  const shell=fs.readFileSync(path.join(__dirname,"../../vendor/research/hakimi_terminal_research/resources/desktop.html"),"utf8");
+  const perform=shell.split(/\r?\n/).find(line=>line.startsWith("async function perform("));
+  vm.runInContext(perform+"\n"+["act","showRefreshFailure","refreshRecords","renderSavedTask","recordRunOutcome","readRunOutcome","showRun"].map(uiFunction).join("\n"),context);
+  context.renderSavedTask();
+  return {context,state,task,job,posts,reads,notices,element,
+    run:()=>vm.runInContext('act("terminal_run_task",{task_id:state.savedTask.task_id},{button:$("run-button"),onCommitted:recordRunOutcome,onSuccess:readRunOutcome})',context)};
+}
+
+test("durable native job.result replaces the matching saved-task run invitation with its saved result",async()=>{
+  const f=savedTaskCardFixture();
+  assert.match(f.element("tq-saved-task").innerHTML,/保存没有运行回测/);
+  const result=await f.run(),html=f.element("tq-saved-task").innerHTML;
+  assert.equal(result,f.job.result);assert.equal(f.posts.length,1);
+  assert.match(html,/这个版本的回测已完成，结果已保存/);
+  assert.ok(html.includes(f.job.result.id));
+  assert.match(html,/data-tq-action="result"/);
+  assert.doesNotMatch(html,/保存没有运行回测|运行这次回测|data-tq-action="run"/);
+  assert.equal(f.state.confirmedTaskRuns.get(f.task.task_id).id,f.job.result.id);
+});
+
+test("save callback binds the card to the acknowledged task_id before matching completion",async()=>{
+  const f=savedTaskCardFixture();f.state.savedTask=null;
+  f.element("tq-task-form").reportValidity=()=>true;
+  Object.assign(f.context,{value:()=>"1",researchBlocker:()=>"",currentSignalParams:()=>({fast_window:20,slow_window:60}),
+    renderAiEvidence(){},renderTasks(){},act:async(action,_payload,options)=>{
+      assert.equal(action,"terminal_save_task");options.onCommitted({...f.task,id:"family-view-id"});
+    }});
+  vm.runInContext(uiFunction("saveTask"),f.context);
+  await f.context.saveTask({preventDefault(){},submitter:{}});
+  assert.equal(f.state.savedTask.task_id,f.job.result.task_id);
+  f.context.recordRunOutcome(f.job.result);
+  assert.match(f.element("tq-saved-task").innerHTML,/这个版本的回测已完成/);
+  assert.doesNotMatch(f.element("tq-saved-task").innerHTML,/data-tq-action="run"/);
+});
+
+test("another task or an unconfirmed outcome cannot complete the currently saved task card",()=>{
+  const f=savedTaskCardFixture(),before=f.element("tq-saved-task").innerHTML;
+  f.context.recordRunOutcome(savedNativeJob("d".repeat(64),"e".repeat(64)).result);
+  assert.equal(f.element("tq-saved-task").innerHTML,before);
+  for(const status of ["UNKNOWN","FAILED"]){
+    f.context.recordRunOutcome({...f.job.result,status});
+    assert.equal(f.element("tq-saved-task").innerHTML,before);
+  }
+  assert.equal(f.state.confirmedTaskRuns.has(f.task.task_id),false);
+  f.context.recordRunOutcome(f.job.result);
+  assert.match(f.element("tq-saved-task").innerHTML,/这个版本的回测已完成/);
+});
+
+test("auxiliary and shell refresh failures preserve the matching completed task card without another run",async()=>{
+  const f=savedTaskCardFixture({refreshFailure:true,shellRefreshFailure:true,detailFailure:true});
+  await f.run();
+  assert.match(f.element("tq-saved-task").innerHTML,/这个版本的回测已完成/);
+  assert.doesNotMatch(f.element("tq-saved-task").innerHTML,/data-tq-action="run"/);
+  assert.match(f.element("tq-refresh-message").innerHTML,/辅助记录读取未完成/);
+  assert.equal(f.posts.length,1);assert.equal(f.state.confirmedTaskRuns.get(f.task.task_id).id,f.job.result.id);
+});
+
+test("a real late older listing cannot roll back the durable saved-task completion",async()=>{
+  const f=savedTaskCardFixture(),pending=[];
+  Object.assign(f.context,{api:resource=>new Promise(resolve=>pending.push({resource,resolve})),
+    renderCatalog(){},renderCoreInputs(){},renderInputs(){},renderTasks(){},renderHistory(){},renderReports(){},
+    executionUI:{setSources(){}},brokerUI:{setSources(){}},continuousUI:{setSources(){},setInputs(){}},
+    judgmentUI:null,exitResearchUI:null,insightsUI:null});
+  vm.runInContext(uiFunction("loadAllRecords"),f.context);
+  const late=f.context.loadAllRecords();
+  f.context.recordRunOutcome(f.job.result);
+  const completed=f.element("tq-saved-task").innerHTML;
+  for(const item of pending)item.resolve(item.resource==="status"?{tasks:[],runs:[],initialized:true}:{items:[]});
+  await late;
+  assert.equal(f.state.runs.length,0); // The auxiliary list really was older.
+  f.context.renderSavedTask();
+  assert.equal(f.element("tq-saved-task").innerHTML,completed);
+  assert.equal(f.posts.length,0);
+});
+
+test("newly saved task binding resists a late old completion and retains prior completion when reread",()=>{
+  const f=savedTaskCardFixture();f.context.recordRunOutcome(f.job.result);
+  const completed=f.element("tq-saved-task").innerHTML;
+  f.state.savedTask={...f.task,id:"f".repeat(64),task_id:"f".repeat(64),version:2};f.context.renderSavedTask();
+  const next=f.element("tq-saved-task").innerHTML;
+  assert.match(next,/运行这次回测/);
+  f.context.recordRunOutcome(f.job.result);assert.equal(f.element("tq-saved-task").innerHTML,next);
+  f.state.savedTask={...f.task};f.context.renderSavedTask();
+  assert.equal(f.element("tq-saved-task").innerHTML,completed);
+});
+
+test("new task entry clears the saved card binding so late completion cannot occupy the draft",async()=>{
+  for(const action of ["new","new-research","new-task-form"]){
+    const f=savedTaskCardFixture();f.context.renderAiEvidence=()=>{};
+    f.element("tq-form-title").scrollIntoView=()=>{};f.element("tq-name").focus=()=>{};
+    await f.context.dispatch(action,"",{});
+    assert.equal(f.state.savedTask,null);assert.equal(f.element("tq-saved-task").hidden,true);
+    f.context.recordRunOutcome(f.job.result);
+    assert.equal(f.element("tq-saved-task").hidden,true);
+    assert.equal(f.state.confirmedTaskRuns.get(f.task.task_id).id,f.job.result.id);
+    f.state.savedTask={...f.task};f.context.renderSavedTask();
+    assert.equal(f.element("tq-saved-task").hidden,false);
+    assert.match(f.element("tq-saved-task").innerHTML,/这个版本的回测已完成/);
+  }
+});
+
+test("choosing a strategy candidate clears the old saved card while retaining its confirmed facts",async()=>{
+  const f=savedTaskCardFixture();
+  f.state.catalog=[{id:"dual_ma",name:"双均线"}];f.state.inputs=[{id:"candidate-input"}];
+  Object.assign(f.context,{researchBlocker:()=>"",renderParams(){},renderAiEvidence(){}});
+  f.element("tq-form-title").scrollIntoView=()=>{};f.element("tq-name").focus=()=>{};
+  const start=ui.indexOf("onChoose:async diagnostic=>{")+"onChoose:".length;
+  const end=ui.indexOf("      }});",start);
+  assert.ok(start>0&&end>start);
+  vm.runInContext("chooseCandidate="+ui.slice(start,end)+"}",f.context);
+  await f.context.chooseCandidate({input_id:"candidate-input",strategy_id:"dual_ma",symbol:"QADEMO",
+    cutoff_session:"2024-07-31",strategy_params:{fast_window:20,slow_window:60}});
+  assert.equal(f.state.savedTask,null);assert.equal(f.element("tq-saved-task").hidden,true);
+  f.context.recordRunOutcome(f.job.result);
+  assert.equal(f.element("tq-saved-task").hidden,true);
+  assert.equal(f.state.confirmedTaskRuns.get(f.task.task_id).id,f.job.result.id);
+  assert.equal(f.element("tq-input").value,"candidate-input");
+});
+
+test("completed saved-task button dispatch reads the original run and never submits a run",async()=>{
+  const f=savedTaskCardFixture();f.context.recordRunOutcome(f.job.result);
+  const html=f.element("tq-saved-task").innerHTML;
+  const [,action,id]=html.match(/data-tq-action="(result)" data-tq-id="([a-f0-9]{64})"/);
+  await f.context.dispatch(action,id,{});
+  assert.deepEqual(f.reads,["terminal_runs/"+f.job.result.id]);assert.equal(f.posts.length,0);
+  assert.equal(f.state.selectedRun.id,f.job.result.id);
+});
+
 test("historical-only strategy remains viewable but cannot start new research",async () => {
   const entry={id:"trend_pullback",capability:{backtest_supported:true,new_research_allowed:false,paper_blocker:"仅保留旧记录"}};
   assert.equal(protocol.researchBlocker(entry),"仅保留旧记录");

@@ -40,6 +40,59 @@
   const safePermissions=value=>plain(value)&&["paper_order_allowed","live_order_allowed","order_allowed","broker_connection_allowed","model_calls_allowed"].every(key=>value[key]===false);
   const reference=value=>plain(value)&&["terminal_run","core_run"].includes(value.kind)&&typeof value.id==="string"&&value.id.length>0;
   const sameReference=(a,b)=>a?.kind===b?.kind&&a?.id===b?.id;
+  const isHash=value=>typeof value==="string"&&/^[a-f0-9]{64}$/.test(value);
+  const ordered=value=>Array.isArray(value)?value.map(ordered):plain(value)?Object.fromEntries(Object.keys(value).sort().map(key=>[key,ordered(value[key])])):value;
+  const equal=(a,b)=>a!==undefined&&b!==undefined&&JSON.stringify(ordered(a))===JSON.stringify(ordered(b));
+  const nativeSourceNames=["backtest_engine.py","strategy_signals.py","market_calendar.py","indicator_math.py"];
+  const sourceIdentity=value=>plain(value)&&nativeSourceNames.every(key=>isHash(value[key]))&&Object.values(value).every(isHash);
+  const recordedDay=value=>typeof value==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(value)&&Number.isFinite(Date.parse(value+"T00:00:00Z"))&&new Date(value+"T00:00:00Z").toISOString().slice(0,10)===value;
+  const paramsValid=value=>plain(value)&&Object.keys(value).length>0&&Object.values(value).every(v=>typeof v==="boolean"||(typeof v==="number"&&Number.isFinite(v)));
+  const factorPermissions=value=>plain(value)&&value.research_only===true&&["paper_allowed","live_allowed","order_allowed"].every(key=>value[key]===false);
+  function savedRuleContext(report,research,ref) {
+    const b=research?.binding,c=report?.configuration,i=report?.input_summary;
+    if(ref?.kind!=="terminal_run"||!sameReference(research?.reference,ref)||!isHash(ref.id)||report?.schema_version!=="hakimi-terminal-run-v1"||report.status!=="COMPLETED"||b?.status!=="COMPLETED"
+      ||![report.id,report.run_id,report.report_hash,b.report_id,b.report_hash].every(id=>id===ref.id)||!isHash(report.task_id)||report.task_id!==b.task_id||report.version!==b.task_version
+      ||!plain(c)||!plain(i)||report.engine_id!==b.engine_id||c.engine_id!==b.engine_id||report.strategy_id!==b.strategy_id
+      ||!paramsValid(c.strategy_params)||!equal(c.strategy_params,b.strategy_params)||!equal(c.risk,b.risk)||!equal(c.costs,b.costs)
+      ||!isHash(c.input_id)||![i.id,i.input_id,b.input_id].every(id=>id===c.input_id)||!isHash(i.source_digest)||i.digest!==i.source_digest
+      ||!recordedDay(i.date_start)||!recordedDay(i.date_end)||i.date_start>i.date_end||!isHash(c.fingerprint)||!sourceIdentity(c.engine_source_identity)||!plain(c.indicator_contract)
+      ||i.symbol!==research.display?.symbol||(i.meta?.security_id||i.meta?.security?.security_id)!==b.security_id)
+      throw Error("保存报告的任务、输入、规则参数或源码身份不完整，无法取得一致解释。");
+    return {reference:clone(ref),report_hash:report.id,task_id:report.task_id,task_version:report.version,input_id:c.input_id,source_digest:i.source_digest,
+      symbol:i.symbol,data_start:i.date_start,cutoff_session:i.date_end,engine_id:report.engine_id,strategy_id:report.strategy_id,strategy_params:clone(c.strategy_params),execution_risk:clone(c.risk),
+      fingerprint:c.fingerprint,engine_source_identity:clone(c.engine_source_identity),indicator_contract:clone(c.indicator_contract)};
+  }
+  function savedFactorContext(value,context,hasPosition) {
+    const rows=Array.isArray(value?.groups)?value.groups.flatMap(group=>group.items||[]):[],row=rows[0];
+    if(value?.schema_version!=="hakimi-terminal-strategy-candidates-v1"||value.read_only!==true||value.new_economic_runs!==0||!factorPermissions(value.permissions)
+      ||value.input_id!==context.input_id||value.cutoff_session!==context.cutoff_session||rows.length!==1||row?.schema_version!=="hakimi-terminal-strategy-diagnostic-v1"
+      ||!isHash(row.diagnostic_id)||!factorPermissions(row.permissions)||row.new_economic_runs!==0||row.input_id!==context.input_id||row.source_digest!==context.source_digest
+      ||row.cutoff_session!==context.cutoff_session||row.freshness?.context!=="SAVED_HISTORICAL_INPUT"||row.freshness?.live_quote_verified!==false||row.freshness?.cutoff_session!==context.cutoff_session
+      ||row.symbol!==context.symbol||row.engine_id!==context.engine_id||row.engine_id!=="terminal."+row.signal_engine_version||row.strategy_id!==context.strategy_id
+      ||!equal(row.strategy_params,context.strategy_params)||row.fingerprint!==context.fingerprint||!equal(row.engine_source_identity,context.engine_source_identity)||!equal(row.indicator_contract,context.indicator_contract)
+      ||!equal(row.position_context,{has_position:hasPosition})||!Array.isArray(row.factors)||!row.factors.length||row.factors.length>50
+      ||row.factors.some(f=>!plain(f)||f.cutoff_session!==context.cutoff_session||![true,false,null].includes(f.passed))
+      ||row.status!=="READY"||row.decision_matches_factors!==true||!['BUY','EXIT','HOLD'].includes(row.signal?.action))
+      throw Error("因子回复与保存报告的历史截止日、持仓情景、参数或源码不一致，或资料仍不足；无法取得一致解释。");
+    return clone(row);
+  }
+  const parameterLabels={fast_window:"快均线周期",slow_window:"慢均线周期",window:"观察周期",std_mult:"标准差倍数",fast:"快线周期",slow:"慢线周期",signal:"信号周期",oversold:"超卖阈值",overbought:"超买阈值",threshold:"动量阈值",pivot_window:"关键点观察周期",confirm_pct:"突破确认幅度",entry_window:"入场通道周期",exit_window:"退出通道周期",box_window:"箱体观察周期",trend_window:"趋势周期",breakout_window:"突破周期",volume_window:"成交量周期",atr_window:"ATR 周期",volume_ratio:"成交量倍数",min_atr_pct:"最低 ATR 比例",max_atr_pct:"最高 ATR 比例",max_extension_pct:"最大偏离幅度"};
+  const percentParameters=new Set(['threshold','confirm_pct','min_atr_pct','max_atr_pct','max_extension_pct']);
+  const compatibilityLabels={position_pct:"旧仓位比例",stop_loss_pct:"旧止损比例",take_profit_pct:"旧止盈比例"};
+  const shownNumber=value=>typeof value==="number"&&Number.isFinite(value)?value.toLocaleString("zh-CN",{maximumSignificantDigits:10}):"未记录";
+  function factorValue(value,unit){return Array.isArray(value)?value.map(v=>factorValue(v,unit)).join(" 至 "):typeof value!=="number"||!Number.isFinite(value)?"未记录":unit==="ratio"?shownNumber(value*100)+"%":shownNumber(value)+({percent:"%",volume:" 股",rsi:" 点",oscillator_points:" 点",multiple:" 倍",multiplier:" 倍"}[unit]||"");}
+  function renderRuleReview(context,review) {
+    if(!context)return '<p class="section-note">尚未取得身份一致的保存报告参数和历史截止日。因子解释不可用，不影响已生成的订单预览。</p>';
+    const entries=Object.entries(context.strategy_params),signals=entries.filter(([k])=>Object.hasOwn(parameterLabels,k)),compatibility=entries.filter(([k])=>Object.hasOwn(compatibilityLabels,k)),other=entries.filter(([k])=>!Object.hasOwn(parameterLabels,k)&&!Object.hasOwn(compatibilityLabels,k));
+    const parameterRows=(rows,names,unit)=>rows.map(([k,v])=>`<dt>${esc(names[k]||k)}</dt><dd>${esc(typeof v==="boolean"?(v?"是":"否"):factorValue(v,unit(k)))}</dd>`).join("");
+    const params=parameterRows(signals,parameterLabels,k=>percentParameters.has(k)?"ratio":"");
+    const risk=context.execution_risk||{},savedRisk=[["position_pct","仓位"],["stop_loss_pct","止损"],["take_profit_pct","止盈"]].map(([k,label])=>label+" "+factorValue(risk[k],"percent")).join(" · ");
+    return `<div class="tex-rule-review"><p><strong>历史数据截至 ${esc(context.cutoff_session)}</strong> · ${esc(context.symbol)}<br>保存区间 ${esc(context.data_start)} 至 ${esc(context.cutoff_session)}，不是当前报价。</p><details open data-tex-signal-params><summary>这份保存结果的信号参数</summary><dl class="kv">${params}</dl></details>
+      <p data-tex-saved-risk><strong>本报告保存的执行风险：</strong>${esc(savedRisk)}。这些是原回测设置，不替代当前合成账户的风险限制。</p>
+      ${compatibility.length?`<details data-tex-compatibility-params><summary>旧策略兼容字段 · 非本报告执行风控</summary><p>这些字段保留在旧策略参数对象中，不作为本报告的执行风险条件。执行风险以本报告单独保存的风险设置为准。</p><dl class="kv">${parameterRows(compatibility,compatibilityLabels,()=>"ratio")}</dl></details>`:""}
+      ${other.length?`<details data-tex-other-params><summary>其他保存参数 · 单位未记录</summary><dl class="kv">${parameterRows(other,{},()=>"")}</dl></details>`:""}
+      ${review?`<p><strong>${review.row.position_context.has_position?"已有持仓":"未持仓"}诊断情景</strong> · ${({BUY:"在该历史日满足开仓条件",EXIT:"在该历史日满足退出条件",HOLD:"在该历史日暂未触发动作"})[review.row.signal.action]}</p><p class="section-note">这是本次按保存行情进行的新只读解释，不是原报告已保存的因子；情景不代表账户实际持仓，也不是当前买入指令。判断使用原始精度，数值仅作显示。</p><div class="tex-factor-table"><table><thead><tr><th>因子</th><th>历史值</th><th>判定条件</th><th>规则判断</th></tr></thead><tbody>${review.row.factors.map(f=>`<tr><th scope="row">${esc(f.label||f.key)}</th><td>${esc(factorValue(f.value,f.unit))}</td><td>${esc(f.operator==="between_inclusive"?"处于 "+factorValue(f.threshold,f.unit)+"（含边界）":(f.operator||"")+" "+factorValue(f.threshold,f.unit))}</td><td>${f.passed===true?"满足":f.passed===false?"未满足":"资料不足"}${f.applies_to_position===false?"（另一持仓情景）":""}</td></tr>`).join("")}</tbody></table></div><details><summary>查看只读解释依据身份</summary><p>原报告 ${esc(context.report_hash)}<br>原任务 ${esc(context.task_id)}<br>输入 ${esc(context.input_id)}<br>诊断 ${esc(review.row.diagnostic_id)}<br>规则指纹 ${esc(context.fingerprint)}</p></details>`:'<p class="section-note">尚未核对因子；不据此推定买入、卖出或策略有效。</p>'}</div>`;
+  }
   function displayVersion(value) {
     const match=typeof value==="string"?value.match(/^(?:r(\d+)(?:-[a-z0-9]+)?|(\d+))$/i):null;
     const number=typeof value==="number"?value:match?Number(match[1]||match[2]):NaN;
@@ -77,7 +130,7 @@
     return Boolean(readyResearch(research)&&security?.symbol===display.symbol);
   }
   function planMatchesResearch(plan,research) {
-    return Boolean(plan&&readyResearch(research)&&["report_id","report_hash","task_id","task_version","input_id","engine_id","security_id"].every(key=>research.binding[key]===plan.research_binding?.[key]));
+    return Boolean(plan&&readyResearch(research)&&["report_id","report_hash","task_id","task_version","input_id","engine_id","strategy_id","security_id"].every(key=>research.binding[key]===plan.research_binding?.[key])&&equal(research.binding.strategy_params,plan.research_binding?.strategy_params));
   }
   function reconciliationIdentities(account) {
     if(!account?.ledger)throw Error("请先读取合成账户。");
@@ -89,20 +142,50 @@
   }
   function createController({api,perform,readResearch,uuid=()=>root.crypto.randomUUID(),changed=()=>{}}) {
     const state={sources:[],accounts:[],source:null,sourceReference:null,account:null,accountId:"",planId:"",orderId:"",
-      busy:false,pending:null,fact:null,error:"",readError:"",accountStale:false,comparison:null,reconciliation:null,orderPreview:null};
-    let accountSequence=0,sourceSequence=0,listSequence=0,comparisonSequence=0;
-    const emit=()=>{if(state.orderPreview&&state.orderPreview.stamp!==previewStamp())state.orderPreview=null;try{changed(state);}catch(error){state.readError="页面展示未完成；已保存回执仍保留。";}};
+      busy:false,pending:null,fact:null,error:"",readError:"",accountStale:false,comparison:null,reconciliation:null,orderPreview:null,
+      sourceRuleContext:null,sourceRuleBindingStamp:null,sourceRuleError:"",factorPosition:"",factorReview:null,factorError:"",factorBusy:false,factorReadStamp:null};
+    let accountSequence=0,sourceSequence=0,listSequence=0,comparisonSequence=0,sourceRuleSequence=0,factorSequence=0;
+    function ruleStamp(){return JSON.stringify(ordered({reference:state.sourceReference,binding:state.source?.binding}));}
+    function factorStamp(){return JSON.stringify(ordered({source:ruleStamp(),account_id:state.accountId,account_context:state.account?.account_context,
+      revision:state.account?.ledger?.revision,stale:state.accountStale,plan:state.account?.ledger?.plans.find(p=>p.plan_id===state.planId),position:state.factorPosition}));}
+    const emit=()=>{if(state.orderPreview&&state.orderPreview.stamp!==previewStamp())state.orderPreview=null;
+      if(state.sourceRuleContext&&state.sourceRuleBindingStamp!==ruleStamp()){state.sourceRuleContext=null;state.sourceRuleBindingStamp=null;}
+      const scope=factorStamp();if(state.factorReview&&state.factorReview.stamp!==scope)state.factorReview=null;
+      if(state.factorReadStamp&&state.factorReadStamp!==scope){factorSequence++;state.factorBusy=false;state.factorReadStamp=null;state.factorError="来源、账户版本或诊断情景已改变，请重新核对因子。";}
+      try{changed(state);}catch(error){state.readError="页面展示未完成；已保存回执仍保留。";}};
     const req=()=>"execution-"+uuid();
     function setSources(items) {state.sources=(items||[]).filter(reference).map(v=>({kind:v.kind,id:v.id,label:String(v.label||"已保存研究结果")}));emit();}
     async function openResearch(value) {
+      sourceRuleSequence++;factorSequence++;state.sourceRuleContext=null;state.sourceRuleBindingStamp=null;state.sourceRuleError="";state.factorPosition="";state.factorReview=null;state.factorError="";state.factorBusy=false;state.factorReadStamp=null;
       if(value==null){sourceSequence++;state.sourceReference=null;state.source=null;state.comparison=null;emit();return;}
       if(!reference(value))throw Error("请选择一份已保存研究结果。");
       const ref={kind:value.kind,id:value.id},seq=++sourceSequence;state.sourceReference=ref;state.source=null;state.comparison=null;state.readError="";emit();
       try{const result=await (readResearch?readResearch(ref):api(requestPath("terminal_execution_research",{reference:ref})));
         if(seq!==sourceSequence)return;
         if(result?.binding?.status!=="COMPLETED"||!sameReference(result.reference,ref)||!safePermissions(result.permissions))throw Error("这份结果的保存身份尚未通过核对。");
-        state.source=result;emit();return result;
+        state.source=result;emit();await readSavedRuleContext();return result;
       }catch(error){if(seq===sourceSequence){state.readError=readableError(error);emit();}}
+    }
+    async function readSavedRuleContext() {
+      const ref=state.sourceReference&&clone(state.sourceReference),research=state.source&&clone(state.source),stamp=ruleStamp(),seq=++sourceRuleSequence;
+      const current=()=>seq===sourceRuleSequence&&stamp===ruleStamp();
+      try{
+        if(ref?.kind!=="terminal_run"||!isHash(ref.id))throw Error("此来源暂没有可核对的原生保存报告身份；不会套用其他引擎的因子。");
+        const report=await api("terminal_runs/"+encodeURIComponent(ref.id));if(!current())return;
+        const context=savedRuleContext(report,research,ref);state.sourceRuleContext=context;state.sourceRuleBindingStamp=stamp;state.sourceRuleError="";emit();return context;
+      }catch(error){if(current()){state.sourceRuleError="保存参数与截止日读取未完成："+readableError(error);emit();}}
+    }
+    function setFactorPosition(value){if(!["","flat","holding"].includes(value))throw Error("请明确选择未持仓或已有持仓的诊断情景。");if(value!==state.factorPosition){factorSequence++;state.factorPosition=value;state.factorReview=null;state.factorError="";state.factorBusy=false;state.factorReadStamp=null;emit();}}
+    async function readFactors() {
+      if(state.factorBusy)return;
+      if(!state.sourceRuleContext||state.sourceRuleBindingStamp!==ruleStamp()){state.factorError="尚未取得身份一致的保存报告，无法核对因子。";emit();return;}
+      if(!["flat","holding"].includes(state.factorPosition)){state.factorError="请先明确选择诊断情景，不默认未持仓或买入。";emit();return;}
+      const context=clone(state.sourceRuleContext),hasPosition=state.factorPosition==="holding",stamp=factorStamp(),seq=++factorSequence,preview=state.orderPreview;
+      const current=()=>seq===factorSequence&&stamp===factorStamp()&&preview===state.orderPreview;state.factorReview=null;state.factorError="";state.factorBusy=true;state.factorReadStamp=stamp;emit();
+      try{const result=await api(requestPath("terminal_strategy_candidates",{input_id:context.input_id,strategy_id:context.strategy_id,strategy_params:clone(context.strategy_params),cutoff_session:context.cutoff_session,position_context:{has_position:hasPosition}}));
+        if(!current())return;const row=savedFactorContext(result,context,hasPosition);state.factorReview={stamp,row,reference:clone(context.reference),report_hash:context.report_hash};emit();return row;
+      }catch(error){if(current()){state.factorError="因子核对未完成："+readableError(error)+" 已有订单预览仍保留，不会运行研究或提交订单。";emit();}}
+      finally{if(current()){state.factorBusy=false;state.factorReadStamp=null;emit();}}
     }
     async function refreshAccounts() {
       const seq=++listSequence;
@@ -223,15 +306,16 @@
       return JSON.stringify({accountId:state.accountId,context:state.account?.account_context,revision:state.account?.ledger.revision,
         stale:state.accountStale,paused:state.account?.paused,reconcile:state.account?.reconciliation_required,deficiencies:state.account?.deficiencies,
         plan:state.account?.ledger.plans.find(p=>p.plan_id===state.planId),source:state.sourceReference,binding:state.source?.binding,
-        available:state.account?.ledger.available_cash,reserved:state.account?.ledger.reserved_cash,config:state.account?.ledger.config});
+        available:state.account?.ledger.available_cash,reserved:state.account?.ledger.reserved_cash,config:state.account?.ledger.config,factorPosition:state.factorPosition});
     }
-    function invalidatePreview() {if(state.orderPreview){state.orderPreview=null;emit();}}
+    function stopFactorRead(){if(state.factorBusy){factorSequence++;state.factorBusy=false;state.factorReadStamp=null;}}
+    function invalidatePreview() {if(state.orderPreview){state.orderPreview=null;stopFactorRead();emit();}}
     function previewOrder(form) {
       if(state.busy||state.pending)throw Error("原操作仍待处理或核对，不能生成新订单。");
       const terms=orderTerms(form,false),plan=state.account.ledger.plans.find(p=>p.plan_id===state.planId);
       if(!planMatchesResearch(plan,state.source))throw Error("当前计划与所选保存结果不同，请先保存或选择对应计划。");
       const rules=state.account.ledger.config.rules||{},amount=terms.quantity*Number(terms.limit_price),fee=Number(rules.fee_buffer),available=Number(state.account.ledger.available_cash);
-      state.orderPreview={stamp:previewStamp(),form:clone({...form,confirm:false}),terms,
+      stopFactorRead();state.orderPreview={stamp:previewStamp(),form:clone({...form,confirm:false}),terms,
         estimate:{notional:amount,reservation:terms.side==="BUY"&&Number.isFinite(fee)?amount+fee:null,
           available,feeBuffer:Number.isFinite(fee)?fee:null},accountLabel:state.account.label};
       state.error="";emit();return clone(state.orderPreview);
@@ -240,7 +324,7 @@
       const preview=state.orderPreview;
       if(!preview||preview.stamp!==previewStamp()){state.orderPreview=null;emit();throw Error("订单预览已失效，请重新核对资金与订单。");}
       if(confirmed!==true)throw Error("请先核对预览并明确确认合成订单。");
-      const form=clone(preview.form);state.orderPreview=null;emit();
+      const form=clone(preview.form);state.orderPreview=null;stopFactorRead();emit();
       return submitOrder({...form,confirm:true});
     }
     async function recordObservation(form) {
@@ -282,7 +366,7 @@
       catch(error){if(current()){state.readError="差异资料读取未完成："+readableError(error);emit();}}
     }
     return {state,setSources,openResearch,openAccount,refresh,createAccount,createPlan,selectPlan,selectOrder,submitOrder,
-      previewOrder,confirmOrder,invalidatePreview,recordObservation,recordCancel,control,beginReconciliation,reconcile,compare,checkPending,execute};
+      previewOrder,confirmOrder,invalidatePreview,recordObservation,recordCancel,control,beginReconciliation,reconcile,compare,checkPending,execute,readSavedRuleContext,setFactorPosition,readFactors};
   }
 
   function installTerminalExecutionUI({host,api,perform,notify=()=>{},readResearch}) {
@@ -319,12 +403,14 @@
       <div class="form-grid section-gap"><div class="field"><label for="tex-cancel-outcome">撤销请求的合成响应</label><select id="tex-cancel-outcome"><option value="">请选择</option><option value="ACCEPTED">已接受请求，尚未确认撤销</option><option value="TIMEOUT_UNCONFIRMED">响应超时，继续待核对</option></select></div></div>${action("记录撤销响应","cancel")}<p class="section-note">撤销响应不释放预留；只有最终撤销或全部成交观察才能释放。</p>
       <div class="field section-gap"><label for="tex-control-reason">明确恢复的原因</label><input id="tex-control-reason" maxlength="500"></div><div class="actions">${action("明确恢复演练","resume")}${action("填写完整合成对账","begin-reconcile")}</div><div id="tex-reconciliation" class="section-gap" hidden></div></div></details>`;
     host.append(section);
+    section.querySelector("#tex-source-detail").insertAdjacentHTML("afterend",`<div class="section-gap"><p id="tex-rule-read-error" class="notice warning" role="status" hidden></p><div class="actions">${action("重新读取保存参数与日期","read-rule")}</div><div class="field section-gap"><label for="tex-factor-position">只读核对情景 · 不代表账户实际持仓</label><select id="tex-factor-position"><option value="">请选择诊断情景</option><option value="flat">未持仓：核对历史开仓条件</option><option value="holding">已有持仓：核对历史退出条件</option></select></div><div class="actions">${action("核对该截止日的因子","read-factors")}</div><p id="tex-factor-status" class="section-note" role="status"></p><p id="tex-factor-read-error" class="notice warning" role="status" hidden></p><details class="section-gap"><summary>查看这份保存结果的参数、日期与因子依据</summary><div id="tex-saved-rule-review"></div></details></div>`);
     const style=document.createElement("style");style.textContent=".tex{scroll-margin-top:100px}.tex [hidden]{display:none!important}.tex .notice,.tex td,.tex dd{overflow-wrap:anywhere}.tex .tex-table{overflow:auto;max-height:440px}.tex .tex-table table{min-width:680px}.tex .tex-metrics{display:flex;gap:24px;flex-wrap:wrap}.tex .tex-metrics strong{display:block;font-size:20px}.tex details form{margin-top:14px}.tex .tex-mode{font-weight:700;color:var(--primary,#245ad5)}.tex .tex-preview{border:2px solid var(--primary,#245ad5);padding:18px;border-radius:10px}.tex summary{cursor:pointer;min-height:44px;align-content:center}.tex button,.tex select,.tex input:not([type=checkbox]):not([type=hidden]){min-height:44px}.tex [data-tex-action=stop]{border-color:#a44831;color:#8d3420}.tex .tex-rule-summary{margin:12px 0}.tex .check-label{display:flex;gap:10px;align-items:flex-start}.tex .check-label input{flex:none;margin-top:4px}.tex .page-heading>.actions{flex-wrap:wrap;flex-shrink:0}@media(max-width:760px){.tex .form-grid{grid-template-columns:1fr}.tex .page-heading{align-items:flex-start;flex-direction:column}.tex .tex-metrics{gap:16px}.tex .tex-preview{padding:14px}.tex button{white-space:normal}}";document.head.append(style);
     const $=id=>section.querySelector("#"+id),v=id=>$(id)?.value||"",checked=id=>$(id)?.checked===true;
     const option=(id,label)=>`<option value="${esc(id)}">${esc(label)}</option>`;
     const select=(id,rows,current,empty)=>{const node=$(id);node.innerHTML=option("",empty)+rows.map(([value,label])=>option(value,label)).join("");node.value=current||"";};
     const dollars=value=>typeof value==="string"?"$"+value:"未记录";
     let reconKey="",lastOrder="",lastPreview=null;
+    style.textContent+=".tex .tex-factor-table{overflow:auto;max-width:100%}.tex .tex-factor-table table{width:100%;border-collapse:collapse;font-size:13px}.tex .tex-factor-table th,.tex .tex-factor-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left;overflow-wrap:anywhere}.tex .tex-rule-review{min-width:0;overflow-wrap:anywhere}.tex .tex-rule-review .kv{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.tex .tex-rule-review dd{margin:0}";
     const controller=createController({api,perform,readResearch,changed:render});
     const {state}=controller;
     function sourceLabel(ref){return state.sources.find(item=>sameReference(item,ref))?.label||"已保存研究结果";}
@@ -337,6 +423,10 @@
       $("tex-read-error").hidden=!state.readError;$("tex-read-error").textContent=state.readError;
       const research=state.source,d=research?.display||{};
       $("tex-source-detail").innerHTML=research?`<strong>${esc(savedResultTitle(sourceLabel(state.sourceReference),research.binding.task_version))}</strong><p>${d.symbol?esc(d.symbol):"证券身份未记录"}</p><p>${readyResearch(research)?"已读取原保存身份；报价和成交仍需另行合成输入。":"缺少可核验的美元股票身份，暂不能新建账户或计划。"}</p><details><summary>查看保存的规则与完整身份</summary><dl class="kv"><dt>规则</dt><dd>${esc(research.binding.strategy_id)}</dd><dt>引擎</dt><dd>${esc(research.binding.engine_id)}</dd><dt>原版本身份</dt><dd>${esc(research.binding.task_version??"未记录")}</dd><dt>原任务</dt><dd>${esc(research.binding.task_id)}</dd><dt>原结果</dt><dd>${esc(research.binding.report_id)}</dd></dl></details>`:"选择后只读取原结果，不重新回测。";
+      $("tex-factor-position").value=state.factorPosition;$("tex-rule-read-error").hidden=!state.sourceRuleError;$("tex-rule-read-error").textContent=state.sourceRuleError;
+      $("tex-factor-read-error").hidden=!state.factorError;$("tex-factor-read-error").textContent=state.factorError;
+      $("tex-factor-status").textContent=state.factorBusy?"正在只读核对保存截止日的规则，不运行回测或订单。":state.factorReview?"本次只读因子解释已核对；不是原报告保存的因子，也不是当前买入指令。":"选择诊断情景后可核对因子；不默认买入，也不把手选情景当作账户持仓。";
+      $("tex-saved-rule-review").innerHTML=renderRuleReview(state.sourceRuleContext,state.factorReview);
       $("tex-account-symbol").textContent=readyResearch(research)?"演练标的："+d.symbol+" · 合成美元资金与整股":"请先选择证券身份完整的保存结果。";
       const account=state.account,ledger=account?.ledger,securities=ledger?.config?.securities||{};
       select("tex-plan",(ledger?.plans||[]).map(plan=>[plan.plan_id,savedResultTitle(sourceLabel(account.plan_links.find(link=>link.plan_id===plan.plan_id)?.reference),plan.research_binding.task_version)]),state.planId,"请选择已保存计划");
@@ -358,6 +448,8 @@
       for(const id of ["tex-source","tex-account","tex-plan","tex-order"])$(id).disabled=locked;
       section.querySelectorAll("button").forEach(button=>{const action=button.dataset.texAction;button.disabled=locked&&!["check-pending","refresh"].includes(action);});
       $("tex-create-account").disabled=locked||!readyResearch(research);
+      $("tex-factor-position").disabled=locked;section.querySelector('[data-tex-action="read-rule"]').disabled=locked||state.sourceReference?.kind!=="terminal_run";
+      section.querySelector('[data-tex-action="read-factors"]').disabled=locked||state.factorBusy||!state.sourceRuleContext||!state.factorPosition;
       const orderBlocked=locked||!available||!planMatchesResearch(plan,research)||account.reconciliation_required||account.deficiencies?.length>0||(account.paused&&v("tex-side")==="BUY");
       $("tex-preview-order").disabled=orderBlocked;$("tex-submit-order").disabled=orderBlocked||!state.orderPreview;
       renderPreview();
@@ -375,7 +467,7 @@
       $("tex-preview-detail").innerHTML=`<h4>请核对这笔合成订单</h4><p><strong>${esc(preview.accountLabel)} · ${esc(ledger.config.securities[t.security_id].symbol)} · ${t.side==="BUY"?"买入":"卖出所属持仓"} ${esc(t.quantity)} 股</strong></p><p>限价 ${esc(dollars(t.limit_price))} · 合成参考价 ${esc(dollars(t.quote.price))} · 拟记录场景：${esc(scenario)}</p><p>绑定策略：${esc(savedResultTitle(sourceLabel(state.sourceReference),plan.research_binding.task_version))}</p><details><summary>查看计划与完整版本身份</summary><dl class="kv"><dt>原版本身份</dt><dd>${esc(plan.research_binding.task_version??"未记录")}</dd><dt>原任务</dt><dd>${esc(plan.research_binding.task_id)}</dd><dt>原结果</dt><dd>${esc(plan.research_binding.report_id)}</dd><dt>演练计划</dt><dd>${esc(plan.plan_id)}</dd></dl></details>
         <div class="tex-metrics"><div>当前可用现金<strong>${esc(dollars(ledger.available_cash))}</strong></div><div>当前订单预留<strong>${esc(dollars(ledger.reserved_cash))}</strong></div><div>委托金额粗估<strong>${esc(approx(e.notional))}</strong></div></div>
         <p>${t.side==="BUY"?"本单资金预留粗估（含费用预留）："+esc(approx(e.reservation)):"当前计划归属持仓："+esc(held)+" 股；已预留："+esc(reserved)+" 股。"}</p>${t.outcome==="REJECTED"?'<p>明确拒绝场景不会新增资金预留；上方金额仅为订单规模。</p>':""}
-        <p class="section-note">粗估只作核对，以服务端资金、持仓和风险校验为准；不代表成交。参考时点：${esc(new Date(t.signal_at).toLocaleString())}。修改任何订单字段或重新读取账户后，需重新预览。</p>${e.reservation!==null&&e.reservation>e.available?'<p class="notice warning">粗估预留已高于当前可用现金，请先调整；最终仍由服务端校验。</p>':""}`;
+        <p class="section-note">粗估只作核对，以服务端资金、持仓和风险校验为准；不代表成交。参考时点：${esc(new Date(t.signal_at).toLocaleString())}。修改任何订单字段或重新读取账户后，需重新预览。</p>${e.reservation!==null&&e.reservation>e.available?'<p class="notice warning">粗估预留已高于当前可用现金，请先调整；最终仍由服务端校验。</p>':""}<p data-tex-preview-cutoff><strong>保存研究历史截至 ${esc(state.sourceRuleContext?.cutoff_session||"尚未取得一致记录")}</strong>，不是当前报价或买入指令。</p>${state.factorError?`<p class="notice warning">${esc(state.factorError)}</p>`:""}<details data-tex-preview-evidence><summary>核对保存参数与本次只读因子依据</summary><div data-tex-preview-rule>${renderRuleReview(state.sourceRuleContext,state.factorReview)}</div></details>`;
     }
     function renderReconciliation() {
       const target=$("tex-reconciliation"),draft=state.reconciliation;target.hidden=!draft;if(!draft){reconKey="";return;}
@@ -399,12 +491,13 @@
       if(id==="tex-plan")try{controller.selectPlan(event.target.value);}catch(error){fail(error);}
       if(id==="tex-order"&&event.target.value)try{controller.selectOrder(event.target.value);}catch(error){fail(error);}
       if(id==="tex-side")render();
+      if(id==="tex-factor-position")try{controller.setFactorPosition(event.target.value);}catch(error){fail(error);}
     });
     const fillNow=id=>{const date=new Date();date.setMinutes(date.getMinutes()-date.getTimezoneOffset());$(id).value=date.toISOString().slice(0,19);};
     section.addEventListener("click",event=>{
       const target=event.target.closest("[data-tex-action]");if(!target||target.disabled)return;
       const name=target.dataset.texAction;
-      const work=async()=>{if(name==="refresh")return controller.refresh();if(name==="check-pending")return controller.checkPending();if(name==="create-plan")return controller.createPlan();if(name==="compare")return controller.compare();
+      const work=async()=>{if(name==="refresh")return controller.refresh();if(name==="check-pending")return controller.checkPending();if(name==="create-plan")return controller.createPlan();if(name==="compare")return controller.compare();if(name==="read-rule")return controller.readSavedRuleContext();if(name==="read-factors")return controller.readFactors();
         if(name==="open-account"){$("tex-new-account").open=true;$("tex-name").focus();return;}
         if(name==="open-advanced"){$("tex-advanced").open=true;$("tex-advanced").scrollIntoView({block:"start"});return;}
         if(name==="cancel")return controller.recordCancel(v("tex-cancel-outcome"));if(name==="stop")return controller.control("stop","用户在订单核对页明确暂停新增风险");if(name==="resume")return controller.control(name,v("tex-control-reason"));if(name==="begin-reconcile")return controller.beginReconciliation();if(name==="order-time"){fillNow("tex-order-at");controller.invalidatePreview();return;}if(name==="reconcile-time")return fillNow("tex-reconcile-at");};
@@ -427,7 +520,7 @@
     render();
     return {setSources:controller.setSources,refresh:controller.refresh,reveal:()=>{section.hidden=false;section.scrollIntoView({block:"start"});},hide:()=>{section.hidden=true;},controller,element:section};
   }
-  const api={createController,install:installTerminalExecutionUI,reconciliationIdentities,readyResearch,accountMatchesResearch,renderExecutionExplanation,displayVersion,savedResultTitle};
+  const api={createController,install:installTerminalExecutionUI,reconciliationIdentities,readyResearch,accountMatchesResearch,renderExecutionExplanation,displayVersion,savedResultTitle,savedRuleContext,savedFactorContext,renderRuleReview};
   root.installTerminalExecutionUI=installTerminalExecutionUI;
   if(typeof module==="object"&&module.exports)module.exports=api;
 })(typeof globalThis!=="undefined"?globalThis:window);
