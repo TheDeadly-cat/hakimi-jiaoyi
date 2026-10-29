@@ -30,8 +30,8 @@
 | T11 | DOING | T02 | 原终端独立组件与闭包实现中 | 脱离仓库的真实启动验证 |
 | T12 | DOING | T11 | 包内 Python / 资源验证启动实现中 | 中文空格路径、全局 Python / 同名模块污染隔离 |
 | T13 | DOING | T11 | workspace-history-verification-20261029.json；四个旧工作区字节/mtime 不变；DOM 旧记录/复盘仅 GET | 已接入选择与当前路径，待新包核对 |
-| T14 | DOING | T03-T13 | 2f9018d CLEAN r2 构建、9043 ZIP 条目哈希与私有导入通过；final-candidate-package-verification-r2.json | r1 日志污染与 r2 物理路径失败各自保留；修复后另建 r3 |
-| T15 | DOING | T14 | native-startup-workspace-identity-failure-r2.json；r2 后台已启动，但主窗口身份校验失败；正常关闭且无任务运行，包内文件哈希无变化 | Windows 启动环境将数据目录映射到 MSIX LocalCache，Node/Python 物理路径解析不一致；需原生解析修复后验证新包 |
+| T14 | DOING | T03-T13 | c9c752d CLEAN r3 构建/导入通过且原生进入原终端；native-r3-functional-failure-r1.json | r3 缺核心构建凭据导致真实 Run 被阻挡；builder 已补真实凭据与强制新合成运行探测，需另建干净 r4 |
+| T15 | DOING | T14 | r3 初始化新虚构示例成功；复制含空格名称被拒绝、一次显式 Run 报 runtime_source_or_dependencies_unverified；正常退出，程序清单无变化 | 3 条操作及两个 unknown 原记录保留，不重试原失败；r4 使用新的合成任务验证保存/运行/复盘/重开 |
 | T16 | DOING | T14 | windows-original-terminal-candidate.md、README、first-use、CURRENT_STATUS、包内 FIRST_USE.md | 新入口/身份说明已更新，待实际包回执补齐 |
 | T17 | BLOCKED_HUMAN | T14 | 尚无未参与开发者的独立操作证据 | 候选完成后给出简短任务卡；其他工作继续 |
 
@@ -71,3 +71,7 @@
 `2f9018d` 对应 CI run 145 / 40814734329 已结束为 failure：终端门禁 205/206，唯一失败为测试仍期待旧产品标题；测试预期修正为 `8f22e1c`，不是包内程序变更。r2 原生尝试已执行且失败：清单不再污染，包内 Python 已就绪，但 Windows MSIX 物理目录映射与 Node 普通 realpath 解析不一致。失败 r2、诊断、原 ZIP 保留；新修复不得借用源码或导入 PASS 冒充用户流程验收。
 
 物理路径修复使用 Windows 原生解析，先创建本次明确选定的新量化目录再计算单实例标识；显式旧数据读取路径不再改变新量化默认写入位置。`native-workspace-physical-path-focused-r5.log` 40/40 通过，`native-msix-path-readonly-r3.json` 验证了当前机器上的真实逻辑/物理路径差异、同目录匹配和不同目录拒绝。未放宽程序清单或目录边界，未延长 18 秒等待；新 r3 原生验收仍待完成。
+
+后续 r3 原生结果见上述 T14/T15。`739a3c2` 将普通任务显示名与内部目录名分离，含空格/标点名称保留原显示文字，原始 frozen vendor 不变；两项真实临时核心复制/名称检查通过。新 builder 为实际安装的 canonical 与 frozen 字节分别生成原合同构建凭据，冻结原来源与本次封装提交分开；只有真实 verifier 校验才能得到 BUILD_VERIFIED。打包强制在新临时工作区保存任务、明确运行一个 SYNTHETIC_TEST 例并核验保存结果/只读回读；打包经济运行数如实记 1，真实行情、旧回放、来源/券商/模型请求均为 0。开发副本真实私有解释器探测已通过；11 项打包检查通过。此开发证明不替代干净 r4 或原生验收。
+
+CI run 146 的两个短路径夹具预期已由 `d065d2e` 修正。该提交 run 147 / 40818239379 完整结束为 failure：桌面 Node 22.23.4 在测试夹具 fs.cpSync 复制中文路径时以 0xC0000409 退出，其余业务作业成功。独立精确版本与无框架最小案例已复现；仅把该夹具改为按清单逐文件复制，保留中文空格和全部断言。精确 Node 22 原组 54/54、Node 24 单文件 18/18 通过，无跳过；旧 CI 原样保留，修复后新提交接受独立 CI。

@@ -6,6 +6,8 @@ install shortcuts, copy user data, download anything, or start a server.
 from __future__ import annotations
 
 import argparse
+import ast
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -24,7 +26,7 @@ APP_FILES = ("main.js", "boot.html", "desktop-security-policy.js", "backend-runt
              "desktop-lifecycle.js", "terminal-package-runtime.js")
 BUILD_FILES = ("tools/build_windows_terminal.py", "tools/build_windows_trial.py", "tools/terminal_package_bootstrap.py",
                "tools/terminal_package_canonical.py", "tools/requirements.terminal.lock", "tools/terminal-dependency-hashes.json",
-               "pyproject.toml", "requirements.research.lock")
+               "pyproject.toml", "setup.py", "requirements.research.lock")
 
 
 def regular(path):
@@ -55,7 +57,7 @@ def source_files(root):
     original = root / "outputs/python_quant_bot"
     for directory in ("exchange_terminal", "assets", "vendor/research"):
         for path in sorted((original / directory).rglob("*")):
-            if not path.is_file() or "__pycache__" in path.parts:
+            if not path.is_file() or "__pycache__" in path.parts or path.name == "_build_identity.json":
                 continue
             relative = path.relative_to(original).as_posix()
             if path.name.endswith((".test.js", ".pyc")) or path.suffix not in {".py", ".js", ".html", ".css", ".json", ".lock", ".csv", ".ico", ".png", ".svg", ".woff", ".woff2", ".txt"}:
@@ -86,6 +88,159 @@ def source_provenance(root, selected, allow_dirty):
                     "terminal_source_not_committed:" + name)
     return dict(git=dict(commit=commit, status="DIRTY" if dirty else "CLEAN"), files_sha256=files,
                 scope="EXACT_INSTALLED_TERMINAL_COMPONENTS_AND_BUILD_TOOLS", development_probe=allow_dirty)
+
+
+def package_identity(package, *, expected_algorithm=None):
+    """Use the component's own, already staged source-identity algorithm."""
+    algorithm = regular(package / "source_identity.py")
+    require(expected_algorithm is None or algorithm == expected_algorithm, "terminal_source_identity_algorithm_changed")
+    spec = importlib.util.spec_from_file_location("_terminal_staged_source_identity", package / "source_identity.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.package_content_identity(package)
+
+
+def generate_build_identities(output, root, provenance):
+    """Mirror setup.py receipts from installed bytes; never assert VERIFIED.
+
+    Frozen namespace and upstream release identity stay distinct from wrapper
+    Git. Each component's own environment verifier checks this receipt later.
+    """
+    definitions = {name: sha(regular(root / name)) for name in
+                   ("setup.py", "pyproject.toml", "tools/build_windows_terminal.py")}
+    canonical_package = output / "components/canonical/hakimi_research"
+    frozen_package = output / "components/terminal/vendor/research/hakimi_terminal_research"
+    canonical_identity = package_identity(canonical_package, expected_algorithm=regular(root / "src/hakimi_research/source_identity.py"))
+    require(canonical_identity == package_identity(root / "src/hakimi_research"), "terminal_canonical_staged_identity_changed")
+    origin_path = output / "components/terminal/vendor/research/ORIGIN.json"
+    origin = json.loads(regular(origin_path))
+    frozen_algorithm = regular(root / "outputs/python_quant_bot/vendor/research/hakimi_terminal_research/source_identity.py")
+    require(sha(frozen_algorithm) == origin["derived_file_sha256"]["source_identity.py"], "terminal_frozen_identity_algorithm_unaccepted")
+    frozen_identity = package_identity(frozen_package, expected_algorithm=frozen_algorithm)
+    adapter = ast.parse(regular(root / "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py"))
+    accepted = [ast.literal_eval(node.value) for node in adapter.body if isinstance(node, ast.Assign)
+                and any(isinstance(target, ast.Name) and target.id == "ACCEPTED_SOURCE_SHA256" for target in node.targets)]
+    require(len(accepted) == 1 and origin["schema_version"] == "isolated-terminal-kernel-origin-v1"
+            and origin["namespace"] == "hakimi_terminal_research"
+            and frozen_identity["content_sha256"] == accepted[0] == origin["derived_content_sha256"]
+            and frozen_identity["file_hashes"] == origin["derived_file_sha256"], "terminal_frozen_accepted_identity_changed")
+    receipts = {}
+    for name, package, identity, git in (
+        ("canonical", canonical_package, canonical_identity, provenance["git"]),
+        ("frozen", frozen_package, frozen_identity, dict(commit="", status="UNKNOWN")),
+    ):
+        receipt = dict(schema_version="research-build-source-v1", **identity, git=git,
+                       build_definition_sha256=definitions, wrapper_build_commit=provenance["git"]["commit"],
+                       wrapper_build_git_status=provenance["git"]["status"],
+                       wrapper_build_scope="ORIGINAL_TERMINAL_INSTALLED_COMPONENT_PACKAGING")
+        if name == "frozen":
+            receipt["frozen_source_origin"] = {key: origin[key] for key in
+                ("source_version", "source_commit", "source_content_sha256", "derived_content_sha256", "namespace", "transformation")}
+            receipt["frozen_source_origin"]["origin_file_sha256"] = sha(regular(origin_path))
+        destination = package / "_build_identity.json"
+        write_new(destination, canonical(receipt) + b"\n")
+        receipts[name] = dict(path=destination.relative_to(output).as_posix(), sha256=sha(regular(destination)),
+                              content_sha256=identity["content_sha256"])
+    return receipts
+
+
+EXECUTION_PROBE = r'''
+import importlib.util,json,logging,os,socket,sys
+from pathlib import Path
+from hashlib import sha256
+root,temporary=map(lambda value:Path(value).resolve(),sys.argv[1:3])
+def require(value,reason):
+    if not value: raise RuntimeError(reason)
+require(temporary.is_dir() and not temporary.is_relative_to(root),'execution_probe_requires_external_temporary_root')
+def audit(event,args):
+    if event in {'socket.connect','socket.bind','socket.getaddrinfo','subprocess.Popen','os.system'}:
+        raise RuntimeError('execution_probe_external_side_effect_rejected:'+event)
+sys.addaudithook(audit)
+os.environ.update(HAKIMI_RUNTIME_DIR=str(temporary/'legacy'),HAKIMI_QUANT_WORKSPACE_DIR=str(temporary/'quant'),
+    HAKIMI_RESEARCH_HOME=str(temporary/'research'),FUTU_PY_APPDATA=str(temporary/'futu-sdk'),
+    HAKIMI_LOCAL_ONLY='1',HAKIMI_RUNTIME_READ_ONLY='1',HAKIMI_QUANT_READ_ONLY='0',
+    HAKIMI_LOAD_LOCAL_AI_ENV='0',HAKIMI_SKIP_LOCAL_AI_ENV='1')
+spec=importlib.util.spec_from_file_location('_terminal_execution_bootstrap',root/'resources/app/terminal-bootstrap.py')
+bootstrap=importlib.util.module_from_spec(spec);spec.loader.exec_module(bootstrap)
+manifest=bootstrap.verify(root);bootstrap.initialize(root,manifest)
+from exchange_terminal.services.quant_workspace import _load_kernel,ACCEPTED_SOURCE_SHA256
+kernel=_load_kernel()
+from hakimi_terminal_research import offline_app
+from hakimi_terminal_research.environment import build_runtime_provenance
+from hakimi_research.environment import build_runtime_provenance as canonical_provenance
+for provenance in (build_runtime_provenance(),canonical_provenance()):
+    require(provenance['source_identity']['status']=='BUILD_VERIFIED','execution_probe_source_unverified')
+    require(provenance['environment_verified']['status']=='VERIFIED','execution_probe_dependencies_unverified')
+require(build_runtime_provenance()['source_identity']['content_sha256']==ACCEPTED_SOURCE_SHA256,'execution_probe_frozen_identity_changed')
+workspace=temporary/'new-explicit-synthetic-workspace'
+require(not workspace.exists(),'execution_probe_workspace_must_be_new')
+core=kernel.service(workspace)
+calls=[0]
+original=offline_app.run_strategy
+def observed(*args,**kwargs):
+    calls[0]+=1
+    return original(*args,**kwargs)
+offline_app.run_strategy=observed
+initialized=core.mutate('initialize_demo',{})
+require(initialized['initialized'],'execution_probe_example_not_saved')
+require(json.loads((workspace/'workspace.json').read_bytes())['data_kind']=='SYNTHETIC_TEST','execution_probe_example_not_synthetic')
+task=next(row for row in core.read('tasks')['items'] if row['name']=='price')
+saved_task=core.mutate('copy_task',{'task_id':task['id'],'name':'package-explicit-synthetic'})
+require(calls[0]==0 and not core.read('runs')['items'],'execution_probe_save_must_not_run')
+saved=core.mutate('run_task',{'task_id':saved_task['id']})
+require(calls[0]==1 and saved['operation']=='RUN_REQUEST_COMPLETED','execution_probe_requires_one_explicit_run')
+def forbidden(*args,**kwargs): raise RuntimeError('execution_probe_read_must_not_recompute')
+offline_app.run_strategy=forbidden
+def inventory():
+    return {p.relative_to(workspace).as_posix():(sha256(p.read_bytes()).hexdigest(),p.stat().st_mtime_ns)
+            for p in workspace.rglob('*') if p.is_file()}
+before=inventory()
+run_manifest,report,snapshot=offline_app.verify_run(core._lookup('runs',saved['id']))
+readback=core.read('runs',saved['id'])
+require(snapshot.document['evidence_kind']=='SYNTHETIC_TEST','execution_probe_saved_snapshot_not_synthetic')
+require(run_manifest['task_id']==saved_task['task_id'],'execution_probe_saved_task_identity_changed')
+require(report['provenance']['source_identity']['status']=='BUILD_VERIFIED','execution_probe_saved_report_source_unverified')
+require(before==inventory() and len(core.read('runs')['items'])==1,'execution_probe_read_changed_saved_state')
+require(readback['id']==saved['id'],'execution_probe_readback_identity_changed')
+external={name:str(module.__file__) for name,module in tuple(sys.modules.items()) if getattr(module,'__file__',None)
+          and not str(module.__file__).startswith('<') and not Path(module.__file__).resolve().is_relative_to(root)}
+require(not external,'execution_probe_imported_external_module')
+require(all(value and Path(value).resolve().is_relative_to(root) for value in sys.path),'execution_probe_external_search_path')
+bootstrap.verify(root)
+logging.shutdown()
+print(json.dumps(dict(status='VERIFIED_NEW_SYNTHETIC_RUN',bundle_id=manifest['bundle_id'],
+    frozen_content_sha256=ACCEPTED_SOURCE_SHA256,synthetic_runs=1,market_data_runs=0,
+    historical_replays=0,provider_calls=0,listening_servers=0,external_module_count=0,
+    saved_task_id=saved_task['task_id'],run_id=run_manifest['run_id'],report_hash=report['report_hash'],
+    evidence_kind='SYNTHETIC_TEST',save_computed=False,read_computed=False,read_changed_files=False,
+    source_status='BUILD_VERIFIED',dependency_status='VERIFIED',temporary_workspace=True,
+    private_python=str(Path(sys.executable).resolve()))))
+'''
+
+
+def probe_installed_execution(output):
+    environment = {key: value for key, value in os.environ.items() if not key.upper().startswith("PYTHON")
+                   and key.upper() not in {"NODE_OPTIONS", "ELECTRON_RUN_AS_NODE", "CHROME_CRASHPAD_PIPE_NAME", "CHROME_CRASHPAD_SERVER_URL"}}
+    with tempfile.TemporaryDirectory(prefix="hakimi-terminal-synthetic-run-") as directory:
+        environment.update(HAKIMI_RUNTIME_DIR=str(Path(directory) / "legacy"),
+                           HAKIMI_QUANT_WORKSPACE_DIR=str(Path(directory) / "quant"),
+                           HAKIMI_RESEARCH_HOME=str(Path(directory) / "research"), FUTU_PY_APPDATA=str(Path(directory) / "futu-sdk"),
+                           HAKIMI_LOCAL_ONLY="1", HAKIMI_RUNTIME_READ_ONLY="1", HAKIMI_QUANT_READ_ONLY="0",
+                           HAKIMI_LOAD_LOCAL_AI_ENV="0", HAKIMI_SKIP_LOCAL_AI_ENV="1")
+        result = subprocess.run([str(output / "runtime/python/python.exe"), "-I", "-S", "-B", "-X", "utf8",
+                                 "-c", EXECUTION_PROBE, str(output), directory], cwd=directory, env=environment,
+                                capture_output=True, text=True, encoding="utf-8", timeout=120)
+    require(result.returncode == 0, "terminal_private_execution_probe_failed:" + result.stderr[-2400:])
+    proof = json.loads(result.stdout)
+    require(proof.get("status") == "VERIFIED_NEW_SYNTHETIC_RUN" and proof.get("synthetic_runs") == 1
+            and proof.get("evidence_kind") == "SYNTHETIC_TEST"
+            and all(proof.get(key) == 0 for key in ("market_data_runs", "historical_replays", "provider_calls", "listening_servers", "external_module_count"))
+            and all(proof.get(key) is False for key in ("save_computed", "read_computed", "read_changed_files"))
+            and proof.get("temporary_workspace") is True and proof.get("source_status") == "BUILD_VERIFIED"
+            and proof.get("dependency_status") == "VERIFIED"
+            and Path(proof.get("private_python", "")).resolve() == (output / "runtime/python/python.exe").resolve(),
+            "terminal_private_execution_proof_invalid")
+    return proof
 
 
 def verify_runtime_archives(archives):
@@ -178,6 +333,7 @@ def build(python_archive, electron_archive, wheelhouse, output, *, version="0.7.
             raw = regular(source)
             require(sha(raw) == provenance["files_sha256"][source.relative_to(root).as_posix()], "terminal_source_changed_during_staging")
             write_new(output / destination, raw)
+        component_build_identities = generate_build_identities(output, root, provenance)
         write_new(output / "resources/app/package.json", canonical(dict(name="hakimi-original-terminal", productName="哈基米交易", version=version, main="main.js")) + b"\n")
         notices = []
         for kind, source in archives.items():
@@ -206,18 +362,24 @@ def build(python_archive, electron_archive, wheelhouse, output, *, version="0.7.
                     backend_entry="exchange_terminal.server", primary_route="/?workspace=quant", quant_route="/quant/",
                     runtimes=RUNTIMES, dependency_wheels=[info for _, info in wheels], source_provenance=provenance,
                     files=files, no_external_runtime_required=True, clean_windows_acceptance="NOT_PERFORMED",
-                    native_user_flow_acceptance="NOT_PERFORMED", economic_runs_during_packaging=0)
+                    native_user_flow_acceptance="NOT_PERFORMED", component_build_identities=component_build_identities,
+                    economic_runs_during_packaging=1, economic_run_scope="ONE_NEW_SYNTHETIC_TEST_FIXTURE_ONLY",
+                    historical_replays_during_packaging=0)
         manifest = {**core, "bundle_id": sha(canonical(core))}
         write_new(output / "terminal-manifest.json", canonical(manifest) + b"\n")
         probe = probe_installation(output)
         require(probe["bundle_id"] == manifest["bundle_id"] and probe["status"] == "VERIFIED", "terminal_probe_identity_changed")
+        execution_probe = probe_installed_execution(output)
+        require(execution_probe["bundle_id"] == manifest["bundle_id"], "terminal_execution_probe_identity_changed")
         if make_archive:
             with zipfile.ZipFile(archive_path, "x", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
                 for name in sorted([*files, "terminal-manifest.json"]):
                     archive.write(output / name, name)
         return dict(status="BUILT_AND_PRIVATE_RUNTIME_VERIFIED", output=str(output), bundle_id=manifest["bundle_id"],
                     archive=str(archive_path) if make_archive else None, archive_sha256=sha(archive_path.read_bytes()) if make_archive else None,
-                    source_git=provenance["git"], probe=probe, clean_windows_acceptance="NOT_PERFORMED", new_economic_runs=0)
+                    source_git=provenance["git"], probe=probe, execution_probe=execution_probe,
+                    clean_windows_acceptance="NOT_PERFORMED", new_economic_runs=1, synthetic_runs=1,
+                    market_data_runs=0, historical_replays=0)
     except Exception as error:
         # Retain all partial bytes, but an added marker makes the manifest fail
         # closed, so a failed probe cannot launch a seemingly valid candidate.

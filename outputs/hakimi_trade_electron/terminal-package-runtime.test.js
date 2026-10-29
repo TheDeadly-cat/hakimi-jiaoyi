@@ -363,7 +363,14 @@ test("virtualized creation, native health paths and bundle resources share one p
   assert.equal(mapped.physicalDirectory(path.join(logical, "new-quant", "missing"), { allowMissing: true }),
     path.join(physical, "new-quant", "missing"));
   const mappedProgram = path.join(physical, "virtual-program"), logicalProgram = path.join(logical, "virtual-program");
-  fs.cpSync(root, mappedProgram, { recursive: true });
+  // Node 22.23.4 on Windows can terminate inside recursive cpSync for these
+  // Unicode fixture paths. Copy the explicit bundle inventory file by file;
+  // keep Unicode/space paths and the real physical-identity checks below.
+  for (const name of [...Object.keys(manifest.files), "terminal-manifest.json"]) {
+    const target = path.join(mappedProgram, name);
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    fs.copyFileSync(path.join(root, name), target);
+  }
   assert.equal(mapped.verifyBundle(logicalProgram).bundle_id, manifest.bundle_id);
   assert.equal(mapped.boundPath(logicalProgram, manifest.python), path.join(mappedProgram, manifest.python));
   assert.throws(() => mapped.dataDirectory(path.join(mappedProgram, "data"), logicalProgram), /inside_program/);
