@@ -1,0 +1,42 @@
+{
+  "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+  "expected_tests": 542,
+  "binding": {
+    "python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r4-venv\\Scripts\\python.exe",
+    "canonical": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-plan-candidate-070dev3-r4\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+    "repository": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-plan-candidate-070dev3-r4\\哈基米v2交易",
+    "search_path": [
+      "",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\python314.zip",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\DLLs",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r4-venv",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r4-venv\\Lib\\site-packages",
+      "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-plan-candidate-070dev3-r4\\哈基米v2交易\\src",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages"
+    ],
+    "dependencies": {
+      "numpy": "2.4.6",
+      "pandas": "3.0.3",
+      "python-dateutil": "2.9.0.post0",
+      "six": "1.17.0",
+      "tzdata": "2026.2",
+      "exchange-calendars": "4.13.2",
+      "pyluach": "2.3.0",
+      "toolz": "1.1.0",
+      "korean-lunar-calendar": "0.4.0"
+    }
+  },
+  "browser_binding": {
+    "node": "v22.23.4",
+    "playwright": "1.62.1",
+    "chromium": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci151-playwright-browsers-r1\\chromium-1234\\chrome-win64\\chrome.exe"
+  },
+  "node_sha256": "dccc52de28d8df2ee22d2062424f8c563070d95d8ad70c54c4bf01d590dec14f",
+  "canonical_install": "ISOLATED_VENV_EDITABLE_EXACT_FROZEN_SOURCE",
+  "global_environment_modified": false,
+  "downloads": 0,
+  "node_modules_read_only": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules",
+  "note": "System dependency packages are read only. Editable build metadata may be ignored; tracked frozen source must remain clean."
+}

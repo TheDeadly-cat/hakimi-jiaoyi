@@ -1,0 +1,178 @@
+{
+  "schema_version": "terminal-r4-evidence-copy-v1",
+  "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+  "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+  "copied_originals": [
+    {
+      "copy": "final-candidate-build-dev3-r4.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-build-dev3-r4.log",
+      "sha256": "8433ad3d1707a8cca1d640312daf721d7636623fdb27c2a671f4f6321b34c702",
+      "bytes": 7695,
+      "byte_identical": true
+    },
+    {
+      "copy": "final-candidate-build-invocation-dev3-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-build-invocation-dev3-r4.json",
+      "sha256": "6e326d55e3b063177e69094f75bfeb0219ce0370e724710e3b66c04d8bbac308",
+      "bytes": 2305,
+      "byte_identical": true
+    },
+    {
+      "copy": "final-candidate-build-result-dev3-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-build-result-dev3-r4.json",
+      "sha256": "e842705b2f82dcfd884e9748d8931f03455b8a89fb3a8a1ac77b01382a923298",
+      "bytes": 8870,
+      "byte_identical": true
+    },
+    {
+      "copy": "final-candidate-package-verification-dev3-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-package-verification-dev3-r4.json",
+      "sha256": "5cee3aa3db15eea23d6637641239a55a4e44aef6413c5eebd9ba70bb363c041e",
+      "bytes": 10231,
+      "byte_identical": true
+    },
+    {
+      "copy": "final-candidate-acceptance-boundary-dev3-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-acceptance-boundary-dev3-r4.json",
+      "sha256": "bb7f76eefa0e9cd3de768ce8e5abf693042a4d5534ad8e67195698709673e023",
+      "bytes": 1479,
+      "byte_identical": true
+    },
+    {
+      "copy": "final-candidate-private-execution-dev3-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-private-execution-dev3-r4.json",
+      "sha256": "acca73596b1b64904a585b793af15c5f152593da1fc06d287a31f6ef0bd36765",
+      "bytes": 1009,
+      "byte_identical": true
+    },
+    {
+      "copy": "final-candidate-broker-identity-dev3-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-broker-identity-dev3-r4.json",
+      "sha256": "b8a58418e7546f0ac6929f938e877f599f68c49f4c7fd387b32895cef4b9118c",
+      "bytes": 4015,
+      "byte_identical": true
+    },
+    {
+      "copy": "final-candidate-feature-closure-dev3-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-feature-closure-dev3-r4.json",
+      "sha256": "31bce480b4525d1a4ac28cd239680ffc6bf05e03b8639681d3ca33f7de8fe7e1",
+      "bytes": 11446,
+      "byte_identical": true
+    },
+    {
+      "copy": "final-candidate-feature-closure-dev3-r4.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-feature-closure-dev3-r4.log",
+      "sha256": "89ea930e9bfa420d82977bbf63df72f0c350aa19444e1fd3aa9e28b8f644e919",
+      "bytes": 10423,
+      "byte_identical": true
+    },
+    {
+      "copy": "final-candidate-installed-js-dev3-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-installed-js-dev3-r4.json",
+      "sha256": "90709478ca2c4b2dd1fe22fb6c352fb1743215021f4c5d9c6b5b240d7ef72533",
+      "bytes": 1416,
+      "byte_identical": true
+    },
+    {
+      "copy": "final-candidate-installed-js-dev3-r4.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-installed-js-dev3-r4.log",
+      "sha256": "156d98e49776d5c800de0da1defa6b6aedcfb735bfa493cfe333eddca62e55fa",
+      "bytes": 75,
+      "byte_identical": true
+    },
+    {
+      "copy": "stage-c-frozen-environment-binding-dev3-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-environment-binding-dev3-r4.json",
+      "sha256": "e2a11365bfb11f5e84d6b77e288a890b57ffe3955a0f9396d700f2261e8c2071",
+      "bytes": 2352,
+      "byte_identical": true
+    },
+    {
+      "copy": "stage-c-frozen-gates-summary-dev3-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-gates-summary-dev3-r4.json",
+      "sha256": "00d20f8393868e488c2d9e6e0ff74122903a08e498d1af477965f1fe3f3954cb",
+      "bytes": 5946,
+      "byte_identical": true
+    },
+    {
+      "copy": "stage-c-frozen-terminal-gate-dev3-r4.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-terminal-gate-dev3-r4.log",
+      "sha256": "42c8b1a76c2d01ec8c1f36977f6412327dccef40378429fd1545e095838017ea",
+      "bytes": 109608,
+      "byte_identical": true
+    },
+    {
+      "copy": "stage-c-frozen-desktop-gate-dev3-r4.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-desktop-gate-dev3-r4.log",
+      "sha256": "8d8f3a25acf65400c79800bfdcde7eb9545168029ebc69e1d631ec07f8c2fc91",
+      "bytes": 109952,
+      "byte_identical": true
+    },
+    {
+      "copy": "stage-c-frozen-package-gate-dev3-r4.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-package-gate-dev3-r4.log",
+      "sha256": "54d0be6c40191fbd3720515993eecbea2427ba8775ab6859e217f6e073a19941",
+      "bytes": 2859,
+      "byte_identical": true
+    },
+    {
+      "copy": "stage-c-frozen-candle-gate-dev3-r4.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-candle-gate-dev3-r4.log",
+      "sha256": "3051c275844d218cd53da493ebd968a2c36e3e815732bda89e480900518b08d7",
+      "bytes": 1115,
+      "byte_identical": true
+    },
+    {
+      "copy": "stage-c-frozen-runner-gate-dev3-r4.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-runner-gate-dev3-r4.log",
+      "sha256": "f30d189269ee2b5f9cc9e118ae8d40bbc16575b468368dc175e5ff7b9cad83f4",
+      "bytes": 777,
+      "byte_identical": true
+    },
+    {
+      "copy": "ci165-completed-summary.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci165-completed-summary-r1.json",
+      "sha256": "94a565fb25e02c4bc90d40eaedd7201ed7d9575fbaa04b8c14b1266ee3b6b53e",
+      "bytes": 3932,
+      "byte_identical": true
+    },
+    {
+      "copy": "independent-review.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r4-independent-review-r1.json",
+      "sha256": "5af35b070013b3ce70dfc151bbadc58a4f900f659afa6eb16d2f749db0cbefdf",
+      "bytes": 4509,
+      "byte_identical": true
+    },
+    {
+      "copy": "delivery-handoff.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r4-delivery-handoff-r1.json",
+      "sha256": "b04cf7bdb0004a43258ecbc62cf53175caf0681a64d55672c1ac5f5afefdb412",
+      "bytes": 11978,
+      "byte_identical": true
+    },
+    {
+      "copy": "README.md",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r4-delivery-note-r3.md",
+      "sha256": "7bd4fad5f50de2562eceb0ac4b236e0754b5d0693df3b44ed67a0c61976183ad",
+      "bytes": 5244,
+      "byte_identical": true
+    }
+  ],
+  "retained_large_evidence": [
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-manifest-dev3-r4.json",
+      "sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+      "bytes": 1389194,
+      "copied_to_repository": false
+    },
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-entry-hashes-dev3-r4.json",
+      "sha256": "874ed5784096aa02dc1d65d43bbd670a90aec34e767278720387830b9a81f2b6",
+      "bytes": 1261718,
+      "copied_to_repository": false
+    }
+  ],
+  "old_evidence_or_template_modified": false,
+  "program_probe_or_research_repeated_by_archiving": false,
+  "staged_committed_or_pushed": false
+}

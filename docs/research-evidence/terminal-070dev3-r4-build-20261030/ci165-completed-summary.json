@@ -1,0 +1,105 @@
+{
+  "schema_version": "hakimi-ci-completed-readback-v1",
+  "checked_at_utc": "2026-10-29 23:21:29 UTC",
+  "repository": "TheDeadly-cat/hakimi-jiaoyi",
+  "pull_request": 26,
+  "run_id": 40971259290,
+  "run_number": 165,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "head_sha": "a235e8a2f1a303f72b99797105956bcd88cba399",
+  "expected_head_sha": "a235e8a2f1a303f72b99797105956bcd88cba399",
+  "exact_head_matches": true,
+  "status": "completed",
+  "conclusion": "success",
+  "run_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290",
+  "created_at": "2026-10-29T23:10:19Z",
+  "updated_at": "2026-10-29T23:20:03Z",
+  "job_count": 11,
+  "all_11_completed_success": true,
+  "jobs": [
+    {
+      "id": 123788285434,
+      "name": "Historical developer reference replay",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123788285434"
+    },
+    {
+      "id": 123788285726,
+      "name": "Complete desktop check",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123788285726"
+    },
+    {
+      "id": 123788285759,
+      "name": "Market-data renderer",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123788285759"
+    },
+    {
+      "id": 123788285774,
+      "name": "Python contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123788285774"
+    },
+    {
+      "id": 123788285790,
+      "name": "Offline terminal Python contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123788285790"
+    },
+    {
+      "id": 123788285844,
+      "name": "Electron capability contract",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123788285844"
+    },
+    {
+      "id": 123788285863,
+      "name": "Package install smoke (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123788285863"
+    },
+    {
+      "id": 123788285887,
+      "name": "Package install smoke (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123788285887"
+    },
+    {
+      "id": 123788285894,
+      "name": "Offline research MVP contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123788285894"
+    },
+    {
+      "id": 123788285973,
+      "name": "Deterministic references",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123788285973"
+    },
+    {
+      "id": 123791929279,
+      "name": "Research required gate",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/job/123791929279"
+    }
+  ],
+  "read_sources": [
+    "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290",
+    "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290/jobs"
+  ],
+  "poll_interval_seconds": 55,
+  "scope": "Independent read-only exact-head GitHub Actions terminal-state verification; no rerun/cancel/PR change/push/GUI/business or source mutation; no assertion of new candidate build/runtime/market acceptance or full goal completion."
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": "original-terminal-final-build-invocation-v1",
+  "recorded_at": "2026-10-29T23:27:23.080742+00:00",
+  "source_directory": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-plan-candidate-070dev3-r4\\哈基米v2交易",
+  "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+  "source_status": "CLEAN",
+  "expected_tests": 542,
+  "version": "0.7.0.dev3",
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r4-venv\\Scripts\\python.exe",
+    "-B",
+    "tools/build_windows_terminal.py",
+    "--python-archive",
+    "C:\\Users\\Administrator\\AppData\\Local\\Python\\_cache\\pythoncore-3.14-64-3.14.6.zip",
+    "--electron-archive",
+    "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\.electron-cache\\5e0e70a0e0fed4233dc44442e29139d03b0ea0c6387fd4fc014de101787c1422\\electron-v31.7.7-win32-x64.zip",
+    "--wheelhouse",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\terminal-wheelhouse-r1",
+    "--output",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4",
+    "--version",
+    "0.7.0.dev3"
+  ],
+  "output": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4",
+  "allow_dirty": false,
+  "archive": true,
+  "app_launch_requested": false,
+  "server_launch_requested": false,
+  "private_import_probe_allowed": true,
+  "normal_probe_local_sdk_import": true,
+  "identity_only_probe_sdk_import": false,
+  "sdk_context_or_connection_requested": false,
+  "broker_plan_scope": "INSTALLED_OFFLINE_PREPARATION_NO_ADAPTER_OR_AUTHORIZATION",
+  "new_downloads": 0,
+  "wheelhouse": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\terminal-wheelhouse-r1",
+  "runtime_archive_sources": {
+    "C:\\Users\\Administrator\\AppData\\Local\\Python\\_cache\\pythoncore-3.14-64-3.14.6.zip": "75afa83f93b284d19040e24bc440ab741c09582c0d5310504d607a4e08c3dbaf",
+    "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\.electron-cache\\5e0e70a0e0fed4233dc44442e29139d03b0ea0c6387fd4fc014de101787c1422\\electron-v31.7.7-win32-x64.zip": "e91986dd243d55947e6c5d3fad21795562ec21fa0eec5e95f7e28c830571467f"
+  }
+}
