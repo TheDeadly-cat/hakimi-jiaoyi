@@ -52,4 +52,14 @@
 
 尚未完成：真实股票完整保存/研究链、日常更新及持续模拟的原生验收、独立新手试用、干净新机与非管理员环境。订单本轮只验收接受/预留/重开；部分成交、全部成交、撤销与恢复合同的离线测试不冒充这些原生操作。
 
-`0a29882` 的 CI run 151 有两个失败：Windows 短路径夹具预期、完整桌面检查遗漏日线 DOM。修复提交 `b624e8b` 的本地 18 项定向 Python 和完整桌面（含 16 项日线 DOM）通过，但远端 [run 152](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40908673978) 在运行前拒绝了 job 环境变量中的 `runner.temp` 表达式，没有执行测试。`f4b7ebd` 将路径表达式移至安装与检查步骤，12 项工作流检查通过，[run 153](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40911113462) 已正常开始；最终结果单独核对。旧失败不重跑或取消，这些后续源码修复不改签本页候选。
+`0a29882` 的 CI run 151 有两个失败：Windows 短路径夹具预期、完整桌面检查遗漏日线 DOM。修复提交 `b624e8b` 的本地 18 项定向 Python 和完整桌面（含 16 项日线 DOM）通过，但远端 [run 152](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40908673978) 在运行前拒绝了 job 环境变量中的 `runner.temp` 表达式，没有执行测试。`f4b7ebd` 将路径表达式移至安装与检查步骤，12 项工作流检查通过。[run 153](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40911113462) 的 Windows 安装与 MVP 作业被后续 push 的并发策略自动取消，不能视为全绿；没有人工取消或重跑。
+
+后续源码 `76cbfc6` 的 [run 154](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40912129442) 完成：8 项独立作业成功，两项 Windows/Ubuntu 安装均因 `stock_intake_supplement.py` 漏入显式打包清单而失败，汇总门禁失败。已补齐清单及安装身份断言；本机仓库外普通 wheel 的 62 项相关检查通过，未使用 editable 或系统依赖继承、未下载。验证 wheel 来自有未提交修改的工作树，不是干净发布包；新提交的完整远端结果另验。上述后续修复不改签本页候选。
+
+## 旧工作区原生读取（T13）
+
+在此 dev2 原生窗口明确选择 Documents 原工作区和 dev5 工作区，只读取 MACD13 与 NDAQ 的原任务和完成结果。MACD13 的原运行/报告标识为 `eb83065c51850ffb07f3fc0c5c6cc799eac082c9f604275e517401bf2d0a2ef8`；NDAQ 原运行标识为 `31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134`，原报告校验值为 `a8348a3a7ac46bdbc24f88911e9646524a5ed53a14995372bd8d69e7dccbace1`。NDAQ 仍为 8 个评分交易日、0 成交、证据不足；均未重新回测。
+
+正常关闭后，四个旧工作区共 188 个文件的内容、大小与修改时间不变，当前候选的 57 个数据文件也与前次关闭逐字相同；进程与监听均为 0。证据为 `native-dev2-old-workspaces-before-r1.json`、`native-dev2-old-workspaces-preservation-r1.json`、`native-dev2-original-completed-result-r1.json` 和 `native-dev2-dev5-result-r1.json`。
+
+实际发现两项显示问题：旧任务详情误用了结果摘要；一个只有身份标记的旧空工作区遇到 Windows MSIX 逻辑/物理视图差异。前者已在后续源码修复，完整渲染页面 1280/480 的 14 个场景通过，真实完成结果使用原运行标识，UNKNOWN 与未验证结果不显示完成摘要，切换工作区后的迟到响应被丢弃；0 POST，188 个原件仍不变。证据为 `old-workspace-detail-qa-20261030`。此修复尚未进入本页冻结包。空工作区视图警告仍保留，未放宽路径边界或迁移旧文件。

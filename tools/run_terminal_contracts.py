@@ -27,6 +27,8 @@ TEST_FILES = (
     "test_terminal_ai_evidence.py",
     "test_terminal_ai_strategy_binding.py",
     "test_terminal_candidate_service.py",
+    "test_terminal_broker_candidate_service.py",
+    "test_terminal_broker_integration.py",
     "test_terminal_corporate_actions.py",
     "test_terminal_daily_bridge.py",
     "test_terminal_daily_integration.py",

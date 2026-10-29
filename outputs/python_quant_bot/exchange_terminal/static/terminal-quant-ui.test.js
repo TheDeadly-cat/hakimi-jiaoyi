@@ -150,10 +150,11 @@ test("market read failures show structured session guidance or native errors as 
 
 test("dashboard and daily page retain their headers while task and result links retain anchors",() => {
   const scrolled=[];const host={hidden:false};const windowScroll=[];
-  const executionHost={hidden:true},dailyHost={hidden:true,scrollIntoView:()=>scrolled.push("daily")};
-  let dailyHides=0;
+  const executionHost={hidden:true},dailyHost={hidden:true,scrollIntoView:()=>scrolled.push("daily")},brokerHost={hidden:true};
+  let dailyHides=0,brokerHides=0,brokerReads=0;
   const panels=Object.fromEntries(["tasks","results"].map(name=>[name,{style:{},scrollIntoView:()=>scrolled.push(name)}]));
-  const context=vm.createContext({state:{visible:true,loaded:true},coreMain:{hidden:true},host,executionHost,dailyHost,
+  const context=vm.createContext({state:{visible:true,loaded:true},coreMain:{hidden:true},host,executionHost,dailyHost,brokerHost,
+    brokerUI:{reveal:async()=>{brokerReads++;},hide:()=>{brokerHides++;}},
     dailyUI:{reveal:async()=>{},hide:()=>dailyHides++},executionUI:{refresh:async()=>{},reveal:()=>scrolled.push("execution")},location:{hash:"#dashboard"},
     history:{pushState(){},replaceState(){}},$:id=>id==="terminalQuantWorkspace"?host:{closest:()=>panels[id==="tq-tasks"?"tasks":"results"]},
     window:{scrollTo:options=>windowScroll.push(JSON.parse(JSON.stringify(options)))},navRoot:{closest:()=>({getBoundingClientRect:()=>({height:48.2})})},
@@ -166,8 +167,47 @@ test("dashboard and daily page retain their headers while task and result links 
   assert.equal(host.hidden,true);assert.equal(dailyHost.hidden,false);assert.equal(executionHost.hidden,true);
   vm.runInContext('show("execution")',context);
   assert.equal(dailyHides,1);assert.equal(dailyHost.hidden,true);assert.equal(executionHost.hidden,false);
-  assert.deepEqual(windowScroll,[{top:0,left:0,behavior:"auto"},{top:0,left:0,behavior:"auto"}]);
+  assert.deepEqual(windowScroll,Array.from({length:3},()=>({top:0,left:0,behavior:"auto"})));
   assert.deepEqual(scrolled,["tasks","results","execution"]);
+  vm.runInContext('show("broker")',context);
+  assert.equal(brokerReads,1);assert.equal(brokerHost.hidden,false);assert.equal(executionHost.hidden,true);assert.equal(host.hidden,true);
+  vm.runInContext('show("execution")',context);
+  assert.equal(brokerHides,1);assert.equal(brokerHost.hidden,true);assert.equal(executionHost.hidden,false);
+});
+
+test("old task and unverified records never masquerade as completed result summaries",async () => {
+  for(const detail of [
+    {resource:"tasks",verification_status:"VERIFIED_RECORD",strategy_id:"macd",version:1,state:"ENABLED",task:{strategy_params:{fast:13}}},
+    {resource:"runs",verification_status:"METADATA_ONLY",status:"COMPLETED"},
+    {resource:"runs",verification_status:"VERIFIED_RECORD",status:"UNKNOWN",report:{status:"UNKNOWN"}},
+    {resource:"runs",verification_status:"VERIFIED_RECORD",status:"COMPLETED",report:{run_id:"actual-saved-run"}}
+  ]) {
+    const panel={innerHTML:"previous detail",textContent:""},calls=[];
+    let resultRenders=0;
+    const context=vm.createContext({state:{oldDetail:{}},$:()=>panel,esc:String,warning:()=>"",validReplay:()=>false,
+      api:async route=>{calls.push(route);return {id:"opaque-read-only-id",label:"saved",...detail};},
+      HakimiTerminalResultSummary:{renderResultSummary:()=>{resultRenders++;return "VERIFIED_RESULT_SUMMARY";}}});
+    vm.runInContext(uiFunction("readOldDetail"),context);
+    await context.readOldDetail("workspace/"+detail.resource+"/record");
+    const completed=detail.resource==="runs"&&detail.status==="COMPLETED"&&detail.verification_status==="VERIFIED_RECORD";
+    assert.equal(resultRenders,completed?1:0);
+    assert.equal(calls.length,1);assert.equal(typeof calls[0],"string");
+    if(detail.resource==="tasks") {
+      assert.match(panel.innerHTML,/已保存任务设置/);assert.match(panel.innerHTML,/旧结果/);
+      assert.doesNotMatch(panel.innerHTML,/结果校验值|保存的运行标识|VERIFIED_RESULT_SUMMARY/);
+    }
+  }
+});
+
+test("switching old workspaces invalidates a pending old-record response",async () => {
+  let finishDetail;
+  const panel={innerHTML:"",textContent:""},state={oldWorkspaces:[{id:"new-workspace"}]};
+  const context=vm.createContext({state,$:()=>panel,esc:String,warning:()=>"",value:()=>"new-workspace",notify(){},
+    api:route=>route.endsWith("/old-record")?new Promise(resolve=>{finishDetail=resolve;}):Promise.resolve({items:[],physical_root:"new"})});
+  vm.runInContext(uiFunction("readOldWorkspace")+"\n"+uiFunction("readOldDetail"),context);
+  const pending=context.readOldDetail("old-workspace/tasks/old-record");
+  await context.readOldWorkspace();finishDetail({resource:"tasks",label:"stale task"});await pending;
+  assert.equal(state.oldDetail,null);assert.doesNotMatch(panel.innerHTML,/stale task/);
 });
 
 test("frozen replay and exit refresh the original desktop summary for the actual chart symbol",async () => {

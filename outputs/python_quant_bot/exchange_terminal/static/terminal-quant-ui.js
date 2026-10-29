@@ -222,10 +222,12 @@
     function show(view = "dashboard", replaceHistory = false) {
       const wasVisible = state.visible;
       if (state.unifiedView === "daily" && view !== "daily") dailyUI.hide?.();
-      state.unifiedView = ["dashboard","tasks","results","insights","execution","daily"].includes(view) ? view : "dashboard";
-      state.visible = true; coreMain.hidden = true; $("terminalQuantWorkspace").hidden = ["execution","daily"].includes(state.unifiedView);
+      if (state.unifiedView === "broker" && view !== "broker") brokerUI.hide();
+      state.unifiedView = ["dashboard","tasks","results","insights","execution","daily","broker"].includes(view) ? view : "dashboard";
+      state.visible = true; coreMain.hidden = true; $("terminalQuantWorkspace").hidden = ["execution","daily","broker"].includes(state.unifiedView);
       executionHost.hidden = state.unifiedView !== "execution";
       dailyHost.hidden = state.unifiedView !== "daily";
+      brokerHost.hidden = state.unifiedView !== "broker";
       if (location.hash !== "#" + state.unifiedView) history[replaceHistory ? "replaceState" : "pushState"](null,"","#" + state.unifiedView);
       syncUnifiedNavigation();
       if (!state.loaded || !wasVisible) refreshAll().catch((error) => notify(error.message, true));
@@ -233,9 +235,15 @@
         dailyUI.reveal().catch(error => notify(operationErrorText(error),true));
         // This is a full page: retain the header's normal flow above its title.
         requestAnimationFrame(() => window.scrollTo({top:0,left:0,behavior:"auto"}));
+      } else if (state.unifiedView === "broker") {
+        brokerUI.reveal().catch(error => notify(operationErrorText(error),true));
+        requestAnimationFrame(() => window.scrollTo({top:0,left:0,behavior:"auto"}));
       } else if (state.unifiedView === "execution") {
         executionUI.refresh().catch(error => notify(operationErrorText(error),true));
-        requestAnimationFrame(() => executionUI.reveal());
+        requestAnimationFrame(() => {
+          executionUI.reveal();
+          window.scrollTo({top:0,left:0,behavior:"auto"});
+        });
       } else if (state.unifiedView === "dashboard") {
         requestAnimationFrame(() => window.scrollTo({top:0,left:0,behavior:"auto"}));
       } else {
@@ -250,14 +258,15 @@
     }
     function syncUnifiedNavigation() {
       navRoot.querySelectorAll("[data-view]").forEach((item) => {
-        const active = item.dataset.view === state.unifiedView;
+        const active = item.dataset.view === (state.unifiedView === "broker" ? "execution" : state.unifiedView);
         item.classList.toggle("active",active); item.setAttribute("aria-current",active ? "page" : "false");
       });
-      if ($("breadcrumb")) $("breadcrumb").textContent = {dashboard:"研究工作台",tasks:"全部策略任务",results:"全部回测结果",insights:"行情洞察",execution:"执行演练",daily:"股票与数据"}[state.unifiedView];
+      if ($("breadcrumb")) $("breadcrumb").textContent = {dashboard:"研究工作台",tasks:"全部策略任务",results:"全部回测结果",insights:"行情洞察",execution:"执行演练",daily:"股票与数据",broker:"券商接入准备"}[state.unifiedView];
     }
     function hide() {
       state.visible = false; coreMain.hidden = false; $("terminalQuantWorkspace").hidden = true;
       executionHost.hidden = true;
+      brokerUI.hide(); brokerHost.hidden = true;
       if (!dailyHost.hidden) dailyUI.hide?.();
       dailyHost.hidden = true;
       // Core detail navigation owns its existing active state while visible.
@@ -323,6 +332,13 @@
     const executionHost = document.createElement("section"); executionHost.id="terminalExecutionPage"; executionHost.className="main tq"; executionHost.hidden=true;
     executionHost.setAttribute("aria-label","执行演练"); coreMain.before(executionHost);
     const executionUI = globalThis.installTerminalExecutionUI({host:executionHost,api,perform,notify});
+    const brokerEntry = document.createElement("div"); brokerEntry.className="actions";
+    brokerEntry.innerHTML='<button type="button" class="btn" data-view="broker">券商接入准备</button>';
+    executionHost.prepend(brokerEntry);
+    const brokerHost = document.createElement("section"); brokerHost.id="terminalBrokerPage"; brokerHost.className="main tq"; brokerHost.hidden=true;
+    brokerHost.setAttribute("aria-label","券商接入准备"); coreMain.before(brokerHost);
+    const brokerUI = globalThis.installTerminalBrokerCandidateUI({host:brokerHost,api,perform,notify,
+      stopCandidate:payload=>api("broker-candidate/stop","POST",payload),onBack:()=>show("execution")});
     const dailyHost = document.createElement("section"); dailyHost.id="terminalDailyPage";dailyHost.className="main tq";dailyHost.hidden=true;
     dailyHost.setAttribute("aria-label","股票与数据");coreMain.before(dailyHost);
     const dailyUI = globalThis.installTerminalDailyUI({host:dailyHost,api,perform,notify,allowPublicDataRequest:true,
@@ -492,10 +508,12 @@
       state.inputs = inputs.items || []; state.tasks = tasks.items || []; state.runs = runs.items || [];
       state.history = history.items || []; state.reports = reports.items || []; state.reportsPage = reports;
       state.coreOverview = coreOverview; state.coreTasks = coreOverview.tasks || []; state.coreRuns = coreOverview.runs || [];
-      executionUI.setSources([
+      const savedExecutionSources = [
         ...state.runs.filter(row => row.status === "COMPLETED").map(row => ({kind:"terminal_run",id:identity(row),label:`${row.title || row.strategy_id || "原策略结果"} · 版本 ${row.version ?? "未记录"}`})),
         ...state.coreRuns.map(row => ({kind:"core_run",id:row.id,label:`${row.task_display_name || row.label || "股票研究结果"} · ${row.task_version_label || "已保存版本"}`}))
-      ]);
+      ];
+      executionUI.setSources(savedExecutionSources);
+      brokerUI.setSources(savedExecutionSources);
       state.coreStrategies = catalog.core_items || []; state.coreInputs = coreInputs.items || [];
       $("tq-workspace-path").textContent = coreOverview.product_workspace || coreOverview.workspace || "当前版本未提供工作区位置";
       const product = coreOverview.terminal_product;
@@ -642,6 +660,9 @@
       const id = value("tq-old-workspace");
       if (!state.oldWorkspaces?.some((row) => row.id === id)) return notify("请先选择已知旧工作区。",true);
       const request = state.oldWorkspaceRequest = (state.oldWorkspaceRequest || 0) + 1;
+      state.oldDetailRequest = (state.oldDetailRequest || 0) + 1;
+      state.oldDetail = null;
+      $("tq-workspace-detail").textContent = "";
       const [tasks,runs] = await Promise.all([api(`terminal_workspace_history/${id}/tasks`),api(`terminal_workspace_history/${id}/runs`)]);
       if (request !== state.oldWorkspaceRequest) return;
       $("tq-workspace-records").innerHTML = `<p>只读位置：${esc(tasks.physical_root)}</p>` + [["旧任务",tasks,"tasks"],["旧结果",runs,"runs"]].map(([label,page,resource]) => `<h3>${label}</h3>${page.items?.length ? page.items.map((row) => `<div class="tq-row"><div><strong>${esc(row.label)}</strong><p>${esc(row.status || row.state || "状态未记录")} · ${row.verification_status === "VERIFIED_RECORD" ? "保存记录校验通过" : "仅原元数据，未核验"}</p></div>${button("查看原记录","workspace-detail",`${id}/${resource}/${row.id}`)}</div>`).join("") : '<p class="muted">此工作区没有这类记录。</p>'}`).join("");
@@ -649,11 +670,20 @@
     }
     async function readOldDetail(reference) {
       const request = state.oldDetailRequest = (state.oldDetailRequest || 0) + 1;
+      state.oldDetail = null;
+      $("tq-workspace-detail").textContent = "正在读取原保存记录，不会重新运行。";
       const detail = await api("terminal_workspace_history/" + reference.split("/").map(encodeURIComponent).join("/"));
       if (request !== state.oldDetailRequest) return;
       state.oldDetail = detail;
+      const verifiedResult = detail.resource === "runs" && detail.status === "COMPLETED" && detail.verification_status === "VERIFIED_RECORD" && detail.report;
+      const task = detail.task || {};
+      const summary = verifiedResult ? globalThis.HakimiTerminalResultSummary.renderResultSummary(detail,esc)
+        : detail.resource === "tasks" ? `<section aria-label="已保存任务设置"><p>这是已保存的研究任务与设置。已完成回测请从上方“旧结果”查看。</p><dl class="form-grid">${[
+          ["保存的规则",detail.strategy_id],["任务版本",detail.version ?? task.version],["任务状态",detail.state],
+          ["保存的引擎身份",detail.engine_id]
+        ].map(([label,item]) => `<div><dt>${label}</dt><dd style="margin:4px 0;overflow-wrap:anywhere">${esc(item ?? "未记录")}</dd></div>`).join("")}</dl></section>` : "";
       $("tq-workspace-detail").innerHTML = `<h3>${esc(detail.label)}</h3>${warning(detail.verification_note)}
-        ${globalThis.HakimiTerminalResultSummary.renderResultSummary(detail,esc)}
+        ${summary}
         ${detail.status === "UNKNOWN" ? warning("历史 UNKNOWN 保留，不补算、不重跑。") : ""}
         ${detail.chart_available && validReplay(detail.chart) ? button("在原图表查看旧结果","workspace-replay") : ""}
         <details class="section-gap"><summary>原记录与真实规则身份</summary><pre class="code-detail">${esc(JSON.stringify(detail,null,2))}</pre></details>`;
@@ -858,13 +888,13 @@
     document.addEventListener("click", (event) => {
       const control = event.target.closest("[data-view]");
       if (!control) return;
-      if (["dashboard","tasks","results","insights","execution","daily"].includes(control.dataset.view)) {
+      if (["dashboard","tasks","results","insights","execution","daily","broker"].includes(control.dataset.view)) {
         event.preventDefault(); event.stopImmediatePropagation(); show(control.dataset.view); send("context-request",{});
       } else hide();
     }, true);
     window.addEventListener("popstate", () => {
       const view = location.hash.slice(1) || "dashboard";
-      if (["dashboard","tasks","results","insights","execution","daily"].includes(view)) show(view,true); else hide();
+      if (["dashboard","tasks","results","insights","execution","daily","broker"].includes(view)) show(view,true); else hide();
     });
     window.addEventListener("hakimi-core-open", () => hide());
     window.addEventListener("hakimi-core-task-saved", (event) => {
@@ -912,7 +942,7 @@
     });
     coreObserver.observe(coreMain,{childList:true,subtree:true});
     const initialView = location.hash.slice(1) || "dashboard";
-    if (["dashboard","tasks","results","insights","execution","daily"].includes(initialView)) show(initialView,true);
+    if (["dashboard","tasks","results","insights","execution","daily","broker"].includes(initialView)) show(initialView,true);
     send("bridge-ready",{});
   };
 })();

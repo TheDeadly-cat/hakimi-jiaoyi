@@ -309,6 +309,8 @@ class TerminalResearchService:
         self.workspace_history = workspace_history
         self._lock = RLock()
         self._execution_service = None
+        self._broker_service = None
+        self._broker_init_lock = RLock()
         self._daily_backend = None
         self._daily_factory = daily_factory
         self._daily_access = self._daily_session = None
@@ -326,6 +328,26 @@ class TerminalResearchService:
                 self.workspace, lambda reference: resolve_execution_research(self, reference),
                 read_saved_result=lambda reference: verified_saved_result(self, reference))
         return self._execution_service
+
+    def _broker(self):
+        # Initialization is independent of the research/worker lock so a local
+        # stop can still commit while a source check or report read is pending.
+        with self._broker_init_lock:
+            if self._broker_service is None:
+                from .terminal_broker_candidate_service import BrokerCandidateService
+                from .terminal_saved_results import resolve_execution_research
+
+                def resolve(reference):
+                    with self._lock:
+                        return resolve_execution_research(self, reference)
+
+                self._broker_service = BrokerCandidateService(
+                    self._safe(self.workspace / "broker-candidates-v2"), research_resolver=resolve)
+            return self._broker_service
+
+    def stop_broker_candidate(self, payload):
+        """Stop local intent preparation directly; no broker orders are sent."""
+        return self._broker().stop(_detached(payload))
 
     def close(self):
         # Revocation never waits for the service lock held by a network check.
@@ -1018,6 +1040,12 @@ class TerminalResearchService:
                                    "每项是独立本金的描述性研究，未认证数据与结果不能授予模拟或实盘权限。"]}
 
     def read(self, resource, identity=None):
+        if isinstance(resource, str) and resource.startswith("terminal_broker_"):
+            if resource in {"terminal_broker_research", "terminal_broker_check", "terminal_broker_receipt"}:
+                if type(identity) is not str or len(identity) > 8000:
+                    raise ValueError("broker_candidate_reference_required")
+                identity = json.loads(identity)
+            return self._broker().read(resource, identity)
         if isinstance(resource, str) and resource.startswith("terminal_daily_"):
             with self._lock:
                 return self._daily_request_view(self._daily().read(resource, identity))
@@ -1099,6 +1127,10 @@ class TerminalResearchService:
         return self.core.read(resource, identity)
 
     def mutate(self, action, payload):
+        if isinstance(action, str) and action.startswith("terminal_broker_"):
+            if action == "terminal_broker_stop":
+                raise ValueError("broker_stop_direct_route_required")
+            return self._broker().mutate(action, _detached(payload))
         if isinstance(action, str) and action.startswith("terminal_daily_"):
             with self._lock:
                 return self._daily_mutate(action, _detached(payload))

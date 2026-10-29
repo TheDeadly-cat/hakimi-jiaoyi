@@ -80,6 +80,7 @@
     "source_task.py",
     "source_task_card.py",
     "stock_intake.py",
+    "stock_intake_supplement.py",
     "strategies/__init__.py",
     "strategies/base.py",
     "strategies/templates.py",
