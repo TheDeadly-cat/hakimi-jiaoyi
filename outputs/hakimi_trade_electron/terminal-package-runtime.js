@@ -4,6 +4,9 @@ const fs = process.versions.electron ? require("original-fs") : require("node:fs
 const path = require("node:path");
 const crypto = require("node:crypto");
 const hash = raw => crypto.createHash("sha256").update(raw).digest("hex");
+// Native realpath uses Windows GetFinalPathNameByHandle, including MSIX file
+// virtualization. The JavaScript realpath implementation only resolves links.
+const realPath = value => fs.realpathSync.native(value);
 function canonical(value) {
   if (Array.isArray(value)) return "[" + value.map(canonical).join(",") + "]";
   if (value && typeof value === "object") return "{" + Object.keys(value).sort().map(key => JSON.stringify(key) + ":" + canonical(value[key])).join(",") + "}";
@@ -20,13 +23,14 @@ function boundPath(root, name) {
       || name.split("/").some(part => !part || part === "." || part === "..")) throw new Error("terminal_relative_path_invalid");
   const full = path.resolve(root, name);
   noLinks(full);
-  const relative = path.relative(root, fs.realpathSync(full));
+  const actual = realPath(full);
+  const relative = path.relative(realPath(root), actual);
   if (relative.startsWith("..") || path.isAbsolute(relative)) throw new Error("terminal_resource_escape");
-  return full;
+  return actual;
 }
 function verifyBundle(inputRoot) {
   noLinks(inputRoot);
-  const root = fs.realpathSync(inputRoot);
+  const root = realPath(inputRoot);
   const manifest = JSON.parse(fs.readFileSync(boundPath(root, "terminal-manifest.json"), "utf8"));
   const { bundle_id: bundleId, ...core } = manifest;
   if (manifest.schema_version !== "hakimi-original-terminal-v1" || manifest.platform !== "win32-x64"
@@ -70,26 +74,40 @@ function physicalDirectory(value, { allowMissing = false } = {}) {
     if (cursor === path.dirname(cursor)) break;
   }
   // Resolve an existing ancestor, retaining a not-yet-created workspace suffix.
-  return path.resolve(fs.realpathSync(nearest), path.relative(nearest, full));
+  return path.resolve(realPath(nearest), path.relative(nearest, full));
 }
 function dataDirectory(value, programRoot) {
   const directory = physicalDirectory(value, { allowMissing: true });
-  const relative = path.relative(programRoot, directory);
+  const relative = path.relative(physicalDirectory(programRoot), directory);
   if (!relative || (!relative.startsWith("..") && !path.isAbsolute(relative))) throw new Error("terminal_workspace_inside_program_rejected");
   return directory;
+}
+function prepareDataDirectory(value, programRoot) {
+  const requested = dataDirectory(value, programRoot);
+  fs.mkdirSync(requested, { recursive: true });
+  // A previously missing AppData directory can acquire an MSIX physical
+  // location only after creation. Resolve before deriving any singleton key.
+  return dataDirectory(requested, programRoot);
 }
 function instanceIdentity(installation, workspace) {
   return hash(canonical({ installation: physicalPath(physicalDirectory(installation)),
     workspace: physicalPath(physicalDirectory(workspace, { allowMissing: true })) }));
 }
 function createContext({ resourcesPath, localAppData, home, runtimeDirectory, quantWorkspaceDirectory }) {
-  const root = path.resolve(resourcesPath, "..");
+  const root = physicalDirectory(path.resolve(resourcesPath, ".."));
   const manifest = verifyBundle(root);
   const local = localAppData && path.isAbsolute(localAppData) ? localAppData : path.join(home, "AppData", "Local");
-  const legacyRuntime = dataDirectory(runtimeDirectory || path.join(local, "HakimiTradeTerminal", "workspaces", "default", "runtime"), root);
-  const workspace = dataDirectory(quantWorkspaceDirectory || legacyRuntime, root);
+  const defaultWorkspace = path.join(local, "HakimiTradeTerminal", "workspaces", "default", "runtime");
+  const requestedLegacy = runtimeDirectory || defaultWorkspace;
+  // A legacy read source never selects a new writable destination implicitly.
+  // Validate it without creating anything before preparing the quant workspace.
+  dataDirectory(requestedLegacy, root);
+  const workspace = prepareDataDirectory(quantWorkspaceDirectory || defaultWorkspace, root);
+  // Resolve the old read source after creating only the selected writable root.
+  // Its parent mapping may now exist, but a distinct legacy root is not created.
+  const legacyRuntime = dataDirectory(requestedLegacy, root);
   const instanceId = instanceIdentity(root, workspace);
-  const userData = dataDirectory(path.join(local, "HakimiTradeTerminal", "shells", instanceId), root);
+  const userData = prepareDataDirectory(path.join(local, "HakimiTradeTerminal", "shells", instanceId), root);
   return { root, manifest, legacyRuntime, workspace, instanceId, userData,
     pythonRoot: path.join(root, "components", "terminal") };
 }
@@ -182,13 +200,14 @@ function backendLaunch(context, { host, port, token, localOnly, environment = pr
 function physicalPath(value) {
   if (typeof value !== "string" || !path.isAbsolute(value)) return null;
   let full;
-  try { full = fs.realpathSync(value); } catch { full = path.resolve(value); }
+  try { full = physicalDirectory(value, { allowMissing: true }); } catch { return null; }
   return process.platform === "win32" ? full.toLowerCase() : full;
 }
 function matchesBackend(context, payload, localOnly) {
+  const workspace = physicalPath(context.workspace);
   return (context.manifest ? payload?.terminal_package_id === context.manifest.bundle_id : !payload?.terminal_package_id)
     && payload?.local_only === localOnly
-    && physicalPath(payload?.terminal_workspace_root) === physicalPath(context.workspace);
+    && workspace !== null && physicalPath(payload?.terminal_workspace_root) === workspace;
 }
 module.exports = { canonical, hash, boundPath, verifyBundle, createContext, cleanEnvironment, backendLaunch, matchesBackend,
-  physicalDirectory, dataDirectory, instanceIdentity, configureDiagnostics, createStartupDiagnostic };
+  physicalDirectory, dataDirectory, prepareDataDirectory, instanceIdentity, configureDiagnostics, createStartupDiagnostic };

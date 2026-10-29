@@ -176,6 +176,7 @@ function desktopHarness(stopResult, { locked = true, state = {}, environment = {
         stopOwnedBackend: async (options) => { observed.stop = options; return stopResult; },
       };
       if (name === "./terminal-package-runtime") return { ...require(name),
+        prepareDataDirectory: (value, root) => require(name).dataDirectory(value, root),
         configureDiagnostics: ({ profile }) => ({ directory: path.join(profile, "diagnostics") }),
         createStartupDiagnostic: () => ({
           append(value) { observed.startupStderr = (observed.startupStderr || "") + value; },
@@ -357,4 +358,14 @@ test("backend spawn error records a bounded-diagnostic status and leaves no proc
   await new Promise(setImmediate);
   assert.equal(h.observed.stop, null);
   assert.equal(h.observed.allowedQuit, 1);
+});
+
+test("developer legacy-only selection preserves the independent developer quant default", () => {
+  const old = path.join(require("node:os").tmpdir(), "legacy-read-only-selection");
+  const h = desktopHarness({ ok: true }, { environment: { HAKIMI_RUNTIME_DIR: old } });
+  vm.runInContext("startBackend()", h.context);
+  assert.equal(h.observed.spawn.options.env.HAKIMI_RUNTIME_DIR, old);
+  assert.notEqual(h.observed.spawn.options.env.HAKIMI_QUANT_WORKSPACE_DIR, old);
+  assert.equal(h.observed.spawn.options.env.HAKIMI_QUANT_WORKSPACE_DIR,
+    require("./terminal-package-runtime").dataDirectory(path.resolve(__dirname, "../python_quant_bot/runtime"), __dirname));
 });

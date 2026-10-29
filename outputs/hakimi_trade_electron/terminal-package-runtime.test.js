@@ -7,7 +7,7 @@ const path = require("node:path");
 const runtime = require("./terminal-package-runtime");
 
 function fixture(t) {
-  const base = fs.mkdtempSync(path.join(os.tmpdir(), "hakimi-terminal-中文 空格-"));
+  const base = fs.realpathSync.native(fs.mkdtempSync(path.join(os.tmpdir(), "hakimi-terminal-中文 空格-")));
   t.after(() => fs.rmSync(base, { recursive: true, force: true }));
   const root = path.join(base, "安装 程序");
   const files = {};
@@ -95,6 +95,8 @@ test("quant workspace stays distinct from the legacy read root and singleton key
   const launch = runtime.backendLaunch(context, { host: "127.0.0.1", port: 18765, token: "test", localOnly: true, environment: {} });
   assert.equal(launch.options.env.HAKIMI_RUNTIME_DIR, args.runtimeDirectory);
   assert.equal(launch.options.env.HAKIMI_QUANT_WORKSPACE_DIR, args.quantWorkspaceDirectory);
+  assert.equal(fs.existsSync(context.workspace), true);
+  assert.equal(fs.existsSync(context.legacyRuntime), false);
   const anotherInstall = path.join(base, "另一个安装");
   fs.mkdirSync(anotherInstall);
   assert.notEqual(context.instanceId, runtime.instanceIdentity(anotherInstall, context.workspace));
@@ -293,4 +295,96 @@ test("a startup diagnostic write failure preserves existing bytes and cannot int
   recorder.append("Traceback\n");
   assert.equal(recorder.finish("SPAWN_ERROR"), null);
   assert.equal(fs.readFileSync(recorder.file, "utf8"), "preserved-existing-record");
+});
+
+test("first creation fixes physical identity before singleton derivation and never creates a distinct old source", t => {
+  const { root, base } = fixture(t);
+  const args = { resourcesPath: path.join(root, "resources"), localAppData: path.join(base, "missing-local"), home: base,
+    runtimeDirectory: path.join(base, "missing-old-read-root"), quantWorkspaceDirectory: path.join(base, "missing-quant", "nested") };
+  const first = runtime.createContext(args);
+  assert.equal(first.workspace, fs.realpathSync.native(args.quantWorkspaceDirectory));
+  assert.equal(first.userData, fs.realpathSync.native(first.userData));
+  assert.equal(fs.existsSync(args.runtimeDirectory), false);
+  const again = runtime.createContext(args);
+  assert.equal(again.instanceId, first.instanceId);
+  assert.equal(again.userData, first.userData);
+  const health = { terminal_package_id: first.manifest.bundle_id, local_only: true,
+    terminal_workspace_root: fs.realpathSync.native(first.workspace) };
+  assert.equal(runtime.matchesBackend(first, health, true), true);
+  assert.equal(runtime.matchesBackend(first, { ...health, terminal_workspace_root: first.userData }, true), false);
+});
+
+test("health matching rejects junction aliases and invalid paths instead of equating failures", t => {
+  const { base, context } = fixture(t);
+  fs.mkdirSync(context.workspace);
+  const alias = path.join(base, "workspace-alias");
+  fs.symlinkSync(context.workspace, alias, process.platform === "win32" ? "junction" : "dir");
+  const health = { terminal_package_id: context.manifest.bundle_id, local_only: true, terminal_workspace_root: alias };
+  assert.equal(runtime.matchesBackend(context, health, true), false);
+  assert.equal(runtime.matchesBackend({ ...context, workspace: "relative" }, { ...health, terminal_workspace_root: "relative" }, true), false);
+});
+
+test("virtualized creation, native health paths and bundle resources share one physical identity", t => {
+  const { base, root, manifest } = fixture(t);
+  const logical = path.join(base, "logical-AppData"), physical = path.join(base, "physical-MSIX", "LocalCache");
+  const translate = value => {
+    const full = path.resolve(String(value));
+    const relative = path.relative(logical, full);
+    return !relative || (!relative.startsWith("..") && !path.isAbsolute(relative)) ? path.join(physical, relative) : full;
+  };
+  // Model the OS redirect: lstat sees ordinary directories, while only native
+  // realpath exposes their actual locations. The mapping appears on creation.
+  const mappedFs = { ...fs,
+    lstatSync: (value, options) => fs.lstatSync(translate(value), options),
+    mkdirSync: (value, options) => fs.mkdirSync(translate(value), options),
+    realpathSync: Object.assign(value => path.resolve(value), { native: value => fs.realpathSync.native(translate(value)) }),
+  };
+  const module = { exports: {} };
+  require("node:vm").runInNewContext(fs.readFileSync(path.join(__dirname, "terminal-package-runtime.js"), "utf8"), {
+    module, process: { versions: {}, platform: process.platform },
+    require: name => name === "node:fs" ? mappedFs : require(name),
+  });
+  const mapped = module.exports;
+  const args = { resourcesPath: path.join(root, "resources"), localAppData: logical, home: base,
+    runtimeDirectory: path.join(logical, "old-read-only"), quantWorkspaceDirectory: path.join(logical, "new-quant") };
+  assert.equal(fs.existsSync(physical), false);
+  const first = mapped.createContext(args);
+  assert.equal(first.workspace, path.join(physical, "new-quant"));
+  assert.equal(fs.existsSync(first.workspace), true);
+  assert.equal(fs.existsSync(first.legacyRuntime), false);
+  assert.equal(fs.existsSync(logical), false);
+  const again = mapped.createContext(args);
+  assert.equal(first.instanceId, again.instanceId);
+  assert.equal(first.userData, again.userData);
+  assert.equal(mapped.instanceIdentity(root, args.quantWorkspaceDirectory), mapped.instanceIdentity(root, first.workspace));
+  const payload = { terminal_package_id: manifest.bundle_id, local_only: true, terminal_workspace_root: first.workspace };
+  assert.equal(mapped.matchesBackend({ ...first, workspace: args.quantWorkspaceDirectory }, payload, true), true);
+  assert.equal(mapped.matchesBackend(first, { ...payload, terminal_workspace_root: path.join(physical, "different") }, true), false);
+  assert.equal(mapped.physicalDirectory(path.join(logical, "new-quant", "missing"), { allowMissing: true }),
+    path.join(physical, "new-quant", "missing"));
+  const mappedProgram = path.join(physical, "virtual-program"), logicalProgram = path.join(logical, "virtual-program");
+  fs.cpSync(root, mappedProgram, { recursive: true });
+  assert.equal(mapped.verifyBundle(logicalProgram).bundle_id, manifest.bundle_id);
+  assert.equal(mapped.boundPath(logicalProgram, manifest.python), path.join(mappedProgram, manifest.python));
+  assert.throws(() => mapped.dataDirectory(path.join(mappedProgram, "data"), logicalProgram), /inside_program/);
+});
+
+test("legacy-only selection keeps quant on its stable default without creating or writing the old root", t => {
+  const { root, base } = fixture(t);
+  const legacy = path.join(base, "旧 Documents", "未建立旧目录");
+  const args = { resourcesPath: path.join(root, "resources"), localAppData: base, home: base, runtimeDirectory: legacy };
+  const context = runtime.createContext(args);
+  assert.equal(context.legacyRuntime, legacy);
+  assert.equal(context.workspace, path.join(base, "HakimiTradeTerminal", "workspaces", "default", "runtime"));
+  assert.equal(fs.existsSync(legacy), false);
+  assert.equal(fs.existsSync(path.dirname(legacy)), false);
+  assert.equal(fs.existsSync(context.workspace), true);
+  fs.mkdirSync(legacy, { recursive: true });
+  const retained = Buffer.from("unchanged old source bytes");
+  fs.writeFileSync(path.join(legacy, "old-record.json"), retained);
+  const repeated = runtime.createContext(args);
+  assert.equal(repeated.workspace, context.workspace);
+  assert.equal(repeated.instanceId, context.instanceId);
+  assert.deepEqual(fs.readdirSync(legacy), ["old-record.json"]);
+  assert.deepEqual(fs.readFileSync(path.join(legacy, "old-record.json")), retained);
 });

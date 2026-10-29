@@ -30,8 +30,8 @@
 | T11 | DOING | T02 | 原终端独立组件与闭包实现中 | 脱离仓库的真实启动验证 |
 | T12 | DOING | T11 | 包内 Python / 资源验证启动实现中 | 中文空格路径、全局 Python / 同名模块污染隔离 |
 | T13 | DOING | T11 | workspace-history-verification-20261029.json；四个旧工作区字节/mtime 不变；DOM 旧记录/复盘仅 GET | 已接入选择与当前路径，待新包核对 |
-| T14 | DOING | T03-T13 | 6ca4015 CLEAN r1 构建、9043 ZIP 条目哈希通过；final-candidate-package-verification-r1.json | 原生启动发现日志污染程序清单，r1 作为失败候选保留；修复后重建 r2 |
-| T15 | DOING | T14 | native-startup-inventory-failure-r1.json；真实窗口提示后台未就绪，程序根新增 debug.log；正常关闭且无任务运行 | 修正继承诊断环境并把日志写到包外后，验证新 r2 的完整原生路径 |
+| T14 | DOING | T03-T13 | 2f9018d CLEAN r2 构建、9043 ZIP 条目哈希与私有导入通过；final-candidate-package-verification-r2.json | r1 日志污染与 r2 物理路径失败各自保留；修复后另建 r3 |
+| T15 | DOING | T14 | native-startup-workspace-identity-failure-r2.json；r2 后台已启动，但主窗口身份校验失败；正常关闭且无任务运行，包内文件哈希无变化 | Windows 启动环境将数据目录映射到 MSIX LocalCache，Node/Python 物理路径解析不一致；需原生解析修复后验证新包 |
 | T16 | DOING | T14 | windows-original-terminal-candidate.md、README、first-use、CURRENT_STATUS、包内 FIRST_USE.md | 新入口/身份说明已更新，待实际包回执补齐 |
 | T17 | BLOCKED_HUMAN | T14 | 尚无未参与开发者的独立操作证据 | 候选完成后给出简短任务卡；其他工作继续 |
 
@@ -41,8 +41,8 @@
 |---|---|---|---|---|
 | T18 | DOING | T02,T11 | 独立后端适配已通过六项离线检查，尚未纳入阶段 A 冻结包 | 接入同窗页面/路由与独立 canonical namespace |
 | T19 | DOING | T18 | daily-research-adapter-verification-20261029.json；旧核心列表无变化 | 更新/采用后端可用，页面和原策略输入桥待接入 |
-| T20 | TODO | T08 | 待证据 | 成本/基准前提明确，异条件不排行 |
-| T21 | TODO | T18 | 待证据 | 分阶段公司行为真实数据/核算；未支持明确限制 |
+| T20 | DOING | T08 | 原结果校验后只读比较路由、原/核心展示接入；17 项相关 Python 和 2 项展示检查通过，尚未纳入阶段 A 包 | 缺条件保持 UNKNOWN，不同仓位/成本/模型只并排；待界面整体验证与后续提交 |
+| T21 | DOING | T18 | 新版本独立 SPLIT-only 核算适配器实现中，未接旧引擎 | 真实来源验收未完成；股息权益/付款规则缺证据时保持未支持 |
 | T22 | TODO | T19,T24 | 待证据 | 持续本地模拟状态与中断恢复，不重复运行/补成交 |
 | T23 | TODO | T18-T22 | 待证据 | 日常完整路径新候选；工程/真人分别记录 |
 
@@ -67,3 +67,7 @@
 阶段 A 已提交并推送 `6ca4015b45bf02f765b933bb82725cc730a715c5`。干净冻结树的终端全门禁为 205/205、完整桌面检查和 6 项新打包检查通过。对应 CI run 144 / 40809973324 完整结束为 failure：两项 Windows 8.3 路径问题（健康测试预期与当前工作区排除）已定位；原运行不重跑或取消，修复提交单独接受新 CI。原生 r1 暴露的问题不被上述源码检查覆盖，相关失败包/日志/原 ZIP 均保留。
 
 后续修复将当前工作区与测试预期统一为物理路径，并在窗口创建前清除外部 Crashpad 继承配置，将日志、后台工作目录和限长脱敏启动诊断移到独立数据目录。严格程序文件清单不放宽。`stage-a-r2-desktop-full-r1.log` 完整桌面检查通过；`ci144-focused-correction-tests-r1.log` 15/15 通过。新 r2 包的实际启动与生命周期验证仍待完成，这些源码检查不能证明原生问题已解决。
+
+`2f9018d` 对应 CI run 145 / 40814734329 已结束为 failure：终端门禁 205/206，唯一失败为测试仍期待旧产品标题；测试预期修正为 `8f22e1c`，不是包内程序变更。r2 原生尝试已执行且失败：清单不再污染，包内 Python 已就绪，但 Windows MSIX 物理目录映射与 Node 普通 realpath 解析不一致。失败 r2、诊断、原 ZIP 保留；新修复不得借用源码或导入 PASS 冒充用户流程验收。
+
+物理路径修复使用 Windows 原生解析，先创建本次明确选定的新量化目录再计算单实例标识；显式旧数据读取路径不再改变新量化默认写入位置。`native-workspace-physical-path-focused-r5.log` 40/40 通过，`native-msix-path-readonly-r3.json` 验证了当前机器上的真实逻辑/物理路径差异、同目录匹配和不同目录拒绝。未放宽程序清单或目录边界，未延长 18 秒等待；新 r3 原生验收仍待完成。

@@ -38,10 +38,11 @@ const SOURCE_RUNTIME = PACKAGE_CONTEXT ? null : terminalPackage.dataDirectory(
   process.env.HAKIMI_RUNTIME_DIR || path.join(PYTHON_ROOT, "runtime"), __dirname);
 const WORKSPACE_CONTEXT = PACKAGE_CONTEXT || {
   root: __dirname, legacyRuntime: SOURCE_RUNTIME,
-  workspace: terminalPackage.dataDirectory(process.env.HAKIMI_QUANT_WORKSPACE_DIR || SOURCE_RUNTIME, __dirname),
+  workspace: terminalPackage.prepareDataDirectory(process.env.HAKIMI_QUANT_WORKSPACE_DIR || path.join(PYTHON_ROOT, "runtime"), __dirname),
 };
+if (!PACKAGE_CONTEXT) WORKSPACE_CONTEXT.legacyRuntime = terminalPackage.dataDirectory(SOURCE_RUNTIME, __dirname);
 const INSTANCE_ID = PACKAGE_CONTEXT?.instanceId || terminalPackage.instanceIdentity(__dirname, WORKSPACE_CONTEXT.workspace);
-const SHELL_PROFILE = PACKAGE_CONTEXT?.userData || terminalPackage.dataDirectory(
+const SHELL_PROFILE = PACKAGE_CONTEXT?.userData || terminalPackage.prepareDataDirectory(
   path.join(app.getPath("appData"), "HakimiTradeTerminal", "developer-shells", INSTANCE_ID), __dirname);
 app.setName("哈基米交易");
 fs.mkdirSync(SHELL_PROFILE, { recursive: true });
