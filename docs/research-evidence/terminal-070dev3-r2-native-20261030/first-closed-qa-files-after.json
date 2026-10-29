@@ -1,0 +1,127 @@
+{
+  "root": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime",
+  "file_count": 20,
+  "files": {
+    "research-workspace/workspace.json": {
+      "sha256": "73dd798923ad7d6425e65c25d1ad59390b0ee17640bd594799de3f9b613096e1",
+      "size": 270,
+      "mtime_ns": 1793306911524989000,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\workspace.json"
+    },
+    "research-workspace/terminal-inputs/c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548.json": {
+      "sha256": "ee313c6a6b13f0793e06db0d7e06c91c162e5649128fe92a338c13abb56db095",
+      "size": 105024,
+      "mtime_ns": 1793307142302143100,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-inputs\\c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548.json"
+    },
+    "research-workspace/terminal-tasks/b8cf71f4852b3d79c1715e58f73f2641/family.json": {
+      "sha256": "5848d3ad41776750cc1df2d7d5fe0beae1c1ebf299db56b4456dd84ba0f36c9d",
+      "size": 174,
+      "mtime_ns": 1793307200649131600,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-tasks\\b8cf71f4852b3d79c1715e58f73f2641\\family.json"
+    },
+    "research-workspace/terminal-tasks/b8cf71f4852b3d79c1715e58f73f2641/journal/000001.json": {
+      "sha256": "260c59a881a1da501955f4be905b1220293cd1d5649e99a4564d758ee31b41a6",
+      "size": 316,
+      "mtime_ns": 1793307200659517600,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-tasks\\b8cf71f4852b3d79c1715e58f73f2641\\journal\\000001.json"
+    },
+    "research-workspace/terminal-tasks/b8cf71f4852b3d79c1715e58f73f2641/versions/c05bf26fc36be84c5b379b5758cfc909d46754851368dbd89a1f537b43323c01.json": {
+      "sha256": "e53be9bf6d5318a99ee7c2dd921ad03f63a021b0880930ac71b95038864fa968",
+      "size": 1872,
+      "mtime_ns": 1793307200655516700,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-tasks\\b8cf71f4852b3d79c1715e58f73f2641\\versions\\c05bf26fc36be84c5b379b5758cfc909d46754851368dbd89a1f537b43323c01.json"
+    },
+    "research-workspace/terminal-runs/835cfd802c98c4009d8f5a25a2db4489363e337fd40ba8b340e44a1e6b649251/report.json": {
+      "sha256": "1878cf8c6db9e83796938766538387266aeb20ecac272274227042419e89cebf",
+      "size": 85860,
+      "mtime_ns": 1793307228041143400,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-runs\\835cfd802c98c4009d8f5a25a2db4489363e337fd40ba8b340e44a1e6b649251\\report.json"
+    },
+    "research-workspace/terminal-runs/835cfd802c98c4009d8f5a25a2db4489363e337fd40ba8b340e44a1e6b649251/started.json": {
+      "sha256": "6c50c9fa2d17d0026cb6123f5fac31388e578f0cc46168ade0d0654b3d0425d9",
+      "size": 430,
+      "mtime_ns": 1793307228014489400,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-runs\\835cfd802c98c4009d8f5a25a2db4489363e337fd40ba8b340e44a1e6b649251\\started.json"
+    },
+    "research-workspace/terminal-inputs/core-originals/f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113.json": {
+      "sha256": "f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113",
+      "size": 217619,
+      "mtime_ns": 1793307142295143500,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-inputs\\core-originals\\f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113.json"
+    },
+    "research-workspace/offline-execution/sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b/account.json": {
+      "sha256": "b98f892fb75b525c81c4d561fa8e170f8890d95d91ca9c99ec5b8f344be92946",
+      "size": 775,
+      "mtime_ns": 1793308139608765100,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\offline-execution\\sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\\account.json"
+    },
+    "research-workspace/offline-execution/sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b/account.sqlite": {
+      "sha256": "82b0d952c76c2321db321426e335ffe920702514e185231869e7ba3ddfa47bfc",
+      "size": 81920,
+      "mtime_ns": 1793309272016864900,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\offline-execution\\sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\\account.sqlite"
+    },
+    "research-workspace/offline-execution/sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b/creation-intent.json": {
+      "sha256": "8df54c47cc5bc41af83e8fca09772f03eaf64f834e9e1c521d962fbe82899959",
+      "size": 790,
+      "mtime_ns": 1793308139586083600,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\offline-execution\\sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\\creation-intent.json"
+    },
+    "research-workspace/offline-execution/sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b/plan-links/e4969c73d2b06b1e2d7467086b2e6bfb9b7b04ff4104c1ea65152d01df842e3e.json": {
+      "sha256": "92bfde22361d76549290379a1f920ea990a8321911c79fa1fb38878210f9082a",
+      "size": 510,
+      "mtime_ns": 1793308169291995900,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\offline-execution\\sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\\plan-links\\e4969c73d2b06b1e2d7467086b2e6bfb9b7b04ff4104c1ea65152d01df842e3e.json"
+    },
+    "research-workspace/data/snapshots/6a13f6b5d54959071819f9462474a987221ea53f6fbea87ff1569a922c85a8c1/f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113.json": {
+      "sha256": "f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113",
+      "size": 217619,
+      "mtime_ns": 1793306911541989900,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\data\\snapshots\\6a13f6b5d54959071819f9462474a987221ea53f6fbea87ff1569a922c85a8c1\\f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113.json"
+    },
+    ".hakimi-ui/49a508f43cfc7660e729/server.lock": {
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "size": 1,
+      "mtime_ns": 1793306708438485200,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\.hakimi-ui\\49a508f43cfc7660e729\\server.lock"
+    },
+    ".hakimi-ui/49a508f43cfc7660e729/jobs/19884e5d-756d-40aa-a5e2-5ecbaf5e0510.json": {
+      "sha256": "e9dfa3c008e3f9f03f131e39425451c6fe93b96701cf5acf463147dc4cc06971",
+      "size": 3379,
+      "mtime_ns": 1793308139608765100,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\.hakimi-ui\\49a508f43cfc7660e729\\jobs\\19884e5d-756d-40aa-a5e2-5ecbaf5e0510.json"
+    },
+    ".hakimi-ui/49a508f43cfc7660e729/jobs/2cd7df25-2f0b-450d-baf1-972a9fa721a4.json": {
+      "sha256": "af3479b265a7ef7ef4000f776f5c2c73b1dca1efd962072c1514035525e1072c",
+      "size": 81618,
+      "mtime_ns": 1793307200734539600,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\.hakimi-ui\\49a508f43cfc7660e729\\jobs\\2cd7df25-2f0b-450d-baf1-972a9fa721a4.json"
+    },
+    ".hakimi-ui/49a508f43cfc7660e729/jobs/5484ced2-f434-4763-8f3e-77082d19593b.json": {
+      "sha256": "e061828cda5cca877e3b5402c95ec7d774d9b284b2c2964afefc3745fac261bc",
+      "size": 111871,
+      "mtime_ns": 1793307142306143700,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\.hakimi-ui\\49a508f43cfc7660e729\\jobs\\5484ced2-f434-4763-8f3e-77082d19593b.json"
+    },
+    ".hakimi-ui/49a508f43cfc7660e729/jobs/96e23791-b72f-4de9-aa9b-b490f1c0b83a.json": {
+      "sha256": "ce7b863b585115770e8be30e90434f08259bc8a4e966a737f000fe3e77fcb88f",
+      "size": 292318,
+      "mtime_ns": 1793306911564972900,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\.hakimi-ui\\49a508f43cfc7660e729\\jobs\\96e23791-b72f-4de9-aa9b-b490f1c0b83a.json"
+    },
+    ".hakimi-ui/49a508f43cfc7660e729/jobs/e90b3047-8322-404f-81c3-4c1b673b24dd.json": {
+      "sha256": "bc8f13b27080c0ba8d40e0a6bc20f152e945a11ea5e4f613d47c600ada0dd851",
+      "size": 5903,
+      "mtime_ns": 1793308169305544300,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\.hakimi-ui\\49a508f43cfc7660e729\\jobs\\e90b3047-8322-404f-81c3-4c1b673b24dd.json"
+    },
+    ".hakimi-ui/49a508f43cfc7660e729/jobs/fd17fb54-55ab-4894-8464-8a919fd450c4.json": {
+      "sha256": "1320ac7ec8e4b9172e9e25ef4e73c76b0fa9d46342714f5fd7a9f2c59ac5efd4",
+      "size": 201171,
+      "mtime_ns": 1793307228088636300,
+      "physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\.hakimi-ui\\49a508f43cfc7660e729\\jobs\\fd17fb54-55ab-4894-8464-8a919fd450c4.json"
+    }
+  },
+  "unchanged_from_first_snapshot": true
+}

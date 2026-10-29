@@ -4,9 +4,103 @@ Only the original native or accepted frozen verifier may produce an envelope.
 Client-supplied reports, paths and integrity assertions are never accepted.
 """
 from copy import deepcopy
+from hashlib import sha256
+import json
 import re
 
 from .terminal_result_comparison import compare_saved_results
+
+
+RECORDED_SOURCE_SCHEMA = "hakimi-saved-native-source-v1"
+RECORDED_EVIDENCE_SCHEMA = "hakimi-saved-research-classification-v1"
+SOURCE_DIGEST_RULE = "ASCII_SORTED_COMPACT_JSON_SOURCE_FILES_V1"
+
+
+def _recorded_digest(value):
+    return sha256(json.dumps(value, ensure_ascii=True, allow_nan=False,
+                             sort_keys=True, separators=(",", ":")).encode("ascii")).hexdigest()
+
+
+def _recorded_seal(value):
+    return {**value, "id": _recorded_digest(value)}
+
+
+def _recorded_evidence_decision(facts):
+    """Interpret saved classification fields, never a security symbol or label.
+
+    A recorded authentication claim is still not external execution admission.
+    Known synthetic research is permanently offline for this exact evidence.
+    """
+    synthetic, unauthenticated, authenticated = False, False, False
+
+    def inspect(key, value):
+        nonlocal synthetic, unauthenticated, authenticated
+        leaf = key.rsplit(".", 1)[-1]
+        if leaf in {"synthetic_only", "qa_test"} and value is True:
+            synthetic = True
+        if leaf in {"data_kind", "evidence_kind"} and type(value) is str:
+            tag = value.upper()
+            synthetic |= tag in {"QA", "QA_TEST"} or tag.startswith(("SYNTHETIC", "QA_"))
+        if leaf == "source_authenticated" and type(value) is bool:
+            authenticated |= value
+            unauthenticated |= not value
+        if leaf in {"data_kind", "evidence_kind", "evidence_status", "truth_status", "status"} and type(value) is str:
+            unauthenticated |= "UNVERIFIED" in value.upper()
+        if type(value) is dict:
+            for name, item in value.items():
+                inspect(str(name), item)
+
+    for fact in facts:
+        inspect(fact["path"], fact["value"])
+    status = ("SYNTHETIC_OFFLINE_ONLY" if synthetic else "UNVERIFIED_RESEARCH" if unauthenticated
+              else "RECORDED_AUTHENTICATION_REQUIRES_ADMISSION" if authenticated else "UNKNOWN")
+    return {"status": status, "external_research_eligible": False if synthetic else None,
+            "external_admission_required": True, "offline_only": synthetic,
+            "admission_cannot_override_synthetic": synthetic}
+
+
+def _recorded_classification(envelope, reference, binding):
+    paths = ("report.data_kind", "report.evidence_kind", "report.evidence_status", "report.quality",
+             "report.input_summary.data_kind", "report.input_summary.evidence_kind", "report.input_summary.quality",
+             "report.input_summary.meta.data_kind", "report.input_summary.meta.evidence_kind",
+             "report.input_summary.meta.qa_test", "report.input_summary.meta.synthetic_only",
+             "report.input_summary.meta.source_authenticated", "report.input_summary.meta.source_authentication",
+             "report.input_summary.meta.core_research_admission", "report.input_summary.meta.daily_research_admission",
+             "report.input_summary.meta.price_source.truth_status", "report.dataset.data_kind", "report.dataset.evidence_kind",
+             "snapshot.data_kind", "snapshot.evidence_kind", "snapshot.research_admission", "snapshot.source_authentication")
+    facts = []
+    for path in paths:
+        item, found = envelope, True
+        for name in path.split("."):
+            if type(item) is not dict or name not in item:
+                found = False
+                break
+            item = item[name]
+        if found:
+            facts.append({"path": path, "value": deepcopy(item)})
+    return _recorded_seal({"schema_version": RECORDED_EVIDENCE_SCHEMA,
+        "reference": deepcopy(reference), "task_id": binding["task_id"], "input_id": binding["input_id"],
+        "report_hash": binding["report_hash"], "engine_id": binding["engine_id"],
+        "facts": facts, "decision": _recorded_evidence_decision(facts)})
+
+
+def _recorded_native_source(task, report, reference, binding):
+    sources, fingerprint = task.get("engine_source_identity"), task.get("fingerprint")
+    if (type(sources) is not dict or not 0 < len(sources) <= 32
+            or any(type(name) is not str or re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,79}\.py", name) is None
+                   or type(value) is not str or re.fullmatch(r"[a-f0-9]{64}", value) is None
+                   for name, value in sources.items())
+            or type(fingerprint) is not str or re.fullmatch(r"[a-f0-9]{64}", fingerprint) is None):
+        raise ValueError("saved_native_source_identity_missing_or_invalid")
+    config = report["configuration"]
+    if (_recorded_digest(config.get("engine_source_identity")) != _recorded_digest(sources)
+            or config.get("fingerprint") != fingerprint):
+        raise ValueError("saved_native_source_identity_conflict")
+    return _recorded_seal({"schema_version": RECORDED_SOURCE_SCHEMA,
+        "reference": deepcopy(reference), "task_id": binding["task_id"], "input_id": binding["input_id"],
+        "report_hash": binding["report_hash"], "engine_id": binding["engine_id"],
+        "source_files": deepcopy(sources), "fingerprint": fingerprint,
+        "digest_rule": SOURCE_DIGEST_RULE, "content_sha256": _recorded_digest(sources)})
 
 
 def verified_saved_result(service, reference):
@@ -43,8 +137,10 @@ def compare_saved_references(service, request):
     return compare_saved_results([verified_saved_result(service, item) for item in references])
 
 
-def resolve_execution_research(service, reference):
+def resolve_execution_research(service, reference, *, include_recorded_source=False):
     """Bind an offline plan to saved evidence, never client form assumptions."""
+    if type(include_recorded_source) is not bool:
+        raise ValueError("recorded_source_opt_in_boolean_required")
     envelope = verified_saved_result(service, reference)
     report = envelope["report"]
     assumptions, display = {}, {}
@@ -96,4 +192,11 @@ def resolve_execution_research(service, reference):
         binding["security_id"] = display["security_id"]
     binding.update(schema_version="hakimi-offline-research-binding-v1", status="COMPLETED")
     assumptions = {key: value for key, value in candidates.items() if type(value) is str and value}
-    return {"binding": binding, "owner_id": owner, "display": display, "assumptions": assumptions}
+    resolved = {"binding": binding, "owner_id": owner, "display": display, "assumptions": assumptions}
+    # Opt-in sidecars preserve the historical binding and candidate projection
+    # byte-for-byte. Default callers retain their exact existing field contract.
+    if include_recorded_source:
+        if reference["kind"] == "terminal_run":
+            resolved["recorded_source_identity"] = _recorded_native_source(task, report, reference, binding)
+        resolved["recorded_evidence_classification"] = _recorded_classification(envelope, reference, binding)
+    return resolved

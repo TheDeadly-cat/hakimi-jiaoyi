@@ -306,7 +306,7 @@
       return JSON.stringify({accountId:state.accountId,context:state.account?.account_context,revision:state.account?.ledger.revision,
         stale:state.accountStale,paused:state.account?.paused,reconcile:state.account?.reconciliation_required,deficiencies:state.account?.deficiencies,
         plan:state.account?.ledger.plans.find(p=>p.plan_id===state.planId),source:state.sourceReference,binding:state.source?.binding,
-        available:state.account?.ledger.available_cash,reserved:state.account?.ledger.reserved_cash,config:state.account?.ledger.config,factorPosition:state.factorPosition});
+        available:state.account?.ledger.available_cash,reserved:state.account?.ledger.reserved_cash,config:state.account?.ledger.config});
     }
     function stopFactorRead(){if(state.factorBusy){factorSequence++;state.factorBusy=false;state.factorReadStamp=null;}}
     function invalidatePreview() {if(state.orderPreview){state.orderPreview=null;stopFactorRead();emit();}}
@@ -403,13 +403,13 @@
       <div class="form-grid section-gap"><div class="field"><label for="tex-cancel-outcome">撤销请求的合成响应</label><select id="tex-cancel-outcome"><option value="">请选择</option><option value="ACCEPTED">已接受请求，尚未确认撤销</option><option value="TIMEOUT_UNCONFIRMED">响应超时，继续待核对</option></select></div></div>${action("记录撤销响应","cancel")}<p class="section-note">撤销响应不释放预留；只有最终撤销或全部成交观察才能释放。</p>
       <div class="field section-gap"><label for="tex-control-reason">明确恢复的原因</label><input id="tex-control-reason" maxlength="500"></div><div class="actions">${action("明确恢复演练","resume")}${action("填写完整合成对账","begin-reconcile")}</div><div id="tex-reconciliation" class="section-gap" hidden></div></div></details>`;
     host.append(section);
-    section.querySelector("#tex-source-detail").insertAdjacentHTML("afterend",`<div class="section-gap"><p id="tex-rule-read-error" class="notice warning" role="status" hidden></p><div class="actions">${action("重新读取保存参数与日期","read-rule")}</div><div class="field section-gap"><label for="tex-factor-position">只读核对情景 · 不代表账户实际持仓</label><select id="tex-factor-position"><option value="">请选择诊断情景</option><option value="flat">未持仓：核对历史开仓条件</option><option value="holding">已有持仓：核对历史退出条件</option></select></div><div class="actions">${action("核对该截止日的因子","read-factors")}</div><p id="tex-factor-status" class="section-note" role="status"></p><p id="tex-factor-read-error" class="notice warning" role="status" hidden></p><details class="section-gap"><summary>查看这份保存结果的参数、日期与因子依据</summary><div id="tex-saved-rule-review"></div></details></div>`);
+    section.querySelector("#tex-source-detail").insertAdjacentHTML("afterend",`<div id="tex-factor-controls-home" class="section-gap"><div id="tex-factor-controls"><p id="tex-rule-read-error" class="notice warning" role="status" hidden></p><div class="actions">${action("重新读取同一结果的参数与日期","read-rule")}</div><div class="field section-gap"><label for="tex-factor-position">只读核对情景 · 不代表账户实际持仓</label><select id="tex-factor-position"><option value="">请选择诊断情景</option><option value="flat">未持仓：核对历史开仓条件</option><option value="holding">已有持仓：核对历史退出条件</option></select></div><div class="actions">${action("核对该历史截止日的因子","read-factors")}</div><p id="tex-factor-status" class="section-note" role="status"></p><p id="tex-factor-read-error" class="notice warning" role="status" hidden></p></div></div><details class="section-gap"><summary>查看这份保存结果的参数、日期与因子依据</summary><div id="tex-saved-rule-review"></div></details>`);
     const style=document.createElement("style");style.textContent=".tex{scroll-margin-top:100px}.tex [hidden]{display:none!important}.tex .notice,.tex td,.tex dd{overflow-wrap:anywhere}.tex .tex-table{overflow:auto;max-height:440px}.tex .tex-table table{min-width:680px}.tex .tex-metrics{display:flex;gap:24px;flex-wrap:wrap}.tex .tex-metrics strong{display:block;font-size:20px}.tex details form{margin-top:14px}.tex .tex-mode{font-weight:700;color:var(--primary,#245ad5)}.tex .tex-preview{border:2px solid var(--primary,#245ad5);padding:18px;border-radius:10px}.tex summary{cursor:pointer;min-height:44px;align-content:center}.tex button,.tex select,.tex input:not([type=checkbox]):not([type=hidden]){min-height:44px}.tex [data-tex-action=stop]{border-color:#a44831;color:#8d3420}.tex .tex-rule-summary{margin:12px 0}.tex .check-label{display:flex;gap:10px;align-items:flex-start}.tex .check-label input{flex:none;margin-top:4px}.tex .page-heading>.actions{flex-wrap:wrap;flex-shrink:0}@media(max-width:760px){.tex .form-grid{grid-template-columns:1fr}.tex .page-heading{align-items:flex-start;flex-direction:column}.tex .tex-metrics{gap:16px}.tex .tex-preview{padding:14px}.tex button{white-space:normal}}";document.head.append(style);
     const $=id=>section.querySelector("#"+id),v=id=>$(id)?.value||"",checked=id=>$(id)?.checked===true;
     const option=(id,label)=>`<option value="${esc(id)}">${esc(label)}</option>`;
     const select=(id,rows,current,empty)=>{const node=$(id);node.innerHTML=option("",empty)+rows.map(([value,label])=>option(value,label)).join("");node.value=current||"";};
     const dollars=value=>typeof value==="string"?"$"+value:"未记录";
-    let reconKey="",lastOrder="",lastPreview=null;
+    let reconKey="",lastOrder="",lastPreview=null,lastFactorPosition="";
     style.textContent+=".tex .tex-factor-table{overflow:auto;max-width:100%}.tex .tex-factor-table table{width:100%;border-collapse:collapse;font-size:13px}.tex .tex-factor-table th,.tex .tex-factor-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left;overflow-wrap:anywhere}.tex .tex-rule-review{min-width:0;overflow-wrap:anywhere}.tex .tex-rule-review .kv{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.tex .tex-rule-review dd{margin:0}";
     const controller=createController({api,perform,readResearch,changed:render});
     const {state}=controller;
@@ -426,6 +426,8 @@
       $("tex-factor-position").value=state.factorPosition;$("tex-rule-read-error").hidden=!state.sourceRuleError;$("tex-rule-read-error").textContent=state.sourceRuleError;
       $("tex-factor-read-error").hidden=!state.factorError;$("tex-factor-read-error").textContent=state.factorError;
       $("tex-factor-status").textContent=state.factorBusy?"正在只读核对保存截止日的规则，不运行回测或订单。":state.factorReview?"本次只读因子解释已核对；不是原报告保存的因子，也不是当前买入指令。":"选择诊断情景后可核对因子；不默认买入，也不把手选情景当作账户持仓。";
+      section.querySelector('[data-tex-action="read-factors"]').textContent=state.factorBusy?"正在核对该历史截止日…":state.factorError?"重新核对同一结果与情景的因子":"核对该历史截止日的因子";
+      if(lastFactorPosition!==state.factorPosition){$("tex-confirm-order").checked=false;lastFactorPosition=state.factorPosition;}
       $("tex-saved-rule-review").innerHTML=renderRuleReview(state.sourceRuleContext,state.factorReview);
       $("tex-account-symbol").textContent=readyResearch(research)?"演练标的："+d.symbol+" · 合成美元资金与整股":"请先选择证券身份完整的保存结果。";
       const account=state.account,ledger=account?.ledger,securities=ledger?.config?.securities||{};
@@ -459,15 +461,28 @@
     }
     function renderPreview() {
       const preview=state.orderPreview;$("tex-confirm-form").hidden=!preview;
-      if(lastPreview!==preview){$("tex-confirm-order").checked=false;lastPreview=preview;}
+      const changed=lastPreview!==preview;
+      if(changed){
+        $("tex-confirm-order").checked=false;
+        // Move the same controls before replacing preview markup. Their single
+        // state and delegated handlers remain valid in either location.
+        $("tex-factor-controls-home").append($("tex-factor-controls"));
+        lastPreview=preview;
+      }
       if(!preview){$("tex-preview-detail").innerHTML="";return;}
+      if(!changed){
+        section.querySelector('[data-tex-preview-rule]').innerHTML=renderRuleReview(state.sourceRuleContext,state.factorReview);
+        section.querySelector('[data-tex-preview-cutoff]').innerHTML=`<strong>保存研究历史截至 ${esc(state.sourceRuleContext?.cutoff_session||"尚未取得一致记录")}</strong>，不是当前报价或买入指令。`;
+        return;
+      }
       const t=preview.terms,e=preview.estimate,ledger=state.account.ledger,plan=ledger.plans.find(p=>p.plan_id===t.plan_id),approx=n=>Number.isFinite(n)?"$"+n.toFixed(2):"未记录";
       const held=ledger.positions.filter(p=>p.owner_id===plan.owner_id&&p.security_id===t.security_id).reduce((sum,p)=>sum+p.quantity,0),reserved=ledger.orders.filter(o=>o.terms.owner_id===plan.owner_id&&o.terms.security_id===t.security_id).reduce((sum,o)=>sum+(o.reserved_shares||0),0);
       const scenario={ACCEPTED:"接受（确认后才记录）",REJECTED:"明确拒绝（确认后才记录）",TIMEOUT_UNCONFIRMED:"超时（确认后进入待核对）"}[t.outcome];
       $("tex-preview-detail").innerHTML=`<h4>请核对这笔合成订单</h4><p><strong>${esc(preview.accountLabel)} · ${esc(ledger.config.securities[t.security_id].symbol)} · ${t.side==="BUY"?"买入":"卖出所属持仓"} ${esc(t.quantity)} 股</strong></p><p>限价 ${esc(dollars(t.limit_price))} · 合成参考价 ${esc(dollars(t.quote.price))} · 拟记录场景：${esc(scenario)}</p><p>绑定策略：${esc(savedResultTitle(sourceLabel(state.sourceReference),plan.research_binding.task_version))}</p><details><summary>查看计划与完整版本身份</summary><dl class="kv"><dt>原版本身份</dt><dd>${esc(plan.research_binding.task_version??"未记录")}</dd><dt>原任务</dt><dd>${esc(plan.research_binding.task_id)}</dd><dt>原结果</dt><dd>${esc(plan.research_binding.report_id)}</dd><dt>演练计划</dt><dd>${esc(plan.plan_id)}</dd></dl></details>
         <div class="tex-metrics"><div>当前可用现金<strong>${esc(dollars(ledger.available_cash))}</strong></div><div>当前订单预留<strong>${esc(dollars(ledger.reserved_cash))}</strong></div><div>委托金额粗估<strong>${esc(approx(e.notional))}</strong></div></div>
         <p>${t.side==="BUY"?"本单资金预留粗估（含费用预留）："+esc(approx(e.reservation)):"当前计划归属持仓："+esc(held)+" 股；已预留："+esc(reserved)+" 股。"}</p>${t.outcome==="REJECTED"?'<p>明确拒绝场景不会新增资金预留；上方金额仅为订单规模。</p>':""}
-        <p class="section-note">粗估只作核对，以服务端资金、持仓和风险校验为准；不代表成交。参考时点：${esc(new Date(t.signal_at).toLocaleString())}。修改任何订单字段或重新读取账户后，需重新预览。</p>${e.reservation!==null&&e.reservation>e.available?'<p class="notice warning">粗估预留已高于当前可用现金，请先调整；最终仍由服务端校验。</p>':""}<p data-tex-preview-cutoff><strong>保存研究历史截至 ${esc(state.sourceRuleContext?.cutoff_session||"尚未取得一致记录")}</strong>，不是当前报价或买入指令。</p>${state.factorError?`<p class="notice warning">${esc(state.factorError)}</p>`:""}<details data-tex-preview-evidence><summary>核对保存参数与本次只读因子依据</summary><div data-tex-preview-rule>${renderRuleReview(state.sourceRuleContext,state.factorReview)}</div></details>`;
+        <p class="section-note">粗估只作核对，以服务端资金、持仓和风险校验为准；不代表成交。参考时点：${esc(new Date(t.signal_at).toLocaleString())}。修改任何订单字段或重新读取账户后，需重新预览。</p>${e.reservation!==null&&e.reservation>e.available?'<p class="notice warning">粗估预留已高于当前可用现金，请先调整；最终仍由服务端校验。</p>':""}<p data-tex-preview-cutoff><strong>保存研究历史截至 ${esc(state.sourceRuleContext?.cutoff_session||"尚未取得一致记录")}</strong>，不是当前报价或买入指令。</p><div class="section-gap"><strong>就地核对同一保存结果的因子</strong><p class="section-note">可明确选择历史诊断情景；不改变这笔订单的方向、金额或参考时点。切换情景后需重新确认订单。</p><div id="tex-preview-factor-controls"></div></div><details data-tex-preview-evidence><summary>核对保存参数与本次只读因子依据</summary><div data-tex-preview-rule>${renderRuleReview(state.sourceRuleContext,state.factorReview)}</div></details>`;
+      $("tex-preview-factor-controls").append($("tex-factor-controls"));
     }
     function renderReconciliation() {
       const target=$("tex-reconciliation"),draft=state.reconciliation;target.hidden=!draft;if(!draft){reconKey="";return;}
@@ -497,7 +512,7 @@
     section.addEventListener("click",event=>{
       const target=event.target.closest("[data-tex-action]");if(!target||target.disabled)return;
       const name=target.dataset.texAction;
-      const work=async()=>{if(name==="refresh")return controller.refresh();if(name==="check-pending")return controller.checkPending();if(name==="create-plan")return controller.createPlan();if(name==="compare")return controller.compare();if(name==="read-rule")return controller.readSavedRuleContext();if(name==="read-factors")return controller.readFactors();
+      const work=async()=>{if(name==="refresh")return controller.refresh();if(name==="check-pending")return controller.checkPending();if(name==="create-plan")return controller.createPlan();if(name==="compare")return controller.compare();if(name==="read-rule")return controller.readSavedRuleContext();if(name==="read-factors"){const evidence=section.querySelector('[data-tex-preview-evidence]');if(evidence)evidence.open=true;return controller.readFactors();}
         if(name==="open-account"){$("tex-new-account").open=true;$("tex-name").focus();return;}
         if(name==="open-advanced"){$("tex-advanced").open=true;$("tex-advanced").scrollIntoView({block:"start"});return;}
         if(name==="cancel")return controller.recordCancel(v("tex-cancel-outcome"));if(name==="stop")return controller.control("stop","用户在订单核对页明确暂停新增风险");if(name==="resume")return controller.control(name,v("tex-control-reason"));if(name==="begin-reconcile")return controller.beginReconciliation();if(name==="order-time"){fillNow("tex-order-at");controller.invalidatePreview();return;}if(name==="reconcile-time")return fillNow("tex-reconcile-at");};

@@ -1,0 +1,101 @@
+{
+  "status": "PASS_CLOSED_READ_ONLY_COPY_SNAPSHOT",
+  "label": "FIRST_CLOSED",
+  "at": "2026-10-29T21:31:11.647484+00:00",
+  "qa_file_count": 20,
+  "counts": {
+    "core_inputs": 1,
+    "native_inputs": 1,
+    "task_versions": 1,
+    "completed_reports": 1,
+    "report_files": 1,
+    "accounts": 1,
+    "plan_links": 1,
+    "jobs": 6,
+    "historical_replay_databases": 0
+  },
+  "job_actions": {
+    "terminal_execution_create_account": 1,
+    "terminal_save_task": 1,
+    "terminal_import_core_input": 1,
+    "import_document": 1,
+    "terminal_execution_create_plan": 1,
+    "terminal_run_task": 1
+  },
+  "reports": [
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-runs\\835cfd802c98c4009d8f5a25a2db4489363e337fd40ba8b340e44a1e6b649251\\report.json",
+      "id": "df059e7b58636d95ba4797fdbfb13ff71b0a3f0da39eb7b7c24456e820b12921",
+      "status": "COMPLETED",
+      "task_id": "c05bf26fc36be84c5b379b5758cfc909d46754851368dbd89a1f537b43323c01",
+      "task_version": null,
+      "input_id": null,
+      "operation_id": "835cfd802c98c4009d8f5a25a2db4489363e337fd40ba8b340e44a1e6b649251"
+    }
+  ],
+  "accounts": [
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\offline-execution\\sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\\account.json",
+      "record": {
+        "account_id": "sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b",
+        "config_hash": "926e0e7f1e8d65b30fad1070c2ab1731dcc0b471cb512c9edae359d35fb3f95e",
+        "created_at": "2026-10-29T21:08:59.618095+00:00",
+        "creation_id": "e2164b62ca9cd51d57f5d6d47725ec39da094633533c504d",
+        "creation_request_hash": "744a85df181c30f8841b13e42dab6d4470ed2ab9bcf17cd9ff1e31dcfc053965",
+        "database": "account.sqlite",
+        "evidence_kind": "SYNTHETIC_TEST",
+        "label": "dev3 r2 原生验收合成账户",
+        "permissions": {
+          "broker_connection_allowed": false,
+          "live_order_allowed": false,
+          "local_simulation_allowed": true,
+          "model_calls_allowed": false,
+          "order_allowed": false,
+          "paper_order_allowed": false
+        },
+        "request_id": "execution-14080435-189c-4ca4-9651-431d29704ed2",
+        "schema_version": "hakimi-terminal-execution-account-v1"
+      }
+    }
+  ],
+  "plans": [
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\offline-execution\\sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\\plan-links\\e4969c73d2b06b1e2d7467086b2e6bfb9b7b04ff4104c1ea65152d01df842e3e.json",
+      "record": {
+        "binding_hash": "c6744f99da78a1df20028d8b6a02e0351cbd2d51360996ca7cf780fab442937c",
+        "owner_continuity": "VERIFIED_TASK_FAMILY",
+        "owner_source": "family:b8cf71f4852b3d79c1715e58f73f2641",
+        "plan_id": "e4969c73d2b06b1e2d7467086b2e6bfb9b7b04ff4104c1ea65152d01df842e3e",
+        "reference": {
+          "id": "df059e7b58636d95ba4797fdbfb13ff71b0a3f0da39eb7b7c24456e820b12921",
+          "kind": "terminal_run"
+        },
+        "schema_version": "hakimi-terminal-execution-plan-link-v1",
+        "scoped_owner_id": "16c77b6e1aec197ab5a7e7b99acd780cfc902c990be0ada53833782116154fad"
+      }
+    }
+  ],
+  "sqlite_table_counts": {
+    "events": 1,
+    "fills": 0,
+    "marks": 0,
+    "meta": 1,
+    "observations": 0,
+    "opportunities": 0,
+    "orders": 0,
+    "plans": 1,
+    "positions": 0,
+    "requests": 1
+  },
+  "original_business_files_unchanged": true,
+  "source_sqlite_opened": false,
+  "sqlite_copy_read_mode": "ro",
+  "sqlite_copy_sha256": "82b0d952c76c2321db321426e335ffe920702514e185231869e7ba3ddfa47bfc",
+  "source_wal_shm_journal_absent": true,
+  "initial_conservative_snapshot": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-window-r2\\FIRST_CLOSED\\qa-business-r1\\summary.json",
+  "service_constructed": false,
+  "verifier_run": false,
+  "new_research_or_business_action": false,
+  "old_databases_read": false,
+  "program_rehashed": false
+}
