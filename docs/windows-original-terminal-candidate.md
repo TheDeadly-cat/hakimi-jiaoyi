@@ -4,6 +4,8 @@
 
 此页说明新候选的入口与操作。最终包身份以包内 `terminal-manifest.json` 的版本、构建提交和 bundle ID 为准；源码、打包探测、实际 Windows 操作和独立新手试用分别记录在 `astra-backlog.md`。尚未发布为正式 Release。
 
+当前本机已验证的候选为 **r4 / 构建 a53068b**，已完成保存、一次新合成回测、原图表复盘、关闭重开、重复启动及端口冲突检查，详见[原生验收与完整包身份](research-evidence/terminal-070dev1-native-20261029/README.md)。r4 未包含后续日常日线获取、推荐候选与执行页面的新改动；独立新手试用仍待完成。
+
 ## 打开与第一次研究
 
 1. 把整个 ZIP 解压到新的文件夹，保留全部文件，双击 `HakimiTrade.exe`。不要用它覆盖旧 dev5 文件夹。
