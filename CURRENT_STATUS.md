@@ -2,7 +2,7 @@
 
 ## 2026-10-29 原终端产品交付
 
-当前工作按[第二版 30 项任务清单](docs/astra-backlog.md)推进。日常入口固定为原终端及同窗 `/quant/`；当前候选 **0.7.0.dev3 r2 / 43c155a / HakimiTrade.exe** 使用包内解释器和完整资源。见[新候选说明](docs/windows-original-terminal-candidate.md)。功能基线 `db443e6` 的 run 143 已成功；新修改、候选构建和原生验收不能沿用该旧 CI。以下 2026-10-27 及更早状态保留为历史。
+当前工作按[第二版 30 项任务清单](docs/astra-backlog.md)推进。日常入口固定为原终端及同窗 `/quant/`；当前候选 **0.7.0.dev3 r3 / f752958 / HakimiTrade.exe** 使用包内解释器和完整资源。见[新候选说明](docs/windows-original-terminal-candidate.md)。功能基线 `db443e6` 的 run 143 已成功；新修改、候选构建和原生验收不能沿用该旧 CI。以下 2026-10-27 及更早状态保留为历史。
 
 更新：`a53068b` 的 CI run 148 已成功，11/11 作业通过；该干净源码的 **r4 候选已完成本机原生保存、运行、复盘、关闭重开、重复启动与端口冲突检查**，41 个数据/操作文件在重开读取后不变，只有一次新合成回测。见[原生凭据与边界](docs/research-evidence/terminal-070dev1-native-20261029/README.md)。按用户补充优先级，继续推进“选股票→推荐策略与因子理由→核对资金风险→确认订单”，后续代码与 r4 包身份分别记录；PR #26 仍为草稿，未合并或发布。
 
@@ -17,6 +17,11 @@
 
 
 2026-10-30后续：订单预览内的就地因子核对已完成，32项定向、1280/480完整宿主及19.576秒完整桌面检查通过；[交互证据](docs/research-evidence/order-preview-inline-factor-20261030/README.md)。[券商离线计划合同](docs/research-evidence/broker-execution-plan-20261030/README.md)绑定原保存源码、模式/停止修订及预算，合成资料固定离线；489项终端与11项打包检查通过，尚未接服务、账本、worker或实际适配器。r2已正常首次关闭并完成265旧文件保护及20个新QA文件/业务计数，重开原报告和账户可读；用户停止桌面操作后保留窗口，原生计划选择与最终关闭核对待继续。[完整节点记录](docs/research-evidence/terminal-070dev3-r2-native-20261030/README.md)。f8242f3的run162已11/11成功，新提交CI另核。
+
+最新候选：[dev3 r3](docs/research-evidence/terminal-070dev3-r3-build-20261030/README.md)已从干净f752958完成一次冻结检查、构建与完整验包；489项终端、完整桌面、11项打包及9067程序文件/9068 ZIP项通过。结果定位与就地因子修复已进入包，纯离线计划仅验证包内导入；新包尚未打开原生窗口。构建只运行一个新临时SYNTHETIC_TEST例，0真实行情、历史回放、模型或券商请求。r2原生暂停状态与所有旧包保持原身份。
+
+
+当前候选提交f752958的[run163](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40960877552)已11/11成功。dev3 r3构建及验包身份见[构建记录](docs/research-evidence/terminal-070dev3-r3-build-20261030/README.md)；原生窗口尚未验收，后续源码不沿用此CI结论。
 
 ## 历史基线（2026-10-27）
 

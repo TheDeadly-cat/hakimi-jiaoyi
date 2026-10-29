@@ -1,0 +1,22 @@
+{
+  "status": "VERIFIED_NEW_SYNTHETIC_RUN",
+  "bundle_id": "e3b7d86aae0585a91636b4f39bb2b7afd2a83033c8a8a1b1be29acbbc7282333",
+  "frozen_content_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+  "synthetic_runs": 1,
+  "market_data_runs": 0,
+  "historical_replays": 0,
+  "provider_calls": 0,
+  "listening_servers": 0,
+  "external_module_count": 0,
+  "saved_task_id": "9cf9d910c674c3040e75bff25e006b206d1ce5fd1111152ee76e0829ef90d452",
+  "run_id": "e42d0a364ff79952c30292d06693df942b483d4125156266587462adec4c8b0a",
+  "report_hash": "0fc10499e91f7b1cf24d4b2e696450d929192885543d3237599ab93fb39f1f59",
+  "evidence_kind": "SYNTHETIC_TEST",
+  "save_computed": false,
+  "read_computed": false,
+  "read_changed_files": false,
+  "source_status": "BUILD_VERIFIED",
+  "dependency_status": "VERIFIED",
+  "temporary_workspace": true,
+  "private_python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r3\\runtime\\python\\python.exe"
+}

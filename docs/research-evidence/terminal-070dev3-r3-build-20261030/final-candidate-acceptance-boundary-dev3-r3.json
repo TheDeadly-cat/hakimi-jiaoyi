@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "source_commit": "f75295867b918eebaed66f32ee4c3ee542ad8213",
+  "version": "0.7.0.dev3",
+  "expected_tests": 489,
+  "bundle_id": "e3b7d86aae0585a91636b4f39bb2b7afd2a83033c8a8a1b1be29acbbc7282333",
+  "archive_sha256": "dc3b8cb8b82281659103884cfdec7500861cefb4f13d23a7558eba4467931048",
+  "structural_inventory_and_zip_pass": true,
+  "auxiliary_checks": [
+    {
+      "check": "installed_js",
+      "exit_code": 0,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-installed-js-dev3-r3.log"
+    },
+    {
+      "check": "private_feature_closure",
+      "exit_code": 0,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-feature-closure-launch-dev3-r3.log"
+    }
+  ],
+  "synthetic_runs": 1,
+  "market_data_runs": 0,
+  "historical_replays": 0,
+  "provider_calls": 0,
+  "native_app_started": false,
+  "production_server_started": false,
+  "source_repository_inaccessible_guest_test": false,
+  "reason": "Host-only private module closure and full HTML assembly; native/guest acceptance is separate."
+}
