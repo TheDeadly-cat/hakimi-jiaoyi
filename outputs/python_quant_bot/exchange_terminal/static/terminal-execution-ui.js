@@ -6,9 +6,46 @@
   const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const requestPath=(resource,value)=>resource+"/"+encodeURIComponent(JSON.stringify(value));
   const labels={ACCEPTED:"已接受 · 尚未成交",REJECTED:"已拒绝",PARTIAL:"部分成交",FILLED:"全部成交",CANCELLED:"已撤销",TIMEOUT_UNCONFIRMED:"结果待核对"};
+  const explanationSchema="hakimi-execution-explanation-v1";
+  const explanationGroups=["DATA","RULES","TIMING","MATCHING","COSTS","UNKNOWN"];
+  const explanationNames={order_id:"订单编号",state:"订单状态",filled:"累计合成成交股数",notional:"累计合成成交金额（美元）",fee:"累计合成费用（美元）",reserved_cash:"预留资金（美元）",reserved_shares:"预留股数",cancel_state:"撤销请求状态",signal_at:"声明信号时间（毫秒）",execution_at:"声明执行时间（毫秒）",data_start:"数据开始",data_end:"数据结束",score_start:"评估开始",score_end:"评估结束",context_rows:"预热行数",scored_rows:"评估行数",price_basis:"价格口径",as_of:"数据截至",stop_reason:"暂停原因",reconciliation_required:"需要核对",account_deficits:"账户缺口",owner_id:"持仓归属",security_id:"证券身份",quantity:"股数",fee_rate:"手续费率",slippage_bps:"滑点（基点）",slippage_pct:"滑点（比例）",signal_time:"信号时点",entry_exit_time:"入场与退出时点",intrabar_priority:"同根价格触发顺序",open_position_at_end:"期末持仓处理"};
+  const explanationValues={EXPLICIT_SYNTHETIC_CUMULATIVE_OBSERVATIONS_NO_PRICE_MATCHING:"手工合成累计观察，不按价格自动撮合",WHOLE_SHARES_LONG_ONLY:"整数股，只做多",FRACTIONAL_SHARES_RESEARCH_APPROXIMATION:"回测允许碎股近似",EXPLICIT_SIGNAL_AND_EXECUTION_TIMESTAMPS:"用户明确填写信号与执行时间",SYNTHETIC_TEST:"合成测试记录",BAR_CLOSE:"收盘产生信号",NEXT_BAR_OPEN:"下一根开盘执行",STOP_BEFORE_TARGET:"先检查止损，再检查止盈",MARK_TO_MARKET:"按期末价格计价"};
+  function explanationValue(value,unit) {
+    if(value==null)return "未记录 / 未知";
+    let html;
+    if(Array.isArray(value))html=value.length?`<ul>${value.map(v=>`<li>${explanationValue(v)}</li>`).join("")}</ul>`:"无记录项";
+    else if(plain(value))html=`<dl class="tex-explain-values">${Object.entries(value).map(([k,v])=>`<dt>${esc(explanationNames[k]||k)}</dt><dd>${explanationValue(v)}</dd>`).join("")}</dl>`;
+    else html=esc(typeof value==="boolean"?(value?"是":"否"):(labels[value]||explanationValues[value]||value));
+    return html+(unit?` <span class="section-note">${esc({ratio:"比例（1 = 100%）",basis_points:"基点（1 = 0.01%）",USD:"美元"}[unit]||unit)}</span>`:"");
+  }
+  function renderExecutionExplanation(value) {
+    if(!value)return "";
+    if(value.schema_version!==explanationSchema||!Array.isArray(value.groups))return '<p class="notice warning">差异说明格式尚未通过核对，请重新读取。</p>';
+    const tag={MATCH:"绑定记录一致",DIFFERENT:"记录不同",UNKNOWN:"未知 / 不作等同比较"};
+    const refs=fact=>(fact?.evidence_ref||[]).map(ref=>{
+      if(ref.source==="UNRECORDED")return "该项没有可用于比较的记录";
+      if(ref.source==="SCHEMA_CONTRACT")return `演练规则 ${ref.schema_version} · ${ref.contract_key}`;
+      return `${ref.source==="SAVED_PROJECTION"?"已核验报告投影":ref.source==="REFERENCE_BINDING"?"已核验报告绑定":"已核验账本快照"} · ${ref.report_hash||ref.account_id||""}${ref.ledger_revision!=null?" · 账本版本 "+ref.ledger_revision:""}${ref.order_id?" · 订单 "+ref.order_id:""} · ${ref.pointer||""}`;
+    }).map(text=>`<li>${esc(text)}</li>`).join("");
+    const account=value.account_scope||{};
+    return `<div class="tex-explanation" style="min-width:0;overflow-wrap:anywhere"><style>.tex-explanation summary{cursor:pointer;min-height:44px;padding:10px 0}.tex-explanation .tex-explain-values{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:6px 12px;margin:8px 0}.tex-explanation dd{margin:0;min-width:0}.tex-explanation li{margin-bottom:6px}.tex-explanation article{border-top:1px solid var(--border);padding:12px 0}.tex-explanation ul{padding-left:20px}@media(max-width:600px){.tex-explanation .tex-explain-values{grid-template-columns:minmax(0,1fr)}.tex-explanation .tex-explain-values>dt{font-weight:600}}</style>
+      <h4>回测与本地合成演练：差异说明</h4><p class="notice${value.status==="ONLY_CONTEXT_NO_ATTRIBUTION"?" warning":""}">${esc(value.summary)}</p>
+      <p class="section-note">计划绑定一致不等于逐笔交易对应。手工观察不证明外部成交；这里不计算收益差贡献。</p>
+      ${value.groups.map(group=>`<details data-tex-explanation-group="${esc(group.id)}" ${group.default_open?"open":""}><summary>${esc(group.label)} · 不同 ${esc(group.counts?.DIFFERENT??0)} / 未知 ${esc(group.counts?.UNKNOWN??0)}</summary>
+        ${(group.items||[]).map(item=>`<article><strong>${esc(item.label)}</strong> · ${esc(tag[item.status]||tag.UNKNOWN)}<p>${esc(item.explanation)}</p>
+          <dl class="tex-explain-values"><dt>回测记录</dt><dd>${explanationValue(item.research?.value,item.research?.unit)}</dd><dt>计划 / 合成记录</dt><dd>${explanationValue(item.simulation?.value,item.simulation?.unit)}</dd></dl>
+          <details data-tex-evidence><summary>查看只读依据</summary><p class="section-note">以下位置用于追溯传入的报告投影、绑定或账本快照；不表示外部认证。</p><ul>${refs(item.research)}${refs(item.simulation)}</ul></details></article>`).join("")}</details>`).join("")}
+      <details data-tex-account-scope><summary>共享账户资金与持仓范围</summary><p>${esc(account.label)}</p><dl class="tex-explain-values"><dt>账户现金</dt><dd>${explanationValue(account.cash,account.currency)}</dd><dt>已预留</dt><dd>${explanationValue(account.reserved_cash,account.currency)}</dd><dt>当前可用</dt><dd>${explanationValue(account.available_cash,account.currency)}</dd></dl><p>下列持仓属于该所有者的多个计划，不能作为单个计划的收益。</p>${explanationValue(account.owner_positions)}</details></div>`;
+  }
   const safePermissions=value=>plain(value)&&["paper_order_allowed","live_order_allowed","order_allowed","broker_connection_allowed","model_calls_allowed"].every(key=>value[key]===false);
   const reference=value=>plain(value)&&["terminal_run","core_run"].includes(value.kind)&&typeof value.id==="string"&&value.id.length>0;
   const sameReference=(a,b)=>a?.kind===b?.kind&&a?.id===b?.id;
+  function displayVersion(value) {
+    const match=typeof value==="string"?value.match(/^(?:r(\d+)(?:-[a-z0-9]+)?|(\d+))$/i):null;
+    const number=typeof value==="number"?value:match?Number(match[1]||match[2]):NaN;
+    return Number.isSafeInteger(number)&&number>0?"版本 "+number:"版本未记录";
+  }
+  function savedResultTitle(label,version) {const name=String(label||"已保存研究结果");return /版本\s*\d+/.test(name)?name:name+" · "+displayVersion(version);}
   const money=(value,label,positive=false,signed=false)=>{const s=String(value??"").trim(),number=signed&&s.startsWith("-")?s.slice(1):s;if(!/^(?:0|[1-9]\d{0,14})(?:\.\d{1,8})?$/.test(number)||(positive&&Number(s)<=0))throw Error(label+"请填写有效的美元金额。");return s;};
   const integer=(value,label,zero=false)=>{const n=Number(value);if(String(value).trim()===""||!Number.isSafeInteger(n)||n<(zero?0:1)||n>1e9)throw Error(label+"请填写"+(zero?"非负":"正")+"整数。");return n;};
   const timestamp=(value,label)=>{const n=Date.parse(value);if(!value||!Number.isFinite(n))throw Error("请填写"+label+"。");return n;};
@@ -53,7 +90,7 @@
   function createController({api,perform,readResearch,uuid=()=>root.crypto.randomUUID(),changed=()=>{}}) {
     const state={sources:[],accounts:[],source:null,sourceReference:null,account:null,accountId:"",planId:"",orderId:"",
       busy:false,pending:null,fact:null,error:"",readError:"",accountStale:false,comparison:null,reconciliation:null,orderPreview:null};
-    let accountSequence=0,sourceSequence=0,listSequence=0;
+    let accountSequence=0,sourceSequence=0,listSequence=0,comparisonSequence=0;
     const emit=()=>{if(state.orderPreview&&state.orderPreview.stamp!==previewStamp())state.orderPreview=null;try{changed(state);}catch(error){state.readError="页面展示未完成；已保存回执仍保留。";}};
     const req=()=>"execution-"+uuid();
     function setSources(items) {state.sources=(items||[]).filter(reference).map(v=>({kind:v.kind,id:v.id,label:String(v.label||"已保存研究结果")}));emit();}
@@ -235,11 +272,14 @@
     }
     async function compare() {
       const account=currentAccount();if(!state.planId||!state.sourceReference)throw Error("请选择保存结果和演练计划。");
-      const planId=state.planId,source=clone(state.sourceReference);
-      try{const value=await api(requestPath("terminal_execution_compare",{account_id:account.account_id,plan_id:planId,reference:source}));
-        if(state.accountId!==account.account_id||state.planId!==planId||!sameReference(source,state.sourceReference))return;
+      const planId=state.planId,source=clone(state.sourceReference),revision=state.account.ledger.revision,seq=++comparisonSequence;
+      const current=()=>seq===comparisonSequence&&state.accountId===account.account_id&&state.account?.account_context===account.account_context&&state.account?.ledger.revision===revision&&state.planId===planId&&sameReference(source,state.sourceReference);
+      state.comparison=null;emit();
+      try{const value=await api(requestPath("terminal_execution_explanation",{...account,plan_id:planId,reference:source}));
+        if(!current())return;
+        if(value?.schema_version!==explanationSchema||!safePermissions(value.permissions)||!Array.isArray(value.groups)||value.groups.map(g=>g.id).join()!==explanationGroups.join()||!["BOUND_REPORT_CONTEXT_ONLY","ONLY_CONTEXT_NO_ATTRIBUTION"].includes(value.status)||value.attribution?.numeric_performance_comparison_allowed!==false||value.attribution?.contributions!==null||value.scope?.account_id!==account.account_id||value.scope?.plan_id!==planId||value.scope?.ledger_revision!==revision||value.scope?.reference_report_hash!==state.source?.binding?.report_hash)throw Error("差异资料身份或账本版本不一致，请重新读取账户后查看。");
         state.comparison=value;state.readError="";emit();}
-      catch(error){state.readError="差异资料读取未完成："+readableError(error);emit();}
+      catch(error){if(current()){state.readError="差异资料读取未完成："+readableError(error);emit();}}
     }
     return {state,setSources,openResearch,openAccount,refresh,createAccount,createPlan,selectPlan,selectOrder,submitOrder,
       previewOrder,confirmOrder,invalidatePreview,recordObservation,recordCancel,control,beginReconciliation,reconcile,compare,checkPending,execute};
@@ -296,12 +336,12 @@
       $("tex-error").hidden=!state.error&&!state.pending;$("tex-error").innerHTML=esc(state.error)+(state.pending?`<p>只读取同一份原回执，不会重新提交。</p>${action("核对原操作","check-pending")}`:"");
       $("tex-read-error").hidden=!state.readError;$("tex-read-error").textContent=state.readError;
       const research=state.source,d=research?.display||{};
-      $("tex-source-detail").innerHTML=research?`<strong>${esc(sourceLabel(state.sourceReference))}</strong><p>${d.symbol?esc(d.symbol):"证券身份未记录"} · 保存版本 ${esc(research.binding.task_version)}</p><p>${readyResearch(research)?"已读取原保存身份；报价和成交仍需另行合成输入。":"缺少可核验的美元股票身份，暂不能新建账户或计划。"}</p><details><summary>查看保存的规则与身份</summary><dl class="kv"><dt>规则</dt><dd>${esc(research.binding.strategy_id)}</dd><dt>引擎</dt><dd>${esc(research.binding.engine_id)}</dd><dt>原结果</dt><dd>${esc(research.binding.report_id)}</dd></dl></details>`:"选择后只读取原结果，不重新回测。";
+      $("tex-source-detail").innerHTML=research?`<strong>${esc(savedResultTitle(sourceLabel(state.sourceReference),research.binding.task_version))}</strong><p>${d.symbol?esc(d.symbol):"证券身份未记录"}</p><p>${readyResearch(research)?"已读取原保存身份；报价和成交仍需另行合成输入。":"缺少可核验的美元股票身份，暂不能新建账户或计划。"}</p><details><summary>查看保存的规则与完整身份</summary><dl class="kv"><dt>规则</dt><dd>${esc(research.binding.strategy_id)}</dd><dt>引擎</dt><dd>${esc(research.binding.engine_id)}</dd><dt>原版本身份</dt><dd>${esc(research.binding.task_version??"未记录")}</dd><dt>原任务</dt><dd>${esc(research.binding.task_id)}</dd><dt>原结果</dt><dd>${esc(research.binding.report_id)}</dd></dl></details>`:"选择后只读取原结果，不重新回测。";
       $("tex-account-symbol").textContent=readyResearch(research)?"演练标的："+d.symbol+" · 合成美元资金与整股":"请先选择证券身份完整的保存结果。";
       const account=state.account,ledger=account?.ledger,securities=ledger?.config?.securities||{};
-      select("tex-plan",(ledger?.plans||[]).map(plan=>[plan.plan_id,sourceLabel(account.plan_links.find(link=>link.plan_id===plan.plan_id)?.reference)+" · 版本 "+plan.research_binding.task_version]),state.planId,"请选择已保存计划");
+      select("tex-plan",(ledger?.plans||[]).map(plan=>[plan.plan_id,savedResultTitle(sourceLabel(account.plan_links.find(link=>link.plan_id===plan.plan_id)?.reference),plan.research_binding.task_version)]),state.planId,"请选择已保存计划");
       const selectedPlan=ledger?.plans.find(p=>p.plan_id===state.planId);$("tex-security").value=selectedPlan?.research_binding.security_id||"";
-      $("tex-order-symbol").textContent=selectedPlan?"订单标的："+(securities[v("tex-security")]?.symbol||"身份未记录")+" · 使用保存版本 "+selectedPlan.research_binding.task_version+"；方向与数量由你决定。":"先在上一步保存或选择策略计划，再填写订单。";
+      $("tex-order-symbol").textContent=selectedPlan?"订单标的："+(securities[v("tex-security")]?.symbol||"身份未记录")+" · 使用"+displayVersion(selectedPlan.research_binding.task_version)+"；方向与数量由你决定。":"先在上一步保存或选择策略计划，再填写订单。";
       $("tex-next-step").textContent=!research?"先选择一份已保存结果，核对对应股票。":!account?"还未选择账户。首次使用可创建独立合成账户；不会使用真实资金。":!planMatchesResearch(selectedPlan,research)?"账户已选定。下一步点击“确认使用此策略”，保存绑定计划。":"计划已选定。下一步填写方向、股数和价格，再预览订单。";
       select("tex-order",(ledger?.orders||[]).map(row=>[row.order_id,(securities[row.terms.security_id]?.symbol||row.terms.security_id)+" · "+(row.terms.side==="BUY"?"买入":"卖出")+" "+row.terms.quantity+" 股 · "+(labels[row.state]||"状态待核对")]),state.orderId,"请选择原订单");
       if(lastOrder!==state.orderId){lastOrder=state.orderId;for(const id of ["tex-observed-state","tex-observed-qty","tex-observed-notional","tex-observed-fee","tex-cancel-outcome"])$(id).value="";$("tex-confirm-observation").checked=false;}
@@ -312,8 +352,8 @@
       $("tex-orders").innerHTML=ledger?.orders.length?`<div class="tex-table"><table><thead><tr><th>标的 / 方向</th><th>状态</th><th>累计股数</th><th>累计金额 / 费用</th><th>剩余预留</th></tr></thead><tbody>${ledger.orders.map(row=>`<tr><td>${esc(securities[row.terms.security_id]?.symbol||row.terms.security_id)} / ${row.terms.side==="BUY"?"买入":"卖出"}</td><td>${esc(labels[row.state]||"待核对")}</td><td>${esc(row.filled)}</td><td>${esc(dollars(row.notional))} / ${esc(dollars(row.fee))}</td><td>${esc(row.terms.side==="BUY"?dollars(row.reserved_cash):row.reserved_shares+" 股")}</td></tr>`).join("")}</tbody></table></div>`:'<p class="section-note">尚无订单。保存账户和计划不会自动生成订单。</p>';
       const plan=ledger?.plans.find(p=>p.plan_id===state.planId),link=account?.plan_links.find(item=>item.plan_id===state.planId);
       $("tex-plan-detail").textContent=plan?(planMatchesResearch(plan,research)?"当前计划已绑定所选保存版本。"+(link?.owner_continuity==="VERIFIED_TASK_FAMILY"?"持仓归属沿用已核验的原任务族。":"只绑定这一不可变任务；不宣称跨版本持仓连续。") :"当前计划属于另一份保存结果，请为所选结果保存计划，或切换已有计划。") :"";
-      const comparison=state.comparison,tag=value=>({MATCH:"记录一致",DIFFERENT:"记录不同",UNKNOWN:"未记录 / 未知"}[value]||"未知");
-      $("tex-comparison").innerHTML=comparison?`<h4>已记录的差异</h4><dl class="kv"><dt>数据</dt><dd>${esc(tag(comparison.data?.input_id?.status))}</dd><dt>规则参数</dt><dd>${esc(tag(comparison.rules?.strategy_params?.status))}</dd><dt>费用设置</dt><dd>${esc(tag(comparison.costs?.status))}</dd><dt>成交模型</dt><dd>${esc(tag(comparison.execution_assumptions?.fill_model?.status))}</dd><dt>数量单位</dt><dd>${esc(tag(comparison.execution_assumptions?.quantity_policy?.status))}</dd></dl><p class="section-note">尚未逐笔对齐经济事件；不据此计算跨模型收益差或推断差异原因。</p>`:"";
+      const comparison=state.comparison;
+      $("tex-comparison").innerHTML=comparison&&comparison.scope?.ledger_revision!==ledger?.revision?'<p class="notice warning">账户记录已变化，请重新读取差异说明。</p>':renderExecutionExplanation(comparison);
       const locked=state.busy||Boolean(state.pending),available=Boolean(account)&&!state.accountStale;
       for(const id of ["tex-source","tex-account","tex-plan","tex-order"])$(id).disabled=locked;
       section.querySelectorAll("button").forEach(button=>{const action=button.dataset.texAction;button.disabled=locked&&!["check-pending","refresh"].includes(action);});
@@ -332,7 +372,7 @@
       const t=preview.terms,e=preview.estimate,ledger=state.account.ledger,plan=ledger.plans.find(p=>p.plan_id===t.plan_id),approx=n=>Number.isFinite(n)?"$"+n.toFixed(2):"未记录";
       const held=ledger.positions.filter(p=>p.owner_id===plan.owner_id&&p.security_id===t.security_id).reduce((sum,p)=>sum+p.quantity,0),reserved=ledger.orders.filter(o=>o.terms.owner_id===plan.owner_id&&o.terms.security_id===t.security_id).reduce((sum,o)=>sum+(o.reserved_shares||0),0);
       const scenario={ACCEPTED:"接受（确认后才记录）",REJECTED:"明确拒绝（确认后才记录）",TIMEOUT_UNCONFIRMED:"超时（确认后进入待核对）"}[t.outcome];
-      $("tex-preview-detail").innerHTML=`<h4>请核对这笔合成订单</h4><p><strong>${esc(preview.accountLabel)} · ${esc(ledger.config.securities[t.security_id].symbol)} · ${t.side==="BUY"?"买入":"卖出所属持仓"} ${esc(t.quantity)} 股</strong></p><p>限价 ${esc(dollars(t.limit_price))} · 合成参考价 ${esc(dollars(t.quote.price))} · 拟记录场景：${esc(scenario)}</p><p>绑定策略：${esc(sourceLabel(state.sourceReference))} · 保存版本 ${esc(plan.research_binding.task_version)}</p>
+      $("tex-preview-detail").innerHTML=`<h4>请核对这笔合成订单</h4><p><strong>${esc(preview.accountLabel)} · ${esc(ledger.config.securities[t.security_id].symbol)} · ${t.side==="BUY"?"买入":"卖出所属持仓"} ${esc(t.quantity)} 股</strong></p><p>限价 ${esc(dollars(t.limit_price))} · 合成参考价 ${esc(dollars(t.quote.price))} · 拟记录场景：${esc(scenario)}</p><p>绑定策略：${esc(savedResultTitle(sourceLabel(state.sourceReference),plan.research_binding.task_version))}</p><details><summary>查看计划与完整版本身份</summary><dl class="kv"><dt>原版本身份</dt><dd>${esc(plan.research_binding.task_version??"未记录")}</dd><dt>原任务</dt><dd>${esc(plan.research_binding.task_id)}</dd><dt>原结果</dt><dd>${esc(plan.research_binding.report_id)}</dd><dt>演练计划</dt><dd>${esc(plan.plan_id)}</dd></dl></details>
         <div class="tex-metrics"><div>当前可用现金<strong>${esc(dollars(ledger.available_cash))}</strong></div><div>当前订单预留<strong>${esc(dollars(ledger.reserved_cash))}</strong></div><div>委托金额粗估<strong>${esc(approx(e.notional))}</strong></div></div>
         <p>${t.side==="BUY"?"本单资金预留粗估（含费用预留）："+esc(approx(e.reservation)):"当前计划归属持仓："+esc(held)+" 股；已预留："+esc(reserved)+" 股。"}</p>${t.outcome==="REJECTED"?'<p>明确拒绝场景不会新增资金预留；上方金额仅为订单规模。</p>':""}
         <p class="section-note">粗估只作核对，以服务端资金、持仓和风险校验为准；不代表成交。参考时点：${esc(new Date(t.signal_at).toLocaleString())}。修改任何订单字段或重新读取账户后，需重新预览。</p>${e.reservation!==null&&e.reservation>e.available?'<p class="notice warning">粗估预留已高于当前可用现金，请先调整；最终仍由服务端校验。</p>':""}`;
@@ -387,7 +427,7 @@
     render();
     return {setSources:controller.setSources,refresh:controller.refresh,reveal:()=>{section.hidden=false;section.scrollIntoView({block:"start"});},hide:()=>{section.hidden=true;},controller,element:section};
   }
-  const api={createController,install:installTerminalExecutionUI,reconciliationIdentities,readyResearch,accountMatchesResearch};
+  const api={createController,install:installTerminalExecutionUI,reconciliationIdentities,readyResearch,accountMatchesResearch,renderExecutionExplanation,displayVersion,savedResultTitle};
   root.installTerminalExecutionUI=installTerminalExecutionUI;
   if(typeof module==="object"&&module.exports)module.exports=api;
 })(typeof globalThis!=="undefined"?globalThis:window);

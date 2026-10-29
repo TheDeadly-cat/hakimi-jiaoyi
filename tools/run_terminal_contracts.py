@@ -34,6 +34,7 @@ TEST_FILES = (
     "test_terminal_data_preflight.py",
     "test_terminal_execution_integration.py",
     "test_terminal_execution_integration_core.py",
+    "test_terminal_execution_explanation.py",
     "test_terminal_execution_service.py",
     "test_terminal_exit_research.py",
     "test_terminal_history.py",

@@ -320,85 +320,98 @@ def _actions(result, first, latest):
     return outside
 
 
+def _quote_fields(raw, baseline):
+    """Price-source structure only; this helper grants no research admission."""
+    doc = parse_document(raw, maximum_bytes=_MAX)
+    chart = doc['chart']
+    _require(chart.get('error') is None and type(chart.get('result')) is list
+             and len(chart['result']) == 1, 'SOURCE_CHART_UNAVAILABLE')
+    result = chart['result'][0]
+    meta = result['meta']
+    security = baseline['security']
+    exchanges = {'XNAS': {'NMS', 'NGM', 'NCM', 'NASDAQ'}, 'XNYS': {'NYQ', 'NYSE'}}
+    _require(meta['symbol'] == security['symbol'] and meta['currency'] == security['currency']
+             and meta['exchangeName'] in exchanges[security['exchange']]
+             and meta['instrumentType'] == 'EQUITY'
+             and meta['exchangeTimezoneName'] == 'America/New_York', 'SOURCE_SECURITY_IDENTITY_MISMATCH')
+    stamps = result['timestamp']
+    quotes = result['indicators']['quote']
+    _require(type(stamps) is list and 0 < len(stamps) and type(quotes) is list
+             and len(quotes) == 1 and type(quotes[0]) is dict, 'SOURCE_ARRAY_SHAPE_INVALID')
+    _require(len(stamps) <= _MAX_SOURCE_ROWS, 'SOURCE_ROW_LIMIT_EXCEEDED',
+             details=dict(rows=len(stamps), maximum=_MAX_SOURCE_ROWS))
+    quote = quotes[0]
+    _require(all(type(quote.get(key)) is list and len(quote[key]) == len(stamps) for key in _FIELDS),
+             'SOURCE_ARRAY_LENGTH_MISMATCH')
+    adjusted = result['indicators'].get('adjclose')
+    _require(type(adjusted) is list and len(adjusted) == 1
+             and type(adjusted[0].get('adjclose')) is list and len(adjusted[0]['adjclose']) == len(stamps),
+             'SOURCE_ADJUSTMENT_BASIS_UNKNOWN')
+    adjusted = adjusted[0]['adjclose']
+    return result, meta, stamps, quote, adjusted
+
+
+def _price_rows(fields, days, latest, retrieved, query_start, calendar):
+    """Unchanged OHLCV, session and availability checks; excludes action policy."""
+    _, meta, stamps, quote, adjusted = fields
+    expected = {row['date']: row for row in days if row['kind'] == 'OPEN'}
+    observed, seen, excluded, pre_window = {}, set(), [], []
+    previous = None
+    for index, value in enumerate(stamps):
+        _require(type(value) is int and value > 0 and (previous is None or value > previous),
+                 'SOURCE_TIMESTAMP_DUPLICATE_OR_OUT_OF_ORDER')
+        previous = value
+        opened = datetime.fromtimestamp(value, timezone.utc)
+        day = opened.astimezone(_NY).date().isoformat()
+        _require(day not in seen, 'SOURCE_DUPLICATE_SESSION')
+        seen.add(day)
+        _require(day >= query_start and opened <= retrieved, 'SOURCE_ROW_OUTSIDE_REQUEST_OR_FUTURE')
+        if day < days[0]['date']:
+            pre_window.append(day)
+            continue  # Bounded leading history is source context, never candidate prices.
+        if day > latest:
+            _require(day == retrieved.astimezone(_NY).date().isoformat(), 'SOURCE_UNEXPECTED_FUTURE_SESSION')
+            forming = _days(calendar, date.fromisoformat(day), date.fromisoformat(day))[0]
+            _require(forming['kind'] == 'OPEN' and opened == _clock(forming['open_utc']),
+                     'SOURCE_NON_RTH_FORMING_SESSION')
+            excluded.append(day)
+            continue  # Forming prices (including null cells) never enter the snapshot.
+        _require(day in expected, 'SOURCE_BAR_ON_CLOSED_DATE')
+        _require(opened == _clock(expected[day]['open_utc']), 'SOURCE_NON_RTH_DAILY_TIMESTAMP')
+        values = [quote[key][index] for key in _FIELDS]
+        _require(all(_number(value) for value in values) and all(value > 0 for value in values[:4])
+                 and type(values[4]) is int and values[4] >= 0, 'SOURCE_MISSING_OR_INVALID_OHLCV')
+        o, h, l, c, _ = values
+        _require(h >= max(o, c) and l <= min(o, c) and l <= h, 'SOURCE_OHLC_GEOMETRY_INVALID')
+        _require(_number(adjusted[index]) and adjusted[index] == c, 'SOURCE_ADJUSTED_RAW_MISMATCH',
+                 details=dict(date=day, raw_close=c,
+                              adjusted_close=adjusted[index] if _number(adjusted[index]) else None))
+        observed[day] = [float(_price(value)) for value in values[:4]] + [values[4]]
+    missing = sorted(set(expected) - set(observed))
+    if missing:
+        status = 'WAITING_SOURCE_UPDATE' if missing == [latest] else 'BLOCKED'
+        raise _Stop('SOURCE_MISSING_COMPLETED_SESSIONS:' + ','.join(missing), status)
+    market_time = meta.get('regularMarketTime')
+    _require(type(market_time) is int and market_time > 0, 'SOURCE_COMPLETION_CLOCK_MISSING')
+    _require(datetime.fromtimestamp(market_time, timezone.utc) <= retrieved, 'SOURCE_COMPLETION_CLOCK_IN_FUTURE')
+    _require(market_time >= int(_clock(expected[latest]['close_utc']).timestamp()),
+             'SOURCE_LAST_SESSION_NOT_CONFIRMED_COMPLETE', 'WAITING_SOURCE_UPDATE')
+    regular = meta.get('currentTradingPeriod', {}).get('regular')
+    _require(type(regular) is dict and type(regular.get('start')) is int and type(regular.get('end')) is int
+             and regular['end'] > regular['start'], 'SOURCE_REGULAR_SESSION_CLOCK_MISSING')
+    period_day = datetime.fromtimestamp(regular['start'], _NY).date().isoformat()
+    if period_day == latest:
+        _require(regular['start'] == int(_clock(expected[latest]['open_utc']).timestamp())
+                 and regular['end'] == int(_clock(expected[latest]['close_utc']).timestamp()),
+                 'SOURCE_REGULAR_SESSION_CLOCK_MISMATCH')
+    return observed, excluded, meta, pre_window
+
+
 def _rows(raw, baseline, days, latest, retrieved, query_start, calendar):
     try:
-        doc = parse_document(raw, maximum_bytes=_MAX)
-        chart = doc['chart']
-        _require(chart.get('error') is None and type(chart.get('result')) is list
-                 and len(chart['result']) == 1, 'SOURCE_CHART_UNAVAILABLE')
-        result = chart['result'][0]
-        meta = result['meta']
-        security = baseline['security']
-        exchanges = {'XNAS': {'NMS', 'NGM', 'NCM', 'NASDAQ'}, 'XNYS': {'NYQ', 'NYSE'}}
-        _require(meta['symbol'] == security['symbol'] and meta['currency'] == security['currency']
-                 and meta['exchangeName'] in exchanges[security['exchange']]
-                 and meta['instrumentType'] == 'EQUITY'
-                 and meta['exchangeTimezoneName'] == 'America/New_York', 'SOURCE_SECURITY_IDENTITY_MISMATCH')
-        stamps = result['timestamp']
-        quotes = result['indicators']['quote']
-        _require(type(stamps) is list and 0 < len(stamps) and type(quotes) is list
-                 and len(quotes) == 1 and type(quotes[0]) is dict, 'SOURCE_ARRAY_SHAPE_INVALID')
-        _require(len(stamps) <= _MAX_SOURCE_ROWS, 'SOURCE_ROW_LIMIT_EXCEEDED',
-                 details=dict(rows=len(stamps), maximum=_MAX_SOURCE_ROWS))
-        quote = quotes[0]
-        _require(all(type(quote.get(key)) is list and len(quote[key]) == len(stamps) for key in _FIELDS),
-                 'SOURCE_ARRAY_LENGTH_MISMATCH')
-        adjusted = result['indicators'].get('adjclose')
-        _require(type(adjusted) is list and len(adjusted) == 1
-                 and type(adjusted[0].get('adjclose')) is list and len(adjusted[0]['adjclose']) == len(stamps),
-                 'SOURCE_ADJUSTMENT_BASIS_UNKNOWN')
-        adjusted = adjusted[0]['adjclose']
-        outside_actions = _actions(result, days[0]['date'], latest)
-        expected = {row['date']: row for row in days if row['kind'] == 'OPEN'}
-        observed, seen, excluded, pre_window = {}, set(), [], []
-        previous = None
-        for index, value in enumerate(stamps):
-            _require(type(value) is int and value > 0 and (previous is None or value > previous),
-                     'SOURCE_TIMESTAMP_DUPLICATE_OR_OUT_OF_ORDER')
-            previous = value
-            opened = datetime.fromtimestamp(value, timezone.utc)
-            day = opened.astimezone(_NY).date().isoformat()
-            _require(day not in seen, 'SOURCE_DUPLICATE_SESSION')
-            seen.add(day)
-            _require(day >= query_start and opened <= retrieved, 'SOURCE_ROW_OUTSIDE_REQUEST_OR_FUTURE')
-            if day < days[0]['date']:
-                pre_window.append(day)
-                continue  # Bounded leading history is source context, never candidate prices.
-            if day > latest:
-                _require(day == retrieved.astimezone(_NY).date().isoformat(), 'SOURCE_UNEXPECTED_FUTURE_SESSION')
-                forming = _days(calendar, date.fromisoformat(day), date.fromisoformat(day))[0]
-                _require(forming['kind'] == 'OPEN' and opened == _clock(forming['open_utc']),
-                         'SOURCE_NON_RTH_FORMING_SESSION')
-                excluded.append(day)
-                continue  # Forming prices (including null cells) never enter the snapshot.
-            _require(day in expected, 'SOURCE_BAR_ON_CLOSED_DATE')
-            _require(opened == _clock(expected[day]['open_utc']), 'SOURCE_NON_RTH_DAILY_TIMESTAMP')
-            values = [quote[key][index] for key in _FIELDS]
-            _require(all(_number(value) for value in values) and all(value > 0 for value in values[:4])
-                     and type(values[4]) is int and values[4] >= 0, 'SOURCE_MISSING_OR_INVALID_OHLCV')
-            o, h, l, c, _ = values
-            _require(h >= max(o, c) and l <= min(o, c) and l <= h, 'SOURCE_OHLC_GEOMETRY_INVALID')
-            _require(_number(adjusted[index]) and adjusted[index] == c, 'SOURCE_ADJUSTED_RAW_MISMATCH',
-                     details=dict(date=day, raw_close=c,
-                                  adjusted_close=adjusted[index] if _number(adjusted[index]) else None))
-            observed[day] = [float(_price(value)) for value in values[:4]] + [values[4]]
-        missing = sorted(set(expected) - set(observed))
-        if missing:
-            status = 'WAITING_SOURCE_UPDATE' if missing == [latest] else 'BLOCKED'
-            raise _Stop('SOURCE_MISSING_COMPLETED_SESSIONS:' + ','.join(missing), status)
-        market_time = meta.get('regularMarketTime')
-        _require(type(market_time) is int and market_time > 0, 'SOURCE_COMPLETION_CLOCK_MISSING')
-        _require(datetime.fromtimestamp(market_time, timezone.utc) <= retrieved, 'SOURCE_COMPLETION_CLOCK_IN_FUTURE')
-        _require(market_time >= int(_clock(expected[latest]['close_utc']).timestamp()),
-                 'SOURCE_LAST_SESSION_NOT_CONFIRMED_COMPLETE', 'WAITING_SOURCE_UPDATE')
-        regular = meta.get('currentTradingPeriod', {}).get('regular')
-        _require(type(regular) is dict and type(regular.get('start')) is int and type(regular.get('end')) is int
-                 and regular['end'] > regular['start'], 'SOURCE_REGULAR_SESSION_CLOCK_MISSING')
-        period_day = datetime.fromtimestamp(regular['start'], _NY).date().isoformat()
-        if period_day == latest:
-            _require(regular['start'] == int(_clock(expected[latest]['open_utc']).timestamp())
-                     and regular['end'] == int(_clock(expected[latest]['close_utc']).timestamp()),
-                     'SOURCE_REGULAR_SESSION_CLOCK_MISMATCH')
+        fields = _quote_fields(raw, baseline)
+        outside_actions = _actions(fields[0], days[0]['date'], latest)
+        observed, excluded, meta, pre_window = _price_rows(fields, days, latest, retrieved, query_start, calendar)
         return observed, excluded, outside_actions, meta, pre_window
     except (KeyError, TypeError, IndexError, OverflowError, OSError) as exc:
         raise _Stop('SOURCE_REQUIRED_FIELDS_INVALID:' + type(exc).__name__) from None

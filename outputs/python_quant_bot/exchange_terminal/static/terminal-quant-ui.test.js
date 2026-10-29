@@ -148,7 +148,7 @@ test("market read failures show structured session guidance or native errors as 
   }
 });
 
-test("dashboard returns to the unified host top while task and result links retain their anchors",() => {
+test("dashboard and daily page retain their headers while task and result links retain anchors",() => {
   const scrolled=[];const host={hidden:false};const windowScroll=[];
   const executionHost={hidden:true},dailyHost={hidden:true,scrollIntoView:()=>scrolled.push("daily")};
   let dailyHides=0;
@@ -166,7 +166,8 @@ test("dashboard returns to the unified host top while task and result links reta
   assert.equal(host.hidden,true);assert.equal(dailyHost.hidden,false);assert.equal(executionHost.hidden,true);
   vm.runInContext('show("execution")',context);
   assert.equal(dailyHides,1);assert.equal(dailyHost.hidden,true);assert.equal(executionHost.hidden,false);
-  assert.deepEqual(scrolled,["tasks","results","daily","execution"]);
+  assert.deepEqual(windowScroll,[{top:0,left:0,behavior:"auto"},{top:0,left:0,behavior:"auto"}]);
+  assert.deepEqual(scrolled,["tasks","results","execution"]);
 });
 
 test("frozen replay and exit refresh the original desktop summary for the actual chart symbol",async () => {

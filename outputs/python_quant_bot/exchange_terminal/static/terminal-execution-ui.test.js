@@ -176,3 +176,72 @@ test("confirmed preview with unknown receipt retains its request and never submi
   await c.checkPending();assert.equal(attempts.length,1);assert.equal(c.state.pending.payload.client_request_id,attempts[0].payload.client_request_id);
   assert.throws(()=>c.previewOrder(orderForm()),/原操作/);assert.equal(c.state.orderPreview,null);
 });
+
+function explanationFixture() {
+  return {schema_version:"hakimi-execution-explanation-v1",status:"BOUND_REPORT_CONTEXT_ONLY",summary:"只说明记录条件，不计算收益差贡献。",
+    scope:{account_id:"account-a",plan_id:"plan-one",ledger_revision:1,reference_report_hash:"a".repeat(64)},permissions:copy(permissions),
+    attribution:{numeric_performance_comparison_allowed:false,contributions:null},
+    groups:[["DATA","数据"],["RULES","规则"],["TIMING","时点"],["MATCHING","撮合"],["COSTS","费用"],["UNKNOWN","未知"]].map(([id,label])=>({id,label,counts:{MATCH:0,DIFFERENT:0,UNKNOWN:1},default_open:true,
+      items:[{id:id.toLowerCase(),label:label+"说明",status:"UNKNOWN",explanation:"未记录仍保持未知。",research:{value:null,evidence_ref:[{source:"SAVED_PROJECTION",report_hash:"a".repeat(64),pointer:"/conditions/example"}]},simulation:{value:null,evidence_ref:[{source:"UNRECORDED",reason:"NOT_RECORDED"}]}}]})),
+    account_scope:{label:"整个合成账户，跨策略共享；不是本计划收益",cash:"1000",reserved_cash:"0",available_cash:"1000",owner_positions:[]}};
+}
+
+test("six-group explanation uses read-only resource with account context and preserves preview",async()=>{
+  const f=await planned(fixture()),calls=[];f.controller.previewOrder(orderForm());
+  const c=ui.createController({api:async path=>{calls.push(path);return explanationFixture();},perform:async()=>assert.fail("comparison cannot mutate")});
+  Object.assign(c.state,copy(f.controller.state));const preview=copy(c.state.orderPreview);
+  await c.compare();
+  assert.equal(calls.length,1);assert.ok(calls[0].startsWith("terminal_execution_explanation/"));
+  assert.deepEqual(JSON.parse(decodeURIComponent(calls[0].split("/")[1])),{account_id:"account-a",account_context:"context-account-a",plan_id:"plan-one",reference:{kind:"terminal_run",id:"saved-source"}});
+  assert.equal(c.state.comparison.schema_version,"hakimi-execution-explanation-v1");assert.deepEqual(c.state.orderPreview,preview);
+});
+
+test("explanation reads reject wrong identity, revision, schema and external permissions",async()=>{
+  for(const corrupt of [v=>v.scope.account_id="other",v=>v.scope.plan_id="other",v=>v.scope.ledger_revision=2,v=>v.scope.reference_report_hash="wrong",v=>v.permissions.live_order_allowed=true,v=>v.attribution.contributions=[],v=>v.schema_version="old"]){
+    const value=explanationFixture();corrupt(value);
+    const f=await planned(fixture()),c=ui.createController({api:async()=>value,perform:async()=>assert.fail("read only")});Object.assign(c.state,copy(f.controller.state));
+    await c.compare();assert.equal(c.state.comparison,null);assert.match(c.state.readError,/差异资料/);
+  }
+});
+
+test("late explanation success or error cannot override changed account context or ledger",async()=>{
+  for(const change of [s=>s.account.account_context="new-context",s=>s.account.ledger.revision++,s=>s.sourceReference={kind:"core_run",id:"new-source"}]){
+    for(const rejectRead of [false,true]){
+      let finish,fail;const f=await planned(fixture()),c=ui.createController({api:()=>new Promise((resolve,reject)=>{finish=resolve;fail=reject;}),perform:async()=>assert.fail("read only")});Object.assign(c.state,copy(f.controller.state));
+      const pending=c.compare();change(c.state);c.state.readError="new current notice";
+      if(rejectRead)fail(Error("old error"));else finish(explanationFixture());await pending;
+      assert.equal(c.state.comparison,null);assert.equal(c.state.readError,"new current notice");
+    }
+  }
+});
+
+test("explanation HTML keeps six groups, units, read-only evidence and escapes report text",()=>{
+  const value=explanationFixture();value.status="ONLY_CONTEXT_NO_ATTRIBUTION";value.summary="当前报告不是此计划绑定的原报告。";
+  value.groups[0].items[0].research.value='<img src=x onerror="bad()">';
+  value.groups[4].items[0].research={value:20,unit:"basis_points",evidence_ref:[]};
+  const html=ui.renderExecutionExplanation(value);
+  assert.equal((html.match(/data-tex-explanation-group=/g)||[]).length,6);
+  assert.equal((html.match(/data-tex-evidence/g)||[]).length,6);
+  assert.match(html,/基点（1 = 0.01%）/);assert.match(html,/查看只读依据/);assert.match(html,/未记录 \/ 未知/);
+  assert.match(html,/跨策略共享/);assert.match(html,/当前报告不是/);assert.match(html,/&lt;img/);assert.doesNotMatch(html,/<img/);
+  assert.doesNotMatch(html,/<button|<input|<form/);
+});
+
+test("human version labels preserve recorded identity and never invent missing revisions",()=>{
+  for(const value of [1,"1","r0001-ad0123"]){assert.equal(ui.displayVersion(value),"版本 1");}
+  assert.equal(ui.savedResultTitle("TEST · 版本1 · 保存结果","r0001-ad0123"),"TEST · 版本1 · 保存结果");
+  assert.equal(ui.savedResultTitle("TEST 保存结果","r0002-ad0123"),"TEST 保存结果 · 版本 2");
+  for(const value of [undefined,null,"",0,"immutable-task-hash","rX-guess","r000000000000000000000000000000001234567890123456789"]){assert.equal(ui.displayVersion(value),"版本未记录");}
+});
+
+test("human version formatting cannot weaken exact preview version binding",async()=>{
+  const f=await planned(fixture()),original="r0001-ad0123";
+  f.controller.state.source.binding.task_version=original;
+  f.controller.state.account.ledger.plans[0].research_binding.task_version=original;
+  f.controller.previewOrder(orderForm());
+  assert.match(f.controller.state.orderPreview.stamp,/r0001-ad0123/);
+  assert.equal(ui.displayVersion(original),"版本 1");
+  f.controller.state.source.binding.task_version="r0001-different";
+  await assert.rejects(()=>f.controller.confirmOrder(true),/预览已失效/);
+  assert.equal(f.writes.filter(row=>row.action==="terminal_execution_submit").length,0);
+});

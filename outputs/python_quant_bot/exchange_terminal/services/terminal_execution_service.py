@@ -20,13 +20,15 @@ from threading import RLock
 from .execution_authority import canonical_authority_key, EXECUTION_AUTHORITY_FIELD_KEYS
 from .offline_execution import (OfflineExecutionStore, PERMISSIONS, SCHEMA, BINDING_SCHEMA,
                                 compare_research_context, _binding)
+from .terminal_execution_explanation import explain_execution
+from .terminal_result_comparison import project_saved_result
 
 
 VIEW_SCHEMA = "hakimi-terminal-execution-view-v1"
 MANIFEST_SCHEMA = "hakimi-terminal-execution-account-v1"
 READ_RESOURCES = frozenset({"terminal_execution_accounts", "terminal_execution_account",
                             "terminal_execution_receipt", "terminal_execution_history", "terminal_execution_compare",
-                            "terminal_execution_research"})
+                            "terminal_execution_research", "terminal_execution_explanation"})
 MUTATION_ACTIONS = frozenset({"terminal_execution_create_account", "terminal_execution_create_plan",
     "terminal_execution_submit", "terminal_execution_observe", "terminal_execution_cancel",
     "terminal_execution_mark_quotes", "terminal_execution_reconcile", "terminal_execution_stop", "terminal_execution_resume"})
@@ -87,12 +89,17 @@ def _pairs(pairs):
 
 
 class TerminalExecutionService:
-    def __init__(self, workspace, resolve_research):
+    def __init__(self, workspace, resolve_research, *, read_saved_result=None):
         if not callable(resolve_research):
             raise ValueError("terminal_execution_resolver_required")
+        if read_saved_result is not None and not callable(read_saved_result):
+            raise ValueError("terminal_execution_saved_reader_required")
         self.workspace = Path(workspace).absolute()
         self.directory = self.workspace / "offline-execution"
         self.resolve_research = resolve_research
+        # Application-owned verified_saved_result callback. Never supplied by
+        # the client and never reconstructed from a report/body assertion.
+        self.read_saved_result = read_saved_result
         self._lock = RLock()
         self._stores = {}
         self._closed = False
@@ -303,6 +310,31 @@ class TerminalExecutionService:
                 return dict(view_schema_version=VIEW_SCHEMA, reference=resolved["reference"], binding=resolved["binding"],
                             owner_continuity=resolved["owner_continuity"], assumptions=resolved["assumptions"], display=resolved["display"],
                             permissions=dict(PERMISSIONS), external_calls=0)
+            if resource == "terminal_execution_explanation":
+                _fields(payload, {"account_id", "account_context", "plan_id", "reference"})
+                account_id = _key(payload["account_id"], _ACCOUNT, "account_id")
+                context = _text(payload["account_context"])
+                plan_id = _key(payload["plan_id"], _HASH, "plan_id")
+                entry = self._entry(account_id, context)
+                if self.read_saved_result is None:
+                    raise ValueError("terminal_execution_saved_reader_unavailable")
+                resolved = self._resolve(payload["reference"])
+                projection = project_saved_result(self.read_saved_result(deepcopy(resolved["reference"])))
+                # Both trusted callbacks may read multiple retained records.
+                # Recheck selection/file identity after them; do not associate
+                # an old open connection with a replaced account on disk.
+                self._active()
+                if self._entry(account_id, context) is not entry:
+                    raise ValueError("terminal_execution_stale_account_context")
+                snapshot = entry["store"].snapshot()
+                plan = next((item for item in snapshot["plans"] if item["plan_id"] == plan_id), None)
+                if plan is None:
+                    raise ValueError("terminal_execution_plan_not_found")
+                result = explain_execution(projection, plan, snapshot, resolved["binding"])
+                self._entry(account_id, context)
+                _no_authority(result)
+                return {**result, "view_schema_version": VIEW_SCHEMA, "account_id": account_id,
+                        "account_context": entry["context"], "permissions": dict(PERMISSIONS), "external_calls": 0}
             if resource == "terminal_execution_receipt":
                 _fields(payload, {"account_id", "request_id"})
             elif resource == "terminal_execution_history":

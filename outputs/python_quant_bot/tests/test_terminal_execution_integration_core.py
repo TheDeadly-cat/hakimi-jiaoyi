@@ -127,6 +127,22 @@ class CoreSavedExecutionIntegrationTests(unittest.TestCase):
                     link = result["account"]["plan_links"][0]
                     self.assertEqual(link["owner_source"], resolved["owner_id"])
                     self.assertEqual(link["owner_continuity"], "IMMUTABLE_TASK_ONLY_NO_CROSS_VERSION_CONTINUITY")
+                    store = service._execution_service._stores[creation["account_id"]]["store"]
+                    with patch.object(store, "snapshot", wraps=store.snapshot) as captured:
+                        explanation = service.read("terminal_execution_explanation", json.dumps(dict(
+                            account_id=creation["account_id"], account_context=created["account_context"],
+                            plan_id=result["receipt"]["outcome"]["plan_id"], reference=reference)))
+                    self.assertEqual(captured.call_count, 1)
+                    self.assertEqual(explanation["status"], "BOUND_REPORT_CONTEXT_ONLY")
+                    self.assertEqual(explanation["scope"]["reference_report_hash"], report["report_hash"])
+                    self.assertEqual(explanation["scope"]["ledger_revision"], ledger["revision"])
+                    rows = {row["id"]: row for group in explanation["groups"] for row in group["items"]}
+                    self.assertEqual(rows["source_hash"]["research"]["value"], ACCEPTED_SOURCE_SHA256)
+                    self.assertEqual(rows["quantity_policy"]["research"]["value"], report["spec"]["quantity_policy"])
+                    self.assertEqual(rows["slippage"]["research"]["unit"], "ratio")
+                    self.assertIsNone(rows["recorded_fees"]["simulation"]["value"])
+                    self.assertIsNone(explanation["attribution"]["contributions"])
+                    self.assertEqual(store.snapshot(), ledger)
                     for permissions in (view["permissions"], result["permissions"], result["receipt"]["permissions"]):
                         for key in ("paper_order_allowed", "live_order_allowed", "order_allowed", "broker_connection_allowed", "model_calls_allowed"):
                             self.assertIs(permissions[key], False)

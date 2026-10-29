@@ -6,6 +6,7 @@ from hashlib import sha256
 import json
 from pathlib import Path
 import tempfile
+from threading import Event
 import unittest
 from unittest.mock import Mock, patch
 
@@ -62,6 +63,101 @@ class TerminalExecutionServiceTests(unittest.TestCase):
                        execution_at=self.now, now_ms=self.now, outcome="ACCEPTED")
         payload.update(changes)
         return payload
+
+    def saved_envelope(self, reference):
+        binding = self.resolve(reference)["binding"]
+        return dict(verification_status="VERIFIED_RECORD", id=reference["id"], report=dict(
+            schema_version="hakimi-terminal-run-v1", id=binding["report_hash"], report_hash=binding["report_hash"],
+            run_id=binding["report_id"], task_id=binding["task_id"], version=binding["task_version"],
+            engine_id=binding["engine_id"], strategy_id=binding["strategy_id"], status="COMPLETED",
+            configuration={"input_id": binding["input_id"], "strategy_params": binding["strategy_params"]},
+            input_summary={"id": binding["input_id"]}, result={"total_return_pct": 0}))
+
+    def explanation_request(self):
+        self.create()
+        plan = self.plan()["receipt"]["outcome"]["plan_id"]
+        self.service.read_saved_result = Mock(side_effect=self.saved_envelope)
+        self.resolver.reset_mock()
+        return dict(**self.selected(), plan_id=plan, reference={"kind": "terminal_run", "id": "run-one"})
+
+    def test_explanation_checks_context_before_callbacks_and_never_accepts_client_proof(self):
+        payload = self.explanation_request()
+        for changes in ({"account_context": None}, {"account_context": "stale"},
+                        {"projection": {}}, {"research_binding": {}}, {"snapshot": {}},
+                        {"reference": {"kind": "terminal_run", "id": "run-one", "status": "COMPLETED"}}):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                self.service.read("terminal_execution_explanation", {**payload, **changes})
+        self.resolver.assert_not_called()
+        self.service.read_saved_result.assert_not_called()
+
+    def test_explanation_uses_one_verified_snapshot_without_history_or_mutation(self):
+        payload = self.explanation_request()
+        store = self.service._stores[payload["account_id"]]["store"]
+        before = store.snapshot()
+        with patch.object(store, "snapshot", wraps=store.snapshot) as snapshot, \
+                patch.object(store, "history", side_effect=AssertionError("not a history tail")), \
+                patch.object(store, "_mutate", side_effect=AssertionError("read cannot write")):
+            value = self.service.read("terminal_execution_explanation", json.dumps(payload))
+        self.assertEqual(snapshot.call_count, 1)
+        self.assertEqual(value["scope"]["ledger_revision"], before["revision"])
+        self.assertEqual(value["account_context"], payload["account_context"])
+        self.assertEqual(value["status"], "BOUND_REPORT_CONTEXT_ONLY")
+        self.assertFalse(value["attribution"]["numeric_performance_comparison_allowed"])
+        self.assertEqual(store.snapshot(), before)
+        self.resolver.assert_called_once_with(payload["reference"])
+        self.service.read_saved_result.assert_called_once_with(payload["reference"])
+
+    def test_explanation_rejects_changed_selection_during_trusted_read(self):
+        payload = self.explanation_request()
+        entry = self.service._stores[payload["account_id"]]
+        def changed(reference):
+            entry["context"] = "new-selection"
+            return self.saved_envelope(reference)
+        self.service.read_saved_result.side_effect = changed
+        with patch.object(entry["store"], "snapshot", wraps=entry["store"].snapshot) as snapshot:
+            with self.assertRaisesRegex(ValueError, "stale_account_context"):
+                self.service.read("terminal_execution_explanation", payload)
+            snapshot.assert_not_called()
+
+    def test_explanation_rejects_mixed_saved_reads_and_foreign_plan_without_repair(self):
+        payload = self.explanation_request()
+        store = self.service._stores[payload["account_id"]]["store"]
+        before = store.snapshot()
+        self.service.read_saved_result.side_effect = lambda _: self.saved_envelope({"kind": "terminal_run", "id": "run-other"})
+        with self.assertRaisesRegex(ValueError, "projection_binding_mismatch"):
+            self.service.read("terminal_execution_explanation", payload)
+        self.service.read_saved_result.side_effect = self.saved_envelope
+        with self.assertRaisesRegex(ValueError, "plan_not_found"):
+            self.service.read("terminal_execution_explanation", {**payload, "plan_id": "f"*64})
+        self.assertEqual(store.snapshot(), before)
+
+    def test_explanation_read_serializes_account_mutation_and_keeps_one_revision(self):
+        payload = self.explanation_request()
+        before = self.service._stores[payload["account_id"]]["store"].snapshot()["revision"]
+        entered, release, mutation_started = Event(), Event(), Event()
+        def blocked_reader(reference):
+            entered.set()
+            if not release.wait(5):
+                raise AssertionError("test read was not released")
+            return self.saved_envelope(reference)
+        self.service.read_saved_result.side_effect = blocked_reader
+        def stop():
+            mutation_started.set()
+            return self.service.mutate("terminal_execution_stop", dict(client_request_id="stop-explanation-race",
+                account_id=payload["account_id"], account_context=payload["account_context"], reason="explicit synthetic pause"))
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            reading = pool.submit(self.service.read, "terminal_execution_explanation", payload)
+            try:
+                self.assertTrue(entered.wait(3))
+                mutation = pool.submit(stop)
+                self.assertTrue(mutation_started.wait(3))
+                self.assertFalse(mutation.done())
+            finally:
+                release.set()
+            value, stopped = reading.result(timeout=5), mutation.result(timeout=5)
+        self.assertEqual(value["scope"]["ledger_revision"], before)
+        self.assertGreater(stopped["receipt"]["revision"], before)
+        self.assertIsNone(value["groups"][-1]["items"][-1]["simulation"]["value"]["stop_reason"])
 
     def test_lazy_reads_and_unknown_routes_have_no_creation_or_resolver_effects(self):
         self.assertFalse(self.workspace.exists())

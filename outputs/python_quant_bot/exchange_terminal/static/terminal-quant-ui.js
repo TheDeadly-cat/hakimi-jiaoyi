@@ -231,7 +231,8 @@
       if (!state.loaded || !wasVisible) refreshAll().catch((error) => notify(error.message, true));
       if (state.unifiedView === "daily") {
         dailyUI.reveal().catch(error => notify(operationErrorText(error),true));
-        requestAnimationFrame(() => dailyHost.scrollIntoView({block:"start"}));
+        // This is a full page: retain the header's normal flow above its title.
+        requestAnimationFrame(() => window.scrollTo({top:0,left:0,behavior:"auto"}));
       } else if (state.unifiedView === "execution") {
         executionUI.refresh().catch(error => notify(operationErrorText(error),true));
         requestAnimationFrame(() => executionUI.reveal());

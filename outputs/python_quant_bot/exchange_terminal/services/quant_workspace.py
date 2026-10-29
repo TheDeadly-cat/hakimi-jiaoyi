@@ -31,7 +31,7 @@ _READ_RESOURCES = frozenset({"status", "strategies", "tasks", "inputs", "runs", 
     "terminal_strategy_candidates",
     "terminal_daily_catalog", "terminal_daily_inputs", "terminal_daily_intakes", "terminal_daily_updates", "terminal_daily_tasks",
     "terminal_catalog", "terminal_preflight", "terminal_saved_comparison", "terminal_workspace_history", "terminal_market", "terminal_inputs", "terminal_tasks", "terminal_runs", "terminal_history", "terminal_reports", "terminal_core_inputs", "core_replay",
-    "terminal_execution_accounts", "terminal_execution_account", "terminal_execution_receipt", "terminal_execution_history", "terminal_execution_compare", "terminal_execution_research",
+    "terminal_execution_accounts", "terminal_execution_account", "terminal_execution_receipt", "terminal_execution_history", "terminal_execution_compare", "terminal_execution_research", "terminal_execution_explanation",
     "terminal_judgments", "terminal_judgment_replay", "terminal_exit_experiments",
     "terminal_exit_runs", "terminal_exit_replay", "terminal_structure_replay", "terminal_insights", "terminal_peers"})
 

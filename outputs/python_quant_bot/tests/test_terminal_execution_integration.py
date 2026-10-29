@@ -1,10 +1,18 @@
 """New synthetic records through the actual terminal resolver and account adapter."""
 from copy import deepcopy
+from datetime import datetime, timezone
+from email.message import Message
 from hashlib import sha256
+from io import BytesIO
 import json
+from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
+from urllib.parse import quote
 
 from tests import test_terminal_research as fixtures
+from exchange_terminal.services import quant_workspace as quant
+from exchange_terminal.services import terminal_saved_results as saved_readers
 
 
 class TerminalExecutionIntegrationTests(unittest.TestCase):
@@ -68,6 +76,101 @@ class TerminalExecutionIntegrationTests(unittest.TestCase):
         self.assertFalse(self.fixture.core.workspace.exists())
         self.assertEqual(self.fixture.core.calls, [])
         self.fixture.runner.assert_not_called()
+
+    def test_real_native_saved_result_explanation_through_authenticated_read_route(self):
+        # One new explicitly synthetic run through the actual native engine.
+        # Subsequent reads must neither call it again nor touch original bytes.
+        from exchange_terminal.services.market_calendar import _exchange_sessions
+        sessions = _exchange_sessions("XNYS", "2024-01-02", "2024-08-30")[0][:130]
+        self.fixture.market["rows"] = [dict(date=row["date"],
+            ts_ms=int(datetime.fromisoformat(row["date"]).replace(tzinfo=timezone.utc).timestamp()*1000),
+            open=100+index, high=102+index, low=99+index, close=101+index, volume=100,
+            complete=True, provisional=False, source="fixture-provider") for index, row in enumerate(sessions)]
+        self.fixture.market["meta"]["evidence_kind"] = "SYNTHETIC_TEST"
+        def actual_runner(**kwargs):
+            return fixtures.run_causal_long_only_backtest(rows=kwargs["market_payload"]["rows"], symbol=kwargs["symbol"],
+                source=kwargs["market_payload"]["source"], signal_fn=fixtures.build_strategy_signal_fn(kwargs["strategy_id"], kwargs["strategy_params"]),
+                startup_candles=fixtures.strategy_startup_candles_for_params(kwargs["strategy_id"], kwargs["strategy_params"]),
+                position_pct=kwargs["position_pct"], take_profit_pct=kwargs["take_profit_pct"], stop_loss_pct=kwargs["stop_loss_pct"],
+                leverage=kwargs["leverage"], fee_rate=kwargs["fee_rate"], slippage_bps=kwargs["slippage_bps"], market="stock", timeframe="1D")
+        self.fixture.runner.side_effect = actual_runner
+        _, run, reference = self.prepare_research()
+        self.assertEqual(run["status"], "COMPLETED", run.get("error"))
+        self.assertEqual(self.fixture.runner.call_count, 1)
+        self.fixture.runner.side_effect = AssertionError("saved read must not rerun research")
+        self.fixture.reader.side_effect = AssertionError("saved read must not fetch source")
+        created = self.service.mutate("terminal_execution_create_account", deepcopy(self.creation))
+        context = dict(account_id=self.creation["account_id"], account_context=created["account_context"])
+        plan = self.service.mutate("terminal_execution_create_plan", dict(client_request_id="explanation-plan-0001", **context, reference=reference, stage="SIMULATION"))
+        plan_id = plan["receipt"]["outcome"]["plan_id"]
+        now = 1000000
+        accepted = self.service.mutate("terminal_execution_submit", dict(client_request_id="explanation-order-0001", **context,
+            plan_id=plan_id, security_id="QA:SYNTH", side="BUY", quantity=4, limit_price="10", outcome="ACCEPTED",
+            quote=dict(security_id="QA:SYNTH", price="10", as_of=now, observed_at=now, source_id="explicit-fictional-test", evidence_kind="SYNTHETIC_TEST"),
+            signal_at=now-1000, execution_at=now, now_ms=now))
+        order_id = accepted["receipt"]["outcome"]["order_id"]
+        for suffix, state, qty, notional, fee in (("one", "PARTIAL", 2, "20", "0.2"), ("two", "FILLED", 4, "40", "0.4")):
+            self.service.mutate("terminal_execution_observe", dict(client_request_id="explanation-observe-"+suffix, **context, now_ms=now+100,
+                observation=dict(order_id=order_id, evidence_id="explicit-observation-"+suffix, state=state,
+                                 cumulative_quantity=qty, cumulative_notional=notional, cumulative_fee=fee)))
+        payload = dict(**context, plan_id=plan_id, reference=reference)
+        store = self.service._execution_service._stores[context["account_id"]]["store"]
+        before, ledger_before = self.inventory_research(), store.snapshot()
+
+        # Exercise the real handler and authentication/allowlist without a
+        # listener, socket, jobs initialization, or an installed native window.
+        shell = quant.QuantWorkspace(self.fixture.root / "new-memory-shell")
+        shell._kernel, shell._service = SimpleNamespace(), self.service
+        self.addCleanup(shell.close)
+        def request(body):
+            headers = Message()
+            headers["Host"] = "127.0.0.1:54999"
+            headers["Origin"] = "http://127.0.0.1:54999"
+            headers["X-Hakimi-Token"] = shell._token
+            handler = SimpleNamespace(path="/api/quant/terminal_execution_explanation/"+quote(json.dumps(body), safe=""),
+                command="GET", headers=headers, server=SimpleNamespace(server_address=("127.0.0.1", 54999)),
+                client_address=("127.0.0.1", 12000), wfile=BytesIO(), send_header=lambda *_: None, end_headers=lambda: None)
+            handler.send_response = lambda status: setattr(handler, "status", status)
+            self.assertTrue(shell.handle(handler))
+            return handler.status, json.loads(handler.wfile.getvalue())
+        with patch.object(saved_readers, "verified_saved_result", wraps=saved_readers.verified_saved_result) as verifier, \
+                patch.object(self.service._execution_service, "read_saved_result", wraps=self.service._execution_service.read_saved_result) as projection_reader, \
+                patch.object(store, "snapshot", wraps=store.snapshot) as snapshot:
+            status, response = request(payload)
+        self.assertEqual(status, 200, response)
+        # Resolver looks up the verifier by module name; the projection callback
+        # already captured the original verifier during lazy service creation.
+        self.assertEqual(verifier.call_count, 1)
+        projection_reader.assert_called_once_with(reference)
+        self.assertEqual(snapshot.call_count, 1)
+        result = response["data"]
+        self.assertEqual(result["status"], "BOUND_REPORT_CONTEXT_ONLY")
+        self.assertEqual(result["scope"]["reference_report_hash"], run["id"])
+        self.assertEqual(result["scope"]["ledger_revision"], ledger_before["revision"])
+        rows = {row["id"]: row for group in result["groups"] for row in group["items"]}
+        self.assertEqual(rows["recorded_fees"]["simulation"]["value"], "0.4")
+        self.assertEqual(rows["slippage"]["research"]["unit"], "basis_points")
+        self.assertIsNone(rows["fill_time"]["simulation"]["value"])
+        self.assertIsNone(result["attribution"]["contributions"])
+        self.assertEqual(result["account_context"], context["account_context"])
+        self.assertIsNone(shell._jobs)
+        self.assertFalse(shell.runtime_dir.exists())
+        self.assertEqual(store.snapshot(), ledger_before)
+        self.assertEqual(self.inventory_research(), before)
+        self.assertEqual(self.fixture.runner.call_count, 1)
+
+        # Damage only this new TEMP report after the positive read. Rejection
+        # must retain the damaged evidence rather than repairing/recomputing it.
+        report_path = self.fixture.core.workspace / "terminal-runs" / run["operation_id"] / "report.json"
+        changed = json.loads(report_path.read_bytes()); changed["result"]["total_return_pct"] = 999
+        report_path.write_text(json.dumps(changed), encoding="utf-8")
+        damaged = self.inventory_research()
+        status, rejected = request(payload)
+        self.assertEqual(status, 400)
+        self.assertFalse(rejected["ok"])
+        self.assertEqual(self.inventory_research(), damaged)
+        self.assertEqual(store.snapshot(), ledger_before)
+        self.assertEqual(self.fixture.runner.call_count, 1)
 
 
 if __name__ == "__main__":

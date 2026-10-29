@@ -321,9 +321,10 @@ class TerminalResearchService:
     def _execution(self):
         if self._execution_service is None:
             from .terminal_execution_service import TerminalExecutionService
-            from .terminal_saved_results import resolve_execution_research
+            from .terminal_saved_results import resolve_execution_research, verified_saved_result
             self._execution_service = TerminalExecutionService(
-                self.workspace, lambda reference: resolve_execution_research(self, reference))
+                self.workspace, lambda reference: resolve_execution_research(self, reference),
+                read_saved_result=lambda reference: verified_saved_result(self, reference))
         return self._execution_service
 
     def close(self):
