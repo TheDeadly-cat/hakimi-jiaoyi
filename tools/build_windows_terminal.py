@@ -27,6 +27,9 @@ APP_FILES = ("main.js", "boot.html", "desktop-security-policy.js", "backend-runt
 BUILD_FILES = ("tools/build_windows_terminal.py", "tools/build_windows_trial.py", "tools/terminal_package_bootstrap.py",
                "tools/terminal_package_canonical.py", "tools/requirements.terminal.lock", "tools/terminal-dependency-hashes.json",
                "pyproject.toml", "setup.py", "requirements.research.lock")
+BROKER_IDENTITY_PERMISSIONS = frozenset({"external_connection_allowed", "query_allowed", "submit_allowed",
+    "cancel_allowed", "unlock_allowed", "automatic_retry", "automatic_resume", "automatic_mode_fallback",
+    "user_authorization_granted"})
 
 
 def regular(path):
@@ -312,6 +315,41 @@ def probe_installation(output):
     return json.loads(result.stdout)
 
 
+def probe_broker_package_identity(output, *, development=False):
+    """New private identity-only subprocess, separate from SDK/execution probes."""
+    env = {key: value for key, value in os.environ.items() if not key.upper().startswith("PYTHON")
+           and key.upper() not in {"NODE_OPTIONS", "ELECTRON_RUN_AS_NODE", "CHROME_CRASHPAD_PIPE_NAME"}}
+    with tempfile.TemporaryDirectory(prefix="hakimi-broker-loader-probe-") as directory:
+        env.update(HAKIMI_RUNTIME_DIR=directory, HAKIMI_QUANT_WORKSPACE_DIR=directory,
+                   HAKIMI_LOCAL_ONLY="1", HAKIMI_RUNTIME_READ_ONLY="1", HAKIMI_QUANT_READ_ONLY="1",
+                   HAKIMI_LOAD_LOCAL_AI_ENV="0", HAKIMI_SKIP_LOCAL_AI_ENV="1",
+                   FUTU_PY_APPDATA=str(Path(directory) / "unused-futu"))
+        result = subprocess.run([str(output / "runtime/python/python.exe"), "-I", "-S", "-B", "-X", "utf8",
+                                 str(output / "resources/app/terminal-bootstrap.py"), "--broker-identity-probe"],
+                                cwd=directory, env=env, capture_output=True, text=True, encoding="utf-8", timeout=90)
+    require(result.returncode == 0, "terminal_broker_identity_probe_failed:" + result.stderr[-2400:])
+    proof = json.loads(result.stdout)
+    expected = "DEVELOPMENT_PACKAGE_NOT_ELIGIBLE" if development else "PACKAGE_IDENTITY_ONLY_VERIFIED"
+    require(proof.get("status") == expected and proof.get("runtime_compatibility") == "NOT_VERIFIED"
+            and all(proof.get(key) is False for key in ("sdk_imported", "server_imported"))
+            and all(type(proof.get(key)) is int and proof[key] == 0 for key in ("external_calls", "economic_runs", "business_files_created"))
+            and type(proof.get("permissions")) is dict and set(proof["permissions"]) == BROKER_IDENTITY_PERMISSIONS
+            and all(value is False for value in proof["permissions"].values()), "terminal_broker_identity_proof_invalid")
+    for key, relative in (("loader_module", "terminal_broker_package_loader.py"), ("plan_module", "terminal_broker_execution_plan.py")):
+        require(Path(proof.get(key, "")).resolve() == output / "components/terminal/exchange_terminal/services" / relative,
+                "terminal_broker_identity_import_path_changed")
+    require(type(proof.get("modes")) is dict and set(proof["modes"]) ==
+            (set() if development else {"OFFICIAL_SIMULATION", "LIVE_CANDIDATE"}), "terminal_broker_identity_modes_invalid")
+    for mode, value in proof["modes"].items():
+        require(type(value) is dict and value.get("schema_version") == "hakimi-broker-package-load-v1"
+                and value.get("status") == "PACKAGED_IDENTITY_MATCHED" and value.get("mode") == mode
+                and value.get("package", {}).get("bundle_id") == proof.get("bundle_id")
+                and value.get("runtime_compatibility") == "NOT_VERIFIED"
+                and "sdk" in value and "adapter" in value and type(value.get("missing_capabilities")) is list
+                and value.get("permissions") == proof["permissions"], "terminal_broker_identity_mode_proof_invalid")
+    return proof
+
+
 def build(python_archive, electron_archive, wheelhouse, output, *, version="0.7.0.dev1", root=ROOT, allow_dirty=False, make_archive=True):
     root, output, wheelhouse = Path(root).resolve(), Path(output).resolve(), Path(wheelhouse).resolve()
     archive_path = Path(str(output) + ".zip")
@@ -369,6 +407,8 @@ def build(python_archive, electron_archive, wheelhouse, output, *, version="0.7.
         write_new(output / "terminal-manifest.json", canonical(manifest) + b"\n")
         probe = probe_installation(output)
         require(probe["bundle_id"] == manifest["bundle_id"] and probe["status"] == "VERIFIED", "terminal_probe_identity_changed")
+        broker_identity_probe = probe_broker_package_identity(output, development=provenance["development_probe"])
+        require(broker_identity_probe["bundle_id"] == manifest["bundle_id"], "terminal_broker_identity_probe_identity_changed")
         execution_probe = probe_installed_execution(output)
         require(execution_probe["bundle_id"] == manifest["bundle_id"], "terminal_execution_probe_identity_changed")
         if make_archive:
@@ -377,7 +417,7 @@ def build(python_archive, electron_archive, wheelhouse, output, *, version="0.7.
                     archive.write(output / name, name)
         return dict(status="BUILT_AND_PRIVATE_RUNTIME_VERIFIED", output=str(output), bundle_id=manifest["bundle_id"],
                     archive=str(archive_path) if make_archive else None, archive_sha256=sha(archive_path.read_bytes()) if make_archive else None,
-                    source_git=provenance["git"], probe=probe, execution_probe=execution_probe,
+                    source_git=provenance["git"], probe=probe, broker_identity_probe=broker_identity_probe, execution_probe=execution_probe,
                     clean_windows_acceptance="NOT_PERFORMED", new_economic_runs=1, synthetic_runs=1,
                     market_data_runs=0, historical_replays=0)
     except Exception as error:

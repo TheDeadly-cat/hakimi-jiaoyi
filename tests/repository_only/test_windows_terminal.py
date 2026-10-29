@@ -23,6 +23,10 @@ class TerminalPackagingTests(unittest.TestCase):
         self.assertIn("components/terminal/exchange_terminal/static/terminal-quant-ui.js", files)
         self.assertEqual(files["components/terminal/exchange_terminal/services/terminal_broker_execution_plan.py"],
                          ROOT / "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py")
+        self.assertEqual(files["components/terminal/exchange_terminal/services/terminal_broker_package_loader.py"],
+                         ROOT / "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_package_loader.py")
+        self.assertNotIn("components/terminal/exchange_terminal/adapters/futu-us-equity-simulate-v1.json", files)
+        self.assertNotIn("components/terminal/exchange_terminal/adapters/futu-us-equity-real-v1.json", files)
         self.assertIn("components/terminal-canonical/hakimi_research/terminal_config.py", files)
         self.assertNotIn("components/canonical/hakimi_research/terminal_config.py", files)
         self.assertEqual(files["components/canonical/hakimi_research/runtime-files.json"], ROOT / "src/hakimi_research/runtime-files.json")
@@ -169,6 +173,63 @@ class TerminalPackagingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "source_identity_algorithm_changed"):
             terminal.generate_build_identities(output, ROOT, dict(git=dict(commit="c" * 40, status="CLEAN")))
         self.assertFalse((package / "_build_identity.json").exists())
+
+    def broker_identity_proof(self, *, development=False):
+        permissions = {key: False for key in terminal.BROKER_IDENTITY_PERMISSIONS}
+        return dict(status="DEVELOPMENT_PACKAGE_NOT_ELIGIBLE" if development else "PACKAGE_IDENTITY_ONLY_VERIFIED",
+            bundle_id="b" * 64, runtime_compatibility="NOT_VERIFIED", sdk_imported=False, server_imported=False,
+            external_calls=0, economic_runs=0, business_files_created=0, permissions=permissions,
+            loader_module=str(ROOT / "components/terminal/exchange_terminal/services/terminal_broker_package_loader.py"),
+            plan_module=str(ROOT / "components/terminal/exchange_terminal/services/terminal_broker_execution_plan.py"),
+            modes={} if development else {mode: {"schema_version": "hakimi-broker-package-load-v1",
+                "status": "PACKAGED_IDENTITY_MATCHED", "mode": mode, "package": {"bundle_id": "b" * 64},
+                "sdk": None, "adapter": None, "missing_capabilities": ["SDK_NOT_PACKAGED", "APPLICATION_ADAPTER_NOT_PACKAGED"],
+                "runtime_compatibility": "NOT_VERIFIED", "permissions": permissions.copy()}
+                for mode in ("OFFICIAL_SIMULATION", "LIVE_CANDIDATE")})
+
+    def test_broker_identity_probe_is_separate_private_and_temporary(self):
+        observed = {}
+        def run(arguments, **options):
+            observed["directory"] = Path(options["cwd"])
+            self.assertEqual(arguments[1:6], ["-I", "-S", "-B", "-X", "utf8"])
+            self.assertEqual(arguments[-1], "--broker-identity-probe")
+            self.assertTrue(observed["directory"].is_dir())
+            self.assertEqual(options["encoding"], "utf-8")
+            self.assertNotIn("PYTHONPATH", options["env"])
+            for key in ("HAKIMI_RUNTIME_DIR", "HAKIMI_QUANT_WORKSPACE_DIR", "FUTU_PY_APPDATA"):
+                self.assertTrue(Path(options["env"][key]).is_relative_to(observed["directory"]))
+            return SimpleNamespace(returncode=0, stdout=json.dumps(self.broker_identity_proof()), stderr="")
+        with patch.dict(os.environ, HAKIMI_RUNTIME_DIR="OLD_DATA", PYTHONPATH="FOREIGN"), patch.object(terminal.subprocess, "run", side_effect=run):
+            value = terminal.probe_broker_package_identity(ROOT)
+        self.assertEqual(value["status"], "PACKAGE_IDENTITY_ONLY_VERIFIED")
+        self.assertFalse(observed["directory"].exists())
+
+    def test_broker_identity_probe_requires_exact_closed_permissions_and_both_modes(self):
+        mutations = [lambda p: p["permissions"].pop("query_allowed"),
+            lambda p: p["permissions"].update(extra=False),
+            lambda p: p["permissions"].update(submit_allowed=True),
+            lambda p: p["modes"].pop("LIVE_CANDIDATE"),
+            lambda p: p["modes"]["OFFICIAL_SIMULATION"]["permissions"].pop("cancel_allowed"),
+            lambda p: p["modes"]["OFFICIAL_SIMULATION"].pop("adapter"),
+            lambda p: p.update(sdk_imported=True), lambda p: p.update(runtime_compatibility="VERIFIED")]
+        for index, mutate in enumerate(mutations):
+            proof = self.broker_identity_proof(); mutate(proof)
+            result = SimpleNamespace(returncode=0, stdout=json.dumps(proof), stderr="")
+            with self.subTest(index=index), patch.object(terminal.subprocess, "run", return_value=result):
+                with self.assertRaisesRegex(ValueError, "terminal_broker_identity"):
+                    terminal.probe_broker_package_identity(ROOT)
+
+    def test_development_identity_probe_cannot_claim_release_plan_eligibility(self):
+        result = SimpleNamespace(returncode=0, stdout=json.dumps(self.broker_identity_proof(development=True)), stderr="")
+        with patch.object(terminal.subprocess, "run", return_value=result):
+            self.assertEqual(terminal.probe_broker_package_identity(ROOT, development=True)["status"], "DEVELOPMENT_PACKAGE_NOT_ELIGIBLE")
+            with self.assertRaisesRegex(ValueError, "identity_proof_invalid"):
+                terminal.probe_broker_package_identity(ROOT)
+
+    def test_broker_identity_probe_failure_never_downgrades_to_metadata_success(self):
+        with patch.object(terminal.subprocess, "run", return_value=SimpleNamespace(returncode=1, stdout="{}", stderr="PACKAGE_CHANGED")):
+            with self.assertRaisesRegex(ValueError, "identity_probe_failed.*PACKAGE_CHANGED"):
+                terminal.probe_broker_package_identity(ROOT)
 
 
 if __name__ == "__main__":

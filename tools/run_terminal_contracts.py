@@ -29,6 +29,7 @@ TEST_FILES = (
     "test_terminal_candidate_service.py",
     "test_terminal_broker_candidate_service.py",
     "test_terminal_broker_execution_plan.py",
+    "test_terminal_broker_package_loader.py",
     "test_terminal_broker_integration.py",
     "test_terminal_corporate_actions.py",
     "test_terminal_continuous_replay.py",
