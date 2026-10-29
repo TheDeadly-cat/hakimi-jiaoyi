@@ -16,3 +16,5 @@
 - 包内真实服务解析同一份原生 QA 报告 `fc34b56f...3019f`，再以实际候选回复通过新 JS 的身份校验，运行保护检查为 PASS，原 report/task/input 不变。此只读链发生于最后的纯显示修正之前；后续显示修正由最终桌面检查覆盖，没有重跑原研究。
 
 本机详细凭据：`Downloads/Hakimi-Astra-Delivery-20261029/t03-saved-task-completion-fix-20261030`、`execution-saved-factor-review-20261030/r2`、`r3`、`r4`。历史失败与前一版哈希保留，不把早期证据改签为最终字节。原生包更新与独立用户理解仍需另验。
+
+该修复已提交为 `0cd021ac2dbc47d847bc366a38b4272e6495d3b0`，其 [run 159](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40945319586) 已完成，11/11 作业成功，包含完整桌面及 Windows/Ubuntu 安装。摘要为 `ci159-completed-summary.json`；后续已有研究快捷入口另行验证，不沿用此 CI。

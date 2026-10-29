@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "exit_code": 0,
+  "node": "v22.23.4",
+  "elapsed_seconds": 15.992,
+  "source_hashes_before": {
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-execution-ui.js": "0af93e7c4d709b04afc3f05de23f2dbfe7b98dce3136315d1820eda535e4ae22",
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-execution-ui.test.js": "8a4e5b95cada1d13a494e40b17fae21a15d2cb24132e2cfd46d0da36c56e8c55",
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-quant-ui.js": "9caf65612306db293968a842e32b22b33a4db972c0cdf19df43ae58613d2323e",
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-quant-ui.test.js": "d54e3b452ef1776274e3d89edffbdce1fb7bac4b2786d12f4136c038fe854039",
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-strategy-candidates-ui.js": "97173cbc2f9c5e6cfd358157bfe113866f4b6dcbcb785d9061ff235c021226cb",
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-strategy-candidates-ui.test.js": "46ea2b82c84608e50c4de2bce9ff5ebeec8537b732ab81c6da233285eb99fada"
+  },
+  "source_hashes_after": {
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-execution-ui.js": "0af93e7c4d709b04afc3f05de23f2dbfe7b98dce3136315d1820eda535e4ae22",
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-execution-ui.test.js": "8a4e5b95cada1d13a494e40b17fae21a15d2cb24132e2cfd46d0da36c56e8c55",
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-quant-ui.js": "9caf65612306db293968a842e32b22b33a4db972c0cdf19df43ae58613d2323e",
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-quant-ui.test.js": "d54e3b452ef1776274e3d89edffbdce1fb7bac4b2786d12f4136c038fe854039",
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-strategy-candidates-ui.js": "97173cbc2f9c5e6cfd358157bfe113866f4b6dcbcb785d9061ff235c021226cb",
+    "outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-strategy-candidates-ui.test.js": "46ea2b82c84608e50c4de2bce9ff5ebeec8537b732ab81c6da233285eb99fada"
+  },
+  "source_files_unchanged": true,
+  "native_gui_coverage": false
+}

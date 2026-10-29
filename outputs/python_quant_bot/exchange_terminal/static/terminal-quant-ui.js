@@ -389,6 +389,7 @@
     const candidateUI=globalThis.installTerminalStrategyCandidatesUI({host:candidateHost,api,notify,
       onAcquireData:()=>show("daily"),
       getDraft:()=>({input_id:value("tq-input"),strategy_id:value("tq-strategy"),strategy_params:currentSignalParams()}),
+      onOpenSaved:(run,diagnostic,coverage)=>openSavedCandidate(run,diagnostic,coverage),
       onChoose:async diagnostic=>{
         const entry=state.catalog.find(row=>row.id===diagnostic.strategy_id);
         if(researchBlocker(entry) || !state.inputs.some(row=>identity(row)===diagnostic.input_id))throw Error("所选行情或规则已经变化，请重新读取后核对。");
@@ -425,6 +426,7 @@
       renderParams();
     }
     function renderParams(params = null) {
+      if(typeof candidateUI!=="undefined")candidateUI.invalidateDraft();
       const entry = state.catalog.find((row) => row.id === value("tq-strategy"));
       if (entry) state.lastNativeStrategy = entry.id;
       const values = params === null ? (entry?.params || {}) : params;
@@ -647,6 +649,8 @@
       notify("当前表单参数已带入草稿；未保存、未运行。请继续核对封存行情与费用。");
     }
     async function editTask(familyId) {
+      state.savedTask=null;$("tq-saved-task").hidden=true;
+      if(typeof candidateUI!=="undefined")candidateUI.invalidateDraft();
       const task = await api("terminal_tasks/" + encodeURIComponent(familyId));
       state.revisionOf = task.task_id || task.id;
       state.aiEvidence = task.ai_evidence || null; state.aiEvidenceBinding = task.ai_evidence_binding || null;
@@ -736,6 +740,15 @@
           <p class="section-note">结果编号：${esc(id)}。重试只读取同一份结果，不会新建回测。</p>${button("重新读取这份结果","result",id)}`;
       }
     }
+    function openSavedCandidate(run,diagnostic,coverage={}) {
+      const review=globalThis.HakimiTerminalStrategyCandidates;
+      if(!review?.matchesSavedResult(run,diagnostic))throw Error("原结果与所选候选的行情或规则不同，未打开其他报告。");
+      state.runReadRequest++;state.selectedRunId=run.id;state.selectedRun=run;
+      show("results");renderRun(run,run.id);
+      $("tq-run-detail").insertAdjacentHTML("afterbegin",`<section aria-label="候选对应的已保存研究"><p>已打开行情与规则相同的原报告，没有重复保存或运行。费用、执行风险和本金未纳入候选匹配；诊断情景不等于报告中的实际持仓。</p>${coverage.incompleteIndex?warning("部分记录未读出；本次打开的是目前可核验的一份匹配结果，不代表全部历史记录。"):""}${review.savedResultTerms(run)}</section>`);
+      requestAnimationFrame(()=>{if(state.selectedRunId!==run.id||state.unifiedView!=="results")return;const detail=$("tq-run-detail"),topbar=document.querySelector(".topbar"),sidebar=document.querySelector(".sidebar");detail.style.scrollMarginTop=(Math.ceil(Math.max(0,topbar?.getBoundingClientRect().bottom||0,sidebar?.getBoundingClientRect().bottom||0))+16)+"px";detail.scrollIntoView({block:"start",behavior:"auto"});});
+      notify("已只读打开原报告；请核对这份报告实际的资金、执行风险与费用。");
+    }
     function renderRun(run,id) {
       if (run.status !== "COMPLETED") {
         $("tq-run-detail").innerHTML = warning(run.message || run.error || "此运行未取得完整结果。原记录保留，不自动重跑，也不使用当前行情补齐。");
@@ -743,8 +756,8 @@
       }
       const result = run.result || {}, config = run.configuration || {}, trades = result.trades || [];
       $("tq-run-detail").innerHTML = `<h3>${esc(run.title || run.strategy_id)} · 版本 ${esc(run.version)}</h3>${warning("冻结研究结果 · 来源待复核 · 不授予模拟或实盘权限")}
-        ${globalThis.HakimiTerminalResultSummary.renderResultSummary(run,esc)}
         <div class="actions">${button("用此版本准备订单演练","execution-source",id)}${button("在行情图表复盘","replay",id)}${button("复制参数到策略分析","copy-params",id)}${button("记录这次结果的判断","judgment-run",id)}${button("出场对照研究","exit-research-run",id,researchBlocker(state.catalog.find((entry) => entry.id === run.strategy_id)) ? "disabled" : "")}</div>
+        ${globalThis.HakimiTerminalResultSummary.renderResultSummary(run,esc)}
         <details class="section-gap"><summary>本次冻结配置与来源</summary><pre class="code-detail">${esc(JSON.stringify({engine:run.engine_id,configuration:config,input:run.input_summary,report_hash:run.report_hash},null,2))}</pre></details>
         ${config.ai_evidence ? '<h3 class="section-gap">本任务保存的 AI 研究依据</h3>' + aiEvidenceHtml(config.ai_evidence,config.ai_evidence_binding) : ""}
         <div class="tq-table section-gap"><table><thead><tr><th>日期</th><th>动作</th><th>价格</th><th>数量</th><th>原因</th></tr></thead><tbody>${trades.map((trade) => `<tr><td>${esc(trade.date)}</td><td>${esc(trade.side)}</td><td>${fmt(trade.price)}</td><td>${fmt(trade.quantity)}</td><td>${esc(trade.reason || "")}</td></tr>`).join("")}</tbody></table></div>`;
@@ -853,7 +866,7 @@
       if (action === "market") return readMarket();
       if (action === "context-market") { $("tq-symbol").value = state.context.symbol; return readMarket(state.context.source_id || ""); }
       if (action === "apply-context") return applyContextParams();
-      if (action === "new") { state.revisionOf = null; state.savedTask = null; $("tq-saved-task").hidden = true; state.aiEvidence = null; state.aiEvidenceBinding = null; state.aiEvidenceEnabled = false; if (state.context) applyContext(state.context); else renderAiEvidence(); $("tq-form-title").textContent = "2 · 新建策略任务"; $("tq-name").value = ""; return notify("正在填写新任务；原任务、版本与结果保持不变。"); }
+      if (action === "new") { if(typeof candidateUI!=="undefined")candidateUI.invalidateDraft(); state.revisionOf = null; state.savedTask = null; $("tq-saved-task").hidden = true; state.aiEvidence = null; state.aiEvidenceBinding = null; state.aiEvidenceEnabled = false; if (state.context) applyContext(state.context); else renderAiEvidence(); $("tq-form-title").textContent = "2 · 新建策略任务"; $("tq-name").value = ""; return notify("正在填写新任务；原任务、版本与结果保持不变。"); }
       if (action === "edit") return editTask(id);
       if (action === "result") return showRun(id);
       if (action === "compare") return compareSelected(target);
@@ -897,6 +910,7 @@
       if (target && !target.disabled) dispatch(target.dataset.tqAction,target.dataset.tqId,target).catch((error) => notify(error.message,true));
     });
     host.addEventListener("change", (event) => {
+      if(["tq-strategy","tq-input"].includes(event.target.id)||event.target.dataset.tqParam)candidateUI.invalidateDraft();
       if (event.target.id === "tq-strategy") {
         const selected = event.target.value;
         if (selected.startsWith("core:")) {
@@ -912,7 +926,7 @@
       if (event.target.id === "tq-confirm-market") host.querySelector('[data-tq-action="freeze"]').disabled = !event.target.checked;
       if (event.target.dataset.tqCompare) event.target.checked ? state.comparison.add(event.target.dataset.tqCompare) : state.comparison.delete(event.target.dataset.tqCompare);
     });
-    host.addEventListener("input", (event) => { if (event.target.dataset.tqParam) renderAiEvidence(); });
+    host.addEventListener("input", (event) => { if (event.target.dataset.tqParam) {candidateUI.invalidateDraft();renderAiEvidence();} });
     $("tq-use-ai").addEventListener("change", (event) => { state.aiEvidenceEnabled = event.target.checked && validAiEvidence(state.aiEvidence); });
     renderAiEvidence();
     $("tq-task-form").addEventListener("submit", (event) => saveTask(event).catch((error) => notify(error.message,true)));

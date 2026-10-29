@@ -456,7 +456,7 @@ test("new task entry clears the saved card binding so late completion cannot occ
   }
 });
 
-test("choosing a strategy candidate clears the old saved card while retaining its confirmed facts",async()=>{
+test("explicit new draft from a strategy candidate clears the old saved card while retaining its confirmed facts",async()=>{
   const f=savedTaskCardFixture();
   f.state.catalog=[{id:"dual_ma",name:"双均线"}];f.state.inputs=[{id:"candidate-input"}];
   Object.assign(f.context,{researchBlocker:()=>"",renderParams(){},renderAiEvidence(){}});
@@ -472,6 +472,23 @@ test("choosing a strategy candidate clears the old saved card while retaining it
   assert.equal(f.element("tq-saved-task").hidden,true);
   assert.equal(f.state.confirmedTaskRuns.get(f.task.task_id).id,f.job.result.id);
   assert.equal(f.element("tq-input").value,"candidate-input");
+});
+test("opening an already verified candidate result preserves the draft and shows actual report risk with incomplete-index notice",()=>{
+  const callbacks=[],shown=[],state={savedTask:{task_id:'original-draft'},runReadRequest:3,unifiedView:'dashboard'},detail={style:{},html:'',insertAdjacentHTML(_where,html){this.html=html;},scrollIntoView(){this.scrolled=true;}};
+  const report={id:'saved-report',configuration:{risk:{stop_loss_pct:8},costs:{fee_rate:.0005}}},diagnostic={id:'candidate'};
+  const navBottoms={'.topbar':146,'.sidebar':98};const context=vm.createContext({state,$:()=>detail,show:view=>{state.unifiedView=view;callbacks.push(()=>shown.push('panel scroll'));},renderRun:(r,id)=>shown.push([r,id]),notify(){},warning:t=>'<p>'+t+'</p>',requestAnimationFrame:fn=>callbacks.push(fn),document:{querySelector:selector=>({getBoundingClientRect:()=>({bottom:navBottoms[selector]})})},HakimiTerminalStrategyCandidates:{matchesSavedResult:(r,d)=>r===report&&d===diagnostic,savedResultTerms:()=>'<p>执行止损 8% · 手续费 0.05%</p>'}});
+  vm.runInContext(uiFunction('openSavedCandidate'),context);context.openSavedCandidate(report,diagnostic,{incompleteIndex:true});assert.equal(state.savedTask.task_id,'original-draft');assert.equal(state.selectedRun,report);assert.equal(state.runReadRequest,4);assert.match(detail.html,/部分记录未读出/);assert.match(detail.html,/执行止损 8%.*手续费 0.05%/);assert.match(detail.html,/诊断情景不等于/);assert.equal(detail.scrolled,undefined);callbacks.forEach(fn=>fn());assert.equal(detail.scrolled,true);assert.equal(detail.style.scrollMarginTop,'162px');
+  assert.throws(()=>context.openSavedCandidate({...report},diagnostic),/未打开其他报告/);
+  callbacks.length=0;navBottoms['.topbar']=-1000;navBottoms['.sidebar']=56;context.openSavedCandidate(report,diagnostic);callbacks.forEach(fn=>fn());assert.equal(detail.style.scrollMarginTop,'72px','a scrolled-away topbar cannot erase the fixed sidebar clearance');
+});
+test("starting a revision clears the old saved card before the read, including a failed read",async()=>{
+  const f=savedTaskCardFixture();f.context.recordRunOutcome(f.job.result);let invalidated=0;
+  Object.assign(f.context,{candidateUI:{invalidateDraft(){invalidated++;}},api:async()=>{throw Error('task read unavailable');}});vm.runInContext(uiFunction('editTask'),f.context);
+  await assert.rejects(f.context.editTask('family'),/task read unavailable/);assert.equal(f.state.savedTask,null);assert.equal(f.element('tq-saved-task').hidden,true);assert.equal(invalidated,1);f.context.recordRunOutcome(f.job.result);assert.equal(f.element('tq-saved-task').hidden,true);
+});
+test("saved result places the original order-preparation action before the long report summary",()=>{
+  const detail={},state={catalog:[]};const context=vm.createContext({state,$:()=>detail,esc:String,warning:t=>'<p>'+t+'</p>',button:(label,action,id)=>`<button data-action="${action}" data-id="${id}">${label}</button>`,researchBlocker:()=>'',fmt:String,HakimiTerminalResultSummary:{renderResultSummary:()=>'<section>LONG_SAVED_REPORT_SUMMARY</section>'}});
+  vm.runInContext(uiFunction('renderRun'),context);context.renderRun({status:'COMPLETED',id:'same-original',title:'保存研究',version:1,strategy_id:'dual_ma',result:{trades:[]},configuration:{}},'same-original');assert.ok(detail.innerHTML.indexOf('execution-source')<detail.innerHTML.indexOf('LONG_SAVED_REPORT_SUMMARY'));assert.match(detail.innerHTML,/data-action="execution-source" data-id="same-original"/);
 });
 
 test("completed saved-task button dispatch reads the original run and never submits a run",async()=>{
