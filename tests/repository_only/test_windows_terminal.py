@@ -18,6 +18,7 @@ import terminal_package_bootstrap as bootstrap
 class TerminalPackagingTests(unittest.TestCase):
     def test_component_closure_preserves_formal_manifest_and_frozen_identity(self):
         files = terminal.source_files(ROOT)
+        self.assertEqual(files["FIRST_USE.md"], ROOT / "docs/windows-original-terminal-first-use.md")
         self.assertIn("components/terminal/exchange_terminal/server.py", files)
         self.assertIn("components/terminal/exchange_terminal/static/terminal-quant-ui.js", files)
         self.assertIn("components/terminal-canonical/hakimi_research/terminal_config.py", files)

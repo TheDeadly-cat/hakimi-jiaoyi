@@ -120,7 +120,7 @@ class APITests(unittest.TestCase):
             manifest['price_source']['raw_base64']=base64.b64encode(('\n'.join(csv)+'\n').encode()).decode()
             revised=build_equity_snapshot(('\n'.join(csv)+'\n').encode(),manifest).document
             raw=json.dumps(revised,indent=2).encode();retained=_retain(self.service.workspace/'daily',raw)
-            relative=Path(retained['path']).relative_to(self.service.workspace/'daily').as_posix()
+            relative=Path(retained['path']).resolve().relative_to((self.service.workspace/'daily').resolve()).as_posix()
             identity='canon-'+sha256(relative.encode()).hexdigest()[:32]
             return self.service.mutate('terminal_import_daily_input',{'input_id':identity})['id']
         future=save_amended(len(snapshot['candles'])-1)
@@ -382,7 +382,7 @@ class APITests(unittest.TestCase):
         manifest['calendar']['source']['raw_base64']=base64.b64encode(json.dumps(manifest['calendar']['days']).encode()).decode()
         short=build_equity_snapshot(raw_csv,manifest).document
         retained=_retain(self.service.workspace/'daily',json.dumps(short,indent=2).encode())
-        relative=Path(retained['path']).relative_to(self.service.workspace/'daily').as_posix()
+        relative=Path(retained['path']).resolve().relative_to((self.service.workspace/'daily').resolve()).as_posix()
         native=self.service.mutate('terminal_import_daily_input',dict(input_id='canon-'+sha256(relative.encode()).hexdigest()[:32]))
         account_id=self.settings['account_id']
         adopted=api.mutate('adopt',dict(account_id=account_id,request_id='short-adopt-0001',expected_head=created['head'],input_id=native['id']))

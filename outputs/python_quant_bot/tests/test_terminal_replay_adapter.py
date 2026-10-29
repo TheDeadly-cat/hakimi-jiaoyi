@@ -18,7 +18,7 @@ from hakimi_research.input_workflow import _retain
 
 
 def inventory(root):
-    return {str(p.relative_to(root)):(sha256(p.read_bytes()).hexdigest(),p.stat().st_mtime_ns)
+    return {str(p.resolve().relative_to(root.resolve())):(sha256(p.read_bytes()).hexdigest(),p.stat().st_mtime_ns)
             for p in root.rglob('*') if p.is_file() and 'historical-replay' not in p.parts}
 
 
@@ -26,7 +26,12 @@ class TrustedAdapterTests(unittest.TestCase):
     def setUp(self):
         self.fixtures=fixture.TerminalResearchTests();self.fixtures.setUp()
         self.addCleanup(self.fixtures.doCleanups)
+        # Production QuantWorkspace resolves its trusted workspace before
+        # constructing either service; reproduce that entry contract under 8.3 TEMP.
+        self.fixtures.root=self.fixtures.root.resolve()
+        self.fixtures.core.workspace=self.fixtures.core.workspace.resolve()
         self.service=self.fixtures.service
+        self.service.workspace=self.fixtures.core.workspace
         self.service.fingerprint=trusted.signals.strategy_signal_fingerprint
         self.guard_state={'schema_version':'hakimi-runtime-build-v1','status':'PASS','restart_required':False}
         self.now=datetime(2026,10,30,tzinfo=timezone.utc)
@@ -47,17 +52,15 @@ class TrustedAdapterTests(unittest.TestCase):
         raw=(json.dumps(snapshot,indent=3)+'\n').encode()
         if namespace=='daily_reference':
             retained=_retain(self.service.workspace/'daily',raw)
-            relative=Path(retained['path']).relative_to(self.service.workspace/'daily').as_posix()
+            relative=Path(retained['path']).resolve().relative_to((self.service.workspace/'daily').resolve()).as_posix()
             canonical_id='canon-'+sha256(relative.encode()).hexdigest()[:32]
             saved_input=self.service.mutate('terminal_import_daily_input',{'input_id':canonical_id})
         else:
             # Frozen core service is only used to verify/read this new fixture.
             from exchange_terminal.services.quant_workspace import _load_kernel
-            core=_load_kernel().service(self.service.workspace)
+            core=_load_kernel().service(self.service.workspace.resolve())
             self.service.core=core
-            # service's collaborator is named service in production.
-            self.service.service=core
-            source=self.service.workspace/'data'/'fresh-qa.json';source.parent.mkdir(parents=True,exist_ok=True);source.write_bytes(raw)
+            source=core.workspace/'data'/'fresh-qa.json';source.parent.mkdir(parents=True,exist_ok=True);source.write_bytes(raw)
             saved_input=self.service.mutate('terminal_import_core_input',{'input_id':core._id(source)})
         task=self.service.mutate('terminal_save_task',dict(name='新建虚构QA原生报告',strategy_id=strategy_id,
             strategy_params=params or {'fast_window':10,'slow_window':40},input_id=saved_input['id'],

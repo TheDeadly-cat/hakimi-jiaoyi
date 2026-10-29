@@ -65,7 +65,7 @@ def source_files(root):
             selected["components/terminal/" + relative] = path
     selected["components/terminal/_canonical_source.py"] = root / "tools/terminal_package_canonical.py"
     selected["resources/app/terminal-bootstrap.py"] = root / "tools/terminal_package_bootstrap.py"
-    selected["FIRST_USE.md"] = root / "docs/windows-original-terminal-candidate.md"
+    selected["FIRST_USE.md"] = root / "docs/windows-original-terminal-first-use.md"
     for name in APP_FILES:
         selected["resources/app/" + name] = root / "outputs/hakimi_trade_electron" / name
     for path in sorted((root / "tools/terminal-notices").glob("*")):
