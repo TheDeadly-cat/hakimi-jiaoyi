@@ -51,6 +51,7 @@ TEST_FILES = (
     "test_terminal_strategy_candidates.py",
     "test_terminal_task_names.py",
     "test_terminal_workspace_history.py",
+    "test_terminal_workspace_history_msix.py",
 )
 TEST_PATTERNS = (
     "test_terminal_*.py", "test_indicator_*.py", "test_quant_workspace.py",

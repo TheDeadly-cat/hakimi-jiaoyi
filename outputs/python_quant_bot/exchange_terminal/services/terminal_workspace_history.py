@@ -143,16 +143,103 @@ def _native_reader(root):
     return NativeReadOnly()
 
 
+def msix_history_roots_for_workspace(current_workspace, *, local_app_data=None):
+    """Use the selected terminal data container, not inferred OS ownership.
+
+    The server supplies its already selected physical workspace. Only our exact
+    standard data layout can authorize a same-container history candidate. This
+    neither scans Packages nor accepts a renderer-provided path.
+    """
+    local = Path(local_app_data if local_app_data is not None
+                 else os.environ.get("LOCALAPPDATA", str(Path.home() / "AppData" / "Local")))
+    try:
+        packages = _no_links(local / "Packages").resolve(strict=True)
+        workspace = _no_links(current_workspace).resolve(strict=True)
+        relative = workspace.relative_to(packages)
+        parts = relative.parts
+        if (len(parts) != 8 or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}_[a-z0-9]{13}", parts[0]) is None
+                or parts[1:5] != ("LocalCache", "Local", "HakimiTradeTerminal", "workspaces")
+                or parts[6:] != ("runtime", "research-workspace") or not workspace.is_dir()):
+            return ()
+        package = _no_links(packages / parts[0]).resolve(strict=True)
+        if package.parent != packages or not package.is_dir():
+            return ()
+        return (package,)
+    except (OSError, ValueError, TypeError):
+        return ()
+
+
 class TerminalWorkspaceHistory:
     def __init__(self, runtime_dir=None, *, local_app_data=None, extra_roots=(), current_workspace=None,
-                 known_original_root=None):
+                 known_original_root=None, msix_package_roots=()):
         self.runtime_dir = Path(runtime_dir) if runtime_dir is not None else None
         self.local_app_data = Path(local_app_data if local_app_data is not None
                                    else os.environ.get("LOCALAPPDATA", str(Path.home() / "AppData" / "Local")))
         self.extra_roots = tuple(Path(path) for path in extra_roots)
+        # Trusted launcher input only, never a renderer-supplied filesystem path.
+        # Empty by default: no Packages scan or inferred package ownership.
+        self.msix_package_roots = tuple(Path(path) for path in msix_package_roots)
         self.current_workspace = _no_links(current_workspace).resolve() if current_workspace is not None else None
         self.known_original_root = Path(known_original_root) if known_original_root is not None else (
             Path.home() / "Documents" / "哈基米v2交易" / "outputs" / "python_quant_bot" / "runtime" / "research-workspace")
+
+    def _msix_candidates(self, candidates, trial_root):
+        """Add exact observed marker mappings as independent physical roots.
+
+        Never redirect the logical root or change _safe. An MSIX file mapping
+        can differ from its parent directory's resolve(), so only an explicitly
+        allowed, same-name LocalCache mapping is eligible for separate discovery.
+        """
+        additions, warnings, allowed = [], [], []
+        if not self.msix_package_roots:
+            return additions, warnings
+        try:
+            packages = _no_links(self.local_app_data / "Packages").resolve()
+            trial = _no_links(trial_root).resolve()
+        except (OSError, ValueError) as exc:
+            return additions, [str(exc)]
+        for supplied in self.msix_package_roots:
+            try:
+                package = _no_links(supplied).resolve(strict=True)
+                if (not package.is_dir() or package.parent != packages
+                        or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}_[a-z0-9]{13}", package.name) is None):
+                    raise ValueError("history_msix_package_root_not_exact")
+                allowed.append(package)
+            except (OSError, ValueError) as exc:
+                warnings.append(str(supplied) + ": " + str(exc))
+        for supplied, _ in candidates:
+            try:
+                logical = _no_links(supplied)
+                if (logical.parent.resolve() != trial or not logical.is_dir()
+                        or re.fullmatch(r"[0-9a-f]{20}", logical.name) is None):
+                    continue
+                logical_root = logical.resolve()
+                if self.current_workspace is not None and logical_root == self.current_workspace:
+                    continue
+                marker = _no_links(logical / "trial-workspace-identity.json")
+                if not marker.is_file():
+                    continue
+                resolved_marker = _no_links(marker.resolve(strict=True))
+                if resolved_marker.is_relative_to(logical_root):
+                    continue  # Ordinary in-root marker: original discovery only.
+                expected = [package / "LocalCache" / "Local" / "HakimiTradeTrial" / "workspaces"
+                            / logical.name / "trial-workspace-identity.json" for package in allowed]
+                if resolved_marker not in expected:
+                    raise ValueError("history_msix_mapping_not_allowlisted_exact")
+                physical = _no_links(resolved_marker.parent).resolve(strict=True)
+                if physical != resolved_marker.parent:
+                    raise ValueError("history_msix_parent_mapping_not_exact")
+                document = _document(physical, resolved_marker)
+                bundle = document.get("bundle_id")
+                if (set(document) != {"schema_version", "bundle_id"}
+                        or document.get("schema_version") != "research-trial-workspace-v1"
+                        or type(bundle) is not str or re.fullmatch(r"[0-9a-f]{64}", bundle) is None
+                        or bundle[:20] != logical.name):
+                    raise ValueError("history_msix_marker_identity_mismatch")
+                additions.append((physical, "旧试用工作区 · " + logical.name + "（MSIX 物理只读）"))
+            except (OSError, ValueError, TypeError) as exc:
+                warnings.append(str(supplied) + ": " + str(exc))
+        return additions, warnings
 
     def _inventory(self):
         candidates = [(self.known_original_root, "原终端历史工作区")]
@@ -167,6 +254,9 @@ class TerminalWorkspaceHistory:
                 candidates.extend((path, "旧试用工作区 · " + path.name) for path in sorted(trial_root.iterdir()) if not path.name.startswith("."))
         except (OSError, ValueError) as exc:
             warnings.append(str(exc))
+        physical, mapping_warnings = self._msix_candidates(candidates, trial_root)
+        candidates.extend(physical)
+        warnings.extend(mapping_warnings)
         entries, seen = [], set()
         for supplied, label in candidates:
             try:

@@ -41,13 +41,13 @@ try:
     from services.terminal_market_data import TerminalMarketReader
     from services.terminal_research import TerminalResearchService, validate_terminal_strategy_params, terminal_strategy_presentation
     from services.terminal_history import TerminalHistoryReader
-    from services.terminal_workspace_history import TerminalWorkspaceHistory
+    from services.terminal_workspace_history import TerminalWorkspaceHistory, msix_history_roots_for_workspace
 except ModuleNotFoundError:  # Package import path.
     from exchange_terminal.services.quant_workspace import QuantWorkspace
     from exchange_terminal.services.terminal_market_data import TerminalMarketReader
     from exchange_terminal.services.terminal_research import TerminalResearchService, validate_terminal_strategy_params, terminal_strategy_presentation
     from exchange_terminal.services.terminal_history import TerminalHistoryReader
-    from exchange_terminal.services.terminal_workspace_history import TerminalWorkspaceHistory
+    from exchange_terminal.services.terminal_workspace_history import TerminalWorkspaceHistory, msix_history_roots_for_workspace
 
 
 RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_RUNTIME_READ_ONLY") or "1").strip().lower() not in {
@@ -568,7 +568,8 @@ QUANT_WORKSPACE = QuantWorkspace(
         runner=lambda **kwargs: run_strategy_backtest(**kwargs, include_full_history=True),
         fingerprint=strategy_implementation_fingerprint,
         history_reader=TerminalHistoryReader(RUNTIME_DIR), group_reader=lambda: STOCK_MARKETS,
-        workspace_history=TerminalWorkspaceHistory(runtime_dir=RUNTIME_DIR, current_workspace=core.workspace)),
+        workspace_history=TerminalWorkspaceHistory(runtime_dir=RUNTIME_DIR, current_workspace=core.workspace,
+            msix_package_roots=msix_history_roots_for_workspace(core.workspace))),
 )
 STOCK_HISTORY_PRIORITY = [
     "AAPL", "NVDA", "MSFT", "AMZN", "GOOGL", "META", "TSLA",
