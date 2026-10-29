@@ -25,7 +25,7 @@
 |---|---|---|---|---|
 | T01 | DONE | 无 | 本文实时 Git、PR、包 manifest、目录核对 | 保留两个源码与旧数据，后续只改交付目录 |
 | T02 | DONE | T01 | 本文入口、规则身份、工作区与接入顺序 | 按原终端主线实现 |
-| T03 | DOING | T02 | 原完成/辅助失败分离已完成；dev3原生发现保存卡片仍显示运行，后续源码已修并通过最终完整Node22桌面检查 | 同一卡片以持久化回执转为查看结果；待更新包原生验证，未发生重复运行 |
+| T03 | DOING | T02 | dev3 r2 原生完成卡已通过；普通查看结果未定位的问题已复现并修源码，53项定向、1280/480完整页面及18.489秒完整桌面检查通过 | r2 包保留原缺陷；待新候选验证定位修复。仅一次明确研究，无重复运行 |
 | T04 | DONE | T02 | stage-a-source-final-r1.log、bounded-dom-qa-r3；79/80/81 阻止、82 就绪、长窗口与真实 runner 对照 | 只读预检查同源；失败先于 started 记录，不产生 UNKNOWN |
 | T05 | DONE | T02 | strategy-semantics-audit.md、test_strategy_presentation（含实际 API 路径） | 独立展示层；原 STRATEGIES、公式及指纹文件未改 |
 | T06 | DONE | T05 | terminal-parameter-preflight.test.js、bounded-dom-qa-r3 | 新建/修订/带入/回读统一单位；旧缺字段不补默认 |
@@ -38,7 +38,7 @@
 | T13 | DONE | T11 | dev3原生同窗选择MSIX物理候选并正确读空列表；读取原MACD13任务/报告、dev5 NDAQ；245保护文件不变 | 任务与结果分开展示，原逻辑警告保留，当前写入工作区不变；不迁移或重跑 |
 | T14 | DONE | T03-T13 | a53068b CLEAN r4：208终端、完整桌面、11打包、9046 ZIP及私有真实新合成运行通过；原生可用 | 包身份见 research-evidence/terminal-070dev1-native-20261029；不含后续 B/C 改动 |
 | T15 | DONE | T14 | r4原生保存、运行1次、原图表复盘、关闭重开、重复启动与端口冲突已通过；41数据文件重开不变，9045程序文件不变 | 仅本机MSIX启动隔离区；干净新机/非管理员/独立真人未验证；r1-r3原失败保留 |
-| T16 | DONE | T14 | 当前候选说明与状态页已指向dev3 r1 / 500d；独立首用说明与包内字节一致；新原生证据另存 | 后续界面修复与冻结包分别说明；旧文档保留原身份 |
+| T16 | DONE | T14 | 当前说明指向dev3 r2 / 43c155a，源码定位修复、r2原生已验部分与未验部分分别列出 | 旧文档和包保持原身份，后续新候选继续更新 |
 | T17 | BLOCKED_HUMAN | T14 | 已备[独立试用任务卡](novice-trial-task-card.md)，尚无未参与开发者的实际记录 | 使用准确候选身份、不示范控件，记录原话和帮助；其他工作继续 |
 
 ## 阶段 B：日常继续使用
@@ -66,7 +66,7 @@
 
 ## 验证记录
 
-最新源码 `c20341e` 的 run157 已结束为 failure：9 个独立作业成功，新逐日模拟测试混用 Windows 临时目录短名与物理长名。仅修正测试准备方式后，真实短 TEMP 的 22 项全部通过，原生产路径检查与策略字节未变；[修正、失败保留与首用说明](research-evidence/ci157-fixture-correction-20261030/README.md)。随包说明已独立，11 项打包检查通过。修复提交 `500d691` 的 run158 / 40937072389 已11/11成功，dev3 r1已干净构建并完成本机逐日模拟与旧结果只读验证，详见[构建](research-evidence/terminal-070dev3-build-20261030/README.md)及[原生凭据](research-evidence/terminal-070dev3-native-20261030/README.md)。后续[保存卡片与订单因子源码修复](research-evidence/saved-result-order-factors-20261030/README.md)已通过最终完整Node22桌面检查；这四个文件尚未进入500d包，接受独立新CI。其提交`0cd021a`的run159已11/11成功。后续[已有研究快捷入口](research-evidence/candidate-saved-result-20261030/README.md)现已实现：行情和规则精确匹配后直接打开原结果，多份明确选择，订单入口移到长摘要之前；51项定向、1280/480完整宿主及最终完整Node22桌面检查通过。功能提交`43c155a`的run160已11/11成功，干净[dev3 r2](research-evidence/terminal-070dev3-r2-build-20261030/README.md)已构建并完成冻结464项终端、完整桌面、11项打包及完整验包；原生T03/A/B使用流程尚待新隔离QA实走，不沿用500d包的原生结果。
+最新源码 `c20341e` 的 run157 已结束为 failure：9 个独立作业成功，新逐日模拟测试混用 Windows 临时目录短名与物理长名。仅修正测试准备方式后，真实短 TEMP 的 22 项全部通过，原生产路径检查与策略字节未变；[修正、失败保留与首用说明](research-evidence/ci157-fixture-correction-20261030/README.md)。随包说明已独立，11 项打包检查通过。修复提交 `500d691` 的 run158 / 40937072389 已11/11成功，dev3 r1已干净构建并完成本机逐日模拟与旧结果只读验证，详见[构建](research-evidence/terminal-070dev3-build-20261030/README.md)及[原生凭据](research-evidence/terminal-070dev3-native-20261030/README.md)。后续[保存卡片与订单因子源码修复](research-evidence/saved-result-order-factors-20261030/README.md)已通过最终完整Node22桌面检查；这四个文件尚未进入500d包，接受独立新CI。其提交`0cd021a`的run159已11/11成功。后续[已有研究快捷入口](research-evidence/candidate-saved-result-20261030/README.md)现已实现：行情和规则精确匹配后直接打开原结果，多份明确选择，订单入口移到长摘要之前；51项定向、1280/480完整宿主及最终完整Node22桌面检查通过。功能提交`43c155a`的run160已11/11成功，干净[dev3 r2](research-evidence/terminal-070dev3-r2-build-20261030/README.md)已构建并完成冻结464项终端、完整桌面、11项打包及完整验包；r2原生已完成保存卡、候选找回同报告、图表复盘、历史因子与一个账户/计划的订单预览，最终确认未勾选、0提交。普通查看结果的定位缺陷已在后续源码修复；53项定向、1280/480页面与18.489秒完整桌面检查通过。[原生进展及定位修复](research-evidence/native-result-navigation-20261030/README.md)另存。用户使用桌面期间保留窗口，关闭重开及最终保护检查待继续；修后新包原生验证也尚未完成。此前文档提交cdc6adf的run161已11/11成功，不替代新源码提交CI。
 
 本轮外部证据目录：`C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029`。旧整合回执目录和旧 CI 完整保留。本清单不会以单元测试代替包内启动、原生操作或真人验收。相关代码不变时不重复已结案的历史研究。
 

@@ -345,7 +345,7 @@ function savedTaskCardFixture(options={}) {
   const context=dispatchContext({state,$:element,text:value=>typeof value==="string"&&value.length>0,esc,
     identity:row=>row.id||row.task_id,preflightHtml:()=>"预检查已通过",
     button:(label,action,id)=>`<button data-tq-action="${action}" data-tq-id="${esc(id)}">${label}</button>`,
-    notify:(message,error)=>notices.push({message,error}),renderRuns(){},renderRun(){},
+    notify:(message,error)=>notices.push({message,error}),renderRuns(){},renderRun(){},revealRunDetail(){},
     operationErrorText:error=>error.message,coreMain:{querySelector:()=>({textContent:"原请求待核对"})},
     S:{jobs:[],pending:new Map(),dialogSerial:1},crypto:{randomUUID:()=>"qa-request-0001"},ACTIONS:{},
     announce(){},updateJobs(){},render(){},closeDialog(){},syncMappingState(){},showError(){},unresolved:[],saveUnresolved(){},
@@ -476,8 +476,8 @@ test("explicit new draft from a strategy candidate clears the old saved card whi
 test("opening an already verified candidate result preserves the draft and shows actual report risk with incomplete-index notice",()=>{
   const callbacks=[],shown=[],state={savedTask:{task_id:'original-draft'},runReadRequest:3,unifiedView:'dashboard'},detail={style:{},html:'',insertAdjacentHTML(_where,html){this.html=html;},scrollIntoView(){this.scrolled=true;}};
   const report={id:'saved-report',configuration:{risk:{stop_loss_pct:8},costs:{fee_rate:.0005}}},diagnostic={id:'candidate'};
-  const navBottoms={'.topbar':146,'.sidebar':98};const context=vm.createContext({state,$:()=>detail,show:view=>{state.unifiedView=view;callbacks.push(()=>shown.push('panel scroll'));},renderRun:(r,id)=>shown.push([r,id]),notify(){},warning:t=>'<p>'+t+'</p>',requestAnimationFrame:fn=>callbacks.push(fn),document:{querySelector:selector=>({getBoundingClientRect:()=>({bottom:navBottoms[selector]})})},HakimiTerminalStrategyCandidates:{matchesSavedResult:(r,d)=>r===report&&d===diagnostic,savedResultTerms:()=>'<p>执行止损 8% · 手续费 0.05%</p>'}});
-  vm.runInContext(uiFunction('openSavedCandidate'),context);context.openSavedCandidate(report,diagnostic,{incompleteIndex:true});assert.equal(state.savedTask.task_id,'original-draft');assert.equal(state.selectedRun,report);assert.equal(state.runReadRequest,4);assert.match(detail.html,/部分记录未读出/);assert.match(detail.html,/执行止损 8%.*手续费 0.05%/);assert.match(detail.html,/诊断情景不等于/);assert.equal(detail.scrolled,undefined);callbacks.forEach(fn=>fn());assert.equal(detail.scrolled,true);assert.equal(detail.style.scrollMarginTop,'162px');
+  const navBottoms={'.topbar':146,'.sidebar':98};const context=vm.createContext({state,$:()=>detail,show:view=>{state.navigationRequest=(state.navigationRequest||0)+1;state.unifiedView=view;callbacks.push(()=>shown.push('panel scroll'));},renderRun:(r,id)=>shown.push([r,id]),notify(){},warning:t=>'<p>'+t+'</p>',requestAnimationFrame:fn=>callbacks.push(fn),document:{querySelector:selector=>({getBoundingClientRect:()=>({bottom:navBottoms[selector]})})},HakimiTerminalStrategyCandidates:{matchesSavedResult:(r,d)=>r===report&&d===diagnostic,savedResultTerms:()=>'<p>执行止损 8% · 手续费 0.05%</p>'}});
+  vm.runInContext(uiFunction('revealRunDetail')+'\n'+uiFunction('openSavedCandidate'),context);context.openSavedCandidate(report,diagnostic,{incompleteIndex:true});assert.equal(state.savedTask.task_id,'original-draft');assert.equal(state.selectedRun,report);assert.equal(state.runReadRequest,4);assert.match(detail.html,/部分记录未读出/);assert.match(detail.html,/执行止损 8%.*手续费 0.05%/);assert.match(detail.html,/诊断情景不等于/);assert.equal(detail.scrolled,undefined);callbacks.forEach(fn=>fn());assert.equal(detail.scrolled,true);assert.equal(detail.style.scrollMarginTop,'162px');
   assert.throws(()=>context.openSavedCandidate({...report},diagnostic),/未打开其他报告/);
   callbacks.length=0;navBottoms['.topbar']=-1000;navBottoms['.sidebar']=56;context.openSavedCandidate(report,diagnostic);callbacks.forEach(fn=>fn());assert.equal(detail.style.scrollMarginTop,'72px','a scrolled-away topbar cannot erase the fixed sidebar clearance');
 });
@@ -498,6 +498,64 @@ test("completed saved-task button dispatch reads the original run and never subm
   await f.context.dispatch(action,id,{});
   assert.deepEqual(f.reads,["terminal_runs/"+f.job.result.id]);assert.equal(f.posts.length,0);
   assert.equal(f.state.selectedRun.id,f.job.result.id);
+});
+
+function resultNavigationFixture() {
+  const state={runReadRequest:0,navigationRequest:0,selectedRunId:null,selectedRun:null,unifiedView:'dashboard',visible:true};
+  const frames=[],reads=[],navigations=[],scrolled=[],pending=[];
+  const detail={innerHTML:'',style:{},scrollIntoView(options){scrolled.push({id:state.selectedRunId,options});}};
+  const context=dispatchContext({state,$:()=>detail,esc:String,text:value=>typeof value==='string'&&value.length>0,warning:message=>`<p>${message}</p>`,
+    operationErrorText:error=>error.message,button:(label,action,id)=>`<button data-tq-action="${action}" data-tq-id="${id}">${label}</button>`,
+    show(view){state.navigationRequest++;state.unifiedView=view;state.visible=true;navigations.push(view);},
+    requestAnimationFrame:callback=>frames.push(callback),document:{querySelector:selector=>({getBoundingClientRect:()=>({bottom:selector==='.sidebar'?98:146})})},
+    api:resource=>{reads.push(resource);return new Promise((resolve,reject)=>pending.push({resolve,reject}));},
+    renderRun:(run,id)=>{detail.innerHTML=`<h3>${id}</h3>`;},refreshRecords:async()=>{}});
+  vm.runInContext(['revealRunDetail','showRun','readRunOutcome'].map(uiFunction).join('\n'),context);
+  return {state,context,detail,reads,navigations,scrolled,pending,frame:()=>{while(frames.length)frames.shift()();},
+    open:id=>context.dispatch('result',id,{}),complete:(index,id)=>pending[index].resolve({id,status:'COMPLETED'})};
+}
+
+test('explicit saved-result entry reveals the original ID during loading and positions its completed detail',async()=>{
+  const f=resultNavigationFixture(),reading=f.open('original-report');
+  assert.equal(f.state.unifiedView,'results');assert.match(f.detail.innerHTML,/original-report/);assert.match(f.detail.innerHTML,/不会重新运行/);
+  f.frame();assert.equal(f.scrolled.length,1);assert.equal(f.detail.style.scrollMarginTop,'162px');
+  f.complete(0,'original-report');await reading;f.frame();
+  assert.equal(f.state.selectedRun.id,'original-report');assert.equal(f.scrolled.length,2);
+  assert.deepEqual(f.navigations,['results']);assert.deepEqual(f.reads,['terminal_runs/original-report']);
+});
+
+test('failed explicit detail stays visible and same-ID retry only reads the saved result',async()=>{
+  const f=resultNavigationFixture(),reading=f.open('original-report');
+  f.pending[0].reject(Error('读取暂不可用'));await reading;f.frame();
+  assert.match(f.detail.innerHTML,/data-tq-action="result" data-tq-id="original-report"/);
+  assert.doesNotMatch(f.detail.innerHTML,/data-tq-action="run"/);assert.equal(f.state.selectedRun,null);
+  const again=f.open('original-report');f.complete(1,'original-report');await again;f.frame();
+  assert.equal(f.state.selectedRun.id,'original-report');assert.deepEqual(f.reads,['terminal_runs/original-report','terminal_runs/original-report']);
+});
+
+test('older reads and scheduled scrolls cannot replace or reveal a newer selected result',async()=>{
+  const f=resultNavigationFixture(),first=f.open('first'),second=f.open('second');
+  f.complete(1,'second');await second;f.frame();const count=f.scrolled.length;
+  assert.ok(f.scrolled.every(item=>item.id==='second'));
+  f.complete(0,'first');await first;f.frame();
+  assert.equal(f.state.selectedRun.id,'second');assert.equal(f.scrolled.length,count);assert.match(f.detail.innerHTML,/second/);
+});
+
+test('leaving and returning to results invalidates a pending read navigation even for the same ID',async()=>{
+  const f=resultNavigationFixture(),reading=f.open('same-id');
+  f.context.show('tasks');f.context.show('results');f.frame();assert.equal(f.scrolled.length,0);
+  f.complete(0,'same-id');await reading;f.frame();
+  assert.equal(f.scrolled.length,0);assert.deepEqual(f.navigations,['results','tasks','results']);
+});
+
+test('background completion does not navigate or replace an explicitly selected result',async()=>{
+  const f=resultNavigationFixture(),reading=f.open('chosen');
+  await f.context.readRunOutcome({id:'late-completion',status:'COMPLETED'});
+  assert.deepEqual(f.reads,['terminal_runs/chosen']);assert.deepEqual(f.navigations,['results']);
+  f.complete(0,'chosen');await reading;f.frame();assert.equal(f.state.selectedRun.id,'chosen');
+  const background=resultNavigationFixture(),done=background.context.readRunOutcome({id:'completed',status:'COMPLETED'});
+  assert.deepEqual(background.navigations,[]);background.complete(0,'completed');await done;background.frame();
+  assert.equal(background.state.selectedRun.id,'completed');assert.deepEqual(background.scrolled,[]);
 });
 
 test("historical-only strategy remains viewable but cannot start new research",async () => {

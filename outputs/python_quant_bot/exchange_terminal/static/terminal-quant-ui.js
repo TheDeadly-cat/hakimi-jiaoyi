@@ -152,7 +152,7 @@
     const navRoot = document.getElementById("navigation");
     if (!coreMain || !navRoot) throw new Error("terminal_quant_ui_mount_missing");
     const state = { catalog: [], inputs: [], tasks: [], runs: [], coreTasks: [], coreRuns: [], coreInputs: [], coreStrategies: [], coreOverview: null, comparison: new Set(), history: [], reports: [], context: null, market: null,
-      selectedRun: null, selectedRunId: null, runReadRequest: 0, completedRun: null, savedTask: null, confirmedTaskRuns: new Map(), revisionOf: null, aiEvidence: null, aiEvidenceBinding: null, aiEvidenceEnabled: false, visible: false, loaded: false, marketRequest: 0, preflightRequest: 0, unifiedView: "dashboard", refreshPromise: null };
+      selectedRun: null, selectedRunId: null, runReadRequest: 0, navigationRequest: 0, completedRun: null, savedTask: null, confirmedTaskRuns: new Map(), revisionOf: null, aiEvidence: null, aiEvidenceBinding: null, aiEvidenceEnabled: false, visible: false, loaded: false, marketRequest: 0, preflightRequest: 0, unifiedView: "dashboard", refreshPromise: null };
     const $ = (id) => document.getElementById(id);
     const value = (id) => $(id)?.value ?? "";
     const fmt = (number) => finite(Number(number)) ? Number(number).toLocaleString("zh-CN", {maximumFractionDigits:4}) : "—";
@@ -237,10 +237,13 @@
     async function readRunOutcome(run) {
       const id = run?.run_id || run?.id;
       if (run?.status !== "COMPLETED" || !text(id,150)) return;
-      await Promise.all([refreshRecords(),showRun(id)]);
+      // A completion acknowledgement must not replace a result the user has
+      // already selected while the operation or its auxiliary refresh ran.
+      await Promise.all([refreshRecords(),state.selectedRunId ? Promise.resolve() : showRun(id)]);
     }
     function send(kind, payload) { parent.postMessage({schema:SCHEMA, kind, payload}, location.origin); }
     function show(view = "dashboard", replaceHistory = false) {
+      state.navigationRequest = (state.navigationRequest || 0) + 1;
       const wasVisible = state.visible;
       if (state.unifiedView === "daily" && view !== "daily") dailyUI.hide?.();
       if (state.unifiedView === "broker" && view !== "broker") brokerUI.hide();
@@ -290,6 +293,7 @@
       if ($("breadcrumb")) $("breadcrumb").textContent = {dashboard:"研究工作台",tasks:"全部策略任务",results:"全部回测结果",insights:"行情洞察",execution:"执行演练",daily:"股票与数据",broker:"券商接入准备",continuous:"逐日模拟"}[state.unifiedView];
     }
     function hide() {
+      state.navigationRequest = (state.navigationRequest || 0) + 1;
       state.visible = false; coreMain.hidden = false; $("terminalQuantWorkspace").hidden = true;
       executionHost.hidden = true;
       brokerUI.hide(); brokerHost.hidden = true;
@@ -723,10 +727,25 @@
         ${detail.chart_available && validReplay(detail.chart) ? button("在原图表查看旧结果","workspace-replay") : ""}
         <details class="section-gap"><summary>原记录与真实规则身份</summary><pre class="code-detail">${esc(JSON.stringify(detail,null,2))}</pre></details>`;
     }
-    async function showRun(id) {
+    function revealRunDetail(id, request, navigation) {
+      if (navigation === undefined) {
+        show("results");
+        navigation = state.navigationRequest;
+      }
+      requestAnimationFrame(() => {
+        if (state.selectedRunId !== id || state.runReadRequest !== request ||
+            state.navigationRequest !== navigation || state.unifiedView !== "results" || state.visible === false) return;
+        const detail = $("tq-run-detail"), topbar = document.querySelector(".topbar"), sidebar = document.querySelector(".sidebar");
+        detail.style.scrollMarginTop = `${Math.ceil(Math.max(0,topbar?.getBoundingClientRect().bottom || 0,sidebar?.getBoundingClientRect().bottom || 0)) + 16}px`;
+        detail.scrollIntoView({block:"start",behavior:"auto"});
+      });
+      return navigation;
+    }
+    async function showRun(id, {reveal = false} = {}) {
       const request = ++state.runReadRequest;
       state.selectedRunId = id; state.selectedRun = null;
-      $("tq-run-detail").textContent = "正在读取这份已保存结果，不会重新运行回测。";
+      $("tq-run-detail").innerHTML = `<p>正在读取这份已保存结果，不会重新运行回测。</p><p class="section-note">结果编号：${esc(id)}</p>`;
+      const navigation = reveal ? revealRunDetail(id,request) : undefined;
       try {
         const run = await api("terminal_runs/" + encodeURIComponent(id));
         if (request !== state.runReadRequest) return;
@@ -739,14 +758,15 @@
         $("tq-run-detail").innerHTML = `${warning(`${saved} 结果详情读取未完成：${operationErrorText(error)}`)}
           <p class="section-note">结果编号：${esc(id)}。重试只读取同一份结果，不会新建回测。</p>${button("重新读取这份结果","result",id)}`;
       }
+      if (reveal) revealRunDetail(id,request,navigation);
     }
     function openSavedCandidate(run,diagnostic,coverage={}) {
       const review=globalThis.HakimiTerminalStrategyCandidates;
       if(!review?.matchesSavedResult(run,diagnostic))throw Error("原结果与所选候选的行情或规则不同，未打开其他报告。");
       state.runReadRequest++;state.selectedRunId=run.id;state.selectedRun=run;
-      show("results");renderRun(run,run.id);
+      renderRun(run,run.id);
       $("tq-run-detail").insertAdjacentHTML("afterbegin",`<section aria-label="候选对应的已保存研究"><p>已打开行情与规则相同的原报告，没有重复保存或运行。费用、执行风险和本金未纳入候选匹配；诊断情景不等于报告中的实际持仓。</p>${coverage.incompleteIndex?warning("部分记录未读出；本次打开的是目前可核验的一份匹配结果，不代表全部历史记录。"):""}${review.savedResultTerms(run)}</section>`);
-      requestAnimationFrame(()=>{if(state.selectedRunId!==run.id||state.unifiedView!=="results")return;const detail=$("tq-run-detail"),topbar=document.querySelector(".topbar"),sidebar=document.querySelector(".sidebar");detail.style.scrollMarginTop=(Math.ceil(Math.max(0,topbar?.getBoundingClientRect().bottom||0,sidebar?.getBoundingClientRect().bottom||0))+16)+"px";detail.scrollIntoView({block:"start",behavior:"auto"});});
+      revealRunDetail(run.id,state.runReadRequest);
       notify("已只读打开原报告；请核对这份报告实际的资金、执行风险与费用。");
     }
     function renderRun(run,id) {
@@ -868,7 +888,7 @@
       if (action === "apply-context") return applyContextParams();
       if (action === "new") { if(typeof candidateUI!=="undefined")candidateUI.invalidateDraft(); state.revisionOf = null; state.savedTask = null; $("tq-saved-task").hidden = true; state.aiEvidence = null; state.aiEvidenceBinding = null; state.aiEvidenceEnabled = false; if (state.context) applyContext(state.context); else renderAiEvidence(); $("tq-form-title").textContent = "2 · 新建策略任务"; $("tq-name").value = ""; return notify("正在填写新任务；原任务、版本与结果保持不变。"); }
       if (action === "edit") return editTask(id);
-      if (action === "result") return showRun(id);
+      if (action === "result") return showRun(id,{reveal:true});
       if (action === "compare") return compareSelected(target);
       if (action === "replay") return replayTerminal(id);
       if (action === "copy-params") return copyParameters(id);
