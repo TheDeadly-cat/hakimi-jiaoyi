@@ -381,6 +381,8 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 15
     env:
+      NODE_PATH: ${{ github.workspace }}/outputs/hakimi_trade_electron/node_modules
+      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/hakimi-playwright
       PIP_DISABLE_PIP_VERSION_CHECK: "1"
       PIP_NO_INPUT: "1"
       PYTHONDONTWRITEBYTECODE: "1"
@@ -418,8 +420,16 @@ jobs:
       - name: Check installed dependency consistency
         run: python -m pip check
 
-      # The check command uses Node built-ins and Python fixture projections;
-      # it neither requires the Electron binary nor starts the desktop/server.
+      - name: Install locked desktop test dependencies without Electron download
+        working-directory: outputs/hakimi_trade_electron
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Install the locked Playwright Chromium for isolated DOM tests
+        working-directory: outputs/hakimi_trade_electron
+        run: npx --no-install playwright install chromium
+
+      # The complete check includes network-blocked Playwright DOM fixtures.
+      # It does not start the Electron application or production server.
       - name: Verify completed-candle evidence at the chart boundary
         run: node --test outputs/python_quant_bot/exchange_terminal/static/candle-completion.test.js
 

@@ -242,6 +242,19 @@ class ResearchCiWorkflowV1Tests(unittest.TestCase):
         self.assertIn("node --test outputs/python_quant_bot/exchange_terminal/static/candle-completion.test.js", desktop)
         self.assertNotRegex(desktop, r"--if-present|--test-name-pattern|--test-skip-pattern|\|\|\s*true")
         package = json.loads((REPO_ROOT / "outputs/hakimi_trade_electron/package.json").read_text(encoding="utf-8"))
+        lock = json.loads((REPO_ROOT / "outputs/hakimi_trade_electron/package-lock.json").read_text(encoding="utf-8"))
+        self.assertEqual(package["devDependencies"]["playwright"], "1.62.1")
+        self.assertEqual(lock["packages"][""]["devDependencies"]["playwright"], "1.62.1")
+        for name in ("playwright", "playwright-core"):
+            dependency = lock["packages"]["node_modules/" + name]
+            self.assertEqual(dependency["version"], "1.62.1")
+            self.assertTrue(dependency["resolved"].startswith("https://registry.npmjs.org/"))
+            self.assertTrue(dependency["integrity"].startswith("sha512-"))
+        self.assertIn("NODE_PATH: ${{ github.workspace }}/outputs/hakimi_trade_electron/node_modules", desktop)
+        self.assertIn("PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/hakimi-playwright", desktop)
+        for command in ("npm ci --ignore-scripts --no-audit --no-fund", "npx --no-install playwright install chromium"):
+            self.assertIn("working-directory: outputs/hakimi_trade_electron\n        run: " + command, desktop)
+            self.assertLess(desktop.index("run: " + command), desktop.index("run: npm run check"))
         check = package["scripts"]["check"]
         static = REPO_ROOT / "outputs/python_quant_bot/exchange_terminal/static"
         for test_file in sorted(static.glob("terminal-*.test.js")) + [static / "indicator_math.test.js"]:

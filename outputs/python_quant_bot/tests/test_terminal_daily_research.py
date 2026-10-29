@@ -29,7 +29,7 @@ class TerminalDailyResearchTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="hakimi-daily-adapter-")
         self.addCleanup(self.temp.cleanup)
-        self.workspace = Path(self.temp.name) / "current-workspace"
+        self.workspace = (Path(self.temp.name) / "current-workspace").resolve()
         self.now = daily._clock("2026-10-23T21:00:00Z")
         self.data = fixtures()
         _, _, _, first, latest = intake._coverage(self.now, 20, "XNYS")
