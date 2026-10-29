@@ -318,7 +318,7 @@ test("repeat launch focuses existing window and a losing instance never boots", 
 });
 
 test("different quant workspace gets a distinct singleton and launch keeps legacy source separate", () => {
-  const temporary = require("node:os").tmpdir();
+  const temporary = require("node:fs").realpathSync.native(require("node:os").tmpdir());
   const old = path.join(temporary,"legacy-runtime-test");
   const first = desktopHarness({ ok: true }, { environment: { HAKIMI_RUNTIME_DIR: old, HAKIMI_QUANT_WORKSPACE_DIR: path.join(temporary,"quant-a-test") } });
   const second = desktopHarness({ ok: true }, { environment: { HAKIMI_RUNTIME_DIR: old, HAKIMI_QUANT_WORKSPACE_DIR: path.join(temporary,"quant-b-test") } });
@@ -361,7 +361,7 @@ test("backend spawn error records a bounded-diagnostic status and leaves no proc
 });
 
 test("developer legacy-only selection preserves the independent developer quant default", () => {
-  const old = path.join(require("node:os").tmpdir(), "legacy-read-only-selection");
+  const old = path.join(require("node:fs").realpathSync.native(require("node:os").tmpdir()), "legacy-read-only-selection");
   const h = desktopHarness({ ok: true }, { environment: { HAKIMI_RUNTIME_DIR: old } });
   vm.runInContext("startBackend()", h.context);
   assert.equal(h.observed.spawn.options.env.HAKIMI_RUNTIME_DIR, old);
