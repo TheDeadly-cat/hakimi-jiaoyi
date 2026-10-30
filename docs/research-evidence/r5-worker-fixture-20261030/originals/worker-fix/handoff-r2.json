@@ -1,0 +1,54 @@
+{
+  "status": "FOCUSED_FIXES_PASS_NO_CANDIDATE_BUILT",
+  "parent_base_commit": "b5547330978c6c3afaba376c13ab1f2f583e1610",
+  "production_modified": false,
+  "changed_source": "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py",
+  "source_hashes": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": "0220adfc0c6aae6a2d89ce4ca446ed0f184f83e1380c129987c76f65aaef260f"
+  },
+  "worker_tests": {
+    "count": 23,
+    "inner_seconds": 8.322,
+    "outer_seconds": 8.688908600001014,
+    "zero_skips": true
+  },
+  "futu_tests": {
+    "status": "PASS",
+    "tests": 32,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "attempts": {
+      "socket": 0,
+      "database": 0,
+      "subprocess": 0,
+      "thread": 0,
+      "futu_import": 0
+    },
+    "sdk_imported": false,
+    "sdk_spec_origin": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv\\Lib\\site-packages\\futu\\__init__.py",
+    "sdk_version": "10.7.6708",
+    "canonical_origin": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-ci\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+    "scope": "LOCKED_LOCAL_SDK_SOURCE_AST_AND_FAKE_CONTEXTS_ONLY"
+  },
+  "futu_test_outer_seconds": 0.5832627000054345,
+  "local_wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5",
+  "venv_changed_files": 286,
+  "full_terminal_future_expected_count": 757,
+  "old_failed_gate_preserved": true,
+  "new_full_gate_or_build_ran": false,
+  "files": {
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-worker-fixture-fix-r2\\focused.log": "15fbcd4df98d5c2b7c1e19c0f2d61b73f9b41d46e74834d81206bd926a3100b5",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-worker-fixture-fix-r2\\result.json": "c3a310a19786e9a93d8a003019cea6acb43f772183a6a5949b7aa7c8dac6bb57",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-worker-fixture-fix-r2\\invocation.json": "07c82ea2946e807a4b1adfe74d507ff4b73cdb682ef5b7917386e7f7928a9497",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\focused.log": "9b9110138d4a53a07dda7e3bde4683b6c9b49844a6d9b106be63be4dc441b225",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\result.json": "55b43b2e5c8ac79a7a4f0658975c1bf92ee562cfc158f37692ecbe9415e7059d",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\guard-final.json": "50b3b7831ca8182c7ea76886ac33a31df2e4e66fddb727c238df35464d4aea09",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\install.log": "3f098c5ff473e3783e79a64e6ae4aa3b5ef92e90e01903bfd6c8d30e42dac352",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\install-invocation.json": "bfeaaeedafcfe7fe8b58ed19b188c42ddd4c352086e84c7bae2c98d75956efbe",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\process-result.json": "050a290b1f2caeefac67feac215e265460b0b7b3358bf241e0e98eaa3671af50",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\venv-site-before.json": "e5614dbf44ef9bb228ba7c0f93875a7405699ed53a61d1e7027104c3256a4245",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\venv-site-after.json": "2a20d2fb27ed7cee3363fb32041774a709db1ca135e9ea6e1778ea89e2c93e2f"
+  }
+}

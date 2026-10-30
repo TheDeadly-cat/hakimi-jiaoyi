@@ -1,0 +1,13 @@
+Obtaining file:///C:/Users/Administrator/.codex/worktrees/terminal-account-controls-070dev3-r5-ci/%E5%93%88%E5%9F%BA%E7%B1%B3v2%E4%BA%A4%E6%98%93
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: hakimi-research
+  Building editable for hakimi-research (pyproject.toml): started
+  Building editable for hakimi-research (pyproject.toml): finished with status 'done'
+  Created wheel for hakimi-research: filename=hakimi_research-0.6.0.dev5-0.editable-py3-none-any.whl size=11109 sha256=0cb4e16274749abb8b98f6a7d7c060e7bc7f83a7714fcbf3cfa9eac77914bbee
+  Stored in directory: C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\gate-dev3-r5-clean-evidence-r1\setup-temporary\pip-ephem-wheel-cache-kze5j6ej\wheels\e4\8c\75\c9bc1e40581a7ae96ac89c0734ff36a9c6470739b1a48a89f4
+Successfully built hakimi-research
+Installing collected packages: hakimi-research
+Successfully installed hakimi-research-0.6.0.dev5

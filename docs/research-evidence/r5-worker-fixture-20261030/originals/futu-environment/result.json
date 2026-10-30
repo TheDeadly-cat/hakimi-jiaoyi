@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "tests": 32,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "attempts": {
+    "socket": 0,
+    "database": 0,
+    "subprocess": 0,
+    "thread": 0,
+    "futu_import": 0
+  },
+  "sdk_imported": false,
+  "sdk_spec_origin": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv\\Lib\\site-packages\\futu\\__init__.py",
+  "sdk_version": "10.7.6708",
+  "canonical_origin": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-ci\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\src\\hakimi_research\\__init__.py",
+  "scope": "LOCKED_LOCAL_SDK_SOURCE_AST_AND_FAKE_CONTEXTS_ONLY"
+}

@@ -1,0 +1,13 @@
+# r5 focused fixture and environment corrections
+
+Only the parent worker test file changed. Production worker source remains a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837. No frozen source, production budget, original UNKNOWN/result.json, old failure, archive, or Git setting was changed.
+
+The original flood test body required cleanup_confirmed=True and had no assertion failure; its ERROR was in TemporaryDirectory addCleanup. The exact historical occupying handle is unavailable, so this evidence does not establish a production lifecycle defect. The prior fixture neither confirmed all thread joins nor re-read a potentially late Popen handle before deletion.
+
+Fixture cleanup now uses a separate bounded test-only resource deadline, joins the launcher, re-reads its exact owned Popen, waits/kills only that owned synthetic child when needed, joins all owned threads with liveness assertions and closes only owned pipes/streams. It verifies any already sealed receipt and result.json bytes remain identical. Deletion checks the original absolute physical TEMP path and device/inode on each attempt. Only WinError32 receives a bounded retry; exhaustion or another error remains a failure. An unsettled fixture is retained instead of blindly deleting it. No process enumeration or unrelated PID kill is used.
+
+One deterministic regression holds process creation beyond the production deadline, releases it specifically when fixture cleanup joins the launcher, then injects exactly one owned-directory WinError32. It asserts one spawn, settled owned process/threads, exactly two cleanup attempts and unchanged original UNKNOWN/cleanup_unconfirmed receipt bytes. All 23 worker tests passed once (8.322s inner); the production flood assertions were retained. Future registered terminal count is 757, subject to the next actual gate.
+
+Separately, only gate-dev3-r5-clean-venv received the exact cached futu_api 10.7.6708 wheel with --no-index --no-deps --no-compile. The before/after site-packages maps show changes only within futu/ and its dist-info. The 32 Futu tests passed once with zero skips; socket/DB/subprocess/thread/top-level futu import guards all recorded zero. The SDK source was discovered/read for an AST test, never imported or connected; other contexts were test fakes. No global environment or downloads were used.
+
+See handoff-r2.json for exact paths, source and evidence hashes. The original b554 frozen full gate is still FAIL; these focused results do not rewrite it or establish a new candidate. No full756 rerun or package build was performed after the failure.
