@@ -61,8 +61,8 @@
 | T26 | DONE | T24,T25 | 资金预留/owner持仓/时效/证券绑定检查通过；dev2原生BUY1@100预留101，可用9899，现金10000 | 前端预览只粗估，提交时服务端再次校验；外部权限关闭 |
 | T27 | DONE | T25,T26 | 合成中断/幂等/晚到成交合同通过；dev2正常关闭重开原订单和57文件不变，要求对账后恢复 | 本地范围；本次未执行原生成交/撤销/对账恢复，旧UNKNOWN/T3保留 |
 | T28 | DONE | T20,T25 | 已连可信报告/账户/计划只读路由，一次账本快照；六类说明、累计费用与未知项，原/核心真实新TEMP保存整链通过；完整门禁371、桌面通过 | 当前手工演练缺逐笔因果对应，收益差及贡献保持未知；界面主区显示版本N，原ID在详情 |
-| T29 | DOING | T25-T28 | 后续源码已接可信包身份加载、计划服务及同窗保存/找回；24加载、25服务、4真实handler、新18UI与1280/480完整宿主通过；542终端及15包检查通过，97d0最小夹具保留，完整a235 r4另通过私有启动、14UI及两个模式4个计划只读入口 | 当前r4已含此接线，包内保存变更/原生交互尚未验；SDK默认路径的隐式查询/重连不符合v1预算，仍需新协议预算、实际适配器、独立执行账本、共享认领及派发屏障，外部步骤另授权 |
-| T30 | DOING | T29 | 模拟/REAL计划、工作区及原请求身份分离；停止修订在短提交屏障内复核，合成研究固定离线、九项外部权限false；重开只读原claim/receipt，不重新准备 | 当前屏障仅保护离线计划提交；仍缺真实派发、共享资金/持仓占用、有界worker和执行恢复，真实资金另需账户资产额度授权 |
+| T29 | DOING | T25-T28 | 当前a235/dev3 r4已含离线计划页面；后续源码新增独立wire profile、共享账户journal、SIMULATE受限传输与codec，642终端/15包/4runner通过，实际锁定SDK12类报文及24项离线检查通过 | 新helper未进r4；仍缺响应中的账户/订单/费用事实验证、生产授权gate、共享root及UI接线、有界worker、实际OpenD和加密兼容，外部步骤另授权 |
+| T30 | DOING | T29 | mode/profile/account/原intent独立绑定，journal按provider+mode+account跨工作区去重占用；每次partial write前短gate复核、原UNKNOWN与晚到确认分别保存；当前test-only profile被EXTERNAL_RECORD拒绝，9权限false | 当前为离线原语和fake传输验证，无真实派发/worker；REAL实际codec/资金许可未提供，当前r4仍只做离线准备，真实资金另需账户资产额度授权 |
 
 ## 验证记录
 
@@ -94,3 +94,5 @@ r2首次关闭已验证265旧文件不变、新QA20文件读取不变、1研究/
 此前候选提交f752958的[run163](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40960877552)已11/11成功。dev3 r3构建及验包身份见[构建记录](research-evidence/terminal-070dev3-r3-build-20261030/README.md)；原生窗口尚未验收，后续源码不沿用此CI结论。
 
 本轮完整候选为[dev3 r4 / a235e8a](research-evidence/terminal-070dev3-r4-build-20261030/README.md)：542项冻结终端、15项打包、完整Node22桌面及9070程序文件/9071 ZIP条目通过；包内14UI、两模式计划只读入口和新临时单次合成运行通过。候选源码的[run165](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290)已11/11成功。新包未启动原生窗口，未执行计划变更/SDK连接；T29/T30的受限协议、跨工作区共享执行账本与有界worker继续实现。
+
+[新协议与共享账本源码证据](research-evidence/broker-wire-journal-20261030/README.md)：冻结2090输入的完整642项门禁已覆盖profile24、journal最终30、transport33和codec13；真实SDK离线探针与fake tests分别记账。原v1、旧包和历史未知记录保留，测试修正前的失败原件未改。当前可交付包仍a235/dev3 r4；上述源码原语的实际服务接线和有界worker继续实现，不把工程缺口归为仅待授权。

@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\platform.py", line 1004, in uname
+    system, node, release, version, machine = infos = os.uname()
+                                                      ^^^^^^^^
+AttributeError: module 'os' has no attribute 'uname'. Did you mean: 'name'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\broker-scoped-transport-20261030\pinned-codec-probe-child-r3.py", line 232, in <module>
+    exercise()
+    ~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\broker-scoped-transport-20261030\pinned-codec-probe-child-r3.py", line 72, in exercise
+    import pandas
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\site-packages\pandas\__init__.py", line 34, in <module>
+    from pandas.compat import (
+        is_numpy_dev as _is_numpy_dev,  # pyright: ignore[reportUnusedImport] # noqa: F401
+    )
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\site-packages\pandas\compat\__init__.py", line 18, in <module>
+    from pandas.compat._constants import (
+    ...<7 lines>...
+    )
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\site-packages\pandas\compat\_constants.py", line 19, in <module>
+    WASM = (sys.platform == "emscripten") or (platform.machine() in ["wasm32", "wasm64"])
+                                              ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\platform.py", line 1127, in machine
+    return uname().machine
+           ~~~~~^^
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\platform.py", line 1007, in uname
+    node = _node()
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\platform.py", line 715, in _node
+    return socket.gethostname()
+           ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\broker-scoped-transport-20261030\pinned-codec-probe-child-r3.py", line 52, in audit
+    raise AssertionError('OFFLINE_PROBE_SOCKET_AUDIT')
+AssertionError: OFFLINE_PROBE_SOCKET_AUDIT

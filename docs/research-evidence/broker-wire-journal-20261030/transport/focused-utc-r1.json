@@ -1,0 +1,23 @@
+{
+  "exit_code": 0,
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_terminal_broker_scoped_transport",
+    "-v"
+  ],
+  "elapsed_seconds": 0.7118272000079742,
+  "before": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_scoped_transport.py": "5ec9efcc8b837651753f69fa53068f4ab7cca50f7a85da47588b758139a95292",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_terminal_broker_scoped_transport.py": "adc229eb1311ae0c340bbb1c37b59c82762d9562de889d696565ca5e10a0de70"
+  },
+  "after": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_scoped_transport.py": "5ec9efcc8b837651753f69fa53068f4ab7cca50f7a85da47588b758139a95292",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_terminal_broker_scoped_transport.py": "adc229eb1311ae0c340bbb1c37b59c82762d9562de889d696565ca5e10a0de70"
+  },
+  "scope": "FAKE_ONLY_UTC_AND_COMPLETE_SCOPED_TRANSPORT_TEST_FILE",
+  "sdk_imports": 0,
+  "external_connections": 0
+}

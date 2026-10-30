@@ -1,0 +1,30 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_terminal_broker_scoped_transport",
+    "tests.test_futu_us_equity_simulate_wire_v2",
+    "-v"
+  ],
+  "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot",
+  "exit_code": 0,
+  "seconds": 0.7728321000031428,
+  "before": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_scoped_transport.py": "218bba5b791b502dc535ce7fc7a76bf12f904ffb1cac6d4e7a9d858d7d4d3cb5",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\adapters\\futu_us_equity_simulate_wire_v2.py": "c7095e5f9012cf5473a5721d0ae98b3816b792a9bca3ce8d7414d2ff7f458709",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_terminal_broker_scoped_transport.py": "3ca4e9416ab8150e3fe8f3e3b4eb4599406d314f62d43db32c372ec82229a73e",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_futu_us_equity_simulate_wire_v2.py": "cf37b0d3dfc97e8aea46fb0f43785422c5c933aeedfa2f9f10d800f33f022b7d"
+  },
+  "after": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_scoped_transport.py": "218bba5b791b502dc535ce7fc7a76bf12f904ffb1cac6d4e7a9d858d7d4d3cb5",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\adapters\\futu_us_equity_simulate_wire_v2.py": "c7095e5f9012cf5473a5721d0ae98b3816b792a9bca3ce8d7414d2ff7f458709",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_terminal_broker_scoped_transport.py": "3ca4e9416ab8150e3fe8f3e3b4eb4599406d314f62d43db32c372ec82229a73e",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_futu_us_equity_simulate_wire_v2.py": "cf37b0d3dfc97e8aea46fb0f43785422c5c933aeedfa2f9f10d800f33f022b7d"
+  },
+  "scope": "FAKE_CONNECTION_AND_PROTOBUF_SHAPE_ONLY",
+  "sdk_imports": 0,
+  "network_connections": 0,
+  "business_runs": 0
+}
