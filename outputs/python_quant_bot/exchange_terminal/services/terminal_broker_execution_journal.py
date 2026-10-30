@@ -117,7 +117,8 @@ def _financial(state):
 
 def _state():
     return {"epoch": 0, "snapshot": None, "profiles": {}, "claims": {}, "actions": {}, "observations": {},
-            "snapshot_evidence": {}, "reasons": set(), "last_account_fact_at": None, "last_event_at": None}
+            "response_facts": {}, "snapshot_evidence": {}, "reasons": set(),
+            "last_account_fact_at": None, "last_event_at": None}
 
 
 class BrokerExecutionJournal:
@@ -229,7 +230,12 @@ class BrokerExecutionJournal:
                     "journal_clock_regressed")
             result = self._reduce(state, value["kind"], value["payload"], value["at"], previous)
             require(raw(result) == raw(value["result"]), "journal_result_changed")
-            if value["kind"] in {"CLAIM", "OUTCOME", "LATE_OUTCOME", "OBSERVATION", "REJECTED_FEE_EVIDENCE"}:
+            if value["kind"] == "ACTION":
+                # Derived from the actual immutable event, never client data.
+                state["actions"][request_id]["receipt_id"] = value["id"]
+                state["actions"][request_id]["recorded_at"] = value["at"]
+            if value["kind"] in {"CLAIM", "OUTCOME", "LATE_OUTCOME", "OBSERVATION",
+                                  "REJECTED_FEE_EVIDENCE", "VERIFIED_RESPONSE"}:
                 state["last_account_fact_at"] = value["at"]
             state["last_event_at"] = value["at"]
             receipts[request_id], previous = value, value["id"]
@@ -346,6 +352,8 @@ class BrokerExecutionJournal:
                 "state": "DISPATCH_INTENT", "outcome": None}
             return {"status": "DISPATCH_INTENT", "operation_id": payload["operation_id"], "action": action,
                     "attempt_count": count + 1, "dispatch_authorization_granted": False}
+        if kind == "VERIFIED_RESPONSE":
+            return self._response(state, payload, at, previous)
         if kind in ("OUTCOME", "LATE_OUTCOME"):
             operation = state["actions"].get(payload["operation_id"])
             require(operation is not None, "journal_original_pending_action_required")
@@ -538,6 +546,148 @@ class BrokerExecutionJournal:
         contract._hash(intent_scope_id)
         return self._write("REJECTED_FEE_EVIDENCE", {"intent_scope_id": intent_scope_id, "evidence_id": evidence_id, "fees": fees}, request_id)
 
+    def record_verified_response(self, facts, *, request_id, previous_evidence_id=None):
+        """Retain typed offline response evidence and the original ACK atomically.
+
+        No raw dict enters this boundary. Only a matched submit/cancel ACK can
+        advance an operation; API errors stay UNKNOWN, and read responses never
+        become cash, owner holdings, fills or final fees. Late UNKNOWN resolution
+        requires the caller to name the previous evidence explicitly. No send,
+        retry, new ACTION or authority is created here.
+        """
+        from .terminal_broker_response_facts import VerifiedResponseFacts
+        require(type(facts) is VerifiedResponseFacts, "journal_typed_response_facts_required")
+        return self._write("VERIFIED_RESPONSE", {"facts": facts.as_dict(),
+                           "previous_evidence_id": previous_evidence_id}, request_id)
+
+    def _response(self, state, payload, at, previous):
+        # The typed factory is checked at entry; replay validates the archived
+        # identity and its binding to the original ACTION from this journal.
+        from .terminal_broker_response_facts import SCHEMA as FACTS_SCHEMA
+        contract._fields(payload, {"facts", "previous_evidence_id"})
+        facts = payload["facts"]
+        require(type(facts) is dict and facts.get("schema_version") == FACTS_SCHEMA
+                and facts.get("id") == contract.digest({k: v for k, v in facts.items() if k != "id"}),
+                "journal_response_facts_identity_invalid")
+        require(self.domain == "SYNTHETIC_TEST" and facts["test_only"] is True
+                and facts["source_authenticated"] is False and facts["permissions"] == PERMISSIONS
+                and facts["journal_observation_ready"] is False and facts["reservation_ready"] is False
+                and facts["economic_acceptance"] == "NOT_INFERRED", "journal_offline_response_only")
+        operation_id = request(facts["request_id"])
+        operation = state["actions"].get(operation_id)
+        require(operation is not None and facts["journal_receipt_id"] == operation["receipt_id"],
+                "journal_response_original_action_mismatch")
+        profile = state["profiles"][operation["profile_id"]]
+        require(facts["profile_id"] == operation["profile_id"] and facts["action"] == operation["action"]
+                and facts["intent_scope_id"] == operation["intent_scope_id"]
+                and facts["base_plan_id"] == profile["base_plan_id"]
+                and facts["account_scope_id"] == self.account_scope_id and facts["mode"] == self.mode
+                and facts["workspace_context"] == profile["workspace_context"]
+                and facts["research_eligibility"] == profile["research_eligibility"],
+                "journal_response_scope_changed")
+        require(facts["request_frame"] == {"sha256": operation["frame_sha256"], "bytes": operation["frame_bytes"]},
+                "journal_response_frame_changed")
+        contract._fields(facts["response_frame"], {"sha256", "bytes"})
+        contract._hash(facts["response_frame"]["sha256"])
+        contract._integer(facts["response_frame"]["bytes"], 45, profile["wire_bounds"]["max_frame_bytes"])
+        require(contract._time(operation["recorded_at"]) <= contract._time(facts["received_at"]) <= contract._time(at),
+                "journal_response_observation_time_invalid")
+        require(facts["id"] not in state["response_facts"], "journal_response_already_recorded")
+        require(type(facts["needs_reconciliation"]) is bool, "journal_response_diagnostics_invalid")
+        if facts["needs_reconciliation"]:
+            # Contradictory observed values remain evidence, but must not let a
+            # new claim proceed using the older synthetic account snapshot.
+            state["reasons"].add("RESPONSE_FACTS_REQUIRE_RECONCILIATION")
+        state["reasons"].update(self._response_conflicts(state, operation, facts))
+        prior, action, disposition = operation["outcome"], operation["action"], "FACTS_ONLY"
+        is_ack = ((action == "trade_submit" and facts["status"] == "ACK_SCOPE_MATCHED") or
+                  (action == "trade_cancel" and facts["status"] == "CANCEL_ACK_NOT_TERMINAL"))
+        broker_id = None
+        if is_ack:
+            detail = facts["facts"]
+            require(type(facts["ret_type"]) is int and facts["ret_type"] == 0
+                    and detail["account_scope_matched"] is True
+                    and detail["order_terminal_confirmed"] is False and detail["fees_final"] is None,
+                    "journal_response_ack_scope_incomplete")
+            broker_id = detail["broker_order_id"]
+            require(type(broker_id) is str and 1 <= len(broker_id) <= 128 and broker_id.isascii()
+                    and all(32 < ord(char) < 127 for char in broker_id), "journal_exact_broker_order_id_required")
+        prior_ref = payload["previous_evidence_id"]
+        late_ack = is_ack and prior is not None and prior["status"] == "UNKNOWN"
+        if late_ack:
+            require(prior_ref == prior["evidence_id"], "journal_response_previous_unknown_required")
+        else:
+            require(prior_ref is None, "journal_response_previous_reference_not_applicable")
+        if action in ("trade_submit", "trade_cancel") and (prior is None or late_ack):
+            outcome = {"status": "ACKNOWLEDGED" if is_ack else "UNKNOWN", "evidence_id": facts["id"],
+                       # The frame proves a response was received, not how many
+                       # bytes the local writer observed before interruption.
+                       "sent_bytes": prior["sent_bytes"] if prior else 0,
+                       "possible_sent_bytes": operation["frame_bytes"], "frame_bytes": operation["frame_bytes"],
+                       "broker_order_id": broker_id, "write_attempted": True, "response_complete": True}
+            record = {"operation_id": operation_id, "outcome": outcome}
+            if late_ack:
+                record.update(previous_evidence_id=prior_ref, original_frame_sha256=operation["frame_sha256"])
+            self._reduce(state, "LATE_OUTCOME" if late_ack else "OUTCOME", record, at, previous)
+            disposition = outcome["status"]
+        elif is_ack and (prior["status"] != "ACKNOWLEDGED" or prior["broker_order_id"] != broker_id):
+            # Keep contradictory evidence, block new claims, and never silently
+            # undo an earlier release or rewrite a previously recorded outcome.
+            state["reasons"].add("MATCHED_ACK_CONFLICTS_WITH_RECORDED_OUTCOME")
+            disposition = "CONFLICT_RETAINED"
+        state["response_facts"][facts["id"]] = deepcopy(facts)
+        return {"status": "RESPONSE_FACTS_RECORDED", "operation_id": operation_id,
+                "evidence_id": facts["id"], "disposition": disposition,
+                "reconciliation_required": bool(state["reasons"]),
+                "economic_acceptance": "NOT_INFERRED", "dispatch_authorization_granted": False}
+
+    @staticmethod
+    def _response_conflicts(state, operation, evidence):
+        """Compare observed facts without converting them into account assets.
+
+        Internally plausible late facts may still contradict a terminal/rebased
+        claim. Keep the old accounting intact and require explicit reconciliation
+        instead of allowing a fresh claim to use an obsolete cash snapshot.
+        """
+        claim = state["claims"].get(operation["intent_scope_id"])
+        if claim is None or evidence["status"] != "READ_FACTS_MATCHED":
+            return set()
+        facts, reasons = evidence["facts"], set()
+        settled = claim["order_state"] in TERMINAL or claim["epoch"] != state["epoch"]
+        older = [row["facts"] for row in state["response_facts"].values()
+                 if row["action"] == evidence["action"] and row["intent_scope_id"] == operation["intent_scope_id"]
+                 and row["status"] == "READ_FACTS_MATCHED"]
+        if evidence["action"] == "trade_observe" and facts.get("filled_quantity") is not None:
+            qty = Decimal(facts["filled_quantity"])
+            if qty < claim["filled_quantity"] or any(row.get("filled_quantity") is not None
+                    and qty < Decimal(row["filled_quantity"]) for row in older):
+                reasons.add("RESPONSE_CUMULATIVE_FILL_REGRESSED")
+            if settled and qty != claim["filled_quantity"]:
+                reasons.add("RESPONSE_FILL_CHANGED_AFTER_TERMINAL_OR_REBASE")
+            average = facts.get("fill_average_price")
+            if qty > 0 and average is not None:
+                price, limit = Decimal(average), money(claim["order"]["limit_price"])
+                if ((claim["order"]["side"] == "BUY" and price > limit) or
+                        (claim["order"]["side"] == "SELL" and price < limit)):
+                    reasons.add("RESPONSE_FILL_PRICE_OUTSIDE_LIMIT")
+                prior_averages = [row["fill_average_price"] for row in older
+                    if row.get("fill_average_price") is not None and row.get("filled_quantity") is not None
+                    and Decimal(row["filled_quantity"]) == qty]
+                if settled and (not prior_averages or any(Decimal(value) != price for value in prior_averages)):
+                    # An average is rounded source data, never exact notional.
+                    # A new/different source average after settlement needs review.
+                    reasons.add("RESPONSE_LATE_AVERAGE_REQUIRES_RECONCILIATION")
+        if evidence["action"] == "trade_fees" and facts.get("fee_amount") is not None:
+            fee = Decimal(facts["fee_amount"])
+            if fee < 0 or fee > money(claim["fee_ceiling"]):
+                reasons.add("RESPONSE_FEE_OUTSIDE_RESERVED_LIMIT")
+            if claim["fees"] is not None and ((claim["fees_final"] and fee != money(claim["fees"]))
+                                              or fee < money(claim["fees"])):
+                reasons.add("RESPONSE_FEE_CONFLICTS_WITH_RECORDED_TOTAL")
+            if any(row.get("fee_amount") is not None and fee < Decimal(row["fee_amount"]) for row in older):
+                reasons.add("RESPONSE_CUMULATIVE_FEE_REGRESSED")
+        return reasons
+
     def read(self, request_id=None):
         if request_id is not None:
             request(request_id)
@@ -546,6 +696,7 @@ class BrokerExecutionJournal:
         return {"schema_version": SCHEMA, "account_scope_id": self.account_scope_id, "record_domain": self.domain,
                 "head": head, "event_count": len(receipts), "epoch": state["epoch"], "financial": _financial(state),
                 "claims": deepcopy(state["claims"]), "actions": deepcopy(state["actions"]),
+                "response_facts": deepcopy(state["response_facts"]),
                 "observation_ids": sorted(state["observations"]),
                 "receipt": deepcopy(receipts.get(request_id)) if request_id else None,
                 "read_only": True, "automatic_resume": False, "permissions": dict(PERMISSIONS)}

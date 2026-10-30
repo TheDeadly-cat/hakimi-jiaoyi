@@ -1,0 +1,1155 @@
+{
+  "evidence_kind": "SYNTHETIC_JSON_PROTOBUF_SHAPED_CODEC_NOT_ACTUAL_SDK",
+  "facts": {
+    "trade_accounts": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_accounts",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "account_status_code": 0,
+        "currency": null,
+        "environment": "SIMULATE",
+        "returned_account_count": 2,
+        "security_firm_code": 2,
+        "target_account_id": "900000000000001",
+        "trading_permission_verified": false,
+        "us_market_listed": true
+      },
+      "id": "8f30818f5e7746ae4fa6038a0fc9d83263547d01504b2b2c611da5e6b3a83984",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "e475d19e7a91e354bdfa486718457dbd2dd80e935544e3c99b20d96adc7d74a8",
+      "missing": [
+        {
+          "field": "currency",
+          "reason": "NOT_PROVIDED_BY_ACCOUNT_LIST",
+          "required_for": "currency_evidence"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "accList": {
+              "present": true,
+              "value": [
+                {
+                  "accID": {
+                    "present": true,
+                    "value": 9876
+                  },
+                  "trdEnv": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "trdMarketAuthList": {
+                    "present": true,
+                    "value": [
+                      1
+                    ]
+                  }
+                },
+                {
+                  "accID": {
+                    "present": true,
+                    "value": 900000000000001
+                  },
+                  "accStatus": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "securityFirm": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "trdEnv": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "trdMarketAuthList": {
+                    "present": true,
+                    "value": [
+                      1,
+                      2
+                    ]
+                  }
+                }
+              ]
+            },
+            "currency": {
+              "present": false,
+              "value": null
+            },
+            "fee": {
+              "present": false,
+              "value": null
+            },
+            "keepAliveInterval": {
+              "present": false,
+              "value": null
+            },
+            "localTime": {
+              "present": false,
+              "value": null
+            },
+            "priceStep": {
+              "present": false,
+              "value": null
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2001,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 111,
+        "sha256": "eea9cc4544d7144660c93a31f7245b91ee9bacd761c7d2ac2269b08089c61d61"
+      },
+      "request_id": "facts-action-trade-accounts-0001",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 221,
+        "sha256": "3269734e07d3266574daacf21d7664f69df9eaa24cedf662fe3a10e911f50298"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 1,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    "trade_cancel": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_cancel",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "account_scope_matched": true,
+        "broker_order_id": "fictional-order-44",
+        "fees_final": null,
+        "order_terminal_confirmed": false
+      },
+      "id": "6e3b9de8c986ceaca24618584bd76f8592f9d528a8a88d0d6e2369184f642677",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "e863da7cb931d72c9aa013ace074bf2e034dcae8d4103cdb0bba717843b036e2",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "currency": {
+              "present": false,
+              "value": null
+            },
+            "fee": {
+              "present": false,
+              "value": null
+            },
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "keepAliveInterval": {
+              "present": false,
+              "value": null
+            },
+            "localTime": {
+              "present": false,
+              "value": null
+            },
+            "orderID": {
+              "present": true,
+              "value": 0
+            },
+            "orderIDEx": {
+              "present": true,
+              "value": "fictional-order-44"
+            },
+            "priceStep": {
+              "present": false,
+              "value": null
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2205,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 229,
+        "sha256": "1be11d96c2ca6ac58aded8bb1fcb3b603ae689a9fb33ef4b833052073d50e12f"
+      },
+      "request_id": "facts-action-trade-cancel-0001",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 170,
+        "sha256": "e8246b64c2b249f78902dc97052594396e179d8e8b4fde06de6226b4beb75e34"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 1,
+      "source_authenticated": false,
+      "status": "CANCEL_ACK_NOT_TERMINAL",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    "trade_fees": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_fees",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_order_id": "fictional-order-44",
+        "currency": null,
+        "fee_amount": "0.0",
+        "fees_final": null,
+        "requested_currency": "USD"
+      },
+      "id": "2631f2f838fb49027699cda39ea507a358beed354d86bc61a3e2c49ba73328f1",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "baf94d0ce31ce2142aa96bfcf2438d32a23bbb4b138f556628354daa0652ffce",
+      "missing": [
+        {
+          "field": "currency",
+          "reason": "NOT_PROVIDED_BY_ORDER_FEE",
+          "required_for": "fee_currency_evidence"
+        },
+        {
+          "field": "fees_final",
+          "reason": "NOT_PROVIDED_BY_ORDER_FEE",
+          "required_for": "journal_economic_observation"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "currency": {
+              "present": false,
+              "value": null
+            },
+            "fee": {
+              "present": false,
+              "value": null
+            },
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "keepAliveInterval": {
+              "present": false,
+              "value": null
+            },
+            "localTime": {
+              "present": false,
+              "value": null
+            },
+            "orderFeeList": {
+              "present": true,
+              "value": [
+                {
+                  "feeAmount": {
+                    "present": true,
+                    "value": 0.0
+                  },
+                  "feeList": {
+                    "present": true,
+                    "value": [
+                      {
+                        "title": {
+                          "present": true,
+                          "value": "synthetic fixture fee"
+                        },
+                        "value": {
+                          "present": true,
+                          "value": 0.0
+                        }
+                      }
+                    ]
+                  },
+                  "orderIDEx": {
+                    "present": true,
+                    "value": "fictional-order-44"
+                  }
+                }
+              ]
+            },
+            "priceStep": {
+              "present": false,
+              "value": null
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2225,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 152,
+        "sha256": "136aedca5e8d069c218eed117b3b15ae4dd49731f129c2f2c1dd9c6d96ca6a4f"
+      },
+      "request_id": "facts-action-trade-fees-0001",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 251,
+        "sha256": "005ff30987dc73f8e332a37befaca556850a0960df58e19755743549b09278db"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 1,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    "trade_funds": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_funds",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "available_funds": "400.0",
+        "cash": "500.0",
+        "cash_available_for_reservation": null,
+        "currency": "USD",
+        "financing_power_is_not_cash": true,
+        "frozen_cash": "10.0",
+        "power": "1000.0",
+        "requested_currency": "USD"
+      },
+      "id": "4e568cfcaa97dbd1b71ea4b1f094b0519dc88f60fc7222142604fba5b810000a",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "f3c9c782768732eb2fa558e073f1a0daabdda6e64deddff5a4502a0a268f045f",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "currency": {
+              "present": false,
+              "value": null
+            },
+            "fee": {
+              "present": false,
+              "value": null
+            },
+            "funds": {
+              "present": true,
+              "value": {
+                "availableFunds": {
+                  "present": true,
+                  "value": 400.0
+                },
+                "avlWithdrawalCash": {
+                  "present": true,
+                  "value": 500.0
+                },
+                "cash": {
+                  "present": true,
+                  "value": 500.0
+                },
+                "currency": {
+                  "present": true,
+                  "value": 2
+                },
+                "debtCash": {
+                  "present": true,
+                  "value": 0.0
+                },
+                "frozenCash": {
+                  "present": true,
+                  "value": 10.0
+                },
+                "marketVal": {
+                  "present": true,
+                  "value": 0.0
+                },
+                "power": {
+                  "present": true,
+                  "value": 1000.0
+                },
+                "totalAssets": {
+                  "present": true,
+                  "value": 2000.0
+                }
+              }
+            },
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "keepAliveInterval": {
+              "present": false,
+              "value": null
+            },
+            "localTime": {
+              "present": false,
+              "value": null
+            },
+            "priceStep": {
+              "present": false,
+              "value": null
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2101,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 164,
+        "sha256": "5fdfa8d4bd58e38234d8fe66be304601ffd3455e8eb9054917cc7cdb83920c4b"
+      },
+      "request_id": "facts-action-trade-funds-0001",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 295,
+        "sha256": "81b162b1e3db66aa6cfc709b5e6d671030b42d1379cbdf5c64df63e54afb99f4"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 1,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    "trade_observe": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_observe",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {
+        "exact_notional": false,
+        "fill_notional_estimate": "20.00",
+        "method": "SOURCE_FILL_QTY_TIMES_SOURCE_FILL_AVG_PRICE"
+      },
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_order_id": "fictional-order-44",
+        "broker_status_code": 10,
+        "broker_status_name": "FILLED_PART",
+        "code": "TSLA",
+        "fees": null,
+        "fees_final": null,
+        "fill_average_price": "20.0",
+        "filled_notional": null,
+        "filled_quantity": "1.0",
+        "limit_price": "20.00000001",
+        "quantity": "3.0",
+        "update_time_raw": "2026-10-30 04:00:01",
+        "update_timestamp_raw": null
+      },
+      "id": "cf491e5a595bbf106524043bcc8c2b7f66a50e31d0850bedf5b9fd260e1a624e",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "97efbca543409ba31c50cc794540badb5017aa35e33f472073ce47de10694e1f",
+      "missing": [
+        {
+          "field": "filled_notional",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        },
+        {
+          "field": "fees",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        },
+        {
+          "field": "fees_final",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "currency": {
+              "present": false,
+              "value": null
+            },
+            "fee": {
+              "present": false,
+              "value": null
+            },
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "keepAliveInterval": {
+              "present": false,
+              "value": null
+            },
+            "localTime": {
+              "present": false,
+              "value": null
+            },
+            "orderList": {
+              "present": true,
+              "value": [
+                {
+                  "code": {
+                    "present": true,
+                    "value": "TSLA"
+                  },
+                  "createTime": {
+                    "present": true,
+                    "value": "2026-10-30 04:00:00"
+                  },
+                  "currency": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "fillAvgPrice": {
+                    "present": true,
+                    "value": 20.0
+                  },
+                  "fillOutsideRTH": {
+                    "present": true,
+                    "value": false
+                  },
+                  "fillQty": {
+                    "present": true,
+                    "value": 1.0
+                  },
+                  "name": {
+                    "present": true,
+                    "value": "FICTIONAL"
+                  },
+                  "orderID": {
+                    "present": true,
+                    "value": 44
+                  },
+                  "orderIDEx": {
+                    "present": true,
+                    "value": "fictional-order-44"
+                  },
+                  "orderStatus": {
+                    "present": true,
+                    "value": 10
+                  },
+                  "orderType": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "price": {
+                    "present": true,
+                    "value": 20.00000001
+                  },
+                  "qty": {
+                    "present": true,
+                    "value": 3.0
+                  },
+                  "secMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "session": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "timeInForce": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "trdMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "trdSide": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "updateTime": {
+                    "present": true,
+                    "value": "2026-10-30 04:00:01"
+                  }
+                }
+              ]
+            },
+            "priceStep": {
+              "present": false,
+              "value": null
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2201,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 230,
+        "sha256": "a0826cbc7f901fcd130f85f3b17046c51a9b564936ef9ef90630cc7ca3505ecb"
+      },
+      "request_id": "facts-action-trade-observe-0001",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 489,
+        "sha256": "4335d9d1bfbcec30c5330d6e65fe196f9831594b236cc0864cffc491b79dbc88"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 1,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    "trade_positions": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_positions",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_positions": [
+          {
+            "can_sell_quantity": "4.0",
+            "code": "TSLA",
+            "owner_scope_id": null,
+            "position_id": "99",
+            "position_side_code": 0,
+            "quantity": "4.5"
+          }
+        ],
+        "owner_allocation_verified": false,
+        "owner_positions": null
+      },
+      "id": "82add1bff9201c24f2933eeeeeac58707270834858d878ad2cc66a59b8088421",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "e593958b42595f2468cfa51aa4987cf27c3d992f36ef35fbdb73ee05c399ed95",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "currency": {
+              "present": false,
+              "value": null
+            },
+            "fee": {
+              "present": false,
+              "value": null
+            },
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "keepAliveInterval": {
+              "present": false,
+              "value": null
+            },
+            "localTime": {
+              "present": false,
+              "value": null
+            },
+            "positionList": {
+              "present": true,
+              "value": [
+                {
+                  "accID": {
+                    "present": true,
+                    "value": 900000000000001
+                  },
+                  "canSellQty": {
+                    "present": true,
+                    "value": 4.0
+                  },
+                  "code": {
+                    "present": true,
+                    "value": "TSLA"
+                  },
+                  "currency": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "name": {
+                    "present": true,
+                    "value": "FICTIONAL"
+                  },
+                  "plRatio": {
+                    "present": true,
+                    "value": 0.05
+                  },
+                  "plVal": {
+                    "present": true,
+                    "value": 4.5
+                  },
+                  "positionID": {
+                    "present": true,
+                    "value": 99
+                  },
+                  "positionSide": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "price": {
+                    "present": true,
+                    "value": 20.0
+                  },
+                  "qty": {
+                    "present": true,
+                    "value": 4.5
+                  },
+                  "secMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "trdMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "val": {
+                    "present": true,
+                    "value": 90.0
+                  }
+                }
+              ]
+            },
+            "priceStep": {
+              "present": false,
+              "value": null
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2102,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 249,
+        "sha256": "386fab4b3f788cbe30b432ff354c4bbac7bc5c9b69b91c1a6b67b767593d8fca"
+      },
+      "request_id": "facts-action-trade-positions-0001",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 353,
+        "sha256": "95c7c7cdcc7645e7953b4bba637b60676cc248bfc631af1a1dffbb37dc4a39b4"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 1,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    "trade_submit": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_submit",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "account_scope_matched": true,
+        "broker_order_id": "fictional-order-44",
+        "fees_final": null,
+        "order_terminal_confirmed": false
+      },
+      "id": "1178ca497e73857babfd92f1032e8af4beb4dc86a2f4b11efcb91ddeab9a3ee7",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "0e12c4d8d2fc08f3a4062ebbb9625c9803eb08061a596decfbd2406e437475d6",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "currency": {
+              "present": false,
+              "value": null
+            },
+            "fee": {
+              "present": false,
+              "value": null
+            },
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "keepAliveInterval": {
+              "present": false,
+              "value": null
+            },
+            "localTime": {
+              "present": false,
+              "value": null
+            },
+            "orderIDEx": {
+              "present": true,
+              "value": "fictional-order-44"
+            },
+            "priceStep": {
+              "present": false,
+              "value": null
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2202,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 331,
+        "sha256": "0d4b94bfa0a43ec60c3c961f3d84280c40c1c434ca5f947776d396bf94138554"
+      },
+      "request_id": "facts-action-trade-submit-0001",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 158,
+        "sha256": "6af7ae9f0dca51dd90bc8888a97aa60e0a2194f7e5ab5e1d43c69f5839542603"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 1,
+      "source_authenticated": false,
+      "status": "ACK_SCOPE_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  "sdk_imports": 0,
+  "db_access": 0,
+  "network_calls": 0
+}

@@ -1,0 +1,28 @@
+{
+  "scope": "READ_ONLY_STATIC_REVIEW_NO_TEST_OR_SDK_OR_DATABASE",
+  "status": "BLOCKING_BEFORE_UNIFIED_GATE_PENDING_ROOT_FIX",
+  "files_at_record_time": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_execution_journal.py": "e2a3dc56cd4fa810d9b45e92c092a974ea2437b68d2df48db78c72041243d172",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_response_facts.py": "010f5c3fc3e0cc1fe3674591dfcdb3d3ae29d7f12398811c1b997ffb473f1414",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_terminal_broker_response_recording.py": "1725b39c62e4b88641420fc1addc793f67235894d1544d92980382315586bbfc"
+  },
+  "files_stable_during_record": true,
+  "original_review_finding": {
+    "location": "terminal_broker_execution_journal._response / facts-only trade_observe and trade_fees",
+    "trigger": "An original acknowledged order is terminal with filled quantity 0 and final fee 0; account snapshot rebase has released old reservations. A later matched original observation reports a legal partial fill, e.g. quantity 1 of 3 at average 19 below original BUY limit 20.",
+    "before_fix": "The pure verifier flags only local row inconsistencies. This in-range row needs_reconciliation=False; journal stores FACTS_ONLY without comparing current terminal/epoch/cumulative records, leaving risk reasons empty.",
+    "effect": "The original trusted economic values are correctly not overwritten, but a new claim can proceed against the previously reconciled baseline despite newly contradictory retained evidence.",
+    "minimum_fix": "Compare retained observation/fee facts against current original claim cumulative values, terminal state and epoch. Preserve original values and require explicit reconciliation for material contradictions; never book quantity-times-average as exact notional or manufacture fee currency/finality.",
+    "additional_case": "A later actual fee amount differing from an already-final recorded fee must also block new risk while retaining original finality/value."
+  },
+  "positive_review": [
+    "ACTION stored result/payload bytes remain unchanged; receipt_id/recorded_at are derived from verified event during replay.",
+    "Foreign self-sealed ACTION cannot enter journal: actual operation and original receipt_id are matched.",
+    "Late ACK requires prior UNKNOWN evidence ID and original frame; known sent bytes are preserved.",
+    "Cancel ACK is not terminal; API error/missing order ID remain UNKNOWN and do not release fees/reservations.",
+    "Raw funds/position/order/fee projections are not admitted as cash/owner positions/exact fills/final fees."
+  ],
+  "coverage_note": "At initial review the integration file had 15 cases. It covered over-limit fill diagnostics and contradictory ACK, but not an in-range late fill after terminal+rebase or changed final fee.",
+  "root_response": "Root acknowledged and is adding cross-record comparison and focused regressions before fullgate/probe. This file is the pre-fix finding, not a post-fix approval.",
+  "reviewed_function_excerpt_sha256": "7a324f47bc305e5e580d326f560cefd2932804577a1515129a3cf2223c064e1c"
+}

@@ -1,0 +1,26 @@
+{
+  "status": "FACTS_SOURCE_FROZEN_27_DIRECT_PASS",
+  "observed_at": "2026-10-30T00:56:05.891023+00:00",
+  "head": "6581c5926d5283a0b3916041b2292dcc1b1031d5",
+  "files": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "010f5c3fc3e0cc1fe3674591dfcdb3d3ae29d7f12398811c1b997ffb473f1414",
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_facts.py": "efc905ca4429aa5d70c1d7924635498f6375e1b7e00dc82693b447f3c72a578f",
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "c7095e5f9012cf5473a5721d0ae98b3816b792a9bca3ce8d7414d2ff7f458709",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "e82e17425e85bd23d2e7a7a5646058e14531d06704d9e0c2d59c33f4529013f8",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659"
+  },
+  "owned_files": [
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_facts.py"
+  ],
+  "test_methods": 27,
+  "passed": 27,
+  "failed": 0,
+  "skipped": 0,
+  "log": "targeted-r2.log",
+  "dependency_note": "journal is root-owned active integration; these are observed dependency hashes, not a global freeze",
+  "sdk_imports": 0,
+  "external_calls": 0,
+  "business_database_access": 0
+}

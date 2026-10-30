@@ -61,8 +61,8 @@
 | T26 | DONE | T24,T25 | 资金预留/owner持仓/时效/证券绑定检查通过；dev2原生BUY1@100预留101，可用9899，现金10000 | 前端预览只粗估，提交时服务端再次校验；外部权限关闭 |
 | T27 | DONE | T25,T26 | 合成中断/幂等/晚到成交合同通过；dev2正常关闭重开原订单和57文件不变，要求对账后恢复 | 本地范围；本次未执行原生成交/撤销/对账恢复，旧UNKNOWN/T3保留 |
 | T28 | DONE | T20,T25 | 已连可信报告/账户/计划只读路由，一次账本快照；六类说明、累计费用与未知项，原/核心真实新TEMP保存整链通过；完整门禁371、桌面通过 | 当前手工演练缺逐笔因果对应，收益差及贡献保持未知；界面主区显示版本N，原ID在详情 |
-| T29 | DOING | T25-T28 | 当前a235/dev3 r4已含离线计划页面；后续源码新增独立wire profile、共享账户journal、SIMULATE受限传输与codec，642终端/15包/4runner通过，实际锁定SDK12类报文及24项离线检查通过 | 新helper未进r4；仍缺响应中的账户/订单/费用事实验证、生产授权gate、共享root及UI接线、有界worker、实际OpenD和加密兼容，外部步骤另授权 |
-| T30 | DOING | T29 | mode/profile/account/原intent独立绑定，journal按provider+mode+account跨工作区去重占用；每次partial write前短gate复核、原UNKNOWN与晚到确认分别保存；当前test-only profile被EXTERNAL_RECORD拒绝，9权限false | 当前为离线原语和fake传输验证，无真实派发/worker；REAL实际codec/资金许可未提供，当前r4仍只做离线准备，真实资金另需账户资产额度授权 |
+| T29 | DOING | T25-T28 | a235/dev3 r4已含离线计划页面；后续源码完成协议预算、共享账本、受限codec/transport、7类响应事实校验、原请求原子记账及有界进程监督；完整709终端/15包/4runner通过，锁定实际protobuf另55项通过 | 后续源码未进r4；仍缺生产授权gate、应用共享root/停止与UI接线、实际worker/transport串联、精确经济事实与价格规则、OpenD/加密兼容，外部步骤另授权 |
+| T30 | DOING | T29 | 原intent跨工作区去重；typed响应匹配原ACTION才更新ACK，迟到UNKNOWN仅追加原请求，终态/余额更新后的矛盾成交和费用阻止新风险；监督器超时/输出异常不重启重发；9权限false | PackageWorkerSpec尚拒绝启动，当前仅新TEMP合成子进程；EXTERNAL_RECORD拒绝测试profile，REAL实际codec/资金许可未提供，真实资金另需账户资产额度授权 |
 
 ## 验证记录
 
@@ -96,3 +96,5 @@ r2首次关闭已验证265旧文件不变、新QA20文件读取不变、1研究/
 本轮完整候选为[dev3 r4 / a235e8a](research-evidence/terminal-070dev3-r4-build-20261030/README.md)：542项冻结终端、15项打包、完整Node22桌面及9070程序文件/9071 ZIP条目通过；包内14UI、两模式计划只读入口和新临时单次合成运行通过。候选源码的[run165](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40971259290)已11/11成功。新包未启动原生窗口，未执行计划变更/SDK连接；T29/T30的受限协议、跨工作区共享执行账本与有界worker继续实现。
 
 [新协议与共享账本源码证据](research-evidence/broker-wire-journal-20261030/README.md)：冻结2090输入的完整642项门禁已覆盖profile24、journal最终30、transport33和codec13；真实SDK离线探针与fake tests分别记账。原v1、旧包和历史未知记录保留，测试修正前的失败原件未改。当前可交付包仍a235/dev3 r4；上述源码原语的实际服务接线和有界worker继续实现，不把工程缺口归为仅待授权。
+
+[响应与进程源码后续](research-evidence/broker-response-worker-20261030/README.md)：完整709项门禁通过，新增facts27、记账18、worker22，2095输入前后不变；15项打包及4项runner通过。锁定实际protobuf在私有Python内完成7类/55项合成报文检查，205个加载文件核验；不导入futu顶层，0网络/DB/线程/业务运行。完整响应保存在原journal事件链，API错误不当拒单、撤单ACK不当终态；合法迟到成交/费用与已结束或更新余额的账本矛盾时保留原账并停止新风险。PackageWorkerSpec仍不可启动，实际派发/授权/完整经济事实/外部兼容尚未完成。上一源码6581c59的[run167](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40980480080)已11/11成功，新提交CI另核；当前r4包和原生暂停状态保持。
