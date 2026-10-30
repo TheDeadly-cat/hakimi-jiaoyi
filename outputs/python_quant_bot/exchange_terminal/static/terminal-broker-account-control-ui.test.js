@@ -93,7 +93,7 @@ test("read failure revokes resume confirmation; mode/config boundaries remain se
 test("same-window integration passes only unchanged saved scope and retains original mode stop",()=>{
   const source=fs.readFileSync(require.resolve("./terminal-broker-candidate-ui"),"utf8"),account=fs.readFileSync(require.resolve("./terminal-broker-account-control-ui"),"utf8");
   assert.match(source,/installTerminalBrokerCandidateUI\(\{host,api,perform,stopCandidate,stopAccount/);assert.match(source,/config_id:state\.savedStamp===currentStamp\?state\.configId:null/);
-  assert.match(source,/停止与恢复本模式的意图准备/);assert.match(source,/controller\.stop\(\$\("stop-reason"\)/);assert.match(account,/同一账户的其他工作区也会受影响；不代表撤单或清仓/);assert.match(account,/min-height:44px/);
+  assert.match(source,/停止与恢复本模式的意图准备/);assert.match(source,/controller\.stop\(\$\("stop-reason"\)/);assert.match(account,/同一模式、同一账户的其他工作区会读取同一停止标记；不代表撤单或清仓/);assert.match(account,/min-height:44px/);
   assert.doesNotMatch(account,/fetch\(|WebSocket|localStorage|setInterval|window\.open/);
 });
 test("canonical receipt hashing matches the backend ASCII encoding for Chinese reasons and surrogate pairs",()=>{

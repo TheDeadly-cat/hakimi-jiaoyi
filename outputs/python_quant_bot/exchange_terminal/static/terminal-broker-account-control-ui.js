@@ -80,7 +80,7 @@
     async function execute(action,reason){const context=current(),isStop=action==="stop",lane=action+"Pending";
       require(!state[lane]&&!(isStop?state.stopping:state.resuming),"请先查询这个原请求回执，不能重复提交。");
       if(isStop)require(typeof stopAccount==="function","账户独立停止入口尚未配置，不能假定已经停止。");
-      else require(!state.stopPending&&!state.stopping&&!state.stale&&state.view?.service_available===true&&state.view.control.stopped&&state.confirmed&&state.confirmationHead===state.view.control.head_id,"请读取并核对最新停止回执，明确确认只恢复准备资格。");
+      else require(!state.stopPending&&!state.stopping&&!state.stale&&state.view?.service_available===true&&state.view.control.stopped&&state.confirmed&&state.confirmationHead===state.view.control.head_id,"请读取并核对最新停止回执，明确确认只解除该账户的执行停止标记。");
       require(!(state.view?.service_available===false),"当前宿主未绑定共享账户控制，不能提交。");
       require(typeof reason==="string"&&reason.trim().length>=1&&reason.trim().length<=200,"请填写 1 至 200 字的原因。");
       const payload={...context,request_id:"broker-account-"+uuid(),reason:reason.trim(),...(isStop?{}:{expected_stop_receipt_id:state.confirmationHead})};
@@ -104,12 +104,12 @@
 
   function installTerminalBrokerAccountControlUI({host,api,perform,stopAccount,notify=()=>{}}){
     const document=host.ownerDocument,section=document.createElement("section");section.className="panel section-gap tbac";section.id="terminalBrokerAccountControlWorkspace";
-    section.innerHTML=`<div class="panel-head"><h3>该账户的执行停止</h3></div><div class="panel-body"><p>同一账户的其他工作区也会受影响；不代表撤单或清仓。本模式的离线准备停止仍独立有效。券商执行尚未启用。</p><p id="tbac-context" class="section-note"></p><p id="tbac-state" role="status"></p>
+    section.innerHTML=`<div class="panel-head"><h3>该账户的执行停止</h3></div><div class="panel-body"><p>同一模式、同一账户的其他工作区会读取同一停止标记；不代表撤单或清仓。离线资料、未发送意图和验收计划仍可准备，另受本模式准备停止限制。券商执行尚未启用。</p><p id="tbac-context" class="section-note"></p><p id="tbac-state" role="status"></p>
       <div class="actions section-gap"><button type="button" class="btn" data-tbac-action="refresh">读取该账户当前状态</button><button type="button" class="btn" data-tbac-action="stop">停止该账户的执行</button></div>
       <div class="field section-gap"><label for="tbac-stop-reason">停止备注（可选）</label><input id="tbac-stop-reason" maxlength="200"></div>
       <div id="tbac-facts" class="section-gap" role="status" hidden></div><div id="tbac-pending" class="notice warning section-gap" role="status" hidden></div><div id="tbac-error" class="notice warning section-gap" role="status" hidden></div><div id="tbac-read-error" class="notice warning section-gap" role="status" hidden></div>
-      <details class="section-gap"><summary>手动恢复该账户的准备资格</summary><p>只恢复准备资格；不恢复任何外部权限，不发送旧请求。其他停止限制仍须独立核对。</p><p id="tbac-resume-context"></p><div class="field"><label for="tbac-resume-reason">本次恢复原因（必填）</label><input id="tbac-resume-reason" maxlength="200"></div>
-      <label class="tbac-confirm"><input id="tbac-confirm" type="checkbox">我已核对最新停止回执，只恢复该账户的准备资格。</label><button type="button" class="btn" data-tbac-action="resume">确认恢复准备资格</button></details></div>`;
+      <details class="section-gap"><summary>解除该账户的执行停止标记</summary><p>只解除这一账户的执行停止标记；不授予外部权限，不发送旧请求。本模式的准备停止仍须单独解除。</p><p id="tbac-resume-context"></p><div class="field"><label for="tbac-resume-reason">本次恢复原因（必填）</label><input id="tbac-resume-reason" maxlength="200"></div>
+      <label class="tbac-confirm"><input id="tbac-confirm" type="checkbox">我已核对最新停止回执，只解除该账户的执行停止标记。</label><button type="button" class="btn" data-tbac-action="resume">确认解除执行停止</button></details></div>`;
     const style=document.createElement("style");style.textContent=".tbac [hidden]{display:none!important}.tbac{min-width:0}.tbac p,.tbac .notice{overflow-wrap:anywhere}.tbac button,.tbac summary,.tbac input:not([type=checkbox]){min-height:44px}.tbac summary{cursor:pointer;align-content:center}.tbac .actions{display:flex;flex-wrap:wrap;gap:8px}.tbac .tbac-confirm{display:flex;align-items:center;gap:10px;min-height:44px;margin:16px 0}.tbac .tbac-confirm input{flex:none}.tbac details .field{margin-top:12px}.tbac button{white-space:normal}@media(max-width:760px){.tbac .actions{align-items:stretch;flex-direction:column}}";host.appendChild(section);document.head.appendChild(style);
     const $=id=>section.querySelector("#tbac-"+id),button=action=>section.querySelector('[data-tbac-action="'+action+'"]');
     const controller=createController({api,perform,stopAccount,changed:render}),state=controller.state;let formContext="",lastHead=null;
@@ -117,7 +117,7 @@
       const nextContext=context?JSON.stringify(context):"";if(nextContext!==formContext){$("stop-reason").value="";$("resume-reason").value="";formContext=nextContext;}
       if(lastHead!==control?.head_id){$("resume-reason").value="";lastHead=control?.head_id;}
       $("context").textContent=available?`${modes[view.account.mode]} · 富途账户 ${view.account.account_id}${view.record_domain==="SYNTHETIC_TEST"?" · 隔离测试资料":""}`:context?`${modes[context.mode]} · 绑定当前已保存候选；尚未读取账户身份。`:"请先检查并暂存当前账户的候选资料；修改账户或资料后须重新暂存。";
-      $("state").textContent=state.loading?"正在只读查询账户状态…":view?.service_available===false?"当前启动未提供共享账户控制，尚不能确认或更改账户停止状态。":state.stale?"当前账户状态尚未确认；不代表已停止。":control.stopped?"该账户的停止状态已保存；其他工作区会读取同一状态。未撤单或清仓。券商执行尚未启用。":"当前该账户没有停止标记；这不授予连接或交易权限。券商执行尚未启用。";
+      $("state").textContent=state.loading?"正在只读查询账户状态…":view?.service_available===false?"当前启动未提供共享账户控制，尚不能确认或更改账户停止状态。":state.stale?"当前账户状态尚未确认；不代表已停止。":control.stopped?"该账户的停止状态已保存；同一模式、同一账户的其他工作区会读取同一标记。未撤单或清仓。券商执行尚未启用。":"当前该账户没有停止标记；这不授予连接或交易权限。券商执行尚未启用。";
       button("refresh").disabled=!context||state.loading;
       button("stop").disabled=!context||state.stopping||!!state.stopPending||typeof stopAccount!=="function"||view?.service_available===false;
       button("stop").textContent=state.stopping?"正在提交账户停止…":"停止该账户的执行";
