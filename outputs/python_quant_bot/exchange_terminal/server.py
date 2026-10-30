@@ -42,12 +42,14 @@ try:
     from services.terminal_research import TerminalResearchService, validate_terminal_strategy_params, terminal_strategy_presentation
     from services.terminal_history import TerminalHistoryReader
     from services.terminal_workspace_history import TerminalWorkspaceHistory, msix_history_roots_for_workspace
+    from services.terminal_broker_account_control import bind_host_root as bind_broker_control_root
 except ModuleNotFoundError:  # Package import path.
     from exchange_terminal.services.quant_workspace import QuantWorkspace
     from exchange_terminal.services.terminal_market_data import TerminalMarketReader
     from exchange_terminal.services.terminal_research import TerminalResearchService, validate_terminal_strategy_params, terminal_strategy_presentation
     from exchange_terminal.services.terminal_history import TerminalHistoryReader
     from exchange_terminal.services.terminal_workspace_history import TerminalWorkspaceHistory, msix_history_roots_for_workspace
+    from exchange_terminal.services.terminal_broker_account_control import bind_host_root as bind_broker_control_root
 
 
 RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_RUNTIME_READ_ONLY") or "1").strip().lower() not in {
@@ -549,6 +551,10 @@ STOCK_HISTORY_PREWARM_SERVICE: StockHistoryPrewarmService | None = None
 RUNTIME_BUILD_GUARD = RuntimeBuildGuard(project_root=PROJECT_DIR, source_roots=[ROOT_DIR, PROJECT_DIR / "vendor" / "research"])
 TERMINAL_MARKET_READER = TerminalMarketReader(RUNTIME_DIR)
 QUANT_WORKSPACE_DIR = Path(os.getenv("HAKIMI_QUANT_WORKSPACE_DIR") or RUNTIME_DIR).expanduser().absolute()
+# Supplied once by the trusted desktop host, never a renderer request or the
+# selected research workspace. Binding resolves paths without creating a store.
+BROKER_CONTROL_ROOT = (bind_broker_control_root(os.environ["HAKIMI_BROKER_SHARED_ROOT"],
+    program_root=PROJECT_DIR, record_domain="EXTERNAL_RECORD") if os.environ.get("HAKIMI_BROKER_SHARED_ROOT") else None)
 
 
 def _fetch_explicit_public_daily(url):
@@ -567,6 +573,7 @@ QUANT_WORKSPACE = QuantWorkspace(
         core, market_reader=TERMINAL_MARKET_READER, catalog=terminal_strategy_catalog,
         runner=lambda **kwargs: run_strategy_backtest(**kwargs, include_full_history=True),
         fingerprint=strategy_implementation_fingerprint,
+        broker_control_root=BROKER_CONTROL_ROOT,
         runtime_guard=lambda: RUNTIME_BUILD_GUARD.snapshot(force=True),
         history_reader=TerminalHistoryReader(RUNTIME_DIR), group_reader=lambda: STOCK_MARKETS,
         workspace_history=TerminalWorkspaceHistory(runtime_dir=RUNTIME_DIR, current_workspace=core.workspace,
@@ -12622,6 +12629,7 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                        "terminal_package_version": TERMINAL_PACKAGE_VERSION,
                        "terminal_build_commit": TERMINAL_BUILD_COMMIT,
                        "terminal_workspace_root": str(QUANT_WORKSPACE.runtime_dir),
+                       "broker_shared_root_id": BROKER_CONTROL_ROOT.root_id if BROKER_CONTROL_ROOT else None,
                        "quant_workspace": {"pending": QUANT_WORKSPACE.pending, "read_only": QUANT_RUNTIME_READ_ONLY, "root": str(QUANT_WORKSPACE.runtime_dir / "research-workspace")}},
                 )
                 return

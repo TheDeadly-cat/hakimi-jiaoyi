@@ -18,6 +18,7 @@ const PACKAGE_CONTEXT = app.isPackaged ? terminalPackage.createContext({
   resourcesPath: process.resourcesPath,
   localAppData: process.env.LOCALAPPDATA,
   home: app.getPath("home"),
+  appData: app.getPath("appData"),
   runtimeDirectory: process.env.HAKIMI_RUNTIME_DIR,
   quantWorkspaceDirectory: process.env.HAKIMI_QUANT_WORKSPACE_DIR,
 }) : null;
@@ -41,6 +42,14 @@ const WORKSPACE_CONTEXT = PACKAGE_CONTEXT || {
   workspace: terminalPackage.prepareDataDirectory(process.env.HAKIMI_QUANT_WORKSPACE_DIR || path.join(PYTHON_ROOT, "runtime"), __dirname),
 };
 if (!PACKAGE_CONTEXT) WORKSPACE_CONTEXT.legacyRuntime = terminalPackage.dataDirectory(SOURCE_RUNTIME, __dirname);
+const BROKER_SHARED_ROOT = PACKAGE_CONTEXT?.brokerSharedRoot || terminalPackage.brokerSharedRoot({
+  localAppData: process.env.LOCALAPPDATA, home: app.getPath("home"), appData: app.getPath("appData"),
+  platform: process.platform, programRoot: WORKSPACE_CONTEXT.root,
+});
+if (!PACKAGE_CONTEXT) Object.assign(WORKSPACE_CONTEXT, {
+  brokerSharedRoot: BROKER_SHARED_ROOT,
+  brokerSharedRootId: terminalPackage.brokerSharedRootIdentity(BROKER_SHARED_ROOT, process.platform),
+});
 const INSTANCE_ID = PACKAGE_CONTEXT?.instanceId || terminalPackage.instanceIdentity(__dirname, WORKSPACE_CONTEXT.workspace);
 const SHELL_PROFILE = PACKAGE_CONTEXT?.userData || terminalPackage.prepareDataDirectory(
   path.join(app.getPath("appData"), "HakimiTradeTerminal", "developer-shells", INSTANCE_ID), __dirname);
@@ -237,10 +246,11 @@ function startBackend() {
       packagedLaunch?.options || {
         cwd: DIAGNOSTICS.directory,
         env: {
-          ...process.env,
+          ...Object.fromEntries(Object.entries(process.env).filter(([key]) => key.toUpperCase() !== "HAKIMI_BROKER_SHARED_ROOT")),
           HAKIMI_DESKTOP_CONTROL_TOKEN: backendControlToken,
           HAKIMI_RUNTIME_DIR: WORKSPACE_CONTEXT.legacyRuntime,
           HAKIMI_QUANT_WORKSPACE_DIR: WORKSPACE_CONTEXT.workspace,
+          HAKIMI_BROKER_SHARED_ROOT: BROKER_SHARED_ROOT,
           HAKIMI_RUNTIME_READ_ONLY: "1",
           HAKIMI_QUANT_READ_ONLY: process.env.HAKIMI_QUANT_READ_ONLY || "0",
           HAKIMI_LOAD_LOCAL_AI_ENV: process.env.HAKIMI_LOAD_LOCAL_AI_ENV || "1",

@@ -61,8 +61,8 @@
 | T26 | DONE | T24,T25 | 资金预留/owner持仓/时效/证券绑定检查通过；dev2原生BUY1@100预留101，可用9899，现金10000 | 前端预览只粗估，提交时服务端再次校验；外部权限关闭 |
 | T27 | DONE | T25,T26 | 合成中断/幂等/晚到成交合同通过；dev2正常关闭重开原订单和57文件不变，要求对账后恢复 | 本地范围；本次未执行原生成交/撤销/对账恢复，旧UNKNOWN/T3保留 |
 | T28 | DONE | T20,T25 | 已连可信报告/账户/计划只读路由，一次账本快照；六类说明、累计费用与未知项，原/核心真实新TEMP保存整链通过；完整门禁371、桌面通过 | 当前手工演练缺逐笔因果对应，收益差及贡献保持未知；界面主区显示版本N，原ID在详情 |
-| T29 | DOING | T25-T28 | a235/dev3 r4已含离线计划页面；后续源码完成协议预算、共享账本、受限codec/transport、7类响应事实校验、原请求原子记账及有界进程监督；完整709终端/15包/4runner通过，锁定实际protobuf另55项通过 | 后续源码未进r4；仍缺生产授权gate、应用共享root/停止与UI接线、实际worker/transport串联、精确经济事实与价格规则、OpenD/加密兼容，外部步骤另授权 |
-| T30 | DOING | T29 | 原intent跨工作区去重；typed响应匹配原ACTION才更新ACK，迟到UNKNOWN仅追加原请求，终态/余额更新后的矛盾成交和费用阻止新风险；监督器超时/输出异常不重启重发；9权限false | PackageWorkerSpec尚拒绝启动，当前仅新TEMP合成子进程；EXTERNAL_RECORD拒绝测试profile，REAL实际codec/资金许可未提供，真实资金另需账户资产额度授权 |
+| T29 | DOING | T25-T28 | 新源码已接同窗账户共享停止/找回/明确恢复、host固定root与health身份、真实journal factory及两层短控制屏障；最小锁定protobuf loader独立实际私有进程11协议/164文件通过；完整756终端、20.127秒desktop、15包/4runner通过 | 当前r4未含后续源码，r5准备中；仍缺生产授权与每次派发gate、实际worker/transport串联、精确经济事实/价格规则、OpenD/加密兼容，外部步骤另授权 |
+| T30 | DOING | T29 | 全局账户停止按provider/mode/account跨workspace共享，旧local stop保持AND约束；明确resume不续旧revision、不重发旧请求；实际服务/handler/journal整合11项与双浏览器实际临时控制服务通过；9权限false | 新共享控制与factory不是生产派发实现，PackageWorkerSpec仍拒启动；EXTERNAL_RECORD拒test profile；REAL实际codec/资金许可未提供，真实资金另需账户资产额度授权 |
 
 ## 验证记录
 
@@ -98,3 +98,5 @@ r2首次关闭已验证265旧文件不变、新QA20文件读取不变、1研究/
 [新协议与共享账本源码证据](research-evidence/broker-wire-journal-20261030/README.md)：冻结2090输入的完整642项门禁已覆盖profile24、journal最终30、transport33和codec13；真实SDK离线探针与fake tests分别记账。原v1、旧包和历史未知记录保留，测试修正前的失败原件未改。当前可交付包仍a235/dev3 r4；上述源码原语的实际服务接线和有界worker继续实现，不把工程缺口归为仅待授权。
 
 [响应与进程源码后续](research-evidence/broker-response-worker-20261030/README.md)：完整709项门禁通过，新增facts27、记账18、worker22，2095输入前后不变；15项打包及4项runner通过。锁定实际protobuf在私有Python内完成7类/55项合成报文检查，205个加载文件核验；不导入futu顶层，0网络/DB/线程/业务运行。完整响应保存在原journal事件链，API错误不当拒单、撤单ACK不当终态；合法迟到成交/费用与已结束或更新余额的账本矛盾时保留原账并停止新风险。PackageWorkerSpec仍不可启动，实际派发/授权/完整经济事实/外部兼容尚未完成。上一源码6581c59的[run167](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40980480080)已11/11成功，新提交CI另核；当前r4包和原生暂停状态保持。
+
+[共享账户控制与包内协议加载](research-evidence/broker-account-control-20261030/README.md)：当前19个源文件均绑定完整756/756门禁、2102不变输入，Node22完整desktop通过；双浏览器实例在新TEMP真实AccountControl上完成停止/恢复/丢回复后查原ID，1440/390布局通过。host不再复用缺失或不同共享根身份的后台；读取控制和构造journal均不创建记录。新增loader24项与实际私有解释器一次验证通过，只核本地代码来源，不升级交易权限。开发期SQLite测试未关闭连接及旧计划测试缺NODE_PATH的原失败另存，配置和fixture修正后由完整门禁覆盖。4ae9047的[run168](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40984635974)已11/11成功；本批新源码CI和r5实际包验证另行记录，旧r4与旧原生状态不改写。

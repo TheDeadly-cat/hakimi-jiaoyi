@@ -1,0 +1,11 @@
+{
+  "python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+  "node": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node.exe",
+  "node_version": "v22.23.4",
+  "head": "4ae90471f83afbdca9ef4e421e064690ede2b01d",
+  "status": "DIRTY_SOURCE_BYTES_EXPLICITLY_HASHED",
+  "expected_terminal_tests": 756,
+  "desktop_repeated": true,
+  "reason": "Changed host bootstrap identity, API routes and account-control UI.",
+  "native_or_market_acceptance": false
+}

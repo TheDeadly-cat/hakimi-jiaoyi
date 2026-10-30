@@ -28,6 +28,8 @@ TEST_FILES = (
     "test_terminal_ai_strategy_binding.py",
     "test_terminal_candidate_service.py",
     "test_terminal_broker_candidate_service.py",
+    "test_terminal_broker_account_control.py",
+    "test_terminal_broker_account_control_integration.py",
     "test_terminal_broker_execution_plan.py",
     "test_terminal_broker_wire_profile.py",
     "test_terminal_broker_execution_journal.py",
@@ -36,6 +38,7 @@ TEST_FILES = (
     "test_terminal_broker_worker_supervisor.py",
     "test_terminal_broker_scoped_transport.py",
     "test_futu_us_equity_simulate_wire_v2.py",
+    "test_futu_verified_protobuf_loader.py",
     "test_terminal_broker_package_loader.py",
     "test_terminal_broker_plan_service.py",
     "test_terminal_broker_plan_integration.py",
@@ -75,6 +78,7 @@ TEST_PATTERNS = (
     "test_quant_kernel_isolation.py", "test_quant_completion_adapter.py", "test_strategy_presentation.py",
     "test_causal_structure.py", "test_exit_comparison_math.py", "test_offline_execution.py",
     "test_futu_us_equity_simulate_wire_v2.py",
+    "test_futu_verified_protobuf_loader.py",
 )
 
 

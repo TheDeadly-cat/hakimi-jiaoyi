@@ -526,6 +526,19 @@ class BrokerCandidateService:
                 raise CandidateError("candidate_plan_originals_mismatch")
             return deepcopy(saved), deepcopy(intent)
 
+    def read_account_scope(self, mode, config_id):
+        """Read one immutable saved account declaration without a resolver/lock.
+
+        Used by the direct account-stop path. It is not verification that the
+        account exists, belongs to the user, or is ready to trade.
+        """
+        saved = self._saved(mode, config_id)
+        account = saved["config"].get("account_id")
+        if (type(account) is not str or not account.isascii() or not account.isdecimal()
+                or account[0] == "0" or not 0 < int(account) < 2**64):
+            raise CandidateError("candidate_saved_account_required")
+        return {"provider": "FUTU", "mode": mode, "account_id": account, "config_id": saved["id"]}
+
     def read_plan_control(self, mode):
         """A lazy read; neither creates a control database nor grants permission."""
         with self._control(mode) as connection:

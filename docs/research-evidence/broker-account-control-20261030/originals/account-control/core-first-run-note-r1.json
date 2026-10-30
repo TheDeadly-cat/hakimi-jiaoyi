@@ -1,0 +1,9 @@
+{
+  "cause": "Tampering test used SQLite context manager without closing connection; Windows TEMP cleanup failed with WinError32 and ResourceWarning",
+  "scope": "Tool-output-derived note, not original byte log",
+  "source_fix": "Test now uses contextlib.closing; production connections already close in finally",
+  "old_data_accessed": false,
+  "errors": 1,
+  "tool_chunk": "dc4c91",
+  "tests": 12
+}

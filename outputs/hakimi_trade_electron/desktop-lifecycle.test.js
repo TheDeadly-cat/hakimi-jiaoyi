@@ -190,27 +190,61 @@ function desktopHarness(stopResult, { locked = true, state = {}, environment = {
   return { app, child, context, observed, handlers };
 }
 
-test("backend reuse requires explicit matching local-only mode and preserves stricter health failures", async () => {
+test("backend reuse requires explicit matching local-only mode and preserves stricter health failures", async t => {
   const source = fs.readFileSync(path.join(__dirname, "main.js"), "utf8");
   const start = source.indexOf("async function readBackendHealth()");
   const end = source.indexOf("async function isBackendHealthy()", start);
+  const temporary = fs.realpathSync.native(fs.mkdtempSync(path.join(require("node:os").tmpdir(), "hakimi-health-binding-")));
+  t.after(() => fs.rmSync(temporary, { recursive: true, force: true }));
+  const terminalPackage = require("./terminal-package-runtime");
+  const sharedRoot = path.join(temporary, "broker-shared-v1");
+  const workspaceContext = { workspace: path.join(temporary, "workspace"), brokerSharedRoot: sharedRoot,
+    brokerSharedRootId: terminalPackage.brokerSharedRootIdentity(sharedRoot) };
   for (const [localOnly, payloadMode, expected] of [[true, true, true], [false, false, true],
     [true, false, false], [false, true, false], [false, undefined, false], [true, undefined, false]]) {
-    const context = vm.createContext({ WORKSPACE_CONTEXT: { workspace: path.resolve("test-workspace") },
-      terminalPackage: require("./terminal-package-runtime"), LOCAL_ONLY: localOnly, HEALTH_URL: "http://127.0.0.1:8765/api/health",
+    const context = vm.createContext({ WORKSPACE_CONTEXT: workspaceContext,
+      terminalPackage, LOCAL_ONLY: localOnly, HEALTH_URL: "http://127.0.0.1:8765/api/health",
       request: async () => ({}), classifyBackendHealthResponse: () => ({ healthy: true, reachable: true,
-        status: "PASS", payload: { local_only: payloadMode, terminal_workspace_root: path.resolve("test-workspace") } }) });
+        status: "PASS", payload: { local_only: payloadMode, terminal_workspace_root: workspaceContext.workspace,
+          broker_shared_root_id: workspaceContext.brokerSharedRootId } }) });
     vm.runInContext(source.slice(start, end), context);
     const result = await context.readBackendHealth();
     assert.equal(result.healthy, expected);
     if (!expected) { assert.equal(result.status, "MODE_MISMATCH"); assert.equal(result.reachable, true); }
   }
-  const context = vm.createContext({ WORKSPACE_CONTEXT: { workspace: path.resolve("test-workspace") },
-    terminalPackage: require("./terminal-package-runtime"), LOCAL_ONLY: true, HEALTH_URL: "http://127.0.0.1:8765/api/health",
+  const context = vm.createContext({ WORKSPACE_CONTEXT: workspaceContext,
+    terminalPackage, LOCAL_ONLY: true, HEALTH_URL: "http://127.0.0.1:8765/api/health",
     request: async () => ({}), classifyBackendHealthResponse: () => ({ healthy: false, reachable: true,
       status: "RESTART_REQUIRED", payload: { local_only: true } }) });
   vm.runInContext(source.slice(start, end), context);
   assert.equal((await context.readBackendHealth()).status, "RESTART_REQUIRED");
+  assert.equal(fs.existsSync(sharedRoot), false);
+});
+
+test("same workspace backend without the fixed shared root identity cannot attach", async t => {
+  const source = fs.readFileSync(path.join(__dirname, "main.js"), "utf8");
+  const start = source.indexOf("async function readBackendHealth()");
+  const end = source.indexOf("async function isBackendHealthy()", start);
+  const temporary = fs.realpathSync.native(fs.mkdtempSync(path.join(require("node:os").tmpdir(), "hakimi-health-root-mismatch-")));
+  t.after(() => fs.rmSync(temporary, { recursive: true, force: true }));
+  const terminalPackage = require("./terminal-package-runtime");
+  const root = path.join(temporary, "host-root");
+  const workspaceContext = { workspace: path.join(temporary, "workspace"), brokerSharedRoot: root,
+    brokerSharedRootId: terminalPackage.brokerSharedRootIdentity(root) };
+  const otherRootId = terminalPackage.brokerSharedRootIdentity(path.join(temporary, "other-host-root"));
+  for (const identity of [undefined, null, otherRootId]) {
+    const payload = { local_only: true, terminal_workspace_root: workspaceContext.workspace };
+    if (identity !== undefined) payload.broker_shared_root_id = identity;
+    const context = vm.createContext({ WORKSPACE_CONTEXT: workspaceContext, terminalPackage, LOCAL_ONLY: true,
+      HEALTH_URL: "http://127.0.0.1:8765/api/health", request: async () => ({}),
+      classifyBackendHealthResponse: () => ({ healthy: true, reachable: true, status: "PASS", payload }) });
+    vm.runInContext(source.slice(start, end), context);
+    const result = await context.readBackendHealth();
+    assert.equal(result.healthy, false);
+    assert.equal(result.reachable, true);
+    assert.equal(result.status, "PACKAGE_OR_WORKSPACE_MISMATCH");
+  }
+  assert.deepEqual(fs.readdirSync(temporary), []);
 });
 
 test("actual desktop quit handler preserves owned processes on busy and unknown outcomes", async () => {

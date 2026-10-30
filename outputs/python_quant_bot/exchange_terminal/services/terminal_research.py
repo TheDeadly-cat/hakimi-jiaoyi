@@ -6,6 +6,7 @@ authorization is provided here. The caller supplies the original pure runner.
 from __future__ import annotations
 
 from copy import deepcopy
+from contextlib import contextmanager
 from datetime import date, datetime, timedelta, timezone
 from hashlib import sha256
 import json
@@ -301,7 +302,7 @@ def _core_input_adapter(snapshot, identity, file_hash):
 
 
 class TerminalResearchService:
-    def __init__(self, service, market_reader, catalog, runner, fingerprint, history_reader=None, group_reader=None, workspace_history=None, daily_factory=None, runtime_guard=None):
+    def __init__(self, service, market_reader, catalog, runner, fingerprint, history_reader=None, group_reader=None, workspace_history=None, daily_factory=None, runtime_guard=None, broker_control_root=None):
         self.core = service
         self.workspace = Path(service.workspace).absolute()
         self.market_reader, self.catalog, self.runner, self.fingerprint = market_reader, catalog, runner, fingerprint
@@ -313,6 +314,13 @@ class TerminalResearchService:
         self._broker_init_lock = RLock()
         self._broker_plan_service = None
         self._broker_plan_init_lock = RLock()
+        self._broker_control_root = broker_control_root
+        if broker_control_root is not None:
+            from .terminal_broker_account_control import SharedBrokerRoot
+            if (type(broker_control_root) is not SharedBrokerRoot
+                    or broker_control_root.path.is_relative_to(self.workspace.resolve())
+                    or self.workspace.resolve().is_relative_to(broker_control_root.path)):
+                raise ValueError("broker_account_root_must_be_independent_of_workspace")
         self._replay_api = None
         self._replay_init_lock = RLock()
         self._replay_runtime_guard = runtime_guard
@@ -353,6 +361,61 @@ class TerminalResearchService:
     def stop_broker_candidate(self, payload):
         """Stop local intent preparation directly; no broker orders are sent."""
         return self._broker().stop(_detached(payload))
+
+    def _broker_account(self, mode, config_id):
+        from .terminal_broker_account_control import AccountControl
+        if self._broker_control_root is None:
+            raise ValueError("broker_account_control_host_binding_unavailable")
+        scope = self._broker().read_account_scope(mode, config_id)
+        return AccountControl(self._broker_control_root, mode=mode, account_id=scope["account_id"])
+
+    def _broker_account_read(self, resource, payload):
+        keys = {"mode", "config_id"} | ({"request_id"} if resource == "terminal_broker_account_receipt" else set())
+        _fields(payload, keys, keys)
+        if self._broker_control_root is None:
+            from .terminal_broker_account_control import SCHEMA, PERMISSIONS as ACCOUNT_PERMISSIONS
+            return {"schema_version": SCHEMA, "service_available": False,
+                    "reason": "HOST_BINDING_UNAVAILABLE", "config_id": payload["config_id"],
+                    "permissions": dict(ACCOUNT_PERMISSIONS), "read_only": True}
+        return {**self._broker_account(payload["mode"], payload["config_id"]).read(payload.get("request_id")),
+                "config_id": payload["config_id"]}
+
+    def _broker_account_change(self, action, value):
+        payload = _detached(value)
+        keys = {"mode", "config_id", "request_id", "reason"} | ({"expected_stop_receipt_id"} if action == "resume" else set())
+        _fields(payload, keys, keys)
+        control = self._broker_account(payload["mode"], payload["config_id"])
+        body = {key: item for key, item in payload.items() if key not in {"mode", "config_id"}}
+        return {**getattr(control, action)(body), "config_id": payload["config_id"]}
+
+    def stop_broker_account(self, payload):
+        """Direct account stop, independent of research/plan/job locks and IO."""
+        return self._broker_account_change("stop", payload)
+
+    def broker_execution_journal(self, *, mode, config_id):
+        """Trusted coordinator factory; the caller cannot select a data root.
+
+        Construction/reads create nothing. Existing journal admission still
+        rejects test-only profiles in EXTERNAL_RECORD; no HTTP action exposes
+        raw journal writes or turns a saved candidate into authorization.
+        """
+        from .terminal_broker_execution_journal import BrokerExecutionJournal
+        account = self._broker_account(mode, config_id)
+        return BrokerExecutionJournal(self._broker_control_root.path, mode=mode,
+            account_id=account.account["account_id"], record_domain=self._broker_control_root.domain)
+
+    @contextmanager
+    def broker_dispatch_barrier(self, *, mode, config_id, local_revision, account_revision):
+        """Trusted coordinator seam: both revisions must be bound by its session.
+
+        The caller acquires its journal writer first and supplies exact originals.
+        No v1 plan is upgraded or given an account revision/dispatch permission.
+        This short barrier is for nonblocking begin/write only, never waits.
+        """
+        account = self._broker_account(mode, config_id)
+        with self._broker().plan_commit_barrier(mode, local_revision) as local:
+            with account.barrier(account_revision):
+                yield local
 
     def _broker_plans(self):
         with self._broker_plan_init_lock:
@@ -1081,6 +1144,10 @@ class TerminalResearchService:
                                    "每项是独立本金的描述性研究，未认证数据与结果不能授予模拟或实盘权限。"]}
 
     def read(self, resource, identity=None):
+        if resource in {"terminal_broker_account_control", "terminal_broker_account_receipt"}:
+            if type(identity) is not str or len(identity) > 8000:
+                raise ValueError("broker_account_reference_required")
+            return self._broker_account_read(resource, json.loads(identity))
         if resource in {"terminal_broker_plan_capabilities", "terminal_broker_plans", "terminal_broker_plan", "terminal_broker_plan_receipt"}:
             if type(identity) is not str or len(identity) > 16384:
                 raise ValueError("broker_plan_reference_required")
@@ -1180,6 +1247,10 @@ class TerminalResearchService:
         return self.core.read(resource, identity)
 
     def mutate(self, action, payload):
+        if action == "terminal_broker_account_stop":
+            raise ValueError("broker_account_stop_direct_route_required")
+        if action == "terminal_broker_account_resume":
+            return self._broker_account_change("resume", payload)
         if action == "terminal_broker_prepare_plan":
             return self._broker_plans().mutate(action, _detached(payload))
         if isinstance(action, str) and action.startswith("terminal_replay_"):

@@ -1,0 +1,6 @@
+test_record_and_head_tampering_are_rejected_without_repair (tests.test_terminal_broker_account_control.AccountControlTests.test_record_and_head_tampering_are_rejected_without_repair) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.095s
+
+OK

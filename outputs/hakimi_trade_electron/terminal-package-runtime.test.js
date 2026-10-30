@@ -25,13 +25,16 @@ function fixture(t) {
   fs.writeFileSync(path.join(root, "terminal-manifest.json"), JSON.stringify(manifest));
   const diagnosticsDirectory = path.join(base, "诊断 记录");
   fs.mkdirSync(diagnosticsDirectory);
-  return { base, root, manifest, context: { root, manifest, workspace: path.join(base, "工作 区"), diagnosticsDirectory } };
+  const brokerSharedRoot = runtime.brokerSharedRoot({ localAppData: base, home: base, appData: base, programRoot: root });
+  return { base, root, manifest, context: { root, manifest, workspace: path.join(base, "工作 区"), diagnosticsDirectory,
+    brokerSharedRoot, brokerSharedRootId: runtime.brokerSharedRootIdentity(brokerSharedRoot) } };
 }
 test("verified original route uses only private Python with separate Unicode arguments", t => {
   const { root, context, manifest } = fixture(t);
   assert.equal(runtime.verifyBundle(root).bundle_id, manifest.bundle_id);
   const launch = runtime.backendLaunch(context, { host: "127.0.0.1", port: 18765, token: "token", localOnly: true,
-    environment: { PYTHONPATH: "evil", PythonHome: "evil", PYTHONSTARTUP: "evil", NODE_OPTIONS: "evil", SAFE: "kept" } });
+    environment: { PYTHONPATH: "evil", PythonHome: "evil", PYTHONSTARTUP: "evil", NODE_OPTIONS: "evil", SAFE: "kept",
+      HAKIMI_BROKER_SHARED_ROOT: "attacker-root", hakimi_broker_shared_root: "attacker-case-alias" } });
   assert.equal(launch.executable, path.join(root, "runtime/python/python.exe"));
   assert.deepEqual(launch.args.slice(0, 5), ["-I", "-S", "-B", "-X", "utf8"]);
   assert.equal(launch.options.shell, false);
@@ -41,6 +44,9 @@ test("verified original route uses only private Python with separate Unicode arg
   assert.equal(launch.options.env.HAKIMI_TERMINAL_PACKAGE_ID, manifest.bundle_id);
   assert.equal(launch.options.env.HAKIMI_RUNTIME_DIR, context.workspace);
   assert.equal(launch.options.env.HAKIMI_QUANT_WORKSPACE_DIR, context.workspace);
+  assert.equal(launch.options.env.HAKIMI_BROKER_SHARED_ROOT, context.brokerSharedRoot);
+  assert.equal(Object.keys(launch.options.env).filter(key => key.toUpperCase() === "HAKIMI_BROKER_SHARED_ROOT").length, 1);
+  assert.equal(fs.existsSync(context.brokerSharedRoot), false);
 });
 test("changed executable bytes and unexpected modules fail before launch", t => {
   const { root } = fixture(t);
@@ -61,15 +67,24 @@ test("missing resource and manifest identity tampering fail closed", t => {
 test("existing backend requires exact package, mode and physical workspace", t => {
   const { context } = fixture(t);
   fs.mkdirSync(context.workspace);
-  const health = { terminal_package_id: context.manifest.bundle_id, terminal_workspace_root: context.workspace, local_only: true };
+  const health = { terminal_package_id: context.manifest.bundle_id, terminal_workspace_root: context.workspace, local_only: true,
+    broker_shared_root_id: context.brokerSharedRootId };
   assert.equal(runtime.matchesBackend(context, health, true), true);
   assert.equal(runtime.matchesBackend(context, { ...health, terminal_package_id: "different" }, true), false);
   assert.equal(runtime.matchesBackend(context, { ...health, terminal_workspace_root: path.dirname(context.workspace) }, true), false);
   assert.equal(runtime.matchesBackend(context, health, false), false);
+  const { broker_shared_root_id: _omitted, ...oldHealth } = health;
+  assert.equal(runtime.matchesBackend(context, oldHealth, true), false);
+  assert.equal(runtime.matchesBackend(context, { ...health, broker_shared_root_id: null }, true), false);
+  assert.equal(runtime.matchesBackend(context, { ...health, broker_shared_root_id: "0".repeat(64) }, true), false);
+  const anotherRoot = path.join(context.workspace, "different-shared-root");
+  assert.equal(runtime.matchesBackend(context, { ...health,
+    broker_shared_root_id: runtime.brokerSharedRootIdentity(anotherRoot) }, true), false);
+  assert.equal(runtime.matchesBackend({ ...context, brokerSharedRootId: undefined }, oldHealth, true), false);
 });
 test("workspace is separate from immutable program and stable across versions", t => {
   const { base, root } = fixture(t);
-  const args = { resourcesPath: path.join(root, "resources"), localAppData: base, home: base };
+  const args = { resourcesPath: path.join(root, "resources"), localAppData: base, home: base, appData: base };
   assert.equal(runtime.createContext(args).workspace, path.join(base, "HakimiTradeTerminal/workspaces/default/runtime"));
   assert.throws(() => runtime.createContext({ ...args, runtimeDirectory: path.join(root, "user-data") }), /inside_program/);
 });
@@ -83,7 +98,7 @@ test("directory junction and escaping relative resources are rejected", t => {
 
 test("quant workspace stays distinct from the legacy read root and singleton key uses installation plus workspace", t => {
   const { base, root } = fixture(t);
-  const args = { resourcesPath: path.join(root, "resources"), localAppData: base, home: base,
+  const args = { resourcesPath: path.join(root, "resources"), localAppData: base, home: base, appData: base,
     runtimeDirectory: path.join(base, "旧数据"), quantWorkspaceDirectory: path.join(base, "新量化 空间") };
   const context = runtime.createContext(args);
   context.diagnosticsDirectory = path.join(base, "诊断 记录");
@@ -92,6 +107,9 @@ test("quant workspace stays distinct from the legacy read root and singleton key
   assert.equal(context.instanceId, again.instanceId);
   assert.equal(context.userData, again.userData);
   assert.notEqual(context.instanceId, other.instanceId);
+  assert.equal(context.brokerSharedRoot, other.brokerSharedRoot);
+  assert.equal(context.brokerSharedRoot, again.brokerSharedRoot);
+  assert.equal(fs.existsSync(context.brokerSharedRoot), false);
   const launch = runtime.backendLaunch(context, { host: "127.0.0.1", port: 18765, token: "test", localOnly: true, environment: {} });
   assert.equal(launch.options.env.HAKIMI_RUNTIME_DIR, args.runtimeDirectory);
   assert.equal(launch.options.env.HAKIMI_QUANT_WORKSPACE_DIR, args.quantWorkspaceDirectory);
@@ -100,7 +118,8 @@ test("quant workspace stays distinct from the legacy read root and singleton key
   const anotherInstall = path.join(base, "另一个安装");
   fs.mkdirSync(anotherInstall);
   assert.notEqual(context.instanceId, runtime.instanceIdentity(anotherInstall, context.workspace));
-  const health = { terminal_package_id: context.manifest.bundle_id, local_only: true, terminal_workspace_root: context.workspace };
+  const health = { terminal_package_id: context.manifest.bundle_id, local_only: true, terminal_workspace_root: context.workspace,
+    broker_shared_root_id: context.brokerSharedRootId };
   assert.equal(runtime.matchesBackend(context, health, true), true);
   assert.equal(runtime.matchesBackend(other, health, true), false);
   assert.equal(runtime.matchesBackend(context, { ...health, terminal_workspace_root: context.legacyRuntime }, true), false);
@@ -108,7 +127,7 @@ test("quant workspace stays distinct from the legacy read root and singleton key
 
 test("data directories reject relative paths, package storage and junction aliases including missing children", t => {
   const { base, root } = fixture(t);
-  const args = { resourcesPath: path.join(root, "resources"), localAppData: base, home: base };
+  const args = { resourcesPath: path.join(root, "resources"), localAppData: base, home: base, appData: base };
   const target = path.join(base, "真实数据");
   fs.mkdirSync(target);
   const alias = path.join(base, "别名");
@@ -188,6 +207,7 @@ test("actual packaged main resolves boot, icon, contract and private backend wit
   const child = new EventEmitter(); child.stdout = new EventEmitter(); child.stderr = new EventEmitter();
   const context = vm.createContext({ __dirname: appDirectory, console, URL, setTimeout, clearTimeout, setInterval, clearInterval,
     process: { platform: "win32", resourcesPath: path.join(root, "resources"), env: { LOCALAPPDATA: base, HAKIMI_LOCAL_ONLY: "1",
+      HAKIMI_BROKER_SHARED_ROOT: "renderer-or-inherited-root",
       CHROME_CRASHPAD_PIPE_NAME: "unowned-launcher-pipe", CHROME_CRASHPAD_SERVER_URL: "https://unowned.invalid" },
       chdir(directory) { observed.cwd = directory; observed.events.push("cwd"); } },
     require(name) {
@@ -211,6 +231,9 @@ test("actual packaged main resolves boot, icon, contract and private backend wit
   assert.equal(observed.spawns[0].executable, path.join(root, "runtime/python/python.exe"));
   assert.equal(observed.spawns[0].options.shell, false);
   assert.equal(observed.spawns[0].options.cwd, observed.logs);
+  assert.equal(observed.spawns[0].options.env.HAKIMI_BROKER_SHARED_ROOT,
+    path.join(base, "HakimiTradeTerminal", "broker-shared-v1"));
+  assert.equal(fs.existsSync(observed.spawns[0].options.env.HAKIMI_BROKER_SHARED_ROOT), false);
   assert.equal(observed.cwd, observed.logs);
   assert.deepEqual(observed.events, ["logs", "cwd", "singleton", "window", "backend"]);
   assert.equal(observed.switches["log-file"], path.join(observed.logs, "electron.log"));
@@ -300,6 +323,7 @@ test("a startup diagnostic write failure preserves existing bytes and cannot int
 test("first creation fixes physical identity before singleton derivation and never creates a distinct old source", t => {
   const { root, base } = fixture(t);
   const args = { resourcesPath: path.join(root, "resources"), localAppData: path.join(base, "missing-local"), home: base,
+    appData: path.join(base, "missing-app-data"),
     runtimeDirectory: path.join(base, "missing-old-read-root"), quantWorkspaceDirectory: path.join(base, "missing-quant", "nested") };
   const first = runtime.createContext(args);
   assert.equal(first.workspace, fs.realpathSync.native(args.quantWorkspaceDirectory));
@@ -309,7 +333,7 @@ test("first creation fixes physical identity before singleton derivation and nev
   assert.equal(again.instanceId, first.instanceId);
   assert.equal(again.userData, first.userData);
   const health = { terminal_package_id: first.manifest.bundle_id, local_only: true,
-    terminal_workspace_root: fs.realpathSync.native(first.workspace) };
+    terminal_workspace_root: fs.realpathSync.native(first.workspace), broker_shared_root_id: first.brokerSharedRootId };
   assert.equal(runtime.matchesBackend(first, health, true), true);
   assert.equal(runtime.matchesBackend(first, { ...health, terminal_workspace_root: first.userData }, true), false);
 });
@@ -319,7 +343,8 @@ test("health matching rejects junction aliases and invalid paths instead of equa
   fs.mkdirSync(context.workspace);
   const alias = path.join(base, "workspace-alias");
   fs.symlinkSync(context.workspace, alias, process.platform === "win32" ? "junction" : "dir");
-  const health = { terminal_package_id: context.manifest.bundle_id, local_only: true, terminal_workspace_root: alias };
+  const health = { terminal_package_id: context.manifest.bundle_id, local_only: true, terminal_workspace_root: alias,
+    broker_shared_root_id: context.brokerSharedRootId };
   assert.equal(runtime.matchesBackend(context, health, true), false);
   assert.equal(runtime.matchesBackend({ ...context, workspace: "relative" }, { ...health, terminal_workspace_root: "relative" }, true), false);
 });
@@ -345,7 +370,7 @@ test("virtualized creation, native health paths and bundle resources share one p
     require: name => name === "node:fs" ? mappedFs : require(name),
   });
   const mapped = module.exports;
-  const args = { resourcesPath: path.join(root, "resources"), localAppData: logical, home: base,
+  const args = { resourcesPath: path.join(root, "resources"), localAppData: logical, home: base, appData: logical,
     runtimeDirectory: path.join(logical, "old-read-only"), quantWorkspaceDirectory: path.join(logical, "new-quant") };
   assert.equal(fs.existsSync(physical), false);
   const first = mapped.createContext(args);
@@ -356,8 +381,12 @@ test("virtualized creation, native health paths and bundle resources share one p
   const again = mapped.createContext(args);
   assert.equal(first.instanceId, again.instanceId);
   assert.equal(first.userData, again.userData);
+  assert.equal(first.brokerSharedRoot, path.join(physical, "HakimiTradeTerminal", "broker-shared-v1"));
+  assert.equal(first.brokerSharedRoot, again.brokerSharedRoot);
+  assert.equal(fs.existsSync(first.brokerSharedRoot), false);
   assert.equal(mapped.instanceIdentity(root, args.quantWorkspaceDirectory), mapped.instanceIdentity(root, first.workspace));
-  const payload = { terminal_package_id: manifest.bundle_id, local_only: true, terminal_workspace_root: first.workspace };
+  const payload = { terminal_package_id: manifest.bundle_id, local_only: true, terminal_workspace_root: first.workspace,
+    broker_shared_root_id: first.brokerSharedRootId };
   assert.equal(mapped.matchesBackend({ ...first, workspace: args.quantWorkspaceDirectory }, payload, true), true);
   assert.equal(mapped.matchesBackend(first, { ...payload, terminal_workspace_root: path.join(physical, "different") }, true), false);
   assert.equal(mapped.physicalDirectory(path.join(logical, "new-quant", "missing"), { allowMissing: true }),
@@ -379,7 +408,7 @@ test("virtualized creation, native health paths and bundle resources share one p
 test("legacy-only selection keeps quant on its stable default without creating or writing the old root", t => {
   const { root, base } = fixture(t);
   const legacy = path.join(base, "旧 Documents", "未建立旧目录");
-  const args = { resourcesPath: path.join(root, "resources"), localAppData: base, home: base, runtimeDirectory: legacy };
+  const args = { resourcesPath: path.join(root, "resources"), localAppData: base, home: base, appData: base, runtimeDirectory: legacy };
   const context = runtime.createContext(args);
   assert.equal(context.legacyRuntime, legacy);
   assert.equal(context.workspace, path.join(base, "HakimiTradeTerminal", "workspaces", "default", "runtime"));
@@ -394,4 +423,129 @@ test("legacy-only selection keeps quant on its stable default without creating o
   assert.equal(repeated.instanceId, context.instanceId);
   assert.deepEqual(fs.readdirSync(legacy), ["old-record.json"]);
   assert.deepEqual(fs.readFileSync(path.join(legacy, "old-record.json")), retained);
+});
+
+test("shared broker root uses trusted host platform data without creating a directory", t => {
+  const { base, root } = fixture(t);
+  const local = path.join(base, "local-host"), home = path.join(base, "home-host"), appData = path.join(base, "xdg-host");
+  const options = { localAppData: local, home, appData, programRoot: root };
+  assert.equal(runtime.brokerSharedRoot({ ...options, platform: "win32" }),
+    path.join(local, "HakimiTradeTerminal", "broker-shared-v1"));
+  for (const localAppData of [undefined, "relative-untrusted-local"]) {
+    assert.equal(runtime.brokerSharedRoot({ ...options, localAppData, platform: "win32" }),
+      path.join(home, "AppData", "Local", "HakimiTradeTerminal", "broker-shared-v1"));
+  }
+  for (const platform of ["linux", "darwin"]) {
+    assert.equal(runtime.brokerSharedRoot({ ...options, platform }),
+      path.join(appData, "HakimiTradeTerminal", "broker-shared-v1"));
+    for (const invalid of [undefined, "relative-data"]) {
+      assert.throws(() => runtime.brokerSharedRoot({ ...options, platform, appData: invalid }), /host_app_data_required/);
+    }
+  }
+  assert.throws(() => runtime.brokerSharedRoot({ ...options, platform: "win32", localAppData: undefined, home: "relative" }), /host_home_required/);
+  assert.throws(() => runtime.brokerSharedRoot({ ...options, platform: "unsupported" }), /platform_unsupported/);
+  for (const directory of [local, home, appData]) assert.equal(fs.existsSync(directory), false);
+});
+
+test("shared broker root rejects program storage and aliases including nonexistent descendants", t => {
+  const { base, root } = fixture(t);
+  const target = path.join(base, "actual-shared-host");
+  fs.mkdirSync(target);
+  const alias = path.join(base, "shared-host-alias");
+  fs.symlinkSync(target, alias, process.platform === "win32" ? "junction" : "dir");
+  for (const platform of ["win32", "linux", "darwin"]) {
+    for (const rejected of [root, alias, path.join(alias, "not-created")]) {
+      assert.throws(() => runtime.brokerSharedRoot({ platform, localAppData: rejected,
+        appData: rejected, home: base, programRoot: root }), /inside_program|reparse/);
+    }
+  }
+  assert.deepEqual(fs.readdirSync(target), []);
+});
+
+test("shared broker root stays identical across installation version and workspace choices", t => {
+  const { base, root, manifest } = fixture(t);
+  const args = { localAppData: base, home: base, appData: base, resourcesPath: path.join(root, "resources") };
+  const first = runtime.createContext({ ...args, quantWorkspaceDirectory: path.join(base, "workspace-first") });
+  const otherRoot = path.join(base, "different-installation");
+  for (const name of [...Object.keys(manifest.files), "terminal-manifest.json"]) {
+    const destination = path.join(otherRoot, name);
+    fs.mkdirSync(path.dirname(destination), { recursive: true });
+    fs.copyFileSync(path.join(root, name), destination);
+  }
+  const { bundle_id: _oldIdentity, ...core } = manifest;
+  core.version = "0.7.0.dev999";
+  const changedManifest = { ...core, bundle_id: runtime.hash(runtime.canonical(core)) };
+  fs.writeFileSync(path.join(otherRoot, "terminal-manifest.json"), JSON.stringify(changedManifest));
+  const second = runtime.createContext({ ...args, resourcesPath: path.join(otherRoot, "resources"),
+    runtimeDirectory: path.join(base, "legacy-unchanged"), quantWorkspaceDirectory: path.join(base, "workspace-second") });
+  assert.notEqual(first.instanceId, second.instanceId);
+  assert.notEqual(first.manifest.bundle_id, second.manifest.bundle_id);
+  assert.equal(first.brokerSharedRoot, second.brokerSharedRoot);
+  assert.equal(first.brokerSharedRootId, second.brokerSharedRootId);
+  assert.equal(first.brokerSharedRoot, path.join(base, "HakimiTradeTerminal", "broker-shared-v1"));
+  assert.equal(fs.existsSync(first.brokerSharedRoot), false);
+});
+
+test("backend launch refuses missing or unsafe host binding rather than inheriting an environment root", t => {
+  const { context, root } = fixture(t);
+  const options = { host: "127.0.0.1", port: 18765, token: "test", localOnly: true,
+    environment: { HAKIMI_BROKER_SHARED_ROOT: context.brokerSharedRoot } };
+  assert.throws(() => runtime.backendLaunch({ ...context, brokerSharedRoot: undefined }, options), /absolute_directory/);
+  assert.throws(() => runtime.backendLaunch({ ...context, brokerSharedRoot: path.join(root, "shared") }, options), /inside_program/);
+});
+
+test("actual development startup fixes the host shared root before later environment changes", t => {
+  const { base, root, context: fixtureContext } = fixture(t);
+  const { EventEmitter } = require("node:events");
+  const vm = require("node:vm");
+  const source = fs.readFileSync(path.join(__dirname, "main.js"), "utf8");
+  const child = new EventEmitter(); child.stdout = new EventEmitter(); child.stderr = new EventEmitter();
+  const observed = [];
+  const environment = { LOCALAPPDATA: base, HAKIMI_LOCAL_ONLY: "1",
+    HAKIMI_RUNTIME_DIR: path.join(base, "legacy-unused"), HAKIMI_QUANT_WORKSPACE_DIR: path.join(base, "dev-quant"),
+    HAKIMI_BROKER_SHARED_ROOT: "inherited-attack", hakimi_broker_shared_root: "case-alias-attack" };
+  const context = vm.createContext({ __dirname: root, console, process: { platform: process.platform, env: environment },
+    require(name) {
+      if (name === "electron") return { app: { isPackaged: false, getPath: () => base } };
+      if (name === "child_process") return { spawn(...args) { observed.push(args); return child; } };
+      return require(name);
+    },
+    SERVER_PATH: path.join(root, "runtime/python/python.exe"), FIND_PYTHON: path.join(root, "runtime/python/python.exe"),
+    DIAGNOSTICS: { directory: fixtureContext.diagnosticsDirectory },
+  });
+  // Evaluate real initialization and the real launch function with only child
+  // creation replaced. No Electron instance, executable, socket or old profile.
+  vm.runInContext(source.slice(0, source.indexOf("const INSTANCE_ID")), context);
+  const boundIdentity = vm.runInContext("WORKSPACE_CONTEXT.brokerSharedRootId", context);
+  assert.equal(boundIdentity, runtime.brokerSharedRootIdentity(path.join(base, "HakimiTradeTerminal", "broker-shared-v1")));
+  environment.LOCALAPPDATA = path.join(base, "changed-host-after-initialization");
+  environment.HAKIMI_BROKER_SHARED_ROOT = "changed-root-after-initialization";
+  vm.runInContext(source.slice(source.indexOf("function startBackend()"), source.indexOf("async function prepareBackendStop()")), context);
+  vm.runInContext("startBackend()", context);
+  assert.equal(observed.length, 1);
+  const [, , options] = observed[0];
+  assert.equal(options.env.HAKIMI_BROKER_SHARED_ROOT, path.join(base, "HakimiTradeTerminal", "broker-shared-v1"));
+  assert.equal(Object.keys(options.env).filter(key => key.toUpperCase() === "HAKIMI_BROKER_SHARED_ROOT").length, 1);
+  assert.equal(fs.existsSync(options.env.HAKIMI_BROKER_SHARED_ROOT), false);
+  assert.equal(fs.existsSync(environment.LOCALAPPDATA), false);
+  assert.equal(fs.existsSync(environment.HAKIMI_RUNTIME_DIR), false);
+  assert.equal(vm.runInContext("WORKSPACE_CONTEXT.brokerSharedRootId", context), boundIdentity);
+});
+
+test("shared root identity matches the Python normcase UTF8 contract and preserves platform case semantics", t => {
+  const { base } = fixture(t);
+  const upper = path.join(base, "Identity-Case-中文"), lower = path.join(base, "identity-case-中文");
+  const physical = runtime.physicalDirectory(upper, { allowMissing: true });
+  const expected = normalized => require("node:crypto").createHash("sha256")
+    .update(Buffer.from("hakimi-broker-shared-root-v1\0" + normalized + "\0EXTERNAL_RECORD", "utf8")).digest("hex");
+  assert.equal(runtime.brokerSharedRootIdentity(upper, "win32"), expected(physical.replace(/\//g, "\\").toLowerCase()));
+  assert.equal(runtime.brokerSharedRootIdentity(upper, "win32"), runtime.brokerSharedRootIdentity(lower, "win32"));
+  for (const platform of ["linux", "darwin"]) {
+    assert.equal(runtime.brokerSharedRootIdentity(upper, platform), expected(physical));
+    assert.notEqual(runtime.brokerSharedRootIdentity(upper, platform), runtime.brokerSharedRootIdentity(lower, platform));
+  }
+  assert.equal(fs.existsSync(upper), false);
+  assert.equal(fs.existsSync(lower), false);
+  assert.throws(() => runtime.brokerSharedRootIdentity("relative"), /absolute_directory/);
+  assert.throws(() => runtime.brokerSharedRootIdentity(upper, "unsupported"), /platform_unsupported/);
 });

@@ -93,7 +93,31 @@ function instanceIdentity(installation, workspace) {
   return hash(canonical({ installation: physicalPath(physicalDirectory(installation)),
     workspace: physicalPath(physicalDirectory(workspace, { allowMissing: true })) }));
 }
-function createContext({ resourcesPath, localAppData, home, runtimeDirectory, quantWorkspaceDirectory }) {
+function brokerSharedRoot({ localAppData, home, appData, platform = process.platform, programRoot }) {
+  let base;
+  if (platform === "win32") {
+    if (typeof localAppData === "string" && path.isAbsolute(localAppData)) base = localAppData;
+    else {
+      if (typeof home !== "string" || !path.isAbsolute(home)) throw new Error("terminal_broker_host_home_required");
+      base = path.join(home, "AppData", "Local");
+    }
+  } else if (platform === "linux" || platform === "darwin") {
+    if (typeof appData !== "string" || !path.isAbsolute(appData)) throw new Error("terminal_broker_host_app_data_required");
+    base = appData;
+  } else throw new Error("terminal_broker_host_platform_unsupported");
+  // The host supplies this per-user anchor. It is independent of the selected
+  // workspace, installation, package identity and renderer, and is not created
+  // by startup/read paths. The Python store rechecks before its first write.
+  return dataDirectory(path.join(base, "HakimiTradeTerminal", "broker-shared-v1"), programRoot);
+}
+function brokerSharedRootIdentity(root, platform = process.platform) {
+  if (!["win32", "linux", "darwin"].includes(platform)) throw new Error("terminal_broker_host_platform_unsupported");
+  const physical = physicalDirectory(root, { allowMissing: true });
+  // Match Python os.path.normcase, including slash normalization on Windows.
+  const normalized = platform === "win32" ? physical.replace(/\//g, "\\").toLowerCase() : physical;
+  return hash("hakimi-broker-shared-root-v1\0" + normalized + "\0EXTERNAL_RECORD");
+}
+function createContext({ resourcesPath, localAppData, home, appData, runtimeDirectory, quantWorkspaceDirectory }) {
   const root = physicalDirectory(path.resolve(resourcesPath, ".."));
   const manifest = verifyBundle(root);
   const local = localAppData && path.isAbsolute(localAppData) ? localAppData : path.join(home, "AppData", "Local");
@@ -108,12 +132,15 @@ function createContext({ resourcesPath, localAppData, home, runtimeDirectory, qu
   const legacyRuntime = dataDirectory(requestedLegacy, root);
   const instanceId = instanceIdentity(root, workspace);
   const userData = prepareDataDirectory(path.join(local, "HakimiTradeTerminal", "shells", instanceId), root);
-  return { root, manifest, legacyRuntime, workspace, instanceId, userData,
+  const sharedRoot = brokerSharedRoot({ localAppData, home, appData, programRoot: root });
+  return { root, manifest, legacyRuntime, workspace, instanceId, userData, brokerSharedRoot: sharedRoot,
+    brokerSharedRootId: brokerSharedRootIdentity(sharedRoot),
     pythonRoot: path.join(root, "components", "terminal") };
 }
 function cleanEnvironment(environment) {
   return Object.fromEntries(Object.entries(environment).filter(([key]) => !key.toUpperCase().startsWith("PYTHON")
-    && !["NODE_OPTIONS", "ELECTRON_RUN_AS_NODE", "CHROME_CRASHPAD_PIPE_NAME", "CHROME_CRASHPAD_SERVER_URL"].includes(key.toUpperCase())));
+    && !["NODE_OPTIONS", "ELECTRON_RUN_AS_NODE", "CHROME_CRASHPAD_PIPE_NAME", "CHROME_CRASHPAD_SERVER_URL",
+      "HAKIMI_BROKER_SHARED_ROOT"].includes(key.toUpperCase())));
 }
 function configureDiagnostics({ app, programRoot, profile, environment, changeDirectory }) {
   // This application does not enable crashReporter. Do not let Windows child
@@ -189,6 +216,7 @@ function backendLaunch(context, { host, port, token, localOnly, environment = pr
     options: { cwd: physicalDirectory(dataDirectory(context.diagnosticsDirectory, context.root)), shell: false, windowsHide: true, stdio: ["ignore", "pipe", "pipe"],
       env: { ...cleanEnvironment(environment), HAKIMI_RUNTIME_DIR: context.legacyRuntime || context.workspace,
         HAKIMI_QUANT_WORKSPACE_DIR: context.workspace,
+        HAKIMI_BROKER_SHARED_ROOT: dataDirectory(context.brokerSharedRoot, context.root),
         HAKIMI_DESKTOP_CONTROL_TOKEN: token, HAKIMI_RUNTIME_READ_ONLY: "1", HAKIMI_QUANT_READ_ONLY: "0",
         HAKIMI_LOCAL_ONLY: localOnly ? "1" : "0", HAKIMI_TERMINAL_PACKAGE_ID: context.manifest.bundle_id,
         HAKIMI_TERMINAL_PACKAGE_VERSION: context.manifest.version,
@@ -207,7 +235,10 @@ function matchesBackend(context, payload, localOnly) {
   const workspace = physicalPath(context.workspace);
   return (context.manifest ? payload?.terminal_package_id === context.manifest.bundle_id : !payload?.terminal_package_id)
     && payload?.local_only === localOnly
+    && typeof context.brokerSharedRootId === "string" && /^[a-f0-9]{64}$/.test(context.brokerSharedRootId)
+    && payload?.broker_shared_root_id === context.brokerSharedRootId
     && workspace !== null && physicalPath(payload?.terminal_workspace_root) === workspace;
 }
 module.exports = { canonical, hash, boundPath, verifyBundle, createContext, cleanEnvironment, backendLaunch, matchesBackend,
-  physicalDirectory, dataDirectory, prepareDataDirectory, instanceIdentity, configureDiagnostics, createStartupDiagnostic };
+  physicalDirectory, dataDirectory, prepareDataDirectory, instanceIdentity, brokerSharedRoot, brokerSharedRootIdentity,
+  configureDiagnostics, createStartupDiagnostic };

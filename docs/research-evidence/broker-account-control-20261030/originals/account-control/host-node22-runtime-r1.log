@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: verified original route uses only private Python with separate Unicode arguments
+ok 1 - verified original route uses only private Python with separate Unicode arguments
+  ---
+  duration_ms: 52.6011
+  type: 'test'
+  ...
+# Subtest: changed executable bytes and unexpected modules fail before launch
+ok 2 - changed executable bytes and unexpected modules fail before launch
+  ---
+  duration_ms: 27.6776
+  type: 'test'
+  ...
+# Subtest: missing resource and manifest identity tampering fail closed
+ok 3 - missing resource and manifest identity tampering fail closed
+  ---
+  duration_ms: 12.1647
+  type: 'test'
+  ...
+# Subtest: existing backend requires exact package, mode and physical workspace
+ok 4 - existing backend requires exact package, mode and physical workspace
+  ---
+  duration_ms: 14.8884
+  type: 'test'
+  ...
+# Subtest: workspace is separate from immutable program and stable across versions
+ok 5 - workspace is separate from immutable program and stable across versions
+  ---
+  duration_ms: 38.1704
+  type: 'test'
+  ...
+# Subtest: directory junction and escaping relative resources are rejected
+ok 6 - directory junction and escaping relative resources are rejected
+  ---
+  duration_ms: 11.0434
+  type: 'test'
+  ...
+# Subtest: quant workspace stays distinct from the legacy read root and singleton key uses installation plus workspace
+ok 7 - quant workspace stays distinct from the legacy read root and singleton key uses installation plus workspace
+  ---
+  duration_ms: 68.0293
+  type: 'test'
+  ...
+# Subtest: data directories reject relative paths, package storage and junction aliases including missing children
+ok 8 - data directories reject relative paths, package storage and junction aliases including missing children
+  ---
+  duration_ms: 75.4737
+  type: 'test'
+  ...
+# Subtest: installed Electron health contract loads its package capability resource with no source tree
+ok 9 - installed Electron health contract loads its package capability resource with no source tree
+  ---
+  duration_ms: 2177.4438
+  type: 'test'
+  ...
+# Subtest: actual packaged main resolves boot, icon, contract and private backend without a source checkout
+ok 10 - actual packaged main resolves boot, icon, contract and private backend without a source checkout
+  ---
+  duration_ms: 102.2042
+  type: 'test'
+  ...
+# Subtest: diagnostic configuration overrides inherited log destinations without writing program files
+ok 11 - diagnostic configuration overrides inherited log destinations without writing program files
+  ---
+  duration_ms: 21.656
+  type: 'test'
+  ...
+# Subtest: startup stderr is bounded, redacted across chunks and frozen at completion
+ok 12 - startup stderr is bounded, redacted across chunks and frozen at completion
+  ---
+  duration_ms: 18.9203
+  type: 'test'
+  ...
+# Subtest: absent Crashpad pipe stays absent and mixed-case foreign endpoints never reach Python
+ok 13 - absent Crashpad pipe stays absent and mixed-case foreign endpoints never reach Python
+  ---
+  duration_ms: 13.053
+  type: 'test'
+  ...
+# Subtest: a startup diagnostic write failure preserves existing bytes and cannot interrupt lifecycle
+ok 14 - a startup diagnostic write failure preserves existing bytes and cannot interrupt lifecycle
+  ---
+  duration_ms: 15.8495
+  type: 'test'
+  ...
+# Subtest: first creation fixes physical identity before singleton derivation and never creates a distinct old source
+ok 15 - first creation fixes physical identity before singleton derivation and never creates a distinct old source
+  ---
+  duration_ms: 40.3775
+  type: 'test'
+  ...
+# Subtest: health matching rejects junction aliases and invalid paths instead of equating failures
+ok 16 - health matching rejects junction aliases and invalid paths instead of equating failures
+  ---
+  duration_ms: 9.0577
+  type: 'test'
+  ...
+# Subtest: virtualized creation, native health paths and bundle resources share one physical identity
+ok 17 - virtualized creation, native health paths and bundle resources share one physical identity
+  ---
+  duration_ms: 83.9701
+  type: 'test'
+  ...
+# Subtest: legacy-only selection keeps quant on its stable default without creating or writing the old root
+ok 18 - legacy-only selection keeps quant on its stable default without creating or writing the old root
+  ---
+  duration_ms: 40.1459
+  type: 'test'
+  ...
+# Subtest: shared broker root uses trusted host platform data without creating a directory
+ok 19 - shared broker root uses trusted host platform data without creating a directory
+  ---
+  duration_ms: 12.6214
+  type: 'test'
+  ...
+# Subtest: shared broker root rejects program storage and aliases including nonexistent descendants
+ok 20 - shared broker root rejects program storage and aliases including nonexistent descendants
+  ---
+  duration_ms: 12.6022
+  type: 'test'
+  ...
+# Subtest: shared broker root stays identical across installation version and workspace choices
+ok 21 - shared broker root stays identical across installation version and workspace choices
+  ---
+  duration_ms: 56.3017
+  type: 'test'
+  ...
+# Subtest: backend launch refuses missing or unsafe host binding rather than inheriting an environment root
+ok 22 - backend launch refuses missing or unsafe host binding rather than inheriting an environment root
+  ---
+  duration_ms: 17.8415
+  type: 'test'
+  ...
+# Subtest: actual development startup fixes the host shared root before later environment changes
+ok 23 - actual development startup fixes the host shared root before later environment changes
+  ---
+  duration_ms: 19.2169
+  type: 'test'
+  ...
+# Subtest: shared root identity matches the Python normcase UTF8 contract and preserves platform case semantics
+ok 24 - shared root identity matches the Python normcase UTF8 contract and preserves platform case semantics
+  ---
+  duration_ms: 31.4154
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3105.0549

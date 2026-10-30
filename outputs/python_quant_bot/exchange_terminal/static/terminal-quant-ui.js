@@ -369,7 +369,8 @@
     const brokerHost = document.createElement("section"); brokerHost.id="terminalBrokerPage"; brokerHost.className="main tq"; brokerHost.hidden=true;
     brokerHost.setAttribute("aria-label","券商接入准备"); coreMain.before(brokerHost);
     const brokerUI = globalThis.installTerminalBrokerCandidateUI({host:brokerHost,api,perform,notify,
-      stopCandidate:payload=>api("broker-candidate/stop","POST",payload),onBack:()=>show("execution")});
+      stopCandidate:payload=>api("broker-candidate/stop","POST",payload),
+      stopAccount:payload=>api("broker-account/stop","POST",payload),onBack:()=>show("execution")});
     const continuousHost = document.createElement("section"); continuousHost.id="terminalContinuousPage"; continuousHost.className="main tq"; continuousHost.hidden=true;
     continuousHost.setAttribute("aria-label","逐日模拟"); coreMain.before(continuousHost);
     const continuousUI = globalThis.installTerminalContinuousUI({host:continuousHost,api,perform,notify,

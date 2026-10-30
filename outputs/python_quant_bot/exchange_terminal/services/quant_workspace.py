@@ -34,6 +34,7 @@ _READ_RESOURCES = frozenset({"status", "strategies", "tasks", "inputs", "runs", 
     "terminal_execution_accounts", "terminal_execution_account", "terminal_execution_receipt", "terminal_execution_history", "terminal_execution_compare", "terminal_execution_research", "terminal_execution_explanation",
     "terminal_broker_status", "terminal_broker_research", "terminal_broker_check", "terminal_broker_receipt", "terminal_broker_receipts",
     "terminal_broker_plan_capabilities", "terminal_broker_plans", "terminal_broker_plan", "terminal_broker_plan_receipt",
+    "terminal_broker_account_control", "terminal_broker_account_receipt",
     "terminal_replay_preview", "terminal_replay_accounts", "terminal_replay_status", "terminal_replay_history", "terminal_replay_receipt", "terminal_replay_creation_receipt",
     "terminal_judgments", "terminal_judgment_replay", "terminal_exit_experiments",
     "terminal_exit_runs", "terminal_exit_replay", "terminal_structure_replay", "terminal_insights", "terminal_peers"})
@@ -237,17 +238,18 @@ def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
     execution_path = ui_path.with_name("terminal-execution-ui.js")
     broker_path = ui_path.with_name("terminal-broker-candidate-ui.js")
     broker_plan_path = ui_path.with_name("terminal-broker-plan-ui.js")
+    broker_account_path = ui_path.with_name("terminal-broker-account-control-ui.js")
     continuous_path = ui_path.with_name("terminal-continuous-ui.js")
     daily_path = ui_path.with_name("terminal-daily-ui.js")
     candidates_path = ui_path.with_name("terminal-strategy-candidates-ui.js")
-    ui_paths = [completion_path, ai_binding_path, summary_path, comparison_path, execution_path, broker_plan_path, broker_path, continuous_path, daily_path,
+    ui_paths = [completion_path, ai_binding_path, summary_path, comparison_path, execution_path, broker_plan_path, broker_account_path, broker_path, continuous_path, daily_path,
                 judgment_path, exit_path, insights_path, candidates_path]
     ui_paths.append(ui_path)
     ui_source = "\n".join(path.read_text(encoding="utf-8") for path in ui_paths).replace("</script>", "<\\/script>")
     html = html.replace("程序版本", "股票回测内核版本")
     html = html.replace("共享资金演练目前通过安装目录中的", "共享资金演练保留在原命令行工具中。旧包中的")
     html = html.replace(" 使用。这里保留现有命令行能力；", " 是归档入口；日常继续使用当前交易窗口。")
-    labels = "terminal_replay_create:'创建逐日模拟',terminal_replay_seed:'记录起始收盘信号',terminal_replay_step:'处理下一完整交易日',terminal_replay_reconcile:'核对模拟并保持暂停',terminal_replay_resume:'恢复模拟准备',terminal_replay_adopt:'采用已保存数据版本',terminal_broker_save_candidate:'保存券商候选资料',terminal_broker_prepare_intent:'准备未发送订单意图',terminal_broker_prepare_plan:'保存离线验收计划',terminal_broker_resume:'恢复本地候选准备',terminal_daily_check_stock:'检查股票日线',terminal_daily_save_stock:'保存股票日线',terminal_daily_check_update:'检查日线更新',terminal_daily_freeze_update:'保存日线新版本',terminal_daily_create_task:'保存日线研究任务',terminal_daily_adopt_update:'采用日线新版本',terminal_import_daily_input:'复用日线到原策略',terminal_register_exit_experiment:'登记同入场出场研究',terminal_run_exit_experiment:'运行已登记出场研究',terminal_save_judgment:'保存判断与冻结依据',terminal_append_judgment_event:'追加复盘记录',terminal_import_core_input:'复用已导入行情',terminal_freeze_market:'保存当前行情快照',terminal_save_task:'保存原策略任务版本',terminal_set_task_state:'更改研究任务状态',terminal_run_task:'运行原策略回测',terminal_compare:'比较原策略结果',"
+    labels = "terminal_replay_create:'创建逐日模拟',terminal_replay_seed:'记录起始收盘信号',terminal_replay_step:'处理下一完整交易日',terminal_replay_reconcile:'核对模拟并保持暂停',terminal_replay_resume:'恢复模拟准备',terminal_replay_adopt:'采用已保存数据版本',terminal_broker_save_candidate:'保存券商候选资料',terminal_broker_prepare_intent:'准备未发送订单意图',terminal_broker_prepare_plan:'保存离线验收计划',terminal_broker_resume:'恢复本地候选准备',terminal_broker_account_resume:'恢复账户执行准备',terminal_daily_check_stock:'检查股票日线',terminal_daily_save_stock:'保存股票日线',terminal_daily_check_update:'检查日线更新',terminal_daily_freeze_update:'保存日线新版本',terminal_daily_create_task:'保存日线研究任务',terminal_daily_adopt_update:'采用日线新版本',terminal_import_daily_input:'复用日线到原策略',terminal_register_exit_experiment:'登记同入场出场研究',terminal_run_exit_experiment:'运行已登记出场研究',terminal_save_judgment:'保存判断与冻结依据',terminal_append_judgment_event:'追加复盘记录',terminal_import_core_input:'复用已导入行情',terminal_freeze_market:'保存当前行情快照',terminal_save_task:'保存原策略任务版本',terminal_set_task_state:'更改研究任务状态',terminal_run_task:'运行原策略回测',terminal_compare:'比较原策略结果',"
     html = html.replace("const ACTIONS={", "const ACTIONS={" + labels, 1)
     old_compare = "case'compare':await perform('compare',{run_ids:[...S.compare]},{button:target,onSuccess:showComparison});break;"
     if html.count(old_compare) != 1:
@@ -486,11 +488,12 @@ class QuantWorkspace:
                 return True
             daily_control = path.removeprefix("/api/quant/public-daily-access/") if path.startswith("/api/quant/public-daily-access/") else None
             broker_stop = path == "/api/quant/broker-candidate/stop"
+            account_stop = path == "/api/quant/broker-account/stop"
             replay_pause = path == "/api/quant/continuous-replay/pause"
             if self.read_only and daily_control != "revoke":
                 self._fail(handler, PermissionError("runtime_is_read_only"), 423)
                 return True
-            if not path.startswith("/api/quant/actions/") and daily_control not in {"allow-once", "revoke"} and not broker_stop and not replay_pause:
+            if not path.startswith("/api/quant/actions/") and daily_control not in {"allow-once", "revoke"} and not broker_stop and not account_stop and not replay_pause:
                 self._fail(handler, ValueError("quant_route_not_found"), 404)
                 return True
             if handler.headers.get_all("Content-Type", []) not in [["application/json"], ["application/json; charset=utf-8"]]:
@@ -515,10 +518,10 @@ class QuantWorkspace:
                     raise RuntimeError("replay_control_unavailable")
                 self._answer(handler, pause(payload))
                 return True
-            if broker_stop:
+            if broker_stop or account_stop:
                 # No _ensure, worker/service mutex, source-refresh wait or job.
                 # An unavailable service cannot acknowledge a durable stop.
-                stop = getattr(self._service, "stop_broker_candidate", None)
+                stop = getattr(self._service, "stop_broker_account" if account_stop else "stop_broker_candidate", None)
                 if self._closed or not callable(stop):
                     raise RuntimeError("broker_candidate_control_unavailable")
                 self._answer(handler, stop(payload))
@@ -546,6 +549,8 @@ class QuantWorkspace:
             action = path.removeprefix("/api/quant/actions/")
             if action == "terminal_broker_stop":
                 raise ValueError("broker_stop_direct_route_required")
+            if action == "terminal_broker_account_stop":
+                raise ValueError("broker_account_stop_direct_route_required")
             if action == "terminal_replay_pause":
                 raise ValueError("replay_pause_direct_route_required")
             with self._mutex:

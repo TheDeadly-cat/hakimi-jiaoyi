@@ -1,0 +1,158 @@
+{
+  "schema_version": "hakimi-dirty-source-fullgate-binding-v1",
+  "derived_not_original_log": true,
+  "base_head": "4ae90471f83afbdca9ef4e421e064690ede2b01d",
+  "captured_state": "DIRTY_SOURCE_BYTES_EXPLICITLY_HASHED",
+  "source_file_count": 19,
+  "count_rule": "git diff HEAD plus untracked source under outputs/src/tools/tests; status/backlog/evidence documents excluded",
+  "all_current_source_files_match_fullgate": true,
+  "fullgate_input_count": 2102,
+  "fullgate_input_map_sha256": "2498bd31de2c31efde10e6e94c95026b2aaff200998e59adab67ef9eb8000a59",
+  "fullgate_summary_sha256": "d39b0ca09b11a05817180a795ac69dbbeb3813e4ec3626e8d6e7fd1a1f12792f",
+  "binding_sha256": "85c01b24887188f370620895f4870298fc8f4ac17b46b1bd2e57169b90a3b813",
+  "files": [
+    {
+      "path": "outputs/hakimi_trade_electron/desktop-lifecycle.test.js",
+      "bytes": 22300,
+      "sha256": "3b82260e3031ea7e58019142dca582ac3149d40b20165c258fe053185eacb00a",
+      "fullgate_input_sha256": "3b82260e3031ea7e58019142dca582ac3149d40b20165c258fe053185eacb00a",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/hakimi_trade_electron/main.js",
+      "bytes": 22487,
+      "sha256": "225fd51b60c236c5656bd167d46d1130d8af00e593675fa2c5831a0d4da9b04b",
+      "fullgate_input_sha256": "225fd51b60c236c5656bd167d46d1130d8af00e593675fa2c5831a0d4da9b04b",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/hakimi_trade_electron/package.json",
+      "bytes": 6865,
+      "sha256": "9cde96205a0a9db461294c567c992005419aad9c01ba16731caa4da67f6d0e62",
+      "fullgate_input_sha256": "9cde96205a0a9db461294c567c992005419aad9c01ba16731caa4da67f6d0e62",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/hakimi_trade_electron/terminal-package-runtime.js",
+      "bytes": 14905,
+      "sha256": "30782a6ab91b2622d18e92a240c093b60930a1518b8a1304c3fa2be2a0054847",
+      "fullgate_input_sha256": "30782a6ab91b2622d18e92a240c093b60930a1518b8a1304c3fa2be2a0054847",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/hakimi_trade_electron/terminal-package-runtime.test.js",
+      "bytes": 37696,
+      "sha256": "1a6fe4195e1f8a9befc88b76f38764ae789d5d412361ef01d4c38f187204ba97",
+      "fullgate_input_sha256": "1a6fe4195e1f8a9befc88b76f38764ae789d5d412361ef01d4c38f187204ba97",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/adapters/futu_verified_protobuf_loader.py",
+      "bytes": 26553,
+      "sha256": "274cd15fc3833405efa264653cd00822da72a882624d3ccfc136f48ff0720155",
+      "fullgate_input_sha256": "274cd15fc3833405efa264653cd00822da72a882624d3ccfc136f48ff0720155",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/server.py",
+      "bytes": 640907,
+      "sha256": "01376dec59ab2fd457e5ccfcb37e286e17b7c3e4bbbcba66798836ec9ad17dee",
+      "fullgate_input_sha256": "01376dec59ab2fd457e5ccfcb37e286e17b7c3e4bbbcba66798836ec9ad17dee",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py",
+      "bytes": 36195,
+      "sha256": "ae31cc3bf357f5faeda4f3c8f9ac3ec45518519ad1e54b5b8d24c11381ce2d01",
+      "fullgate_input_sha256": "ae31cc3bf357f5faeda4f3c8f9ac3ec45518519ad1e54b5b8d24c11381ce2d01",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_account_control.py",
+      "bytes": 14925,
+      "sha256": "f6c62787736b93bf1e9c425cd39b47a6f0ca8199a32e63f8b2539696841f2b72",
+      "fullgate_input_sha256": "f6c62787736b93bf1e9c425cd39b47a6f0ca8199a32e63f8b2539696841f2b72",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py",
+      "bytes": 45654,
+      "sha256": "5cda7354b7f8ff03db084cce47f7c9a77f290c24f3f8320d7464566050fb9b72",
+      "fullgate_input_sha256": "5cda7354b7f8ff03db084cce47f7c9a77f290c24f3f8320d7464566050fb9b72",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py",
+      "bytes": 81459,
+      "sha256": "00fd4e1303f18f7443fb603a8f0cf69d1bdb37c23a3b6fc6a214bfd98a1f6ff2",
+      "fullgate_input_sha256": "00fd4e1303f18f7443fb603a8f0cf69d1bdb37c23a3b6fc6a214bfd98a1f6ff2",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-account-control-ui.js",
+      "bytes": 19124,
+      "sha256": "90c77d091d73a21f98d7de7caafc80581369f1c2c7235491b130e33bc429f093",
+      "fullgate_input_sha256": "90c77d091d73a21f98d7de7caafc80581369f1c2c7235491b130e33bc429f093",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-account-control-ui.test.js",
+      "bytes": 13259,
+      "sha256": "9a551cf2cb94f3421e87257e4aaf7de6b5edf96cac70fc10e66f336957221823",
+      "fullgate_input_sha256": "9a551cf2cb94f3421e87257e4aaf7de6b5edf96cac70fc10e66f336957221823",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-candidate-ui.js",
+      "bytes": 32534,
+      "sha256": "dd0dc6321d7a86b5331d2db71b505decd3b05f1c323365c9a8d1f993b25dc6ba",
+      "fullgate_input_sha256": "dd0dc6321d7a86b5331d2db71b505decd3b05f1c323365c9a8d1f993b25dc6ba",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.js",
+      "bytes": 93953,
+      "sha256": "49cadbe802ecf5ef21c88cb361ef1b8c7c28fc68a483bdbe4d8a1587b8fef5ba",
+      "fullgate_input_sha256": "49cadbe802ecf5ef21c88cb361ef1b8c7c28fc68a483bdbe4d8a1587b8fef5ba",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/tests/test_futu_verified_protobuf_loader.py",
+      "bytes": 15254,
+      "sha256": "3f3e2fb286b41fa2ba3e4912ba1d844e72ba5fd24e9cdc552033e9e56c338a88",
+      "fullgate_input_sha256": "3f3e2fb286b41fa2ba3e4912ba1d844e72ba5fd24e9cdc552033e9e56c338a88",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/tests/test_terminal_broker_account_control.py",
+      "bytes": 9916,
+      "sha256": "8c9a308fab8c9f0e95af021e8ab70513ecb5bc2f767842be8abdc179ccd1a8fb",
+      "fullgate_input_sha256": "8c9a308fab8c9f0e95af021e8ab70513ecb5bc2f767842be8abdc179ccd1a8fb",
+      "matches_fullgate": true
+    },
+    {
+      "path": "outputs/python_quant_bot/tests/test_terminal_broker_account_control_integration.py",
+      "bytes": 24910,
+      "sha256": "1f63ee770f1a83f1cd1003da8660e02e322a1e1ba72c48ca395e2e273724a240",
+      "fullgate_input_sha256": "1f63ee770f1a83f1cd1003da8660e02e322a1e1ba72c48ca395e2e273724a240",
+      "matches_fullgate": true
+    },
+    {
+      "path": "tools/run_terminal_contracts.py",
+      "bytes": 7054,
+      "sha256": "7e8e2d0a54e56de6f1742db0652eee9abc5c61193aaace3a3994fbd1c9c8e848",
+      "fullgate_input_sha256": "7e8e2d0a54e56de6f1742db0652eee9abc5c61193aaace3a3994fbd1c9c8e848",
+      "matches_fullgate": true
+    }
+  ],
+  "prior_ci": {
+    "run": 168,
+    "head": "4ae90471f83afbdca9ef4e421e064690ede2b01d",
+    "covers_current_dirty_source": false
+  },
+  "current_package": {
+    "candidate": "0.7.0.dev3 candidate-r4",
+    "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+    "new_package_built_by_this_evidence": false
+  }
+}
