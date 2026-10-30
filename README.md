@@ -1,6 +1,6 @@
 # 哈基米交易（Hakimi Jiaoyi）
 
-当前产品整改以整合后的原终端及同窗量化页为主入口，新的 Windows 候选为 **0.7.0.dev1 / HakimiTrade.exe**。请先阅读[原终端候选首用说明](docs/windows-original-terminal-candidate.md)和[30 项交付清单](docs/astra-backlog.md)；实际包、原生操作和真人验收分别记录。下面 dev5 与正式旧 Release 的事实保留为历史，不能替代新候选验收。
+当前产品整改以整合后的原终端及同窗量化页为主入口，当前 Windows 候选为 **0.7.0.dev3 r5 / 构建 b642227 / HakimiTrade.exe**，包含策略因子、结果找回、离线订单计划与账户共享停止标记。新包已通过包内启动和完整文件核对，原生窗口验收尚未完成。请先阅读[原终端候选首用说明](docs/windows-original-terminal-candidate.md)和[30 项交付清单](docs/astra-backlog.md)；实际包、原生操作和真人验收分别记录。下面 dev5 与正式旧 Release 的事实保留为历史，不能替代新候选验收。
 
 以下为截至 2026-10-27 的历史交付基线；M1、M2 与 R1／R2／R3 已结案。当时 main 为 PR #25 已合并的 `e33c1ef`，M3-1 及跨持仓归属退出修复已集成，[该 main 的检查已通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777)。旧开发候选 `0.6.0.dev5` 修复 Windows 启动环境的代理选择差异并补齐结果列表中文说明，保留自带运行时试用包、首次数据引导、三项行情洞察、正式研究工作台及既有研究能力；候选验证与 main、正式 Release 分开记录。
 

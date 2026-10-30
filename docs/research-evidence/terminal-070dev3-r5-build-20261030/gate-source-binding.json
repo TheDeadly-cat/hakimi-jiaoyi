@@ -1,0 +1,125 @@
+{
+  "schema_version": "hakimi-derived-gate-source-binding-v1",
+  "classification": "DERIVED_READ_ONLY_SUMMARY_NOT_A_TEST_LOG",
+  "full_gate_commit": "7e1b28e0c44b3441e808d31230204887e05eebe6",
+  "full_gate_tests": 757,
+  "full_gate_failures": 0,
+  "full_gate_errors": 0,
+  "full_gate_skips": 0,
+  "full_gate_receipt": "originals/stage-c-frozen-gates-summary-dev3-r5-r2.json",
+  "candidate_source_commit": "b642227ca176d0f6c61984194d06177b2c0be495",
+  "candidate_source_status": "CLEAN",
+  "candidate_full_backend_gates_reran": false,
+  "code_input_count": 2102,
+  "unchanged_code_inputs": 2100,
+  "code_changes": [
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-account-control-ui.js",
+      "before": "90c77d091d73a21f98d7de7caafc80581369f1c2c7235491b130e33bc429f093",
+      "after": "fd062df8a49505079a1041aa81aff0ab0a23fe016af295091a2c7ec2bd59bf08"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-account-control-ui.test.js",
+      "before": "9a551cf2cb94f3421e87257e4aaf7de6b5edf96cac70fc10e66f336957221823",
+      "after": "a80f63594566f649746fc278f22eaa2f7889fb5dfe97d7f4fe127088dc715b31"
+    }
+  ],
+  "packaging_input_count": 1046,
+  "unchanged_packaging_inputs": 1044,
+  "packaging_changes": [
+    {
+      "path": "docs/windows-original-terminal-first-use.md",
+      "before": "45f055ac9870b1cfd7b56203cf8429fd2e1633876dcd8b5ba154b1a2f25db966",
+      "after": "12f6c24df846770be04e9f5fb4cec578a743c51a55361b3683c81bb50e2ba070"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-account-control-ui.js",
+      "before": "90c77d091d73a21f98d7de7caafc80581369f1c2c7235491b130e33bc429f093",
+      "after": "fd062df8a49505079a1041aa81aff0ab0a23fe016af295091a2c7ec2bd59bf08"
+    }
+  ],
+  "new_desktop_gate_elapsed_seconds": 18.324,
+  "new_desktop_gate_receipt": "originals/gate-dev3-r5-copy-evidence-r3/desktop-result.json",
+  "ci171_head": "7e1b28e0c44b3441e808d31230204887e05eebe6",
+  "ci171_conclusion": "success",
+  "ci171_is_candidate_head_ci": false,
+  "external_maps": [
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\inputs-before.json",
+      "bytes": 353595,
+      "sha256": "e80fd46a0c99a454a832c7eb0c5afecd594f0c2c1ba6801b1f2377d91eaf98d0",
+      "entry_count": 2102,
+      "count_field": "top-level map",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\inputs-after.json",
+      "bytes": 353595,
+      "sha256": "e80fd46a0c99a454a832c7eb0c5afecd594f0c2c1ba6801b1f2377d91eaf98d0",
+      "entry_count": 2102,
+      "count_field": "top-level map",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\packaging-inputs-before.json",
+      "bytes": 400741,
+      "sha256": "6512d11b87bbcd8d36fd2b7b7168553a201d61e7fb2a1663299f0f631c07d37a",
+      "entry_count": 1046,
+      "count_field": "files_sha256",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\packaging-inputs-after.json",
+      "bytes": 400083,
+      "sha256": "b2185db95040f1d6f22008ee1d371f8d09845b509011c62cbca3627f4aa82e0e",
+      "entry_count": 1046,
+      "count_field": "files_sha256",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-evidence-r3\\inputs-before.json",
+      "bytes": 353595,
+      "sha256": "71f7a8c7de9052cb539869892798dca29c25406214157db12537bff7bd7cad39",
+      "entry_count": 2102,
+      "count_field": "top-level map",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-evidence-r3\\inputs-after.json",
+      "bytes": 353595,
+      "sha256": "71f7a8c7de9052cb539869892798dca29c25406214157db12537bff7bd7cad39",
+      "entry_count": 2102,
+      "count_field": "top-level map",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-evidence-r3\\packaging-inputs-before.json",
+      "bytes": 400083,
+      "sha256": "f5d824cb4693aa8a6c21f656f96d9e163eeea9c2170bd4d7137ca5edd5a0c556",
+      "entry_count": 1046,
+      "count_field": "files_sha256",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-evidence-r3\\packaging-inputs-after.json",
+      "bytes": 400083,
+      "sha256": "f5d824cb4693aa8a6c21f656f96d9e163eeea9c2170bd4d7137ca5edd5a0c556",
+      "entry_count": 1046,
+      "count_field": "files_sha256",
+      "copied": false
+    }
+  ],
+  "package_build_or_verification_claim": "NOT_ESTABLISHED_BY_THIS_GATE_BINDING",
+  "note": "Local 757 executed on clean 7e1. Local b642 reused unchanged backend inputs after exact UI/text delta binding and ran complete desktop. Separately, remote CI172 directly ran 757 terminal and 273 research tests on b642.",
+  "backend_gate_reuse_scope": "LOCAL_BUILD_GATE_ONLY",
+  "independent_candidate_head_ci": {
+    "receipt": "originals/ci172-completed-summary-r1.json",
+    "source_commit": "b642227ca176d0f6c61984194d06177b2c0be495",
+    "status": "completed",
+    "conclusion": "success",
+    "job_count": 11,
+    "terminal_tests": 757,
+    "research_tests": 273,
+    "not_a_local_gate_rerun": true
+  }
+}

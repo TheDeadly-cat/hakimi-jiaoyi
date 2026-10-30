@@ -1,0 +1,1 @@
+{"status": "PASS_INSTALLED_PRIVATE_PROTOBUF_SOURCE_IDENTITY", "bundle_id": "7382e481c0fb98e21bae87276a7fb75af6f7c9743e4e55d2105ffdf25110a013", "attempts": {"socket": 0, "database": 0, "subprocess": 0, "thread": 0, "futu_import": 0, "server_import": 0}, "economic_runs": 0}

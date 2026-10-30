@@ -1,0 +1,13 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-venv-r3\\Scripts\\python.exe",
+    "-B",
+    "-c",
+    "\nimport json,sys,socket\nfrom pathlib import Path\nwheel,output,venv=map(Path,sys.argv[1:])\nassert Path(sys.prefix).resolve()==venv.resolve() and sys.prefix!=sys.base_prefix\nattempts={'external_socket':0,'subprocess':0,'futu_import':0,'local_hostname_reads':0,'local_socket_constructions':0,'local_ephemeral_bind_checks':0}\ndef no_listen(*args,**kwargs):\n attempts['external_socket']+=1\n raise RuntimeError('offline_wheel_install_listening_forbidden')\nsocket.socket.listen=no_listen\ndef audit(event,args):\n if event=='socket.gethostname':\n  attempts['local_hostname_reads']+=1\n elif event=='socket.__new__':\n  attempts['local_socket_constructions']+=1\n elif event=='socket.bind' and isinstance(args[1],tuple) and args[1][0] in {'::1','127.0.0.1'} and args[1][1]==0:\n  # pip's vendored urllib3 may inspect local IPv6 availability. No listener,\n  # remote endpoint, DNS or SDK operation is permitted; retain the exact count.\n  attempts['local_ephemeral_bind_checks']+=1\n elif event.startswith('socket.'):\n  attempts['external_socket']+=1\n  raise RuntimeError('offline_wheel_install_network_forbidden:'+event)\n if event=='subprocess.Popen':\n  attempts['subprocess']+=1\n  raise RuntimeError('offline_wheel_install_subprocess_forbidden')\n if event=='import' and args and (args[0]=='futu' or args[0].startswith('futu.')):\n  attempts['futu_import']+=1\n  raise RuntimeError('offline_wheel_install_sdk_import_forbidden')\nsys.addaudithook(audit)\ntry:\n from pip._internal.cli.main import main\n code=main(['install','--no-index','--no-deps','--no-compile',str(wheel)])\n assert not any(attempts[key] for key in ('external_socket','subprocess','futu_import'))\n raise SystemExit(code)\nfinally:\n with output.open('x',encoding='utf-8') as stream:json.dump({'attempts':attempts,'sdk_imported':'futu' in sys.modules},stream,indent=2)\n",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\terminal-wheelhouse-r1\\futu_api-10.7.6708-py3-none-any.whl",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-evidence-r3\\sdk-install-guard.json",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-venv-r3"
+  ],
+  "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5",
+  "downloads": 0
+}

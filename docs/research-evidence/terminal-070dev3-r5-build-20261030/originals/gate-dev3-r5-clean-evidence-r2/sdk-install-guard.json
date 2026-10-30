@@ -1,0 +1,11 @@
+{
+  "attempts": {
+    "external_socket": 0,
+    "subprocess": 0,
+    "futu_import": 0,
+    "local_hostname_reads": 1,
+    "local_socket_constructions": 1,
+    "local_ephemeral_bind_checks": 1
+  },
+  "sdk_imported": false
+}
