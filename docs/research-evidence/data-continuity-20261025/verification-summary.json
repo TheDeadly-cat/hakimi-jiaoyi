@@ -1,0 +1,258 @@
+{
+  "schema_version": "data-continuity-verification-v1",
+  "version": "0.6.0.dev3",
+  "runtime_build": {
+    "commit": "4338490f26dec70c79778cd5d1a85a2aaa3474d5",
+    "status": "CLEAN"
+  },
+  "source_sha256": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+  "wheel_sha256": "4dc7627fbc64bd551d7cf700cf55077961667dc4e8440172d80251c52d4f1fa4",
+  "installed_tests": {
+    "errors": 0,
+    "expected_failures": 0,
+    "failures": 0,
+    "network_policy": "OUTBOUND_PYTHON_SOCKET_ACCESS_DENIED",
+    "schema_version": "research-installed-test-results-v1",
+    "skipped": 0,
+    "status": "PASS",
+    "tests_run": 391,
+    "unexpected_successes": 0
+  },
+  "installed_workflows": {
+    "trade_installed_workflow": "PASS",
+    "managed_task_installed_workflow": "PASS",
+    "configuration_consistency_installed_workflow": "PASS",
+    "strategy_switch_installed_workflow": "PASS",
+    "input_workflow_installed_workflow": "PASS",
+    "content_boundary_installed_workflow": "PASS",
+    "shared_funds_installed_workflow": "PASS"
+  },
+  "browser_read_only": {
+    "status": "PASS",
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 960
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "cases": [
+      {
+        "name": "year-boundary",
+        "expected": "READY"
+      },
+      {
+        "name": "early-close-before-lag",
+        "expected": "UNCHANGED"
+      },
+      {
+        "name": "early-close-complete",
+        "expected": "READY"
+      },
+      {
+        "name": "dst-spring",
+        "expected": "READY"
+      },
+      {
+        "name": "dst-autumn",
+        "expected": "READY"
+      },
+      {
+        "name": "nasdaq-2027",
+        "expected": "CALENDAR_UNAVAILABLE"
+      },
+      {
+        "name": "dividend",
+        "expected": "BLOCKED"
+      },
+      {
+        "name": "split",
+        "expected": "BLOCKED"
+      },
+      {
+        "name": "adjusted-close",
+        "expected": "BLOCKED"
+      },
+      {
+        "name": "unknown-actions",
+        "expected": "BLOCKED"
+      },
+      {
+        "name": "revision",
+        "expected": "REVISION_REVIEW_REQUIRED"
+      }
+    ],
+    "page_errors": [],
+    "console_warnings": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "post_requests": [],
+    "mobile_document_width": {
+      "viewport": 390,
+      "scroll": 390
+    },
+    "console_warning_assessment": "One HTTP 404 without captured URL; not reproduced by full flow. No unsupported favicon attribution."
+  },
+  "preservation": {
+    "status": "PASS",
+    "original_files": 731,
+    "changed": [],
+    "original_checkout_status_unchanged": true
+  },
+  "new_candidate_original_files_unchanged": 236,
+  "native_interaction": "DEFERRED_BY_USER_AFTER_WINDOW_IDENTITY_CHECK",
+  "source_captures": [
+    {
+      "url": "https://www.nyse.com/markets/hours-calendars",
+      "final_url": "https://www.nyse.com/markets/hours-calendars",
+      "status": 200,
+      "retrieved_at": "2026-10-24T21:38:59.063858Z",
+      "sha256": "3960e64cd7c9581c2e7a6d3f602342344eba1fac7b7476d51ddabb32b343fe11",
+      "bytes": 134492,
+      "file": "nyse-hours.html"
+    },
+    {
+      "url": "https://www.nasdaqtrader.com/Trader.aspx?id=Calendar",
+      "final_url": "https://www.nasdaqtrader.com/Trader.aspx?id=Calendar",
+      "status": 200,
+      "retrieved_at": "2026-10-24T21:39:00.106174Z",
+      "sha256": "c5daead15aa21abb2a028407e5c71569b382a876e658ad8986cbeb8ef66586fb",
+      "bytes": 54659,
+      "file": "nasdaq-calendar.html"
+    },
+    {
+      "url": "https://www.nasdaq.com/market-activity/stock-market-holiday-schedule",
+      "final_url": "https://www.nasdaq.com/market-activity/stock-market-holiday-schedule",
+      "status": 200,
+      "retrieved_at": "2026-10-24T21:39:01.092297Z",
+      "sha256": "d92e1e519757dfd7c408118026c34246f16cf5b7fed1be2a6da03214c04af436",
+      "bytes": 176937,
+      "file": "nasdaq-hours.html"
+    }
+  ],
+  "live_market_requests": 0,
+  "new_real_economic_runs": 0,
+  "research_database_changes": false,
+  "merge_or_release": false,
+  "browser_full_flow": {
+    "status": "PASS",
+    "scope": "Installed dev3 headless normal-UI synthetic revision workflow; native desktop deferred",
+    "source_commit": "4338490",
+    "source_sha256": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+    "url": "http://127.0.0.1:59312/",
+    "native_window_touched": false,
+    "main_native_port_untouched": 54686,
+    "main_workspace_files_preserved": 349,
+    "original_copied_records_preserved_in_both_workspaces": 236,
+    "original_task_versions_unchanged": true,
+    "old_account_history_prefix_unchanged": true,
+    "old_account_cash_positions_last_session_unchanged": true,
+    "old_account_new_receipts": 1,
+    "old_account_new_economic_sessions": 0,
+    "parameters_and_costs": {
+      "strategy": "price.dual_ma@1",
+      "params": {
+        "fast_window": 5,
+        "position_pct": 0.25,
+        "slow_window": 10,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.06
+      },
+      "score_start": "2026-10-19",
+      "initial_cash": 10000,
+      "fee_rate": 0.0008,
+      "slippage_pct": 0.0005,
+      "risk": {
+        "max_daily_loss_pct": 1.0,
+        "max_leverage": 1.0,
+        "max_position_pct": 0.25,
+        "max_single_loss_pct": 0.03,
+        "min_cash_pct": 0.0
+      }
+    },
+    "actions": [
+      {
+        "action": "freeze_stock_update",
+        "operation_id": "194d1876-e848-424a-8901-9bd7b9311d4f",
+        "http_status": 200
+      },
+      {
+        "action": "bind_task_input",
+        "operation_id": "8e2c2191-400e-4599-b40b-9c6e302c94b5",
+        "http_status": 200
+      },
+      {
+        "action": "advance",
+        "operation_id": "6051eaff-1c31-442e-bed1-e9e0a62876b8",
+        "http_status": 200
+      },
+      {
+        "action": "create_account",
+        "operation_id": "e6fb6bd6-8bfe-43dd-8616-1b63ff0d4d6e",
+        "http_status": 200
+      }
+    ],
+    "frozen_input_ref": "data/snapshots/1aab662e065fa7d58e4f013668346380eefe51b730a27269e0d616f09f8ebe7a/f13fa458a9f94f1d2b494f67163d21871da0b48cccf8d6a55d596431ab11b05a.json",
+    "new_task": {
+      "ref": "tasks/task-synthetic-continuity-prep-02",
+      "task_id": "b68baef7b75992366965d9d4a7d0eceae1a9ecaa8cd02af771c145814714e04e",
+      "viewed_revision": "r0002-a0edbf0a83dd4697ac085963343a466a"
+    },
+    "new_account": {
+      "ref": "continuous/account-e6fb6bd6-8bfe-43dd-8616-1b63ff0d4d6e",
+      "account_id": "6411cfa1bf33b2be11c9a257fad4beb625d33a2a02c45fecc6af2e5111af22cb",
+      "cash": "10000",
+      "positions": {},
+      "last_session": null
+    },
+    "rejection": "DATA_CONSUMED_PREFIX_REVISED_OR_MISSING:SYNTHETIC:CONTINUITY:TESTREV:2026-10-08",
+    "rejection_receipt": "d512b4aadd1bfc3ab114c20fcede20e108380b66ca4048b3277b8d9427502848",
+    "console_errors": 0,
+    "page_errors": 0,
+    "http_responses_400_or_more": [],
+    "external_requests": 0,
+    "server_outbound_attempts": 0,
+    "browser_and_owned_server_closed": true,
+    "previous_readonly_browser_404": "Not reproduced here; original request URL was not recorded, so attribution remains unknown.",
+    "preserved_failed_harness_attempts": [
+      {
+        "directory": "browser-flow-evidence",
+        "reason": "Text assertion said 接受 while actual UI said 接入",
+        "posts": 0
+      },
+      {
+        "directory": "browser-flow-evidence-r2",
+        "reason": "datetime-local fill with zero seconds was rejected by Playwright; corrected to minute format",
+        "posts": 2
+      }
+    ],
+    "no_credentials_headers_tokens_or_cookies_saved": true,
+    "artifact_sha256": {
+      "01-revision-impact.png": "da5a9c6e66aaf1ec95f6dea3004b07a3d3f938996abcc304c27b81b7486f34e3",
+      "02-frozen-input.png": "3515501ef8ffc09745b8c8fd9593e43c44b150f8bf857f50037943a5e400b36e",
+      "03-new-task-version.png": "365051e12349d59bcbc0747e2874891d7f739b74ac823be463c30d0e73ccbf0a",
+      "04-original-account-blocked.png": "831c435e424a20b8c1ffc493517318230600cca920067bf7c6507f207bf8e690",
+      "05-new-independent-account.png": "d3bd89d79b07e622b8ac7982cba28d3f91a8fc2ed17d2c9d850c871f54f96df3",
+      "action-01-freeze_stock_update.json": "bc51299de8f64980c87342d1c47be867416291cde66e567267c75953702e7dac",
+      "action-02-bind_task_input.json": "e2c66af326285e70c3bfad4411fa15f7d6717846a3ee8cb62a694ca52e577c3e",
+      "action-03-advance.json": "a9eeafd876be5ae0addc3e6724d20f8953d5e0baa893f2679ce3b8c5116ecd3a",
+      "action-04-create_account.json": "333a68ad797645370c1947cd0256b24a8a5478908f5bafb8846902f350b06e99",
+      "before-account-summary.json": "34bd2ad3f8ea372d696fe8452dfef2f06155d64f449b9f457bfa3d83d39dd844",
+      "browser-flow-result.json": "0c32cd832f2cbdfd544804f5da756de0f2349b883a1295762528562f2d714a0b",
+      "browser-flow.log": "030b32f756803f40b070c03376b6fc563eadd229ad660f96188833ca23655694",
+      "copy-before.json": "0600725652058b1850f2c6a067b2df2ac4da0bc4000f3e91103b35c2ecc13414",
+      "flow-verification.json": "0c3e02de9ef4a429146a3fea786b9b4c1dcf2acd4334da1f942b6f0a3bb05353",
+      "owned-processes-stopped.json": "8281f6dc2ec57e6184db919648fa74464888113538db7b0a6c37ef435bb669fd",
+      "server-start.json": "015f6173883585de964d2f92a7441e37ae5a7933c73365770b34c82253552f49",
+      "server-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "helper_sha256": {
+      "browser_flow.cjs": "bd6d177d7d84ff612d11f3fd9408c616073540a96c922aa72750b3aac95460d5",
+      "browser_flow_server.py": "5e56b99e02b5cde2ee28258b9ab4234b0ef73216e91530b25d02504c5feb2690",
+      "run_browser_flow.py": "0b031b27c69d3c39fc1c6f8dde4506f96502c965c17302390fb4afc5145a0bfa"
+    }
+  }
+}

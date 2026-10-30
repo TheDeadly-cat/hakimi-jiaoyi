@@ -1,0 +1,76 @@
+{
+  "status": "PASS_FROZEN_GATES_BUILD_AND_PACKAGE_VERIFICATION",
+  "source_commit": "43c155a0a461edbefeaf98edba5418db560da5d5",
+  "source_status": "CLEAN",
+  "source_directory": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-use-candidate-070dev3-r2\\哈基米v2交易",
+  "executable": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r2\\HakimiTrade.exe",
+  "archive": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r2.zip",
+  "version": "0.7.0.dev3",
+  "bundle_id": "be331bd6bae86eb60fc1bc6a379fcb2bbae6e78d92653f01255724ea0fcaec76",
+  "archive_sha256": "2e1c0f7785b01299935807b9d854a19a11060fb04fc14a17be401a56efcd69bd",
+  "manifest_sha256": "6deef8cab4dc6102e44f9d3eb2fd7d55afa7b90ed58fb62a6fe9f6517a5d6486",
+  "program_files": 9066,
+  "zip_members": 9067,
+  "terminal_tests": 464,
+  "terminal_skips": 0,
+  "gates": [
+    {
+      "gate": "terminal",
+      "exit_code": 0,
+      "elapsed_seconds": 175.944,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-terminal-gate-dev3-r2.log"
+    },
+    {
+      "gate": "desktop",
+      "exit_code": 0,
+      "elapsed_seconds": 17.522,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-desktop-gate-dev3-r2.log"
+    },
+    {
+      "gate": "package",
+      "exit_code": 0,
+      "elapsed_seconds": 3.679,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-package-gate-dev3-r2.log"
+    },
+    {
+      "gate": "candle",
+      "exit_code": 0,
+      "elapsed_seconds": 0.149,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-candle-gate-dev3-r2.log"
+    },
+    {
+      "gate": "runner",
+      "exit_code": 0,
+      "elapsed_seconds": 0.378,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-runner-gate-dev3-r2.log"
+    }
+  ],
+  "packaging_test_count": 11,
+  "complete_program_and_zip_verified": true,
+  "installed_js_pass": true,
+  "private_full_html_pass": true,
+  "embedded_ui_scripts": 13,
+  "packaging_temporary_synthetic_runs": 1,
+  "feature_closure_economic_runs": 0,
+  "new_native_research_runs": 0,
+  "real_market_runs": 0,
+  "old_research_replays": 0,
+  "provider_calls": 0,
+  "native_app_started": false,
+  "production_server_started": false,
+  "source_repository_inaccessible_guest_test": false,
+  "T03_native_acceptance": "NOT_PERFORMED",
+  "previous_packages_modified": false,
+  "previous_packages_reverified": false,
+  "evidence": {
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-gates-summary-dev3-r2.json": "ed4bc98bdcf8413aa50eade5afbb2ea7ac6d1262a1f339cffd8120f84e0b649f",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-environment-binding-dev3-r2.json": "3dee8d89a66fc4b12308457ece5e47c5fb48c36ca6f9cbce4a0e10f9040c3d6a",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-build-invocation-dev3-r2.json": "1f2a7c8b29206ad2dd670c0c96683c9e40ae2a3f1575b6c9ce861a1ec8b189fd",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-build-result-dev3-r2.json": "783844f247c0ef796e02215d93ed1cbef2a09cbcb60cad00543c7d00747c9b06",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-package-verification-dev3-r2.json": "cdde0ab5db9dc788df36450759c9177eed2785927dca8dc887c00ff089f49e75",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-entry-hashes-dev3-r2.json": "637444b8081db086d6860fe673b3562a42d3fc352b9bb8e640f02fdf6081ab30",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-installed-js-dev3-r2.json": "53d3e0164549d7a3269aaacd01de064e58d9396a4634e784433cc0a05a9d6354",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-feature-closure-dev3-r2.json": "f155908a6cc24a51d67a6bf526e36ef66e0a1472bb8a3f30bc03376c7c40d19d",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-acceptance-boundary-dev3-r2.json": "c529ec7cb4ef28e4f7db77cd137be95f882d8b8235a8ea29766a283089f9b4f7"
+  }
+}

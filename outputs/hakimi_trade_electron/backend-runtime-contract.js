@@ -2,15 +2,13 @@ const fs = require("fs");
 const path = require("path");
 
 const RUNTIME_BUILD_SCHEMA_VERSION = "hakimi-runtime-build-v1";
-const PRODUCT_CAPABILITY_DEFINITION_PATH = path.resolve(
-  __dirname,
-  "..",
-  "..",
-  "src",
-  "hakimi_research",
-  "contracts",
-  "product-capabilities.json",
-);
+function resolveProductCapabilityDefinitionPath(appDirectory = __dirname) {
+  const distributionRoot = path.resolve(appDirectory, "..", "..");
+  return fs.existsSync(path.join(distributionRoot, "terminal-manifest.json"))
+    ? path.join(distributionRoot, "components", "canonical", "hakimi_research", "contracts", "product-capabilities.json")
+    : path.join(distributionRoot, "src", "hakimi_research", "contracts", "product-capabilities.json");
+}
+const PRODUCT_CAPABILITY_DEFINITION_PATH = resolveProductCapabilityDefinitionPath();
 const DEFINITION_SCHEMA_VERSION = "product-capability-definition-v1";
 const PRODUCT_CAPABILITY_CATALOG_SCHEMA_VERSION = "product-capability-catalog-v2";
 const CAPABILITY_SCHEMA_VERSION = "capability-v1";
@@ -297,5 +295,6 @@ module.exports = {
   isExactResearchOnlyProductCatalog,
   loadProductCapabilityDefinition,
   parseBackendHealthResponse,
+  resolveProductCapabilityDefinitionPath,
   validateProductCapabilityDefinition,
 };

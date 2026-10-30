@@ -1,0 +1,51 @@
+{
+  "schema_version": "hakimi-byte-identical-original-copies-v1",
+  "copy_count": 3,
+  "copy_bytes": 16351,
+  "all_byte_identical": true,
+  "files": [
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\account-control-wording-20261030-r1\\focused.log",
+      "destination": "originals/focused.log",
+      "bytes": 3945,
+      "sha256": "3db285660193a4faea48c8397436b7c05cf7fdf3efa45af254abbb6613529fdf",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\account-control-wording-20261030-r1\\result.json",
+      "destination": "originals/result.json",
+      "bytes": 1154,
+      "sha256": "6b7ed60279cc348f644dbd855f4f0d657f8bf18f7d534b3a6ca17202248b222a",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\account-control-wording-20261030-r1\\wording-only.patch",
+      "destination": "originals/wording-only.patch",
+      "bytes": 11252,
+      "sha256": "13d8cff9f5fa54dd91d6b0e436563ee12002ee14993c4da60cb929ae66f402e4",
+      "byte_identical": true
+    }
+  ],
+  "derived_source_binding": {
+    "basis": "Original result.json compared with current working-tree file bytes; no test rerun",
+    "base_commit": "7e1b28e0c44b3441e808d31230204887e05eebe6",
+    "source_status": "DIRTY_WORDING_ONLY",
+    "files": [
+      {
+        "path": "docs/windows-original-terminal-first-use.md",
+        "sha256": "12f6c24df846770be04e9f5fb4cec578a743c51a55361b3683c81bb50e2ba070",
+        "matches_original_result": true
+      },
+      {
+        "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-account-control-ui.js",
+        "sha256": "fd062df8a49505079a1041aa81aff0ab0a23fe016af295091a2c7ec2bd59bf08",
+        "matches_original_result": true
+      },
+      {
+        "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-account-control-ui.test.js",
+        "sha256": "a80f63594566f649746fc278f22eaa2f7889fb5dfe97d7f4fe127088dc715b31",
+        "matches_original_result": true
+      }
+    ]
+  }
+}

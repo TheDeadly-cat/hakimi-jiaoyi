@@ -1,0 +1,9 @@
+{
+  "attempts": {
+    "socket": 0,
+    "database": 0,
+    "subprocess": 0,
+    "thread": 0,
+    "futu_import": 0
+  }
+}

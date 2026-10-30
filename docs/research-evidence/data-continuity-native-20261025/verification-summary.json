@@ -1,0 +1,160 @@
+{
+  "schema_version": "data-continuity-native-acceptance-v1",
+  "status": "PASS",
+  "date_beijing": "2026-10-25",
+  "scope": "ACTUAL_WINDOWS_NATIVE_INPUT_AND_EXACT_ENTRY_REOPEN",
+  "runtime_version": "0.6.0.dev3",
+  "runtime_build": "4338490f26dec70c79778cd5d1a85a2aaa3474d5",
+  "runtime_source_sha256": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+  "wheel_sha256": "4dc7627fbc64bd551d7cf700cf55077961667dc4e8440172d80251c52d4f1fa4",
+  "entry": "desktop/Start-Workbench.cmd",
+  "old_dev2_window_preserved": 5572400,
+  "temporary_preview_closed": {
+    "window": 15665948,
+    "port": 54686,
+    "processes": [
+      21544,
+      2500,
+      41408
+    ]
+  },
+  "first_verified_entry": {
+    "window": 17500798,
+    "port": 57571,
+    "launcher_pid": 41132,
+    "electron_pid": 41248,
+    "backend_pids": [
+      40848,
+      36060
+    ]
+  },
+  "confirmed_exit": {
+    "all_owned_processes_exited": true,
+    "port_57571_not_listening": true
+  },
+  "reopened_same_entry": {
+    "window": 657824,
+    "port": 58478,
+    "launcher_pid": 32400,
+    "backend_pids": [
+      22472,
+      26120
+    ]
+  },
+  "native_saved_actions_count": 3,
+  "native_flow": [
+    "read installed identity",
+    "review TESTREV high 106 to 108 and locked-prefix impact",
+    "acknowledge revisions and freeze separate input",
+    "prefill existing synthetic task and save new revision",
+    "create independent synthetic account with 10000 cash and no positions",
+    "close owned candidate and verify process and port exit",
+    "reopen same exact entry",
+    "read new r0002 and independent account",
+    "read split stop and cross-year synthetic checks",
+    "read existing NDAQ cost and benchmark matrix without rerunning"
+  ],
+  "native_account_advance_attempted": false,
+  "old_account_revision_rejection_scope": "Prior background-browser proof retained; not repeated in native acceptance",
+  "future_2027_cases": "SYNTHETIC simulated-clock retained checks only, no new future tasks or economic runs",
+  "new_live_market_fetches": 0,
+  "new_real_economic_runs": 0,
+  "readback_verifier": {
+    "changed_existing_files": [],
+    "copied_original_records": 236,
+    "copied_original_records_changed": [],
+    "documents_status_unchanged": true,
+    "economic_runs": 0,
+    "freeze_hash": "e621f5d42cdf200d6101fd744521d286a4b6d0a3afc16c25ffed561f9fd4ae86",
+    "native_saved_actions": [
+      {
+        "action": "create_account",
+        "operation_id": "127e973d-043a-4992-abd5-a2290394d186"
+      },
+      {
+        "action": "bind_task_input",
+        "operation_id": "1eeb1891-110e-4ab0-8e1f-8f4d1e5ad2fd"
+      },
+      {
+        "action": "freeze_stock_update",
+        "operation_id": "3f8ffb8c-5a40-44e9-a958-545be27159ac"
+      }
+    ],
+    "new_account_cash": "10000",
+    "new_account_id": "105b475401d2b18d6803d49997053355543c9ed9ed757058ca20d67fc97f0fcb",
+    "new_account_last_session": null,
+    "new_account_limits": {
+      "max_daily_loss_pct": 0.05,
+      "max_leverage": 1,
+      "max_symbol_position_pct": 0.5,
+      "max_total_position_pct": 0.8,
+      "min_cash_pct": 0.1
+    },
+    "new_account_positions": {},
+    "new_account_ref": "continuous/account-127e973d-043a-4992-abd5-a2290394d186",
+    "new_run_artifacts": 0,
+    "new_task_id": "369fd3ee339452b60cd02c565f78fb4a893f76962ad52280902cad6856296356",
+    "new_task_revision": "r0002-3aa99d237faf4d51a1766b9ca864b8d3",
+    "old_account_new_economic_sessions": 0,
+    "old_account_new_receipts": 0,
+    "old_cash_positions_last_session_unchanged": true,
+    "old_history_prefix_unchanged": true,
+    "old_task_versions_unchanged": true,
+    "original_records": 731,
+    "original_records_changed": [],
+    "preserved_fee_rate": 0.0008,
+    "preserved_parameters": {
+      "fast_window": 5,
+      "position_pct": 0.25,
+      "slow_window": 10,
+      "stop_loss_pct": 0.03,
+      "take_profit_pct": 0.06
+    },
+    "preserved_slippage_pct": 0.0005,
+    "read_only": true,
+    "recorded_at": "2026-10-24T22:29:51.300154+00:00",
+    "reopen_files_preserved_exactly": 366,
+    "source_build_commit": "4338490f26dec70c79778cd5d1a85a2aaa3474d5",
+    "source_sha256": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+    "stage": "after-reopen",
+    "status": "PASS",
+    "ui_operations": 0,
+    "workspace_files": 366
+  },
+  "screenshots": {
+    "images/01-native-identity.jpg": {
+      "sha256": "f0727801a77d8d866e5bd954e5e5fddc263c1a4b987c597017059191ad3a1288",
+      "bytes": 135752
+    },
+    "images/02-native-revision-review.jpg": {
+      "sha256": "cab912227e3cba97865ab81f522745577a44b7e2f2f4b79f278d177493a007e3",
+      "bytes": 129801
+    },
+    "images/03-native-new-version-form.jpg": {
+      "sha256": "b8f63f0f5355597555619811738f4df8c18885277219b521eb9e7ca45d088ced",
+      "bytes": 123646
+    },
+    "images/04-native-new-account.jpg": {
+      "sha256": "1765a5038152eaa176bb70b0eb8da3f71e40c55b3cab6b1dfe2190353b11b368",
+      "bytes": 127511
+    },
+    "images/05-native-reopened-split.jpg": {
+      "sha256": "07dd7a83ab56a2400c477561d28806d6a3743ce036a5391d2c7d570f12fb1c71",
+      "bytes": 116724
+    },
+    "images/06-native-reopened-crossyear.jpg": {
+      "sha256": "ec59bbbbe42c5603d6f76a3c95e35e5a90d88f1e8446eac927fc808042a9437e",
+      "bytes": 106603
+    },
+    "images/07-native-reopened-account.jpg": {
+      "sha256": "6ebf62f2e7ba8052bab7e5fcf83e6498738d0a73689a4e5e63ca0c917fcc9e03",
+      "bytes": 127515
+    },
+    "images/08-native-reopened-old-costs.jpg": {
+      "sha256": "343e7d6a5dd091c488cc2dfb106d694ea772efb9db959633ac31d645879d6c55",
+      "bytes": 115407
+    }
+  },
+  "historical_evidence_preserved": true,
+  "previous_deferred_stage": "docs/research-evidence/data-continuity-20261025/verification-summary.json"
+}

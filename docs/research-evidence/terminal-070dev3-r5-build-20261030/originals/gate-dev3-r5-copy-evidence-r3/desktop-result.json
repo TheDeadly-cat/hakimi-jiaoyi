@@ -1,0 +1,11 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 18.324,
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node.exe",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node_modules\\npm\\bin\\npm-cli.js",
+    "run",
+    "check"
+  ],
+  "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-evidence-r3\\desktop.log"
+}

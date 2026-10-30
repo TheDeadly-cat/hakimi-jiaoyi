@@ -1,0 +1,32 @@
+{
+  "bundle_built": false,
+  "committed": false,
+  "guards": {
+    "economic_runner_calls": 0,
+    "network_connect_attempts": 0
+  },
+  "log_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\transport-fix-tests-r1.log",
+  "log_sha256": "1a5f4c80c2a7b5fd322f14031ed6a127e5a226acc4ff274bc6fb6ce45f39dbce",
+  "market_requests": 0,
+  "mode": "SOURCE_MODULES_WITH_ACCEPTED_R3_DEPENDENCIES_NOT_A_NEW_INSTALLED_BUILD",
+  "product_records_modified": false,
+  "python": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\python.exe",
+  "recorded_at": "2026-10-26T16:42:18.952375Z",
+  "schema_version": "daily-transport-fix-fixture-validation-v1",
+  "source_files": {
+    "src/hakimi_research/daily_updates.py": "09531e09a514f76dcf438630504dc4180f4e2c712480e8016dfb0472cc02d518",
+    "tests/test_daily_updates.py": "50d72b4788c249200d7be3f8c35b49c9ab37075e96e29b49c317e020de29c2cd"
+  },
+  "status": "PASS",
+  "system_proxy_configuration_modified": false,
+  "tested_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\src\\hakimi_research\\daily_updates.py",
+  "tests": {
+    "elapsed_seconds": 12.599245,
+    "errors": 0,
+    "expected": 41,
+    "failures": 0,
+    "run": 41,
+    "skipped": 0
+  },
+  "version_bumped": false
+}

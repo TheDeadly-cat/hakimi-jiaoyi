@@ -17,6 +17,7 @@ import math
 import mimetypes
 import os
 import random
+import secrets
 import shutil
 import socket
 import sqlite3
@@ -35,7 +36,30 @@ from typing import Any, Callable
 from zoneinfo import ZoneInfo
 
 
+try:
+    from services.quant_workspace import QuantWorkspace
+    from services.terminal_market_data import TerminalMarketReader
+    from services.terminal_research import TerminalResearchService, validate_terminal_strategy_params, terminal_strategy_presentation
+    from services.terminal_history import TerminalHistoryReader
+    from services.terminal_workspace_history import TerminalWorkspaceHistory, msix_history_roots_for_workspace
+    from services.terminal_broker_account_control import bind_host_root as bind_broker_control_root
+except ModuleNotFoundError:  # Package import path.
+    from exchange_terminal.services.quant_workspace import QuantWorkspace
+    from exchange_terminal.services.terminal_market_data import TerminalMarketReader
+    from exchange_terminal.services.terminal_research import TerminalResearchService, validate_terminal_strategy_params, terminal_strategy_presentation
+    from exchange_terminal.services.terminal_history import TerminalHistoryReader
+    from exchange_terminal.services.terminal_workspace_history import TerminalWorkspaceHistory, msix_history_roots_for_workspace
+    from exchange_terminal.services.terminal_broker_account_control import bind_host_root as bind_broker_control_root
+
+
 RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_RUNTIME_READ_ONLY") or "1").strip().lower() not in {
+    "0", "false", "no", "off",
+}
+LOCAL_ONLY = str(os.getenv("HAKIMI_LOCAL_ONLY") or "").strip().lower() in {"1", "true", "yes", "on"}
+TERMINAL_PACKAGE_ID = str(os.getenv("HAKIMI_TERMINAL_PACKAGE_ID") or "")
+TERMINAL_PACKAGE_VERSION = str(os.getenv("HAKIMI_TERMINAL_PACKAGE_VERSION") or "")
+TERMINAL_BUILD_COMMIT = str(os.getenv("HAKIMI_TERMINAL_BUILD_COMMIT") or "")
+QUANT_RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_QUANT_READ_ONLY") or ("1" if RUNTIME_READ_ONLY else "0")).strip().lower() not in {
     "0", "false", "no", "off",
 }
 
@@ -43,6 +67,7 @@ try:
     from services.anomaly_outcomes import anomaly_outcome_summary, evaluate_anomaly_outcome
     from services.anomaly_progression import annotate_anomaly_progression, anomaly_progression_summary
     from services.audit_log import AuditLog
+    from services.legacy_record_exports import load_legacy_order_export_rows, load_legacy_account_snapshot
     from services.backtest_engine import CAUSAL_AUDIT_VERSION, EXECUTION_MODEL_VERSION, causal_prefix_invariance_check, prepare_backtest_dataset, run_causal_long_only_backtest
     from services.event_replay import EventReplayService
     from services.event_bus import EventBus
@@ -135,6 +160,7 @@ try:
         rolling_strategy_signal as causal_rolling_strategy_signal,
         strategy_signal_input,
         strategy_signal_fingerprint,
+        SIGNAL_ENGINE_VERSION,
         strategy_startup_candles_for_params as _strategy_startup_candles_for_params,
         strategy_validation_capability,
     )
@@ -152,6 +178,7 @@ except ModuleNotFoundError:
     from exchange_terminal.services.anomaly_outcomes import anomaly_outcome_summary, evaluate_anomaly_outcome
     from exchange_terminal.services.anomaly_progression import annotate_anomaly_progression, anomaly_progression_summary
     from exchange_terminal.services.audit_log import AuditLog
+    from exchange_terminal.services.legacy_record_exports import load_legacy_order_export_rows, load_legacy_account_snapshot
     from exchange_terminal.services.backtest_engine import CAUSAL_AUDIT_VERSION, EXECUTION_MODEL_VERSION, causal_prefix_invariance_check, prepare_backtest_dataset, run_causal_long_only_backtest
     from exchange_terminal.services.event_replay import EventReplayService
     from exchange_terminal.services.event_bus import EventBus
@@ -244,6 +271,7 @@ except ModuleNotFoundError:
         rolling_strategy_signal as causal_rolling_strategy_signal,
         strategy_signal_input,
         strategy_signal_fingerprint,
+        SIGNAL_ENGINE_VERSION,
         strategy_startup_candles_for_params as _strategy_startup_candles_for_params,
         strategy_validation_capability,
     )
@@ -408,6 +436,7 @@ try:
         with_stock_freshness,
     )
     from market_data.stock_candles_io import (
+        reconcile_stock_candle_delivery,
         attest_stock_backtest_rows,
         attest_stock_candle_cache,
         audit_stock_daily_sources,
@@ -474,6 +503,7 @@ except ModuleNotFoundError:
         with_stock_freshness,
     )
     from exchange_terminal.market_data.stock_candles_io import (
+        reconcile_stock_candle_delivery,
         attest_stock_backtest_rows,
         attest_stock_candle_cache,
         audit_stock_daily_sources,
@@ -518,7 +548,37 @@ STOCK_QUOTE_CACHE: dict[str, Any] = {"time": 0, "rows": []}
 STOCK_SINGLE_QUOTE_CACHE: dict[str, dict[str, Any]] = {}
 STOCK_CANDLE_CACHE: dict[str, dict[str, Any]] = {}
 STOCK_HISTORY_PREWARM_SERVICE: StockHistoryPrewarmService | None = None
-RUNTIME_BUILD_GUARD = RuntimeBuildGuard(project_root=PROJECT_DIR, source_roots=[ROOT_DIR])
+RUNTIME_BUILD_GUARD = RuntimeBuildGuard(project_root=PROJECT_DIR, source_roots=[ROOT_DIR, PROJECT_DIR / "vendor" / "research"])
+TERMINAL_MARKET_READER = TerminalMarketReader(RUNTIME_DIR)
+QUANT_WORKSPACE_DIR = Path(os.getenv("HAKIMI_QUANT_WORKSPACE_DIR") or RUNTIME_DIR).expanduser().absolute()
+# Supplied once by the trusted desktop host, never a renderer request or the
+# selected research workspace. Binding resolves paths without creating a store.
+BROKER_CONTROL_ROOT = (bind_broker_control_root(os.environ["HAKIMI_BROKER_SHARED_ROOT"],
+    program_root=PROJECT_DIR, record_domain="EXTERNAL_RECORD") if os.environ.get("HAKIMI_BROKER_SHARED_ROOT") else None)
+
+
+def _fetch_explicit_public_daily(url):
+    # Only QuantWorkspace's ephemeral, payload-bound gate calls this transport.
+    # It never enables any legacy market, broker, model or background endpoint.
+    from hakimi_research.daily_updates import _fetch
+    return _fetch(url)
+
+
+QUANT_WORKSPACE = QuantWorkspace(
+    QUANT_WORKSPACE_DIR, read_only=QUANT_RUNTIME_READ_ONLY, local_only=True,
+    product_identity={"version": TERMINAL_PACKAGE_VERSION, "bundle_id": TERMINAL_PACKAGE_ID, "build_commit": TERMINAL_BUILD_COMMIT},
+    public_daily_fetcher=_fetch_explicit_public_daily,
+    mutation_guard=lambda: RUNTIME_BUILD_GUARD.snapshot(force=True),
+    service_factory=lambda core: TerminalResearchService(
+        core, market_reader=TERMINAL_MARKET_READER, catalog=terminal_strategy_catalog,
+        runner=lambda **kwargs: run_strategy_backtest(**kwargs, include_full_history=True),
+        fingerprint=strategy_implementation_fingerprint,
+        broker_control_root=BROKER_CONTROL_ROOT,
+        runtime_guard=lambda: RUNTIME_BUILD_GUARD.snapshot(force=True),
+        history_reader=TerminalHistoryReader(RUNTIME_DIR), group_reader=lambda: STOCK_MARKETS,
+        workspace_history=TerminalWorkspaceHistory(runtime_dir=RUNTIME_DIR, current_workspace=core.workspace,
+            msix_package_roots=msix_history_roots_for_workspace(core.workspace))),
+)
 STOCK_HISTORY_PRIORITY = [
     "AAPL", "NVDA", "MSFT", "AMZN", "GOOGL", "META", "TSLA",
     "MU", "WDC", "STX", "PSTG", "NTAP", "AMD", "AVGO", "TSM", "ASML",
@@ -1049,13 +1109,32 @@ def append_ledger(event: dict[str, Any]) -> None:
     record_runtime_audit(event)
 
 
+def csv_export_cell(value: Any) -> Any:
+    # Spreadsheet formula prefixes are text; numeric losses/fees stay numeric.
+    if isinstance(value, str):
+        stripped = value.lstrip(" \t\r\n")
+        if stripped.startswith(("=", "+", "-", "@")) or value.startswith(("\t", "\r", "\n")):
+            return "'" + value
+    return value
+
+
+def csv_export_directory() -> Path:
+    if not RUNTIME_READ_ONLY:
+        return EXPORT_DIR
+    configured = str(os.getenv("HAKIMI_EXPORT_DIR") or "").strip()
+    destination = (Path(configured).expanduser() if configured else Path.home() / "Downloads" / "Hakimi-Exports").resolve()
+    if destination.is_relative_to(RUNTIME_DIR.resolve()):
+        raise ValueError("只读模式需要把导出保存到原数据工作区之外。")
+    return destination
+
+
 def write_csv(path: Path, rows: list[dict[str, Any]], columns: list[str]) -> None:
-    ensure_runtime()
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", newline="", encoding="utf-8-sig") as file:
+    # Exclusive creation preserves earlier exports even on a name collision.
+    with path.open("x", newline="", encoding="utf-8-sig") as file:
         writer = csv.DictWriter(file, fieldnames=columns, extrasaction="ignore")
         writer.writeheader()
-        writer.writerows(rows)
+        writer.writerows({key: csv_export_cell(row.get(key)) for key in columns} for row in rows)
 
 
 def choose_strategy(strategy_id: str) -> dict[str, Any]:
@@ -1070,6 +1149,25 @@ def choose_strategy(strategy_id: str) -> dict[str, Any]:
         "params": {},
         "unsupported": True,
     }
+
+
+def terminal_strategy_parameters(strategy: dict[str, Any]) -> dict[str, Any]:
+    if strategy_validation_capability(strategy["id"]).get("backtest_supported") is True:
+        return validate_terminal_strategy_params(strategy, {})
+    return dict(strategy.get("params") or {})
+
+
+def terminal_strategy_catalog() -> dict[str, Any]:
+    """Expose original research semantics without granting execution authority."""
+    return {"items": [{
+        **strategy,
+        "params": terminal_strategy_parameters(strategy),
+        "capability": strategy_validation_capability(strategy["id"]),
+        "implementation_fingerprint": strategy_implementation_fingerprint(strategy["id"], terminal_strategy_parameters(strategy)),
+        "execution_model": EXECUTION_MODEL_VERSION,
+        "equivalence_to_core": "NONE",
+        "paper_allowed": False, "live_allowed": False,
+    } for strategy in STRATEGIES]}
 
 
 def strategy_playbook(strategy_id: str) -> dict[str, Any]:
@@ -1386,9 +1484,10 @@ def analyze_strategy_context(
     manual_take_profit: float = 0.0,
     manual_stop_loss: float = 0.0,
     direction: str = "LONG",
+    *, candles: list[dict[str, Any]] | None = None, strategy_params: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     direction = trade_direction_from_mode(direction)
-    candles = strategy_candles_for_symbol(symbol, 360)
+    candles = strategy_candles_for_symbol(symbol, 360) if candles is None else [dict(row) for row in candles]
     closes = [float(item["close"]) for item in candles]
     if len(candles) < 60 or price <= 0:
         empty_plan = {
@@ -1419,7 +1518,7 @@ def analyze_strategy_context(
         }
 
     strategy = choose_strategy(strategy_id)
-    params = strategy.get("params", {})
+    params = dict(strategy_params) if isinstance(strategy_params, dict) else strategy.get("params", {})
     vol = recent_volatility(candles, 20)
     trend = trend_score(closes)
     tp_mult = float(params.get("take_profit_atr", 1.8))
@@ -1890,10 +1989,11 @@ _json_guard = threading.Lock()
 def json_response(handler: BaseHTTPRequestHandler, payload: dict[str, Any], status: int = 200) -> None:
     mutation_key = str(getattr(handler, "_mutation_idempotency_key", "") or "")
     if mutation_key:
+        mutation_journal = getattr(handler, "_mutation_journal", MUTATION_JOURNAL)
         if status < 500:
-            MUTATION_JOURNAL.complete(mutation_key, status, payload)
+            mutation_journal.complete(mutation_key, status, payload)
         else:
-            MUTATION_JOURNAL.abandon(mutation_key)
+            mutation_journal.abandon(mutation_key)
         setattr(handler, "_mutation_idempotency_key", "")
     body = json.dumps(clean_json_value(payload), ensure_ascii=False).encode("utf-8")
     try:
@@ -1915,7 +2015,26 @@ def json_response(handler: BaseHTTPRequestHandler, payload: dict[str, Any], stat
         handler.close_connection = True
 
 
+def current_product_copy(filename, body):
+    """Current shell wording only; archived engine permissions stay unchanged."""
+    replacements = {
+        "index.html": (("当前产品仅支持本地数据研究、历史回测、确定性 Frozen benchmark、证据审阅与报告导出。参数优化、paper、live 已归档，订单输入已禁用。",
+                        "当前提供本地研究、历史回测、证据审阅与本地合成演练。公开日线仅在明确点击检查时获取；外部券商与实盘未开启。旧优化、paper/live 和机器人订单入口仍为归档功能。"),),
+        "app.js": (("? \"本地研究 · 实盘永久硬锁\"", "? \"本地研究 / 合成演练 · 外部券商与实盘未开启\""),
+                   ("\"本地工作区 · 外部连接未开启\"", "\"本地工作区 · 公开日线仅按次检查\"")),
+    }
+    for before, after in replacements.get(filename, ()):
+        body = body.replace(before.encode("utf-8"), after.encode("utf-8"), 1)
+    return body
+
+
+def _require_legacy_market_network():
+    if LOCAL_ONLY:
+        raise PermissionError("LOCAL_ONLY_MARKET_NETWORK_BLOCKED:本地模式未请求旧行情入口。")
+
+
 def read_bodyless_okx(path: str, query: dict[str, str]) -> dict[str, Any]:
+    _require_legacy_market_network()
     return read_bodyless_okx_io(path, query)
 
 
@@ -1940,6 +2059,7 @@ def okx_private_credentials() -> tuple[dict[str, str], dict[str, str], list[str]
 
 
 def read_signed_okx(path: str, query: dict[str, str] | None = None) -> dict[str, Any]:
+    _require_legacy_market_network()
     _, credentials, missing = okx_private_credentials()
     if missing:
         raise RuntimeError(f"missing OKX private env: {', '.join(missing)}")
@@ -2464,6 +2584,7 @@ def cache_stock_candles(symbol: str, interval: str, session: str, payload: dict[
                     stored_payload["warning"] = "daily cache revision blocked pending review"
         except Exception as exc:
             stored_payload["data_revision_warning"] = str(exc)
+    stored_payload = reconcile_stock_candle_delivery(stored_payload, symbol, interval, clean_session, provider_payload=payload)
     key = stock_candle_cache_key(symbol, interval, clean_session)
     STOCK_CANDLE_CACHE[key] = {
         "time": stamp,
@@ -3122,7 +3243,21 @@ def market_tickers_snapshot(fast: bool = False, force: bool = False) -> dict[str
 
 
 def read_btc_daily_sqlite(db_path: Path, limit: int) -> list[dict[str, Any]]:
-    uri = db_path.absolute().as_uri() + "?mode=ro"
+    def stable_read_only_source() -> tuple[int, int]:
+        # Immutable reads must never hide committed data still present in a WAL,
+        # or bypass an unfinished rollback journal. Leave every original intact.
+        for suffix in ("-wal", "-journal"):
+            journal = Path(str(db_path) + suffix)
+            try:
+                if journal.stat().st_size:
+                    raise RuntimeError("read_only_database_journal_pending:" + journal.name)
+            except FileNotFoundError:
+                pass
+        info = db_path.stat()
+        return info.st_size, info.st_mtime_ns
+
+    before = stable_read_only_source() if RUNTIME_READ_ONLY else None
+    uri = db_path.absolute().as_uri() + ("?mode=ro&immutable=1" if RUNTIME_READ_ONLY else "?mode=ro")
     conn = sqlite3.connect(uri, uri=True)
     conn.row_factory = sqlite3.Row
     try:
@@ -3157,12 +3292,17 @@ def read_btc_daily_sqlite(db_path: Path, limit: int) -> list[dict[str, Any]]:
                 WHERE symbol = 'BTC-USDT'
                 ORDER BY trading_date ASC
             """)
-        return [dict(row) for row in cursor.fetchall()]
+        rows = [dict(row) for row in cursor.fetchall()]
+        if RUNTIME_READ_ONLY and stable_read_only_source() != before:
+            raise RuntimeError("read_only_database_changed_during_read")
+        return rows
     finally:
         conn.close()
 
 
 def copy_btc_database_for_reading() -> Path:
+    if RUNTIME_READ_ONLY:
+        raise PermissionError("read_only_database_cache_copy_disabled")
     ensure_runtime()
     source_stat = BTC_DAILY_DB.stat()
     should_copy = True
@@ -3194,9 +3334,17 @@ def read_local_btc_daily(limit: int = 500) -> dict[str, Any]:
     for db_path in unique_existing_paths([BTC_DAILY_DB, BTC_DAILY_FALLBACK_DB, BTC_DAILY_DB_CACHE]):
         try:
             rows = read_btc_daily_sqlite(db_path, limit)
-            return {"ok": True, "source": "local_sqlite", "path": str(db_path), "rows": rows}
+            result = {"ok": True, "source": "local_sqlite", "path": str(db_path), "rows": rows}
+            if RUNTIME_READ_ONLY and errors:
+                result["warning"] = "; ".join(errors)
+                result["read_status"] = "EXISTING_FALLBACK"
+            return result
         except Exception as exc:
             errors.append(f"sqlite direct {db_path}: {exc}")
+            if RUNTIME_READ_ONLY:
+                # Continue through already-existing databases/CSV only. A read
+                # failure never authorizes replacing the user's saved cache.
+                continue
             try:
                 cache_path = copy_btc_database_for_reading()
                 rows = read_btc_daily_sqlite(cache_path, limit)
@@ -3288,10 +3436,12 @@ def fetch_okx_daily_history(symbol: str, limit: int = 300) -> list[dict[str, Any
 
 
 def okx_rows_with_error(path: str, query: dict[str, str]) -> tuple[list[Any], str]:
+    _require_legacy_market_network()
     return okx_rows_with_error_io(path, query)
 
 
 def binance_daily_history(symbol: str, limit: int = 300) -> tuple[list[Any], str, str]:
+    _require_legacy_market_network()
     text = (symbol or "BTC-USDT").upper()
     base = text.replace("-USDT-SWAP", "").replace("-USDT", "")
     if base not in CORE_CRYPTO_BASES:
@@ -3711,8 +3861,9 @@ def evaluate_strategy_signal(
     last_scale_price: float = 0.0,
     *,
     symbol: str = "",
+    candles: list[dict[str, Any]] | None = None, strategy_params: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    rows = strategy_candles_for_symbol(symbol, 180) if symbol else []
+    rows = [dict(row) for row in candles] if candles is not None else strategy_candles_for_symbol(symbol, 180) if symbol else []
     if not rows:
         return {
             "action": "HOLD",
@@ -3724,7 +3875,8 @@ def evaluate_strategy_signal(
     signal_mode = strategy_signal_input(strategy_id)
     history: list[Any] = rows if signal_mode == "BARS" else [float(row["close"]) for row in rows]
     signal_price = float(rows[-1].get("close") or price) if signal_mode == "BARS" else price
-    raw = build_strategy_signal_fn(strategy_id, strategy.get("params") or {})(
+    params = dict(strategy_params) if isinstance(strategy_params, dict) else strategy.get("params") or {}
+    raw = build_strategy_signal_fn(strategy_id, params)(
         history,
         signal_price,
         has_position,
@@ -4343,6 +4495,7 @@ def run_strategy_backtest(
     slippage_bps: float = 2.0,
     evaluation_start_index: int | None = None,
     strategy_params: dict[str, Any] | None = None,
+    include_full_history: bool = False,
 ) -> dict[str, Any]:
     capability = strategy_validation_capability(strategy_id)
     if not capability.get("backtest_supported"):
@@ -4357,6 +4510,16 @@ def run_strategy_backtest(
     source = str(payload.get("source") or "")
     strategy = choose_strategy(strategy_id)
     bound_params = dict(strategy_params) if isinstance(strategy_params, dict) else dict(strategy.get("params") or {})
+    market_kind = "stock" if is_stock_symbol(symbol) else "crypto"
+    if payload.get("frozen_input") is True:
+        # This payload is supplied internally from the verified frozen input.
+        # Its asset identity takes precedence over the legacy ticker heuristic.
+        frozen_meta = payload.get("meta")
+        asset_markets = {"US_EQUITY": "stock", "EQUITY": "stock", "HK_EQUITY": "stock", "CRYPTO": "crypto"}
+        if (payload.get("symbol") != symbol or not isinstance(frozen_meta, dict)
+                or frozen_meta.get("asset_class") not in asset_markets):
+            raise ValueError("frozen_input_market_identity_invalid")
+        market_kind = asset_markets[frozen_meta["asset_class"]]
     report = run_causal_long_only_backtest(
         rows=list(payload.get("rows") or []),
         symbol=symbol,
@@ -4369,7 +4532,7 @@ def run_strategy_backtest(
         fee_rate=fee_rate,
         slippage_bps=slippage_bps,
         leverage=leverage,
-        market="stock" if is_stock_symbol(symbol) else "crypto",
+        market=market_kind,
         timeframe=str(payload.get("bar") or "1D"),
         evaluation_start_index=evaluation_start_index,
         signal_input=strategy_signal_input(strategy_id),
@@ -4388,8 +4551,8 @@ def run_strategy_backtest(
     full_curve = list(report.get("equity_curve") or [])
     report["segments"] = equity_segment_report(full_curve)
     report["risk_label"] = backtest_risk_label(report)
-    report["trades"] = full_trades[-24:]
-    report["equity_curve"] = full_curve[-240:]
+    report["trades"] = full_trades if include_full_history else full_trades[-24:]
+    report["equity_curve"] = full_curve if include_full_history else full_curve[-240:]
     return report
 
 
@@ -4542,6 +4705,15 @@ def strategy_backtest_report(query: dict[str, str], *, dataset_lineage_id: str =
     direction_mode = str(query.get("directionMode", "LONG_ONLY") or "LONG_ONLY").upper()
     if direction_mode != "LONG_ONLY":
         raise ValueError("当前因果回测内核仅支持 LONG_ONLY；做空模型尚未完成独立验证。")
+    if "strategyParams" in query:
+        # Explicit task parameters must never be silently changed on return
+        # to the original research form's narrower risk contract.
+        for field, fallback, lower, upper in (("positionPct", "35", 1, 100),
+                ("takeProfitPct", "2.4", 0, 80), ("stopLossPct", "1.2", 0, 80),
+                ("leverage", "1", 1, 1)):
+            value = float(query.get(field, fallback))
+            if not math.isfinite(value) or not lower <= value <= upper:
+                raise ValueError("original_form_parameter_not_compatible:" + field)
     position_pct = clamp(pct(query.get("positionPct", "35")), 1, 100)
     take_profit_pct = clamp(pct(query.get("takeProfitPct", "2.4")), 0, 80)
     stop_loss_pct = clamp(pct(query.get("stopLossPct", "1.2")), 0, 80)
@@ -4550,9 +4722,19 @@ def strategy_backtest_report(query: dict[str, str], *, dataset_lineage_id: str =
     market_payload = backtest_market_rows(symbol, limit, dataset_lineage_id=dataset_lineage_id)
     strategy = choose_strategy(strategy_id)
     strategy_params = dict(strategy.get("params") or {})
+    if "strategyParams" in query:
+        def unique_fields(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in result:
+                    raise ValueError("duplicate_strategy_parameter")
+                result[key] = value
+            return result
+        supplied = json.loads(query["strategyParams"], object_pairs_hook=unique_fields)
+        strategy_params = validate_terminal_strategy_params(strategy, supplied)
     implementation_fingerprint = strategy_implementation_fingerprint(strategy_id, strategy_params)
     backtest_params = {
-        "strategy_params": strategy.get("params", {}),
+        "strategy_params": strategy_params,
         "position_pct": round(position_pct, 4),
         "take_profit_pct": round(take_profit_pct, 4),
         "stop_loss_pct": round(stop_loss_pct, 4),
@@ -4760,10 +4942,12 @@ def strategy_implementation_fingerprint(strategy_id: str, strategy_params: dict[
 
 
 def okx_first(path: str, query: dict[str, str]) -> dict[str, Any]:
+    _require_legacy_market_network()
     return okx_first_io(path, query)
 
 
 def okx_rows(path: str, query: dict[str, str]) -> list[Any]:
+    _require_legacy_market_network()
     return okx_rows_io(path, query)
 
 
@@ -8089,6 +8273,10 @@ RUNTIME_AI_KEYS_LOCK = threading.RLock()
 
 
 def runtime_secret(*names: str) -> tuple[str, str, str]:
+    selected = str(os.getenv("HAKIMI_AI_PROVIDER") or "").strip().lower()
+    disabled_names = {"OPENAI_API_KEY", "GPT_API_KEY"} if selected == "deepseek" else {"DEEPSEEK_API_KEY"} if selected == "openai" else set()
+    if any(name in disabled_names for name in names):
+        return names[0] if names else "", "", "disabled"
     with RUNTIME_AI_KEYS_LOCK:
         for name in names:
             value = RUNTIME_AI_KEYS.get(name)
@@ -8115,13 +8303,14 @@ def runtime_ai_key_status() -> dict[str, Any]:
             "id": provider,
             "name": name,
             "configured": bool(value),
+            "enabled": source != "disabled",
             "source": source,
             "active_env": active_env if value else "",
             "env": " / ".join(env_names),
         })
     has_environment_key = any(row.get("source") == "env" for row in rows)
     summary = (
-        "OpenAI 可由本机忽略文件或进程环境载入；界面粘贴的密钥仍只保存在当前后端进程内存中。"
+        "AI 接口可由本机忽略文件或进程环境载入；未启用接口保留原配置，界面粘贴的密钥只保存在当前后端进程内存中。"
         if has_environment_key else
         "界面粘贴的密钥只保存在当前后端进程内存中；重启服务后失效。"
     )
@@ -8188,6 +8377,7 @@ def deepseek_status() -> dict[str, Any]:
     return {
         "provider": "deepseek",
         "configured": bool(api_key),
+        "enabled": source != "disabled",
         "active_env": active_env if api_key else "",
         "source": source,
         "model": DEEPSEEK_MODEL,
@@ -8222,69 +8412,85 @@ def extract_json_object(text: str) -> dict[str, Any] | None:
 
 
 def deepseek_chat(messages: list[dict[str, str]], purpose: str, max_tokens: int = 1200, timeout: int = 30) -> dict[str, Any]:
-    _, api_key, _ = runtime_secret("DEEPSEEK_API_KEY")
+    _, api_key, key_source = runtime_secret("DEEPSEEK_API_KEY")
     if not api_key:
-        return {"ok": False, "configured": False, "error": "DEEPSEEK_API_KEY 未配置"}
+        return {"ok": False, "configured": False, "enabled": key_source != "disabled", "source": key_source,
+                "provider": "deepseek", "error": "DeepSeek 未启用，原配置保留；本次未发送请求。" if key_source == "disabled" else "DEEPSEEK_API_KEY 未配置",
+                "purpose": purpose, "request_attempts": 0, "automatic_retry": False}
     payload: dict[str, Any] = {
-        "model": DEEPSEEK_MODEL,
-        "messages": messages,
-        "temperature": 0.2,
-        "max_tokens": max_tokens,
-        "stream": False,
+        "model": DEEPSEEK_MODEL, "messages": messages, "temperature": 0.2,
+        "max_tokens": max_tokens, "stream": False,
+        "thinking": {"type": "enabled" if DEEPSEEK_THINKING_ENABLED else "disabled"},
     }
     if DEEPSEEK_THINKING_ENABLED:
-        payload["thinking"] = {"type": "enabled"}
         payload["reasoning_effort"] = "high"
+    attempts = 0
 
-    def post(body: dict[str, Any]) -> dict[str, Any]:
+    def failure(code: str, message: str, status: int | None = None) -> dict[str, Any]:
+        return {"ok": False, "configured": True, "enabled": True, "provider": "deepseek", "model": DEEPSEEK_MODEL,
+                "purpose": purpose, "error_code": code, "error": message, "http_status": status,
+                "request_attempts": attempts, "automatic_retry": False, "compatibility_retried": False,
+                "completion_status": "failed", "incomplete": False}
+
+    try:
         request = urllib.request.Request(
-            f"{DEEPSEEK_BASE_URL}/chat/completions",
-            data=json.dumps(body, ensure_ascii=False).encode("utf-8"),
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-                "User-Agent": "Python-Quant-Exchange-Terminal/0.1",
-            },
+            f"{DEEPSEEK_BASE_URL}/chat/completions", data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json", "User-Agent": "HakimiTradeV2/market-ai"},
             method="POST",
         )
-        with urllib.request.urlopen(request, timeout=timeout) as response:
-            return json.loads(response.read().decode("utf-8"))
-
-    thinking_requested = DEEPSEEK_THINKING_ENABLED
-    try:
-        response = post(payload)
+        attempts += 1
+        with urllib.request.urlopen(request, timeout=timeout) as response_handle:
+            response = json.loads(response_handle.read().decode("utf-8"))
     except urllib.error.HTTPError as exc:
-        body = exc.read().decode("utf-8", errors="ignore")
-        if DEEPSEEK_THINKING_ENABLED and exc.code in {400, 422}:
-            fallback_payload = dict(payload)
-            fallback_payload.pop("thinking", None)
-            fallback_payload.pop("reasoning_effort", None)
-            try:
-                response = post(fallback_payload)
-                thinking_requested = False
-            except Exception as fallback_exc:
-                return {"ok": False, "configured": True, "error": str(fallback_exc), "http_error": body[:500], "purpose": purpose}
-        else:
-            return {"ok": False, "configured": True, "error": body[:500] or str(exc), "purpose": purpose}
-    except Exception as exc:
-        return {"ok": False, "configured": True, "error": str(exc), "purpose": purpose}
+        status = exc.code if type(exc.code) is int else None
+        exc.close()
+        errors = {
+            400: ("invalid_request", "DeepSeek 请求参数无效，请核对模型与参数；未自动重试。"),
+            401: ("invalid_api_key", "DeepSeek 身份验证失败，请核对已配置凭据；未自动重试。"),
+            402: ("insufficient_balance", "DeepSeek API 余额不足，请充值后再手动重试；未自动重试。"),
+            403: ("access_denied", "DeepSeek 拒绝访问，请核对接口权限；未自动重试。"),
+            422: ("invalid_parameters", "DeepSeek 请求参数无法处理，请核对参数；未自动重试。"),
+            429: ("rate_limit_exceeded", "DeepSeek API 触发速率限制，请降低请求频率并稍后手动重试；未自动重试。"),
+        }
+        code, message = errors.get(status, ("provider_unavailable", "DeepSeek 服务暂不可用；未自动重试。") if status and status >= 500
+                                   else ("provider_request_failed", "DeepSeek 请求未成功；未自动重试。"))
+        return failure(code, message, status)
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return failure("invalid_response", "DeepSeek 返回格式异常，未取得可用分析；未自动重试。")
+    except Exception:
+        return failure("network_error", "DeepSeek 连接失败或请求超时；未自动重试。")
 
-    choice_row = (response.get("choices") or [{}])[0]
-    message = choice_row.get("message") or {}
-    content = message.get("content") or ""
-    parsed = extract_json_object(content)
+    if not isinstance(response, dict) or response.get("error") is not None:
+        return failure("invalid_response", "DeepSeek 返回格式异常，未取得可用分析；未自动重试。")
+    choices = response.get("choices")
+    if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
+        return failure("invalid_response", "DeepSeek 返回格式异常，未取得可用分析；未自动重试。")
+    choice = choices[0]
+    message = choice.get("message")
+    if not isinstance(message, dict):
+        return failure("invalid_response", "DeepSeek 返回格式异常，未取得可用分析；未自动重试。")
+    finish_reason = choice.get("finish_reason")
+    if message.get("refusal") or finish_reason == "content_filter":
+        return failure("response_refused", "DeepSeek 未提供本次分析；未自动重试。")
+    if finish_reason not in (None, "stop", "length"):
+        return failure("invalid_response", "DeepSeek 返回未支持的结束状态，未取得完整分析；未自动重试。")
+    content = message.get("content")
+    if content is not None and not isinstance(content, str):
+        return failure("invalid_response", "DeepSeek 返回文本格式异常；未自动重试。")
+    content = content or ""
+    if finish_reason == "length":
+        result = failure("output_incomplete", "DeepSeek 输出达到长度上限，结果未完成；未自动续写或重试。")
+        result.update({"content": content, "json": None, "finish_reason": "length", "completion_status": "incomplete", "incomplete": True})
+        return result
+    if not content.strip():
+        return failure("empty_response", "DeepSeek 未返回最终分析内容；未自动重试。")
     return {
-        "ok": True,
-        "configured": True,
-        "provider": "deepseek",
-        "model": response.get("model", DEEPSEEK_MODEL),
-        "purpose": purpose,
-        "thinking_requested": DEEPSEEK_THINKING_ENABLED,
-        "thinking_used": thinking_requested,
-        "reasoning": (message.get("reasoning_content") or "")[:1200],
-        "content": content,
-        "json": parsed,
-        "usage": response.get("usage", {}),
+        "ok": True, "configured": True, "enabled": True, "provider": "deepseek", "model": response.get("model", DEEPSEEK_MODEL),
+        "purpose": purpose, "thinking_requested": DEEPSEEK_THINKING_ENABLED,
+        "thinking_used": isinstance(message.get("reasoning_content"), str) and bool(message["reasoning_content"].strip()),
+        "content": content, "json": extract_json_object(content), "usage": response.get("usage", {}),
+        "request_attempts": attempts, "automatic_retry": False, "compatibility_retried": False,
+        "finish_reason": finish_reason, "completion_status": "complete", "incomplete": False,
     }
 
 
@@ -8357,11 +8563,142 @@ def deepseek_strategy_analysis(symbol: str, strategy_id: str, price: float, risk
     return {"ok": bool(result.get("ok")), "status": deepseek_status(), "analysis": merged, "deepseek": result}
 
 
+def deepseek_strategy_snapshot_analysis(payload: dict[str, Any], *, include_model: bool = True) -> dict[str, Any]:
+    """Explain one captured chart with existing local rules; never fetch a replacement."""
+    symbol = str(payload.get("symbol") or "").strip().upper()
+    bar = str(payload.get("bar") or "").strip()
+    provider = deepseek_status()
+    identity: dict[str, Any] | None = None
+    strategy_context: dict[str, Any] = {}
+    counts = {"total": 0, "complete": 0, "provisional": 0, "unknown": 0}
+
+    def paused(code: str, message: str) -> dict[str, Any]:
+        local = {"ok": False, "analysis_paused": True, "reason": message, "input_error": code,
+                 "symbol": symbol, "strategy_id": payload.get("strategy_id"), "candle_count": counts["complete"],
+                 "profit_probability": None, "long_plan": {}, "short_plan": {}, "source": "captured_chart"}
+        return {"ok": False, "symbol": symbol, "bar": bar, "status": provider, "provider_status": provider,
+                "analysis_status": "PAUSED_DATA_QUALITY", "error": message, "error_code": code,
+                "local": local, "analysis": {**local, "deepseek": {}},
+                "deepseek": {"ok": False, "provider": "deepseek", "configured": provider.get("configured", False),
+                             "enabled": provider.get("enabled", True), "error": message, "error_code": code,
+                             "skipped": True, "request_attempts": 0, "automatic_retry": False},
+                "input_identity": identity, "strategy_context": strategy_context, "completion_counts": counts,
+                "external_supplement": {"status": "SKIPPED", "reason": "exact_captured_chart"}, "updated_at": now_ms()}
+
+    chart_context = payload.get("chart_context")
+    if not symbol or not bar or not isinstance(chart_context, dict):
+        return paused("strategy_snapshot_context_required", "需要当前标的、周期和图表快照；未调用模型。")
+    try:
+        candles, identity, bound = _market_ai_frontend_snapshot(symbol, bar, payload.get("candles"), chart_context)
+    except ValueError:
+        return paused("strategy_snapshot_invalid", "图表快照的行情、身份或完成标记无法核对；未抓取替代行情，也未调用模型。")
+    if is_stock_symbol(symbol) and not identity.get("session"):
+        return paused("strategy_snapshot_session_required", "股票图表缺少时段身份；未调用模型。")
+    declared_sources = [identity["source"], *(str(row.get("source") or "") for row in candles)]
+    if any(any(marker in value.lower() for marker in ("synthetic", "preview", "offline-seed", "offline_seed")) for value in declared_sources):
+        return paused("strategy_snapshot_preview_blocked", "预览或合成行情不能用于当前策略AI分析，请先加载真实来源的图表。")
+    counts = dict(identity["completion_counts"])
+    quality: dict[str, Any] = {}
+    if is_stock_symbol(symbol) and str(bar).lower() in {"1d", "1dutc", "day", "daily"}:
+        schedule = resolve_stock_candle_schedule_attestation(benchmark_symbol=symbol, source=identity["source"], rows=candles)
+        quality = analyze_stock_candle_series(candles, symbol=symbol, interval=str(bar).lower(), source=identity["source"], schedule_attestation=schedule, minimum_analysis_rows=20)
+        if quality.get("structure_complete") is not True or quality.get("temporal_conformance_complete") is not True:
+            return paused("strategy_snapshot_quality_unverified", "日线结构或时间来源尚未通过核对；未调用模型。")
+        if quality.get("has_break"):
+            return paused("strategy_snapshot_scale_break", "图表存在价格尺度断点，请先核对复权或拆股口径；未调用模型。")
+    strategy_id = str(payload.get("strategy_id") or "").strip()
+    strategy = choose_strategy(strategy_id)
+    supplied_params = payload.get("strategy_params")
+    if strategy.get("unsupported") or not isinstance(supplied_params, dict):
+        return paused("strategy_parameters_required", "需要已知策略及当前表单的完整参数；未调用模型。")
+    capability = strategy_validation_capability(strategy_id)
+    try:
+        if capability.get("backtest_supported") is True:
+            params = validate_terminal_strategy_params(strategy, supplied_params)
+        else:
+            params = dict(strategy.get("params") or {})
+            if supplied_params != params:
+                raise ValueError("unsupported_parameter_changes")
+    except (ValueError, TypeError, KeyError):
+        return paused("strategy_parameters_invalid", "策略参数无效或该策略尚不支持这些参数调整；未调用模型。")
+    risk_values = payload.get("risk_config", {})
+    allowed_risk = {"riskSource", "riskValueMode", "orderType", "marginMode", "directionMode", "takeProfit", "stopLoss",
+                    "takeProfitPct", "stopLossPct", "trailingTakeEnabled", "trailingTakePct", "trailingStopEnabled", "trailingStopPct", "reduceOnly"}
+    if not isinstance(risk_values, dict) or set(risk_values) - allowed_risk:
+        return paused("strategy_risk_invalid", "风险参数格式无效；未调用模型。")
+    for key in ("takeProfit", "stopLoss", "takeProfitPct", "stopLossPct", "trailingTakePct", "trailingStopPct"):
+        try:
+            if key in risk_values and not math.isfinite(float(risk_values[key] or 0)):
+                raise ValueError("nonfinite_risk")
+        except (ValueError, TypeError):
+            return paused("strategy_risk_invalid", "风险参数包含无效数字；未调用模型。")
+    chart_price = candles[-1]["close"]
+    risk = build_risk_config({key: str(value) for key, value in risk_values.items()}, chart_price)
+    complete_rows = [dict(row) for row in candles if row.get("complete") is True and row.get("provisional") is not True]
+    local = {"ok": False, "symbol": symbol, "strategy_id": strategy_id, "strategy_name": strategy["name"],
+             "source": "captured_chart_local_rules", "candle_count": len(complete_rows), "profit_probability": None,
+             "long_plan": {}, "short_plan": {}, "reason": "已完成图表K线不足60根，未计算本地规则价格规划。"}
+    if len(complete_rows) >= 60:
+        local = {**analyze_strategy_context(strategy_id, symbol, chart_price,
+                    float(risk.get("manual_take_profit") or 0), float(risk.get("manual_stop_loss") or 0), risk.get("analysis_direction", "LONG"),
+                    candles=complete_rows, strategy_params=params), "ok": True, "source": "captured_chart_local_rules", "candle_count": len(complete_rows)}
+    required = strategy_startup_candles(strategy_id, params)
+    signal = {"calculated": False, "availability": "INSUFFICIENT_COMPLETED_HISTORY", "reason": "已完成图表K线尚未满足原信号预热要求。",
+              "required_rows": required, "row_count": len(complete_rows), "engine_version": SIGNAL_ENGINE_VERSION,
+              "strategy_id": strategy_id, "strategy_params": params, "assumed_has_position": False,
+              "price_basis": "LAST_COMPLETED_CANDLE_CLOSE", "execution_allowed": False}
+    if capability.get("new_research_allowed") is False or capability.get("backtest_supported") is not True:
+        signal.update({"availability": "STRATEGY_CAPABILITY_BLOCKED", "reason": str(capability.get("paper_blocker") or capability.get("blocker") or "该策略仅保留解释与历史记录。")})
+    elif risk.get("analysis_direction") == "SHORT":
+        signal.update({"availability": "DIRECTION_NOT_SUPPORTED", "reason": "原信号引擎仅支持只做多；未把做空研究映射成多头信号。"})
+    elif len(complete_rows) >= required:
+        evaluated = evaluate_strategy_signal(
+            strategy_id, complete_rows[-1]["close"], False, 0, 0, symbol=symbol, candles=complete_rows, strategy_params=params)
+        signal.update({"calculated": True, "availability": "CALCULATED", "result": evaluated,
+                       "reason": str(evaluated.get("reason") or "已完成原信号计算；具体原因见result")})
+    local.update({"evidence_kind": "LOCAL_DETERMINISTIC_RULES", "uncalibrated_probability": True, "signal": signal,
+                  "price": chart_price, "price_basis": "SUPPLIED_LAST_CANDLE_CLOSE", "risk_config": risk, "strategy_params": params})
+    strategy_context = {"engine_id": "terminal." + SIGNAL_ENGINE_VERSION,
+                        "strategy_id": strategy_id, "strategy_name": strategy["name"], "strategy_params": params,
+                        "risk_config": risk, "bar": bar, "session": identity["session"], "source": identity["source"],
+                        "price": chart_price, "price_basis": "SUPPLIED_LAST_CANDLE_CLOSE", "completion_counts": counts,
+                        "capability": capability, "engine_version": SIGNAL_ENGINE_VERSION}
+    if not include_model:
+        skipped = {"ok": False, "skipped": True, "provider": "deepseek", "reason": "local_only",
+                   "configured": provider.get("configured", False), "enabled": provider.get("enabled", True),
+                   "request_attempts": 0, "automatic_retry": False, "error": "本次仅计算原本地规则，未调用模型。"}
+        return {"ok": True, "symbol": symbol, "bar": bar, "status": provider, "provider_status": provider,
+                "analysis_status": "LOCAL_ONLY", "local": local, "analysis": {**local, "deepseek": {}},
+                "deepseek": skipped, "input_identity": identity, "strategy_context": strategy_context,
+                "completion_counts": counts, "data_quality": stock_candle_quality_public(quality) if quality else {},
+                "external_supplement": {"status": "SKIPPED", "reason": "exact_captured_chart"}, "updated_at": now_ms()}
+    max_tokens = payload.get("max_output_tokens", 1400)
+    if type(max_tokens) is not int or not 128 <= max_tokens <= 1800:
+        return paused("strategy_output_limit_invalid", "分析长度需在128至1800之间；未调用模型。")
+    prompt = {"task": "解释当前图表与所选策略；严格区分确定性本地规则和你的描述，不补写未计算的信号或胜率。",
+              "symbol": symbol, "bar": bar, "input_identity": identity, "strategy_context": strategy_context,
+              "local_deterministic": local, "completion_counts": counts,
+              "chart_candles": candles, "user_question": str(payload.get("question") or "")[:900],
+              "source_notice": "这是前端明确提交的图表来源声明，未经独立认证；未追加实时行情或其他周期。",
+              "output_schema": {"summary": "简短策略解释", "answer": "回答问题", "reasons": ["图表与本地规则依据"],
+                                "risk_notes": ["数据时效、样本、规则限制与反证"], "waiting_conditions": ["仍需核对的条件"]}}
+    result = deepseek_chat([{"role": "system", "content": "你是行情与策略研究解释员。只依据所附同一图表快照和原规则回执，用中文输出简短JSON。不得虚构已完成的策略验证、回测、信号或胜率；不得把未完成K线当已完成，也不得提供下单授权。"},
+                           {"role": "user", "content": json.dumps(prompt, ensure_ascii=False)}], "captured_strategy_analysis", max_tokens, 45)
+    parsed = result.get("json") if result.get("ok") is True and isinstance(result.get("json"), dict) else {}
+    return {"ok": result.get("ok") is True, "symbol": symbol, "bar": bar, "status": provider, "provider_status": provider,
+            "analysis_status": "COMPLETE" if result.get("ok") else "INCOMPLETE" if result.get("incomplete") else "FAILED",
+            "error": "" if result.get("ok") else result.get("error", "未取得模型分析。"), "local": local,
+            "analysis": {**local, "deepseek": parsed}, "deepseek": result, "input_identity": identity,
+            "strategy_context": strategy_context, "completion_counts": counts, "data_quality": stock_candle_quality_public(quality) if quality else {},
+            "external_supplement": {"status": "SKIPPED", "reason": "exact_captured_chart"}, "updated_at": now_ms()}
+
+
 def openai_status() -> dict[str, Any]:
     active_env, api_key, source = runtime_secret("OPENAI_API_KEY", "GPT_API_KEY")
     return {
         "provider": "openai",
         "configured": bool(api_key),
+        "enabled": source != "disabled",
         "active_env": active_env if api_key else "",
         "source": source,
         "model": OPENAI_MODEL,
@@ -8505,10 +8842,12 @@ def openai_message_text(message: dict[str, Any]) -> str:
     return str(content)
 
 
-def openai_chat(messages: list[dict[str, str]], purpose: str, max_tokens: int = 1200, timeout: int = 30) -> dict[str, Any]:
-    _, api_key, _ = runtime_secret("OPENAI_API_KEY", "GPT_API_KEY")
+def openai_chat(messages: list[dict[str, str]], purpose: str, max_tokens: int = 1200, timeout: int = 30, *, allow_compatibility_retry: bool = False) -> dict[str, Any]:
+    _, api_key, key_source = runtime_secret("OPENAI_API_KEY", "GPT_API_KEY")
     if not api_key:
-        return {"ok": False, "configured": False, "error": "OPENAI_API_KEY 未配置", "purpose": purpose}
+        return {"ok": False, "configured": False, "enabled": key_source != "disabled", "source": key_source,
+                "provider": "openai", "error": "OpenAI 未启用，原配置保留；本次未发送请求。" if key_source == "disabled" else "OPENAI_API_KEY 未配置",
+                "purpose": purpose, "request_attempts": 0, "automatic_retry": False}
 
     payload: dict[str, Any] = {
         "model": OPENAI_MODEL,
@@ -8517,52 +8856,138 @@ def openai_chat(messages: list[dict[str, str]], purpose: str, max_tokens: int = 
         "max_tokens": max_tokens,
         "stream": False,
     }
+    attempts = 0
 
     def post(body: dict[str, Any]) -> dict[str, Any]:
+        nonlocal attempts
         request = urllib.request.Request(
             f"{OPENAI_BASE_URL}/chat/completions",
             data=json.dumps(body, ensure_ascii=False).encode("utf-8"),
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-                "User-Agent": "HakimiTradeV2/market-ai",
-            },
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json", "User-Agent": "HakimiTradeV2/market-ai"},
             method="POST",
         )
+        attempts += 1
         with urllib.request.urlopen(request, timeout=timeout) as response:
             return json.loads(response.read().decode("utf-8"))
+
+    def failure(error: Exception, body: str = "") -> dict[str, Any]:
+        status = getattr(error, "code", None)
+        status = status if type(status) is int else None
+        quota_messages = {
+            "credit_balance_exhausted": "OpenAI API 余额已用完，请在 API 账单页面充值后再手动重试；未自动重试。",
+            "organization_spend_limit_exceeded": "OpenAI 组织消费已达上限，请由组织管理员检查账单与组织消费上限，处理后再手动重试；未自动重试。",
+            "project_spend_limit_exceeded": "OpenAI 项目消费已达上限，请由项目或组织管理员检查该项目消费上限，处理后再手动重试；未自动重试。",
+            "organization_usage_limit_exceeded": "OpenAI 组织 API 使用额度已达上限，请检查组织使用限额，必要时申请提高限额或等待额度重置；未自动重试。",
+            "insufficient_quota": "OpenAI API 配额不足，请检查 API 余额与消费、使用上限，处理后再手动重试；未自动重试。",
+            "rate_limit_exceeded": "OpenAI API 暂时触发速率限制，请降低请求频率并稍后手动重试；未自动重试。",
+            "slow_down": "OpenAI API 要求降低请求速度，请稍后手动重试；未自动重试。",
+        }
+        safe_codes = {"invalid_api_key", "model_not_found", "unsupported_parameter", "unsupported_value",
+                      "invalid_request_error", "context_length_exceeded", *quota_messages}
+        try:
+            issue = json.loads(body).get("error", {})
+            candidates = [value.strip().lower() for value in (issue.get("code"), issue.get("type")) if isinstance(value, str)]
+        except (ValueError, AttributeError, TypeError):
+            candidates = []
+        # An unknown or generic code must not hide a recognized quota/rate type.
+        candidates = ["rate_limit_exceeded" if value == "rate_limit_error" else value for value in candidates]
+        quota_codes = set(quota_messages) - {"rate_limit_exceeded", "slow_down"}
+        code = next((value for value in candidates if value in quota_codes),
+                    next((value for value in candidates if value in quota_messages),
+                         next((value for value in candidates if value in safe_codes), "provider_request_failed")))
+        message = {401: "OpenAI 身份验证失败，请核对已配置凭据；未自动重试。",
+                   403: "OpenAI 拒绝访问，请核对项目或模型权限；未自动重试。"}.get(status)
+        if status == 429:
+            message = quota_messages.get(code, "OpenAI API 返回 HTTP 429，但未提供可识别的原因；目前无法判定是限流还是额度问题，未自动重试。")
+        if not message:
+            message = "OpenAI 服务暂不可用；未自动重试。" if status and status >= 500 else "OpenAI 请求未成功，请核对请求配置；本次不再自动重试。"
+        result = {"ok": False, "configured": True, "provider": "openai", "model": OPENAI_MODEL,
+                  "error": message, "error_code": code, "purpose": purpose,
+                  "http_status": status, "request_attempts": attempts,
+                  "compatibility_retried": attempts > 1, "automatic_retry": False}
+        if status == 429 and code in {"rate_limit_exceeded", "slow_down"}:
+            try:
+                retry_after = float((getattr(error, "headers", None) or {}).get("Retry-After", ""))
+                if math.isfinite(retry_after) and 0 <= retry_after <= 86400:
+                    result["retry_after_seconds"] = retry_after
+            except (ValueError, TypeError, AttributeError):
+                pass
+        return result
 
     used_payload = dict(payload)
     try:
         response = post(used_payload)
     except urllib.error.HTTPError as exc:
-        body = exc.read().decode("utf-8", errors="ignore")
-        fallback_payload = dict(payload)
-        fallback_payload.pop("temperature", None)
-        if "max_completion_tokens" in body or "max_tokens" in body:
-            fallback_payload.pop("max_tokens", None)
-            fallback_payload["max_completion_tokens"] = max_tokens
+        try:
+            body = exc.read().decode("utf-8", errors="ignore")
+        finally:
+            exc.close()
+        fallback_payload = None
+        if allow_compatibility_retry and exc.code in {400, 422}:
+            try:
+                issue = json.loads(body).get("error", {})
+                parameter, code = issue.get("param"), issue.get("code")
+            except (ValueError, AttributeError, TypeError):
+                parameter, code = None, None
+            if parameter == "temperature" and parameter in used_payload and code in ("unsupported_parameter", "unsupported_value"):
+                fallback_payload = dict(used_payload)
+                fallback_payload.pop("temperature")
+            elif parameter == "max_tokens" and parameter in used_payload and code == "unsupported_parameter":
+                fallback_payload = dict(used_payload)
+                fallback_payload["max_completion_tokens"] = fallback_payload.pop("max_tokens")
+        if fallback_payload is None:
+            return failure(exc, body)
         try:
             response = post(fallback_payload)
             used_payload = fallback_payload
+        except urllib.error.HTTPError as fallback_exc:
+            try:
+                fallback_body = fallback_exc.read().decode("utf-8", errors="ignore")
+            finally:
+                fallback_exc.close()
+            return failure(fallback_exc, fallback_body)
         except Exception as fallback_exc:
-            return {"ok": False, "configured": True, "error": str(fallback_exc), "http_error": body[:500], "purpose": purpose}
+            return failure(fallback_exc)
     except Exception as exc:
-        return {"ok": False, "configured": True, "error": str(exc), "purpose": purpose}
+        return failure(exc)
 
-    choice_row = (response.get("choices") or [{}])[0]
-    message = choice_row.get("message") or {}
+    def response_failure(code: str, message: str) -> dict[str, Any]:
+        result = failure(ValueError("invalid_provider_response"))
+        result.update({"error_code": code, "error": message, "completion_status": "failed", "incomplete": False})
+        return result
+
+    if not isinstance(response, dict) or response.get("error") is not None:
+        return response_failure("invalid_response", "OpenAI 返回格式异常，未取得可用分析；未自动重试。")
+    choices = response.get("choices")
+    if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
+        return response_failure("invalid_response", "OpenAI 返回格式异常，未取得可用分析；未自动重试。")
+    choice_row = choices[0]
+    message = choice_row.get("message")
+    if not isinstance(message, dict):
+        return response_failure("invalid_response", "OpenAI 返回格式异常，未取得可用分析；未自动重试。")
+    finish_reason = choice_row.get("finish_reason")
+    if message.get("refusal") or finish_reason == "content_filter":
+        return response_failure("response_refused", "OpenAI 未提供本次分析；未自动重试。")
+    if finish_reason not in (None, "stop", "length"):
+        return response_failure("invalid_response", "OpenAI 返回未支持的结束状态，未取得完整分析；未自动重试。")
+    raw_content = message.get("content")
+    if raw_content is not None and not isinstance(raw_content, (str, list)):
+        return response_failure("invalid_response", "OpenAI 返回文本格式异常，未取得可用分析；未自动重试。")
+    if isinstance(raw_content, list) and any(not isinstance(item, dict) or not isinstance(item.get("text"), str) for item in raw_content):
+        return response_failure("invalid_response", "OpenAI 返回文本格式异常，未取得可用分析；未自动重试。")
     content = openai_message_text(message)
+    if finish_reason == "length":
+        result = response_failure("output_incomplete", "OpenAI 输出达到长度上限，结果未完成；未自动续写或重试。")
+        result.update({"content": content, "json": None, "finish_reason": "length", "incomplete": True, "completion_status": "incomplete"})
+        return result
+    if not content.strip():
+        return response_failure("empty_response", "OpenAI 未返回分析内容；未自动重试。")
     return {
-        "ok": True,
-        "configured": True,
-        "provider": "openai",
-        "model": response.get("model", OPENAI_MODEL),
-        "purpose": purpose,
-        "content": content,
-        "json": extract_json_object(content),
-        "usage": response.get("usage", {}),
+        "ok": True, "configured": True, "provider": "openai", "model": response.get("model", OPENAI_MODEL),
+        "purpose": purpose, "content": content, "json": extract_json_object(content), "usage": response.get("usage", {}),
         "compat": "max_completion_tokens" if "max_completion_tokens" in used_payload else "max_tokens",
+        "request_attempts": attempts, "compatibility_retried": attempts > 1,
+        "finish_reason": finish_reason, "completion_status": "complete", "incomplete": False,
     }
 
 
@@ -8962,6 +9387,9 @@ def normalize_frontend_candles(rows: Any, limit: int = 300) -> list[dict[str, fl
                 "close": close,
                 "volume": float(row.get("volume") or 0),
             })
+            for metadata_key in ("date", "source", "complete", "provisional"):
+                if metadata_key in row:
+                    candles[-1][metadata_key] = row[metadata_key]
         except Exception:
             continue
     return candles
@@ -9154,12 +9582,15 @@ def local_market_ai_analysis(symbol: str, bar: str, price: float, drawings: list
         "drawing_levels": drawing_levels,
         "chart_context": chart_context,
         "shared_snapshot": shared_context,
+        "data_quality": stock_candle_quality_public(candle_quality) if candle_quality else {},
         "evidence": evidence,
         "trading_rules": rules,
     }
 
 
-def market_ai_system_prompt() -> str:
+def market_ai_system_prompt(*, short: bool = False) -> str:
+    if short:
+        return "你是哈基米交易v2的行情分析员。仅依据提供的公开行情回答问题，用三句中文说明观察、样本限制和数据时效。不得推测账户、持仓，不给出买卖建议或胜率。只输出简短JSON，字段为summary、answer、risk_notes；不得声称已完成未进行的第二方复核。"
     return (
         "你是哈基米交易v2里的行情分析员，只能输出研究分析和模拟风控建议，不能直接下实盘订单。"
         "必须基于K线、价格、成交量、画线/斐波、支撑压力、趋势、盘口/合约信息和交易法则进行多空分开分析。"
@@ -9168,149 +9599,182 @@ def market_ai_system_prompt() -> str:
     )
 
 
-def market_dual_ai_analysis(payload: dict[str, Any]) -> dict[str, Any]:
+def _market_ai_frontend_snapshot(symbol: str, bar: str, rows: Any, chart_context: dict[str, Any]) -> tuple[list[dict[str, float]], dict[str, Any], dict[str, Any]]:
+    """Bind the exact supplied chart rows without fetching replacement market data."""
+    if not isinstance(rows, list) or not 30 <= len(rows) <= 300:
+        raise ValueError("frontend_candles_require_30_to_300_rows")
+    shared = chart_context.get("shared_snapshot", {})
+    if not isinstance(shared, dict):
+        raise ValueError("frontend_snapshot_context_invalid")
+    canonical_bar = lambda value: {"1dutc": "1d", "day": "1d", "daily": "1d"}.get(str(value).strip().lower(), str(value).strip().lower())
+    if ("symbol" in shared and shared["symbol"] != symbol) or ("bar" in shared and canonical_bar(shared["bar"]) != canonical_bar(bar)):
+        raise ValueError("frontend_snapshot_symbol_or_bar_mismatch")
+    source = chart_context.get("snapshot_source") or "frontend_chart"
+    if not isinstance(source, str) or len(source) > 200:
+        raise ValueError("frontend_snapshot_source_invalid")
+    session = chart_context.get("session", shared.get("session", ""))
+    if not isinstance(session, str) or len(session) > 40:
+        raise ValueError("frontend_snapshot_session_invalid")
+    session = session.strip().lower()
+    if "session" in shared and session != str(shared["session"]).strip().lower():
+        raise ValueError("frontend_snapshot_session_mismatch")
+    candles = []
+    previous = -1
+    for row in rows:
+        if not isinstance(row, dict) or any(type(row.get(key)) not in {int, float} or not math.isfinite(row[key]) for key in ("ts", "open", "high", "low", "close", "volume")):
+            raise ValueError("frontend_candle_fields_invalid")
+        ts = row["ts"]
+        if ts <= previous or ts <= 0 or int(ts) != ts or min(row["open"], row["high"], row["low"], row["close"]) <= 0 or row["volume"] < 0:
+            raise ValueError("frontend_candle_time_or_price_invalid")
+        if row["high"] < max(row["open"], row["close"]) or row["low"] > min(row["open"], row["close"]):
+            raise ValueError("frontend_candle_ohlc_invalid")
+        candles.append({"ts": int(ts), **{key: float(row[key]) for key in ("open", "high", "low", "close", "volume")}})
+        previous = ts
+    digest = hashlib.sha256(json.dumps(candles, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")).hexdigest()
+    identity = {"symbol": symbol, "bar": bar, "session": session, "source": source, "rows_sha256": digest, "row_count": len(candles),
+                "first_ts": candles[0]["ts"], "last_ts": candles[-1]["ts"], "snapshot_id": shared.get("snapshot_id"),
+                "binding": "SUPPLIED_FRONTEND_CANDLES", "source_authenticated": False,
+                "price_basis": "SUPPLIED_LAST_CANDLE_CLOSE", "normalization": "NUMERIC_OHLCV_NO_DROPPED_ROWS"}
+    for candle, original in zip(candles, rows):
+        for key in ("complete", "provisional"):
+            if key in original:
+                if type(original[key]) is not bool:
+                    raise ValueError("frontend_candle_completion_invalid")
+                candle[key] = original[key]
+        if candle.get("complete") is True and candle.get("provisional") is True:
+            raise ValueError("frontend_candle_completion_conflict")
+        if "date" in original:
+            if not isinstance(original["date"], str):
+                raise ValueError("frontend_candle_date_invalid")
+            candle["date"] = original["date"]
+        if "source" in original:
+            if not isinstance(original["source"], str) or len(original["source"]) > 200:
+                raise ValueError("frontend_candle_source_invalid")
+            candle["source"] = original["source"]
+    identity["completion_counts"] = {"total": len(candles),
+        "complete": sum(row.get("complete") is True and row.get("provisional") is not True for row in candles),
+        "provisional": sum(row.get("complete") is False or row.get("provisional") is True for row in candles),
+        "unknown": sum("complete" not in row and row.get("provisional") is not True for row in candles)}
+    # The existing calculator selects frontend rows when shared context exists.
+    # This is an explicit unverified chart binding, not a fabricated provider receipt.
+    bound_context = {**chart_context, "snapshot_source": source,
+                     "shared_snapshot": {**shared, "symbol": symbol, "bar": bar,
+                                         "frontend_rows_sha256": digest, "source_authenticated": False}}
+    return candles, identity, bound_context
+
+
+def market_dual_ai_analysis(payload: dict[str, Any], *, providers: tuple[str, ...] | None = None,
+                            allow_compatibility_retry: bool = False) -> dict[str, Any]:
     symbol = str(payload.get("symbol") or "BTC-USDT").upper()
     bar = str(payload.get("bar") or "1H")
     price = pct(payload.get("price", 0.0), 0.0)
     question = str(payload.get("question") or "").strip()[:900]
     drawings = payload.get("drawings") if isinstance(payload.get("drawings"), list) else []
     chart_context = payload.get("chart_context") if isinstance(payload.get("chart_context"), dict) else {}
-    anomaly_context = chart_context.get("anomaly_radar") if isinstance(chart_context.get("anomaly_radar"), dict) else {}
-    trend_cockpit_context = chart_context.get("trend_cockpit") if isinstance(chart_context.get("trend_cockpit"), dict) else {}
-    local = local_market_ai_analysis(symbol, bar, price, drawings, chart_context, payload.get("candles"))
-    if local.get("analysis_paused"):
-        pause_summary = str(local.get("summary") or f"{symbol} 日线数据待核，暂停分析。")
-        review = {
-            "summary": pause_summary,
-            "anomaly_type": "数据质量异常",
-            "severity": "HIGH",
-            "preferred_direction": "WAIT",
-            "long_win_rate_pct": 0,
-            "short_win_rate_pct": 0,
-            "long_take_profit": 0,
-            "long_stop_loss": 0,
-            "short_take_profit": 0,
-            "short_stop_loss": 0,
-            "key_evidence": list(local.get("evidence") or []),
-            "counter_evidence": ["历史日线复权或拆股口径尚未确认。"],
-            "trading_rule_notes": ["数据质量不通过时禁止生成方向性结论。"],
-            "no_trade_conditions": ["价格尺度断点未核实。"],
-            "waiting_conditions": ["等待同口径日线样本达到20根，或确认复权因子后重算。"],
-            "safe_action": "观察 / 仅研究 / 仅模拟盘验证",
-            "answer": "当前只确认实时报价；历史趋势、胜率和关键价位暂不可信。",
-        }
-        return {
-            "ok": True,
-            "symbol": symbol,
-            "bar": bar,
-            "question": question,
-            "status": {
-                "deepseek": deepseek_status(),
-                "gpt": openai_status(),
-                "live_trading": "hard_blocked" if LIVE_TRADING_HARD_BLOCK else "requires_manual_audit",
-                "analysis": "paused_data_quality",
-            },
-            "local": local,
-            "analysis": {"deepseek": {**review, "reviewer": "DeepSeek前置数据审查"}, "gpt": {**review, "reviewer": "GPT数据质量复核", "deepseek_review": "同意暂停", "final_decision": "WAIT"}},
-            "deepseek": {"ok": False, "skipped": True, "error": "数据质量未通过，未调用外部模型"},
-            "gpt": {"ok": False, "skipped": True, "error": "数据质量未通过，未调用外部模型"},
-            "updated_at": now_ms(),
-        }
-    try:
-        market = market_insights(symbol)
-    except Exception as exc:
-        market = {"ok": False, "error": str(exc)}
-    try:
-        contract = contract_center(symbol)
-    except Exception as exc:
-        contract = {"ok": False, "error": str(exc)}
+    selected = str(os.getenv("HAKIMI_AI_PROVIDER") or "").strip().lower()
+    default_providers = (selected,) if selected in {"deepseek", "openai"} else ("deepseek", "openai")
+    requested = tuple(providers) if providers is not None else default_providers
+    if not requested or len(set(requested)) != len(requested) or any(provider not in {"deepseek", "openai"} for provider in requested):
+        raise ValueError("market_ai_provider_selection_invalid")
+    max_tokens = payload.get("max_output_tokens", 1800)
+    if type(max_tokens) is not int or not 128 <= max_tokens <= 1800:
+        raise ValueError("max_output_tokens_must_be_integer_128_to_1800")
+    statuses = {"deepseek": deepseek_status(), "gpt": openai_status()}
+    input_identity: dict[str, Any] | None = None
 
-    output_schema = {
-        "summary": "一句话结论",
-        "anomaly_type": "放量/急涨急跌/突破/跌破/波动率扩张/资金费率异常/OI变化/盘口变化/联动异动/无明显异动",
-        "severity": "LOW/MEDIUM/HIGH/CRITICAL",
-        "preferred_direction": "LONG/SHORT/WAIT",
-        "long_win_rate_pct": "0-100",
-        "short_win_rate_pct": "0-100",
-        "long_take_profit": "数字或0",
-        "long_stop_loss": "数字或0",
-        "short_take_profit": "数字或0",
-        "short_stop_loss": "数字或0",
-        "key_evidence": ["支持结论的证据"],
-        "counter_evidence": ["反证或失效条件"],
-        "trading_rule_notes": ["交易法则和风控提示"],
-        "no_trade_conditions": ["不应该交易的条件"],
-        "waiting_conditions": ["下一步观察条件"],
-        "safe_action": "观察 / 仅研究 / 仅模拟盘验证",
-        "answer": "回答用户问题",
-    }
-    context = {
-        "task": "行情AI分析，DeepSeek先做第一遍，GPT再复核",
-        "symbol": symbol,
-        "bar": bar,
-        "price": price or local.get("price", 0),
-        "user_question": question or "请分析当前多空胜率、止盈止损和反证。",
-        "local_quant_snapshot": local,
-        "market_insights": market,
-        "contract_snapshot": contract,
-        "anomaly_context": anomaly_context,
-        "trend_cockpit_context": trend_cockpit_context,
-        "safety_boundary": {
-            "live_trading_enabled": False,
-            "safe_action_only": "观察 / 仅研究 / 仅模拟盘验证",
-            "win_rate_note": "胜率只能是当前样本和规则估计，不能写成保证性结论。",
-        },
-        "output_schema": output_schema,
-    }
+    def skipped(provider: str, reason: str, message: str) -> dict[str, Any]:
+        status = statuses["gpt" if provider == "openai" else "deepseek"]
+        enabled = status.get("enabled", status.get("source") != "disabled")
+        if not enabled and reason != "data_quality":
+            reason, message = "disabled", f"{provider} 未启用，原配置保留；本次未发送请求。"
+        return {"ok": False, "configured": bool(status.get("configured")), "enabled": enabled, "provider": provider,
+                "skipped": True, "reason": reason, "error": message, "request_attempts": 0}
 
-    deepseek_result = deepseek_chat(
-        [
-            {"role": "system", "content": market_ai_system_prompt()},
-            {"role": "user", "content": json.dumps(context, ensure_ascii=False)},
-        ],
-        "market_ai_first_pass",
-        1800,
-        45,
-    )
+    def paused(local: dict[str, Any], message: str) -> dict[str, Any]:
+        return {"ok": True, "symbol": symbol, "bar": bar, "question": question,
+                "status": {**statuses, "analysis": "paused_data_quality", "providers_requested": list(requested),
+                           "providers_completed": [], "live_trading": "hard_blocked" if LIVE_TRADING_HARD_BLOCK else "requires_manual_audit"},
+                "local": {**local, "analysis_paused": True}, "analysis": {"deepseek": {}, "gpt": {}},
+                "deepseek": skipped("deepseek", "data_quality", message), "gpt": skipped("openai", "data_quality", message),
+                "input_identity": input_identity, "external_supplement": {"status": "SKIPPED", "reason": "data_quality"}, "updated_at": now_ms()}
+
+    supplied = "candles" in payload
+    if supplied:
+        if "chart_context" in payload and not isinstance(payload["chart_context"], dict):
+            return paused({"ok": False, "summary": "图表上下文格式无效，未调用模型。"}, "请重新加载并核对图表快照。")
+        try:
+            candles, input_identity, chart_context = _market_ai_frontend_snapshot(symbol, bar, payload["candles"], chart_context)
+        except ValueError as exc:
+            return paused({"ok": False, "summary": "指定的图表快照无法核验；未抓取替代行情，也未调用模型。", "input_error": str(exc)}, "图表快照缺失、不足或身份冲突，请重新加载并核对当前标的、周期和来源。")
+        price = candles[-1]["close"]
+    else:
+        candles = None
+    local = local_market_ai_analysis(symbol, bar, price, drawings, chart_context, candles)
+    if local.get("analysis_paused") or local.get("ok") is not True:
+        return paused(local, str(local.get("summary") or "数据质量未通过，未调用外部模型。"))
+
+    if supplied:
+        market = {"ok": False, "skipped": True, "reason": "bound_frontend_snapshot_no_external_supplement"}
+        contract = dict(market)
+        supplement = {"status": "SKIPPED", "reason": "use_exact_supplied_chart", "source_authenticated": False}
+    else:
+        try:
+            market = market_insights(symbol)
+        except Exception:
+            market = {"ok": False, "error": "行情补充读取失败"}
+        try:
+            contract = contract_center(symbol)
+        except Exception:
+            contract = {"ok": False, "error": "合约补充读取失败"}
+        supplement = {"status": "REQUESTED", "reason": "no_frontend_candles_supplied"}
+
+    output_schema = {"summary": "一句话研究结论", "anomaly_type": "放量/急涨急跌/突破/跌破/波动率扩张/资金费率异常/OI变化/盘口变化/联动异动/无明显异动",
+                     "severity": "LOW/MEDIUM/HIGH/CRITICAL", "preferred_direction": "LONG/SHORT/WAIT",
+                     "long_win_rate_pct": "0-100，未校准", "short_win_rate_pct": "0-100，未校准",
+                     "long_take_profit": "数字或0", "long_stop_loss": "数字或0", "short_take_profit": "数字或0", "short_stop_loss": "数字或0",
+                     "key_evidence": ["支持结论的证据"], "counter_evidence": ["反证或失效条件"], "trading_rule_notes": ["风控提示"],
+                     "no_trade_conditions": ["不应交易的条件"], "waiting_conditions": ["下一步观察条件"],
+                     "safe_action": "观察 / 仅研究 / 模拟未授权", "answer": "回答用户问题"}
+    short_output = max_tokens <= 768
+    if short_output:
+        output_schema = {"summary": "一句行情观察", "answer": "一句样本限制", "risk_notes": ["一句数据时效说明"]}
+    context = {"task": "根据明确的行情输入独立研究，不提供交易授权", "symbol": symbol, "bar": bar,
+               "price": price or local.get("price", 0), "user_question": question or "请说明当前行情证据、风险与反证。",
+               "local_quant_snapshot": local, "input_identity": input_identity, "market_insights": market, "contract_snapshot": contract,
+               "external_supplement": supplement,
+               "anomaly_context": chart_context.get("anomaly_radar") if isinstance(chart_context.get("anomaly_radar"), dict) else {},
+               "trend_cockpit_context": chart_context.get("trend_cockpit") if isinstance(chart_context.get("trend_cockpit"), dict) else {},
+               "safety_boundary": {"live_trading_enabled": False, "source_authentication": "前端来源声明未独立认证" if supplied else "按原来源说明核对",
+                                   "win_rate_note": "概率为未校准研究估计，不能写成保证性结论。"}, "output_schema": output_schema}
+
+    if "deepseek" in requested and statuses["deepseek"].get("configured"):
+        deepseek_result = deepseek_chat([{"role": "system", "content": market_ai_system_prompt(short=short_output)},
+                                       {"role": "user", "content": json.dumps(context, ensure_ascii=False)}], "market_ai_first_pass", max_tokens, 45)
+    else:
+        deepseek_result = skipped("deepseek", "not_selected" if "deepseek" not in requested else "not_configured", "DeepSeek 未选择或未配置，未调用；其它已配置模型可独立分析。")
     deepseek_json = deepseek_result.get("json") or {}
-    gpt_context = {
-        **context,
-        "task": "GPT二次复核DeepSeek第一遍行情分析。请保留独立判断，指出同意/不同意、遗漏点和最终模拟风控位置。",
-        "deepseek_first_pass": deepseek_json or deepseek_result.get("content") or deepseek_result.get("error"),
-        "output_schema": {
-            **output_schema,
-            "deepseek_review": "同意/部分同意/不同意，以及原因",
-            "final_decision": "最终建议：LONG/SHORT/WAIT",
-        },
-    }
-    gpt_result = openai_chat(
-        [
-            {"role": "system", "content": market_ai_system_prompt() + " 这次你是第二审查员，必须复核DeepSeek而不是照抄。"},
-            {"role": "user", "content": json.dumps(gpt_context, ensure_ascii=False)},
-        ],
-        "market_ai_second_pass",
-        1800,
-        45,
-    )
-    return {
-        "ok": True,
-        "symbol": symbol,
-        "bar": bar,
-        "question": question,
-        "status": {
-            "deepseek": deepseek_status(),
-            "gpt": openai_status(),
-            "live_trading": "hard_blocked" if LIVE_TRADING_HARD_BLOCK else "requires_manual_audit",
-        },
-        "local": local,
-        "analysis": {
-            "deepseek": deepseek_json,
-            "gpt": gpt_result.get("json") or {},
-        },
-        "deepseek": deepseek_result,
-        "gpt": gpt_result,
-        "updated_at": now_ms(),
-    }
+    first_pass_available = deepseek_result.get("ok") is True and bool(deepseek_json or deepseek_result.get("content"))
+    gpt_context = {**context, "task": "复核已有DeepSeek研究并独立判断" if first_pass_available else "本次无可用DeepSeek意见，请独立分析，不能声称完成双模型复核",
+                   "output_schema": dict(output_schema) if short_output else {**output_schema, "final_decision": "研究方向 LONG/SHORT/WAIT"}}
+    if first_pass_available:
+        gpt_context["deepseek_first_pass"] = deepseek_json or deepseek_result.get("content")
+        gpt_context["output_schema"]["deepseek_review"] = "同意/部分同意/不同意，以及原因"
+    if "openai" in requested and statuses["gpt"].get("configured"):
+        gpt_result = openai_chat([{"role": "system", "content": market_ai_system_prompt(short=short_output)},
+                                 {"role": "user", "content": json.dumps(gpt_context, ensure_ascii=False)}],
+                                "market_ai_second_pass" if first_pass_available else "market_ai_independent_pass", max_tokens, 45,
+                                allow_compatibility_retry=allow_compatibility_retry)
+    else:
+        gpt_result = skipped("openai", "not_selected" if "openai" not in requested else "not_configured", "OpenAI 未选择或未配置，未调用；其它已配置模型的结果单独保留。")
+    completed = [provider for provider, result in (("deepseek", deepseek_result), ("openai", gpt_result)) if result.get("ok") is True]
+    analysis_status = "complete" if len(completed) == len(requested) else "partial" if completed else "unavailable"
+    return {"ok": bool(completed), "symbol": symbol, "bar": bar, "question": question,
+            "status": {**statuses, "analysis": analysis_status, "providers_requested": list(requested), "providers_completed": completed,
+                       "live_trading": "hard_blocked" if LIVE_TRADING_HARD_BLOCK else "requires_manual_audit"},
+            "error": "" if completed else "没有取得可用模型分析；请核对提供方配置或安全错误状态，本次不会自动重试。",
+            "local": local, "analysis": {"deepseek": deepseek_json, "gpt": gpt_result.get("json") or {}},
+            "deepseek": deepseek_result, "gpt": gpt_result, "input_identity": input_identity,
+            "external_supplement": supplement, "updated_at": now_ms()}
 
 
 def trading_agents_provider_status() -> dict[str, Any]:
@@ -9894,12 +10358,25 @@ def trading_agents_external_discussion_v2(
             str(note.get("error") or ""),
             str(note.get("first_error") or ""),
         ]).lower()
-        error_code = ""
-        if http_error:
+        error_code = note.get("error_code") if isinstance(note.get("error_code"), str) else ""
+        if not error_code and http_error:
             try:
                 error_code = str((json.loads(http_error).get("error") or {}).get("code") or "")
             except (TypeError, ValueError, json.JSONDecodeError):
                 error_code = ""
+        classified_messages = {
+            "credit_balance_exhausted": "OpenAI API 余额已用完，请充值后再手动发起本轮研究会议；未自动重试。",
+            "organization_spend_limit_exceeded": "OpenAI 组织消费已达上限，请由组织管理员检查组织消费上限；本轮未生成外部观点。",
+            "project_spend_limit_exceeded": "OpenAI 项目消费已达上限，请检查该项目消费上限；本轮未生成外部观点。",
+            "organization_usage_limit_exceeded": "OpenAI 组织 API 使用额度已达上限，请检查或申请提高组织使用限额；本轮未生成外部观点。",
+            "insufficient_quota": "OpenAI API 配额不足，请检查 API 余额与消费、使用上限；本轮未生成外部观点。",
+            "rate_limit_exceeded": "OpenAI API 暂时触发速率限制，请降低请求频率并稍后手动重试；未自动重试。",
+            "slow_down": "OpenAI API 要求降低请求速度，请稍后手动重试；未自动重试。",
+        }
+        if error_code in classified_messages:
+            return classified_messages[error_code]
+        if note.get("provider") == "openai" and note.get("http_status") == 429:
+            return "OpenAI API 返回 HTTP 429，原因尚未识别，无法判定是限流还是额度问题；未自动重试。"
         if error_code == "insufficient_quota" or "insufficient_quota" in error_text:
             return "OpenAI API 配额不足或已达到消费上限；接入有效，但本轮无法生成外部观点。"
         if error_code == "rate_limit_exceeded" or "rate_limit_exceeded" in error_text:
@@ -11447,23 +11924,41 @@ def strategy_marketplace() -> list[dict[str, Any]]:
     ]
 
 
+def export_file_metadata(path: Path, rows: int, *, source: str, scope: str) -> dict[str, Any]:
+    return {
+        "path": str(path), "filename": path.name, "rows": rows,
+        "source": source, "scope": scope, "encoding": "utf-8-sig",
+        "truncated": False, "text_cells": "spreadsheet_safe_original_in_payload",
+    }
+
+
 def export_orders() -> dict[str, Any]:
-    filename = f"paper_orders_{time.strftime('%Y%m%d_%H%M%S')}.csv"
-    path = EXPORT_DIR / filename
-    columns = ["time", "symbol", "side", "order_type", "price", "quantity", "notional", "pnl", "take_profit", "stop_loss", "reduce_only", "reason"]
-    write_csv(path, PAPER_ACCOUNT.orders, columns)
-    append_ledger({"type": "export_orders", "path": str(path), "rows": len(PAPER_ACCOUNT.orders)})
-    return {"path": str(path), "rows": len(PAPER_ACCOUNT.orders)}
+    # Read one committed history snapshot, including orders before an account reset.
+    rows = load_legacy_order_export_rows(RUNTIME_DIR / "paper_ledger.sqlite3")
+    filename = f"paper_orders_{time.strftime('%Y%m%d_%H%M%S')}_{secrets.token_hex(8)}.csv"
+    path = csv_export_directory() / filename
+    columns = [
+        "time", "symbol", "side", "order_type", "price", "quantity", "notional", "pnl",
+        "take_profit", "stop_loss", "reduce_only", "reason", "fee", "funding_charged",
+        "funding_estimate", "slippage_pct", "match_status", "manual", "account_id",
+        "account_order_id", "order_id", "strategy_id", "run_id", "signal_id",
+        "risk_request_id", "market_snapshot_id", "idempotency_key", "signal_bar_ts",
+        "execution_bar_ts", "fill_basis", "strategy_clock_version", "currency", "payload",
+    ]
+    flat_rows = [{**row, "payload": json.dumps(row, ensure_ascii=False)} for row in rows]
+    write_csv(path, flat_rows, columns)
+    append_ledger({"type": "export_orders", "path": str(path), "rows": len(rows), "scope": "account_history"})
+    return export_file_metadata(path, len(rows), source="paper_account_orders", scope="account_history")
 
 
 def export_ledger() -> dict[str, Any]:
-    rows = read_ledger(5000)
-    filename = f"terminal_ledger_{time.strftime('%Y%m%d_%H%M%S')}.csv"
-    path = EXPORT_DIR / filename
+    rows = AUDIT_LOG.export_snapshot()
+    filename = f"terminal_ledger_{time.strftime('%Y%m%d_%H%M%S')}_{secrets.token_hex(8)}.csv"
+    path = csv_export_directory() / filename
     flat_rows = [{"time": row.get("time"), "type": row.get("type"), "payload": json.dumps(row, ensure_ascii=False)} for row in rows]
     write_csv(path, flat_rows, ["time", "type", "payload"])
-    append_ledger({"type": "export_ledger", "path": str(path), "rows": len(flat_rows)})
-    return {"path": str(path), "rows": len(flat_rows)}
+    append_ledger({"type": "export_ledger", "path": str(path), "rows": len(flat_rows), "scope": "audit_history"})
+    return export_file_metadata(path, len(flat_rows), source="audit_events", scope="audit_history")
 
 
 def api_config_snapshot() -> dict[str, Any]:
@@ -11822,6 +12317,11 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
         print(f"{self.address_string()} - {fmt % args}")
 
     def do_OPTIONS(self) -> None:
+        if self.path.startswith(("/api/quant/", "/quant/")):
+            self.send_response(405)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
         origin = allowed_cors_origin(self)
         if self.headers.get("Origin") and not origin:
             self.send_response(403)
@@ -11837,6 +12337,8 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         if block_non_loopback_client(self):
+            return
+        if QUANT_WORKSPACE.handle(self):
             return
         parsed = urllib.parse.urlparse(self.path)
         query = {key: values[-1] for key, values in urllib.parse.parse_qs(parsed.query).items()}
@@ -11879,11 +12381,22 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:
         if block_non_loopback_client(self):
             return
+        if QUANT_WORKSPACE.handle(self):
+            return
+        if urllib.parse.urlparse(self.path).path == "/api/desktop/prepare-exit":
+            self.prepare_desktop_exit()
+            return
         parsed = urllib.parse.urlparse(self.path)
         if parsed.path not in POST_API_PATHS | MUTATION_PATHS:
             json_response(self, {"ok": False, "error": "not found"}, 404)
             return
-        if RUNTIME_READ_ONLY:
+        if LOCAL_ONLY and parsed.path in {"/api/ai/deepseek/analyze", "/api/ai/market/dual-analysis", "/api/ai/trading-agents/discuss"}:
+            json_response(self, {"ok": False, "error": "当前为本地模式，未调用外部模型。", "request_attempts": 0}, 423)
+            return
+        if RUNTIME_READ_ONLY and parsed.path not in {
+            "/api/strategy/analyze", "/api/ai/deepseek/analyze",
+            "/api/ai/market/dual-analysis", "/api/export/orders", "/api/export/ledger",
+        }:
             json_response(self, {
                 "ok": False,
                 "error": "runtime is read-only",
@@ -11901,7 +12414,7 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
             return
         try:
             length = int(self.headers.get("Content-Length", "0"))
-            max_length = 180000 if parsed.path in {"/api/ai/market/dual-analysis", "/api/ai/trading-agents/discuss"} else 120000 if parsed.path == "/api/integration/trading-analysis/research-summaries" else 20000 if parsed.path == "/api/strategy/pipeline" or parsed.path in MUTATION_PATHS else 12000 if parsed.path.startswith("/api/ai/runtime-keys") else 4096
+            max_length = 180000 if parsed.path in {"/api/ai/market/dual-analysis", "/api/ai/deepseek/analyze", "/api/strategy/analyze", "/api/ai/trading-agents/discuss"} else 120000 if parsed.path == "/api/integration/trading-analysis/research-summaries" else 20000 if parsed.path == "/api/strategy/pipeline" or parsed.path in MUTATION_PATHS else 12000 if parsed.path.startswith("/api/ai/runtime-keys") else 4096
             if length < 0 or length > max_length:
                 json_response(self, {"ok": False, "error": "invalid request size"}, 400)
                 return
@@ -11921,7 +12434,14 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                     json_response(self, {"ok": False, "error": "Idempotency-Key is required for mutations"}, 400)
                     return
                 payload["idempotencyKey"] = idempotency_key
-                journal = MUTATION_JOURNAL.begin(parsed.path, idempotency_key, payload)
+                mutation_journal = MUTATION_JOURNAL
+                journal_payload = payload
+                if RUNTIME_READ_ONLY and parsed.path in {"/api/export/orders", "/api/export/ledger"}:
+                    mutation_journal = MutationJournal(
+                        db_path=csv_export_directory() / ".export-requests.sqlite3", now_ms=now_ms,
+                    )
+                    journal_payload = {**payload, "export_runtime": str(RUNTIME_DIR.resolve())}
+                journal = mutation_journal.begin(parsed.path, idempotency_key, journal_payload)
                 if journal.get("status") == "REPLAY":
                     json_response(self, journal.get("response") or {}, int(journal.get("http_status") or 200))
                     return
@@ -11929,6 +12449,7 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                     json_response(self, {"ok": False, "error": journal.get("error"), "idempotency_status": journal.get("status")}, 409)
                     return
                 self._mutation_idempotency_key = idempotency_key
+                self._mutation_journal = mutation_journal
                 if parsed.path == "/api/strategy/pipeline":
                     result, status = strategy_pipeline_mutation(payload)
                     json_response(self, result, status)
@@ -11953,6 +12474,12 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                 return
             if parsed.path == "/api/futu/enable-telnet":
                 json_response(self, ensure_futu_telnet_config())
+                return
+            if parsed.path == "/api/strategy/analyze":
+                json_response(self, build_deepseek_projection(deepseek_strategy_snapshot_analysis(payload, include_model=False)))
+                return
+            if parsed.path == "/api/ai/deepseek/analyze":
+                json_response(self, build_deepseek_projection(deepseek_strategy_snapshot_analysis(payload)))
                 return
             if parsed.path == "/api/ai/market/dual-analysis":
                 json_response(self, build_market_ai_projection(market_dual_ai_analysis(payload)))
@@ -12005,9 +12532,48 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
         except Exception as exc:
             json_response(self, {"ok": False, "error": str(exc)}, 500)
 
+    def prepare_desktop_exit(self) -> None:
+        expected = os.getenv("HAKIMI_DESKTOP_CONTROL_TOKEN", "")
+        supplied = self.headers.get_all("X-Hakimi-Desktop-Control", [])
+        address = str(self.server.server_address[0])
+        host = ("[" + address + "]" if ":" in address else address) + ":" + str(self.server.server_port)
+        fetch_sites = self.headers.get_all("Sec-Fetch-Site", [])
+        if (not expected or len(supplied) != 1 or not secrets.compare_digest(supplied[0], expected)
+                or self.headers.get_all("Host", []) != [host]
+                or self.headers.get_all("Origin", []) != ["http://" + host]
+                or len(fetch_sites) > 1
+                or (fetch_sites and fetch_sites[0] not in {"", "none", "same-origin"})):
+            json_response(self, {"ok": False, "error": "desktop_control_required"}, 403)
+            return
+        content_types = self.headers.get_all("Content-Type", [])
+        if (len(content_types) != 1 or content_types[0].split(";", 1)[0].strip().lower() != "application/json"
+                or self.headers.get_all("Content-Length", []) != ["2"]
+                or self.headers.get_all("Transfer-Encoding", [])):
+            json_response(self, {"ok": False, "error": "empty_json_required"}, 400)
+            return
+        self.connection.settimeout(5)
+        if self.rfile.read(2) != b"{}":
+            json_response(self, {"ok": False, "error": "empty_json_required"}, 400)
+            return
+        if not QUANT_WORKSPACE.close():
+            json_response(self, {"ok": False, "error": "quant_operations_in_progress"}, 409)
+            return
+        json_response(self, {"ok": True, "status": "closing"})
+        threading.Thread(target=self.server.shutdown, daemon=True).start()
+
+
     def handle_api(self, path: str, query: dict[str, str]) -> None:
         if path in RETIRED_MANAGEMENT_PATHS:
             json_response(self, {"ok": False, "error": "not found"}, 404)
+            return
+        if LOCAL_ONLY and path in {"/api/ai/deepseek/opportunities", "/api/ai/deepseek/platform-review"}:
+            json_response(self, {"ok": False, "error": "当前为本地模式，未调用外部模型。", "request_attempts": 0}, 423)
+            return
+        if LOCAL_ONLY and path in {"/api/okx/candles", "/api/okx/history-candles", "/api/okx/ticker",
+                                   "/api/okx/tickers", "/api/okx/index-tickers", "/api/okx/trades"}:
+            json_response(self, {"ok": False, "error": "当前为本地模式，未请求 OKX 行情。公开日线授权不适用于此旧入口。",
+                                 "code": "LOCAL_ONLY_MARKET_NETWORK_BLOCKED", "request_attempts": 0,
+                                 "local_only": True, "live_order_allowed": False}, 423)
             return
         try:
             archived_route_state = archived_execution_route_state(
@@ -12026,6 +12592,22 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                     423,
                 )
                 return
+            if path in {"/api/local/terminal-markets", "/api/local/terminal-market", "/api/local/terminal-account"}:
+                QUANT_WORKSPACE._boundary(self, authenticated=False)
+                if path == "/api/local/terminal-markets":
+                    json_response(self, {"ok": True, **TERMINAL_MARKET_READER.catalog()})
+                elif path == "/api/local/terminal-market":
+                    snapshot = TERMINAL_MARKET_READER(query.get("symbol", ""), limit=int(query.get("limit", "1600")), source_id=query.get("source_id") or None)
+                    json_response(self, {"ok": True, "available": bool(snapshot.get("rows")), **snapshot})
+                else:
+                    # This is the saved in-memory paper state, without refreshing
+                    # prices, polling a broker, marking to market, or persisting it.
+                    saved = load_legacy_account_snapshot(RUNTIME_DIR / "paper_ledger.sqlite3")
+                    json_response(self, {"ok": True, "paper": saved,
+                        "source": "archived_saved_account", "valuation": "saved_state_no_revaluation",
+                        "as_of": saved.get("as_of"),
+                        "read_only": True, "paper_allowed": False, "live_allowed": False})
+                return
             if path == "/api/health":
                 runtime_build = RUNTIME_BUILD_GUARD.snapshot()
                 paper = PAPER_ACCOUNT.snapshot(0.0)
@@ -12035,14 +12617,20 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                 }
                 json_response(
                     self,
-                    build_health_response_from_runtime(
+                    {**build_health_response_from_runtime(
                         runtime_build,
                         paper,
                         read_only=RUNTIME_READ_ONLY,
                         runtime_mutations_allowed=not RUNTIME_READ_ONLY,
                         live_trading_hard_block=LIVE_TRADING_HARD_BLOCK is True,
                         guardian_worker_running=bool(GUARDIAN_SERVICE.thread and GUARDIAN_SERVICE.thread.is_alive()),
-                    ),
+                    ), "local_only": LOCAL_ONLY,
+                       "terminal_package_id": TERMINAL_PACKAGE_ID,
+                       "terminal_package_version": TERMINAL_PACKAGE_VERSION,
+                       "terminal_build_commit": TERMINAL_BUILD_COMMIT,
+                       "terminal_workspace_root": str(QUANT_WORKSPACE.runtime_dir),
+                       "broker_shared_root_id": BROKER_CONTROL_ROOT.root_id if BROKER_CONTROL_ROOT else None,
+                       "quant_workspace": {"pending": QUANT_WORKSPACE.pending, "read_only": QUANT_RUNTIME_READ_ONLY, "root": str(QUANT_WORKSPACE.runtime_dir / "research-workspace")}},
                 )
                 return
             if path == "/api/platform/control-center":
@@ -12092,7 +12680,7 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                 json_response(self, {
                     "ok": True,
                     "ledger": PAPER_LEDGER.summary(),
-                    "paper": PAPER_ACCOUNT.snapshot(pct(query.get("price", "0"))),
+                    "paper": load_legacy_account_snapshot(RUNTIME_DIR / "paper_ledger.sqlite3"),
                     "live_order_allowed": False,
                 })
                 return
@@ -12171,6 +12759,7 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                     "strategies": [
                         {
                             **strategy,
+                            **terminal_strategy_presentation(strategy),
                             "validation": strategy_validation_capability(strategy["id"]),
                             "research_risk_profile": strategy_research_risk_profile(strategy["id"], {
                                 "position_pct": 20.0,
@@ -12419,14 +13008,7 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                 json_response(self, runtime_ai_key_status())
                 return
             if path == "/api/ai/deepseek/analyze":
-                price = pct(query.get("price", "0"))
-                risk_config = build_risk_config(query, price)
-                json_response(self, build_deepseek_projection(deepseek_strategy_analysis(
-                    query.get("symbol", "BTC-USDT"),
-                    query.get("strategy", "dual_ma"),
-                    price,
-                    risk_config,
-                )))
+                json_response(self, {"ok": False, "error": "请明确提交当前图表快照进行分析。", "required_method": "POST", "request_attempts": 0}, 405)
                 return
             if path == "/api/ai/deepseek/opportunities":
                 json_response(self, build_deepseek_projection(deepseek_opportunity_scan(query.get("symbols", ""))))
@@ -12705,7 +13287,7 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
                 ))
                 return
             if path == "/api/paper/snapshot":
-                json_response(self, {"ok": True, "paper": PAPER_ACCOUNT.snapshot(pct(query.get("price", "0")))})
+                json_response(self, {"ok": True, "paper": load_legacy_account_snapshot(RUNTIME_DIR / "paper_ledger.sqlite3")})
                 return
             if path == "/api/local/btc-daily":
                 limit = int(query.get("limit", "500"))
@@ -12802,7 +13384,10 @@ class ExchangeTerminalHandler(BaseHTTPRequestHandler):
             self.send_error(404)
             return
         content_type = mimetypes.guess_type(str(target))[0] or "application/octet-stream"
-        body = target.read_bytes()
+        body = current_product_copy(target.name, target.read_bytes())
+        if target.name == "index.html":
+            mode = json.dumps({"localOnly": LOCAL_ONLY, "readOnly": RUNTIME_READ_ONLY}, separators=(",", ":"))
+            body = body.replace(b"<head>", ("<head><script>window.HAKIMI_RUNTIME_MODE=" + mode + ";</script>").encode("utf-8"), 1)
         self.send_response(200)
         self.send_header("Content-Type", content_type)
         self.send_header("Cache-Control", "no-store")
@@ -12859,6 +13444,7 @@ def main() -> None:
     finally:
         if guardian_started:
             stop_guardian_worker()
+        QUANT_WORKSPACE.close()
         server.server_close()
 
 

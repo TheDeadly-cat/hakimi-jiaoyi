@@ -1,0 +1,549 @@
+{
+  "evidence_kind": "SYNTHETIC_PURE_CONTRACT_FIXTURE_NO_REAL_PACKAGE_OR_MARKET_PROOF",
+  "wire_bounds": {
+    "valid_until": "2026-10-30T08:10:00+00:00",
+    "endpoint": {
+      "host": "127.0.0.1",
+      "port": 11111
+    },
+    "actions": {
+      "quote_connect": 1,
+      "trade_connect": 1,
+      "quote_init": 1,
+      "trade_init": 1,
+      "quote_runtime": 1,
+      "trade_accounts": 1,
+      "trade_funds": 1,
+      "trade_positions": 1,
+      "quote_security": 1,
+      "quote_snapshot": 1,
+      "trade_submit": 1,
+      "trade_observe": 5,
+      "trade_cancel": 1,
+      "trade_fees": 1,
+      "quote_heartbeat": 0,
+      "trade_heartbeat": 0,
+      "trade_unlock": 0,
+      "trade_subscribe": 0,
+      "quote_subscribe": 0,
+      "quote_push_registration": 0,
+      "quote_reconnect": 0,
+      "trade_reconnect": 0,
+      "push_acceptance": 0,
+      "unknown_protocol": 0,
+      "application_retry": 0
+    },
+    "wall_timeout_seconds": 180,
+    "connect_timeout_seconds": 15,
+    "handshake_timeout_seconds": 15,
+    "rpc_timeout_seconds": 15,
+    "cleanup_timeout_seconds": 5,
+    "max_frame_bytes": 65536,
+    "max_wire_bytes": 98304,
+    "max_output_bytes": 131072,
+    "reserved_final_output_bytes": 16384,
+    "max_observation_records": 50,
+    "max_evidence_age_seconds": 30,
+    "max_total_fees": "1.50"
+  },
+  "profile": {
+    "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+    "budget_readiness": {
+      "authorization_granted": false,
+      "evidence_verified": false,
+      "execution_ready": false,
+      "order_id_required_for": [
+        "observe",
+        "cancel",
+        "actual_fees"
+      ],
+      "stages": {
+        "actual_fees": {
+          "budget_complete": true,
+          "missing_actions": []
+        },
+        "cancel": {
+          "budget_complete": true,
+          "missing_actions": []
+        },
+        "observe": {
+          "budget_complete": true,
+          "missing_actions": []
+        },
+        "quote_preflight": {
+          "budget_complete": true,
+          "missing_actions": []
+        },
+        "submit": {
+          "budget_complete": true,
+          "missing_actions": []
+        },
+        "trade_preflight": {
+          "budget_complete": true,
+          "missing_actions": []
+        }
+      }
+    },
+    "candidate_config": {
+      "config": {
+        "account_id": "900000000000001",
+        "asset_class": "EQUITY",
+        "asset_code": "US.TSLA",
+        "currency": "USD",
+        "expires_at": "2026-10-30T09:00:00+00:00",
+        "limit_price": "20.00000001",
+        "market": "US",
+        "max_notional": "100.00",
+        "max_quantity": 4,
+        "quantity": 3,
+        "side": "BUY",
+        "time_in_force": "DAY"
+      },
+      "id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+      "kind": "configs",
+      "mode": "OFFICIAL_SIMULATION",
+      "research": {
+        "assumptions": {
+          "fill_model": "NEXT_BAR_OPEN",
+          "quantity_policy": "WHOLE_SHARES"
+        },
+        "binding": {
+          "costs": {
+            "fee_rate": 0.001,
+            "slippage_bps": 5
+          },
+          "engine_id": "terminal.native-qa",
+          "input_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "report_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "report_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "risk": {
+            "stop_loss_pct": 8
+          },
+          "schema_version": "hakimi-offline-research-binding-v1",
+          "security_id": "FICTIONAL:TSLA",
+          "status": "COMPLETED",
+          "strategy_id": "dual_ma",
+          "strategy_params": {
+            "fast": 5,
+            "slow": 20
+          },
+          "task_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "task_version": 1
+        },
+        "display": {
+          "asset_class": "US_EQUITY",
+          "currency": "USD",
+          "security_id": "FICTIONAL:TSLA",
+          "symbol": "TSLA"
+        },
+        "reference": {
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "kind": "terminal_run"
+        }
+      },
+      "research_sha256": "0cc470bbc03e4075d0947ead44174dd436e5be44aa740f4760fe302c5679d0b5",
+      "schema_version": "hakimi-broker-candidate-v2"
+    },
+    "candidate_intent": {
+      "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+      "id": "4a0020dd834c53db0ff4394e6a224277213c608dcb57c005f23deace2d391a77",
+      "kind": "intents",
+      "mode": "OFFICIAL_SIMULATION",
+      "permissions": {
+        "adapter_installed": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false
+      },
+      "request_id": "fictional-intent-0001",
+      "research_sha256": "0cc470bbc03e4075d0947ead44174dd436e5be44aa740f4760fe302c5679d0b5",
+      "schema_version": "hakimi-broker-candidate-v2",
+      "security_binding": {
+        "account_verified": false,
+        "asset_rules_verified": false,
+        "broker_mapping_verified": false,
+        "saved_security": {
+          "asset_class": "US_EQUITY",
+          "currency": "USD",
+          "security_id": "FICTIONAL:TSLA",
+          "symbol": "TSLA"
+        },
+        "status": "MATCHED_SAVED_DECLARATION"
+      },
+      "status": "UNSENT_OFFLINE_PREVIEW",
+      "terms": {
+        "account_id": "900000000000001",
+        "asset_class": "EQUITY",
+        "asset_code": "US.TSLA",
+        "currency": "USD",
+        "expires_at": "2026-10-30T09:00:00+00:00",
+        "limit_price": "20.00000001",
+        "market": "US",
+        "max_notional": "100.00",
+        "max_quantity": 4,
+        "quantity": 3,
+        "side": "BUY",
+        "time_in_force": "DAY"
+      }
+    },
+    "capability_gaps": [
+      "WIRE_V2_ADAPTER_NOT_VERIFIED",
+      "CROSS_WORKSPACE_JOURNAL_NOT_AVAILABLE",
+      "SCOPED_AUTHORIZATION_NOT_PROVIDED"
+    ],
+    "contract_id": "hakimi-futu-us-equity-simulate-wire-v2",
+    "control": {
+      "control": {
+        "latest_control_receipt_id": null,
+        "latest_stop_receipt_id": null,
+        "new_intents_blocked": false,
+        "permissions": {
+          "adapter_installed": false,
+          "automatic_resume": false,
+          "automatic_retry": false,
+          "cancel_allowed": false,
+          "external_connection_allowed": false,
+          "query_allowed": false,
+          "submit_allowed": false,
+          "unlock_allowed": false
+        },
+        "resume_allowed": false,
+        "revision": 0,
+        "state": "OFFLINE_PREPARATION_ALLOWED"
+      },
+      "mode": "OFFICIAL_SIMULATION"
+    },
+    "created_at": "2026-10-30T08:00:00+00:00",
+    "deduplication": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "new_plan_must_not_reset_submit_claim": true,
+      "scope": "ORIGINAL_INTENT_ACROSS_ALL_PLANS_AND_RESTARTS"
+    },
+    "id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+    "missing_evidence": [
+      {
+        "code": "SDK_ADAPTER_COMPATIBILITY",
+        "description": "已安装 SDK 与本应用适配器的离线合同兼容性",
+        "evidence_ref": null,
+        "required_before": "BEFORE_CONNECTION",
+        "status": "NOT_PROVIDED"
+      },
+      {
+        "code": "EXPLICIT_SCOPED_AUTHORIZATION",
+        "description": "本计划各外部阶段的独立明确授权",
+        "evidence_ref": null,
+        "required_before": "BEFORE_CONNECTION",
+        "status": "NOT_PROVIDED"
+      },
+      {
+        "code": "RESEARCH_EXTERNAL_ADMISSION",
+        "description": "该保存研究输入的独立外部使用资格；合成/QA资料不可升级",
+        "evidence_ref": null,
+        "required_before": "BEFORE_SUBMIT",
+        "status": "NOT_PROVIDED"
+      },
+      {
+        "code": "OPEND_PROTOCOL_COMPATIBILITY",
+        "description": "经单独授权连接后读取的实际 OpenD 版本及协议兼容性",
+        "evidence_ref": null,
+        "required_before": "BEFORE_SUBMIT",
+        "status": "NOT_PROVIDED"
+      },
+      {
+        "code": "BROKER_ACCOUNT_ENVIRONMENT",
+        "description": "券商实际账户、模式和交易权限",
+        "evidence_ref": null,
+        "required_before": "BEFORE_SUBMIT",
+        "status": "NOT_PROVIDED"
+      },
+      {
+        "code": "BROKER_SECURITY_RULES",
+        "description": "实际证券映射、整股/价格步长和交易状态",
+        "evidence_ref": null,
+        "required_before": "BEFORE_SUBMIT",
+        "status": "NOT_PROVIDED"
+      },
+      {
+        "code": "FRESH_MARKET_QUOTE",
+        "description": "带来源和时间的有效报价及限价核对",
+        "evidence_ref": null,
+        "required_before": "BEFORE_SUBMIT",
+        "status": "NOT_PROVIDED"
+      },
+      {
+        "code": "BROKER_FEES",
+        "description": "费用规则、币种和有界费用估计，缺失不能补零",
+        "evidence_ref": null,
+        "required_before": "BEFORE_SUBMIT",
+        "status": "NOT_PROVIDED"
+      },
+      {
+        "code": "SHARED_ACCOUNT_RESERVATIONS",
+        "description": "同账户未完成意图占用与去重，不能复用额度",
+        "evidence_ref": null,
+        "required_before": "BEFORE_SUBMIT",
+        "status": "NOT_PROVIDED"
+      },
+      {
+        "code": "BROKER_CASH",
+        "description": "实际可用资金及费用占用",
+        "evidence_ref": null,
+        "required_before": "BEFORE_SUBMIT",
+        "status": "NOT_PROVIDED"
+      }
+    ],
+    "mode": "OFFICIAL_SIMULATION",
+    "order": {
+      "account_id": "900000000000001",
+      "actual_fees": null,
+      "asset_class": "EQUITY",
+      "asset_code": "US.TSLA",
+      "currency": "USD",
+      "expires_at": "2026-10-30T09:00:00+00:00",
+      "limit_price": "20.00000001",
+      "market": "US",
+      "max_notional": "100.00",
+      "max_quantity": 4,
+      "maximum_cash_debit": "62.00000003",
+      "notional_excludes_fees": true,
+      "order_notional": "60.00000003",
+      "order_type": "LIMIT",
+      "quantity": 3,
+      "security_id": "FICTIONAL:TSLA",
+      "side": "BUY",
+      "time_in_force": "DAY"
+    },
+    "permissions": {
+      "automatic_mode_fallback": false,
+      "automatic_resume": false,
+      "automatic_retry": false,
+      "cancel_allowed": false,
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "unlock_allowed": false,
+      "user_authorization_granted": false
+    },
+    "protocol_policy": {
+      "encryption_policy": "PLAINTEXT_OFFLINE_CODEC_TEST",
+      "format": "PROTOBUF",
+      "header_bytes": 44,
+      "production_transport_available": false,
+      "proto_fmt": 0,
+      "proto_ver": 0,
+      "recv_notify": false
+    },
+    "research": {
+      "owner": {
+        "account_id": "900000000000001",
+        "engine_id": "terminal.native-qa",
+        "mode": "OFFICIAL_SIMULATION",
+        "owner_id": "family:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "owner_scope_id": "64ccec7a7a4cacea814ccb82e00dd314eee586b16e6362b2b3404026c971e4af",
+      "recorded_classification": {
+        "decision": {
+          "admission_cannot_override_synthetic": true,
+          "external_admission_required": true,
+          "external_research_eligible": false,
+          "offline_only": true,
+          "status": "SYNTHETIC_OFFLINE_ONLY"
+        },
+        "engine_id": "terminal.native-qa",
+        "facts": [
+          {
+            "path": "report.input_summary.meta.evidence_kind",
+            "value": "SYNTHETIC_TEST"
+          }
+        ],
+        "id": "162d0cd7bb8eb06dfefa0fa625c2d236e47176d7359a93109f978fd63f346da2",
+        "input_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "reference": {
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "kind": "terminal_run"
+        },
+        "report_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "schema_version": "hakimi-saved-research-classification-v1",
+        "task_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "recorded_source": {
+        "kind": "NATIVE_SAVED_SOURCE_MAP",
+        "record": {
+          "content_sha256": "f34367f01ca9bd42e62576fff3ca34b39d4d6526b18bf4de9a1642fc63807055",
+          "digest_rule": "ASCII_SORTED_COMPACT_JSON_SOURCE_FILES_V1",
+          "engine_id": "terminal.native-qa",
+          "fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "id": "b5ba2063852c4d0e598bf4afbf488391da1d69cc247d007b3b630585588157c1",
+          "input_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "reference": {
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "terminal_run"
+          },
+          "report_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "schema_version": "hakimi-saved-native-source-v1",
+          "source_files": {
+            "backtest_engine.py": "1111111111111111111111111111111111111111111111111111111111111111",
+            "indicator_math.py": "4444444444444444444444444444444444444444444444444444444444444444",
+            "market_calendar.py": "3333333333333333333333333333333333333333333333333333333333333333",
+            "strategy_signals.py": "2222222222222222222222222222222222222222222222222222222222222222"
+          },
+          "task_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "resolution": {
+        "assumptions": {
+          "fill_model": "NEXT_BAR_OPEN",
+          "quantity_policy": "WHOLE_SHARES"
+        },
+        "binding": {
+          "costs": {
+            "fee_rate": 0.001,
+            "slippage_bps": 5
+          },
+          "engine_id": "terminal.native-qa",
+          "input_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "report_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "report_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "risk": {
+            "stop_loss_pct": 8
+          },
+          "schema_version": "hakimi-offline-research-binding-v1",
+          "security_id": "FICTIONAL:TSLA",
+          "status": "COMPLETED",
+          "strategy_id": "dual_ma",
+          "strategy_params": {
+            "fast": 5,
+            "slow": 20
+          },
+          "task_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "task_version": 1
+        },
+        "display": {
+          "asset_class": "US_EQUITY",
+          "currency": "USD",
+          "security_id": "FICTIONAL:TSLA",
+          "symbol": "TSLA"
+        },
+        "reference": {
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "kind": "terminal_run"
+        }
+      }
+    },
+    "research_eligibility": {
+      "admission_cannot_override_synthetic": true,
+      "external_admission_required": true,
+      "external_research_eligible": false,
+      "offline_only": true,
+      "status": "SYNTHETIC_OFFLINE_ONLY"
+    },
+    "runtime": {
+      "adapter": null,
+      "id": "78192acab18c8791df791d4ae1e46c235fa6e9e3f62b56f0b2ba7e158696343d",
+      "mode": "OFFICIAL_SIMULATION",
+      "package": {
+        "bundle_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "manifest_sha256": "ab55e89f3bb42a6e294a23aea5121f112dc5e86769d407fa0517acb23085f06f",
+        "source_commit": "1111111111111111111111111111111111111111",
+        "version": "0.0.0.synthetic"
+      },
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "schema_version": "hakimi-broker-runtime-identity-v1",
+      "sdk": {
+        "installed_file_count": 2,
+        "installed_files_sha256": "e7a1d711b4c5363236917a3a001fdece843c98f5fcdc7e6833d137cfdee89dc4",
+        "name": "futu-api",
+        "runtime_compatibility": "NOT_VERIFIED",
+        "version": "10.7.6708",
+        "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5"
+      }
+    },
+    "schema_version": "hakimi-broker-wire-profile-v2",
+    "sdk_environment": "SIMULATE",
+    "status": "OFFLINE_PROFILE_ONLY",
+    "wire_bounds": {
+      "actions": {
+        "application_retry": 0,
+        "push_acceptance": 0,
+        "quote_connect": 1,
+        "quote_heartbeat": 0,
+        "quote_init": 1,
+        "quote_push_registration": 0,
+        "quote_reconnect": 0,
+        "quote_runtime": 1,
+        "quote_security": 1,
+        "quote_snapshot": 1,
+        "quote_subscribe": 0,
+        "trade_accounts": 1,
+        "trade_cancel": 1,
+        "trade_connect": 1,
+        "trade_fees": 1,
+        "trade_funds": 1,
+        "trade_heartbeat": 0,
+        "trade_init": 1,
+        "trade_observe": 5,
+        "trade_positions": 1,
+        "trade_reconnect": 0,
+        "trade_submit": 1,
+        "trade_subscribe": 0,
+        "trade_unlock": 0,
+        "unknown_protocol": 0
+      },
+      "cleanup_timeout_seconds": 5,
+      "connect_timeout_seconds": 15,
+      "endpoint": {
+        "host": "127.0.0.1",
+        "port": 11111
+      },
+      "handshake_timeout_seconds": 15,
+      "max_evidence_age_seconds": 30,
+      "max_frame_bytes": 65536,
+      "max_observation_records": 50,
+      "max_output_bytes": 131072,
+      "max_total_fees": "1.50",
+      "max_wire_bytes": 98304,
+      "reserved_final_output_bytes": 16384,
+      "rpc_timeout_seconds": 15,
+      "valid_until": "2026-10-30T08:10:00+00:00",
+      "wall_timeout_seconds": 180
+    },
+    "wire_contract": {
+      "account_scope": "PROVIDER_MODE_ACCOUNT_ACROSS_WORKSPACES",
+      "actual_fees": null,
+      "counts_scope": "ENTIRE_PROFILE_ACROSS_WORKERS_AND_RESTARTS",
+      "dispatch": "DURABLE_INTENT_THEN_EVERY_ACTUAL_WRITE_BARRIER",
+      "intent_scope": "ORIGINAL_INTENT_ACROSS_PLANS_PROFILES_WORKSPACES_AND_RESTARTS",
+      "max_in_flight_per_channel": 1,
+      "max_queued_frames": 0,
+      "partial_write": "SAME_FRAME_NO_RESUBMIT_UNKNOWN_ON_INTERRUPTION",
+      "price_step": null,
+      "query_roundtrip_is_not_market_source_time": true,
+      "recv_notify": false,
+      "sdk_contexts_allowed": false,
+      "source_time": "MISSING_REMAINS_UNKNOWN",
+      "unsolicited_frames": "COUNT_BYTES_REJECT_CLOSE",
+      "v1_adapter_identity_is_not_v2_support": true,
+      "workspace_context_is_provenance_only": true
+    },
+    "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+  },
+  "test_only_sdk_declared_identity": true,
+  "sdk_imports": 0,
+  "network_calls": 0,
+  "business_database_reads": 0
+}

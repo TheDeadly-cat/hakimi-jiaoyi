@@ -1,0 +1,22 @@
+{
+  "status": "FAIL_OR_INPUT_CHANGED",
+  "exit_code": 1,
+  "elapsed_seconds": 8.82,
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node.exe",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node_modules\\npm\\bin\\npm-cli.js",
+    "run",
+    "check"
+  ],
+  "python_binding": {
+    "python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "canonical": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\src\\hakimi_research\\__init__.py"
+  },
+  "source_inputs": 2082,
+  "matches_combined_frozen_inputs": true,
+  "initial_failure_preserved": "desktop.log",
+  "initial_failure_reason": "The root test launcher omitted PYTHON and HAKIMI_TEST_PYTHON; the existing evidence test selected global python without the canonical package.",
+  "product_source_or_test_changes_for_retry": false,
+  "global_environment_modified": false,
+  "scope": "Complete Node22 desktop checks with child Python bound to the existing canonical parent test environment; no native app acceptance"
+}

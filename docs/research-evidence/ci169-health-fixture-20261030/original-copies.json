@@ -1,0 +1,79 @@
+{
+  "schema_version": "hakimi-byte-identical-original-copies-v1",
+  "copy_count": 10,
+  "copy_bytes": 114338,
+  "all_byte_identical": true,
+  "files": [
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci169-health-fixture-fix-20261030-r1\\archive-byte-diagnosis.json",
+      "destination": "originals/local/archive-byte-diagnosis.json",
+      "bytes": 582,
+      "sha256": "2ff97d44a32aee3e96d5edc7e39c8bc4ade57f4b503ef97bfce1d2119ae41710",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci169-health-fixture-fix-20261030-r1\\archive-newline-variant-r2.json",
+      "destination": "originals/local/archive-newline-variant-r2.json",
+      "bytes": 584,
+      "sha256": "9de7ab188645b82312937da0fbc95b2bc52d2c5962d1b966407bf619315524ca",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci169-health-fixture-fix-20261030-r1\\complete-research-contracts.log",
+      "destination": "originals/local/complete-research-contracts.log",
+      "bytes": 55837,
+      "sha256": "b17c79e87598a70e7942713b681876e16e6b07085dd6849ea1ff0954ffe99e2c",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci169-health-fixture-fix-20261030-r1\\result.json",
+      "destination": "originals/local/result.json",
+      "bytes": 4184,
+      "sha256": "1a6f94674963e10990ef5526baf4d258758a0e8ca561c0d407b431caaf2154e0",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci169-health-fixture-fix-20261030-r1\\targeted-health-r2.json",
+      "destination": "originals/local/targeted-health-r2.json",
+      "bytes": 526,
+      "sha256": "47015a15f1afcaa2c0643dca9a3b3ae0debd0f026083bafe8376cf1b278e4176",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci169-health-fixture-fix-20261030-r1\\targeted-health-r2.log",
+      "destination": "originals/local/targeted-health-r2.log",
+      "bytes": 1447,
+      "sha256": "20da4d848e1373dcbefe9687b2842bab4e337190cdcc4b31235cc8bb472e3deb",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\run-ci169-health-fixture-fix-r1.py",
+      "destination": "originals/run-ci169-health-fixture-fix-r1.py",
+      "bytes": 2896,
+      "sha256": "43658f28103719f8805669205a08a5e274cb4f8b089b0d2591c3736bcad93391",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci169-python-contracts-job123847153681-r1.log",
+      "destination": "originals/ci169-python-contracts-job123847153681-r1.log",
+      "bytes": 36334,
+      "sha256": "33e1dd9098f3d1cdba347dd59328724de4ece48d4fffe804ac31ef664429f234",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci169-completed-summary-r1.json",
+      "destination": "originals/ci169-completed-summary-r1.json",
+      "bytes": 5351,
+      "sha256": "efda53fa15f2018665d6e5305a6377bcf147bf8008f48167f1fd78ac342e72da",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci169-terminal-summary-r2.json",
+      "destination": "originals/ci169-terminal-summary-r2.json",
+      "bytes": 6597,
+      "sha256": "69409d25685df401ee4e7d649708c43a86b44091c0964a0bc1b67864817b7153",
+      "byte_identical": true
+    }
+  ],
+  "note": "Original filenames/content are preserved. completed-summary-r1 contains in_progress/null. terminal-summary-r2 is the later completed/failure receipt."
+}

@@ -224,10 +224,14 @@ def version_options(path):
         initial_cash=spec['initial_cash'], fee_rate=spec['fee_rate'], slippage_pct=spec['slippage_pct'], risk=spec['risk'])
 
 
-def revise_family(family, **changes):
+def revise_family(family, *, expected_task_id=None, **changes):
     family = Path(family).resolve()
     with family_lock(family):
         view = read_family(family)
+        if expected_task_id is not None:
+            from .offline_app import check_task
+            if check_task(family, inspect_only=True)['task_id'] != expected_task_id:
+                raise ValueError('task_changed_reload_before_updating_inputs')
         options = version_options(family)
         if set(changes) - set(options):
             raise ValueError('unsupported_task_change:' + ','.join(sorted(set(changes) - set(options))))

@@ -1,0 +1,11 @@
+test_actual_get_post_and_internal_dispatch_reject_before_side_effects (tests.test_research_management_boundary.ResearchManagementBoundaryTests.test_actual_get_post_and_internal_dispatch_reject_before_side_effects) ... ok
+test_default_runtime_is_read_only_and_bad_flags_cannot_enable_writes (tests.test_research_management_boundary.ResearchManagementBoundaryTests.test_default_runtime_is_read_only_and_bad_flags_cannot_enable_writes) ... ok
+test_readonly_health_and_status_dispatch_preserves_status_consumers (tests.test_research_management_boundary.ResearchManagementBoundaryTests.test_readonly_health_and_status_dispatch_preserves_status_consumers) ... ok
+test_readonly_health_reports_bound_root_identity_without_creating_control_store (tests.test_research_management_boundary.ResearchManagementBoundaryTests.test_readonly_health_reports_bound_root_identity_without_creating_control_store) ... ok
+test_remaining_post_mutations_stop_before_request_body_in_readonly_mode (tests.test_research_management_boundary.ResearchManagementBoundaryTests.test_remaining_post_mutations_stop_before_request_body_in_readonly_mode) ... ok
+test_retired_handlers_are_not_registered_in_either_post_collection (tests.test_research_management_boundary.ResearchManagementBoundaryTests.test_retired_handlers_are_not_registered_in_either_post_collection) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.340s
+
+OK

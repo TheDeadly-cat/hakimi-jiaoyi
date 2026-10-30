@@ -1,0 +1,262 @@
+{
+  "status": "CANDIDATE_BUILT_AND_FINAL_INSTALLED_CLOSURE_PASS",
+  "version": "0.7.0.dev3",
+  "candidate": "r5",
+  "source_commit": "b642227ca176d0f6c61984194d06177b2c0be495",
+  "source_directory": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-release\\哈基米v2交易",
+  "source_status_before_and_after": "CLEAN",
+  "output": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r5",
+  "executable": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r5\\HakimiTrade.exe",
+  "archive": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r5.zip",
+  "bundle_id": "7382e481c0fb98e21bae87276a7fb75af6f7c9743e4e55d2105ffdf25110a013",
+  "manifest_sha256": "f3380aa2f5919161e5020b7502000341c17c2e640ff04af48087979e84f9ad68",
+  "archive_sha256": "aec1b2fd6ada4bb05d81616ff2ea071a7f62c0af2b3aae2d86c45e5279c1ed1b",
+  "archive_bytes": 193207046,
+  "program_files": 9079,
+  "zip_members": 9080,
+  "gates": {
+    "backend_full_source": "7e1b28e0c44b3441e808d31230204887e05eebe6",
+    "terminal": 757,
+    "packaging": 15,
+    "runner": 4,
+    "health": 6,
+    "exit": 4,
+    "futu_status": 32,
+    "backend_zero_skips": true,
+    "new_desktop_source": "b642227ca176d0f6c61984194d06177b2c0be495",
+    "new_desktop_seconds": 18.324,
+    "binding": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-copy-delta-binding-dev3-r5-r3.json",
+    "binding_sha256": "bad8608d4dfe2933745cbdb78e4b8f9da652defc46d97b5e12ff75206e7d334b",
+    "full_backend_reran_for_copy_change": false
+  },
+  "final_auxiliary_checks": [
+    {
+      "check": "installed_js",
+      "exit_code": 0,
+      "elapsed_seconds": 5.623,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-installed-js-dev3-r5-r4.log"
+    },
+    {
+      "check": "private_feature_closure",
+      "exit_code": 0,
+      "elapsed_seconds": 19.275,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-feature-closure-launch-dev3-r5-r4.log"
+    },
+    {
+      "check": "cold_verified_protobuf",
+      "exit_code": 0,
+      "elapsed_seconds": 24.565,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-protobuf-loader-launch-dev3-r5-r4.log"
+    }
+  ],
+  "embedded_ui_count": 15,
+  "cold_loader_loaded_files": 192,
+  "cold_loader_protocols": 11,
+  "synthetic_runs_during_packaging": 1,
+  "synthetic_run_scope": "ONE_NEW_TEMPORARY_SYNTHETIC_TEST_ONLY",
+  "extra_economic_runs_after_builder": 0,
+  "real_market_runs": 0,
+  "old_replays": 0,
+  "provider_calls": 0,
+  "sdk_contexts_or_real_accounts": 0,
+  "worker_dispatches": 0,
+  "native_acceptance": "NOT_PERFORMED",
+  "independent_source_inaccessible_windows_acceptance": "NOT_PERFORMED",
+  "normal_probe_local_sdk_import": true,
+  "identity_only_and_cold_probe_sdk_import": false,
+  "runtime_compatibility": "NOT_VERIFIED",
+  "permissions": {
+    "automatic_mode_fallback": false,
+    "automatic_resume": false,
+    "automatic_retry": false,
+    "cancel_allowed": false,
+    "external_connection_allowed": false,
+    "query_allowed": false,
+    "submit_allowed": false,
+    "unlock_allowed": false,
+    "user_authorization_granted": false
+  },
+  "initial_auxiliary_failure_preserved": {
+    "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-acceptance-boundary-dev3-r5-r3.json",
+    "sha256": "81d285b271817fafd3073fed3c8d316b6dfdb7e61a0e6bdb6a22731e0347ec94",
+    "status": "FAIL",
+    "reason": "External JS fixture second programRoot directory had not been created; production helper rejected ENOENT."
+  },
+  "zip_full_hash_pass_receipt": "final-candidate-package-verification-dev3-r5-r3.json",
+  "program_all_bytes_unchanged_after_final_checks": true,
+  "github_push_or_release_not_performed_by_packager": true,
+  "terminal_small_originals_and_marked_summary": {
+    "final-candidate-build-invocation-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-build-invocation-dev3-r5-r3.json",
+      "sha256": "08506bb7c2e5d27e08dfe637fd846b97acba5f5339e12798fd25869e6e6890e1",
+      "bytes": 2789,
+      "terminal": true
+    },
+    "final-candidate-build-result-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-build-result-dev3-r5-r3.json",
+      "sha256": "2f1d836ef5e18863a0c00942e019a73fc26fa80ba975bfd447d7e805046a0515",
+      "bytes": 8870,
+      "terminal": true
+    },
+    "final-candidate-build-process-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-build-process-dev3-r5-r3.json",
+      "sha256": "a260fecb7d8f82c952c644e4292e4a0605f6606dec26fe9d0cda776fc2e9df77",
+      "bytes": 290,
+      "terminal": true
+    },
+    "final-candidate-build-dev3-r5-r3.log": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-build-dev3-r5-r3.log",
+      "sha256": "ada8842ec495829181f142d1391aa051f6d632df3604fa884c1dc2a24d6883d6",
+      "bytes": 7695,
+      "terminal": true
+    },
+    "final-candidate-package-verification-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-package-verification-dev3-r5-r3.json",
+      "sha256": "70dc609b6c5ffd59545d1e669118b04ea2320b3c58ba875e7638e503da9a2568",
+      "bytes": 11054,
+      "terminal": true
+    },
+    "final-candidate-SHA256SUMS-dev3-r5-r3.txt": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-SHA256SUMS-dev3-r5-r3.txt",
+      "sha256": "421cb34bab2662f58e67c157f925115b03250133411a7eaea90602ecc1167a77",
+      "bytes": 1406,
+      "terminal": true
+    },
+    "final-candidate-private-execution-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-private-execution-dev3-r5-r3.json",
+      "sha256": "15bcc88ea2e49046c1247bb8d87562f01ca90a97ebd0a10ee90ca937b01509bd",
+      "bytes": 1009,
+      "terminal": true
+    },
+    "final-candidate-broker-identity-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-broker-identity-dev3-r5-r3.json",
+      "sha256": "1b8148e7ad55b463aaac32992a504ba6d55cca2abf211535d003b54090bbbff4",
+      "bytes": 4015,
+      "terminal": true
+    },
+    "final-candidate-canonical-build-identity-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-canonical-build-identity-dev3-r5-r3.json",
+      "sha256": "d0a1c35b03703a20b454272e5f4ef5af25555489f39add5f594228c4c5f0db29",
+      "bytes": 8939,
+      "terminal": true
+    },
+    "final-candidate-frozen-build-identity-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-frozen-build-identity-dev3-r5-r3.json",
+      "sha256": "85eab152032cf903495993bce678559f146c24b5c260369bba743c78a4d6c072",
+      "bytes": 8951,
+      "terminal": true
+    },
+    "final-candidate-acceptance-boundary-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-acceptance-boundary-dev3-r5-r3.json",
+      "sha256": "81d285b271817fafd3073fed3c8d316b6dfdb7e61a0e6bdb6a22731e0347ec94",
+      "bytes": 1654,
+      "terminal": true
+    },
+    "final-candidate-installed-js-dev3-r5-r3.log": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-installed-js-dev3-r5-r3.log",
+      "sha256": "68622624cf5f64aec088dd53e8f37d45eecb0edbc434e9ae4a86229a3aa6ece2",
+      "bytes": 1750,
+      "terminal": true
+    },
+    "final-candidate-acceptance-boundary-dev3-r5-r4.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-acceptance-boundary-dev3-r5-r4.json",
+      "sha256": "9c99f42213cc4febd3e8528f0c1b822c531f565e119cdf232cace572b39d1d17",
+      "bytes": 2929,
+      "terminal": true
+    },
+    "final-candidate-installed-js-dev3-r5-r4.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-installed-js-dev3-r5-r4.json",
+      "sha256": "8773a078150d6ccd556351002965b1ee8eb32bfcbbf406183cbd7c2e35c964c5",
+      "bytes": 2074,
+      "terminal": true
+    },
+    "final-candidate-installed-js-dev3-r5-r4.log": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-installed-js-dev3-r5-r4.log",
+      "sha256": "156d98e49776d5c800de0da1defa6b6aedcfb735bfa493cfe333eddca62e55fa",
+      "bytes": 75,
+      "terminal": true
+    },
+    "final-candidate-feature-closure-dev3-r5-r4.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-feature-closure-dev3-r5-r4.json",
+      "sha256": "2b1b11988f56fbffaaa3b186956a34e58040c87bf6bf2916bfe4edb529230e3c",
+      "bytes": 14162,
+      "terminal": true
+    },
+    "final-candidate-feature-closure-dev3-r5-r4.log": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-feature-closure-dev3-r5-r4.log",
+      "sha256": "b67b2cbf04accbc92541f51f4c18e5c8503d996e06a18ceb8207cb9141507a27",
+      "bytes": 13073,
+      "terminal": true
+    },
+    "final-candidate-feature-closure-launch-dev3-r5-r4.log": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-feature-closure-launch-dev3-r5-r4.log",
+      "sha256": "2501ea72f3d6066a644b5c1587846bf41250a67d34a5f737e2ca132047a8a31c",
+      "bytes": 185,
+      "terminal": true
+    },
+    "final-candidate-protobuf-loader-summary-dev3-r5-r4.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-protobuf-loader-summary-dev3-r5-r4.json",
+      "sha256": "e80210ef87607f7caba38ebfb2698eeca8dedd7f4794d274cd959dcdcdb686a3",
+      "bytes": 5009,
+      "terminal": true
+    },
+    "final-candidate-protobuf-loader-launch-dev3-r5-r4.log": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-protobuf-loader-launch-dev3-r5-r4.log",
+      "sha256": "9edb853030d54eca4b2d0842bdf879a7139e59ac44bd5b7d63c86a6807386807",
+      "bytes": 211,
+      "terminal": true
+    },
+    "private-protobuf-dev3-r5-r4-r1/guard-final.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\private-protobuf-dev3-r5-r4-r1\\guard-final.json",
+      "sha256": "d3797f13c8e1d1286eb770566dc721b4558bde1256968dfaa8e7ef09761aeb99",
+      "bytes": 278,
+      "terminal": true
+    },
+    "private-protobuf-dev3-r5-r4-r1/process-result.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\private-protobuf-dev3-r5-r4-r1\\process-result.json",
+      "sha256": "f2884d35c7614d8e8033b296c40405efa67eb48fbeb67c4b2583c9ac3e89ffee",
+      "bytes": 50,
+      "terminal": true
+    },
+    "private-protobuf-dev3-r5-r4-r1/invocation.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\private-protobuf-dev3-r5-r4-r1\\invocation.json",
+      "sha256": "7ff7046eaf871a41db47b6d1e11667a7feb900a3dd191963a0ac1484805a4e51",
+      "bytes": 7123,
+      "terminal": true
+    },
+    "private-protobuf-dev3-r5-r4-r1/stdout.log": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\private-protobuf-dev3-r5-r4-r1\\stdout.log",
+      "sha256": "67700e87433440704c4d9b9e8d2c15ad915a00eb97b3ff0bfdd46d12c99a5f10",
+      "bytes": 274,
+      "terminal": true
+    },
+    "private-protobuf-dev3-r5-r4-r1/stderr.log": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\private-protobuf-dev3-r5-r4-r1\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "terminal": true
+    }
+  },
+  "large_maps_retain_external": {
+    "final-candidate-entry-hashes-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-entry-hashes-dev3-r5-r3.json",
+      "sha256": "aa7e34b8d7411d9e909bca4b8265549f8f7d5701830c778368f9418a2723888e",
+      "bytes": 1263131
+    },
+    "final-candidate-manifest-dev3-r5-r3.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-manifest-dev3-r5-r3.json",
+      "sha256": "f3380aa2f5919161e5020b7502000341c17c2e640ff04af48087979e84f9ad68",
+      "bytes": 1391957
+    },
+    "final-candidate-protobuf-loader-dev3-r5-r4.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-protobuf-loader-dev3-r5-r4.json",
+      "sha256": "a87c5d3103ffa4e3aec2d0012ea5624ff76b80815b6b087fa48bf90f9b57618c",
+      "bytes": 42566
+    },
+    "private-protobuf-dev3-r5-r4-r1/result.json": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\private-protobuf-dev3-r5-r4-r1\\result.json",
+      "sha256": "7dba585fd81922fe3bad8d444ae590bea8142a2a68c1e8f03c3b1841528450bd",
+      "bytes": 43566
+    }
+  }
+}

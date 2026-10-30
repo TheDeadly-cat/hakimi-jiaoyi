@@ -1,0 +1,99 @@
+{
+  "status": "IMPLEMENTED_OFFLINE_TRANSPORT_AND_PINNED_CODEC_SLICE",
+  "source_root": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "git_head": "7ee12e44db381ac9a9651e60fa3d5bdd15bca27b",
+  "git_status": " M tools/run_terminal_contracts.py\n?? outputs/python_quant_bot/exchange_terminal/adapters/\n?? outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py\n?? outputs/python_quant_bot/exchange_terminal/services/terminal_broker_scoped_transport.py\n?? outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py\n?? outputs/python_quant_bot/tests/test_futu_us_equity_simulate_wire_v2.py\n?? outputs/python_quant_bot/tests/test_terminal_broker_execution_journal.py\n?? outputs/python_quant_bot/tests/test_terminal_broker_scoped_transport.py\n?? outputs/python_quant_bot/tests/test_terminal_broker_wire_profile.py\n",
+  "source_files": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_scoped_transport.py": "5ec9efcc8b837651753f69fa53068f4ab7cca50f7a85da47588b758139a95292",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\adapters\\futu_us_equity_simulate_wire_v2.py": "c7095e5f9012cf5473a5721d0ae98b3816b792a9bca3ce8d7414d2ff7f458709",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_terminal_broker_scoped_transport.py": "adc229eb1311ae0c340bbb1c37b59c82762d9562de889d696565ca5e10a0de70",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_futu_us_equity_simulate_wire_v2.py": "cf37b0d3dfc97e8aea46fb0f43785422c5c933aeedfa2f9f10d800f33f022b7d"
+  },
+  "tests": {
+    "latest_transport": {
+      "tests": 33,
+      "failures": 0,
+      "errors": 0,
+      "scope": "FAKE_ONLY",
+      "evidence": "focused-utc-r1.log"
+    },
+    "unchanged_codec": {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "source_hash_matches_prior_44_test_run": true,
+      "evidence": "focused-r3.log"
+    },
+    "combined_current_46_test_run_performed": false
+  },
+  "actual_codec_probe": {
+    "checks": 24,
+    "actual_sdk_pack_req_actions": 12,
+    "seconds": 3.1242234999954235,
+    "sdk_distribution_version": "10.7.6708",
+    "sdk_module_version": "10.07.6708",
+    "guard_attempts": {
+      "socket": 0,
+      "thread": 0,
+      "database": 0,
+      "subprocess": 0,
+      "forbidden_constructor": 0
+    },
+    "local_host_identity_reads": 1,
+    "package_modules_verified": 826,
+    "futu_modules_verified": 133,
+    "private_interpreter_flags": {
+      "isolated": 1,
+      "no_site": 1,
+      "dont_write_bytecode": true
+    },
+    "result": "pinned-codec-private-r4/codec-result.json"
+  },
+  "permissions": {
+    "automatic_mode_fallback": false,
+    "automatic_resume": false,
+    "automatic_retry": false,
+    "cancel_allowed": false,
+    "external_connection_allowed": false,
+    "query_allowed": false,
+    "submit_allowed": false,
+    "unlock_allowed": false,
+    "user_authorization_granted": false
+  },
+  "business_runs": 0,
+  "old_data_touched": false,
+  "gui_or_server_started": false,
+  "production_candidate": false,
+  "existing_package_modified": false,
+  "committed_or_pushed": false,
+  "retained_failed_attempts": [
+    "pinned-codec-private-r1",
+    "pinned-codec-private-r2",
+    "pinned-codec-private-r3"
+  ],
+  "remaining": [
+    "No encrypted wire or OpenD/native compatibility acceptance",
+    "No production socket or dispatch permit factory",
+    "No actual account/funds/fee/tick/source-time verifier",
+    "No shared-journal/worker/host/router/UI connection",
+    "Future worker supervisor must enforce hard process deadline",
+    "No REAL path or implicit fallback",
+    "Root owns runner/packaging integration"
+  ],
+  "evidence_sha256": {
+    "focused-r3.log": "b4214c61803b9ce0e78582cec9fcb279a0e4419dda8946730cc314434d5597e9",
+    "focused-r3.json": "0e830994a8ed589d98ee384be9003f1d20cfd636e7d566e46a35c8aa1972ba4f",
+    "focused-utc-r1.log": "97f8d16a8f7ad8c5ec21d101cf8a2dffdd9308e2c9c6cccaf5063dc9263ae407",
+    "focused-utc-r1.json": "e0f0225c56bbaab4da94fe09d9a20e0f40612a2f14c24785cb25ccae9579e0c8",
+    "run-pinned-codec-probe-r5.py": "6bcdb3b33b12ad719e7495add0271600de0867290b8de1a8b2069b90f48ecd3e",
+    "pinned-codec-probe-child-r5.py": "628ae15340ae36c7ad9a30cb11eccf164e4526f63c72854234048d6f5b5322b9",
+    "pinned-codec-static-review-r5.json": "131ba9adb7712ac7af1948ae31d18f409f4ae74e5861ab03fd1e06adaba1e6f7",
+    "pinned-codec-private-r4/invocation.json": "96205e00b157875d451b8976e5107893ccd63116617f357831495e9cc4626a2e",
+    "pinned-codec-private-r4/codec-result.json": "9eaf08aca6159882b710834eb72873778d710d8f583039e2240dd070520b1baf",
+    "pinned-codec-private-r4/guard-final.json": "2d58ead33f7ab00efd2cff9daf486288d0009bbdcd4a32c1cd9fe49cb3a9a9b9",
+    "pinned-codec-private-r4/runner-result.json": "a4734ac93a5f8600858ae06903a9f4b71be2de169dcaa4b159bb7e0f647cf369",
+    "pinned-codec-private-r4/request-frames.json": "624ae7f1eadcdb64d9b243660d05d79c46357e6da98791131ad62c32f60366b3",
+    "pinned-codec-private-r4/stdout.log": "f1c71e591d1d8943cab4c854c4d8821b8a7255738b3f8d3763145d26a55c5b51",
+    "pinned-codec-private-r4/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

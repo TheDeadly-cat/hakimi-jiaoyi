@@ -1,0 +1,28 @@
+{
+  "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+  "package": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4",
+  "output": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-scoped-transport-20261030\\pinned-codec-private-r1",
+  "manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+  "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5",
+  "source_hashes": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\__init__.py": "3ef5dff0950326a45593bad0b6afc529fcaf6772e0bb3a59b9b327e8e483ddca",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\__init__.py": "205eeededbfaa0f67e4704849d0c50a9b92db578441ec9e0890ae0ac461036d1",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_candidate_service.py": "014f8109512d8d664667550fb76bb54195598dad7a43032ca852ad7f369a95ed",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_result_comparison.py": "b61d1431b48db73d8219850e58e052349f8a19b9062ef3f3faa26c53b7ac9490",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\adapters\\futu_us_equity_simulate_wire_v2.py": "c7095e5f9012cf5473a5721d0ae98b3816b792a9bca3ce8d7414d2ff7f458709",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\__init__.py": "77f85c411e95612b0e56e02c68a640d7f417dabfe1b4a826d7ed470c329b4cf2",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_terminal_broker_execution_plan.py": "3ed9cb11a9931439bfd516245207100d30038339108cc619116995f3472107e0",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_terminal_broker_wire_profile.py": "72242c9a817ff06494880e8b77f168489ece291167c09fb7e8da09f4d0f76367",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_futu_us_equity_simulate_wire_v2.py": "cf37b0d3dfc97e8aea46fb0f43785422c5c933aeedfa2f9f10d800f33f022b7d"
+  },
+  "git_head": "7ee12e44db381ac9a9651e60fa3d5bdd15bca27b",
+  "git_status": "?? outputs/python_quant_bot/exchange_terminal/adapters/\n?? outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py\n?? outputs/python_quant_bot/exchange_terminal/services/terminal_broker_scoped_transport.py\n?? outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py\n?? outputs/python_quant_bot/tests/test_futu_us_equity_simulate_wire_v2.py\n?? outputs/python_quant_bot/tests/test_terminal_broker_execution_journal.py\n?? outputs/python_quant_bot/tests/test_terminal_broker_scoped_transport.py\n?? outputs/python_quant_bot/tests/test_terminal_broker_wire_profile.py\n",
+  "distribution_version": "10.7.6708",
+  "internal_module_version": "10.07.6708",
+  "source_claim": "OFFLINE_TEST_FIXTURE_NOT_CLEAN_PRODUCTION",
+  "child_sha256": "6ccd1657519811e4e8d6070e9e1ce8f7be62170550c611dacb4e423a7925114a",
+  "runner_sha256": "27e4d7fc0d1d48a19e76f64b5188914b6382a376d905d436ddf3f5f79979a50f"
+}

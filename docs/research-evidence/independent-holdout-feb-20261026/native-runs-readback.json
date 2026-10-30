@@ -1,0 +1,95 @@
+{
+  "recorded_at": "2026-10-26T11:25:09.705486+00:00",
+  "status": "TWO_NATIVE_RUNS_VERIFIED",
+  "plan_hash": "03b9c996063e7fb03fbb95e70fd4416bf30a5e0f54617db72fbb9ce8e18f812b",
+  "symbols": {
+    "NDAQ": {
+      "run_id": "b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959",
+      "run_ref": "runs/run-b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959",
+      "task_id": "1e59c059b27842135ee3d756b9c3dbc4054c7437cc6aa680588210d73e094cd2",
+      "report_hash": "eca9aa9b8c39070a81009e72679213580640bed583f189737f794901452110be",
+      "snapshot_id": "a579a9cf9a2e27e5f6652bdf85b1c293c1d4bf3057365f6bb6543caf0bb5d90b",
+      "summary": {
+        "total_return": 0.014462833802999953,
+        "max_drawdown": 0.0,
+        "total_fees": 4.12099947,
+        "fill_count": 2,
+        "round_trip_count": 1,
+        "open_position_qty": 0.0,
+        "final_equity": 10144.62833803,
+        "signal_count": 1,
+        "decision_count": 19,
+        "scored_sessions": 19
+      },
+      "scoring_protocol": {
+        "annualization": "252_REGULAR_SESSIONS_PER_YEAR_DESCRIPTIVE_ASSUMPTION",
+        "available_context_sessions": 12,
+        "bar_availability_lag_seconds": 60,
+        "company_actions": "DECLARED_ACTION_FREE_WINDOW_ONLY",
+        "confirmation_evaluation": false,
+        "parameter_selection": false,
+        "required_context_sessions": 12,
+        "score_end": "2026-02-27T21:00:00Z",
+        "score_start": "2026-02-02T14:30:00Z",
+        "scored_sessions": 19,
+        "session_clock_hash": "08e4357fd5b44e895e01c47e24861d67d100c4d37a1e72847d66973ecd961f06",
+        "warmup_trading": false
+      },
+      "files": {
+        "index.html": "56824a12fd34a798b53bfe8caf04e68937cc45c6e2f291480580a37b77c435be",
+        "inputs.json": "2cc13767bb63e5c87706f4e635a39ed63bc6820d7e8a160d90ca45d00aa584be",
+        "preparation.json": "550f1f6f875ace9e365e940d57f4613a52ebdd48835a585409c944e99a841c63",
+        "report.json": "159637db28c294659e8dc09afd668a50d0f5bfc58f12244fe9393ec10b7e5f7f",
+        "started.json": "e232637cfe9a5490f4a3f15d90e96e908c6d0eee47a2bb416882b9a68309dc84",
+        "inputs/snapshot.json": "20a8fc93b3500eedf1d5bcffd3ff253c907abe31b6c2b4252ba38f278e82998a"
+      }
+    },
+    "KO": {
+      "run_id": "b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c",
+      "run_ref": "runs/run-b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c",
+      "task_id": "e3cd491980a4917d2760699d8a9b19e13c2a8c2e00e316896392c0e7cf5302f1",
+      "report_hash": "027096ba20c63d15e05abd3119167914068c7cbaf1374a734567f510fa9f1089",
+      "snapshot_id": "23a5f74d3b043d6b06111b3dac35204095a5545601d478855726f2921a56c4fe",
+      "summary": {
+        "total_return": 0.0,
+        "max_drawdown": 0.0,
+        "total_fees": 0.0,
+        "fill_count": 0,
+        "round_trip_count": 0,
+        "open_position_qty": 0.0,
+        "final_equity": 10000.0,
+        "signal_count": 0,
+        "decision_count": 19,
+        "scored_sessions": 19
+      },
+      "scoring_protocol": {
+        "annualization": "252_REGULAR_SESSIONS_PER_YEAR_DESCRIPTIVE_ASSUMPTION",
+        "available_context_sessions": 12,
+        "bar_availability_lag_seconds": 60,
+        "company_actions": "DECLARED_ACTION_FREE_WINDOW_ONLY",
+        "confirmation_evaluation": false,
+        "parameter_selection": false,
+        "required_context_sessions": 12,
+        "score_end": "2026-02-27T21:00:00Z",
+        "score_start": "2026-02-02T14:30:00Z",
+        "scored_sessions": 19,
+        "session_clock_hash": "08e4357fd5b44e895e01c47e24861d67d100c4d37a1e72847d66973ecd961f06",
+        "warmup_trading": false
+      },
+      "files": {
+        "index.html": "02f26806944e006dc9f3648d4ab08dfcfa7dd7aefea54e4be7516ffc55190178",
+        "inputs.json": "bade78f90d673ce192b8abd33c45e90a0e30df48bbbfcbfd1ed99e45988a5faa",
+        "preparation.json": "c5d7111ce99a0b05fa6a325dee04caaf0d93f831676c74ef5a2d30055773bc84",
+        "report.json": "0afc66f5b470732bef19d0b6ddf5cc4850dbbaabb20d1cb6de4c5c992ba4359e",
+        "started.json": "62bc76a8394b7f60cff0798574f6d0f6f2863cb3bf224eb9cfce953fb96850a1",
+        "inputs/snapshot.json": "094556bd84b7268932951d9ad8e1177ea46b429e49a21727580957e602ad9e3f"
+      }
+    }
+  },
+  "new_formal_runs": 2,
+  "observer_recalculations": 0,
+  "new_cost_calculations": 0,
+  "readback_notes": [
+    "Initial read-only helpers assumed manifest.json, nested task_id, and a result.summary field; actual inputs.json/top-level task_id/flat result schema was then inspected. No strategy recalculations or original-file writes occurred in those failed reads."
+  ]
+}

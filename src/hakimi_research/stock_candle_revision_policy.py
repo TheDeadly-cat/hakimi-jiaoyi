@@ -122,6 +122,7 @@ def prepare_stock_candle_revision_policy(
         "policy_version": STOCK_CANDLE_REVISION_POLICY_VERSION,
         "rows": incoming,
         "chain_linked": False,
+        "retained_completed_count": 0,
         "price_scale": 1.0,
         "anchor_date": "",
         "source": clean_source,
@@ -215,6 +216,14 @@ def prepare_stock_candle_revision_policy(
         "anchor_date": max((item[0] for item in ratios), default=""),
         "overlap_count": len(ratios),
         "new_date_count": len(new_dates),
+        "retained_completed_count": sum(
+            1 for row in incoming
+            if candle_is_complete(existing_by_date.get(_text(row.get("date"))), default_if_missing=False)
+        ),
+        "reference_sources": sorted({_text(row.get("source")) for row in existing_native}),
+        "adjustment_basis": series_adjustment_contract(
+            [_text(row.get("source")) for row in existing_native]
+        )[0],
     })
     return result
 

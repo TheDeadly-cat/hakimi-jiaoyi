@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: installation state and context changes do not read, select a mode or write a plan automatically
+ok 1 - installation state and context changes do not read, select a mode or write a plan automatically
+  ---
+  duration_ms: 2.6047
+  type: 'test'
+  ...
+# Subtest: bounds require explicit deadline and fee ceiling and carry all visible finite defaults
+ok 2 - bounds require explicit deadline and fee ceiling and carry all visible finite defaults
+  ---
+  duration_ms: 1.8053
+  type: 'test'
+  ...
+# Subtest: local deadline display crosses the UTC date boundary without changing original ISO or submitted bounds
+ok 3 - local deadline display crosses the UTC date boundary without changing original ISO or submitted bounds
+  ---
+  duration_ms: 58.1496
+  type: 'test'
+  ...
+# Subtest: saved fact survives auxiliary list failure and missing adapter remains a gap plan
+ok 4 - saved fact survives auxiliary list failure and missing adapter remains a gap plan
+  ---
+  duration_ms: 8.7388
+  type: 'test'
+  ...
+# Subtest: durable acknowledgement survives the host throwing after onSuccess
+ok 5 - durable acknowledgement survives the host throwing after onSuccess
+  ---
+  duration_ms: 2.2016
+  type: 'test'
+  ...
+# Subtest: render failure after a durable acknowledgement cannot turn a saved plan into not submitted
+ok 6 - render failure after a durable acknowledgement cannot turn a saved plan into not submitted
+  ---
+  duration_ms: 2.4582
+  type: 'test'
+  ...
+# Subtest: rereading capabilities immediately invalidates old confirmation and cannot use old PACKAGED after failure
+ok 7 - rereading capabilities immediately invalidates old confirmation and cannot use old PACKAGED after failure
+  ---
+  duration_ms: 3.3536
+  type: 'test'
+  ...
+# Subtest: NOT_PACKAGED cannot create a new plan and a refused backend result is not promoted
+ok 8 - NOT_PACKAGED cannot create a new plan and a refused backend result is not promoted
+  ---
+  duration_ms: 1.6419
+  type: 'test'
+  ...
+# Subtest: lost response is recovered with original request and workspace after switching modes, without another POST
+ok 9 - lost response is recovered with original request and workspace after switching modes, without another POST
+  ---
+  duration_ms: 2.2462
+  type: 'test'
+  ...
+# Subtest: PREPARING and NOT_RECORDED keep the original request locked without retry
+ok 10 - PREPARING and NOT_RECORDED keep the original request locked without retry
+  ---
+  duration_ms: 2.7539
+  type: 'test'
+  ...
+# Subtest: cross-mode, cross-workspace and any missing/extra/open permission reject the claimed result
+ok 11 - cross-mode, cross-workspace and any missing/extra/open permission reject the claimed result
+  ---
+  duration_ms: 4.7984
+  type: 'test'
+  ...
+# Subtest: resealed payload or request hash cannot replace the original six-field scope
+ok 12 - resealed payload or request hash cannot replace the original six-field scope
+  ---
+  duration_ms: 3.1876
+  type: 'test'
+  ...
+# Subtest: form, mode, source/intent and stop revision changes cancel explicit confirmation
+ok 13 - form, mode, source/intent and stop revision changes cancel explicit confirmation
+  ---
+  duration_ms: 0.6828
+  type: 'test'
+  ...
+# Subtest: late capabilities cannot authorize a new context or workspace
+ok 14 - late capabilities cannot authorize a new context or workspace
+  ---
+  duration_ms: 0.2796
+  type: 'test'
+  ...
+# Subtest: explicit history recovery queries the recorded payload, never the current candidate form
+ok 15 - explicit history recovery queries the recorded payload, never the current candidate form
+  ---
+  duration_ms: 2.8569
+  type: 'test'
+  ...
+# Subtest: old plan reads do not need capabilities and keep original budgets and identities unchanged
+ok 16 - old plan reads do not need capabilities and keep original budgets and identities unchanged
+  ---
+  duration_ms: 1.4937
+  type: 'test'
+  ...
+# Subtest: late detail response cannot populate another selected mode
+ok 17 - late detail response cannot populate another selected mode
+  ---
+  duration_ms: 1.9342
+  type: 'test'
+  ...
+# Subtest: plan form DOM has visible budgets, no installation reads, durable save and independent parent stop at 1280/480
+ok 18 - plan form DOM has visible budgets, no installation reads, durable save and independent parent stop at 1280/480
+  ---
+  duration_ms: 1604.8691
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1816.4626

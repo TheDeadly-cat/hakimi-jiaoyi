@@ -1,0 +1,11 @@
+{
+  "schema_version": "hakimi-task-event-v1",
+  "family_id": "051add03c1a4439da748a63ca582a5a5",
+  "sequence": 1,
+  "previous_hash": null,
+  "action": "CREATE",
+  "revision": "r0001-111fe0f7bd3c4083a92ebe47ecce5196",
+  "version_hash": "1b548d1ebf07241930fa8d00307829e68d4afc6b953c0953cbf180f2a9ac2fe1",
+  "state": "ENABLED",
+  "event_hash": "8606b583a8388a2b24787930713c0b64ceb3845b4a6eefdaa7cdc2d17fae87e5"
+}

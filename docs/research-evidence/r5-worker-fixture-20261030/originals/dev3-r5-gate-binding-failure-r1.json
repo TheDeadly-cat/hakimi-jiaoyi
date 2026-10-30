@@ -1,0 +1,39 @@
+{
+  "status": "FAIL_STOPPED_BEFORE_BUILD",
+  "source_commit": "b5547330978c6c3afaba376c13ab1f2f583e1610",
+  "source_directory": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-ci\\哈基米v2交易",
+  "command_exit_code": 1,
+  "session_id": 42363,
+  "reason": "final_source_exceeds_one_ci_fixture_exception",
+  "expected_count": 2102,
+  "actual_count": 2102,
+  "differences": {
+    "outputs/python_quant_bot/exchange_terminal/market_data/futu_context.py": {
+      "expected": "ad93cafc8f7856f2c4036fa05004f3aed6dbd9390c77746ff29f7bf5c8f24116",
+      "observed": "27fc1d65f896270c63012d73349cc19c6f29d891be9f9f044c8b9bedd0c8de5b"
+    },
+    "outputs/python_quant_bot/tests/test_desktop_exit_handshake.py": {
+      "expected": "6fd1e1968c0831b6fac0c4ce61c13cdd40428692c0bfa279d8ead248eda04104",
+      "observed": "a14ebbaabf9bcfd686eaa90ac8fe65295c65dbabf1bbdc084af870d011e3c5ff"
+    },
+    "outputs/python_quant_bot/tests/test_futu_connection_status.py": {
+      "expected": "0048f44d21d6d9547a4c8ca0d631ab95206ee28967760f2dcb10f4e0f79f1967",
+      "observed": "860eb268409a79b8e7a2ca8466477040c138d9f1c4e0ccc5aa2b8f416734513b"
+    },
+    "outputs/python_quant_bot/tests/test_indicator_contract.py": {
+      "expected": "adeb5e41b165f816b0e2b5bfc15172b2d6c40cdc8c4083c6df64eea7346af249",
+      "observed": "5e0544f5957e2829551bf94fef251176b2c9a146d76374eb5259031bfebc36d4"
+    },
+    "outputs/python_quant_bot/tests/test_quant_kernel_isolation.py": {
+      "expected": "1b895ff97f2d32bfb90da122d3e33a623a7b3942d6462d5bf21ddc948f1af210",
+      "observed": "43acf5477e8ee99fd4746812ee4c983bf2c21354f7bb02346eb752d0e7c10a27"
+    },
+    "outputs/python_quant_bot/tests/test_terminal_research.py": {
+      "expected": "837ed3254f4d39ed9bf7d64ee08d3341520fd7be1932700c62c1ca9ddf0b6ef1",
+      "observed": "bc79fea3b32f27d09dcc256382541586f14b92d165b24352fc61974673524ef0"
+    }
+  },
+  "candidate_exists": false,
+  "build_or_probe_started": false,
+  "original_gate_evidence_not_changed": true
+}

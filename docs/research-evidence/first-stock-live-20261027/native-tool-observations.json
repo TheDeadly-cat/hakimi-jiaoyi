@@ -1,0 +1,26 @@
+{
+  "schema_version": "native-tool-observations-v1",
+  "home_tool_result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "\t\t\t\t20 按钮 版本与诊断 · 0.6.0.dev5 ID: delivery-label\n\t\t\t\t38 按钮 添加第一只股票\n\t\t\t\t43 文本 已保存 0 份输入、0 个任务、0 份结果。"
+      },
+      {
+        "type": "image",
+        "mimeType": "image/jpeg",
+        "saved_original_image": "native/dev5-01-home.jpg"
+      }
+    ],
+    "isError": false
+  },
+  "version_detail_tool_result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "user input was detected in this window; call get_window_state before continuing"
+      }
+    ],
+    "isError": true
+  }
+}

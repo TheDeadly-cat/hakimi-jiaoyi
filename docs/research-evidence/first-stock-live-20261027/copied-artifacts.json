@@ -1,0 +1,175 @@
+{
+  "schema_version": "byte-preserved-evidence-copies-v1",
+  "recorded_at": "2026-10-26T17:29:34.364735+00:00",
+  "files": [
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\transport-comparison.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/transport-comparison.json",
+      "sha256": "08e838337dac02252730c1be238bdef56e60de7664e6f2d254607b9b3e132bb6",
+      "bytes": 4843
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\stdlib-proxy-selection.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/stdlib-proxy-selection.json",
+      "sha256": "70207d093777b7281b050f42e4c4ec6974b7389bbc5517222110e104e9a2cd2f",
+      "bytes": 607
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\transport-fix-validation-r1.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/transport-fix-validation-r1.json",
+      "sha256": "94d44f501c4ef2cd7fa9326d98dc39333648d794cd6f5e3b1adb5b21c07f4953",
+      "bytes": 1357
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\transport-independent-review-r1.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/transport-independent-review-r1.json",
+      "sha256": "88264851e820e6d435cd7da9a047a3862b95d1afda17166d8828861e871f2f7f",
+      "bytes": 2681
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\transport-fix-tests-r1.log",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/transport-fix-tests-r1.log",
+      "sha256": "1a5f4c80c2a7b5fd322f14031ed6a127e5a226acc4ff274bc6fb6ce45f39dbce",
+      "bytes": 7401
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\ui-final-reasons-r1.log",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/ui-final-reasons-r1.log",
+      "sha256": "869c509f65ea62f68c583e78809b0cd11a488d36a170da7d1d08a1d99a7fac1a",
+      "bytes": 5865
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-build-summary-r1.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/windows-trial-build-summary-r1.json",
+      "sha256": "58eb5002c50ba7960da8ecc2ef93bc172e924784567fc3b7604f60d4311d7b3b",
+      "bytes": 7856
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-probe-r1.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/windows-trial-probe-r1.json",
+      "sha256": "4a3e7bc1e6bd9c0a637f71020b4b3a2071f614a018802144f6f981f491fe6a09",
+      "bytes": 2625
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-runtime-sources-r1.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/windows-trial-runtime-sources-r1.json",
+      "sha256": "2a723075be44be951d1db5162c0951b4314441d25ba2384f44d7f0bf5d4db035",
+      "bytes": 3082
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\build-log-encoding-note.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/build-log-encoding-note.json",
+      "sha256": "b6b450620de745058d0e7cf87c406912b06881a6efe14770f6ee1e8bb7cb248f",
+      "bytes": 1164
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-build-r1-utf8-view.log",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/windows-trial-build-r1-utf8-view.log",
+      "sha256": "19b34259813479454392b200c8e471e1c2077120c3cc7eff99e9eee34b595c9d",
+      "bytes": 1573
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\wheel-acceptance-r1-execution.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/wheel-acceptance-r1-execution.json",
+      "sha256": "0d25dda3a0776fc80f71d2429f510f60496db1c2e799172c802d3cbd53990a4c",
+      "bytes": 396
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-build-r1-execution.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/windows-trial-build-r1-execution.json",
+      "sha256": "d807df4fac0017d6ca21203618da919fece247cf76ceff1992d971a085d712d6",
+      "bytes": 435
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\preservation-baseline.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/preservation-baseline.json",
+      "sha256": "15f49912971e2310177ff63cc1ac9643a6e76ce35ba448b58f08ae328e7ac0e1",
+      "bytes": 24832
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\diagnostic-preservation-after.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/diagnostic-preservation-after.json",
+      "sha256": "b17f86369d0820624592258a7f92c770daf242c1f95e266e567be1b3517e4b31",
+      "bytes": 8590
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\dev5-build-preparation.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/dev5-build-preparation.json",
+      "sha256": "4f9b1f270fad60b718941687dd7b148d837508a6d07a123b9e5b420ca8e97de9",
+      "bytes": 11102
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\desktop-hold.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/desktop-hold.json",
+      "sha256": "80d168d84ef0b1a2d1a977b4af392b33952966b6136f4a04ead265cc40a99362",
+      "bytes": 1451
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\native-tool-observations.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/native-tool-observations.json",
+      "sha256": "fd1caefdf7928b11a7092a84795a703da898c6f86c48ec47f0a391e2293a3e54",
+      "bytes": 721
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\native\\dev5-01-home.jpg",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/native/dev5-01-home.jpg",
+      "sha256": "1b5903a26abde4f3c7039cb2d326fb84b327bbf0bea80aa3b9ec13530b141d85",
+      "bytes": 108762
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\public-bundle\\dependencies.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/installed/dependencies.json",
+      "sha256": "2a78147efe7d12482d96078b484e6ad07b306c0bedf171c9ab34512f18948290",
+      "bytes": 625
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\public-bundle\\hakimi_research-0.6.0.dev5-py3-none-any.whl",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/installed/hakimi_research-0.6.0.dev5-py3-none-any.whl",
+      "sha256": "26a4ccca4943b5bb9fabfad46a170c812bf459a6994ba2e8f02f08440a348d6d",
+      "bytes": 397524
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\public-bundle\\installed-content-boundary.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/installed/installed-content-boundary.json",
+      "sha256": "da797fe9a5dcd2db2e954ac7717c2f51c83385add1b6961dac09bd3d5627986b",
+      "bytes": 4561
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\public-bundle\\installed-input-workflow.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/installed/installed-input-workflow.json",
+      "sha256": "9db1d2a4472b0483f5e0ed1370b585b4b7db46c9799ce48b2690bd1636308f3a",
+      "bytes": 5201
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\public-bundle\\installed-shared-funds.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/installed/installed-shared-funds.json",
+      "sha256": "945db7c4d011ec6fd906b74fd346f9f74e93d37aa598df8b9a5b25e7a423d29c",
+      "bytes": 2188
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\public-bundle\\SHA256SUMS.txt",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/installed/SHA256SUMS.txt",
+      "sha256": "33dc210b49c45d3ffda0a501117b4a85e036552d32b8841dd0afa46649517d49",
+      "bytes": 745
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\public-bundle\\source-build-identity.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/installed/source-build-identity.json",
+      "sha256": "c1d5d0f5b667182569c2e06d89a5812d7e53f9fe7b7a3e7714dbaa79fd9a6362",
+      "bytes": 9157
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\public-bundle\\test-scope.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/installed/test-scope.json",
+      "sha256": "cac603df6d69165d76b51f202acdefa6007be4a99b1b282262fc1e7c1c077af9",
+      "bytes": 56961
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\public-bundle\\wheel-acceptance.json",
+      "repository_path": "docs/research-evidence/first-stock-live-20261027/installed/wheel-acceptance.json",
+      "sha256": "6e49579a3b3d4703f9d6614c4c3de030c595ca95d038c24af4f74f5fe1c39d07",
+      "bytes": 1308
+    }
+  ],
+  "all_source_and_destination_bytes_equal": true
+}

@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "check": "actual_node22_python_windows_normcase_identity",
+  "node_version": "v22.23.4",
+  "physical_root": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\never-created-host-identity-中文 空格",
+  "root_id": "9d31b604297152bb6a88b39a344b4f2f3321aaa83fee51b3276db1cdd5d0517b",
+  "directory_created": false
+}

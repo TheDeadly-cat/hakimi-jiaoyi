@@ -1,0 +1,209 @@
+{
+  "schema_version": "independent-historical-holdout-design-v1",
+  "mode": "PROJECT_HISTORICAL_HOLDOUT_PREACQUISITION",
+  "recorded_at": "2026-10-26T11:10:38.289386Z",
+  "selection_rule": "Latest complete calendar month wholly before the earliest retained NDAQ/KO source; fixed 12-session context. February is a new explicitly authorized round after April source STOP, not an automatic retry or performance-based replacement.",
+  "selected_month": "2026-02",
+  "score_start": "2026-02-02",
+  "score_end": "2026-02-27",
+  "score_sessions": [
+    "2026-02-02",
+    "2026-02-03",
+    "2026-02-04",
+    "2026-02-05",
+    "2026-02-06",
+    "2026-02-09",
+    "2026-02-10",
+    "2026-02-11",
+    "2026-02-12",
+    "2026-02-13",
+    "2026-02-17",
+    "2026-02-18",
+    "2026-02-19",
+    "2026-02-20",
+    "2026-02-23",
+    "2026-02-24",
+    "2026-02-25",
+    "2026-02-26",
+    "2026-02-27"
+  ],
+  "context_start": "2026-01-14",
+  "context_sessions": 12,
+  "context_dates": [
+    "2026-01-14",
+    "2026-01-15",
+    "2026-01-16",
+    "2026-01-20",
+    "2026-01-21",
+    "2026-01-22",
+    "2026-01-23",
+    "2026-01-26",
+    "2026-01-27",
+    "2026-01-28",
+    "2026-01-29",
+    "2026-01-30"
+  ],
+  "strategy": {
+    "name": "dual_ma",
+    "params": {
+      "fast_window": 5,
+      "position_pct": 0.25,
+      "slow_window": 10,
+      "stop_loss_pct": 0.03,
+      "take_profit_pct": 0.06
+    }
+  },
+  "initial_cash": 10000,
+  "fee_rate": 0.0008,
+  "slippage_pct": 0.0005,
+  "risk": {
+    "max_daily_loss_pct": 1.0,
+    "max_leverage": 1.0,
+    "max_position_pct": 0.25,
+    "max_single_loss_pct": 0.03,
+    "min_cash_pct": 0.0
+  },
+  "end_policy": "MARK_TO_MARKET",
+  "execution_policy": "STANDARD_STRATEGY_RISK",
+  "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+  "purpose": "DESCRIPTIVE_DEVELOPMENT",
+  "cost_multipliers": [
+    1,
+    2,
+    3
+  ],
+  "benchmarks": [
+    "cash",
+    "buy_and_hold"
+  ],
+  "parameter_sources": {
+    "NDAQ": {
+      "run_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\runs\\run-7871a14c400b274bcc89870eb55964f68acbbd8fb82366ab99184d5311854ca0",
+      "run_id": "7871a14c400b274bcc89870eb55964f68acbbd8fb82366ab99184d5311854ca0",
+      "report_hash": "1cadeb4d2f7e96a8cf88f0577c8a9919406e1fa862e6cd57a96ba198f2e811f1",
+      "report_file_sha256": "af91dbe7da37951d99e0dab57a4203802ac1ef565e43bf05011edeeda995f5f8",
+      "original_task_id": "eb79fea984763a16291f2fafc2623facaa378797a0c48ec53f7aafbbe93012de",
+      "original_score_start": "2026-10-02",
+      "original_score_end": "2026-10-22"
+    },
+    "KO": {
+      "run_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\runs\\run-2b71a64b877747dae8b81a184c91a354de2d19277bf5470fdcdfd3037a038fdf",
+      "run_id": "2b71a64b877747dae8b81a184c91a354de2d19277bf5470fdcdfd3037a038fdf",
+      "report_hash": "4e2dad16fa67028091f356225532647a78e5b7932289f3e835012868f65fb624",
+      "report_file_sha256": "11ab0b791395a38776a90e6b7c80d7f58a3bde2cc40ccca34467128037a5ed01",
+      "original_task_id": "f6f4e051d746ed882933ab5e31e32a8351e3123322af58fb37d819bad8b65c89",
+      "original_score_start": "2026-10-02",
+      "original_score_end": "2026-10-22"
+    }
+  },
+  "parameter_design": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\docs\\research-evidence\\fixed-month-replay-20261026\\design-v2.json",
+    "sha256": "6f2a7ed165cebae74f1675f34e8ff7d3102dfd2b02a03de3e2d4582f02d75c5b"
+  },
+  "exposure_audit": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\exposure-audit.json",
+    "sha256": "e04d24279d25d0a8ed115a252e5a17eb93eaf576eaf4513e7c61f782094d9564"
+  },
+  "exposure_addendum": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\anonymous-csv-attribution.json",
+    "sha256": "12335dd154f6b13771f236deaf83a35d0556f07d2a5940af4a39657ac184ef7e"
+  },
+  "calendar_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\src\\hakimi_research\\resources\\us-equity-calendar-2026.json",
+  "calendar_sha256": "c367399cdb316fecae4e63b95d0d183b4959b61237145b8e01a0f3b1a2561491",
+  "execution_runtime_source_sha256": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+  "execution_runtime_build": "4338490f26dec70c79778cd5d1a85a2aaa3474d5",
+  "repository_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "protocol_repo_path": "docs/research-evidence/independent-holdout-feb-20261026/protocol.json",
+  "acquisition_output_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1",
+  "tool_hashes": {
+    "tools/prepare_blind_holdout.py": "3322cc06763ab2be3e0b6e38bd5c998a3125d4fe8c1837d90738f15594306565",
+    "tools/prepare_sealed_month_replay.py": "32f4771a5ae9e4436d0bd71fd3500e7fc3e9b71d8e6d5578a7fd296a14eee118",
+    "tools/verify_strategy_prefix_isolation.py": "79437dbdc4308ed0e886eaac38b969a0fa179c95678594fb4d628dbbea6a9c03",
+    "tests/repository_only/test_blind_holdout.py": "49f3634244ab7a8ad6f06d550779209394e17656c730af21a99661fd8277f29e",
+    "tests/repository_only/test_strategy_prefix_isolation.py": "7c28d0c467d072dca9cd8252c65b6aa28dc520465a9cce4d577ff4acbf072c66",
+    "tests/repository_only/test_sealed_month_replay.py": "69b091a000adacbacfeb2d827cab1f293a64d6415c7236046e75395bbc53e889",
+    "docs/research-evidence/independent-holdout-feb-20261026/audit_february_exposure_delta.py": "a032edd0f6b5d18166e5a2bcac4a9310f68b485ac7b1f624e313f878b0fb0b28",
+    "docs/research-evidence/independent-holdout-feb-20261026/stage_tasks_once.py": "29c5329190519ec616322fe953d3f5d39ac110e728869e588591d1fc0248e787"
+  },
+  "historical_price_policy": {
+    "id": "YAHOO_QUOTE_POST_WINDOW_DIVIDEND_RECONCILIATION_V1",
+    "strategy_fields": [
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume"
+    ],
+    "adjusted_close_used_for_strategy": false,
+    "events_used_for_strategy": false,
+    "require_no_in_window_actions": true,
+    "require_no_splits_through_source_acquisition": true,
+    "require_all_post_window_adjustments_explained": true,
+    "max_adjusted_close_error_float32_ulps": 2,
+    "require_close_and_adjusted_exact_float32_values": true,
+    "verify_entire_context_to_source_latest_complete": true,
+    "require_last_event_following_factor_one": true,
+    "price_transformation": "Select original quote OHLCV only; retain the existing explicit 8-decimal CSV convention. Never replace adjusted close, reverse adjust, fill gaps or repair source values.",
+    "source_authority": "IMPORTED_UNVERIFIED; internally reconciled retrospective field basis, not independently authenticated historical point-in-time prices.",
+    "reference": "https://in.help.yahoo.com/kb/adjusted-close-sln28256.html"
+  },
+  "sources": {
+    "NDAQ": {
+      "baseline_snapshot_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\runs\\run-7871a14c400b274bcc89870eb55964f68acbbd8fb82366ab99184d5311854ca0\\inputs\\snapshot.json",
+      "baseline_sha256": "6988c83552fdd89889a03429a9a29658dede922493470490cb2e1fe4dcc894b8",
+      "query_start": "2026-01-14",
+      "query_period2_utc": "2026-10-26T11:10:38Z",
+      "latest_completed_session": "2026-10-23",
+      "reference": "https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?period1=1768366800&period2=1793013038&interval=1d&events=div%2Csplits&includePrePost=false",
+      "historical_identity_declaration": "New project-holdout importer declaration for NDAQ, covering 2026-01-14 through 2026-02-27. Use a distinct holdout security identity. Existing current security metadata does not independently authenticate historical identity or point-in-time prices. Source identity, actions and complete sessions must pass the frozen contract."
+    },
+    "KO": {
+      "baseline_snapshot_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\runs\\run-2b71a64b877747dae8b81a184c91a354de2d19277bf5470fdcdfd3037a038fdf\\inputs\\snapshot.json",
+      "baseline_sha256": "234ffdd7cc7d063405e7a4f6db685ffc0cf3892127ee0b481c171143326401fa",
+      "query_start": "2026-01-14",
+      "query_period2_utc": "2026-10-26T11:10:38Z",
+      "latest_completed_session": "2026-10-23",
+      "reference": "https://query1.finance.yahoo.com/v8/finance/chart/KO?period1=1768366800&period2=1793013038&interval=1d&events=div%2Csplits&includePrePost=false",
+      "historical_identity_declaration": "New project-holdout importer declaration for KO, covering 2026-01-14 through 2026-02-27. Use a distinct holdout security identity. Existing current security metadata does not independently authenticate historical identity or point-in-time prices. Source identity, actions and complete sessions must pass the frozen contract."
+    }
+  },
+  "acquisition_policy": {
+    "max_requests_per_symbol": 2,
+    "retry_only_without_successful_response": true,
+    "same_url_only": true,
+    "retry_delay_seconds": 3,
+    "retry_reason_codes": [
+      "SOURCE_HTTP_429",
+      "SOURCE_HTTP_502",
+      "SOURCE_HTTP_503",
+      "SOURCE_REQUEST_FAILED_NO_RETRY"
+    ]
+  },
+  "execution_policy_notes": [
+    "One precommitted window; no selection by prices, returns, event dates or data quality.",
+    "No parameter, strategy, threshold, cost, benchmark or date changes after first source acquisition.",
+    "Retain all failures and all scheduled economic scenarios, including losses and zero fills.",
+    "Source-quality checks may inspect full response automatically but must not expose candidate prices to developers before execution.",
+    "Only completed visible prefix reaches the registered strategy; execute decisions at a later session open.",
+    "Two formal runs and their fixed cost/benchmark matrices; observer recomputations counted separately.",
+    "Project-scoped unused-data holdout, not statistical independence, chronological out-of-sample or historical point-in-time proof.",
+    "Preserve original August and October records, installations and dirty Documents checkout."
+  ],
+  "chronological_oos": false,
+  "historical_point_in_time_source": false,
+  "permissions": {
+    "research_only": true,
+    "live_order_allowed": false,
+    "paid_model_allowed": false
+  },
+  "previous_stopped_round": {
+    "protocol_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\protocol.json",
+    "protocol_sha256": "36b00eab50a83a82c405a40897d8f8b1701a45759e50f972db04d52ecb9d6071",
+    "stop_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\stop-evidence.json",
+    "stop_sha256": "b3888cad3e720cd6605f375146248772e265b12b465b5853b98dbc63dc934f4f",
+    "status": "STOPPED",
+    "real_economic_runs": 0
+  },
+  "new_round_authorization": "User explicitly approved a separate February holdout while preserving the April stopped protocol and records; all economic parameters remain unchanged.",
+  "plan_hash": "03b9c996063e7fb03fbb95e70fd4416bf30a5e0f54617db72fbb9ce8e18f812b"
+}

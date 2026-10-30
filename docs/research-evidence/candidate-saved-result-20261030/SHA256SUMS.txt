@@ -1,0 +1,2 @@
+46688c00888f76cf047086fb701d8b190c7993b33b94b67e04d588fc26bccda5  desktop-verification.json
+22abbd76a49912ca4d84be871e8b92270f2184caa29ecf847a51198d039980fd  full-host-verification.json

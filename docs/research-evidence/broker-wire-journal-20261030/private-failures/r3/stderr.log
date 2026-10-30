@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\broker-scoped-transport-20261030\pinned-codec-probe-child-r4.py", line 236, in <module>
+    exercise()
+    ~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\broker-scoped-transport-20261030\pinned-codec-probe-child-r4.py", line 85, in exercise
+    from tests.test_terminal_broker_wire_profile import fixture
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_wire_profile.py", line 10, in <module>
+    from unittest.mock import patch
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\unittest\mock.py", line 27, in <module>
+    import asyncio
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\asyncio\__init__.py", line 45, in <module>
+    from .windows_events import *
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\asyncio\windows_events.py", line 26, in <module>
+    from . import windows_utils
+  File "C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r4\runtime\python\Lib\asyncio\windows_utils.py", line 133, in <module>
+    class Popen(subprocess.Popen):
+    ...<47 lines>...
+                    os.close(stderr_wfd)
+TypeError: function() argument 'code' must be code, not str

@@ -1,0 +1,77 @@
+{
+  "schema_version": "hakimi-r5-worker-fixture-validation-binding-v1",
+  "derived_not_original_log": true,
+  "captured_at": "2026-10-30T02:51:59.995680+00:00",
+  "base_head": "b5547330978c6c3afaba376c13ab1f2f583e1610",
+  "only_parent_source_delta": {
+    "path": "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py",
+    "before_sha256": "4e343bef18d41a8d3f6270491a296116a8adb520c38ec59a80a315b671636a8b",
+    "after_sha256": "0220adfc0c6aae6a2d89ce4ca446ed0f184f83e1380c129987c76f65aaef260f",
+    "classification": "TEST_FIXTURE_CLEANUP_AND_ONE_DETERMINISTIC_REGRESSION"
+  },
+  "production": {
+    "path": "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py",
+    "sha256": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "equals_git_head": true,
+    "modified": false,
+    "production_handle_root_cause_proven": false
+  },
+  "worker": {
+    "tests": 23,
+    "inner_seconds": 8.322,
+    "outer_seconds": 8.688908600001014,
+    "result": "PASS",
+    "old_sealed_unknown_result_unchanged_within_fixture": true,
+    "original_failed_gate_reclassified": false
+  },
+  "futu_environment": {
+    "venv": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv",
+    "wheel": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\terminal-wheelhouse-r1\\futu_api-10.7.6708-py3-none-any.whl",
+    "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5",
+    "local_only_install_flags": [
+      "--no-index",
+      "--no-deps",
+      "--no-compile"
+    ],
+    "tests": 32,
+    "skips": 0,
+    "attempts": {
+      "socket": 0,
+      "database": 0,
+      "subprocess": 0,
+      "thread": 0,
+      "futu_import": 0
+    },
+    "sdk_imported": false,
+    "scope": "LOCKED_LOCAL_SDK_SOURCE_AST_AND_FAKE_CONTEXTS_ONLY"
+  },
+  "full_gate": {
+    "original_status": "FAIL",
+    "original_terminal_count": 756,
+    "failures": 0,
+    "errors": 1,
+    "summary_sha256": "f6e137e64a6f93b517da14b2e52f123d33612f5730596345f6580ef653da7ec8",
+    "next_expected_count": 757,
+    "next_full_gate_ran": false,
+    "failed_gate_reuse_permitted": false
+  },
+  "ci170": {
+    "head": "b5547330978c6c3afaba376c13ab1f2f583e1610",
+    "result": "success",
+    "jobs": 11,
+    "receipt_sha256": "4cea42a7c7147b10e82516c5c0c5b0a652704a43a52a67c0aa27028fd917be1e",
+    "covers_new_worker_fixture": false
+  },
+  "candidate": {
+    "r4_unchanged": true,
+    "r5_built": false,
+    "r5_build_probe_started": false,
+    "r5_output_name_pattern": "HakimiTrade*0.7.0.dev3*candidate*r5*",
+    "matching_outputs_at_capture": []
+  },
+  "scope_limits": [
+    "This is fixture/environment correction evidence, not proof of a production worker defect or its root cause.",
+    "The new registered terminal count 757 is expected only; a fresh full gate remains required.",
+    "No EOL/archive rewriting, old-result repair, test/probe rerun, build, installation or commit was done by evidence collection."
+  ]
+}

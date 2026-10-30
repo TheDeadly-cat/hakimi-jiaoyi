@@ -1,0 +1,104 @@
+{
+  "schema_version": "sealed-replay-adjustment-diagnostic-v1",
+  "plan_hash": "807d0fafb21badc98f513ebd5b0362207ac0431faf741814388eb87c9158fdb0",
+  "read_only": true,
+  "economic_runs": 0,
+  "new_source_requests": 0,
+  "window": [
+    "2026-07-16",
+    "2026-08-31"
+  ],
+  "interpretation": "Field/metadata consistency only; no strategy result or test-price values are emitted.",
+  "symbols": {
+    "NDAQ": {
+      "source_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\updates\\check-7a2759cb-3092-4484-a487-5490af1c6804\\source-yahoo-chart.json",
+      "raw_sha256": "7b718813306a174eb8412e5f52bb553ef9ad237294c6600a5efeee2e79e57a71",
+      "source_retrieved_at": "2026-10-22T23:33:58.818302Z",
+      "source_range": [
+        "2026-05-19",
+        "2026-10-22"
+      ],
+      "source_rows": 109,
+      "selected_rows": 33,
+      "event_kinds_present": [
+        "dividends"
+      ],
+      "events_in_context_and_score": [],
+      "events_after_window_through_receipt": [
+        {
+          "kind": "dividends",
+          "date": "2026-09-11"
+        }
+      ],
+      "split_events_in_source": 0,
+      "capital_gain_events_in_source": 0,
+      "adjusted_raw_unequal_in_window": 33,
+      "window_ratio_min": 0.9966307517502869,
+      "window_ratio_max": 0.9966308262246127,
+      "window_ratio_spread": 7.447432581741964e-08,
+      "later_dividend_formula_factor": 0.9966308010781153,
+      "later_dividend_prior_sessions": [
+        "2026-09-10"
+      ],
+      "max_ratio_error_to_later_dividend_factor": 4.9327828377521143e-08,
+      "max_adjusted_price_residual_in_float32_ulps": 0.6152567286044359,
+      "all_within_two_float32_ulps_of_later_dividend_formula": true,
+      "later_dividend_boundary_ratios": [
+        {
+          "event_date": "2026-09-11",
+          "prior_session": "2026-09-10",
+          "first_session_on_or_after_event": "2026-09-11",
+          "prior_ratio": 0.996630827612255,
+          "on_or_after_ratio": 1.0
+        }
+      ],
+      "price_values_emitted": false,
+      "strategy_results_read": false
+    },
+    "KO": {
+      "source_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\updates\\check-0228f135-f270-4254-8f35-eb0ea8eb93f6\\source-yahoo-chart.json",
+      "raw_sha256": "37aebce807f53eb34b3f6c7878135efd63c4d39f1271ccaaae9c92a728f4bef6",
+      "source_retrieved_at": "2026-10-22T23:35:26.234344Z",
+      "source_range": [
+        "2026-05-19",
+        "2026-10-22"
+      ],
+      "source_rows": 109,
+      "selected_rows": 33,
+      "event_kinds_present": [
+        "dividends"
+      ],
+      "events_in_context_and_score": [],
+      "events_after_window_through_receipt": [
+        {
+          "kind": "dividends",
+          "date": "2026-09-15"
+        }
+      ],
+      "split_events_in_source": 0,
+      "capital_gain_events_in_source": 0,
+      "adjusted_raw_unequal_in_window": 33,
+      "window_ratio_min": 0.994068222512679,
+      "window_ratio_max": 0.9940683030560628,
+      "window_ratio_spread": 8.054338374030579e-08,
+      "later_dividend_formula_factor": 0.9940682707436922,
+      "later_dividend_prior_sessions": [
+        "2026-09-14"
+      ],
+      "max_ratio_error_to_later_dividend_factor": 4.823101318329748e-08,
+      "max_adjusted_price_residual_in_float32_ulps": 0.5490427073091269,
+      "all_within_two_float32_ulps_of_later_dividend_formula": true,
+      "later_dividend_boundary_ratios": [
+        {
+          "event_date": "2026-09-15",
+          "prior_session": "2026-09-14",
+          "first_session_on_or_after_event": "2026-09-15",
+          "prior_ratio": 0.9940682844057308,
+          "on_or_after_ratio": 1.0
+        }
+      ],
+      "price_values_emitted": false,
+      "strategy_results_read": false
+    }
+  }
+}

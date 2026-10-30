@@ -1,0 +1,60 @@
+{
+  "schema_version": "dev5-native-pre-close-processes-v1",
+  "recorded_at": "2026-10-26T23:39:06.2940694Z",
+  "launcher_pid": 18928,
+  "entry": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\HakimiWorkbench.exe",
+  "url": "http://127.0.0.1:51172/",
+  "processes": [
+    {
+      "ProcessId": 18928,
+      "ParentProcessId": 37204,
+      "ExecutablePath": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\HakimiWorkbench.exe",
+      "CommandLine": "\"C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\HakimiWorkbench.exe\" ",
+      "CreationDate": "2026-10-27T07:32:19.409008+08:00"
+    },
+    {
+      "ProcessId": 39848,
+      "ParentProcessId": 18928,
+      "ExecutablePath": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\HakimiWorkbench.exe",
+      "CommandLine": "\"C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\HakimiWorkbench.exe\" --type=gpu-process --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\hakimi-research-trial\" --gpu-preferences=WAAAAAAAAADgAAAMAAAAAAAAAAAAAAAAAABgAAEAAAA4AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAYAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --field-trial-handle=1712,i,946046391944363157,18340206913735966497,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=1704 /prefetch:2",
+      "CreationDate": "2026-10-27T07:33:16.30228+08:00"
+    },
+    {
+      "ProcessId": 38540,
+      "ParentProcessId": 18928,
+      "ExecutablePath": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\HakimiWorkbench.exe",
+      "CommandLine": "\"C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\HakimiWorkbench.exe\" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=zh-CN --service-sandbox-type=none --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\hakimi-research-trial\" --field-trial-handle=2072,i,946046391944363157,18340206913735966497,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=2068 /prefetch:11",
+      "CreationDate": "2026-10-27T07:33:16.320335+08:00"
+    },
+    {
+      "ProcessId": 25312,
+      "ParentProcessId": 18928,
+      "ExecutablePath": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python\\python.exe",
+      "CommandLine": "\"C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python\\python.exe\" -I -B -u -X utf8 -m hakimi_research.workbench_server --workspace C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7 --port 0",
+      "CreationDate": "2026-10-27T07:33:18.11495+08:00"
+    },
+    {
+      "ProcessId": 29780,
+      "ParentProcessId": 25312,
+      "ExecutablePath": "C:\\Windows\\system32\\conhost.exe",
+      "CommandLine": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4",
+      "CreationDate": "2026-10-27T07:33:18.122462+08:00"
+    },
+    {
+      "ProcessId": 40368,
+      "ParentProcessId": 18928,
+      "ExecutablePath": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\HakimiWorkbench.exe",
+      "CommandLine": "\"C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\HakimiWorkbench.exe\" --type=renderer --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\HakimiResearchWorkbench\\candidates\\ab2e49cdc8e468385dd7b64dc30f2665aa7591a52b8d6022833c02983b7569a8\" --app-path=\"C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\resources\\app\" --enable-sandbox --lang=zh-CN --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=4 --time-ticks-at-unix-epoch=-1792962168403896 --launch-time-ticks=95431775874 --field-trial-handle=2888,i,946046391944363157,18340206913735966497,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=2884 /prefetch:1",
+      "CreationDate": "2026-10-27T07:33:20.187206+08:00"
+    }
+  ],
+  "listeners": [
+    {
+      "LocalAddress": "127.0.0.1",
+      "LocalPort": 51172,
+      "OwningProcess": 25312
+    }
+  ],
+  "all_listener_owners_in_owned_process_tree": true,
+  "shutdown_or_termination_calls": 0
+}

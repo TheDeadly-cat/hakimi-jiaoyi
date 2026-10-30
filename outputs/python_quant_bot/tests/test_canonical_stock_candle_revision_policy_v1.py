@@ -88,6 +88,20 @@ class CanonicalStockCandleRevisionPolicyV1Tests(unittest.TestCase):
         self.assertEqual(result["rows"][0]["close"], 50.0)
         self.assertEqual(result["rows"][1]["close"], 55.0)
         self.assertEqual(result["rows"][1]["volume"], 20.0)
+        self.assertEqual(result["retained_completed_count"], 1)
+        self.assertEqual(result["reference_sources"], ["yahoo_adjusted"])
+        self.assertEqual(result["adjustment_basis"], "FORWARD_ADJUSTED_TOTAL_RETURN")
+
+    def test_completed_overlap_is_labelled_even_without_new_dates_or_rescaling(self) -> None:
+        incoming = [row("2026-01-02", 100.0, "futu")]
+        existing = [row("2026-01-02", 100.0, "futu")]
+        result = canonical.prepare_stock_candle_revision_policy(incoming, existing, "futu", "1d")
+        self.assertFalse(result["chain_linked"])
+        self.assertEqual(result["new_date_count"], 0)
+        self.assertEqual(result["retained_completed_count"], 1)
+        self.assertEqual(result["reference_sources"], ["futu"])
+        self.assertEqual(result["adjustment_basis"], "FORWARD_ADJUSTED_QFQ")
+        self.assertEqual(result["rows"], existing)
 
     def test_provider_upgrade_and_incompatible_or_nonuniform_vintages_fail_closed(self) -> None:
         upgrade = canonical.prepare_stock_candle_revision_policy(

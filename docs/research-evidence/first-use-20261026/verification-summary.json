@@ -1,0 +1,601 @@
+{
+  "schema_version": "first-use-local-trial-handoff-v1",
+  "recorded_at": "2026-10-26T15:47:53.398583+00:00",
+  "status": "TRIAL_DELIVERY_WITH_REAL_STOCK_FETCH_UNACCEPTED",
+  "product_version": "0.6.0.dev4",
+  "accepted_product_commit": "0ea9c9977545285a963b548eb5b4ebe953414a06",
+  "packaging_commit": "b1bdc5743de335310988e4121f85cfed83a07b82",
+  "product_source_sha256": "695522c5f77e02f8189484ef97eb30f48ea64b30a582c64a4e18c08710eba766",
+  "bundle_id": "a1988ddf2481d46629ddf3393b565daac3aec711f8692eecf5d44a775046ff7f",
+  "archive": {
+    "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3.zip",
+    "sha256": "322c22c353bfc4699dcabd675f3ab21f64ae100906746dd2810228b5d688eab6",
+    "bytes": 197328391
+  },
+  "manifest": {
+    "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\trial-manifest.json",
+    "sha256": "e5df2abd47fe486be5512f20f20da4cf21692bb6ba4bfe0125d4d0ea42866aef",
+    "bytes": 917717
+  },
+  "installed_wheel_tests": {
+    "passed": 408,
+    "failed": 0,
+    "skipped": 0,
+    "installed_workflows_passed": 7
+  },
+  "native": {
+    "method": "actual Windows Computer Use clicks in exact Explorer-launched r3 package",
+    "workspace": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd",
+    "workspace_file_id": {
+      "file_index": 281474981272615,
+      "volume_serial": 3258692410
+    },
+    "counts": {
+      "files": 46,
+      "formal_runs": 1,
+      "operations": 6,
+      "stock_checks": 2,
+      "task_families": 1,
+      "validation_packages": 1
+    },
+    "operations": [
+      {
+        "action": "load_example",
+        "action_result_status": "OFFLINE_INPUT_RETAINED",
+        "ok": true,
+        "operation_id": "a1551590-85d3-43ff-889e-d980f739db78",
+        "operation_status": "COMMITTED",
+        "recorded_at": "2026-10-26T15:29:24.213332Z",
+        "request_sha256": "772d383c3e29731c01b71efdaa5f6f3f130099aa0c2659d16b5e03d905206a3a",
+        "result_sha256": "24f456408a107110b4a256e7e6afe291a6e87ee8c73b781da9d8c4360c087373",
+        "workflow": {
+          "guide_id": "a1551590-85d3-43ff-889e-d980f739db78",
+          "guided": true,
+          "operation_id": "a1551590-85d3-43ff-889e-d980f739db78",
+          "recorded_at": "2026-10-26T15:29:24.213332Z",
+          "snapshot_id": "ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec",
+          "snapshot_ref": "data/snapshots/ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec/88898e373d1fcaf20b58e3e372e6074f2fe43e41becc2fc13e5c5eea7a14efce.json",
+          "step": "INPUT_SAVED",
+          "suggested_task": {
+            "fee_rate": 0.0008,
+            "initial_cash": 10000,
+            "params": {
+              "fast_window": 2,
+              "position_pct": 0.25,
+              "slow_window": 4,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.06
+            },
+            "score_end": "2024-12-03",
+            "score_start": "2024-11-11",
+            "slippage_pct": 0.0005,
+            "strategy": "price.dual_ma@1",
+            "title": "虚构行情操作示例"
+          },
+          "workflow_hash": "a4aa4424ca521001e2f334eb5882a0f771ec790a3e695591e6a0d8f2848b50ed"
+        }
+      },
+      {
+        "action": "create_task",
+        "action_result_status": null,
+        "ok": true,
+        "operation_id": "f71d54e8-3cd4-4bca-a942-f4f04e819cf0",
+        "operation_status": "COMMITTED",
+        "recorded_at": "2026-10-26T15:29:58.035635Z",
+        "request_sha256": "1ab33caac03e9e8ea9f6a07777a5fc35a6aa17293a07b179bf78868e62dbc3da",
+        "result_sha256": "54279d14892dcbea08818fc0aaa372e8dac438517c83600c0bcdb915eae5d47d",
+        "workflow": {
+          "guide_id": "a1551590-85d3-43ff-889e-d980f739db78",
+          "guided": true,
+          "operation_id": "f71d54e8-3cd4-4bca-a942-f4f04e819cf0",
+          "recorded_at": "2026-10-26T15:29:58.035635Z",
+          "snapshot_id": "ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec",
+          "snapshot_ref": "data/snapshots/ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec/88898e373d1fcaf20b58e3e372e6074f2fe43e41becc2fc13e5c5eea7a14efce.json",
+          "step": "TASK_CREATED",
+          "task_id": "94c1e2d44eeb9599656d9b745f802d517e8b6d3f8fb2051e482f57607d0ed158",
+          "task_ref": "tasks/task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0",
+          "workflow_hash": "11fc7424353f00d1283ca01399773e17a83e5c984ec2d675504cfa1803126e05"
+        }
+      },
+      {
+        "action": "run_task",
+        "action_result_status": null,
+        "ok": true,
+        "operation_id": "a2af01d0-1f69-45ac-9fd6-f2cf1ca5cf47",
+        "operation_status": "COMMITTED",
+        "recorded_at": "2026-10-26T15:30:09.686045Z",
+        "request_sha256": "d164f481f8533c6f416480b948446aa011edda78ebbd5c4629bf06f6763bcf3a",
+        "result_sha256": "916d9c3c0889dd63ad1d3f71c6f234386e0c594fa62dc11fb24997b6d4572747",
+        "workflow": {
+          "guide_id": "a1551590-85d3-43ff-889e-d980f739db78",
+          "guided": true,
+          "operation_id": "a2af01d0-1f69-45ac-9fd6-f2cf1ca5cf47",
+          "recorded_at": "2026-10-26T15:30:09.686045Z",
+          "report_hash": "29f1cf5de8060768c34871d5e81dd8c5ff53df537bc8e3da2d52b1c94327daf6",
+          "run_ref": "runs/run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d",
+          "step": "RESULT_SAVED",
+          "task_ref": "tasks/task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0",
+          "workflow_hash": "b98cce3bd023c794be39543bf40736080efdb42e9ad920b95396f8b6e10b22a7"
+        }
+      },
+      {
+        "action": "check_stock_import",
+        "action_result_status": "BLOCKED",
+        "ok": true,
+        "operation_id": "abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d",
+        "operation_status": "COMMITTED",
+        "recorded_at": "2026-10-26T15:31:34.576123Z",
+        "request_sha256": "5aa0a538bb5f972ac9dfd9611d6fd6bd73e686c81f63eaeb2d2c6f7f2f7317d6",
+        "result_sha256": "986fc4e4b9310b1ad1c3fb1f43173a266e4e2898dea1c99f8afab85c42c93d25",
+        "workflow": {
+          "check_hash": "51e673bdf365d47648d302f909e04821c7ad0134f612223ec99957c47ed27182",
+          "guide_id": "abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d",
+          "guided": true,
+          "intake_ref": "stock-intakes/check-abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d",
+          "intake_status": "BLOCKED",
+          "operation_id": "abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d",
+          "recorded_at": "2026-10-26T15:31:34.576123Z",
+          "step": "DATA_REVIEW",
+          "workflow_hash": "7fbe0936b4fab1b0d9e715b38b7c6784ebfd4862b8964e55da04ddabeacb5ec7"
+        }
+      },
+      {
+        "action": "validate_run",
+        "action_result_status": "COMPLETED",
+        "ok": true,
+        "operation_id": "15bdb958-5db9-4446-b83c-63baec58ccbb",
+        "operation_status": "COMMITTED",
+        "recorded_at": "2026-10-26T15:32:43.122714Z",
+        "request_sha256": "bd5ff681d6840063f20d49e24d4f44ede00f21851db655ffd9e3c5e17606e5ca",
+        "result_sha256": "0abe1e24027b9e6f15d96e6e49c2e70bb428976e215ba4e085b5a22dae2ae5d2",
+        "workflow": null
+      },
+      {
+        "action": "check_stock_import",
+        "action_result_status": "BLOCKED",
+        "ok": true,
+        "operation_id": "771a347c-975a-4279-982d-78ddef69e318",
+        "operation_status": "COMMITTED",
+        "recorded_at": "2026-10-26T15:39:18.982365Z",
+        "request_sha256": "fcd284237f7b1cde70ff43bb68cefcb93d0ce4193bc172421796c10fa0fc202e",
+        "result_sha256": "f4803b1cb93134aa15b0b68e3459ef706dd884b5f9aacd72c0424391ac7b339c",
+        "workflow": {
+          "check_hash": "c24368733087259849440ae1f14b6960c008e57ec68629b351d7a61ed95b98fe",
+          "guide_id": "abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d",
+          "guided": true,
+          "intake_ref": "stock-intakes/check-771a347c-975a-4279-982d-78ddef69e318",
+          "intake_status": "BLOCKED",
+          "operation_id": "771a347c-975a-4279-982d-78ddef69e318",
+          "recorded_at": "2026-10-26T15:39:18.982365Z",
+          "step": "DATA_REVIEW",
+          "workflow_hash": "6b02e7eeea0a4d4997f409b57c59b640fadada91162a7e71a0db105ff9faeb44"
+        }
+      }
+    ],
+    "runs": [
+      {
+        "evidence_kind": "SYNTHETIC_TEST",
+        "inputs_sha256": "ef25beed6e6cc966bbfe4eafcc89c812ef75f12e9f708256102f5b30f65af348",
+        "integrity": "VERIFIED_WITH_EXISTING_READ_ONLY_API",
+        "ref": "runs/run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d",
+        "report_file_sha256": "b534955510d5ce75e0dd5d8fea9f6b6697e1f2d8a946c973446a418e129dc223",
+        "report_hash": "29f1cf5de8060768c34871d5e81dd8c5ff53df537bc8e3da2d52b1c94327daf6",
+        "run_id": "3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d",
+        "runtime_source_sha256": "695522c5f77e02f8189484ef97eb30f48ea64b30a582c64a4e18c08710eba766",
+        "snapshot_id": "ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec",
+        "task_id": "94c1e2d44eeb9599656d9b745f802d517e8b6d3f8fb2051e482f57607d0ed158"
+      }
+    ],
+    "tasks": [
+      {
+        "family_id": "cbcf31cc76b7478ebe4d67cdee4d7889",
+        "family_sha256": "9d59c1763319c02a3fcb43fd465c5f6ea9dfa4cefa73ba46f0ede56640a6ec86",
+        "integrity": "VERIFIED_WITH_EXISTING_READ_ONLY_API",
+        "ref": "tasks/task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0",
+        "task_id": "94c1e2d44eeb9599656d9b745f802d517e8b6d3f8fb2051e482f57607d0ed158",
+        "viewed_revision": "r0001-7ca96cc3f12e4d0995e6c034c5dca215"
+      }
+    ],
+    "validations": [
+      {
+        "base": {
+          "report_hash": "29f1cf5de8060768c34871d5e81dd8c5ff53df537bc8e3da2d52b1c94327daf6",
+          "run_id": "3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d",
+          "runtime": {
+            "environment": {
+              "errors": [],
+              "lock_fully_pinned": true,
+              "lock_name": "requirements.research.lock",
+              "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+              "mismatched": [],
+              "missing": [],
+              "packages": {
+                "numpy": {
+                  "installed": "2.4.6",
+                  "required": "2.4.6"
+                },
+                "pandas": {
+                  "installed": "3.0.3",
+                  "required": "3.0.3"
+                },
+                "python-dateutil": {
+                  "installed": "2.9.0.post0",
+                  "required": "2.9.0.post0"
+                },
+                "six": {
+                  "installed": "1.17.0",
+                  "required": "1.17.0"
+                },
+                "tzdata": {
+                  "installed": "2026.2",
+                  "required": "2026.2"
+                }
+              },
+              "python_supported": true,
+              "python_version": "3.14.6",
+              "status": "VERIFIED",
+              "verification_scope": "installed_distribution_versions_against_lock"
+            },
+            "source_hash": "695522c5f77e02f8189484ef97eb30f48ea64b30a582c64a4e18c08710eba766"
+          },
+          "security": {
+            "currency": "USD",
+            "exchange": "XNYS",
+            "instrument_type": "COMMON_STOCK",
+            "security_id": "SYNTHETIC:RESEARCH:TEST",
+            "symbol": "TEST"
+          },
+          "snapshot_id": "ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec",
+          "spec": {
+            "end_policy": "MARK_TO_MARKET",
+            "execution_policy": "STANDARD_STRATEGY_RISK",
+            "fee_rate": 0.0008,
+            "initial_cash": 10000,
+            "name": "双均线价格策略",
+            "purpose": "SYNTHETIC_REGRESSION",
+            "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+            "risk": {
+              "max_daily_loss_pct": 1.0,
+              "max_leverage": 1.0,
+              "max_position_pct": 0.25,
+              "max_single_loss_pct": 0.03,
+              "min_cash_pct": 0.0
+            },
+            "schema_version": "us-equity-experiment-spec-v1",
+            "score_end_session": "2024-12-03",
+            "score_start_session": "2024-11-11",
+            "slippage_pct": 0.0005,
+            "snapshot_id": "ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec",
+            "strategy": {
+              "name": "dual_ma",
+              "params": {
+                "fast_window": 2,
+                "position_pct": 0.25,
+                "slow_window": 4,
+                "stop_loss_pct": 0.03,
+                "take_profit_pct": 0.06
+              }
+            }
+          },
+          "strategy": "price.dual_ma@1",
+          "symbol": "TEST",
+          "task_id": "94c1e2d44eeb9599656d9b745f802d517e8b6d3f8fb2051e482f57607d0ed158"
+        },
+        "file_sha256": "b2eddd3a7a3ea5dabba71deb2f597cbbe52a283607885e84a3277a0b35db17f7",
+        "followup_status": "NOT_RUN",
+        "integrity": "COMPLETE_FROZEN_PACKAGE_VERIFIED_WITHOUT_ECONOMIC_RECALCULATION",
+        "inventory_files": 13,
+        "new_economic_runs": 4,
+        "ref": "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b",
+        "scenarios": [
+          {
+            "artifact": "base/report.json",
+            "benchmark": null,
+            "multiplier": 1,
+            "report_hash": "29f1cf5de8060768c34871d5e81dd8c5ff53df537bc8e3da2d52b1c94327daf6",
+            "spec_hash": "d8c34ad3efa0f3f31547cd3c4cbff7c0bd3a93a1f08cbada1355c53b64d6a204",
+            "status": "REUSED_SAVED_RESULT"
+          },
+          {
+            "artifact": "cost-2/report.json",
+            "benchmark": null,
+            "multiplier": 2,
+            "report_hash": "9087115fb54f825a7f3a9a6efa392432c23bf23d45c39e841f50624f22d94fc1",
+            "spec_hash": "daf30223cd7d7fecb6d37ecb028d2bac18b13c9c9342b7c745ed146ea4550f65",
+            "status": "COMPLETED"
+          },
+          {
+            "artifact": "cost-3/report.json",
+            "benchmark": null,
+            "multiplier": 3,
+            "report_hash": "039b33b8e1f47408af80dca52939d76101a897d255a6a2f038cb3099cca4d3e2",
+            "spec_hash": "81c9e159c33b651e9a7b91c107a29fbc6753dc25c963541661276333fd0a70a0",
+            "status": "COMPLETED"
+          },
+          {
+            "artifact": "benchmark-cash/report.json",
+            "benchmark": "cash",
+            "multiplier": null,
+            "report_hash": "f0b73f86f875271a17eee86e03030dcbee3e1ce477198ff1746fe9023b87de39",
+            "spec_hash": "b85c61ef9b8f4966988ef6702b395a679818c0e8aa2c52959e419114a3a7e5b3",
+            "status": "COMPLETED"
+          },
+          {
+            "artifact": "benchmark-buy_and_hold/report.json",
+            "benchmark": "buy_and_hold",
+            "multiplier": null,
+            "report_hash": "4eca3dc929e6276c312414df1fd48da3db4aad2f704638d21bdcbaaa5e571af9",
+            "spec_hash": "42397db3c2e566d85744db5fe8c6874eab09d842a46e99be478ec263ec6465f4",
+            "status": "COMPLETED"
+          }
+        ],
+        "status": "COMPLETED",
+        "validation_hash": "cf9e78cfde308ac88bea54289d8ffc5199b72e49f21fcb36e4fedcd9f96e7abc"
+      }
+    ],
+    "stock_checks": [
+      {
+        "check_hash": "c24368733087259849440ae1f14b6960c008e57ec68629b351d7a61ed95b98fe",
+        "checked_at": "2026-10-26T15:39:06.722854Z",
+        "file_sha256": "21f9aad5869a2bdeff27afd811ae6656470a6a911915272c8362e62668f629c2",
+        "network_requests": 1,
+        "raw_sha256": null,
+        "reason": "SOURCE_REQUEST_FAILED_NO_RETRY",
+        "ref": "stock-intakes/check-771a347c-975a-4279-982d-78ddef69e318",
+        "request_started_sha256": "d1cd54fdd918ab1dc292bf84a93dfbb4fb0bf2c3f8a215427e4b8368b7648a6b",
+        "retrieved_at": null,
+        "specific_network_failure_cause_retained": false,
+        "status": "BLOCKED"
+      },
+      {
+        "check_hash": "51e673bdf365d47648d302f909e04821c7ad0134f612223ec99957c47ed27182",
+        "checked_at": "2026-10-26T15:31:22.291054Z",
+        "file_sha256": "19aadea62488c9c8da6acbbebf081d937b3df69bdce989324b757e17fb77eb70",
+        "network_requests": 1,
+        "raw_sha256": null,
+        "reason": "SOURCE_REQUEST_FAILED_NO_RETRY",
+        "ref": "stock-intakes/check-abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d",
+        "request_started_sha256": "4e43052ce5362b448bee2d7a101f029ba406987852098c983861a13859e320bb",
+        "retrieved_at": null,
+        "specific_network_failure_cause_retained": false,
+        "status": "BLOCKED"
+      }
+    ],
+    "economic_counts": {
+      "followup_runs": 0,
+      "new_synthetic_cost_and_benchmark_runs": 4,
+      "real_market_economic_runs": 0,
+      "synthetic_formal_runs": 1,
+      "total_saved_economic_runs": 5
+    },
+    "network_counts": {
+      "note": "Separate diagnostic HTTP200 had no body read and created no admitted data.",
+      "product_stock_attempts": 2,
+      "separate_transport_diagnostic_requests": 1
+    },
+    "first_reopen_files_unchanged": 42,
+    "final_reopen_files_unchanged": 46,
+    "original_42_kept_after_explicit_retry": true,
+    "explicit_retry_added_files": 4,
+    "second_day_live_stock_update": "NOT_ACCEPTED_NO_REAL_STOCK_SNAPSHOT",
+    "real_stock_first_import": "NOT_ACCEPTED_TWO_NATIVE_REQUEST_STOPS",
+    "diagnostic_copy": "PASS_ACTUAL_NATIVE_MENU_AND_MATCHED_CLIPBOARD_JSON"
+  },
+  "browser_validation": {
+    "installed_wheel": true,
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "source_prototype_economic_runs": 1,
+    "installed_browser_new_economic_runs": 0,
+    "invalid_import_stop_receipts_added": 2,
+    "native_test": false
+  },
+  "preservation": {
+    "protected_existing_files": 1827,
+    "original_untracked_files": 566,
+    "original_documents_status_and_diff_unchanged": true,
+    "older_packages_retained": true
+  },
+  "pending": [
+    "ordinary desktop first real stock full download, review, freeze and run",
+    "new Windows machine without developer tools",
+    "independent human novice usability"
+  ],
+  "ci": "Exact pushed head checked separately in PR; old CI is not reused.",
+  "recorded_limitations": [
+    "HTTP200 diagnostic did not read body and does not establish original failure cause",
+    "native initial request and one explicit retry both stopped; no automatic retries or modified guards",
+    "r1 ASAR failure and r2 redirected physical-path gap retained with separate repairs",
+    "synthetic example and short samples do not establish strategy effectiveness"
+  ],
+  "artifacts": {
+    "windows-trial-build-summary-r3.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\windows-trial-build-summary-r3.json",
+      "sha256": "bd6adad0b09edca639b01c64640d100cceeb0304e3fe2f8efdb45d994d72528b",
+      "bytes": 6611
+    },
+    "windows-trial-runtime-sources-r3.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\windows-trial-runtime-sources-r3.json",
+      "sha256": "9d40146ebeb32ca7c40e95f532d40db2c0e031b1d28c68e390c3eb8281dfdef9",
+      "bytes": 3077
+    },
+    "windows-trial-probe-r3.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\windows-trial-probe-r3.json",
+      "sha256": "81e579408952978dd138d7daf5aa7872931024d15d27a3ee985e7caf873fbaf5",
+      "bytes": 2565
+    },
+    "asar-fix-validation-r1.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\asar-fix-validation-r1.json",
+      "sha256": "1ca9a6a9ef02bf8506110b71eb15d503aab46bc5b590c8cb4a0a23226853f9f0",
+      "bytes": 3072
+    },
+    "physical-path-validation-r1.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\physical-path-validation-r1.json",
+      "sha256": "7a92a3c9b619b7fe67732d0f4be1700bcd4e09f7873bc94fd7fa776865116e45",
+      "bytes": 2453
+    },
+    "native-startup-failure-r1.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native-startup-failure-r1.json",
+      "sha256": "7b599fa04875d50e75e6d36ef00ca793b65baca6ea0ee07eb6fe6222d7259923",
+      "bytes": 323
+    },
+    "native-workspace-before-reopen.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native-workspace-before-reopen.json",
+      "sha256": "03a544d54a111ca9ba31fd25a829fb4aa942d12dee497aba963db0b48ef79f73",
+      "bytes": 19361
+    },
+    "native-workspace-reopen-r1.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native-workspace-reopen-r1.json",
+      "sha256": "72cdb98cef3ec477db7caf21e363ef00461b6c54408a887b2e64866c1bebcb19",
+      "bytes": 8622
+    },
+    "native-workspace-before-final-reopen.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native-workspace-before-final-reopen.json",
+      "sha256": "214229bae1eaededb2d25ad30f538795430c9c9515796064ab4a70dd5cc4c45f",
+      "bytes": 28053
+    },
+    "native-workspace-final-reopen.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native-workspace-final-reopen.json",
+      "sha256": "35618b4a7858e72626f81778bf022aacc1f8532f1baa7ab1bc5c2a96f344ac63",
+      "bytes": 14572
+    },
+    "preservation-check-r2.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\preservation-check-r2.json",
+      "sha256": "f1d1736f937349f62e3253315ce90cf55004e18674d33f973c662d91b0ecfb53",
+      "bytes": 2349
+    },
+    "user-delivery-scope.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\user-delivery-scope.json",
+      "sha256": "ef5d98307607e8310dbddfa6630db324b4a6d522b46f7db10d553eed657b6e87",
+      "bytes": 784
+    },
+    "native/r3-copied-diagnostic.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-copied-diagnostic.json",
+      "sha256": "099dc99ac5e225d1e460c4b0c4d388384cfcda683343b1730f5e0b9f3656c2d6",
+      "bytes": 859
+    },
+    "native/r3-source-request-diagnostic-r1.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-source-request-diagnostic-r1.json",
+      "sha256": "f51a6cf1940d77437d8d8db6b5e8b4676558449df150283693aa502025d6d2df",
+      "bytes": 1668
+    },
+    "native/r3-lifecycle-start.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-lifecycle-start.json",
+      "sha256": "799d5b3a5135139a83e11bcf934dbc08534804192732d197fbee2025b6744b79",
+      "bytes": 3932
+    },
+    "native/r3-lifecycle-closed.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-lifecycle-closed.json",
+      "sha256": "0e6e1446246b478171381b532baee69da4ae9da7021045d900fd9a3f9ead5db9",
+      "bytes": 160
+    },
+    "native/r3-lifecycle-reopened.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-lifecycle-reopened.json",
+      "sha256": "8b53b1d1b23103028a397a1168cd45d314152872bbbb20d87ecf7fa81ac0a5f1",
+      "bytes": 3915
+    },
+    "native/r3-lifecycle-final-closed.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-lifecycle-final-closed.json",
+      "sha256": "5a496a675cae911c54cc6cc6f5fe79acc3d486b0ee58be371da46efd82388e59",
+      "bytes": 160
+    },
+    "native/r3-lifecycle-final-reopened.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-lifecycle-final-reopened.json",
+      "sha256": "6b7fd3fc73fcc3089811f9ecb43c80ab391cc74e5ccb0c918cd6c037d1f9ae3b",
+      "bytes": 3923
+    },
+    "installed-browser-r2/result.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\installed-browser-r2\\result.json",
+      "sha256": "9299f23a09e5c988e01d2659361f4e78215ecff8a22dfa76a43412a9a4e166ba",
+      "bytes": 1366
+    },
+    "installed-wheel/wheel-acceptance.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\acceptance-r2\\public-bundle\\wheel-acceptance.json",
+      "sha256": "fa921817c22b526b4d3eb000fb1be72c89d5833cf7877302d8664c26b6986930",
+      "bytes": 1308
+    },
+    "installed-wheel/test-scope.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\acceptance-r2\\public-bundle\\test-scope.json",
+      "sha256": "8705aa8898d25950c970defae8ab2f054c0d5fa8000ed36ba5dfafd7f129dde5",
+      "bytes": 56178
+    },
+    "installed-wheel/source-build-identity.json": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\acceptance-r2\\public-bundle\\source-build-identity.json",
+      "sha256": "bf34ac8493c9a60a4143ce0a03026116d7969c6f705860e8b1157e812ccea0c9",
+      "bytes": 9157
+    },
+    "native/r3-01-home.jpg": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-01-home.jpg",
+      "sha256": "82758a96fb587efe59b471fa275032b2193f439c5f89acf552c07d841f607f84",
+      "bytes": 107801
+    },
+    "native/r3-02-identity.jpg": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-02-identity.jpg",
+      "sha256": "f4c0b4916fb88c27207a7d9995f5f31d017b5d25fefeb76ebc354242c8d4159a",
+      "bytes": 130454
+    },
+    "native/r3-06-example-confirm.jpg": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-06-example-confirm.jpg",
+      "sha256": "8ef5cc1a4cdd94f3334a1353afe24d1294b89b548b42e3e6c05f0e0590a0b39f",
+      "bytes": 119099
+    },
+    "native/r3-07-task-saved.jpg": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-07-task-saved.jpg",
+      "sha256": "8ad6837a3b35e87d379e89f89fc6be598b8da3ac02c162159e2916ff684f81cf",
+      "bytes": 122750
+    },
+    "native/r3-08-example-result.jpg": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-08-example-result.jpg",
+      "sha256": "17536401f95d920ec96a55e2fc9899ae9758cf18f926ee0eb20aeb27b173c265",
+      "bytes": 110376
+    },
+    "native/r3-10-stock-check.jpg": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-10-stock-check.jpg",
+      "sha256": "0868712584a4a177558b7eb3520f0846a9e8c62e9f8064af01cc7f9c7a02f05a",
+      "bytes": 103662
+    },
+    "native/r3-13-cost-result.jpg": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-13-cost-result.jpg",
+      "sha256": "cb8b0f2e48ed4d0bdd2b3f38d2d166a9e9c1b4188a7111f93efe608c4279ee37",
+      "bytes": 116293
+    },
+    "native/r3-18-reopened-cost.jpg": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-18-reopened-cost.jpg",
+      "sha256": "5603323826fd21fea843dc02c78dbc685793c49c86801f747a08aad1a595cd19",
+      "bytes": 116680
+    },
+    "native/r3-19-stock-retry-result.jpg": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-19-stock-retry-result.jpg",
+      "sha256": "905937fea647aeb40c8a4075596e5cd5a593ded102f6c20e68f29087f4a1dbae",
+      "bytes": 103712
+    },
+    "native/r3-20-final-reopen.jpg": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\native\\r3-20-final-reopen.jpg",
+      "sha256": "a735591929afd2fefca519ea56d7c201a17c09982d3efc14a0c1c35cd79f6b85",
+      "bytes": 112419
+    },
+    "installed-browser-r2/unsupported.json.png": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\installed-browser-r2\\unsupported.json.png",
+      "sha256": "d36a7fa6b847b1989e5643dec6b18ca9e6ad6408be29f3404de81ca57e67bf07",
+      "bytes": 12639
+    },
+    "installed-browser-r2/malformed.json.png": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\installed-browser-r2\\malformed.json.png",
+      "sha256": "c087f7a274110e818f722574e2b6ce6b25f13bf5b0bd4f3c2fa296a445096f1e",
+      "bytes": 11887
+    },
+    "installed-browser-r2/05-narrow-ready.png": {
+      "original": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\installed-browser-r2\\05-narrow-ready.png",
+      "sha256": "9abc1675ce0b00f9facf90d54ef1926b9d9254e5d3dd8611f766d48a5ec9b001",
+      "bytes": 43619
+    }
+  }
+}

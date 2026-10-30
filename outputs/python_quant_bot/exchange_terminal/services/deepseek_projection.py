@@ -98,6 +98,15 @@ def _research_action(value: Any) -> str:
     return "RESEARCH_REVIEW_REQUIRED" if raw != "UNKNOWN" else "RESEARCH_UNCERTAIN"
 
 
+def _provider_status(status: dict[str, Any]) -> dict[str, Any]:
+    model = status.get("model")
+    model = model if isinstance(model, str) and 0 < len(model) <= 120 and "sk-" not in model.lower() and all(char.isascii() and (char.isalnum() or char in "._:/-") for char in model) else ""
+    return {"provider": "deepseek", "configured": status.get("configured") is True,
+            "enabled": status.get("enabled") is not False, "model": model,
+            "thinking": "enabled" if status.get("thinking") == "enabled" else "disabled",
+            "source": status.get("source") if status.get("source") in ("runtime", "env", "none", "disabled") else "unknown"}
+
+
 def _sanitize(value: Any, *, path: str = "deepseek") -> tuple[Any, list[str]]:
     if isinstance(value, dict):
         clean: dict[Any, Any] = {}
@@ -110,7 +119,15 @@ def _sanitize(value: Any, *, path: str = "deepseek") -> tuple[Any, list[str]]:
                     clean[f"raw_{key}"] = deepcopy(nested)
                     paths.append(nested_path)
                 continue
-            if key in _DIRECTION_FIELDS:
+            if (key == "signal" and path in {
+                    "deepseek.strategy_context.strategy_params", "deepseek.local.strategy_params",
+                    "deepseek.analysis.strategy_params", "deepseek.local.signal.strategy_params",
+                    "deepseek.analysis.signal.strategy_params"}
+                    and type(nested) is int and 2 <= nested <= 10000):
+                # Validated MACD signal period is configuration, not a trade direction.
+                clean[key] = nested
+                continue
+            if key in _DIRECTION_FIELDS and not (key == "signal" and isinstance(nested, (dict, list, tuple))):
                 clean[f"raw_{key}"] = deepcopy(nested)
                 clean[key] = _research_direction(nested)
                 paths.append(nested_path)
@@ -131,6 +148,9 @@ def _sanitize(value: Any, *, path: str = "deepseek") -> tuple[Any, list[str]]:
                 clean["raw_actionability"] = deepcopy(nested)
                 clean[key] = _research_action(nested)
                 paths.append(nested_path)
+                continue
+            if key in {"status", "provider_status"} and path == "deepseek" and isinstance(nested, dict):
+                clean[key] = _provider_status(nested)
                 continue
             if key in _STATUS_FIELDS:
                 clean[f"raw_{key}"] = deepcopy(nested)

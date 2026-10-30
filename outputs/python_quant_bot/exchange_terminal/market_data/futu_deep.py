@@ -3,14 +3,16 @@ from __future__ import annotations
 import time
 from typing import Any
 
+from .futu_context import open_futu_quote_context, valid_futu_snapshot_row
+
 try:
     from config import FUTU_HOST, FUTU_PORT, LIVE_TRADING_HARD_BLOCK
-    from market_data.futu import futu_status_snapshot, import_futu_sdk
+    from market_data.futu import futu_status_snapshot, import_futu_sdk, update_futu_quote_status, parse_futu_time_key
     from hakimi_research.stock_metadata import futu_code, stock_meta
     from utils import clean_json_value, now_ms, pct
 except ModuleNotFoundError:
     from hakimi_research.terminal_config import FUTU_HOST, FUTU_PORT, LIVE_TRADING_HARD_BLOCK
-    from exchange_terminal.market_data.futu import futu_status_snapshot, import_futu_sdk
+    from exchange_terminal.market_data.futu import futu_status_snapshot, import_futu_sdk, update_futu_quote_status, parse_futu_time_key
     from hakimi_research.stock_metadata import futu_code, stock_meta
     from hakimi_research.terminal_utils import clean_json_value, now_ms, pct
 
@@ -288,10 +290,21 @@ def read_futu_deep_stock(symbol: str = "AAPL", force: bool = False, max_age_ms: 
             return []
 
     try:
-        quote_ctx = futu.OpenQuoteContext(host=FUTU_HOST, port=FUTU_PORT)
-        market_state = call_records("market_state", lambda: quote_ctx.get_market_state([code]), 1)
+        quote_ctx = open_futu_quote_context(futu, host=FUTU_HOST, port=FUTU_PORT)
         snapshot_rows = call_records("market_snapshot", lambda: quote_ctx.get_market_snapshot([code]), 1)
-        snapshot = snapshot_rows[0] if snapshot_rows else {}
+        snapshot_rows = [row for row in snapshot_rows if valid_futu_snapshot_row(row, {code})]
+        if not snapshot_rows:
+            update_futu_quote_status(success=False, error=errors[-1]["error"] if errors else "snapshot returned no rows")
+            return cache_futu_deep(meta["symbol"], {"ok": False, "symbol": meta["symbol"], "source": "futu",
+                "status": futu_status_snapshot(), "error": "Futu snapshot unavailable", "errors": errors})
+        if parse_futu_time_key(snapshot_rows[0].get("update_time"), meta["symbol"]) <= 0:
+            update_futu_quote_status(success=False, error="snapshot timestamp missing or invalid")
+            return cache_futu_deep(meta["symbol"], {"ok": False, "symbol": meta["symbol"], "source": "futu",
+                "status": futu_status_snapshot(), "error": "Futu snapshot timestamp missing or invalid",
+                "timestamp_status": "UNKNOWN", "snapshot": snapshot_rows[0], "errors": errors})
+        update_futu_quote_status(success=True)
+        market_state = call_records("market_state", lambda: quote_ctx.get_market_state([code]), 1)
+        snapshot = snapshot_rows[0]
 
         subtypes = [
             futu.SubType.ORDER_BOOK,
@@ -411,7 +424,8 @@ def read_futu_deep_stock(symbol: str = "AAPL", force: bool = False, max_age_ms: 
             "live_trading_hard_block": LIVE_TRADING_HARD_BLOCK,
         })
     except Exception as exc:
-        return cache_futu_deep(meta["symbol"], {"ok": False, "symbol": meta["symbol"], "source": "futu", "status": status, "error": str(exc), "errors": errors})
+        update_futu_quote_status(success=False, error=exc)
+        return cache_futu_deep(meta["symbol"], {"ok": False, "symbol": meta["symbol"], "source": "futu", "status": futu_status_snapshot(), "error": str(exc), "errors": errors})
     finally:
         try:
             if quote_ctx:

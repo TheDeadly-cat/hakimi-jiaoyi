@@ -1,0 +1,575 @@
+"""The accepted research kernel inside the existing terminal's local workspace.
+
+Only this adapter owns HTTP routing and presentation. Historical research files,
+durable once-only jobs, and economic rules remain owned by the accepted kernel.
+"""
+from __future__ import annotations
+
+from hashlib import sha256
+import importlib
+import importlib.util
+import ipaddress
+import json
+import logging
+from pathlib import Path
+import re
+import secrets
+import stat
+import sys
+from threading import RLock
+from types import SimpleNamespace
+from urllib.parse import unquote, urlsplit
+
+from .terminal_public_daily_access import ACTIONS as PUBLIC_DAILY_ACTIONS, PublicDailyAccess, PublicDailyAccessError
+
+
+ACCEPTED_SOURCE_SHA256 = "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918"
+MAX_REQUEST = 24 * 1024 * 1024
+_VENDOR = Path(__file__).resolve().parents[2] / "vendor" / "research"
+_IMPORT_LOCK = RLock()
+_READ_RESOURCES = frozenset({"status", "strategies", "tasks", "inputs", "runs", "csv_templates",
+    "terminal_strategy_candidates",
+    "terminal_daily_catalog", "terminal_daily_inputs", "terminal_daily_intakes", "terminal_daily_updates", "terminal_daily_tasks",
+    "terminal_catalog", "terminal_preflight", "terminal_saved_comparison", "terminal_workspace_history", "terminal_market", "terminal_inputs", "terminal_tasks", "terminal_runs", "terminal_history", "terminal_reports", "terminal_core_inputs", "core_replay",
+    "terminal_execution_accounts", "terminal_execution_account", "terminal_execution_receipt", "terminal_execution_history", "terminal_execution_compare", "terminal_execution_research", "terminal_execution_explanation",
+    "terminal_broker_status", "terminal_broker_research", "terminal_broker_check", "terminal_broker_receipt", "terminal_broker_receipts",
+    "terminal_broker_plan_capabilities", "terminal_broker_plans", "terminal_broker_plan", "terminal_broker_plan_receipt",
+    "terminal_broker_account_control", "terminal_broker_account_receipt",
+    "terminal_replay_preview", "terminal_replay_accounts", "terminal_replay_status", "terminal_replay_history", "terminal_replay_receipt", "terminal_replay_creation_receipt",
+    "terminal_judgments", "terminal_judgment_replay", "terminal_exit_experiments",
+    "terminal_exit_runs", "terminal_exit_replay", "terminal_structure_replay", "terminal_insights", "terminal_peers"})
+
+
+def _no_links(path: Path) -> None:
+    """Check before resolving, including Windows directory junctions."""
+    for candidate in (path, *path.parents):
+        try:
+            info = candidate.lstat()
+        except FileNotFoundError:
+            continue
+        if stat.S_ISLNK(info.st_mode) or getattr(info, "st_file_attributes", 0) & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400):
+            raise ValueError("quant_reparse_path_not_supported")
+
+
+def _verified_package_root(vendor: Path) -> Path:
+    root = vendor / "hakimi_terminal_research"
+    _no_links(root)
+    document = json.loads((root / "runtime-files.json").read_bytes())
+    if (type(document) is not dict or set(document) != {"schema_version", "files"}
+            or document["schema_version"] != "research-runtime-files-v1"):
+        raise ValueError("quant_runtime_manifest_invalid")
+    names = document["files"]
+    if (type(names) is not list or any(type(name) is not str for name in names)
+            or names != sorted(set(names)) or "runtime-files.json" not in names):
+        raise ValueError("quant_runtime_manifest_invalid")
+    hashes = {}
+    for name in names:
+        relative = Path(name)
+        if (relative.is_absolute() or ".." in relative.parts or "\\" in name or ":" in name
+                or not (relative.suffix in {".py", ".json", ".lock"}
+                        or relative.parts[0] == "resources" and relative.suffix in {".csv", ".html"})):
+            raise ValueError("quant_runtime_manifest_path_invalid")
+        target = root / relative
+        _no_links(target)
+        hashes[name] = sha256(target.read_bytes()).hexdigest()
+    for target in root.rglob("*"):
+        relative = target.relative_to(root)
+        if "__pycache__" in relative.parts or target.name == "_build_identity.json":
+            continue
+        _no_links(target)
+        if target.is_file() and (target.suffix in {".py", ".json", ".lock"}
+                or relative.parts[0] == "resources" and target.suffix in {".csv", ".html"}):
+            if relative.as_posix() not in hashes:
+                raise ValueError("quant_runtime_unexpected_source")
+    digest = sha256(json.dumps(hashes, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    if digest != ACCEPTED_SOURCE_SHA256:
+        raise ValueError("quant_runtime_source_identity_mismatch")
+    return root.resolve()
+
+
+def _load_kernel(vendor: Path = _VENDOR):
+    """Import only the verified package, without changing dependency search paths."""
+    with _IMPORT_LOCK:
+        root = _verified_package_root(vendor)
+        for name, module in tuple(sys.modules.items()):
+            if name == "hakimi_terminal_research" or name.startswith("hakimi_terminal_research."):
+                source = getattr(module, "__file__", None)
+                if source is None or not Path(source).resolve().is_relative_to(root):
+                    raise ValueError("quant_runtime_package_already_loaded_from_another_location")
+        if "hakimi_terminal_research" not in sys.modules:
+            spec = importlib.util.spec_from_file_location("hakimi_terminal_research", root / "__init__.py",
+                                                        submodule_search_locations=[str(root)])
+            if spec is None or spec.loader is None:
+                raise ValueError("quant_runtime_package_unavailable")
+            package = importlib.util.module_from_spec(spec)
+            sys.modules["hakimi_terminal_research"] = package
+            try:
+                spec.loader.exec_module(package)
+            except BaseException:
+                for name in tuple(sys.modules):
+                    if name == "hakimi_terminal_research" or name.startswith("hakimi_terminal_research."):
+                        sys.modules.pop(name, None)
+                raise
+        desktop = importlib.import_module("hakimi_terminal_research.desktop_app")
+        service = importlib.import_module("hakimi_terminal_research.desktop_service")
+        return SimpleNamespace(root=root, desktop=desktop, service=service.DesktopService,
+                               version="0.5.0.dev8")
+
+
+def _json_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate_json_field")
+        result[key] = value
+    return result
+
+
+def _finite_json(value):
+    if isinstance(value, float):
+        import math
+        if not math.isfinite(value):
+            raise ValueError("finite_json_required")
+    elif isinstance(value, dict):
+        for child in value.values():
+            _finite_json(child)
+    elif isinstance(value, list):
+        for child in value:
+            _finite_json(child)
+
+
+_EMBEDDED_STYLE = """
+.app{display:block;min-height:100vh}.workspace{grid-column:auto}
+.sidebar{position:sticky;inset:auto;top:0;width:auto;padding:8px 18px;
+ flex-direction:row;align-items:center;gap:12px;background:#101722;z-index:20}
+.sidebar .brand,.sidebar .footnote{display:none}.nav{flex-direction:row;flex-wrap:wrap;gap:4px}
+.nav button,.sidebar-bottom button{width:auto;min-height:40px;padding:8px 14px}
+.nav button.active{box-shadow:inset 0 -3px #2563eb}.sidebar-bottom{margin:0 0 0 auto;padding:0}
+.sidebar-bottom button{font-size:12px}.topbar{position:static;padding:0 22px;height:48px}
+.topbar-version,.topbar .divider{display:none}
+.main{padding:22px;min-height:calc(100vh - 108px)}.skip{left:12px}.mobile-menu{display:none!important}
+.sidebar.open{transform:none}.mobile-nav-shade{display:none!important}
+@media(max-width:760px){.sidebar{padding:7px;gap:4px;flex-wrap:wrap;transform:none!important}
+ .nav{flex:1}.nav button,.sidebar-bottom button{padding:7px 9px;font-size:12px;gap:5px}
+ .nav .icon{width:16px}.main{padding:15px}.topbar{padding:0 15px}}
+"""
+
+
+_CORE_PRESENTATION_FUNCTIONS = {
+    "perform": "4da9f9bb611dd4e416e6649ad3f4c79b11a6a01e61771846b31e240014e359dc",
+    "refresh": "c8e73cf87942236ce1848bb8e116840c6b0c56207c1dd0aaa2d86ab6e4f762c1",
+    "loadRun": "779f21f30d5e7625429c28b1af10b42f07095b5e6c0651fe5399c6bf293de0e6",
+    "resultsPage": "272ac1ffd0c40de8ea6908a8b42e4cf5c991f6413492dd44fa5670c14a31cb16",
+    "dashboard": "313b5fb8ef979f1a5a0fb6b327f63a3c64ff629963339b52b2871816bf74b0c1",
+}
+
+
+def _adapt_core_completion(html: str) -> str:
+    """Guard exact frozen functions, then adapt only their rendered presentation."""
+    def once(value, before, after):
+        if value.count(before) != 1:
+            raise ValueError("quant_core_completion_adapter_source_mismatch")
+        return value.replace(before, after, 1)
+
+    fragments = {}
+    for name, expected in _CORE_PRESENTATION_FUNCTIONS.items():
+        matches = re.findall(r"^(?:async )?function " + name + r"\(.*$", html, re.MULTILINE)
+        if len(matches) != 1 or sha256(matches[0].encode()).hexdigest() != expected:
+            raise ValueError("quant_core_completion_adapter_source_mismatch:" + name)
+        fragments[name] = matches[0]
+    adapted = dict(fragments)
+    adapted["perform"] = once(adapted["perform"], "if(button?.disabled)return;",
+                              "if(button?.disabled)return;coreCompletion.begin(action);")
+    adapted["perform"] = once(adapted["perform"], "announce((ACTIONS[action]||'操作')+'已完成');",
+                              "coreCompletion.confirm(action,job.result);announce((ACTIONS[action]||'操作')+'已完成');")
+    adapted["perform"] = once(adapted["perform"], "if(onSuccess)await onSuccess(job.result);",
+                              "if(onSuccess)await coreCompletion.present(onSuccess,job.result,action);")
+    adapted["perform"] = once(adapted["perform"], "showError(e,current()?errorTarget:null);return null;",
+                              "return coreCompletion.operationError(action,job,e,current()?errorTarget:null);")
+    adapted["refresh"] = once(adapted["refresh"], "applyOverview(overview);",
+                              "applyOverview(overview);coreCompletion.restoreRuns();coreCompletion.clearReadFailure('refresh');")
+    adapted["refresh"] = once(adapted["refresh"], "catch(e){showError(e);}",
+                              "catch(e){coreCompletion.readFailure('refresh',e);}")
+    adapted["refresh"] = once(adapted["refresh"], "render();if(S.runs.length)",
+                              "render();coreCompletion.clearRenderedDetail();if(S.runs.length)")
+    adapted["loadRun"] = "async function loadRun(id,quiet=false){return coreCompletion.loadRun(id,quiet);}"
+    loading = '<div class="loading-block"><span class="spinner" aria-hidden="true"></span>正在读取保存的结果…</div>'
+    adapted["resultsPage"] = once(adapted["resultsPage"], loading, "${coreCompletion.resultPlaceholder(id)}")
+    adapted["dashboard"] = once(adapted["dashboard"], "'" + loading + "'", "coreCompletion.resultPlaceholder(recent.id)")
+    for name, original in fragments.items():
+        html = once(html, original, adapted[name])
+    initializer = "$('#navigation').innerHTML="
+    run_saved = ("async function runSavedCoreTask(task,button){if(!task?.id||!task.task_id)throw Error('请重新核对已保存版本。');"
+                 "window.dispatchEvent(new CustomEvent('hakimi-core-open'));"
+                 "return perform('run_task',{task_id:task.id,expected_task_id:task.task_id},{button,onSuccess:detail=>{"
+                 "if(detail?.id){S.runCache.set(detail.id,detail);S.selectedRun=detail.id;}S.runTab='equity';nav('results');}});}")
+    return once(html, initializer,
+                run_saved + "\nconst coreCompletion=window.createCoreCompletionAdapter({api,state:S,render,refresh,showError,esc,runTask:runSavedCoreTask,"
+                "openResult:id=>{window.dispatchEvent(new CustomEvent('hakimi-core-open'));S.selectedRun=id;nav('results');}});\n" + initializer)
+
+
+def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
+    """Adapt the verified resource in memory; never change accepted package bytes."""
+    html = raw.decode("utf-8").replace("\r\n", "\n")
+    if html.count("<script>") != 1 or html.count("let token='',pollTimer=null") != 1:
+        raise ValueError("quant_html_adapter_source_mismatch")
+    html = _adapt_core_completion(html)
+    html = html.replace("<title>哈基米 · 离线量化</title>", "<title>量化任务与回测 · 哈基米交易</title>")
+    html = html.replace("</style>", _EMBEDDED_STYLE + "\n</style>", 1)
+    html = html.replace('<div class="brand"><div class="brand-mark" aria-hidden="true">H</div><div><div class="brand-name">哈基米</div><div class="brand-sub">离线量化</div></div></div>', "")
+    html = html.replace('aria-label="主导航"', 'aria-label="量化功能"')
+    html = html.replace("中文、字母、数字或连字符；新任务使用新目录。", "为任务起一个易于辨认的名称，最多 64 个字符。")
+    html = html.replace("fetch('/api/'+path", "fetch('/api/quant/'+path")
+    html = html.replace("const unresolvedKey='hakimi-unresolved-'+location.origin", "const unresolvedKey='hakimi-quant-unresolved-'+location.origin")
+    token_initialization = re.compile(r"^try\{const h=new URLSearchParams\(location\.hash\.slice\(1\)\).*?^const fmt=", re.MULTILINE | re.DOTALL)
+    html, count = token_initialization.subn("const fmt=", html, count=1)
+    if count != 1 or "fetch('/api/'+path" in html:
+        raise ValueError("quant_html_adapter_source_mismatch")
+    safe_token = json.dumps(token, ensure_ascii=True).replace("<", "\\u003c")
+    html = html.replace("let token='',pollTimer=null", "document.currentScript?.remove();\nlet token=" + safe_token + ",pollTimer=null", 1)
+    ui_path = Path(__file__).resolve().parents[1] / "static" / "terminal-quant-ui.js"
+    judgment_path = ui_path.with_name("terminal-judgment-ui.js")
+    exit_path = ui_path.with_name("terminal-exit-research-ui.js")
+    insights_path = ui_path.with_name("terminal-insights-ui.js")
+    completion_path = ui_path.with_name("terminal-core-completion.js")
+    ai_binding_path = ui_path.with_name("terminal-ai-binding.js")
+    summary_path = ui_path.with_name("terminal-result-summary.js")
+    comparison_path = ui_path.with_name("terminal-result-comparison.js")
+    execution_path = ui_path.with_name("terminal-execution-ui.js")
+    broker_path = ui_path.with_name("terminal-broker-candidate-ui.js")
+    broker_plan_path = ui_path.with_name("terminal-broker-plan-ui.js")
+    broker_account_path = ui_path.with_name("terminal-broker-account-control-ui.js")
+    continuous_path = ui_path.with_name("terminal-continuous-ui.js")
+    daily_path = ui_path.with_name("terminal-daily-ui.js")
+    candidates_path = ui_path.with_name("terminal-strategy-candidates-ui.js")
+    ui_paths = [completion_path, ai_binding_path, summary_path, comparison_path, execution_path, broker_plan_path, broker_account_path, broker_path, continuous_path, daily_path,
+                judgment_path, exit_path, insights_path, candidates_path]
+    ui_paths.append(ui_path)
+    ui_source = "\n".join(path.read_text(encoding="utf-8") for path in ui_paths).replace("</script>", "<\\/script>")
+    html = html.replace("程序版本", "股票回测内核版本")
+    html = html.replace("共享资金演练目前通过安装目录中的", "共享资金演练保留在原命令行工具中。旧包中的")
+    html = html.replace(" 使用。这里保留现有命令行能力；", " 是归档入口；日常继续使用当前交易窗口。")
+    labels = "terminal_replay_create:'创建逐日模拟',terminal_replay_seed:'记录起始收盘信号',terminal_replay_step:'处理下一完整交易日',terminal_replay_reconcile:'核对模拟并保持暂停',terminal_replay_resume:'恢复模拟准备',terminal_replay_adopt:'采用已保存数据版本',terminal_broker_save_candidate:'保存券商候选资料',terminal_broker_prepare_intent:'准备未发送订单意图',terminal_broker_prepare_plan:'保存离线验收计划',terminal_broker_resume:'恢复本地候选准备',terminal_broker_account_resume:'恢复账户执行准备',terminal_daily_check_stock:'检查股票日线',terminal_daily_save_stock:'保存股票日线',terminal_daily_check_update:'检查日线更新',terminal_daily_freeze_update:'保存日线新版本',terminal_daily_create_task:'保存日线研究任务',terminal_daily_adopt_update:'采用日线新版本',terminal_import_daily_input:'复用日线到原策略',terminal_register_exit_experiment:'登记同入场出场研究',terminal_run_exit_experiment:'运行已登记出场研究',terminal_save_judgment:'保存判断与冻结依据',terminal_append_judgment_event:'追加复盘记录',terminal_import_core_input:'复用已导入行情',terminal_freeze_market:'保存当前行情快照',terminal_save_task:'保存原策略任务版本',terminal_set_task_state:'更改研究任务状态',terminal_run_task:'运行原策略回测',terminal_compare:'比较原策略结果',"
+    html = html.replace("const ACTIONS={", "const ACTIONS={" + labels, 1)
+    old_compare = "case'compare':await perform('compare',{run_ids:[...S.compare]},{button:target,onSuccess:showComparison});break;"
+    if html.count(old_compare) != 1:
+        raise ValueError("quant_core_saved_comparison_adapter_source_mismatch")
+    html = html.replace(old_compare, "case'compare':await showStrictSavedComparison(target);break;", 1)
+    hook = ("\nasync function showStrictSavedComparison(button){if(button?.disabled)return;"
+            "const references=[...S.compare].map(id=>({kind:'core_run',id}));"
+            "if(references.length<2)throw Error('请选择至少两份保存结果。');if(button)button.disabled=true;"
+            "try{const value=await api('terminal_saved_comparison/'+encodeURIComponent(JSON.stringify({references})));"
+            "modal('保存结果与成本对照','每项保留其原有规则和条件，缺失记录保持未知。',"
+            "window.HakimiResultComparison.renderComparison(value,esc),btn('关闭','close-dialog'));}"
+            "finally{if(button)button.disabled=false;}}\n"
+            "window.installTerminalQuantUI({api,perform,esc,modal,closeDialog,showError,"
+            "runCoreTask:(id,task_id,button)=>runSavedCoreTask({id,task_id},button),"
+            "getSelectedCoreRun:()=>S.selectedRun,openCoreTask:async id=>{nav('tasks');await showTask(id);},"
+            "openCoreRun:async id=>{S.selectedRun=id;nav('results');await loadRun(id);},"
+            "openCoreTaskForm:async strategyKey=>{if(strategyKey!==undefined&&!S.strategies.some(entry=>entry.key===strategyKey))throw new Error('所选研究规则尚未就绪，请刷新记录后重试。');"
+            "nav('tasks');await openTaskForm();if(strategyKey!==undefined){const field=$('#task-strategy');if(!field||!S.taskDraft||S.taskDraft.task)throw new Error('新建研究表单尚未就绪。');"
+            "field.value=strategyKey;S.taskDraft.strategy=strategyKey;renderStrategyFields(true);}},openCoreImport:async()=>{nav('inputs');await openImport();},"
+            "initializeCoreExample:button=>dispatch('demo',button)});\n")
+    ending = "})();\n</script>"
+    if html.count(ending) != 1:
+        raise ValueError("quant_terminal_hook_source_mismatch")
+    html = html.replace(ending, hook + ending, 1)
+    html = html.replace("<script>", '<script nonce="' + nonce + '">\n' + ui_source + "\n", 1)
+    return html.encode("utf-8")
+
+
+class QuantWorkspace:
+    """Lazy same-origin routes for runtime/research-workspace.
+
+    handle() returns False for unrelated routes. close() returns False while a
+    durable operation is live, leaving ownership and the worker intact.
+    """
+    def __init__(self, runtime_dir, read_only=False, local_only=True, service_factory=None, mutation_guard=None, product_identity=None,
+                 public_daily_fetcher=None, public_daily_clock=None):
+        raw_runtime = Path(runtime_dir).expanduser().absolute()
+        _no_links(raw_runtime)
+        self.runtime_dir = raw_runtime.resolve()
+        self.workspace = self.runtime_dir / "research-workspace"
+        self.read_only = bool(read_only)
+        self.local_only = bool(local_only)
+        self._service_factory = service_factory
+        self._mutation_guard = mutation_guard
+        self.product_identity = dict(product_identity or {})
+        self._token = secrets.token_urlsafe(32)
+        options = {} if public_daily_clock is None else {"clock": public_daily_clock}
+        self._public_daily = (PublicDailyAccess(self._token, fetcher=public_daily_fetcher, **options)
+                              if public_daily_fetcher is not None else None)
+        self._mutex = RLock()
+        self._kernel = self._service = self._jobs = self._instance_lock = None
+        self._closed = False
+
+    def _ensure(self):
+        with self._mutex:
+            if self._closed:
+                raise RuntimeError("quant_module_closed")
+            if self._kernel is not None:
+                return
+            kernel = _load_kernel()
+            _no_links(self.workspace)
+            control = kernel.desktop.control_directory(self.workspace)
+            _no_links(control)
+            for child in control.rglob("*") if control.exists() else ():
+                _no_links(child)
+            _no_links(control / "server.lock")
+            _no_links(control / "jobs")
+            control.mkdir(parents=True, exist_ok=True)
+            lock = kernel.desktop.InstanceLock(control / "server.lock")
+            try:
+                service = kernel.service(self.workspace)
+                if self._service_factory is not None:
+                    service = self._service_factory(service)
+                bind_daily = getattr(service, "configure_public_daily_access", None)
+                if callable(bind_daily):
+                    bind_daily(self._public_daily, self._token)
+                jobs = kernel.desktop.Jobs(service, control / "jobs")
+            except BaseException:
+                lock.close()
+                raise
+            self._kernel, self._service, self._jobs = kernel, service, jobs
+            self._instance_lock = lock
+
+    @property
+    def initialized(self):
+        with self._mutex:
+            return self._kernel is not None and not self._closed
+
+    @property
+    def pending(self):
+        with self._mutex:
+            if self._jobs is None:
+                return False
+            with self._jobs.lock:
+                return bool(self._jobs.live)
+
+    def close(self):
+        if self._public_daily is not None:
+            self._public_daily.revoke()
+        with self._mutex:
+            if self.pending:
+                return False
+            self._closed = True
+            if self._public_daily is not None:
+                self._public_daily.close()
+            if self._jobs is not None:
+                self._jobs.close()
+            service_close = getattr(self._service, "close", None)
+            if callable(service_close):
+                service_close()
+            if self._instance_lock is not None:
+                self._instance_lock.close()
+                self._instance_lock = None
+            return True
+
+    def _daily_state(self):
+        if self._public_daily is not None:
+            return self._public_daily.status()
+        return {"schema_version": "hakimi-public-daily-access-v1", "state": "UNAVAILABLE",
+                "provider": "Yahoo Finance", "scope": "ONE_EXPLICIT_DAILY_CHECK", "actual_attempts": 0,
+                "automatic_retry": False, "broker_allowed": False, "model_requests_allowed": False}
+
+    def _daily_request_allowed(self, action, payload):
+        if self._public_daily is None:
+            raise PublicDailyAccessError("PUBLIC_DAILY_NOT_CONFIGURED")
+        current = self._public_daily.request_status(self._token, action, payload)
+        for key, code in (("consumed", "CONSUMED"), ("revoked", "REVOKED"), ("expired", "EXPIRED")):
+            if current[key]:
+                raise PublicDailyAccessError("PUBLIC_DAILY_PERMISSION_" + code)
+
+    def _check_mutation_guard(self):
+        if self._mutation_guard is not None:
+            current = self._mutation_guard()
+            if (not isinstance(current, dict) or current.get("schema_version") != "hakimi-runtime-build-v1"
+                    or current.get("status") != "PASS" or current.get("restart_required") is not False):
+                raise RuntimeError("source_changed_restart_required:运行代码已变化，请正常重启原交易窗口后再保存或运行。")
+
+    def _boundary(self, handler, authenticated=True):
+        address, port = handler.server.server_address[:2]
+        try:
+            server_is_local = ipaddress.ip_address(address).is_loopback
+            client_is_local = ipaddress.ip_address(handler.client_address[0]).is_loopback
+        except ValueError:
+            server_is_local = client_is_local = False
+        if not server_is_local or (self.local_only and not client_is_local):
+            raise PermissionError("quant_loopback_required")
+        host = ("[" + address + "]" if ":" in address else address) + ":" + str(port)
+        origin = "http://" + host
+        if handler.headers.get_all("Host", []) != [host]:
+            raise PermissionError("host_not_allowed")
+        origins = handler.headers.get_all("Origin", [])
+        if origins and origins != [origin]:
+            raise PermissionError("origin_not_allowed")
+        fetch_sites = handler.headers.get_all("Sec-Fetch-Site", [])
+        if len(fetch_sites) > 1 or (fetch_sites and fetch_sites[0] not in {"", "none", "same-origin"}):
+            raise PermissionError("cross_site_request_rejected")
+        if authenticated:
+            tokens = handler.headers.get_all("X-Hakimi-Token", [])
+            if len(tokens) != 1 or not secrets.compare_digest(tokens[0], self._token):
+                raise PermissionError("session_token_required:请重新打开量化模块")
+        if handler.command == "POST" and origins != [origin]:
+            raise PermissionError("exact_origin_required")
+
+    @staticmethod
+    def _send(handler, status, body, *, html=False, nonce=None):
+        if not isinstance(body, bytes):
+            body = json.dumps(body, ensure_ascii=False, allow_nan=False, sort_keys=True).encode("utf-8")
+        handler.send_response(status)
+        handler.send_header("Content-Type", "text/html; charset=utf-8" if html else "application/json; charset=utf-8")
+        handler.send_header("Content-Length", str(len(body)))
+        handler.send_header("Cache-Control", "no-store")
+        handler.send_header("X-Content-Type-Options", "nosniff")
+        handler.send_header("Referrer-Policy", "no-referrer")
+        handler.send_header("X-Frame-Options", "SAMEORIGIN" if html else "DENY")
+        handler.send_header("Content-Security-Policy", "default-src 'none'; connect-src 'self'; img-src 'self' data:; "
+                            "style-src 'unsafe-inline'; script-src " + ("'nonce-" + nonce + "'" if nonce else "'none'")
+                            + "; base-uri 'none'; frame-ancestors " + ("'self'" if html else "'none'") + "; form-action 'none'")
+        handler.end_headers()
+        handler.wfile.write(body)
+
+    def _answer(self, handler, data, status=200):
+        self._send(handler, status, {"ok": True, "data": data})
+
+    def _fail(self, handler, error, status=400):
+        detail = str(error).replace(self._token, "[redacted]")[:2000]
+        code = error.code if isinstance(error, PublicDailyAccessError) else type(error).__name__
+        self._send(handler, status, {"ok": False, "error": {"code": code,
+                   "message": "量化模块操作未完成，请核对输入或查看具体原因。", "detail": detail}})
+
+    def handle(self, handler):
+        parsed = urlsplit(handler.path)
+        path = parsed.path
+        if path not in {"/quant", "/quant/", "/api/quant"} and not path.startswith("/api/quant/"):
+            return False
+        try:
+            is_page = path in {"/quant", "/quant/"}
+            self._boundary(handler, authenticated=not is_page)
+            if parsed.query:
+                raise ValueError("quant_query_parameters_not_supported")
+            if handler.command == "GET":
+                if path == "/api/quant/public-daily-access":
+                    self._answer(handler, self._daily_state())
+                    return True
+                self._ensure()
+                if is_page:
+                    nonce = secrets.token_urlsafe(20)
+                    html = render_quant_html((self._kernel.root / "resources" / "desktop.html").read_bytes(), self._token, nonce)
+                    self._send(handler, 200, html, html=True, nonce=nonce)
+                    return True
+                route = path.removeprefix("/api/quant/")
+                if route == "jobs":
+                    result = self._jobs.list()
+                elif route.startswith("jobs/"):
+                    result = self._jobs.get(unquote(route[5:]))
+                else:
+                    resource, _, identity = route.partition("/")
+                    if resource not in _READ_RESOURCES:
+                        self._fail(handler, ValueError("quant_route_not_found"), 404)
+                        return True
+                    if resource == "terminal_strategy_candidates":
+                        # Current-rule calculation must not pair already-loaded
+                        # signals with a changed on-disk implementation identity.
+                        # Saved historical reads deliberately remain available.
+                        self._check_mutation_guard()
+                    result = self._service.read(resource, unquote(identity) if identity else None)
+                    if resource == "status" and isinstance(result, dict):
+                        result.update(version=self._kernel.version,
+                                      log_path=str(self.runtime_dir / ".hakimi-ui"),
+                                      session={"offline": True, "embedded": True, "read_only": self.read_only},
+                                      product_workspace=str(self.runtime_dir),
+                                      terminal_product={"name": "哈基米交易", **self.product_identity})
+                self._answer(handler, result)
+                return True
+            if handler.command != "POST":
+                self._fail(handler, ValueError("quant_method_not_allowed"), 405)
+                return True
+            daily_control = path.removeprefix("/api/quant/public-daily-access/") if path.startswith("/api/quant/public-daily-access/") else None
+            broker_stop = path == "/api/quant/broker-candidate/stop"
+            account_stop = path == "/api/quant/broker-account/stop"
+            replay_pause = path == "/api/quant/continuous-replay/pause"
+            if self.read_only and daily_control != "revoke":
+                self._fail(handler, PermissionError("runtime_is_read_only"), 423)
+                return True
+            if not path.startswith("/api/quant/actions/") and daily_control not in {"allow-once", "revoke"} and not broker_stop and not account_stop and not replay_pause:
+                self._fail(handler, ValueError("quant_route_not_found"), 404)
+                return True
+            if handler.headers.get_all("Content-Type", []) not in [["application/json"], ["application/json; charset=utf-8"]]:
+                raise ValueError("json_content_type_required")
+            lengths = handler.headers.get_all("Content-Length", [])
+            if len(lengths) != 1 or not lengths[0].isascii() or not lengths[0].isdigit() or handler.headers.get_all("Transfer-Encoding", []):
+                raise ValueError("valid_content_length_required")
+            length = int(lengths[0])
+            if not 0 < length <= MAX_REQUEST:
+                self._fail(handler, ValueError("request_too_large:上传文件请控制在16MB以内"), 413)
+                return True
+            handler.connection.settimeout(20)
+            raw = handler.rfile.read(length)
+            if len(raw) != length:
+                raise ValueError("incomplete_request")
+            payload = json.loads(raw, object_pairs_hook=_json_object,
+                                 parse_constant=lambda value: (_ for _ in ()).throw(ValueError("finite_json_required")))
+            _finite_json(payload)
+            if replay_pause:
+                pause = getattr(self._service, "pause_continuous_replay", None)
+                if self._closed or not callable(pause):
+                    raise RuntimeError("replay_control_unavailable")
+                self._answer(handler, pause(payload))
+                return True
+            if broker_stop or account_stop:
+                # No _ensure, worker/service mutex, source-refresh wait or job.
+                # An unavailable service cannot acknowledge a durable stop.
+                stop = getattr(self._service, "stop_broker_account" if account_stop else "stop_broker_candidate", None)
+                if self._closed or not callable(stop):
+                    raise RuntimeError("broker_candidate_control_unavailable")
+                self._answer(handler, stop(payload))
+                return True
+            if daily_control is not None:
+                if type(payload) is not dict:
+                    raise ValueError("public_daily_control_object_required")
+                if daily_control == "revoke":
+                    if payload:
+                        raise ValueError("public_daily_revoke_empty_object_required")
+                    result = self._public_daily.revoke() if self._public_daily is not None else self._daily_state()
+                else:
+                    if set(payload) != {"action", "payload"}:
+                        raise ValueError("public_daily_control_fields_invalid")
+                    self._check_mutation_guard()
+                    if self._public_daily is None:
+                        raise PublicDailyAccessError("PUBLIC_DAILY_NOT_CONFIGURED")
+                    result = self._public_daily.allow_once(self._token, payload["action"], payload["payload"])
+                # These controls never acquire a service/job lock or initialize
+                # the canonical writer. Revocation can run during transport.
+                self._answer(handler, result)
+                return True
+            if type(payload) is not dict or set(payload) - {"payload", "request_id"}:
+                raise ValueError("request_object_required")
+            action = path.removeprefix("/api/quant/actions/")
+            if action == "terminal_broker_stop":
+                raise ValueError("broker_stop_direct_route_required")
+            if action == "terminal_broker_account_stop":
+                raise ValueError("broker_account_stop_direct_route_required")
+            if action == "terminal_replay_pause":
+                raise ValueError("replay_pause_direct_route_required")
+            with self._mutex:
+                # Reconciliation only checks the saved replay and leaves it
+                # paused; current-code admission still gates every new step.
+                if action != "terminal_replay_reconcile":
+                    self._check_mutation_guard()
+                if action in PUBLIC_DAILY_ACTIONS:
+                    self._daily_request_allowed(action, payload.get("payload", {}))
+                self._ensure()
+                job = self._jobs.submit(action, payload.get("payload", {}), payload.get("request_id"))
+            self._answer(handler, job, 202)
+        except PermissionError as error:
+            self._fail(handler, error, 403)
+        except FileNotFoundError as error:
+            self._fail(handler, error, 404)
+        except (ValueError, TypeError, KeyError, OSError, RuntimeError) as error:
+            self._fail(handler, error)
+        except Exception:
+            logging.exception("Quant workspace request failed")
+            self._fail(handler, RuntimeError("quant_internal_error"), 500)
+        return True

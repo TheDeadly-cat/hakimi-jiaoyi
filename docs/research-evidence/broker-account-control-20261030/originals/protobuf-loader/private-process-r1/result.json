@@ -1,0 +1,891 @@
+{
+  "status": "PASS",
+  "scope": "EXPLICIT_NEW_PARENT_LOADER_NOT_INSTALLED_IN_R4; LOCAL_GENERATED_CLASS_SOURCE_ONLY",
+  "loaded_seconds": 5.576563800001168,
+  "protocol_roundtrips": [
+    {
+      "protocol": 1001,
+      "request": "InitConnect.Request",
+      "response": "InitConnect.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    },
+    {
+      "protocol": 1002,
+      "request": "GetGlobalState.Request",
+      "response": "GetGlobalState.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    },
+    {
+      "protocol": 2001,
+      "request": "Trd_GetAccList.Request",
+      "response": "Trd_GetAccList.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    },
+    {
+      "protocol": 2101,
+      "request": "Trd_GetFunds.Request",
+      "response": "Trd_GetFunds.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    },
+    {
+      "protocol": 2102,
+      "request": "Trd_GetPositionList.Request",
+      "response": "Trd_GetPositionList.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    },
+    {
+      "protocol": 3202,
+      "request": "Qot_GetStaticInfo.Request",
+      "response": "Qot_GetStaticInfo.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    },
+    {
+      "protocol": 3203,
+      "request": "Qot_GetSecuritySnapshot.Request",
+      "response": "Qot_GetSecuritySnapshot.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    },
+    {
+      "protocol": 2202,
+      "request": "Trd_PlaceOrder.Request",
+      "response": "Trd_PlaceOrder.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    },
+    {
+      "protocol": 2201,
+      "request": "Trd_GetOrderList.Request",
+      "response": "Trd_GetOrderList.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    },
+    {
+      "protocol": 2205,
+      "request": "Trd_ModifyOrder.Request",
+      "response": "Trd_ModifyOrder.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    },
+    {
+      "protocol": 2225,
+      "request": "Trd_GetOrderFee.Request",
+      "response": "Trd_GetOrderFee.Response",
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb",
+      "response_bytes": 2
+    }
+  ],
+  "loaded_file_count": 164,
+  "observed_sdk_files": 283,
+  "attempts": {
+    "socket": 0,
+    "database": 0,
+    "subprocess": 0,
+    "thread": 0,
+    "futu_import": 0
+  },
+  "source_hashes": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\__init__.py": "3ef5dff0950326a45593bad0b6afc529fcaf6772e0bb3a59b9b327e8e483ddca",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\__init__.py": "205eeededbfaa0f67e4704849d0c50a9b92db578441ec9e0890ae0ac461036d1",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_candidate_service.py": "5cda7354b7f8ff03db084cce47f7c9a77f290c24f3f8320d7464566050fb9b72",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_result_comparison.py": "b61d1431b48db73d8219850e58e052349f8a19b9062ef3f3faa26c53b7ac9490",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\adapters\\futu_verified_protobuf_loader.py": "274cd15fc3833405efa264653cd00822da72a882624d3ccfc136f48ff0720155"
+  },
+  "package_manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+  "runtime_identity": {
+    "adapter": null,
+    "id": "87af816f508224025a1ce3fd41cab787534a5f9d75338b7b74e6341c56a025fb",
+    "mode": "OFFICIAL_SIMULATION",
+    "package": {
+      "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+      "manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+      "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+      "version": "0.7.0.dev3"
+    },
+    "permissions": {
+      "automatic_mode_fallback": false,
+      "automatic_resume": false,
+      "automatic_retry": false,
+      "cancel_allowed": false,
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "unlock_allowed": false,
+      "user_authorization_granted": false
+    },
+    "schema_version": "hakimi-broker-runtime-identity-v1",
+    "sdk": {
+      "installed_file_count": 283,
+      "installed_files_sha256": "093b3a85e4b5ed3cfe557036e75507992dc2b0246aa92afc32fa5200bb61b63c",
+      "name": "futu-api",
+      "runtime_compatibility": "NOT_VERIFIED",
+      "version": "10.7.6708",
+      "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5"
+    }
+  },
+  "loader_identity": {
+    "id": "cc51c9e3d1fa0a71561685011f2ba6d317f245938d39098f4094bebe0b4025bd",
+    "loaded_files": {
+      "runtime/python/DLLs/_decimal.pyd": {
+        "bytes": 290528,
+        "sha256": "8d41a84db20a9b985e98c802ad6833cf9625c744ad35478dd346f54f81488706"
+      },
+      "runtime/python/DLLs/_hashlib.pyd": {
+        "bytes": 69344,
+        "sha256": "36ce760b9fac53fe51755f30a68d86f5fde89bf1b66c65c19e04aa3afa404ac2"
+      },
+      "runtime/python/DLLs/_socket.pyd": {
+        "bytes": 87776,
+        "sha256": "25ac83cac32ed0d67b2cc9672ce64cb53f0a29a75b14c276e901023ff43da5f9"
+      },
+      "runtime/python/DLLs/_sqlite3.pyd": {
+        "bytes": 132832,
+        "sha256": "b0c4edff6d60f300373ec929ab915f95ee601bf167e04d28e4e9e28a8e536fe0"
+      },
+      "runtime/python/Lib/_collections_abc.py": {
+        "bytes": 33319,
+        "sha256": "324cf48dd9086aa4d020684fdcddbe624a765be2328f32813da7d3a0da8216a3"
+      },
+      "runtime/python/Lib/_compat_pickle.py": {
+        "bytes": 8986,
+        "sha256": "dd383f044e69d681fd46ced0bc2846f487e617380024a34aef06340ee34f43fb"
+      },
+      "runtime/python/Lib/_opcode_metadata.py": {
+        "bytes": 10486,
+        "sha256": "f3406718afbe42308d7b343d4353f410837a4da970d5e1346815b7fef70d24f8"
+      },
+      "runtime/python/Lib/_py_warnings.py": {
+        "bytes": 31500,
+        "sha256": "8261e35fff14aa7a615a83c844c0e9db4f0541e088bde4f2e94581d219033d42"
+      },
+      "runtime/python/Lib/_weakrefset.py": {
+        "bytes": 4109,
+        "sha256": "1240398ecc4a08560bd03eb6ac97a70e8a10541709ad178ccc901c2c39d352c4"
+      },
+      "runtime/python/Lib/abc.py": {
+        "bytes": 6726,
+        "sha256": "d51c54428495cd62a5da4360315fa84f692b5aa9db21be986b3e14a83f7cf288"
+      },
+      "runtime/python/Lib/annotationlib.py": {
+        "bytes": 45617,
+        "sha256": "9c2404350ef19422c55ee0338255fceacb77721a23ebb1bbf7448730b4a9592d"
+      },
+      "runtime/python/Lib/ast.py": {
+        "bytes": 26159,
+        "sha256": "897e3e83094135d3eb4b30a32df40873d928db152686648481896d23140f93e6"
+      },
+      "runtime/python/Lib/base64.py": {
+        "bytes": 22926,
+        "sha256": "589ac64d25c39bc9b7de6a2cc9b04c0fc210340d8b48a54971c21b9ee8a35e13"
+      },
+      "runtime/python/Lib/bisect.py": {
+        "bytes": 3541,
+        "sha256": "085dad54dd1a00d68aaa5361031c0c4bff5efbd281d1a02ddc8f317c519e540b"
+      },
+      "runtime/python/Lib/calendar.py": {
+        "bytes": 30789,
+        "sha256": "e17c5a2cef69cffbd26a9bf5cbc75c5b3ca77b77e70a5e5a48ae3b40e719f7a6"
+      },
+      "runtime/python/Lib/codecs.py": {
+        "bytes": 37965,
+        "sha256": "1a9c2322d454fdd4d733107c710eef94335be47c3bffd8d9eea07fbaefa5148d"
+      },
+      "runtime/python/Lib/collections/__init__.py": {
+        "bytes": 54512,
+        "sha256": "f52c917fbab8e0a695de27a389776a6a61e7df1831a9de56e5e2a63176a1992f"
+      },
+      "runtime/python/Lib/contextlib.py": {
+        "bytes": 28615,
+        "sha256": "ca6071e379d65e1ed13fea5206fb4cee35fdb6b3063fa4a47254acf10e42b764"
+      },
+      "runtime/python/Lib/copy.py": {
+        "bytes": 8868,
+        "sha256": "d604d898e2eb041d0aa27123004d2e779cb36e2d05f0cfd0ba1cf677d65891d6"
+      },
+      "runtime/python/Lib/copyreg.py": {
+        "bytes": 7938,
+        "sha256": "b4fc88bc9f9ac782175728099b309f9818e29be635b97104f80dea52f8c95316"
+      },
+      "runtime/python/Lib/dataclasses.py": {
+        "bytes": 73348,
+        "sha256": "a4eddfc34cbe8e34f636e5c726ec93760cb2368b66f963d5d24a90a79c04d275"
+      },
+      "runtime/python/Lib/datetime.py": {
+        "bytes": 344,
+        "sha256": "8262c677654011417ae08751ae9c38edc8ca802d21c65232452529248a17aae9"
+      },
+      "runtime/python/Lib/decimal.py": {
+        "bytes": 2935,
+        "sha256": "8e2c8f5b6a30f488597a17216a54b5a5090d97c0662451c280b1fb4779f9c6c3"
+      },
+      "runtime/python/Lib/dis.py": {
+        "bytes": 46690,
+        "sha256": "c07e4facca71011cc87faad0c8ef40c039da81ba0752ae398046b41b256d18d3"
+      },
+      "runtime/python/Lib/encodings/__init__.py": {
+        "bytes": 6127,
+        "sha256": "dbf9022ec9b4d68d4f3f76c9cda44b008c3942df7f927189daba810321bcfddd"
+      },
+      "runtime/python/Lib/encodings/_win_cp_codecs.py": {
+        "bytes": 1265,
+        "sha256": "344faac7c9b1702d987233c500f5793f1d2729b7722578ceb344747078883b8e"
+      },
+      "runtime/python/Lib/encodings/aliases.py": {
+        "bytes": 16823,
+        "sha256": "da008f5eb1b85548dcc319cd906b27286502dd1bd7b997fa902d6fe8593384e6"
+      },
+      "runtime/python/Lib/encodings/raw_unicode_escape.py": {
+        "bytes": 1378,
+        "sha256": "2cc24ffc2d06cab80423ada94e3dffc02c010346e17efc2fffe86825a6e07808"
+      },
+      "runtime/python/Lib/encodings/unicode_escape.py": {
+        "bytes": 1350,
+        "sha256": "1d1372cf4f46e2f99820070b78563bd3eeed60ffc43a932b483cc7918f3da5e9"
+      },
+      "runtime/python/Lib/encodings/utf_8.py": {
+        "bytes": 1047,
+        "sha256": "9c54c7db8ce0722ca4ddb5f45d4e170357e37991afb3fcdc091721bf6c09257e"
+      },
+      "runtime/python/Lib/enum.py": {
+        "bytes": 87619,
+        "sha256": "1ca7df53237fb23471b60f6a7644edbf954386577a396aa2cee177fadf47a074"
+      },
+      "runtime/python/Lib/fnmatch.py": {
+        "bytes": 7000,
+        "sha256": "52a65ca47cb1d6bf5b664f39d2067ecf43af468fff19443a9bae7bc79905ef21"
+      },
+      "runtime/python/Lib/functools.py": {
+        "bytes": 44729,
+        "sha256": "8261e4fb2c712de2b4718a6c0390e614215b744bfb7b46f43bef472dedc75d0b"
+      },
+      "runtime/python/Lib/genericpath.py": {
+        "bytes": 6447,
+        "sha256": "ad628dc3bb5c5f684a05f6a5322850e3875a65f32db9c865ee874d8b994e55a3"
+      },
+      "runtime/python/Lib/glob.py": {
+        "bytes": 21345,
+        "sha256": "be3e4e02065504e2b58b07fa5fbb5e79973ab9fff7e33226b51f0f02e140e87a"
+      },
+      "runtime/python/Lib/hashlib.py": {
+        "bytes": 9714,
+        "sha256": "271b00a30d27c3cdd99b7f70962680f8455d3057b3c103f028e2da31141b91ee"
+      },
+      "runtime/python/Lib/hmac.py": {
+        "bytes": 9858,
+        "sha256": "d61c744b17d6a07e5b2e7b952de0b42053871f3fac6599910c30eb666fe2394e"
+      },
+      "runtime/python/Lib/importlib/__init__.py": {
+        "bytes": 4903,
+        "sha256": "b9db2f9b696913507da9fd83ecfc1f73cf6215d4c5a5cf4b4848688a8c710dc0"
+      },
+      "runtime/python/Lib/importlib/_abc.py": {
+        "bytes": 1393,
+        "sha256": "795157b91862d662ae681c0521daa1311b34b763b955e01505a27c865d848eae"
+      },
+      "runtime/python/Lib/importlib/_bootstrap.py": {
+        "bytes": 59507,
+        "sha256": "aa63c5a5332ca24a56f088fec5f24fdd2c96bd6e27443ff352cd20b4a0e9294b"
+      },
+      "runtime/python/Lib/importlib/_bootstrap_external.py": {
+        "bytes": 59247,
+        "sha256": "3562b2fe92d20c72c29d21614c354703989974cb9cd867b57c56d2f0484c0dd9"
+      },
+      "runtime/python/Lib/importlib/abc.py": {
+        "bytes": 7817,
+        "sha256": "5c1f6ea9311657493c0b30768cf3b6fe53529cfb1e615381bd875051357b5681"
+      },
+      "runtime/python/Lib/importlib/machinery.py": {
+        "bytes": 2216,
+        "sha256": "dbf60847b2b4e64142bbdda1d3bc06ebcedf07dcf9060367254192741ff5c3e6"
+      },
+      "runtime/python/Lib/importlib/util.py": {
+        "bytes": 11693,
+        "sha256": "927908bb9e12e35fa05ddc827fbd6163864bac731da8cebbd50453ed30e3a2ea"
+      },
+      "runtime/python/Lib/inspect.py": {
+        "bytes": 130752,
+        "sha256": "ea847595405975eab0634af5fce5c8d53cbb8c32ed839cc57cf3375b666cc338"
+      },
+      "runtime/python/Lib/io.py": {
+        "bytes": 4886,
+        "sha256": "f1e213175399ef7d480379344c36fc80de1732f285834eb14c8ef9ebdfcb4116"
+      },
+      "runtime/python/Lib/json/__init__.py": {
+        "bytes": 14497,
+        "sha256": "27c55bb12498822e527294b61db64ba44c79a18d4baad651b1660714a9785c4e"
+      },
+      "runtime/python/Lib/json/decoder.py": {
+        "bytes": 13237,
+        "sha256": "604bd92a9459f42143208068f0f321d816a81bdb920c7a3d7fb509bb06833ecc"
+      },
+      "runtime/python/Lib/json/encoder.py": {
+        "bytes": 17451,
+        "sha256": "498ba55bf9907208e58426f98dd72e2756417ab5478b141284abd373863e621c"
+      },
+      "runtime/python/Lib/json/scanner.py": {
+        "bytes": 2507,
+        "sha256": "b2577f9db9f69a0a27f251776349238b17b8b214a01128e7477b0f7d8e24a186"
+      },
+      "runtime/python/Lib/keyword.py": {
+        "bytes": 1137,
+        "sha256": "1f28f509383273238ad86eda04a96343fa0dc10eeaf3189439959d75cdac0a0b"
+      },
+      "runtime/python/Lib/linecache.py": {
+        "bytes": 8300,
+        "sha256": "8e61692af860972e6a9f6a7ef4b9e7b48f2638e875beb1f41d2561be1461a86f"
+      },
+      "runtime/python/Lib/locale.py": {
+        "bytes": 89437,
+        "sha256": "2c279e126c60c7668604f38c13735702abf4912f9692f0ceb3c72d55403c6cc3"
+      },
+      "runtime/python/Lib/ntpath.py": {
+        "bytes": 31768,
+        "sha256": "1cba5dfc7442371d1fe7ab83120496c4f7c17abb1f35ec54fa6e517c0525582e"
+      },
+      "runtime/python/Lib/numbers.py": {
+        "bytes": 12196,
+        "sha256": "9ea88bd701713ada94855ff63d18fee1f9ecc3c2000c6292002da04c96ee59cb"
+      },
+      "runtime/python/Lib/opcode.py": {
+        "bytes": 3274,
+        "sha256": "d128490c07322e0e5dc686faa83db3d4553faf03d68eda547d33554fd2d4ca3f"
+      },
+      "runtime/python/Lib/operator.py": {
+        "bytes": 11633,
+        "sha256": "eb4bd627ac1a6ecd480cdaa7521322095506dc0cbad4106e0a272a5195b04e10"
+      },
+      "runtime/python/Lib/os.py": {
+        "bytes": 43149,
+        "sha256": "7e72db44f2412b265fda28d665cfe0d5f2f8ddfa5b9d0b8be0f7b6ddc4f25230"
+      },
+      "runtime/python/Lib/pathlib/__init__.py": {
+        "bytes": 48114,
+        "sha256": "208546aa566ca8df4b8e1259f30209c0f803c3f920e6d080ae1b10d53d05bd72"
+      },
+      "runtime/python/Lib/pathlib/_os.py": {
+        "bytes": 18691,
+        "sha256": "6d0d7b691069830cc46a971b8c45ee8a8f0a5340ab981b5c15183054cc9a77c9"
+      },
+      "runtime/python/Lib/pickle.py": {
+        "bytes": 71615,
+        "sha256": "144fdf593814627e13a5fcb0947728e8f0775ecdec181046ee4609063cf232ec"
+      },
+      "runtime/python/Lib/posixpath.py": {
+        "bytes": 19405,
+        "sha256": "eb4b02ede56f0e13d06f7a9c6ae35c4adb55469e06e663df67b1f60950efe97c"
+      },
+      "runtime/python/Lib/random.py": {
+        "bytes": 38494,
+        "sha256": "56257b352034a709f2cdbda701cb701b749e970b3d3756529008af48aef34882"
+      },
+      "runtime/python/Lib/re/__init__.py": {
+        "bytes": 18304,
+        "sha256": "5e285750c13fdf690a100379ec133d2038bb0f6c6e1b51206caf94e41288440b"
+      },
+      "runtime/python/Lib/re/_casefix.py": {
+        "bytes": 5550,
+        "sha256": "b0dee234e5f8096fc9c1b035ec52d0b1b50cc1f3aea20b360b8be902e53ac752"
+      },
+      "runtime/python/Lib/re/_compiler.py": {
+        "bytes": 27637,
+        "sha256": "2adaca25db0cfe86285f30b4575677b6fca46bada911c29e29801414c6148289"
+      },
+      "runtime/python/Lib/re/_constants.py": {
+        "bytes": 6260,
+        "sha256": "4e6db98c59fec998d4145747536b3447c01d36e6f6e6bed18eb32682d81b3cf2"
+      },
+      "runtime/python/Lib/re/_parser.py": {
+        "bytes": 41419,
+        "sha256": "015f98b5d25dccd79209deecd4499648b37e8d4d6bde8dadc9a9e613cb7cc5bf"
+      },
+      "runtime/python/Lib/reprlib.py": {
+        "bytes": 8294,
+        "sha256": "98924232fa398cf72a7820722ee37606b271be663612e79356ecf2bf14484b9c"
+      },
+      "runtime/python/Lib/secrets.py": {
+        "bytes": 2055,
+        "sha256": "37570483735e4026f95230a4681057329a72a3c17c2d36592e6743584d4b587f"
+      },
+      "runtime/python/Lib/signal.py": {
+        "bytes": 2589,
+        "sha256": "0b7e3d3d39a120142dbf4875d7d79579cad8fee662add30c2375a797f0d2386e"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Common_pb2.py": {
+        "bytes": 3711,
+        "sha256": "d82536ac263f62fdf946bb6ff07dd4f2d710b53d1d4501aa92eba31145a6efcf"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/GetGlobalState_pb2.py": {
+        "bytes": 2645,
+        "sha256": "ba2303787c2be56ab80d6ee7eea688b08d645f2c490f002f76b57df6e3af8917"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/InitConnect_pb2.py": {
+        "bytes": 2238,
+        "sha256": "93ffed96eb8cb7b1c488ef883d4cdbaa487fc471743b9188bbddb3ce900b7e9d"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Qot_Common_pb2.py": {
+        "bytes": 40128,
+        "sha256": "e93d3422e160a72d867cc1f6363bf8904bd2dd87536f71d3528c5ee0a6652f6c"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Qot_GetSecuritySnapshot_pb2.py": {
+        "bytes": 9462,
+        "sha256": "fd7ef08fa5509cbe879d6d5bd52f40f8f23fda1698bcde702a49cc1e0028dc34"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Qot_GetStaticInfo_pb2.py": {
+        "bytes": 2026,
+        "sha256": "72c2e4d1d337c7db07fc45321ee6c77f07470805486d6d5fd66b221ee624b542"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Trd_Common_pb2.py": {
+        "bytes": 19526,
+        "sha256": "07648d02e70d365a4311f90297880e054e983f14989232ba8ccc560a9e29f985"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Trd_GetAccList_pb2.py": {
+        "bytes": 1913,
+        "sha256": "9ad0dfeec44f829faddcb9f8cad9e324dbc82ab7d80ccd51dac659a9b452926d"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Trd_GetFunds_pb2.py": {
+        "bytes": 2018,
+        "sha256": "eb0f29a59905c86daa80f5e79d8f289a88c33fadf93d1b7e100b74a318b3c4df"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Trd_GetOrderFee_pb2.py": {
+        "bytes": 1954,
+        "sha256": "2acacd80cb7377c96d6250f73bd7b892b09b75d8d4dbba270acb4776469c29b6"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Trd_GetOrderList_pb2.py": {
+        "bytes": 2107,
+        "sha256": "04061b2789e084360d7234a7ec6476e6cc14c77a5df20b87065d47134bbd890a"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Trd_GetPositionList_pb2.py": {
+        "bytes": 2324,
+        "sha256": "c050013ed9e78dec4f491511b181af14bbb6ae43ebc2d82864bd9d2b17819ebe"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Trd_ModifyOrder_pb2.py": {
+        "bytes": 2522,
+        "sha256": "26e83b4cf26bdc381ef072168799e66ae343da51c7faaf13627cf56cb49fe8db"
+      },
+      "runtime/python/Lib/site-packages/futu/common/pb/Trd_PlaceOrder_pb2.py": {
+        "bytes": 2714,
+        "sha256": "5f7f46ab596f6c74be9493ada66160c76aa25aa70208a68f951c51b228861fa8"
+      },
+      "runtime/python/Lib/site-packages/google/_upb/_message.pyd": {
+        "bytes": 728649,
+        "sha256": "0135f3c7d328e79b5ee468bb04d92c5c9a05f92ff7f076e41621822f24fdec05"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/__init__.py": {
+        "bytes": 346,
+        "sha256": "535cb9c1bc0288b75343196c4c44273b5accae905862e0bf469f5ba058938997"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/any.py": {
+        "bytes": 1319,
+        "sha256": "dfb9e9a3c2322f58bd85e87b0f18a1fd129013604a16ebfb9bd3576d6c6849da"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/any_pb2.py": {
+        "bytes": 1725,
+        "sha256": "a07c237e6caebf29cc7e5c010cc63b58959847ac3dda1cf5fbde02b3212a5ddf"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/api_pb2.py": {
+        "bytes": 3600,
+        "sha256": "60e3b2c046a38880dc44716ef8deee9f820d0438e2ec1f48b5501306121098aa"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/compiler/__init__.py": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/compiler/plugin_pb2.py": {
+        "bytes": 3797,
+        "sha256": "ceb7690b77442e28150bd5f2bc6a9bf994cf7d8fe1efb1965a9a0dd635d4fb5a"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/descriptor.py": {
+        "bytes": 53140,
+        "sha256": "921b69e61b20aa933414942734c9de5ec1bf45a39f799c98135c4c5ff9b8b112"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/descriptor_database.py": {
+        "bytes": 6541,
+        "sha256": "ac34174291ef0bd496d35d2db8f3892bfc393bc15655483016b7b4ca4211f319"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/descriptor_pb2.py": {
+        "bytes": 371594,
+        "sha256": "b4c932fabcbe0d134e11fadd729de38392f3846b3655881a473d43f32c6021fa"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/descriptor_pool.py": {
+        "bytes": 48864,
+        "sha256": "e31928fcf2f03be388c3c65ab4dfb24a343194ac18b9f7eb366d183aa56e4e59"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/duration.py": {
+        "bytes": 2672,
+        "sha256": "bd04f05728a2c869b75b2dcb5bca21037b641a4ad42a84e7fe9e12744054f1b3"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/duration_pb2.py": {
+        "bytes": 1805,
+        "sha256": "6667f71664f2facd658df18f0d5ffb52b9886ebba28edd55da2ba9ff31f31b14"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/empty_pb2.py": {
+        "bytes": 1669,
+        "sha256": "56dd4140b5a7ed6d84a80a1e6d96a105114b10733f4326d440939f15da3f2b83"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/field_mask_pb2.py": {
+        "bytes": 1765,
+        "sha256": "f4b78790d4a44499ebe814c5202a6ba3a4897cfff2a41645e5fc43d8334ace3c"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/__init__.py": {
+        "bytes": 272,
+        "sha256": "f1dfe4d64b0d588baa3c310412d3a3802dd7c7c9005c3dbed3847b9b126549bb"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/api_implementation.py": {
+        "bytes": 4669,
+        "sha256": "110ec42264b12432e2337017a10c2eb83ecad0bcf9d34ef6092d6daedd9bceaa"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/builder.py": {
+        "bytes": 4159,
+        "sha256": "bf4555d175455ff4ffd22a6606ec7681187a5ddcbfad92965e05679471469c0a"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/containers.py": {
+        "bytes": 23453,
+        "sha256": "c20625b850743674adbcbc58e01753362dd62cc8ae5522617931b33968a4af1c"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/decoder.py": {
+        "bytes": 38007,
+        "sha256": "5760b9908cae06870d1eb43120408494fd5beab21c65b726aab2c82ec9f0180d"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/encoder.py": {
+        "bytes": 27297,
+        "sha256": "56e8e9ddb535d1d2c16ac52745a199283f994cbabbcc4180f302a1ee654b47e8"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/enum_type_wrapper.py": {
+        "bytes": 3747,
+        "sha256": "3cd84af3b6bf34fd4921f147b981626e913884774761ac17c2a671304b6fb2fa"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/extension_dict.py": {
+        "bytes": 7141,
+        "sha256": "e1a7f4877da3ab90702fbb81eb29b78a9773cf79131fbe5618c1cb1e5b86b0d0"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/field_mask.py": {
+        "bytes": 11134,
+        "sha256": "e54f99617037ec0a183fb8aa6096567f09c5be3cb308116d40e221c4889fccac"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/message_listener.py": {
+        "bytes": 2008,
+        "sha256": "ba1f2f894fccbd67437b82a5d780aba26295140cc130f94ccc5678bdec3f5097"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/python_edition_defaults.py": {
+        "bytes": 617,
+        "sha256": "26e1f972cc8e26977545eac889e7e426bda276ae26694750adda6f4176fbc336"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/python_message.py": {
+        "bytes": 58037,
+        "sha256": "c9fa30e6375d97c0209ae9beeab037f8c60a52f2789d340824a8c827692056b9"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/testing_refleaks.py": {
+        "bytes": 4495,
+        "sha256": "5678ad2c14e7ca759c6b23ecbc795270c64273366ceef7f4ff1f1cb0f141c418"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/type_checkers.py": {
+        "bytes": 16585,
+        "sha256": "a42416940e0b25032b2db824989ced037db6650f7326cc7c0ec8e591dcf58527"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/well_known_types.py": {
+        "bytes": 23338,
+        "sha256": "2262fd61bccbe1db7c2620c456db09b9baeb911369d8e67cc81003ac9a6505cf"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/internal/wire_format.py": {
+        "bytes": 7087,
+        "sha256": "11b01765d6f6de208e6c267136068cc7cf95445d948e0c8fac1093b55d74471f"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/json_format.py": {
+        "bytes": 38466,
+        "sha256": "6ccd8530198cb6addf052e7f2b3f17ee1461fb104eca6a2a95cb7fa3448aaaed"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/message.py": {
+        "bytes": 14917,
+        "sha256": "21ec9013af2b8ff61c521cb6d174b90ebded536eff25867918b2c79be4db6c3e"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/message_factory.py": {
+        "bytes": 6607,
+        "sha256": "b842ea4625a8fb7a4126ea67413947b06266803277a781ea5f74fb778e8c32e8"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/proto.py": {
+        "bytes": 4389,
+        "sha256": "72ea8cb6569c6ac8d335075fc8a893b9b10a5cd6a981d004727413bfae409a81"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/proto_builder.py": {
+        "bytes": 4203,
+        "sha256": "a465362ffa4f11893295992bbc7302507d8f156bdcf7023e6b0c13ec5e62ef8d"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/proto_json.py": {
+        "bytes": 2947,
+        "sha256": "4526fc9f4c580e43da32f3a4be36e356dbae8e2e180d676d695c1dea0cd9c232"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/proto_text.py": {
+        "bytes": 4646,
+        "sha256": "a21d97dc8de43180ae120d7b46c914568d9a39f635ce22df74d6fe3ab4ce2a6d"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/pyext/__init__.py": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/pyext/cpp_message.py": {
+        "bytes": 1715,
+        "sha256": "f2e4ab597f640f71cf4619edbd33dce1b8277d0d81cd7f453c2ef70a089f5c0c"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/reflection.py": {
+        "bytes": 1241,
+        "sha256": "80c55f5839a772411ba78bd347980aab61c3c116ff788e6b7f29593a81529844"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/runtime_version.py": {
+        "bytes": 3033,
+        "sha256": "230f6b992a024e412f02b0a2faaa8c335ff0d430107cee513353e224a0292de3"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/service_reflection.py": {
+        "bytes": 10058,
+        "sha256": "5871251a73e0cb00ed9f75fcc4a54db1964e0a024e4f38290324ddfab9822865"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/source_context_pb2.py": {
+        "bytes": 1791,
+        "sha256": "68957c4f11f045590b42f114501ecc6e8f81bb7b370f5cfe1f56b8565576e632"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/struct_pb2.py": {
+        "bytes": 3061,
+        "sha256": "a9f1b33e3eef94995a7891721530f0801ac91c3b47a2650487772bce88cf6d47"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/symbol_database.py": {
+        "bytes": 5752,
+        "sha256": "b34a44c6e63226f8b5ab4a43f36004a09b47d840d9daf019088aa36bce0229c7"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/testdata/__init__.py": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/text_encoding.py": {
+        "bytes": 3621,
+        "sha256": "028d50e8e3fc8b8a7c543b6fa5ef2e5b50635fb69066f909820be115862b07bc"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/text_format.py": {
+        "bytes": 64853,
+        "sha256": "7a008a78a316a3f28a5c59c011723a892ee29fa511a9b267c6687c75a95e3106"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/timestamp.py": {
+        "bytes": 3133,
+        "sha256": "b36dcb5aaea10e2148780b55527f0bc1f11ce5a44ced60304f3fe109a3959dd9"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/timestamp_pb2.py": {
+        "bytes": 1815,
+        "sha256": "b706e5b6f44aae0c4e5f5c60c52e27a792a5b81e5059322966a76eb336e069bc"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/type_pb2.py": {
+        "bytes": 5438,
+        "sha256": "4009f7cc6c5e92c143d553fdcaf3474b022149246177ec34c3eef942bc1d3050"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/unknown_fields.py": {
+        "bytes": 3065,
+        "sha256": "af7089d9ee3f5d4ab8d5372007cc3a134c99c71cd24c240b1780bb38e1daf65a"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/util/__init__.py": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "runtime/python/Lib/site-packages/google/protobuf/wrappers_pb2.py": {
+        "bytes": 3037,
+        "sha256": "937f5f04c7b3331b8cd3d8619dab62bf25f6f8d161261bfa18bcad8a3c3f6797"
+      },
+      "runtime/python/Lib/site-packages/protobuf-7.35.1.dist-info/LICENSE": {
+        "bytes": 1732,
+        "sha256": "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d"
+      },
+      "runtime/python/Lib/site-packages/protobuf-7.35.1.dist-info/METADATA": {
+        "bytes": 595,
+        "sha256": "1c58cfd7acd805c087ceb1f14c27cdba3c52d074e1d7b05dacf31fdf413c0a8c"
+      },
+      "runtime/python/Lib/site-packages/protobuf-7.35.1.dist-info/RECORD": {
+        "bytes": 5300,
+        "sha256": "b5a09a6889fb7f5d59ef7064093f1f5c08e4cb14118e6d3d56efe90219df5d0f"
+      },
+      "runtime/python/Lib/site-packages/protobuf-7.35.1.dist-info/WHEEL": {
+        "bytes": 100,
+        "sha256": "30d18a8aa5737049bf47ec7833f079f591ab68a9aef577a21773d55a595d7ece"
+      },
+      "runtime/python/Lib/socket.py": {
+        "bytes": 38528,
+        "sha256": "cbe54d58421e90d7dcae9a18045db90d987bccc56f87ed0fc22ea718784157c2"
+      },
+      "runtime/python/Lib/sqlite3/__init__.py": {
+        "bytes": 2071,
+        "sha256": "6d269d1d8570f9973329f7d7c02732cbf572a4bfcaf95b0c7e2bffd95d7a6902"
+      },
+      "runtime/python/Lib/sqlite3/dbapi2.py": {
+        "bytes": 3216,
+        "sha256": "844c32207dbc60f7768a7f0e56a7081a196b9fd6ef6fe3d2346474ea35bd8eb0"
+      },
+      "runtime/python/Lib/stat.py": {
+        "bytes": 6520,
+        "sha256": "a79146ccc1baf78e60215e7f1b4b423adf58840978e0bfe5213d9fbfd3eff9c8"
+      },
+      "runtime/python/Lib/struct.py": {
+        "bytes": 300,
+        "sha256": "c632708f6b3a7d8a52d875ab11cb93761bfb4ab14efe09cf0fa2c8a174ffdcdc"
+      },
+      "runtime/python/Lib/subprocess.py": {
+        "bytes": 92989,
+        "sha256": "a7b6bdf4657b018e4e76f22ebbb975a5fa6f0501088177fe950df1e20c18b209"
+      },
+      "runtime/python/Lib/threading.py": {
+        "bytes": 58565,
+        "sha256": "f4619610f468ed5d14329ac7a4cbc4b7c9e257a4e9a7cf1bc1f4f1e28ffa4f31"
+      },
+      "runtime/python/Lib/token.py": {
+        "bytes": 2728,
+        "sha256": "0093ebf0af835316d68f8eba5a7ae9da24c5cd3b84b2a459c806237b95570e1a"
+      },
+      "runtime/python/Lib/tokenize.py": {
+        "bytes": 22447,
+        "sha256": "8249cdd9df4c5d4a9964787678bc626303342bed067fe7abc75d0139aa6f1d69"
+      },
+      "runtime/python/Lib/types.py": {
+        "bytes": 11809,
+        "sha256": "adb19a9a4ad62df98fc5a687428fcc4c812a2eb7ade78eaf8173cb4c4600dba9"
+      },
+      "runtime/python/Lib/typing.py": {
+        "bytes": 139728,
+        "sha256": "d0413109ef2bb4c80e9ad11127324261c5d3becba8565c067c8b7aa26a51bd77"
+      },
+      "runtime/python/Lib/warnings.py": {
+        "bytes": 2065,
+        "sha256": "ac8acfa4cacdbc548c5029fc7dbde4dca4d4d76868dd4b6e86c172e333c54a4e"
+      },
+      "runtime/python/Lib/weakref.py": {
+        "bytes": 18345,
+        "sha256": "02aeb820a71d78e65d602500368549905e25f273b896f65c61c716d74171a7e1"
+      },
+      "runtime/python/Lib/zipimport.py": {
+        "bytes": 34288,
+        "sha256": "33afcd0f7ce1ddd4a76b6efd94f965392490f31a665d005e16fed7f7993ba840"
+      },
+      "runtime/python/python.exe": {
+        "bytes": 106208,
+        "sha256": "03168c01b7b7491423350e82c26fee71f35b43694d1319d3c668bda6903a0c38"
+      },
+      "runtime/python/python3.dll": {
+        "bytes": 73952,
+        "sha256": "22c6e46d8bd563cdb072650901461ef68be2ea6cb1e80af859559d9395a27e39"
+      },
+      "runtime/python/python314.dll": {
+        "bytes": 6778592,
+        "sha256": "fde89cdb5c2d08ae65de7ef4abca1876c93ba3796002f5ac0bf7e4d4f5a94da0"
+      },
+      "runtime/python/vcruntime140.dll": {
+        "bytes": 120400,
+        "sha256": "052ad6a20d375957e82aa6a3c441ea548d89be0981516ca7eb306e063d5027f4"
+      },
+      "runtime/python/vcruntime140_1.dll": {
+        "bytes": 49776,
+        "sha256": "6a99bc0128e0c7d6cbbf615fcc26909565e17d4ca3451b97f8987f9c6acbc6c8"
+      },
+      "terminal-manifest.json": {
+        "bytes": 1389194,
+        "sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a"
+      }
+    },
+    "namespace": "_hakimi_verified_futu_pb_2a7b2ae2e703c105",
+    "package": {
+      "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+      "manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+      "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+      "version": "0.7.0.dev3"
+    },
+    "package_root": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4",
+    "permissions": {
+      "automatic_mode_fallback": false,
+      "automatic_resume": false,
+      "automatic_retry": false,
+      "cancel_allowed": false,
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "unlock_allowed": false,
+      "user_authorization_granted": false
+    },
+    "production_transport_available": false,
+    "protobuf": {
+      "version": "7.35.1",
+      "wheel_sha256": "230a75ddfc2de4806e56696ce9640c1cdfdb6543b7cfce98d42a4c0a0e7bdb87"
+    },
+    "protocols": {
+      "1001": {
+        "name": "InitConnect",
+        "request": "InitConnect.Request",
+        "response": "InitConnect.Response"
+      },
+      "1002": {
+        "name": "GetGlobalState",
+        "request": "GetGlobalState.Request",
+        "response": "GetGlobalState.Response"
+      },
+      "2001": {
+        "name": "Trd_GetAccList",
+        "request": "Trd_GetAccList.Request",
+        "response": "Trd_GetAccList.Response"
+      },
+      "2101": {
+        "name": "Trd_GetFunds",
+        "request": "Trd_GetFunds.Request",
+        "response": "Trd_GetFunds.Response"
+      },
+      "2102": {
+        "name": "Trd_GetPositionList",
+        "request": "Trd_GetPositionList.Request",
+        "response": "Trd_GetPositionList.Response"
+      },
+      "2201": {
+        "name": "Trd_GetOrderList",
+        "request": "Trd_GetOrderList.Request",
+        "response": "Trd_GetOrderList.Response"
+      },
+      "2202": {
+        "name": "Trd_PlaceOrder",
+        "request": "Trd_PlaceOrder.Request",
+        "response": "Trd_PlaceOrder.Response"
+      },
+      "2205": {
+        "name": "Trd_ModifyOrder",
+        "request": "Trd_ModifyOrder.Request",
+        "response": "Trd_ModifyOrder.Response"
+      },
+      "2225": {
+        "name": "Trd_GetOrderFee",
+        "request": "Trd_GetOrderFee.Request",
+        "response": "Trd_GetOrderFee.Response"
+      },
+      "3202": {
+        "name": "Qot_GetStaticInfo",
+        "request": "Qot_GetStaticInfo.Request",
+        "response": "Qot_GetStaticInfo.Response"
+      },
+      "3203": {
+        "name": "Qot_GetSecuritySnapshot",
+        "request": "Qot_GetSecuritySnapshot.Request",
+        "response": "Qot_GetSecuritySnapshot.Response"
+      }
+    },
+    "runtime_compatibility": "NOT_VERIFIED",
+    "schema_version": "hakimi-verified-futu-protobuf-v1",
+    "sdk": {
+      "installed_file_count": 283,
+      "installed_files_sha256": "093b3a85e4b5ed3cfe557036e75507992dc2b0246aa92afc32fa5200bb61b63c",
+      "name": "futu-api",
+      "runtime_compatibility": "NOT_VERIFIED",
+      "version": "10.7.6708",
+      "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5"
+    },
+    "source_identity_only": true
+  },
+  "second_load": "NEW_PRIVATE_WORKER_REQUIRED",
+  "no_installed_loader_claim": true,
+  "no_runtime_or_authorization_claim": true
+}

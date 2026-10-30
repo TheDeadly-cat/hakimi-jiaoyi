@@ -1,0 +1,18 @@
+test_addendum_rejects_unresolved_boolean_wrong_date_and_future_evidence (test_blind_holdout.BlindHoldoutTests.test_addendum_rejects_unresolved_boolean_wrong_date_and_future_evidence) ... ok
+test_changed_code_fails_before_fetch (test_blind_holdout.BlindHoldoutTests.test_changed_code_fails_before_fetch) ... ok
+test_committed_design_precedes_single_acquisition_and_preparation (test_blind_holdout.BlindHoldoutTests.test_committed_design_precedes_single_acquisition_and_preparation) ... ok
+test_explicit_429_has_one_same_url_delayed_retry_and_retains_error_body (test_blind_holdout.BlindHoldoutTests.test_explicit_429_has_one_same_url_delayed_retry_and_retains_error_body) ... ok
+test_http200_quality_failure_never_retries_or_reselects (test_blind_holdout.BlindHoldoutTests.test_http200_quality_failure_never_retries_or_reselects) ... ok
+test_known_body_failure_after_http200_does_not_retry_and_keeps_partial_bytes (test_blind_holdout.BlindHoldoutTests.test_known_body_failure_after_http200_does_not_retry_and_keeps_partial_bytes) ... ok
+test_overlapping_exposure_audit_stops_before_fetch (test_blind_holdout.BlindHoldoutTests.test_overlapping_exposure_audit_stops_before_fetch) ... ok
+test_same_protocol_cannot_use_a_different_destination_or_run_twice (test_blind_holdout.BlindHoldoutTests.test_same_protocol_cannot_use_a_different_destination_or_run_twice) ... ok
+test_stale_cutoff_fails_before_any_price_request (test_blind_holdout.BlindHoldoutTests.test_stale_cutoff_fails_before_any_price_request) ... ok
+test_transport_incomplete_http200_retains_partial_bytes_without_retry (test_blind_holdout.BlindHoldoutTests.test_transport_incomplete_http200_retains_partial_bytes_without_retry) ... ok
+test_transport_retains_http_error_status_and_partial_body (test_blind_holdout.BlindHoldoutTests.test_transport_retains_http_error_status_and_partial_body) ... ok
+test_uncommitted_protocol_change_and_different_head_never_fetch (test_blind_holdout.BlindHoldoutTests.test_uncommitted_protocol_change_and_different_head_never_fetch) ... ok
+test_unknown_outcome_never_retries (test_blind_holdout.BlindHoldoutTests.test_unknown_outcome_never_retries) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 10.345s
+
+OK

@@ -1,0 +1,7 @@
+aec1b2fd6ada4bb05d81616ff2ea071a7f62c0af2b3aae2d86c45e5279c1ed1b  C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r5.zip
+f3380aa2f5919161e5020b7502000341c17c2e640ff04af48087979e84f9ad68  C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r5\terminal-manifest.json
+12f6c24df846770be04e9f5fb4cec578a743c51a55361b3683c81bb50e2ba070  C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r5\FIRST_USE.md
+225fd51b60c236c5656bd167d46d1130d8af00e593675fa2c5831a0d4da9b04b  C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r5\resources\app\main.js
+30782a6ab91b2622d18e92a240c093b60930a1518b8a1304c3fa2be2a0054847  C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r5\resources\app\terminal-package-runtime.js
+d0a1c35b03703a20b454272e5f4ef5af25555489f39add5f594228c4c5f0db29  C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r5\components\canonical\hakimi_research\_build_identity.json
+85eab152032cf903495993bce678559f146c24b5c260369bba743c78a4d6c072  C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r5\components\terminal\vendor\research\hakimi_terminal_research\_build_identity.json

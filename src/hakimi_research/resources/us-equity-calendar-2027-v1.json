@@ -1,0 +1,17 @@
+{
+  "schema_version": "published-us-equity-calendar-v1",
+  "calendar_id": "xnys-rth-2027-v1",
+  "year": 2027,
+  "exchanges": ["XNYS"],
+  "timezone": "America/New_York",
+  "regular_open": "09:30:00",
+  "regular_close": "16:00:00",
+  "holidays": ["2027-01-01", "2027-01-18", "2027-02-15", "2027-03-26", "2027-05-31", "2027-06-18", "2027-07-05", "2027-09-06", "2027-11-25", "2027-12-24"],
+  "early_closes": {"2027-11-26": "13:00:00"},
+  "sources": ["https://www.nyse.com/markets/hours-calendars"],
+  "recorded_at": "2026-10-24T21:38:59.063858Z",
+  "source_evidence": [{"reference": "https://www.nyse.com/markets/hours-calendars", "retrieved_at": "2026-10-24T21:38:59.063858Z", "raw_sha256": "3960e64cd7c9581c2e7a6d3f602342344eba1fac7b7476d51ddabb32b343fe11", "bytes": 134492, "status": 200}],
+  "timezone_policy": "Use America/New_York via the installed timezone database, validated against the pinned dependency lock; local session times are converted per date, never a fixed UTC offset.",
+  "timezone_rule_reference": "https://www.nist.gov/pml/time-and-frequency-division/popular-links/daylight-saving-time-dst",
+  "source_policy": "Published NYSE 2027 cash-equity regular sessions only. Nasdaq and NasdaqTrader public year tables still cover 2026 at retrieval; this resource does not claim XNAS 2027 confirmation. Only November 26 closes early; July 2 and December 31 are regular sessions. Temporary closures and subsequent changes are not covered. Missing bars are rejected, never relabeled as holidays."
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": "first-use-delivery-scope-v1",
+  "user_confirmations": [
+    {"question": "真实新手验收安排", "answer": "先交付试用包，之后由我安排新手试用"},
+    {"question": "干净新机与Windows沙盒安排", "answer": "先交付，本机验收完成后由我安排新机试用"}
+  ],
+  "current_delivery": "self-contained trial, local installed/native verification, preservation and GitHub delivery",
+  "deferred_to_user": ["clean Windows machine trial", "independent novice usability trial"],
+  "not_authorized_by_this_scope": ["enable Windows Sandbox or virtualization components", "restart the host", "merge PR or publish formal Release"],
+  "must_not_claim": ["clean-machine acceptance complete", "three independent novice trials complete"]
+}

@@ -1,8 +1,20 @@
 # 哈基米交易（Hakimi Jiaoyi）
 
-本页是日常产品入口；M1、M2 与 R1／R2／R3 已结案。当前 main 基线为 PR #24 已集成的 `09ee21e`；M3-1 主体保留，跨持仓归属退出 P2 通过 PR #25 限定修复，仍待单独核准集成。新候选与历史产物的精确身份分别记录在状态页和各自验收目录。
+当前产品整改以整合后的原终端及同窗量化页为主入口，当前 Windows 候选为 **0.7.0.dev3 r5 / 构建 b642227 / HakimiTrade.exe**，包含策略因子、结果找回、离线订单计划与账户共享停止标记。新包已通过包内启动和完整文件核对，原生窗口验收尚未完成。请先阅读[原终端候选首用说明](docs/windows-original-terminal-candidate.md)和[30 项交付清单](docs/astra-backlog.md)；实际包、原生操作和真人验收分别记录。下面 dev5 与正式旧 Release 的事实保留为历史，不能替代新候选验收。
+
+以下为截至 2026-10-27 的历史交付基线；M1、M2 与 R1／R2／R3 已结案。当时 main 为 PR #25 已合并的 `e33c1ef`，M3-1 及跨持仓归属退出修复已集成，[该 main 的检查已通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/38123842777)。旧开发候选 `0.6.0.dev5` 修复 Windows 启动环境的代理选择差异并补齐结果列表中文说明，保留自带运行时试用包、首次数据引导、三项行情洞察、正式研究工作台及既有研究能力；候选验证与 main、正式 Release 分开记录。
 
 [当前构建、CI、研究证据与验收范围](CURRENT_STATUS.md)
+
+旧 dev5 使用者请看[历史首用说明](docs/first-use.md)：该旧 Windows x64 试用 ZIP 解压后双击 `HakimiWorkbench.exe`。程序自带运行时，无须输入安装命令；当前包 `哈基米试用 dev5-f778020-r1.zip` 已完成[本机原生首用验收](docs/dev5-native-acceptance-20261027.md)，打包范围见[Windows 试用包说明](docs/windows-trial-package.md)。干净新机、非管理员和独立真人试用由用户后续安排。
+
+**dev5已通过本机NDAQ真实获取、确认保存、固定参数运行及同入口关闭重开。** “今天可以做什么”入口已实际点击，明确检查一次得到无新完整日线；原结果重开可读，没有重跑。此次8个评分日、0成交、收益0，样本不足，不代表策略有效。[此前桌面暂停记录](docs/first-stock-live-progress-20261027.md)及[旧dev4验收](docs/first-use-acceptance-20261026.md)保留当时结论，两次NDAQ STOP和旧46份记录保持不变。
+
+开发候选仍在[草稿 PR #26](https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26)，未作为正式 Release 发布。已有用户可查看[日常入口、版本身份与旧账户处理](docs/daily-delivery.md)。原终端、旧安装和旧工作区保持独立；dev3 及更早验收、NDAQ 财报排期反馈闭环均保留原构建身份。工程验收不代表策略有效。
+
+新增实测：[NDAQ、KO固定月份历史隔离回放](docs/fixed-month-replay-acceptance-20261026.md)，包含冻结参数、来源口径、禁止读取未来价格的逐步证据、成本基准及原生关闭重开记录；自然前瞻与独立盲测保持另行区分。
+
+后续[四月独立历史留出协议](docs/research-evidence/independent-holdout-20261026/README.md)已在首次取价前封存；NDAQ预热首日分红触发冻结条件，整体准备停止、真实运行0，见保留的[停止证据](docs/research-evidence/independent-holdout-20261026/STOP.md)。用户另行确认后，已完成[二月历史留出测试与桌面验收](docs/independent-holdout-feb-acceptance-20261026.md)：先提交协议再取价，19个交易日、38次回调检查，NDAQ +1.4463%、KO零成交；512份文件关闭重开不变。原件编码曾在核查输出中显示，此偏差已披露，不能称全过程严格盲态或自然前瞻。
 
 项目最终交付**交易量化工具**：负责策略工程、规则定稿、量化验证、风控和运行；交易分析项目负责深度市场研究及研究依据，通过明确的数据／研究输入接口衔接。**后续开发以美股正股为主，BTC 保留为工程基线和可选方向。**
 M1 已交付并合入 main `17b2c15`（PR #19 受审 `669b348`），实际 main [九项检查通过](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/37912896005)。M1 存档候选为 `0.3.0.dev4`；正式 Release 仍为 `v0.2.1`。旧产物、失败记录与验收身份保留。
@@ -13,9 +25,15 @@ M2-1 已通过 PR #20 与 [PR #21](https://github.com/TheDeadly-cat/hakimi-jiaoy
 
 ## 安装与输出目录
 
+第二批日常入口现已接入：按需检查少量美股完整日线、审阅修订后冻结、新任务版本绑定，以及保存结果的样本诊断和基准/成本验证。完整操作与来源范围见[日常更新与结果验证](docs/daily-workbench.md)。
+
+2026-10-23 的 `2036fdb` 补齐观察中断后的显式恢复入口及账本位置校验；[独立恢复演练](docs/research-evidence/watch-recovery-20261023/README.md)记录普通安装、真实子进程中断、桌面点击、重开与历史文件保全。原 NDAQ 真实反馈成果继续保留，未重复运行。
+
+**维护者手动安装（可选）：**安装本候选的 `hakimi-research` wheel，运行 `hakimi-trade-workbench --open-browser` 打开正式工作台，或使用候选 Electron 的“正式研究工作台”入口。新任务默认调用 `hakimi_research`；工作区可显式选择，关闭重开保留输入、任务版本与结果。完整步骤、旧引擎兼容和验证状态见[正式工作台与版本入口](docs/workbench.md)。当前dev5的安装身份与实际点击流程见[原生首用验收](docs/dev5-native-acceptance-20261027.md)；[此前暂停记录](docs/first-stock-live-progress-20261027.md)及dev4的[旧首用验收](docs/first-use-acceptance-20261026.md)保持原样。前一dev3的安装和后台验证见[数据持续使用验收](docs/data-continuity-acceptance-20261025.md)，其实际点击与关闭重开见[原生桌面验收](docs/data-continuity-native-acceptance-20261025.md)，运行构建与最新 GitHub 检查分别核对；未发布为正式 Release。
+
 正式版本从 [v0.2.1 Release](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.2.1) 下载 Windows 或 Ubuntu ZIP；核对发布页的 `SHA256SUMS.txt` 后解压，再核对包内校验和。两个 ZIP 各自保留确切受验收 wheel 与构建、依赖、测试证据；安装解压出的 `hakimi_research-0.2.1-py3-none-any.whl` 会按精确版本安装依赖，离线安装需另备依赖 wheel。该版本固定在 `45850899992361970043f2da70e785210025ae9e`，[发布下载与安装验收](docs/research-evidence/release-0.2.1-20260909/README.md)记录实际验证范围。
 
-普通使用按[离线工具安装与首次使用](docs/offline-quant-tool.md)和[统一输入流程](docs/input-workflow.md)操作，可从候选包安装到仓库外。以下源码开发流程对应 0.5.0.dev4；归属退出修复已通过同一 wheel 的仓库外 299 项及实际共享流程 v4，交付首用和最终 PR head 检查分别记录于[本轮证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。dev3、dev2、正式 v0.2.1、M1 和 M2 历史产物分别保留来源与结果。
+原命令行继续按[离线工具安装与首次使用](docs/offline-quant-tool.md)和[统一输入流程](docs/input-workflow.md)操作。以下源码开发流程对应 `0.6.0.dev5`；试用用户直接使用上述自带运行时的 ZIP 即可。归属退出修复的 `0.5.0.dev4` 已作为 PR #25 集成，原同一 wheel 的仓库外 299 项及共享流程 v4 记录见[历史证据](docs/research-evidence/shared-owner-exit-m3-20261011/README.md)。不同候选、正式 v0.2.1、M1 和 M2 历史产物分别保留来源与结果。
 
 开发环境在仓库根目录安装精确依赖与 editable 包：
 
@@ -34,7 +52,7 @@ hakimi-research list-strategies
 python -m pip install "setuptools>=77" wheel
 python -m pip wheel . --no-deps --no-build-isolation --wheel-dir dist
 python -m venv ..\hakimi-research-use\hakimi-env
-..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.5.0.dev4-py3-none-any.whl
+..\hakimi-research-use\hakimi-env\Scripts\python.exe -m pip install .\dist\hakimi_research-0.6.0.dev5-py3-none-any.whl
 Set-Location ..\hakimi-research-use
 .\hakimi-env\Scripts\hakimi-research.exe capabilities
 ```
@@ -132,7 +150,7 @@ python tools/collect_btc_snapshot.py --start 2026-08-01T00:00:00Z --end 2026-09-
 Python 在 [`capability_definition.py`](src/hakimi_research/capability_definition.py) 定义唯一能力目录；`tools/generate_product_capabilities.py` 生成 Node 消费的版本受控 JSON 投影，CI 以 `--check` 严格检查漂移。
 [完整能力表](outputs/python_quant_bot/README.md) 包含新增快照导入、重放和只读报告能力；paper/live/optimization 仍 Archived，order entry 仍 Disabled。
 
-Electron 与旧网页终端明确是 **Legacy Preview**，使用不同的旧研究模型，未纳入本次正式 CLI 首发或桌面验收，其结果不能与正式 runner 混用。
+旧 Electron `main.js` 与原网页终端仍是 **Legacy Preview**，保留不同的旧研究模型及原入口；其结果不能与正式 runner 混用。新 `research-main.js` 正式工作台入口使用本候选安装的 `hakimi_research`，新普通任务与连续账本由正式内核计算。旧封存 `hakimi_terminal_research` 不再作为新增普通任务的默认内核；旧数据和结果不自动改签或迁移。
 旧入口 `run_bot.py` 仅转发现有正式命令，旧 provider stack 已移除。见 [消费者与管理边界](docs/research-consumer-boundary.md)。
 
 历史 [deterministic_experiment](outputs/python_quant_bot/examples/deterministic_experiment) 是合成身份样例。

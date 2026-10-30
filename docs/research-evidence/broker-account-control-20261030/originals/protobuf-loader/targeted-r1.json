@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "exit_code": 0,
+  "test_methods": 24,
+  "skipped": 0,
+  "elapsed_seconds": 0.508399800004554,
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "-c",
+    "import sys,unittest;sys.path.insert(0,'outputs/python_quant_bot');suite=unittest.defaultTestLoader.loadTestsFromName('tests.test_futu_verified_protobuf_loader');result=unittest.TextTestRunner(verbosity=2).run(suite);raise SystemExit(not result.wasSuccessful())"
+  ],
+  "input_hashes_before": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_verified_protobuf_loader.py": "274cd15fc3833405efa264653cd00822da72a882624d3ccfc136f48ff0720155",
+    "outputs/python_quant_bot/tests/test_futu_verified_protobuf_loader.py": "3f3e2fb286b41fa2ba3e4912ba1d844e72ba5fd24e9cdc552033e9e56c338a88",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py": "5cda7354b7f8ff03db084cce47f7c9a77f290c24f3f8320d7464566050fb9b72",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_result_comparison.py": "b61d1431b48db73d8219850e58e052349f8a19b9062ef3f3faa26c53b7ac9490"
+  },
+  "input_hashes_after": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_verified_protobuf_loader.py": "274cd15fc3833405efa264653cd00822da72a882624d3ccfc136f48ff0720155",
+    "outputs/python_quant_bot/tests/test_futu_verified_protobuf_loader.py": "3f3e2fb286b41fa2ba3e4912ba1d844e72ba5fd24e9cdc552033e9e56c338a88",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py": "5cda7354b7f8ff03db084cce47f7c9a77f290c24f3f8320d7464566050fb9b72",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_result_comparison.py": "b61d1431b48db73d8219850e58e052349f8a19b9062ef3f3faa26c53b7ac9490"
+  },
+  "inputs_stable": true,
+  "scope": "SYNTHETIC_MANIFEST_AND_NEW_TEMP_SOURCE_TESTS; NO_SDK_IMPORT_OR_PROVIDER"
+}

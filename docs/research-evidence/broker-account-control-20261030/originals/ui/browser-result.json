@@ -1,0 +1,366 @@
+{
+  "fixture": "Candidate/research HTTP fixture; actual AccountControl service in fresh SYNTHETIC_TEST root",
+  "browserAvailability": "Browser plugin not available",
+  "url": "http://127.0.0.1:52877",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "buttonBounds": [
+        {
+          "label": "读取该账户当前状态",
+          "width": 310,
+          "height": 44
+        },
+        {
+          "label": "停止该账户的执行",
+          "width": 310,
+          "height": 44
+        },
+        {
+          "label": "",
+          "width": 144,
+          "height": 44
+        }
+      ]
+    }
+  ],
+  "checks": [
+    "Full candidate DOM mount, explicit read leaves synthetic storage absent",
+    "Normal STOP click while ordinary candidate lane busy; independent page reads shared actual account stop",
+    "Explicit latest-stop confirmation and reason resume only preparation; second page observes current resume",
+    "Lost response keeps original scope; explicit query after mode switch finds old STOP while current resume remains truthful; no retry POST",
+    "390 px viewport without horizontal overflow; visible account buttons meet 44 px",
+    "Unbound host renders unavailable and disables mutation without claiming stopped"
+  ],
+  "errors": [],
+  "external": [],
+  "httpEvents": [
+    {
+      "method": "GET",
+      "resource": "terminal_broker_status",
+      "payload": null
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_research",
+      "payload": {
+        "reference": {
+          "kind": "terminal_run",
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "resource": "actions/terminal_broker_save_candidate",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "broker-candidate-8a2112c3-b202-4db3-b8ca-de03ecf0e973",
+        "config": {
+          "asset_class": "EQUITY",
+          "time_in_force": "DAY",
+          "account_id": "900000000000001",
+          "market": "US",
+          "asset_code": "US.TEST",
+          "max_quantity": 2,
+          "max_notional": "50.00",
+          "side": "BUY",
+          "quantity": 1,
+          "limit_price": "20.00",
+          "expires_at": "2026-10-30T02:42:00.000Z",
+          "currency": "USD"
+        },
+        "research_reference": {
+          "kind": "terminal_run",
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_status",
+      "payload": null
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_check",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_account_control",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_status",
+      "payload": null
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_research",
+      "payload": {
+        "reference": {
+          "kind": "terminal_run",
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "resource": "actions/terminal_broker_save_candidate",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "broker-candidate-e2b2d665-4095-4afe-8099-c6f02d90d5da",
+        "config": {
+          "asset_class": "EQUITY",
+          "time_in_force": "DAY",
+          "account_id": "900000000000001",
+          "market": "US",
+          "asset_code": "US.TEST",
+          "max_quantity": 2,
+          "max_notional": "50.00",
+          "side": "BUY",
+          "quantity": 1,
+          "limit_price": "20.00",
+          "expires_at": "2026-10-30T02:42:00.000Z",
+          "currency": "USD"
+        },
+        "research_reference": {
+          "kind": "terminal_run",
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_status",
+      "payload": null
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_check",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_account_control",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442"
+      }
+    },
+    {
+      "method": "POST",
+      "resource": "broker-account/stop",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442",
+        "request_id": "broker-account-06797be9-34a6-4b17-990e-66203847e4e7",
+        "reason": "用户明确停止该账户的执行"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_account_control",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442"
+      }
+    },
+    {
+      "method": "POST",
+      "resource": "actions/terminal_broker_account_resume",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442",
+        "request_id": "broker-account-a880c231-78f9-4eb1-b5eb-aa7bbd73f457",
+        "reason": "离线测试明确恢复准备资格",
+        "expected_stop_receipt_id": "e30f4b23a3ccb46723d6fe4d115f8f0bde761433bec430762f093dfb13477723"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_account_control",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442"
+      }
+    },
+    {
+      "method": "POST",
+      "resource": "broker-account/stop",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442",
+        "request_id": "broker-account-580bd5b1-f80c-4d05-8010-46c2829dd6e8",
+        "reason": "用户明确停止该账户的执行"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_research",
+      "payload": {
+        "reference": {
+          "kind": "terminal_run",
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "resource": "actions/terminal_broker_save_candidate",
+      "payload": {
+        "mode": "LIVE_CANDIDATE",
+        "request_id": "broker-candidate-b23a7d1c-0c87-47d6-ac08-5b0346b9915f",
+        "config": {
+          "asset_class": "EQUITY",
+          "time_in_force": "DAY",
+          "account_id": "900000000000001",
+          "market": "US",
+          "asset_code": "US.TEST",
+          "max_quantity": 2,
+          "max_notional": "50.00",
+          "side": "BUY",
+          "quantity": 1,
+          "limit_price": "20.00",
+          "expires_at": "2026-10-30T02:42:00.000Z",
+          "currency": "USD"
+        },
+        "research_reference": {
+          "kind": "terminal_run",
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_status",
+      "payload": null
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_check",
+      "payload": {
+        "mode": "LIVE_CANDIDATE",
+        "config_id": "eaa2aa3b8c76ac511c2ec2c9a970ebee7bcd8376e46b687324d2a285c8da9b4d"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_account_control",
+      "payload": {
+        "mode": "LIVE_CANDIDATE",
+        "config_id": "eaa2aa3b8c76ac511c2ec2c9a970ebee7bcd8376e46b687324d2a285c8da9b4d"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_account_control",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442"
+      }
+    },
+    {
+      "method": "POST",
+      "resource": "actions/terminal_broker_account_resume",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442",
+        "request_id": "broker-account-005095e4-5b83-4ffa-aee9-12c999ebfb12",
+        "reason": "离线测试明确恢复准备资格",
+        "expected_stop_receipt_id": "8de424d0a8a4d75cea0f914d5a404caa087e7da06f49ceb508834389c368539d"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_account_receipt",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442",
+        "request_id": "broker-account-580bd5b1-f80c-4d05-8010-46c2829dd6e8"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_status",
+      "payload": null
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_research",
+      "payload": {
+        "reference": {
+          "kind": "terminal_run",
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "resource": "actions/terminal_broker_save_candidate",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "broker-candidate-f88a47ad-7cf9-4a71-9aba-3469afc606d3",
+        "config": {
+          "asset_class": "EQUITY",
+          "time_in_force": "DAY",
+          "account_id": "900000000000001",
+          "market": "US",
+          "asset_code": "US.TEST",
+          "max_quantity": 2,
+          "max_notional": "50.00",
+          "side": "BUY",
+          "quantity": 1,
+          "limit_price": "20.00",
+          "expires_at": "2026-10-30T02:42:00.000Z",
+          "currency": "USD"
+        },
+        "research_reference": {
+          "kind": "terminal_run",
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_status",
+      "payload": null
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_check",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442"
+      }
+    },
+    {
+      "method": "GET",
+      "resource": "terminal_broker_account_control",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "config_id": "d20ae22ab39748cd4cd2c61d038c0fdbc03032d3fdd873482a12b9071463e442"
+      }
+    }
+  ],
+  "syntheticDBFiles": [
+    "synthetic-shared-control\\account-controls-v1\\SYNTHETIC_TEST\\a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1\\control.sqlite3"
+  ],
+  "result": "PASS"
+}

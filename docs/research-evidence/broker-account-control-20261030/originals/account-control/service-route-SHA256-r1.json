@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-10-30T01:40:12.542067+00:00",
+  "head": "4ae90471f83afbdca9ef4e421e064690ede2b01d",
+  "source_log_sha256": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_terminal_broker_account_control_integration.py": "1f63ee770f1a83f1cd1003da8660e02e322a1e1ba72c48ca395e2e273724a240",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\service-route-integration-r1.log": "91a2b54f3acec05f1595c11e0cac935fd8545ce026efa32389ca1817c40f5ffe",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\service-route-integration-r2.log": "52c6761dcfbce03f52e8528f3651452a562a61e7b7e5dd59316f2b4e86056692",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\service-route-checks-r1.log": "2e0dbd3d590606b8470b765371850cdf6214f0e7cdeeee12526d612009a4e2b7",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\service-route-HANDOFF-r1.md": "50759431a3c05ce7d87c5e41ab37632df1adc4b555f5b681058936060742f9a8"
+  },
+  "backend_sha256_at_handoff": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_account_control.py": "f6c62787736b93bf1e9c425cd39b47a6f0ca8199a32e63f8b2539696841f2b72",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_research.py": "00fd4e1303f18f7443fb603a8f0cf69d1bdb37c23a3b6fc6a214bfd98a1f6ff2",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\quant_workspace.py": "ae31cc3bf357f5faeda4f3c8f9ac3ec45518519ad1e54b5b8d24c11381ce2d01",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_candidate_service.py": "5cda7354b7f8ff03db084cce47f7c9a77f290c24f3f8320d7464566050fb9b72",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_execution_journal.py": "e2a3dc56cd4fa810d9b45e92c092a974ea2437b68d2df48db78c72041243d172"
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "status": "BUILT_AND_PRIVATE_RUNTIME_VERIFIED",
+  "output": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4",
+  "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+  "archive": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4.zip",
+  "archive_sha256": "2dd7045c8de3701fb892ed1c8fc5ac3370530b2510b3c5e8263b1d6a375f20c0",
+  "source_git": {
+    "commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+    "status": "CLEAN"
+  },
+  "probe": {
+    "status": "VERIFIED",
+    "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+    "version": "0.7.0.dev3",
+    "python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\python.exe",
+    "python_version": "3.14.6",
+    "import_search_paths": [
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\components\\terminal",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\components\\canonical",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\python314.zip",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\DLLs",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb"
+    ],
+    "terminal_module": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\components\\terminal\\exchange_terminal\\server.py",
+    "canonical_repository": null,
+    "frozen_kernel_version": "0.5.0.dev8",
+    "frozen_kernel_root": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\components\\terminal\\vendor\\research\\hakimi_terminal_research",
+    "capability_catalog_loaded": true,
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "external_module_count": 0,
+    "calendar_version": "4.13.2",
+    "stock_calendar_sessions": 20,
+    "broker_sdk_available": true,
+    "cryptography_version": "49.0.0",
+    "installed_dependency_versions": {
+      "cffi": "2.0.0",
+      "cryptography": "49.0.0",
+      "exchange-calendars": "4.13.2",
+      "futu-api": "10.7.6708",
+      "korean-lunar-calendar": "0.4.0",
+      "numpy": "2.4.6",
+      "pandas": "3.0.3",
+      "protobuf": "7.35.1",
+      "pycparser": "3.0",
+      "pycryptodome": "3.23.0",
+      "pyluach": "2.3.0",
+      "python-dateutil": "2.9.0.post0",
+      "simplejson": "4.1.1",
+      "six": "1.17.0",
+      "toolz": "1.1.0",
+      "tzdata": "2026.2"
+    },
+    "economic_runs": 0,
+    "listening_servers": 0,
+    "probe_workspace_temporary": true
+  },
+  "broker_identity_probe": {
+    "status": "PACKAGE_IDENTITY_ONLY_VERIFIED",
+    "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+    "modes": {
+      "OFFICIAL_SIMULATION": {
+        "schema_version": "hakimi-broker-package-load-v1",
+        "status": "PACKAGED_IDENTITY_MATCHED",
+        "mode": "OFFICIAL_SIMULATION",
+        "package": {
+          "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+          "manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+          "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+          "version": "0.7.0.dev3"
+        },
+        "sdk": {
+          "installed_file_count": 283,
+          "installed_files_sha256": "093b3a85e4b5ed3cfe557036e75507992dc2b0246aa92afc32fa5200bb61b63c",
+          "name": "futu-api",
+          "runtime_compatibility": "NOT_VERIFIED",
+          "version": "10.7.6708",
+          "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5"
+        },
+        "adapter": null,
+        "missing_capabilities": [
+          "APPLICATION_ADAPTER_NOT_PACKAGED"
+        ],
+        "runtime_compatibility": "NOT_VERIFIED",
+        "fresh_check_scope": "MANIFEST_SDK_ADAPTER_AND_LOADER_CONTRACT_FILES",
+        "identity_match_only": true,
+        "permissions": {
+          "external_connection_allowed": false,
+          "query_allowed": false,
+          "submit_allowed": false,
+          "cancel_allowed": false,
+          "unlock_allowed": false,
+          "automatic_retry": false,
+          "automatic_resume": false,
+          "automatic_mode_fallback": false,
+          "user_authorization_granted": false
+        }
+      },
+      "LIVE_CANDIDATE": {
+        "schema_version": "hakimi-broker-package-load-v1",
+        "status": "PACKAGED_IDENTITY_MATCHED",
+        "mode": "LIVE_CANDIDATE",
+        "package": {
+          "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+          "manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+          "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+          "version": "0.7.0.dev3"
+        },
+        "sdk": {
+          "installed_file_count": 283,
+          "installed_files_sha256": "093b3a85e4b5ed3cfe557036e75507992dc2b0246aa92afc32fa5200bb61b63c",
+          "name": "futu-api",
+          "runtime_compatibility": "NOT_VERIFIED",
+          "version": "10.7.6708",
+          "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5"
+        },
+        "adapter": null,
+        "missing_capabilities": [
+          "APPLICATION_ADAPTER_NOT_PACKAGED"
+        ],
+        "runtime_compatibility": "NOT_VERIFIED",
+        "fresh_check_scope": "MANIFEST_SDK_ADAPTER_AND_LOADER_CONTRACT_FILES",
+        "identity_match_only": true,
+        "permissions": {
+          "external_connection_allowed": false,
+          "query_allowed": false,
+          "submit_allowed": false,
+          "cancel_allowed": false,
+          "unlock_allowed": false,
+          "automatic_retry": false,
+          "automatic_resume": false,
+          "automatic_mode_fallback": false,
+          "user_authorization_granted": false
+        }
+      }
+    },
+    "loader_module": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\components\\terminal\\exchange_terminal\\services\\terminal_broker_package_loader.py",
+    "plan_module": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\components\\terminal\\exchange_terminal\\services\\terminal_broker_execution_plan.py",
+    "runtime_compatibility": "NOT_VERIFIED",
+    "sdk_imported": false,
+    "server_imported": false,
+    "external_calls": 0,
+    "economic_runs": 0,
+    "business_files_created": 0,
+    "permissions": {
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "cancel_allowed": false,
+      "unlock_allowed": false,
+      "automatic_retry": false,
+      "automatic_resume": false,
+      "automatic_mode_fallback": false,
+      "user_authorization_granted": false
+    }
+  },
+  "execution_probe": {
+    "status": "VERIFIED_NEW_SYNTHETIC_RUN",
+    "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+    "frozen_content_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+    "synthetic_runs": 1,
+    "market_data_runs": 0,
+    "historical_replays": 0,
+    "provider_calls": 0,
+    "listening_servers": 0,
+    "external_module_count": 0,
+    "saved_task_id": "714e394bf41a1e1fdcca2a7a1963d6aa2747ef806e4a0cbe24ffc9040fe4819c",
+    "run_id": "9453a99fbbe4ed73eaedc5c78b31cde768f6498abc6b8c0727da44129534fd6c",
+    "report_hash": "745bec57d0b4881825d5798c8a509209951db4627bed772e57eee6863606c47d",
+    "evidence_kind": "SYNTHETIC_TEST",
+    "save_computed": false,
+    "read_computed": false,
+    "read_changed_files": false,
+    "source_status": "BUILD_VERIFIED",
+    "dependency_status": "VERIFIED",
+    "temporary_workspace": true,
+    "private_python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\python.exe"
+  },
+  "clean_windows_acceptance": "NOT_PERFORMED",
+  "new_economic_runs": 1,
+  "synthetic_runs": 1,
+  "market_data_runs": 0,
+  "historical_replays": 0
+}

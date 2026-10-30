@@ -1,0 +1,210 @@
+{
+  "schema_version": "hakimi-broker-account-control-readonly-review-v1",
+  "reviewed_at": "2026-10-30T01:45:12.391061+00:00",
+  "repository": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "head": "4ae90471f83afbdca9ef4e421e064690ede2b01d",
+  "status": "NO_BLOCKING_FINDINGS_IN_REVIEWED_SCOPE",
+  "findings": [],
+  "method": "static_read_only_review",
+  "tests_run_this_review": false,
+  "source_files_modified_this_review": false,
+  "old_business_db_opened": false,
+  "gui_listener_network_provider_started": false,
+  "scope": [
+    {
+      "topic": "sqlite_commit_acknowledgement_and_idempotency",
+      "result": "NO_BLOCKING_FINDING",
+      "evidence": [
+        "terminal_broker_account_control.py:_database",
+        "terminal_broker_account_control.py:_change",
+        "terminal_broker_account_control.py:read"
+      ],
+      "reason": "Success leaves the write context only after commit; a commit exception prevents the success return. A persisted request is read/replayed by the original request_id and fingerprint; a replay after later resume returns current control without appending or reapplying the old stop. No automatic retry or recovery is started.",
+      "limit": "Commit-acknowledgement loss was reviewed statically here, not fault-injected in this review."
+    },
+    {
+      "topic": "lazy_reads_and_first_creation_identity",
+      "result": "NO_BLOCKING_FINDING",
+      "evidence": [
+        "terminal_broker_account_control.py:bind_host_root",
+        "terminal_broker_account_control.py:_anchor",
+        "terminal_broker_account_control.py:_create",
+        "terminal_broker_account_control.py:_database"
+      ],
+      "reason": "Binding and missing-store reads create no directories. Existing DB reads use mode=ro. First write checks the anchored physical path before mkdir and immediately afterward, before SQLite bootstrap; a physical-path/ancestor mismatch fails instead of silently rebinding. Hot journals/WAL/reparse/hardlink stores are rejected rather than repaired.",
+      "limit": "This is the declared host-bound filesystem contract, not an exhaustive hostile-filesystem race or OS virtualization audit."
+    },
+    {
+      "topic": "exact_event_and_stop_resume_contract",
+      "result": "NO_BLOCKING_FINDING",
+      "evidence": [
+        "terminal_broker_account_control.py:_load",
+        "terminal_broker_account_control.py:_payload",
+        "terminal_broker_account_control.py:_change",
+        "terminal_broker_account_control.py:barrier"
+      ],
+      "reason": "Current rows enforce exact fields, canonical bytes/hash, integer revision, root/domain/account chain, exact permission encoding, action/payload request binding, valid time and monotonic order. Resume confirms the latest stop and appends a new revision; stale revision bindings remain rejected even after stop/resume."
+    },
+    {
+      "topic": "cross_workspace_journal_factory",
+      "result": "NO_BLOCKING_FINDING",
+      "evidence": [
+        "terminal_research.py:_broker_account",
+        "terminal_research.py:broker_execution_journal",
+        "terminal_broker_candidate_service.py:read_account_scope",
+        "terminal_broker_execution_journal.py:__init__"
+      ],
+      "reason": "The trusted service factory uses its once-bound root/domain and account from the original saved config. Same provider/mode/account maps to the same journal path across workspaces; no caller root/provider/account override or HTTP raw-journal write surface is introduced. Constructors and reads are lazy; EXTERNAL_RECORD retains synthetic-profile rejection."
+    },
+    {
+      "topic": "stop_path_and_lock_order",
+      "result": "NO_BLOCKING_FINDING",
+      "evidence": [
+        "quant_workspace.py:handle direct broker-account/stop branch",
+        "terminal_research.py:stop_broker_account",
+        "terminal_broker_candidate_service.py:read_account_scope",
+        "terminal_research.py:broker_dispatch_barrier",
+        "terminal_broker_execution_journal.py:_write"
+      ],
+      "reason": "Direct stop bypasses QuantWorkspace._ensure/_mutex, mutation guard and Jobs; saved account lookup takes no research/candidate lock and invokes no resolver. The composed path takes journal writer then local control then account barrier. Stop takes the account transaction alone. Both original local and account revisions must pass before journal CLAIM/ACTION publication."
+    },
+    {
+      "topic": "host_root_identity_and_health",
+      "result": "NO_BLOCKING_FINDING",
+      "evidence": [
+        "terminal-package-runtime.js:brokerSharedRoot",
+        "terminal-package-runtime.js:brokerSharedRootIdentity",
+        "terminal-package-runtime.js:matchesBackend",
+        "main.js:BROKER_SHARED_ROOT/WORKSPACE_CONTEXT",
+        "server.py:BROKER_CONTROL_ROOT/health broker_shared_root_id"
+      ],
+      "reason": "Host and server use SHA256 UTF8 prefix plus platform-normalized physical root plus EXTERNAL_RECORD domain. Host context fixes root/id; launch overrides inherited root keys. Server binds once and returns that root_id or null. Backend reuse rejects missing/null/mismatched id in addition to package/mode/workspace checks. Windows case/slash normalization and other-platform case preservation agree.",
+      "limit": "This review did not launch a host/server or rerun the prior Node/Python comparison."
+    },
+    {
+      "topic": "legacy_mode_stop_and_authority",
+      "result": "NO_BLOCKING_FINDING",
+      "evidence": [
+        "terminal_broker_candidate_service.py:_change_control",
+        "terminal_broker_candidate_service.py:plan_commit_barrier",
+        "terminal_research.py:broker_dispatch_barrier",
+        "terminal_broker_account_control.py:_state/_view"
+      ],
+      "reason": "Existing workspace/mode controls and receipts remain separate. Shared resume does not clear local stop; local resume does not clear shared stop. All permissions stay false, dispatch_authorized and automatic_resume stay false, and broker_orders_cancelled remains false. Stop does not mean cancellation or liquidation."
+    }
+  ],
+  "excluded": [
+    "frontend DOM",
+    "package loader review",
+    "full security audit",
+    "production authorization gate",
+    "actual worker/transport dispatch",
+    "full desktop/package validation"
+  ],
+  "line_index": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_account_control.py": {
+      "bind_host_root": [
+        61
+      ],
+      "_anchor": [
+        76
+      ],
+      "_create": [
+        122
+      ],
+      "_database": [
+        145
+      ],
+      "_load": [
+        167
+      ],
+      "_payload": [
+        219
+      ],
+      "_change": [
+        229
+      ],
+      "read": [
+        266
+      ],
+      "barrier": [
+        274
+      ]
+    },
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": {
+      "_broker_account": [
+        365
+      ],
+      "stop_broker_account": [
+        391
+      ],
+      "broker_execution_journal": [
+        395
+      ],
+      "broker_dispatch_barrier": [
+        408
+      ],
+      "_write": [
+        537
+      ],
+      "read": [
+        1146
+      ]
+    },
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": {
+      "handle": [
+        442
+      ]
+    },
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py": {
+      "_write": [
+        400
+      ],
+      "read_account_scope": [
+        529
+      ],
+      "plan_commit_barrier": [
+        548
+      ],
+      "_change_control": [
+        647
+      ],
+      "read": [
+        751
+      ]
+    },
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": {
+      "_create": [
+        157
+      ],
+      "_database": [
+        192
+      ],
+      "_load": [
+        213
+      ],
+      "_write": [
+        481
+      ],
+      "read": [
+        691
+      ]
+    },
+    "outputs/python_quant_bot/exchange_terminal/server.py": {}
+  },
+  "final_source_sha256": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_account_control.py": "f6c62787736b93bf1e9c425cd39b47a6f0ca8199a32e63f8b2539696841f2b72",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_research.py": "00fd4e1303f18f7443fb603a8f0cf69d1bdb37c23a3b6fc6a214bfd98a1f6ff2",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\quant_workspace.py": "ae31cc3bf357f5faeda4f3c8f9ac3ec45518519ad1e54b5b8d24c11381ce2d01",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_candidate_service.py": "5cda7354b7f8ff03db084cce47f7c9a77f290c24f3f8320d7464566050fb9b72",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_execution_journal.py": "e2a3dc56cd4fa810d9b45e92c092a974ea2437b68d2df48db78c72041243d172",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\server.py": "01376dec59ab2fd457e5ccfcb37e286e17b7c3e4bbbcba66798836ec9ad17dee",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\hakimi_trade_electron\\terminal-package-runtime.js": "30782a6ab91b2622d18e92a240c093b60930a1518b8a1304c3fa2be2a0054847",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\hakimi_trade_electron\\main.js": "225fd51b60c236c5656bd167d46d1130d8af00e593675fa2c5831a0d4da9b04b"
+  },
+  "prior_evidence_not_rerun": [
+    "service-route-integration-r2.log (11 integration tests before the latest exact-event hardening)",
+    "host-node22-targeted-r1.log (47 targeted host tests)",
+    "host-node22-python-identity-r1.log (actual Windows Node/Python identity comparison)"
+  ]
+}

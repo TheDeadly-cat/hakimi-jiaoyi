@@ -17,18 +17,26 @@ def load_local_ai_env() -> bool:
     }
     if not explicit_load:
         return False
+    allow_read_only = str(os.getenv("HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY") or "").strip().lower() in {
+        "1", "true", "yes", "on",
+    }
+    if str(os.getenv("HAKIMI_RUNTIME_READ_ONLY") or "").strip().lower() in {"1", "true", "yes", "on"}:
+        if not allow_read_only:
+            return False
     skip_local_env = any(
         str(os.getenv(name) or "").strip().lower() in {"1", "true", "yes", "on"}
         for name in (
             "HAKIMI_SKIP_LOCAL_AI_ENV",
-            "HAKIMI_RUNTIME_READ_ONLY",
+            "HAKIMI_LOCAL_ONLY",
             "HAKIMI_TEST_MODE",
         )
     )
     if skip_local_env:
         return False
-    env_path = WORKSPACE_DIR / ".env.local"
-    allowed = {"OPENAI_API_KEY", "OPENAI_BASE_URL", "OPENAI_MODEL", "GPT_MODEL"}
+    configured_path = str(os.getenv("HAKIMI_AI_ENV_FILE") or "").strip()
+    env_path = Path(configured_path).expanduser() if configured_path else WORKSPACE_DIR / ".env.local"
+    allowed = {"OPENAI_API_KEY", "OPENAI_BASE_URL", "OPENAI_MODEL", "GPT_MODEL",
+               "DEEPSEEK_API_KEY", "DEEPSEEK_BASE_URL", "DEEPSEEK_MODEL", "DEEPSEEK_THINKING", "HAKIMI_AI_PROVIDER"}
     if not env_path.is_file():
         return False
     try:
@@ -66,8 +74,8 @@ RUNTIME_DIR = (
     if getattr(sys, "frozen", False)
     else PROJECT_DIR / "runtime"
 )
-RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_RUNTIME_READ_ONLY") or "").strip().lower() in {
-    "1", "true", "yes", "on",
+RUNTIME_READ_ONLY = str(os.getenv("HAKIMI_RUNTIME_READ_ONLY") or "1").strip().lower() not in {
+    "0", "false", "no", "off",
 }
 STATE_FILE = RUNTIME_DIR / "exchange_terminal_state.json"
 LEDGER_FILE = RUNTIME_DIR / "exchange_terminal_ledger.jsonl"

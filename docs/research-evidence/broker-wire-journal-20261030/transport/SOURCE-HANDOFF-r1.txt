@@ -1,0 +1,26 @@
+# Scoped transport / SIMULATE codec — source handoff
+
+Current state: 44 standard-library fake-only contract tests passed (focused-r3.log/json). Actual pinned SDK probe r2 is PREPARED, NOT EXECUTED. This is not a runnable broker integration, authorization or candidate package.
+
+## Owned new files
+
+- `outputs\python_quant_bot\exchange_terminal\services\terminal_broker_scoped_transport.py` — SHA256 `218bba5b791b502dc535ce7fc7a76bf12f904ffb1cac6d4e7a9d858d7d4d3cb5`
+- `outputs\python_quant_bot\exchange_terminal\adapters\futu_us_equity_simulate_wire_v2.py` — SHA256 `c7095e5f9012cf5473a5721d0ae98b3816b792a9bca3ce8d7414d2ff7f458709`
+- `outputs\python_quant_bot\tests\test_terminal_broker_scoped_transport.py` — SHA256 `3ca4e9416ab8150e3fe8f3e3b4eb4599406d314f62d43db32c372ec82229a73e`
+- `outputs\python_quant_bot\tests\test_futu_us_equity_simulate_wire_v2.py` — SHA256 `cf37b0d3dfc97e8aea46fb0f43785422c5c933aeedfa2f9f10d800f33f022b7d`
+
+## Public interfaces
+
+- `ScopedTransport(profile, *, factory, clock, gate, sink, codec)`: no defaults. `connect(channel, permit, deadline)`, `exchange(channel, action, frame, permit, deadline)`, `close(deadline)`, `final_summary()` and `budget_snapshot()`.
+- The gate exposes `before_connect(context, permit)` and `before_write(context, permit)` context managers; optional `after_write(context, permit, written)` runs after barrier exit. Context keys exactly: profile_id, intent_scope_id, account_scope_id, mode, channel, action, frame_sha256, serial, offset, total_bytes, deadline.
+- Factory returns an unconnected handle. `connect(..., timeout=0)` and every `send(..., timeout=0)` are nonblocking. `wait_connected(timeout)` and `recv(maximum, timeout)` run outside the stop barrier. `peek(1, timeout=0)` rejects already-visible unsolicited bytes; `close(timeout)` is bounded by a single profile cleanup deadline. No would-block retry, reconnection, timer or queue.
+- `bind_codec_session(profile, *, client_version, client_id, quote_connection_id=None, quote_user_id=None, trade_connection_id=None, trade_user_id=None, broker_order_id=None)` returns immutable session bytes; supplied fields are not proof of authorization.
+- `SimulateCodec(profile, session, *, request_classes, response_classes)` requires exact protocol Request/Response full names. `accept_handshake(profile, channel, serial, raw_frame)` admits only the exact response, ret0 and present positive connID/loginUserID, once per channel, same login on both, under a short update lock. Actual requests can then use the accepted session. AES/key fields stay in private evidence.
+- Responses preserve raw frame plus bounded HasField projections. Missing fee, currency, tick and source time remain absent/unknown. Request refreshCache=true is not proof that the returned market facts are fresh. Normal result has economic_acceptance=NOT_INFERRED; no journal ACK is produced.
+
+## Bounds and remaining work
+
+One in-flight action per channel, no waiting queue. Every partial continuation repeats codec/frame/scope/deadline checks inside the stop barrier. Partial or IO failure is UNKNOWN and never retransmitted. Cleanup failure is visible in RawOutcome and final summary; no later close clears it. Ordinary acknowledgements reserve room before IO, separately from the final profile summary allowance.
+Local counters only narrow the future durable journal; they are not persistent across workers. The injected trusted gate must verify current control/revision, actual authorization, source freshness and price/fee/account evidence. No production gate/socket factory, worker supervisor, shared-journal connection, REAL path, router, UI or runner registration is supplied in these files. A separate hard process deadline is still required against a misbehaving injected low-level implementation.
+Pinned protobuf describes Trd_PlaceOrder.S2C.orderIDEx as an OPTIONAL opaque string. A future acknowledgement verifier must require presence and exact account/environment/original-order binding; a received response does not itself establish order acceptance or ownership.
+No original research, GUI, old QA database, existing package, SDK context, network or account operation was performed for the 44 tests. The explicit SDK-only probe must receive root review/authorization first. Old source/fixtures are unchanged. No commit or push.

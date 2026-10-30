@@ -1,0 +1,19 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\python.exe",
+    "-I",
+    "-S",
+    "-B",
+    "-X",
+    "utf8",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-scoped-transport-20261030\\pinned-codec-probe-child-r4.py",
+    "--input",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-scoped-transport-20261030\\pinned-codec-private-r3\\invocation.json"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 2.4681730000011157,
+  "exception": null,
+  "source_hashes_unchanged": true,
+  "status": "FAILED_PRESERVED",
+  "scope": "PINNED_CODEC_OFFLINE_PROBE_NOT_CANDIDATE_OR_NATIVE_ACCEPTANCE"
+}

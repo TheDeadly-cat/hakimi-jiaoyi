@@ -1,0 +1,8 @@
+{
+  "automatic_retry": false,
+  "design_sha256": "e43adda930945e3fc8765e1c2a87f2109fa420ff91b09b6fc3e114e493f59b07",
+  "intended_additional_validation_calculations": 1,
+  "run_id": "b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c",
+  "schema_version": "strategy-prefix-observation-v1",
+  "started_at": "2026-10-26T11:27:32.053178+00:00"
+}

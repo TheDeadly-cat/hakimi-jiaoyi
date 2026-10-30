@@ -1,0 +1,135 @@
+{
+  "status": "PASS",
+  "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "head": "6246fa864a53324a3052adc55fd87dda1745d2e4",
+  "results": [
+    {
+      "stage": "terminal",
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+        "-B",
+        "tools/run_terminal_contracts.py"
+      ],
+      "working_directory": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+      "exit_code": 0,
+      "elapsed_seconds": 214.376,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-execution-plan-20261030\\integration-r1\\terminal.log"
+    },
+    {
+      "stage": "package",
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/repository_only",
+        "-p",
+        "test_windows_terminal.py",
+        "-v"
+      ],
+      "working_directory": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+      "exit_code": 0,
+      "elapsed_seconds": 4.896,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-execution-plan-20261030\\integration-r1\\package.log"
+    }
+  ],
+  "terminal": {
+    "terminal_contracts": "PASS",
+    "files": {
+      "test_causal_structure.py": 5,
+      "test_exit_comparison_math.py": 7,
+      "test_indicator_contract.py": 5,
+      "test_indicator_migration.py": 1,
+      "test_offline_execution.py": 32,
+      "test_quant_kernel_isolation.py": 2,
+      "test_quant_completion_adapter.py": 3,
+      "test_quant_workspace.py": 13,
+      "test_strategy_presentation.py": 8,
+      "test_terminal_ai_evidence.py": 6,
+      "test_terminal_ai_strategy_binding.py": 8,
+      "test_terminal_candidate_service.py": 6,
+      "test_terminal_broker_candidate_service.py": 30,
+      "test_terminal_broker_execution_plan.py": 22,
+      "test_terminal_broker_integration.py": 6,
+      "test_terminal_corporate_actions.py": 10,
+      "test_terminal_continuous_replay.py": 14,
+      "test_terminal_daily_bridge.py": 10,
+      "test_terminal_daily_integration.py": 14,
+      "test_terminal_daily_research.py": 6,
+      "test_terminal_data_preflight.py": 5,
+      "test_terminal_execution_integration.py": 4,
+      "test_terminal_execution_integration_core.py": 4,
+      "test_terminal_execution_explanation.py": 10,
+      "test_terminal_execution_service.py": 24,
+      "test_terminal_exit_research.py": 14,
+      "test_terminal_history.py": 16,
+      "test_terminal_insights.py": 17,
+      "test_terminal_integration_contract.py": 9,
+      "test_terminal_judgment.py": 15,
+      "test_terminal_market_data.py": 27,
+      "test_terminal_public_daily_access.py": 15,
+      "test_terminal_research.py": 35,
+      "test_terminal_replay_adapter.py": 6,
+      "test_terminal_replay_api.py": 16,
+      "test_terminal_replay_capacity.py": 4,
+      "test_terminal_replay_integration.py": 5,
+      "test_terminal_result_comparison.py": 9,
+      "test_terminal_saved_results.py": 10,
+      "test_terminal_strategy_candidates.py": 12,
+      "test_terminal_task_names.py": 2,
+      "test_terminal_workspace_history.py": 10,
+      "test_terminal_workspace_history_msix.py": 12
+    },
+    "tests_run": 489,
+    "skipped": 0,
+    "failures": 0,
+    "errors": 0,
+    "external_network_allowed": false
+  },
+  "package_tests": 11,
+  "expected_terminal_count_before_run": 489,
+  "actual_terminal_count": 489,
+  "source_hashes_before_tests": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "outputs/python_quant_bot/tests/test_terminal_broker_execution_plan.py": "3ed9cb11a9931439bfd516245207100d30038339108cc619116995f3472107e0",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "outputs/python_quant_bot/tests/test_terminal_saved_results.py": "e99f72f71b03a0d6d3c176956906b8ee5d358e7558a398d491c7a7dbcf049c0e",
+    "tools/run_terminal_contracts.py": "8f144578db06f7a074f115f40044af1690c39b9b25b7f0493268d6f7ef1e0b8b",
+    "tests/repository_only/test_windows_terminal.py": "773c9ae278b4aa1958c2608db42d204adc5c0a6b175db2126d9c4290794121ea"
+  },
+  "source_hashes_after_tests": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "outputs/python_quant_bot/tests/test_terminal_broker_execution_plan.py": "3ed9cb11a9931439bfd516245207100d30038339108cc619116995f3472107e0",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "outputs/python_quant_bot/tests/test_terminal_saved_results.py": "e99f72f71b03a0d6d3c176956906b8ee5d358e7558a398d491c7a7dbcf049c0e",
+    "tools/run_terminal_contracts.py": "8f144578db06f7a074f115f40044af1690c39b9b25b7f0493268d6f7ef1e0b8b",
+    "tests/repository_only/test_windows_terminal.py": "773c9ae278b4aa1958c2608db42d204adc5c0a6b175db2126d9c4290794121ea"
+  },
+  "source_unchanged_during_tests": true,
+  "reviewed_four_unchanged": true,
+  "edited_paths": [
+    "tools/run_terminal_contracts.py",
+    "tests/repository_only/test_windows_terminal.py"
+  ],
+  "problems": [],
+  "economic_boundary": {
+    "scope": "Temporary synthetic contract fixtures only; full terminal tests may calculate fixture strategies. No existing saved research is invoked.",
+    "new_production_research": 0,
+    "old_research_replays": 0,
+    "external_provider_calls": 0,
+    "external_broker_connections": 0,
+    "native_gui_started": false,
+    "production_server_started": false,
+    "loopback_test_fixtures_allowed": true,
+    "running_qa_database_read": false,
+    "bundle_build": false,
+    "old_package_read_or_hash": false,
+    "new_dependency_install": false
+  },
+  "log_sha256": {
+    "terminal": "05310ccf502a35add911c243ec568f11d0e25e1b0452dab5926cdc3da4790d97",
+    "package": "db68ad39cbaa77a80cd79bc293a605ab0f01a53f7ddccea1cf9ecee46c2e73d6"
+  }
+}

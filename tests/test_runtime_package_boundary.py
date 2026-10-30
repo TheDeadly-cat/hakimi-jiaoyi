@@ -14,11 +14,21 @@ class RuntimePackageBoundaryTests(unittest.TestCase):
         self.assertIn("runtime-files.json", identity["file_hashes"])
         self.assertIn("experiment.py", identity["file_hashes"])
         self.assertIn("reporting_legacy_v2.py", identity["file_hashes"])
+        self.assertIn("stock_intake_supplement.py", identity["file_hashes"])
         self.assertNotIn("terminal_config.py", identity["file_hashes"])
         self.assertFalse(any(name.startswith("deterministic_") for name in identity["file_hashes"]))
         if REPOSITORY_ROOT is None:
             self.assertIsNone(importlib.util.find_spec("hakimi_research.terminal_config"))
             self.assertIsNone(importlib.util.find_spec("hakimi_research.deterministic_strategy_family_benchmark"))
+
+    def test_stock_supplement_review_is_in_the_formal_package_identity(self):
+        from hashlib import sha256
+        from hakimi_research import stock_intake_supplement
+
+        identity = package_content_identity(PACKAGE_ROOT)
+        module_path = Path(stock_intake_supplement.__file__).resolve()
+        self.assertEqual(module_path, (PACKAGE_ROOT / "stock_intake_supplement.py").resolve())
+        self.assertEqual(sha256(module_path.read_bytes()).hexdigest(), identity["file_hashes"]["stock_intake_supplement.py"])
 
     def test_missing_declared_and_unexpected_installed_sources_fail_closed(self):
         with tempfile.TemporaryDirectory() as directory:

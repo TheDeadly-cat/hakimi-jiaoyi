@@ -78,6 +78,44 @@ class MarketAiProjectionTests(unittest.TestCase):
             result["authority_sanitized_paths"],
         )
 
+    def test_runtime_status_retains_only_safe_transport_fields(self) -> None:
+        source = {"status": {"analysis": "partial", "providers_requested": ["deepseek", "openai", "other"],
+                  "providers_completed": ["openai", "openai"], "live_trading": "enabled",
+                  "gpt": {"configured": True, "model": "gpt-4o-mini", "api_key": "private-value", "base_url": "private-url"},
+                  "deepseek": {"configured": False, "model": "deepseek-v4-pro"},
+                  "execution_allowed": True, "unexpected": "private-field"}}
+        before = deepcopy(source)
+        result = build_market_ai_projection(source)
+        self.assertEqual(source, before)
+        status = result["status"]
+        self.assertEqual(status["analysis"], "partial")
+        self.assertEqual(status["providers_requested"], ["deepseek", "openai"])
+        self.assertEqual(status["providers_completed"], ["openai"])
+        self.assertEqual(status["gpt"], {"provider": "openai", "configured": True, "model": "gpt-4o-mini"})
+        self.assertEqual(status["live_trading"], "hard_blocked")
+        self.assertNotIn("raw_status", result)
+        self.assertNotIn("private", repr(result))
+        self.assertNotIn("unexpected", status)
+        self.assertFalse(result["execution_allowed"])
+
+    def test_invalid_runtime_status_fields_fail_closed(self) -> None:
+        result = build_market_ai_projection({"status": {"analysis": {"can_trade": True},
+            "providers_requested": "openai", "providers_completed": [None, {"provider": "openai"}],
+            "gpt": {"configured": "true", "model": "sk-private-example"}, "deepseek": None}})
+        self.assertEqual(result["status"]["analysis"], "unknown")
+        self.assertEqual(result["status"]["providers_requested"], [])
+        self.assertEqual(result["status"]["providers_completed"], [])
+        self.assertFalse(result["status"]["gpt"]["configured"])
+        self.assertEqual(result["status"]["gpt"]["model"], "")
+        self.assertNotIn("sk-", repr(result))
+
+    def test_model_authored_status_and_severity_keep_research_sanitization(self) -> None:
+        result = build_market_ai_projection({"status": "READY", "analysis": {"gpt": {"status": "READY", "severity": "HIGH", "order_allowed": True}}})
+        self.assertEqual(result["status"], "RESEARCH_OBSERVE")
+        self.assertEqual(result["analysis"]["gpt"]["status"], "RESEARCH_OBSERVE")
+        self.assertEqual(result["analysis"]["gpt"]["severity"], "RESEARCH_BLOCKED")
+        self.assertFalse(result["analysis"]["gpt"]["order_allowed"])
+
     def test_post_route_uses_projection(self) -> None:
         source = (
             Path(__file__).resolve().parents[1]

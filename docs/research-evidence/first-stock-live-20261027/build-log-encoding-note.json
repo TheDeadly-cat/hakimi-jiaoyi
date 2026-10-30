@@ -1,0 +1,23 @@
+{
+  "schema_version": "build-log-encoding-note-v1",
+  "builder_exit_code": 0,
+  "wrapper_exit_code": 1,
+  "wrapper_failure_stage": "POST_BUILD_LOG_DISPLAY_ONLY",
+  "reason": "UTF-8 display attempted to decode the child CP936 JSON result containing the Chinese output path.",
+  "raw_log_sha256": "f9f1aad894b06537b6373610927438b2a1285849bba9dbc73c6aa7dd5d00e584",
+  "raw_log_modified": false,
+  "header_encoding": "utf-8",
+  "result_line_encoding": "cp936/gbk",
+  "decoded_result": {
+    "status": "BUILT_AND_PRIVATE_RUNTIME_VERIFIED",
+    "bundle_id": "ab2e49cdc8e468385dd7b64dc30f2665aa7591a52b8d6022833c02983b7569a8",
+    "output": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1",
+    "archive": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1.zip",
+    "archive_sha256": "5204a33a357461b86127fc40282958bab8f8986f86f9489fb81c7315747a2b20",
+    "manifest_sha256": "c993523546b6c84e7a8be4a00636594f6fe8734ffa18dafc62e6e15125199b03",
+    "clean_windows_acceptance": "NOT_PERFORMED",
+    "new_economic_runs": 0
+  },
+  "build_repeated": false,
+  "artifact_verified_from_manifest_and_hashes": true
+}

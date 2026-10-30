@@ -1,0 +1,1234 @@
+{
+  "schema_version": "holdout-cost-and-operation-readback-v1",
+  "status": "PASS_SAVED_PACKAGES_AND_OPERATION_IDENTITIES",
+  "recorded_at": "2026-10-26T11:40:15.913239Z",
+  "read_only_verification": true,
+  "new_economic_runs_by_this_readback": 0,
+  "new_data_requests_by_this_readback": 0,
+  "desktop_actions_by_this_readback": 0,
+  "protocol": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\protocol.json",
+    "sha256": "e43adda930945e3fc8765e1c2a87f2109fa420ff91b09b6fc3e114e493f59b07",
+    "bytes": 11391
+  },
+  "plan_hash": "03b9c996063e7fb03fbb95e70fd4416bf30a5e0f54617db72fbb9ce8e18f812b",
+  "protocol_commit": "3451f2323e4acb2556aaeb382482f83ae681f5ce",
+  "preparation": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1\\preparation.json",
+    "sha256": "15195410dc355cbc9d5db351783aa879641381731e9a07e5a5d6fefdbd526a44",
+    "bytes": 5920
+  },
+  "acquisition": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1\\acquisition.json",
+    "sha256": "5ad081af55c6ccd628f65709af75eb47737f0f79e920f0eee7df625c26c0a97e",
+    "bytes": 3109
+  },
+  "exposure_audit": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\exposure-audit.json",
+    "sha256": "e04d24279d25d0a8ed115a252e5a17eb93eaf576eaf4513e7c61f782094d9564",
+    "bytes": 10913
+  },
+  "exposure_addendum": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\anonymous-csv-attribution.json",
+    "sha256": "12335dd154f6b13771f236deaf83a35d0556f07d2a5940af4a39657ac184ef7e",
+    "bytes": 233876
+  },
+  "parameter_design": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\docs\\research-evidence\\fixed-month-replay-20261026\\design-v2.json",
+    "sha256": "6f2a7ed165cebae74f1675f34e8ff7d3102dfd2b02a03de3e2d4582f02d75c5b",
+    "bytes": 10702
+  },
+  "frozen_economics_unchanged": true,
+  "execution_runtime_source_sha256": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+  "score_start": "2026-02-02",
+  "score_end": "2026-02-27",
+  "context_start": "2026-01-14",
+  "context_sessions": 12,
+  "scored_sessions": 19,
+  "runs": {
+    "NDAQ": {
+      "task_id": "1e59c059b27842135ee3d756b9c3dbc4054c7437cc6aa680588210d73e094cd2",
+      "task_ref": "tasks/task-blind-03b9c996063e7fb03fbb-ndaq-create_task",
+      "run_id": "b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959",
+      "run_ref": "runs/run-b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959",
+      "report_hash": "eca9aa9b8c39070a81009e72679213580640bed583f189737f794901452110be",
+      "report_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\runs\\run-b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959\\report.json",
+        "sha256": "159637db28c294659e8dc09afd668a50d0f5bfc58f12244fe9393ec10b7e5f7f",
+        "bytes": 51232
+      },
+      "snapshot_id": "a579a9cf9a2e27e5f6652bdf85b1c293c1d4bf3057365f6bb6543caf0bb5d90b",
+      "snapshot_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\runs\\run-b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959\\inputs\\snapshot.json",
+        "sha256": "20a8fc93b3500eedf1d5bcffd3ff253c907abe31b6c2b4252ba38f278e82998a",
+        "bytes": 178247
+      },
+      "security_id": "HOLDOUT:NDAQ:03b9c996063e7fb03fbb",
+      "strategy_id": "price.dual_ma@1",
+      "spec": {
+        "end_policy": "MARK_TO_MARKET",
+        "execution_policy": "STANDARD_STRATEGY_RISK",
+        "fee_rate": 0.0008,
+        "initial_cash": 10000,
+        "name": "双均线价格策略",
+        "purpose": "DESCRIPTIVE_DEVELOPMENT",
+        "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+        "risk": {
+          "max_daily_loss_pct": 1.0,
+          "max_leverage": 1.0,
+          "max_position_pct": 0.25,
+          "max_single_loss_pct": 0.03,
+          "min_cash_pct": 0.0
+        },
+        "schema_version": "us-equity-experiment-spec-v1",
+        "score_end_session": "2026-02-27",
+        "score_start_session": "2026-02-02",
+        "slippage_pct": 0.0005,
+        "snapshot_id": "a579a9cf9a2e27e5f6652bdf85b1c293c1d4bf3057365f6bb6543caf0bb5d90b",
+        "strategy": {
+          "name": "dual_ma",
+          "params": {
+            "fast_window": 5,
+            "position_pct": 0.25,
+            "slow_window": 10,
+            "stop_loss_pct": 0.03,
+            "take_profit_pct": 0.06
+          }
+        }
+      },
+      "scoring_protocol": {
+        "annualization": "252_REGULAR_SESSIONS_PER_YEAR_DESCRIPTIVE_ASSUMPTION",
+        "available_context_sessions": 12,
+        "bar_availability_lag_seconds": 60,
+        "company_actions": "DECLARED_ACTION_FREE_WINDOW_ONLY",
+        "confirmation_evaluation": false,
+        "parameter_selection": false,
+        "required_context_sessions": 12,
+        "score_end": "2026-02-27T21:00:00Z",
+        "score_start": "2026-02-02T14:30:00Z",
+        "scored_sessions": 19,
+        "session_clock_hash": "08e4357fd5b44e895e01c47e24861d67d100c4d37a1e72847d66973ecd961f06",
+        "warmup_trading": false
+      },
+      "summary": {
+        "report_hash": "eca9aa9b8c39070a81009e72679213580640bed583f189737f794901452110be",
+        "total_return": 0.014462833802999953,
+        "max_drawdown": 0.0,
+        "final_equity": 10144.62833803,
+        "total_fees": 4.12099947,
+        "fill_count": 2,
+        "round_trip_count": 1,
+        "realized_pnl": 144.62833803000026,
+        "unrealized_pnl": 0.0,
+        "open_position_qty": 0.0,
+        "annualized_return": null,
+        "sharpe_ratio": null,
+        "win_rate": 1.0,
+        "statistical_status": {
+          "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+          "annualized_return": "SHORT_SAMPLE",
+          "elapsed_years": 0.07539682539682539,
+          "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+          "minimum_observations": 30,
+          "observation_count": 19,
+          "periods_per_year": 252,
+          "sharpe_ratio": "SHORT_SAMPLE",
+          "status": "INSUFFICIENT_EVIDENCE",
+          "win_rate": "DESCRIPTIVE_COMPLETED_ROUND_TRIPS"
+        },
+        "scored_sessions": 19
+      },
+      "run_files": {
+        "index.html": "56824a12fd34a798b53bfe8caf04e68937cc45c6e2f291480580a37b77c435be",
+        "inputs.json": "2cc13767bb63e5c87706f4e635a39ed63bc6820d7e8a160d90ca45d00aa584be",
+        "preparation.json": "550f1f6f875ace9e365e940d57f4613a52ebdd48835a585409c944e99a841c63",
+        "report.json": "159637db28c294659e8dc09afd668a50d0f5bfc58f12244fe9393ec10b7e5f7f",
+        "started.json": "e232637cfe9a5490f4a3f15d90e96e908c6d0eee47a2bb416882b9a68309dc84",
+        "inputs/snapshot.json": "20a8fc93b3500eedf1d5bcffd3ff253c907abe31b6c2b4252ba38f278e82998a"
+      },
+      "all_six_files_unchanged_since_native_readback_and_observer": true,
+      "source": {
+        "raw_sha256": "753cd5849cba994df592b75b38eeb97c16525c0c013f3ac47cb9e8db52829abe",
+        "actual_retrieved_at": "2026-10-26T11:11:56.500549Z",
+        "request_count": 1
+      },
+      "observer": {
+        "evidence": {
+          "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-NDAQ.json",
+          "sha256": "0b2f45fd634dde7d2e09897b01d3d381cee6c683adb09f9a8b9c2fcab512ec6d",
+          "bytes": 23334
+        },
+        "status": "PASS",
+        "callbacks": 19,
+        "economic_result_exact_match": true,
+        "additional_validation_calculations": 1,
+        "blind_holdout_proven": false
+      }
+    },
+    "KO": {
+      "task_id": "e3cd491980a4917d2760699d8a9b19e13c2a8c2e00e316896392c0e7cf5302f1",
+      "task_ref": "tasks/task-blind-03b9c996063e7fb03fbb-ko-create_task",
+      "run_id": "b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c",
+      "run_ref": "runs/run-b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c",
+      "report_hash": "027096ba20c63d15e05abd3119167914068c7cbaf1374a734567f510fa9f1089",
+      "report_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\runs\\run-b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c\\report.json",
+        "sha256": "0afc66f5b470732bef19d0b6ddf5cc4850dbbaabb20d1cb6de4c5c992ba4359e",
+        "bytes": 47529
+      },
+      "snapshot_id": "23a5f74d3b043d6b06111b3dac35204095a5545601d478855726f2921a56c4fe",
+      "snapshot_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\runs\\run-b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c\\inputs\\snapshot.json",
+        "sha256": "094556bd84b7268932951d9ad8e1177ea46b429e49a21727580957e602ad9e3f",
+        "bytes": 180313
+      },
+      "security_id": "HOLDOUT:KO:03b9c996063e7fb03fbb",
+      "strategy_id": "price.dual_ma@1",
+      "spec": {
+        "end_policy": "MARK_TO_MARKET",
+        "execution_policy": "STANDARD_STRATEGY_RISK",
+        "fee_rate": 0.0008,
+        "initial_cash": 10000,
+        "name": "双均线价格策略",
+        "purpose": "DESCRIPTIVE_DEVELOPMENT",
+        "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+        "risk": {
+          "max_daily_loss_pct": 1.0,
+          "max_leverage": 1.0,
+          "max_position_pct": 0.25,
+          "max_single_loss_pct": 0.03,
+          "min_cash_pct": 0.0
+        },
+        "schema_version": "us-equity-experiment-spec-v1",
+        "score_end_session": "2026-02-27",
+        "score_start_session": "2026-02-02",
+        "slippage_pct": 0.0005,
+        "snapshot_id": "23a5f74d3b043d6b06111b3dac35204095a5545601d478855726f2921a56c4fe",
+        "strategy": {
+          "name": "dual_ma",
+          "params": {
+            "fast_window": 5,
+            "position_pct": 0.25,
+            "slow_window": 10,
+            "stop_loss_pct": 0.03,
+            "take_profit_pct": 0.06
+          }
+        }
+      },
+      "scoring_protocol": {
+        "annualization": "252_REGULAR_SESSIONS_PER_YEAR_DESCRIPTIVE_ASSUMPTION",
+        "available_context_sessions": 12,
+        "bar_availability_lag_seconds": 60,
+        "company_actions": "DECLARED_ACTION_FREE_WINDOW_ONLY",
+        "confirmation_evaluation": false,
+        "parameter_selection": false,
+        "required_context_sessions": 12,
+        "score_end": "2026-02-27T21:00:00Z",
+        "score_start": "2026-02-02T14:30:00Z",
+        "scored_sessions": 19,
+        "session_clock_hash": "08e4357fd5b44e895e01c47e24861d67d100c4d37a1e72847d66973ecd961f06",
+        "warmup_trading": false
+      },
+      "summary": {
+        "report_hash": "027096ba20c63d15e05abd3119167914068c7cbaf1374a734567f510fa9f1089",
+        "total_return": 0.0,
+        "max_drawdown": 0.0,
+        "final_equity": 10000.0,
+        "total_fees": 0.0,
+        "fill_count": 0,
+        "round_trip_count": 0,
+        "realized_pnl": 0.0,
+        "unrealized_pnl": 0.0,
+        "open_position_qty": 0.0,
+        "annualized_return": null,
+        "sharpe_ratio": null,
+        "win_rate": null,
+        "statistical_status": {
+          "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+          "annualized_return": "SHORT_SAMPLE",
+          "elapsed_years": 0.07539682539682539,
+          "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+          "minimum_observations": 30,
+          "observation_count": 19,
+          "periods_per_year": 252,
+          "sharpe_ratio": "SHORT_SAMPLE",
+          "status": "INSUFFICIENT_EVIDENCE",
+          "win_rate": "NO_COMPLETED_ROUND_TRIPS"
+        },
+        "scored_sessions": 19
+      },
+      "run_files": {
+        "index.html": "02f26806944e006dc9f3648d4ab08dfcfa7dd7aefea54e4be7516ffc55190178",
+        "inputs.json": "bade78f90d673ce192b8abd33c45e90a0e30df48bbbfcbfd1ed99e45988a5faa",
+        "preparation.json": "c5d7111ce99a0b05fa6a325dee04caaf0d93f831676c74ef5a2d30055773bc84",
+        "report.json": "0afc66f5b470732bef19d0b6ddf5cc4850dbbaabb20d1cb6de4c5c992ba4359e",
+        "started.json": "62bc76a8394b7f60cff0798574f6d0f6f2863cb3bf224eb9cfce953fb96850a1",
+        "inputs/snapshot.json": "094556bd84b7268932951d9ad8e1177ea46b429e49a21727580957e602ad9e3f"
+      },
+      "all_six_files_unchanged_since_native_readback_and_observer": true,
+      "source": {
+        "raw_sha256": "873b1cc2cb0a3886235f299646278f6ca0e40ce2b9ef31858565664372605276",
+        "actual_retrieved_at": "2026-10-26T11:11:55.909582Z",
+        "request_count": 1
+      },
+      "observer": {
+        "evidence": {
+          "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-KO.json",
+          "sha256": "4ca56f9c02eea765b39d2bab336faeee46a5c17bc02f47cd9185dbcda2e63f57",
+          "bytes": 23334
+        },
+        "status": "PASS",
+        "callbacks": 19,
+        "economic_result_exact_match": true,
+        "additional_validation_calculations": 1,
+        "blind_holdout_proven": false
+      }
+    }
+  },
+  "validations": {
+    "NDAQ": {
+      "validation_id": "4e033dfab3026887a02663ecb648cbc571f98316b3a899c791d5d3fcb9a42bb7",
+      "validation_ref": "validations/validation-4e033dfab3026887a02663ecb648cbc571f98316b3a899c791d5d3fcb9a42bb7",
+      "validation_hash": "3e623aa3734d2b8b16808dd1c7aa630a4cc69cab1bc10212b4ee95ff08f0b393",
+      "validation_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\validations\\validation-4e033dfab3026887a02663ecb648cbc571f98316b3a899c791d5d3fcb9a42bb7\\validation.json",
+        "sha256": "ae57a3500f87a1243e5e69525fabc91a9a7a847902dc11bb9fe013610ec6f916",
+        "bytes": 18194
+      },
+      "status": "COMPLETED",
+      "base": {
+        "run_id": "b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959",
+        "task_id": "1e59c059b27842135ee3d756b9c3dbc4054c7437cc6aa680588210d73e094cd2",
+        "report_hash": "eca9aa9b8c39070a81009e72679213580640bed583f189737f794901452110be",
+        "strategy": "price.dual_ma@1",
+        "spec": {
+          "end_policy": "MARK_TO_MARKET",
+          "execution_policy": "STANDARD_STRATEGY_RISK",
+          "fee_rate": 0.0008,
+          "initial_cash": 10000,
+          "name": "双均线价格策略",
+          "purpose": "DESCRIPTIVE_DEVELOPMENT",
+          "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+          "risk": {
+            "max_daily_loss_pct": 1.0,
+            "max_leverage": 1.0,
+            "max_position_pct": 0.25,
+            "max_single_loss_pct": 0.03,
+            "min_cash_pct": 0.0
+          },
+          "schema_version": "us-equity-experiment-spec-v1",
+          "score_end_session": "2026-02-27",
+          "score_start_session": "2026-02-02",
+          "slippage_pct": 0.0005,
+          "snapshot_id": "a579a9cf9a2e27e5f6652bdf85b1c293c1d4bf3057365f6bb6543caf0bb5d90b",
+          "strategy": {
+            "name": "dual_ma",
+            "params": {
+              "fast_window": 5,
+              "position_pct": 0.25,
+              "slow_window": 10,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.06
+            }
+          }
+        },
+        "symbol": "NDAQ",
+        "security": {
+          "currency": "USD",
+          "exchange": "XNAS",
+          "instrument_type": "COMMON_STOCK",
+          "security_id": "HOLDOUT:NDAQ:03b9c996063e7fb03fbb",
+          "symbol": "NDAQ"
+        },
+        "snapshot_id": "a579a9cf9a2e27e5f6652bdf85b1c293c1d4bf3057365f6bb6543caf0bb5d90b",
+        "runtime": {
+          "source_hash": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+          "environment": {
+            "status": "VERIFIED",
+            "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+            "lock_name": "requirements.research.lock",
+            "lock_fully_pinned": true,
+            "packages": {
+              "numpy": {
+                "required": "2.4.6",
+                "installed": "2.4.6"
+              },
+              "pandas": {
+                "required": "3.0.3",
+                "installed": "3.0.3"
+              },
+              "python-dateutil": {
+                "required": "2.9.0.post0",
+                "installed": "2.9.0.post0"
+              },
+              "six": {
+                "required": "1.17.0",
+                "installed": "1.17.0"
+              },
+              "tzdata": {
+                "required": "2026.2",
+                "installed": "2026.2"
+              }
+            },
+            "missing": [],
+            "mismatched": [],
+            "errors": [],
+            "verification_scope": "installed_distribution_versions_against_lock",
+            "python_version": "3.14.6",
+            "python_supported": true
+          }
+        }
+      },
+      "cost_scenarios": [
+        {
+          "status": "REUSED_SAVED_RESULT",
+          "reason": null,
+          "multiplier": 1,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "changed_from_base": false,
+          "spec_hash": "87fad0c89e37e4ba34f2e56ba435ef77dcc362a4e90b59293d28c6b28c32563f",
+          "report_hash": "eca9aa9b8c39070a81009e72679213580640bed583f189737f794901452110be",
+          "summary": {
+            "report_hash": "eca9aa9b8c39070a81009e72679213580640bed583f189737f794901452110be",
+            "total_return": 0.014462833802999953,
+            "max_drawdown": 0.0,
+            "final_equity": 10144.62833803,
+            "total_fees": 4.12099947,
+            "fill_count": 2,
+            "round_trip_count": 1,
+            "realized_pnl": 144.62833803000026,
+            "unrealized_pnl": 0.0,
+            "open_position_qty": 0.0,
+            "annualized_return": null,
+            "sharpe_ratio": null,
+            "win_rate": 1.0,
+            "statistical_status": {
+              "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+              "annualized_return": "SHORT_SAMPLE",
+              "elapsed_years": 0.07539682539682539,
+              "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+              "minimum_observations": 30,
+              "observation_count": 19,
+              "periods_per_year": 252,
+              "sharpe_ratio": "SHORT_SAMPLE",
+              "status": "INSUFFICIENT_EVIDENCE",
+              "win_rate": "DESCRIPTIVE_COMPLETED_ROUND_TRIPS"
+            },
+            "scored_sessions": 19
+          },
+          "artifact": "base/report.json"
+        },
+        {
+          "status": "COMPLETED",
+          "reason": null,
+          "spec_hash": "18024722a8ee0c65983356f1016d77f524b52eafd3390664c8b3ddc463ec4bc9",
+          "report_hash": "d265534a106fbbb699c4afd2af57b8596d0154816cbb3cc43d8db92b2441918e",
+          "summary": {
+            "report_hash": "d265534a106fbbb699c4afd2af57b8596d0154816cbb3cc43d8db92b2441918e",
+            "total_return": 0.013925335424000096,
+            "max_drawdown": 0.0,
+            "final_equity": 10139.253354240001,
+            "total_fees": 8.24399576,
+            "fill_count": 2,
+            "round_trip_count": 1,
+            "realized_pnl": 139.25335424000002,
+            "unrealized_pnl": 0.0,
+            "open_position_qty": 0.0,
+            "annualized_return": null,
+            "sharpe_ratio": null,
+            "win_rate": 1.0,
+            "statistical_status": {
+              "observation_count": 19,
+              "minimum_observations": 30,
+              "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+              "periods_per_year": 252,
+              "elapsed_years": 0.07539682539682539,
+              "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+              "annualized_return": "SHORT_SAMPLE",
+              "sharpe_ratio": "SHORT_SAMPLE",
+              "win_rate": "DESCRIPTIVE_COMPLETED_ROUND_TRIPS",
+              "status": "INSUFFICIENT_EVIDENCE"
+            },
+            "scored_sessions": 19
+          },
+          "artifact": "cost-2/report.json",
+          "multiplier": 2,
+          "fee_rate": 0.0016,
+          "slippage_pct": 0.001,
+          "changed_from_base": true
+        },
+        {
+          "status": "COMPLETED",
+          "reason": null,
+          "spec_hash": "1a89990ab01b503c903bae442d9ea265e04f6cd1001be7cab1a7a66c9e37de8d",
+          "report_hash": "5b30e5934e9d72e8273e5ba40c7a27ac458a50c6392190d1e34cccb6f94862c8",
+          "summary": {
+            "report_hash": "5b30e5934e9d72e8273e5ba40c7a27ac458a50c6392190d1e34cccb6f94862c8",
+            "total_return": 0.013387505180999959,
+            "max_drawdown": 0.0,
+            "final_equity": 10133.87505181,
+            "total_fees": 12.368985690000002,
+            "fill_count": 2,
+            "round_trip_count": 1,
+            "realized_pnl": 133.8750518100003,
+            "unrealized_pnl": 0.0,
+            "open_position_qty": 0.0,
+            "annualized_return": null,
+            "sharpe_ratio": null,
+            "win_rate": 1.0,
+            "statistical_status": {
+              "observation_count": 19,
+              "minimum_observations": 30,
+              "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+              "periods_per_year": 252,
+              "elapsed_years": 0.07539682539682539,
+              "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+              "annualized_return": "SHORT_SAMPLE",
+              "sharpe_ratio": "SHORT_SAMPLE",
+              "win_rate": "DESCRIPTIVE_COMPLETED_ROUND_TRIPS",
+              "status": "INSUFFICIENT_EVIDENCE"
+            },
+            "scored_sessions": 19
+          },
+          "artifact": "cost-3/report.json",
+          "multiplier": 3,
+          "fee_rate": 0.0024000000000000002,
+          "slippage_pct": 0.0015,
+          "changed_from_base": true
+        }
+      ],
+      "benchmarks": [
+        {
+          "status": "COMPLETED",
+          "reason": null,
+          "spec_hash": "210465fae6a268b82328e85819e0cdb439c5f7425839219e9427e1daa31d6003",
+          "report_hash": "381462a5a0e8cf4454fdf65ddf6b05b4b86ce5fcc60730eaffbeda630a1c75bb",
+          "summary": {
+            "report_hash": "381462a5a0e8cf4454fdf65ddf6b05b4b86ce5fcc60730eaffbeda630a1c75bb",
+            "total_return": 0.0,
+            "max_drawdown": 0.0,
+            "final_equity": 10000.0,
+            "total_fees": 0.0,
+            "fill_count": 0,
+            "round_trip_count": 0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": 0.0,
+            "open_position_qty": 0.0,
+            "annualized_return": null,
+            "sharpe_ratio": null,
+            "win_rate": null,
+            "statistical_status": {
+              "observation_count": 19,
+              "minimum_observations": 30,
+              "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+              "periods_per_year": 252,
+              "elapsed_years": 0.07539682539682539,
+              "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+              "annualized_return": "SHORT_SAMPLE",
+              "sharpe_ratio": "SHORT_SAMPLE",
+              "win_rate": "NO_COMPLETED_ROUND_TRIPS",
+              "status": "INSUFFICIENT_EVIDENCE"
+            },
+            "scored_sessions": 19
+          },
+          "artifact": "benchmark-cash/report.json",
+          "benchmark": "cash",
+          "title": "现金基准"
+        },
+        {
+          "status": "COMPLETED",
+          "reason": null,
+          "spec_hash": "f5bdb832e741804e37070dc28b4d916f8954d92f4e445fc6107166c9dc14fe43",
+          "report_hash": "55f7ffae162c8dff1b9e82d0836002247a7bfe573057c8a2d0a0ecc6463844cf",
+          "summary": {
+            "report_hash": "55f7ffae162c8dff1b9e82d0836002247a7bfe573057c8a2d0a0ecc6463844cf",
+            "total_return": -0.09995615944056213,
+            "max_drawdown": 0.1880284964285549,
+            "final_equity": 9000.43840559438,
+            "total_fees": 7.9936051159072745,
+            "fill_count": 1,
+            "round_trip_count": 0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -999.5615944056196,
+            "open_position_qty": 102.76819156803596,
+            "annualized_return": null,
+            "sharpe_ratio": null,
+            "win_rate": null,
+            "statistical_status": {
+              "observation_count": 19,
+              "minimum_observations": 30,
+              "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+              "periods_per_year": 252,
+              "elapsed_years": 0.07539682539682539,
+              "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+              "annualized_return": "SHORT_SAMPLE",
+              "sharpe_ratio": "SHORT_SAMPLE",
+              "win_rate": "NO_COMPLETED_ROUND_TRIPS",
+              "status": "INSUFFICIENT_EVIDENCE"
+            },
+            "scored_sessions": 19
+          },
+          "artifact": "benchmark-buy_and_hold/report.json",
+          "benchmark": "buy_and_hold",
+          "title": "100%买入持有基准"
+        }
+      ],
+      "followup": {
+        "status": "NOT_RUN",
+        "reason": "NO_EXPLICIT_FOLLOWUP_INTERVAL",
+        "summary": null,
+        "report_hash": null,
+        "artifact": null,
+        "method": "FIXED_PARAMETERS_LATER_INTERVAL_DESCRIPTIVE_ONLY",
+        "blind_holdout": false,
+        "parameter_selection": false
+      },
+      "new_economic_runs": 4,
+      "one_x_reused_saved_result": true,
+      "complete_package_files": {
+        "started.json": "dd5959ed4a7a8e9099f35e7b2b2aa37087992a3051b9dc5a605dba29fe25d28b",
+        "validation.json": "ae57a3500f87a1243e5e69525fabc91a9a7a847902dc11bb9fe013610ec6f916",
+        "base/inputs.json": "2cc13767bb63e5c87706f4e635a39ed63bc6820d7e8a160d90ca45d00aa584be",
+        "base/report.json": "159637db28c294659e8dc09afd668a50d0f5bfc58f12244fe9393ec10b7e5f7f",
+        "base/started.json": "e232637cfe9a5490f4a3f15d90e96e908c6d0eee47a2bb416882b9a68309dc84",
+        "benchmark-buy_and_hold/report.json": "80f42522bc6f23afd7487faa12a90eb1456b4fbbc22f0da7e4a83c0e2f693c9b",
+        "benchmark-buy_and_hold/spec.json": "71e94dcbd33154114670220385c6dff0c806ea3fc0ee80ff0c43376ba576db43",
+        "benchmark-cash/report.json": "58f3184ddbf4271080c217c334a616cc6d85e2eb5092c6ea4cd5b2156645cb51",
+        "benchmark-cash/spec.json": "bb79eef50d70fd51b259164baa88003b6aeb6933c6b4947c4555292cc62bdacc",
+        "cost-2/report.json": "ede59cbfb242bd98e5d5686d79d3f0c3d028597fa946cb2a9da12332ef86f017",
+        "cost-2/spec.json": "1f3b362f5d8aa2683e0d9d8e8c9639f0ae8b56480ff791e69314b8b287e0cb1b",
+        "cost-3/report.json": "35c2ef7a8de4ed319d4e80225302095a4148e2d5c490a146ce1dc871707d8497",
+        "cost-3/spec.json": "7e46d3491ef67f847f6641bf46eba6e834e8d9a5d2196c5c6665f70bfd6b5fce",
+        "base/inputs/snapshot.json": "20a8fc93b3500eedf1d5bcffd3ff253c907abe31b6c2b4252ba38f278e82998a"
+      },
+      "complete_package_read_validation_passed": true
+    },
+    "KO": {
+      "validation_id": "bbeef2bf94acb08fc873f2dd41316733d16eb2ab99500d08558f0c00f03419d9",
+      "validation_ref": "validations/validation-bbeef2bf94acb08fc873f2dd41316733d16eb2ab99500d08558f0c00f03419d9",
+      "validation_hash": "8553e77bbb15a6352b80e5876bb63447ec9e1fd8008b680bbf32b1971cf9ba9b",
+      "validation_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\validations\\validation-bbeef2bf94acb08fc873f2dd41316733d16eb2ab99500d08558f0c00f03419d9\\validation.json",
+        "sha256": "d19f92fe24b129a44d1eaa00edb55584f4dbbaf1346a1cb3c6f0cd8307d83fb6",
+        "bytes": 17881
+      },
+      "status": "COMPLETED",
+      "base": {
+        "run_id": "b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c",
+        "task_id": "e3cd491980a4917d2760699d8a9b19e13c2a8c2e00e316896392c0e7cf5302f1",
+        "report_hash": "027096ba20c63d15e05abd3119167914068c7cbaf1374a734567f510fa9f1089",
+        "strategy": "price.dual_ma@1",
+        "spec": {
+          "end_policy": "MARK_TO_MARKET",
+          "execution_policy": "STANDARD_STRATEGY_RISK",
+          "fee_rate": 0.0008,
+          "initial_cash": 10000,
+          "name": "双均线价格策略",
+          "purpose": "DESCRIPTIVE_DEVELOPMENT",
+          "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+          "risk": {
+            "max_daily_loss_pct": 1.0,
+            "max_leverage": 1.0,
+            "max_position_pct": 0.25,
+            "max_single_loss_pct": 0.03,
+            "min_cash_pct": 0.0
+          },
+          "schema_version": "us-equity-experiment-spec-v1",
+          "score_end_session": "2026-02-27",
+          "score_start_session": "2026-02-02",
+          "slippage_pct": 0.0005,
+          "snapshot_id": "23a5f74d3b043d6b06111b3dac35204095a5545601d478855726f2921a56c4fe",
+          "strategy": {
+            "name": "dual_ma",
+            "params": {
+              "fast_window": 5,
+              "position_pct": 0.25,
+              "slow_window": 10,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.06
+            }
+          }
+        },
+        "symbol": "KO",
+        "security": {
+          "currency": "USD",
+          "exchange": "XNYS",
+          "instrument_type": "COMMON_STOCK",
+          "security_id": "HOLDOUT:KO:03b9c996063e7fb03fbb",
+          "symbol": "KO"
+        },
+        "snapshot_id": "23a5f74d3b043d6b06111b3dac35204095a5545601d478855726f2921a56c4fe",
+        "runtime": {
+          "source_hash": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+          "environment": {
+            "status": "VERIFIED",
+            "lock_sha256": "2e12c00f613160e974a3c94f23ee2b058f6fed4ae7843d7747b318173d65d320",
+            "lock_name": "requirements.research.lock",
+            "lock_fully_pinned": true,
+            "packages": {
+              "numpy": {
+                "required": "2.4.6",
+                "installed": "2.4.6"
+              },
+              "pandas": {
+                "required": "3.0.3",
+                "installed": "3.0.3"
+              },
+              "python-dateutil": {
+                "required": "2.9.0.post0",
+                "installed": "2.9.0.post0"
+              },
+              "six": {
+                "required": "1.17.0",
+                "installed": "1.17.0"
+              },
+              "tzdata": {
+                "required": "2026.2",
+                "installed": "2026.2"
+              }
+            },
+            "missing": [],
+            "mismatched": [],
+            "errors": [],
+            "verification_scope": "installed_distribution_versions_against_lock",
+            "python_version": "3.14.6",
+            "python_supported": true
+          }
+        }
+      },
+      "cost_scenarios": [
+        {
+          "status": "REUSED_SAVED_RESULT",
+          "reason": null,
+          "multiplier": 1,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "changed_from_base": false,
+          "spec_hash": "f932013a2582c5e0c540b6c532c96f403f1fbb361d1a42d553e781074abdd3ae",
+          "report_hash": "027096ba20c63d15e05abd3119167914068c7cbaf1374a734567f510fa9f1089",
+          "summary": {
+            "report_hash": "027096ba20c63d15e05abd3119167914068c7cbaf1374a734567f510fa9f1089",
+            "total_return": 0.0,
+            "max_drawdown": 0.0,
+            "final_equity": 10000.0,
+            "total_fees": 0.0,
+            "fill_count": 0,
+            "round_trip_count": 0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": 0.0,
+            "open_position_qty": 0.0,
+            "annualized_return": null,
+            "sharpe_ratio": null,
+            "win_rate": null,
+            "statistical_status": {
+              "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+              "annualized_return": "SHORT_SAMPLE",
+              "elapsed_years": 0.07539682539682539,
+              "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+              "minimum_observations": 30,
+              "observation_count": 19,
+              "periods_per_year": 252,
+              "sharpe_ratio": "SHORT_SAMPLE",
+              "status": "INSUFFICIENT_EVIDENCE",
+              "win_rate": "NO_COMPLETED_ROUND_TRIPS"
+            },
+            "scored_sessions": 19
+          },
+          "artifact": "base/report.json"
+        },
+        {
+          "status": "COMPLETED",
+          "reason": null,
+          "spec_hash": "eeed6492c3deedaba39e02e73db7b743c6a2aa45c2bc9beea7255a2f38aa7830",
+          "report_hash": "e901343fea84d1746f50f5a906f97b03e3f57f736b18df9943a396a4253ef9df",
+          "summary": {
+            "report_hash": "e901343fea84d1746f50f5a906f97b03e3f57f736b18df9943a396a4253ef9df",
+            "total_return": 0.0,
+            "max_drawdown": 0.0,
+            "final_equity": 10000.0,
+            "total_fees": 0.0,
+            "fill_count": 0,
+            "round_trip_count": 0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": 0.0,
+            "open_position_qty": 0.0,
+            "annualized_return": null,
+            "sharpe_ratio": null,
+            "win_rate": null,
+            "statistical_status": {
+              "observation_count": 19,
+              "minimum_observations": 30,
+              "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+              "periods_per_year": 252,
+              "elapsed_years": 0.07539682539682539,
+              "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+              "annualized_return": "SHORT_SAMPLE",
+              "sharpe_ratio": "SHORT_SAMPLE",
+              "win_rate": "NO_COMPLETED_ROUND_TRIPS",
+              "status": "INSUFFICIENT_EVIDENCE"
+            },
+            "scored_sessions": 19
+          },
+          "artifact": "cost-2/report.json",
+          "multiplier": 2,
+          "fee_rate": 0.0016,
+          "slippage_pct": 0.001,
+          "changed_from_base": true
+        },
+        {
+          "status": "COMPLETED",
+          "reason": null,
+          "spec_hash": "39fe3a2cbb2d0b0f72bfcdafed586eee21e807f1a9b6a7135e68d85f576f5cc5",
+          "report_hash": "9b90af5939274755848f72be85596b6ef74ea4df158811cbaef672f846ab98a7",
+          "summary": {
+            "report_hash": "9b90af5939274755848f72be85596b6ef74ea4df158811cbaef672f846ab98a7",
+            "total_return": 0.0,
+            "max_drawdown": 0.0,
+            "final_equity": 10000.0,
+            "total_fees": 0.0,
+            "fill_count": 0,
+            "round_trip_count": 0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": 0.0,
+            "open_position_qty": 0.0,
+            "annualized_return": null,
+            "sharpe_ratio": null,
+            "win_rate": null,
+            "statistical_status": {
+              "observation_count": 19,
+              "minimum_observations": 30,
+              "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+              "periods_per_year": 252,
+              "elapsed_years": 0.07539682539682539,
+              "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+              "annualized_return": "SHORT_SAMPLE",
+              "sharpe_ratio": "SHORT_SAMPLE",
+              "win_rate": "NO_COMPLETED_ROUND_TRIPS",
+              "status": "INSUFFICIENT_EVIDENCE"
+            },
+            "scored_sessions": 19
+          },
+          "artifact": "cost-3/report.json",
+          "multiplier": 3,
+          "fee_rate": 0.0024000000000000002,
+          "slippage_pct": 0.0015,
+          "changed_from_base": true
+        }
+      ],
+      "benchmarks": [
+        {
+          "status": "COMPLETED",
+          "reason": null,
+          "spec_hash": "dc44004a8a53238bd7ceabe978ba7725df982fbe0c890b98213bba32976ff775",
+          "report_hash": "fff8876b3a9e16a8276d00d09faaacb8f3725414f62e0265a72ce1db4b2148ed",
+          "summary": {
+            "report_hash": "fff8876b3a9e16a8276d00d09faaacb8f3725414f62e0265a72ce1db4b2148ed",
+            "total_return": 0.0,
+            "max_drawdown": 0.0,
+            "final_equity": 10000.0,
+            "total_fees": 0.0,
+            "fill_count": 0,
+            "round_trip_count": 0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": 0.0,
+            "open_position_qty": 0.0,
+            "annualized_return": null,
+            "sharpe_ratio": null,
+            "win_rate": null,
+            "statistical_status": {
+              "observation_count": 19,
+              "minimum_observations": 30,
+              "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+              "periods_per_year": 252,
+              "elapsed_years": 0.07539682539682539,
+              "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+              "annualized_return": "SHORT_SAMPLE",
+              "sharpe_ratio": "SHORT_SAMPLE",
+              "win_rate": "NO_COMPLETED_ROUND_TRIPS",
+              "status": "INSUFFICIENT_EVIDENCE"
+            },
+            "scored_sessions": 19
+          },
+          "artifact": "benchmark-cash/report.json",
+          "benchmark": "cash",
+          "title": "现金基准"
+        },
+        {
+          "status": "COMPLETED",
+          "reason": null,
+          "spec_hash": "41f6d560a28763611036104c33eb0c03533152a21993372ccf8b31fcd0f35561",
+          "report_hash": "a03336d84f163b4b996880c8b7bbd105a8794b1378f0fc7134bd0bf57836ec6a",
+          "summary": {
+            "report_hash": "a03336d84f163b4b996880c8b7bbd105a8794b1378f0fc7134bd0bf57836ec6a",
+            "total_return": 0.08590951016448622,
+            "max_drawdown": 0.028090614377711542,
+            "final_equity": 10859.095101644862,
+            "total_fees": 7.9936051159072745,
+            "fill_count": 1,
+            "round_trip_count": 0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": 859.0951016448615,
+            "open_position_qty": 133.1424157247714,
+            "annualized_return": null,
+            "sharpe_ratio": null,
+            "win_rate": null,
+            "statistical_status": {
+              "observation_count": 19,
+              "minimum_observations": 30,
+              "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+              "periods_per_year": 252,
+              "elapsed_years": 0.07539682539682539,
+              "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+              "annualized_return": "SHORT_SAMPLE",
+              "sharpe_ratio": "SHORT_SAMPLE",
+              "win_rate": "NO_COMPLETED_ROUND_TRIPS",
+              "status": "INSUFFICIENT_EVIDENCE"
+            },
+            "scored_sessions": 19
+          },
+          "artifact": "benchmark-buy_and_hold/report.json",
+          "benchmark": "buy_and_hold",
+          "title": "100%买入持有基准"
+        }
+      ],
+      "followup": {
+        "status": "NOT_RUN",
+        "reason": "NO_EXPLICIT_FOLLOWUP_INTERVAL",
+        "summary": null,
+        "report_hash": null,
+        "artifact": null,
+        "method": "FIXED_PARAMETERS_LATER_INTERVAL_DESCRIPTIVE_ONLY",
+        "blind_holdout": false,
+        "parameter_selection": false
+      },
+      "new_economic_runs": 4,
+      "one_x_reused_saved_result": true,
+      "complete_package_files": {
+        "started.json": "ad6a363b4facbb505787ea3967b7bf66b016937694a1dc206eec4587334e74d5",
+        "validation.json": "d19f92fe24b129a44d1eaa00edb55584f4dbbaf1346a1cb3c6f0cd8307d83fb6",
+        "base/inputs.json": "bade78f90d673ce192b8abd33c45e90a0e30df48bbbfcbfd1ed99e45988a5faa",
+        "base/report.json": "0afc66f5b470732bef19d0b6ddf5cc4850dbbaabb20d1cb6de4c5c992ba4359e",
+        "base/started.json": "62bc76a8394b7f60cff0798574f6d0f6f2863cb3bf224eb9cfce953fb96850a1",
+        "benchmark-buy_and_hold/report.json": "889d0247da6f9cad7cb84b5fb4535b20b0cb82c8c3a73f1407f00b86721b77e6",
+        "benchmark-buy_and_hold/spec.json": "bd169b8c3e6adad649a713b0fcfbd617e77c8884127857bd93b7ef6156e23f95",
+        "benchmark-cash/report.json": "302feae8488b1776410f96268a9f7a6b4f7c7b150d0e17e2f5507109ccdaf8a2",
+        "benchmark-cash/spec.json": "4c7323a9270cf21c03aa4da58b2de42c5745527765d9bd62d20990e183d14deb",
+        "cost-2/report.json": "1602d714d115d9e9729e2e517e1d153795bcf517660b295d6c7e4a35942cf56e",
+        "cost-2/spec.json": "cc4c21596104f74e67e103efd5d04029d8b9c1f907593939d12bd11be6d94098",
+        "cost-3/report.json": "5a259adb88dc22551c81077a70da6d2cc0c0d8ad86921160a3bd148cb6e75291",
+        "cost-3/spec.json": "037ebab2202fbd48dd83fa6e2e09fcc38fbfe6b019301d52a1e9094fd122b460",
+        "base/inputs/snapshot.json": "094556bd84b7268932951d9ad8e1177ea46b429e49a21727580957e602ad9e3f"
+      },
+      "complete_package_read_validation_passed": true
+    }
+  },
+  "operations": [
+    {
+      "operation_id": "55e75e89-0eda-4ecf-9fd0-70f98c47b225",
+      "action": "validate_run",
+      "symbol": "NDAQ",
+      "origin": "NATIVE_DESKTOP_REPORTED_BY_OPERATOR",
+      "request_hash": "b0a58da76f28fcefe0de042aa1ae9eb3c65aaab23c53116b1ae0badee8a778f5",
+      "request_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\55e75e89-0eda-4ecf-9fd0-70f98c47b225\\request.json",
+        "sha256": "fa21b0da79a76144e570039e174025205b274107e71e95fcdc0902f012625fa8",
+        "bytes": 286
+      },
+      "result_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\55e75e89-0eda-4ecf-9fd0-70f98c47b225\\result.json",
+        "sha256": "31ba36d5444c5a07cd4bf0af03fb41fab35d61eab9485ad8dff6a4e885d2c88f",
+        "bytes": 19374
+      },
+      "status": "COMMITTED",
+      "ok": true,
+      "result_ref": "validations/validation-4e033dfab3026887a02663ecb648cbc571f98316b3a899c791d5d3fcb9a42bb7",
+      "new_economic_runs": 4,
+      "reused_saved_validation": false,
+      "action_new_economic_runs": 4
+    },
+    {
+      "operation_id": "aa534d65-8fa9-4a59-8028-0aad24cad37c",
+      "action": "run_task",
+      "symbol": "KO",
+      "origin": "NATIVE_DESKTOP_REPORTED_BY_OPERATOR",
+      "request_hash": "24055af1bddb27849281ce13d6c223c6ba72b0947d4a1ac7a9fc71c46dbd1f54",
+      "request_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\aa534d65-8fa9-4a59-8028-0aad24cad37c\\request.json",
+        "sha256": "02ea199bfda817fe64874dfa0d0e183d45e3e4f69ef5286e90ecd6f54e789869",
+        "bytes": 262
+      },
+      "result_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\aa534d65-8fa9-4a59-8028-0aad24cad37c\\result.json",
+        "sha256": "ca675ef215c87b5fa2e2f942ee15e7a359e231d68d42352079408314c22fceb3",
+        "bytes": 41705
+      },
+      "status": "COMMITTED",
+      "ok": true,
+      "result_ref": "runs/run-b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c",
+      "new_economic_runs": 1
+    },
+    {
+      "operation_id": "bf6b7200-20bd-4acf-8a52-4b0b9d083002",
+      "action": "run_task",
+      "symbol": "NDAQ",
+      "origin": "NATIVE_DESKTOP_REPORTED_BY_OPERATOR",
+      "request_hash": "35ac34b0a3e7faf165d0a2441fa17276a036b0649a92d8be59f178f4c1458370",
+      "request_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\bf6b7200-20bd-4acf-8a52-4b0b9d083002\\request.json",
+        "sha256": "de2d1167584ff8155179c2b2a74140821d9e184542bb660ba860b86c6d163aab",
+        "bytes": 264
+      },
+      "result_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\bf6b7200-20bd-4acf-8a52-4b0b9d083002\\result.json",
+        "sha256": "02a42d653a7b2f04c987a319389d88a7957a78bbc6fcdcdb2baa1e8bbe13a2a1",
+        "bytes": 43920
+      },
+      "status": "COMMITTED",
+      "ok": true,
+      "result_ref": "runs/run-b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959",
+      "new_economic_runs": 1
+    },
+    {
+      "operation_id": "blind-03b9c996063e7fb03fbb-ko-create_task",
+      "action": "create_task",
+      "symbol": "KO",
+      "origin": "API_STAGING",
+      "request_hash": "66aded4f476cb493019cd1e87ba6d91f4c37030bed2cf7158c05b9107009d918",
+      "request_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\blind-03b9c996063e7fb03fbb-ko-create_task\\request.json",
+        "sha256": "751b9862c822efc2af9d305f1fb1801b49024d4c04e943c1bef6387e728af2e9",
+        "bytes": 949
+      },
+      "result_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\blind-03b9c996063e7fb03fbb-ko-create_task\\result.json",
+        "sha256": "f42efcfc3a6120d64ebb392e54062d8a52d6558f5e816687818eabf658defca0",
+        "bytes": 5588
+      },
+      "status": "COMMITTED",
+      "ok": true,
+      "result_ref": "tasks/task-blind-03b9c996063e7fb03fbb-ko-create_task",
+      "new_economic_runs": 0,
+      "staging_request": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workbench-staging\\blind-03b9c996063e7fb03fbb-ko-create_task-request.json",
+        "sha256": "fdc36fe787a960dd479b3819ca7fd316ce33c425e08f25f7304e3f12092be879",
+        "bytes": 820
+      },
+      "staging_response": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workbench-staging\\blind-03b9c996063e7fb03fbb-ko-create_task-response.json",
+        "sha256": "1f9b049cad9c916373ba06b1f96537a6e9bc532058ba402f7458d056b610e3a1",
+        "bytes": 5625
+      }
+    },
+    {
+      "operation_id": "blind-03b9c996063e7fb03fbb-ko-import_input",
+      "action": "import_input",
+      "symbol": "KO",
+      "origin": "API_STAGING",
+      "request_hash": "90621c1ffed2dda6cffbf4533d7b66ea77cb38ef092af8ced5c3a2def0da5f9b",
+      "request_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\blind-03b9c996063e7fb03fbb-ko-import_input\\request.json",
+        "sha256": "f72946b5ac44f04e67034ca32da3e99c886b3e1f19c4ce05a2b337846652f0f6",
+        "bytes": 240650
+      },
+      "result_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\blind-03b9c996063e7fb03fbb-ko-import_input\\result.json",
+        "sha256": "88eb6f484ddd26a3d192b6c6adb74a06e8ee8557c8b0fd14348a22597705246f",
+        "bytes": 2161
+      },
+      "status": "COMMITTED",
+      "ok": true,
+      "result_ref": "data/snapshots/23a5f74d3b043d6b06111b3dac35204095a5545601d478855726f2921a56c4fe/094556bd84b7268932951d9ad8e1177ea46b429e49a21727580957e602ad9e3f.json",
+      "new_economic_runs": 0,
+      "staging_request": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workbench-staging\\blind-03b9c996063e7fb03fbb-ko-import_input-request.json",
+        "sha256": "03f9de5054c0b670851445bd2d82555845330a78ad03ea2f61fdaf0fad292afc",
+        "bytes": 240542
+      },
+      "staging_response": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workbench-staging\\blind-03b9c996063e7fb03fbb-ko-import_input-response.json",
+        "sha256": "575253178add96043d04c605960a8e180195818521671a189560c125ff28c56b",
+        "bytes": 2112
+      }
+    },
+    {
+      "operation_id": "blind-03b9c996063e7fb03fbb-ndaq-create_task",
+      "action": "create_task",
+      "symbol": "NDAQ",
+      "origin": "API_STAGING",
+      "request_hash": "abe751e615d0fd458bd4b732052559bab89093184a1a148edc19773c92738bde",
+      "request_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\blind-03b9c996063e7fb03fbb-ndaq-create_task\\request.json",
+        "sha256": "017d8536da72e20704c1ab698b42a4adda0cb2551e49191a6e85f99ed22ee8dc",
+        "bytes": 953
+      },
+      "result_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\blind-03b9c996063e7fb03fbb-ndaq-create_task\\result.json",
+        "sha256": "89684a6c330f6314cdd5a8856198134266dea4fe47d609188da82928ccfe2add",
+        "bytes": 5606
+      },
+      "status": "COMMITTED",
+      "ok": true,
+      "result_ref": "tasks/task-blind-03b9c996063e7fb03fbb-ndaq-create_task",
+      "new_economic_runs": 0,
+      "staging_request": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workbench-staging\\blind-03b9c996063e7fb03fbb-ndaq-create_task-request.json",
+        "sha256": "fe1cc3c7415e0f5ae62804045d0a29784d93c5a183e6d9c91fb7f587de58a57e",
+        "bytes": 824
+      },
+      "staging_response": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workbench-staging\\blind-03b9c996063e7fb03fbb-ndaq-create_task-response.json",
+        "sha256": "cd1de95d2dd687032ac5c5da69c872ca8617cf86c28b4eced799411f0fbf713c",
+        "bytes": 5641
+      }
+    },
+    {
+      "operation_id": "blind-03b9c996063e7fb03fbb-ndaq-import_input",
+      "action": "import_input",
+      "symbol": "NDAQ",
+      "origin": "API_STAGING",
+      "request_hash": "7ed84e87cb49a6b7c36a6bd0656ecb89c5e8156c89a2711a1e24d73dff19d3e3",
+      "request_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\blind-03b9c996063e7fb03fbb-ndaq-import_input\\request.json",
+        "sha256": "82d07ab5618d6b1e75acfc557adebe7f109e512b11a7a6e7993965301ae61193",
+        "bytes": 237896
+      },
+      "result_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\blind-03b9c996063e7fb03fbb-ndaq-import_input\\result.json",
+        "sha256": "110a136190394b7db8eccab4ad0a68a6a0863a36f9f7d9c89a6d79fcc9bc88d0",
+        "bytes": 2169
+      },
+      "status": "COMMITTED",
+      "ok": true,
+      "result_ref": "data/snapshots/a579a9cf9a2e27e5f6652bdf85b1c293c1d4bf3057365f6bb6543caf0bb5d90b/20a8fc93b3500eedf1d5bcffd3ff253c907abe31b6c2b4252ba38f278e82998a.json",
+      "new_economic_runs": 0,
+      "staging_request": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workbench-staging\\blind-03b9c996063e7fb03fbb-ndaq-import_input-request.json",
+        "sha256": "f98be0021d95319dd52418bb7668b6e7b18af584a91cf85b8aa29092f50dff15",
+        "bytes": 237788
+      },
+      "staging_response": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workbench-staging\\blind-03b9c996063e7fb03fbb-ndaq-import_input-response.json",
+        "sha256": "bf464c49826fb9d6eb1d53d930b495e1f305aa8ef59429e2d283b69a93820739",
+        "bytes": 2118
+      }
+    },
+    {
+      "operation_id": "f3814672-cb8d-414b-8801-23241dc6e8ad",
+      "action": "validate_run",
+      "symbol": "KO",
+      "origin": "NATIVE_DESKTOP_REPORTED_BY_OPERATOR",
+      "request_hash": "ad665220e575e2297ea4b0a3910b0c3a4e9cc3195122f8f1e676e89630211c7b",
+      "request_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\f3814672-cb8d-414b-8801-23241dc6e8ad\\request.json",
+        "sha256": "e01282655eeede6cd5fb871d68d2b6c4625f6f4bbcea9ab02a0b6df3ccb5a69d",
+        "bytes": 286
+      },
+      "result_file": {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\operations\\f3814672-cb8d-414b-8801-23241dc6e8ad\\result.json",
+        "sha256": "46b6751253cd622a7423f12efeca4c9680df1d263849a2db0def6988a98db06e",
+        "bytes": 19061
+      },
+      "status": "COMMITTED",
+      "ok": true,
+      "result_ref": "validations/validation-bbeef2bf94acb08fc873f2dd41316733d16eb2ab99500d08558f0c00f03419d9",
+      "new_economic_runs": 4,
+      "reused_saved_validation": false,
+      "action_new_economic_runs": 4
+    }
+  ],
+  "operation_counts": {
+    "validate_run": 2,
+    "run_task": 2,
+    "create_task": 2,
+    "import_input": 2
+  },
+  "total_new_workbench_operations": 8,
+  "api_preparation_operations": 4,
+  "native_formal_run_operations": 2,
+  "native_cost_validation_operations": 2,
+  "economic_calculation_accounting": {
+    "formal_native_runs": 2,
+    "new_cost_and_benchmark_runs": 8,
+    "one_x_cost_reuses": 2,
+    "prefix_observer_recalculations": 2,
+    "total_including_verification": 12,
+    "readback_calculations": 0
+  },
+  "new_product_task_families": 2,
+  "new_product_runs": 2,
+  "new_validation_packages": 2,
+  "workspace_before_after_readback_unchanged": true,
+  "workspace_files_at_readback": 512,
+  "previous_copied_workspace_files_retained": 440,
+  "new_workspace_files": 72,
+  "metadata_review_note": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\metadata-review-note.json",
+    "sha256": "571d4fb9f42db87458771e8836c6d8263be014fa4b626f554556943662bae4a2",
+    "bytes": 5346
+  },
+  "disclosed_output_deviation": {
+    "description": "A metadata inspection printed the complete security_identity, corporate_actions, manifest identity source and manifest price_source objects. Their nested raw_base64 fields carried encoded original Yahoo responses and encoded derived CSV. The tool output was truncated. This note records the deviation without copying that payload.",
+    "encoded_price_containing_originals_were_exposed_in_tool_output": true,
+    "later_base64_decoding_scope": "opaque bytes used only to verify SHA256 against retained source; no JSON or CSV price parsing from decoded bytes",
+    "occurred_after_protocol_freeze_and_source_acquisition": true,
+    "output_or_original_records_deleted": false,
+    "parameters_or_window_changed": false,
+    "raw_base64_decoded_for_price_inspection": false,
+    "returns_examined": false,
+    "strategy_or_economic_computation_run_by_reviewer": false,
+    "subsequent_output_policy": "Explicit allowlist of identity, hash, clock, state and counts; never nested source objects.",
+    "tool_output_chunk": "2b805e"
+  },
+  "unsuccessful_native_input": {
+    "source": "Parent operator interaction report",
+    "symbol": "NDAQ",
+    "action": "validate_run",
+    "reason": "Element coordinate unavailable before input; later observed-coordinate click succeeded",
+    "additional_committed_operations": 0,
+    "additional_economic_runs": 0,
+    "independent_ui_replay_performed": false
+  },
+  "native_capture_references": [
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\01-version-workspace.jpg",
+      "sha256": "c313c9a6a74e92cdd77a28d085d09bbfb202827befa3bd68acf4b26fdb2b0ab2",
+      "bytes": 134807
+    },
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\02-frozen-parameters.jpg",
+      "sha256": "aed1f0d6f2813f620ca1d57078a13ca058a60a9defe5ac64ea92e0b92b5cc623",
+      "bytes": 119192
+    },
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\03-ko-result.jpg",
+      "sha256": "fd29dc34e0638742655bde32caa0642500730586ebc3d056715be8ff3f9133d9",
+      "bytes": 92913
+    },
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\04-ko-costs.jpg",
+      "sha256": "9e8f25abbcde9e7333d0a7133e417084d986c7f903a0e54a70af6ec1b58378bd",
+      "bytes": 110543
+    },
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\05-ndaq-result.jpg",
+      "sha256": "7d3342aaca482f796aad7a906c9bff784d04eb7f35f6983244ee93a1d893ff9b",
+      "bytes": 112936
+    },
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\06-ndaq-costs.jpg",
+      "sha256": "51dadc712d03305b13a0c3de5c339f10b5ebe41ad498364093944ff916016c9c",
+      "bytes": 112578
+    }
+  ],
+  "native_gesture_provenance": "Native actions are attested by the operator; this independent pass verifies saved requests, committed results and frozen package identities, without operating or replaying the UI.",
+  "reopen_preservation_status": "PENDING_PARENT_REOPEN_EVIDENCE",
+  "readback_notes": [
+    "Two preliminary read-only checks stopped before writing: lock directories required explicit run-/task- filtering, and the HTTP response wrapper omits the ledger operation_id/status fields. Final checks compare actual API result payloads and ledger identities. No economic calculation was performed."
+  ],
+  "limitations": [
+    "Each cost/benchmark cell uses independent initial capital; results must not be added into a combined portfolio.",
+    "Fixed historical project holdout with a post-freeze encoded-source output deviation retained; not globally unseen, naturally forward out-of-sample, or point-in-time source authentication.",
+    "Short descriptive sample; two observer replays are additional validation calculations, not additional product runs."
+  ]
+}

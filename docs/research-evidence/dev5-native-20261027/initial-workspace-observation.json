@@ -1,0 +1,29 @@
+{
+  "schema_version": "dev5-initial-workspace-observation-v1",
+  "receipt_created_at": "2026-10-26T23:36:36.644993+00:00",
+  "observation_source": "Read-only tool output chunk f0cc9f, before parent reported its first NDAQ request",
+  "observation_clock": null,
+  "clock_limit": "The initial tool response did not record a UTC clock. This receipt time is not backdated as the observation time.",
+  "requested_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7",
+  "final_handle_path": "\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7",
+  "file_identity": {
+    "device": 1495823785448420154,
+    "inode": 41376821581058731
+  },
+  "bundle_id": "ab2e49cdc8e468385dd7b64dc30f2665aa7591a52b8d6022833c02983b7569a8",
+  "files": [
+    "trial-workspace-identity.json"
+  ],
+  "file_count": 1,
+  "counts": {
+    "task_families": 0,
+    "formal_runs": 0,
+    "stock_checks": 0,
+    "operation_results": 0,
+    "snapshots": 0,
+    "validation_packages": 0
+  },
+  "per_file_hashes_at_initial_observation": null,
+  "limitation": "Initial observation records names, counts, marker identity and physical file identity, not an earlier full SHA inventory.",
+  "subsequent_authorized_first_check": "6fb91af4-809d-4b2c-8b19-bb180258d982"
+}

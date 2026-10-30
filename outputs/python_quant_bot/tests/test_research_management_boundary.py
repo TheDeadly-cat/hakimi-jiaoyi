@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 import os
+import tempfile
 import time
 from pathlib import Path
 from types import SimpleNamespace
@@ -13,6 +14,8 @@ from exchange_terminal.services.http_contract import (
     MUTATION_PATHS, POST_API_PATHS, RETIRED_MANAGEMENT_PATHS,
     archived_execution_route_state,
 )
+from exchange_terminal.services.quant_workspace import QuantWorkspace
+from exchange_terminal.services.terminal_broker_account_control import bind_host_root
 
 SERVER_PATH = Path(__file__).resolve().parents[1] / "exchange_terminal" / "server.py"
 
@@ -24,6 +27,19 @@ class ResearchManagementBoundaryTests(unittest.TestCase):
         cls.tree = ast.parse(cls.source)
         cls.handler = next(node for node in cls.tree.body if isinstance(node, ast.ClassDef) and node.name == "ExchangeTerminalHandler")
 
+    def setUp(self):
+        temporary_runtime = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary_runtime.cleanup)
+        # Windows CI may return an 8.3 TEMP alias; the real workspace exposes
+        # the resolved physical path, which is the status contract under test.
+        self.runtime_dir = Path(temporary_runtime.name).resolve()
+        self.quant_workspace = QuantWorkspace(self.runtime_dir, read_only=True)
+        self.addCleanup(self.quant_workspace.close)
+
+    def tearDown(self):
+        self.assertFalse(self.quant_workspace.initialized)
+        self.assertEqual(list(self.runtime_dir.iterdir()), [])
+
     def handler_method(self, name, responses, **dependencies):
         method = next(node for node in self.handler.body if isinstance(node, ast.FunctionDef) and node.name == name)
         module = ast.Module(body=[method], type_ignores=[])
@@ -32,6 +48,12 @@ class ResearchManagementBoundaryTests(unittest.TestCase):
             "archived_execution_route_state": archived_execution_route_state,
             "MUTATION_PATHS": MUTATION_PATHS, "POST_API_PATHS": POST_API_PATHS,
             "block_non_loopback_client": lambda _handler: False,
+            # Keep the real lazy routing/status behavior isolated from saved data.
+            "QUANT_WORKSPACE": self.quant_workspace,
+            "RUNTIME_DIR": self.runtime_dir,
+            "LOCAL_ONLY": False, "QUANT_RUNTIME_READ_ONLY": True,
+            "TERMINAL_PACKAGE_ID": "", "TERMINAL_PACKAGE_VERSION": "", "TERMINAL_BUILD_COMMIT": "",
+            "BROKER_CONTROL_ROOT": None,
             "json_response": lambda _handler, body, status=200: responses.append((body, status)),
             "urllib": urllib, "Any": object,
             **dependencies,
@@ -66,7 +88,9 @@ class ResearchManagementBoundaryTests(unittest.TestCase):
         body = Mock()
         method(SimpleNamespace(path="/api/strategy/pipeline", rfile=body))
         self.assertEqual(responses[0][1], 423)
+        self.assertTrue(responses[0][0]["read_only"])
         self.assertFalse(responses[0][0]["paper_authorized"])
+        self.assertFalse(responses[0][0]["live_order_allowed"])
         body.read.assert_not_called()
 
     def test_default_runtime_is_read_only_and_bad_flags_cannot_enable_writes(self):
@@ -96,10 +120,42 @@ class ResearchManagementBoundaryTests(unittest.TestCase):
                     "GUARDIAN_SERVICE": SimpleNamespace(thread=None),
                 })
                 method(SimpleNamespace(), route, {})
-                self.assertEqual(responses, [({"ok": True, "status": "fixture"}, 200)])
+                expected = {"ok": True, "status": "fixture"}
+                if route == "/api/health":
+                    expected.update(local_only=False, terminal_package_id="", terminal_package_version="",
+                                    terminal_build_commit="", terminal_workspace_root=str(self.runtime_dir), broker_shared_root_id=None, quant_workspace={
+                        "pending": False, "read_only": True,
+                        "root": str(self.runtime_dir / "research-workspace"),
+                    })
+                    self.assertTrue(reader.call_args.kwargs["read_only"])
+                    self.assertFalse(reader.call_args.kwargs["runtime_mutations_allowed"])
+                    self.assertTrue(reader.call_args.kwargs["live_trading_hard_block"])
+                    self.assertFalse(reader.call_args.kwargs["guardian_worker_running"])
+                self.assertEqual(responses, [(expected, 200)])
                 reader.assert_called_once()
         self.assertIn("guardian_started = not RUNTIME_READ_ONLY", self.source)
         self.assertIn("runtime_mutations_allowed=not RUNTIME_READ_ONLY", self.source)
+
+    def test_readonly_health_reports_bound_root_identity_without_creating_control_store(self):
+        with tempfile.TemporaryDirectory(prefix="new-health-control-binding-") as temporary:
+            base = Path(temporary).resolve()
+            root = bind_host_root(base / "shared", program_root=self.runtime_dir,
+                                  record_domain="SYNTHETIC_TEST")
+            responses = []
+            reader = Mock(return_value={"ok": True})
+            method = self.handler_method("handle_api", responses,
+                BROKER_CONTROL_ROOT=root, build_health_response_from_runtime=reader,
+                RUNTIME_READ_ONLY=True, LIVE_TRADING_HARD_BLOCK=True, time=time,
+                RUNTIME_BUILD_GUARD=SimpleNamespace(snapshot=lambda: {}),
+                PAPER_ACCOUNT=SimpleNamespace(snapshot=lambda _price: {}),
+                GUARDIAN_SERVICE=SimpleNamespace(thread=None))
+            method(SimpleNamespace(), "/api/health", {})
+            self.assertEqual(responses[0][1], 200)
+            self.assertEqual(responses[0][0]["broker_shared_root_id"], root.root_id)
+            self.assertEqual(responses[0][0]["terminal_workspace_root"], str(self.runtime_dir))
+            self.assertFalse(reader.call_args.kwargs["runtime_mutations_allowed"])
+            self.assertEqual(list(base.iterdir()), [])
+            reader.assert_called_once()
 
 
 if __name__ == "__main__":

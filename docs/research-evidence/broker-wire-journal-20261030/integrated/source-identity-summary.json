@@ -1,0 +1,32 @@
+{
+  "document_kind": "DERIVED_SUMMARY_NOT_ORIGINAL_RECEIPT",
+  "source_input_count": 2090,
+  "before_after_maps_equal": true,
+  "original_maps": [
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-wire-journal-integrated-20261030-r1\\inputs-before.json",
+      "sha256": "2e2f5f123863dc0f0e3dab7d154a328129e7e36fb76f8cb39cc98cf1901c2a32",
+      "bytes": 351751,
+      "reason": "Full 2090-source input map remains external; no product verification was rerun."
+    },
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-wire-journal-integrated-20261030-r1\\inputs-after.json",
+      "sha256": "2e2f5f123863dc0f0e3dab7d154a328129e7e36fb76f8cb39cc98cf1901c2a32",
+      "bytes": 351751,
+      "reason": "Full 2090-source input map remains external; no product verification was rerun."
+    }
+  ],
+  "current_critical_source_files": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "cf41a3585d91b448dacd78cb23f68dd8029926fb1103eba0e4d323c527df8736",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_scoped_transport.py": "5ec9efcc8b837651753f69fa53068f4ab7cca50f7a85da47588b758139a95292",
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "c7095e5f9012cf5473a5721d0ae98b3816b792a9bca3ce8d7414d2ff7f458709",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_profile.py": "72242c9a817ff06494880e8b77f168489ece291167c09fb7e8da09f4d0f76367",
+    "outputs/python_quant_bot/tests/test_terminal_broker_execution_journal.py": "191c65920ae1034253966f10894854844f83efe958abd44f9f0cbae10e4f421d",
+    "outputs/python_quant_bot/tests/test_terminal_broker_scoped_transport.py": "adc229eb1311ae0c340bbb1c37b59c82762d9562de889d696565ca5e10a0de70",
+    "outputs/python_quant_bot/tests/test_futu_us_equity_simulate_wire_v2.py": "cf37b0d3dfc97e8aea46fb0f43785422c5c933aeedfa2f9f10d800f33f022b7d",
+    "tools/run_terminal_contracts.py": "be7cb328dcf2b3f265681fec028aa2de33a3ec9a493aa022dc2d5cfa15944d09"
+  },
+  "current_files_match_completed_gate": true,
+  "verification_scope": "READ_ONLY_COPY_AUDIT_NO_TEST_OR_PROBE_RERUN"
+}

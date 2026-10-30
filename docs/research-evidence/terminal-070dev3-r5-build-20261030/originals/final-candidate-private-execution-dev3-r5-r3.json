@@ -1,0 +1,22 @@
+{
+  "status": "VERIFIED_NEW_SYNTHETIC_RUN",
+  "bundle_id": "7382e481c0fb98e21bae87276a7fb75af6f7c9743e4e55d2105ffdf25110a013",
+  "frozen_content_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+  "synthetic_runs": 1,
+  "market_data_runs": 0,
+  "historical_replays": 0,
+  "provider_calls": 0,
+  "listening_servers": 0,
+  "external_module_count": 0,
+  "saved_task_id": "cbeaddaf2a4fb47fd19d533f4cc2732e22dea3c573035f10d55fdfce4fe2c40a",
+  "run_id": "2c6c6bda2c6c9df7b17e0c80f0388d0885d266715991f067e253ccce89869ff6",
+  "report_hash": "fb7d66704163cf23694d6f6238cc572e039e5150b136883ef0372b1f38c2b3cc",
+  "evidence_kind": "SYNTHETIC_TEST",
+  "save_computed": false,
+  "read_computed": false,
+  "read_changed_files": false,
+  "source_status": "BUILD_VERIFIED",
+  "dependency_status": "VERIFIED",
+  "temporary_workspace": true,
+  "private_python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r5\\runtime\\python\\python.exe"
+}

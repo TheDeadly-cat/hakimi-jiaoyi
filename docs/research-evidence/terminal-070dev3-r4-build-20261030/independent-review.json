@@ -1,0 +1,85 @@
+{
+  "schema_version": "independent-complete-candidate-receipt-review-v1",
+  "status": "PASS_RECEIPT_AND_MANIFEST_IDENTITY_REVIEW",
+  "observed_at": "2026-10-29T23:38:03.282016+00:00",
+  "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+  "source_current_status": "CLEAN",
+  "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+  "archive_sha256_from_completed_verification": "2dd7045c8de3701fb892ed1c8fc5ac3370530b2510b3c5e8263b1d6a375f20c0",
+  "manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+  "program_files": 9070,
+  "zip_members": 9071,
+  "checks": {
+    "current_source_exact_clean": true,
+    "all_exact_source_receipts": true,
+    "all_required_final_pass": true,
+    "complete_542_terminal": true,
+    "five_gates_pass": true,
+    "package_15_complete": true,
+    "private_canonical_test_binding": true,
+    "bundle_and_zip_receipts": true,
+    "manifest_hash_identity": true,
+    "manifest_canonical_bundle": true,
+    "manifest_production_candidate_scope": true,
+    "saved_manifest_copy": true,
+    "complete_entry_map": true,
+    "full_verification_receipts_and_actual_manifest_counts": true,
+    "ordinary_sdk_import_distinct": true,
+    "independent_identity_proof_bound": true,
+    "exact_false_permissions": true,
+    "both_modes": true,
+    "mode_OFFICIAL_SIMULATION": true,
+    "service_read_OFFICIAL_SIMULATION": true,
+    "mode_LIVE_CANDIDATE": true,
+    "service_read_LIVE_CANDIDATE": true,
+    "installed_readonly_feature_bound": true,
+    "new_loader_service_ui_in_manifest": true,
+    "single_new_temporary_synthetic_execution": true,
+    "both_verify_auxiliaries_pass": true,
+    "historical_msix_fixture_label": true,
+    "ci165_exact_head_eleven_success": true,
+    "native_guest_and_plan_mutation_not_claimed": true
+  },
+  "receipt_sha256": {
+    "stage-c-frozen-gates-summary-dev3-r4.json": "00d20f8393868e488c2d9e6e0ff74122903a08e498d1af477965f1fe3f3954cb",
+    "stage-c-frozen-environment-binding-dev3-r4.json": "e2a11365bfb11f5e84d6b77e288a890b57ffe3955a0f9396d700f2261e8c2071",
+    "final-candidate-build-invocation-dev3-r4.json": "6e326d55e3b063177e69094f75bfeb0219ce0370e724710e3b66c04d8bbac308",
+    "final-candidate-build-result-dev3-r4.json": "e842705b2f82dcfd884e9748d8931f03455b8a89fb3a8a1ac77b01382a923298",
+    "final-candidate-package-verification-dev3-r4.json": "5cee3aa3db15eea23d6637641239a55a4e44aef6413c5eebd9ba70bb363c041e",
+    "final-candidate-acceptance-boundary-dev3-r4.json": "bb7f76eefa0e9cd3de768ce8e5abf693042a4d5534ad8e67195698709673e023",
+    "final-candidate-feature-closure-dev3-r4.json": "31bce480b4525d1a4ac28cd239680ffc6bf05e03b8639681d3ca33f7de8fe7e1",
+    "final-candidate-broker-identity-dev3-r4.json": "b8a58418e7546f0ac6929f938e877f599f68c49f4c7fd387b32895cef4b9118c",
+    "final-candidate-installed-js-dev3-r4.json": "90709478ca2c4b2dd1fe22fb6c352fb1743215021f4c5d9c6b5b240d7ef72533",
+    "ci165-completed-summary-r1.json": "94a565fb25e02c4bc90d40eaedd7201ed7d9575fbaa04b8c14b1266ee3b6b53e"
+  },
+  "retained_large_evidence": [
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-manifest-dev3-r4.json",
+      "sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+      "bytes": 1389194,
+      "copied_to_repository": false
+    },
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-entry-hashes-dev3-r4.json",
+      "sha256": "874ed5784096aa02dc1d65d43bbd670a90aec34e767278720387830b9a81f2b6",
+      "bytes": 1261718,
+      "copied_to_repository": false
+    }
+  ],
+  "boundary": {
+    "new_probe_or_research_run": false,
+    "full_program_hash_repeated": false,
+    "zip_opened_or_unpacked": false,
+    "actual_manifest_and_entry_map_compared": true,
+    "SDK_or_product_modules_imported": false,
+    "QA_or_old_database_or_GUI_access": false,
+    "full_program_ZIP_validation_source": "Root completed unique full verifier; cross-bound receipts, manifest and complete entry hash map, not a repeated byte scan"
+  },
+  "remaining": [
+    "Native r4 user flow not performed",
+    "Clean/no-repository guest and novice acceptance not performed",
+    "Installed plan mutations not performed by read-only closure",
+    "SDK/OpenD compatibility, actual adapter, wire budget profile, execution journal/worker and external authorization remain unavailable",
+    "Old r2 remains user-stopped OPEN; no FINAL_CLOSED inference"
+  ]
+}

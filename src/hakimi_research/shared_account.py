@@ -26,12 +26,13 @@ from .offline_app import _file_lock
 from .risk import RiskManager, daily_loss_allowed
 from .strategy_registry import definition
 
+CONTINUOUS_SCHEMA = 'continuous-research-account-v1'
 ACCOUNT_SCHEMA = 'synthetic-shared-account-v3'
 RECEIPT_SCHEMA = 'synthetic-shared-account-receipt-v3'
 LEGACY_V2_ACCOUNT_SCHEMA = 'synthetic-shared-account-v2'
 LEGACY_ACCOUNT_SCHEMA = 'synthetic-shared-account-v1'
 LEGACY_RECEIPT_SCHEMA = 'synthetic-shared-account-receipt-v1'
-RECEIPT_SCHEMAS = {ACCOUNT_SCHEMA: RECEIPT_SCHEMA,
+RECEIPT_SCHEMAS = {CONTINUOUS_SCHEMA: 'continuous-research-receipt-v1', ACCOUNT_SCHEMA: RECEIPT_SCHEMA,
     LEGACY_V2_ACCOUNT_SCHEMA: 'synthetic-shared-account-receipt-v2',
     LEGACY_ACCOUNT_SCHEMA: LEGACY_RECEIPT_SCHEMA}
 COMPETITION = 'COMMITTED_RECEIPT_FIFO_ALL_OR_NOTHING'
@@ -102,7 +103,7 @@ def opportunity_identity(proposal):
         return digest(dict(owner=proposal['owner'],strategy=proposal['strategy'],security_id=proposal['security_id'],
             action=proposal['signal']['action'],signal_key=source['signal_key'],
             signal_at=proposal['signal_at'],execution_at=proposal['execution_at']))
-    if source.get('kind')=='REGISTERED_TASK_SIGNAL':return digest(source['opportunity_inputs'])
+    if source.get('kind') in {'REGISTERED_TASK_SIGNAL', 'CONTINUOUS_REGISTERED_SIGNAL'}:return digest(source['opportunity_inputs'])
     raise ValueError('shared_signal_source_kind_unsupported')
 
 
@@ -114,10 +115,12 @@ def _symbol_aliases(config):
 def validate_account_config(config, *, allow_historical_symbol_aliases=False):
     fields = {'schema_version', 'evidence_kind', 'currency', 'initial_cash', 'initial_positions',
         'securities', 'as_of', 'limits', 'competition'}
+    continuous = type(config) is dict and config.get('schema_version') == CONTINUOUS_SCHEMA
+    if continuous: fields.add('continuous')
     if (type(config) is not dict or set(config) != fields or type(config['schema_version']) is not str
             or config['schema_version'] not in RECEIPT_SCHEMAS):
         raise ValueError('shared_account_config_fields_invalid')
-    if config['evidence_kind'] != 'SYNTHETIC_TEST' or config['currency'] != 'USD' or config['competition'] != COMPETITION:
+    if (config['evidence_kind'] not in {'SYNTHETIC_TEST', 'IMPORTED_UNVERIFIED'} if continuous else config['evidence_kind'] != 'SYNTHETIC_TEST') or config['currency'] != 'USD' or config['competition'] != COMPETITION:
         raise ValueError('shared_only_synthetic_usd_fifo_accounts_supported')
     _number(config['initial_cash']); _clock(config['as_of'])
     limits = config['limits']
@@ -133,7 +136,7 @@ def validate_account_config(config, *, allow_historical_symbol_aliases=False):
         raise ValueError('shared_explicit_synthetic_security_marks_required')
     for security, row in config['securities'].items():
         _key(security)
-        if not security.startswith('SYNTHETIC:'):
+        if not continuous and not security.startswith('SYNTHETIC:'):
             raise ValueError('shared_explicit_synthetic_security_identity_required')
         if type(row) is not dict or set(row) != {'symbol', 'price'}:
             raise ValueError('shared_security_fields_invalid')
@@ -153,6 +156,9 @@ def validate_account_config(config, *, allow_historical_symbol_aliases=False):
         _number(row['avg_entry_price'], positive=True); _number(row['entry_fees'])
         if type(row['realized_pnl']) not in (int, float) or not math.isfinite(row['realized_pnl']):
             raise ValueError('shared_initial_realized_pnl_invalid')
+    if continuous:
+        from .continuous_runtime import validate_continuous_config
+        validate_continuous_config(config)
     return parse_document(canonical_bytes(config))
 
 
@@ -192,6 +198,9 @@ def _initial(config):
         state['positions'][_slot(row['owner'], row['security_id'])] = {
             **row, **{k: _money(row[k]) for k in ['quantity', 'avg_entry_price', 'entry_fees', 'realized_pnl']}}
     state['day_start_equity'] = str(_equity(state))
+    if config['schema_version'] == CONTINUOUS_SCHEMA:
+        from .continuous_runtime import initial_continuous_state
+        state['continuous'] = initial_continuous_state(config)
     return state
 
 
@@ -229,7 +238,8 @@ def _proposal(value, config):
     signal = _signal(value['signal']); _clock(value['signal_at']); _clock(value['execution_at'])
     if value['signal_at'] >= value['execution_at']:
         raise ValueError('shared_signal_must_precede_execution')
-    if type(value['source']) is not dict or value['source'].get('evidence_kind') != 'SYNTHETIC_TEST':
+    expected_evidence = config['evidence_kind'] if config['schema_version'] == CONTINUOUS_SCHEMA else 'SYNTHETIC_TEST'
+    if type(value['source']) is not dict or value['source'].get('evidence_kind') != expected_evidence:
         raise ValueError('shared_synthetic_signal_source_required')
     if type(value['opportunity_id']) is not str or value['opportunity_id']!=opportunity_identity(value):
         raise ValueError('shared_opportunity_identity_invalid')
@@ -305,6 +315,9 @@ def _invariants(state):
 def _transition(previous, request, config, head):
     if type(request) is not dict or set(request) != {'kind','at','payload'} or type(request['kind']) is not str or type(request['payload']) is not dict:
         raise ValueError('shared_request_fields_invalid')
+    if config['schema_version'] == CONTINUOUS_SCHEMA and request['kind'].startswith('CONTINUOUS_'):
+        from .continuous_runtime import continuous_transition
+        return continuous_transition(previous, request, config, head)
     state = deepcopy(previous); kind = request['kind']; at = _clock(request['at'])
     if at < state['current_at']:
         raise ValueError('shared_clock_cannot_move_backwards')
@@ -313,6 +326,8 @@ def _transition(previous, request, config, head):
     if at[:10] != state['day'] and kind in {'RESERVE','TASK_STEP','RESUME'}:
         raise ValueError('shared_new_day_requires_explicit_baseline_reset')
     payload = request['payload']; state['current_at'] = at
+    if config['schema_version'] == CONTINUOUS_SCHEMA and kind in {'RESERVE', 'TASK_STEP', 'MARK', 'DAY_RESET'}:
+        raise ValueError('continuous_account_requires_verified_incremental_ingress')
     if kind in {'RESERVE', 'TASK_STEP'}:
         if kind == 'TASK_STEP':
             if set(payload) != {'tasks'}: raise ValueError('shared_task_step_fields_invalid')
@@ -394,7 +409,7 @@ def _transition(previous, request, config, head):
                     state['positions'][slot]=dict(owner=owner,security_id=security,quantity=_money(portfolio.position_qty),
                         avg_entry_price=_money(portfolio.avg_entry_price),entry_fees=_money(portfolio.entry_fees),realized_pnl=_money(portfolio.realized_pnl))
                     row.update(status='SETTLED',reserved_cash='0',fill=dict(symbol=fill.symbol,action=fill.action.value,
-                        quantity=fill.quantity,price=fill.price,fee=fill.fee,pnl=fill.pnl),reason='CANONICAL_SYNTHETIC_FILL')
+                        quantity=fill.quantity,price=fill.price,fee=fill.fee,pnl=fill.pnl),reason='CANONICAL_RESEARCH_FILL' if config['schema_version']==CONTINUOUS_SCHEMA else 'CANONICAL_SYNTHETIC_FILL')
                     if not _loss_allowed(state,config):state['loss_halted']=True
                     outcome=dict(status='SETTLED',intent_id=identity,fill=deepcopy(row['fill']))
     else: raise ValueError('shared_operation_kind_unsupported')
@@ -448,7 +463,7 @@ def _restore(conn,manifest):
 @_precision
 def create_shared_account(directory,config):
     directory=Path(directory).resolve();config=validate_account_config(config)
-    if config['schema_version']!=ACCOUNT_SCHEMA:raise ValueError('shared_new_account_requires_current_version_config')
+    if config['schema_version'] not in {ACCOUNT_SCHEMA, CONTINUOUS_SCHEMA}:raise ValueError('shared_new_account_requires_current_version_config')
     if directory.exists():raise ValueError('shared_new_account_directory_required')
     _invariants(_initial(config))
     runtime=build_runtime_provenance()
@@ -474,13 +489,17 @@ def create_shared_account(directory,config):
     return describe_shared_account(directory)
 
 
+class SharedExpectedHeadChanged(ValueError):
+    """A guarded new transaction lost its expected ledger position."""
+
+
 @_precision
-def transact_shared_account(directory, *, operation_id, kind, at, payload):
+def transact_shared_account(directory, *, operation_id, kind, at, payload, expected_head=None):
     _key(operation_id);_clock(at)
     request=dict(kind=kind,at=at,payload=parse_document(canonical_bytes(payload)))
     manifest=_manifest(directory)
     validate_account_config(manifest['config'])
-    if manifest['config']['schema_version']!=ACCOUNT_SCHEMA:
+    if manifest['config']['schema_version'] not in {ACCOUNT_SCHEMA, CONTINUOUS_SCHEMA}:
         version=manifest['config']['schema_version'].rsplit('-',1)[1]
         raise ValueError('shared_legacy_'+version+'_account_is_read_only_original_bytes_retained')
     runtime=build_runtime_provenance()
@@ -492,8 +511,10 @@ def transact_shared_account(directory, *, operation_id, kind, at, payload):
         if old is not None:
             if old['request']!=request:raise ValueError('shared_operation_id_payload_conflict')
             return old
+        if expected_head is not None and expected_head!=head:
+            raise SharedExpectedHeadChanged('shared_expected_receipt_head_changed')
         outcome,next_state=_transition(state,request,manifest['config'],head)
-        core=dict(schema_version=RECEIPT_SCHEMA,account_id=manifest['account_id'],sequence=len(receipts)+1,
+        core=dict(schema_version=RECEIPT_SCHEMAS[manifest['config']['schema_version']],account_id=manifest['account_id'],sequence=len(receipts)+1,
             operation_id=operation_id,previous_receipt=head,request=request,outcome=outcome,state_hash=digest(next_state))
         receipt={**core,'receipt_hash':digest(core)}
         conn.execute('INSERT INTO events (seq, operation_id, receipt) VALUES (?, ?, ?)',(receipt['sequence'],operation_id,canonical_bytes(receipt)))
@@ -505,8 +526,8 @@ def transact_shared_account(directory, *, operation_id, kind, at, payload):
 def describe_shared_account(directory):
     manifest=_manifest(directory)
     with _connection(directory) as conn:state,head,receipts=_restore(conn,manifest)
-    legacy=manifest['config']['schema_version']!=ACCOUNT_SCHEMA
-    return dict(schema_version='synthetic-shared-account-view-v3',account_id=manifest['account_id'],evidence_kind='SYNTHETIC_TEST',currency='USD',
+    legacy=manifest['config']['schema_version'] not in {ACCOUNT_SCHEMA, CONTINUOUS_SCHEMA}
+    return dict(schema_version='synthetic-shared-account-view-v3',account_id=manifest['account_id'],evidence_kind=manifest['config']['evidence_kind'],currency='USD',
         account_schema_version=manifest['config']['schema_version'],legacy_read_only=legacy,
         symbol_aliases_read_only=_symbol_aliases(manifest['config']),
         clock_policy='LEGACY_V1_REPLAY_ONLY' if manifest['config']['schema_version']==LEGACY_ACCOUNT_SCHEMA else 'ONLY_EXPLICIT_MARK_ADVANCES_CLOCK',

@@ -1,0 +1,1153 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 0.5832627000054345,
+  "installed_wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5",
+  "environment_delta": {
+    "futu/common/pb/KeepAlive.proto": {
+      "before": null,
+      "after": "11bfc5539be6725a91863a0d77b78d68b75cfc8490fa1b796a42bcca252ac634"
+    },
+    "futu/common/pb/Qot_GetOptionVolatility.proto": {
+      "before": null,
+      "after": "99f434df9869f8e5ef88f37acc06d65008f60fe1469dc880ac8acea9d1a993bc"
+    },
+    "futu/common/pb/Qot_GetKL_pb2.py": {
+      "before": null,
+      "after": "40230e620685897ee403dc4d8fbc0c4e90e5f6b7cd7f66e89d8da634f5479325"
+    },
+    "futu/common/pb/Qot_GetResearchAnalystConsensus.proto": {
+      "before": null,
+      "after": "557d43cdcfec4779b094d7f8a2a4c611fd79ce52aad087983de853a2789373d7"
+    },
+    "futu/common/pb/Qot_GetSecuritySnapshot_pb2.py": {
+      "before": null,
+      "after": "fd7ef08fa5509cbe879d6d5bd52f40f8f23fda1698bcde702a49cc1e0028dc34"
+    },
+    "futu/common/pb/GetUserInfo_pb2.py": {
+      "before": null,
+      "after": "370a132491ee6036409ee5b3c73f5d98e59b685dc33534e123503c0221b0ba6f"
+    },
+    "futu/common/pb/Qot_GetCorporateActionsStockSplits.proto": {
+      "before": null,
+      "after": "26cd273d686111467f7f3025b86cdb8f02bfcdcb61d25de784906c8a298986a8"
+    },
+    "futu/common/pb/Qot_GetCapitalDistribution.proto": {
+      "before": null,
+      "after": "e90d0d4a58080de207c0bb19d7cc8dd9b7e75172d628b31bd2f508b08329b613"
+    },
+    "futu/common/pb/Qot_GetCompanyExecutiveBackground.proto": {
+      "before": null,
+      "after": "f6a02779eb79913ccd311d4b5f39658bd8c86b234108979f102c3627aeab369b"
+    },
+    "futu/common/pb/Qot_GetCapitalFlow_pb2.py": {
+      "before": null,
+      "after": "9db3187019dca8038ae6d0cb5441b985e3147b4a622bebcfeb8f15aa316ee726"
+    },
+    "futu/common/pb/Qot_GetFutureInfo.proto": {
+      "before": null,
+      "after": "36091dadca149b501f9f183106eb75f033850ad360be4966052658e63007f297"
+    },
+    "futu/common/pb/InitConnect.proto": {
+      "before": null,
+      "after": "a027c9db46d73f61614cc67457674b3fcc604136c5b15d4c873313e0dda0d56d"
+    },
+    "futu/common/pb/Qot_GetShareholdersInstitutional.proto": {
+      "before": null,
+      "after": "144c52c6ab436a23059f94bd2dca2459c980996e6b1138c9308e04331c99e24a"
+    },
+    "futu/common/pb/Qot_UpdateKL.proto": {
+      "before": null,
+      "after": "25851a1f35dedf99a70af2060acbc50fc0e6161fd560929d6a70ed46ac29df93"
+    },
+    "futu/common/pb/Qot_OptionScreen.proto": {
+      "before": null,
+      "after": "31f01a22a2203d3e155e36729a5368e3ed9160e08145228a6af1b043db37a551"
+    },
+    "futu/trade/__init__.py": {
+      "before": null,
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "futu/common/pb/Trd_GetFunds_pb2.py": {
+      "before": null,
+      "after": "eb0f29a59905c86daa80f5e79d8f289a88c33fadf93d1b7e100b74a318b3c4df"
+    },
+    "futu/examples/stocksell_demo.py": {
+      "before": null,
+      "after": "1ff6bbd4867b1173bf4a921d4df4858475626133caa06d55f6a4f135d60fdd13"
+    },
+    "futu/common/pb/Qot_GetShareholdersOverview_pb2.py": {
+      "before": null,
+      "after": "a35284694274dfc581fa45e6b637068caba04a8a7a5c49476c68aa28db2db56b"
+    },
+    "futu/common/pb/Qot_GetRT.proto": {
+      "before": null,
+      "after": "9de7d4270855aef9310b95b9e009a5e2721ca5e5384259dc531234fbb8c8479c"
+    },
+    "futu/common/network_manager.py": {
+      "before": null,
+      "after": "d3d48a0eac9736f579ec09b05c60a2d82fd5a1ef77ae09543509ef0ffa9436e4"
+    },
+    "futu/common/pb/Qot_GetShareholdersOverview.proto": {
+      "before": null,
+      "after": "c00d089bcf7da70ae91be7d7ecbf971064bdbefee6e6beaea0f89c6c68ca32a5"
+    },
+    "futu/common/pb/Qot_GetSubInfo.proto": {
+      "before": null,
+      "after": "a5c562c3896196fef71f4d0584139ba93534dbdb0de650823e70e53cf4481de6"
+    },
+    "futu/common/pb/Qot_GetFutureInfo_pb2.py": {
+      "before": null,
+      "after": "d25c723bd3b69f7bad5346fd87a6e3c52ee1fa5d85b70fa304ec9ba0ef7a894d"
+    },
+    "futu/common/pb/Qot_GetHistoryKL.proto": {
+      "before": null,
+      "after": "2d1e1b460a100b0d4b2c9d2f227c3965ed674b72abc15f1ab42da38fe720e95e"
+    },
+    "futu/common/pb/Qot_GetOptionQuote.proto": {
+      "before": null,
+      "after": "145d5b8664a561640c5450bfeede05b53da45253945e6f693cbd0668cc2cb7ee"
+    },
+    "futu/common/pb/Qot_GetUserSecurityGroup.proto": {
+      "before": null,
+      "after": "87f58c92e427718be026b428e44389d42e72ddf70ff25ea5779149326cf6d359"
+    },
+    "futu/common/pb/Qot_GetOptionExpirationDate.proto": {
+      "before": null,
+      "after": "c578ac068e63416455bc32e97ff580e0274f76aa70db43f4136baff7503cebc3"
+    },
+    "futu/common/pb/Trd_UpdateOrder_pb2.py": {
+      "before": null,
+      "after": "846126895e06b2b78fb679f5784a704c1a8f1251e53cc7bc031323750e60f0b9"
+    },
+    "futu/common/pb/Trd_Notify.proto": {
+      "before": null,
+      "after": "796331e836793a8ad716a5df554df264f30a4d16be514e767045bf2831ad5fb2"
+    },
+    "futu/common/pb/Qot_UpdateBasicQot_pb2.py": {
+      "before": null,
+      "after": "e8f10a2974540b1c37fc228aab9ee4769ba6d9c566f91950edd0ef1c04100388"
+    },
+    "futu/common/pb/Qot_GetShareholdersHoldingChanges.proto": {
+      "before": null,
+      "after": "9cd0976379c33a651eda1d7d509f96b306fe96e5d9b164fb009928509a6c99a2"
+    },
+    "futu/common/pb/Qot_GetOptionStrategySpread_pb2.py": {
+      "before": null,
+      "after": "4883767526e48ccaaec0edb163c678a22d94e1a93af9652122c2e7bf06d4eddd"
+    },
+    "futu/common/pb/Qot_GetFinancialsEarningsPriceHistory_pb2.py": {
+      "before": null,
+      "after": "a1a3c6896dea2f76f0627fcf52dfef8e5db9d3395a0c5fef49379fd4356b8d39"
+    },
+    "futu/common/pb/Qot_GetInsiderTradeList.proto": {
+      "before": null,
+      "after": "4ce5ccc759a727f3f3f4edec95046dc9f6969dcede40c70669620666fc55ffa3"
+    },
+    "futu/common/pb/Qot_GetFinancialsStatements.proto": {
+      "before": null,
+      "after": "63242ce14e44c85585fb264c7cdbbac7b5f91e9a1695aafe0a2db8dee0abc12f"
+    },
+    "futu/tools/load_template.py": {
+      "before": null,
+      "after": "8f2f07caf2e98dbd4ed6296e52aff921fb469c2edecc2ea853cd8f5eaf64ce67"
+    },
+    "futu/tools/template_head.txt": {
+      "before": null,
+      "after": "83691e29293caa58672025405b368914b97730e529a24d909f9c4b818bb206cb"
+    },
+    "futu/examples/__init__.py": {
+      "before": null,
+      "after": "3bd093d41d85f9c541f1e953d04a0225b82471f7e3be59aab5ea9abece208838"
+    },
+    "futu/common/pb/Qot_GetOptionExpirationDate_pb2.py": {
+      "before": null,
+      "after": "850051207ad9fa01eff1602de015b76ed6d17f024980d1c309d81f140c01f9d6"
+    },
+    "futu/common/pb/Qot_GetValuationPlateStockList.proto": {
+      "before": null,
+      "after": "f8c98647c656622bf2212bf2df5b8f7b0343293e244d97418a04c562afbfcb2a"
+    },
+    "futu/common/pbjson.py": {
+      "before": null,
+      "after": "5805a0201d65974cdd27eb53705cddd72a8a018238474870106b60af157bb028"
+    },
+    "futu/common/pb/Trd_GetHistoryOrderFillList_pb2.py": {
+      "before": null,
+      "after": "11ef26cdbe22258569332c4bb0e9499c0707f73cb8adabaccd67f7bb3e1748b8"
+    },
+    "futu/common/pb/Qot_GetHoldingChangeList.proto": {
+      "before": null,
+      "after": "af5cd1a4f98f3b8512b3cb281fefeb185c6a0026075101c34689a3db3d175148"
+    },
+    "futu/common/pb/Qot_GetFinancialsRevenueBreakdown.proto": {
+      "before": null,
+      "after": "b706ca3c301974ae227c6aaea49605b04d157edcbf34241fc8a8aa4da1a76228"
+    },
+    "futu/common/conn_mng.py": {
+      "before": null,
+      "after": "8c262f7b3b89987d7c2e0e0bfacfbd4b0a237bda0e804403fbc7a37d851a4d39"
+    },
+    "futu/common/pb/Trd_ModifyOrder_pb2.py": {
+      "before": null,
+      "after": "26e83b4cf26bdc381ef072168799e66ae343da51c7faaf13627cf56cb49fe8db"
+    },
+    "futu/common/pb/Qot_UpdateRT_pb2.py": {
+      "before": null,
+      "after": "56ff127016d0c20755bd9cbdec30b86003ca57d7d5045627f967d77d6f3612d7"
+    },
+    "futu/common/sys_config.py": {
+      "before": null,
+      "after": "182e4139be509de1d653e552675d669faa07d032b9e1d3ce39ddac4632ec778f"
+    },
+    "futu/common/pb/Qot_GetMarketState_pb2.py": {
+      "before": null,
+      "after": "1b9fa1287dc40b02aaab6752feaf96438c7f51d704f4fe417a04bff21dea91b9"
+    },
+    "futu/common/pb/Qot_RequestHistoryKLQuota_pb2.py": {
+      "before": null,
+      "after": "ec1088dbe41349ed8fec1fc48b3deb8954191fc70b8797305e7a7f711b61770f"
+    },
+    "futu/common/pb/Qot_GetReference.proto": {
+      "before": null,
+      "after": "4d8da187c00d349323d444bdeb37681f36a44a958d1a506c2f06649ac9b02f21"
+    },
+    "futu/common/pb/Qot_ModifyUserSecurity.proto": {
+      "before": null,
+      "after": "0456d1b169c326b66e0fdc9cdac5123980bd8c900c6b6a91d09c131f1fef14d3"
+    },
+    "futu/common/pb/Qot_GetSuspend.proto": {
+      "before": null,
+      "after": "a592b332f93eca080b294bf8a21ef0c6935922efd82300b20fe0f78a6f04cfcc"
+    },
+    "futu/common/pb/Qot_GetUserSecurity_pb2.py": {
+      "before": null,
+      "after": "576956b13a5ec69663938edb4fa6a3b9828b7ec66978151a00eb78541f5a6c40"
+    },
+    "futu/common/pb/Qot_UpdateOrderBook.proto": {
+      "before": null,
+      "after": "030eb203f9986193aadf27dbba44e38b33a3a4b3b137e50972a971419473836c"
+    },
+    "futu/common/pb/Trd_PlaceOrder_pb2.py": {
+      "before": null,
+      "after": "5f7f46ab596f6c74be9493ada66160c76aa25aa70208a68f951c51b228861fa8"
+    },
+    "futu/common/pb/InitConnect_pb2.py": {
+      "before": null,
+      "after": "93ffed96eb8cb7b1c488ef883d4cdbaa487fc471743b9188bbddb3ce900b7e9d"
+    },
+    "futu/common/pb/Trd_GetMarginRatio.proto": {
+      "before": null,
+      "after": "598c6479365531faeac1e474bf0c46a63600f83b5d8901d5d1b31ca9f4dad650"
+    },
+    "futu/common/pb/Qot_GetCorporateActionsStockSplits_pb2.py": {
+      "before": null,
+      "after": "cef074cdcedce5f06a0a2e8c4aa14883334b7fed4bcb57f65f6227b416482401"
+    },
+    "futu/common/pb/Qot_Sub_pb2.py": {
+      "before": null,
+      "after": "c3159e271e2d18d7ea8d3bc2435d1dd62d1cb5196ba75708cd237752338c593c"
+    },
+    "futu/common/pb/Qot_UpdatePriceReminder_pb2.py": {
+      "before": null,
+      "after": "1e53ca2dbb2e2af3f11f8e36e78cd74dd8268f9c113c65e4ded41b9d4ece0d03"
+    },
+    "futu/common/pb/Qot_GetPriceReminder.proto": {
+      "before": null,
+      "after": "71d007703310574de67d4b180cddd2ffdb627c3f6ce35183431e4990b955041c"
+    },
+    "futu_api-10.7.6708.dist-info/INSTALLER": {
+      "before": null,
+      "after": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    "futu/common/pb/Qot_GetOptionVolatility_pb2.py": {
+      "before": null,
+      "after": "8d2c18e78840f6967e1c89794de7f0059aa132860a89769e781bbdd74283c729"
+    },
+    "futu/common/pb/Qot_UpdateBasicQot.proto": {
+      "before": null,
+      "after": "34d5ac4a5fd0019a66f3fa040b6806a3e6f3ba9341c6afe4f59aed5ef66afaaa"
+    },
+    "futu_api-10.7.6708.dist-info/RECORD": {
+      "before": null,
+      "after": "b09c97052a8f9e00097021bc4bce82969f844362432a558a3fb662b8e29cc208"
+    },
+    "futu/common/pb/Qot_GetSubInfo_pb2.py": {
+      "before": null,
+      "after": "c7eb99d6786e737e2c03cedc7302cfc6d6bb4344abe307abdd6b3c9995a3c80b"
+    },
+    "futu/tools/function.template": {
+      "before": null,
+      "after": "6f119432423d32cab82eb4109cd048009d5c1ac2d98821b64b9f0fcfc04821d4"
+    },
+    "futu/common/pb/GetDelayStatistics_pb2.py": {
+      "before": null,
+      "after": "e89899aa4a710285ed9c547b3fb37261d228ad1083bd4bb497fc41fe4abc847f"
+    },
+    "futu/common/pb/Qot_GetOptionQuote_pb2.py": {
+      "before": null,
+      "after": "063af9eee49012661f9aa2cba60300b7e4371908890afc82787e62d8ad4efae5"
+    },
+    "futu/common/pb/Qot_ModifyUserSecurity_pb2.py": {
+      "before": null,
+      "after": "ea04b1010d3a1f51699e88ec942990fddc4231085d53fba98c9d866a614d4c8f"
+    },
+    "futu/common/pb/Qot_GetFinancialsEarningsPriceHistory.proto": {
+      "before": null,
+      "after": "581ca360ba4c15eb886b2a674cdb67f61230afe11bd9a07bdab275a04ef36d97"
+    },
+    "futu/common/pb/Qot_RequestRehab.proto": {
+      "before": null,
+      "after": "dbf4f0de087dd72b3b441b440821044cf29c39d4e6cbab21d7641b953a85f365"
+    },
+    "futu/common/pb/Qot_GetDailyShortVolume_pb2.py": {
+      "before": null,
+      "after": "ba77d0babf1bc6702b3420952f9149a823977302af5b2b810f25f4675612b84a"
+    },
+    "futu/examples/quote_push.py": {
+      "before": null,
+      "after": "ae5d2d9c6aac2a5d5150d970b8225926b95a143ec8b58563201af4cbde025d4a"
+    },
+    "futu/VERSION.txt": {
+      "before": null,
+      "after": "53fd9b1c3416ddef4852821d1fd4e4ef930c6379ded35ca9d99402aa4e2df3f4"
+    },
+    "futu/common/pb/Qot_GetTopTenBuySellBrokers.proto": {
+      "before": null,
+      "after": "44d50ad275fc2c0b81dd9afc675f427b4d6a5d84ffaf198461eef05d64bd2270"
+    },
+    "futu/common/pb/Verification.proto": {
+      "before": null,
+      "after": "67e51cc51e23841b7a1e606819b63ed46740c3d7b072d7d08df44d0d61933cd2"
+    },
+    "futu/common/pb/Trd_SubAccPush_pb2.py": {
+      "before": null,
+      "after": "d68f1116f515a78e6917c88632d9bf7dbd2459191dd4fedc4a24ee2f370162fb"
+    },
+    "futu/common/pb/Verification_pb2.py": {
+      "before": null,
+      "after": "43d45267aca8c29830bee689c86e3504522fac30f49c9fb86987cc531dc79b8c"
+    },
+    "futu/common/open_context_base.py": {
+      "before": null,
+      "after": "2b91b3bdefae97553fdcc29b6ea0f159db3b34e1779177fd34c5413eb0a08c01"
+    },
+    "futu/common/pb/protoc-gen-doc.exe": {
+      "before": null,
+      "after": "71506a9d75d7e63f70c41d45c2f8e845512f983cecb5afaf1eb6f9a785a501c3"
+    },
+    "futu/common/pb/Qot_GetResearchAnalystConsensus_pb2.py": {
+      "before": null,
+      "after": "2bc18b5d6cdca3e8eee13b0e9e323aa8b35f5ca73747b2b7e5694a66ac89b209"
+    },
+    "futu/common/pb/Qot_GetFinancialsRevenueBreakdown_pb2.py": {
+      "before": null,
+      "after": "a65466eab9a637ff048f246a8dafc5f321b21cb5d152f167c5e37280c5c7bdbc"
+    },
+    "futu/common/pb/Qot_GetMarketState.proto": {
+      "before": null,
+      "after": "d6f0c37b00dd13de83acc32f8fa8417d14d96d563c78e16199a405556fca0a82"
+    },
+    "futu/common/pb/GetGlobalState.proto": {
+      "before": null,
+      "after": "5637d5dc26dcaafd4766ae61c6182ac9db053ebf9e1803e7e85f579ba1d4343c"
+    },
+    "futu/common/pb/Qot_GetCompanyExecutiveBackground_pb2.py": {
+      "before": null,
+      "after": "817db3d3125be36d82ea7294c6f5ed2ec80a00281315904e4ce0bb4d5916fb28"
+    },
+    "futu/common/pb/Trd_UpdateOrderFill.proto": {
+      "before": null,
+      "after": "f329f1a547cfc82060a3eae4a3416d24df5e33c9a58db39962fe6f73ab7d4f7a"
+    },
+    "futu/tools/generate_code.py": {
+      "before": null,
+      "after": "3d3766c943849504b6a464a96c44c4a3f9c4f031e63e65c9ddf50a86a1c2a2bf"
+    },
+    "futu/common/pb/TestCmd_pb2.py": {
+      "before": null,
+      "after": "471ed346990471a303ade959d65d758e48998185146f2ce46cb88e9e9dc7cdf3"
+    },
+    "futu/common/pb/Trd_ReconfirmOrder.proto": {
+      "before": null,
+      "after": "2d302924762e13f3e800e3e67118abec4224f147958e74ad95c6cdcfd648dc2d"
+    },
+    "futu/common/pb/Qot_GetValuationDetail_pb2.py": {
+      "before": null,
+      "after": "2ed50d667931556d6e9186797fd0b2c575a4849aebe103bd9f9ae6ad04366748"
+    },
+    "futu/common/pb/Notify.proto": {
+      "before": null,
+      "after": "3bbb2649c0ae0d4eda97809aeeb37af37b511685b37c80b744438a5eae8c135f"
+    },
+    "futu/common/pb/Qot_GetOptionStrategyAnalysis_pb2.py": {
+      "before": null,
+      "after": "060ae08145d3335ead0ec414a0c10cd4b941ebfe5211e74f16a1f2b80a2fe900"
+    },
+    "futu/common/pb/Qot_SetPriceReminder_pb2.py": {
+      "before": null,
+      "after": "bed7bf508c686b6aec34e35dd6e82fbec445aed5052650b1268b9014f9a112be"
+    },
+    "futu/common/pb/Trd_GetMaxTrdQtys_pb2.py": {
+      "before": null,
+      "after": "a790c7ac605c8b1f95e31d5a1ae1113c52fda386d3dece74db73a7fd32595c54"
+    },
+    "futu/examples/simple_filter_demo.py": {
+      "before": null,
+      "after": "0da1d664ad1813ddfb6d2567b029e2e2a65c3057301c6af816c142b57f33bbc1"
+    },
+    "futu/common/pb/Trd_GetHistoryOrderList_pb2.py": {
+      "before": null,
+      "after": "82795b1af04ce99141ad12c172c17956492a0ca504c1e41e8d18ceb308eb64e6"
+    },
+    "futu/common/pb/Qot_GetIpoList_pb2.py": {
+      "before": null,
+      "after": "c8aefd1353d62bb72b35108969459b4a91b5afbaf4ed084a601b6263c96aa627"
+    },
+    "futu/common/pb/Qot_Sub.proto": {
+      "before": null,
+      "after": "f2f32d8945f0594a88bc8f23d164add5394cbac26a992efbb0ca0692cb8afa7b"
+    },
+    "futu/common/pb/Common.proto": {
+      "before": null,
+      "after": "edc8e999fc20a0b60b5034ce39f858c059036960cbc4a073503564ff63ff8318"
+    },
+    "futu/common/pb/Qot_GetInsiderTradeList_pb2.py": {
+      "before": null,
+      "after": "e4a30ee6ddbe2bc2b6e53add07d6915f4132c5d5e016b3300a1335c86fc30bc4"
+    },
+    "futu/common/pb/Qot_GetShareholdersHoldingChanges_pb2.py": {
+      "before": null,
+      "after": "dae30352c72ea2bcfc8a55cb33bbda142ae7ea4e0ee54b97e21800c475a042a4"
+    },
+    "futu/tools/Common.proto.json": {
+      "before": null,
+      "after": "cdd812bd8010359ef9d54b378d6b28e6fea1570386a3b3d37bf26912ce6e9590"
+    },
+    "futu/common/pb/Qot_GetTicker_pb2.py": {
+      "before": null,
+      "after": "4dd6b8bc5c901e3362e11ee3de39805923cf186872f424aa9e61bcfc2b94acf9"
+    },
+    "futu/common/pb/Trd_ReconfirmOrder_pb2.py": {
+      "before": null,
+      "after": "62f5efb0d459e14a2fa5e96c1474b0fa5a572c0f5200312f52cddfda9dfa7001"
+    },
+    "futu/common/pb/Qot_GetBroker.proto": {
+      "before": null,
+      "after": "92e26f4e9f7c574f261abea18fe4c27086f44be88ce4ffac1137b89d62d01559"
+    },
+    "futu/common/pb/Qot_StockScreen_pb2.py": {
+      "before": null,
+      "after": "419c10b0639dacae24418388d19dda0aee10518010847d352781ec8abb1feecc"
+    },
+    "futu/common/pb/Qot_GetPlateSecurity.proto": {
+      "before": null,
+      "after": "dbdcb46c363f0f65eacefe847ae0d60dedb9a7dc438f1761eb449bd5e578dd1e"
+    },
+    "futu/common/pb/Qot_UpdateBroker_pb2.py": {
+      "before": null,
+      "after": "efe6646e50f63dfa91f15429f54c23015dba496fded3d009b55147e88cc5f883"
+    },
+    "futu/common/pb/Qot_GetResearchRatingSummary.proto": {
+      "before": null,
+      "after": "aef2b4bd811288c453232265d40333c65e4efc93be18f91a0c3c6971a77fac55"
+    },
+    "futu/common/pb/Qot_GetOptionChain_pb2.py": {
+      "before": null,
+      "after": "b481590d3e1d4640c6993386b81d930d3ef0f12c53042ca2b18cab24f423d9d2"
+    },
+    "futu/common/__init__.py": {
+      "before": null,
+      "after": "36ad9d32a0c32b5f2ba7fd65a0b3d49f30c82413642bf1393d1a7636208b86b8"
+    },
+    "futu/common/pb/KeepAlive_pb2.py": {
+      "before": null,
+      "after": "729f59cb6d137c902706d3269973b5f1fe85494c11a5126cff6732764f38f77b"
+    },
+    "futu/common/pb/Qot_GetStaticInfo_pb2.py": {
+      "before": null,
+      "after": "72c2e4d1d337c7db07fc45321ee6c77f07470805486d6d5fd66b221ee624b542"
+    },
+    "futu/common/pb/Trd_PlaceComboOrder.proto": {
+      "before": null,
+      "after": "722279aeb80d47f2180961e25424e84e59b56cdad1bb21f2b4a2737fb8b907d3"
+    },
+    "futu/common/pb/Trd_UpdateOrderFill_pb2.py": {
+      "before": null,
+      "after": "b53eafcb298bfe57f09103cd978024d06b38af7e1e69b2a6557abf740006fa65"
+    },
+    "futu/common/pb/Qot_GetCompanyExecutives_pb2.py": {
+      "before": null,
+      "after": "d84605d8f55452024ba532837a323d4f4101ed92e0d57c9419e23e0011ceb3a9"
+    },
+    "futu/common/pb/Qot_GetShortInterest.proto": {
+      "before": null,
+      "after": "d3cf40c90eeade851371d7384ac30fdbdd365acbef203b71d85f85fded3396fa"
+    },
+    "futu/quote/quote_tool.py": {
+      "before": null,
+      "after": "f1ac3f707f1e00a2ff11839ca7df660a92445ce02e78441591f28388f47fe6da"
+    },
+    "futu/common/pb/Qot_RequestHistoryKLQuota.proto": {
+      "before": null,
+      "after": "dbae2beb5559caa5641cef2a0bb19281ba7ee9ee8840ee484565a3d7ff46ec32"
+    },
+    "futu/common/pb/Qot_GetWarrant_pb2.py": {
+      "before": null,
+      "after": "d183264bfbd94ccc8b160cb337128e9ad5cb26fe68c38e2b6a94eb1a16ea9a4b"
+    },
+    "futu/common/pb/Notify_pb2.py": {
+      "before": null,
+      "after": "556eff41556ba18011a393601299bb535a62c4b027d5c117a2d303201601cbf0"
+    },
+    "futu/common/pb/Qot_WarrantScreen_pb2.py": {
+      "before": null,
+      "after": "a0154a1f5710035955e5a4a68932888654b84d2d003e91fa8022fa8bda420432"
+    },
+    "futu/common/pb/Qot_GetCapitalFlow.proto": {
+      "before": null,
+      "after": "cdba8519760c15351cd1ad1122e01526dd09154241c8a73f1fe2af1270c68c6d"
+    },
+    "futu/common/pb/Qot_StockFilter_pb2.py": {
+      "before": null,
+      "after": "25284ab21ae1eb03e7216bfa2408473ca04f498792f07696708a673d616dd9de"
+    },
+    "futu_api-10.7.6708.dist-info/top_level.txt": {
+      "before": null,
+      "after": "3cb674519d2c4c64e65b0c94f35208c5837120536faa5277693616489251ebc6"
+    },
+    "futu/common/pb/Trd_GetPositionList_pb2.py": {
+      "before": null,
+      "after": "c050013ed9e78dec4f491511b181af14bbb6ae43ebc2d82864bd9d2b17819ebe"
+    },
+    "futu/common/pb/Qot_GetPlateSet_pb2.py": {
+      "before": null,
+      "after": "f2d8067eca75dcbe1e2ce967a89a3d297523554a84e94ce3bd04257632cbe572"
+    },
+    "futu/common/pb/Qot_RequestTradeDate.proto": {
+      "before": null,
+      "after": "6828efc630c415d633dc1a387ef9dcc82e9d255161504bccbd9fa95735e943b5"
+    },
+    "futu/common/pb/Trd_Notify_pb2.py": {
+      "before": null,
+      "after": "5f28372593c2050f741c68d48b581e06eadad860a5936713a43fc7a7a0ad6f71"
+    },
+    "futu/common/pb/generate_python.bat": {
+      "before": null,
+      "after": "3f40e0d966a7f948482f1879ff65970a949f0a3745694a45dd6b61b676237c00"
+    },
+    "futu/common/pb/Qot_GetFinancialsEarningsPriceMove.proto": {
+      "before": null,
+      "after": "1b7aeda71fac506d715208fb4e6fb8263a53d89719206a7f41e662372d966a72"
+    },
+    "futu_api-10.7.6708.dist-info/REQUESTED": {
+      "before": null,
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "futu/common/pb/Trd_GetOrderFillList_pb2.py": {
+      "before": null,
+      "after": "b11656b11ac80d6b80b2158984a457d9bb9b2832bbefa501c8a9d285de46ea43"
+    },
+    "futu/common/utils.py": {
+      "before": null,
+      "after": "6ac398bc69f8f1af4e752f911e478e4d4fc938195981bb9d00332383bf40a567"
+    },
+    "futu/common/pb/Qot_GetHistoryKL_pb2.py": {
+      "before": null,
+      "after": "05b33cab04be3f006e513176106983cd5e8f7a6cf1534f2a1312175aa84e280f"
+    },
+    "futu/examples/get_mkt_snapshot_demo.py": {
+      "before": null,
+      "after": "b071a2a3b5ab8158769f161d5a315a571504470226c15c45a25626161eeebcc9"
+    },
+    "futu/common/pb/Qot_UpdatePriceReminder.proto": {
+      "before": null,
+      "after": "4243349660fa1488266dcc9bed62026f5312e51f731edae349345d8894719be0"
+    },
+    "futu/common/pb/Qot_GetSuspend_pb2.py": {
+      "before": null,
+      "after": "df2e86a3d82538dfc1b74a40b33c0064f1112c220d444c17990ea7c36b9dde2f"
+    },
+    "futu/common/pb/Trd_FlowSummary_pb2.py": {
+      "before": null,
+      "after": "734eb289cef8cfbd4d54e22c45481c6cc76b9b595dd4df659c7ad851aa94451d"
+    },
+    "futu/common/pb/Qot_GetShareholdersHolderDetail.proto": {
+      "before": null,
+      "after": "c6825faa6892677c28317fb53d9250d7aa2e310cafede8caa46501c9a7226632"
+    },
+    "futu/common/pb/Qot_GetOptionExerciseProbability.proto": {
+      "before": null,
+      "after": "4853e86820860ce3a924e2d0f9ae1bcd123285777a3ad57cba52fee718a313e3"
+    },
+    "futu/common/pb/Qot_GetCodeChange_pb2.py": {
+      "before": null,
+      "after": "a88a3e172948347d8249aae58dcef133257a9780c34bbc1b8670ebecce0d4a50"
+    },
+    "futu/common/pb/Trd_GetHistoryOrderFillList.proto": {
+      "before": null,
+      "after": "fc1b9332ff35f249b7c08df64430c9180906a2a5d174e04e6442aad66eb7051b"
+    },
+    "futu/common/pb/Qot_GetOwnerPlate.proto": {
+      "before": null,
+      "after": "b5d6e582aef23eac6c6e8831c3d80e4966eb66e0c8e03e8eb11bc6f773eb1c91"
+    },
+    "futu/tools/rst_template.txt": {
+      "before": null,
+      "after": "bfd7df89965da46b72664ef62c6fabbc63d5b686da912f989add6582e1ce46d8"
+    },
+    "futu/common/pb/Qot_UpdateRT.proto": {
+      "before": null,
+      "after": "1c933ca9c34e5a925c0c1f3b005a026fbe8fbc89b2b43c9ba12641f372641210"
+    },
+    "futu/common/pb/Qot_GetCorporateActionsBuybacks.proto": {
+      "before": null,
+      "after": "9898445aa8afbb0712560a1ac2e55540425e997b4f822428c0932c0f84dbf230"
+    },
+    "futu_api-10.7.6708.dist-info/licenses/LICENSE": {
+      "before": null,
+      "after": "b440e384707fdcbdd7144388790e25aed8bbd086dcbd4ccfb344db8705af4364"
+    },
+    "futu/common/pb/GetGlobalState_pb2.py": {
+      "before": null,
+      "after": "ba2303787c2be56ab80d6ee7eea688b08d645f2c490f002f76b57df6e3af8917"
+    },
+    "futu/common/pb/protoc.exe": {
+      "before": null,
+      "after": "6edb2a02f51f65b3e2e8086a643aac5254b11d71d7d9f55387b475af696c76e5"
+    },
+    "futu/common/pb/Qot_GetOptionChain.proto": {
+      "before": null,
+      "after": "e0b6175f51970d63a62f571026f93e5f695afd3280bf36099ee80f12f65b7b9a"
+    },
+    "futu/common/pb/Qot_GetCorporateActionsDividends_pb2.py": {
+      "before": null,
+      "after": "666e1fc51b8dae4699fc5d7ac51e9f8724f8bc1f5fe6ec28003ed2c1ad880984"
+    },
+    "futu/common/pb/Qot_GetCompanyExecutives.proto": {
+      "before": null,
+      "after": "97865101727826cf297f8137a93f694945aa3951407db83e142e0b8451cf7eef"
+    },
+    "futu/common/pb/Trd_GetOrderList_pb2.py": {
+      "before": null,
+      "after": "04061b2789e084360d7234a7ec6476e6cc14c77a5df20b87065d47134bbd890a"
+    },
+    "futu/common/pb/Trd_SubAccPush.proto": {
+      "before": null,
+      "after": "deeee551b2d2d644feda0390a9935f163da2d031bb27cbf7ac2a46f7fbca356f"
+    },
+    "futu/common/pb/Trd_GetPositionList.proto": {
+      "before": null,
+      "after": "267e8bf1333ee8cae2486814d567a220fbe4c2ec4da08ab414661d2584810ae7"
+    },
+    "futu_api-10.7.6708.dist-info/direct_url.json": {
+      "before": null,
+      "after": "6c7767cd49f43293da541f455d44a859e98f7083fa2e0042e2f3a5c6b0d202a2"
+    },
+    "futu/common/pb/Qot_RequestHistoryKL.proto": {
+      "before": null,
+      "after": "c8488b3fdb16eaba4a25b8e49a8ef8b49e9b56e37e38d9ef518be459b99d320f"
+    },
+    "futu/common/pb/Qot_GetOrderBook.proto": {
+      "before": null,
+      "after": "36a800e5912da097eb1f51eb0ad8cd5f27a226fa940b4f9eb545a7bd7a5d5d24"
+    },
+    "futu/common/pb/Qot_GetCodeChange.proto": {
+      "before": null,
+      "after": "f3e741685bdab16f424e124f0a9100e0e794a86a0cf6eddd78e5b5069667c7f3"
+    },
+    "futu/common/pb/UsedQuota_pb2.py": {
+      "before": null,
+      "after": "7882b2159fab5b392e1a7ccf9b3235fdfc72f2373ebbd487464dc01a3454eab0"
+    },
+    "futu/common/pb/Qot_UpdateTicker_pb2.py": {
+      "before": null,
+      "after": "dcea70c617ff1e98d46f7b9096a651a32ce610c29eac7deb290a96a3322119e7"
+    },
+    "futu/common/pb/SkillWrapAPI_pb2.py": {
+      "before": null,
+      "after": "f023f2153d0997e3c1688de6b5d0c05ea9b4aae43389f3b80c14c3fd0a827574"
+    },
+    "futu/tools/auto_generate.py": {
+      "before": null,
+      "after": "e39a36ceb5516beebbfcadadb379a69fbd4486f49f78fe817ae8f7179f25490a"
+    },
+    "futu/common/pb/Qot_GetFinancialsEarningsPriceMove_pb2.py": {
+      "before": null,
+      "after": "200709bdb95616c4ace11734a0d5da4d275808e870dd437b8305eefaae4d48dd"
+    },
+    "futu/common/pb/Qot_RegQotPush_pb2.py": {
+      "before": null,
+      "after": "fe9e6a56a4eba8987be191c27fefee516db396a7935590a75cf1af1be023cdd1"
+    },
+    "futu/common/pb/SkillWrapAPI.proto": {
+      "before": null,
+      "after": "bb29626e4dcaa9986ea06876b9764ebd49c5d98d517dc9994e2628eb3f9403fc"
+    },
+    "futu/common/pb/Qot_RequestHistoryKL_pb2.py": {
+      "before": null,
+      "after": "cb275005e1cd27653fe090f73557f94cf2ed64f0a2ae2fb5e3b9815aa7ed8998"
+    },
+    "futu/common/pb/Qot_GetRehab.proto": {
+      "before": null,
+      "after": "fe639aa915095a0b8620dd46d87f14d6188d5b11db4373d08174562e3959d2df"
+    },
+    "futu/common/pb/Qot_GetOptionStrategySpread.proto": {
+      "before": null,
+      "after": "54844fa05c2a66183cb749274b2043ee1ff1b21fdda01e7cbc0bbc8269004371"
+    },
+    "futu/common/pb/Qot_GetHistoryKLPoints_pb2.py": {
+      "before": null,
+      "after": "409a8474b28af0a21cb9922d3d8a4c42a50ff933c4655e14540d2936fa4c0c24"
+    },
+    "futu/common/pb/Qot_GetWarrant.proto": {
+      "before": null,
+      "after": "7ef66deb3c76ce704da42a0cb3fc5bfdb0e2ae640f417a79e932f87eebf179d7"
+    },
+    "futu/common/pb/Qot_GetIpoList.proto": {
+      "before": null,
+      "after": "9807c24557ee10d1b13ee5662c70eb4ba47ccd26c1318f5bc6ce38edaf9535e3"
+    },
+    "futu/quote/open_quote_context.py": {
+      "before": null,
+      "after": "846373b71408c1c0de5adbe5c8c8b10c9c228d57baf28228b512b266740236c6"
+    },
+    "futu/common/pb/Trd_UpdateOrder.proto": {
+      "before": null,
+      "after": "95f7da614a7c28c7671dee05645b8fb4cc17a9a48856ad9581f4bcf6876e774c"
+    },
+    "futu/common/pb/Trd_GetComboMaxTrdQtys_pb2.py": {
+      "before": null,
+      "after": "4436e30b0bd636f506fd259743169bfc6f05297b4bc67c1b85e2deeb0c6b6185"
+    },
+    "futu/quote/quote_get_warrant.py": {
+      "before": null,
+      "after": "bdc122f74ae230a67177e365ce35de208ca2e68fb5ef8628dac331a1869a0b49"
+    },
+    "futu/common/pb/Qot_GetOptionExerciseProbability_pb2.py": {
+      "before": null,
+      "after": "6b635c4e0a317617eb1eb89d937b623ce2678f3f0e243fb47d393c4df6e21844"
+    },
+    "futu/quote/quote_stockfilter_info.py": {
+      "before": null,
+      "after": "7d1f5fcfd7078da7d62aca7f3a1b3121c1a7264ba345be757b69d8cfeec4a97c"
+    },
+    "futu/common/pb/Trd_GetMarginRatio_pb2.py": {
+      "before": null,
+      "after": "7d38961c9f5b8fff0f13ab37ac052c19fdb877023f119c791b61a15f7f925e3e"
+    },
+    "futu/common/pb/Qot_SetPriceReminder.proto": {
+      "before": null,
+      "after": "eb033c5d0aa35f08ad5121365164732558a9bf806070d078d6f15d604867e806"
+    },
+    "futu/common/pb/Qot_RequestTradeDate_pb2.py": {
+      "before": null,
+      "after": "2c981757569271222297b004c442452b4b216762eab854676822eb654ebcd804"
+    },
+    "futu/trade/open_trade_context.py": {
+      "before": null,
+      "after": "febcabdebc141a46fb766140e3546c9b96a6453288af3f7f475512d86316b34b"
+    },
+    "futu/common/pb/Qot_UpdateKL_pb2.py": {
+      "before": null,
+      "after": "bbd92a63978eef089344db844edae6b9593ca858a5f23b253acbfddaabab9ae0"
+    },
+    "futu/common/pb/Qot_GetOwnerPlate_pb2.py": {
+      "before": null,
+      "after": "4c60a27ee22b5f1e0cd444f1a1641a4d8b9fa7c7518c606623129b98c099af98"
+    },
+    "futu/common/pb/Trd_PlaceOrder.proto": {
+      "before": null,
+      "after": "4da74025d8c311b30f4337b2e3b628e3d0fbca993ff612b11043e4ad128bcd2c"
+    },
+    "futu/common/pb/Qot_GetTopTenBuySellBrokers_pb2.py": {
+      "before": null,
+      "after": "3e9e7ed5b766d10884e2d4cadb2447ac5cb783afc93ff1cd595e3650f4853a0e"
+    },
+    "futu/common/pb/build.bat": {
+      "before": null,
+      "after": "4bed4863e21bf37a2dce9b8ded82e4aafa24b05d564d5a3ccca01db340823084"
+    },
+    "futu/common/pb/Qot_GetResearchMorningstarReport_pb2.py": {
+      "before": null,
+      "after": "382873a63ed019c56a9fdfd13cdfac1d8b1fe7e6f87ddb972e9d58fefa20b2e5"
+    },
+    "futu/common/pb/GetUserInfo.proto": {
+      "before": null,
+      "after": "948b6e2ceef3e44947863cc3fbaa99294793ea5d453542398fc32a964bb1d6e4"
+    },
+    "futu/common/pb/Qot_GetShortInterest_pb2.py": {
+      "before": null,
+      "after": "3bbf7ffa76afac2634dd42c2cba6acdcb008543600bc50b216f14f81bb44ec57"
+    },
+    "futu/common/pb/Qot_GetShareholdersHolderDetail_pb2.py": {
+      "before": null,
+      "after": "b5da90b027443dbacc691b83c02b3d004272ae5f16eba03c295c07aad3298b9c"
+    },
+    "futu/common/pb/Qot_GetUserSecurityGroup_pb2.py": {
+      "before": null,
+      "after": "bb314459ace62cbeabe892fe5fd4cce1641f76096131eb61a355bc4b7527fffa"
+    },
+    "futu/common/constant.py": {
+      "before": null,
+      "after": "610fc8d8cfde2e97a1d19941d8c1efb9fd893c537ff335724126dff7a9387ffe"
+    },
+    "futu/common/pb/Qot_GetHoldingChangeList_pb2.py": {
+      "before": null,
+      "after": "e5f061177236d1466d5e4aa32a01a54697d4edf4cc0642a03131f8a97befaf4c"
+    },
+    "futu/common/pb/Qot_StockFilter.proto": {
+      "before": null,
+      "after": "0d178c73b1e7247c3e9cc5fa9074dcf3c1104c9f24936d5c653514451de8a7ea"
+    },
+    "futu/common/pb/Trd_GetOrderFillList.proto": {
+      "before": null,
+      "after": "40401ef0f5f78c3e16086ce19df110bdd7171eb01cb9f598ef50a3108e25ea7b"
+    },
+    "futu/common/pb/Qot_GetTicker.proto": {
+      "before": null,
+      "after": "82f48706eb37652b77e9c3e48b89ed3153ed4341b8d6fd170d4054e9a793b441"
+    },
+    "futu/examples/quote_and_trade_demo.py": {
+      "before": null,
+      "after": "3eb5500972c389162d32b2d659e622278bcb7c93f18d653eb83eb4fb63a1904d"
+    },
+    "futu/common/pb/Qot_GetCapitalDistribution_pb2.py": {
+      "before": null,
+      "after": "16bfb9642d42d6d01bc50aa7fd0344ce256507403bf465600f3e1020a3ea5a6f"
+    },
+    "futu/common/pb/Trd_GetComboMaxTrdQtys.proto": {
+      "before": null,
+      "after": "55c2aa17532723fa9630ce206a761ea6ef257e17def929b8035287b83096644a"
+    },
+    "futu/quote/stock_screen_const.py": {
+      "before": null,
+      "after": "82817692983727933a3cb114d663bad0a762e4618eab814c88d4df7583c1be47"
+    },
+    "futu_api-10.7.6708.dist-info/METADATA": {
+      "before": null,
+      "after": "fe8c3c66153798fb4346cdb05530e3b72a4fa0c439b2d776230b28554beeb218"
+    },
+    "futu/common/pb/Qot_GetValuationDetail.proto": {
+      "before": null,
+      "after": "ea435a5e5b87b65df7e7bc12c34f68bc2e0573ef7a686c7539fd3038c06cc757"
+    },
+    "futu/quote/head.html": {
+      "before": null,
+      "after": "c6aec0ebc23a9fd0a81a905fc5924d526f0a0ad471198687130a5b62fc6be041"
+    },
+    "futu/common/pb/Trd_GetOrderList.proto": {
+      "before": null,
+      "after": "5ebb8e9ed2ae55341933aa00551092dad2dcdb6bb793bc198be7e7cf27a7742c"
+    },
+    "futu/common/pb/Qot_GetOptionStrategy.proto": {
+      "before": null,
+      "after": "27323c401a850c8be1fa2e469ad9c74434740e562f0ad98227f7f03ee7de5b23"
+    },
+    "futu/common/pb/Qot_GetPriceReminder_pb2.py": {
+      "before": null,
+      "after": "198d745155e2a26e7dcf6e30387d63e56854a730106e5e7d299dcc95ed64d0c5"
+    },
+    "futu/common/pb/Qot_Common.proto": {
+      "before": null,
+      "after": "b26a7187dcf146065433a7f6802df47b9313299e5f89c97eba59615ff399603f"
+    },
+    "futu/quote/quote_response_handler.py": {
+      "before": null,
+      "after": "76e9990efad4357d71ed07c253d59c2fc4357c534731c4ec458351c8c4a1b844"
+    },
+    "futu/quote/__init__.py": {
+      "before": null,
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "futu/trade/trade_response_handler.py": {
+      "before": null,
+      "after": "441eba0b0fb5959178b6398ba5549a0cbca0ccc72f58999dfe4a1ad29c1cabc7"
+    },
+    "futu/common/pb/Trd_GetFunds.proto": {
+      "before": null,
+      "after": "747c61979275edd5944920e3135bd0e74a83c2abd52e697b11b6575702522cfe"
+    },
+    "futu/common/pb/Qot_GetUserSecurity.proto": {
+      "before": null,
+      "after": "092dd7f902f5a7e60795801785614bb8a06f7ea1ac39d42c48fc5b7df5177a8a"
+    },
+    "futu/common/pb/Trd_ModifyOrder.proto": {
+      "before": null,
+      "after": "ecedfb8611aaf2c42c1b9603569b254e48f6a5c26721cd4c40026cb8801007af"
+    },
+    "futu/common/pb/Trd_GetAccList.proto": {
+      "before": null,
+      "after": "f96207371e9cd6f1711cb0614b01493b6f11243dd2a08f222133a75695a69ac2"
+    },
+    "futu/common/pb/Trd_UnlockTrade.proto": {
+      "before": null,
+      "after": "b2590b68886fd2704aae7faf6d4c318f30830afdab5c77186c4af928ea5d63fa"
+    },
+    "futu/common/pb/Trd_GetOrderFee.proto": {
+      "before": null,
+      "after": "eb6c3ffde362cee005e89f0e0a02bcb5a2813758556daaa8c8b1074edfee6d8b"
+    },
+    "futu/common/pb/Qot_GetBasicQot_pb2.py": {
+      "before": null,
+      "after": "48d4cd2a7d8c249da70d916f6c1cae4304f31f570cfeaff642c3377b28c99282"
+    },
+    "futu/common/pb/Qot_GetCompanyProfile_pb2.py": {
+      "before": null,
+      "after": "c0d766f398ece31cebcac03e27cb77e755f864fdbcc06bb9d206068dedf3a1b5"
+    },
+    "futu/common/pb/Qot_UpdateBroker.proto": {
+      "before": null,
+      "after": "6c7324d6e5a28f67ce04baec715627c2ca7d4047b529e355714d426bdeef790b"
+    },
+    "futu/common/conn_key.txt": {
+      "before": null,
+      "after": "cce63b02844216b11fe29fe37b46bb480aa5843893a2d31b909ed2ef4ccbe2a6"
+    },
+    "futu/common/pb/Trd_GetOrderFee_pb2.py": {
+      "before": null,
+      "after": "2acacd80cb7377c96d6250f73bd7b892b09b75d8d4dbba270acb4776469c29b6"
+    },
+    "futu/common/pb/Qot_GetCompanyOperationalEfficiency.proto": {
+      "before": null,
+      "after": "25882d2198d65e9f5cad23546b46832f3e17b001591ad8839cf28ed44ce9a7f3"
+    },
+    "futu/examples/macd_strategy.py": {
+      "before": null,
+      "after": "27f2ee7a8516fea19c7e5c9542d2af6e9ead5b691765fe332cd8118c1c5cdd12"
+    },
+    "futu/common/err.py": {
+      "before": null,
+      "after": "2254de5b1d6b4231dcc5841e33c01fca94439c5d12858fe007938cf68bb91636"
+    },
+    "futu/common/ft_logger.py": {
+      "before": null,
+      "after": "a25568fb398fb6761f5d7ca8547a8f936ec1535ba568926cb7559c5e20540a22"
+    },
+    "futu/common/pb/Qot_GetReference_pb2.py": {
+      "before": null,
+      "after": "852864d3f5c591b46f35aa48ac1d27847acbbec29f0edb55549c482aed6e3bdc"
+    },
+    "futu/common/pb/Qot_GetCorporateActionsDividends.proto": {
+      "before": null,
+      "after": "65b8aeb756e5fd3975b9268eb11e7ac81954d22235647659a69ff6715194a121"
+    },
+    "futu/quote/quote_query.py": {
+      "before": null,
+      "after": "3c813646d40fc0290ac45827e31d6e82c50aecf617ab84934babeb18fde932c5"
+    },
+    "futu/common/pb/Qot_Common_pb2.py": {
+      "before": null,
+      "after": "e93d3422e160a72d867cc1f6363bf8904bd2dd87536f71d3528c5ee0a6652f6c"
+    },
+    "futu/trade/trade_query.py": {
+      "before": null,
+      "after": "7f8596d4f3f27268b0e93d534f5e734648138130dca29f123b7eaae2c9aa962e"
+    },
+    "futu/common/pb/UsedQuota.proto": {
+      "before": null,
+      "after": "4da3a02337ac6bd00af7bb38b90a31b88132b099403fe908150423344b583e74"
+    },
+    "futu/common/pb/Qot_GetResearchRatingSummary_pb2.py": {
+      "before": null,
+      "after": "c8fdf1a13393f09483e705c4fa8e5e575089248587fca17be79af400060337b8"
+    },
+    "futu/common/pb/Trd_FlowSummary.proto": {
+      "before": null,
+      "after": "353c1207fe493b73262b6a6db72ccb2533d3339799c9fe53d02cd146a54e8498"
+    },
+    "futu/common/pb/Trd_GetMaxTrdQtys.proto": {
+      "before": null,
+      "after": "05a7524832d42186780614f5a68c1c93c9ac0a32dae8538841f23a1a10005a3d"
+    },
+    "futu/common/pb/Qot_OptionScreen_pb2.py": {
+      "before": null,
+      "after": "005c998388e9a6ec83d1c214f107943aa8677b33b7ea5ddf9bc6fd6be4dba9ea"
+    },
+    "futu/common/callback_executor.py": {
+      "before": null,
+      "after": "37ec8247235da9891914fd8e4d5bfa8001f04c6c66d3d16e6199e6dddb5c2f5d"
+    },
+    "futu/common/pb/Qot_GetInsiderHolderList.proto": {
+      "before": null,
+      "after": "080e83670b14ab62c7958be5757e299cbe9b03a238c65d48490184f6b9c2c3da"
+    },
+    "futu/common/pb/Qot_GetCompanyOperationalEfficiency_pb2.py": {
+      "before": null,
+      "after": "2bd06808e682f042e04b26f05d926ddd771554908c93284a0b4d71aac7032524"
+    },
+    "futu/common/pb/Qot_GetOptionStrategyAnalysis.proto": {
+      "before": null,
+      "after": "a189a4d1eaf3b60c7ff96c88ed7ccfff9c8240f5261822a1605be23bf555256a"
+    },
+    "futu/tools/template_code.txt": {
+      "before": null,
+      "after": "98b767933571ba4e49f222b182402c28f3cdc882dd26f50ff1d2e51f9d7d27aa"
+    },
+    "futu/common/pb/Qot_GetCorporateActionsBuybacks_pb2.py": {
+      "before": null,
+      "after": "43061b522e5984fabc984f941f9a044208c39d6be7867ba5ae3cf7a7c313d5e4"
+    },
+    "futu/common/pb/Qot_GetRehab_pb2.py": {
+      "before": null,
+      "after": "8a3035fa6e2b5eba7f06dc0e5146ea70e5b93f8797e738f345e10938a73101ee"
+    },
+    "futu/common/pb/Qot_GetRT_pb2.py": {
+      "before": null,
+      "after": "c2bc7ab879c08a5e20e5266a28776162761c40946d8fe0607293f4dd454bde82"
+    },
+    "futu/common/comm_add_path.py": {
+      "before": null,
+      "after": "76f713f9a9c7f06d7be2f658b92189c9374827c9572f2e79e8cb105cde5e1273"
+    },
+    "futu/common/pb/Qot_GetKL.proto": {
+      "before": null,
+      "after": "17b9ee128c9af0feecbae78cc9f4b0555d44f54755a2e286c042b2f1e87003d6"
+    },
+    "futu/common/pb/Qot_GetCompanyProfile.proto": {
+      "before": null,
+      "after": "31f4ad271d8e8c67c5ce758b48080c7a23bcb307ecb911004b6e0d8f073d6d90"
+    },
+    "futu/common/pb/Qot_UpdateTicker.proto": {
+      "before": null,
+      "after": "aacb617722e4c8346497d14a4896467381031410b9922a8dc42890b4bacea1ba"
+    },
+    "futu/common/pb/Trd_Common.proto": {
+      "before": null,
+      "after": "77805a5c2ee6f9886a8c509ee7a7920449411ec0041b00626bd99efffe1d416b"
+    },
+    "futu/common/pb/Trd_GetHistoryOrderList.proto": {
+      "before": null,
+      "after": "1a2643e8351d2b51dca20b41f7cae619f32f7e4a0bd929402bc336d94d562ed4"
+    },
+    "futu/common/pb/Qot_GetFinancialsStatements_pb2.py": {
+      "before": null,
+      "after": "752576c59edb317259f3f1e4249f0da33785de74fbe3b1d148f14475cb922c8c"
+    },
+    "futu/common/pb/GetDelayStatistics.proto": {
+      "before": null,
+      "after": "ed39c9f84152ebedbddd10f9809980be41f46286a055902b21af932d19b3951c"
+    },
+    "futu/common/pb/Qot_WarrantScreen.proto": {
+      "before": null,
+      "after": "99d2e7050b9c6b25ac198e796da9a0b1eb0d2cb9afb32565b3b142045dadffb7"
+    },
+    "futu/common/pb/Qot_GetDailyShortVolume.proto": {
+      "before": null,
+      "after": "d1759cecaba10fe5e13a5670b7ec4d4203cf6c374420c2cc5ecfadb551c57a87"
+    },
+    "futu/common/pb/Qot_RequestRehab_pb2.py": {
+      "before": null,
+      "after": "e9b80960d6e9d1636098fc6bf8bd4afe0898a6dfc0280e1e95104ec21448b345"
+    },
+    "futu/common/pb/__init__.py": {
+      "before": null,
+      "after": "49f94f30ceac89078d784ddcad041e637100bd1e61f6e238b1347c8256d26907"
+    },
+    "futu/common/pb/Qot_GetValuationPlateStockList_pb2.py": {
+      "before": null,
+      "after": "ce792784b87e06739758a01cb85dabe19ea381a0ed2f9b7617937cffb0883291"
+    },
+    "futu/common/pb/Qot_GetPlateSet.proto": {
+      "before": null,
+      "after": "007fc2b429206cc412c8a1670ba7aec9472291da6d0cd45897649c184bc9525d"
+    },
+    "futu/common/pb/Qot_GetSecuritySnapshot.proto": {
+      "before": null,
+      "after": "f83822da35e5d98c2de63dfd7940ea3ed3323d7c6e406c48d46b075882112fd0"
+    },
+    "futu/common/pb/Common_pb2.py": {
+      "before": null,
+      "after": "d82536ac263f62fdf946bb6ff07dd4f2d710b53d1d4501aa92eba31145a6efcf"
+    },
+    "futu/common/pb/Qot_GetBasicQot.proto": {
+      "before": null,
+      "after": "75618938b69a04254d15e89744ca42511382281a2f7e1babf41bc2e067291c12"
+    },
+    "futu/common/pb/Qot_GetOptionStrategy_pb2.py": {
+      "before": null,
+      "after": "effd54cbd0d9f0bcd33bea4fafe8f07fd65d0f6df81dae20311957acf1957ffd"
+    },
+    "futu/common/pb/Qot_GetBroker_pb2.py": {
+      "before": null,
+      "after": "ffd60d1f4f0c78d9d7a2162787cd80cc188fd812190e7ca77d6d417f612c4aef"
+    },
+    "futu_api-10.7.6708.dist-info/WHEEL": {
+      "before": null,
+      "after": "69e6228a0d35958183cc1812f07c565ce837b95eb51bd8a33acba9fa4f68d6c9"
+    },
+    "futu/common/pb/Trd_Common_pb2.py": {
+      "before": null,
+      "after": "07648d02e70d365a4311f90297880e054e983f14989232ba8ccc560a9e29f985"
+    },
+    "futu/common/pb/Qot_GetHistoryKLPoints.proto": {
+      "before": null,
+      "after": "850022bd991360feb54219cf711279fac551fe23ca3f5c8b4877d8b2ef6017f1"
+    },
+    "futu/common/pb/Qot_StockScreen.proto": {
+      "before": null,
+      "after": "1f172a345cd3a3966c402e0d61cf0eebbb5d9ef44e567153a70beb93a9273750"
+    },
+    "futu/common/pb/Qot_RegQotPush.proto": {
+      "before": null,
+      "after": "b04b65b226a7583c0c91320b4e03651521e37c2ada9ac65970b3c924e47ebf22"
+    },
+    "futu/common/pb/Qot_GetOrderBook_pb2.py": {
+      "before": null,
+      "after": "a91aa4f7c8d59539f3c2a38583ac70147ebceb0de72b43b215718406e6538099"
+    },
+    "futu/common/pb/Qot_GetStaticInfo.proto": {
+      "before": null,
+      "after": "c834502d20c6bccd78a627d8cbee18c88d260ed21eb7c8e86706f938a8cb809a"
+    },
+    "futu/tools/__init__.py": {
+      "before": null,
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "futu/common/pb/Qot_GetResearchMorningstarReport.proto": {
+      "before": null,
+      "after": "28ebd360dcb1b1980168a4fda38b1ba6c94e7427022c3f7c7d95a8ce1395431b"
+    },
+    "futu/common/pb/TestCmd.proto": {
+      "before": null,
+      "after": "bcd5e1a8e6f79fa603ab3c71279035b669fd640baec8ee6e271f7c7dc63960be"
+    },
+    "futu/common/pb/Trd_PlaceComboOrder_pb2.py": {
+      "before": null,
+      "after": "65bf4aa38c24862873ec49a3aaa62eca49d0f22b4f97b8c1251662130b0ec572"
+    },
+    "futu/common/pb/Trd_GetAccList_pb2.py": {
+      "before": null,
+      "after": "9ad0dfeec44f829faddcb9f8cad9e324dbc82ab7d80ccd51dac659a9b452926d"
+    },
+    "futu/__init__.py": {
+      "before": null,
+      "after": "a83e73d7735876e55c7680ab2dca8471134b713e9601c8e6ce0c624ad3bbb54a"
+    },
+    "futu/common/pb/Trd_UnlockTrade_pb2.py": {
+      "before": null,
+      "after": "ef913a5cab3591a6ffadbeefac553b8b32cd52c34373986c4e1a0bae04ebd62a"
+    },
+    "futu/common/pb/Qot_UpdateOrderBook_pb2.py": {
+      "before": null,
+      "after": "edf8123cac5e4ed4951e83f14781d0482d66e438a272060f185b08354be6ac34"
+    },
+    "futu/common/pb/Qot_GetInsiderHolderList_pb2.py": {
+      "before": null,
+      "after": "1f614dea5df01ff942e8a09c108e0df2e6c0c587d5b4226a3d8082996f4a1bf2"
+    },
+    "futu/common/pb/Qot_GetShareholdersInstitutional_pb2.py": {
+      "before": null,
+      "after": "d722a0e1535d5a815e69a99a13ab991ba8020a2dfc8f11d5547dc58cdbc7f440"
+    },
+    "futu/common/pb/Qot_GetPlateSecurity_pb2.py": {
+      "before": null,
+      "after": "7ae6c5c7f6b3037b362f737ddecc219aab793ddf58eaa3908b126b3ca2c6b2d3"
+    },
+    "futu/common/handler_context.py": {
+      "before": null,
+      "after": "b2ff546434b8fc0a6b81c65032f3dc1d6765fa3ef7bbc79e92bf8bda44c5af4d"
+    }
+  },
+  "global_environment_changed": false,
+  "downloads": 0
+}

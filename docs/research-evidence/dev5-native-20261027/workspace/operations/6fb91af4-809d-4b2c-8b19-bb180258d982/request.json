@@ -1,0 +1,11 @@
+{
+  "request_hash": "d240afcdfa3f015ae94bd544d4abb905254e636af2874ce6a6cadc34cc74d544",
+  "request": {
+    "guided": true,
+    "symbol": "NDAQ",
+    "history_sessions": 20,
+    "action": "check_stock_import",
+    "operation_id": "6fb91af4-809d-4b2c-8b19-bb180258d982"
+  },
+  "recorded_at": "2026-10-26T23:34:13.214830Z"
+}

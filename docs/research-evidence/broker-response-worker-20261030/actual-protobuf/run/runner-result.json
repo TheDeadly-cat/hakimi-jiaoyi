@@ -1,0 +1,18 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\python.exe",
+    "-I",
+    "-S",
+    "-B",
+    "-X",
+    "utf8",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-response-facts-20261030\\private-protobuf-r1\\probe-child.py",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-response-facts-20261030\\private-protobuf-r1\\run\\invocation.json"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 1.10796679998748,
+  "failure": null,
+  "source_hashes_unchanged": true,
+  "manifest_unchanged": true,
+  "status": "CHILD_EXIT_ZERO"
+}

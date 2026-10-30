@@ -1,0 +1,334 @@
+{
+  "schema_version": "broker-plan-flow-evidence-copy-v1",
+  "created_at": "2026-10-29T23:05:55.721640+00:00",
+  "status": "COPIES_BYTE_VERIFIED_NO_TEST_RERUN",
+  "copied_originals": [
+    {
+      "copy": "loader/loader-root-targeted-r1.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-package-loader-20261030\\loader-root-targeted-r1.log",
+      "sha256": "eac1223795dcc60a0d5a1958a08c34c54fee55313b2089ad445403f404404764",
+      "bytes": 4610,
+      "byte_identical": true
+    },
+    {
+      "copy": "loader/loader-root-verification-r1.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-package-loader-20261030\\loader-root-verification-r1.json",
+      "sha256": "7ad71bdf534e1e9762ce7438edc9f99c0d41991d4e2f62a8d7d8f24621ca22cc",
+      "bytes": 3349,
+      "byte_identical": true
+    },
+    {
+      "copy": "loader/packaging-targeted-r2.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-package-loader-20261030\\packaging-targeted-r2.log",
+      "sha256": "6159f0cf77bb2ef833cb9527237178ccf28763890b870b911e2b2bfd50689fba",
+      "bytes": 2859,
+      "byte_identical": true
+    },
+    {
+      "copy": "loader/packaging-verification-r2.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-package-loader-20261030\\packaging-verification-r2.json",
+      "sha256": "f9c98f33e7396a5bfa32948a7c47b175dda21b27cc02b030f43d38802421410c",
+      "bytes": 1467,
+      "byte_identical": true
+    },
+    {
+      "copy": "loader/review-source-candidate-r1.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-package-loader-20261030\\review-source-candidate-r1.json",
+      "sha256": "2a17a3704187b3c87b7927e66f0d07c695340ad270a3bfedbe8152786a0277fe",
+      "bytes": 924,
+      "byte_identical": true
+    },
+    {
+      "copy": "private-fixture/assembly.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-private-identity-probe-20261030\\clean-fixture-r1\\assembly.json",
+      "sha256": "b0cccf2def0dd0d18cfb9ae234192b65e33fb1c095bd3286782327bd39ace743",
+      "bytes": 5234,
+      "byte_identical": true
+    },
+    {
+      "copy": "private-fixture/review-r1.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-private-identity-probe-20261030\\clean-fixture-r1\\review-r1.json",
+      "sha256": "84220bafb037971a476eafda688df087c8be67d2442c2341d8192f85724d4ec6",
+      "bytes": 12493,
+      "byte_identical": true
+    },
+    {
+      "copy": "private-fixture/probe/result.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-private-identity-probe-20261030\\clean-fixture-r1\\identity-probe-r1\\result.json",
+      "sha256": "6518f8a4be47fd8b76a33eb4da1db426ccf5982a39e7a40445919ed7ebcc2faa",
+      "bytes": 4336,
+      "byte_identical": true
+    },
+    {
+      "copy": "private-fixture/probe/invocation.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-private-identity-probe-20261030\\clean-fixture-r1\\identity-probe-r1\\invocation.json",
+      "sha256": "385c1b204d1adc16d1cfe2685d047c8535792c2d577171961dd6c6522953ad94",
+      "bytes": 828,
+      "byte_identical": true
+    },
+    {
+      "copy": "private-fixture/probe/stdout.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-private-identity-probe-20261030\\clean-fixture-r1\\identity-probe-r1\\stdout.log",
+      "sha256": "4291f998a9456f56bbe3e6fee85fc3cdecc4ef606609b0e1939ea18dd367e076",
+      "bytes": 3470,
+      "byte_identical": true
+    },
+    {
+      "copy": "private-fixture/probe/stderr.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-private-identity-probe-20261030\\clean-fixture-r1\\identity-probe-r1\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "byte_identical": true
+    },
+    {
+      "copy": "service/source-after-and-verification-r1.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-service-20261030\\source-after-and-verification-r1.json",
+      "sha256": "6fbf252d99e2a54c5b507f35d5ad07830c8f5a029fcdad4f0b93c9b564cd62b0",
+      "bytes": 2407,
+      "byte_identical": true
+    },
+    {
+      "copy": "service/targeted-r1.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-service-20261030\\targeted-r1.log",
+      "sha256": "8918e6cef94be08a80579e29a9981aeac1ffb5cdbe66e2c546ac3113a13d61f9",
+      "bytes": 10793,
+      "byte_identical": true
+    },
+    {
+      "copy": "service/targeted-r2.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-service-20261030\\targeted-r2.log",
+      "sha256": "18d4a514bfe7c0f8c63489d5037d5925cf5451fd2e6eebb38ba19538c7b01f8f",
+      "bytes": 4667,
+      "byte_identical": true
+    },
+    {
+      "copy": "service/targeted-r3.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-service-20261030\\targeted-r3.log",
+      "sha256": "3b1a4adb226005160b474f8909e5352f436bf6bac4e8b17a38e3d0319745bc4e",
+      "bytes": 5549,
+      "byte_identical": true
+    },
+    {
+      "copy": "service/response-contract-r1.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-service-20261030\\response-contract-r1.json",
+      "sha256": "22492e678c92349410ca860e7778c5e43815e5bc35684476a3055c60284df601",
+      "bytes": 50743,
+      "byte_identical": true
+    },
+    {
+      "copy": "service/root-routes-r1.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-service-20261030\\root-routes-r1.json",
+      "sha256": "031a1db1a2e95c222c66a1d895691ae832529c26c0a9efc23641f9c71f17d11c",
+      "bytes": 3134,
+      "byte_identical": true
+    },
+    {
+      "copy": "service/root-routes-r1.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-service-20261030\\root-routes-r1.log",
+      "sha256": "49d93bf8c15b851ca2b743992eed355e6f5abd99bba2fad74e484f9a64c1f6c6",
+      "bytes": 929,
+      "byte_identical": true
+    },
+    {
+      "copy": "ui/review-freeze-r2.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\review-freeze-r2.json",
+      "sha256": "5250976a6ba132f685e56e1e0029d72afb6994cbe8ad61d419f5826ff7b2c943",
+      "bytes": 1284,
+      "byte_identical": true
+    },
+    {
+      "copy": "ui/plan-ui-r5-final.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\plan-ui-r5-final.log",
+      "sha256": "f6bb47559b1226c572de9539a7f741c8e7ec2b7c4aaa5cd39eed5bdfe00d6c82",
+      "bytes": 4574,
+      "byte_identical": true
+    },
+    {
+      "copy": "ui/full-host-verification-final.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\full-host-verification-final.json",
+      "sha256": "548786efb8220f07ebb338861be1398fc26157ca310ac08ecf2208ea94275c2e",
+      "bytes": 20973,
+      "byte_identical": true
+    },
+    {
+      "copy": "ui/full-host-final.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\full-host-final.log",
+      "sha256": "643b09ff08a0d0a954a495332af7665c6646b86d7af4217d89c81c005fe2d37d",
+      "bytes": 774,
+      "byte_identical": true
+    },
+    {
+      "copy": "ui/actual-service-contract-r1.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\actual-service-contract-r1.json",
+      "sha256": "f95618b15e5e7c0dd516daf2c90b4d359e3c6873b4b6781eb1f3d6e7503bf988",
+      "bytes": 656,
+      "byte_identical": true
+    },
+    {
+      "copy": "ui/local-time-semantic-preservation.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\local-time-semantic-preservation.json",
+      "sha256": "c38eb70758f6b17ce8c13db91d866baf9e80d092279ee15e48eed96967367268",
+      "bytes": 1018,
+      "byte_identical": true
+    },
+    {
+      "copy": "ui/local-time-comparison-1280.png",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\local-time-comparison-1280.png",
+      "sha256": "e6c496b06fecba447d87cb602090c63a423de04779b890a3bda17669d86373af",
+      "bytes": 68637,
+      "byte_identical": true
+    },
+    {
+      "copy": "ui/local-time-comparison-480.png",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\local-time-comparison-480.png",
+      "sha256": "a2112861abf6d9da62afea6438be1388ddbdf91cb59a19173e2bf0cad2269fda",
+      "bytes": 55726,
+      "byte_identical": true
+    },
+    {
+      "copy": "ui/full-host-final-saved-1280.png",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\full-host-final-saved-1280.png",
+      "sha256": "10d6abbb16ac903a5019549082f48333c0e8e93c9a11101213ba476fa003bc33",
+      "bytes": 72783,
+      "byte_identical": true
+    },
+    {
+      "copy": "ui/full-host-final-saved-480.png",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\full-host-final-saved-480.png",
+      "sha256": "a443d1637d423a43d99067117d0230cb883eb2eb369ac09ef4933d646f17f693",
+      "bytes": 62009,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/environment.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\environment.json",
+      "sha256": "cabce91497234b809981f9936546bb4a812e3b2ac439983687f420e2a9fcdd85",
+      "bytes": 677,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/summary.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\summary.json",
+      "sha256": "4e487271e036fcdc6d3d6fd6cb4d83a51e7c843897e9ad0a27a6ad51baa50120",
+      "bytes": 4990,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/terminal.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\terminal.log",
+      "sha256": "e1f33328f33c37b6a8cf1fa6e076e173ebc9072aacf827be1917e0ec0f8198a4",
+      "bytes": 109608,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/packaging.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\packaging.log",
+      "sha256": "2dc9c848e31efa562651a5abc2370591e6b4874b7a7545cfafd3fff032728361",
+      "bytes": 2859,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/gate_runner.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\gate_runner.log",
+      "sha256": "368309d8db40e916f63fa8b583c88e62d4abf57eab864cfc97f15a0983c57752",
+      "bytes": 777,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/desktop.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\desktop.log",
+      "sha256": "6c60d788605288b79d99a99dbb85098188c24739aaef32e168b99e55ad809d42",
+      "bytes": 53021,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/desktop-bound-python-r2.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\desktop-bound-python-r2.json",
+      "sha256": "1eaf55b849abdeb36128eb128aa83381a4663cd1898122f3ce0eeba54095d2b5",
+      "bytes": 1295,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/desktop-bound-python-r2.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\desktop-bound-python-r2.log",
+      "sha256": "c73106c679ef1393b4451f4504ad45bdcaa7764c52e5eb982cba500edaaaa1b5",
+      "bytes": 94340,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/desktop-bound-environment-r3.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\desktop-bound-environment-r3.json",
+      "sha256": "82b29af49d3e59c720b4f28d1dfcabff77c511693ece0ab231a5f93b84281ccd",
+      "bytes": 1604,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/desktop-bound-environment-r3.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\desktop-bound-environment-r3.log",
+      "sha256": "172d46d78b7daba8abb9df39fc430da5310bd308f639ff9c12fca327a1cb4fef",
+      "bytes": 109685,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/desktop-final-time-display-r4.json",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\desktop-final-time-display-r4.json",
+      "sha256": "ef2ca6803aaf62f4165fdbfe9cd1651b8fa35e424de5c6652779a77c6462b253",
+      "bytes": 2310,
+      "byte_identical": true
+    },
+    {
+      "copy": "integration/desktop-final-time-display-r4.log",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\desktop-final-time-display-r4.log",
+      "sha256": "beb47d0e954ca908a4c750960d7b9a4100112315b17b54eed6430f846730c9ac",
+      "bytes": 109946,
+      "byte_identical": true
+    },
+    {
+      "copy": "sdk-budget-gap-review.md",
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\futu-scoped-adapter-budget-review-20261030\\REVIEW.md",
+      "sha256": "f9b1b3a565cf0379c4cd6691a0403b68ecc4e0e96cc6492ec1b3c03d75752925",
+      "bytes": 10665,
+      "byte_identical": true
+    }
+  ],
+  "retained_large_evidence": [
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-private-identity-probe-20261030\\clean-fixture-r1\\identity-probe-r1\\fixture-before.json",
+      "sha256": "54773ee0966769fd95ce18ea25dc8efc250cb3b8bf724597d126949a95566541",
+      "bytes": 960365,
+      "copied_into_repository": false
+    },
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-private-identity-probe-20261030\\clean-fixture-r1\\identity-probe-r1\\fixture-after.json",
+      "sha256": "54773ee0966769fd95ce18ea25dc8efc250cb3b8bf724597d126949a95566541",
+      "bytes": 960365,
+      "copied_into_repository": false
+    },
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\inputs-before.json",
+      "sha256": "e90c57ef40d79bdff7ab584e3808f9beed3669e310a2305d8e2509761c5bcad3",
+      "bytes": 352619,
+      "copied_into_repository": false
+    },
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-integrated-20261030-r1\\inputs-after.json",
+      "sha256": "e90c57ef40d79bdff7ab584e3808f9beed3669e310a2305d8e2509761c5bcad3",
+      "bytes": 352619,
+      "copied_into_repository": false
+    },
+    {
+      "original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-plan-ui-20261030\\full-host-rendered-final.html",
+      "sha256": "137bcb21850b6f2cb778012899d49eba7fb9678fa199ee80d38e3ea599dcd5eb",
+      "bytes": 573359,
+      "copied_into_repository": false
+    }
+  ],
+  "current_product_package": "0.7.0.dev3 r3 / f75295867b918eebaed66f32ee4c3ee542ad8213 (does not include this new wiring)",
+  "private_fixture_source": "97d0e0a2db45d021f48fb0eda285b53ccaf73300",
+  "private_fixture_not_product": true,
+  "final_desktop_status": "PASS",
+  "final_desktop_seconds": 19.419,
+  "tests_probes_builds_or_gui_run_by_archiving": false,
+  "originals_modified": false,
+  "staged_committed_or_pushed": false
+}

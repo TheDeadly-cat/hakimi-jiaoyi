@@ -1,0 +1,96 @@
+{
+  "acquisition_sha256": "5ad081af55c6ccd628f65709af75eb47737f0f79e920f0eee7df625c26c0a97e",
+  "binding_checks": {
+    "all_frozen_tool_hashes_matched": true,
+    "audit_addendum_calendar_runtime_parameter_references_verified": true,
+    "evidence_tool_output_chunk": "a031cc",
+    "fixed_spec_economics_and_score_dates_matched": true,
+    "inventory_files_checked": 29,
+    "inventory_sha256_all_matched": true,
+    "orders_live_and_paper_disallowed": true,
+    "public_and_external_protocol_equal_git_blob": true,
+    "research_admission_allowed": true,
+    "snapshot_identity_source_reference_retrieval_hashes_matched": true
+  },
+  "chronology": {
+    "acquisition_started_at": "2026-10-26T11:11:55.271611Z",
+    "commit_time": "2026-10-26T11:11:22Z",
+    "order_verified": true,
+    "prepared_at": "2026-10-26T11:11:56.732593Z",
+    "protocol_recorded_at": "2026-10-26T11:10:38.289386Z"
+  },
+  "limitations": [
+    "This is binding and metadata verification, not a rerun of source price guards or strategy results.",
+    "The reviewer does not claim complete non-exposure to encoded originals after freeze.",
+    "Git committer time is metadata, not independent external time attestation."
+  ],
+  "output_deviation": {
+    "description": "A metadata inspection printed the complete security_identity, corporate_actions, manifest identity source and manifest price_source objects. Their nested raw_base64 fields carried encoded original Yahoo responses and encoded derived CSV. The tool output was truncated. This note records the deviation without copying that payload.",
+    "encoded_price_containing_originals_were_exposed_in_tool_output": true,
+    "later_base64_decoding_scope": "opaque bytes used only to verify SHA256 against retained source; no JSON or CSV price parsing from decoded bytes",
+    "occurred_after_protocol_freeze_and_source_acquisition": true,
+    "output_or_original_records_deleted": false,
+    "parameters_or_window_changed": false,
+    "raw_base64_decoded_for_price_inspection": false,
+    "returns_examined": false,
+    "strategy_or_economic_computation_run_by_reviewer": false,
+    "subsequent_output_policy": "Explicit allowlist of identity, hash, clock, state and counts; never nested source objects.",
+    "tool_output_chunk": "2b805e"
+  },
+  "plan_hash": "03b9c996063e7fb03fbb95e70fd4416bf30a5e0f54617db72fbb9ce8e18f812b",
+  "preparation_sha256": "15195410dc355cbc9d5db351783aa879641381731e9a07e5a5d6fefdbd526a44",
+  "protocol_commit": "3451f2323e4acb2556aaeb382482f83ae681f5ce",
+  "protocol_sha256": "e43adda930945e3fc8765e1c2a87f2109fa420ff91b09b6fc3e114e493f59b07",
+  "recorded_at": "2026-10-26T11:15:29.783395Z",
+  "schema_version": "holdout-metadata-review-note-v1",
+  "source_metadata": {
+    "KO": {
+      "raw_sha256": "873b1cc2cb0a3886235f299646278f6ca0e40ce2b9ef31858565664372605276",
+      "request_count": 1,
+      "request_started_at": "2026-10-26T11:11:55.317670Z",
+      "retrieved_at": "2026-10-26T11:11:55.909582Z",
+      "snapshot_sha256": "094556bd84b7268932951d9ad8e1177ea46b429e49a21727580957e602ad9e3f",
+      "spec_sha256": "7e604df3fbe34952fdab4468c9e33a19e334785451ed33f3a1bd0e9e41a69d79",
+      "status": "ACQUIRED"
+    },
+    "NDAQ": {
+      "raw_sha256": "753cd5849cba994df592b75b38eeb97c16525c0c013f3ac47cb9e8db52829abe",
+      "request_count": 1,
+      "request_started_at": "2026-10-26T11:11:55.918646Z",
+      "retrieved_at": "2026-10-26T11:11:56.500549Z",
+      "snapshot_sha256": "20a8fc93b3500eedf1d5bcffd3ff253c907abe31b6c2b4252ba38f278e82998a",
+      "spec_sha256": "74cd7d5a1de1386b8b5050831e8e0ed1b61e7af839465064892014767a2e912b",
+      "status": "ACQUIRED"
+    }
+  },
+  "status": "PASS_READ_ONLY_BINDING_REVIEW_WITH_DISCLOSED_OUTPUT_DEVIATION",
+  "unchanged_code": {
+    "tools/prepare_blind_holdout.py": {
+      "current_sha256": "3322cc06763ab2be3e0b6e38bd5c998a3125d4fe8c1837d90738f15594306565",
+      "frozen_commit_sha256": "3322cc06763ab2be3e0b6e38bd5c998a3125d4fe8c1837d90738f15594306565",
+      "previous_accepted_ci_sha256": "3322cc06763ab2be3e0b6e38bd5c998a3125d4fe8c1837d90738f15594306565",
+      "unchanged": true
+    },
+    "tools/prepare_sealed_month_replay.py": {
+      "current_sha256": "32f4771a5ae9e4436d0bd71fd3500e7fc3e9b71d8e6d5578a7fd296a14eee118",
+      "frozen_commit_sha256": "32f4771a5ae9e4436d0bd71fd3500e7fc3e9b71d8e6d5578a7fd296a14eee118",
+      "previous_accepted_ci_sha256": "32f4771a5ae9e4436d0bd71fd3500e7fc3e9b71d8e6d5578a7fd296a14eee118",
+      "unchanged": true
+    },
+    "tools/verify_strategy_prefix_isolation.py": {
+      "current_sha256": "79437dbdc4308ed0e886eaac38b969a0fa179c95678594fb4d628dbbea6a9c03",
+      "frozen_commit_sha256": "79437dbdc4308ed0e886eaac38b969a0fa179c95678594fb4d628dbbea6a9c03",
+      "previous_accepted_ci_sha256": "79437dbdc4308ed0e886eaac38b969a0fa179c95678594fb4d628dbbea6a9c03",
+      "unchanged": true
+    }
+  },
+  "unchanged_economics": {
+    "frozen_protocol_economics_sha256": "cea2ea1e19165dc58cb786d3177fb7692db609fdcef98b6b7d3d1340daa162df",
+    "matched": true,
+    "parameter_design_economics_sha256": "cea2ea1e19165dc58cb786d3177fb7692db609fdcef98b6b7d3d1340daa162df",
+    "parameter_design_sha256": "6f2a7ed165cebae74f1675f34e8ff7d3102dfd2b02a03de3e2d4582f02d75c5b"
+  },
+  "writes_by_reviewer": [
+    "metadata-review-note.json only; existing source and receipt files unchanged"
+  ]
+}

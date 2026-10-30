@@ -1,0 +1,203 @@
+{
+  "derived_not_original_log": true,
+  "method": "Static relative Markdown target existence check; no browser/URL requests",
+  "checked_count": 39,
+  "broken": [],
+  "links": [
+    {
+      "markdown": "README.md",
+      "target": "originals/fullgate/summary.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/fullgate/environment.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/fullgate/terminal.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/fullgate/desktop.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/fullgate/packaging.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/fullgate/gate_runner.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "fullgate-inputs-derived.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "source-identity.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ci168/ci168-completed-summary-r1.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/account-control/host-HANDOFF-r1.md",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/account-control/host-node22-targeted-r1.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/account-control/service-route-HANDOFF-r1.md",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/account-control/service-route-integration-r2.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/account-control/account-control-review-r1.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/account-control/core-first-run-note-r1.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/account-control/core-fixture-close-r2.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/account-control/UI-frozen-handoff.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ui/browser-result.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ui/node-tests-final.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ui/server.py",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ui/browser.cjs",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ui/account-stopped-desktop.png",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ui/account-narrow-390.png",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ui/account-original-receipt-current-scope.png",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ui/account-unavailable.png",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/HANDOFF.md",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/targeted-r1.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/targeted-r1.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/private-process-r1/invocation.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/private-process-r1/result.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/private-process-r1/runner-result.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/private-process-r1/stdout.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/private-process-r1/stderr.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/private-child.py",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/run-private-probe.py",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/protobuf-loader/run-targeted.py",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "original-copies.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "SHA256SUMS",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "relative-links-validation.json",
+      "exists": true
+    }
+  ]
+}

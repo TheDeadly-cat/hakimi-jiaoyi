@@ -1,0 +1,362 @@
+{
+  "schema_version": "hakimi-byte-identical-original-copies-v1",
+  "created_at": "2026-10-30T01:57:33.115758+00:00",
+  "copy_count": 44,
+  "copy_bytes": 1127453,
+  "all_byte_identical": true,
+  "note": "Original file copy describes byte provenance, not that every JSON/note is a raw execution log. Producer absolute paths and historical failures are intentionally unchanged.",
+  "files": [
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\account-control-review-r1.json",
+      "destination": "originals/account-control/account-control-review-r1.json",
+      "bytes": 10214,
+      "sha256": "fccd4c06bb78b70b9d2958549015cf7c9d9f516c63b0d32e2fddc8c0c990d440",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\core-first-run-note-r1.json",
+      "destination": "originals/account-control/core-first-run-note-r1.json",
+      "bytes": 410,
+      "sha256": "d82a12b55175e9e15188a173d6a72aa907d300826faefe312d4e191a2f54ef21",
+      "byte_identical": true,
+      "artifact_kind": "TOOL_OUTPUT_DERIVED_NOTE_FILE; not an original raw failure log"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\core-fixture-close-r2.log",
+      "destination": "originals/account-control/core-fixture-close-r2.log",
+      "bytes": 293,
+      "sha256": "af6fbdc41ac66e05e90a740a5d7503bbac95c98e4a4febd78bad84293374256d",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-HANDOFF-r1.md",
+      "destination": "originals/account-control/host-HANDOFF-r1.md",
+      "bytes": 3357,
+      "sha256": "171f2142cdc505f34f4c316b7e010ff1b0ee2c4e2266a0c36446260f947b8080",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-node22-checks-r1.log",
+      "destination": "originals/account-control/host-node22-checks-r1.log",
+      "bytes": 1128,
+      "sha256": "8d0dfb344203628b30645cca29884b922a0cde87a7ca967075ffb27bd5f19c93",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-node22-python-identity-r1.log",
+      "destination": "originals/account-control/host-node22-python-identity-r1.log",
+      "bytes": 391,
+      "sha256": "82dfb1176a70cf51664db144ee077d2eb601248e178454d783671238f6f76047",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-node22-runtime-r1.log",
+      "destination": "originals/account-control/host-node22-runtime-r1.log",
+      "bytes": 6086,
+      "sha256": "2e48b3405dde0422bb653511c25bbb4ff5d3d274806d4ac9c547c5e85a61d607",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-node22-targeted-r1.log",
+      "destination": "originals/account-control/host-node22-targeted-r1.log",
+      "bytes": 11166,
+      "sha256": "e82f0d87c28fc34b6235243b7e3be50162b88542f9562ffbc3b0b8122187db75",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-SHA256-r1.json",
+      "destination": "originals/account-control/host-SHA256-r1.json",
+      "bytes": 2060,
+      "sha256": "96945b62ecba34eb996279357e45d8b6c34df06a7cb2fa651a7701912fbb9018",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\service-route-checks-r1.log",
+      "destination": "originals/account-control/service-route-checks-r1.log",
+      "bytes": 176,
+      "sha256": "2e0dbd3d590606b8470b765371850cdf6214f0e7cdeeee12526d612009a4e2b7",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\service-route-HANDOFF-r1.md",
+      "destination": "originals/account-control/service-route-HANDOFF-r1.md",
+      "bytes": 3651,
+      "sha256": "50759431a3c05ce7d87c5e41ab37632df1adc4b555f5b681058936060742f9a8",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\service-route-integration-r1.log",
+      "destination": "originals/account-control/service-route-integration-r1.log",
+      "bytes": 2353,
+      "sha256": "91a2b54f3acec05f1595c11e0cac935fd8545ce026efa32389ca1817c40f5ffe",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\service-route-integration-r2.log",
+      "destination": "originals/account-control/service-route-integration-r2.log",
+      "bytes": 2884,
+      "sha256": "52c6761dcfbce03f52e8528f3651452a562a61e7b7e5dd59316f2b4e86056692",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\service-route-SHA256-r1.json",
+      "destination": "originals/account-control/service-route-SHA256-r1.json",
+      "bytes": 2510,
+      "sha256": "69bdf1f15f8ccbaa7781973cbaa81a05f29250a44a6d9bfc786d207899f40dbb",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\UI-frozen-handoff.json",
+      "destination": "originals/account-control/UI-frozen-handoff.json",
+      "bytes": 6710,
+      "sha256": "a75206e9dd1949990a4fe6afb3c6567d9dea1522ec18d8a673eab29e3c96472d",
+      "byte_identical": true,
+      "artifact_kind": "account-control producer file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\node-tests-final.log",
+      "destination": "originals/ui/node-tests-final.log",
+      "bytes": 12714,
+      "sha256": "8ceac37c33630a48a5ef63d5d74ffcbb5d22ab79eb77ae2409718d9c90f823aa",
+      "byte_identical": true,
+      "artifact_kind": "UI frozen artifact verified against producer SHA"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\browser-result.json",
+      "destination": "originals/ui/browser-result.json",
+      "bytes": 11316,
+      "sha256": "a4a749c128af42b38cfbc9223b9e78dd6ec82ecbfac91131f9fd82783a707c16",
+      "byte_identical": true,
+      "artifact_kind": "UI frozen artifact verified against producer SHA"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\diff-check.log",
+      "destination": "originals/ui/diff-check.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byte_identical": true,
+      "artifact_kind": "UI frozen artifact verified against producer SHA"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\server.py",
+      "destination": "originals/ui/server.py",
+      "bytes": 7695,
+      "sha256": "aa2be3241525fd16b38fce671e73ea4e79f336b2ead29115e949cce5797245c6",
+      "byte_identical": true,
+      "artifact_kind": "UI frozen artifact verified against producer SHA"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\browser.cjs",
+      "destination": "originals/ui/browser.cjs",
+      "bytes": 8478,
+      "sha256": "7b5da162f48a3e518217ba7e04c65554fac65a4b00f2e82764f52cbde9a1d5ba",
+      "byte_identical": true,
+      "artifact_kind": "UI frozen artifact verified against producer SHA"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\account-narrow-390.png",
+      "destination": "originals/ui/account-narrow-390.png",
+      "bytes": 41208,
+      "sha256": "d75adb1c8f1cc44d37376b25258e8689255c8c8088dab18b15a18216a6a24b0b",
+      "byte_identical": true,
+      "artifact_kind": "UI frozen artifact verified against producer SHA"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\account-original-receipt-current-scope.png",
+      "destination": "originals/ui/account-original-receipt-current-scope.png",
+      "bytes": 59055,
+      "sha256": "f98bb9b97c4ac734d7ab0ab758bcf5ea03d8a2ade0e50903dd684ba933bb5114",
+      "byte_identical": true,
+      "artifact_kind": "UI frozen artifact verified against producer SHA"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\account-stopped-desktop.png",
+      "destination": "originals/ui/account-stopped-desktop.png",
+      "bytes": 64591,
+      "sha256": "0da2444062ec518f0a9cca802d4de24f39e0f6d09c1c19fa6c9f0b1d6791be9e",
+      "byte_identical": true,
+      "artifact_kind": "UI frozen artifact verified against producer SHA"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\account-unavailable.png",
+      "destination": "originals/ui/account-unavailable.png",
+      "bytes": 63816,
+      "sha256": "948ff9446d3d99b4e85225f4b11dfb8b611e9c0b5cf0770daebe0044d92a8dc4",
+      "byte_identical": true,
+      "artifact_kind": "UI frozen artifact verified against producer SHA"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\HANDOFF.md",
+      "destination": "originals/protobuf-loader/HANDOFF.md",
+      "bytes": 5718,
+      "sha256": "0f78e20841bcdc9221a07bfa6d5704bf1ff188b6c92a29fd8dad178703ef8cb9",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\private-child.py",
+      "destination": "originals/protobuf-loader/private-child.py",
+      "bytes": 6943,
+      "sha256": "f3a527b599eff85f8fa6080e3d0df2832688918d3437ca67347ecdf72c33e5d9",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\private-process-r1\\invocation.json",
+      "destination": "originals/protobuf-loader/private-process-r1/invocation.json",
+      "bytes": 453826,
+      "sha256": "48f05b021cf92a6b4e31c5fda80f458f32af5a1e739bc1ce858c52742adec9c8",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\private-process-r1\\result.json",
+      "destination": "originals/protobuf-loader/private-process-r1/result.json",
+      "bytes": 39901,
+      "sha256": "d754c472a40d1793dfe6c2f0bfca60dd83e9db29b824d02efe83aac91f30f01d",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\private-process-r1\\runner-result.json",
+      "destination": "originals/protobuf-loader/private-process-r1/runner-result.json",
+      "bytes": 705,
+      "sha256": "a82e8c52bc88895e5b3b3f079b8ba272db35056c405dc949d0cf4f28ba5d5000",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\private-process-r1\\stderr.log",
+      "destination": "originals/protobuf-loader/private-process-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\private-process-r1\\stdout.log",
+      "destination": "originals/protobuf-loader/private-process-r1/stdout.log",
+      "bytes": 200,
+      "sha256": "d5c5e75fb8f067172c373bf29112117cc325dde5fec07953efd2bb180ceeb181",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\review-freeze-r1.json",
+      "destination": "originals/protobuf-loader/review-freeze-r1.json",
+      "bytes": 538,
+      "sha256": "c5a326745a4cb5b0cc95df0df16bb8956f2ab5a011b4b954bc09da0b6d3dfccc",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\run-private-probe.py",
+      "destination": "originals/protobuf-loader/run-private-probe.py",
+      "bytes": 4774,
+      "sha256": "62a8569a98ccf48b6ccdde1dbff6f7a55e17fb0622c96774f071c43915063b04",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\run-targeted.py",
+      "destination": "originals/protobuf-loader/run-targeted.py",
+      "bytes": 2171,
+      "sha256": "d1f1f118a9882ef26614d3e630ae83a774c58071cdfd7479cd620e752bf81ac7",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\targeted-r1.json",
+      "destination": "originals/protobuf-loader/targeted-r1.json",
+      "bytes": 2969,
+      "sha256": "9038fa09ba044832439c6c51375a9c550ac9679b4e72c1cae8d391a31c395a61",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\targeted-r1.log",
+      "destination": "originals/protobuf-loader/targeted-r1.log",
+      "bytes": 4606,
+      "sha256": "5d5eafc3bcef84530d5a6944ebf2e58ff350fd5ebed15797a9a674dfc102f61b",
+      "byte_identical": true,
+      "artifact_kind": "protobuf loader/probe original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-controls-integrated-20261030-r1\\summary.json",
+      "destination": "originals/fullgate/summary.json",
+      "bytes": 4937,
+      "sha256": "d39b0ca09b11a05817180a795ac69dbbeb3813e4ec3626e8d6e7fd1a1f12792f",
+      "byte_identical": true,
+      "artifact_kind": "integrated fullgate original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-controls-integrated-20261030-r1\\environment.json",
+      "destination": "originals/fullgate/environment.json",
+      "bytes": 605,
+      "sha256": "9597bc7090ba93c387ef18edb4f2a2c89fd6f665a36938a77bcb45eaf2128a86",
+      "byte_identical": true,
+      "artifact_kind": "integrated fullgate original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-controls-integrated-20261030-r1\\terminal.log",
+      "destination": "originals/fullgate/terminal.log",
+      "bytes": 153274,
+      "sha256": "1c0e4882b2aca5e1be646a37b419261c444644a8d81915ef7dacf7930c80e50a",
+      "byte_identical": true,
+      "artifact_kind": "integrated fullgate original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-controls-integrated-20261030-r1\\desktop.log",
+      "destination": "originals/fullgate/desktop.log",
+      "bytes": 115810,
+      "sha256": "49a8cd5e517220244ba0fb586777ef5f0732d1247885bcb8680f57a581682a18",
+      "byte_identical": true,
+      "artifact_kind": "integrated fullgate original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-controls-integrated-20261030-r1\\packaging.log",
+      "destination": "originals/fullgate/packaging.log",
+      "bytes": 2859,
+      "sha256": "0d0e86359cd94ec0e9d6f93797ceee1047a38b0df187edc9f1742874f3487d7f",
+      "byte_identical": true,
+      "artifact_kind": "integrated fullgate original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-controls-integrated-20261030-r1\\gate_runner.log",
+      "destination": "originals/fullgate/gate_runner.log",
+      "bytes": 777,
+      "sha256": "a8fc8ba8fbb3c906c61577d3287756d40491a19c6e0fd29b73e4e88a35b91d1f",
+      "byte_identical": true,
+      "artifact_kind": "integrated fullgate original file"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci168-completed-summary-r1.json",
+      "destination": "originals/ci168/ci168-completed-summary-r1.json",
+      "bytes": 4480,
+      "sha256": "b2b266f5b21e53fddc548bc612de949497d10bc3e8e6f0e9a8bc0704d75159e6",
+      "byte_identical": true,
+      "artifact_kind": "prior committed HEAD CI receipt"
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci168-completed-summary-r1.json.sha256",
+      "destination": "originals/ci168/ci168-completed-summary-r1.json.sha256",
+      "bytes": 98,
+      "sha256": "373c130cc4e845fef9fce6bd25a81571aa9d3b77291942a0894405dc6b1af2e5",
+      "byte_identical": true,
+      "artifact_kind": "prior committed HEAD CI receipt"
+    }
+  ]
+}

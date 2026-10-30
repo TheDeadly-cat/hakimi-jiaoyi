@@ -9,6 +9,7 @@ from statistics import fmean, pstdev
 from typing import Any, Callable
 
 from hakimi_research.candle_contract import candle_is_complete
+from hakimi_research.stock_metadata import is_stock_symbol, stock_meta, stock_timezone
 
 from .market_calendar import build_market_calendar_contract, infer_market_calendar
 
@@ -275,6 +276,17 @@ def prepare_backtest_dataset(
         market,
         normalized_timeframe,
     )
+    # Futu HK daily labels use the exchange date at local midnight. Keep the
+    # existing UTC convention for Yahoo, US/Stooq, crypto and unknown sources.
+    session_zone = timezone.utc
+    if (
+        market_kind == "stock"
+        and clean_source.lower() == "futu"
+        and is_stock_symbol(clean_symbol)
+        and stock_meta(clean_symbol).get("market") == "HK"
+    ):
+        session_zone = stock_timezone(clean_symbol)
+    session_date_timezone = getattr(session_zone, "key", "UTC")
     continuity_policy = str(daily_continuity_policy or "").strip().upper()
     continuity_deferred = continuity_policy == "DEFER_TO_PORTFOLIO_LIFECYCLE"
     normalized: list[dict[str, Any]] = []
@@ -328,15 +340,28 @@ def prepare_backtest_dataset(
             invalid_rows.append(index)
             continue
         if maximum_allowed_gap_ms > 0:
+            # A conflicting/unknown row source must not inherit the Futu
+            # exception merely from its dataset label.
+            row_source = raw.get("source", clean_source)
+            row_zone = (
+                session_zone
+                if isinstance(row_source, str) and row_source.strip().lower() == "futu"
+                else timezone.utc
+            )
             try:
-                timestamp_session_date = datetime.fromtimestamp(ts_ms / 1000, timezone.utc).date().isoformat()
+                timestamp_utc = datetime.fromtimestamp(ts_ms / 1000, timezone.utc)
+                timestamp_session_date_utc = timestamp_utc.date().isoformat()
+                timestamp_session_date = timestamp_utc.astimezone(row_zone).date().isoformat()
             except (TypeError, ValueError, OverflowError, OSError):
                 timestamp_session_date = ""
+                timestamp_session_date_utc = ""
             if timestamp_session_date != session_date:
                 session_date_timestamp_mismatches.append({
                     "index": index,
                     "session_date": session_date,
-                    "timestamp_session_date_utc": timestamp_session_date,
+                    "timestamp_session_date_utc": timestamp_session_date_utc,
+                    "timestamp_session_date": timestamp_session_date,
+                    "session_date_timezone": getattr(row_zone, "key", "UTC"),
                     "ts_ms": ts_ms,
                 })
         normalized.append({
@@ -467,6 +492,7 @@ def prepare_backtest_dataset(
         "duplicate_count": duplicate_count,
         "duplicate_trading_date_count": duplicate_trading_date_count,
         "session_date_timestamp_mismatch_count": len(session_date_timestamp_mismatches),
+        "session_date_timezone": session_date_timezone,
         "session_date_timestamp_mismatch_examples": session_date_timestamp_mismatches[:5],
         "invalid_row_count": len(invalid_rows),
         "excluded_incomplete_count": len(incomplete_rows),

@@ -1,0 +1,61 @@
+{
+  "schema_version": "blind-holdout-preparation-v1",
+  "status": "STOPPED",
+  "plan_hash": "9013fb069e7da37f15b4774f7ea7a5b7e6cce9c4b677c695cbb3028f82c61fa6",
+  "design_sha256": "36b00eab50a83a82c405a40897d8f8b1701a45759e50f972db04d52ecb9d6071",
+  "commit": "aa7935214e6e84197f48c1d6fb2908bed3d0851e",
+  "prepared_at": "2026-10-26T10:20:07.223865Z",
+  "acquisition_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\prepared-r1\\acquisition.json",
+  "acquisition_sha256": "8d6cb9f8ff12b3ea1c7e96d7d76490ce65176600f9d66a4253b4c4a6cc6f7fc6",
+  "symbols": {
+    "KO": {
+      "status": "READY",
+      "snapshot_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\prepared-r1\\KO\\prepared\\snapshot.json",
+      "snapshot_sha256": "86392ee6303aed5c2046e99b2740492e4784cb873154c90e8917d2bf5baac35c",
+      "snapshot_id": "b40637d4d92caf84ab8b9d834fc1fcb9e9975f7fd6016bd41a4d2b2a73937e72",
+      "spec_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\prepared-r1\\KO\\prepared\\spec.json",
+      "spec_sha256": "1ce8db148a6d83afe064c90670cb6c3f9b0472a36bb0d296a35940047a021e62",
+      "selected_rows": 33,
+      "source_rows": 155,
+      "excluded_rows": 122,
+      "source_receipt_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\prepared-r1\\KO\\prepared\\source-receipt.json",
+      "source_receipt_sha256": "7346cfe5f913d616014377d422d22b108dcd5d345c132168f0412d5dffe4d50d"
+    },
+    "NDAQ": {
+      "status": "STOPPED",
+      "reason": "ValueError:CORPORATE_ACTION_IN_WINDOW:dividends:2026-03-16",
+      "automatic_retry": false,
+      "automatic_window_reselection": false
+    }
+  },
+  "economic_runs": 0,
+  "no_candidate_price_values_emitted": true,
+  "project_scope_only": true,
+  "natural_forward_evidence": false,
+  "files": {
+    "acquisition-started.json": "05e7301e884f7015497b6a9b68abd082e94e7114738ccd6336b314644285390c",
+    "acquisition.json": "8d6cb9f8ff12b3ea1c7e96d7d76490ce65176600f9d66a4253b4c4a6cc6f7fc6",
+    "design-original.json": "36b00eab50a83a82c405a40897d8f8b1701a45759e50f972db04d52ecb9d6071",
+    "KO/attempt-1/request-started.json": "dbda97a9b0006ae8a7a915bbb9be633010959a7e49127663ed549148a0cc38e1",
+    "KO/attempt-1/response.bin": "cc7bcc932d852ed7b0a44a8f9eceeec8207ffe53f3604d6c900cfbf46965600a",
+    "KO/attempt-1/result.json": "9eafd41069adcf9549f5ba51d1a31767e1a042ddff835fc7837dcd8465269f8f",
+    "KO/preparation.json": "978c20b26334dbf298b734f58c4fe1f1dfe5cae83993ee9990e993d0f8941c51",
+    "KO/prepared/baseline-original.json": "234ffdd7cc7d063405e7a4f6db685ffc0cf3892127ee0b481c171143326401fa",
+    "KO/prepared/historical-adjustment-reconciliation.json": "e9807c163080b5f8d71c33f2304061e747f7589366f751485996ee023c8b3958",
+    "KO/prepared/import-manifest.json": "a0fc7ce5b32e53e1a45e014b892d4e491e02a43c633fa3a8857306f30234c1e0",
+    "KO/prepared/prices-derived.csv": "8a6b258dfb9b0605a20200f1e6983687920c9f68fa72b04e70b7765bf73ebd51",
+    "KO/prepared/snapshot.json": "86392ee6303aed5c2046e99b2740492e4784cb873154c90e8917d2bf5baac35c",
+    "KO/prepared/source-original.json": "cc7bcc932d852ed7b0a44a8f9eceeec8207ffe53f3604d6c900cfbf46965600a",
+    "KO/prepared/source-receipt.json": "7346cfe5f913d616014377d422d22b108dcd5d345c132168f0412d5dffe4d50d",
+    "KO/prepared/source-window-derived.json": "2dbcc45bb23e8f4d5dda106eb12f85fa190165baddaef067f4cfb234c501be69",
+    "KO/prepared/spec.json": "1ce8db148a6d83afe064c90670cb6c3f9b0472a36bb0d296a35940047a021e62",
+    "NDAQ/attempt-1/request-started.json": "9eccf8aa7eab835dd6d4a3be5394a0f7e0ad3f3857759d565d8b749c4895c62b",
+    "NDAQ/attempt-1/response.bin": "fba35c1dd090fa8ac1ceb8db66d76a1252c5461b17a1e92e855de569914c11f3",
+    "NDAQ/attempt-1/result.json": "16d1d7a320a98030ab043e2d3a8534c0aee682efa1cc06e59bc2f8a4da3f6403",
+    "NDAQ/preparation.json": "e92613019d17671ffa1678f6d6787ea294943865295fc18d38dbea6b5f8b54ed",
+    "NDAQ/prepared/baseline-original.json": "6988c83552fdd89889a03429a9a29658dede922493470490cb2e1fe4dcc894b8",
+    "NDAQ/prepared/source-original.json": "fba35c1dd090fa8ac1ceb8db66d76a1252c5461b17a1e92e855de569914c11f3",
+    "NDAQ/prepared/source-receipt.json": "bf4996184dbcc3b40a563f61520b1a4f27837719f4d884c0cc79e7aa5a044330",
+    "NDAQ/prepared/source-window-derived.json": "30124571225e8c6e88c67d9d1d8023c65166fa081f954ccead3cd91cdb273621"
+  }
+}

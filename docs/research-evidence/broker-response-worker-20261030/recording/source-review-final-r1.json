@@ -1,0 +1,88 @@
+{
+  "status": "SOURCE_FROZEN_READ_ONLY_EVIDENCE_REVIEW",
+  "source_root": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "source_files": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "e2a3dc56cd4fa810d9b45e92c092a974ea2437b68d2df48db78c72041243d172",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "010f5c3fc3e0cc1fe3674591dfcdb3d3ae29d7f12398811c1b997ffb473f1414",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_facts.py": "efc905ca4429aa5d70c1d7924635498f6375e1b7e00dc82693b447f3c72a578f",
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_recording.py": "1725b39c62e4b88641420fc1addc793f67235894d1544d92980382315586bbfc",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": "4e343bef18d41a8d3f6270491a296116a8adb520c38ec59a80a315b671636a8b",
+    "tools/run_terminal_contracts.py": "25e9b130797d2dbc74ea1d30435dfb4ea50f9cdd9246e516c81f9bbcb4803808"
+  },
+  "test_methods_current": {
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_facts.py": 27,
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_recording.py": 18,
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": 22
+  },
+  "files_stable_during_review": true,
+  "full_gate": {
+    "expected_tests": 709,
+    "actual_tests": 709,
+    "status": "PASS",
+    "skipped": 0,
+    "failures": 0,
+    "errors": 0,
+    "reported_unittest_seconds": 198.791,
+    "outer_seconds": 202.229,
+    "packaging_tests": 15,
+    "runner_tests": 4,
+    "source_input_count": 2095,
+    "source_inputs_unchanged": true,
+    "current_seven_sources_match_gate": true,
+    "summary_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-response-worker-integrated-20261030-r1\\summary.json",
+    "summary_sha256": "a32ea728a7d5b244d3c8f96c120a6d8785dc2854eacad8e6ea2f8ded163ad2af",
+    "input_map_sha256": {
+      "inputs-before.json": "07233dac08fdc6a2d5fc26dd0b8ebb0dd50ab301e53e6be21640ff388f5ed6b5",
+      "inputs-after.json": "07233dac08fdc6a2d5fc26dd0b8ebb0dd50ab301e53e6be21640ff388f5ed6b5"
+    },
+    "session_polled": false,
+    "tests_repeated": false
+  },
+  "phase_evidence": {
+    "initial_console_failure_note": {
+      "path": "targeted-r1-console-note.json",
+      "sha256": "bed16df7e0556689fdb114d0253b331072f326e803400423a72d5c346c1a33cb",
+      "tests": 12,
+      "failures": 1,
+      "is_verbatim_log": false
+    },
+    "r2": {
+      "path": "targeted-r2.log",
+      "sha256": "09a532c9d11847c8f7bf6033e4e638081a1a9b51e45ce0b25f3f518e6e353b0f",
+      "tests": 42,
+      "journal_old": 30,
+      "response_recording_then": 12,
+      "seconds": 6.871
+    },
+    "r3": {
+      "path": "targeted-r3.log",
+      "sha256": "ca9997dd43d5b12593ebdea0367eebdefe02ed1a9d20464dc33c25a44071f024",
+      "response_recording_then": 15,
+      "seconds": 1.72
+    },
+    "r4": {
+      "path": "review-regressions-r4.log",
+      "sha256": "9ece5b96e224b2e2b0131ca2dd94a57856a8a697a75596f7507f2d6879a43a81",
+      "only_new_review_regressions": 3,
+      "seconds": 0.48
+    }
+  },
+  "private_probe": {
+    "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-response-facts-20261030\\private-protobuf-r1\\run\\probe-result.json",
+    "sha256": "ee431711cab29500a03c4d2384a5131f05e88cf1c49b1e7b646116d945cbb4dd",
+    "checks": 55,
+    "actions": 7,
+    "verified_package_and_source_files": 205,
+    "actual_external_orders": false,
+    "journal_database_provenance": false
+  },
+  "boundaries": [
+    "Typed facts are recorded atomically with matched submit/cancel ACK only; original ACTION bytes remain unchanged.",
+    "Late ACK retains original UNKNOWN and requires its previous evidence ID; known sent count is not fabricated.",
+    "Read rows never become cash, owner holdings, exact fill notional or final fees.",
+    "In-range late fills after terminal/rebase, regressing cumulative facts and changed final fees block new risk without replacing original accounting.",
+    "PackageWorkerSpec launch is unavailable; test worker identity never grants production admission.",
+    "No repo edits, tests, probes, SDK imports, GUI, server or old data access occurred during this evidence summary."
+  ]
+}

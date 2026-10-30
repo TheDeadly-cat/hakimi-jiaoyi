@@ -89,6 +89,23 @@ class ConfigSafetyTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout.strip(), "LIVE_HARD_BLOCK_PASS")
 
+    def test_explicit_readonly_ai_opt_in_preserves_selected_provider_and_existing_environment(self) -> None:
+        document = "DEEPSEEK_API_KEY=fixture-only\nDEEPSEEK_MODEL=fixture-model\nHAKIMI_AI_PROVIDER=deepseek\nIGNORED_SECRET=ignored\n"
+        environment = {"HAKIMI_LOAD_LOCAL_AI_ENV": "1", "HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY": "1",
+                       "HAKIMI_RUNTIME_READ_ONLY": "1", "DEEPSEEK_MODEL": "already-selected"}
+        with patch.dict(os.environ, environment, clear=True), patch.object(Path, "is_file", return_value=True), patch.object(Path, "read_text", return_value=document):
+            self.assertTrue(config.load_local_ai_env())
+            self.assertEqual(os.environ["DEEPSEEK_MODEL"], "already-selected")
+            self.assertEqual(os.environ["HAKIMI_AI_PROVIDER"], "deepseek")
+            self.assertEqual(os.environ["DEEPSEEK_API_KEY"], "fixture-only")
+            self.assertNotIn("IGNORED_SECRET", os.environ)
+
+    def test_local_only_still_skips_credentials_even_with_explicit_readonly_opt_in(self) -> None:
+        environment = {"HAKIMI_LOAD_LOCAL_AI_ENV": "1", "HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY": "1",
+                       "HAKIMI_RUNTIME_READ_ONLY": "1", "HAKIMI_LOCAL_ONLY": "1"}
+        with patch.dict(os.environ, environment, clear=True), patch.object(Path, "is_file", side_effect=AssertionError("credentials inspected")):
+            self.assertFalse(config.load_local_ai_env())
+
 
 if __name__ == "__main__":
     unittest.main()

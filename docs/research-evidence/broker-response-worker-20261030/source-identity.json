@@ -1,0 +1,12 @@
+{
+  "scope": "FINAL_SOURCE_BYTES_COVERED_BY_COMPLETE_709_GATE",
+  "files": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "e2a3dc56cd4fa810d9b45e92c092a974ea2437b68d2df48db78c72041243d172",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "010f5c3fc3e0cc1fe3674591dfcdb3d3ae29d7f12398811c1b997ffb473f1414",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_facts.py": "efc905ca4429aa5d70c1d7924635498f6375e1b7e00dc82693b447f3c72a578f",
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_recording.py": "1725b39c62e4b88641420fc1addc793f67235894d1544d92980382315586bbfc",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": "4e343bef18d41a8d3f6270491a296116a8adb520c38ec59a80a315b671636a8b",
+    "tools/run_terminal_contracts.py": "25e9b130797d2dbc74ea1d30435dfb4ea50f9cdd9246e516c81f9bbcb4803808"
+  }
+}

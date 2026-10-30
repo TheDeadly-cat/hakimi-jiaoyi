@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node.exe",
+    "--test",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-account-control-ui.test.js"
+  ],
+  "source_directory": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "source_commit": "7e1b28e0c44b3441e808d31230204887e05eebe6",
+  "source_status": "DIRTY_WORDING_ONLY",
+  "files_sha256": {
+    "docs/windows-original-terminal-first-use.md": "12f6c24df846770be04e9f5fb4cec578a743c51a55361b3683c81bb50e2ba070",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-account-control-ui.js": "fd062df8a49505079a1041aa81aff0ab0a23fe016af295091a2c7ec2bd59bf08",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-account-control-ui.test.js": "a80f63594566f649746fc278f22eaa2f7889fb5dfe97d7f4fe127088dc715b31"
+  },
+  "exit_code": 0,
+  "elapsed_seconds": 0.24,
+  "production_behavior_changed": false,
+  "external_requests": 0,
+  "full_desktop": "PENDING_ON_NEW_FROZEN_TREE"
+}

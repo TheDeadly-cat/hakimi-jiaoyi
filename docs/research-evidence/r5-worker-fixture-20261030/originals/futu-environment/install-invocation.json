@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "pip",
+    "install",
+    "--no-index",
+    "--no-deps",
+    "--no-compile",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\terminal-wheelhouse-r1\\futu_api-10.7.6708-py3-none-any.whl"
+  ],
+  "venv": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv",
+  "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5",
+  "downloads": 0,
+  "global_environment_changed": false
+}
