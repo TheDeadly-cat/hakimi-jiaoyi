@@ -39,6 +39,8 @@
 
 本批完整756/756终端、20.127秒Node22 desktop、15打包和4runner通过，2102输入前后相同；原候选完整DOM与两个浏览器实例共享真实新TEMP控制服务通过，1440/390布局通过。当前交付包仍a235/dev3 r4，r5正在准备；生产授权/每次派发gate、实际worker/transport串联与精确经济事实仍缺，T29/T30继续DOING。4ae90471f83afbdca9ef4e421e064690ede2b01d的[run168](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40984635974)已11/11成功，新源码CI另核。[本批原始证据与限制](docs/research-evidence/broker-account-control-20261030/README.md)明确区分源码、实际加载与用户安装包；原生窗口和旧业务资料未操作。
 
+a0356e0的run169已结束为failure（9成功、Python contracts与汇总失败）：测试单独抽取health handler时未提供新的BROKER_CONTROL_ROOT，全局变量在生产server中实际已定义。本次仅修独立测试夹具并验证绑定/未绑定根的健康响应，6/6通过；未改生产源码、旧归档或Git换行设置。完整273项本地尝试保留为1失败，原因是旧归档已有LF/CRLF字节期望差异；当前修复不扩展成归档重写。原756/desktop等执行原件保持，唯一未被756注册的CI测试差异明确单列，不能声称旧门禁执行过修后的夹具。[CI169失败与修复证据](docs/research-evidence/ci169-health-fixture-20261030/README.md)。r5尚未构建，等待修正后的新clean源码身份；后续新CI与包验证分别记录。
+
 ## 历史基线（2026-10-27）
 
 本页为日常状态入口；历史证据目录、原包和旧回执保留原身份。M1、M2、M3-1 与 R1／R2／R3 已集成，M2-2 的两项 P2 和 PR #25 跨归属退出修复保持关闭。当前开发范围为 P0 整合、美股日线 M3-2 连续运行及一种财报排期研究输入；P2 数据范围增强和 P3 受控交易留待后续。主分支集成以实际合并提交及其检查为准。

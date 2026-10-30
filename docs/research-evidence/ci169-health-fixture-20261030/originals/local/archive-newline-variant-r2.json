@@ -1,0 +1,11 @@
+{
+  "scope": "READ_ONLY_NEWLINE_VARIANT_DIAGNOSIS_NO_FILE_MODIFIED",
+  "archived_path": "archive/legacy_paper/exchange_terminal_services/paper_ledger.py",
+  "expected_test_sha256": "b3380975818f4ab0f190f978cbed528e45903aca1c77168ac6510dd6362752a1",
+  "lf_committed_sha256": "963734fc1711dadaf2c88771f013ef9c9522df46aaf7d631951822704614936c",
+  "crlf_variant_sha256": "b3380975818f4ab0f190f978cbed528e45903aca1c77168ac6510dd6362752a1",
+  "crlf_variant_matches_test": true,
+  "core_autocrlf": "false",
+  "ci169_archive_test_passed": true,
+  "production_files_changed": false
+}
