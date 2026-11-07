@@ -62,7 +62,12 @@ def selection(value):
 class TerminalJourneyService:
     def __init__(self, workspace, *, reader):
         _require(callable(reader), "reader_required")
-        self.workspace = Path(workspace).absolute()
+        # Reject links on the supplied spelling before resolving real Windows
+        # 8.3 aliases. The containment guard resolves children, so its root must
+        # use the same physical spelling; otherwise a valid TEMP alias escapes
+        # only textually. Context identity already used this resolved path.
+        raw_workspace = _no_links(Path(workspace).absolute())
+        self.workspace = raw_workspace.resolve()
         _no_links(self.workspace)
         self.path = self.workspace / "ui" / "strategy-journey-v1.sqlite3"
         self.reader = reader

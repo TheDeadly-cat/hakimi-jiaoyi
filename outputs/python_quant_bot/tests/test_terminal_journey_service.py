@@ -3,6 +3,7 @@ from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor
 from hashlib import sha256
 import json
+import os
 from pathlib import Path
 import shutil
 import tempfile
@@ -121,6 +122,102 @@ class JourneyTests(unittest.TestCase):
             with self.subTest(change=change),self.assertRaises(ValueError):
                 self.save(selected={**self.selected,**change})
         self.assertFalse(self.workspace.exists())
+
+    @staticmethod
+    def short_path(path):
+        """Ask Windows for a real alias; never fake Path.resolve or _safe."""
+        import ctypes
+        from ctypes import wintypes
+        get_short = ctypes.WinDLL("kernel32", use_last_error=True).GetShortPathNameW
+        get_short.argtypes = [wintypes.LPCWSTR, wintypes.LPWSTR, wintypes.DWORD]
+        get_short.restype = wintypes.DWORD
+        size = get_short(str(path), None, 0)
+        if not size:
+            raise ctypes.WinError(ctypes.get_last_error())
+        buffer = ctypes.create_unicode_buffer(size)
+        if not get_short(str(path), buffer, size):
+            raise ctypes.WinError(ctypes.get_last_error())
+        return Path(buffer.value)
+
+    @unittest.skipUnless(os.name == "nt", "real Windows path aliases")
+    def test_real_short_parent_empty_read_does_not_create_workspace(self):
+        parent = Path(self.temp.name) / "Long Journey Parent Directory"
+        parent.mkdir()
+        short = self.short_path(parent)
+        self.assertTrue(short.samefile(parent))
+        self.assertNotEqual(os.path.normcase(str(short)), os.path.normcase(str(parent.resolve())))
+        missing = short / "Uncreated Journey Workspace"
+        service = TerminalJourneyService(missing, reader=self.read)
+        self.assertEqual(service.read()["status"], "EMPTY")
+        self.assertEqual(service.workspace, missing.resolve())
+        self.assertFalse(missing.exists())
+        self.assertEqual(self.calls, [])
+
+    @unittest.skipUnless(os.name == "nt", "real Windows short and case aliases")
+    def test_real_short_root_save_reopens_same_store_through_long_and_case_aliases(self):
+        physical = Path(self.temp.name) / "Long Journey Workspace Directory"
+        physical.mkdir()
+        short = self.short_path(physical)
+        self.assertTrue(short.samefile(physical))
+        self.assertNotEqual(os.path.normcase(str(short)), os.path.normcase(str(physical.resolve())))
+        aliased = TerminalJourneyService(short, reader=self.read)
+        expected_context = TerminalJourneyService(physical, reader=self.read).context
+        self.assertEqual(aliased.context, expected_context)
+        self.assertEqual(self.save(service=aliased)["revision"], 1)
+        before = {p: (p.read_bytes(), p.stat().st_mtime_ns) for p in physical.rglob('*') if p.is_file()}
+        upper = Path(str(physical).upper())
+        self.assertTrue(upper.samefile(physical))
+        for spelling in (physical, upper, short):
+            reopened = TerminalJourneyService(spelling, reader=self.read)
+            value = reopened.read()
+            self.assertEqual(reopened.path, aliased.path)
+            self.assertEqual(value["workspace_context"], expected_context)
+            self.assertEqual(value["selection"], self.selected)
+            self.assertEqual(value["revision"], 1)
+        self.assertEqual(before, {p: (p.read_bytes(), p.stat().st_mtime_ns) for p in before})
+
+    def test_canonical_root_still_rejects_an_outside_store_before_creating_files(self):
+        outside = Path(self.temp.name) / "outside" / "store.sqlite3"
+        self.service.path = outside
+        with self.assertRaisesRegex(ValueError, "history_path_outside_workspace"):
+            self.service.read()
+        self.assertFalse(outside.parent.exists())
+        self.assertFalse(self.workspace.exists())
+
+    def test_existing_workspace_replacement_is_not_adopted(self):
+        self.workspace.mkdir()
+        service = TerminalJourneyService(self.workspace, reader=self.read)
+        retained = Path(self.temp.name) / "retained-workspace"
+        root = Path(self.temp.name).resolve()
+        self.assertTrue(self.workspace.resolve().is_relative_to(root))
+        self.assertTrue(retained.resolve().is_relative_to(root))
+        self.workspace.rename(retained)
+        self.workspace.mkdir()
+        with self.assertRaisesRegex(ValueError, "journey_workspace_replaced"):
+            service.read()
+        self.assertFalse((self.workspace / "ui").exists())
+        self.assertFalse((retained / "ui").exists())
+
+    def test_raw_workspace_and_store_parent_links_are_rejected_before_resolution(self):
+        root = Path(self.temp.name)
+        physical = root / "physical-workspace"
+        physical.mkdir()
+        link = root / "linked-workspace"
+        if os.name == "nt":
+            import _winapi
+            _winapi.CreateJunction(str(physical), str(link))
+        else:
+            link.symlink_to(physical, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, "history_reparse_path_not_supported"):
+            TerminalJourneyService(link, reader=self.read)
+        self.workspace.mkdir()
+        if os.name == "nt":
+            _winapi.CreateJunction(str(physical), str(self.workspace / "ui"))
+        else:
+            (self.workspace / "ui").symlink_to(physical, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, "history_reparse_path_not_supported"):
+            self.service.read()
+        self.assertEqual(list(physical.iterdir()), [])
 
 
 if __name__ == "__main__":

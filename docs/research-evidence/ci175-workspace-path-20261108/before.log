@@ -1,0 +1,186 @@
+test_cas_idempotency_and_unchanged (test_terminal_journey_service.JourneyTests.test_cas_idempotency_and_unchanged) ... ERROR
+test_empty_read_creates_no_workspace (test_terminal_journey_service.JourneyTests.test_empty_read_creates_no_workspace) ... ERROR
+test_foreign_workspace_store_not_adopted (test_terminal_journey_service.JourneyTests.test_foreign_workspace_store_not_adopted) ... ERROR
+test_missing_source_and_changed_task_retain_refs_and_other_nodes (test_terminal_journey_service.JourneyTests.test_missing_source_and_changed_task_retain_refs_and_other_nodes) ... ERROR
+test_old_window_cannot_write_same_revision_in_other_workspace (test_terminal_journey_service.JourneyTests.test_old_window_cannot_write_same_revision_in_other_workspace) ... ok
+test_only_opaque_refs_accepted_no_authority_or_paths (test_terminal_journey_service.JourneyTests.test_only_opaque_refs_accepted_no_authority_or_paths) ... ok
+test_restart_same_workspace_resolves_exact_originals_read_only (test_terminal_journey_service.JourneyTests.test_restart_same_workspace_resolves_exact_originals_read_only) ... ERROR
+test_same_labels_cannot_replace_report_or_plan_binding (test_terminal_journey_service.JourneyTests.test_same_labels_cannot_replace_report_or_plan_binding) ... ERROR
+test_same_report_reference_with_changed_broker_digest_is_rejected (test_terminal_journey_service.JourneyTests.test_same_report_reference_with_changed_broker_digest_is_rejected) ... ERROR
+test_two_instances_cannot_overwrite_one_revision (test_terminal_journey_service.JourneyTests.test_two_instances_cannot_overwrite_one_revision) ... ERROR
+
+======================================================================
+ERROR: test_cas_idempotency_and_unchanged (test_terminal_journey_service.JourneyTests.test_cas_idempotency_and_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 61, in test_cas_idempotency_and_unchanged
+    first = self.save()
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 41, in save
+    return target.save(dict(request_id=request, workspace_context=target.context, expected_revision=revision, selection=deepcopy(selected or self.selected)))
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 132, in save
+    connection = self._connect(write=True)
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 85, in _connect
+    self._safe()
+    ~~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 75, in _safe
+    _safe(self.workspace, self.path)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_workspace_history.py", line 46, in _safe
+    raise ValueError("history_path_outside_workspace")
+ValueError: history_path_outside_workspace
+
+======================================================================
+ERROR: test_empty_read_creates_no_workspace (test_terminal_journey_service.JourneyTests.test_empty_read_creates_no_workspace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 44, in test_empty_read_creates_no_workspace
+    value = self.service.read()
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 115, in read
+    connection = self._connect()
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 85, in _connect
+    self._safe()
+    ~~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 75, in _safe
+    _safe(self.workspace, self.path)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_workspace_history.py", line 46, in _safe
+    raise ValueError("history_path_outside_workspace")
+ValueError: history_path_outside_workspace
+
+======================================================================
+ERROR: test_foreign_workspace_store_not_adopted (test_terminal_journey_service.JourneyTests.test_foreign_workspace_store_not_adopted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 107, in test_foreign_workspace_store_not_adopted
+    self.save()
+    ~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 41, in save
+    return target.save(dict(request_id=request, workspace_context=target.context, expected_revision=revision, selection=deepcopy(selected or self.selected)))
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 132, in save
+    connection = self._connect(write=True)
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 85, in _connect
+    self._safe()
+    ~~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 75, in _safe
+    _safe(self.workspace, self.path)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_workspace_history.py", line 46, in _safe
+    raise ValueError("history_path_outside_workspace")
+ValueError: history_path_outside_workspace
+
+======================================================================
+ERROR: test_missing_source_and_changed_task_retain_refs_and_other_nodes (test_terminal_journey_service.JourneyTests.test_missing_source_and_changed_task_retain_refs_and_other_nodes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 82, in test_missing_source_and_changed_task_retain_refs_and_other_nodes
+    self.save()
+    ~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 41, in save
+    return target.save(dict(request_id=request, workspace_context=target.context, expected_revision=revision, selection=deepcopy(selected or self.selected)))
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 132, in save
+    connection = self._connect(write=True)
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 85, in _connect
+    self._safe()
+    ~~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 75, in _safe
+    _safe(self.workspace, self.path)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_workspace_history.py", line 46, in _safe
+    raise ValueError("history_path_outside_workspace")
+ValueError: history_path_outside_workspace
+
+======================================================================
+ERROR: test_restart_same_workspace_resolves_exact_originals_read_only (test_terminal_journey_service.JourneyTests.test_restart_same_workspace_resolves_exact_originals_read_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 50, in test_restart_same_workspace_resolves_exact_originals_read_only
+    self.save()
+    ~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 41, in save
+    return target.save(dict(request_id=request, workspace_context=target.context, expected_revision=revision, selection=deepcopy(selected or self.selected)))
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 132, in save
+    connection = self._connect(write=True)
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 85, in _connect
+    self._safe()
+    ~~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 75, in _safe
+    _safe(self.workspace, self.path)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_workspace_history.py", line 46, in _safe
+    raise ValueError("history_path_outside_workspace")
+ValueError: history_path_outside_workspace
+
+======================================================================
+ERROR: test_same_labels_cannot_replace_report_or_plan_binding (test_terminal_journey_service.JourneyTests.test_same_labels_cannot_replace_report_or_plan_binding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 93, in test_same_labels_cannot_replace_report_or_plan_binding
+    self.save()
+    ~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 41, in save
+    return target.save(dict(request_id=request, workspace_context=target.context, expected_revision=revision, selection=deepcopy(selected or self.selected)))
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 132, in save
+    connection = self._connect(write=True)
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 85, in _connect
+    self._safe()
+    ~~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 75, in _safe
+    _safe(self.workspace, self.path)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_workspace_history.py", line 46, in _safe
+    raise ValueError("history_path_outside_workspace")
+ValueError: history_path_outside_workspace
+
+======================================================================
+ERROR: test_same_report_reference_with_changed_broker_digest_is_rejected (test_terminal_journey_service.JourneyTests.test_same_report_reference_with_changed_broker_digest_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 103, in test_same_report_reference_with_changed_broker_digest_is_rejected
+    self.save(); self.config["research_binding_sha256"]="0"*64
+    ~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 41, in save
+    return target.save(dict(request_id=request, workspace_context=target.context, expected_revision=revision, selection=deepcopy(selected or self.selected)))
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 132, in save
+    connection = self._connect(write=True)
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 85, in _connect
+    self._safe()
+    ~~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 75, in _safe
+    _safe(self.workspace, self.path)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_workspace_history.py", line 46, in _safe
+    raise ValueError("history_path_outside_workspace")
+ValueError: history_path_outside_workspace
+
+======================================================================
+ERROR: test_two_instances_cannot_overwrite_one_revision (test_terminal_journey_service.JourneyTests.test_two_instances_cannot_overwrite_one_revision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 72, in test_two_instances_cannot_overwrite_one_revision
+    self.save()
+    ~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_journey_service.py", line 41, in save
+    return target.save(dict(request_id=request, workspace_context=target.context, expected_revision=revision, selection=deepcopy(selected or self.selected)))
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 132, in save
+    connection = self._connect(write=True)
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 85, in _connect
+    self._safe()
+    ~~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_journey_service.py", line 75, in _safe
+    _safe(self.workspace, self.path)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_workspace_history.py", line 46, in _safe
+    raise ValueError("history_path_outside_workspace")
+ValueError: history_path_outside_workspace
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.018s
+
+FAILED (errors=8)

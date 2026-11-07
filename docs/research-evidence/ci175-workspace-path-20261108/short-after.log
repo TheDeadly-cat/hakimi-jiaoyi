@@ -1,0 +1,20 @@
+test_canonical_root_still_rejects_an_outside_store_before_creating_files (test_terminal_journey_service.JourneyTests.test_canonical_root_still_rejects_an_outside_store_before_creating_files) ... ok
+test_cas_idempotency_and_unchanged (test_terminal_journey_service.JourneyTests.test_cas_idempotency_and_unchanged) ... ok
+test_empty_read_creates_no_workspace (test_terminal_journey_service.JourneyTests.test_empty_read_creates_no_workspace) ... ok
+test_existing_workspace_replacement_is_not_adopted (test_terminal_journey_service.JourneyTests.test_existing_workspace_replacement_is_not_adopted) ... ok
+test_foreign_workspace_store_not_adopted (test_terminal_journey_service.JourneyTests.test_foreign_workspace_store_not_adopted) ... ok
+test_missing_source_and_changed_task_retain_refs_and_other_nodes (test_terminal_journey_service.JourneyTests.test_missing_source_and_changed_task_retain_refs_and_other_nodes) ... ok
+test_old_window_cannot_write_same_revision_in_other_workspace (test_terminal_journey_service.JourneyTests.test_old_window_cannot_write_same_revision_in_other_workspace) ... ok
+test_only_opaque_refs_accepted_no_authority_or_paths (test_terminal_journey_service.JourneyTests.test_only_opaque_refs_accepted_no_authority_or_paths) ... ok
+test_raw_workspace_and_store_parent_links_are_rejected_before_resolution (test_terminal_journey_service.JourneyTests.test_raw_workspace_and_store_parent_links_are_rejected_before_resolution) ... ok
+test_real_short_parent_empty_read_does_not_create_workspace (test_terminal_journey_service.JourneyTests.test_real_short_parent_empty_read_does_not_create_workspace) ... ok
+test_real_short_root_save_reopens_same_store_through_long_and_case_aliases (test_terminal_journey_service.JourneyTests.test_real_short_root_save_reopens_same_store_through_long_and_case_aliases) ... ok
+test_restart_same_workspace_resolves_exact_originals_read_only (test_terminal_journey_service.JourneyTests.test_restart_same_workspace_resolves_exact_originals_read_only) ... ok
+test_same_labels_cannot_replace_report_or_plan_binding (test_terminal_journey_service.JourneyTests.test_same_labels_cannot_replace_report_or_plan_binding) ... ok
+test_same_report_reference_with_changed_broker_digest_is_rejected (test_terminal_journey_service.JourneyTests.test_same_report_reference_with_changed_broker_digest_is_rejected) ... ok
+test_two_instances_cannot_overwrite_one_revision (test_terminal_journey_service.JourneyTests.test_two_instances_cannot_overwrite_one_revision) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.318s
+
+OK
