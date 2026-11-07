@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "scope": "Limited continued core task presentation; actual new TEMP prepare/save/continue/reload, no economic run",
+  "source_hashes": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-core-completion.test.js": "ed9d5adc95e9cd5038144e253b5cf5e36d8c8e27d94adfc43932d2b85acf55ef",
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "54d8dc4f7dcc6dbddf3980b25d76bdef4468b67ec715c179e87aa22c00f286f7",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-core-completion.js": "a5e51032f8d453868bd5abed28a343505660d9af91a02f7e62469c6db2939e2d"
+  },
+  "test_count": 26,
+  "test_log": "novice-u03-continue-targeted-r3.log",
+  "page_evidence": "novice-u03-save-page-20261107-r4/summary.json",
+  "input_count": 1,
+  "task_count": 1,
+  "initial_cash": 100,
+  "economic_runs": 0,
+  "direct_run_entry": true,
+  "synthetic_note": true,
+  "all_footer_actions_visible_at_390": true,
+  "existing_report_selection": "Exact version; multiple original report IDs require explicit selection; GET only",
+  "original_package_changed": false,
+  "http_notes": "Loopback response writes during browser navigation sometimes received client ConnectionAbortedError 10053. Browser console/errors empty; original trace retained in r4 log.",
+  "previous_manifest_error": "novice-u03-continue-freeze-20261107.json contains null after PowerShell boolean spelling error, preserved and superseded by this r2 manifest."
+}

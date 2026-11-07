@@ -1,0 +1,354 @@
+{
+  "scope": "COPIED_EXISTING_SYNTHETIC_REPORT_REAL_PAGE_TWO_ORIGINS_AND_OWNER_RESTART",
+  "original_source": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-window-r5\\isolated-host\\LocalAppData\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r5\\runtime\\research-workspace",
+  "original_hashes_before": {
+    "workspace.json": "f3fbddd1fe43d76c8d539dbd249d0946c674e6eb3a3ede435b3139f769bc0f02",
+    "data/actual.html": "c43f84db950b093ca09eab15e0cc9590bb6893a127fad04afdd4e6d7762f597b",
+    "data/equity_dataset_ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "data/event-context.json": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+    "data/prior.html": "b54eca6c06609f34032b68daf1386d5e19142d519f77a4a23bef00325af3f015",
+    "data/source-manifest.json": "cadc873e7751efa65f0dcd24cd2ed53e2f08309e4a08a4e0e8aed0fd80fadcd2",
+    "tasks/.task-locks/event.lock": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "tasks/.task-locks/price.lock": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "tasks/event/family.json": "dcb88ed21196959a9b0b2b7578a3e6afe56e8bc24d9a506a4f23bf0a51f0a30c",
+    "tasks/price/family.json": "178e37063725e3fe955c3cfc80f77c2f4ee78a51c7e24623c848f18a7462de31",
+    "tasks/price/journal/000001.json": "e88cac33f6b577d5e0b43105529d04d37337442ee18434256729944ec2a9eb4b",
+    "tasks/price/versions/r0001-f572029f60d84cbda66b76b0db80f53d/task.json": "4cc5041842a320c94cd1f68a4b5fef886db7aa91d76744bcc4ab72aefc0646c3",
+    "tasks/price/versions/r0001-f572029f60d84cbda66b76b0db80f53d/version.json": "5cbb3aa96f002f5c163d9ca1edb7be0fe695db70c8eb618c2591d51111587e96",
+    "tasks/price/versions/r0001-f572029f60d84cbda66b76b0db80f53d/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "tasks/event/journal/000001.json": "579385fb242444d9d08e82b7327322f0809931aaea87d245765996062ac88f7e",
+    "tasks/event/versions/r0001-76d2cee93a8242dbb269b034fda9cb15/task.json": "43c523e23ed687c09f2afef792aa5daa7e1b7e7fb351433d628802cedd2ad665",
+    "tasks/event/versions/r0001-76d2cee93a8242dbb269b034fda9cb15/version.json": "de1e2ceac91f019facd67f794517fcf522e73f14e8746a2ec9e07af6669ff342",
+    "tasks/event/versions/r0001-76d2cee93a8242dbb269b034fda9cb15/inputs/event-context.json": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+    "tasks/event/versions/r0001-76d2cee93a8242dbb269b034fda9cb15/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "runs/.run-locks/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346.lock": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/index.html": "c0a6d55eb960fc9e1434e1d4a031eab29864c1c671fe8fb326edf00d4a8a7725",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/inputs.json": "b60eea4d4c3f0bd774a88d8904f6d0497b9d1583b0ca8acae647d130918ea07d",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/preparation.json": "ee70d6c8e03019ae35cbe4807838494c707454a3deb18515c8fc1241ad4fca59",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/report.json": "d736eff51711bc8573e8b679c21fca3814fb38c5f864a9c7786505fd235ceb74",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/started.json": "4ce7871c0ea782b20e302891c5053ef6ddfad58b7e61513f5f760ba5d18f15d7",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/inputs/task-presentation.json": "ce6464d486b84ae0d78e965df5f7ddf8700d32a7686d80255bce76c123d1181c",
+    "data/content-example/fictional.html": "617ea078f4d246dfa1a8529dd6836659c80df500a922a2c00cf753fcfe5a12c8",
+    "data/content-example/fictional.txt": "617ea078f4d246dfa1a8529dd6836659c80df500a922a2c00cf753fcfe5a12c8",
+    "data/content-example/packet.json": "46209fa73effbe017e3fb0119f39c39d976f3542ce2e9d46e0f316a0cfebf3ac"
+  },
+  "status": "PASS",
+  "origins": [
+    "http://127.0.0.1:56355",
+    "http://127.0.0.1:56356",
+    "http://127.0.0.1:51534"
+  ],
+  "reference": {
+    "kind": "core_run",
+    "id": "a2aaf4b1acff26810b8bd9ef"
+  },
+  "report_hash": "767b2c41e61f25499ccd775fb96aab7595adbbf9c94a0c2f890abe41be9290d3",
+  "account_id": "u07-only-synthetic-account",
+  "plan_id": "71c293eb98c9262b46bfd6e4497eb45d83b3ab76b3389404fe11140a9470244e",
+  "selection": {
+    "broker": null,
+    "manual": {
+      "account_id": "u07-only-synthetic-account",
+      "plan_id": "71c293eb98c9262b46bfd6e4497eb45d83b3ab76b3389404fe11140a9470244e"
+    },
+    "replay": null,
+    "research": {
+      "id": "a2aaf4b1acff26810b8bd9ef",
+      "kind": "core_run"
+    },
+    "task": null,
+    "view": "execution"
+  },
+  "selection_revision": 4,
+  "mutations": [
+    "terminal_execution_create_account",
+    "terminal_execution_create_plan",
+    "terminal_save_journey_selection",
+    "terminal_save_journey_selection",
+    "terminal_save_journey_selection",
+    "terminal_save_journey_selection"
+  ],
+  "new_economic_runs": 0,
+  "external_calls": 0,
+  "new_business_actions": 2,
+  "original_hashes_after": {
+    "workspace.json": "f3fbddd1fe43d76c8d539dbd249d0946c674e6eb3a3ede435b3139f769bc0f02",
+    "data/actual.html": "c43f84db950b093ca09eab15e0cc9590bb6893a127fad04afdd4e6d7762f597b",
+    "data/equity_dataset_ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "data/event-context.json": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+    "data/prior.html": "b54eca6c06609f34032b68daf1386d5e19142d519f77a4a23bef00325af3f015",
+    "data/source-manifest.json": "cadc873e7751efa65f0dcd24cd2ed53e2f08309e4a08a4e0e8aed0fd80fadcd2",
+    "tasks/.task-locks/event.lock": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "tasks/.task-locks/price.lock": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "tasks/event/family.json": "dcb88ed21196959a9b0b2b7578a3e6afe56e8bc24d9a506a4f23bf0a51f0a30c",
+    "tasks/price/family.json": "178e37063725e3fe955c3cfc80f77c2f4ee78a51c7e24623c848f18a7462de31",
+    "tasks/price/journal/000001.json": "e88cac33f6b577d5e0b43105529d04d37337442ee18434256729944ec2a9eb4b",
+    "tasks/price/versions/r0001-f572029f60d84cbda66b76b0db80f53d/task.json": "4cc5041842a320c94cd1f68a4b5fef886db7aa91d76744bcc4ab72aefc0646c3",
+    "tasks/price/versions/r0001-f572029f60d84cbda66b76b0db80f53d/version.json": "5cbb3aa96f002f5c163d9ca1edb7be0fe695db70c8eb618c2591d51111587e96",
+    "tasks/price/versions/r0001-f572029f60d84cbda66b76b0db80f53d/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "tasks/event/journal/000001.json": "579385fb242444d9d08e82b7327322f0809931aaea87d245765996062ac88f7e",
+    "tasks/event/versions/r0001-76d2cee93a8242dbb269b034fda9cb15/task.json": "43c523e23ed687c09f2afef792aa5daa7e1b7e7fb351433d628802cedd2ad665",
+    "tasks/event/versions/r0001-76d2cee93a8242dbb269b034fda9cb15/version.json": "de1e2ceac91f019facd67f794517fcf522e73f14e8746a2ec9e07af6669ff342",
+    "tasks/event/versions/r0001-76d2cee93a8242dbb269b034fda9cb15/inputs/event-context.json": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+    "tasks/event/versions/r0001-76d2cee93a8242dbb269b034fda9cb15/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "runs/.run-locks/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346.lock": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/index.html": "c0a6d55eb960fc9e1434e1d4a031eab29864c1c671fe8fb326edf00d4a8a7725",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/inputs.json": "b60eea4d4c3f0bd774a88d8904f6d0497b9d1583b0ca8acae647d130918ea07d",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/preparation.json": "ee70d6c8e03019ae35cbe4807838494c707454a3deb18515c8fc1241ad4fca59",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/report.json": "d736eff51711bc8573e8b679c21fca3814fb38c5f864a9c7786505fd235ceb74",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/started.json": "4ce7871c0ea782b20e302891c5053ef6ddfad58b7e61513f5f760ba5d18f15d7",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/inputs/snapshot.json": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+    "runs/run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346/inputs/task-presentation.json": "ce6464d486b84ae0d78e965df5f7ddf8700d32a7686d80255bce76c123d1181c",
+    "data/content-example/fictional.html": "617ea078f4d246dfa1a8529dd6836659c80df500a922a2c00cf753fcfe5a12c8",
+    "data/content-example/fictional.txt": "617ea078f4d246dfa1a8529dd6836659c80df500a922a2c00cf753fcfe5a12c8",
+    "data/content-example/packet.json": "46209fa73effbe017e3fb0119f39c39d976f3542ce2e9d46e0f316a0cfebf3ac"
+  },
+  "business_originals_unchanged": true,
+  "jobs": 0,
+  "browser": [
+    {
+      "status": "PASS",
+      "phase": "two-origins",
+      "errors": [],
+      "external": [],
+      "posts": [
+        {
+          "url": "http://127.0.0.1:56355/api/quant/journey-selection",
+          "body": {
+            "request_id": "journey-a47b9341-68ae-4620-a7cb-dfef3ba55597",
+            "workspace_context": "4d554c65d08d8951be965f761bd2a8ffe308fec37ba2bb04b2c96b16945448b7",
+            "expected_revision": 0,
+            "selection": {
+              "task": null,
+              "research": {
+                "kind": "core_run",
+                "id": "a2aaf4b1acff26810b8bd9ef"
+              },
+              "view": "results",
+              "replay": null,
+              "manual": null,
+              "broker": null
+            }
+          }
+        },
+        {
+          "url": "http://127.0.0.1:56355/api/quant/journey-selection",
+          "body": {
+            "request_id": "journey-f37f609e-d562-48a5-ae15-0cfdb7ecfa5f",
+            "workspace_context": "4d554c65d08d8951be965f761bd2a8ffe308fec37ba2bb04b2c96b16945448b7",
+            "expected_revision": 1,
+            "selection": {
+              "broker": null,
+              "manual": null,
+              "replay": null,
+              "research": {
+                "kind": "core_run",
+                "id": "a2aaf4b1acff26810b8bd9ef"
+              },
+              "task": null,
+              "view": "execution"
+            }
+          }
+        },
+        {
+          "url": "http://127.0.0.1:56355/api/quant/journey-selection",
+          "body": {
+            "request_id": "journey-917255a5-c749-4d63-bbe0-89b6f0653448",
+            "workspace_context": "4d554c65d08d8951be965f761bd2a8ffe308fec37ba2bb04b2c96b16945448b7",
+            "expected_revision": 2,
+            "selection": {
+              "broker": null,
+              "manual": {
+                "account_id": "u07-only-synthetic-account",
+                "plan_id": null
+              },
+              "replay": null,
+              "research": {
+                "kind": "core_run",
+                "id": "a2aaf4b1acff26810b8bd9ef"
+              },
+              "task": null,
+              "view": "execution"
+            }
+          }
+        },
+        {
+          "url": "http://127.0.0.1:56355/api/quant/journey-selection",
+          "body": {
+            "request_id": "journey-d02df7a4-e750-4d04-ac87-a0be23460b6f",
+            "workspace_context": "4d554c65d08d8951be965f761bd2a8ffe308fec37ba2bb04b2c96b16945448b7",
+            "expected_revision": 3,
+            "selection": {
+              "broker": null,
+              "manual": {
+                "account_id": "u07-only-synthetic-account",
+                "plan_id": "71c293eb98c9262b46bfd6e4497eb45d83b3ab76b3389404fe11140a9470244e"
+              },
+              "replay": null,
+              "research": {
+                "kind": "core_run",
+                "id": "a2aaf4b1acff26810b8bd9ef"
+              },
+              "task": null,
+              "view": "execution"
+            }
+          }
+        },
+        {
+          "url": "http://127.0.0.1:56356/api/quant/public-daily-access/revoke",
+          "body": {}
+        }
+      ],
+      "gets": [
+        "http://127.0.0.1:56355/quant/",
+        "http://127.0.0.1:56355/api/quant/status",
+        "http://127.0.0.1:56355/api/quant/strategies",
+        "http://127.0.0.1:56355/api/quant/jobs",
+        "http://127.0.0.1:56355/api/quant/terminal_catalog",
+        "http://127.0.0.1:56355/api/quant/terminal_inputs",
+        "http://127.0.0.1:56355/api/quant/terminal_tasks",
+        "http://127.0.0.1:56355/api/quant/terminal_runs",
+        "http://127.0.0.1:56355/api/quant/terminal_history",
+        "http://127.0.0.1:56355/api/quant/terminal_reports",
+        "http://127.0.0.1:56355/api/quant/status",
+        "http://127.0.0.1:56355/api/quant/terminal_core_inputs",
+        "http://127.0.0.1:56355/api/quant/terminal_journey",
+        "http://127.0.0.1:56355/api/quant/terminal_judgments",
+        "http://127.0.0.1:56355/api/quant/runs/a2aaf4b1acff26810b8bd9ef",
+        "http://127.0.0.1:56355/api/quant/terminal_exit_experiments",
+        "http://127.0.0.1:56355/api/quant/terminal_exit_runs",
+        "http://127.0.0.1:56355/api/quant/terminal_insights",
+        "http://127.0.0.1:56355/api/quant/terminal_execution_accounts",
+        "http://127.0.0.1:56355/api/quant/terminal_execution_research/%7B%22reference%22%3A%7B%22kind%22%3A%22core_run%22%2C%22id%22%3A%22a2aaf4b1acff26810b8bd9ef%22%7D%7D",
+        "http://127.0.0.1:56355/api/quant/terminal_execution_account/u07-only-synthetic-account",
+        "http://127.0.0.1:56355/quant/",
+        "http://127.0.0.1:56355/api/quant/status",
+        "http://127.0.0.1:56355/api/quant/strategies",
+        "http://127.0.0.1:56355/api/quant/jobs",
+        "http://127.0.0.1:56355/api/quant/terminal_catalog",
+        "http://127.0.0.1:56355/api/quant/terminal_inputs",
+        "http://127.0.0.1:56355/api/quant/terminal_tasks",
+        "http://127.0.0.1:56355/api/quant/terminal_runs",
+        "http://127.0.0.1:56355/api/quant/terminal_history",
+        "http://127.0.0.1:56355/api/quant/terminal_reports",
+        "http://127.0.0.1:56355/api/quant/status",
+        "http://127.0.0.1:56355/api/quant/terminal_core_inputs",
+        "http://127.0.0.1:56355/api/quant/terminal_execution_accounts",
+        "http://127.0.0.1:56355/api/quant/terminal_journey",
+        "http://127.0.0.1:56355/api/quant/terminal_judgments",
+        "http://127.0.0.1:56355/api/quant/runs/a2aaf4b1acff26810b8bd9ef",
+        "http://127.0.0.1:56355/api/quant/terminal_exit_experiments",
+        "http://127.0.0.1:56355/api/quant/terminal_exit_runs",
+        "http://127.0.0.1:56355/api/quant/terminal_insights",
+        "http://127.0.0.1:56355/api/quant/terminal_execution_accounts",
+        "http://127.0.0.1:56355/api/quant/terminal_execution_research/%7B%22reference%22%3A%7B%22kind%22%3A%22core_run%22%2C%22id%22%3A%22a2aaf4b1acff26810b8bd9ef%22%7D%7D",
+        "http://127.0.0.1:56355/api/quant/terminal_execution_account/u07-only-synthetic-account",
+        "http://127.0.0.1:56356/quant/",
+        "http://127.0.0.1:56356/api/quant/status",
+        "http://127.0.0.1:56356/api/quant/strategies",
+        "http://127.0.0.1:56356/api/quant/jobs",
+        "http://127.0.0.1:56356/api/quant/terminal_catalog",
+        "http://127.0.0.1:56356/api/quant/terminal_inputs",
+        "http://127.0.0.1:56356/api/quant/terminal_tasks",
+        "http://127.0.0.1:56356/api/quant/terminal_runs",
+        "http://127.0.0.1:56356/api/quant/terminal_history",
+        "http://127.0.0.1:56356/api/quant/terminal_reports",
+        "http://127.0.0.1:56356/api/quant/status",
+        "http://127.0.0.1:56356/api/quant/terminal_core_inputs",
+        "http://127.0.0.1:56356/api/quant/terminal_journey",
+        "http://127.0.0.1:56356/api/quant/runs/a2aaf4b1acff26810b8bd9ef",
+        "http://127.0.0.1:56356/api/quant/terminal_judgments",
+        "http://127.0.0.1:56356/api/quant/terminal_exit_experiments",
+        "http://127.0.0.1:56356/api/quant/terminal_exit_runs",
+        "http://127.0.0.1:56356/api/quant/terminal_insights",
+        "http://127.0.0.1:56356/api/quant/terminal_execution_accounts",
+        "http://127.0.0.1:56356/api/quant/terminal_execution_research/%7B%22reference%22%3A%7B%22kind%22%3A%22core_run%22%2C%22id%22%3A%22a2aaf4b1acff26810b8bd9ef%22%7D%7D",
+        "http://127.0.0.1:56356/api/quant/terminal_execution_account/u07-only-synthetic-account",
+        "http://127.0.0.1:56356/api/quant/terminal_daily_inputs",
+        "http://127.0.0.1:56356/api/quant/terminal_daily_intakes",
+        "http://127.0.0.1:56356/api/quant/terminal_daily_updates",
+        "http://127.0.0.1:56356/api/quant/public-daily-access"
+      ],
+      "observations": [
+        {
+          "label": "01-selected-origin-a-1280",
+          "url": "http://127.0.0.1:56355/quant/#execution",
+          "account": "u07-only-synthetic-account",
+          "plan": "71c293eb98c9262b46bfd6e4497eb45d83b3ab76b3389404fe11140a9470244e",
+          "layout": {
+            "width": 1280,
+            "scroll": 1280
+          },
+          "localStorage": []
+        },
+        {
+          "label": "02-reloaded-origin-a-1280",
+          "url": "http://127.0.0.1:56355/quant/#execution",
+          "account": "u07-only-synthetic-account",
+          "plan": "71c293eb98c9262b46bfd6e4497eb45d83b3ab76b3389404fe11140a9470244e",
+          "layout": {
+            "width": 1280,
+            "scroll": 1280
+          },
+          "localStorage": []
+        },
+        {
+          "label": "03-origin-b-390",
+          "url": "http://127.0.0.1:56356/quant/#execution",
+          "account": "u07-only-synthetic-account",
+          "plan": "71c293eb98c9262b46bfd6e4497eb45d83b3ab76b3389404fe11140a9470244e",
+          "layout": {
+            "width": 390,
+            "scroll": 390
+          },
+          "localStorage": []
+        }
+      ]
+    },
+    {
+      "status": "PASS",
+      "phase": "restart",
+      "errors": [],
+      "external": [],
+      "posts": [],
+      "gets": [
+        "http://127.0.0.1:51534/quant/",
+        "http://127.0.0.1:51534/api/quant/status",
+        "http://127.0.0.1:51534/api/quant/strategies",
+        "http://127.0.0.1:51534/api/quant/jobs",
+        "http://127.0.0.1:51534/api/quant/terminal_catalog",
+        "http://127.0.0.1:51534/api/quant/terminal_inputs",
+        "http://127.0.0.1:51534/api/quant/terminal_tasks",
+        "http://127.0.0.1:51534/api/quant/terminal_runs",
+        "http://127.0.0.1:51534/api/quant/terminal_history",
+        "http://127.0.0.1:51534/api/quant/terminal_reports",
+        "http://127.0.0.1:51534/api/quant/status",
+        "http://127.0.0.1:51534/api/quant/terminal_core_inputs",
+        "http://127.0.0.1:51534/api/quant/terminal_journey",
+        "http://127.0.0.1:51534/api/quant/runs/a2aaf4b1acff26810b8bd9ef",
+        "http://127.0.0.1:51534/api/quant/terminal_judgments",
+        "http://127.0.0.1:51534/api/quant/terminal_exit_experiments",
+        "http://127.0.0.1:51534/api/quant/terminal_exit_runs",
+        "http://127.0.0.1:51534/api/quant/terminal_insights",
+        "http://127.0.0.1:51534/api/quant/terminal_execution_accounts",
+        "http://127.0.0.1:51534/api/quant/terminal_execution_research/%7B%22reference%22%3A%7B%22kind%22%3A%22core_run%22%2C%22id%22%3A%22a2aaf4b1acff26810b8bd9ef%22%7D%7D",
+        "http://127.0.0.1:51534/api/quant/terminal_execution_account/u07-only-synthetic-account"
+      ],
+      "observations": [
+        {
+          "label": "04-owner-restarted-1280",
+          "url": "http://127.0.0.1:51534/quant/#execution",
+          "account": "u07-only-synthetic-account",
+          "plan": "71c293eb98c9262b46bfd6e4497eb45d83b3ab76b3389404fe11140a9470244e",
+          "layout": {
+            "width": 1280,
+            "scroll": 1280
+          },
+          "localStorage": []
+        }
+      ]
+    }
+  ],
+  "owner_closed": true
+}

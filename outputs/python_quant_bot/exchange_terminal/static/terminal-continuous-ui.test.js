@@ -34,6 +34,17 @@ function fixture(options={}){
 async function prepare(f){const c=f.controller;await c.refresh();c.setSources([source]);c.selectSource(source);c.setForm(form);await c.preview();c.confirmModel(true);return c;}
 async function created(f){const c=await prepare(f);await c.create();return c;}
 
+test('journey restore uses saved reference and does not seed step resume or restore confirmations',async()=>{
+  const f=fixture(),c=await created(f),id=c.state.accountId,count=f.writes.length;
+  // Saved API references contain only kind/id, unlike the selectable label.
+  f.snapshots.get(id).display_summary.reference={kind:source.kind,id:source.id};
+  const reopened=f.make();await reopened.restoreSelection({research:{kind:source.kind,id:source.id},replay:{account_id:id}});
+  assert.equal(reopened.state.accountId,id);assert.equal(reopened.state.confirmed,false);assert.equal(reopened.state.reviewedHead,null);assert.equal(f.writes.length,count);
+  f.snapshots.get(id).display_summary.reference={kind:'terminal_run',id:'9'.repeat(64)};
+  await assert.rejects(reopened.restoreSelection({research:{kind:source.kind,id:source.id},replay:{account_id:id}}),/绑定其他/);assert.equal(reopened.state.snapshot,null);
+});
+test('core research never restores into the native replay engine',async()=>{const f=fixture();await assert.rejects(f.controller.restoreSelection({research:{kind:'core_run',id:'a'.repeat(24)},replay:null}),/不支持/);assert.equal(f.reads.length,0);assert.equal(f.writes.length,0);});
+
 test('canonical hash agrees with Python ASCII compact sorted-key fixture including Unicode',async()=>{
   const value={z:'暂停：核对😀',a:{name:'中文模拟',n:3}};
   assert.equal(ui.canonical(value),' {"a":{"n":3,"name":"\\u4e2d\\u6587\\u6a21\\u62df"},"z":"\\u6682\\u505c\\uff1a\\u6838\\u5bf9\\ud83d\\ude00"}'.trim());

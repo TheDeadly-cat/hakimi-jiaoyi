@@ -124,6 +124,34 @@ function uiFunction(name) {
   const match=next.exec(ui);return ui.slice(start,match?.index??ui.length).trim();
 }
 
+test("saved custom capital returns to the real revision form and the next save sends that amount",async()=>{
+  const nodes=new Map(),get=id=>{if(!nodes.has(id))nodes.set(id,{value:"",hidden:false,textContent:"",reportValidity:()=>true,scrollIntoView(){}});return nodes.get(id);};
+  const task={id:"old-version",version:1,family_id:"family",name:"本金练习",strategy_id:"dual_ma",strategy_params:{fast_window:5,slow_window:20},input_id:"frozen",
+    initial_cash:100.25,risk:{position_pct:25,stop_loss_pct:8,take_profit_pct:0},costs:{fee_rate:.0005,slippage_bps:2}};
+  const sent=[],context=vm.createContext({state:{catalog:[{id:"dual_ma"}],aiEvidenceEnabled:false,context:{symbol:"TEST",strategy_id:"dual_ma",risk:task.risk,strategy_params:task.strategy_params,blockers:[]}},
+    $:get,value:id=>get(id).value,api:async()=>task,finite:Number.isFinite,renderAiEvidence(){},renderParams(){},renderInputs(){},notify(){},researchBlocker:()=>null,
+    currentSignalParams:()=>task.strategy_params,validAiEvidence:()=>false,revealTaskSettings:()=>{get("tq-task-settings").open=true;},act:async(action,payload)=>{sent.push({action,payload:JSON.parse(JSON.stringify(payload))});},refreshRecords(){}});
+  vm.runInContext(["editTask","saveTask","applyContextParams"].map(uiFunction).join("\n"),context);
+  await vm.runInContext('editTask("family")',context);
+  assert.equal(get("tq-initial-cash").value,100.25);
+  get("tq-initial-cash").value="250.50";
+  vm.runInContext("applyContextParams()",context);
+  assert.equal(get("tq-initial-cash").value,"250.50","applying signal parameters must not reset chosen capital");
+  get("tq-input").value="frozen";
+  context.event={preventDefault(){},submitter:{}};
+  await vm.runInContext("saveTask(event)",context);
+  assert.equal(sent.length,1);assert.equal(sent[0].action,"terminal_save_task");
+  assert.equal(sent[0].payload.initial_cash,250.5);assert.equal(sent[0].payload.parent_task_id,"old-version");
+  assert.equal(task.initial_cash,100.25);
+});
+
+test("research currency comes from selected frozen metadata and never guesses USD",()=>{
+  const label={},context=vm.createContext({state:{inputs:[{id:"a",meta:{currency:"USD"}},{id:"b",meta:{}}]},identity:v=>v.id,value:()=>context.selected,$:()=>label});
+  vm.runInContext(uiFunction("renderCapitalCurrency"),context);
+  context.selected="a";vm.runInContext("renderCapitalCurrency()",context);assert.match(label.textContent,/USD.*封存行情/);
+  context.selected="b";vm.runInContext("renderCapitalCurrency()",context);assert.match(label.textContent,/未记录/);assert.doesNotMatch(label.textContent,/USD/);
+});
+
 test("market read failures show structured session guidance or native errors as plain text without retry",async () => {
   const cases = [
     [{info:{code:"PermissionError",message:"量化模块操作未完成",detail:"session_token_required:请重新打开量化模块"}},"后台已重启，请刷新整个交易台后继续。已保存任务和结果仍保留。"],
@@ -178,6 +206,49 @@ test("dashboard and daily page retain their headers while task and result links 
   assert.equal(continuousReads,1);assert.equal(continuousHost.hidden,false);assert.equal(executionHost.hidden,true);assert.equal(host.hidden,true);
   vm.runInContext('show("execution")',context);
   assert.equal(continuousHides,1);assert.equal(continuousHost.hidden,true);assert.equal(executionHost.hidden,false);
+});
+
+test('restored show preserves controller state and focus without reveal or auxiliary refresh',()=>{
+  let reads=0,scrolls=0;const target={hidden:true},executionUI={element:{hidden:true},refresh:()=>{reads++;},reveal:()=>{reads++;}},brokerUI={element:{hidden:true},hide(){},reveal:()=>{reads++;}},continuousUI={element:{hidden:true},hide(){},reveal:()=>{reads++;}};
+  const context=vm.createContext({state:{visible:true,loaded:false,unifiedView:'dashboard'},coreMain:{hidden:false},executionHost:{},brokerHost:{},continuousHost:{},dailyHost:{},executionUI,brokerUI,continuousUI,dailyUI:{hide(){}},$:()=>target,location:{hash:'#dashboard'},history:{replaceState(){},pushState(){}},syncUnifiedNavigation(){},refreshAll:()=>{reads++;},requestAnimationFrame:()=>{scrolls++;}});
+  vm.runInContext(uiFunction('show'),context);for(const view of ['execution','broker','continuous','results'])context.show(view,true,{restored:true});
+  assert.equal(reads,0);assert.equal(scrolls,0);assert.equal(brokerUI.element.hidden,false);assert.equal(target.open,true);
+});
+
+function journeyMainFixture(options={}) {
+  const ref={kind:'core_run',id:'a'.repeat(24)},saved=[],restored=[],notices=[],shown=[],opened=[];
+  const state={navigationRequest:3,journeyUserRequest:0,journeyController:{state:{selection:{research:ref}},select:async p=>{saved.push(JSON.parse(JSON.stringify(p)));if(options.select)await options.select();state.journeyController.state.selection={...state.journeyController.state.selection,...p};},restore:async()=>{restored.push(true);}}};
+  const context=vm.createContext({state,notify:(...v)=>notices.push(v),operationErrorText:e=>e.message,show:(...v)=>shown.push(v),hide:()=>opened.push('hide'),showRun:async id=>opened.push(['native',id]),openCoreRun:async id=>opened.push(['core',id]),openCoreTask:async id=>opened.push(['task',id]),renderSavedTask(){},executionUI:{refresh:async()=>{},controller:{openResearch:async r=>opened.push(r)}},brokerUI:{controller:{openResearch:async r=>opened.push(r)}}});
+  vm.runInContext(['sameJourneyReference','rememberJourney','restoreJourney','restoreJourneyView','openJourneySource'].map(uiFunction).join('\n'),context);
+  return {context,state,ref,saved,restored,notices,shown,opened};
+}
+test('same research account or plan selection saves refs without restoring controllers again',async()=>{
+  const f=journeyMainFixture();await f.context.rememberJourney({research:f.ref,view:'execution',manual:{account_id:'same-account',plan_id:'original-plan'}});
+  assert.equal(f.saved.length,1);assert.equal(f.restored.length,0);
+  await f.context.rememberJourney({research:{kind:'core_run',id:'b'.repeat(24)},view:'execution'});assert.equal(f.restored.length,1);
+});
+test('delayed preference acknowledgement cannot restore over later user navigation',async()=>{
+  let finish;const f=journeyMainFixture({select:()=>new Promise(r=>{finish=r;})}),pending=f.context.rememberJourney({research:{kind:'core_run',id:'b'.repeat(24)},view:'execution'});
+  f.state.navigationRequest++;finish();await pending;assert.equal(f.restored.length,0);assert.equal(f.shown.length,0);
+});
+test('failed preference write leaves existing business selection accessible and does not navigate late',async()=>{
+  const f=journeyMainFixture({select:async()=>{throw Error('preference unavailable');}});await f.context.openJourneySource(f.ref);
+  assert.deepEqual(f.opened,[f.ref]);assert.equal(f.restored.length,0);assert.match(f.notices[0][0],/已有业务记录保留/);
+});
+test('read-only restore opens the pinned verified core result and refuses a changed task version',async()=>{
+  const f=journeyMainFixture();f.state.journeyRestoreContext={navigation:3,userRequest:0};
+  await f.context.restoreJourneyView('results',{selection:{research:f.ref},resolution:{research:{status:'VERIFIED'}}});assert.deepEqual(f.opened,['hide',['core',f.ref.id]]);
+  f.opened.length=0;await f.context.restoreJourneyView('results',{selection:{task:{kind:'core_task',id:'family',task_id:'original-version'}},resolution:{task:{status:'VERSION_CHANGED'}}});assert.deepEqual(f.opened,[]);assert.equal(f.shown.at(-1)[0],'tasks');assert.match(f.notices.at(-1)[0],/不会改为最新版本/);
+  f.state.navigationRequest++;await f.context.restoreJourneyView('execution',{selection:{research:f.ref}});assert.equal(f.shown.at(-1)[0],'tasks');
+});
+test('explicit continue GET waits cannot steal a page the user selected meanwhile',async()=>{
+  let finish,restores=0;const state={navigationRequest:1,journeyUserRequest:0,journeyController:{load:()=>new Promise(r=>{finish=r;})}},context=dispatchContext({state,restoreJourney:()=>{restores++;}});
+  const pending=context.dispatch('journey-continue','');state.navigationRequest++;finish();await pending;assert.equal(restores,0);
+});
+test('account inventory reads before selection restore so the restored plan is not refreshed away',async()=>{
+  const f=journeyMainFixture(),order=[];f.state.journeyController.state.selection.view='execution';f.context.executionUI.refresh=async()=>order.push('inventory');f.state.journeyController.restore=async()=>order.push('restore');
+  await f.context.restoreJourney();assert.deepEqual(order,['inventory','restore']);
+  f.context.executionUI.refresh=async()=>{order.push('late inventory');f.state.navigationRequest++;};await f.context.restoreJourney();assert.deepEqual(order,['inventory','restore','late inventory']);
 });
 
 test("old task and unverified records never masquerade as completed result summaries",async () => {
@@ -345,7 +416,7 @@ function savedTaskCardFixture(options={}) {
   const context=dispatchContext({state,$:element,text:value=>typeof value==="string"&&value.length>0,esc,
     identity:row=>row.id||row.task_id,preflightHtml:()=>"预检查已通过",
     button:(label,action,id)=>`<button data-tq-action="${action}" data-tq-id="${esc(id)}">${label}</button>`,
-    notify:(message,error)=>notices.push({message,error}),renderRuns(){},renderRun(){},revealRunDetail(){},
+    notify:(message,error)=>notices.push({message,error}),renderRuns(){},renderRun(){},revealRunDetail(){},revealTaskSettings:()=>{element("tq-task-settings").open=true;},
     operationErrorText:error=>error.message,coreMain:{querySelector:()=>({textContent:"原请求待核对"})},
     S:{jobs:[],pending:new Map(),dialogSerial:1},crypto:{randomUUID:()=>"qa-request-0001"},ACTIONS:{},
     announce(){},updateJobs(){},render(){},closeDialog(){},syncMappingState(){},showError(){},unresolved:[],saveUnresolved(){},
@@ -417,7 +488,7 @@ test("a real late older listing cannot roll back the durable saved-task completi
   Object.assign(f.context,{api:resource=>new Promise(resolve=>pending.push({resource,resolve})),
     renderCatalog(){},renderCoreInputs(){},renderInputs(){},renderTasks(){},renderHistory(){},renderReports(){},
     executionUI:{setSources(){}},brokerUI:{setSources(){}},continuousUI:{setSources(){},setInputs(){}},
-    judgmentUI:null,exitResearchUI:null,insightsUI:null});
+    judgmentUI:null,exitResearchUI:null,insightsUI:null,candidateHost:{hidden:false}});
   vm.runInContext(uiFunction("loadAllRecords"),f.context);
   const late=f.context.loadAllRecords();
   f.context.recordRunOutcome(f.job.result);

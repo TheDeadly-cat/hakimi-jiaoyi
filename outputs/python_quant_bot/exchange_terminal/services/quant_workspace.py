@@ -31,6 +31,8 @@ _READ_RESOURCES = frozenset({"status", "strategies", "tasks", "inputs", "runs", 
     "terminal_strategy_candidates",
     "terminal_daily_catalog", "terminal_daily_inputs", "terminal_daily_intakes", "terminal_daily_updates", "terminal_daily_tasks",
     "terminal_daily_supplement_context", "terminal_daily_supplements", "terminal_daily_supplement_requests",
+    "terminal_history_input_requests",
+    "terminal_journey",
     "terminal_catalog", "terminal_preflight", "terminal_saved_comparison", "terminal_workspace_history", "terminal_market", "terminal_inputs", "terminal_tasks", "terminal_runs", "terminal_history", "terminal_reports", "terminal_core_inputs", "core_replay",
     "terminal_execution_accounts", "terminal_execution_account", "terminal_execution_receipt", "terminal_execution_history", "terminal_execution_compare", "terminal_execution_research", "terminal_execution_explanation",
     "terminal_broker_status", "terminal_broker_research", "terminal_broker_check", "terminal_broker_receipt", "terminal_broker_receipts",
@@ -162,7 +164,53 @@ _CORE_PRESENTATION_FUNCTIONS = {
     "loadRun": "779f21f30d5e7625429c28b1af10b42f07095b5e6c0651fe5399c6bf293de0e6",
     "resultsPage": "272ac1ffd0c40de8ea6908a8b42e4cf5c991f6413492dd44fa5670c14a31cb16",
     "dashboard": "313b5fb8ef979f1a5a0fb6b327f63a3c64ff629963339b52b2871816bf74b0c1",
+    "showTask": "68eca4cca8b65fe57becf2b8467c439bbe59248f7dbd3206a8731118644f9703",
 }
+
+
+_CORE_TEACHING_FORM = r"""
+const teachingFormDrafts=new Map();
+function retainTeachingForm(){
+ const form=$('#task-form'),key=form?.dataset.teachingInput;if(!key)return;
+ teachingFormDrafts.set(key,{fields:[...new FormData(form).entries()]});
+}
+document.addEventListener('input',event=>{if(event.target.closest?.('#task-form'))retainTeachingForm();});
+document.addEventListener('change',event=>{if(event.target.closest?.('#task-form'))retainTeachingForm();});
+async function openCoreTeachingTask(selection){
+ if(!selection||!/^[a-f0-9]{24}$/.test(selection.input_id||'')||selection.strategy_key!=='price.dual_ma@1')throw Error('教学资料身份未确认，请重新读取原准备记录。');
+ await refresh({quiet:true});
+ const input=S.inputs.find(row=>row.id===selection.input_id&&row.kind==='PRICE_SNAPSHOT'&&row.status==='READY'&&row.evidence_kind==='SYNTHETIC_TEST');
+ if(!input)throw Error('尚未找到同一份已保存的虚构资料，请先只读刷新记录。');
+ const saved=teachingFormDrafts.get(selection.input_id),values=new Map(saved?.fields||[]);
+ const key=values.get('strategy')||selection.strategy_key;
+ if(!S.strategies.some(row=>row.key===key))throw Error('草稿策略暂不可用，已保留原输入。');
+ nav('tasks');await openTaskForm();
+ const form=$('#task-form');if(!form||!S.taskDraft||S.taskDraft.task)throw Error('教学任务表单尚未就绪；资料已保存，不必重复准备。');
+ $('#task-strategy').value=key;S.taskDraft.strategy=key;renderStrategyFields(true);
+ $('#task-snapshot').value=selection.input_id;
+ $('#task-name').value='我的双均线教学';
+ if(!saved){
+  const allowed=['fast_window','slow_window','position_pct','stop_loss_pct','take_profit_pct'];
+  for(const name of allowed){
+   const value=selection.params?.[name],field=$('#params-'+name);
+   if(typeof value!=='number'||!Number.isFinite(value)||!field)throw Error('配套教学参数尚未确认；不会代填其他规则。');
+   field.value=String(field.dataset.percent==='true'?value*100:value);
+  }
+ }else{
+  for(const field of form.elements){if(field.name&&values.has(field.name))field.value=values.get(field.name);}
+ }
+ form.dataset.teachingInput=selection.input_id;
+ const note=document.createElement('p');note.className='notice';note.dataset.teachingContext='true';
+ const refreshNote=()=>{const selected=S.inputs.find(row=>row.id===$('#task-snapshot')?.value);note.textContent=selected?.evidence_kind==='SYNTHETIC_TEST'
+  ?'当前选用虚构教学资料。请确认任务名称、本金与规则；保存后还需要明确运行，结果不是未来收益预测。'
+  :'已离开教学资料。请按当前所选资料的来源、区间和限制重新核对；不会把它标为虚构示例。';};
+ form.prepend(note);$('#task-snapshot').addEventListener('change',refreshNote);refreshNote();
+ const parameters=$('#strategy-parameters')?.closest('.form-section');
+ if(parameters){const details=document.createElement('details'),title=document.createElement('summary');details.className='form-section';title.textContent='查看或调整配套规则参数';parameters.before(details);details.append(title,parameters);}
+ const money=$('#task-cash')?.closest('details');if(money)money.open=true;
+ retainTeachingForm();$('#task-name')?.focus();
+}
+"""
 
 
 def _adapt_core_completion(html: str) -> str:
@@ -179,6 +227,10 @@ def _adapt_core_completion(html: str) -> str:
             raise ValueError("quant_core_completion_adapter_source_mismatch:" + name)
         fragments[name] = matches[0]
     adapted = dict(fragments)
+    adapted["perform"] = once(adapted["perform"], "onSuccess=null,close=false",
+                              "onSuccess=null,onRequest=null,close=false")
+    adapted["perform"] = once(adapted["perform"], "if(button){button.disabled=true;",
+                              "if(onRequest)onRequest(requestId);if(button){button.disabled=true;")
     adapted["perform"] = once(adapted["perform"], "if(button?.disabled)return;",
                               "if(button?.disabled)return;coreCompletion.begin(action);")
     adapted["perform"] = once(adapted["perform"], "announce((ACTIONS[action]||'操作')+'已完成');",
@@ -197,6 +249,8 @@ def _adapt_core_completion(html: str) -> str:
     loading = '<div class="loading-block"><span class="spinner" aria-hidden="true"></span>正在读取保存的结果…</div>'
     adapted["resultsPage"] = once(adapted["resultsPage"], loading, "${coreCompletion.resultPlaceholder(id)}")
     adapted["dashboard"] = once(adapted["dashboard"], "'" + loading + "'", "coreCompletion.resultPlaceholder(recent.id)")
+    adapted["showTask"] = once(adapted["showTask"], "const cfg=t.configuration", "if(t.id!==id)throw Error('任务编号与原记录不一致，请重新读取。');const cfg=t.configuration")
+    adapted["showTask"] = once(adapted["showTask"], ");}catch(e){showError(e);}}", ");coreCompletion.attachTaskActions(t);}catch(e){showError(e);}}")
     for name, original in fragments.items():
         html = once(html, original, adapted[name])
     initializer = "$('#navigation').innerHTML="
@@ -206,7 +260,7 @@ def _adapt_core_completion(html: str) -> str:
                  "if(detail?.id){S.runCache.set(detail.id,detail);S.selectedRun=detail.id;}S.runTab='equity';nav('results');}});}")
     return once(html, initializer,
                 run_saved + "\nconst coreCompletion=window.createCoreCompletionAdapter({api,state:S,render,refresh,showError,esc,runTask:runSavedCoreTask,"
-                "openResult:id=>{window.dispatchEvent(new CustomEvent('hakimi-core-open'));S.selectedRun=id;nav('results');}});\n" + initializer)
+                "closeTask:closeDialog,openResult:id=>{window.dispatchEvent(new CustomEvent('hakimi-core-open'));S.selectedRun=id;nav('results');}});\n" + initializer)
 
 
 def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
@@ -242,22 +296,29 @@ def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
     broker_account_path = ui_path.with_name("terminal-broker-account-control-ui.js")
     continuous_path = ui_path.with_name("terminal-continuous-ui.js")
     supplement_path = ui_path.with_name("terminal-stock-supplement-ui.js")
+    first_use_path = ui_path.with_name("terminal-first-use-ui.js")
+    journey_path = ui_path.with_name("terminal-journey-ui.js")
     daily_path = ui_path.with_name("terminal-daily-ui.js")
     candidates_path = ui_path.with_name("terminal-strategy-candidates-ui.js")
     ui_paths = [completion_path, ai_binding_path, summary_path, comparison_path, execution_path, broker_plan_path, broker_account_path, broker_path, continuous_path, supplement_path, daily_path,
-                judgment_path, exit_path, insights_path, candidates_path]
+                judgment_path, exit_path, insights_path, candidates_path, first_use_path, journey_path]
     ui_paths.append(ui_path)
     ui_source = "\n".join(path.read_text(encoding="utf-8") for path in ui_paths).replace("</script>", "<\\/script>")
     html = html.replace("程序版本", "股票回测内核版本")
     html = html.replace("共享资金演练目前通过安装目录中的", "共享资金演练保留在原命令行工具中。旧包中的")
     html = html.replace(" 使用。这里保留现有命令行能力；", " 是归档入口；日常继续使用当前交易窗口。")
     labels = "terminal_replay_create:'创建逐日模拟',terminal_replay_seed:'记录起始收盘信号',terminal_replay_step:'处理下一完整交易日',terminal_replay_reconcile:'核对模拟并保持暂停',terminal_replay_resume:'恢复模拟准备',terminal_replay_adopt:'采用已保存数据版本',terminal_broker_save_candidate:'保存券商候选资料',terminal_broker_prepare_intent:'准备未发送订单意图',terminal_broker_prepare_plan:'保存离线验收计划',terminal_broker_resume:'恢复本地候选准备',terminal_broker_account_resume:'恢复账户执行准备',terminal_daily_check_supplement:'检查已保存补证原件',terminal_daily_save_supplement:'另存补证后的新输入',terminal_daily_check_stock:'检查股票日线',terminal_daily_save_stock:'保存股票日线',terminal_daily_check_update:'检查日线更新',terminal_daily_freeze_update:'保存日线新版本',terminal_daily_create_task:'保存日线研究任务',terminal_daily_adopt_update:'采用日线新版本',terminal_import_daily_input:'复用日线到原策略',terminal_register_exit_experiment:'登记同入场出场研究',terminal_run_exit_experiment:'运行已登记出场研究',terminal_save_judgment:'保存判断与冻结依据',terminal_append_judgment_event:'追加复盘记录',terminal_import_core_input:'复用已导入行情',terminal_freeze_market:'保存当前行情快照',terminal_save_task:'保存原策略任务版本',terminal_set_task_state:'更改研究任务状态',terminal_run_task:'运行原策略回测',terminal_compare:'比较原策略结果',"
+    labels = "terminal_prepare_teaching_input:'准备教学资料',terminal_import_history_input:'复制已保存行情到当前工作区'," + labels
     html = html.replace("const ACTIONS={", "const ACTIONS={" + labels, 1)
     old_compare = "case'compare':await perform('compare',{run_ids:[...S.compare]},{button:target,onSuccess:showComparison});break;"
     if html.count(old_compare) != 1:
         raise ValueError("quant_core_saved_comparison_adapter_source_mismatch")
     html = html.replace(old_compare, "case'compare':await showStrictSavedComparison(target);break;", 1)
-    hook = ("\nasync function showStrictSavedComparison(button){if(button?.disabled)return;"
+    old_core_metrics = "${metricsRow(detail.summary)}"
+    if html.count(old_core_metrics) != 1:
+        raise ValueError("quant_core_result_summary_adapter_source_mismatch")
+    html = html.replace(old_core_metrics, "${window.HakimiTerminalResultSummary.renderResultSummary(detail,esc)}", 1)
+    hook = (_CORE_TEACHING_FORM + "\nasync function showStrictSavedComparison(button){if(button?.disabled)return;"
             "const references=[...S.compare].map(id=>({kind:'core_run',id}));"
             "if(references.length<2)throw Error('请选择至少两份保存结果。');if(button)button.disabled=true;"
             "try{const value=await api('terminal_saved_comparison/'+encodeURIComponent(JSON.stringify({references})));"
@@ -267,7 +328,8 @@ def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
             "window.installTerminalQuantUI({api,perform,esc,modal,closeDialog,showError,"
             "runCoreTask:(id,task_id,button)=>runSavedCoreTask({id,task_id},button),"
             "getSelectedCoreRun:()=>S.selectedRun,openCoreTask:async id=>{nav('tasks');await showTask(id);},"
-            "openCoreRun:async id=>{S.selectedRun=id;nav('results');await loadRun(id);},"
+            "openCoreRun:id=>coreCompletion.showSavedResult(id),"
+            "openCoreTeachingTask,openCoreOperations:()=>nav('settings'),"
             "openCoreTaskForm:async strategyKey=>{if(strategyKey!==undefined&&!S.strategies.some(entry=>entry.key===strategyKey))throw new Error('所选研究规则尚未就绪，请刷新记录后重试。');"
             "nav('tasks');await openTaskForm();if(strategyKey!==undefined){const field=$('#task-strategy');if(!field||!S.taskDraft||S.taskDraft.task)throw new Error('新建研究表单尚未就绪。');"
             "field.value=strategyKey;S.taskDraft.strategy=strategyKey;renderStrategyFields(true);}},openCoreImport:async()=>{nav('inputs');await openImport();},"
@@ -492,10 +554,11 @@ class QuantWorkspace:
             broker_stop = path == "/api/quant/broker-candidate/stop"
             account_stop = path == "/api/quant/broker-account/stop"
             replay_pause = path == "/api/quant/continuous-replay/pause"
+            journey_selection = path == "/api/quant/journey-selection"
             if self.read_only and daily_control != "revoke":
                 self._fail(handler, PermissionError("runtime_is_read_only"), 423)
                 return True
-            if not path.startswith("/api/quant/actions/") and daily_control not in {"allow-once", "revoke"} and not broker_stop and not account_stop and not replay_pause:
+            if not path.startswith("/api/quant/actions/") and daily_control not in {"allow-once", "revoke"} and not broker_stop and not account_stop and not replay_pause and not journey_selection:
                 self._fail(handler, ValueError("quant_route_not_found"), 404)
                 return True
             if handler.headers.get_all("Content-Type", []) not in [["application/json"], ["application/json; charset=utf-8"]]:
@@ -514,6 +577,13 @@ class QuantWorkspace:
             payload = json.loads(raw, object_pairs_hook=_json_object,
                                  parse_constant=lambda value: (_ for _ in ()).throw(ValueError("finite_json_required")))
             _finite_json(payload)
+            if journey_selection:
+                with self._mutex:
+                    self._check_mutation_guard()
+                    self._ensure()
+                    result = self._service.mutate("terminal_save_journey_selection", payload)
+                self._answer(handler, result)
+                return True
             if replay_pause:
                 pause = getattr(self._service, "pause_continuous_replay", None)
                 if self._closed or not callable(pause):

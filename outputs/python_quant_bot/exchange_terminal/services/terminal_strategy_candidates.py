@@ -16,6 +16,7 @@ import re
 from zoneinfo import ZoneInfo
 
 from . import indicator_math, strategy_signals as signals
+from .strategy_presentation import strategy_presentation
 
 
 SCHEMA = "hakimi-terminal-strategy-diagnostic-v1"
@@ -281,10 +282,16 @@ def diagnose_strategy(frozen_input, strategy_spec, *, cutoff_session, observed_a
     status = "DIAGNOSTIC_MISMATCH" if not parity else "DATA_INSUFFICIENT" if blockers else "READY"
     group = ("INSUFFICIENT" if blockers else "ENTRY_MATCH" if actual["action"] == "BUY" and not position
              else "EXIT_MATCH" if actual["action"] == "EXIT" and position else "WAITING")
+    presentation = strategy_presentation(identity, params)
     return _seal({"schema_version":SCHEMA,"status":status,"group":group,"strategy_id":identity,"name":spec["name"],
         "strategy_params":params,"engine_id":spec["engine_id"],"fingerprint":spec["fingerprint"],
         "engine_source_identity":spec["engine_source_identity"],"indicator_contract":deepcopy(indicator_math.CONTRACT),
         "signal_engine_version":signals.SIGNAL_ENGINE_VERSION,"input_id":frozen_input["id"],"source_digest":frozen_input["source_digest"],
+        "validation_capability":deepcopy(capability),
+        "presentation":{key:deepcopy(presentation[key]) for key in
+            ("mechanism_summary","failure_conditions","teaching_template","teaching_reason","entry_rule","exit_rule")},
+        "preparation_scope":"MANUAL_SYNTHETIC_SEPARATE_CHECK_REQUIRED",
+        "unchecked_conditions":["研究本金","账户资金与预留","数量和费用","报价时效与订单资格"],
         "symbol":frozen_input["symbol"],"cutoff_session":cutoff_session,"freshness":freshness,
         "position_context":deepcopy(position_context),"position_cost_used_by_rule":False,
         "position_cost_status":"RECORDED" if "entry_price" in position_context else "UNRECORDED",

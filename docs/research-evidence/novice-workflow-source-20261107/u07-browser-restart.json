@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "phase": "restart",
+  "errors": [],
+  "external": [],
+  "posts": [],
+  "gets": [
+    "http://127.0.0.1:51534/quant/",
+    "http://127.0.0.1:51534/api/quant/status",
+    "http://127.0.0.1:51534/api/quant/strategies",
+    "http://127.0.0.1:51534/api/quant/jobs",
+    "http://127.0.0.1:51534/api/quant/terminal_catalog",
+    "http://127.0.0.1:51534/api/quant/terminal_inputs",
+    "http://127.0.0.1:51534/api/quant/terminal_tasks",
+    "http://127.0.0.1:51534/api/quant/terminal_runs",
+    "http://127.0.0.1:51534/api/quant/terminal_history",
+    "http://127.0.0.1:51534/api/quant/terminal_reports",
+    "http://127.0.0.1:51534/api/quant/status",
+    "http://127.0.0.1:51534/api/quant/terminal_core_inputs",
+    "http://127.0.0.1:51534/api/quant/terminal_journey",
+    "http://127.0.0.1:51534/api/quant/runs/a2aaf4b1acff26810b8bd9ef",
+    "http://127.0.0.1:51534/api/quant/terminal_judgments",
+    "http://127.0.0.1:51534/api/quant/terminal_exit_experiments",
+    "http://127.0.0.1:51534/api/quant/terminal_exit_runs",
+    "http://127.0.0.1:51534/api/quant/terminal_insights",
+    "http://127.0.0.1:51534/api/quant/terminal_execution_accounts",
+    "http://127.0.0.1:51534/api/quant/terminal_execution_research/%7B%22reference%22%3A%7B%22kind%22%3A%22core_run%22%2C%22id%22%3A%22a2aaf4b1acff26810b8bd9ef%22%7D%7D",
+    "http://127.0.0.1:51534/api/quant/terminal_execution_account/u07-only-synthetic-account"
+  ],
+  "observations": [
+    {
+      "label": "04-owner-restarted-1280",
+      "url": "http://127.0.0.1:51534/quant/#execution",
+      "account": "u07-only-synthetic-account",
+      "plan": "71c293eb98c9262b46bfd6e4497eb45d83b3ab76b3389404fe11140a9470244e",
+      "layout": {
+        "width": 1280,
+        "scroll": 1280
+      },
+      "localStorage": []
+    }
+  ]
+}

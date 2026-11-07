@@ -62,7 +62,7 @@
       }catch(error){if(current(seq)){state.status="INDEX_ERROR";state.error=error?.info?.message||error.message||"已保存索引暂未读出";emit();}}
       finally{if(seq===sequence&&state.status!=="READING"){state.busy=false;if(!current(seq))invalidate();else emit();}}
     }
-    async function newDraft(){if(state.status!=="EMPTY"||state.busy||!current(sequence))return;const selected=clone(state.diagnostic);await onChoose(selected);invalidate();}
+    async function newDraft(){if(state.status!=="EMPTY"||state.busy||!current(sequence)||ruleCapabilities(state.diagnostic).research!==true)return;const selected=clone(state.diagnostic);await onChoose(selected);invalidate();}
     return {state,select,open,newDraft,invalidate};
   }
   function factorRows(row) {
@@ -71,9 +71,20 @@
       return `<tr><th scope="row">${esc(factor.label || factor.key)}</th><td>${esc(factorValue(factor.value,factor.unit))}</td><td>${esc(condition(factor))}</td><td>${esc(state)}${factor.applies_to_position === false ? "（另一持仓情景）" : ""}</td></tr>`;
     }).join("");
   }
+  function ruleCapabilities(row) {
+    const value=row.validation_capability;
+    const bound=plain(value)&&value.known===true&&value.strategy_id===row.strategy_id
+      &&typeof row.signal_engine_version==="string"&&value.signal_engine_version===row.signal_engine_version
+      &&typeof value.new_research_allowed==="boolean"&&typeof value.backtest_supported==="boolean"&&typeof value.paper_clock_supported==="boolean";
+    return bound?{research:value.new_research_allowed&&value.backtest_supported,clock:value.paper_clock_supported}:{research:null,clock:null};
+  }
+  function visibleGroups(groups,mode,selectedStrategyId) {
+    return groups.map(group=>({...group,items:group.items.filter(row=>mode==="all"||row.presentation?.teaching_template===true||row.strategy_id===selectedStrategyId)})).filter(group=>group.items.length);
+  }
   function renderDiagnostic(row) {
     if (!valid(row)) throw Error("策略解释的保存行情或规则身份不完整。");
-    const ready = row.status === "READY" && row.decision_matches_factors === true;
+    const capability=ruleCapabilities(row),presentation=plain(row.presentation)?row.presentation:{};
+    const ready = row.status === "READY" && row.decision_matches_factors === true && capability.research===true;
     const holding = row.position_context?.has_position === true;
     const action = row.signal?.action;
     const result = !ready ? `资料或规则仍需核对${row.missing_rows > 0 ? `，还缺 ${row.missing_rows} 根完整日线` : ""}`
@@ -81,30 +92,42 @@
     return `<article class="candidate-card" data-candidate-id="${esc(row.diagnostic_id)}">
       <h4>${esc(row.name || row.strategy_id)}</h4><p class="candidate-result">${esc(result)}</p>
       <p class="section-note">${esc(row.symbol)} · 数据截止 ${esc(row.cutoff_session)} · ${holding ? "已有持仓的诊断情景" : "未持仓的诊断情景"}</p>
+      <p data-candidate-mechanism><strong>规则怎么做：</strong>${esc(presentation.mechanism_summary||"说明未记录；先重新读取当前规则目录。")}</p>
+      <p data-candidate-failure><strong>什么时候可能亏：</strong>${esc(presentation.failure_conditions||"具体失效条件未记录；条件满足不保证盈利。")}</p>
+      <ul class="candidate-capabilities" aria-label="这版支持到哪一步">
+        <li>历史研究：${capability.research===true?"规则支持，仍需核对资料与本金":capability.research===false?"当前规则不支持新研究":"能力未核对"}</li>
+        <li data-candidate-clock>本地模拟时钟：${capability.clock===true?"规则支持，进入前仍需单独核对":capability.clock===false?"尚不支持；不能由本次信号进入该时钟":"能力未核对"}</li>
+        <li>订单准备：${row.preparation_scope==="MANUAL_SYNTHETIC_SEPARATE_CHECK_REQUIRED"?"手工合成练习，需已有完成研究及独立账户、资金检查":"准备范围未核对"}</li>
+      </ul>
+      <p class="section-note" data-candidate-unchecked>尚未核对：研究本金、账户资金与预留、数量和费用、报价时效与订单资格。当前信号不能直接下单。</p>
+      <button type="button" class="btn" data-candidate-choose="${esc(row.diagnostic_id)}" ${ready ? "" : "disabled"}>选择并查看已有研究</button>
+      <p class="section-note">${ready?"先只读查找行情与规则相同的完成研究，不重复保存或运行。":capability.research!==true?"请先重新读取规则能力；此处未确认可新建研究。":"请先补齐资料或核对规则，再选择研究；不会自动运行。"}</p>
       ${row.selection_note ? `<p>${esc(row.selection_note)}</p>` : ""}
       <p>${row.factors.filter(factor=>factor.applies_to_position!==false).slice(0,2).map(factor=>`${esc(factor.label||factor.key)} ${esc(factorValue(factor.value,factor.unit))} ${esc(condition(factor))}：${factor.passed===true ? "满足" : factor.passed===false ? "未满足" : "资料不足"}`).join("；")}</p>
       <p>完整日线 ${esc(row.complete_rows)} 根，研究至少需要 ${esc(row.required_rows)} 根（${esc(row.warmup_rows)} 根准备指标，再留 2 根用于信号与下一根成交）。历史收益优劣尚未评估。</p>
       <details><summary>为什么：查看因子值与触发条件</summary>
+        <p>${esc(presentation.entry_rule||"买入规则未记录")}</p><p>${esc(presentation.exit_rule||"退出规则未记录")}</p>
         <div class="candidate-table"><table><thead><tr><th>因子</th><th>当前值</th><th>判定条件</th><th>规则判断</th></tr></thead><tbody>${factorRows(row)}</tbody></table></div>
         <p class="section-note">判断使用引擎原始精度；表格数值仅为显示格式。所选数据是封存历史行情，不能当作实时下单报价。</p>
         <details><summary>参数与原始诊断依据</summary><pre>${esc(JSON.stringify({parameters:row.strategy_params,signal:row.signal,factors:row.factors,freshness:row.freshness,blockers:row.blockers,input_id:row.input_id,engine_id:row.engine_id,fingerprint:row.fingerprint,diagnostic_id:row.diagnostic_id},null,2))}</pre></details>
-      </details><button type="button" class="btn" data-candidate-choose="${esc(row.diagnostic_id)}" ${ready ? "" : "disabled"}>选择并查看已有研究</button>
-      <p class="section-note">先只读查找行情与规则相同的完成研究，不重复保存或运行。</p></article>`;
+      </details></article>`;
   }
   function install({host,api,onChoose,onOpenSaved,onAcquireData,getDraft,notify=()=>{}}) {
     if (!host || typeof api !== "function" || typeof onChoose !== "function") throw Error("candidate_ui_dependencies_required");
     const doc=host.ownerDocument,view=doc.createElement("section");
     view.className="panel section-gap terminal-candidates";view.setAttribute("aria-label","策略候选与因子解释");
-    view.innerHTML=`<style>.terminal-candidates .candidate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:16px}.terminal-candidates .candidate-card{padding:18px;border:1px solid var(--line,#3b475b);border-radius:10px;min-width:0}.terminal-candidates h3,.terminal-candidates h4{margin:0 0 10px}.terminal-candidates .candidate-result{font-weight:600}.terminal-candidates details{margin:12px 0}.terminal-candidates summary{cursor:pointer;min-height:32px}.terminal-candidates .candidate-table{overflow:auto}.terminal-candidates table{width:100%;border-collapse:collapse;font-size:.85em}.terminal-candidates th,.terminal-candidates td{padding:8px;text-align:left;border-bottom:1px solid var(--line,#3b475b)}.terminal-candidates pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:350px;overflow:auto}.terminal-candidates button{min-height:40px}.terminal-candidates .candidate-message{overflow-wrap:anywhere}.terminal-candidates .candidate-group{margin-top:24px}.terminal-candidates [hidden]{display:none!important}.terminal-candidates select{max-width:100%}</style>
+    view.innerHTML=`<style>.terminal-candidates .candidate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:16px}.terminal-candidates .candidate-card{padding:18px;border:1px solid var(--line,#3b475b);border-radius:10px;min-width:0;overflow-wrap:anywhere}.terminal-candidates h3,.terminal-candidates h4{margin:0 0 10px}.terminal-candidates .candidate-result{font-weight:600}.terminal-candidates .candidate-capabilities{padding-left:20px;line-height:1.6}.terminal-candidates details{margin:12px 0}.terminal-candidates summary{cursor:pointer;min-height:44px}.terminal-candidates .candidate-table{overflow:auto}.terminal-candidates table{width:100%;border-collapse:collapse;font-size:.85em}.terminal-candidates th,.terminal-candidates td{padding:8px;text-align:left;border-bottom:1px solid var(--line,#3b475b)}.terminal-candidates pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:350px;overflow:auto}.terminal-candidates button,.terminal-candidates select{min-height:44px}.terminal-candidates .candidate-message{overflow-wrap:anywhere}.terminal-candidates .candidate-group{margin-top:24px}.terminal-candidates [hidden]{display:none!important}.terminal-candidates select{max-width:100%}</style>
       <div class="panel-head"><h2>选策略，先看理由</h2></div><div class="panel-body">
       <p>根据已保存行情查看九个原策略的条件。满足条件的候选集中展示；暂未触发时可以等待，不会强行推荐买入。</p>
       <div class="form-grid"><label class="field">选择已保存行情<select data-candidate="input"><option value="">先选择已保存行情</option></select></label>
       <label class="field">诊断情景<select data-candidate="position"><option value="flat">未持仓，查看开仓条件</option><option value="holding">已有持仓，查看退出条件</option></select></label></div>
       <div class="actions"><button class="btn primary" type="button" data-candidate="read">查看策略候选</button><button class="btn" type="button" data-candidate="draft">解释当前表单参数</button><button class="btn" type="button" data-candidate="acquire">获取或更新股票日线</button></div>
+      <label class="field" data-candidate="catalog-control" hidden>选择要看的规则<select data-candidate="catalog"><option value="teaching">先看三个教学规则</option><option value="all">完整规则目录</option></select></label>
+      <p class="section-note" data-candidate="catalog-note" hidden>教学规则用于比较趋势、回归和动量三种机制，沿用原参数；没有按收益筛选或推荐。完整目录保留全部规则。</p>
       <p class="section-note">这里核对所选截止日的指标和规则，不运行回测或订单。策略收益表现需要单独查看已保存结果；当前原策略按只做多规则解释。</p>
       <p class="candidate-message" data-candidate="message" role="status" aria-live="polite"></p><p data-candidate="error" role="alert" hidden></p><div data-candidate="saved" aria-live="polite"></div><div data-candidate="results"></div></div>`;
     host.append(view);
-    const el=key=>view.querySelector(`[data-candidate="${key}"]`),state={inputs:[],rows:[],busy:false},clone=value=>JSON.parse(JSON.stringify(value));
+    const el=key=>view.querySelector(`[data-candidate="${key}"]`),state={inputs:[],rows:[],groups:[],busy:false},clone=value=>JSON.parse(JSON.stringify(value));
     let sequence=0;
     const saved=createSavedResultController({api,onChoose,onOpenSaved,getScope:()=>{let draft;try{draft=getDraft?.();}catch(_){draft={invalid:true};}return JSON.stringify(ordered({sequence,input:el("input").value,position:el("position").value,draft}));},changed:renderSaved});
     function renderSaved(s) {
@@ -116,7 +139,14 @@
       const rows=s.matches.map(run=>`<article class="candidate-card"><h4>${esc(run.title||run.strategy_id)} · 版本 ${esc(run.version)}</h4><p>保存时间 ${esc(run.started_at||"未记录")} · 历史截至 ${esc(run.input_summary.date_end)}</p>${savedResultTerms(run)}${button("打开这份已保存结果","open",run.id)}<details><summary>查看原报告与任务编号</summary><p>${esc(run.id)}<br>${esc(run.task_id)}</p></details></article>`).join("");
       target.innerHTML=`<section class="notice section-gap"><h3>${esc(s.diagnostic?.name||"所选策略")} · 已保存研究</h3>${note}${warning}${error}${s.status==="LOOKING"?'<p>正在只读查找已保存结果……</p>':s.status==="READING"?'<p>正在重新核对并读取这份原结果……</p>':s.status==="INDEX_ERROR"?'<p>索引未读完整；不能据此说没有做过研究。请重新读取。</p>'+button("重新查找已保存研究","search"):s.status==="DETAIL_ERROR"?button("重新读取这份结果","open",s.runId):s.status==="EMPTY"?'<p>未找到可核验的、行情与规则相同的已完成研究。未完成或待核对的原记录不算完成结果，也不会被重跑。</p>'+button("核对设置并新建任务草稿","new"):s.status==="OPENED"?'<p>已只读打开原报告，没有重复保存或运行。</p>':`<p>找到 ${s.matches.length} 份可核验匹配，按保存时间显示，请明确选择。</p><div class="candidate-grid">${rows}</div>`}</section>`;
     }
-    function clear(message="") {sequence++;saved.invalidate();state.rows=[];el("results").replaceChildren();el("message").textContent=message;}
+    function renderCandidates() {
+      const selected=saved.state.diagnostic?.strategy_id;
+      const groups=visibleGroups(state.groups,el("catalog").value,selected);
+      el("catalog-control").hidden=!state.rows.length;el("catalog-note").hidden=!state.rows.length;
+      el("catalog").options[1].textContent=`完整规则目录（${state.rows.length}）`;
+      el("results").innerHTML=groups.map(group=>`<section class="candidate-group"><h3>${esc(group.label)} · ${group.items.length}</h3><div class="candidate-grid">${group.items.map(renderDiagnostic).join("")}</div></section>`).join("");
+    }
+    function clear(message="") {sequence++;saved.invalidate();state.rows=[];state.groups=[];renderCandidates();el("message").textContent=message;}
     function invalidateDraft(){clear("表单行情或参数已改变，请重新查看候选或解释当前表单参数。");controls();}
     function controls() {el("read").disabled=state.busy || !el("input").value;el("draft").disabled=state.busy || typeof getDraft!=="function";view.setAttribute("aria-busy",String(state.busy));}
     function setSources({inputs=[]}={}) {
@@ -143,20 +173,23 @@
         if(!rows.length || rows.some(row=>!valid(row)||row.input_id!==payload.input_id||row.position_context?.has_position!==payload.position_context.has_position
           ||(draft && row.strategy_id!==payload.strategy_id)))throw Error("策略候选与所选行情或诊断情景不一致。");
         state.rows=rows;el("input").value=payload.input_id;
-        el("results").innerHTML=result.groups.filter(group=>group.items?.length).map(group=>`<section class="candidate-group"><h3>${esc(group.label)} · ${group.items.length}</h3><div class="candidate-grid">${group.items.map(renderDiagnostic).join("")}</div></section>`).join("");
+        state.groups=clone(result.groups);
+        let currentStrategy;try{currentStrategy=getDraft?.()?.strategy_id;}catch(_){}
+        if(draft||!rows.some(row=>row.presentation?.teaching_template===true)||rows.some(row=>row.strategy_id===currentStrategy&&row.presentation?.teaching_template!==true))el("catalog").value="all";
+        renderCandidates();
         const matches=rows.filter(row=>row.group==="ENTRY_MATCH" && row.status==="READY").length;
         el("message").textContent=`已核对 ${rows.length} 个策略${payload.position_context.has_position ? "的退出条件" : `，其中 ${matches} 个满足所选日的开仓规则`}。同组按固定规则目录展示，不按历史收益排名。`;
       } catch(error) {if(request===sequence){el("error").textContent=error?.info?.message||error.message||"策略解释暂未读出，可重新读取。";el("error").hidden=false;el("message").textContent="没有运行回测或提交订单。";}}
       finally {state.busy=false;controls();}
     }
-    view.addEventListener("change",event=>{if([el("input"),el("position")].includes(event.target)){clear("选择已改变，请重新查看条件。");controls();}});
+    view.addEventListener("change",event=>{if(event.target===el("catalog")){renderCandidates();return;}if([el("input"),el("position")].includes(event.target)){clear("选择已改变，请重新查看条件。");controls();}});
     view.addEventListener("click",async event=>{
       const button=event.target.closest("button");if(!button||button.disabled)return;
       if(button===el("read"))return read();if(button===el("draft"))return read(true);
       if(button===el("acquire"))return onAcquireData?.();
       if(button.dataset.candidateSaved){const action=button.dataset.candidateSaved;try{if(action==="open")return await saved.open(button.dataset.runId);if(action==="search")return await saved.select(saved.state.diagnostic);if(action==="new"){await saved.newDraft();el("message").textContent="已带入新任务草稿；请核对参数和风险后明确保存，尚未运行。";notify(el("message").textContent);}}catch(error){el("error").textContent=error.message;el("error").hidden=false;}return;}
       const row=state.rows.find(item=>item.diagnostic_id===button.dataset.candidateChoose);
-      if(!row || row.status!=="READY" || row.decision_matches_factors!==true)return;
+      if(!row || row.status!=="READY" || row.decision_matches_factors!==true || ruleCapabilities(row).research!==true)return;
       try{const pending=saved.select(clone(row));el("saved").scrollIntoView({block:"nearest"});await pending;}
       catch(error){el("error").textContent=error.message;el("error").hidden=false;}
     });
@@ -164,6 +197,6 @@
     return {setSources,selectInput,read,invalidateDraft,savedController:saved,element:view,reveal:()=>view.scrollIntoView({block:"start"})};
   }
   root.installTerminalStrategyCandidatesUI=install;
-  const exports={install,renderDiagnostic,factorRows,factorValue,valid,matchesSavedResult,savedResultTerms,createSavedResultController};root.HakimiTerminalStrategyCandidates=exports;
+  const exports={install,renderDiagnostic,factorRows,factorValue,valid,ruleCapabilities,visibleGroups,matchesSavedResult,savedResultTerms,createSavedResultController};root.HakimiTerminalStrategyCandidates=exports;
   if(typeof module==="object"&&module.exports)module.exports=exports;
 })(typeof globalThis!=="undefined"?globalThis:this);

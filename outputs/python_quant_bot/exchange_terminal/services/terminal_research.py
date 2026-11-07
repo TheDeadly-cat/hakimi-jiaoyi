@@ -109,7 +109,22 @@ def _number(value, key, low, high):
 
 def _task_configuration(task):
     return {**{key: deepcopy(task[key]) for key in _CONFIG_FIELDS},
-            **{key: deepcopy(task[key]) for key in ("ai_evidence", "ai_evidence_binding", "indicator_contract") if key in task}}
+            **{key: deepcopy(task[key]) for key in ("ai_evidence", "ai_evidence_binding", "indicator_contract", "capital_context") if key in task}}
+
+
+def _capital_context(data, amount):
+    """Freeze only currency actually recorded by the selected immutable input."""
+    meta = data.get("meta") or {}
+    security = meta.get("security") or {}
+    currencies = [value for value in (meta.get("currency"), security.get("currency")) if value not in (None, "", "UNKNOWN", "UNRECORDED")]
+    if any(type(value) is not str or re.fullmatch(r"[A-Z]{3,10}", value) is None for value in currencies):
+        raise ValueError("terminal_input_currency_invalid")
+    if len(set(currencies)) > 1:
+        raise ValueError("terminal_input_currency_conflict")
+    currency = currencies[0] if currencies else None
+    return {"schema_version": "hakimi-terminal-research-capital-v1", "initial_cash": amount,
+            "currency": currency, "currency_status": "RECORDED_FROM_FROZEN_INPUT" if currency else "UNRECORDED",
+            "input_id": data["id"]}
 
 
 def terminal_data_preflight(data, warmup_rows):
@@ -325,6 +340,8 @@ class TerminalResearchService:
         self._replay_init_lock = RLock()
         self._replay_runtime_guard = runtime_guard
         self._daily_backend = None
+        self._history_input_copier = None
+        self._journey_service = None
         self._daily_factory = daily_factory
         self._daily_access = self._daily_session = None
         self._daily_request_bindings = {}
@@ -332,6 +349,20 @@ class TerminalResearchService:
         self.judgments = TerminalJudgmentService(self)
         self.exit_research = TerminalExitResearchService(self)
         self.insights = TerminalInsightsService(self, group_reader)
+
+    def _journey(self):
+        with self._lock:
+            if self._journey_service is None:
+                from .terminal_journey_service import TerminalJourneyService
+                self._journey_service = TerminalJourneyService(self.workspace, reader=self.read)
+            return self._journey_service
+
+    def _history_inputs(self):
+        with self._lock:
+            if self._history_input_copier is None:
+                from .terminal_history_input_import import TerminalHistoryInputImport
+                self._history_input_copier = TerminalHistoryInputImport(self._daily(), self.workspace_history)
+            return self._history_input_copier
 
     def _execution(self):
         if self._execution_service is None:
@@ -854,7 +885,7 @@ class TerminalResearchService:
         self._write(family["root"] / "journal" / f"{event['sequence']:06d}.json", event)
 
     def _save_task(self, payload):
-        _fields(payload, {"name", "strategy_id", "strategy_params", "input_id", "risk", "costs", "parent_task_id", "ai_evidence"},
+        _fields(payload, {"name", "strategy_id", "strategy_params", "input_id", "risk", "costs", "parent_task_id", "ai_evidence", "initial_cash"},
                 {"name", "strategy_id", "input_id", "risk", "costs"})
         name = payload["name"]
         if type(name) is not str or not name.strip() or len(name) > 120 or any(ord(c) < 32 for c in name):
@@ -880,6 +911,7 @@ class TerminalResearchService:
         if type(fingerprint) is not str or not _HASH.fullmatch(fingerprint):
             raise ValueError("terminal_strategy_fingerprint_invalid")
         parent_id = payload.get("parent_task_id")
+        previous = None
         if parent_id is not None:
             previous = self._task_record(parent_id)
             family = self._family(previous["family_id"])
@@ -891,6 +923,9 @@ class TerminalResearchService:
             root = self._safe(self.workspace / "terminal-tasks" / family_id)
             header = _seal({"schema_version": "hakimi-terminal-family-v1", "family_id": family_id}, "family_hash")
             family = {"root": root, "header": header, "sequence": 0, "last_event": None, "state": "ENABLED"}
+        initial_cash = float(_number(payload.get("initial_cash", previous["initial_cash"] if previous else 10000.0),
+                                     "initial_cash", .01, 1_000_000_000_000))
+        capital_context = _capital_context(data, initial_cash)
         task = _seal({"schema_version": "hakimi-terminal-task-v1", "family_id": family_id, "version": version,
                       "parent_task_id": parent_id, "title": name.strip(), "engine_id": ENGINE_ID,
                       "strategy_id": strategy["id"], "strategy_name": strategy.get("name", strategy["id"]),
@@ -898,7 +933,8 @@ class TerminalResearchService:
                       "symbol": data["symbol"], "fingerprint": fingerprint, "execution_model": EXECUTION_MODEL,
                       "engine_source_identity": _engine_source_identity(),
                       "indicator_contract": deepcopy(INDICATOR_CONTRACT),
-                      "initial_cash": 10000.0, "direction_mode": "LONG_ONLY", "end_policy": "MARK_TO_MARKET",
+                      "initial_cash": initial_cash, "capital_context": capital_context,
+                      "direction_mode": "LONG_ONLY", "end_policy": "MARK_TO_MARKET",
                       "warmup_rows": strategy_startup_candles_for_params(strategy["id"], params),
                       **ai_reference, "permissions": dict(PERMISSIONS)})
         if version == 1:
@@ -1026,7 +1062,7 @@ class TerminalResearchService:
         try:
             result = _detached(self.runner(strategy_id=task["strategy_id"], symbol=data["symbol"],
                 limit=len(data["rows"]), market_payload=market, strategy_params=deepcopy(task["strategy_params"]),
-                **task["risk"], **task["costs"]))
+                initial_cash=task["initial_cash"], **task["risk"], **task["costs"]))
             if type(result) is not dict or result.get("ok") is not True:
                 raise ValueError("terminal_runner_did_not_complete:" + str(result.get("error", "invalid_result") if isinstance(result, dict) else "invalid_result"))
             if (type(result.get("order_event_count")) is int and result["order_event_count"] != len(result.get("trades", []))
@@ -1144,6 +1180,12 @@ class TerminalResearchService:
                                    "每项是独立本金的描述性研究，未认证数据与结果不能授予模拟或实盘权限。"]}
 
     def read(self, resource, identity=None):
+        if resource == "terminal_journey":
+            if identity is not None:
+                raise ValueError("journey_unexpected_identity")
+            return self._journey().read()
+        if resource == "terminal_history_input_requests":
+            return self._history_inputs().read(identity)
         if resource in {"terminal_broker_account_control", "terminal_broker_account_receipt"}:
             if type(identity) is not str or len(identity) > 8000:
                 raise ValueError("broker_account_reference_required")
@@ -1244,9 +1286,20 @@ class TerminalResearchService:
                 if row["id"] == identity:
                     return self._report_view(row) if row.get("schema_version") == "hakimi-terminal-run-v1" else row
             raise ValueError("terminal_run_not_found")
+        if resource == "runs" and identity is not None:
+            from .terminal_result_presentation import core_result_detail
+            return core_result_detail(self, identity)
         return self.core.read(resource, identity)
 
     def mutate(self, action, payload):
+        if action == "terminal_save_journey_selection":
+            return self._journey().save(_detached(payload))
+        if action == "terminal_import_history_input":
+            with self._lock:
+                return self._history_inputs().mutate(_detached(payload))
+        if action == "terminal_prepare_teaching_input":
+            from .terminal_teaching_flow import prepare_teaching_input
+            return prepare_teaching_input(self, _detached(payload))
         if action == "terminal_broker_account_stop":
             raise ValueError("broker_account_stop_direct_route_required")
         if action == "terminal_broker_account_resume":
@@ -1287,6 +1340,10 @@ class TerminalResearchService:
                     if not current.get("task_id") or current["task_id"] != payload["expected_task_id"]:
                         raise ValueError("terminal_core_task_version_changed_reload_first")
                     payload = {"task_id": payload["task_id"]}
-                return self.core.mutate(action, payload)
+                result = self.core.mutate(action, payload)
+                if action == "run_task":
+                    from .terminal_result_presentation import present_core_run_completion
+                    return present_core_run_completion(self, result)
+                return result
         with self._lock:
             return handlers[action](_detached(payload))

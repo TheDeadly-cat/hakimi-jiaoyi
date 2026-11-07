@@ -39,6 +39,19 @@ function fixture(options={}){
 }
 async function ready(f){await f.c.readCapabilities();f.c.setForm(form());f.c.setConfirmation(true);return f;}
 
+test('journey restores only the exact source config intent plan and clears old confirmation',async()=>{
+  const f=await ready(fixture());await f.c.save();const id=f.c.state.fact.plan_id,plan=f.plans.get(id),reference={kind:'terminal_run',id:'8'.repeat(64)},binding={task_id:'original',task_version:1};
+  plan.research={resolution:{reference,binding}};const selection={research:reference,broker:{mode:SIM,config_id:plan.candidate_config.id,intent_id:plan.candidate_intent.id,plan_id:id}},writes=f.writes.length;
+  const c=ui.createController({api:f.api,perform:()=>assert.fail('restore must not write')});await c.restoreSelection(selection,binding);
+  assert.equal(c.state.detail.plan_id,id);assert.equal(c.state.confirmed,false);assert.equal(c.state.capabilities,null);assert.equal(f.writes.length,writes);
+  const other=ui.createController({api:f.api,perform:()=>assert.fail('restore must not write')});await assert.rejects(other.restoreSelection({...selection,research:{...reference,id:'9'.repeat(64)}},binding),/尚未核对|未核对/);assert.equal(other.state.detail,null);assert.match(other.state.readError,/绑定的研究/);
+});
+test('saved plan acknowledgement keeps original research ref after another candidate is selected',async()=>{
+  const f=fixture({drop:true}),original={kind:'core_run',id:'8'.repeat(24)};f.c.setContext({...candidate(),research_reference:original});await ready(f);await f.c.save();
+  assert.deepEqual(f.c.state.pending.research_reference,original);f.c.setContext({...candidate(REAL),research_reference:{kind:'core_run',id:'9'.repeat(24)}});await f.c.queryPending();
+  assert.deepEqual(f.c.state.fact.research_reference,original);assert.equal(f.c.state.fact.mode,SIM);assert.equal(f.writes.length,1);
+});
+
 test('installation state and context changes do not read, select a mode or write a plan automatically',()=>{
   const f=fixture();assert.equal(f.reads.length,0);assert.equal(f.writes.length,0);assert.equal(f.c.state.confirmed,false);assert.equal(f.c.state.form.valid_until,'');assert.equal(f.c.state.form.max_total_fees,'');
   f.c.setContext(candidate(REAL));assert.equal(f.reads.length,0);assert.equal(f.writes.length,0);

@@ -72,12 +72,14 @@ class TerminalIntegrationContracts(unittest.TestCase):
         fn = source_function("run_strategy_backtest", scope)
         args = {"strategy_id": "dual_ma", "position_pct": 25, "take_profit_pct": 0, "stop_loss_pct": 8, "leverage": 1,
                 "market_payload": {"rows": [{"close": 42}], "source": "frozen"}, "strategy_params": {"fast_window": 7}}
-        full = fn(**args, include_full_history=True)
+        full = fn(**args, include_full_history=True, initial_cash=100)
         legacy = fn(**args)
         self.assertEqual((len(full["trades"]), len(full["equity_curve"])), (50, 300))
         self.assertEqual((len(legacy["trades"]), len(legacy["equity_curve"])), (24, 240))
         self.assertEqual(calls[0]["rows"], [{"close": 42}])
         self.assertEqual(calls[0]["signal_fn"], {"fast_window": 7})
+        self.assertEqual(calls[0]["initial_cash"], 100)
+        self.assertEqual(calls[1]["initial_cash"], 10000)
         market_fetch.assert_not_called()
 
     def test_return_path_never_silently_clamps_frozen_risk(self):
@@ -128,9 +130,11 @@ class FrozenMarketWrapperContracts(unittest.TestCase):
     def test_six_letter_core_equity_uses_retained_identity_through_actual_wrapper(self):
         from exchange_terminal.market_data.stocks import is_stock_symbol
         self.assertFalse(is_stock_symbol("QADEMO"))
-        result = self.run_backtest(**self.args)
+        result = self.run_backtest(**self.args, initial_cash=100)
         self.assertTrue(result["ok"], result.get("dataset_manifest"))
         self.assertEqual(self.engine.call_args.kwargs["market"], "stock")
+        self.assertEqual(self.engine.call_args.kwargs["initial_cash"], 100)
+        self.assertEqual(result["initial_cash"], 100)
         self.assertEqual(result["dataset_manifest"]["market"], "stock")
         self.assertEqual(result["dataset_manifest"]["market_calendar"]["status"], "PASS")
         self.assertEqual(result["dataset_manifest"]["row_count"], 146)

@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "scope": "ACTUAL_COMPONENT_TO_ACTUAL_HELPER_FRESH_FICTIONAL_SOURCE",
+  "browser_plugin": "Unavailable; isolated Playwright used",
+  "browser": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci151-playwright-browsers-r1\\chromium-1234\\chrome-win64\\chrome.exe",
+  "node": "v22.23.4",
+  "reports": [
+    {
+      "width": 1440,
+      "overflow": false,
+      "targets": [
+        44,
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "explicit_keyboard_copy": true
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "targets": [
+        44,
+        44,
+        44,
+        44
+      ],
+      "keyboard_query": true,
+      "no_repeat_copy": true
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "proof": {
+    "source_unchanged": true,
+    "original_sha256": "983fb9a50f0f27f5881177d9d95e4869c2d0a6ee8fef5470c18cc5481db1bc07",
+    "copy_bytes_exact": true,
+    "snapshot_id_equal": true,
+    "input_id": "canon-2e548c2bccc5fbddbf862e3f9a80d17b",
+    "sessions": 31,
+    "input_files": 1,
+    "tasks": 0,
+    "runs": 0,
+    "actions": [
+      "terminal_import_history_input"
+    ],
+    "source_truth_verified": false,
+    "actual_market_source_used": false,
+    "new_market_requests": 0,
+    "new_economic_runs": 0
+  },
+  "source_hashes": {
+    "services/terminal_workspace_history.py": "4fc6036d170aeddc102e4a4e74d727ed34882f9e7af5d6f099a8b9557360f376",
+    "services/terminal_history_input_import.py": "89ae0a0f7b9c53f0c3546a4b760d6e3a4475b7ecb5760e276493729596d126b3",
+    "static/terminal-daily-ui.js": "2f210e67861a528132417f2bad05877eb22ecdc7a3c715385594797cd9e3a97d"
+  },
+  "receipt": {
+    "operation_id": "history-copy-ebc66b59-2905-43ef-8238-ef8667dfe0d7",
+    "request_hash": "a7af733ea595b4a792694de625d727e7b966cd237e0c070ee87fcd9be1f56132",
+    "saved_input_id": "canon-2e548c2bccc5fbddbf862e3f9a80d17b",
+    "source_truth_verified": false,
+    "receipt_scope": "SAVED_OPERATION_FACT_NOT_CURRENT_SOURCE_VALIDATION"
+  }
+}

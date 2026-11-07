@@ -77,11 +77,14 @@
         state.workspaceContext=workspace;state.items=copy(value.items);state.requests=copy(value.requests);state.listScope={mode:wanted,workspace_context:workspace};emit();return value;
       }catch(error){if(sequence===listSequence){state.readError="已有计划读取未完成，保存事实仍保留："+errorText(error);emit();}}finally{if(sequence===listSequence){state.listLoading=false;emit();}}
     }
-    async function readPlan(id){const scope=state.listScope&&copy(state.listScope),sequence=++detailSequence,context=contextSequence;
+    async function readPlan(id,expected=null){const scope=state.listScope&&copy(state.listScope),sequence=++detailSequence,context=contextSequence;
       require(scope&&state.items.some(v=>v.plan_id===id),"请从已读取列表明确选择原计划。");state.detailLoading=true;state.readError="";emit();
       try{const value=await api(path('terminal_broker_plan',{mode:scope.mode,plan_id:id}));if(sequence!==detailSequence||context!==contextSequence)return;
         envelope(value,scope.mode,scope.workspace_context);require(value.read_only===true&&value.retry_allowed===false&&['FOUND','NOT_RECORDED'].includes(value.status),"原计划读取状态不完整。");
-        if(value.status==='FOUND')require(value.plan?.schema_version==='hakimi-broker-execution-plan-v1'&&value.plan.id===id&&value.plan.mode===scope.mode&&closed(value.plan.permissions),"原计划身份与选择不一致。");
+        if(value.status==='FOUND'){
+          require(value.plan?.schema_version==='hakimi-broker-execution-plan-v1'&&value.plan.id===id&&value.plan.mode===scope.mode&&closed(value.plan.permissions),"原计划身份与选择不一致。");
+          if(expected)require(equal(value.plan.research?.resolution?.reference,expected.research)&&equal(value.plan.research?.resolution?.binding,expected.binding)&&value.plan.candidate_config?.id===expected.config_id&&value.plan.candidate_intent?.id===expected.intent_id,"原计划绑定的研究、候选或意图不同，未按名称替换。");
+        }
         else require(value.plan===null,"未找到状态不能带入另一份计划。");state.detail={...scope,plan_id:id,status:value.status,plan:copy(value.plan)};emit();return value;
       }catch(error){if(sequence===detailSequence){state.readError="原计划详情读取未完成："+errorText(error);emit();}}finally{if(sequence===detailSequence){state.detailLoading=false;emit();}}
     }
@@ -105,7 +108,7 @@
       return {pending:false,result:copy(result)};
     }
     function accept(checked,operation){if(checked.pending){if(checked.payload)operation.payload=checked.payload;state.error="原请求仍待核对；只查询这个编号，不重复提交。";emit();return false;}
-      state.fact={...checked.result,workspace_context:operation.workspace_context};state.pending=null;state.error="";unconfirm();emit();return true;}
+      state.fact={...checked.result,workspace_context:operation.workspace_context,...(operation.research_reference?{research_reference:copy(operation.research_reference)}:{})};state.pending=null;state.error="";unconfirm();emit();return true;}
     async function save(){require(!state.busy&&!state.pending,"请先查询原计划请求，不能重复提交。");const context=state.context;
       require(eligibleContext(context)&&context.blocked===false,"候选资料或停止状态仍需核对，不能保存新计划。");
       require(!state.capLoading&&state.capabilities?.status==='PACKAGED_IDENTITY_MATCHED'&&state.capabilities.mode===context.mode&&hash(state.workspaceContext),"请明确读取当前程序包条件；未绑定程序包时不能创建计划。");
@@ -114,7 +117,7 @@
       const wanted=stamp(),workspace=state.workspaceContext;state.busy=true;state.error="";state.readError="";emit();let operation,completion=null,acknowledged=false;
       const receive=value=>{if(!completion){completion=validateOutcome(value,operation,true).then(checked=>{acknowledged=accept(checked,operation);return checked;});completion.catch(()=>{});}return completion;};
       try{const requestHash=await digest({action:ACTION,payload});require(wanted===stamp(),"确认后资料已改变，本次没有提交，请重新核对。");
-        operation={mode:payload.mode,workspace_context:workspace,request_id:payload.request_id,request_hash:requestHash,config_id:payload.config_id,intent_id:payload.intent_id,payload:copy(payload)};
+        operation={mode:payload.mode,workspace_context:workspace,request_id:payload.request_id,request_hash:requestHash,config_id:payload.config_id,intent_id:payload.intent_id,payload:copy(payload),research_reference:context.research_reference?copy(context.research_reference):null};
         state.pending=operation;unconfirm();emit();const value=await perform(ACTION,copy(payload),{onSuccess:receive});if(!completion&&value)receive(value);if(completion)await completion;
         if(!acknowledged&&state.pending)state.error="计划结果尚未确认。保留原编号，只查询回执，不重复提交。";
       }catch(error){if(completion){try{await completion;}catch(_){}}
@@ -130,10 +133,19 @@
     }
     async function recoverRequest(id){require(!state.busy&&!state.pending,"先查询当前未确认的原请求。");const row=state.requests.find(v=>v.request_id===id),scope=state.listScope;
       require(row&&scope,"请从已读取的原请求列表选择编号。");state.pending={...copy(scope),request_id:row.request_id,request_hash:row.request_hash,config_id:row.config_id,intent_id:row.intent_id,payload:null};unconfirm();emit();return queryPending();}
-    return {state,setContext,setForm,setConfirmation,readCapabilities,readPlans,readPlan,save,queryPending,recoverRequest};
+    async function restoreSelection(selection,binding){
+      require(!state.pending&&!state.busy,'原计划请求尚待核对，继续位置不会覆盖它。');
+      const ref=selection?.broker;require(ref?.plan_id&&plain(binding),'原计划的研究版本尚未核对。');
+      if(state.context?.mode!==ref.mode)setContext({mode:ref.mode,blocked:true});
+      unconfirm();state.capabilities=null;
+      const list=await readPlans();require(list,'原计划列表未读到，保留原编号。');
+      const value=await readPlan(ref.plan_id,{research:selection.research,binding,config_id:ref.config_id,intent_id:ref.intent_id});
+      require(value?.status==='FOUND','原计划详情未核对，未读取其他计划替代。');return value;
+    }
+    return {state,setContext,setForm,setConfirmation,readCapabilities,readPlans,readPlan,restoreSelection,save,queryPending,recoverRequest};
   }
 
-  function installTerminalBrokerPlanUI({host,api,perform,notify=()=>{}}){
+  function installTerminalBrokerPlanUI({host,api,perform,notify=()=>{},onUserSelection=()=>{}}){
     const document=host.ownerDocument,section=document.createElement('section');section.className='panel section-gap tbp';section.id='terminalBrokerPlanWorkspace';
     const field=(key,label,type='number',extra='')=>`<div class="field"><label for="tbp-${key}">${label}</label><input id="tbp-${key}" data-tbp-field="${key}" type="${type}" ${extra}></div>`;
     section.innerHTML=`<div class="panel-head"><h3>3 · 保存离线验收计划</h3></div><div class="panel-body"><p>只保存这份未发送意图的范围、缺口与预算；不连接券商、不授权、不执行订单。</p><p id="tbp-context" class="section-note"></p>
@@ -166,10 +178,14 @@
       section.querySelectorAll('[data-tbp-action="recover"]').forEach(node=>node.disabled=locked);
     }
     const fail=error=>{state.error=errorText(error);render();notify(state.error);};
+    const selected=(preferFact=false)=>{const detail=preferFact?null:state.detail?.plan,fact=state.fact?.status==='PLAN_SAVED'?state.fact:null;
+      const ref=detail?{mode:detail.mode,config_id:detail.candidate_config.id,intent_id:detail.candidate_intent.id,plan_id:detail.id}:fact?{mode:fact.mode,config_id:fact.config_id,intent_id:fact.intent_id,plan_id:fact.plan_id}:null;
+      if(ref&&!detail&&!fact?.research_reference){notify('原计划已找到；请查看这份原计划，核对研究后再记住继续位置。');return;}
+      if(ref)Promise.resolve().then(()=>onUserSelection({view:'broker',broker:ref,...(detail?{research:detail.research.resolution.reference}:fact?.research_reference?{research:fact.research_reference}:{})})).catch(error=>notify('记录继续位置未完成：'+errorText(error)));};
     section.addEventListener('input',event=>{if(event.target.dataset.tbpField)controller.setForm(Object.fromEntries(Object.keys(defaults).map(key=>[key,$(key).value])));});
     section.addEventListener('change',event=>{if(event.target.id==='tbp-confirm')controller.setConfirmation(event.target.checked);});
-    section.addEventListener('submit',event=>{if(event.target.id!=='tbp-form')return;event.preventDefault();if(event.target.reportValidity())controller.save().catch(fail);});
-    section.addEventListener('click',event=>{const node=event.target.closest('[data-tbp-action]');if(!node||node.disabled)return;const actions={conditions:()=>controller.readCapabilities(),list:()=>controller.readPlans(),detail:()=>controller.readPlan(node.dataset.tbpId),query:()=>controller.queryPending(),recover:()=>controller.recoverRequest(node.dataset.tbpId)};Promise.resolve().then(actions[node.dataset.tbpAction]).catch(fail);});
+    section.addEventListener('submit',event=>{if(event.target.id!=='tbp-form')return;event.preventDefault();if(event.target.reportValidity())controller.save().then(result=>{if(result?.status==='PLAN_SAVED')selected(true);}).catch(fail);});
+    section.addEventListener('click',event=>{const node=event.target.closest('[data-tbp-action]');if(!node||node.disabled)return;const actions={conditions:()=>controller.readCapabilities(),list:()=>controller.readPlans(),detail:()=>controller.readPlan(node.dataset.tbpId),query:()=>controller.queryPending(),recover:()=>controller.recoverRequest(node.dataset.tbpId)};Promise.resolve().then(actions[node.dataset.tbpAction]).then(value=>{if(node.dataset.tbpAction==='detail'&&value?.status==='FOUND')selected();if(['query','recover'].includes(node.dataset.tbpAction)&&!state.pending)selected(true);}).catch(fail);});
     render();return {controller,element:section,setContext:controller.setContext};
   }
   root.installTerminalBrokerPlanUI=installTerminalBrokerPlanUI;

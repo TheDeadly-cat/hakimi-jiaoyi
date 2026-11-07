@@ -109,8 +109,13 @@ class TerminalDataPreflightTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "version_changed"):
             self.service.mutate("run_task", {"task_id": "core-handle", "expected_task_id": "old-hash"})
         self.fixture.core.mutate.assert_not_called()
-        self.assertEqual(self.service.mutate("run_task", {"task_id": "core-handle", "expected_task_id": "stored-hash"}),
-                         {"id": "saved-result"})
+        result = self.service.mutate("run_task", {"task_id": "core-handle", "expected_task_id": "stored-hash"})
+        # This stub has no saved report for the auxiliary financial read. The
+        # acknowledged result and one-run contract survive that read failure.
+        self.assertEqual(set(result), {"id", "presentation_warnings"})
+        self.assertEqual(result["id"], "saved-result")
+        self.assertEqual(len(result["presentation_warnings"]), 1)
+        self.assertIn("不要重复运行", result["presentation_warnings"][0])
         self.fixture.core.mutate.assert_called_once_with("run_task", {"task_id": "core-handle"})
 
 

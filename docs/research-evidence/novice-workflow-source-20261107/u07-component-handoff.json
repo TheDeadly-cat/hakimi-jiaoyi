@@ -1,0 +1,86 @@
+{
+  "schema": "u07-child-handoff-v1",
+  "source_root": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "source_files": [
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/services/terminal_journey_service.py",
+      "sha256": "05abbe89170107634bcbd7d0cbc2efc890a03dc0cbc426ed48f76b437eb4a289"
+    },
+    {
+      "path": "outputs/python_quant_bot/tests/test_terminal_journey_service.py",
+      "sha256": "fc7b7ac7e2f9e468c9c4efa768578405b11494b5ba9658444606e313a295cf19"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-journey-ui.js",
+      "sha256": "0f5a1fea992e6618eeddd4fcde839ab374eaf53e7d2955948063f9fbe7ea73f9"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-journey-ui.test.js",
+      "sha256": "8b7af836ce503f7d27b33d28da0b4d61edcf180f0f1d6acd26dfa1c37fc73f0d"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.js",
+      "sha256": "b67ca43d9e6dd35a81bbb79c9aafe3d18d009adf3b6785a120ccd2ec8e46c986"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.test.js",
+      "sha256": "9a28ce1354c24934364c9a8fd22b4acbee1920c20f3a2b35c028555465729e1f"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-continuous-ui.js",
+      "sha256": "1bf2e3e2916e7320d4e60c9048f865b6aef3e5972759860dbc16a178ce0b21fa"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-continuous-ui.test.js",
+      "sha256": "5334978b28626736c2c4c1ee779bc8ad91f22dda5a5e78684b8bb8a875c09e2b"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-candidate-ui.js",
+      "sha256": "5a9c103802d917776089415f8ef841684d3e7ed45b91ec6d04509484b8a98b5c"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-candidate-ui.test.js",
+      "sha256": "a6137b0b774c9eb9c6595f9155578329e5398eef778222b8aeaf3c8a9280b88a"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-plan-ui.js",
+      "sha256": "b1ddf74f18f07f2e1fe7af5628e54d754cad9f553f22ffcf6829534891eaf4a2"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-plan-ui.test.js",
+      "sha256": "2e3e1690e972a5830aafc2c4f594404bfcb766eef1fad1364fae102e9f9ba671"
+    }
+  ],
+  "contract": {
+    "resource": "terminal_journey",
+    "action": "terminal_save_journey_selection",
+    "payload_fields": [
+      "request_id",
+      "workspace_context",
+      "expected_revision",
+      "selection"
+    ],
+    "js_global": "HakimiTerminalJourneyUI",
+    "selection_callback": "onUserSelection(patch)",
+    "plan_controller": "brokerUI.planUI.controller"
+  },
+  "tests": {
+    "python": "10/10; u07-python-r2.log",
+    "node": "109/109; u07-node-r5.log",
+    "browser": "component-only Playwright at 1280/390, keyboard continue, no POST on restore/refresh; root owns real two-origin/restart service validation"
+  },
+  "images": [
+    "u07-dom-r5/journey-1280.png",
+    "u07-dom-r5/journey-390.png"
+  ],
+  "boundaries": [
+    "No external data/account/SDK/model calls",
+    "No old research reruns or historical report changes",
+    "No git commit/push",
+    "GET absent store creates no files",
+    "Only prefs written; original business interfaces reused read-only",
+    "Core result uses manual synthetic order practice, never native replay",
+    "Original pending operations and confirmations are not restored as new permission",
+    "Source callbacks originate only from DOM explicit selection or known save acknowledgement"
+  ]
+}

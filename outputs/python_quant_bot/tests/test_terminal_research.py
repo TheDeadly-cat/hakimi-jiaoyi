@@ -10,7 +10,7 @@ import tempfile
 import unittest
 from unittest.mock import Mock, patch
 
-from exchange_terminal.services.terminal_research import ENGINE_ID, TerminalResearchService, validate_terminal_strategy_params, _core_chart
+from exchange_terminal.services.terminal_research import ENGINE_ID, TerminalResearchService, validate_terminal_strategy_params, _core_chart, _task_configuration
 from exchange_terminal.services.backtest_engine import run_causal_long_only_backtest
 from exchange_terminal.services.strategy_signals import build_strategy_signal_fn, rolling_strategy_signal, strategy_startup_candles_for_params
 
@@ -143,12 +143,12 @@ class TerminalResearchTests(unittest.TestCase):
     @staticmethod
     def fake_runner(**kwargs):
         rows = kwargs["market_payload"]["rows"]
-        curve = [{"date": row["date"], "ts_ms": row["ts_ms"], "equity": 10000 + index} for index, row in enumerate(rows[80:])]
+        curve = [{"date": row["date"], "ts_ms": row["ts_ms"], "equity": kwargs.get("initial_cash", 10000) + index} for index, row in enumerate(rows[80:])]
         return {"ok": True, "trades": [{"date": rows[80]["date"], "side": "BUY"}], "equity_curve": curve,
                 "order_event_count": 1, "evaluation_window": {"start_index": 80, "start": rows[80]["date"],
                                                              "end": rows[-1]["date"], "evaluated_rows": len(curve)},
                 "total_return_pct": kwargs["position_pct"] / 10, "max_drawdown_pct": 1,
-                "total_fees": 3, "final_equity": 10000 + kwargs["position_pct"]}
+                "total_fees": 3, "final_equity": kwargs.get("initial_cash", 10000) + kwargs["position_pct"]}
 
     def freeze(self):
         return self.service.mutate("terminal_freeze_market", {"symbol": "SYNTH", "limit": 2000, "expected_digest": self.market["digest"]})
@@ -234,6 +234,51 @@ class TerminalResearchTests(unittest.TestCase):
             self.run_task(second)
         with self.assertRaisesRegex(ValueError, "version_changed"):
             self.run_task(first)
+
+    def test_explicit_capital_is_frozen_and_passed_to_the_original_runner(self):
+        self.market["meta"].update(currency="USD", security={"currency": "USD"})
+        self.market["digest"] = digest({key: value for key, value in self.market.items() if key != "digest"})
+        first = self.task(initial_cash=100)
+        self.assertEqual(first["initial_cash"], 100)
+        self.assertEqual(first["capital_context"], {
+            "schema_version": "hakimi-terminal-research-capital-v1", "initial_cash": 100,
+            "currency": "USD", "currency_status": "RECORDED_FROM_FROZEN_INPUT", "input_id": first["input_id"]})
+        report = self.run_task(first)
+        self.assertEqual(self.runner.call_args.kwargs["initial_cash"], 100)
+        self.assertEqual(report["configuration"]["initial_cash"], 100)
+        self.assertEqual(report["result"]["final_equity"], 125)
+        paths = [p for p in self.core.workspace.rglob("*.json") if "terminal-runs" in p.parts or "versions" in p.parts]
+        original = {str(p): p.read_bytes() for p in paths}
+        second = self.task(parent_task_id=first["id"], initial_cash=250)
+        self.assertEqual((second["version"], second["initial_cash"]), (2, 250))
+        self.assertNotEqual(second["id"], first["id"])
+        self.runner.assert_called_once()
+        self.assertEqual({str(p): p.read_bytes() for p in paths}, original)
+        third = self.task(parent_task_id=second["id"])
+        self.assertEqual(third["initial_cash"], 250, "old clients revising a custom-capital task preserve its capital")
+
+    def test_capital_defaults_keep_missing_currency_unknown_and_legacy_configuration_unchanged(self):
+        task = self.task()
+        self.assertEqual(task["initial_cash"], 10000)
+        self.assertIsNone(task["capital_context"]["currency"])
+        self.assertEqual(task["capital_context"]["currency_status"], "UNRECORDED")
+        legacy = {key: value for key, value in task.items() if key != "capital_context"}
+        before = deepcopy(legacy)
+        self.assertNotIn("capital_context", _task_configuration(legacy))
+        self.assertEqual(_task_configuration(legacy)["initial_cash"], 10000)
+        self.assertEqual(legacy, before)
+        self.runner.assert_not_called()
+
+    def test_invalid_capital_and_conflicting_currency_cannot_save_task(self):
+        for cash in (True, False, 0, -100, float("nan"), float("inf"), "100", 1e13):
+            with self.subTest(cash=cash), self.assertRaises((ValueError, TypeError)):
+                self.task(initial_cash=cash)
+        self.assertEqual(self.service.read("terminal_tasks")["items"], [])
+        self.market["meta"].update(currency="USD", security={"currency": "HKD"})
+        self.market["digest"] = digest({key: value for key, value in self.market.items() if key != "digest"})
+        with self.assertRaisesRegex(ValueError, "currency_conflict"):
+            self.task(initial_cash=100)
+        self.assertEqual(self.service.read("terminal_tasks")["items"], [])
 
     def test_run_receives_frozen_rows_parameters_risk_and_full_history(self):
         task = self.task()

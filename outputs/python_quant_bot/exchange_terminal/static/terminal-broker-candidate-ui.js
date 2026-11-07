@@ -8,6 +8,9 @@
   const safe=v=>plain(v)&&permissionKeys.every(key=>v[key]===false),hash=v=>typeof v==="string"&&/^[a-f0-9]{64}$/.test(v);
   const ref=v=>plain(v)&&typeof v.id==="string"&&({terminal_run:/^[a-f0-9]{64}$/,core_run:/^[a-f0-9]{24}$/}[v.kind]?.test(v.id)===true);
   const same=(a,b)=>a?.kind===b?.kind&&a?.id===b?.id;
+  const ordered=v=>Array.isArray(v)?v.map(ordered):plain(v)?Object.fromEntries(Object.keys(v).sort().map(k=>[k,ordered(v[k])])):v;
+  async function researchDigest(value){const data={reference:value.reference,binding:value.binding,display:value.display,assumptions:value.assumptions};const raw=JSON.stringify(ordered(data)).replace(/[\u007f-\uffff]/g,c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0'));return [...new Uint8Array(await root.crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw)))].map(v=>v.toString(16).padStart(2,'0')).join('');}
+  function savedForm(config){const form={};for(const key of Object.keys(names)){if(config[key]===undefined)continue;const value=config[key];if(key==='expires_at'){const date=new Date(value),two=v=>String(v).padStart(2,'0');form[key]=Number.isFinite(date.getTime())?`${date.getFullYear()}-${two(date.getMonth()+1)}-${two(date.getDate())}T${two(date.getHours())}:${two(date.getMinutes())}:${two(date.getSeconds())}`:'';}else form[key]=String(value);}return form;}
   const path=(resource,value)=>resource+"/"+encodeURIComponent(JSON.stringify(value));
   const message=e=>String(e?.message||e||"资料读取未完成");
   const actions={terminal_broker_save_candidate:"save",terminal_broker_prepare_intent:"prepare_intent",terminal_broker_stop:"stop",terminal_broker_resume:"resume"};
@@ -136,11 +139,32 @@
         accept(receipt.result,operation,receipt);await refresh();
       }catch(error){state.readError="原回执读取未完成："+message(error);emit();}
     }
-    async function readReceipts(){const mode=selected(),seq=++historySeq;try{const value=await api("terminal_broker_receipts/"+mode);if(seq!==historySeq||mode!==state.mode)return;if(value?.mode!==mode||!safe(value.permissions)||!Array.isArray(value.items)||value.items.some(row=>row.mode!==mode||row.result?.mode!==mode||!safe(row.result?.permissions)))throw Error("保存记录模式或权限不一致。");state.receipts=value.items;emit();}catch(error){state.readError="保存记录读取未完成："+message(error);emit();}}
-    return {state,setSources,setMode,setForm,openResearch,refresh,check,loadCheck,prepareIntent,stop,resume,queryPending,readReceipts};
+    async function readReceipts(){const mode=selected(),seq=++historySeq;try{const value=await api("terminal_broker_receipts/"+mode);if(seq!==historySeq||mode!==state.mode)return;if(value?.mode!==mode||!safe(value.permissions)||!Array.isArray(value.items)||value.items.some(row=>row.mode!==mode||row.result?.mode!==mode||!safe(row.result?.permissions)))throw Error("保存记录模式或权限不一致。");state.receipts=value.items;emit();return value;}catch(error){state.readError="保存记录读取未完成："+message(error);emit();}}
+    async function restoreSelection(selection){
+      idle();const wanted=selection?.broker,reference=selection?.research;if(wanted)setMode(wanted.mode);
+      const researchRead=reference?openResearch(reference):null,generation=sourceSeq;
+      const research=researchRead?await researchRead:null;
+      if(generation!==sourceSeq||wanted&&state.mode!==wanted.mode)return;
+      if(!research)throw Error('原研究尚未核对，未带入其他候选。');
+      if(!wanted)return research;
+      const status=await refresh(),configuration=status?.modes.find(v=>v.mode===wanted.mode)?.configurations?.find(v=>v.config_id===wanted.config_id);
+      if(!configuration||!same(configuration.research_reference,reference)||configuration.research_binding_sha256!==await researchDigest(research))throw Error('原候选的研究与参数绑定未通过核对，原编号仍保留。');
+      if(generation!==sourceSeq||state.mode!==wanted.mode)return;
+      // Original values are for reading/editing. No old check, checkbox or
+      // authorization is restored; explicit Check remains a separate action.
+      state.configId=wanted.config_id;state.savedStamp=null;state.form=savedForm(configuration.config);state.formEpoch++;state.check=null;state.lastPreparedIntent=null;state.preparedConfigId=null;
+      if(wanted.intent_id){const records=await readReceipts(),intent=records?.items.map(v=>v.result?.intent).find(v=>v?.id===wanted.intent_id);
+        if(generation!==sourceSeq||state.mode!==wanted.mode)return;
+        if(!intent||intent.mode!==wanted.mode||intent.config_id!==wanted.config_id||intent.research_sha256!==configuration.research_binding_sha256||intent.status!=='UNSENT_OFFLINE_PREVIEW'||!safe(intent.permissions))throw Error('原未发送意图与候选尚未核对，未替换为其他记录。');
+        state.lastPreparedIntent=copy(intent);state.preparedConfigId=wanted.config_id;
+      }
+      state.fact={message:wanted.intent_id?'已找到原未发送意图；没有连接券商或提交订单。':'已找到原候选资料；尚未记录未发送意图。',id:wanted.intent_id||wanted.config_id,mode:wanted.mode};
+      emit();return {research,configuration,intent:state.lastPreparedIntent};
+    }
+    return {state,setSources,setMode,setForm,openResearch,restoreSelection,refresh,check,loadCheck,prepareIntent,stop,resume,queryPending,readReceipts};
   }
   // Installation alone performs no reads; reveal() is explicitly read-only.
-  function installTerminalBrokerCandidateUI({host,api,perform,stopCandidate,stopAccount,readResearch,notify=()=>{},onBack}){
+  function installTerminalBrokerCandidateUI({host,api,perform,stopCandidate,stopAccount,readResearch,notify=()=>{},onBack,onUserSelection=()=>{}}){
     const document=host.ownerDocument,view=document.createElement("section");view.id="terminalBrokerCandidateWorkspace";view.className="tbc section-gap";view.hidden=true;
     const field=(key,label,type="text",extra="")=>`<div class="field"><label for="tbc-${key}">${label}</label><input id="tbc-${key}" name="${key}" type="${type}" ${extra}></div>`;
     view.innerHTML=`<div class="page-heading"><div><h2>检查券商候选资料</h2><p>官方模拟候选与实盘候选均未连接；它们与本地合成演练相互独立。</p></div><div class="actions">${typeof onBack==="function"?'<button class="btn" data-tbc-action="back" type="button">返回本地演练</button>':""}<button class="btn" data-tbc-action="refresh" type="button">重新读取</button><button class="btn" data-tbc-action="stop" type="button">停止准备新意图</button></div></div>
@@ -161,7 +185,7 @@
     const $=id=>view.querySelector("#tbc-"+id),form=()=>Object.fromEntries(Object.keys(names).map(key=>[key,$(key).value]));
     let formEpoch=-1,lastCheck=null,lastStop=null;
     const controller=createController({api,perform,stopCandidate,readResearch,changed:render}),state=controller.state;
-    const planUI=typeof root.installTerminalBrokerPlanUI==='function'?root.installTerminalBrokerPlanUI({host:$("plan-host"),api,perform,notify}):null;
+    const planUI=typeof root.installTerminalBrokerPlanUI==='function'?root.installTerminalBrokerPlanUI({host:$("plan-host"),api,perform,notify,onUserSelection:patch=>onUserSelection({research:state.reference&&copy(state.reference),...patch})}):null;
     const accountControlUI=typeof root.installTerminalBrokerAccountControlUI==='function'?root.installTerminalBrokerAccountControlUI({host:$("account-control-host"),api,perform,stopAccount,notify}):null;
     const displayFact=(node,fact)=>{node.hidden=!fact;node.innerHTML=fact?`<strong>${esc(fact.message)}</strong><details><summary>查看原模式与完整编号</summary><p>${esc(modes[fact.mode])}</p><p>请求：${esc(fact.requestId)}</p><p>记录：${esc(fact.id)}</p></details>`:"";};
     const pendingIdentity=operation=>operation?`<details><summary>查看待核对请求的原编号</summary><p>${esc(modes[operation.payload.mode])}</p><p>${esc(operation.payload.request_id)}</p></details>`:"";
@@ -176,7 +200,7 @@
       const currentStamp=JSON.stringify({mode:state.mode,reference:state.reference,form:state.form});
       accountControlUI?.setContext({mode:state.mode,config_id:state.savedStamp===currentStamp?state.configId:null});
       const matchingIntent=state.savedStamp===currentStamp&&state.lastPreparedIntent?.mode===state.mode&&state.lastPreparedIntent.config_id===state.configId?state.lastPreparedIntent:null;
-      planUI?.setContext({mode:state.mode,config_id:state.configId,intent:matchingIntent,candidate_terms:candidateTerms,expected_control_revision:control?.revision??null,
+      planUI?.setContext({mode:state.mode,config_id:state.configId,intent:matchingIntent,candidate_terms:candidateTerms,research_reference:state.reference&&copy(state.reference),expected_control_revision:control?.revision??null,
         blocked:locked||state.statusStale||control?.new_intents_blocked!==false});
       if(lastStop!==control?.latest_stop_receipt_id){$("confirm-resume").checked=false;lastStop=control?.latest_stop_receipt_id||null;}
       const research=state.research,d=research?.display||{};
@@ -197,9 +221,10 @@
       $("diagnostics").innerHTML=state.status?`<p>组件元数据：${esc(state.status.sdk?.metadata_status||"未提供")}；运行兼容性：${esc(state.status.sdk?.runtime_compatibility||"未核验")}。没有安装或启用连接适配器。</p>`:"";
     }
     const fail=error=>{state.readError=message(error);render();if(!view.hidden)notify(state.readError);};
-    view.addEventListener("change",event=>{const id=event.target.id;if(id==="tbc-mode"){try{controller.setMode(event.target.value);}catch(error){fail(error);}return;}if(id==="tbc-source"){controller.openResearch(event.target.value===""?null:state.sources[Number(event.target.value)]||null).catch(fail);return;}});
+    const selected=()=>{const intent=state.lastPreparedIntent?.config_id===state.configId&&state.lastPreparedIntent?.mode===state.mode?state.lastPreparedIntent:null;Promise.resolve().then(()=>onUserSelection({research:state.reference&&copy(state.reference),view:'broker',broker:state.configId?{mode:state.mode,config_id:state.configId,intent_id:intent?.id||null,plan_id:null}:null})).catch(error=>notify('记录继续位置未完成：'+message(error)));};
+    view.addEventListener("change",event=>{const id=event.target.id;if(id==="tbc-mode"){try{controller.setMode(event.target.value);selected();}catch(error){fail(error);}return;}if(id==="tbc-source"){controller.openResearch(event.target.value===""?null:state.sources[Number(event.target.value)]||null).then(selected).catch(fail);return;}});
     view.addEventListener("input",event=>{if(event.target.closest('#tbc-form')){try{controller.setForm(form());}catch(error){fail(error);}}});
-    view.addEventListener("submit",event=>{event.preventDefault();if(event.target.id==="tbc-form")controller.check(form()).catch(fail);if(event.target.id==="tbc-intent-form")controller.prepareIntent($("confirm-intent").checked).catch(fail);});
+    view.addEventListener("submit",event=>{event.preventDefault();if(event.target.id==="tbc-form")controller.check(form()).then(()=>{if(state.configId&&!state.pending)selected();}).catch(fail);if(event.target.id==="tbc-intent-form")controller.prepareIntent($("confirm-intent").checked).then(result=>{if(result)selected();}).catch(fail);});
     view.addEventListener("click",event=>{const action=event.target.closest('[data-tbc-action]')?.dataset.tbcAction;if(!action)return;const operations={back:()=>onBack?.(),refresh:()=>controller.refresh(),stop:()=>controller.stop($("stop-reason").value.trim()||"用户明确点击停止准备新意图"),resume:()=>controller.resume($("resume-reason").value,$("confirm-resume").checked,lastStop),query:()=>controller.queryPending(),"query-stop":()=>controller.queryPending("control"),receipts:()=>controller.readReceipts()};Promise.resolve().then(operations[action]).catch(fail);});
     render();return {controller,element:view,planUI,accountControlUI,setSources:controller.setSources,refresh:controller.refresh,reveal:()=>{view.hidden=false;return controller.refresh();},hide:()=>{view.hidden=true;}};
   }

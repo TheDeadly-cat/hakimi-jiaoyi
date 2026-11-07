@@ -7,6 +7,8 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const {chromium} = require("playwright");
+const {createHash} = require("node:crypto");
+const {createHistoryInputController}=require("./terminal-daily-ui");
 const source = fs.readFileSync(path.join(__dirname,"terminal-daily-ui.js"),"utf8");
 const cid = letter => "canon-" + letter.repeat(32);
 const common = (kind,letter) => ({id:cid(letter),record_namespace:"canonical-daily-v1",record_resource:"terminal_daily_" + kind});
@@ -21,6 +23,18 @@ const input = () => ({...common("inputs","b"),kind:"PRICE_SNAPSHOT",input_id:"2"
   source:{name:"Synthetic source fixture",reference:"https://example.invalid/fixture",retrieved_at:"2026-10-29T02:00:00Z",raw_sha256:"3".repeat(64)},
   calendar_coverage:"SOURCE_BACKED_IMPORTER_DECLARATION_NOT_EXTERNAL_TRUTH",corporate_actions:"ACTION_FREE_FIXED_WINDOW_ONLY",
   source_authentication:"NOT_CRYPTOGRAPHICALLY_AUTHENTICATED"});
+const historyInput=()=>({...input(),id:"c".repeat(32),input_id:"c".repeat(32),resource:"inputs",available:true,verification_status:"VERIFIED_RECORD",
+  file_sha256:"a".repeat(64),snapshot_id:"2".repeat(64),byte_count:1024,sessions:20,evidence_kind:"IMPORTED_UNVERIFIED"});
+const sorted=value=>value&&typeof value==="object"?(Array.isArray(value)?value.map(sorted):Object.fromEntries(Object.keys(value).sort().map(k=>[k,sorted(value[k])]))):value;
+const historyHash=payload=>createHash("sha256").update(JSON.stringify(sorted({action:"terminal_import_history_input",payload})).replace(/[\u007f-\uffff]/g,c=>"\\u"+c.charCodeAt(0).toString(16).padStart(4,"0"))).digest("hex");
+function historyReceipt(payload,status="COMPLETED"){
+ const permissions={research_only:true,paper_allowed:false,live_allowed:false,order_allowed:false};
+ return {schema_version:"terminal-history-input-copy-v1",action:"terminal_import_history_input",operation_id:payload.operation_id,status,
+  request_hash:historyHash(payload),request:structuredClone(payload),source_truth_verified:false,current_source_rechecked:false,receipt_scope:"SAVED_OPERATION_FACT_NOT_CURRENT_SOURCE_VALIDATION",permissions,
+  source:{workspace_id:payload.workspace_id,input_id:payload.input_id,file_sha256:payload.expected_file_sha256,snapshot_id:payload.expected_snapshot_id,security:structuredClone(payload.confirmed_security)},
+  saved_input_id:status==="COMPLETED"?cid("b"):null,saved_input_verification:status==="COMPLETED"?"VERIFIED_CURRENT_TARGET":undefined,
+  saved_input:status==="COMPLETED"?{...input(),file_sha256:payload.expected_file_sha256,permissions}:null,message:status==="COMPLETED"?"复制保存已完成；尚未运行研究。":"原复制结果待核对。"};
+}
 const update = (status = "READY") => ({...common("updates","c"),status,display_status:{READY:"NEW_DAILY",REVISION_REVIEW_REQUIRED:"REVISION",UNCHANGED:"UNCHANGED"}[status] || "FAILED",
   symbol:"NDAQ",ref:"updates/check-fixture-update",check_hash:"4".repeat(64),baseline_snapshot_id:"2".repeat(64),baseline_start:"2026-07-01",baseline_end:"2026-10-28",
   latest_completed_session:"2026-10-29",checked_at:"2026-10-30T02:00:00Z",new_dates:status === "UNCHANGED" ? [] : ["2026-10-29"],
@@ -40,16 +54,23 @@ async function mount(t, options = {}) {
   page.on("pageerror",error => errors.push(error.message));
   page.on("console",message => { if (["error","warning"].includes(message.type())) errors.push(message.text()); });
   t.after(async () => { await context.close(); assert.deepEqual(errors,[],"isolated component has no console/page errors"); });
+  if(options.history){await page.route("http://127.0.0.1/history-fixture",route=>route.fulfill({contentType:"text/html",body:"<!doctype html><meta charset=utf-8>"}));await page.goto("http://127.0.0.1/history-fixture");await page.exposeFunction("makeHistoryReceipt",historyReceipt);}
   await page.setContent('<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Daily data isolated fixture</title><style>body{margin:24px;background:#0c1018;color:#e4e9f2;font:16px/1.6 system-ui}button,input,select{font:inherit;background:#182130;color:inherit;border:1px solid #52637c;border-radius:6px;padding:7px 12px}button:disabled{opacity:.45}.panel{max-width:1060px;margin:auto;padding:20px;border:1px solid #35445a;border-radius:12px}.panel-head,.form-grid,.actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px}.field input,.field select{display:block}.section-note{color:#b1bbcc}h2,h3,h4{margin:12px 0}.primary{background:#1b4e91}a{color:#82b5ff}</style></head><body><main id="host"></main></body></html>');
   await page.addScriptTag({content:source});
   await page.evaluate(({options,fixtures}) => {
     if(options.supplementStub)window.installTerminalStockSupplementUI=dependencies=>{window.supplementDependencies=dependencies;window.supplementContexts=[];return {setContext:value=>window.supplementContexts.push(value?structuredClone(value):null)};};
     window.records = {inputs:options.inputs || [],intakes:options.intakes || [],updates:options.updates || []};
+    window.historyReceipts={};window.historyWorkspaces=[{id:"d".repeat(32),label:"旧工作区 · 虚构验收"}];
     window.fixtures = fixtures; window.calls = []; window.reads = []; window.imports = []; window.notices = [];window.gateCalls=[];window.timeline=[];
     window.gate={schema_version:"hakimi-public-daily-access-v1",state:"DISABLED",provider:"Yahoo Finance",scope:"ONE_EXPLICIT_DAILY_CHECK",allowed_actions:[],unconsumed_authorizations:0,actual_attempts:0,requests_in_flight:0,operations_in_flight:0,request_cancellation_supported:false,automatic_retry:false};
     window.failReads = false; window.unknownResult = false; window.afterCallbackThrow = false; window.importResult = {status:"IMPORTED",input_id:"native-independent-id"};
     const api = async (resource,method="GET",payload) => {
-      if(method==="GET"){window.reads.push(resource);if(window.failReads)throw Error("synthetic read failure");if(resource==="public-daily-access")return structuredClone(window.gate);return {items:structuredClone(window.records[resource.replace("terminal_daily_","")]),warnings:[]};}
+      if(method==="GET"){window.reads.push(resource);if(window.failReads)throw Error("synthetic read failure");if(resource==="public-daily-access")return structuredClone(window.gate);
+        if(resource==="terminal_workspace_history")return {items:structuredClone(window.historyWorkspaces),warnings:[],read_only:true};
+        if(resource.startsWith("terminal_workspace_history/"))return {workspace_id:resource.split('/')[1],resource:"inputs",items:[structuredClone(fixtures.history)],warnings:[],read_only:true};
+        if(resource==="terminal_history_input_requests")return {schema_version:"terminal-history-input-copy-v1",items:Object.values(window.historyReceipts),warnings:[],read_only:true};
+        if(resource.startsWith("terminal_history_input_requests/"))return structuredClone(window.historyReceipts[resource.split('/')[1]]);
+        return {items:structuredClone(window.records[resource.replace("terminal_daily_","")]),warnings:[]};}
       window.gateCalls.push({resource,method,payload:structuredClone(payload)});window.timeline.push(resource);
       if(resource==="public-daily-access/allow-once"){
         if(window.deferGrant)await new Promise(resolve=>window.releaseGrant=resolve);
@@ -81,6 +102,8 @@ async function mount(t, options = {}) {
       } else if (action === "terminal_daily_freeze_update") {
         result = {...structuredClone(window.fixtures.input),id:"canon-" + "d".repeat(32),input_id:"5".repeat(64),coverage_end:"2026-10-29",action_status:"DAILY_UPDATE_FROZEN"};
         window.records.inputs.push(result); window.records.updates.find(item => item.id === payload.update_id).saved_input_id = result.id;
+      } else if(action==="terminal_import_history_input"){
+        result=await window.makeHistoryReceipt(payload);window.historyReceipts[payload.operation_id]=structuredClone(result);window.records.inputs=[structuredClone(result.saved_input)];
       } else throw new Error("unexpected action " + action);
       if(network)result.public_daily_request={actual_attempts:1,request_in_flight:false,operation_in_flight:false};
       onSuccess(structuredClone(result));
@@ -89,8 +112,8 @@ async function mount(t, options = {}) {
     };
     window.ui = window.installTerminalDailyUI({host:document.querySelector("#host"),api,perform,notify:text => window.notices.push(text),allowPublicDataRequest:options.online === true,
       ...(options.importCallback ? {onInputImported:async value => { window.imports.push(value); return window.importResult; }} : {})});
-  },{options,fixtures:{intake:intake(),input:input(),update:update()}});
-  assert.equal(page.url(),"about:blank"); assert.equal(await page.title(),"Daily data isolated fixture");
+  },{options,fixtures:{intake:intake(),input:input(),update:update(),history:historyInput()}});
+  assert.equal(page.url(),options.history?"http://127.0.0.1/history-fixture":"about:blank"); assert.equal(await page.title(),"Daily data isolated fixture");
   assert.equal(await page.getByRole("heading",{name:"股票日线资料",exact:true}).count(),1);
   await page.evaluate(() => window.ui.reveal());
   return page;
@@ -292,4 +315,92 @@ test("hiding during a delayed grant revokes its late permission and never submit
   const grants=(await page.evaluate(()=>window.gateCalls)).filter(x=>x.resource.endsWith("allow-once"));assert.equal(grants.length,1);
   await page.evaluate(()=>window.ui.reveal());assert.equal(await button(page,"check-stock").isDisabled(),false);
   assert.equal((await page.evaluate(()=>window.gateCalls)).filter(x=>x.resource.endsWith("allow-once")).length,1);
+});
+
+function historyHarness({perform}={}){
+ const saved={},calls=[],reads=[],selected=[],workspace="d".repeat(32),source=historyInput();
+ const api=async resource=>{reads.push(resource);
+  if(resource==="terminal_workspace_history")return {items:[{id:workspace,label:"旧资料"}],warnings:[],read_only:true};
+  if(resource===`terminal_workspace_history/${workspace}/inputs`)return {workspace_id:workspace,resource:"inputs",items:[source],warnings:[],read_only:true};
+  if(resource==="terminal_history_input_requests")return {schema_version:"terminal-history-input-copy-v1",items:Object.values(saved),warnings:[],read_only:true};
+  return structuredClone(saved[resource.split('/')[1]]);
+ };
+ const controller=createHistoryInputController({api,uuid:()=>"fixed-request-01",acceptInput:value=>selected.push(value),perform:async(action,payload,options)=>{
+  calls.push({action,payload});if(perform)return perform(action,payload,options,saved);
+  const result=historyReceipt(payload);saved[payload.operation_id]=result;await options.onSuccess(result);await options.onSuccess(result);return result;
+ }});
+ const prepare=async()=>{await controller.discover();await controller.selectWorkspace(workspace);controller.selectInput(source.id);controller.confirm(true);};
+ return {controller,prepare,calls,reads,selected,saved,workspace,source};
+}
+
+test("history copy requires confirmation, preserves one saved fact and explicit reselect works",async()=>{
+ const h=historyHarness();await h.prepare();await h.controller.copySelected();
+ assert.equal(h.calls.length,1);assert.equal(h.calls[0].action,"terminal_import_history_input");assert.equal(h.selected.length,1);assert.equal(h.controller.state.pending,null);
+ assert.equal(h.controller.state.receipt.request_hash,historyHash(h.calls[0].payload));assert.equal(h.controller.state.receipt.current_source_rechecked,false);
+ await h.controller.query(h.calls[0].payload.operation_id);assert.equal(h.calls.length,1);assert.equal(h.selected.length,2,"explicit reselect is not swallowed by callback deduplication");
+ await assert.rejects(h.controller.copySelected(),/先核对/);
+});
+
+test("unknown history copy blocks repeat and only reads its original receipt",async()=>{
+ const h=historyHarness({perform:async()=>null});await h.prepare();await h.controller.copySelected();const pending=h.controller.state.pending;
+ await assert.rejects(h.controller.copySelected(),/不要重复提交/);assert.equal(h.calls.length,1);
+ h.saved[pending.payload.operation_id]=historyReceipt(pending.payload,"PENDING");await h.controller.query();assert.equal(h.controller.state.pending.payload.operation_id,pending.payload.operation_id);
+ await h.controller.query("history-copy-unrelated-request");assert.equal(h.reads.at(-1),"terminal_history_input_requests/"+pending.payload.operation_id);
+ h.saved[pending.payload.operation_id]=historyReceipt(pending.payload);await h.controller.query();assert.equal(h.controller.state.pending,null);assert.equal(h.selected.length,1);assert.equal(h.calls.length,1);
+});
+
+test("a reopened pending history receipt locks copying without inventing success",async()=>{
+ const h=historyHarness({perform:async()=>null});await h.prepare();await h.controller.copySelected();const pending=h.controller.state.pending;
+ const reopened=historyHarness();reopened.saved[pending.payload.operation_id]=historyReceipt(pending.payload,"PENDING");await reopened.controller.discover();
+ assert.equal(reopened.controller.state.pending.payload.operation_id,pending.payload.operation_id);
+ await reopened.controller.query(pending.payload.operation_id);assert.equal(reopened.controller.state.pending.payload.operation_id,pending.payload.operation_id);
+ await assert.rejects(reopened.controller.copySelected(),/不要重复提交/);assert.equal(reopened.calls.length,0);assert.equal(reopened.selected.length,0);
+});
+
+test("unreadable prior copy inventory blocks a new copy after reopening",async()=>{
+ const workspace="d".repeat(32),source=historyInput();
+ const c=createHistoryInputController({api:async resource=>resource==="terminal_workspace_history"?{items:[{id:workspace}],warnings:[],read_only:true}:resource==="terminal_history_input_requests"?{schema_version:"terminal-history-input-copy-v1",items:[],warnings:["one unreadable receipt"],read_only:true}:{workspace_id:workspace,resource:"inputs",items:[source],read_only:true},perform:()=>assert.fail('unreadable receipt cannot permit new copy'),acceptInput:()=>assert.fail('not copied')});
+ await c.discover();await c.selectWorkspace(workspace);c.selectInput(source.id);c.confirm(true);assert.equal(c.state.confirmed,false);assert.equal(c.state.recoveryChecked,false);await assert.rejects(c.copySelected(),/先核对原复制记录/);
+});
+
+test("history copy success survives a subsequent refresh failure while target mismatch prevents selection",async()=>{
+ const h=historyHarness({perform:async(action,payload,options,saved)=>{const value=historyReceipt(payload);saved[payload.operation_id]=value;options.onSuccess(value);throw Error('later display failed');}});
+ await h.prepare();await h.controller.copySelected();assert.equal(h.controller.state.receipt.status,"COMPLETED");assert.equal(h.controller.state.pending,null);assert.equal(h.selected.length,1);
+ const k=historyHarness({perform:async(action,payload)=>{const value=historyReceipt(payload);value.saved_input.file_sha256="f".repeat(64);return value;}});
+ await k.prepare();await k.controller.copySelected();assert.ok(k.controller.state.pending);assert.equal(k.selected.length,0);
+});
+
+test("completed history receipt with unavailable current target preserves fact but never selects it",async()=>{
+ const h=historyHarness({perform:async(action,payload)=>({...historyReceipt(payload),saved_input_verification:"UNAVAILABLE",saved_input:null,saved_input_read_error:"changed"})});
+ await h.prepare();await h.controller.copySelected();assert.equal(h.controller.state.receipt.status,"COMPLETED");assert.equal(h.controller.state.pending,null);assert.equal(h.selected.length,0);
+});
+
+test("history workspace late reads cannot replace a newer selection",async()=>{
+ let release;const first="c".repeat(32),second="d".repeat(32),source=historyInput();
+ const c=createHistoryInputController({api:async resource=>resource==="terminal_workspace_history"?{items:[{id:first},{id:second}],warnings:[],read_only:true}:resource==="terminal_history_input_requests"?{schema_version:"terminal-history-input-copy-v1",items:[],warnings:[],read_only:true}:resource.includes(first)?new Promise(resolve=>release=resolve):{workspace_id:second,resource:"inputs",items:[source],warnings:[],read_only:true},perform:()=>assert.fail('read only'),acceptInput:()=>assert.fail('not copied')});
+ await c.discover();const old=c.selectWorkspace(first);await c.selectWorkspace(second);release({workspace_id:first,resource:"inputs",items:[],warnings:[],read_only:true});await old;
+ assert.equal(c.state.workspaceId,second);assert.equal(c.state.inputs.length,1);
+});
+
+test("rendered saved-history path explicitly copies and can recover after local selection changes",async t=>{
+ const page=await mount(t,{history:true});await button(page,"history-discover").focus();await page.keyboard.press("Enter");
+ await page.locator('[data-history-role="workspace"]').selectOption("d".repeat(32));await page.waitForSelector('[data-history-role="input"] option[value="'+"c".repeat(32)+'"]',{state:"attached"});
+ await page.locator('[data-history-role="input"]').selectOption("c".repeat(32));
+ assert.match(await page.locator('[data-history-role="source"]').innerText(),/只有 20 个交易日/);assert.match(await page.locator('[data-history-role="source"]').innerText(),/至少需要 82/);
+ assert.equal(await button(page,"history-copy").isDisabled(),true);await page.locator('[data-history-role="confirm"]').check();await button(page,"history-copy").focus();await page.keyboard.press("Enter");
+ await page.waitForFunction(()=>window.ui.historyController.state.receipt?.status==="COMPLETED");await waitIdle(page);
+ assert.equal((await page.evaluate(()=>window.calls)).length,1);assert.equal((await page.evaluate(()=>window.gateCalls)).length,0);assert.match(await page.locator('[data-role="input"]').innerText(),/NDAQ/);
+ await button(page,"history-requests").click();await page.locator('[data-history-query]').click();assert.equal((await page.evaluate(()=>window.calls)).length,1);
+ assert.match(await page.locator('[data-history-role="receipt"]').innerText(),/不表示旧来源现在仍相同/);
+ if(process.env.DAILY_UI_EVIDENCE_DIR)await page.screenshot({path:path.join(process.env.DAILY_UI_EVIDENCE_DIR,"history-copy-desktop.png"),fullPage:true});
+ await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+ if(process.env.DAILY_UI_EVIDENCE_DIR)await page.screenshot({path:path.join(process.env.DAILY_UI_EVIDENCE_DIR,"history-copy-narrow.png"),fullPage:true});
+});
+
+test("blocked source shows ordinary alternatives and keeps SDK originals behind advanced disclosure",async t=>{
+ const original={...intake(),status:"BLOCKED",can_save:false,reason:"SOURCE_CORPORATE_ACTION_COVERAGE_UNKNOWN",session_count:0};
+ const page=await mount(t,{intakes:[original],supplementStub:true});await select(page,"intakes",original.id);
+ const advanced=page.locator('[data-role="supplement-advanced"]');assert.equal(await advanced.isVisible(),true);assert.equal(await advanced.getAttribute("open"),null);
+ assert.equal(await button(page,"history-discover").isVisible(),true);assert.equal(await button(page,"history-teaching").isVisible(),true);
+ await button(page,"history-teaching").click();assert.match(await page.getByRole("status").innerText(),/请返回研究首页/);assert.deepEqual(await page.evaluate(()=>window.calls),[]);
 });

@@ -1,7 +1,7 @@
 /* Presentation adapter for the verified, frozen stock-research desktop. */
 (() => {
   "use strict";
-  function createCoreCompletionAdapter({api,state,render,refresh,showError,esc,runTask,openResult,document = globalThis.document}) {
+  function createCoreCompletionAdapter({api,state,render,refresh,showError,esc,runTask,openResult,closeTask=()=>{},document = globalThis.document}) {
     const detailErrors = new Map();
     const completedTasks = new Map();
     let completed = null;
@@ -34,6 +34,43 @@
       const detail=state.runCache.get(id)||[...completedTasks.values()].find(item=>item.id===id);
       if(detail)return detail;
       const row=state.runs.find(item=>item.id===id);return row?{id,summary:row}:null;
+    }
+    function taskContinuation(task) {
+      const choices=new Map();
+      if(identity(task?.task_id)) {
+        for(const row of state.runs)if(row.task_id===task.task_id&&identity(row.id)&&identity(row.run_id)&&(row.status===undefined||row.status==="COMPLETED"))choices.set(row.id,{id:row.id,run_id:row.run_id});
+        for(const detail of [...state.runCache.values(),...completedTasks.values()])if(validDetail(detail)&&recordedIdentity(detail,"task_id")===task.task_id&&recordedIdentity(detail,"run_id"))choices.set(detail.id,{id:detail.id,run_id:recordedIdentity(detail,"run_id")});
+      }
+      const pending=(state.jobs||[]).some(job=>job.action==="run_task"&&["queued","running","unknown"].includes(job.status));
+      return {results:[...choices.values()],synthetic:task?.inputs?.snapshot?.evidence_kind==="SYNTHETIC_TEST",pending,
+        canRun:Boolean(identity(task?.id)&&identity(task?.task_id)&&task.state==="ENABLED"&&!task.legacy_task&&!pending&&choices.size===0)};
+    }
+    function attachTaskActions(value) {
+      if(!identity(value?.id)||!identity(value?.task_id))return;
+      const dialog=document.getElementById("dialog"),body=dialog?.querySelector(".dialog-body"),actions=dialog?.querySelector(".dialog-footer .actions");
+      if(!dialog?.open||!body||!actions)return;
+      const task=JSON.parse(JSON.stringify(value)),model=taskContinuation(task);
+      dialog.dataset.continuedTask=task.id;dialog.dataset.continuedVersion=task.task_id;
+      const note=document.createElement("p");note.className="notice section-gap";note.dataset.coreTaskContext="true";
+      note.textContent=(model.synthetic?"虚构教学资料（SYNTHETIC）。历史结果不代表真实市场或未来收益。 ":"")
+        +(model.results.length?"此版本已有保存结果；选择原报告读取，不会重新运行。":model.pending?"有原运行记录尚待核对；请先查看设置与日志，不重复运行。":task.state!=="ENABLED"?"此任务已暂停；请先核对并启用原任务。":"这份任务已保存。点击运行才会计算这笔本金的历史结果。");body.prepend(note);
+      const layout=document.createElement("style");layout.textContent='#dialog:has([data-core-task-context]) #dialog-content{display:flex;flex-direction:column;max-height:calc(100dvh - 48px)}#dialog:has([data-core-task-context]) .dialog-header,#dialog:has([data-core-task-context]) .dialog-footer{flex-shrink:0}#dialog:has([data-core-task-context]) .dialog-body{min-height:0;max-height:none;flex:1 1 auto}@media(max-width:700px){#dialog:has([data-core-task-context]) #dialog-content{max-height:calc(100dvh - 20px)}}';body.append(layout);
+      const button=document.createElement("button");button.type="button";button.className="btn primary";button.dataset.coreContinueAction=model.results.length?"result":"run";
+      button.dataset.coreTaskVersion=task.task_id;let select;
+      if(model.results.length){
+        button.textContent="查看此版本已保存结果";
+        const field=document.createElement("label");field.className="field section-gap";field.textContent="已保存的原报告编号";select=document.createElement("select");select.setAttribute("aria-label","已保存的原报告编号");
+        if(model.results.length>1){const option=document.createElement("option");option.value="";option.textContent="请选择要读取的原报告";select.append(option);}
+        for(const item of model.results){const option=document.createElement("option");option.value=item.id;option.textContent=item.run_id+" · 读取编号 "+item.id;select.append(option);}
+        field.append(select);body.prepend(field);button.disabled=!select.value;select.addEventListener("change",()=>{button.disabled=!model.results.some(item=>item.id===select.value);});
+      }else{button.textContent="运行这次回测";button.disabled=!model.canRun;}
+      actions.querySelector('[data-action="edit-task"]')?.classList.remove("primary");actions.prepend(button);
+      button.addEventListener("click",()=>{
+        if(button.disabled||!dialog.open||dialog.dataset.continuedTask!==task.id||dialog.dataset.continuedVersion!==task.task_id)return;
+        const current=taskContinuation(task);
+        if(select){const id=select.value;if(!current.results.some(item=>item.id===id))return;button.disabled=true;closeTask();Promise.resolve(showSavedResult(id)).catch(showError);}
+        else if(current.canRun&&typeof runTask==="function"){closeTask();Promise.resolve(runTask(task,button)).catch(showError);}
+      });
     }
     function renderSavedTask() {
       if(!savedTask)return;
@@ -188,7 +225,7 @@
         try{render();}catch(renderError){readFailure("presentation",renderError,id);}
       } finally {state.runLoading.delete(id);}
     }
-    return {begin,confirm,restoreRuns,readFailure,clearReadFailure,clearRenderedDetail,present,operationError,resultPlaceholder,loadRun};
+    return {begin,confirm,restoreRuns,readFailure,clearReadFailure,clearRenderedDetail,present,operationError,resultPlaceholder,loadRun,showSavedResult,taskContinuation,attachTaskActions};
   }
   globalThis.createCoreCompletionAdapter=createCoreCompletionAdapter;
   if(typeof module==="object"&&module.exports)module.exports={createCoreCompletionAdapter};

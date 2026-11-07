@@ -23,6 +23,11 @@ class TerminalPackagingTests(unittest.TestCase):
         self.assertIn("components/terminal/exchange_terminal/static/terminal-quant-ui.js", files)
         self.assertIn("components/terminal/exchange_terminal/static/terminal-stock-supplement-ui.js", files)
         self.assertIn("components/terminal/exchange_terminal/services/terminal_stock_supplement_service.py", files)
+        for name in ("terminal_result_presentation.py", "terminal_teaching_flow.py",
+                     "terminal_history_input_import.py", "terminal_journey_service.py"):
+            self.assertIn("components/terminal/exchange_terminal/services/" + name, files)
+        for name in ("terminal-first-use-ui.js", "terminal-journey-ui.js"):
+            self.assertIn("components/terminal/exchange_terminal/static/" + name, files)
         for name in ("futu_rehab_evidence.py", "stock_intake_futu_supplement.py"):
             self.assertEqual(files["components/canonical/hakimi_research/" + name], ROOT / "src/hakimi_research" / name)
             self.assertNotIn("components/terminal-canonical/hakimi_research/" + name, files)

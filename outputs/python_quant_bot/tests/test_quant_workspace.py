@@ -213,6 +213,24 @@ class QuantWorkspaceTests(unittest.TestCase):
         self.assertIsNone(json.loads(raw)["data"]["identity"])
         self.assertEqual(self.module._service.calls, [])
 
+    def test_journey_preferences_use_authenticated_direct_route_without_a_business_job(self):
+        service = self.load()
+        payload = {"request_id": "journey-fixture-001", "workspace_context": "fixture-workspace",
+                   "expected_revision": 0, "selection": {}}
+        self.assertEqual(self.request("/api/quant/journey-selection", payload,
+                         headers=[("X-Hakimi-Token", "")])[0], 403)
+        self.assertEqual(service.calls, [])
+        before = self.module._jobs.list()
+        status, _, raw = self.request("/api/quant/journey-selection", payload)
+        self.assertEqual(status, 200)
+        self.assertEqual(json.loads(raw)["data"]["new_economic_runs"], 0)
+        self.assertEqual(service.calls, [("terminal_save_journey_selection", payload)])
+        self.assertEqual(self.module._jobs.list(), before)
+        self.assertEqual(self.request("/api/quant/terminal_journey")[0], 200)
+        self.module.read_only = True
+        self.assertEqual(self.request("/api/quant/journey-selection", payload)[0], 423)
+        self.assertEqual(len(service.calls), 1)
+
     def test_status_has_single_authoritative_workspace_and_no_secret(self):
         status, headers, raw = self.request("/api/quant/status")
         value = json.loads(raw)["data"]

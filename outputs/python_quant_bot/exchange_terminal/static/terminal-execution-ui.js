@@ -101,6 +101,32 @@
   function savedResultTitle(label,version) {const name=String(label||"已保存研究结果");return /版本\s*\d+/.test(name)?name:name+" · "+displayVersion(version);}
   const money=(value,label,positive=false,signed=false)=>{const s=String(value??"").trim(),number=signed&&s.startsWith("-")?s.slice(1):s;if(!/^(?:0|[1-9]\d{0,14})(?:\.\d{1,8})?$/.test(number)||(positive&&Number(s)<=0))throw Error(label+"请填写有效的美元金额。");return s;};
   const integer=(value,label,zero=false)=>{const n=Number(value);if(String(value).trim()===""||!Number.isSafeInteger(n)||n<(zero?0:1)||n>1e9)throw Error(label+"请填写"+(zero?"非负":"正")+"整数。");return n;};
+  const moneyUnits=value=>{const s=String(value??"");if(!/^-?(?:0|[1-9]\d{0,20})(?:\.\d{1,8})?$/.test(s))return null;const negative=s.startsWith("-"),parts=(negative?s.slice(1):s).split(".");return (negative?-1n:1n)*(BigInt(parts[0])*100000000n+BigInt((parts[1]||"").padEnd(8,"0")));};
+  const unitAmount=value=>{const sign=value<0n?"-":"",n=value<0n?-value:value;return sign+String(n/100000000n)+"."+String(n%100000000n).padStart(8,"0").replace(/0+$/,"").padEnd(2,"0");};
+  function wholeShareAffordability(terms,ledger) {
+    if(terms.side!=="BUY")return {status:"NOT_APPLICABLE",blocking:false,quantity_policy:"WHOLE_SHARES_LONG_ONLY"};
+    const price=moneyUnits(terms.limit_price),available=moneyUnits(ledger?.available_cash),fee=moneyUnits(ledger?.config?.rules?.fee_buffer),floor=moneyUnits(ledger?.config?.rules?.cash_floor);
+    if(price===null||price<=0n||available===null||fee===null||fee<0n||floor===null||floor<0n||!Number.isSafeInteger(terms.quantity)||terms.quantity<1)
+      return {status:"UNKNOWN",blocking:true,reason:"资金、费用预留或现金底线未记录，暂不能确认这笔订单。",quantity_policy:"WHOLE_SHARES_LONG_ONLY"};
+    const spendable=available-floor-fee,maximum=spendable>0n?spendable/price:0n,required=price*BigInt(terms.quantity)+fee+floor,insufficient=required>available;
+    return {status:insufficient?"INSUFFICIENT_FUNDS":"FUNDS_COVERED",blocking:insufficient,quantity_policy:"WHOLE_SHARES_LONG_ONLY",maximum_quantity:String(maximum),
+      required_with_floor:unitAmount(required),fee_buffer:unitAmount(fee),cash_floor:unitAmount(floor),available_cash:unitAmount(available),
+      reason:insufficient?(maximum===0n?"当前资金不足以买入一股；本地演练仅支持整股，还需保留费用和现金底线。":"当前资金不足以覆盖这笔整股订单、费用预留及现金底线，请减少数量或调整合成资金。"):
+        "资金可覆盖这笔整股订单及预留；仍需服务端核对风险、持仓和报价，不代表已接受或成交。"};
+  }
+  function researchCapital(research) {
+    const value=research?.research_capital;
+    return value?.schema_version==="hakimi-saved-research-capital-v1"&&value.report_id===research?.binding?.report_id&&value.report_hash===research?.binding?.report_hash
+      &&typeof value.initial_cash==="number"&&Number.isFinite(value.initial_cash)&&value.initial_cash>0&&(value.currency===null||typeof value.currency==="string")&&["RECORDED","UNKNOWN"].includes(value.status)?value:null;
+  }
+  function capitalComparison(research,initialCash) {
+    const saved=researchCapital(research),amount=moneyUnits(initialCash),known=amount!==null&&amount>0n;
+    const historical=saved?`${saved.initial_cash.toLocaleString("zh-CN",{maximumFractionDigits:8})} ${saved.currency||"币种未记录"}`:"未记录 / 尚未核对";
+    const current=known?`${unitAmount(amount)} USD`:"尚未填写";
+    const same=Boolean(saved&&saved.currency==="USD"&&moneyUnits(saved.initial_cash)!==null&&moneyUnits(saved.initial_cash)===amount);
+    return {historical,current,same,message:`研究本金：${historical}；演练初始本金：${current}。`+(saved?.currency&&known?(same?"本金一致，历史研究与整股演练仍是不同模型。":"两者不同：旧历史收益不按比例缩放，也不代表这笔演练资金的收益。"):
+      "缺少记录不能确认两者一致；旧结果不补算、不缩放。")};
+  }
   const timestamp=(value,label)=>{const n=Date.parse(value);if(!value||!Number.isFinite(n))throw Error("请填写"+label+"。");return n;};
   const readableError=error=>error?.info?.message||error?.message||"本地读取未完成，请核对原操作记录。";
   const reasons={SHARED_CASH_UNAVAILABLE:"可用资金不足，已计入其他订单预留和费用。",OWNER_SHARES_UNAVAILABLE:"该归属的可卖股份不足，已扣除未完成卖单预留。",
@@ -123,6 +149,36 @@
     CANCEL_ALREADY_ATTEMPTED:"撤销已经尝试，未再次发起。",ALREADY_TERMINAL:"订单已经结束，没有新增成交。",QUOTES_RECORDED:"合成报价已保存，没有运行订单。"};
   function validView(value,id) {return value?.account_id===id&&typeof value.account_context==="string"&&plain(value.ledger)&&safePermissions(value.permissions)&&value.ledger.account_id===id
     &&[value.ledger.plans,value.ledger.orders,value.ledger.positions].every(Array.isArray)&&plain(value.ledger.config?.securities);}
+  function remainingSnapshot(value,id=value?.account_id) {
+    if(!value||typeof id!=="string"||!id||!validView(value,id)||!Number.isSafeInteger(value.ledger.revision)||value.ledger.revision<0)return null;
+    const ledger=value.ledger,integer=v=>Number.isSafeInteger(v)&&v>=0,amount=v=>{const n=moneyUnits(v);return n!==null&&n>=0n?String(v):null;};
+    const positions=ledger.positions.every(p=>plain(p)&&typeof p.security_id==="string"&&typeof p.owner_id==="string"&&integer(p.quantity))
+      ?ledger.positions.filter(p=>p.quantity>0).map(p=>({owner_id:p.owner_id,security_id:p.security_id,symbol:ledger.config.securities[p.security_id]?.symbol||null,quantity:p.quantity})):null;
+    const orders=ledger.orders.every(o=>plain(o)&&typeof o.order_id==="string"&&Object.hasOwn(labels,o.state))
+      ?ledger.orders.filter(o=>["ACCEPTED","PARTIAL","TIMEOUT_UNCONFIRMED"].includes(o.state)).map(o=>({order_id:o.order_id,state:o.state,
+        symbol:ledger.config.securities[o.terms?.security_id]?.symbol||null,side:["BUY","SELL"].includes(o.terms?.side)?o.terms.side:null})):null;
+    const plans=ledger.plans.every(p=>plain(p)&&typeof p.plan_id==="string")?ledger.plans.length:null;
+    return {account_id:id,label:value.label||id,revision:ledger.revision,paused:value.paused===true,positions,orders,
+      positions_count:positions?.length??null,open_orders_count:orders?.length??null,
+      unconfirmed_orders_count:orders?orders.filter(o=>o.state==="TIMEOUT_UNCONFIRMED").length:null,
+      reserved_cash:amount(ledger.reserved_cash),available_cash:amount(ledger.available_cash),cash:amount(ledger.cash),saved_plans_count:plans};
+  }
+  function renderRemainingState(snapshot,{stale=false,receipt=false}={}) {
+    const count=v=>v===null?"未核对":String(v),amount=v=>v===null?"未核对":v+" USD";
+    if(!snapshot)return '<section class="tex-remaining section-gap" data-tex-remaining="unknown"><p><strong>剩余状态尚未核对</strong>：持仓、挂单、预留和演练计划没有取得同一份账户快照，不能当作零。请重新读取这个本地合成账户。</p></section>';
+    return `<section class="tex-remaining section-gap" data-tex-remaining="${stale?"stale":"recorded"}"><p><strong>${receipt?"本次回执的剩余状态":stale?"上次读取的剩余状态 · 现在待核对":"本地合成账户的剩余状态"}</strong> · ${esc(snapshot.label)}</p>`
+      +`<p>仍有 ${esc(count(snapshot.positions_count))} 项持仓、${esc(count(snapshot.open_orders_count))} 笔未结束订单；其中 ${esc(count(snapshot.unconfirmed_orders_count))} 笔结果待核对。</p><p>现金 ${esc(amount(snapshot.cash))} · 订单预留 ${esc(amount(snapshot.reserved_cash))} · 可用现金 ${esc(amount(snapshot.available_cash))}。已保存本地演练计划 ${esc(count(snapshot.saved_plans_count))} 份。</p>`
+      +'<p class="section-note">暂停只阻止这个账户新增买入风险，未自动撤单、卖出持仓或释放预留；恢复也不会补发旧请求。本页未读取券商未发送意图和离线验收计划，不把它们记作零。</p>'
+      +`<details><summary>查看剩余项目与快照依据</summary>${snapshot.positions===null?'<p>持仓明细未核对。</p>':snapshot.positions.length?`<ul>${snapshot.positions.map(p=>`<li>${esc(p.symbol||p.security_id)}：${esc(p.quantity)} 股；归属 ${esc(p.owner_id)}</li>`).join("")}</ul>`:'<p>此快照没有非零持仓。</p>'}`
+      +`${snapshot.orders===null?'<p>订单明细未核对。</p>':snapshot.orders.length?`<ul>${snapshot.orders.map(o=>`<li>${esc(o.symbol||"标的未记录")} · ${esc(o.side==="BUY"?"买入":o.side==="SELL"?"卖出":"方向未记录")} · ${esc(labels[o.state])} · ${esc(o.order_id)}</li>`).join("")}</ul>`:'<p>此快照没有未结束订单。</p>'}<p>账户 ${esc(snapshot.account_id)} · 快照修订 ${esc(snapshot.revision)}${stale?"；仅保留上次读取，当前状态未确认。":"；来自同一次账户读取，不是实时券商状态。"}</p></details></section>`;
+  }
+  function renderStrategyStage(state) {
+    const research=state.source,plan=state.account?.ledger?.plans.find(p=>p.plan_id===state.planId),bound=planMatchesResearch(plan,research),snapshot=remainingSnapshot(state.account);
+    return `<section class="notice section-gap tex-journey" aria-label="当前策略阶段"><h3>这份策略现在到哪一步</h3><ol><li>历史研究：${research?.binding?.status==="COMPLETED"?`已完成 · ${esc(displayVersion(research.binding.task_version))}；只读取保存结果。`:"尚未选择已完成的保存结果。"}</li>`
+      +`<li>本地合成演练：${!state.account?"尚未选择账户。":state.accountStale?"账户待重新核对，保留上次显示。":state.account.paused?"已暂停新增买入风险；原持仓和订单仍保留。":"账户已读取；只有明确操作才记录合成订单。"}</li>`
+      +`<li>本地演练计划：${bound?"已绑定同一任务、保存版本和历史结果。":plan?"所选计划属于另一份保存结果，请重新核对。":"尚未选择与当前结果对应的计划。"}${bound&&snapshot?` ${state.accountStale?"上次快照记录":"当前账户有"} ${esc(snapshot.open_orders_count??"未核对")} 笔未结束合成订单${state.accountStale?"，现在需要重新核对":""}；接受不等于成交。`:""}</li>`
+      +'<li>券商执行：未连接，不会发送真实订单。券商未发送意图与离线验收计划须在对应准备页核对；这里不推断其状态。</li></ol><p class="section-note">此页是手工合成订单练习；逐日模拟使用对应策略支持的独立入口，每次推进仍需明确操作。</p></section>';
+  }
   function readyResearch(value) {const d=value?.display,b=value?.binding;return b?.status==="COMPLETED"&&[b.engine_id,b.strategy_id,b.input_id,b.report_id].every(v=>typeof v==="string"&&v.length>0)
     &&/^[0-9a-f]{64}$/.test(b.report_hash||"")&&b.task_version!=null&&d?.security_id===b.security_id&&d?.security_id&&d?.symbol&&d?.currency==="USD"&&d?.asset_class==="US_EQUITY";}
   function accountMatchesResearch(account,research) {
@@ -221,6 +277,8 @@
         if(receipt?.schema_version!=="hakimi-offline-execution-receipt-v1"||receipt.request_id!==payload.client_request_id
           ||receipt.account_id!==payload.account_id||!safePermissions(receipt.permissions)||!Object.hasOwn(facts,receipt.outcome?.status))return false;
         state.fact={message:facts[receipt.outcome.status]+(reasons[receipt.outcome.reason]?" "+reasons[receipt.outcome.reason]:""),requestId:receipt.request_id,status:receipt.outcome.status,reason:receipt.outcome.reason||""};
+        if((action==="terminal_execution_stop"&&receipt.outcome.status==="NEW_RISK_STOPPED")||(action==="terminal_execution_resume"&&receipt.outcome.status==="NEW_RISK_RESUMED"))
+          state.fact.control={mode:"LOCAL_SYNTHETIC_USD_WHOLE_SHARES",action:action.endsWith("stop")?"stop":"resume",account_id:payload.account_id,snapshot:remainingSnapshot(value.account,payload.account_id)};
         if(state.accountId===payload.account_id){if(receipt.outcome.plan_id)state.planId=receipt.outcome.plan_id;if(receipt.outcome.order_id)state.orderId=receipt.outcome.order_id;}
       }
       // A read begun before the durable write must not later replace its
@@ -300,7 +358,9 @@
         signal_at:at,execution_at:at,now_ms:now,outcome:form.outcome};
     }
     async function submitOrder(form) {
-      return execute("terminal_execution_submit",{client_request_id:req(),...orderTerms(form)});
+      const terms=orderTerms(form),funds=wholeShareAffordability(terms,state.account?.ledger);
+      if(funds.blocking)throw Error(funds.reason);
+      return execute("terminal_execution_submit",{client_request_id:req(),...terms});
     }
     function previewStamp() {
       return JSON.stringify({accountId:state.accountId,context:state.account?.account_context,revision:state.account?.ledger.revision,
@@ -316,6 +376,7 @@
       if(!planMatchesResearch(plan,state.source))throw Error("当前计划与所选保存结果不同，请先保存或选择对应计划。");
       const rules=state.account.ledger.config.rules||{},amount=terms.quantity*Number(terms.limit_price),fee=Number(rules.fee_buffer),available=Number(state.account.ledger.available_cash);
       stopFactorRead();state.orderPreview={stamp:previewStamp(),form:clone({...form,confirm:false}),terms,
+        affordability:wholeShareAffordability(terms,state.account.ledger),
         estimate:{notional:amount,reservation:terms.side==="BUY"&&Number.isFinite(fee)?amount+fee:null,
           available,feeBuffer:Number.isFinite(fee)?fee:null},accountLabel:state.account.label};
       state.error="";emit();return clone(state.orderPreview);
@@ -324,6 +385,8 @@
       const preview=state.orderPreview;
       if(!preview||preview.stamp!==previewStamp()){state.orderPreview=null;emit();throw Error("订单预览已失效，请重新核对资金与订单。");}
       if(confirmed!==true)throw Error("请先核对预览并明确确认合成订单。");
+      const funds=wholeShareAffordability(preview.terms,state.account?.ledger);
+      if(funds.blocking)throw Error(funds.reason);
       const form=clone(preview.form);state.orderPreview=null;stopFactorRead();emit();
       return submitOrder({...form,confirm:true});
     }
@@ -365,26 +428,44 @@
         state.comparison=value;state.readError="";emit();}
       catch(error){if(current()){state.readError="差异资料读取未完成："+readableError(error);emit();}}
     }
-    return {state,setSources,openResearch,openAccount,refresh,createAccount,createPlan,selectPlan,selectOrder,submitOrder,
+    async function restoreSelection(selection) {
+      if(state.busy||state.pending)throw Error("原演练请求尚待核对；继续位置不会覆盖它。");
+      const ref=selection?.research,manual=selection?.manual;
+      state.orderPreview=null;state.reconciliation=null;
+      const sourceRead=ref?openResearch(ref):null,generation=sourceSequence;
+      const source=sourceRead?await sourceRead:null;
+      if(generation!==sourceSequence)return;
+      const account=manual?await openAccount(manual.account_id,{retain:false}):null;
+      if(generation!==sourceSequence||manual&&state.accountId!==manual.account_id)return;
+      if(manual?.plan_id){
+        const plan=account?.ledger?.plans.find(p=>p.plan_id===manual.plan_id);
+        if(!source||!plan||!planMatchesResearch(plan,source))throw Error("原演练计划与这份研究版本尚未核对，保留编号且不选择其他计划。");
+        selectPlan(manual.plan_id);
+      }
+      if(ref&&!source||manual&&!account)throw Error("部分原记录读取未完成，已核对的部分仍可查看。");
+      return {research:source,account};
+    }
+    return {state,setSources,openResearch,openAccount,restoreSelection,refresh,createAccount,createPlan,selectPlan,selectOrder,submitOrder,
       previewOrder,confirmOrder,invalidatePreview,recordObservation,recordCancel,control,beginReconciliation,reconcile,compare,checkPending,execute,readSavedRuleContext,setFactorPosition,readFactors};
   }
 
-  function installTerminalExecutionUI({host,api,perform,notify=()=>{},readResearch}) {
+  function installTerminalExecutionUI({host,api,perform,notify=()=>{},readResearch,onUserSelection=()=>{},onSelection=onUserSelection}) {
     const document=host.ownerDocument,section=document.createElement("section");section.id="terminalExecutionWorkspace";section.className="section-gap tex";section.hidden=true;
     const field=(id,label,type="text",value="",extra="")=>`<div class="field"><label for="${id}">${label}</label><input id="${id}" type="${type}" value="${esc(value)}" ${extra}></div>`;
     const action=(label,name,extra="")=>`<button type="button" class="btn small" data-tex-action="${name}" ${extra}>${label}</button>`;
     const states=Object.entries(labels).filter(([key])=>key!=="TIMEOUT_UNCONFIRMED").map(([key,label])=>`<option value="${key}">${label}</option>`).join("");
     section.innerHTML=`<div class="page-heading"><div><p class="tex-mode">本地合成演练 · 美元整股</p><h2>核对策略、资金，再确认订单</h2><p>使用独立合成账户；不会连接券商或发送真实订单。策略推荐不等于买入指令。</p></div><div class="actions">${action("重新读取","refresh")}${action("暂停新增风险","stop")}</div></div>
-      <div id="tex-fact" class="notice section-gap" role="status" aria-live="polite" hidden></div><div id="tex-error" class="notice warning section-gap" role="status" hidden></div><div id="tex-read-error" class="notice warning section-gap" role="status" hidden></div>
+      <div id="tex-fact" class="notice section-gap" role="status" aria-live="polite" hidden></div><div id="tex-error" class="notice warning section-gap" role="status" hidden></div><div id="tex-read-error" class="notice warning section-gap" role="status" hidden></div><div id="tex-strategy-stage"></div>
       <section class="panel"><div class="panel-head"><h3>1 · 选择保存的策略结果</h3></div><div class="panel-body"><div class="field"><label for="tex-source">已保存策略 / 结果</label><select id="tex-source"><option value="">请选择</option></select></div><div id="tex-source-detail" class="section-gap">选择后只读取原结果，不重新回测。</div></div></section>
       <section class="panel section-gap"><div class="panel-head"><h3>2 · 核对账户与风险</h3></div><div class="panel-body"><div class="field"><label for="tex-account">当前合成账户</label><select id="tex-account"><option value="">请选择</option></select></div>
-      <div class="actions section-gap">${action("首次使用：新建合成账户","open-account")}</div><p id="tex-next-step" class="section-note"></p>
+      <div class="actions section-gap">${action("首次使用：新建合成账户","open-account")}</div><p id="tex-next-step" class="section-note"></p><p id="tex-capital-comparison" class="notice section-gap"></p>
       <details id="tex-new-account" class="section-gap"><summary>新账户资金与风险设置</summary><form id="tex-account-form"><p class="section-note">标的身份来自选中的保存结果；以下资金和报价规则只用于本地演练。</p><div id="tex-account-symbol" class="section-note"></div><div class="form-grid section-gap">
       ${field("tex-name","账户名称","text","我的合成账户","required maxlength=100")}${field("tex-cash","初始合成资金（美元）","number","10000","required min=0.01 step=any")}
       ${field("tex-order-limit","每单金额上限（美元）","number","1000","required min=0.01 step=any")}${field("tex-total-limit","总敞口上限（美元）","number","10000","required min=0.01 step=any")}
       ${field("tex-security-limit","单标的上限（美元）","number","5000","required min=0.01 step=any")}${field("tex-floor","现金底线（美元）","number","0","required min=0 step=any")}
       ${field("tex-fee-buffer","每单费用预留（美元）","number","1","required min=0 step=any")}${field("tex-loss-limit","累计账户亏损上限（美元）","number","1000","required min=0 step=any")}
       ${field("tex-tick","合成价格最小单位（美元）","number","0.01","required min=0.00000001 step=any")}${field("tex-quote-age","报价最长有效时间（秒）","number","60","required min=1 max=86400 step=1")}</div>
+      <p id="tex-new-capital-comparison" class="section-note"></p>${action("采用这份研究的本金","use-research-capital")}
       <label class="check-label"><input id="tex-confirm-account" type="checkbox" required>我确认这是本地合成资金，没有连接真实账户。</label><button id="tex-create-account" class="btn primary section-gap" type="submit">保存合成账户</button></form></details>
       <div id="tex-account-detail" class="section-gap"></div><div class="actions section-gap">${action("确认使用此策略 · 保存计划","create-plan")}</div><p class="section-note">仅绑定保存版本，不下单、不改变原策略。</p><div id="tex-plan-detail"></div>
       <details class="section-gap"><summary>已有计划与结果差异</summary><div class="field section-gap"><label for="tex-plan">切换已有演练计划</label><select id="tex-plan"><option value="">请选择已保存计划</option></select></div>${action("查看与保存结果的差异","compare")}<div id="tex-comparison" class="section-gap"></div></details></div></section>
@@ -411,6 +492,7 @@
     const dollars=value=>typeof value==="string"?"$"+value:"未记录";
     let reconKey="",lastOrder="",lastPreview=null,lastFactorPosition="";
     style.textContent+=".tex .tex-factor-table{overflow:auto;max-width:100%}.tex .tex-factor-table table{width:100%;border-collapse:collapse;font-size:13px}.tex .tex-factor-table th,.tex .tex-factor-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left;overflow-wrap:anywhere}.tex .tex-rule-review{min-width:0;overflow-wrap:anywhere}.tex .tex-rule-review .kv{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.tex .tex-rule-review dd{margin:0}";
+    style.textContent+=".tex .tex-remaining,.tex .tex-journey{overflow-wrap:anywhere}.tex .tex-journey li{margin-block:8px}.tex .tex-remaining ul{padding-inline-start:22px}";
     const controller=createController({api,perform,readResearch,changed:render});
     const {state}=controller;
     function sourceLabel(ref){return state.sources.find(item=>sameReference(item,ref))?.label||"已保存研究结果";}
@@ -419,6 +501,8 @@
       select("tex-source",state.sources.map((item,index)=>[String(index),item.label]),state.sourceReference?String(state.sources.findIndex(item=>sameReference(item,state.sourceReference))):"","请选择保存结果");
       select("tex-account",state.accounts.map(item=>[item.account_id,item.label]),state.accountId,"请选择合成账户");
       $("tex-fact").hidden=!state.fact;$("tex-fact").innerHTML=state.fact?`<strong>${esc(state.fact.message)}</strong><details><summary>查看原请求编号与原因</summary><p>${esc(state.fact.requestId)}</p>${state.fact.reason?`<p>${esc(state.fact.reason)}</p>`:""}</details>`:"";
+      if(state.fact?.control)$("tex-fact").insertAdjacentHTML("beforeend",`<p><strong>模式：本地合成演练 · 美元整股</strong>。${state.fact.control.action==="stop"?"已暂停本账户新增买入风险，卖出所属持仓仍按原规则核对。":"已恢复本账户新增风险检查，未补发订单、撤单或清仓。"}这不改变券商候选模式或其他账户的停止标记。</p>${renderRemainingState(state.fact.control.snapshot,{receipt:true})}`);
+      $("tex-strategy-stage").innerHTML=renderStrategyStage(state);
       $("tex-error").hidden=!state.error&&!state.pending;$("tex-error").innerHTML=esc(state.error)+(state.pending?`<p>只读取同一份原回执，不会重新提交。</p>${action("核对原操作","check-pending")}`:"");
       $("tex-read-error").hidden=!state.readError;$("tex-read-error").textContent=state.readError;
       const research=state.source,d=research?.display||{};
@@ -442,6 +526,7 @@
         <p>${account.paused?"已暂停新增风险。"+(reasons[ledger.stop_reason]||""):""}${account.reconciliation_required?"需要明确的完整合成对账。":"当前本地状态已核对。"}${state.accountStale?" 当前显示上次读取状态；请先重新读取。":""}</p>${account.deficiencies?.length||account.reconciliation_required||account.paused?'<div class="notice warning">'+(account.paused?"新增风险已暂停。":"账户有待核对订单、资金或所属持仓冲突。")+'原观察和预留仍保留。'+action("打开账户核对与恢复","open-advanced")+'</div>':""}
         <details><summary>查看所属持仓与全部风险设置</summary><p class="section-note">总敞口上限 ${esc(dollars(ledger.config.rules?.max_total_exposure))} · 单标的上限 ${esc(dollars(ledger.config.rules?.max_security_exposure))} · 账户亏损上限 ${esc(dollars(ledger.config.rules?.max_account_loss))}</p>${ledger.positions.length?'<div class="tex-table"><table><thead><tr><th>归属</th><th>演练标的</th><th>整股数量</th></tr></thead><tbody>'+ledger.positions.map(row=>`<tr><td>${esc(ownerLabel(row.owner_id))}</td><td>${esc(securities[row.security_id]?.symbol||row.security_id)}</td><td>${esc(row.quantity)}</td></tr>`).join("")+"</tbody></table></div>":'<p class="section-note">尚无成交持仓。</p>'}</details>`:"请选择或创建明确的合成账户。";
       $("tex-orders").innerHTML=ledger?.orders.length?`<div class="tex-table"><table><thead><tr><th>标的 / 方向</th><th>状态</th><th>累计股数</th><th>累计金额 / 费用</th><th>剩余预留</th></tr></thead><tbody>${ledger.orders.map(row=>`<tr><td>${esc(securities[row.terms.security_id]?.symbol||row.terms.security_id)} / ${row.terms.side==="BUY"?"买入":"卖出"}</td><td>${esc(labels[row.state]||"待核对")}</td><td>${esc(row.filled)}</td><td>${esc(dollars(row.notional))} / ${esc(dollars(row.fee))}</td><td>${esc(row.terms.side==="BUY"?dollars(row.reserved_cash):row.reserved_shares+" 股")}</td></tr>`).join("")}</tbody></table></div>`:'<p class="section-note">尚无订单。保存账户和计划不会自动生成订单。</p>';
+      if(account)$("tex-account-detail").insertAdjacentHTML("beforeend",renderRemainingState(remainingSnapshot(account),{stale:state.accountStale}));
       const plan=ledger?.plans.find(p=>p.plan_id===state.planId),link=account?.plan_links.find(item=>item.plan_id===state.planId);
       $("tex-plan-detail").textContent=plan?(planMatchesResearch(plan,research)?"当前计划已绑定所选保存版本。"+(link?.owner_continuity==="VERIFIED_TASK_FAMILY"?"持仓归属沿用已核验的原任务族。":"只绑定这一不可变任务；不宣称跨版本持仓连续。") :"当前计划属于另一份保存结果，请为所选结果保存计划，或切换已有计划。") :"";
       const comparison=state.comparison;
@@ -453,11 +538,17 @@
       $("tex-factor-position").disabled=locked;section.querySelector('[data-tex-action="read-rule"]').disabled=locked||state.sourceReference?.kind!=="terminal_run";
       section.querySelector('[data-tex-action="read-factors"]').disabled=locked||state.factorBusy||!state.sourceRuleContext||!state.factorPosition;
       const orderBlocked=locked||!available||!planMatchesResearch(plan,research)||account.reconciliation_required||account.deficiencies?.length>0||(account.paused&&v("tex-side")==="BUY");
-      $("tex-preview-order").disabled=orderBlocked;$("tex-submit-order").disabled=orderBlocked||!state.orderPreview;
+      $("tex-preview-order").disabled=orderBlocked;$("tex-submit-order").disabled=orderBlocked||!state.orderPreview||state.orderPreview.affordability?.blocking!==false;
+      section.querySelector('[data-tex-action="use-research-capital"]').disabled=locked||researchCapital(research)?.currency!=="USD";
+      renderCapitalComparison();
       renderPreview();
       $("tex-save-observation").disabled=locked||!available||!state.orderId;
       for(const [name,blocked] of [["create-plan",!available||!accountMatchesResearch(account,research)],["compare",!available||!plan||!state.sourceReference],["cancel",!available||!state.orderId],["stop",!available],["resume",!available||!account.paused||account.reconciliation_required||account.deficiencies?.length>0],["begin-reconcile",!available]])section.querySelector(`[data-tex-action="${name}"]`).disabled=locked||blocked;
       renderReconciliation();
+    }
+    function renderCapitalComparison() {
+      $("tex-capital-comparison").textContent=capitalComparison(state.source,state.account?.ledger?.config?.initial_cash).message;
+      $("tex-new-capital-comparison").textContent=capitalComparison(state.source,v("tex-cash")).message;
     }
     function renderPreview() {
       const preview=state.orderPreview;$("tex-confirm-form").hidden=!preview;
@@ -482,6 +573,8 @@
         <div class="tex-metrics"><div>当前可用现金<strong>${esc(dollars(ledger.available_cash))}</strong></div><div>当前订单预留<strong>${esc(dollars(ledger.reserved_cash))}</strong></div><div>委托金额粗估<strong>${esc(approx(e.notional))}</strong></div></div>
         <p>${t.side==="BUY"?"本单资金预留粗估（含费用预留）："+esc(approx(e.reservation)):"当前计划归属持仓："+esc(held)+" 股；已预留："+esc(reserved)+" 股。"}</p>${t.outcome==="REJECTED"?'<p>明确拒绝场景不会新增资金预留；上方金额仅为订单规模。</p>':""}
         <p class="section-note">粗估只作核对，以服务端资金、持仓和风险校验为准；不代表成交。参考时点：${esc(new Date(t.signal_at).toLocaleString())}。修改任何订单字段或重新读取账户后，需重新预览。</p>${e.reservation!==null&&e.reservation>e.available?'<p class="notice warning">粗估预留已高于当前可用现金，请先调整；最终仍由服务端校验。</p>':""}<p data-tex-preview-cutoff><strong>保存研究历史截至 ${esc(state.sourceRuleContext?.cutoff_session||"尚未取得一致记录")}</strong>，不是当前报价或买入指令。</p><div class="section-gap"><strong>就地核对同一保存结果的因子</strong><p class="section-note">可明确选择历史诊断情景；不改变这笔订单的方向、金额或参考时点。切换情景后需重新确认订单。</p><div id="tex-preview-factor-controls"></div></div><details data-tex-preview-evidence><summary>核对保存参数与本次只读因子依据</summary><div data-tex-preview-rule>${renderRuleReview(state.sourceRuleContext,state.factorReview)}</div></details>`;
+      const funds=preview.affordability;
+      $("tex-preview-detail").insertAdjacentHTML("afterbegin",`<p class="notice ${funds?.blocking?"warning":""}" data-tex-funds>${esc(funds?.reason||"卖出仍按当前计划的整股归属持仓核对。")}${funds?.maximum_quantity!==undefined?`<br>按当前可用现金、费用预留 ${esc(funds.fee_buffer)} USD 和现金底线 ${esc(funds.cash_floor)} USD，最多可覆盖 ${esc(funds.maximum_quantity)} 股；本单连同底线需 ${esc(funds.required_with_floor)} USD。`:""}</p><p data-tex-capital-comparison>${esc(capitalComparison(state.source,ledger.config.initial_cash).message)}</p>`);
       $("tex-preview-factor-controls").append($("tex-factor-controls"));
     }
     function renderReconciliation() {
@@ -497,13 +590,14 @@
       $("tex-reconcile-stale").hidden=!stale;$("tex-reconcile-submit").disabled=stale||state.busy||Boolean(state.pending);
     }
     const fail=error=>{state.error=readableError(error);render();notify(state.error,true);};
-    section.addEventListener("input",event=>{if(event.target.closest("#tex-order-form"))controller.invalidatePreview();});
+    const selected=()=>{const value={research:state.sourceReference&&clone(state.sourceReference),view:"execution",manual:state.accountId?{account_id:state.accountId,plan_id:state.planId||null}:null};Promise.resolve().then(()=>onSelection(value)).catch(error=>notify("记录继续位置未完成："+readableError(error),true));};
+    section.addEventListener("input",event=>{if(event.target.closest("#tex-order-form"))controller.invalidatePreview();if(event.target.id==="tex-cash"){$("tex-cash").dataset.userEdited="1";renderCapitalComparison();}});
     section.addEventListener("change",event=>{
       const id=event.target.id;
       if(event.target.closest("#tex-order-form"))controller.invalidatePreview();
-      if(id==="tex-source")controller.openResearch(event.target.value===""?null:state.sources[Number(event.target.value)]).catch(fail);
-      if(id==="tex-account")controller.openAccount(event.target.value,{retain:false}).catch(fail);
-      if(id==="tex-plan")try{controller.selectPlan(event.target.value);}catch(error){fail(error);}
+      if(id==="tex-source")controller.openResearch(event.target.value===""?null:state.sources[Number(event.target.value)]).then(()=>{controller.selectPlan("");selected();}).catch(fail);
+      if(id==="tex-account")controller.openAccount(event.target.value,{retain:false}).then(selected).catch(fail);
+      if(id==="tex-plan")try{controller.selectPlan(event.target.value);selected();}catch(error){fail(error);}
       if(id==="tex-order"&&event.target.value)try{controller.selectOrder(event.target.value);}catch(error){fail(error);}
       if(id==="tex-side")render();
       if(id==="tex-factor-position")try{controller.setFactorPosition(event.target.value);}catch(error){fail(error);}
@@ -513,10 +607,13 @@
       const target=event.target.closest("[data-tex-action]");if(!target||target.disabled)return;
       const name=target.dataset.texAction;
       const work=async()=>{if(name==="refresh")return controller.refresh();if(name==="check-pending")return controller.checkPending();if(name==="create-plan")return controller.createPlan();if(name==="compare")return controller.compare();if(name==="read-rule")return controller.readSavedRuleContext();if(name==="read-factors"){const evidence=section.querySelector('[data-tex-preview-evidence]');if(evidence)evidence.open=true;return controller.readFactors();}
-        if(name==="open-account"){$("tex-new-account").open=true;$("tex-name").focus();return;}
+        if(name==="open-account"||name==="use-research-capital"){
+          const saved=researchCapital(state.source),cash=$("tex-cash");
+          if(saved?.currency==="USD"&&(name==="use-research-capital"||!cash.dataset.userEdited)){cash.value=String(saved.initial_cash);cash.dataset.userEdited="1";$("tex-confirm-account").checked=false;}
+          renderCapitalComparison();$("tex-new-account").open=true;(name==="use-research-capital"?cash:$("tex-name")).focus();return;}
         if(name==="open-advanced"){$("tex-advanced").open=true;$("tex-advanced").scrollIntoView({block:"start"});return;}
         if(name==="cancel")return controller.recordCancel(v("tex-cancel-outcome"));if(name==="stop")return controller.control("stop","用户在订单核对页明确暂停新增风险");if(name==="resume")return controller.control(name,v("tex-control-reason"));if(name==="begin-reconcile")return controller.beginReconciliation();if(name==="order-time"){fillNow("tex-order-at");controller.invalidatePreview();return;}if(name==="reconcile-time")return fillNow("tex-reconcile-at");};
-      work().catch(fail);
+      work().then(()=>{if(name==="create-plan"||name==="check-pending")selected();}).catch(fail);
     });
     section.addEventListener("submit",event=>{event.preventDefault();if(!event.target.reportValidity())return;const id=event.target.id;
       const work=async()=>{
@@ -526,7 +623,7 @@
         if(id==="tex-observation-form")return controller.recordObservation({state:v("tex-observed-state"),quantity:v("tex-observed-qty"),notional:v("tex-observed-notional"),fee:v("tex-observed-fee"),confirm:checked("tex-confirm-observation")});
         if(id==="tex-reconcile-form")return controller.reconcile({cash:v("tex-reconcile-cash"),at:v("tex-reconcile-at"),confirm:checked("tex-confirm-reconcile"),orders:state.reconciliation.orders.map((_,i)=>({state:v("tex-reconcile-state-"+i),quantity:v("tex-reconcile-qty-"+i),notional:v("tex-reconcile-notional-"+i),fee:v("tex-reconcile-fee-"+i)})),positions:state.reconciliation.positions.map((_,i)=>({quantity:v("tex-reconcile-position-"+i)}))});
       };work().then(result=>{if(result&&!state.pending){
-        if(id==="tex-account-form"){$("tex-confirm-account").checked=false;event.target.closest("details").open=false;}
+        if(id==="tex-account-form"){$("tex-confirm-account").checked=false;event.target.closest("details").open=false;selected();}
         if(id==="tex-confirm-form")$("tex-confirm-order").checked=false;
         if(id==="tex-observation-form")$("tex-confirm-observation").checked=false;
         if(id==="tex-reconcile-form")$("tex-confirm-reconcile").checked=false;
@@ -535,7 +632,7 @@
     render();
     return {setSources:controller.setSources,refresh:controller.refresh,reveal:()=>{section.hidden=false;section.scrollIntoView({block:"start"});},hide:()=>{section.hidden=true;},controller,element:section};
   }
-  const api={createController,install:installTerminalExecutionUI,reconciliationIdentities,readyResearch,accountMatchesResearch,renderExecutionExplanation,displayVersion,savedResultTitle,savedRuleContext,savedFactorContext,renderRuleReview};
+  const api={createController,install:installTerminalExecutionUI,reconciliationIdentities,readyResearch,accountMatchesResearch,renderExecutionExplanation,displayVersion,savedResultTitle,savedRuleContext,savedFactorContext,renderRuleReview,wholeShareAffordability,researchCapital,capitalComparison,remainingSnapshot,renderRemainingState,renderStrategyStage};
   root.installTerminalExecutionUI=installTerminalExecutionUI;
   if(typeof module==="object"&&module.exports)module.exports=api;
 })(typeof globalThis!=="undefined"?globalThis:window);

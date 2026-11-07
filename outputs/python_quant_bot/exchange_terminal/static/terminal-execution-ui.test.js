@@ -33,6 +33,24 @@ function fixture(overrides={}) {
 }
 async function selected(f){await f.controller.openResearch(source);await f.controller.openAccount("account-a");}
 
+test('journey restore reads the exact research account and plan without any write or old confirmation',async()=>{
+  const f=fixture(),view=account();view.ledger.plans=[{plan_id:'plan-one',research_binding:research().binding}];f.setView(view);
+  await f.controller.restoreSelection({research:{kind:source.kind,id:source.id},manual:{account_id:'account-a',plan_id:'plan-one'}});
+  assert.equal(f.controller.state.planId,'plan-one');assert.equal(f.controller.state.orderPreview,null);assert.equal(f.writes.length,0);
+  view.ledger.plans[0].research_binding.task_version=2;f.setView(view);
+  await assert.rejects(f.controller.restoreSelection({research:source,manual:{account_id:'account-a',plan_id:'plan-one'}}),/尚未核对/);
+  assert.equal(f.controller.state.planId,'');assert.equal(f.writes.length,0);
+});
+test('journey restore leaves an unresolved execution request intact',async()=>{const f=fixture(),pending={action:'terminal_execution_submit',payload:{client_request_id:'old'}};f.controller.state.pending=pending;await assert.rejects(f.controller.restoreSelection({research:source}),/原演练请求/);assert.equal(f.controller.state.pending,pending);assert.equal(f.reads.length,0);assert.equal(f.writes.length,0);});
+
+test('journey callbacks only follow explicit UI selection; restore and refresh never save preferences',async()=>{
+  const {chromium}=require('playwright'),path=require('node:path'),browser=await chromium.launch({headless:true});
+  try{const page=await browser.newPage();await page.setContent('<main></main>');await page.addScriptTag({path:path.join(__dirname,'terminal-execution-ui.js')});const view=account();view.ledger.plans=[{plan_id:'plan-one',research_binding:research().binding}];
+    await page.evaluate(async ({source,research,view})=>{window.chosen=[];window.writes=[];window.messages=[];window.widget=installTerminalExecutionUI({host:document.querySelector('main'),notify:m=>messages.push(m),onUserSelection:p=>{chosen.push(p);throw Error('preference unavailable');},api:async r=>r==='terminal_execution_accounts'?{items:[{account_id:view.account_id,label:view.label}]}:r.startsWith('terminal_execution_account/')?view:r.startsWith('terminal_execution_research/')?research:{},perform:async(...args)=>writes.push(args)});widget.setSources([source]);await widget.controller.restoreSelection({research:{kind:source.kind,id:source.id},manual:{account_id:view.account_id,plan_id:'plan-one'}});await widget.refresh();widget.element.hidden=false;},{source,research:research(),view});
+    assert.deepEqual(await page.evaluate(()=>chosen),[]);await page.locator('#tex-source').selectOption('0');await page.waitForFunction(()=>chosen.length===1);assert.equal(await page.evaluate(()=>widget.controller.state.source.binding.report_id),source.id);assert.equal(await page.evaluate(()=>widget.controller.state.planId),'');assert.deepEqual(await page.evaluate(()=>writes),[]);assert.match((await page.evaluate(()=>messages)).join(' '),/继续位置/);await page.close();
+  }finally{await browser.close();}
+});
+
 test("source/account reads never select orders or start a computation",async()=>{
   const f=fixture();await f.controller.refresh();assert.equal(f.controller.state.account,null);
   await selected(f);assert.equal(f.writes.length,0);assert.equal(f.controller.state.planId,"");assert.equal(f.controller.state.orderId,"");
@@ -146,6 +164,97 @@ test("preview requires explicit direction and writes nothing until separate conf
   await f.controller.confirmOrder(true);assert.equal(f.writes.length,before+1);
   assert.equal(f.writes.at(-1).action,"terminal_execution_submit");assert.equal(f.writes.at(-1).payload.signal_at,Date.parse(form.at));
   await assert.rejects(()=>f.controller.confirmOrder(true),/预览已失效/);assert.equal(f.writes.length,before+1);
+});
+
+test("100 dollars cannot confirm a 200 dollar whole share and reserved fees remain accounted for",async()=>{
+  const f=await planned(fixture()),before=f.writes.length;
+  f.controller.state.account.ledger.available_cash="100";
+  f.controller.state.account.ledger.config.rules.cash_floor="0";
+  const preview=f.controller.previewOrder({...orderForm(),quantity:"1",limit:"200"});
+  assert.equal(preview.affordability.status,"INSUFFICIENT_FUNDS");
+  assert.equal(preview.affordability.maximum_quantity,"0");
+  assert.match(preview.affordability.reason,/不足以买入一股/);
+  await assert.rejects(()=>f.controller.confirmOrder(true),/不足以买入一股/);
+  await assert.rejects(()=>f.controller.submitOrder({...orderForm(),quantity:"1",limit:"200",confirm:true}),/不足以买入一股/);
+  assert.equal(f.writes.length,before);
+  assert.equal(f.controller.state.account.ledger.available_cash,"100");
+});
+
+test("whole-share funding uses exact decimals including fees and the existing cash floor",()=>{
+  const ledger=account().ledger;ledger.config.rules.cash_floor="0";ledger.config.rules.fee_buffer="0.20";ledger.available_cash="0.30";
+  let funds=ui.wholeShareAffordability({side:"BUY",quantity:1,limit_price:"0.10"},ledger);
+  assert.equal(funds.status,"FUNDS_COVERED");assert.equal(funds.required_with_floor,"0.30");
+  ledger.available_cash="0.29999999";
+  funds=ui.wholeShareAffordability({side:"BUY",quantity:1,limit_price:"0.10"},ledger);
+  assert.equal(funds.status,"INSUFFICIENT_FUNDS");assert.equal(funds.maximum_quantity,"0");
+  ledger.available_cash="200.99";ledger.config.rules.fee_buffer="1";
+  assert.equal(ui.wholeShareAffordability({side:"BUY",quantity:1,limit_price:"200"},ledger).status,"INSUFFICIENT_FUNDS");
+  ledger.available_cash="201";
+  assert.equal(ui.wholeShareAffordability({side:"BUY",quantity:1,limit_price:"200"},ledger).status,"FUNDS_COVERED");
+  ledger.config.rules.cash_floor="0.01";
+  assert.equal(ui.wholeShareAffordability({side:"BUY",quantity:1,limit_price:"200"},ledger).status,"INSUFFICIENT_FUNDS");
+  delete ledger.config.rules.fee_buffer;
+  assert.equal(ui.wholeShareAffordability({side:"BUY",quantity:1,limit_price:"200"},ledger).status,"UNKNOWN");
+});
+
+test("research and simulation capitals are shown separately and old absent capital stays unknown",()=>{
+  const saved=research();saved.research_capital={schema_version:"hakimi-saved-research-capital-v1",status:"RECORDED",initial_cash:10000,currency:"USD",report_id:saved.binding.report_id,report_hash:saved.binding.report_hash};
+  const before=copy(saved),value=ui.capitalComparison(saved,"100");
+  assert.equal(value.same,false);assert.match(value.message,/研究本金：10,000 USD/);assert.match(value.message,/演练初始本金：100.00 USD/);assert.match(value.message,/不按比例缩放/);
+  assert.equal(ui.capitalComparison(saved,"10000").same,true);assert.deepEqual(saved,before);
+  saved.research_capital.currency=null;saved.research_capital.status="UNKNOWN";
+  assert.match(ui.capitalComparison(saved,"10000").historical,/10,000.*币种未记录/);
+  assert.match(ui.capitalComparison(saved,"10000").message,/不能确认/);
+  saved.research_capital.report_id="different";
+  assert.match(ui.capitalComparison(saved,"100").historical,/未记录/);
+  assert.match(ui.capitalComparison(research(),"100").message,/不能确认/);
+});
+
+function remainingAccount(){
+  const view=account();view.ledger.cash="959.60";view.ledger.reserved_cash="60.60";view.ledger.available_cash="899.00";
+  view.ledger.positions=[{owner_id:"owner-a",security_id:"TEST:id",quantity:4}];
+  view.ledger.plans=[{plan_id:"plan-one",stage:"SIMULATION",owner_id:"owner-a",research_binding:research().binding}];
+  view.ledger.orders=[{order_id:"partial-order",state:"PARTIAL",terms:{security_id:"TEST:id",owner_id:"owner-a",side:"BUY",quantity:10},filled:4,notional:"40",fee:"0.4",reserved_cash:"60.60",reserved_shares:0}];
+  return view;
+}
+
+test("stop remaining state describes one snapshot without releasing positions, open orders or reserves",()=>{
+  const view=remainingAccount(),before=copy(view),snapshot=ui.remainingSnapshot(view);
+  assert.equal(snapshot.positions_count,1);assert.equal(snapshot.open_orders_count,1);assert.equal(snapshot.unconfirmed_orders_count,0);assert.equal(snapshot.saved_plans_count,1);
+  assert.equal(snapshot.reserved_cash,"60.60");assert.equal(snapshot.positions[0].quantity,4);
+  const html=ui.renderRemainingState(snapshot,{receipt:true});
+  assert.match(html,/仍有 1 项持仓、1 笔未结束订单/);assert.match(html,/60.60 USD/);assert.match(html,/TEST：4 股/);assert.match(html,/未自动撤单.*释放预留/);assert.match(html,/未读取券商/);
+  assert.deepEqual(view,before);
+  view.ledger.orders[0].state="TIMEOUT_UNCONFIRMED";
+  assert.equal(ui.remainingSnapshot(view).unconfirmed_orders_count,1);
+  delete view.ledger.positions[0].quantity;
+  const incomplete=ui.remainingSnapshot(view);assert.equal(incomplete.positions_count,null);assert.match(ui.renderRemainingState(incomplete),/仍有 未核对 项持仓/);
+  assert.match(ui.renderRemainingState(null),/不能当作零/);
+  assert.equal(ui.remainingSnapshot(null),null);assert.equal(ui.remainingSnapshot({}),null);
+});
+
+test("stop success retains its receipt snapshot when following reads fail, while missing new snapshot stays unknown",async()=>{
+  for(const includeSnapshot of [true,false]){
+    const original=remainingAccount(),snapshot=copy(original);snapshot.paused=true;snapshot.ledger.revision=2;
+    const writes=[],c=ui.createController({uuid:()=>"stop-one",api:async()=>{throw Error("post-stop read failed");},perform:async(action,payload,options)=>{
+      writes.push({action,payload});const value={receipt:{schema_version:"hakimi-offline-execution-receipt-v1",request_id:payload.client_request_id,account_id:payload.account_id,permissions:copy(permissions),outcome:{status:"NEW_RISK_STOPPED"}},...(includeSnapshot?{account:snapshot}:{read_warning:"snapshot read failed"})};
+      await options.onSuccess(value);return value;
+    }});
+    Object.assign(c.state,{account:original,accountId:"account-a"});await c.control("stop","explicit stop");
+    assert.equal(c.state.fact.status,"NEW_RISK_STOPPED");assert.equal(c.state.pending,null);assert.equal(c.state.accountStale,true);assert.equal(writes.length,1);assert.equal(writes[0].action,"terminal_execution_stop");
+    if(includeSnapshot){assert.equal(c.state.fact.control.snapshot.reserved_cash,"60.60");assert.equal(c.state.fact.control.snapshot.revision,2);snapshot.ledger.reserved_cash="0";assert.equal(c.state.fact.control.snapshot.reserved_cash,"60.60");}
+    else{assert.equal(c.state.fact.control.snapshot,null);assert.match(ui.renderRemainingState(c.state.fact.control.snapshot),/尚未核对/);assert.equal(c.state.account.ledger.reserved_cash,"60.60");}
+  }
+});
+
+test("strategy stage uses exact selected research and plan identity and never calls acceptance profit",()=>{
+  const f=fixture();Object.assign(f.controller.state,{source:research(),sourceReference:source,account:remainingAccount(),accountId:"account-a",planId:"plan-one"});
+  let html=ui.renderStrategyStage(f.controller.state);
+  assert.match(html,/历史研究：已完成/);assert.match(html,/已绑定同一任务/);assert.match(html,/接受不等于成交/);assert.match(html,/券商执行：未连接/);assert.match(html,/手工合成订单练习/);assert.doesNotMatch(html,/已盈利|自动交易已运行/);
+  f.controller.state.account.ledger.plans[0].research_binding.task_version=2;
+  html=ui.renderStrategyStage(f.controller.state);assert.match(html,/另一份保存结果/);assert.doesNotMatch(html,/已绑定同一任务/);
+  f.controller.state.account.ledger.plans[0].research_binding.task_version=1;f.controller.state.accountStale=true;
+  html=ui.renderStrategyStage(f.controller.state);assert.match(html,/上次快照记录 1 笔未结束合成订单，现在需要重新核对/);assert.doesNotMatch(html,/当前账户有/);
 });
 
 test("changed source, account revision and edited order each invalidate the original preview",async()=>{
@@ -349,5 +458,53 @@ test("factor-review DOM: one inline control preserves preview and details across
     await page.fill('#tex-quantity','2');assert.equal(await page.locator('#tex-confirm-form').isVisible(),false);assert.equal(await page.locator('#tex-factor-controls-home #tex-factor-position').count(),1);assert.equal(await page.locator('#tex-factor-position').count(),1);
     await page.locator('#tex-preview-order').click();await page.waitForFunction(()=>ui.controller.state.orderPreview);assert.equal(await page.locator('#tex-preview-detail #tex-factor-position').count(),1);assert.equal(await page.locator('[data-tex-preview-evidence]').getAttribute('open'),null);await page.locator('[data-tex-preview-evidence]>summary').click();
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);if(process.env.EXECUTION_FACTOR_EVIDENCE_DIR)await page.screenshot({path:path.join(process.env.EXECUTION_FACTOR_EVIDENCE_DIR,'order-factor-'+width+'.png'),fullPage:true});assert.equal(f.writes.length,0);assert.deepEqual(errors,[]);assert.deepEqual(external,[]);await context.close();
+  }
+});
+
+test("stop remaining-state DOM keeps success and unresolved balances clear at 1280 and 390 with keyboard stop",async t=>{
+  const fs=require('node:fs'),path=require('node:path'),{chromium}=require('playwright');
+  const executablePath=[process.env.PLAYWRIGHT_BROWSER_EXECUTABLE,chromium.executablePath(),'C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(v=>v&&fs.existsSync(v));
+  const browser=await chromium.launch({headless:true,...(executablePath?{executablePath}:{}),args:['--disable-background-networking','--no-first-run']});t.after(()=>browser.close());
+  for(const width of [1280,390]){
+    let view=remainingAccount(),readFailure=false,omitSnapshot=false;const writes=[],original=copy(view.ledger),errors=[],external=[];
+    const context=await browser.newContext({viewport:{width,height:960}}),page=await context.newPage();t.after(()=>context.close());
+    page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+    await context.route('**/*',r=>{if(r.request().url()==='http://127.0.0.1:55322/')return r.fulfill({contentType:'text/html',body:'<!doctype html><meta charset="utf-8"><title>合成账户停止与剩余状态</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font:16px/1.6 system-ui;margin:20px}.panel{border:1px solid #ccd4e0;padding:16px}.section-gap{margin-top:20px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field label{display:block}input,select{max-width:100%;box-sizing:border-box;width:100%}input[type=checkbox]{width:auto}.kv{display:grid;grid-template-columns:1fr 1fr}.notice{padding:12px;background:#eef4ff}.warning{background:#fff4e6}.actions{display:flex;gap:10px;flex-wrap:wrap}button,input,select{font:inherit}.btn{padding:8px 14px}</style><main id="host"></main>'});external.push(r.request().url());return r.abort();});
+    await page.exposeFunction('readStopFixture',async resource=>{
+      if(resource.startsWith('terminal_execution_research/'))return research();
+      if(resource.startsWith('terminal_runs/'))return {};
+      if(readFailure)throw Error('explicit post-control snapshot read failure');
+      if(resource==='terminal_execution_accounts')return {items:[{account_id:'account-a',label:'虚构账户'}]};
+      if(resource==='terminal_execution_account/account-a')return copy(view);
+      throw Error('unexpected resource '+resource);
+    });
+    await page.exposeFunction('writeStopFixture',async(action,payload)=>{
+      assert.ok(['terminal_execution_stop','terminal_execution_resume'].includes(action));writes.push(action);
+      view.paused=action.endsWith('stop');view.status=view.paused?'PAUSED':'READY_FOR_SYNTHETIC_EXECUTION';view.ledger.revision++;
+      const result={receipt:{schema_version:'hakimi-offline-execution-receipt-v1',request_id:payload.client_request_id,account_id:payload.account_id,permissions:copy(permissions),outcome:{status:view.paused?'NEW_RISK_STOPPED':'NEW_RISK_RESUMED'}},...(omitSnapshot?{read_warning:'explicit missing post-control snapshot'}:{account:copy(view)})};
+      readFailure=view.paused;return result;
+    });
+    await page.goto('http://127.0.0.1:55322/');assert.equal(await page.title(),'合成账户停止与剩余状态');
+    await page.addScriptTag({content:fs.readFileSync(path.join(__dirname,'terminal-execution-ui.js'),'utf8')});
+    await page.evaluate(ref=>{window.stopUI=installTerminalExecutionUI({host:document.querySelector('#host'),api:readStopFixture,perform:async(action,payload,options)=>{const value=await writeStopFixture(action,payload);await options.onSuccess(value);return value;}});stopUI.setSources([ref]);stopUI.reveal();},source);
+    assert.match(await page.locator('#host').innerText(),/这份策略现在到哪一步/);await page.selectOption('#tex-source','0');
+    await page.locator('[data-tex-action=refresh]').click();await page.selectOption('#tex-account','account-a');await page.waitForFunction(()=>stopUI.controller.state.account&&!stopUI.controller.state.accountStale);
+    await page.getByText('已有计划与结果差异',{exact:true}).click();await page.selectOption('#tex-plan','plan-one');
+    const stop=page.locator('[data-tex-action=stop]');await stop.focus();await page.keyboard.press('Enter');
+    await page.waitForFunction(()=>stopUI.controller.state.fact?.status==='NEW_RISK_STOPPED'&&!stopUI.controller.state.busy);
+    assert.match(await page.locator('#tex-fact').innerText(),/已暂停新增风险/);assert.match(await page.locator('#tex-fact').innerText(),/仍有 1 项持仓、1 笔未结束订单/);assert.match(await page.locator('#tex-fact').innerText(),/60.60 USD/);
+    assert.match(await page.locator('#tex-account-detail').innerText(),/上次读取的剩余状态/);assert.equal(await page.locator('#tex-submit-order').isDisabled(),true);
+    await page.locator('#tex-fact').scrollIntoViewIfNeeded();if(process.env.EXECUTION_STOP_EVIDENCE_DIR)await page.screenshot({path:path.join(process.env.EXECUTION_STOP_EVIDENCE_DIR,'stop-recorded-'+width+'.png')});
+    readFailure=false;await page.locator('[data-tex-action=refresh]').click();await page.waitForFunction(()=>!stopUI.controller.state.accountStale);
+    await page.locator('[data-tex-action=open-advanced]').click();await page.fill('#tex-control-reason','已核对仍有持仓与预留');await page.locator('[data-tex-action=resume]').click();
+    await page.waitForFunction(()=>stopUI.controller.state.fact?.status==='NEW_RISK_RESUMED'&&!stopUI.controller.state.busy);
+    assert.match(await page.locator('#tex-fact').innerText(),/未补发订单、撤单或清仓/);
+    omitSnapshot=true;await stop.click();await page.waitForFunction(()=>stopUI.controller.state.fact?.status==='NEW_RISK_STOPPED'&&!stopUI.controller.state.busy);
+    assert.match(await page.locator('#tex-fact').innerText(),/剩余状态尚未核对/);assert.doesNotMatch(await page.locator('#tex-fact').innerText(),/仍有 0 项持仓/);
+    await page.locator('#tex-fact').scrollIntoViewIfNeeded();if(process.env.EXECUTION_STOP_EVIDENCE_DIR)await page.screenshot({path:path.join(process.env.EXECUTION_STOP_EVIDENCE_DIR,'stop-unknown-'+width+'.png')});
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    assert.deepEqual(writes,['terminal_execution_stop','terminal_execution_resume','terminal_execution_stop']);
+    for(const key of ['cash','reserved_cash','available_cash','positions','orders','plans'])assert.deepEqual(view.ledger[key],original[key]);
+    assert.deepEqual(errors,[]);assert.deepEqual(external,[]);await context.close();
   }
 });

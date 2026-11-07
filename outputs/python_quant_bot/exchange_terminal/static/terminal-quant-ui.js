@@ -146,7 +146,7 @@
 
   globalThis.installTerminalQuantUI = function installTerminalQuantUI({ api, perform, esc, modal, closeDialog,
     showError, getSelectedCoreRun = () => null, openCoreTask, openCoreRun,
-    openCoreTaskForm, openCoreImport, initializeCoreExample, runCoreTask }) {
+    openCoreTaskForm, openCoreImport, initializeCoreExample, runCoreTask, openCoreTeachingTask, openCoreOperations }) {
     if (document.getElementById("terminalQuantWorkspace")) return;
     const coreMain = document.getElementById("main");
     const navRoot = document.getElementById("navigation");
@@ -233,6 +233,8 @@
       // fails; do not leave an empty-results placeholder beside that fact.
       state.runs = [run,...state.runs.filter((item) => identity(item) !== id)];
       renderRuns();
+      state.firstUseUI?.markContinuation({kind:"terminal-run",id});
+      if(!state.selectedRunId||state.selectedRunId===id)state.rememberJourney?.({research:{kind:'terminal_run',id},view:'results'},{restoreOnAnchor:false});
     }
     async function readRunOutcome(run) {
       const id = run?.run_id || run?.id;
@@ -241,8 +243,62 @@
       // already selected while the operation or its auxiliary refresh ran.
       await Promise.all([refreshRecords(),state.selectedRunId ? Promise.resolve() : showRun(id)]);
     }
+    function sameJourneyReference(a,b) {return (a?.kind||null)===(b?.kind||null)&&(a?.id||null)===(b?.id||null);}
+    function renderJourney() {
+      const controller=state.journeyController,target=$("tq-journey");if(!controller||!target)return;
+      const current=controller.state,selection=current.selection,resolution=current.snapshot?.resolution||{};
+      const stages=[];
+      for(const [key,label] of [["task","已保存任务"],["research","历史研究结果"],["replay","逐日模拟 · 每次明确推进"],["manual","本地合成订单练习"],["broker",selection?.broker?.plan_id?"已保存离线计划 · 券商未连接":selection?.broker?.intent_id?"已记录未发送意图 · 券商未连接":"候选资料 · 券商未连接"]]) {
+        if(selection?.[key])stages.push(`<p>${esc(label)}${resolution[key]?.status&&resolution[key].status!=="VERIFIED"?" · 未核对，原编号保留":""}</p>`);
+      }
+      target.innerHTML=`<h3>继续这次策略</h3>${selection?stages.join(""):'<p>选中任务或结果后，会记住同一份研究、演练和计划。</p>'}${current.error?warning(current.error):""}${current.diagnostics?.length?warning(current.diagnostics.map(row=>row.message).join("；")):""}<div class="actions">${button("继续查看原记录","journey-continue","",!selection||current.loading||current.saving||current.restoring||current.pending?"disabled":"")}${button("重新核对继续位置","journey-read","",current.saving?"disabled":"")}</div>${selection?`<details><summary>核对原记录编号</summary><pre class="code-detail">${esc(JSON.stringify(selection,null,2))}</pre></details>`:""}`;
+      const replayEntry=executionHost.querySelector('[data-view="continuous"]');
+      if(replayEntry){replayEntry.disabled=selection?.research?.kind==='core_run';replayEntry.title=replayEntry.disabled?'这份股票研究使用本地合成订单练习；逐日模拟仅支持对应原策略。':'';}
+    }
+    async function rememberJourney(patch,{restoreOnAnchor=true}={}) {
+      const controller=state.journeyController;if(!controller)return false;
+      const previous=controller.state.selection,changed=Object.hasOwn(patch,"research")&&!sameJourneyReference(previous?.research,patch.research);
+      const navigation=state.navigationRequest,userRequest=state.journeyUserRequest=(state.journeyUserRequest||0)+1;
+      try {await controller.select(patch);
+        if(changed&&restoreOnAnchor&&navigation===state.navigationRequest&&userRequest===state.journeyUserRequest)await restoreJourney({navigation,userRequest});
+        return true;
+      } catch(error){notify("继续位置未保存，已有业务记录保留："+operationErrorText(error),true);return false;}
+    }
+    async function restoreJourney({navigation=state.navigationRequest,userRequest=state.journeyUserRequest||0}={}) {
+      if(!state.journeyController)return;
+      state.journeyRestoreContext={navigation,userRequest};
+      const selection=state.journeyController.state.selection;
+      if(selection&&(selection.manual||selection.view==='execution'))await executionUI.refresh();
+      if(navigation!==state.navigationRequest||userRequest!==(state.journeyUserRequest||0))return;
+      await state.journeyController.restore();
+    }
+    async function restoreJourneyView(view,snapshot) {
+      const context=state.journeyRestoreContext;
+      if(!context||context.navigation!==state.navigationRequest||context.userRequest!==(state.journeyUserRequest||0))return;
+      const selection=snapshot.selection;
+      if(view!=="results"){show(view,true,{restored:true});return;}
+      if(selection.research){
+        if(selection.research.kind==='terminal_run'){show("results",true,{restored:true});await showRun(selection.research.id);}
+        else if(snapshot.resolution?.research?.status==='VERIFIED'){hide();await openCoreRun(selection.research.id);}
+        else {show("results",true,{restored:true});notify("原研究暂未核对，已保留原编号；不会打开另一份结果。",true);}
+      }else if(selection.task){
+        if(snapshot.resolution?.task?.status!=='VERIFIED'){show("tasks",true,{restored:true});notify("保存版本暂未核对，原引用保留；不会改为最新版本。",true);return;}
+        if(selection.task.kind==='core_task'){hide();await openCoreTask(selection.task.id);}
+        else {show("tasks",true,{restored:true});state.savedTask=snapshot.resolution.task.data;renderSavedTask();}
+      }else show("results",true,{restored:true});
+    }
+    async function openJourneySource(reference,view="execution") {
+      show(view,true,{restored:true});
+      const navigation=state.navigationRequest;
+      const saved=await rememberJourney({research:reference,view},{restoreOnAnchor:false});
+      if(navigation!==state.navigationRequest)return;
+      if(saved)return restoreJourney();
+      // Preference failure does not block read-only access to the user's source.
+      if(view==='execution')return executionUI.controller.openResearch(reference);
+      if(view==='broker')return brokerUI.controller.openResearch(reference);
+    }
     function send(kind, payload) { parent.postMessage({schema:SCHEMA, kind, payload}, location.origin); }
-    function show(view = "dashboard", replaceHistory = false) {
+    function show(view = "dashboard", replaceHistory = false, {restored=false} = {}) {
       state.navigationRequest = (state.navigationRequest || 0) + 1;
       const wasVisible = state.visible;
       if (state.unifiedView === "daily" && view !== "daily") dailyUI.hide?.();
@@ -256,6 +312,13 @@
       continuousHost.hidden = state.unifiedView !== "continuous";
       if (location.hash !== "#" + state.unifiedView) history[replaceHistory ? "replaceState" : "pushState"](null,"","#" + state.unifiedView);
       syncUnifiedNavigation();
+      if(restored){
+        if(state.unifiedView==='execution')executionUI.element.hidden=false;
+        if(state.unifiedView==='broker')brokerUI.element.hidden=false;
+        if(state.unifiedView==='continuous')continuousUI.element.hidden=false;
+        if(['tasks','results'].includes(state.unifiedView))$("tq-saved-records").open=true;
+        return;
+      }
       if (!state.loaded || !wasVisible) refreshAll().catch((error) => notify(error.message, true));
       if (state.unifiedView === "daily") {
         dailyUI.reveal().catch(error => notify(operationErrorText(error),true));
@@ -276,6 +339,8 @@
       } else if (state.unifiedView === "dashboard") {
         requestAnimationFrame(() => window.scrollTo({top:0,left:0,behavior:"auto"}));
       } else {
+        const records = $("tq-saved-records"); if (records && ["tasks","results"].includes(state.unifiedView)) records.open = true;
+        if (state.unifiedView === "insights") $("tq-insights-tools").open = true;
         const scrollTarget = state.unifiedView === "insights" ? $("terminalInsightsWorkspace") : $(state.unifiedView === "tasks" ? "tq-tasks" : "tq-runs").closest(".panel");
         requestAnimationFrame(() => {
           if (state.unifiedView === "insights" && insightsUI) { insightsUI.reveal(); return; }
@@ -316,13 +381,14 @@
     const host = document.createElement("section"); host.id = "terminalQuantWorkspace"; host.className = "main tq"; host.hidden = true;
     host.setAttribute("aria-label", "统一量化研究工作台");
     host.innerHTML = `
-      <div class="page-heading"><div><h1>研究工作台</h1><p>选股票，查看策略条件与理由，保存回测后核对订单。已有任务与结果在同一个窗口继续使用。</p></div><div class="actions">${button("选股票与数据","daily")}${button("新建研究","new-research")}${button("导入行情","core-import")}${button("刷新记录","refresh")}</div></div>
+      <div class="page-heading"><div><h1>策略与历史结果</h1><p>选择资料，确认策略和本金，再看懂这段历史的赚亏。</p></div><div class="actions">${button("刷新已保存记录","refresh")}</div></div>
+      <div id="tq-first-use"></div>
       <div id="tq-example" class="notice section-gap" hidden>可使用明确标注的虚构行情熟悉操作。示例不代表真实市场，不能复用为工作台策略的真实行情。${button("准备虚构教学示例","core-example")}</div>
       <div id="tq-message" class="notice" role="status" aria-live="polite" hidden></div>
       <div id="tq-completion" class="notice section-gap" role="status" aria-live="polite" hidden></div>
       <div id="tq-refresh-message" class="notice warning section-gap" role="status" aria-live="polite" hidden></div>
-      <div id="tq-context" class="notice section-gap">从行情、雷达或策略分析进入，可带入当前标的和表单参数。</div>
-      <div class="tq-flow" aria-label="研究步骤"><span>1 核对并冻结行情</span><span>2 保存策略任务</span><span>3 运行与复盘结果</span></div>
+      <details id="tq-context-tools" class="section-gap"><summary style="min-height:44px;padding:10px 0">查看从行情页带入的选择</summary><div id="tq-context" class="notice section-gap">从行情、雷达或策略分析进入，可带入当前标的和表单参数。</div></details>
+      <details id="tq-data-tools" class="section-gap"><summary style="min-height:44px;padding:10px 0">专业资料工具：本地缓存、导入与复用</summary><div class="actions section-gap">${button("导入自己的文件","core-import")}${button("选择股票与数据","daily")}</div>
       <section class="panel"><div class="panel-head"><h2>1 · 核对本地缓存日线</h2><div class="actions"><label for="tq-symbol">标的</label><input id="tq-symbol" maxlength="40" placeholder="例如 AAPL / BTC-USDT">${button("读取本地日线","market")}</div></div><div class="panel-body"><div class="field"><label for="tq-source">单一来源、时段与价格口径</label><select id="tq-source"><option value="">先读取标的，再选择本地来源</option></select><span class="hint">不同来源、时段和复权口径不会拼接。更换来源后需要重新核对。</span></div></div><div class="panel-body" id="tq-market">尚未读取。这里只读取已有本地行情，不连接外部来源。</div></section>
       <section class="panel section-gap"><div class="panel-head"><h2>或复用已导入行情</h2></div><div class="panel-body">
         <p class="section-note">复用已接受的 CSV 或行情快照，沿用同一份行情及原来源声明、文件校验值。原输入保持原样；这里只为原工作台策略建立研究输入，不运行回测、不提升数据认证或交易权限。</p>
@@ -331,7 +397,8 @@
         <label class="check-label section-gap"><input id="tq-confirm-core-input" type="checkbox" disabled>我已核对原来源与校验值，保留原输入的研究限制。</label>
         <div class="actions section-gap">${button("复用这份行情","import-core-input","","disabled")}</div>
       </div></section>
-      <section class="panel section-gap"><div class="panel-head"><h2 id="tq-form-title">2 · 新建研究</h2>${button("重新填写新任务","new")}</div><div class="panel-body"><form id="tq-task-form">
+      </details><details id="tq-task-settings" class="section-gap"><summary style="min-height:44px;padding:10px 0">选择策略与本金：已有封存行情</summary>
+      <section class="panel section-gap"><div class="panel-head"><h2 id="tq-form-title" tabindex="-1">2 · 新建研究</h2>${button("重新填写新任务","new")}</div><div class="panel-body"><form id="tq-task-form">
         <div id="tq-task-error" class="form-error"></div><div class="form-grid">
           <div class="field"><label for="tq-name">任务名称</label><input id="tq-name" maxlength="64" required placeholder="例如 AAPL 日线研究"></div>
           <div class="field"><label for="tq-strategy">研究规则</label><select id="tq-strategy" required></select><span class="hint">按规则含义选择；程序会打开对应表单。同名规则可能有不同的买卖条件。</span></div>
@@ -339,6 +406,8 @@
         </div><div id="tq-strategy-note" class="section-note section-gap"></div><div id="tq-params" class="form-grid"></div>
         <div id="tq-preflight" class="notice section-gap" role="status" aria-live="polite">选择规则与冻结行情后，会显示完整数据、预热和可评分区间。</div>
         <div class="form-section"><h3>仓位、费用与保护</h3><div class="form-grid">
+          <div class="field"><label for="tq-initial-cash">本次研究本金</label><input id="tq-initial-cash" type="number" min="0.01" max="1000000000000" step="any" value="10000" required><span class="hint">只计算这笔本金的历史结果；修改后保存新版本，旧结果不缩放。</span></div>
+          <div class="field"><label for="tq-capital-currency">本金币种</label><p id="tq-capital-currency">选择封存行情后读取币种；不自动换算。</p></div>
           <div class="field"><label for="tq-position">仓位（%）</label><input id="tq-position" type="number" min="0.000001" max="100" step="any" value="25" required></div>
           <div class="field"><label for="tq-stop">止损价格距离（%）</label><input id="tq-stop" type="number" min="0" max="100" step="any" value="8" required></div>
           <div class="field"><label for="tq-take">止盈价格距离（%）</label><input id="tq-take" type="number" min="0" max="1000" step="any" value="0" required></div>
@@ -349,20 +418,39 @@
         <div class="form-section"><h3>AI 研究依据（可选）</h3><label class="check-label"><input id="tq-use-ai" type="checkbox" disabled>随任务保存这份 AI 研究依据，不改变策略参数</label><div id="tq-ai-evidence" class="section-gap"></div></div>
         <div class="actions"><button id="tq-save-task" type="submit" class="btn primary">保存研究任务</button>${button("采用当前策略表单参数","apply-context")}</div>
         <div id="tq-saved-task" class="notice section-gap" role="status" aria-live="polite" hidden></div>
-      </form></div></section>
+      </form></div></section></details>
+      <details id="tq-saved-records" class="section-gap"><summary style="min-height:44px;padding:10px 0">查看全部策略与历史结果</summary>
       <section class="panel section-gap"><div class="panel-head"><h2>全部策略任务与版本</h2></div><div id="tq-tasks" class="panel-body"></div></section>
       <section class="panel section-gap"><div class="panel-head"><h2>全部回测结果与复盘</h2>${button("比较选中的版本","compare")}</div><div id="tq-runs" class="panel-body"></div><div class="panel-body"><label for="tq-core-comparison">可选：并排查看一份已有导入任务结果（不同引擎不计算收益差）</label><select id="tq-core-comparison"><option value="">不加入</option></select></div><div id="tq-run-detail" class="panel-body"></div></section>
-      <section class="panel section-gap"><div class="panel-head"><h2>原研究记录</h2><div class="actions">${button("查看原组合研究报告","original-portfolio")}${button("策略分析与模拟记录","original-strategy")}</div></div><div class="panel-body"><p class="section-note">直接读取原研究报告文件和策略流水线记录，保留各自身份；历史报告不作为当前报告，不补算、不重签。原组合报告、账户、日志和导出仍在工作台原位置。</p><h3>原研究报告文件</h3><div id="tq-reports"></div><div id="tq-report-detail"></div><h3 class="section-gap">原策略流水线记录</h3><div id="tq-history"></div><div id="tq-history-detail"></div></div></section>`;
-    host.insertAdjacentHTML("beforeend", `<section class="panel section-gap"><div class="panel-head"><h2>工作区与旧结果</h2>${button("查找已有工作区","workspace-list")}</div><div class="panel-body">
+      </details><details id="tq-history-tools" class="section-gap"><summary style="min-height:44px;padding:10px 0">查看旧研究记录与导出入口</summary><section class="panel section-gap"><div class="panel-head"><h2>原研究记录</h2><div class="actions">${button("查看原组合研究报告","original-portfolio")}${button("策略分析与模拟记录","original-strategy")}</div></div><div class="panel-body"><p class="section-note">直接读取原研究报告文件和策略流水线记录，保留各自身份；历史报告不作为当前报告，不补算、不重签。原组合报告、账户、日志和导出仍在工作台原位置。</p><h3>原研究报告文件</h3><div id="tq-reports"></div><div id="tq-report-detail"></div><h3 class="section-gap">原策略流水线记录</h3><div id="tq-history"></div><div id="tq-history-detail"></div></div></section></details>`;
+    host.insertAdjacentHTML("beforeend", `<details id="tq-workspace-tools" class="section-gap"><summary style="min-height:44px;padding:10px 0">工作区、版本与旧结果</summary><section class="panel section-gap"><div class="panel-head"><h2>工作区与旧结果</h2>${button("查找已有工作区","workspace-list")}</div><div class="panel-body">
       <p id="tq-product-identity">正在读取程序版本</p><p>新任务与结果保存在：<strong id="tq-workspace-path">正在读取当前工作区</strong></p>
       <p class="hint">打开旧工作区只读取原任务与结果，不搬迁、不改写，也不会重新运行。</p>
       <label for="tq-old-workspace">已知旧工作区</label><select id="tq-old-workspace"><option value="">点击查找已有工作区</option></select>
       <div class="actions section-gap">${button("读取旧任务与结果","workspace-records")}</div>
-      <div id="tq-workspace-records" class="section-gap"></div><div id="tq-workspace-detail" class="section-gap"></div></div></section>`);
+      <div id="tq-workspace-records" class="section-gap"></div><div id="tq-workspace-detail" class="section-gap"></div></div></section></details>`);
     coreMain.before(host);
+    function revealTaskSettings() {
+      $("tq-task-settings").open = true;
+      const title=$("tq-form-title");
+      requestAnimationFrame(()=>{const navigation=navRoot.closest(".sidebar")?.getBoundingClientRect().height||0;
+        window.scrollTo({top:Math.max(0,window.scrollY+title.getBoundingClientRect().top-navigation-8),left:0,behavior:"auto"});title.focus({preventScroll:true});});
+    }
+    const firstUseUI = globalThis.installTerminalFirstUseUI({host:$("tq-first-use"),getState:()=>state,api,
+      onTeaching:hooks=>act("terminal_prepare_teaching_input",{}, {onRequest:hooks.onRequest,onCommitted:hooks.onCommitted,onSuccess:refreshAll}),
+      onChooseTeaching:async prepared=>{if(typeof openCoreTeachingTask!=="function")throw Error("教学策略设置入口尚未连接。");
+        await openCoreTeachingTask({input_id:prepared.input_id,params:prepared.params,strategy_key:prepared.strategy_key});},
+      onOwnData:()=>show("daily"),
+      onContinue:async record=>{if(record.kind==="core-run"||record.kind==="core-task"){
+          return dispatch(record.kind==='core-run'?'core-result':'core-task',record.id);}
+        if(record.kind==="terminal-run"){$("tq-saved-records").open=true;return dispatch('result',record.id);}
+        const task=state.tasks.find(row=>identity(row)===record.id);if(!task)throw Error("所选任务暂未读到，请重新读取。");return dispatch('edit',task.id||task.task_id);},
+      onOperations:()=>{if(typeof openCoreOperations!=="function")throw Error("原操作记录入口尚未连接。");hide();return openCoreOperations();},
+      onAdvanced:()=>{$("tq-data-tools").open=true;$("tq-data-tools").querySelector("summary").focus();}});
+    state.firstUseUI = firstUseUI;
     const executionHost = document.createElement("section"); executionHost.id="terminalExecutionPage"; executionHost.className="main tq"; executionHost.hidden=true;
     executionHost.setAttribute("aria-label","执行演练"); coreMain.before(executionHost);
-    const executionUI = globalThis.installTerminalExecutionUI({host:executionHost,api,perform,notify});
+    const executionUI = globalThis.installTerminalExecutionUI({host:executionHost,api,perform,notify,onUserSelection:patch=>rememberJourney(patch)});
     const brokerEntry = document.createElement("div"); brokerEntry.className="actions";
     brokerEntry.innerHTML='<button type="button" class="btn" data-view="continuous">逐日模拟</button><button type="button" class="btn" data-view="broker">券商接入准备</button>';
     executionHost.prepend(brokerEntry);
@@ -370,14 +458,20 @@
     brokerHost.setAttribute("aria-label","券商接入准备"); coreMain.before(brokerHost);
     const brokerUI = globalThis.installTerminalBrokerCandidateUI({host:brokerHost,api,perform,notify,
       stopCandidate:payload=>api("broker-candidate/stop","POST",payload),
-      stopAccount:payload=>api("broker-account/stop","POST",payload),onBack:()=>show("execution")});
+      stopAccount:payload=>api("broker-account/stop","POST",payload),onBack:()=>show("execution"),onUserSelection:patch=>rememberJourney(patch)});
     const continuousHost = document.createElement("section"); continuousHost.id="terminalContinuousPage"; continuousHost.className="main tq"; continuousHost.hidden=true;
     continuousHost.setAttribute("aria-label","逐日模拟"); coreMain.before(continuousHost);
     const continuousUI = globalThis.installTerminalContinuousUI({host:continuousHost,api,perform,notify,
-      pauseReplay:payload=>api("continuous-replay/pause","POST",payload),onBack:()=>show("execution")});
+      pauseReplay:payload=>api("continuous-replay/pause","POST",payload),onBack:()=>show("execution"),onUserSelection:patch=>rememberJourney(patch)});
+    const journeyHost=document.createElement('section');journeyHost.id='tq-journey';journeyHost.className='panel section-gap';journeyHost.style.padding='18px';$("tq-first-use").after(journeyHost);
+    state.journeyController=globalThis.HakimiTerminalJourneyUI.createController({api,saveSelection:payload=>api('journey-selection','POST',payload),
+      execution:executionUI.controller,continuous:continuousUI.controller,broker:brokerUI.controller,plan:brokerUI.planUI?.controller,
+      onRestore:restoreJourneyView,changed:renderJourney});
+    state.rememberJourney=rememberJourney;
+    renderJourney();
     const dailyHost = document.createElement("section"); dailyHost.id="terminalDailyPage";dailyHost.className="main tq";dailyHost.hidden=true;
     dailyHost.setAttribute("aria-label","股票与数据");coreMain.before(dailyHost);
-    const dailyUI = globalThis.installTerminalDailyUI({host:dailyHost,api,perform,notify,allowPublicDataRequest:true,
+    const dailyUI = globalThis.installTerminalDailyUI({host:dailyHost,api,perform,notify,allowPublicDataRequest:true,onUseTeaching:()=>show("dashboard"),
       onInputImported:async (input) => {
         let saved;
         const result = await act("terminal_import_daily_input",{input_id:input.id},{onCommitted:value => {saved=value;}});
@@ -390,7 +484,7 @@
           : "行情已保存；列表暂未读出，重新读取后再选择策略。无需重复导入。");
         return receipt;
       }});
-    const candidateHost=document.createElement("div");candidateHost.id="terminalStrategyCandidates";$("tq-context").after(candidateHost);
+    const candidateHost=document.createElement("div");candidateHost.id="terminalStrategyCandidates";candidateHost.hidden=true;$("tq-first-use").after(candidateHost);
     const candidateUI=globalThis.installTerminalStrategyCandidatesUI({host:candidateHost,api,notify,
       onAcquireData:()=>show("daily"),
       getDraft:()=>({input_id:value("tq-input"),strategy_id:value("tq-strategy"),strategy_params:currentSignalParams()}),
@@ -402,10 +496,8 @@
         $("tq-input").value=diagnostic.input_id;$("tq-strategy").value=diagnostic.strategy_id;
         $("tq-name").value=`${diagnostic.symbol} · ${diagnostic.name || entry.name} · ${diagnostic.cutoff_session}`.slice(0,64);
         renderParams(diagnostic.strategy_params);renderAiEvidence();
-        $("tq-form-title").scrollIntoView({block:"start"});$("tq-name").focus();
+        revealTaskSettings();
       }});
-    const flow = host.querySelector(".tq-flow");
-    flow.before($("tq-tasks").closest(".panel"),$("tq-runs").closest(".panel"));
     const style = document.createElement("style");
     style.textContent = `.tq{padding-top:20px}.tq [hidden]{display:none!important}.tq-flow{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;color:var(--muted);font-size:13px}.tq-flow span{padding:8px 12px;background:var(--surface);border:1px solid var(--line);border-radius:6px}.tq input,.tq select{min-width:0}.tq-row{padding:14px 0;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.tq-row:last-child{border:0}.tq-row p{margin:5px 0;color:var(--muted);font-size:12px}.tq-table{overflow:auto;max-height:310px}.tq-table table{min-width:600px}.tq-metrics{display:flex;gap:24px;flex-wrap:wrap;margin:16px 0}.tq-metrics strong{display:block;font-size:22px}.tq .form-grid{margin-bottom:15px}.tq .actions{flex-wrap:wrap}.tq .page-heading p{max-width:680px}@media(max-width:760px){.tq-row{display:block}.tq-row .actions{margin-top:10px}.tq .panel-head{align-items:flex-start}.tq .form-grid{grid-template-columns:1fr}.tq .span-2{grid-column:auto}}`;
     document.head.append(style);
@@ -416,12 +508,15 @@
     const exitResearchUI = typeof globalThis.installTerminalExitResearchUI === "function"
       ? globalThis.installTerminalExitResearchUI({host,api,perform,notify,validReplay,sendReplay:(chart) => send("replay-result",chart)})
       : null;
+    const insightsHost=document.createElement("details");insightsHost.id="tq-insights-tools";insightsHost.className="section-gap";
+    insightsHost.innerHTML='<summary style="min-height:44px;padding:10px 0">行情洞察与研究资料</summary>';host.append(insightsHost);
     const insightsUI = typeof globalThis.installTerminalInsightsUI === "function"
-      ? globalThis.installTerminalInsightsUI({host,api,notify,openMarket:async (symbol) => {
+      ? globalThis.installTerminalInsightsUI({host:insightsHost,api,notify,openMarket:async (symbol) => {
         $("tq-symbol").value=symbol;await readMarket("");
-        const card=$("tq-market").closest(".panel");card.scrollIntoView({block:"start"});$("tq-symbol").focus();
+        $("tq-data-tools").open=true;const card=$("tq-market").closest(".panel");card.scrollIntoView({block:"start"});$("tq-symbol").focus();
       }}) : null;
     insightsNav.hidden = !insightsUI;
+    insightsHost.hidden = !insightsUI;
 
     function renderCatalog() {
       const selected = value("tq-strategy");
@@ -496,7 +591,13 @@
       if (state.inputs.some((row) => identity(row) === selected)) $("tq-input").value = selected;
       candidateUI.setSources({inputs:state.inputs});
       if(preferred)candidateUI.selectInput(preferred);
+      renderCapitalCurrency();
       updatePreflight();
+    }
+    function renderCapitalCurrency() {
+      const input = state.inputs.find(row => identity(row) === value("tq-input"));
+      const currency = input?.meta?.currency || input?.meta?.security?.currency;
+      $("tq-capital-currency").textContent = currency && !["UNKNOWN","UNRECORDED"].includes(currency) ? `${currency} · 来自所选封存行情，不转换币种` : "未记录 · 原资料没有币种，不能当作美元或其他币种金额";
     }
     function renderCoreInputs() {
       const selected = value("tq-core-input");
@@ -561,8 +662,10 @@
       $("tq-workspace-path").textContent = coreOverview.product_workspace || coreOverview.workspace || "当前版本未提供工作区位置";
       const product = coreOverview.terminal_product;
       $("tq-product-identity").textContent = `哈基米交易 · ${product?.version || "源码开发预览"}${product?.build_commit ? " · 构建 " + product.build_commit.slice(0,12) : ""} · 股票回测内核 ${coreOverview.version || "未记录"}`;
-      $("tq-example").hidden = coreOverview.initialized !== false || Boolean(coreOverview.inputs?.length);
+      $("tq-example").hidden = true;
       renderCoreInputs(); renderInputs(); renderTasks(); renderRuns(); renderHistory(); renderReports(); state.loaded = true;
+      candidateHost.hidden = !state.inputs.length && state.unifiedView !== "insights";
+      state.firstUseUI?.refresh();
       judgmentUI?.setSources({inputs:state.inputs,tasks:state.tasks,runs:state.runs});
       await judgmentUI?.refresh();
       exitResearchUI?.setSources({inputs:state.inputs,runs:state.runs,catalog:state.catalog});
@@ -665,8 +768,10 @@
       renderParams(task.strategy_params); renderInputs(task.input_id);
       $("tq-position").value = task.risk.position_pct; $("tq-stop").value = task.risk.stop_loss_pct; $("tq-take").value = task.risk.take_profit_pct;
       $("tq-fee").value = task.costs.fee_rate * 100; $("tq-slippage").value = task.costs.slippage_bps;
-      $("tq-task-form").scrollIntoView({behavior:"smooth",block:"start"});
+      $("tq-initial-cash").value = finite(task.initial_cash) ? task.initial_cash : "";
+      revealTaskSettings();
       notify("修订将形成新版本；旧结果和原版本保留，暂停状态保持。");
+      return task;
     }
     async function saveTask(event) {
       event.preventDefault(); const form = $("tq-task-form"); if (!form.reportValidity()) return;
@@ -674,6 +779,7 @@
       if (blocked) return notify(blocked,true);
       const params = currentSignalParams();
       const payload = {name:value("tq-name").trim(),strategy_id:value("tq-strategy"),strategy_params:params,input_id:value("tq-input"),
+        initial_cash:Number(value("tq-initial-cash")),
         risk:{position_pct:Number(value("tq-position")),take_profit_pct:Number(value("tq-take")),stop_loss_pct:Number(value("tq-stop")),leverage:1},
         costs:{fee_rate:Number(value("tq-fee"))/100,slippage_bps:Number(value("tq-slippage"))},
         ...(state.revisionOf ? {parent_task_id:state.revisionOf} : {}),
@@ -685,6 +791,8 @@
         state.aiEvidenceEnabled = Boolean(state.aiEvidence); renderAiEvidence();
         state.tasks = [task,...state.tasks.filter((row) => row.family_id !== task.family_id)]; renderTasks();
         state.savedTask = task; renderSavedTask();
+        state.firstUseUI?.markContinuation({kind:"terminal-task",id:identity(task)});
+        state.rememberJourney?.({task:{kind:'terminal_task',id:task.task_id||task.id,task_id:task.task_id||task.id},research:null,view:'results',replay:null,manual:null,broker:null},{restoreOnAnchor:false});
         const alreadyCompleted = state.confirmedTaskRuns?.has(task.task_id || task.id);
         notify(`任务版本 ${task.version} 已保存。${alreadyCompleted ? "这个版本已有完成结果，可直接查看。" : task.data_preflight?.data_sufficient ? "可以继续运行这次回测。" : "数据尚不足，请先查看预检查。"}`);
       },onSuccess:refreshRecords});
@@ -765,6 +873,7 @@
       const review=globalThis.HakimiTerminalStrategyCandidates;
       if(!review?.matchesSavedResult(run,diagnostic))throw Error("原结果与所选候选的行情或规则不同，未打开其他报告。");
       state.runReadRequest++;state.selectedRunId=run.id;state.selectedRun=run;
+      $("tq-saved-records").open = true;
       renderRun(run,run.id);
       $("tq-run-detail").insertAdjacentHTML("afterbegin",`<section aria-label="候选对应的已保存研究"><p>已打开行情与规则相同的原报告，没有重复保存或运行。费用、执行风险和本金未纳入候选匹配；诊断情景不等于报告中的实际持仓。</p>${coverage.incompleteIndex?warning("部分记录未读出；本次打开的是目前可核验的一份匹配结果，不代表全部历史记录。"):""}${review.savedResultTerms(run)}</section>`);
       revealRunDetail(run.id,state.runReadRequest);
@@ -835,6 +944,7 @@
     async function dispatch(action, id, target) {
       if (action === "exit-research-run" || action === "structure-input") {
         if (!exitResearchUI) throw new Error("结构与出场研究模块尚未载入，请重新打开工作台。");
+        if (action === "exit-research-run") $("tq-saved-records").open=true;
         return action === "structure-input" ? exitResearchUI.replayStructure(value("tq-input")) : exitResearchUI.openSource(id);
       }
       if (["judgment-input","judgment-task","judgment-run"].includes(action)) {
@@ -842,17 +952,23 @@
         const kind = {"judgment-input":"terminal_input","judgment-task":"terminal_task","judgment-run":"terminal_run"}[action];
         const selectedId = action === "judgment-input" ? value("tq-input") : id;
         if (!selectedId) throw new Error("请先选择一份已封存行情。");
+        $("tq-saved-records").open=true;
         return judgmentUI.openSource(kind,selectedId);
       }
       if (action === "refresh") return refreshRecords();
+      if (action === 'journey-read') return state.journeyController.reconcileSelection();
+      if (action === 'journey-continue') {
+        const navigation=state.navigationRequest,userRequest=state.journeyUserRequest=(state.journeyUserRequest||0)+1;
+        await state.journeyController.load({restore:false});
+        if(navigation===state.navigationRequest&&userRequest===state.journeyUserRequest)return restoreJourney({navigation,userRequest});
+      }
       if (action === "daily") return show("daily");
       if (action === "execution-source") {
-        show("execution");
-        return executionUI.controller.openResearch({kind:"terminal_run",id});
+        return openJourneySource({kind:"terminal_run",id});
       }
       if (action === "new-research" || action === "new-task-form") {
         await dispatch("new","",target); $("tq-saved-task").hidden = true;
-        $("tq-form-title").scrollIntoView({behavior:"smooth",block:"start"}); $("tq-name").focus(); return;
+        revealTaskSettings(); return;
       }
       if (action === "saved-task") { show("tasks"); return notify("刚保存的版本已列在任务列表，保存和查看不会运行。"); }
       if (action === "workspace-list") return listOldWorkspaces();
@@ -866,6 +982,9 @@
         const records = action === "core-task" ? state.coreTasks : state.coreRuns;
         const callback = action === "core-task" ? openCoreTask : openCoreRun;
         if (!records.some((row) => row.id === id) || typeof callback !== "function") throw new Error("未找到对应的原任务或结果详情入口。");
+        const row=records.find(item=>item.id===id);
+        if(action==='core-result')state.rememberJourney?.({research:{kind:'core_run',id},view:'results'},{restoreOnAnchor:false});
+        else if(row.task_id)state.rememberJourney?.({task:{kind:'core_task',id,task_id:row.task_id},research:null,view:'results',replay:null,manual:null,broker:null},{restoreOnAnchor:false});
         hide(); return callback(id);
       }
       if (action === "core-run") {
@@ -879,17 +998,14 @@
         hide(); return callback();
       }
       if (action === "core-example") {
-        if (state.coreOverview?.initialized !== false || state.coreOverview.inputs?.length || typeof initializeCoreExample !== "function") return;
-        await initializeCoreExample(target); await refreshAll();
-        const message = coreMain.querySelector(".global-message")?.textContent?.trim(); if (message) notify(message);
-        return;
+        return firstUseUI.prepare();
       }
       if (action === "market") return readMarket();
       if (action === "context-market") { $("tq-symbol").value = state.context.symbol; return readMarket(state.context.source_id || ""); }
       if (action === "apply-context") return applyContextParams();
       if (action === "new") { if(typeof candidateUI!=="undefined")candidateUI.invalidateDraft(); state.revisionOf = null; state.savedTask = null; $("tq-saved-task").hidden = true; state.aiEvidence = null; state.aiEvidenceBinding = null; state.aiEvidenceEnabled = false; if (state.context) applyContext(state.context); else renderAiEvidence(); $("tq-form-title").textContent = "2 · 新建策略任务"; $("tq-name").value = ""; return notify("正在填写新任务；原任务、版本与结果保持不变。"); }
-      if (action === "edit") return editTask(id);
-      if (action === "result") return showRun(id,{reveal:true});
+      if (action === "edit") {const task=await editTask(id);state.rememberJourney?.({task:{kind:'terminal_task',id:task.task_id||task.id,task_id:task.task_id||task.id},research:null,view:'results',replay:null,manual:null,broker:null},{restoreOnAnchor:false});return task;}
+      if (action === "result") {state.rememberJourney?.({research:{kind:'terminal_run',id},view:'results'},{restoreOnAnchor:false});return showRun(id,{reveal:true});}
       if (action === "compare") return compareSelected(target);
       if (action === "replay") return replayTerminal(id);
       if (action === "copy-params") return copyParameters(id);
@@ -939,6 +1055,7 @@
         }
         renderParams();
       }
+      if (event.target.id === "tq-input") renderCapitalCurrency();
       if (event.target.id === "tq-input" || event.target.dataset.tqParam) updatePreflight();
       if (["tq-strategy","tq-input"].includes(event.target.id) || event.target.dataset.tqParam) renderAiEvidence();
       if (event.target.id === "tq-core-input") renderCoreInputSelection();
@@ -955,7 +1072,13 @@
       const control = event.target.closest("[data-view]");
       if (!control) return;
       if (["dashboard","tasks","results","insights","execution","daily","broker","continuous"].includes(control.dataset.view)) {
-        event.preventDefault(); event.stopImmediatePropagation(); show(control.dataset.view); send("context-request",{});
+        event.preventDefault(); event.stopImmediatePropagation();
+        const source=state.journeyController?.state.selection?.research;
+        if(source&&['execution','continuous','broker'].includes(control.dataset.view)){
+          if(control.dataset.view==='continuous'&&source.kind!=='terminal_run'){notify('这份股票研究使用本地合成订单练习，不能套用原策略逐日模拟。',true);return;}
+          openJourneySource(source,control.dataset.view).catch(error=>notify(operationErrorText(error),true));
+        }else show(control.dataset.view);
+        send("context-request",{});
       } else hide();
     }, true);
     window.addEventListener("popstate", () => {
@@ -967,6 +1090,8 @@
       const task = event.detail;
       if (!task?.id || !task.task_id || !["ENABLED","PAUSED"].includes(task.state)) return;
       state.coreTasks = [task,...state.coreTasks.filter((row) => row.id !== task.id)]; renderTasks(); show("tasks");
+      state.firstUseUI?.markContinuation({kind:"core-task",id:task.id});
+      state.rememberJourney?.({task:{kind:'core_task',id:task.id,task_id:task.task_id},research:null,view:'results',replay:null,manual:null,broker:null},{restoreOnAnchor:false});
       notify("研究任务已保存。上方“运行这次回测”只使用刚保存的版本；查看记录不会运行。");
       requestAnimationFrame(() => $("core-completion-feedback")?.scrollIntoView({block:"start",behavior:"auto"}));
     });
@@ -1001,7 +1126,7 @@
       executionControl.addEventListener("click",async () => {
         try {
           const id=getSelectedCoreRun();if(!id)throw new Error("请先选择一份已保存结果。");
-          show("execution");await executionUI.controller.openResearch({kind:"core_run",id});
+          await openJourneySource({kind:"core_run",id});
         } catch(error) {showError(error);}
       });
       heading.append(executionControl);
@@ -1009,6 +1134,10 @@
     coreObserver.observe(coreMain,{childList:true,subtree:true});
     const initialView = location.hash.slice(1) || "dashboard";
     if (["dashboard","tasks","results","insights","execution","daily","broker","continuous"].includes(initialView)) show(initialView,true);
+    const initialNavigation=state.navigationRequest,initialUserRequest=state.journeyUserRequest||0;
+    Promise.all([refreshAll(),state.journeyController.load({restore:false})]).then(()=>{
+      if(initialNavigation===state.navigationRequest&&initialUserRequest===(state.journeyUserRequest||0))return restoreJourney({navigation:initialNavigation,userRequest:initialUserRequest});
+    }).catch(error=>notify('继续位置读取未完成：'+operationErrorText(error),true));
     send("bridge-ready",{});
   };
 })();

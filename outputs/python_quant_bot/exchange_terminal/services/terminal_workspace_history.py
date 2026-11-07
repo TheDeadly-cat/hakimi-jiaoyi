@@ -21,7 +21,7 @@ import stat
 _MAX_BYTES = 64 * 1024 * 1024
 _MAX_FILES = 10000
 _ID = re.compile(r"[0-9a-f]{32}\Z")
-_AREAS = {"tasks": ("tasks", "terminal-tasks"), "runs": ("runs", "terminal-runs")}
+_AREAS = {"tasks": ("tasks", "terminal-tasks"), "runs": ("runs", "terminal-runs"), "inputs": ("data",)}
 _READ_ONLY = {"read_only": True, "new_economic_runs": 0, "automatic_retry": False,
               "permissions": {"research_only": True, "paper_allowed": False,
                               "live_allowed": False, "order_allowed": False}}
@@ -304,6 +304,17 @@ class TerminalWorkspaceHistory:
             directory = _safe(root, root / area)
             if not directory.is_dir():
                 continue
+            if resource == "inputs":
+                _guard_tree(root, directory)
+                for source in sorted(directory.rglob("*.json")):
+                    try:
+                        source = _safe(root, source)
+                        if _document(root, source).get("schema_version") != "us-equity-daily-snapshot-v1":
+                            continue
+                        records.append((source, False, _opaque(source.relative_to(root).as_posix())))
+                    except (OSError, ValueError, TypeError) as exc:
+                        warnings.append(source.name + ": " + str(exc))
+                continue
             for path in sorted(directory.iterdir()):
                 if path.name.startswith("."):
                     continue
@@ -337,6 +348,15 @@ class TerminalWorkspaceHistory:
         raise ValueError("history_unknown_record")
 
     def _read_record(self, root, path, resource, native, identity, *, detail):
+        if resource == "inputs":
+            try:
+                _, snapshot, view = self._verified_input_at(root, path, identity)
+                return {**view, **deepcopy(_READ_ONLY)}
+            except (OSError, ValueError, TypeError, KeyError) as exc:
+                return {"id": identity, "label": path.stem, "resource": "inputs", "kind": "PRICE_SNAPSHOT",
+                        "status": "BLOCKED", "available": False, "verification_status": "METADATA_ONLY",
+                        "verification_note": "此保存行情未通过读取校验，不能从这里复制。",
+                        "verification_error": str(exc)[:2000], **deepcopy(_READ_ONLY)}
         value = {"id": identity, "label": path.stem, "resource": resource,
                  "record_kind": "ORIGINAL_TERMINAL" if native else "EQUITY_RESEARCH",
                  "relative_path": path.relative_to(root).as_posix(), "physical_root": str(root),
@@ -369,6 +389,47 @@ class TerminalWorkspaceHistory:
             value["verification_error"] = str(exc)[:2000]
             value["verification_note"] = "此记录未通过当前可用的读取合同；仅展示原文件元数据，不提供图表或验收结论。"
         return value
+
+    def _verified_input_at(self, root, path, identity):
+        from hakimi_research.documents import parse_document
+        from hakimi_research.equity_dataset import verify_equity_snapshot
+        from hakimi_research.input_workflow import snapshot_view
+
+        path = _safe(root, path)
+        before = path.lstat()
+        if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > _MAX_BYTES:
+            raise ValueError("history_input_regular_bounded_file_required")
+        with path.open("rb") as stream:
+            opened = os.fstat(stream.fileno())
+            raw = stream.read(_MAX_BYTES + 1)
+        after = _safe(root, path).stat()
+        if (len(raw) > _MAX_BYTES or len(raw) != before.st_size
+                or (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
+                != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
+                or (opened.st_dev, opened.st_ino) != (before.st_dev, before.st_ino)):
+            raise ValueError("history_input_changed_while_reading")
+        snapshot = verify_equity_snapshot(parse_document(raw))
+        view = snapshot_view(snapshot)
+        view.update(id=identity, resource="inputs", label=view["security"]["symbol"],
+                    snapshot_id=snapshot["snapshot_id"], file_sha256=sha256(raw).hexdigest(), byte_count=len(raw),
+                    relative_path=path.relative_to(root).as_posix(), available=view["status"] == "READY",
+                    verification_status="VERIFIED_RECORD", source_truth_verified=False,
+                    verification_note="已核对原保存行情及原来源声明；未取得新行情，也未提高来源认证等级。")
+        # The public ID always identifies this workspace file, not a mutable
+        # renderer-supplied path or a claim that its source has been authenticated.
+        view["input_id"] = identity
+        return raw, snapshot, view
+
+    def verified_input(self, workspace_id, input_id):
+        """Return retained bytes only to trusted local services, never over GET."""
+        root = self._workspace(workspace_id)
+        if type(input_id) is not str or _ID.fullmatch(input_id) is None:
+            raise ValueError("history_unknown_input")
+        for path, _, identity in self._records(root, "inputs")[0]:
+            if identity == input_id:
+                raw, snapshot, view = self._verified_input_at(root, path, identity)
+                return raw, snapshot, {"workspace_id": workspace_id, **view, **deepcopy(_READ_ONLY)}
+        raise ValueError("history_unknown_input")
 
     def _native(self, root, path, resource, *, detail):
         reader = _native_reader(root)

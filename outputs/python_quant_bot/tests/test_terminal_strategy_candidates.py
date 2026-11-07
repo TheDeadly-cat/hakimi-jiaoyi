@@ -194,6 +194,24 @@ class TerminalStrategyCandidatesTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"mixed_data"):
             recommend_candidates([diagnostics[0],diagnose("dual_ma",native())])
 
+    def test_every_card_projects_actual_capability_without_granting_execution(self):
+        record = native()
+        before = deepcopy(record)
+        for identity in CATALOG_ORDER:
+            with self.subTest(identity=identity):
+                result = diagnose(identity, record)
+                self.assertEqual(result["validation_capability"], signals.strategy_validation_capability(identity))
+                self.assertEqual(result["validation_capability"]["paper_clock_supported"], identity != "volume_trend")
+                self.assertTrue(result["validation_capability"]["new_research_allowed"])
+                self.assertTrue(result["presentation"]["mechanism_summary"])
+                self.assertTrue(result["presentation"]["failure_conditions"])
+                self.assertEqual(result["presentation"]["teaching_template"], identity in {"dual_ma", "bollinger", "momentum"})
+                self.assertEqual(result["preparation_scope"], "MANUAL_SYNTHETIC_SEPARATE_CHECK_REQUIRED")
+                self.assertEqual(result["unchecked_conditions"], ["研究本金", "账户资金与预留", "数量和费用", "报价时效与订单资格"])
+                self.assertEqual(result["permissions"], {"research_only":True,"paper_allowed":False,"live_allowed":False,"order_allowed":False})
+                self.assertEqual(result["new_economic_runs"], 0)
+        self.assertEqual(record, before)
+
     def test_partial_or_tampered_inputs_invalid_time_and_session_gaps_do_not_get_diagnosed(self):
         base = native()
         broken = deepcopy(base)

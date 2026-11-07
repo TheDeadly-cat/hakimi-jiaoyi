@@ -10,6 +10,7 @@ from copy import deepcopy
 from datetime import datetime, timezone
 from hashlib import sha256
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -279,6 +280,39 @@ class TerminalExecutionService:
             return json.loads(value, object_pairs_hook=_pairs)
         return _copy(value)
 
+    def _research_capital(self, resolved):
+        """Read descriptive capital without changing the persisted plan binding."""
+        result = dict(schema_version="hakimi-saved-research-capital-v1", status="UNKNOWN",
+                      initial_cash=None, currency=None, report_id=resolved["binding"]["report_id"],
+                      report_hash=resolved["binding"]["report_hash"], reason="SAVED_CAPITAL_UNRECORDED")
+        if self.read_saved_result is None:
+            return result
+        try:
+            projection = project_saved_result(self.read_saved_result(deepcopy(resolved["reference"])))
+            conditions, identities, binding = projection["conditions"], projection["identities"], resolved["binding"]
+            if (conditions.get("record_integrity") != "VERIFIED_RECORD" or not conditions.get("completed_result")
+                    or projection.get("binding_conflicts") != []
+                    or any(_hash(actual) != _hash(expected) for actual, expected in (
+                        (identities.get("run_id"), binding["report_id"]),
+                        (identities.get("report_hash"), binding["report_hash"]),
+                        (identities.get("task_id"), binding["task_id"]),
+                        (conditions.get("input_identity"), binding["input_id"]),
+                        (projection.get("strategy_id"), binding["strategy_id"]),
+                        (projection.get("strategy_params"), binding["strategy_params"])))):
+                raise ValueError("saved_capital_binding_mismatch")
+            amount, currency = conditions.get("initial_cash"), conditions.get("currency")
+            if type(amount) in (int, float) and math.isfinite(amount) and amount > 0:
+                result["initial_cash"] = amount
+            if type(currency) is str and currency not in {"UNKNOWN", "UNRECORDED"} and re.fullmatch(r"[A-Z]{3,10}", currency):
+                if resolved["display"].get("currency") not in (None, currency):
+                    raise ValueError("saved_capital_currency_conflict")
+                result["currency"] = currency
+            if result["initial_cash"] is not None and result["currency"] is not None:
+                result.update(status="RECORDED", reason="SAVED_FIXED_RESEARCH_CAPITAL")
+        except (ValueError, OSError, TypeError, KeyError):
+            result.update(status="UNKNOWN", initial_cash=None, currency=None, reason="SAVED_CAPITAL_READ_UNAVAILABLE")
+        return result
+
     def read(self, resource, identity=None):
         with self._lock:
             self._active()
@@ -309,6 +343,7 @@ class TerminalExecutionService:
                 resolved = self._resolve(payload["reference"])
                 return dict(view_schema_version=VIEW_SCHEMA, reference=resolved["reference"], binding=resolved["binding"],
                             owner_continuity=resolved["owner_continuity"], assumptions=resolved["assumptions"], display=resolved["display"],
+                            research_capital=self._research_capital(resolved),
                             permissions=dict(PERMISSIONS), external_calls=0)
             if resource == "terminal_execution_explanation":
                 _fields(payload, {"account_id", "account_context", "plan_id", "reference"})

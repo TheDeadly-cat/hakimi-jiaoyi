@@ -21,6 +21,24 @@ _COMMON_LIMITATIONS = (
     "原策略与同名股票研究策略保留不同规则身份，不自动替换。",
 )
 
+# Teaching order describes the mechanisms, never return or confidence rankings.
+_TEACHING = {
+    "dual_ma": "先比较两条均线，观察趋势规则何时买入、何时退出。",
+    "bollinger": "观察价格偏离区间后，回归规则如何等待与退出。",
+    "momentum": "用一个回看周期和涨跌阈值理解动量规则。",
+}
+_MECHANISMS = {
+    "dual_ma": ("跟随均线显示的方向，快线在慢线上方时考虑买入。", "横盘反复穿越均线时容易来回交易；趋势突然反转时退出可能滞后。"),
+    "bollinger": ("价格低于布林下轨时买入，回到中轨上方时退出。", "持续下跌时价格可能长期偏低，买入后仍会继续亏损；低于下轨不等于已止跌。"),
+    "macd": ("动量较强时跟随上涨，在 DIF 低于 DEA 后退出。", "横盘噪声可能反复触发；动量减弱但尚未满足退出条件时仍可能持仓下跌。"),
+    "rsi": ("RSI 低于超卖阈值时买入，高于超买阈值时退出。", "强下跌趋势中 RSI 可长期处于超卖区，低 RSI 不保证价格反弹。"),
+    "momentum": ("近期涨幅超过正阈值时买入，跌幅越过负阈值后退出。", "追涨后突然反转可能亏损；正负阈值之间的回落不会自动触发策略退出。"),
+    "livermore": ("价格确认突破此前的最高收盘价时买入，跌破退出关键点后卖出。", "假突破后回落可能亏损；确认幅度和退出缓冲会影响进入与离开的时点。"),
+    "turtle": ("价格突破此前收盘价通道上沿时买入，跌破退出通道下沿时卖出。", "震荡行情的反复假突破可能连续亏损；这版不使用 ATR 动态调整仓位。"),
+    "darvas": ("价格越过滚动收盘区间上沿及确认幅度时买入，跌破下沿时退出。", "这里的滚动区间不保证真实整理形态；假突破后回到箱内也可能继续持仓亏损。"),
+    "volume_trend": ("价格突破且趋势、成交量和波动条件同时满足时买入。", "放量突破仍可能失败；量比下降不会单独触发退出，急跌和跳空仍可能扩大亏损。"),
+}
+
 
 def _field(key: str, label: str, kind: str, minimum: float, *, help_text: str = "") -> dict[str, Any]:
     settings = {
@@ -182,6 +200,10 @@ def strategy_presentation(strategy_id: str, params: Mapping[str, Any] | None) ->
     return {
         "presentation_version": PRESENTATION_VERSION,
         "research_description": rule["entry_rule"] + rule["exit_rule"],
+        "mechanism_summary": _MECHANISMS[identity][0],
+        "failure_conditions": _MECHANISMS[identity][1],
+        "teaching_template": identity in _TEACHING,
+        "teaching_reason": _TEACHING.get(identity),
         "entry_rule": rule["entry_rule"],
         "exit_rule": rule["exit_rule"],
         "rule_notes": list(rule["notes"]),

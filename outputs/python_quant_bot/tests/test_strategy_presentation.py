@@ -172,6 +172,26 @@ class StrategyPresentationTests(unittest.TestCase):
         self.assertIn("最低价", volume["exit_rule"])
         self.assertNotIn("最低收盘价", volume["exit_rule"])
 
+    def test_teaching_metadata_explains_three_mechanisms_without_claiming_performance(self):
+        from exchange_terminal.services.strategy_signals import strategy_signal_fingerprint
+        teaching = []
+        for identity in ("dual_ma", "bollinger", "macd", "rsi", "momentum", "livermore", "turtle", "darvas", "volume_trend"):
+            params = validate_terminal_strategy_params(self.catalog[identity], {})
+            before = deepcopy(params)
+            fingerprint = strategy_signal_fingerprint(identity, params)
+            display = strategy_presentation(identity, params)
+            self.assertTrue(display["mechanism_summary"])
+            self.assertTrue(display["failure_conditions"])
+            self.assertNotIn("capability", display)
+            self.assertEqual(params, before)
+            self.assertEqual(strategy_signal_fingerprint(identity, params), fingerprint)
+            if display["teaching_template"]:
+                self.assertTrue(display["teaching_reason"])
+                teaching.append(identity)
+            else:
+                self.assertIsNone(display["teaching_reason"])
+        self.assertEqual(teaching, ["dual_ma", "bollinger", "momentum"])
+
 
 if __name__ == "__main__":
     unittest.main()

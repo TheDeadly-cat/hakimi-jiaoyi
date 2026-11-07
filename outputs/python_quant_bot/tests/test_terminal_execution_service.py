@@ -189,6 +189,45 @@ class TerminalExecutionServiceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.service.read("terminal_execution_research", {"reference": reference, "display": {"symbol": "FORGED"}})
 
+    def test_research_capital_is_read_from_verified_report_without_changing_binding(self):
+        reference = {"kind": "terminal_run", "id": "run-one"}
+        envelope = self.saved_envelope(reference)
+        envelope["report"]["configuration"]["initial_cash"] = 100.25
+        envelope["report"]["input_summary"]["meta"] = {"currency": "USD"}
+        self.service.read_saved_result = Mock(return_value=envelope)
+        before = deepcopy(envelope)
+        result = self.service.read("terminal_execution_research", {"reference": reference})
+        self.assertEqual(result["research_capital"]["status"], "RECORDED")
+        self.assertEqual(result["research_capital"]["initial_cash"], 100.25)
+        self.assertEqual(result["research_capital"]["currency"], "USD")
+        self.assertEqual(result["binding"], self.resolve(reference)["binding"])
+        self.assertEqual(envelope, before)
+        self.assertFalse(self.workspace.exists())
+        self.service.read_saved_result.assert_called_once_with(reference)
+
+    def test_missing_failed_or_mismatched_capital_does_not_invent_a_balance(self):
+        reference = {"kind": "terminal_run", "id": "run-one"}
+        envelope = self.saved_envelope(reference)
+        self.service.read_saved_result = Mock(return_value=envelope)
+        result = self.service.read("terminal_execution_research", {"reference": reference})
+        self.assertIsNone(result["research_capital"]["initial_cash"])
+        self.assertIsNone(result["research_capital"]["currency"])
+        for mutate in (lambda e: e["report"].update(task_id="another-task"),
+                       lambda e: e.update(verification_status="METADATA_ONLY"),
+                       lambda e: e["report"]["input_summary"].update(meta={"currency": "HKD"})):
+            changed = deepcopy(envelope)
+            changed["report"]["configuration"]["initial_cash"] = 100
+            changed["report"]["input_summary"]["meta"] = {"currency": "USD"}
+            mutate(changed)
+            self.service.read_saved_result = Mock(return_value=changed)
+            result = self.service.read("terminal_execution_research", {"reference": reference})
+            self.assertEqual(result["research_capital"]["status"], "UNKNOWN")
+            self.assertIsNone(result["research_capital"]["initial_cash"])
+        self.service.read_saved_result = Mock(side_effect=OSError("read failed"))
+        result = self.service.read("terminal_execution_research", {"reference": reference})
+        self.assertEqual(result["research_capital"]["status"], "UNKNOWN")
+        self.assertFalse(self.workspace.exists())
+
     def test_account_creation_is_explicit_idempotent_and_rejects_client_paths(self):
         for changes in ({"path": "outside.sqlite"}, {"account_id": "../../outside"}, {"evidence_kind": "REAL_ACCOUNT"}):
             with self.assertRaises(ValueError):
@@ -353,10 +392,16 @@ class TerminalExecutionServiceTests(unittest.TestCase):
         cancel = self.service.mutate("terminal_execution_cancel", dict(client_request_id="cancel-request-0001", **selected,
                                                                        order_id=order_id, now_ms=self.now, outcome="ACCEPTED"))
         self.assertEqual(Decimal(cancel["account"]["ledger"]["reserved_cash"]), Decimal("60.6"))
+        remaining = {key: deepcopy(cancel["account"]["ledger"][key]) for key in
+                     ("cash", "reserved_cash", "available_cash", "positions", "orders", "plans")}
         stopped = self.service.mutate("terminal_execution_stop", dict(client_request_id="stop-request-0001", **selected, reason="explicit synthetic stop"))
         self.assertTrue(stopped["account"]["paused"])
+        self.assertEqual({key: stopped["account"]["ledger"][key] for key in remaining}, remaining)
         resumed = self.service.mutate("terminal_execution_resume", dict(client_request_id="resume-request-0001", **selected, reason="operator reviewed current state"))
         self.assertFalse(resumed["account"]["paused"])
+        self.assertEqual({key: resumed["account"]["ledger"][key] for key in remaining}, remaining)
+        self.assertEqual(stopped["external_calls"], 0)
+        self.assertEqual(resumed["external_calls"], 0)
 
     def test_public_views_keep_every_external_permission_false(self):
         created = self.create()

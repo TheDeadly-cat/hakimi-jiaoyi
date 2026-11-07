@@ -4,6 +4,9 @@ const {renderDiagnostic,factorValue}=require("./terminal-strategy-candidates-ui"
 const candidate=require("./terminal-strategy-candidates-ui"),copy=v=>JSON.parse(JSON.stringify(v));
 const row=changes=>({schema_version:"hakimi-terminal-strategy-diagnostic-v1",diagnostic_id:"a".repeat(64),input_id:"b".repeat(64),
   strategy_id:"momentum",name:"动量",strategy_params:{threshold:.015},status:"READY",group:"ENTRY_MATCH",decision_matches_factors:true,
+  signal_engine_version:"fixture-v1",validation_capability:{strategy_id:"momentum",known:true,backtest_supported:true,new_research_allowed:true,paper_clock_supported:true,signal_engine_version:"fixture-v1"},
+  presentation:{mechanism_summary:"近期涨幅超过阈值时跟随上涨。",failure_conditions:"突然反转时可能亏损。",teaching_template:true,teaching_reason:"理解涨跌阈值。",entry_rule:"高于正阈值买入。",exit_rule:"低于负阈值退出。"},
+  preparation_scope:"MANUAL_SYNTHETIC_SEPARATE_CHECK_REQUIRED",
   signal:{action:"BUY"},position_context:{has_position:false},symbol:"QA",cutoff_session:"2024-07-31",complete_rows:130,warmup_rows:80,required_rows:82,
   factors:[{key:"momentum",label:"动量",value:.02,operator:">",threshold:.015,passed:true,applies_to_position:true,unit:"ratio"}],...changes});
 test("ratio values and both inclusive boundaries use the same percent units",()=>{
@@ -27,6 +30,22 @@ test("provider and strategy text is escaped in visible reasons and raw details",
   const html=renderDiagnostic(row({name:'<img src=x onerror=alert(1)>',factors:[{label:'<script>alert(1)</script>',value:2,threshold:1,operator:'>',passed:true}]}));
   assert.doesNotMatch(html,/<img|<script>/);assert.match(html,/&lt;img/);assert.match(html,/&lt;script/);
 });
+test("capability is bound to the real rule identity and volume clock limitation is visible",()=>{
+  const volume=row({strategy_id:"volume_trend",name:"量价趋势",validation_capability:{strategy_id:"volume_trend",known:true,backtest_supported:true,new_research_allowed:true,paper_clock_supported:false,signal_engine_version:"fixture-v1"}});
+  const html=renderDiagnostic(volume);
+  assert.match(html,/本地模拟时钟：尚不支持/);assert.match(html,/历史研究：规则支持/);
+  assert.match(html,/手工合成练习，需已有完成研究/);assert.match(html,/研究本金、账户资金与预留、数量和费用、报价时效与订单资格/);
+  assert.match(html,/什么时候可能亏/);assert.doesNotMatch(html,/data-candidate-choose="[a-f0-9]+" disabled/);
+  for(const corrupt of [v=>delete v.validation_capability,v=>v.validation_capability.strategy_id="other",v=>v.validation_capability.signal_engine_version="other",v=>v.validation_capability.paper_clock_supported="true"]){const value=copy(volume);corrupt(value);const unknown=renderDiagnostic(value);assert.match(unknown,/能力未核对/);assert.match(unknown,/data-candidate-choose="[a-f0-9]+" disabled/);}
+});
+test("teaching view keeps an explicitly selected non-template and complete catalog order",()=>{
+  const ids=["dual_ma","bollinger","macd","rsi","momentum","volume_trend","livermore","turtle","darvas"];
+  const groups=[{key:"WAITING",label:"等待",items:ids.map(id=>row({strategy_id:id,presentation:{teaching_template:["dual_ma","bollinger","momentum"].includes(id)}}))}];
+  const before=copy(groups),visible=(mode,selected)=>candidate.visibleGroups(groups,mode,selected).flatMap(g=>g.items.map(i=>i.strategy_id));
+  assert.deepEqual(visible("teaching"),["dual_ma","bollinger","momentum"]);
+  assert.deepEqual(visible("teaching","volume_trend"),["dual_ma","bollinger","momentum","volume_trend"]);
+  assert.deepEqual(visible("all"),ids);assert.deepEqual(groups,before);
+});
 function savedFixture(){const diagnostic=row({engine_id:"terminal.fixture-v1",source_digest:"c".repeat(64),fingerprint:"d".repeat(64),engine_source_identity:Object.fromEntries(["backtest_engine.py","strategy_signals.py","market_calendar.py","indicator_math.py"].map(k=>[k,"e".repeat(64)])),indicator_contract:{version:"QA"},strategy_params:{window:20,threshold:.015,position_pct:.25,stop_loss_pct:.03}});
  const report={schema_version:"hakimi-terminal-run-v1",status:"COMPLETED",id:"f".repeat(64),run_id:"f".repeat(64),report_hash:"f".repeat(64),task_id:"1".repeat(64),version:1,title:"QA 已完成研究",started_at:"2026-10-30T01:00:00Z",engine_id:diagnostic.engine_id,strategy_id:diagnostic.strategy_id,
    configuration:{engine_id:diagnostic.engine_id,input_id:diagnostic.input_id,strategy_params:copy(diagnostic.strategy_params),fingerprint:diagnostic.fingerprint,engine_source_identity:copy(diagnostic.engine_source_identity),indicator_contract:copy(diagnostic.indicator_contract),initial_cash:10000,risk:{position_pct:25,stop_loss_pct:8,take_profit_pct:0},costs:{fee_rate:.0005,slippage_bps:2}},
@@ -48,6 +67,12 @@ test("multiple matches and incomplete unique indexes require explicit choice and
 test("zero matches offers an explicit draft; errors never silently become no-history or a draft",async()=>{
  const {diagnostic,report}=savedFixture(),drafts=[];const c=candidate.createSavedResultController({api:async()=>({items:[{...report,status:'UNKNOWN'}],warnings:['unread'],new_economic_runs:0}),onChoose:d=>drafts.push(d)});await c.select(diagnostic);assert.equal(c.state.status,'EMPTY');assert.equal(drafts.length,0);await c.newDraft();assert.equal(drafts.length,1);
  const broken=candidate.createSavedResultController({api:async()=>{throw Error('list offline');},onChoose:()=>assert.fail('must not create')});await broken.select(diagnostic);assert.equal(broken.state.status,'INDEX_ERROR');await broken.newDraft();assert.match(broken.state.error,/list offline/);
+});
+test("missing or unsupported current capability cannot turn an empty index into a new draft",async()=>{
+ for(const capability of [null,{strategy_id:"momentum",known:true,backtest_supported:true,new_research_allowed:false,paper_clock_supported:true,signal_engine_version:"fixture-v1"}]){
+  const diagnostic=row({validation_capability:capability});const c=candidate.createSavedResultController({api:async()=>({items:[],warnings:[],new_economic_runs:0}),onChoose:()=>assert.fail('capability must be confirmed first')});
+  await c.select({...savedFixture().diagnostic,validation_capability:capability});assert.equal(c.state.status,'EMPTY');await c.newDraft();assert.equal(c.state.status,'EMPTY');
+ }
 });
 test("detail failure retries only the original report with the original match and frozen index terms",async()=>{
  const {diagnostic,report}=savedFixture(),reads=[],opened=[];let fail=true;const c=candidate.createSavedResultController({api:async p=>{reads.push(p);if(p==='terminal_runs')return {items:[report],warnings:[],new_economic_runs:0};if(fail)throw Error('detail offline');return report;},onOpenSaved:r=>opened.push(r),onChoose:()=>assert.fail('must not create')});await c.select(diagnostic);assert.equal(c.state.status,'DETAIL_ERROR');fail=false;await c.open(c.state.runId);assert.equal(opened.length,1);assert.deepEqual(reads,['terminal_runs','terminal_runs/'+report.id,'terminal_runs/'+report.id]);

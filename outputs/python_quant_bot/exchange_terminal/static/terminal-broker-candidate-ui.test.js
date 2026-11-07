@@ -37,6 +37,20 @@ function fixture(overrides={}){
 }
 async function selected(f){f.controller.setMode(SIM);await f.controller.openResearch(source);await f.controller.refresh();return f;}
 
+test('journey restores expired exact candidate and intent as read-only with no reused check',async()=>{
+  const f=fixture(),r={...research(),assumptions:{}},canonical=require('./terminal-broker-plan-ui').canonical;
+  const bindingHash=createHash('sha256').update(canonical({reference:r.reference,binding:r.binding,display:r.display,assumptions:r.assumptions})).digest('hex'),id='c'.repeat(64),intentId='d'.repeat(64);
+  f.row(SIM).configurations=[{config_id:id,research_reference:r.reference,research_binding_sha256:bindingHash,config:{...form(),quantity:1,expires_at:'2001-01-01T00:00:00Z'}}];
+  const intent={id:intentId,mode:SIM,config_id:id,research_sha256:bindingHash,status:'UNSENT_OFFLINE_PREVIEW',permissions};
+  f.records.set('fixture',{mode:SIM,result:{mode:SIM,permissions,intent}});
+  const c=ui.createController({api:f.api,perform:()=>assert.fail('restore must not write'),readResearch:async()=>r});
+  await c.restoreSelection({research:r.reference,broker:{mode:SIM,config_id:id,intent_id:intentId,plan_id:null}});
+  assert.equal(c.state.configId,id);assert.equal(c.state.form.quantity,'1');assert.match(c.state.form.expires_at,/2001/);assert.equal(c.state.savedStamp,null);assert.equal(c.state.check,null);assert.equal(c.state.lastPreparedIntent.id,intentId);
+  await assert.rejects(c.prepareIntent(true),/已保存未发送意图/);assert.equal(f.writes.length,0);
+  f.row(SIM).configurations[0].research_binding_sha256='9'.repeat(64);
+  await assert.rejects(c.restoreSelection({research:r.reference,broker:{mode:SIM,config_id:id,intent_id:intentId,plan_id:null}}),/参数绑定/);
+});
+
 test("reads never choose an account, side, candidate mode or create an intent",async()=>{
   const f=fixture();await f.controller.refresh();assert.equal(f.controller.state.mode,"");assert.deepEqual(f.controller.state.form,{});assert.equal(f.writes.length,0);assert.equal(f.stops.length,0);
   f.controller.setSources([source,{...source,status:"UNKNOWN"},{kind:"core_run",id:"bad"}]);assert.equal(f.controller.state.sources.length,1);

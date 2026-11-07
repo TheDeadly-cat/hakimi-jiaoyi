@@ -58,6 +58,23 @@ test("rendered core completion is visible before callback and auxiliary refresh"
   assert.ok(f.events.indexOf("callback")<f.events.indexOf("refresh-start"));assert.equal(f.errors.length,0);
 });
 
+test("explicit preparation can persist its original request before any POST",async()=>{
+  const f=fixture();let recorded;
+  await f.context.perform("terminal_prepare_teaching_input",{}, {onRequest:id=>{
+    assert.equal(f.calls.length,0);recorded=id;
+  }});
+  assert.equal(recorded,"operation-1");
+  assert.equal(f.calls.filter(call=>call.method==="POST").length,1);
+});
+
+test("failure to retain the original request prevents submission",async()=>{
+  const f=fixture();
+  await assert.rejects(f.context.perform("terminal_prepare_teaching_input",{}, {
+    onRequest:()=>{throw Error("local request reference could not be retained");}
+  }),/could not be retained/);
+  assert.equal(f.calls.length,0);
+});
+
 test("rendered success callback exceptions never become an operation failure",async()=>{
   const f=fixture({refreshFailure:true});assert.equal(await f.run(()=>{throw Error("页面刷新故障");}),f.result);
   assert.equal(f.errors.length,0);assert.equal(f.document.getElementById("core-read-completed").hidden,false);
@@ -262,4 +279,70 @@ test("late detail response cannot steal focus from a newer explicit result selec
   pending.get(capturedCoreResult.id)(capturedCoreResult);await new Promise(resolve=>setImmediate(resolve));view.flush();
   assert.deepEqual(view.focus,[{options:{preventScroll:true},id:other.id}]);
   assert.equal(f.S.selectedRun,other.id);assert.equal(f.calls.filter(call=>call.method!=="GET").length,0);
+});
+
+test("a confirmed saved task emits its exact original identity without reading or running",()=>{
+  const f=fixture(),events=[];
+  f.document.defaultView={CustomEvent:class {constructor(type,options){this.type=type;this.detail=options.detail;}},dispatchEvent:event=>events.push(event)};
+  const task={id:"saved-task-handle",task_id:"frozen-task-version",state:"ENABLED",title:"本金100教学",configuration:{requested:{initial_cash:100}}};
+  f.context.coreCompletion.confirm("create_task",task);
+  assert.equal(events.length,1);assert.equal(events[0].type,"hakimi-core-task-saved");assert.deepEqual(events[0].detail,task);
+  assert.notEqual(events[0].detail,task);task.configuration.requested.initial_cash=250;
+  assert.equal(events[0].detail.configuration.requested.initial_cash,100);
+  f.context.coreCompletion.confirm("create_task",{id:"missing-version",state:"ENABLED"});
+  f.context.coreCompletion.confirm("create_task",{id:"saved",task_id:"version",state:"UNKNOWN"});
+  assert.equal(events.length,1);assert.deepEqual(f.calls,[]);
+});
+
+test("continued task offers every exact-version completed report and blocks pending or paused reruns",()=>{
+  const f=fixture(),task={id:"handle",task_id:"version",state:"ENABLED",inputs:{snapshot:{evidence_kind:"SYNTHETIC_TEST"}}};
+  assert.equal(f.context.coreCompletion.taskContinuation(task).canRun,true);
+  assert.equal(f.context.coreCompletion.taskContinuation(task).synthetic,true);
+  f.S.runs=[{id:"one",run_id:"report-one",task_id:"version"},{id:"two",run_id:"report-two",task_id:"version",status:"COMPLETED"},
+    {id:"other",run_id:"other-report",task_id:"different"},{id:"unknown",run_id:"pending",task_id:"version",status:"UNKNOWN"}];
+  const known=f.context.coreCompletion.taskContinuation(task);
+  assert.deepEqual(known.results,[{id:"one",run_id:"report-one"},{id:"two",run_id:"report-two"}]);assert.equal(known.canRun,false);
+  f.S.runs=[];f.S.jobs=[{action:"run_task",status:"unknown"}];assert.equal(f.context.coreCompletion.taskContinuation(task).canRun,false);
+  f.S.jobs=[];assert.equal(f.context.coreCompletion.taskContinuation({...task,state:"PAUSED"}).canRun,false);
+  assert.equal(f.context.coreCompletion.taskContinuation({...task,legacy_task:true}).canRun,false);assert.deepEqual(f.calls,[]);
+});
+
+test("rendered task detail attaches continuation to the single fetched task and rejects a different ID",async()=>{
+  const task={id:"original",task_id:"version",state:"ENABLED",configuration:{requested:{},effective:{}},inputs:{}},reads=[],attached=[],errors=[];
+  const context=vm.createContext({api:async path=>{reads.push(path);return task;},modal(){},esc:String,taskTitle:()=>"Task",strategyTitle:String,
+    inputName:String,status:String,money:String,percent:String,btn:()=>"",LABELS:{},showError:e=>errors.push(e),coreCompletion:{attachTaskActions:t=>attached.push(t)}});
+  vm.runInContext(source("showTask"),context);await context.showTask("original");
+  assert.deepEqual(reads,["tasks/original"]);assert.equal(attached.length,1);assert.equal(attached[0],task);
+  await context.showTask("different");assert.equal(attached.length,1);assert.match(errors[0].message,/任务编号与原记录不一致/);
+});
+
+function taskDialogFixture(f) {
+  const create=f.document.createElement;
+  f.document.createElement=tag=>{const node=create();node.tag=tag;node.children=[];node.value="";
+    node.append=(...children)=>{node.children.push(...children);if(tag==="select"&&node.children.length===children.length)node.value=children[0]?.value||"";};
+    node.prepend=(...children)=>node.children.unshift(...children);node.querySelector=()=>null;return node;};
+  const dialog=f.document.getElementById("dialog"),body=f.document.createElement("div"),actions=f.document.createElement("div");
+  dialog.open=true;dialog.querySelector=selector=>selector===".dialog-body"?body:actions;
+  return {dialog,body,actions};
+}
+
+test("continued task run click sends the exact displayed version once without an automatic run",async()=>{
+  const f=fixture(),dom=taskDialogFixture(f),submitted=[];
+  const task={id:"original-handle",task_id:"original-version",state:"ENABLED",inputs:{snapshot:{evidence_kind:"SYNTHETIC_TEST"}}};
+  f.context.perform=async(action,payload,{button})=>{button.disabled=true;submitted.push({action,payload});};
+  f.context.coreCompletion.attachTaskActions(task);assert.deepEqual(submitted,[]);
+  const button=dom.actions.children[0];assert.equal(button.textContent,"运行这次回测");assert.match(dom.body.children[0].textContent,/虚构教学资料/);
+  task.task_id="later-revision";button.listeners.click();button.listeners.click();
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.deepEqual(submitted,[{action:"run_task",payload:{task_id:"original-handle",expected_task_id:"original-version"}}]);
+});
+
+test("multiple saved reports require an explicit original ID and read only that report",async()=>{
+  const f=fixture(),dom=taskDialogFixture(f);
+  f.S.runs=[{id:"one",run_id:"report-one",task_id:"version"},{id:"two",run_id:"report-two",task_id:"version"}];
+  f.context.coreCompletion.attachTaskActions({id:"task",task_id:"version",state:"ENABLED"});
+  const button=dom.actions.children[0],select=dom.body.children.find(n=>n.tag==="label").children[0];
+  assert.equal(button.textContent,"查看此版本已保存结果");assert.equal(button.disabled,true);assert.deepEqual(f.calls,[]);
+  select.value="two";select.listeners.change();button.listeners.click();await new Promise(resolve=>setImmediate(resolve));
+  assert.deepEqual(f.calls,[{resource:"runs/two",method:"GET"}]);
 });

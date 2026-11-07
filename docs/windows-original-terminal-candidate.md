@@ -8,6 +8,8 @@
 
 Windows ZIP：`Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r5.zip`（193,207,046 字节）。SHA256：`aec1b2fd6ada4bb05d81616ff2ea071a7f62c0af2b3aae2d86c45e5279c1ed1b`。
 
+本轮[新手流程整改](novice-simplification-backlog.md)中的收益卡、本金设置、教学首页、旧行情复制和策略状态找回仍属于后续源码，未写入上述 r5 ZIP。源码更新不代表安装包已更新；新候选、独立 Windows 和真人试用分别验收。
+
 此前 **r4 / a235e8a** 的542项门禁和9070程序文件/9071 ZIP项检查保持原结论；[旧r4凭据](research-evidence/terminal-070dev3-r4-build-20261030/README.md)不替代r5验收。
 
 在“券商接入准备”保存匹配的未发送意图后，可明确读取程序条件、填写失效时间和费用上限，再保存离线计划；之后可找回原计划或查询原请求。r5已包含可信包身份、计划服务及此页面，包内两个模式的4个只读入口、15个嵌入界面脚本均通过检查；没有执行包内计划变更或外部请求。账户共享停止标记可在同模式、同账户的其他工作区读取；解除标记不解除本模式准备停止，不重发旧请求或授予交易权限。保存/找回交互的[源码及离线宿主验证](research-evidence/broker-plan-flow-20261030/README.md)与原生验收分别记录。旧[r3候选](research-evidence/terminal-070dev3-r3-build-20261030/README.md)完整保留。

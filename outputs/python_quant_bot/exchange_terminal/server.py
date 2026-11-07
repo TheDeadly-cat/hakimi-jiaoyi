@@ -4496,6 +4496,7 @@ def run_strategy_backtest(
     evaluation_start_index: int | None = None,
     strategy_params: dict[str, Any] | None = None,
     include_full_history: bool = False,
+    initial_cash: float = 10000.0,
 ) -> dict[str, Any]:
     capability = strategy_validation_capability(strategy_id)
     if not capability.get("backtest_supported"):
@@ -4536,6 +4537,7 @@ def run_strategy_backtest(
         timeframe=str(payload.get("bar") or "1D"),
         evaluation_start_index=evaluation_start_index,
         signal_input=strategy_signal_input(strategy_id),
+        initial_cash=initial_cash,
     )
     report.update({
         "data_warning": payload.get("warning", ""),
