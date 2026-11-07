@@ -1,0 +1,38 @@
+{
+  "created_at": "2026-11-07T21:44:09.031313+00:00",
+  "interpreter": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-order-venv\\Scripts\\python.exe",
+  "canonical_import": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-order-identity-20261108\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+  "direct_url": {
+    "dir_info": {
+      "editable": true
+    },
+    "url": "file:///C:/Users/Administrator/.codex/worktrees/broker-order-identity-20261108/%E5%93%88%E5%9F%BA%E7%B1%B3v2%E4%BA%A4%E6%98%93"
+  },
+  "source_head": "1f04c393f4e6e463abb75b7e05b7e5bc50feae0f",
+  "source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "85b372aa972bacffd8ba5d0b90db953b4fdd792ca681ea14a3d9361b9254d934",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py": "e1076551448c7547be3dda4dc8af7d06072928401f897641b207ac98cd58c8ad",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "18235ac84f8288f0153fb200344118b83231022ec13ccb29c7db9700675b1a7d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_order_identity.py": "45e7dfa8b8d8f9fc70cd0c3dc46ca039aec416c1c965e33561b98a309c66f1fa",
+    "outputs/python_quant_bot/tests/broker_order_identity_fixture.py": "2a706855ce0aba49a425787cc5c463691e977cbab32d6960f05f87df52f5d21d",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity.py": "2b654f10a7778cef8382a3d0d36f0f74f394d784da0422fa164a962636761e52",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_codec.py": "602ec6192b3f21001dec401a5453ece23192f98eb278fc74ca19ce2d718b4204",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_coordinator.py": "bab60439d86dcf476bce1a1d59938d76f1715731f24602e4fb2f7aab173f16ff",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_worker.py": "41ca5c2c452f2686a0eb92fe3c05565995cc947daa0c78d4a330a8d1205e4648",
+    "tools/run_terminal_contracts.py": "1a1178d3325595590745245e8e44d6d27ff95e113dfc484d17fcd5db4d2f6433"
+  },
+  "installed_futu": false,
+  "dependency_versions": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "python-dateutil": "2.9.0.post0",
+    "six": "1.17.0",
+    "tzdata": "2026.2",
+    "exchange-calendars": "4.13.2",
+    "setuptools": "82.0.1"
+  },
+  "pythonpath": "",
+  "actual_pinned_protobuf_probe": "SEPARATE",
+  "packaged_acceptance": false,
+  "pip_check": "No broken requirements found."
+}

@@ -1,0 +1,19 @@
+{
+  "scope": "STANDARD_JSON_FAKE_PROTOCOL_ORIGINAL_WORKER_OWNED_TCP_SQLITE",
+  "tests": 3,
+  "passed": 3,
+  "unittest_seconds": 8.866,
+  "log": "order-worker-standard-r1.log",
+  "source": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-order-identity-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+  "files": {
+    "outputs/python_quant_bot/tests/broker_order_identity_fixture.py": "31fbfc03d11933f1cabe85f6fd3508d3dc0f5a4b06b7d1f71c664455fd81a371",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_worker.py": "04d9bb53a594943678ec0552f6a5c14cda6fc609809746ba8deae576b666325f"
+  },
+  "actual_not_included": true,
+  "installation": "W4 actual editable gate-broker-order-venv; no SDK package",
+  "cases": [
+    "original ACK identity drives 2201 /2205 /2201, all original IDs read-only recovery",
+    "shared stop after ACK blocks followup send",
+    "foreign order response retained without original identity replacement"
+  ]
+}

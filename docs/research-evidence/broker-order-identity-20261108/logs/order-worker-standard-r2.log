@@ -1,0 +1,9 @@
+test_foreign_order_response_is_retained_without_replacing_original_ack_identity (tests.test_terminal_broker_order_identity_worker.SyntheticOrderIdentityWorkerTests.test_foreign_order_response_is_retained_without_replacing_original_ack_identity) ... ok
+test_injected_confirmed_quote_loss_preserves_trade_query_and_cancel_without_reconnect (tests.test_terminal_broker_order_identity_worker.SyntheticOrderIdentityWorkerTests.test_injected_confirmed_quote_loss_preserves_trade_query_and_cancel_without_reconnect) ... ok
+test_original_ack_identity_drives_observe_cancel_observe_and_read_only_recovery (tests.test_terminal_broker_order_identity_worker.SyntheticOrderIdentityWorkerTests.test_original_ack_identity_drives_observe_cancel_observe_and_read_only_recovery) ... ok
+test_shared_stop_after_ack_preserves_original_identity_without_followup_send (tests.test_terminal_broker_order_identity_worker.SyntheticOrderIdentityWorkerTests.test_shared_stop_after_ack_preserves_original_identity_without_followup_send) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 11.557s
+
+OK

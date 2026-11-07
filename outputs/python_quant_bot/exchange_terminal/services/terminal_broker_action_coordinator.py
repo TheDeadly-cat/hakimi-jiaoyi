@@ -26,10 +26,12 @@ from .terminal_broker_wire_profile import (
     SCHEMA_V3 as PROFILE_SCHEMA_V3, actions_for_profile,
 )
 from .terminal_broker_submit_observation import VerifiedSubmitObservation, validate_submit_observation
+from .terminal_broker_order_identity import VerifiedAcknowledgedOrder, validate_acknowledged_order
 from .terminal_workspace_history import _no_links, _safe
 
 
 SCHEMA = "hakimi-broker-action-coordinator-v1"
+_ORDER_FOLLOWUPS = frozenset({"trade_observe", "trade_cancel", "trade_fees"})
 _TOKEN = object()
 
 
@@ -254,6 +256,7 @@ class ActionCoordinator:
         self._connected, self._initialized = set(), set()
         self._closed = False
         self._last_clock = None
+        self._order_identity = None
         for operation in operations:
             self.register(operation)
 
@@ -324,6 +327,37 @@ class ActionCoordinator:
             else:
                 _require(permit.get("submit_observation_id") is None and operation.submit_observation is None,
                          "observation_not_applicable_to_operation")
+                if operation.action in _ORDER_FOLLOWUPS:
+                    self._validate_order_identity(operation)
+
+    def _validate_order_identity(self, operation, identity=None):
+        """Pure check inside write barriers; never reopen the journal here."""
+        identity = self._order_identity if identity is None else identity
+        accepted = self.codec.acknowledged_order_identity()
+        _require(type(identity) is VerifiedAcknowledgedOrder and type(accepted) is VerifiedAcknowledgedOrder,
+                 "journal_acknowledged_order_required")
+        _require(identity.as_dict() == accepted.as_dict(), "accepted_order_identity_changed")
+        validate_acknowledged_order(self.profile, identity, session_binding=self._order_session())
+        _require(operation.broker_order_id == identity.as_dict()["broker_order_id"],
+                 "operation_original_order_changed")
+
+    def _confirm_order_identity(self, operation):
+        """Re-read persisted ownership before admission, outside stop barriers."""
+        identity = self.journal.read_acknowledged_order(self.profile)
+        _require(type(identity) is VerifiedAcknowledgedOrder, "journal_acknowledged_order_required")
+        self._validate_order_identity(operation, identity)
+        self._order_identity = identity
+
+    def _order_session(self):
+        # Managing an acknowledged order needs the original accepted identity
+        # and a live trade channel, not a still-live quote channel. New submits
+        # continue to require both live channels in _submit_session below.
+        _require("trade" in self._initialized and "trade" in self._connected,
+                 "current_trade_handshake_required")
+        quote = self.codec.accepted_session_binding("quote")
+        trade = self.codec.accepted_session_binding("trade")
+        _require(quote.as_dict() == trade.as_dict(), "accepted_session_changed")
+        return trade
 
     def _submit_session(self):
         _require({"quote", "trade"} <= self._initialized and {"quote", "trade"} <= self._connected,
@@ -406,6 +440,8 @@ class ActionCoordinator:
             if prior["original_action_receipt"] is not None:
                 return dict(prior, recovered_original=True)
             _require(not self._closed, "coordinator_closed")
+            if self.value["schema_version"] == PROFILE_SCHEMA_V3 and operation.action in _ORDER_FOLLOWUPS:
+                self._confirm_order_identity(operation)
             self._validate_permit(operation)
             _require(callable(self.factory), "CONNECTION_FACTORY_UNAVAILABLE")
             channel = self._actions[operation.action][0]
@@ -482,6 +518,17 @@ class ActionCoordinator:
                     self.journal.record_verified_response(facts,
                         request_id="facts-" + sha256(operation_id.encode()).hexdigest(),
                         previous_evidence_id=evidence_id if matched_ack else None)
+                    if self.value["schema_version"] == PROFILE_SCHEMA_V3 and operation.action == "trade_submit" and matched_ack:
+                        # Only a complete original journal readback can supply
+                        # the identity. A received frame or failed save reply
+                        # must never enable follow-up request construction.
+                        identity = self.journal.read_acknowledged_order(self.profile)
+                        _require(type(identity) is VerifiedAcknowledgedOrder, "journal_acknowledged_order_required")
+                        _require(identity.as_dict()["submit_operation_id"] == operation_id
+                            and identity.as_dict()["ack_facts_id"] == facts.as_dict()["id"],
+                            "recorded_order_ack_changed")
+                        self.codec.accept_acknowledged_order(self.profile, identity)
+                        self._order_identity = identity
                 return dict(self.read(operation_id), raw_evidence_id=evidence_id)
             except Exception as error:
                 # Retained ACTION and any already committed outcome stay as-is.

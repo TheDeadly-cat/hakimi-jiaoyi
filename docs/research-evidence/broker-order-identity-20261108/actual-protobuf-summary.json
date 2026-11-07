@@ -1,0 +1,94 @@
+{
+  "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+  "production_package_bootstrap_acceptance": false,
+  "r7_contains_current_source": false,
+  "private_flags": {
+    "isolated": 1,
+    "no_site": 1,
+    "ignore_environment": 1,
+    "dont_write_bytecode": 1
+  },
+  "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+  "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+  "guard_counters": {
+    "socket_connect": 0,
+    "socket_bind": 4,
+    "dns_denied": 0,
+    "external_endpoint_denied": 0,
+    "futu_import_denied": 0,
+    "subprocess": 5,
+    "database": 52,
+    "writes": 64
+  },
+  "allowed_endpoint": null,
+  "source_authenticated": false,
+  "bootstrap_stages": [
+    {
+      "stage": "manifest_and_guards_ready",
+      "seconds": 0.006162599995150231
+    },
+    {
+      "stage": "actual_package_identity_checked",
+      "seconds": 1.2819909999961965
+    },
+    {
+      "stage": "application_closure_preloaded_protobuf_cold",
+      "seconds": 1.701346999994712
+    },
+    {
+      "stage": "actual_verified_bindings_ready",
+      "seconds": 14.481235600003856
+    }
+  ],
+  "synthetic_values": true,
+  "order_operations_allowed": "SYNTHETIC_OWNED_PEER_ONLY",
+  "cash_snapshots_allowed": "EXPLICIT_INDEPENDENT_SYNTHETIC_FIXTURE_ONLY",
+  "tests_run": 4,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "unittest_runner_seconds": 428.9048307000048,
+  "controller_seconds": 433.25430159999814,
+  "status": "PASS_ACTUAL_PROTOBUF_ORIGINAL_WORKER_OWNED_TCP",
+  "test_case_names": [
+    "test_foreign_order_response_is_retained_without_replacing_original_ack_identity",
+    "test_injected_confirmed_quote_loss_preserves_trade_query_and_cancel_without_reconnect",
+    "test_original_ack_identity_drives_observe_cancel_observe_and_read_only_recovery",
+    "test_shared_stop_after_ack_preserves_original_identity_without_followup_send"
+  ],
+  "diagnostic_subset": false,
+  "order_observation_scope": "2201_CUMULATIVE_ORDER_FIELDS_NOT_2211_FILL_LIST_OR_ECONOMIC_FINALITY",
+  "registry_scope": "TEST_ONLY_PREBOUND_ORIGINAL_FRAME_REGISTRY_NOT_IDENTITY_AUTHORITY_OR_A_PRODUCTION_LEDGER",
+  "package_bootstrap_scope": "CURRENT_SOURCE_TEST_ASSEMBLY_NOT_R7_FEATURE_OR_PRODUCTION_BOOTSTRAP_ACCEPTANCE",
+  "source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "85b372aa972bacffd8ba5d0b90db953b4fdd792ca681ea14a3d9361b9254d934",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py": "e1076551448c7547be3dda4dc8af7d06072928401f897641b207ac98cd58c8ad",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "18235ac84f8288f0153fb200344118b83231022ec13ccb29c7db9700675b1a7d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_order_identity.py": "45e7dfa8b8d8f9fc70cd0c3dc46ca039aec416c1c965e33561b98a309c66f1fa",
+    "outputs/python_quant_bot/tests/broker_order_identity_fixture.py": "2a706855ce0aba49a425787cc5c463691e977cbab32d6960f05f87df52f5d21d",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity.py": "2b654f10a7778cef8382a3d0d36f0f74f394d784da0422fa164a962636761e52",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_codec.py": "602ec6192b3f21001dec401a5453ece23192f98eb278fc74ca19ce2d718b4204",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_coordinator.py": "bab60439d86dcf476bce1a1d59938d76f1715731f24602e4fb2f7aab173f16ff",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_worker.py": "41ca5c2c452f2686a0eb92fe3c05565995cc947daa0c78d4a330a8d1205e4648",
+    "tools/run_terminal_contracts.py": "1a1178d3325595590745245e8e44d6d27ff95e113dfc484d17fcd5db4d2f6433"
+  },
+  "actual_probe_changed_input_paths": [
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_order_identity.py",
+    "outputs/python_quant_bot/tests/broker_order_identity_fixture.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_codec.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_coordinator.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_worker.py"
+  ],
+  "original_source_input_count": 1626,
+  "original_result_sha256": "a503a3d5dab1c9b71e37b6dab7bd4363bcdd30895f0a0b15917a0c4fbaff786b",
+  "original_input_spec_sha256": "75cf553c2e35c14f030e02983c83c5b058b1b8361924450808930ead9397cf47",
+  "original_guard_final_sha256": "cc3305061d6a4be2a604dfb79e2d7cf978b5f9d10c4723d829f4f19a5c292194",
+  "unittest_log_seconds": 428.903,
+  "outer_seconds": 452.5263347,
+  "artifact_scope": "Current final input scope only. Original input inventory and SQLite copies retained externally.",
+  "whole_package_reverification": false
+}

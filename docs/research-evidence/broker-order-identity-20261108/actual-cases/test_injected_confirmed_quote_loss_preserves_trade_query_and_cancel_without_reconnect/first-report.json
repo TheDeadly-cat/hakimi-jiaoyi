@@ -1,0 +1,181 @@
+{
+  "adopted_identity_id": "910610711bd52532d3297d944a55c13ae3fad734c398ecb283854477df1e3be3",
+  "final_broker_order_id": "fictional-order-44",
+  "initial_broker_order_id": null,
+  "io_order": [
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "392be92db612c6fe2805a0682c7165a5905ad979638d154a37632c270bc09496"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "392be92db612c6fe2805a0682c7165a5905ad979638d154a37632c270bc09496"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_init",
+      "receipt_id": "b07fade82de4069aa65d3f8d0d69a8540983cf9c0c9641aa6da005e5273a43ec"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_runtime",
+      "receipt_id": "1706d981fc7569f271448160c6738dc8a8b9d1dd28a2996b2b25415aefe6faf6"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_security",
+      "receipt_id": "4210901f738feecdacfa3e0bf1d039c3a040222ab32916ae51215c0196720657"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_snapshot",
+      "receipt_id": "82ba213abb17ec1e0aa2a44764a66659939cc5bd2f1039f84b98f34f532eb0ff"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_market_state",
+      "receipt_id": "c989e741c4ea9db4eab6bca9fa3bd2d4c898a434c18f845a656efd64a5ddf71d"
+    },
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "25ba627e04cefaa96af0e4b69289b4994ea5331eafc83b91c178f16943aa0e93"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "25ba627e04cefaa96af0e4b69289b4994ea5331eafc83b91c178f16943aa0e93"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-trade_init",
+      "receipt_id": "f1038927c893078529647dd9bd751e5f28df637d6ea5e4418d0697bd452f6b64"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-trade_submit",
+      "receipt_id": "d0ba292fd72b565bb0ff50dc56b813b790db163828af94351778ecde145edf43"
+    },
+    {
+      "kind": "send",
+      "operation_id": "order-identity-fixture-observe_before_cancel",
+      "receipt_id": "88b221f39d9926201b494967d9eb0d05df98eba15f05aff555134f620baaf170"
+    },
+    {
+      "kind": "send",
+      "operation_id": "order-identity-fixture-cancel",
+      "receipt_id": "5ccf17ccf3610d5a87900185c49d936c702d894c4c4d0ee85325e9ad6e3c0429"
+    }
+  ],
+  "preparation_error": null,
+  "private_flags": {
+    "dont_write_bytecode": 1,
+    "isolated": 1,
+    "no_site": 1
+  },
+  "protocol_layer": "ACTUAL_PINNED_PROTOBUF_SYNTHETIC_VALUES",
+  "scenario_notes": [
+    {
+      "action": "quote_runtime",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.285256199989817
+    },
+    {
+      "action": "quote_security",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.289310899999691
+    },
+    {
+      "action": "quote_snapshot",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.428755600005388
+    },
+    {
+      "action": "quote_market_state",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.276009299996076
+    },
+    {
+      "accepted_identity_unchanged": true,
+      "closed_quote_fd": -1,
+      "kind": "EXPLICIT_CONFIRMED_QUOTE_LOSS_TEST_INJECTION_NOT_FIN_DETECTOR",
+      "original_quote_fd": 660,
+      "quote_live": false,
+      "trade_live": true
+    },
+    {
+      "identity_id": "910610711bd52532d3297d944a55c13ae3fad734c398ecb283854477df1e3be3",
+      "kind": "FIXED_FOLLOWUP_FROM_ORIGINAL_JOURNAL_IDENTITY",
+      "name": "observe_before_cancel",
+      "preparation_seconds": 4.446146799993585
+    },
+    {
+      "identity_id": "910610711bd52532d3297d944a55c13ae3fad734c398ecb283854477df1e3be3",
+      "kind": "FIXED_FOLLOWUP_FROM_ORIGINAL_JOURNAL_IDENTITY",
+      "name": "cancel",
+      "preparation_seconds": 4.248118899995461
+    },
+    {
+      "identity_id": "910610711bd52532d3297d944a55c13ae3fad734c398ecb283854477df1e3be3",
+      "kind": "FIXED_FOLLOWUP_FROM_ORIGINAL_JOURNAL_IDENTITY",
+      "name": "observe_after_cancel",
+      "preparation_seconds": 4.539369400008582
+    }
+  ],
+  "original_report_sha256": "31343fb01da1e2c9ae668d4664d1ea9e76ac68f10ee98f1e131dbc132e950cd7",
+  "actual_loader": {
+    "allowed_endpoint": {
+      "host": "127.0.0.1",
+      "port": 59515
+    },
+    "bootstrap_stages": [
+      {
+        "seconds": 0.0066577999969013035,
+        "stage": "manifest_and_guards_ready"
+      },
+      {
+        "seconds": 1.330024199996842,
+        "stage": "actual_package_identity_checked"
+      },
+      {
+        "seconds": 1.855434500001138,
+        "stage": "application_closure_preloaded_protobuf_cold"
+      },
+      {
+        "seconds": 13.962927100001252,
+        "stage": "actual_verified_bindings_ready"
+      },
+      {
+        "seconds": 25.69535840000026,
+        "stage": "order_identity_fixture_bound"
+      }
+    ],
+    "cash_snapshots_allowed": "EXPLICIT_INDEPENDENT_SYNTHETIC_FIXTURE_ONLY",
+    "guard_counters": {
+      "database": 133,
+      "dns_denied": 0,
+      "external_endpoint_denied": 0,
+      "futu_import_denied": 0,
+      "socket_bind": 0,
+      "socket_connect": 2,
+      "subprocess": 0,
+      "writes": 56
+    },
+    "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "order_operations_allowed": "SYNTHETIC_OWNED_PEER_ONLY",
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "private_flags": {
+      "dont_write_bytecode": 1,
+      "ignore_environment": 1,
+      "isolated": 1,
+      "no_site": 1
+    },
+    "production_package_bootstrap_acceptance": false,
+    "r7_contains_current_source": false,
+    "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+    "source_authenticated": false,
+    "synthetic_values": true
+  }
+}

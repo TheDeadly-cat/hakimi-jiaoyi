@@ -1,0 +1,6 @@
+test_original_ack_identity_drives_observe_cancel_observe_and_read_only_recovery (__main__.ActualOrderIdentityWorkerTests.test_original_ack_identity_drives_observe_cancel_observe_and_read_only_recovery) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 129.079s
+
+OK

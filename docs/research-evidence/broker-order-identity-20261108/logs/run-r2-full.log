@@ -1,0 +1,8 @@
+test_foreign_order_response_is_retained_without_replacing_original_ack_identity (__main__.ActualOrderIdentityWorkerTests.test_foreign_order_response_is_retained_without_replacing_original_ack_identity) ... ok
+test_original_ack_identity_drives_observe_cancel_observe_and_read_only_recovery (__main__.ActualOrderIdentityWorkerTests.test_original_ack_identity_drives_observe_cancel_observe_and_read_only_recovery) ... ok
+test_shared_stop_after_ack_preserves_original_identity_without_followup_send (__main__.ActualOrderIdentityWorkerTests.test_shared_stop_after_ack_preserves_original_identity_without_followup_send) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 315.849s
+
+OK

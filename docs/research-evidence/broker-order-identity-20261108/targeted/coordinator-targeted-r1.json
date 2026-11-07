@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-11-07T21:25:06.816671+00:00",
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-order-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_terminal_broker_order_identity_coordinator",
+    "-v"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 19.046920699998736,
+  "source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py": "878f13f3d2579c5f75e594f52325d43611d62bfe09d844963ead0f75927690fd",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_coordinator.py": "ab2b68f9c21da0b2d5eea80401b9ad2592fd23fc5b71069453bbe345ad59cf6c"
+  },
+  "source_unchanged": true,
+  "log_sha256": "0c3ad8a8f93f3acdd8506c3dc4c8b9a5678d38b652da927179e3005a0bbbc8dd",
+  "scope": "SYNTHETIC_ORIGINAL_COORDINATOR_AND_SQLITE_NO_SDK_OR_SOCKET"
+}

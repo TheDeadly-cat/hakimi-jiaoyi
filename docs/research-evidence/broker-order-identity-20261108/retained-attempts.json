@@ -1,0 +1,62 @@
+{
+  "attempts": [
+    {
+      "run": "run-r1-positive",
+      "source_scope": "BEFORE_QUOTE_LOSS_COUPLING_FIX",
+      "process": {
+        "exit_code": 0,
+        "seconds": 152.5264981999935,
+        "outer_timeout_seconds": 480,
+        "source_inputs_unchanged": true,
+        "package_manifest_unchanged": true
+      },
+      "result": {
+        "status": "PASS_ACTUAL_PROTOBUF_ORIGINAL_WORKER_OWNED_TCP",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "diagnostic_subset": true
+      },
+      "original_result_sha256": "6dbcadae492f9d39cce28a1eda73bbb35dbc5c4f96a421be57c598f797a76409",
+      "original_input_spec_sha256": "59b2ce7f6c10504ba49276518927b040d97fa680b1f664eff7ca9f4d392dc3f9"
+    },
+    {
+      "run": "run-r2-full",
+      "source_scope": "BEFORE_QUOTE_LOSS_COUPLING_FIX",
+      "process": {
+        "exit_code": 0,
+        "seconds": 339.9413640999992,
+        "outer_timeout_seconds": 480,
+        "source_inputs_unchanged": true,
+        "package_manifest_unchanged": true
+      },
+      "result": {
+        "status": "PASS_ACTUAL_PROTOBUF_ORIGINAL_WORKER_OWNED_TCP",
+        "tests_run": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "diagnostic_subset": false
+      },
+      "original_result_sha256": "790ac415a4665a37f1b18d98f2656ce8b76a8801473d7b6653066dbbcc4ea5e0",
+      "original_input_spec_sha256": "df8afcf45e8c19046b8d3ee10d90289ebfb1a9d214b7b504767cd8f37a4d4f39"
+    }
+  ],
+  "coverage_is_not_sum_of_attempts": true,
+  "earlier_full_terminal": "earlier/full-terminal-before-quote-loss.json",
+  "earlier_source_scope": "EXTERNAL_PRE_QUOTE_LOSS_SOURCE_R1_BYTES_RETAINED",
+  "earlier_source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "85b372aa972bacffd8ba5d0b90db953b4fdd792ca681ea14a3d9361b9254d934",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py": "878f13f3d2579c5f75e594f52325d43611d62bfe09d844963ead0f75927690fd",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "18235ac84f8288f0153fb200344118b83231022ec13ccb29c7db9700675b1a7d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_order_identity.py": "45e7dfa8b8d8f9fc70cd0c3dc46ca039aec416c1c965e33561b98a309c66f1fa",
+    "outputs/python_quant_bot/tests/broker_order_identity_fixture.py": "31fbfc03d11933f1cabe85f6fd3508d3dc0f5a4b06b7d1f71c664455fd81a371",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity.py": "2b654f10a7778cef8382a3d0d36f0f74f394d784da0422fa164a962636761e52",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_codec.py": "602ec6192b3f21001dec401a5453ece23192f98eb278fc74ca19ce2d718b4204",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_coordinator.py": "ab2b68f9c21da0b2d5eea80401b9ad2592fd23fc5b71069453bbe345ad59cf6c",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_worker.py": "04d9bb53a594943678ec0552f6a5c14cda6fc609809746ba8deae576b666325f",
+    "tools/run_terminal_contracts.py": "1a1178d3325595590745245e8e44d6d27ff95e113dfc484d17fcd5db4d2f6433"
+  },
+  "explanation": "The first full gate (1014) and actual three-case run passed before review found an unnecessary live-quote dependency for acknowledged-order management. Current source uses live trade plus original accepted identity; the added confirmed quote-loss case is explicitly fault-injected, not a production FIN detector. Final 1016/actual four cases bind the new source. Intermediate targeted counts overlap; old bytes and receipts remain unchanged."
+}

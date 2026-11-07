@@ -1,0 +1,178 @@
+{
+  "adopted_identity_id": "a83ebbc2e59e8ea66c025a024f9d8cd028859a0a2e7e2d50cf2da5c86311c7f0",
+  "final_broker_order_id": "fictional-order-44",
+  "initial_broker_order_id": null,
+  "io_order": [
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "30f3e740bd3fdec90458e57e8aa45f9d1e73bc5d8d8f617602de803136b3eefa"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "30f3e740bd3fdec90458e57e8aa45f9d1e73bc5d8d8f617602de803136b3eefa"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_init",
+      "receipt_id": "e2a683365ad02e542639842ac2aa1a670f34a6a4287d62c2802c37ae73037d57"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_runtime",
+      "receipt_id": "c18ccf3bac65b61750ca097ffd361184e3a564cc91cb488b85d4314e374176f1"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_security",
+      "receipt_id": "b5bfce06a6cfa92f793e74090d570a3a9ca5e022512cc22d956d919b52aed55f"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_snapshot",
+      "receipt_id": "4b77dc3c20e09d1aec84c3e59ba1e6a9d11098e91534e9350a0403e5be310417"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_market_state",
+      "receipt_id": "0d301a30e36f3ec1aa2f8bb120fb6473dbb5d04fe52d49f6e0ce1a23946f72a7"
+    },
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "9e2cf0aee19aaf7ac2bc8b7e25cafefd3240496f0773cdd5e229eb2b7ad92df4"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "9e2cf0aee19aaf7ac2bc8b7e25cafefd3240496f0773cdd5e229eb2b7ad92df4"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-trade_init",
+      "receipt_id": "9b6d4d95a4c958835baff0b7dc040d19392beec2c6a49c17f89a3ec76fb9d5a0"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-trade_submit",
+      "receipt_id": "b1492c93aed425c29610d349a4d1b409d856c6b6a02c9d46c2c55da501a559cf"
+    },
+    {
+      "kind": "send",
+      "operation_id": "order-identity-fixture-observe_before_cancel",
+      "receipt_id": "fbf398446e67f45e6c48393ffc429a12ac84dc93abd6935c727a723dac82f49d"
+    },
+    {
+      "kind": "send",
+      "operation_id": "order-identity-fixture-cancel",
+      "receipt_id": "a231b7bd78b4c14cdc2db9d4189abc6633acccf9dde7d7f8056f232d500c76f9"
+    },
+    {
+      "kind": "send",
+      "operation_id": "order-identity-fixture-observe_after_cancel",
+      "receipt_id": "2df88ec5e0820378e6a791fe89ccb43424808646fe9a33c7ef70005b8bbe9e24"
+    }
+  ],
+  "preparation_error": null,
+  "private_flags": {
+    "dont_write_bytecode": 1,
+    "isolated": 1,
+    "no_site": 1
+  },
+  "protocol_layer": "ACTUAL_PINNED_PROTOBUF_SYNTHETIC_VALUES",
+  "scenario_notes": [
+    {
+      "action": "quote_runtime",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.617116900000838
+    },
+    {
+      "action": "quote_security",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.5827909000072395
+    },
+    {
+      "action": "quote_snapshot",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.6169160999997985
+    },
+    {
+      "action": "quote_market_state",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.784903199994005
+    },
+    {
+      "identity_id": "a83ebbc2e59e8ea66c025a024f9d8cd028859a0a2e7e2d50cf2da5c86311c7f0",
+      "kind": "FIXED_FOLLOWUP_FROM_ORIGINAL_JOURNAL_IDENTITY",
+      "name": "observe_before_cancel",
+      "preparation_seconds": 4.255122300004587
+    },
+    {
+      "identity_id": "a83ebbc2e59e8ea66c025a024f9d8cd028859a0a2e7e2d50cf2da5c86311c7f0",
+      "kind": "FIXED_FOLLOWUP_FROM_ORIGINAL_JOURNAL_IDENTITY",
+      "name": "cancel",
+      "preparation_seconds": 4.383810799990897
+    },
+    {
+      "identity_id": "a83ebbc2e59e8ea66c025a024f9d8cd028859a0a2e7e2d50cf2da5c86311c7f0",
+      "kind": "FIXED_FOLLOWUP_FROM_ORIGINAL_JOURNAL_IDENTITY",
+      "name": "observe_after_cancel",
+      "preparation_seconds": 4.411587900001905
+    }
+  ],
+  "original_report_sha256": "271d77fd711961fb024091f6e5576a91cef8301745a957edf2dca060e73dc48d",
+  "actual_loader": {
+    "allowed_endpoint": {
+      "host": "127.0.0.1",
+      "port": 56057
+    },
+    "bootstrap_stages": [
+      {
+        "seconds": 0.006271700010984205,
+        "stage": "manifest_and_guards_ready"
+      },
+      {
+        "seconds": 1.3503026000107639,
+        "stage": "actual_package_identity_checked"
+      },
+      {
+        "seconds": 1.879634700002498,
+        "stage": "application_closure_preloaded_protobuf_cold"
+      },
+      {
+        "seconds": 14.28484190000745,
+        "stage": "actual_verified_bindings_ready"
+      },
+      {
+        "seconds": 26.807824700008496,
+        "stage": "order_identity_fixture_bound"
+      }
+    ],
+    "cash_snapshots_allowed": "EXPLICIT_INDEPENDENT_SYNTHETIC_FIXTURE_ONLY",
+    "guard_counters": {
+      "database": 145,
+      "dns_denied": 0,
+      "external_endpoint_denied": 0,
+      "futu_import_denied": 0,
+      "socket_bind": 0,
+      "socket_connect": 2,
+      "subprocess": 0,
+      "writes": 60
+    },
+    "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "order_operations_allowed": "SYNTHETIC_OWNED_PEER_ONLY",
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "private_flags": {
+      "dont_write_bytecode": 1,
+      "ignore_environment": 1,
+      "isolated": 1,
+      "no_site": 1
+    },
+    "production_package_bootstrap_acceptance": false,
+    "r7_contains_current_source": false,
+    "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+    "source_authenticated": false,
+    "synthetic_values": true
+  }
+}

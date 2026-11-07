@@ -1,0 +1,21 @@
+{
+  "tests_run": 51,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 19.7420592999988,
+  "source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "85b372aa972bacffd8ba5d0b90db953b4fdd792ca681ea14a3d9361b9254d934",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_codec.py": "602ec6192b3f21001dec401a5453ece23192f98eb278fc74ca19ce2d718b4204"
+  },
+  "source_unchanged": true,
+  "log_sha256": "d20f96a834dbba89fba7d5e01b7f51ef08cc170efa3de5bc71f4feeb085b11bc",
+  "modules": [
+    "tests.test_terminal_broker_order_identity_codec",
+    "tests.test_futu_us_equity_simulate_wire_v2",
+    "tests.test_terminal_broker_request_builder",
+    "tests.test_terminal_broker_wire_v3"
+  ],
+  "scope": "W4_EDITABLE_TEMP_JOURNAL_AND_JSON_FAKE_CODEC_CONTRACTS_NOT_ACTUAL_PROTOBUF",
+  "interpreter": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-order-venv\\Scripts\\python.exe"
+}

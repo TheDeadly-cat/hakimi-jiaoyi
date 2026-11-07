@@ -509,6 +509,16 @@ class BrokerExecutionJournal:
                 found = receipts[request_id]
                 require(found["request_hash"] == fingerprint, "journal_request_payload_conflict")
                 return {"receipt": deepcopy(found), "replayed": True, "permissions": dict(PERMISSIONS)}
+            if (kind == "ACTION" and payload["profile"]["schema_version"] == "hakimi-broker-wire-profile-v3"
+                    and payload["action"] in ("trade_observe", "trade_cancel", "trade_fees")):
+                # New admission only. Historical v3 ACTION bytes predate this
+                # requirement and must remain replayable under their old rules.
+                # BEGIN IMMEDIATE still owns the journal while we check the
+                # loaded chain, before entering the short control barrier.
+                from .terminal_broker_order_identity import _acknowledged_order_from_state
+                identity = _acknowledged_order_from_state(payload["profile"], state, receipts)
+                require(identity is not None and identity.as_dict()["broker_order_id"] == payload["broker_order_id"],
+                        "journal_verified_acknowledged_order_required")
             require(len(receipts) < MAX_EVENTS, "journal_event_limit")
             def publish():
                 # Take the time after any writer/control wait, at publication.
@@ -572,6 +582,19 @@ class BrokerExecutionJournal:
                 return None
             return _restore_submit_observation(payload["profile"], payload["submit_observation"],
                                                recorded_at=contract._time(event["at"]))
+
+    def read_acknowledged_order(self, profile):
+        """Derive an original v3 ACK identity without a new event or time limit."""
+        from .terminal_broker_order_identity import _acknowledged_order_from_state
+        value = _profile(profile)
+        require(value["mode"] == self.mode and value["order"]["account_id"] == self.scope["account_id"]
+                and value["deduplication"]["account_scope_id"] == self.account_scope_id,
+                "journal_account_mode_mismatch")
+        if value["schema_version"] == "hakimi-broker-wire-profile-v2":
+            return None
+        with self._database() as connection:
+            state, receipts, _ = self._load(connection)
+            return _acknowledged_order_from_state(value, state, receipts)
 
     @staticmethod
     def _submit_payload(profile, payload, observation, session_binding, *, required):

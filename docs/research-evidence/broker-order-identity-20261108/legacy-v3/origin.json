@@ -1,0 +1,29 @@
+{
+  "source_commit": "1f04c393f4e6e463abb75b7e05b7e5bc50feae0f",
+  "source_path": "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py",
+  "source_sha256": "67da6b5f4d16c448f6922d570c542a62f507ba015349ddc3bb141800bc6efc8d",
+  "source_class": "exchange_terminal.services._legacy_order_journal_fixture.BrokerExecutionJournal",
+  "event_bytes": 14996,
+  "event_sha256": "7106299471b3a9680a1d776dde1f58284149d182600919620aa495a66cb6972e",
+  "profile_sha256": "bbc321332c7cd3730e350ecb41310c9f8b18e25ee8fe1618c772b0e58e0e2029",
+  "prefix_head": "1517d98afc1362e203585d5e9ec88ca43fc9bfe64b1f415e4b2a9a27ff5220ee",
+  "prefix_events": 16,
+  "envelope": {
+    "schema_version": "hakimi-broker-execution-journal-v2",
+    "seq": 17,
+    "previous": "1517d98afc1362e203585d5e9ec88ca43fc9bfe64b1f415e4b2a9a27ff5220ee",
+    "at": "2026-10-30T08:00:12+00:00",
+    "kind": "ACTION",
+    "request_id": "synthetic-trade_observe-0018",
+    "request_hash": "2b6e4a261f4f500e6608af2561efb37cc360aa66c058dd82fe8bdf2b6a1bcc92",
+    "result": {
+      "status": "DISPATCH_INTENT",
+      "operation_id": "synthetic-trade_observe-0018",
+      "action": "trade_observe",
+      "attempt_count": 1,
+      "dispatch_authorization_granted": false
+    },
+    "id": "3121b3ad0eb3ecd91d1a5f4e5dc82d879ce319b7ee6cb3bb8678d881c95973e3"
+  },
+  "scope": "All original journal writes, including follow-up ACTION, performed by immutable base commit class in new TEMP; JSON protocol fakes only"
+}

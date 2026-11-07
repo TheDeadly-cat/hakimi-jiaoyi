@@ -259,7 +259,10 @@ class SimulateCodec:
         self._session_binding = session
         self._session_lock = Lock()
         self._accepted_channels = set()
+        self._acknowledged_order_identity = None
         _require(self._session["profile_id"] == self._profile["id"], "session_profile_changed")
+        _require(self._profile["schema_version"] != PROFILE_SCHEMA_V3 or
+                 self._session["broker_order_id"] is None, "v3_initial_order_identity_forbidden")
         protocols = {proto for _, proto in self._actions.values() if proto in self._proto_names}
         _require(set(request_classes) == protocols == set(response_classes), "exact_codec_map_required")
         for protocol in protocols:
@@ -316,6 +319,43 @@ class SimulateCodec:
         with self._session_lock:
             _require(channel in self._accepted_channels, "accepted_handshake_required")
             return self._session_binding
+
+    def acknowledged_order_identity(self):
+        """Return the accepted immutable identity without any external reads."""
+        with self._session_lock:
+            return self._acknowledged_order_identity
+
+    def accept_acknowledged_order(self, profile, identity):
+        """Adopt a persisted ACK identity on this codec's accepted sessions.
+
+        The journal factory establishes the original action/ACK chain. This
+        method only checks that typed evidence against the current sessions;
+        it does not authorize an order operation, read a journal, or reconnect.
+        """
+        from ..services.terminal_broker_order_identity import (
+            VerifiedAcknowledgedOrder, validate_acknowledged_order,
+        )
+
+        value = _profile(profile)
+        _require(value["schema_version"] == PROFILE_SCHEMA_V3, "v3_order_identity_required")
+        _require(value["id"] == self._profile["id"], "session_profile_changed")
+        _require(type(identity) is VerifiedAcknowledgedOrder, "typed_acknowledged_order_required")
+        with self._session_lock:
+            _require(self._accepted_channels == {"quote", "trade"}, "accepted_handshakes_required")
+            acknowledged = validate_acknowledged_order(profile, identity, self._session_binding)
+            if self._acknowledged_order_identity is not None:
+                _require(self._acknowledged_order_identity.as_dict()["id"] == acknowledged["id"] and
+                         self._session["broker_order_id"] == acknowledged["broker_order_id"],
+                         "acknowledged_order_identity_conflict")
+                return self._session_binding
+            _require(self._session["broker_order_id"] is None, "order_identity_already_bound")
+            arguments = {key: self._session[key] for key in ("client_version", "client_id",
+                "quote_connection_id", "quote_user_id", "trade_connection_id", "trade_user_id")}
+            binding = bind_codec_session(profile, **arguments,
+                                         broker_order_id=acknowledged["broker_order_id"])
+            self._session_binding, self._session = binding, binding.as_dict()
+            self._acknowledged_order_identity = identity
+            return binding
 
     def accept_handshake(self, profile, channel, serial, raw_frame):
         """Bind observed protocol identity only; this is no account authorization.
@@ -389,6 +429,10 @@ class SimulateCodec:
                     "adjustSideAndLimit": 0, "secMarket": 2, "timeInForce": 0,
                     "fillOutsideRTH": False, "session": 1}
         own = session["broker_order_id"]
+        if self._profile["schema_version"] == PROFILE_SCHEMA_V3:
+            _require(self._acknowledged_order_identity is not None and
+                     own == self._acknowledged_order_identity.as_dict()["broker_order_id"],
+                     "accepted_acknowledged_order_required")
         _require(own is not None, "verified_original_order_id_required")
         if action == "trade_observe":
             return {"header": header, "filterConditions": {"codeList": [code],

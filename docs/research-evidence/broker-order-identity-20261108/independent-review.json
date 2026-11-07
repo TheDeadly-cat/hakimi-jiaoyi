@@ -1,0 +1,320 @@
+{
+  "schema_version": "hakimi-broker-order-identity-independent-review-v1",
+  "reviewed_at": "2026-11-07T21:55:58.502930+00:00",
+  "status": "NO_BLOCKING_FINDING_WITHIN_REVIEWED_SCOPE",
+  "blocking_findings": [],
+  "reviewer": "publish_review",
+  "method": "Independent static review of journal/identity/coordinator and worker assembly, plus stdlib SHA256 and SELECT-only SQLite mode=ro artifact checks. No tests, application imports, SDK/OpenD, sockets or source changes during this review. Earlier owned codec tests are separately identified evidence.",
+  "source_base_commit": "1f04c393f4e6e463abb75b7e05b7e5bc50feae0f",
+  "frozen_inputs_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "85b372aa972bacffd8ba5d0b90db953b4fdd792ca681ea14a3d9361b9254d934",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py": "e1076551448c7547be3dda4dc8af7d06072928401f897641b207ac98cd58c8ad",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "18235ac84f8288f0153fb200344118b83231022ec13ccb29c7db9700675b1a7d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_order_identity.py": "45e7dfa8b8d8f9fc70cd0c3dc46ca039aec416c1c965e33561b98a309c66f1fa",
+    "outputs/python_quant_bot/tests/broker_order_identity_fixture.py": "2a706855ce0aba49a425787cc5c463691e977cbab32d6960f05f87df52f5d21d",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity.py": "2b654f10a7778cef8382a3d0d36f0f74f394d784da0422fa164a962636761e52",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_codec.py": "602ec6192b3f21001dec401a5453ece23192f98eb278fc74ca19ce2d718b4204",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_coordinator.py": "bab60439d86dcf476bce1a1d59938d76f1715731f24602e4fb2f7aab173f16ff",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_worker.py": "41ca5c2c452f2686a0eb92fe3c05565995cc947daa0c78d4a330a8d1205e4648",
+    "tools/run_terminal_contracts.py": "1a1178d3325595590745245e8e44d6d27ff95e113dfc484d17fcd5db4d2f6433"
+  },
+  "current_validation": {
+    "scope": "Only fullgate-terminal-r2 and actual-protobuf/run-r3-final establish the final frozen input result.",
+    "full_terminal_gate": {
+      "evidence": "fullgate-terminal-r2.json",
+      "tests": 1016,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "elapsed_seconds": 452.602,
+      "source_unchanged": true,
+      "log_sha256": "3b6e26cc7aa4b02b14e0b8e98ac555cbadf3037838ce3155a7c63cfc92496c63"
+    },
+    "actual": {
+      "evidence": "actual-protobuf/run-r3-final",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "diagnostic_subset": false,
+      "unittest_log_seconds": 428.903,
+      "runner_seconds": 428.9048307000048,
+      "controller_including_final_identity_proof_seconds": 433.25430159999814,
+      "outer_seconds": 452.5263347,
+      "exit_code": 0,
+      "source_inputs_unchanged": true,
+      "package_manifest_unchanged": true
+    },
+    "reviewed_current_source_inputs": 1626,
+    "gate_inputs": 10,
+    "final_case_artifacts_sha256_verified": 236,
+    "all_retained_actual_manifest_entries_verified": 533,
+    "readonly_database_bytes_unchanged": true
+  },
+  "actual_loading_scope": {
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "package_bundle_id": "9720f8274d460c20662cf9551b15b6ddc9bed5d5ccc4c3cb0312d815d094c0cf",
+    "package_manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "protocol_classes": 12,
+    "current_source_modules_union": 54,
+    "package_paths_union": 269,
+    "union_definition": "Final run parent result/guard-final plus all first/recovery actual_loader proofs. Source maps counted separately; package union includes loaded_package_sha256 and protobuf_bindings.loaded_files. Every listed file independently rehashed.",
+    "whole_package_revalidation": false,
+    "r7_contains_current_source": false,
+    "production_package_bootstrap_acceptance": false,
+    "bootstrap": "Unchanged original verified protobuf loader with finite hash-checked application preload while google/futu/pb2 cold; private-only path restored for loader. Exact TestWorkerSpec commands/env and original serve/supervisor.",
+    "io_scope": "Only parent-owned 127.0.0.1 dynamic listeners, never 11111; child exact endpoint, no SDK top-level import/DNS/external endpoint/subprocess/thread. Recorded forbidden attempt counters zero."
+  },
+  "cases": [
+    {
+      "case": "test_foreign_order_response_is_retained_without_replacing_original_ack_identity",
+      "manifest_sha256": "e47ddcb3300e8c4a44da77c4d7fc910223c02a3eb8be4b17994e0432abfda34c",
+      "files": 55,
+      "db_sha256": "e5ec2b7a83c761d5d8ed035198f96d2c1d47d2da9e8ca7116f5656a7d4b11423",
+      "events": {
+        "ACTION": 10,
+        "OUTCOME": 10,
+        "VERIFIED_RESPONSE": 7,
+        "SNAPSHOT": 1,
+        "CLAIM": 1
+      },
+      "tcp_accepts": 2,
+      "request_response_frames": 8,
+      "identity_id": "ebfebae7d5d472212f61de71de754c77855df4c0b3521c48b7ad087d08840b40",
+      "identity_reconstructed_from_original_events": true,
+      "keepalive_conservative_seconds": {
+        "quote": 18.083355300012045,
+        "trade": 10.246961299999384
+      },
+      "recovered_ids_without_io_or_adoption": 0,
+      "confirmed_quote_loss_test_injection": false,
+      "workers": {
+        "first": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 64.49929419999535
+        }
+      }
+    },
+    {
+      "case": "test_injected_confirmed_quote_loss_preserves_trade_query_and_cancel_without_reconnect",
+      "manifest_sha256": "387026cf0ebf12c59d30a55958a950826b8c9aefb1e9ab45876d6c87c356636f",
+      "files": 59,
+      "db_sha256": "58a02e5790444109e591cebace703d1fe74ab97850f547e77ce544c1c736f76e",
+      "events": {
+        "ACTION": 11,
+        "OUTCOME": 11,
+        "VERIFIED_RESPONSE": 9,
+        "SNAPSHOT": 1,
+        "CLAIM": 1
+      },
+      "tcp_accepts": 2,
+      "request_response_frames": 9,
+      "identity_id": "910610711bd52532d3297d944a55c13ae3fad734c398ecb283854477df1e3be3",
+      "identity_reconstructed_from_original_events": true,
+      "keepalive_conservative_seconds": {
+        "quote": 18.117751800004044,
+        "trade": 14.692840299991076
+      },
+      "recovered_ids_without_io_or_adoption": 0,
+      "confirmed_quote_loss_test_injection": true,
+      "workers": {
+        "first": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 69.18897989999095
+        }
+      }
+    },
+    {
+      "case": "test_original_ack_identity_drives_observe_cancel_observe_and_read_only_recovery",
+      "manifest_sha256": "6a9f889a0cd2e9cfd1a43ed84a05953cc65984ed4f823a8ef65fa359c9648ad4",
+      "files": 71,
+      "db_sha256": "f680c6c080e0151b1059a85783be26ac4ccfb12a4fabe810487a58236504e39b",
+      "events": {
+        "ACTION": 12,
+        "OUTCOME": 12,
+        "VERIFIED_RESPONSE": 10,
+        "SNAPSHOT": 1,
+        "CLAIM": 1
+      },
+      "tcp_accepts": 2,
+      "request_response_frames": 10,
+      "identity_id": "a83ebbc2e59e8ea66c025a024f9d8cd028859a0a2e7e2d50cf2da5c86311c7f0",
+      "identity_reconstructed_from_original_events": true,
+      "keepalive_conservative_seconds": {
+        "quote": 19.427069000012125,
+        "trade": 20.1577294000017
+      },
+      "recovered_ids_without_io_or_adoption": 12,
+      "confirmed_quote_loss_test_injection": false,
+      "workers": {
+        "first": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 72.63591659998929
+        },
+        "recovery": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 23.721119199995883
+        }
+      }
+    },
+    {
+      "case": "test_shared_stop_after_ack_preserves_original_identity_without_followup_send",
+      "manifest_sha256": "f0c3bf298db018475c0614ce7ac2f71a0b20898644dcabc9b73ad6369c9da600",
+      "files": 51,
+      "db_sha256": "e55827aa61c127416ee093ad5e3fdd15a89bb095a1260aedff1eeca586700bb1",
+      "events": {
+        "ACTION": 9,
+        "OUTCOME": 9,
+        "VERIFIED_RESPONSE": 7,
+        "SNAPSHOT": 1,
+        "CLAIM": 1
+      },
+      "tcp_accepts": 2,
+      "request_response_frames": 7,
+      "identity_id": "9704d9338583ff52f054bcb2619b15b0b28a6971855a5775279e586411532a7f",
+      "identity_reconstructed_from_original_events": true,
+      "keepalive_conservative_seconds": {
+        "quote": 18.308767499998794,
+        "trade": 4.902963799991994
+      },
+      "recovered_ids_without_io_or_adoption": 0,
+      "confirmed_quote_loss_test_injection": false,
+      "workers": {
+        "first": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 59.80864980000479
+        }
+      }
+    }
+  ],
+  "independently_checked_chain": [
+    "Every emitted original ACTION request hash/length matches actual owned-peer bytes and private request frame; every typed fact response matches peer and private response bytes, original ACTION receipt, request frame, protocol and session.",
+    "Six init/query references in submit bundle match original events. CLAIM and submit ACTION contain the same bundle. Independently reconstructing canonical acknowledged identity from original submit/CLAIM/ACK event JSON reproduces each first-worker adopted identity ID exactly.",
+    "Each followup ACTION is later than the persisted original ACK, contains its opaque orderIDEx and matches the prebound frame. Test registry supplies original request bytes/permit times only; original journal remains the sole business record and identity source.",
+    "Positive final case: None to original persisted ACK identity, 2201 cumulative partial observation, 2205 cancel ACK, second 2201 CANCELLED_PART observation; 12 ACTIONs, 10 request/response frames, two connections. No OBSERVATION/economic reconciliation event.",
+    "Twelve original IDs replay through original worker with no new request encoding, adoption, connection or send. Recovery codec initial/final broker ID and accepted identity remain None; frozen tests assert database/registry bytes and peer counts unchanged; retained report has io_order=[] and socket_connect=0.",
+    "Shared stop after ACK retains original identity and prevents a fresh followup ACTION/send. Foreign order response remains in private raw frames, produces no matched trade_observe fact and does not replace original identity.",
+    "Confirmed quote-loss is explicit test fault injection: the owned socket descriptor becomes -1 and live markers are cleared while accepted identity remains intact. Peer observes quote EOF before checked trade results; original trade query/cancel succeed, two connections total, no quote reconnect. This does not prove a production FIN detector.",
+    "Submit/cancel ACKs remain nonterminal financial evidence. 2201 cumulative quantity/average are retained; exact notional/fees/fee-final remain unknown. Cash=100 is the explicitly independent fixture snapshot. No reserve release is inferred from ACK or these facts.",
+    "Fictional key/IV/retMsg markers remain in private original handshake evidence; none appears in typed journal. All typed permissions remain false and source_authenticated false."
+  ],
+  "static_contract_review": [
+    "read_acknowledged_order follows complete hash/result-checked journal replay. Canonical original ACK facts must be the submit outcome evidence ID and original response receipt disposition ACKNOWLEDGED; missing facts and bare OUTCOME do not mint identity; conflicting ACK/ownership is rejected.",
+    "Identity derives from original submit/ACK events rather than latest head, claim state, filled amounts or fees. Matching reprojection and later observe/cancel do not change it; unrelated reconciliation and unknown fees do not hide original identity.",
+    "New v3 followup admission is in _write after BEGIN IMMEDIATE/full _load and after original request replay returns, before control barriers. Historical _reduce remains compatible. The frozen 14996-byte base-1f04c393 ACTION fixture checks old read/replay and denies a new unproved followup.",
+    "Coordinator only adopts after confirmed response save and full readback matching this submit operation/facts ID. Save failure, including commit-then-lost-reply, does not adopt or retry. Same original typed identity is idempotent.",
+    "Every fresh followup reads current journal identity outside barriers. Barrier checks compare cached typed identity, exact operation order ID and original accepted sessions without DB access or lock inversion.",
+    "Final _order_session requires current trade connection/initialization and original dual accepted session equality. It does not require quote liveness. _submit_session still requires both live channels; trade loss remains denied."
+  ],
+  "time_bounds": {
+    "production_rpc_seconds": 15,
+    "production_cleanup_seconds": 5,
+    "original_action_query_window_seconds": 30,
+    "synthetic_peer_handshake_keepalive_seconds": 30,
+    "observed_channel_span_definition": "First init transport started_monotonic to last transport finished_monotonic per channel; every final case is below 30 seconds.",
+    "actual_test_worker_wall_seconds": 90,
+    "actual_test_ready_seconds": 30,
+    "actual_test_message_wait_seconds": 15,
+    "actual_test_exit_wait_seconds": 10,
+    "actual_owned_peer_lifetime_seconds": 150,
+    "actual_outer_seconds": 480,
+    "production_startup_performance_acceptance": false
+  },
+  "legacy_before_quote_loss": {
+    "scope": "Retained successful prior inputs; not upgraded to final-source proof and not added to four-case final coverage.",
+    "fullgate": {
+      "evidence": "fullgate-terminal-r1.json",
+      "tests": 1014,
+      "source_snapshot": "pre-quote-loss-source-r1/SHA256.json",
+      "archived_inputs_verified": 10
+    },
+    "actual_runs": [
+      {
+        "evidence": "actual-protobuf/run-r1-positive",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source_inputs_verified_against_archive_and_unchanged_current": 1626,
+        "diagnostic_subset": true,
+        "supports_current_source": false
+      },
+      {
+        "evidence": "actual-protobuf/run-r2-full",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source_inputs_verified_against_archive_and_unchanged_current": 1626,
+        "diagnostic_subset": false,
+        "supports_current_source": false
+      }
+    ],
+    "reason_for_new_input": "Remove unnecessary quote-live coupling after original order ACK; add explicit confirmed quote-loss evidence and retain trade-live refusal.",
+    "original_v3_replay_fixture": {
+      "evidence": "identity-legacy-fixture-r1/origin.json",
+      "source_commit": "1f04c393f4e6e463abb75b7e05b7e5bc50feae0f",
+      "event_bytes": 14996,
+      "event_sha256": "7106299471b3a9680a1d776dde1f58284149d182600919620aa495a66cb6972e",
+      "reviewed_static_and_bytes_only": true
+    }
+  },
+  "focused_evidence": {
+    "codec": "codec-targeted-r1.json: 51 passing tests, including 11 owned new codec contracts",
+    "identity": "identity-targeted-r2/summary.json: 81 passing tests, including 15 new identity contracts",
+    "coordinator": "coordinator-targeted-r2.json: 9 passing tests, final trade-only liveness change",
+    "worker": "order-worker-standard-r2.log: 4 passing JSON-fake protocol checks, separate from actual generated protobuf",
+    "review_did_not_rerun_these": true
+  },
+  "limitations": [
+    "W4 current source assembled with read-only r7 private runtime and actual generated protobuf; every broker/market/order/cash value is synthetic. No OpenD, real/simulated broker account, external source authentication or model call.",
+    "No production PackageWorkerSpec/bootstrap, account authorization, source freshness, lawful tick/lot rule, fee schedule or installation acceptance is established; all existing production gates remain closed.",
+    "2201 cumulative order fields are not 2211 individual fills; no 2211 or 2225 request occurred in these actual cases. Numeric orderID does not replace opaque original orderIDEx.",
+    "Confirmed quote-loss recovery is explicitly injected, including a real owned socket close. Production automatic FIN detection and automatic reconnect are not implemented or claimed.",
+    "Recovery constructs unused synthetic response objects; the precise guarantee is no new request encoding, identity adoption or IO, not no serialization whatsoever.",
+    "Final source assertions are bound to the ten hashes above. Old successful tests remain separate evidence, and neither loaded-file closure nor input manifest is whole-package or end-user acceptance."
+  ],
+  "evidence_sha256": {
+    "fullgate-preflight-r2.json": "5e64481489f380e5850a87b9554c99dc2e67e7216385129495471488c67fa9c9",
+    "fullgate-terminal-r2.json": "a29c0dd1088a50c2c0cb13f0334b8d095bcc84d8fe36993ac04bb6520cfbafcb",
+    "fullgate-terminal-r2.log": "3b6e26cc7aa4b02b14e0b8e98ac555cbadf3037838ce3155a7c63cfc92496c63",
+    "actual-protobuf/run-r3-final/actual-tests.log": "34f49cd2eed2f2dd6f7dbb70525d66b294dd11b849ab71fb31c8bb2658eec526",
+    "actual-protobuf/run-r3-final/result.json": "a503a3d5dab1c9b71e37b6dab7bd4363bcdd30895f0a0b15917a0c4fbaff786b",
+    "actual-protobuf/run-r3-final/process-result.json": "4963b8773974abad21adbf33a70c3b69215b351d73e0e0298c28c00545009a94",
+    "actual-protobuf/run-r3-final/guard-final.json": "cc3305061d6a4be2a604dfb79e2d7cf978b5f9d10c4723d829f4f19a5c292194",
+    "actual-protobuf/run-r3-final/scripts/private_order_bootstrap.py": "6eb03995acf35283f7d140b90652ecbc4eafec452c605ea001ba29262238dfee",
+    "actual-protobuf/run-r3-final/scripts/actual_order_controller.py": "ef8cf220ee4f61ab9b81b6c313d9ca979ea53e01451b9c9847d238313cbf0302",
+    "actual-protobuf/run-r3-final/scripts/run_actual_order_probe.py": "f6d413f78f00bc9f1ced2c00d7468d26ed12b3ab8bab1825e00a00e3105b5529",
+    "actual-protobuf/HANDOFF.md": "96f9f650e1b273c3e15345c47d1c902fde9b748f7e9cb5fc2f8635d7c0110562",
+    "actual-protobuf/FINAL-SUMMARY.json": "fd6fb56415938638fab1c8d03ab5f446dee7b0909491c68e7e4930d43484f087",
+    "actual-protobuf/FINAL-SHA256.json": "ae9343381255c006cc4051a65644a2d4e83b3769c31651caf62004d085c80a2f",
+    "codec-targeted-r1.json": "e02a737b507c25a4b81829e93b131c2e43303e2fc90a81ba00eb887d04c1e3a1",
+    "codec-targeted-r1.log": "d20f96a834dbba89fba7d5e01b7f51ef08cc170efa3de5bc71f4feeb085b11bc",
+    "identity-targeted-r2/summary.json": "acbd1a195bca703fafafbb8399150dfdb3d1503a56106620845169b65168938b",
+    "identity-targeted-r2/stderr.txt": "c15c90451c09f7eec97f3225643d44c9ba80cd80ab6110dc49bb0f2b9b865934",
+    "coordinator-targeted-r2.json": "fa07cb3d83b49be5564e5b2ad7bd5b9304bce082ebecf5fdfadb3d3a61201da7",
+    "coordinator-targeted-r2.log": "5eb884da7e6391d3b5ba151473818282a3f8819c95927f3970ec4d2191db94e9",
+    "order-worker-standard-r2.log": "1baf520189aa1fe9212e25bcdea3c47ee03362e57d167ef8230217314e0add85",
+    "identity-legacy-fixture-r1/origin.json": "f0287d92c58c9a1b8784abfeb49e3fef900939258a940e9f63ae9e5055e2acc6",
+    "identity-legacy-fixture-r1/legacy-original-action.json": "7106299471b3a9680a1d776dde1f58284149d182600919620aa495a66cb6972e",
+    "pre-quote-loss-source-r1/SHA256.json": "aff4b7ef47ed5d33d8c3df454a62def84d74106d1b34d7a79d24a7d96e5dfb49",
+    "fullgate-terminal-r1.json": "c7f9c62b9a33efbfa792e13593e8ad998a637194b8b8682cb0d90aae979607f9",
+    "fullgate-terminal-r1.log": "bd4388b28857f77b16d8301406bc1992f29b655c5df14b051271a02caeac7b30",
+    "actual-protobuf/run-r1-positive/actual-tests.log": "3010037d73dc0b7a16eb995d9a270cdd558435c4da03d38df1e55706b26c932e",
+    "actual-protobuf/run-r1-positive/result.json": "6dbcadae492f9d39cce28a1eda73bbb35dbc5c4f96a421be57c598f797a76409",
+    "actual-protobuf/run-r1-positive/process-result.json": "fc3f5f18e8f7a56ddafeba88151d86e19fc8239845c2405d6624b2532ee6a7e2",
+    "actual-protobuf/run-r2-full/actual-tests.log": "f16b8867389310e9481ba6940ad9543229c3bf479efdaa46acbc9f8f91ac15c6",
+    "actual-protobuf/run-r2-full/result.json": "790ac415a4665a37f1b18d98f2656ce8b76a8801473d7b6653066dbbcc4ea5e0",
+    "actual-protobuf/run-r2-full/process-result.json": "66ae9fd840918bc800f90d18e562e233cde7d89080938529e5c5a25c5b6180c0"
+  }
+}
