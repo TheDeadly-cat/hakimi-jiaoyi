@@ -199,7 +199,7 @@
   function createController({api,perform,readResearch,uuid=()=>root.crypto.randomUUID(),changed=()=>{}}) {
     const state={sources:[],accounts:[],source:null,sourceReference:null,account:null,accountId:"",planId:"",orderId:"",
       busy:false,pending:null,fact:null,error:"",readError:"",accountStale:false,comparison:null,reconciliation:null,orderPreview:null,
-      sourceRuleContext:null,sourceRuleBindingStamp:null,sourceRuleError:"",factorPosition:"",factorReview:null,factorError:"",factorBusy:false,factorReadStamp:null};
+      sourceRuleContext:null,sourceRuleBindingStamp:null,sourceRuleError:"",sourceName:"",sourceNameError:"",sourceNameLoading:false,factorPosition:"",factorReview:null,factorError:"",factorBusy:false,factorReadStamp:null};
     let accountSequence=0,sourceSequence=0,listSequence=0,comparisonSequence=0,sourceRuleSequence=0,factorSequence=0;
     function ruleStamp(){return JSON.stringify(ordered({reference:state.sourceReference,binding:state.source?.binding}));}
     function factorStamp(){return JSON.stringify(ordered({source:ruleStamp(),account_id:state.accountId,account_context:state.account?.account_context,
@@ -211,15 +211,40 @@
       try{changed(state);}catch(error){state.readError="页面展示未完成；已保存回执仍保留。";}};
     const req=()=>"execution-"+uuid();
     function setSources(items) {state.sources=(items||[]).filter(reference).map(v=>({kind:v.kind,id:v.id,label:String(v.label||"已保存研究结果")}));emit();}
+    function sourceLabel(ref) {
+      return state.sources.find(item=>sameReference(item,ref))?.label
+        ||(sameReference(ref,state.sourceReference)&&state.sourceName)
+        ||(sameReference(ref,state.sourceReference)&&state.sourceNameLoading?"当前保存结果（名称读取中）":"已保存研究结果（名称未读全）");
+    }
+    function sourceOptions() {
+      const items=state.sources.slice();
+      if(state.sourceReference&&!items.some(item=>sameReference(item,state.sourceReference)))items.push({...state.sourceReference,label:sourceLabel(state.sourceReference)});
+      return items;
+    }
+    async function readSourceName(ref,research,sequence) {
+      if(state.sources.some(item=>sameReference(item,ref)))return;
+      const stamp=ruleStamp(),current=()=>sequence===sourceSequence&&sameReference(state.sourceReference,ref)&&stamp===ruleStamp();
+      state.sourceNameLoading=true;emit();
+      try {
+        if(ref.kind!=="core_run")throw Error("当前目录未读到此原结果名称，请刷新已保存记录。");
+        const detail=await api("runs/"+encodeURIComponent(ref.id));if(!current())return;
+        const b=research.binding,ids=detail?.identities;
+        if(![b.report_id,b.task_id,b.report_hash].every(value=>typeof value==="string"&&value.length>0)
+          ||detail?.id!==ref.id||detail?.summary?.id!==ref.id||(detail.status!==undefined&&detail.status!=="COMPLETED")||ids?.run_id!==b.report_id||ids?.task_id!==b.task_id||ids?.report_hash!==b.report_hash
+          ||typeof detail.summary.task_display_name!=="string"||!detail.summary.task_display_name.trim())throw Error("原报告名称或保存身份尚未核对完整。");
+        state.sourceName=savedResultTitle(detail.summary.task_display_name,b.task_version);state.sourceNameError="";
+      }catch(error){if(current())state.sourceNameError="名称读取未完成："+readableError(error)+" 已保留当前结果绑定，不会改选其他记录。";}
+      finally{if(current()){state.sourceNameLoading=false;emit();}}
+    }
     async function openResearch(value) {
-      sourceRuleSequence++;factorSequence++;state.sourceRuleContext=null;state.sourceRuleBindingStamp=null;state.sourceRuleError="";state.factorPosition="";state.factorReview=null;state.factorError="";state.factorBusy=false;state.factorReadStamp=null;
+      sourceRuleSequence++;factorSequence++;state.sourceRuleContext=null;state.sourceRuleBindingStamp=null;state.sourceRuleError="";state.sourceName="";state.sourceNameError="";state.sourceNameLoading=false;state.factorPosition="";state.factorReview=null;state.factorError="";state.factorBusy=false;state.factorReadStamp=null;
       if(value==null){sourceSequence++;state.sourceReference=null;state.source=null;state.comparison=null;emit();return;}
       if(!reference(value))throw Error("请选择一份已保存研究结果。");
       const ref={kind:value.kind,id:value.id},seq=++sourceSequence;state.sourceReference=ref;state.source=null;state.comparison=null;state.readError="";emit();
       try{const result=await (readResearch?readResearch(ref):api(requestPath("terminal_execution_research",{reference:ref})));
         if(seq!==sourceSequence)return;
         if(result?.binding?.status!=="COMPLETED"||!sameReference(result.reference,ref)||!safePermissions(result.permissions))throw Error("这份结果的保存身份尚未通过核对。");
-        state.source=result;emit();await readSavedRuleContext();return result;
+        state.source=result;emit();await readSourceName(ref,result,seq);if(seq!==sourceSequence)return;await readSavedRuleContext();return result;
       }catch(error){if(seq===sourceSequence){state.readError=readableError(error);emit();}}
     }
     async function readSavedRuleContext() {
@@ -445,7 +470,7 @@
       if(ref&&!source||manual&&!account)throw Error("部分原记录读取未完成，已核对的部分仍可查看。");
       return {research:source,account};
     }
-    return {state,setSources,openResearch,openAccount,restoreSelection,refresh,createAccount,createPlan,selectPlan,selectOrder,submitOrder,
+    return {state,setSources,sourceLabel,sourceOptions,openResearch,openAccount,restoreSelection,refresh,createAccount,createPlan,selectPlan,selectOrder,submitOrder,
       previewOrder,confirmOrder,invalidatePreview,recordObservation,recordCancel,control,beginReconciliation,reconcile,compare,checkPending,execute,readSavedRuleContext,setFactorPosition,readFactors};
   }
 
@@ -495,10 +520,11 @@
     style.textContent+=".tex .tex-remaining,.tex .tex-journey{overflow-wrap:anywhere}.tex .tex-journey li{margin-block:8px}.tex .tex-remaining ul{padding-inline-start:22px}";
     const controller=createController({api,perform,readResearch,changed:render});
     const {state}=controller;
-    function sourceLabel(ref){return state.sources.find(item=>sameReference(item,ref))?.label||"已保存研究结果";}
+    const sourceLabel=controller.sourceLabel;
     function ownerLabel(owner){const plan=state.account?.ledger.plans.find(p=>p.owner_id===owner),link=state.account?.plan_links.find(p=>p.plan_id===plan?.plan_id);return link?sourceLabel(link.reference):"归属 "+String(owner).slice(0,10);}
     function render() {
-      select("tex-source",state.sources.map((item,index)=>[String(index),item.label]),state.sourceReference?String(state.sources.findIndex(item=>sameReference(item,state.sourceReference))):"","请选择保存结果");
+      const sources=controller.sourceOptions();
+      select("tex-source",sources.map((item,index)=>[String(index),item.label]),state.sourceReference?String(sources.findIndex(item=>sameReference(item,state.sourceReference))):"","请选择保存结果");
       select("tex-account",state.accounts.map(item=>[item.account_id,item.label]),state.accountId,"请选择合成账户");
       $("tex-fact").hidden=!state.fact;$("tex-fact").innerHTML=state.fact?`<strong>${esc(state.fact.message)}</strong><details><summary>查看原请求编号与原因</summary><p>${esc(state.fact.requestId)}</p>${state.fact.reason?`<p>${esc(state.fact.reason)}</p>`:""}</details>`:"";
       if(state.fact?.control)$("tex-fact").insertAdjacentHTML("beforeend",`<p><strong>模式：本地合成演练 · 美元整股</strong>。${state.fact.control.action==="stop"?"已暂停本账户新增买入风险，卖出所属持仓仍按原规则核对。":"已恢复本账户新增风险检查，未补发订单、撤单或清仓。"}这不改变券商候选模式或其他账户的停止标记。</p>${renderRemainingState(state.fact.control.snapshot,{receipt:true})}`);
@@ -506,7 +532,7 @@
       $("tex-error").hidden=!state.error&&!state.pending;$("tex-error").innerHTML=esc(state.error)+(state.pending?`<p>只读取同一份原回执，不会重新提交。</p>${action("核对原操作","check-pending")}`:"");
       $("tex-read-error").hidden=!state.readError;$("tex-read-error").textContent=state.readError;
       const research=state.source,d=research?.display||{};
-      $("tex-source-detail").innerHTML=research?`<strong>${esc(savedResultTitle(sourceLabel(state.sourceReference),research.binding.task_version))}</strong><p>${d.symbol?esc(d.symbol):"证券身份未记录"}</p><p>${readyResearch(research)?"已读取原保存身份；报价和成交仍需另行合成输入。":"缺少可核验的美元股票身份，暂不能新建账户或计划。"}</p><details><summary>查看保存的规则与完整身份</summary><dl class="kv"><dt>规则</dt><dd>${esc(research.binding.strategy_id)}</dd><dt>引擎</dt><dd>${esc(research.binding.engine_id)}</dd><dt>原版本身份</dt><dd>${esc(research.binding.task_version??"未记录")}</dd><dt>原任务</dt><dd>${esc(research.binding.task_id)}</dd><dt>原结果</dt><dd>${esc(research.binding.report_id)}</dd></dl></details>`:"选择后只读取原结果，不重新回测。";
+      $("tex-source-detail").innerHTML=research?`<strong>${esc(savedResultTitle(sourceLabel(state.sourceReference),research.binding.task_version))}</strong><p>${d.symbol?esc(d.symbol):"证券身份未记录"}</p>${state.sourceNameError&&!state.sources.some(item=>sameReference(item,state.sourceReference))?`<p class="notice warning" role="status">${esc(state.sourceNameError)}</p>`:""}<p>${readyResearch(research)?"已读取原保存身份；报价和成交仍需另行合成输入。":"缺少可核验的美元股票身份，暂不能新建账户或计划。"}</p><details><summary>查看保存的规则与完整身份</summary><dl class="kv"><dt>规则</dt><dd>${esc(research.binding.strategy_id)}</dd><dt>引擎</dt><dd>${esc(research.binding.engine_id)}</dd><dt>原版本身份</dt><dd>${esc(research.binding.task_version??"未记录")}</dd><dt>原任务</dt><dd>${esc(research.binding.task_id)}</dd><dt>原结果</dt><dd>${esc(research.binding.report_id)}</dd></dl></details>`:"选择后只读取原结果，不重新回测。";
       $("tex-factor-position").value=state.factorPosition;$("tex-rule-read-error").hidden=!state.sourceRuleError;$("tex-rule-read-error").textContent=state.sourceRuleError;
       $("tex-factor-read-error").hidden=!state.factorError;$("tex-factor-read-error").textContent=state.factorError;
       $("tex-factor-status").textContent=state.factorBusy?"正在只读核对保存截止日的规则，不运行回测或订单。":state.factorReview?"本次只读因子解释已核对；不是原报告保存的因子，也不是当前买入指令。":"选择诊断情景后可核对因子；不默认买入，也不把手选情景当作账户持仓。";
@@ -595,7 +621,7 @@
     section.addEventListener("change",event=>{
       const id=event.target.id;
       if(event.target.closest("#tex-order-form"))controller.invalidatePreview();
-      if(id==="tex-source")controller.openResearch(event.target.value===""?null:state.sources[Number(event.target.value)]).then(()=>{controller.selectPlan("");selected();}).catch(fail);
+      if(id==="tex-source")controller.openResearch(event.target.value===""?null:controller.sourceOptions()[Number(event.target.value)]).then(()=>{controller.selectPlan("");selected();}).catch(fail);
       if(id==="tex-account")controller.openAccount(event.target.value,{retain:false}).then(selected).catch(fail);
       if(id==="tex-plan")try{controller.selectPlan(event.target.value);selected();}catch(error){fail(error);}
       if(id==="tex-order"&&event.target.value)try{controller.selectOrder(event.target.value);}catch(error){fail(error);}

@@ -434,6 +434,18 @@ function savedTaskCardFixture(options={}) {
     run:()=>vm.runInContext('act("terminal_run_task",{task_id:state.savedTask.task_id},{button:$("run-button"),onCommitted:recordRunOutcome,onSuccess:readRunOutcome})',context)};
 }
 
+test("a confirmed teaching preparation replaces progress while retaining an auxiliary read failure",async()=>{
+  const notices=[],panels=new Map(),element=id=>{if(!panels.has(id))panels.set(id,{});return panels.get(id);};
+  const receipt={status:'READY'},context=vm.createContext({notify:message=>notices.push(message),$:element,esc:String,
+    operationErrorText:error=>error.message,button:()=>'',perform:async(_action,_payload,options)=>{options.onSuccess(receipt);return receipt;}});
+  vm.runInContext(['act','recordTeachingOutcome','showRefreshFailure'].map(uiFunction).join('\n'),context);
+  const hooks={onCommitted:value=>value};
+  const result=await context.act('terminal_prepare_teaching_input',{}, {onCommitted:value=>context.recordTeachingOutcome(hooks,value),onSuccess:async()=>{throw Error('只读列表暂不可用');}});
+  assert.equal(result,receipt);assert.match(notices.at(-1),/虚构教学资料已保存/);assert.doesNotMatch(notices.at(-1),/正在处理/);
+  assert.match(element('tq-refresh-message').innerHTML,/只读列表暂不可用/);assert.equal(element('tq-refresh-message').hidden,false);
+  const count=notices.length;context.recordTeachingOutcome({onCommitted:()=>undefined},receipt);assert.equal(notices.length,count);
+});
+
 test("durable native job.result replaces the matching saved-task run invitation with its saved result",async()=>{
   const f=savedTaskCardFixture();
   assert.match(f.element("tq-saved-task").innerHTML,/保存没有运行回测/);

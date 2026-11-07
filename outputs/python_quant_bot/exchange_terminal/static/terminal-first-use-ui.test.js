@@ -22,6 +22,27 @@ test("fresh first use reads without importing and explicit preparation saves a r
   await f.controller.primary();assert.deepEqual(f.calls,["prepare",["choose","a".repeat(24)]]);
 });
 
+test("saving and reopening the same teaching task never retain an earlier preparation notice",async()=>{
+  const f=fixture();await f.controller.prepare();await f.controller.chooseTeaching();
+  f.data.coreTasks=[{id:"saved-task",title:"教学100",version:1}];f.controller.state.error="局部读取未完成";
+  f.controller.markContinuation({kind:"core-task",id:"saved-task"});
+  assert.equal(f.controller.model().primary,"继续上次策略");assert.doesNotMatch(f.controller.state.notice,/正在选择|尚未创建/);
+  assert.equal(f.controller.state.error,"局部读取未完成");
+  const next=createController({getState:()=>f.data,storage:f.storage,api:async path=>path.startsWith('jobs/')
+    ?{job_id:"fixture-request-001",action:"terminal_prepare_teaching_input",status:"succeeded",result:receipt()}:{...receipt().input,status:"READY"}});
+  await next.recover();assert.equal(next.model().action,"continue");assert.doesNotMatch(next.state.notice,/正在选择|尚未创建/);
+});
+
+test("late teaching form completion cannot overwrite a saved task or another workspace's notice",async()=>{
+  for(const change of ['saved','workspace']){
+    let finish;const f=fixture({onChooseTeaching:()=>new Promise(resolve=>finish=resolve)});await f.controller.prepare();
+    const pending=f.controller.chooseTeaching();
+    if(change==='saved'){f.data.coreTasks=[{id:'saved-task'}];f.controller.markContinuation({kind:'core-task',id:'saved-task'});}
+    else{f.data.coreOverview.workspace='C:/fictional/other';f.controller.refresh();}
+    const notice=f.controller.state.notice;finish();await pending;assert.equal(f.controller.state.notice,notice);assert.doesNotMatch(notice,/正在选择/);
+  }
+});
+
 test("prepared input survives task-form failures and another explicit attempt never imports again",async()=>{
   let tries=0;const f=fixture({onChooseTeaching:async()=>{if(++tries===1)throw Error("form unavailable");}});
   await f.controller.prepare();await f.controller.chooseTeaching();assert.match(f.controller.state.error,/资料已保存/);

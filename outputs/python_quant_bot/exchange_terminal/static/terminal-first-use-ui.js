@@ -48,7 +48,8 @@
     function acceptTeaching(value,{restoring=false}={}){fail(validTeaching(value),"教学资料回执的身份或限制不完整，请查询原操作记录。");
       fail(state.workspace===scope()&&jobId(state.reference?.job_id),"工作区已变化，原操作保留在原工作区。");
       const continuation=restoring?state.reference.continuation:null;
-      state.prepared=copy(value);state.pending=false;state.pendingChoices=[];state.error="";state.notice="22个交易日的虚构资料已准备好。下一步选择策略与本金；尚未创建任务或运行研究。";
+      state.prepared=copy(value);state.pending=false;state.pendingChoices=[];state.error="";
+      state.notice=continuation?"已保留原任务或结果，可继续查看；读取不会重复运行。":"22个交易日的虚构资料已准备好。下一步选择策略与本金；尚未创建任务或运行研究。";
       try{persist({...state.reference,phase:continuation?"CONTINUATION":"PREPARED",input_id:value.input_id,snapshot_id:value.snapshot_id,continuation});}
       catch(e){state.notice+=" 本机提示保存未完成，原操作编号仍可查询。";}
       emit();return value;
@@ -93,12 +94,15 @@
       return state.prepared;
     }
     async function chooseTeaching(){sync();fail(state.prepared&&!state.pending&&!state.busy,"请先核对原准备结果。");fail(typeof onChooseTeaching==="function","策略与本金入口尚未连接。");
-      state.error="";try{await onChooseTeaching(copy(state.prepared));state.notice="正在选择策略与本金；关闭设置后可回到这里继续，资料不会重新准备。";}
-      catch(e){state.error="教学资料已保存，设置暂未打开："+message(e);}emit();}
+      const workspace=state.workspace,selection=state.selection,job=state.reference?.job_id;
+      const current=()=>scope()===workspace&&state.workspace===workspace&&state.selection===selection&&state.reference?.job_id===job;
+      state.error="";try{await onChooseTeaching(copy(state.prepared));if(current())state.notice="正在选择策略与本金；关闭设置后可回到这里继续，资料不会重新准备。";}
+      catch(e){if(current())state.error="教学资料已保存，设置暂未打开："+message(e);}if(current())emit();}
     function selected(){const items=records(getState?.());return items.find(r=>r.key===state.selection)||items[0]||null;}
     function select(value){const item=records(getState?.()).find(r=>r.key===value);if(item){state.selection=item.key;emit();}}
     function markContinuation(value){sync();const item=records(getState?.()).find(r=>r.kind===value?.kind&&r.id===value?.id);if(!item)return;
-      state.selection=item.key;if(!state.pending&&state.storageReady){try{persist({schema_version:REF,workspace:state.workspace,phase:"CONTINUATION",job_id:state.reference?.job_id||null,
+      state.selection=item.key;if(!state.pending)state.notice="已选中保存的原任务或结果，可继续查看；读取不会重复运行。";
+      if(!state.pending&&state.storageReady){try{persist({schema_version:REF,workspace:state.workspace,phase:"CONTINUATION",job_id:state.reference?.job_id||null,
         input_id:state.reference?.input_id||null,snapshot_id:state.reference?.snapshot_id||null,continuation:{kind:item.kind,id:item.id}});}catch(e){state.error=message(e);}}emit();}
     async function continueSaved(){const item=selected();fail(item&&typeof onContinue==="function","尚未读到可继续的原记录。");await onContinue(copy(item));markContinuation(item);}
     function model(){const current=getState?.()||{},items=records(current),item=selected();

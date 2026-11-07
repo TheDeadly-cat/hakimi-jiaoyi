@@ -1,0 +1,83 @@
+{
+  "schema_version": "native-r6-flow-fix-evidence-v1",
+  "base_commit": "e9e46fcd80b46f9c7ddf0e9453a1220c9c2bbbf8",
+  "branch": "codex/native-r6-flow-fixes-20261108",
+  "validation_state": "UNCOMMITTED_WORKTREE_AT_VALIDATION",
+  "delivery_state_at_documentation": "ROOT_REVIEW_APPROVED_BEFORE_LOCAL_COMMIT",
+  "pushed": false,
+  "source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.js": "21120b4ca06ed2d074e954c38ab49d64678af77a0716e68af381f195e589cc7f",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.test.js": "2702dca47b011f6a239c2b01d5d05d40be76da6f6e8e65cafa71a2a452c0030f",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-first-use-ui.js": "4ce85924efd8e166493b52293e36fe4bd2e2e72781811e858138d7e1c01e87ed",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-first-use-ui.test.js": "4cb401d8fb3e74c91b4239183c6cb8e715e930d69d6a85d3ef5a8ba20196b6f5",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.js": "ab9b25c384d6a706ec035f4b780c43e5198c5c6a81dc8b45e9d68654b15726cb",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.test.js": "e219d228ed67436207d9a8ad86a58cace61dbed72f3ae3ea39231c5145ef695b"
+  },
+  "original_external_evidence_sha256": {
+    "native-r6-flow-fixes-review-r1.json": "c93fc750e814e0544742335705018f9026631b5afa4eecad69260f38458607f1",
+    "native-r6-flow-fixes-review-r1.patch": "16ab6ea0b082455de22d59df4cabe7a89b53e75695b3137d860881ec64431163",
+    "native-r6-stale-ui-diagnosis-r1/summary.json": "23df19654de41707c0e942570301a432258e0b0fad3fbae57aa1bdd6742375fb",
+    "native-r6-stale-ui-diagnosis-r1/component-summary.json": "8258e2eef00e563f641876c5bb9ab3f34c9b411f7c1bf6283d2c0d738db6f180",
+    "native-r6-flow-fixes-targeted-r3.log": "f809ff6b3587a1338145fb5860feeb071cf07257c4771e3b66db482874038f0b",
+    "native-r6-flow-fixes-render-r2/summary.json": "6121be05f698ff9ea69d271f08512fa4e67e6f71a0309b61ff4a725ad985fb8a",
+    "native-r6-flow-fixes-render-r2/component-summary.json": "8317876c420f5d5a765b7292a39a1742190348820289ed437cd961a2204ae9d4"
+  },
+  "reproduction": {
+    "status": "REPRODUCED_BEFORE_FIX",
+    "stale_progress_after_preparation": true,
+    "stale_choosing_notice_after_save": true,
+    "fresh_source_binding_valid_but_selector_blank": true,
+    "only_source_list_update_restored_original_name": true,
+    "binding_unchanged": true,
+    "original_saved_scopes_unchanged": true
+  },
+  "targeted_tests": {
+    "tests": 118,
+    "pass": 118,
+    "fail": 0,
+    "skipped": 0
+  },
+  "rendered": {
+    "status": "PASS",
+    "scope": "ACTUAL_EXECUTION_COMPONENT_WITH_READ_ONLY_SAVED_REPORT_COPY",
+    "browser": "Existing Playwright Chromium",
+    "browser_plugin": "Browser plugin not available",
+    "viewports": [
+      [
+        1280,
+        900
+      ],
+      [
+        390,
+        900
+      ]
+    ],
+    "page_identity": "r6 新结果来源读取验证",
+    "blank_page": false,
+    "framework_overlay": false,
+    "console_errors": 0,
+    "external_requests": 0,
+    "new_economic_runs": 0,
+    "api_mutations": 0,
+    "copied_files": 15,
+    "copied_workspace_unchanged": true,
+    "original_saved_scopes_unchanged": true,
+    "source_bytes_unchanged": true,
+    "fresh_source_selected": true,
+    "name_failure_preserves_selection_binding_success_and_independent_error": true,
+    "late_responses_guarded_by_tests": true
+  },
+  "preserved_failures_and_limits": [
+    "The original r6 native stale notices and blank source remain recorded; original evidence is not rewritten.",
+    "Name-read failures and UNKNOWN or mismatched metadata are retained as explicit unavailable names with the original binding.",
+    "The existing core-engine factor explanation unsupported warning remains. Its yellow read-failure wording can confuse unsupported capability with transient read errors; a separate future UX review is required, without borrowing factors from another engine.",
+    "No complete native application retest and no economic recalculation were performed.",
+    "The original r6 package remains based on e9e46fc and does not include these source fixes."
+  ],
+  "original_r6_package": {
+    "source_commit": "e9e46fcd80b46f9c7ddf0e9453a1220c9c2bbbf8",
+    "bundle_id": "7c1b0258545af44abf8f17106f640c10e8542076ed22a6300ba43545741981d4",
+    "archive_sha256": "b80c15efb69dadaaab749aa3e5502477057f343a3eb7d75dc8278413576b51e3",
+    "contains_this_fix": false
+  }
+}

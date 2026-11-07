@@ -33,6 +33,72 @@ function fixture(overrides={}) {
 }
 async function selected(f){await f.controller.openResearch(source);await f.controller.openAccount("account-a");}
 
+function coreDetail(ref,name='刚保存的教学100') {
+  const b=research(ref).binding;return {id:ref.id,summary:{id:ref.id,task_display_name:name},identities:{run_id:b.report_id,task_id:b.task_id,report_hash:b.report_hash}};
+}
+test('fresh core result absent from old sources reads its exact saved name and retains it after list refresh',async()=>{
+  const ref={kind:'core_run',id:'new-core-result'},reads=[];
+  const c=ui.createController({api:async path=>{reads.push(path);return coreDetail(ref);},readResearch:async()=>research(ref),perform:()=>{throw Error('No writes');}});
+  await c.openResearch(ref);assert.deepEqual(reads,['runs/new-core-result']);assert.equal(c.state.source.binding.report_id,ref.id);
+  assert.equal(c.sourceOptions()[0].id,ref.id);assert.equal(c.sourceOptions()[0].label,'刚保存的教学100 · 版本 1');
+  c.setSources([]);assert.equal(c.sourceOptions()[0].label,'刚保存的教学100 · 版本 1');
+  c.setSources([{...ref,label:'原目录保存的教学100 · 版本 1'}]);assert.equal(c.sourceOptions().length,1);assert.match(c.sourceLabel(ref),/原目录/);
+});
+
+test('failed or mismatched source-name reads preserve the exact binding and independent errors',async()=>{
+  const ref={kind:'core_run',id:'new-core-result'};
+  for(const read of [async()=>{throw Error('名称读取失败');},async()=>({...coreDetail(ref),id:'different'}),async()=>({...coreDetail(ref),status:'UNKNOWN'}),
+    ...['run_id','task_id','report_hash'].map(key=>async()=>({...coreDetail(ref),identities:{...coreDetail(ref).identities,[key]:'different'}}))]){
+    const c=ui.createController({api:read,readResearch:async()=>research(ref),perform:()=>{throw Error('No writes');}});
+    c.state.error='原计划待核对';await c.openResearch(ref);
+    assert.equal(c.state.sourceReference.id,ref.id);assert.equal(c.state.source.binding.report_id,ref.id);assert.equal(c.state.error,'原计划待核对');
+    assert.match(c.state.sourceNameError,/名称读取未完成/);assert.match(c.sourceOptions()[0].label,/名称未读全/);
+    c.setSources([{...ref,label:'已核对原目录名称'}]);assert.equal(c.sourceLabel(ref),'已核对原目录名称');
+  }
+});
+
+test('late name success or failure cannot replace a newer source or a cleared selection',async()=>{
+  const a={kind:'core_run',id:'a'},b={kind:'core_run',id:'b'};
+  for(const mode of ['success','failure','clear']){
+    let done,reject;const c=ui.createController({api:async path=>path==='runs/a'?new Promise((resolve,fail)=>{done=resolve;reject=fail;}):coreDetail(b,'B原报告'),readResearch:async ref=>research(ref),perform:()=>{throw Error('No writes');}});
+    const pending=c.openResearch(a);await new Promise(resolve=>setImmediate(resolve));
+    await c.openResearch(mode==='clear'?null:b);
+    if(mode==='failure')reject(Error('A读取失败'));else done(coreDetail(a,'A旧报告'));await pending;
+    assert.equal(c.state.sourceReference?.id,mode==='clear'?undefined:'b');assert.equal(c.state.sourceNameError,'');
+    if(mode!=='clear')assert.match(c.sourceOptions()[0].label,/B原报告/);else assert.equal(c.sourceOptions().length,0);
+  }
+});
+
+test('fresh-result entry renders the exact source through name loading and failure without a write',async()=>{
+  const {chromium}=require('playwright'),path=require('node:path'),browser=await chromium.launch({headless:true});
+  try {
+    const page=await browser.newPage({viewport:{width:390,height:900}}),errors=[];page.on('pageerror',error=>errors.push(error.message));
+    await page.setContent('<button id="fresh-result">用此版本准备订单演练</button><main></main>');
+    await page.addScriptTag({path:path.join(__dirname,'terminal-execution-ui.js')});
+    const ref={kind:'core_run',id:'new-saved-core'};
+    await page.evaluate(({ref,research,detail})=>{
+      window.reads=[];window.writes=[];window.nameFails=false;
+      window.widget=installTerminalExecutionUI({host:document.querySelector('main'),notify:()=>{},readResearch:async value=>{reads.push(['binding',value]);return research;},
+        api:async resource=>{reads.push(['GET',resource]);if(nameFails)throw Error('名称目录暂不可读');return new Promise(resolve=>window.finishName=()=>resolve(detail));},perform:(...args)=>writes.push(args)});
+      widget.setSources([]);widget.controller.state.fact={message:'原计划已保存'};widget.controller.state.error='独立账户提示保留';
+      document.querySelector('#fresh-result').addEventListener('click',()=>{widget.reveal();widget.controller.openResearch(ref);});
+    },{ref,research:research(ref),detail:coreDetail(ref)});
+    await page.locator('#fresh-result').click();await page.waitForFunction(()=>typeof finishName==='function');
+    assert.equal(await page.locator('#tex-source').inputValue(),'0');assert.match(await page.locator('#tex-source option:checked').innerText(),/名称读取中/);
+    await page.evaluate(()=>finishName());await page.waitForFunction(()=>widget.controller.state.sourceName!=='');
+    assert.match(await page.locator('#tex-source option:checked').innerText(),/刚保存的教学100/);
+    assert.match(await page.locator('#tex-source-detail').innerText(),/刚保存的教学100 · 版本 1/);
+    await page.evaluate(()=>{widget.setSources([]);nameFails=true;});await page.locator('#fresh-result').click();
+    await page.waitForFunction(()=>widget.controller.state.sourceNameError!=='');
+    assert.equal(await page.locator('#tex-source').inputValue(),'0');assert.match(await page.locator('#tex-source option:checked').innerText(),/名称未读全/);
+    assert.match(await page.locator('#tex-source-detail').innerText(),/名称目录暂不可读/);
+    assert.equal(await page.evaluate(()=>widget.controller.state.source.binding.report_id),ref.id);
+    assert.match(await page.locator('#tex-fact').innerText(),/原计划已保存/);assert.match(await page.locator('#tex-error').innerText(),/独立账户提示保留/);
+    assert.deepEqual(await page.evaluate(()=>writes),[]);assert.deepEqual(errors,[]);
+    assert.deepEqual(await page.evaluate(()=>reads.filter(row=>row[0]==='GET').map(row=>row[1])),['runs/new-saved-core','runs/new-saved-core']);
+  }finally{await browser.close();}
+});
+
 test('journey restore reads the exact research account and plan without any write or old confirmation',async()=>{
   const f=fixture(),view=account();view.ledger.plans=[{plan_id:'plan-one',research_binding:research().binding}];f.setView(view);
   await f.controller.restoreSelection({research:{kind:source.kind,id:source.id},manual:{account_id:'account-a',plan_id:'plan-one'}});

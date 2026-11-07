@@ -1,0 +1,30 @@
+{
+  "schema_version": "artifact-sha256-v1",
+  "self_excluded": true,
+  "files": {
+    "README.md": {
+      "sha256": "5151b15b25afc52beb80649498dd3e8bd7e2bf9bf51954f43ba43cf9e5c16c61",
+      "bytes": 3942
+    },
+    "validation-summary.json": {
+      "sha256": "070f163e4e99f38215c6b3c9bd1dffb0c74ead6fae7dbb731511b115c3cde54b",
+      "bytes": 4561
+    },
+    "01-fresh-source-1280.png": {
+      "sha256": "6c8e21c050636534bda02d11206e04bd3c4e3cc7037f70fd3e6a012d390f4cbb",
+      "bytes": 76181
+    },
+    "02-fresh-source-390.png": {
+      "sha256": "065334719be876aa7fa89f5782a27d76a9b24c2d2c13e3ecee3ad1f19b56aa23",
+      "bytes": 57217
+    },
+    "03-name-read-failure-390.png": {
+      "sha256": "9b55503f22c28a677b0c5de018f13f17ba226222f4949bd51118c9017368b78e",
+      "bytes": 54726
+    },
+    ".gitattributes": {
+      "sha256": "6fecb2a0f52e1483ef4302951a36885e7bff9e762c769dd58a370eba5b869f4a",
+      "bytes": 13
+    }
+  }
+}

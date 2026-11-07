@@ -193,6 +193,9 @@
       panel.innerHTML = `<strong>辅助记录读取未完成</strong><p>${esc(operationErrorText(error))}</p><p>已确认的保存或完成状态仍保留；重新读取不会运行回测。</p>${button("重新读取记录","refresh")}`;
       panel.hidden = false;
     }
+    function recordTeachingOutcome(hooks, value) {
+      if (hooks.onCommitted?.(value)) notify("虚构教学资料已保存。下一步选择策略与本金；尚未创建任务或运行研究。");
+    }
     async function refreshRecords() {
       try { await refreshAll(); $("tq-refresh-message").hidden = true; }
       catch (error) { showRefreshFailure(error); }
@@ -437,7 +440,7 @@
         window.scrollTo({top:Math.max(0,window.scrollY+title.getBoundingClientRect().top-navigation-8),left:0,behavior:"auto"});title.focus({preventScroll:true});});
     }
     const firstUseUI = globalThis.installTerminalFirstUseUI({host:$("tq-first-use"),getState:()=>state,api,
-      onTeaching:hooks=>act("terminal_prepare_teaching_input",{}, {onRequest:hooks.onRequest,onCommitted:hooks.onCommitted,onSuccess:refreshAll}),
+      onTeaching:hooks=>act("terminal_prepare_teaching_input",{}, {onRequest:hooks.onRequest,onCommitted:value=>recordTeachingOutcome(hooks,value),onSuccess:refreshAll}),
       onChooseTeaching:async prepared=>{if(typeof openCoreTeachingTask!=="function")throw Error("教学策略设置入口尚未连接。");
         await openCoreTeachingTask({input_id:prepared.input_id,params:prepared.params,strategy_key:prepared.strategy_key});},
       onOwnData:()=>show("daily"),
