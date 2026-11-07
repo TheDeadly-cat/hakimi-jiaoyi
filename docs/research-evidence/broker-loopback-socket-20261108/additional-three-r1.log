@@ -1,0 +1,24 @@
+test_real_extra_response_frame_is_unknown_and_never_becomes_typed_ack (tests.test_terminal_broker_loopback_integration.LoopbackCoordinatorIntegrationTests.test_real_extra_response_frame_is_unknown_and_never_becomes_typed_ack) ... ok
+test_two_real_workers_race_original_id_and_only_one_os_connection_exists (tests.test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_two_real_workers_race_original_id_and_only_one_os_connection_exists) ... ok
+test_real_peer_prefix_then_watchdog_death_preserves_unknown_original (tests.test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_real_peer_prefix_then_watchdog_death_preserves_unknown_original) ... FAIL
+
+======================================================================
+FAIL: test_real_peer_prefix_then_watchdog_death_preserves_unknown_original (tests.test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_real_peer_prefix_then_watchdog_death_preserves_unknown_original)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\broker-loopback-socket-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_loopback_integration.py", line 480, in test_real_peer_prefix_then_watchdog_death_preserves_unknown_original
+    self.assertEqual(self.peer.partial, [self.fixture.operations[2].frame[:9]])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [b'FT\x9a\x08\x00\x00\x00\x00\x02']
+
+Second list contains 1 additional elements.
+First extra element 0:
+b'FT\x9a\x08\x00\x00\x00\x00\x02'
+
+- []
++ [b'FT\x9a\x08\x00\x00\x00\x00\x02']
+
+----------------------------------------------------------------------
+Ran 3 tests in 8.088s
+
+FAILED (failures=1)

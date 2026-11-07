@@ -39,6 +39,8 @@ TEST_FILES = (
     "test_terminal_broker_action_coordinator.py",
     "test_terminal_broker_worker_entrypoint.py",
     "test_terminal_broker_scoped_transport.py",
+    "test_terminal_broker_loopback_socket.py",
+    "test_terminal_broker_loopback_integration.py",
     "test_futu_us_equity_simulate_wire_v2.py",
     "test_futu_verified_protobuf_loader.py",
     "test_terminal_broker_package_loader.py",

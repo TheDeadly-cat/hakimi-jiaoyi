@@ -1,0 +1,13 @@
+Looking in links: c:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1
+Processing C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1\numpy-2.4.6-cp314-cp314-win_amd64.whl (from -r C:\Users\Administrator\.codex\worktrees\broker-loopback-socket-20261108\哈基米v2交易\requirements.research.lock (line 5))
+Processing C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1\pandas-3.0.3-cp314-cp314-win_amd64.whl (from -r C:\Users\Administrator\.codex\worktrees\broker-loopback-socket-20261108\哈基米v2交易\requirements.research.lock (line 6))
+Processing C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1\python_dateutil-2.9.0.post0-py2.py3-none-any.whl (from -r C:\Users\Administrator\.codex\worktrees\broker-loopback-socket-20261108\哈基米v2交易\requirements.research.lock (line 7))
+Processing C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1\six-1.17.0-py2.py3-none-any.whl (from -r C:\Users\Administrator\.codex\worktrees\broker-loopback-socket-20261108\哈基米v2交易\requirements.research.lock (line 8))
+Processing C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1\tzdata-2026.2-py2.py3-none-any.whl (from -r C:\Users\Administrator\.codex\worktrees\broker-loopback-socket-20261108\哈基米v2交易\requirements.research.lock (line 9))
+Processing C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1\exchange_calendars-4.13.2-py3-none-any.whl (from -r requirements.terminal-ci.lock (line 4))
+Processing C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1\pyluach-2.3.0-py3-none-any.whl (from -r requirements.terminal-ci.lock (line 5))
+Processing C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1\toolz-1.1.0-py3-none-any.whl (from -r requirements.terminal-ci.lock (line 6))
+Processing C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1\korean_lunar_calendar-0.4.0-py3-none-any.whl (from -r requirements.terminal-ci.lock (line 7))
+Installing collected packages: tzdata, toolz, six, pyluach, numpy, korean-lunar-calendar, python-dateutil, pandas, exchange-calendars
+
+Successfully installed exchange-calendars-4.13.2 korean-lunar-calendar-0.4.0 numpy-2.4.6 pandas-3.0.3 pyluach-2.3.0 python-dateutil-2.9.0.post0 six-1.17.0 toolz-1.1.0 tzdata-2026.2

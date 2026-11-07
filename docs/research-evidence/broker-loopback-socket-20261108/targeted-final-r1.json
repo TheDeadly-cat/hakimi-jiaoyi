@@ -1,0 +1,29 @@
+{
+  "started_at": "2026-11-07T18:14:12.424089+00:00",
+  "finished_at": "2026-11-07T18:14:46.810487+00:00",
+  "seconds": 34.38580329999968,
+  "tests_run": 51,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "suite_counts": {
+    "test_terminal_broker_loopback_socket": 15,
+    "test_terminal_broker_loopback_integration": 11,
+    "test_terminal_broker_action_coordinator": 18,
+    "test_terminal_broker_worker_entrypoint": 7
+  },
+  "inputs_unchanged": true,
+  "source_base": "708ec3f08abdeeae2578726b765483c8c109daa9",
+  "source_worktree": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-loopback-socket-20261108\\哈基米v2交易",
+  "canonical_import_path": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-loopback-socket-20261108\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+  "validation_scope": "targeted source contracts and owned loopback OS/worker; not complete gate or installed package",
+  "input_sha256": {
+    "tools/run_terminal_contracts.py": "fca42577ae104acfc8a267f4beff6412b598f58134d54c2e6ae7b60a642f970d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_loopback_socket.py": "f41fd513923c2a00e742e2153224a339b2ef76f0f8607ede464b1a4212933c4d",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "bb6fb09e727ee744f1048c28287d08f673831555bb2cf9748582a8c5929b82e6",
+    "outputs/python_quant_bot/tests/broker_loopback_server_fixture.py": "ca7fc8da02eb515922809efc22838035955f123e95f910b0193904e95cce38ae",
+    "outputs/python_quant_bot/tests/test_terminal_broker_loopback_socket.py": "c90e261a48f14a84845cf9e9f239cb4a7daefa48fcaa58f2274b42e6c14390de",
+    "outputs/python_quant_bot/tests/test_terminal_broker_loopback_integration.py": "27a05ccbf312688c60a14d3752fbb68e19032652280225b7fe6997dab4f62bc0"
+  },
+  "log_sha256": "33766a9cade66a92f5b69923d2065f0d62c55af9eaa27eef35f47d9b80e806aa"
+}

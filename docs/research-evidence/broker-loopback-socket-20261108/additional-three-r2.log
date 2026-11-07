@@ -1,0 +1,8 @@
+test_real_extra_response_frame_is_unknown_and_never_becomes_typed_ack (tests.test_terminal_broker_loopback_integration.LoopbackCoordinatorIntegrationTests.test_real_extra_response_frame_is_unknown_and_never_becomes_typed_ack) ... ok
+test_two_real_workers_race_original_id_and_only_one_os_connection_exists (tests.test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_two_real_workers_race_original_id_and_only_one_os_connection_exists) ... ok
+test_real_peer_prefix_then_watchdog_death_preserves_unknown_original (tests.test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_real_peer_prefix_then_watchdog_death_preserves_unknown_original) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 7.729s
+
+OK

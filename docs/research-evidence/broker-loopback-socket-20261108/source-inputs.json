@@ -1,0 +1,12 @@
+{
+  "base": "708ec3f08abdeeae2578726b765483c8c109daa9",
+  "branch": "codex/broker-loopback-socket-20261108",
+  "source_sha256": {
+    "tools/run_terminal_contracts.py": "fca42577ae104acfc8a267f4beff6412b598f58134d54c2e6ae7b60a642f970d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_loopback_socket.py": "f41fd513923c2a00e742e2153224a339b2ef76f0f8607ede464b1a4212933c4d",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "bb6fb09e727ee744f1048c28287d08f673831555bb2cf9748582a8c5929b82e6",
+    "outputs/python_quant_bot/tests/broker_loopback_server_fixture.py": "e4f8b2f20c320e40dfb8044b5c94ca124d72dec6f939c3f9db02af7c3d3f758f",
+    "outputs/python_quant_bot/tests/test_terminal_broker_loopback_socket.py": "c90e261a48f14a84845cf9e9f239cb4a7daefa48fcaa58f2274b42e6c14390de",
+    "outputs/python_quant_bot/tests/test_terminal_broker_loopback_integration.py": "2899a379e9ccdbd80e2eae7902d31c22794ecc64ef063cf6a92162ff212ed1dd"
+  }
+}

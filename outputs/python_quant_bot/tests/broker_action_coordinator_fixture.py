@@ -9,6 +9,7 @@ import time
 from exchange_terminal.services import terminal_broker_action_coordinator as coordinator
 from exchange_terminal.services import terminal_broker_account_control as account_control
 from exchange_terminal.services import terminal_broker_candidate_service as candidate
+from exchange_terminal.services import terminal_broker_execution_plan as plan
 from exchange_terminal.services import terminal_broker_wire_profile as wire
 from exchange_terminal.services.terminal_research import TerminalResearchService
 from exchange_terminal.adapters import futu_us_equity_simulate_wire_v2 as codec_contract
@@ -87,7 +88,7 @@ class Connection:
 
 class Fixture:
     def __init__(self, root, *, workspace="workspace-a", evidence="evidence-a", permits=True,
-                 initialize=True, record_domain="SYNTHETIC_TEST", wire_bounds_changes=None):
+                 initialize=True, record_domain="SYNTHETIC_TEST", wire_bounds_changes=None, endpoint=None):
         self.root = Path(root).resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         origin = self.root / "synthetic-clock-origin.txt"
@@ -102,6 +103,13 @@ class Fixture:
         self.bound = account_control.bind_host_root(self.root / "shared", program_root=program, record_domain=record_domain)
         self.workspace = self.root / workspace
         self.args = pf.fixture()
+        if endpoint is not None:
+            bounds = deepcopy(self.args["base_plan"]["bounds"])
+            bounds["endpoint"] = deepcopy(endpoint)
+            self.args["base_plan"] = plan.prepare_acceptance_plan(**{key: self.args[key] for key in
+                ("candidate_config", "candidate_intent", "research_resolution", "runtime_identity", "control", "now")},
+                bounds=bounds)
+            self.args["wire_bounds"]["endpoint"] = deepcopy(endpoint)
         if wire_bounds_changes:
             self.args["wire_bounds"].update(deepcopy(wire_bounds_changes))
         self.service = TerminalResearchService(SimpleNamespace(workspace=self.workspace), denied, lambda: [], denied,
