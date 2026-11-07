@@ -1,0 +1,79 @@
+{
+  "schema_version": "compact-evidence-source-digests-v1",
+  "source_location": "Local external Hakimi-Astra-Delivery-20261029 evidence archive; paths below are relative identifiers, not repository links.",
+  "sources": {
+    "dev3-r6-package-20261108-r2/handoff.json": {
+      "sha256": "450d8176b827023eea07595d7be4a2997e203f8cba5d120659035442c8553902",
+      "bytes": 2344
+    },
+    "dev3-r6-package-20261108-r2/package-verification-r2.json": {
+      "sha256": "abf3ec9b5b0f745eda0ebe9e50d1be9755f74292c639c3f1fbd59faaae8d80c0",
+      "bytes": 2882
+    },
+    "native-r6-ledger-readback-r2/summary.json": {
+      "sha256": "516c9e3126365eb31583d5a076da12363cff9ef4224c52ad37c615c75669627c",
+      "bytes": 4807
+    },
+    "native-r6-ledger-readback-r2/exact-row-diff.json": {
+      "sha256": "4e4235f832a25833f315cc6a750ea3647a0ecf9a328751a4327b60332a28028b",
+      "bytes": 5674
+    },
+    "native-r6-ledger-readback-r2/final-closed-protection-receipt.json": {
+      "sha256": "71b54ba8eac4c2968f9667f8fde53ea41f40b88ffd470682772d1407cd142262",
+      "bytes": 3630
+    },
+    "u06-real-retained-ndaq-r6-20261108-r5/handoff.json": {
+      "sha256": "1e606a815755919b4ab4dea14d0d864aade6856196feed7795a7634ae3be0193",
+      "bytes": 3209
+    },
+    "u06-real-retained-ndaq-r6-20261108-r5/reopen-summary.json": {
+      "sha256": "1de9bf4780bdd83d1e15bce7d8ae478d273ff888dd4dee0f6a67a145e5e3ef7f",
+      "bytes": 3929
+    },
+    "u06-real-retained-ndaq-r6-20261108-r5/final-package-source-verification.json": {
+      "sha256": "966a819e774ea138b045042d8e04b6d037120dfa754878981c3508e8ccf9bcfc",
+      "bytes": 289
+    },
+    "u06-real-retained-ndaq-r6-20261108-r2/copy-browser-summary.json": {
+      "sha256": "0eb60af94376069274ddf94c2b6760fb9faeb7ba630bc5b11d1e182b7bc7f301",
+      "bytes": 1107
+    },
+    "native-dev3-window-r6/first-closed.json": {
+      "sha256": "c640779bdd375e4ddeadfc08994b33c0e3de457d7f70e011139a6dfa32c915d1",
+      "bytes": 15750
+    },
+    "native-r6-ledger-readback-r1/snapshot-proof.json": {
+      "sha256": "f8f3f1d70b9dd40badc910177f8a88a4f9a5dc3c257457ba079605246ba4a7d8",
+      "bytes": 10841
+    },
+    "native-r6-ledger-readback-r2/snapshot-proof.json": {
+      "sha256": "4cbe9b3cb3df5d34c01406fc24367fc4deb10dc232b0dc5643c28cf81fda3e32",
+      "bytes": 11357
+    },
+    "native-r6-ledger-readback-r2/sqlite-evidence.json": {
+      "sha256": "ff327d927fc7513d999e0a995986a08316d247179bdab288655780b3a6bfd1a7",
+      "bytes": 17976
+    },
+    "native-dev3-window-r6/root-ui-observations.md": {
+      "sha256": "2509be8237bb8ad3e1832667372b6347273a5dc4909036c735957a9e3d64a151",
+      "bytes": 4776
+    },
+    "native-r6-combined-validation-20261108-r2.json": {
+      "sha256": "2142e02d3df9994d45a6e72503380083b3f27811e6f56a3eb3a400f84f1c6b31",
+      "bytes": 3562
+    },
+    "native-r6-combined-desktop-20261108-r2.log": {
+      "sha256": "d511b0dd0c9f2313d5287140d2bc278e5ecc0b262d6174cf4c7b4853a3cc5fd9",
+      "bytes": 145968
+    },
+    "native-r6-combined-desktop-20261108-r1.log": {
+      "sha256": "05994629a4b65965363695992d30f191d88f8c7729310247e3a4297a407c9923",
+      "bytes": 57271
+    }
+  },
+  "root_ui_observations_copy": "BYTE_EXACT",
+  "raw_databases_price_inputs_and_large_inventories_excluded": true,
+  "publication_scope": "Selected facts, original observer notes and source hashes only; source receipts remain in the local evidence archive.",
+  "integrated_source_receipt_copy": "BYTE_EXACT_R2_ONLY",
+  "large_desktop_logs_copied": false
+}

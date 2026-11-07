@@ -1,0 +1,58 @@
+{
+  "status": "R6_LOCAL_REVIEWABLE_CANDIDATE_NOT_PUBLICLY_PUBLISHED",
+  "version": "0.7.0.dev3",
+  "candidate": "r6",
+  "source_commit": "e9e46fcd80b46f9c7ddf0e9453a1220c9c2bbbf8",
+  "bundle_id": "7c1b0258545af44abf8f17106f640c10e8542076ed22a6300ba43545741981d4",
+  "archive_filename": "HakimiTrade-0.7.0.dev3-candidate-r6.zip",
+  "archive_bytes": 193287621,
+  "archive_sha256": "b80c15efb69dadaaab749aa3e5502477057f343a3eb7d75dc8278413576b51e3",
+  "manifest_sha256": "a69f0fa277ea8b716e0c0c16a0b37147e6690c06f9ba229675f629523fe5d542",
+  "program_files_excluding_manifest": 9089,
+  "zip_members_including_manifest": 9090,
+  "embedded_ui_modules": 18,
+  "build_synthetic_runs": 1,
+  "verification_new_economic_runs": 0,
+  "provider_calls": 0,
+  "real_accounts_or_orders": 0,
+  "verification": {
+    "status": "PASS",
+    "exact_git_commit_bytes_verified": true,
+    "package_files_and_every_zip_member_hash_verified": true,
+    "private_import_and_render": "PASS",
+    "node_syntax_checks": 19,
+    "private_guard_attempts": {
+      "socket": 0,
+      "subprocess": 0,
+      "sqlite": 0,
+      "server_import": 0,
+      "sdk_import": 0
+    },
+    "package_bytes_unchanged_after_checks": true
+  },
+  "published": false,
+  "installed_as_daily_version": false,
+  "independent_windows_acceptance": "NOT_PERFORMED",
+  "independent_novice_participants_completed": 0,
+  "build_native_probe_scope": "Build receipt reported no native application start; later native evidence is separate in this folder.",
+  "excluded_later_work": [
+    "native stale progress / empty-history hint display fixes",
+    "fresh saved result title / source-selection display fix",
+    "new U12 broker action coordinator and worker entrypoint"
+  ],
+  "preserved_failures": [
+    {
+      "phase": "first_build_refusal",
+      "reason": "P clean but futu_context.py inherited CRLF differs from Git blob; preserved P and created exact-byte detached checkout",
+      "package_created": false,
+      "economic_runs": 0
+    },
+    {
+      "phase": "package_auxiliary_verification_r1",
+      "reason": "External fixture required internal terminal_save_journey_selection in HTML; the real UI uses the journey-selection direct route.",
+      "original_log_sha256": "e0bbee8d521a682df5d8727148cac8be9ba299023243624aa09a42e00ab89a22",
+      "original_receipt_status": "FAIL"
+    }
+  ],
+  "prior_r5_preserved": true
+}
