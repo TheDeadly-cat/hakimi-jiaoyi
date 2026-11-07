@@ -140,7 +140,9 @@ class TerminalHistoryReader:
         if not self.report_dir.exists():
             if identity is not None:
                 raise FileNotFoundError("terminal_report_not_found")
-            return {"items": [], "warnings": ["original_report_directory_not_present"], "total_count": 0,
+            return {"items": [], "warnings": [], "availability": "NOT_PRESENT",
+                    "notices": [{"code": "original_report_directory_not_present",
+                                 "message": "当前工作区未找到旧研究报告。"}], "total_count": 0,
                     "scope_limit": _REPORT_SCOPE_LIMIT, "offset": offset, "page_size": _REPORT_PAGE_SIZE,
                     "page_file_count": 0, "next_page": None, "omitted_by_scope": 0,
                     "source": "original_strategy_research_files", "read_only": True,
@@ -255,7 +257,9 @@ class TerminalHistoryReader:
         if not self.path.exists():
             if identity is not None:
                 raise FileNotFoundError("terminal_history_not_found")
-            return {"items": [], "warnings": ["original_pipeline_database_not_present"]}
+            return {"items": [], "warnings": [], "availability": "NOT_PRESENT", "read_only": True,
+                    "notices": [{"code": "original_pipeline_database_not_present",
+                                 "message": "当前工作区未找到旧策略流水线记录。"}]}
         before = self._stable_identity()
         connection = sqlite3.connect(self.path.as_uri() + "?mode=ro&immutable=1", uri=True)
         connection.row_factory = sqlite3.Row

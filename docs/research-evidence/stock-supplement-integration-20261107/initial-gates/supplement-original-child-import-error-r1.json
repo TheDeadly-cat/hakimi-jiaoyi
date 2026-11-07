@@ -1,0 +1,6 @@
+{
+  "scope": "Original fixture child first import, repository-root cwd and no PYTHONPATH injection",
+  "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "returncode": 1,
+  "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    from exchange_terminal.services.terminal_daily_research import TerminalDailyResearch\nModuleNotFoundError: No module named 'exchange_terminal'\n"
+}

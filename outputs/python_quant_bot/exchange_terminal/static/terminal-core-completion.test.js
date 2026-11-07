@@ -8,7 +8,7 @@ const rendered=execFileSync(process.env.PYTHON||"python",["-c",
   "import sys;sys.path.insert(0,'outputs/python_quant_bot');from exchange_terminal.services import quant_workspace as q;sys.stdout.buffer.write(q.render_quant_html((q._VENDOR/'hakimi_terminal_research/resources/desktop.html').read_bytes(),'synthetic-token','synthetic-nonce'))"],
   {cwd:path.resolve(__dirname,"../../../.."),encoding:"utf8",maxBuffer:3*1024*1024});
 const source=name=>{const match=rendered.match(new RegExp("^(?:async )?function "+name+"\\(.*$","m"));assert.ok(match,name);return match[0];};
-function fixture({refreshFailure=false,detailFailure=false,jobStatus="succeeded",unknownResult=false,resultOverride,navigationFailure=false}={}) {
+function fixture({refreshFailure=false,detailFailure=false,jobStatus="succeeded",unknownResult=false,resultOverride,navigationFailure=false,readDetail}={}) {
   const elements=[];const element=()=>{const value={id:"",hidden:true,innerHTML:"",textContent:"",dataset:{},listeners:{},disabled:false,isConnected:true,setAttribute(){},removeAttribute(){},before(){},append(){},addEventListener(name,callback){this.listeners[name]=callback;}};elements.push(value);return value;};
   for(const id of ["main","refresh","version","dialog"])element().id=id;
   const document={createElement:element,getElementById:id=>elements.find(value=>value.id===id)||null};
@@ -23,7 +23,7 @@ function fixture({refreshFailure=false,detailFailure=false,jobStatus="succeeded"
       calls.push({resource,method});
       if(method==="POST")return {job_id:"operation-1",status:jobStatus,result,message:"结果待核对"};
       if(resource==="status") {events.push("refresh-start");if(refreshFailure)throw Error("状态目录读取失败");return {runs:[],inputs:[],tasks:[]};}
-      if(resource.startsWith("runs/")){if(failDetail)throw Error("详情读取失败 <script>");const id=decodeURIComponent(resource.slice(5));return resultOverride&&id===result.id?result:{id,summary:{id,symbol:"SYNTHETIC"},fills:[]};}
+      if(resource.startsWith("runs/")){if(failDetail)throw Error("详情读取失败 <script>");const id=decodeURIComponent(resource.slice(5));if(readDetail)return readDetail(id);return resultOverride&&id===result.id?result:{id,summary:{id,symbol:"SYNTHETIC"},fills:[]};}
       return {items:[]};
     }
   });
@@ -195,4 +195,71 @@ test("actual renderer passes a pure result-navigation hook in the frozen state c
   const context=vm.createContext({S,window:{dispatchEvent:event=>events.push(event.type)},CustomEvent:function(type){this.type=type;},nav:view=>events.push(view)});
   vm.runInContext("("+hook[1]+")",context)(capturedCoreResult.id);
   assert.equal(S.selectedRun,capturedCoreResult.id);assert.deepEqual(events,["hakimi-core-open","results"]);
+});
+
+function attachResultViewport(f) {
+  const frames=[],scrolls=[],focus=[],attributes={};
+  const title={setAttribute:(key,value)=>{attributes[key]=value;},focus:options=>focus.push({options,id:f.S.selectedRun})};
+  const heading={getBoundingClientRect:()=>({top:700,bottom:940,left:320,right:1200}),querySelector:selector=>selector==="h2"?title:null};
+  const main=f.document.getElementById("main");main.hidden=false;main.querySelector=selector=>selector===".result-heading"?heading:null;
+  const bar=(position,rect)=>({position,getBoundingClientRect:()=>rect});
+  f.document.querySelectorAll=()=>[
+    bar("sticky",{top:0,bottom:72,left:0,right:1280}),
+    bar("static",{top:-20,bottom:120,left:0,right:1280}),
+    bar("fixed",{top:0,bottom:900,left:0,right:180})
+  ];
+  f.document.defaultView={scrollY:400,scrollX:0,requestAnimationFrame:callback=>frames.push(callback),
+    getComputedStyle:element=>({position:element.position}),scrollTo:options=>scrolls.push(options),
+    parent:{scrollTo:()=>assert.fail("the outer application must not scroll")}};
+  return {frames,scrolls,focus,attributes,flush:()=>{while(frames.length)frames.shift()();}};
+}
+function clickSavedResult(f,id) {
+  const button={dataset:{coreReadAction:"result",coreRunId:id},disabled:false};
+  f.document.getElementById("core-completion-feedback").listeners.click({target:{closest:()=>button}});
+  return new Promise(resolve=>setImmediate(resolve));
+}
+
+test("explicit cached-result read reveals the current heading below sticky navigation inside its own document",async()=>{
+  const f=fixture({resultOverride:capturedCoreResult}),view=attachResultViewport(f);
+  f.context.coreCompletion.confirm("run_task",capturedCoreResult);
+  await clickSavedResult(f,capturedCoreResult.id);
+  assert.equal(view.frames.length,1);assert.equal(view.focus.length,0,"wait for rendered heading/actions");
+  view.flush();
+  assert.deepEqual(view.scrolls,[{top:1016,left:0,behavior:"auto"}]);
+  assert.deepEqual(view.focus,[{options:{preventScroll:true},id:capturedCoreResult.id}]);
+  assert.equal(view.attributes.tabindex,"-1");
+  assert.equal(f.calls.length,0,"cached completion is never recomputed or refetched for scrolling");
+});
+
+test("detail failure does not move focus; same-result GET retry reveals the report and preserves completed fact",async()=>{
+  const f=fixture({resultOverride:capturedCoreResult,detailFailure:true}),view=attachResultViewport(f);
+  f.context.coreCompletion.confirm("run_task",capturedCoreResult);f.S.runCache.clear();
+  await clickSavedResult(f,capturedCoreResult.id);view.flush();
+  assert.equal(view.focus.length,0);assert.equal(view.scrolls.length,0);
+  assert.equal(f.document.getElementById("core-read-completed").hidden,false);
+  f.failDetail(false);await clickSavedResult(f,capturedCoreResult.id);view.flush();
+  assert.equal(view.focus.length,1);assert.equal(f.errors.length,0);
+  assert.deepEqual(f.calls,[{resource:"runs/"+capturedCoreResult.id,method:"GET"},{resource:"runs/"+capturedCoreResult.id,method:"GET"}]);
+});
+
+test("quiet refresh never scrolls and leaving the result view cancels scheduled focus",async()=>{
+  const f=fixture({resultOverride:capturedCoreResult}),view=attachResultViewport(f);
+  f.context.coreCompletion.confirm("run_task",capturedCoreResult);
+  await f.context.loadRun(capturedCoreResult.id,true);
+  assert.equal(view.frames.length,0);
+  await clickSavedResult(f,capturedCoreResult.id);f.S.view="tasks";view.flush();
+  assert.equal(view.focus.length,0);
+  await clickSavedResult(f,capturedCoreResult.id);f.S.selectedRun="another-result";view.flush();
+  assert.equal(view.focus.length,0);assert.equal(view.scrolls.length,0);
+});
+
+test("late detail response cannot steal focus from a newer explicit result selection",async()=>{
+  const pending=new Map(),f=fixture({readDetail:id=>new Promise(resolve=>pending.set(id,resolve))}),view=attachResultViewport(f);
+  const other={id:"other-saved",summary:{id:"other-saved",symbol:"SYNTHETIC"},fills:[]};
+  f.context.coreCompletion.confirm("run_task",capturedCoreResult);f.S.runCache.clear();
+  await clickSavedResult(f,capturedCoreResult.id);await clickSavedResult(f,other.id);
+  pending.get(other.id)(other);await new Promise(resolve=>setImmediate(resolve));
+  pending.get(capturedCoreResult.id)(capturedCoreResult);await new Promise(resolve=>setImmediate(resolve));view.flush();
+  assert.deepEqual(view.focus,[{options:{preventScroll:true},id:other.id}]);
+  assert.equal(f.S.selectedRun,other.id);assert.equal(f.calls.filter(call=>call.method!=="GET").length,0);
 });

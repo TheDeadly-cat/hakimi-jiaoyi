@@ -69,6 +69,7 @@ TEST_FILES = (
     "test_terminal_result_comparison.py",
     "test_terminal_saved_results.py",
     "test_terminal_strategy_candidates.py",
+    "test_terminal_stock_supplement_service.py",
     "test_terminal_task_names.py",
     "test_terminal_workspace_history.py",
     "test_terminal_workspace_history_msix.py",

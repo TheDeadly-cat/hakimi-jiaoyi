@@ -4,7 +4,7 @@
 
 此页说明新候选的入口与操作。最终包身份以包内 `terminal-manifest.json` 的版本、构建提交和 bundle ID 为准；源码、打包探测、实际 Windows 操作和独立新手试用分别记录在 `astra-backlog.md`。尚未发布为正式 Release。
 
-当前新候选为 **dev3 r5 / 构建 b642227**，包含结果页定位、订单预览旁的因子核对、同窗离线计划保存和找回，以及账户共享停止标记。9,079 个程序文件和 9,080 个 ZIP 条目逐项核对通过；包内启动、一个全新虚构样例保存/运行/读回及 15 个界面模块检查通过。[r5包身份与验证范围](research-evidence/terminal-070dev3-r5-build-20261030/README.md)区分 7e1b 的完整757项门禁与 b642 的文案差异和新完整桌面检查。本包尚未启动原生窗口，券商订单执行未启用。
+当前新候选为 **dev3 r5 / 构建 b642227**，包含订单预览旁的因子核对、同窗离线计划保存和找回，以及账户共享停止标记。9,079 个程序文件和 9,080 个 ZIP 条目逐项核对通过；包内启动、一个全新虚构样例保存/运行/读回及 15 个界面模块检查通过。[r5包身份与验证范围](research-evidence/terminal-070dev3-r5-build-20261030/README.md)区分 7e1b 的完整757项门禁与 b642 的文案差异和新完整桌面检查。2026-10-30 本包已完成一次原生虚构研究及报告保存，计划保存与关闭重开待验。原生发现的空历史提示、核心结果定位问题，以及新补证功能已在[后续源码](research-evidence/stock-supplement-integration-20261107/README.md)处理，但本包未重建，不包含这些更新；券商订单执行未启用。
 
 Windows ZIP：`Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r5.zip`（193,207,046 字节）。SHA256：`aec1b2fd6ada4bb05d81616ff2ea071a7f62c0af2b3aae2d86c45e5279c1ed1b`。
 

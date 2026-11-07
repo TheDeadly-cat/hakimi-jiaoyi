@@ -1,0 +1,20 @@
+{
+  "status": "FAIL",
+  "scope": "FICTIONAL_RETAINED_BYTES_REAL_HTTP_AND_PRODUCT_UI",
+  "browser_plugin": "ABSENT",
+  "browser_fallback_reason": "Browser plugin not available",
+  "external_requests": 0,
+  "economic_runs": 0,
+  "tasks_created": 0,
+  "source_hashes": {
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "04efa08531d6e95a6b3a27a60dba74f3156a86f6a116b59fb8fedd0dd897f51e",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_daily_research.py": "e84bb043dff11399adbcf7991461fa38b71568e45e8edc82685544126629fbe8",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_stock_supplement_service.py": "dcb5f1c570624cfed33e546fa01d87336953208327c5126b69e8702c1c617e5c",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-stock-supplement-ui.js": "7ad0de70c717e79d50efd55d97846201a9874340bd3bd8f77ced9bc09684b544",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-daily-ui.js": "cb9b8789982976ecc7075e4299a7feef8080806ac5a677849e592878744edbae",
+    "src/hakimi_research/stock_intake_futu_supplement.py": "48164e7c9060b4232f1b6c1870354af936819a55026c2004a01d58df148db186",
+    "src/hakimi_research/futu_rehab_evidence.py": "bce21bc0b37ef93c202986ce264a6e1aa0acb4897f96837d888f7e63c05fac25"
+  },
+  "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#terminalDailyPage').getByRole('button', { name: '检查这四份补充原件', exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <button disabled class=\"btn\" type=\"button\" data-supplement-action=\"check\">检查这四份补充原件</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\supplement-live-integration-20261107-r1\\browser.cjs:24:64 {\n  log: [\n    \"  - waiting for locator('#terminalDailyPage').getByRole('button', { name: '检查这四份补充原件', exact: true })\",\n    '    - locator resolved to <button disabled class=\"btn\" type=\"button\" data-supplement-action=\"check\">检查这四份补充原件</button>',\n    '  - attempting click action',\n    '    2 × waiting for element to be visible, enabled and stable',\n    '      - element is not enabled',\n    '    - retrying click action',\n    '    - waiting 20ms',\n    '    2 × waiting for element to be visible, enabled and stable',\n    '      - element is not enabled',\n    '    - retrying click action',\n    '      - waiting 100ms',\n    '    58 × waiting for element to be visible, enabled and stable',\n    '       - element is not enabled',\n    '     - retrying click action',\n    '       - waiting 500ms'\n  ],\n  name: 'TimeoutError'\n}\n",
+  "owner_closed": true
+}

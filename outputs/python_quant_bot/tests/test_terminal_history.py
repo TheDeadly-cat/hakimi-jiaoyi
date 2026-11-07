@@ -55,6 +55,10 @@ class TerminalHistoryTests(unittest.TestCase):
         view = self.reader("run-1")
         self.assertEqual(view["integrity_status"], "BLOCK")
         self.assertIn("original_report_hash_mismatch", view["warnings"])
+        listed = self.reader()
+        self.assertNotEqual(listed.get("availability"), "NOT_PRESENT")
+        self.assertEqual(listed["items"][0]["integrity_status"], "BLOCK")
+        self.assertIn("original_report_hash_mismatch", listed["items"][0]["warnings"])
 
     def test_tampered_version_is_not_used_as_verified_configuration(self):
         self.seed(corrupt_version=True)
@@ -79,12 +83,34 @@ class TerminalHistoryTests(unittest.TestCase):
             self.reader()
 
     def test_missing_database_and_invalid_identifier(self):
-        self.assertEqual(self.reader()["items"], [])
+        before = self.inventory()
+        result = self.reader()
+        self.assertEqual(result["items"], [])
+        self.assertEqual(result["warnings"], [])
+        self.assertEqual(result["availability"], "NOT_PRESENT")
+        self.assertTrue(result["read_only"])
+        self.assertEqual(result["notices"], [{"code": "original_pipeline_database_not_present",
+                                             "message": "当前工作区未找到旧策略流水线记录。"}])
+        self.assertEqual(before, self.inventory())
         self.assertFalse(self.path.exists())
         with self.assertRaises(FileNotFoundError):
             self.reader("missing")
         with self.assertRaises(ValueError):
             self.reader("../../outside")
+
+    def test_existing_unreadable_record_remains_warning_not_empty_storage(self):
+        self.seed()
+        with closing(sqlite3.connect(self.path)) as connection:
+            connection.execute("UPDATE strategy_runs SET payload_json=?", ('{"broken":',))
+            connection.commit()
+        before = self.inventory()
+        result = self.reader()
+        self.assertEqual(result["items"], [])
+        self.assertNotEqual(result.get("availability"), "NOT_PRESENT")
+        self.assertEqual(len(result["warnings"]), 1)
+        self.assertEqual(result["warnings"][0]["id"], "run-1")
+        self.assertTrue(result["warnings"][0]["error"])
+        self.assertEqual(before, self.inventory())
 
 
 class TerminalReportTests(unittest.TestCase):
@@ -179,6 +205,8 @@ class TerminalReportTests(unittest.TestCase):
         self.assertEqual(result["items"], [])
         self.assertEqual(result["total_count"], 4)
         self.assertEqual(len(result["warnings"]), 4)
+        self.assertNotEqual(result.get("availability"), "NOT_PRESENT")
+        self.assertTrue(all(item["file_name"] and item["error"] for item in result["warnings"]))
         self.assertEqual(before, self.inventory())
 
     def test_oversize_and_nonregular_files_are_unavailable(self):
@@ -244,6 +272,11 @@ class TerminalReportTests(unittest.TestCase):
         self.assertEqual(result["items"], [])
         self.assertEqual(result["total_count"], 0)
         self.assertFalse(result["current"])
+        self.assertEqual(result["warnings"], [])
+        self.assertEqual(result["availability"], "NOT_PRESENT")
+        self.assertTrue(result["read_only"])
+        self.assertEqual(result["notices"], [{"code": "original_report_directory_not_present",
+                                             "message": "当前工作区未找到旧研究报告。"}])
         self.assertFalse(missing.exists())
 
 

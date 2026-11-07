@@ -1,5 +1,11 @@
 # 当前项目状态
 
+## 2026-11-07 GitHub 源码更新
+
+原终端同窗“股票与数据”已接入留存 Futu 资料补证：核对四份原件、证券和固定区间后，明确确认另存一份研究输入。供应商覆盖与来源截至时点仍未知；原 BLOCKED 检查和八份原始资料保留，保存不运行研究，不启用订单。结果详情定位、空历史提示、补证库异常隐藏正常行情及重复选用按钮均已修复。[本批证据与边界](docs/research-evidence/stock-supplement-integration-20261107/README.md)记录最终检查、真实来源待验及新包待交付。
+
+可下载包仍为 **dev3 r5 / b642227**，未重建或覆盖。补齐此前记录：2026-10-30 r2 已正常最终关闭并完成保护检查；r5 原生已完成一次新虚构研究和报告保存，计划保存、关闭重开尚未完成验收。此前文档提交 `0fca01e` 的 [CI173](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341) 已 11/11 成功；本批源码的新 CI 单独记录。下列日期段保留当时事实，不替代本段当前状态。
+
 ## 2026-10-30 原终端产品交付
 
 当前工作按[第二版 30 项任务清单](docs/astra-backlog.md)推进。日常入口为原终端及同窗 `/quant/`；当前候选 **0.7.0.dev3 r5 / b642227 / HakimiTrade.exe** 已从干净副本构建，包含策略因子、结果找回、离线计划与账户共享停止标记。见[候选首用说明](docs/windows-original-terminal-candidate.md)和[完整包身份与验证](docs/research-evidence/terminal-070dev3-r5-build-20261030/README.md)。

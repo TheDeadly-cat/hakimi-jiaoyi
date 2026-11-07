@@ -21,6 +21,11 @@ class TerminalPackagingTests(unittest.TestCase):
         self.assertEqual(files["FIRST_USE.md"], ROOT / "docs/windows-original-terminal-first-use.md")
         self.assertIn("components/terminal/exchange_terminal/server.py", files)
         self.assertIn("components/terminal/exchange_terminal/static/terminal-quant-ui.js", files)
+        self.assertIn("components/terminal/exchange_terminal/static/terminal-stock-supplement-ui.js", files)
+        self.assertIn("components/terminal/exchange_terminal/services/terminal_stock_supplement_service.py", files)
+        for name in ("futu_rehab_evidence.py", "stock_intake_futu_supplement.py"):
+            self.assertEqual(files["components/canonical/hakimi_research/" + name], ROOT / "src/hakimi_research" / name)
+            self.assertNotIn("components/terminal-canonical/hakimi_research/" + name, files)
         self.assertEqual(files["components/terminal/exchange_terminal/services/terminal_broker_execution_plan.py"],
                          ROOT / "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py")
         self.assertEqual(files["components/terminal/exchange_terminal/services/terminal_broker_package_loader.py"],

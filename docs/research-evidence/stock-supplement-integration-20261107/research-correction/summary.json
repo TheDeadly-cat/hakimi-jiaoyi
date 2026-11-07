@@ -1,0 +1,12 @@
+{
+  "exit_code": 0,
+  "seconds": 4.225,
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-B",
+    "-c",
+    "import sys,unittest;sys.path.insert(0,'tests');unittest.main(module=None,argv=['unittest','test_futu_rehab_evidence','test_stock_intake_futu_supplement','test_runtime_package_boundary','-v'])"
+  ],
+  "reason": "External harness now includes the sibling tests directory, matching unittest discovery used by CI; no source change.",
+  "previous_failure_retained": "github-update-20261107-r1/research_supplement.log"
+}

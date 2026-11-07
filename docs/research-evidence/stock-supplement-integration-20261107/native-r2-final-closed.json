@@ -1,0 +1,105 @@
+{
+  "status": "PASS_FINAL_CLOSED",
+  "qa_record_projection_note": {
+    "summary_field": "business_record_changes.core_inputs",
+    "meaning": "Projection-shape difference only: new summary omitted rows, all recorded common fields agree; original full file hash/size/mtime is unchanged.",
+    "first_fields": [
+      "path",
+      "rows",
+      "snapshot_id"
+    ],
+    "final_fields": [
+      "path",
+      "snapshot_id"
+    ],
+    "common_fields_equal": true
+  },
+  "r2_processes": 0,
+  "r2_port8874_listeners": 0,
+  "protected_old_files": 265,
+  "protected_delta": {
+    "missing": 0,
+    "extra": 0,
+    "changed": 0
+  },
+  "qa_file_count": 20,
+  "qa_all_bytes_size_mtime_unchanged": true,
+  "counts": {
+    "core_inputs": 1,
+    "native_inputs": 1,
+    "task_versions": 1,
+    "reports": 1,
+    "accounts": 1,
+    "plan_links": 1,
+    "jobs": 6,
+    "completed_reports": 1,
+    "historical_replay_databases": 0
+  },
+  "sqlite_table_counts": [
+    {
+      "events": 1,
+      "fills": 0,
+      "marks": 0,
+      "meta": 1,
+      "observations": 0,
+      "opportunities": 0,
+      "orders": 0,
+      "plans": 1,
+      "positions": 0,
+      "requests": 1
+    }
+  ],
+  "sqlite_table_changes": {
+    "events": false,
+    "fills": false,
+    "marks": false,
+    "meta": false,
+    "observations": false,
+    "opportunities": false,
+    "orders": false,
+    "plans": false,
+    "positions": false,
+    "requests": false
+  },
+  "program": {
+    "status": "PASS",
+    "program_files": 9066,
+    "files_with_manifest": 9067,
+    "manifest_sha256": "6deef8cab4dc6102e44f9d3eb2fd7d55afa7b90ed58fb62a6fe9f6517a5d6486",
+    "bundle_id": "be331bd6bae86eb60fc1bc6a379fcb2bbae6e78d92653f01255724ea0fcaec76",
+    "delta": {
+      "missing": [],
+      "extra": [],
+      "changed": []
+    }
+  },
+  "original_sqlite_connected": false,
+  "economic_actions": 0,
+  "new_gui_or_backend_started_by_assistant": false,
+  "references": {
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-window-r2\\FINAL_CLOSED\\protected-business-files-r2.json": {
+      "sha256": "6e5ce6c63980a2c4f485257d62e5d414a676cb896509a194b575d6da70079ec5",
+      "bytes": 134688
+    },
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-window-r2\\FINAL_CLOSED\\qa-copy-and-program-r1\\summary.json": {
+      "sha256": "e9d39714b00e27a3039f393bfd9aa3cfbbf11f2705bf509543a38654b136118c",
+      "bytes": 5109
+    },
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-window-r2\\FINAL_CLOSED\\qa-copy-and-program-r1\\business-records.json": {
+      "sha256": "6fc0e1d61ba6dd3bbd68b1aaf16170077cb2c2a9157f1bb7899c66915850189f",
+      "bytes": 7154
+    },
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-window-r2\\FINAL_CLOSED\\qa-copy-and-program-r1\\files-after.json": {
+      "sha256": "4ede2b13d9dbd6f39989855b2b3f9d7186d5cbfd1fc1f14609df8113fc7e2e17",
+      "bytes": 11188
+    },
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-window-r2\\FINAL_CLOSED\\qa-copy-and-program-r1\\program-files.json": {
+      "sha256": "b98b2efec27f463152a1751edcfed463597e92f3aca0540912ce88356a6e6711",
+      "bytes": 3846156
+    },
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-r2-resume-20261030-r1\\closed-process-check-r1.json": {
+      "sha256": "5dc7c25719855d53d10774bf4aacc795d3749a285c7a91eaac9fe64b7e43ac17",
+      "bytes": 413
+    }
+  }
+}

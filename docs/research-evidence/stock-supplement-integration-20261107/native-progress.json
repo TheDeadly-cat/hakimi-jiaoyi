@@ -1,0 +1,22 @@
+{
+  "scope": "HISTORICAL_2026_10_30_OBSERVATIONS_NOT_NEW_NATIVE_ACCEPTANCE",
+  "r2": {
+    "status": "FINAL_CLOSED",
+    "receipt": "native-r2-final-closed.json",
+    "protected_old_files": 265,
+    "qa_files": 20,
+    "program_files": 9066
+  },
+  "r5": {
+    "observed_at": "2026-10-30T03:58:10.165Z",
+    "package_source": "b642227ca176d0f6c61984194d06177b2c0be495",
+    "observed": "After explicit completion-card read and subsequent refresh, report identity stayed the same but viewport remained at completion card; report heading/actions below fold.",
+    "economic_runs": 1,
+    "data_kind": "SYNTHETIC_TEST",
+    "report_id": "0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346",
+    "report_saved": true,
+    "plan_save_and_close_reopen": "NOT_COMPLETED",
+    "original_observation_file": "native-dev3-window-r5/core-result-locate-observation.json",
+    "original_observation_sha256": "ed9e26cd7024df3f64cfbf99237ddf82092939ce8021236e3447466dea9f03de"
+  }
+}

@@ -30,6 +30,7 @@ _IMPORT_LOCK = RLock()
 _READ_RESOURCES = frozenset({"status", "strategies", "tasks", "inputs", "runs", "csv_templates",
     "terminal_strategy_candidates",
     "terminal_daily_catalog", "terminal_daily_inputs", "terminal_daily_intakes", "terminal_daily_updates", "terminal_daily_tasks",
+    "terminal_daily_supplement_context", "terminal_daily_supplements", "terminal_daily_supplement_requests",
     "terminal_catalog", "terminal_preflight", "terminal_saved_comparison", "terminal_workspace_history", "terminal_market", "terminal_inputs", "terminal_tasks", "terminal_runs", "terminal_history", "terminal_reports", "terminal_core_inputs", "core_replay",
     "terminal_execution_accounts", "terminal_execution_account", "terminal_execution_receipt", "terminal_execution_history", "terminal_execution_compare", "terminal_execution_research", "terminal_execution_explanation",
     "terminal_broker_status", "terminal_broker_research", "terminal_broker_check", "terminal_broker_receipt", "terminal_broker_receipts",
@@ -240,16 +241,17 @@ def render_quant_html(raw: bytes, token: str, nonce: str) -> bytes:
     broker_plan_path = ui_path.with_name("terminal-broker-plan-ui.js")
     broker_account_path = ui_path.with_name("terminal-broker-account-control-ui.js")
     continuous_path = ui_path.with_name("terminal-continuous-ui.js")
+    supplement_path = ui_path.with_name("terminal-stock-supplement-ui.js")
     daily_path = ui_path.with_name("terminal-daily-ui.js")
     candidates_path = ui_path.with_name("terminal-strategy-candidates-ui.js")
-    ui_paths = [completion_path, ai_binding_path, summary_path, comparison_path, execution_path, broker_plan_path, broker_account_path, broker_path, continuous_path, daily_path,
+    ui_paths = [completion_path, ai_binding_path, summary_path, comparison_path, execution_path, broker_plan_path, broker_account_path, broker_path, continuous_path, supplement_path, daily_path,
                 judgment_path, exit_path, insights_path, candidates_path]
     ui_paths.append(ui_path)
     ui_source = "\n".join(path.read_text(encoding="utf-8") for path in ui_paths).replace("</script>", "<\\/script>")
     html = html.replace("程序版本", "股票回测内核版本")
     html = html.replace("共享资金演练目前通过安装目录中的", "共享资金演练保留在原命令行工具中。旧包中的")
     html = html.replace(" 使用。这里保留现有命令行能力；", " 是归档入口；日常继续使用当前交易窗口。")
-    labels = "terminal_replay_create:'创建逐日模拟',terminal_replay_seed:'记录起始收盘信号',terminal_replay_step:'处理下一完整交易日',terminal_replay_reconcile:'核对模拟并保持暂停',terminal_replay_resume:'恢复模拟准备',terminal_replay_adopt:'采用已保存数据版本',terminal_broker_save_candidate:'保存券商候选资料',terminal_broker_prepare_intent:'准备未发送订单意图',terminal_broker_prepare_plan:'保存离线验收计划',terminal_broker_resume:'恢复本地候选准备',terminal_broker_account_resume:'恢复账户执行准备',terminal_daily_check_stock:'检查股票日线',terminal_daily_save_stock:'保存股票日线',terminal_daily_check_update:'检查日线更新',terminal_daily_freeze_update:'保存日线新版本',terminal_daily_create_task:'保存日线研究任务',terminal_daily_adopt_update:'采用日线新版本',terminal_import_daily_input:'复用日线到原策略',terminal_register_exit_experiment:'登记同入场出场研究',terminal_run_exit_experiment:'运行已登记出场研究',terminal_save_judgment:'保存判断与冻结依据',terminal_append_judgment_event:'追加复盘记录',terminal_import_core_input:'复用已导入行情',terminal_freeze_market:'保存当前行情快照',terminal_save_task:'保存原策略任务版本',terminal_set_task_state:'更改研究任务状态',terminal_run_task:'运行原策略回测',terminal_compare:'比较原策略结果',"
+    labels = "terminal_replay_create:'创建逐日模拟',terminal_replay_seed:'记录起始收盘信号',terminal_replay_step:'处理下一完整交易日',terminal_replay_reconcile:'核对模拟并保持暂停',terminal_replay_resume:'恢复模拟准备',terminal_replay_adopt:'采用已保存数据版本',terminal_broker_save_candidate:'保存券商候选资料',terminal_broker_prepare_intent:'准备未发送订单意图',terminal_broker_prepare_plan:'保存离线验收计划',terminal_broker_resume:'恢复本地候选准备',terminal_broker_account_resume:'恢复账户执行准备',terminal_daily_check_supplement:'检查已保存补证原件',terminal_daily_save_supplement:'另存补证后的新输入',terminal_daily_check_stock:'检查股票日线',terminal_daily_save_stock:'保存股票日线',terminal_daily_check_update:'检查日线更新',terminal_daily_freeze_update:'保存日线新版本',terminal_daily_create_task:'保存日线研究任务',terminal_daily_adopt_update:'采用日线新版本',terminal_import_daily_input:'复用日线到原策略',terminal_register_exit_experiment:'登记同入场出场研究',terminal_run_exit_experiment:'运行已登记出场研究',terminal_save_judgment:'保存判断与冻结依据',terminal_append_judgment_event:'追加复盘记录',terminal_import_core_input:'复用已导入行情',terminal_freeze_market:'保存当前行情快照',terminal_save_task:'保存原策略任务版本',terminal_set_task_state:'更改研究任务状态',terminal_run_task:'运行原策略回测',terminal_compare:'比较原策略结果',"
     html = html.replace("const ACTIONS={", "const ACTIONS={" + labels, 1)
     old_compare = "case'compare':await perform('compare',{run_ids:[...S.compare]},{button:target,onSuccess:showComparison});break;"
     if html.count(old_compare) != 1:

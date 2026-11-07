@@ -20,17 +20,18 @@
   };
   function facts(value, kind) {
     const source = value.source || {};
+    const priceReviewPending = kind === "intake" && value.can_save === false && value.session_count === 0 && value.stop_detail?.category === "CORPORATE_ACTION";
     const missing = value.missing_sessions ?? value.stop_detail?.details?.missing_sessions
       ?? (typeof value.reason === "string" && value.reason.startsWith("SOURCE_MISSING_COMPLETED_SESSIONS:") ? value.reason.slice("SOURCE_MISSING_COMPLETED_SESSIONS:".length) : undefined);
     const rows = [...securityRows(value), ["行情区间", present(value.coverage_start) && present(value.coverage_end) ? `${value.coverage_start} 至 ${value.coverage_end}` : undefined],
-      ["已记录交易日数", value.sessions ?? value.session_count], ["价格口径", value.price_basis === "RAW_UNADJUSTED" ? "原始未复权" : value.price_basis],
+      ["已记录交易日数", priceReviewPending ? "尚未核对价格完整性；不表示没有行情" : value.sessions ?? value.session_count], ["价格口径", value.price_basis === "RAW_UNADJUSTED" ? "原始未复权" : value.price_basis],
       ["来源", source.name], ["来源地址", source.reference || value.source_url], ["获取时间", source.retrieved_at || value.retrieved_at],
       ["缺失数据记录", missing],
       ["完整性检查", value.calendar_coverage || (kind === "intake" && value.can_save === true ? "本次检查允许进入保存确认；未单独记录缺失日清单" : undefined)],
       ["公司行为准入", value.corporate_actions || (kind === "intake" && value.can_save === true ? "本次通过无公司行为窗口检查" : undefined)],
       ["区间外公司行为", value.outside_window_actions], ["未完成日线排除记录", value.excluded_forming_sessions],
       ["来源认证记录", value.source_authentication ?? (value.source_truth_verified === false ? "未获独立认证" : undefined)]];
-    return (value.stop_detail?.summary ? `<p>${esc(value.stop_detail.summary)}</p>` : "") + pairs(rows) + (kind === "intake" ? '<p class="section-note">当前导入只允许完整日线和无公司行为窗口；价格口径以保存后的记录为准。检查通过不等于来源认证。</p>' : "")
+    return (value.stop_detail?.summary ? `<p>${esc(value.stop_detail.summary)}</p>` : "") + (value.stop_detail?.action ? `<p>下一步：${esc(value.stop_detail.action)}</p>` : "") + pairs(rows) + (kind === "intake" ? '<p class="section-note">当前导入只允许完整日线和无公司行为窗口；价格口径以保存后的记录为准。检查通过不等于来源认证。</p>' : "")
       + `<details><summary>查看检查依据与保存身份</summary>${pairs([["原始状态",value.status],["原因",value.reason || value.reasons],["检查详情",value.stop_detail],["限制",value.limitations],["检查身份",value.check_hash],["行情身份",value.input_id],["原始来源校验值",source.raw_sha256 || value.raw_sha256],["本地保存身份",value.id]])}</details>`;
   }
   let instance = 0;
@@ -53,7 +54,7 @@
       <div class="field"><label for="${uid}-sessions">历史交易日</label><select id="${uid}-sessions" name="history_sessions"><option value="20">20 个交易日</option><option value="60">60 个交易日</option><option value="120" selected>120 个交易日</option></select></div></div>
       <p class="section-note">默认 120 个交易日，为原策略通常至少 82 日的准备与执行窗口留出余量；具体可评分区间仍需核对。</p><button class="btn primary" type="submit" data-do="check-stock">检查股票行情</button></form>
       <div class="daily-section"><h3>检查记录</h3><div data-role="intakes" class="daily-list"></div><div data-role="intake"></div>
-      <label data-role="confirm-wrap" hidden><input type="checkbox" data-do="confirm">我已核对以上证券身份、交易所和币种，确认为要研究的证券</label><button type="button" class="btn primary" data-do="save" hidden>确认证券并保存行情</button></div>
+      <label data-role="confirm-wrap" hidden><input type="checkbox" data-do="confirm">我已核对以上证券身份、交易所和币种，确认为要研究的证券</label><button type="button" class="btn primary" data-do="save" hidden>确认证券并保存行情</button><div data-role="supplement-host"></div></div>
       <div class="daily-section"><h3>已保存行情</h3><div data-role="inputs" class="daily-list"></div><div data-role="input"></div><div class="actions">
       <button type="button" class="btn" data-do="check-update" hidden>检查这份行情的更新</button><button type="button" class="btn" data-do="import" hidden>复用到原策略研究</button></div><p class="section-note" data-role="import-note" hidden></p></div>
       <div class="daily-section"><h3>更新检查记录</h3><div data-role="updates" class="daily-list"></div><div data-role="update"></div>
@@ -69,6 +70,12 @@
       if (view.hidden) return;
       try { notify(message); } catch (_) { /* notification failure cannot revoke a saved result */ }
     };
+    const supplementUI = typeof root.installTerminalStockSupplementUI === "function" ? root.installTerminalStockSupplementUI({host:role("supplement-host"),api,perform,notify,
+      onInputSaved:input => {
+        if (!canonical(input) || input.record_resource !== PREFIX + "inputs" || input.kind !== "PRICE_SNAPSHOT" || input.status !== "READY") throw Error("补证新输入的保存身份不完整。");
+        state.inputs = [input,...state.inputs.filter(item => item.id !== input.id)]; state.input = input;
+        say("补证新输入已保存并选中。可另行复用到原策略研究；原失败记录保持不变，尚未运行策略。"); render();
+      }}) : null;
     const gateStates={DISABLED:"当前没有可用的获取许可",AVAILABLE_ONCE:"已准备一次获取许可",PREPARING:"本次检查正在准备",REQUESTING:"公开行情请求已在途",REVOKED_PREPARING:"后续获取已阻断，原检查仍待返回",REVOKED_IN_FLIGHT:"后续获取已阻断，在途请求无法撤销",UNAVAILABLE:"本次会话的公开行情入口不可用"};
     function gateValue(value) {
       const result=value?.ok===true?value.data:value;
@@ -111,6 +118,7 @@
       get('[name="symbol"]').disabled = state.busy; get('[name="history_sessions"]').disabled = state.busy;
       renderList("intakes",state.intake); renderList("inputs",state.input); renderList("updates",state.update);
       role("intake").innerHTML = state.intake ? `<h4>${esc(statusText(state.intake))}</h4>` + facts(state.intake,"intake") : "";
+      supplementUI?.setContext(state.intake?.reason === "SOURCE_CORPORATE_ACTION_COVERAGE_UNKNOWN" ? state.intake : null);
       const canSave = state.intake?.can_save === true && state.intake.status === "REVIEW_REQUIRED" && !state.intake.saved_input_id;
       role("confirm-wrap").hidden = !canSave; action("confirm").checked = state.confirmed; action("confirm").disabled = locked;
       action("save").hidden = !canSave; action("save").disabled = locked || !state.confirmed;

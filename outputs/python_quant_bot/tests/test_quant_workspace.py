@@ -191,8 +191,27 @@ class QuantWorkspaceTests(unittest.TestCase):
         self.assertEqual(html.count(self.module._token), 1)
         self.assertNotIn("hakimi-local-token", html)
         self.assertNotIn('class="brand"', html)
+        self.assertLess(html.index("root.installTerminalStockSupplementUI="), html.index("root.installTerminalDailyUI ="))
+        self.assertIn("terminal_daily_check_supplement:'检查已保存补证原件'", html)
+        self.assertIn("terminal_daily_save_supplement:'另存补证后的新输入'", html)
         self.assertEqual(sha256(source.read_bytes()).hexdigest(), before)
         self.assertNotIn(self.module._token, str(headers))
+
+    def test_supplement_read_routes_retain_authentication_and_forward_identity(self):
+        for resource, identity in (("terminal_daily_supplement_context", "canon-" + "a" * 32),
+                                   ("terminal_daily_supplements", "supplement-" + "b" * 64),
+                                   ("terminal_daily_supplement_requests", "fixture-original-operation")):
+            with self.subTest(resource=resource):
+                path = "/api/quant/" + resource + "/" + identity
+                self.assertEqual(self.request(path, headers=[("X-Hakimi-Token", "")])[0], 403)
+                status, _, raw = self.request(path)
+                self.assertEqual(status, 200)
+                value = json.loads(raw)["data"]
+                self.assertEqual((value["resource"], value["identity"]), (resource, identity))
+        status, _, raw = self.request("/api/quant/terminal_daily_supplements")
+        self.assertEqual(status, 200)
+        self.assertIsNone(json.loads(raw)["data"]["identity"])
+        self.assertEqual(self.module._service.calls, [])
 
     def test_status_has_single_authoritative_workspace_and_no_secret(self):
         status, headers, raw = self.request("/api/quant/status")

@@ -6,6 +6,7 @@
     const completedTasks = new Map();
     let completed = null;
     let savedTask = null;
+    let readSelection = 0;
     const validDetail = (value,id = value?.id) => Boolean(value && typeof id === "string" && id.length > 0
       && id.length <= 160 && value.id === id && value.summary?.id === id
       && (value.status === undefined || value.status === "COMPLETED"));
@@ -43,8 +44,34 @@
           :`<p>此保存版本尚未确认有完成结果。明确运行后，完成结果会显示在这里。</p><button type="button" class="btn primary" data-core-run-task="1" data-core-task-version="${esc(result.task_id)}" ${result.state!=="ENABLED"?"disabled":""}>运行这次回测</button><details><summary>已保存版本身份</summary><p>${esc(result.task_id)}</p></details>`);
     }
     async function showSavedResult(id) {
+      const selection=++readSelection;
       if(typeof openResult==="function")await openResult(id);
-      return loadRun(id);
+      const detail=await loadRun(id);
+      if(validDetail(detail,id))revealSavedResult(id,selection);
+      return detail;
+    }
+    function revealSavedResult(id,selection) {
+      const view=document.defaultView;
+      if(!view?.requestAnimationFrame)return;
+      // Render observers add the report actions before this frame. Re-read the
+      // current heading so a replaced view or a late read cannot steal focus.
+      view.requestAnimationFrame(()=>{
+        if(selection!==readSelection || state.view!=="results" || state.selectedRun!==id || detailErrors.has(id))return;
+        const main=document.getElementById("main"),heading=main?.querySelector(".result-heading");
+        if(!heading || main.hidden || !validDetail(state.runCache.get(id),id))return;
+        try {
+          const box=heading.getBoundingClientRect();let covered=0;
+          for(const element of document.querySelectorAll(".sidebar,.topbar")) {
+            const position=view.getComputedStyle(element).position,rect=element.getBoundingClientRect();
+            if(["sticky","fixed"].includes(position) && rect.top<=0 && rect.bottom>0 && rect.left<box.right && rect.right>box.left)covered=Math.max(covered,rect.bottom);
+          }
+          // Scroll only this document's viewport; scrollIntoView can also move
+          // its containing application iframe and obscure the report again.
+          view.scrollTo({top:Math.max(0,view.scrollY+box.top-covered-12),left:view.scrollX,behavior:"auto"});
+          const title=heading.querySelector("h2")||heading;
+          title.setAttribute("tabindex","-1");title.focus({preventScroll:true});
+        } catch(error) {readFailure("presentation",error,id);}
+      });
     }
     function panel(kind) {
       let host=document.getElementById("core-completion-feedback");
@@ -74,6 +101,7 @@
     }
     function begin(action) {
       if(!["run_task","create_task","revise_task","copy_task"].includes(action))return;
+      readSelection++;
       completed=null;panel("completed").hidden=true;panel("outcome").hidden=true;
     }
     function confirm(action,result) {

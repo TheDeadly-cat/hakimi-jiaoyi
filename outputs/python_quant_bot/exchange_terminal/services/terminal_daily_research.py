@@ -11,6 +11,7 @@ from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
 import re
+import sqlite3
 from threading import RLock
 
 from .terminal_workspace_history import _document, _guard_tree, _no_links, _safe
@@ -40,7 +41,15 @@ class TerminalDailyResearch:
         self.root = _safe(self.workspace, self.workspace / "daily")
         self.fetcher, self.clock = fetcher, clock
         self._writer = None
+        self._supplement_service = None
         self._lock = RLock()
+
+    def _supplements(self):
+        with self._lock:
+            if self._supplement_service is None:
+                from .terminal_stock_supplement_service import TerminalStockSupplementService
+                self._supplement_service = TerminalStockSupplementService(self)
+            return self._supplement_service
 
     def _common(self):
         return {"record_namespace": "canonical-daily-v1", "canonical_package": "hakimi_research",
@@ -115,6 +124,23 @@ class TerminalDailyResearch:
             receipt = view.get("freeze_receipt") or {}
             input_ref = receipt.get("input_ref")
             result["saved_input_id"] = self._id(self.root / input_ref) if input_ref else None
+        if kind == "inputs":
+            # The input above has its own canonical validation. Auxiliary
+            # supplement receipts must not hide it when their store is busy,
+            # damaged or awaiting recovery; those operations still fail closed.
+            try:
+                lineage = self._supplements().input_lineage(result["id"])
+                if lineage:
+                    result["supplement_lineage"] = lineage
+            except (ValueError, OSError, TypeError, KeyError, IndexError, sqlite3.Error) as exc:
+                warning = "补证记录暂时无法核对；已保存行情仍可查看，补证保存状态保持未知。"
+                result["supplement_lineage_status"] = "UNKNOWN"
+                result["supplement_lineage_diagnostic"] = {
+                    "reason": "SUPPLEMENT_LINEAGE_UNAVAILABLE", "summary": warning,
+                    "detail": str(exc), "source_truth_verified": False,
+                    "automatic_retry": False}
+                result["warnings"] = [*(result.get("warnings") or []), warning]
+                result["limitations"] = [*(result.get("limitations") or []), warning]
         return result
 
     def read(self, resource, identity=None):
@@ -125,12 +151,15 @@ class TerminalDailyResearch:
             from hakimi_research.daily_updates import calendar_support
             from hakimi_research.strategy_registry import strategies
             return {**first_use_catalog(), "strategies": strategies(), "calendar": calendar_support(),
-                    "supported_actions": [_PREFIX + name for name in _ACTIONS],
+                    "supported_actions": [_PREFIX + name for name in _ACTIONS]
+                        + [_PREFIX + "check_supplement", _PREFIX + "save_supplement"],
                     "workflow": "明确检查来源与证券 → 明确保存行情 → 明确创建任务；更新先核对，再保存并采用新版本。采用不运行。",
                     **self._common()}
         if not isinstance(resource, str) or not resource.startswith(_PREFIX):
             raise ValueError("daily_unknown_resource")
         kind = resource[len(_PREFIX):]
+        if kind in {"supplement_context", "supplements", "supplement_requests"}:
+            return self._supplements().read(kind, identity)
         if kind not in _AREAS:
             raise ValueError("daily_unknown_resource")
         if identity is not None:
@@ -138,7 +167,9 @@ class TerminalDailyResearch:
         items, warnings = [], []
         for path in self._paths(kind):
             try:
-                items.append(self._view(kind, path))
+                item = self._view(kind, path)
+                items.append(item)
+                warnings.extend(path.name + ": " + warning for warning in item.get("warnings", []))
             except (ValueError, OSError, TypeError, KeyError) as exc:
                 warnings.append(path.name + ": " + str(exc))
         return {"items": items, "warnings": warnings, **self._common()}
@@ -182,6 +213,8 @@ class TerminalDailyResearch:
         return self._writer
 
     def mutate(self, action, payload):
+        if type(action) is str and action in {_PREFIX + "check_supplement", _PREFIX + "save_supplement"}:
+            return self._supplements().mutate(action[len(_PREFIX):], payload)
         if type(action) is not str or not action.startswith(_PREFIX) or action[len(_PREFIX):] not in _ACTIONS:
             raise ValueError("daily_action_not_supported_no_execution")
         name = action[len(_PREFIX):]

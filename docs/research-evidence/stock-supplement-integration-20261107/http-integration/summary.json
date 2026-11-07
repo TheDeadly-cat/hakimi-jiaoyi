@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "scope": "FICTIONAL_RETAINED_BYTES_REAL_HTTP_AND_PRODUCT_UI",
+  "browser_plugin": "ABSENT",
+  "browser_fallback_reason": "Browser plugin not available",
+  "external_requests": 0,
+  "economic_runs": 0,
+  "tasks_created": 0,
+  "source_hashes": {
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "04efa08531d6e95a6b3a27a60dba74f3156a86f6a116b59fb8fedd0dd897f51e",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_daily_research.py": "e84bb043dff11399adbcf7991461fa38b71568e45e8edc82685544126629fbe8",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_stock_supplement_service.py": "dcb5f1c570624cfed33e546fa01d87336953208327c5126b69e8702c1c617e5c",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-stock-supplement-ui.js": "7ad0de70c717e79d50efd55d97846201a9874340bd3bd8f77ced9bc09684b544",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-daily-ui.js": "cb9b8789982976ecc7075e4299a7feef8080806ac5a677849e592878744edbae",
+    "src/hakimi_research/stock_intake_futu_supplement.py": "48164e7c9060b4232f1b6c1870354af936819a55026c2004a01d58df148db186",
+    "src/hakimi_research/futu_rehab_evidence.py": "bce21bc0b37ef93c202986ce264a6e1aa0acb4897f96837d888f7e63c05fac25"
+  },
+  "browser": {
+    "status": "PASS",
+    "url": "http://127.0.0.1:53122/quant/#daily",
+    "title": "量化任务与回测 · 哈基米交易",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "page_identity": true,
+    "non_blank": true,
+    "no_framework_overlay": true,
+    "console_errors": [],
+    "http_errors": [],
+    "external_requests": [],
+    "mutation_count": 2,
+    "request_receipts": [
+      {
+        "action": "terminal_daily_check_supplement",
+        "operation_id": "504d0ab0-14e4-4751-8c0c-ac6d7d633fa8",
+        "request_hash": "6a5a0ce46fe32bce38a89a7e6ab0d9ec4ac1c359a4191c3844b1f06e33b4f431"
+      },
+      {
+        "action": "terminal_daily_save_supplement",
+        "operation_id": "7ae5f4c2-ffc2-49c0-88c9-153a95aaea83",
+        "request_hash": "4379c6cde32a79274b6c3a1307752683a37a76353791077e00b4c6830bbb5b88"
+      }
+    ],
+    "saved_input_id": "canon-c1da89cd1f6c17ee42ccac5f4555e87e",
+    "readback_after_reload": true,
+    "original_stays_blocked": true,
+    "provider_requests": 0,
+    "economic_runs": 0
+  },
+  "original_hashes_unchanged": true,
+  "original_status": "BLOCKED",
+  "native_verified_input": true,
+  "saved_input_count": 1,
+  "mutations": [
+    "terminal_daily_check_supplement",
+    "terminal_daily_save_supplement"
+  ],
+  "request_hashes_match": true,
+  "saved_input_sha256": "8a318018b99e0d5a815fe50b598734d5127a6a85821cafaa08095994399788d1",
+  "owner_closed": true,
+  "temporary_workspace_removed": true
+}

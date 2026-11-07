@@ -1,0 +1,13 @@
+{
+  "tests_run": 18,
+  "errors": 0,
+  "failures": 0,
+  "skipped": 0,
+  "success": true,
+  "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "sys_path_injection": [
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot"
+  ],
+  "canonical_src_injected": false
+}

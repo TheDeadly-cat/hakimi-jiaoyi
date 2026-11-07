@@ -1,0 +1,586 @@
+{
+  "status": "PASS",
+  "browser_plugin": "Browser plugin not available; existing Playwright used",
+  "node": "v22.23.4",
+  "fixture": "Actual render_quant_html in a nested iframe; only test access to lexical state added. Explicit synthetic completed receipt seeded in memory; no run/POST/backend/database.",
+  "before": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-core-completion.js": "f299cdef6cdcd656c3b7cc56c3ed55c06bf194d69c1757cbc02f8e0b3def6b62",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-core-completion.test.js": "653c8ec1157be5b09e0765cc3f0c844c6d3343aa9a0e720b063e7a007d7ef8ad",
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "04efa08531d6e95a6b3a27a60dba74f3156a86f6a116b59fb8fedd0dd897f51e",
+    "outputs/python_quant_bot/vendor/research/hakimi_terminal_research/resources/desktop.html": "a431f590e78294d1688f6f801486d5e8c30c755a03d1e5d7944bde3b522d4751"
+  },
+  "after": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-core-completion.js": "f299cdef6cdcd656c3b7cc56c3ed55c06bf194d69c1757cbc02f8e0b3def6b62",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-core-completion.test.js": "653c8ec1157be5b09e0765cc3f0c844c6d3343aa9a0e720b063e7a007d7ef8ad",
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "04efa08531d6e95a6b3a27a60dba74f3156a86f6a116b59fb8fedd0dd897f51e",
+    "outputs/python_quant_bot/vendor/research/hakimi_terminal_research/resources/desktop.html": "a431f590e78294d1688f6f801486d5e8c30c755a03d1e5d7944bde3b522d4751"
+  },
+  "reports": [
+    {
+      "width": 1280,
+      "iframe_url": "http://127.0.0.1:45328/quant/#execution",
+      "outer_url": "http://127.0.0.1:45328/outer",
+      "snapshots": [
+        {
+          "label": "cached-result",
+          "heading": {
+            "top": 68.390625,
+            "bottom": 238.359375,
+            "left": 321,
+            "right": 1257
+          },
+          "title": {
+            "top": 86.390625,
+            "bottom": 111.578125,
+            "left": 341,
+            "right": 1237
+          },
+          "button": {
+            "top": 186.359375,
+            "bottom": 220.359375,
+            "left": 483,
+            "right": 625
+          },
+          "nav": {
+            "top": 0,
+            "bottom": 56,
+            "left": 0,
+            "right": 1280
+          },
+          "scrollY": 515,
+          "viewport": {
+            "width": 1280,
+            "height": 620
+          },
+          "overflow": false,
+          "activeTag": "H2"
+        },
+        {
+          "label": "read-result",
+          "heading": {
+            "top": 68.390625,
+            "bottom": 238.359375,
+            "left": 321,
+            "right": 1257
+          },
+          "title": {
+            "top": 86.390625,
+            "bottom": 111.578125,
+            "left": 341,
+            "right": 1237
+          },
+          "button": {
+            "top": 186.359375,
+            "bottom": 220.359375,
+            "left": 483,
+            "right": 625
+          },
+          "nav": {
+            "top": 0,
+            "bottom": 56,
+            "left": 0,
+            "right": 1280
+          },
+          "scrollY": 515,
+          "viewport": {
+            "width": 1280,
+            "height": 620
+          },
+          "overflow": false,
+          "activeTag": "H2"
+        },
+        {
+          "label": "retried-result",
+          "heading": {
+            "top": 68.390625,
+            "bottom": 238.359375,
+            "left": 321,
+            "right": 1257
+          },
+          "title": {
+            "top": 86.390625,
+            "bottom": 111.578125,
+            "left": 341,
+            "right": 1237
+          },
+          "button": {
+            "top": 186.359375,
+            "bottom": 220.359375,
+            "left": 483,
+            "right": 625
+          },
+          "nav": {
+            "top": 0,
+            "bottom": 56,
+            "left": 0,
+            "right": 1280
+          },
+          "scrollY": 515,
+          "viewport": {
+            "width": 1280,
+            "height": 620
+          },
+          "overflow": false,
+          "activeTag": "H2"
+        }
+      ],
+      "calls": [
+        {
+          "resource": "status",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "strategies",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "jobs",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_catalog",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_inputs",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_tasks",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_runs",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_history",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_reports",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "status",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_core_inputs",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_judgments",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_exit_experiments",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_exit_runs",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_insights",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "runs/aaaaaaaaaaaaaaaaaaaaaaaa",
+          "method": "GET",
+          "phase": "uncached-read"
+        },
+        {
+          "resource": "runs/aaaaaaaaaaaaaaaaaaaaaaaa",
+          "method": "GET",
+          "phase": "read-failure"
+        },
+        {
+          "resource": "runs/aaaaaaaaaaaaaaaaaaaaaaaa",
+          "method": "GET",
+          "phase": "explicit-retry"
+        },
+        {
+          "resource": "terminal_catalog",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_inputs",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_tasks",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_runs",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_history",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_reports",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "status",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_core_inputs",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_execution_accounts",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_execution_research/{\"reference\":{\"kind\":\"core_run\",\"id\":\"aaaaaaaaaaaaaaaaaaaaaaaa\"}}",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_judgments",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_exit_experiments",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_exit_runs",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        }
+      ],
+      "expected_injected_503_console": [
+        {
+          "text": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+          "location": {
+            "url": "http://127.0.0.1:45328/api/quant/runs/aaaaaaaaaaaaaaaaaaaaaaaa",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          },
+          "phase": "read-failure"
+        }
+      ],
+      "unexpected_console_errors": [],
+      "application_script_errors": [],
+      "external_requests": [],
+      "posts": 0
+    },
+    {
+      "width": 480,
+      "iframe_url": "http://127.0.0.1:45328/quant/#execution",
+      "outer_url": "http://127.0.0.1:45328/outer",
+      "snapshots": [
+        {
+          "label": "cached-result",
+          "heading": {
+            "top": 109.65625,
+            "bottom": 279.625,
+            "left": 16,
+            "right": 464
+          },
+          "title": {
+            "top": 127.65625,
+            "bottom": 152.84375,
+            "left": 36,
+            "right": 444
+          },
+          "button": {
+            "top": 227.625,
+            "bottom": 261.625,
+            "left": 178,
+            "right": 320
+          },
+          "nav": {
+            "top": 0,
+            "bottom": 98,
+            "left": 0,
+            "right": 480
+          },
+          "scrollY": 920,
+          "viewport": {
+            "width": 480,
+            "height": 620
+          },
+          "overflow": false,
+          "activeTag": "H2"
+        },
+        {
+          "label": "read-result",
+          "heading": {
+            "top": 109.65625,
+            "bottom": 279.625,
+            "left": 16,
+            "right": 464
+          },
+          "title": {
+            "top": 127.65625,
+            "bottom": 152.84375,
+            "left": 36,
+            "right": 444
+          },
+          "button": {
+            "top": 227.625,
+            "bottom": 261.625,
+            "left": 178,
+            "right": 320
+          },
+          "nav": {
+            "top": 0,
+            "bottom": 98,
+            "left": 0,
+            "right": 480
+          },
+          "scrollY": 920,
+          "viewport": {
+            "width": 480,
+            "height": 620
+          },
+          "overflow": false,
+          "activeTag": "H2"
+        },
+        {
+          "label": "retried-result",
+          "heading": {
+            "top": 109.65625,
+            "bottom": 279.625,
+            "left": 16,
+            "right": 464
+          },
+          "title": {
+            "top": 127.65625,
+            "bottom": 152.84375,
+            "left": 36,
+            "right": 444
+          },
+          "button": {
+            "top": 227.625,
+            "bottom": 261.625,
+            "left": 178,
+            "right": 320
+          },
+          "nav": {
+            "top": 0,
+            "bottom": 98,
+            "left": 0,
+            "right": 480
+          },
+          "scrollY": 920,
+          "viewport": {
+            "width": 480,
+            "height": 620
+          },
+          "overflow": false,
+          "activeTag": "H2"
+        }
+      ],
+      "calls": [
+        {
+          "resource": "status",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "strategies",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "jobs",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_catalog",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_inputs",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_tasks",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_runs",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_history",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_reports",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "status",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_core_inputs",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_judgments",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_exit_experiments",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_exit_runs",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "terminal_insights",
+          "method": "GET",
+          "phase": "startup"
+        },
+        {
+          "resource": "runs/aaaaaaaaaaaaaaaaaaaaaaaa",
+          "method": "GET",
+          "phase": "uncached-read"
+        },
+        {
+          "resource": "runs/aaaaaaaaaaaaaaaaaaaaaaaa",
+          "method": "GET",
+          "phase": "read-failure"
+        },
+        {
+          "resource": "runs/aaaaaaaaaaaaaaaaaaaaaaaa",
+          "method": "GET",
+          "phase": "explicit-retry"
+        },
+        {
+          "resource": "terminal_catalog",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_inputs",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_tasks",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_runs",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_history",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_reports",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "status",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_core_inputs",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_execution_accounts",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_execution_research/{\"reference\":{\"kind\":\"core_run\",\"id\":\"aaaaaaaaaaaaaaaaaaaaaaaa\"}}",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_judgments",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_exit_experiments",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        },
+        {
+          "resource": "terminal_exit_runs",
+          "method": "GET",
+          "phase": "order-preparation-read"
+        }
+      ],
+      "expected_injected_503_console": [
+        {
+          "text": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+          "location": {
+            "url": "http://127.0.0.1:45328/api/quant/runs/aaaaaaaaaaaaaaaaaaaaaaaa",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          },
+          "phase": "read-failure"
+        }
+      ],
+      "unexpected_console_errors": [],
+      "application_script_errors": [],
+      "external_requests": [],
+      "posts": 0
+    }
+  ]
+}

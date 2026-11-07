@@ -43,6 +43,7 @@ async function mount(t, options = {}) {
   await page.setContent('<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Daily data isolated fixture</title><style>body{margin:24px;background:#0c1018;color:#e4e9f2;font:16px/1.6 system-ui}button,input,select{font:inherit;background:#182130;color:inherit;border:1px solid #52637c;border-radius:6px;padding:7px 12px}button:disabled{opacity:.45}.panel{max-width:1060px;margin:auto;padding:20px;border:1px solid #35445a;border-radius:12px}.panel-head,.form-grid,.actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px}.field input,.field select{display:block}.section-note{color:#b1bbcc}h2,h3,h4{margin:12px 0}.primary{background:#1b4e91}a{color:#82b5ff}</style></head><body><main id="host"></main></body></html>');
   await page.addScriptTag({content:source});
   await page.evaluate(({options,fixtures}) => {
+    if(options.supplementStub)window.installTerminalStockSupplementUI=dependencies=>{window.supplementDependencies=dependencies;window.supplementContexts=[];return {setContext:value=>window.supplementContexts.push(value?structuredClone(value):null)};};
     window.records = {inputs:options.inputs || [],intakes:options.intakes || [],updates:options.updates || []};
     window.fixtures = fixtures; window.calls = []; window.reads = []; window.imports = []; window.notices = [];window.gateCalls=[];window.timeline=[];
     window.gate={schema_version:"hakimi-public-daily-access-v1",state:"DISABLED",provider:"Yahoo Finance",scope:"ONE_EXPLICIT_DAILY_CHECK",allowed_actions:[],unconsumed_authorizations:0,actual_attempts:0,requests_in_flight:0,operations_in_flight:0,request_cancellation_supported:false,automatic_retry:false};
@@ -222,6 +223,22 @@ test("recorded missing sessions and corporate-action failure are visible without
   assert.equal(await button(page,"save").isVisible(),false); await select(page,"updates",cid("c"));
   assert.match(await page.locator('[data-role="update"]').innerText(),/当前账务尚不支持处理/); assert.equal(await button(page,"freeze").isVisible(),false);
   assert.equal((await page.evaluate(() => window.calls)).length,0);
+});
+
+test("corporate-action-first blocking shows pending price review and visible next step",async t=>{
+  const original={...intake(),status:"BLOCKED",can_save:false,session_count:0,reason:"SOURCE_CORPORATE_ACTION_COVERAGE_UNKNOWN",stop_detail:{category:"CORPORATE_ACTION",summary:"来源未提供可核对的公司行为覆盖字段。",action:"保留原检查，补充已有来源原件后另行检查。"}};
+  const page=await mount(t,{intakes:[original]});await select(page,"intakes",original.id);
+  assert.equal(await page.locator('[data-role="intake"] dt').filter({hasText:/^已记录交易日数$/}).locator("..").locator("dd").innerText(),"尚未核对价格完整性；不表示没有行情");
+  assert.match(await page.locator('[data-role="intake"]').innerText(),/下一步：保留原检查/);assert.deepEqual(await page.evaluate(()=>window.calls),[]);
+});
+
+test("same-window supplement receives selected blocked context and saved input without changing original or importing",async t=>{
+  const original={...intake(),status:"BLOCKED",can_save:false,reason:"SOURCE_CORPORATE_ACTION_COVERAGE_UNKNOWN",session_count:0};
+  const page=await mount(t,{intakes:[original],supplementStub:true,importCallback:true});await select(page,"intakes",original.id);
+  assert.equal(await page.evaluate(()=>supplementContexts.at(-1).id),original.id);await page.evaluate(()=>supplementDependencies.onInputSaved(structuredClone(fixtures.input)));
+  assert.match(await page.locator('[data-role="input"]').innerText(),/NDAQ/);assert.equal(await button(page,"import").isEnabled(),true);
+  assert.equal(await page.evaluate(()=>records.intakes[0].status),"BLOCKED");assert.equal(await page.evaluate(()=>records.intakes[0].saved_input_id),null);assert.deepEqual(await page.evaluate(()=>window.imports),[]);assert.deepEqual(await page.evaluate(()=>window.calls),[]);
+  assert.equal(await page.locator('[data-role="intake"] h4').innerText(),"检查未通过");
 });
 
 test("another canonical identity cannot be presented as a completed native import",async t => {
