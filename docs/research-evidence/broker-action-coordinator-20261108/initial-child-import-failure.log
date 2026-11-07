@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Temp\new-worker-中文 space-s589pch3\fixture\assembled-1.py", line 3, in <module>
+    from tests.broker_action_coordinator_fixture import Fixture,network_and_sdk_blockers
+  File "C:\Users\Administrator\.codex\worktrees\broker-action-coordinator-20261108\哈基米v2交易\outputs\python_quant_bot\tests\broker_action_coordinator_fixture.py", line 13, in <module>
+    from exchange_terminal.services.terminal_research import TerminalResearchService
+  File "C:\Users\Administrator\.codex\worktrees\broker-action-coordinator-20261108\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_research.py", line 28, in <module>
+    from .terminal_insights import TerminalInsightsService
+  File "C:\Users\Administrator\.codex\worktrees\broker-action-coordinator-20261108\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_insights.py", line 16, in <module>
+    from .market_calendar import build_market_calendar_contract
+  File "C:\Users\Administrator\.codex\worktrees\broker-action-coordinator-20261108\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\market_calendar.py", line 6, in <module>
+    from hakimi_research.market_calendar import (
+    ...<9 lines>...
+    )
+ModuleNotFoundError: No module named 'hakimi_research'

@@ -1,0 +1,18 @@
+{
+  "started_at": "2026-11-07T17:23:48.861741+00:00",
+  "finished_at": "2026-11-07T17:26:51.039669+00:00",
+  "seconds": 182.16938089999894,
+  "exit_code": 1,
+  "inputs_unchanged": true,
+  "source_head": "e9e46fcd80b46f9c7ddf0e9453a1220c9c2bbbf8",
+  "worktree": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-action-coordinator-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+  "input_sha256": {
+    "tools/run_terminal_contracts.py": "ae239f1477d3e4c9efb4c4f860e15b35216444fcf608efe2afd69379393f4dff",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py": "6bde310825c3583e4b980b9c1327b8c0f9d71a9a7e968688a8f4df97ebecbc25",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_entrypoint.py": "4ea4c6f3d005923582df0d5db47783265fb30f0ef1c79b13e4aaed63f3466bbd",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "f08b5d0dfdc9db50ceab263315edd32caf570b464dab47bad46a444f3ae2cf8f",
+    "outputs/python_quant_bot/tests/test_terminal_broker_action_coordinator.py": "0c39f2b5673cf39cd03fc45745eabf28c454cb21b2326d643178bd9ed648599f",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_entrypoint.py": "524642b84be075df6bf3d8a9732575f2da583cd7fa5b55ebe779e9899c031d36"
+  },
+  "log_sha256": "37f675ad9115f5c013eb628df1b8554199460260f3c7adf6a996bfb3f777ffa8"
+}
