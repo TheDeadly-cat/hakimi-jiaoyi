@@ -1,0 +1,96 @@
+{
+  "recorded_at": "2026-10-26T11:52:05.5829017Z",
+  "window_id": 1837662,
+  "launcher_pid": 32280,
+  "port": 60724,
+  "entry": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\\Start-Workbench.cmd",
+  "processes": [
+    {
+      "pid": 32280,
+      "parent_pid": 1944,
+      "name": "cmd.exe",
+      "created_utc": "2026-10-26T11:38:08.5828140Z",
+      "command_line": "C:\\Windows\\system32\\cmd.exe /c \"\"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\\Start-Workbench.cmd\" \""
+    },
+    {
+      "pid": 32156,
+      "parent_pid": 32280,
+      "name": "conhost.exe",
+      "created_utc": "2026-10-26T11:38:08.5935450Z",
+      "command_line": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+    },
+    {
+      "pid": 10668,
+      "parent_pid": 32280,
+      "name": "python.exe",
+      "created_utc": "2026-10-26T11:38:08.6919620Z",
+      "command_line": "\"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\acceptance\\venv\\Scripts\\python.exe\"  -I -B \"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\\launch_workbench.py\" --launch"
+    },
+    {
+      "pid": 21108,
+      "parent_pid": 10668,
+      "name": "python.exe",
+      "created_utc": "2026-10-26T11:38:08.7029400Z",
+      "command_line": "\"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\acceptance\\venv\\Scripts\\python.exe\"  -I -B \"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\\launch_workbench.py\" --launch"
+    },
+    {
+      "pid": 31456,
+      "parent_pid": 21108,
+      "name": "electron.exe",
+      "created_utc": "2026-10-26T11:38:09.3258510Z",
+      "command_line": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules\\electron\\dist\\electron.exe C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\\research-main.js"
+    },
+    {
+      "pid": 30876,
+      "parent_pid": 31456,
+      "name": "electron.exe",
+      "created_utc": "2026-10-26T11:38:09.4818710Z",
+      "command_line": "\"C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules\\electron\\dist\\electron.exe\" --type=gpu-process --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\HakimiResearchWorkbench\\candidates\\2c09461ea66a84c1b79d4d38fa4d695b8aca88f68c45f4f43cdfdd1e391bc7fc\" --gpu-preferences=WAAAAAAAAADgAAAMAAAAAAAAAAAAAAAAAABgAAEAAAA4AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAYAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --field-trial-handle=1732,i,9036804921294798519,17275334149318942987,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=1724 /prefetch:2"
+    },
+    {
+      "pid": 32232,
+      "parent_pid": 31456,
+      "name": "python.exe",
+      "created_utc": "2026-10-26T11:38:09.4858540Z",
+      "command_line": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\acceptance\\venv\\Scripts\\python.exe -m hakimi_research.workbench_server --workspace C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace --port 0"
+    },
+    {
+      "pid": 8408,
+      "parent_pid": 32232,
+      "name": "conhost.exe",
+      "created_utc": "2026-10-26T11:38:09.4934000Z",
+      "command_line": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+    },
+    {
+      "pid": 18560,
+      "parent_pid": 31456,
+      "name": "electron.exe",
+      "created_utc": "2026-10-26T11:38:09.4973990Z",
+      "command_line": "\"C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules\\electron\\dist\\electron.exe\" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=zh-CN --service-sandbox-type=none --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\HakimiResearchWorkbench\\candidates\\2c09461ea66a84c1b79d4d38fa4d695b8aca88f68c45f4f43cdfdd1e391bc7fc\" --field-trial-handle=1852,i,9036804921294798519,17275334149318942987,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=1796 /prefetch:11"
+    },
+    {
+      "pid": 11584,
+      "parent_pid": 32232,
+      "name": "python.exe",
+      "created_utc": "2026-10-26T11:38:09.5108750Z",
+      "command_line": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\acceptance\\venv\\Scripts\\python.exe -m hakimi_research.workbench_server --workspace C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace --port 0"
+    },
+    {
+      "pid": 32084,
+      "parent_pid": 31456,
+      "name": "electron.exe",
+      "created_utc": "2026-10-26T11:38:10.5969630Z",
+      "command_line": "\"C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules\\electron\\dist\\electron.exe\" --type=renderer --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\HakimiResearchWorkbench\\candidates\\2c09461ea66a84c1b79d4d38fa4d695b8aca88f68c45f4f43cdfdd1e391bc7fc\" --app-path=\"C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\desktop\" --enable-sandbox --lang=zh-CN --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=4 --time-ticks-at-unix-epoch=-1792962165766751 --launch-time-ticks=52524819173 --field-trial-handle=2908,i,9036804921294798519,17275334149318942987,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=2840 /prefetch:1"
+    }
+  ],
+  "listeners": [
+    {
+      "LocalAddress": "127.0.0.1",
+      "LocalPort": 60724,
+      "OwningProcess": 11584
+    }
+  ],
+  "native_saved_ndaq_report_read": true,
+  "native_saved_ndaq_and_ko_costs_read": true,
+  "new_runs_or_cost_actions_after_reopen": 0
+}

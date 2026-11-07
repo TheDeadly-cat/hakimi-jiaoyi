@@ -1,0 +1,19 @@
+{
+  "request_hash": "ce6046561b792f698500a2d50e89cb52509816d326c2cdea42dcdad4da477fe7",
+  "request": {
+    "guided": true,
+    "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "intake": "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "expected_check_hash": "3e0addde37bf92dd0a6808d76d00425845bf679401e979d6d0d74554c2c49f70",
+    "confirmed_security": {
+      "security_id": "IMPORTED:YAHOO:XNAS:NDAQ:check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+      "symbol": "NDAQ",
+      "exchange": "XNAS",
+      "currency": "USD",
+      "instrument_type": "COMMON_STOCK"
+    },
+    "action": "save_stock_import",
+    "operation_id": "12cea13d-c667-4e84-8bdf-755c4a091a71"
+  },
+  "recorded_at": "2026-10-26T23:34:45.133323Z"
+}

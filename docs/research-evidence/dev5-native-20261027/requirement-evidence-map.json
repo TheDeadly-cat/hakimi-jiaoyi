@@ -1,0 +1,76 @@
+{
+  "schema_version": "dev5-first-use-requirement-evidence-map-v1",
+  "interpretation": "Current user-approved scope retains new-machine/nonadministrator/independent-novice deferrals and phase-3 future work. This is not independent user-comprehension acceptance.",
+  "requirements": [
+    {
+      "requirement": "Windows self-contained trial and startup identity",
+      "status": "LOCAL_ACCEPTED_NEW_HOST_USER_DEFERRED",
+      "evidence": "preservation-public.json; native/02-identity-1.jpg; native/27-reopened-identity-1.jpg; ../first-stock-live-20261027/installed/wheel-acceptance.json"
+    },
+    {
+      "requirement": "Built-in synthetic example and cost/diagnostic path",
+      "status": "ACCEPTED_PRIOR_NATIVE_EVIDENCE_REUSED",
+      "evidence": "../../first-use-acceptance-20261026.md"
+    },
+    {
+      "requirement": "First real stock without hand-written JSON",
+      "status": "PASS_CURRENT_NATIVE",
+      "evidence": "first-run-readback.json; native/06-check-result-1.jpg; workspace/stock-intakes"
+    },
+    {
+      "requirement": "Select template, confirm settings, explicit save and explicit run",
+      "status": "PASS_CURRENT_NATIVE",
+      "evidence": "native/10-settings-1.jpg; native/12-task-saved-1.jpg; first-run-readback.json"
+    },
+    {
+      "requirement": "Understand zero-trade result, sample size and costs",
+      "status": "PASS_RENDERED_CURRENT_NATIVE_HUMAN_COMPREHENSION_DEFERRED",
+      "evidence": "native/14-result-1.jpg; native/29-reopened-result-1.jpg"
+    },
+    {
+      "requirement": "Common Chinese error recovery and original details",
+      "status": "ACCEPTED_PRIOR_TESTED_SCOPE_REUSED",
+      "evidence": "../../first-use-acceptance-20261026.md; ../first-stock-live-20261027/ui-final-reasons-r1.log"
+    },
+    {
+      "requirement": "Continue last result and distinguish view from computation",
+      "status": "PASS_CURRENT_NATIVE",
+      "evidence": "post-reopen-workspace.json; native/26-reopened-home-1.jpg"
+    },
+    {
+      "requirement": "Today stock/cutoff, navigation without fetch, explicit update",
+      "status": "PASS_CURRENT_NO_CHANGE_BRANCH",
+      "evidence": "native/18-today-before-check-1.jpg; native/20-update-result-1.jpg; pre-close-workspace.json"
+    },
+    {
+      "requirement": "New input revision/version and old-account limits",
+      "status": "EXISTING_NATIVE_AND_FIXTURE_SCOPE_REUSED_NOT_RETRIGGERED",
+      "evidence": "../../data-continuity-native-acceptance-20261025.md; ../../data-continuity-acceptance-20261025.md"
+    },
+    {
+      "requirement": "Keep all existing records and original dirty checkout",
+      "status": "PASS_SCOPED_PRESERVATION",
+      "evidence": "preservation-public.json; post-reopen-workspace.json"
+    },
+    {
+      "requirement": "Independent new Windows machine and three novice users",
+      "status": "USER_DEFERRED_NOT_PASSED",
+      "evidence": "User explicitly arranged after package delivery"
+    },
+    {
+      "requirement": "Company-action accounting, more calendars/strategies, portable evidence migration",
+      "status": "FUTURE_SCOPE_NOT_IMPLEMENTED_BY_THIS_ACCEPTANCE",
+      "evidence": "Attachment phase 3"
+    },
+    {
+      "requirement": "Acceptance commit, push and exact-head CI",
+      "status": "PENDING_AT_RECEIPT_CREATION",
+      "evidence": "Final PR/GitHub verification is saved after push"
+    },
+    {
+      "requirement": "Shutdown after completed delivery",
+      "status": "PENDING_AT_RECEIPT_CREATION",
+      "evidence": "Latest direct user instruction; execute only after GitHub handoff"
+    }
+  ]
+}

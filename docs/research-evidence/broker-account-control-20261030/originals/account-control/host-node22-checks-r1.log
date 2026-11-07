@@ -1,0 +1,57 @@
+[
+  {
+    "command": [
+      "node22",
+      "--check",
+      "outputs/hakimi_trade_electron/terminal-package-runtime.js"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "node22",
+      "--check",
+      "outputs/hakimi_trade_electron/main.js"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "node22",
+      "--check",
+      "outputs/hakimi_trade_electron/terminal-package-runtime.test.js"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "node22",
+      "--check",
+      "outputs/hakimi_trade_electron/desktop-lifecycle.test.js"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "--",
+      "outputs/hakimi_trade_electron/terminal-package-runtime.js",
+      "outputs/hakimi_trade_electron/main.js",
+      "outputs/hakimi_trade_electron/terminal-package-runtime.test.js",
+      "outputs/hakimi_trade_electron/desktop-lifecycle.test.js"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

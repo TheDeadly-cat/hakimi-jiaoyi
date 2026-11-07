@@ -1,0 +1,9 @@
+Independent reviewer: /root/strategy_semantics_t05_t06
+Scope: r4 four-file read-only review of the native saved-source binding and research-classification fixes.
+
+Reviewer reported both specific issues resolved and source SHA256 values matching HANDOFF.md.
+Additional pure in-memory comparison: old HEAD versus current default native/core resolver canonical bytes equal; opt-in response preserves the same default portion. Synthetic evidence remains external_research_eligible=false and offline_only=true in both branches.
+
+Reviewer did not rerun the 25 tests and did not open a database, start a service, import/call an SDK, use network, or run research.
+
+Boundary: suitable for integrating the offline contract; not T29/T30 execution acceptance. The future worker must independently enforce research_eligibility. Missing-adapter top-level status or clearing ordinary missing evidence must never override a known synthetic/offline-only classification.

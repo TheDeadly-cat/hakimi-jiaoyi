@@ -1,0 +1,6 @@
+test_stop_during_blocked_stdin_writer_does_not_hold_watchdog_or_control (tests.test_terminal_broker_worker_supervisor.WorkerSupervisorTests.test_stop_during_blocked_stdin_writer_does_not_hold_watchdog_or_control) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.536s
+
+OK

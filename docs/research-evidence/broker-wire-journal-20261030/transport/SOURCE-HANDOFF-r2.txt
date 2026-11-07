@@ -1,0 +1,20 @@
+# 离线 scoped transport 与锁定 SDK codec 交接
+
+四个新源码/测试文件已稳定；未修改既有 v1、loader、router、UI、runner 或打包清单，也未提交/推送。当前安装候选 dev3 r4 本身不包含这些新文件；探针只复用它未修改的私有解释器和依赖，并显式绑定当前 parent 的源码字节。
+
+证据：[最终回执](FINAL-HANDOFF-r1.json)、[最新 transport 33 项](focused-utc-r1.log)、[先前共同 44 项](focused-r3.log)、[实际 SDK codec 24 检查](pinned-codec-private-r4/codec-result.json)、[最终 guards](pinned-codec-private-r4/guard-final.json)。codec 13 项的源码与先前共同44项和实际SDK探针前后一致；UTC下界补丁后只重验受影响 transport 33项，没有冒称另跑一次共同46项。
+
+实际 SDK 探针耗时3.124s：12个原版pack_req action，真实Request类解码，双通道从None身份经精确1001 Response绑定后继续，8个越界拒绝以及缺失localTime/明确0分离。distribution为10.7.6708，内部VERSION为10.07.6708。826个包内导入模块（其中133个Futu模块）逐项与原r4 manifest匹配；这是导入文件检查，不是新全包验收。socket、线程、数据库、子进程、禁止的SDK constructor尝试均0；本机gethostname元数据读取1次单列，未保存名称。0经济运行，9权限false。
+
+协议实现与接口见[源码接口交接](SOURCE-HANDOFF-r1.md)，其中“探针未执行”是该早期回执的历史事实；本最终回执记录后来完成的独立probe。新增UTC created_at下界已同时覆盖构造及wire I/O前，回拨时仍可清理句柄。普通ack额度与profile最终summary保留区分离；connect/send均非阻塞，wait_connected/recv不持stop锁；清理共享一次总deadline，失败不会被后续close抹去。
+
+前三次诊断失败全部保留：private-r1由SDK吞掉pandas import异常；private-r2明确定位纯本机gethostname被过宽socket audit拒绝；private-r3因将Popen类换成函数破坏stdlib子类声明。最终仅放行计数的本机名称读取，保留Popen类并拒绝其constructor与audit；其它外连/线程/context/DB拒绝不变。未覆盖、重跑或改写任何失败目录。
+
+剩余边界：明文离线codec不证明OpenD或加密兼容；没有真实授权工厂、默认socket factory、共享journal/worker/宿主接线、账户/资金/费用/tick/来源时钟核验；REAL不支持，不回退。普通RESPONSE_RECEIVED的economic_acceptance仍NOT_INFERRED；opaque orderIDEx在SDK响应里是optional，未来ACK须独立核验presence及账户/环境/原订单事实。原生窗口、运行中的旧QA、旧数据库、旧研究与既有包均未操作。
+
+## 最终四文件 SHA256
+
+- `outputs\python_quant_bot\exchange_terminal\services\terminal_broker_scoped_transport.py`：`5ec9efcc8b837651753f69fa53068f4ab7cca50f7a85da47588b758139a95292`
+- `outputs\python_quant_bot\exchange_terminal\adapters\futu_us_equity_simulate_wire_v2.py`：`c7095e5f9012cf5473a5721d0ae98b3816b792a9bca3ce8d7414d2ff7f458709`
+- `outputs\python_quant_bot\tests\test_terminal_broker_scoped_transport.py`：`adc229eb1311ae0c340bbb1c37b59c82762d9562de889d696565ca5e10a0de70`
+- `outputs\python_quant_bot\tests\test_futu_us_equity_simulate_wire_v2.py`：`cf37b0d3dfc97e8aea46fb0f43785422c5c933aeedfa2f9f10d800f33f022b7d`

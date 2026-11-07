@@ -1,0 +1,2607 @@
+
+> hakimi-trade-v2-desktop@2.1.0 check
+> node --check research-main.js && node --check trial-main.electron-test.js && node --test research-main.test.js research-workbench-ui.test.js trial-main.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-insights-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-insights-ui.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-judgment-ui.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-exit-research-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-judgment-ui.test.js ../python_quant_bot/exchange_terminal/static/terminal-exit-research-ui.test.js ../python_quant_bot/exchange_terminal/static/terminal-research-chart.test.js && node --check ../python_quant_bot/exchange_terminal/static/indicator_math.js && node --test ../python_quant_bot/exchange_terminal/static/indicator_math.test.js && node --check ../python_quant_bot/exchange_terminal/static/quant-module.js && node --check ../python_quant_bot/exchange_terminal/static/app.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-quant-ui.js && node ../python_quant_bot/exchange_terminal/static/terminal-quant-ui.test.js && node --check main.js && node --check desktop-security-policy.js && node desktop-security-policy.test.js && node --check backend-runtime-contract.js && node backend-runtime-contract.test.js && node --check electron-smoke-runtime.js && node --check smoke-test.js && node --check chart-switch-smoke.js && node --check ..\python_quant_bot\exchange_terminal\static\chart_quality.js && node --check ..\python_quant_bot\exchange_terminal\static\chart_controller.js && node ..\python_quant_bot\exchange_terminal\static\chart_controller.test.js && node --check ..\python_quant_bot\exchange_terminal\static\stock_quote_guard.js && node ..\python_quant_bot\exchange_terminal\static\stock_quote_guard.test.js && node --check ..\python_quant_bot\exchange_terminal\static\evidence_presentation.js && node ..\python_quant_bot\exchange_terminal\static\evidence_presentation.test.js && node --test ../python_quant_bot/exchange_terminal/static/market-websocket.test.js ../python_quant_bot/exchange_terminal/static/stock_session_quote.test.js ../python_quant_bot/exchange_terminal/static/market-ai-flow.test.js ../python_quant_bot/exchange_terminal/static/deepseek-renderer.test.js ../python_quant_bot/exchange_terminal/static/stock-ai-integration.test.js ../python_quant_bot/exchange_terminal/static/terminal-ai-evidence.test.js ../python_quant_bot/exchange_terminal/static/desktop-refresh.test.js ../python_quant_bot/exchange_terminal/static/local-market-report-retention.test.js ../python_quant_bot/exchange_terminal/static/legacy-records-exports.test.js ../python_quant_bot/exchange_terminal/static/futu-status.test.js && node --test desktop-lifecycle.test.js ../python_quant_bot/exchange_terminal/static/archived-management-ui.test.js && node --test terminal-package-runtime.test.js ../python_quant_bot/exchange_terminal/static/terminal-quant-completion.test.js ../python_quant_bot/exchange_terminal/static/terminal-core-completion.test.js ../python_quant_bot/exchange_terminal/static/terminal-parameter-preflight.test.js ../python_quant_bot/exchange_terminal/static/terminal-result-summary.test.js ../python_quant_bot/exchange_terminal/static/terminal-ai-binding.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-daily-ui.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-execution-ui.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-strategy-candidates-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-result-comparison.test.js ../python_quant_bot/exchange_terminal/static/terminal-execution-ui.test.js ../python_quant_bot/exchange_terminal/static/terminal-strategy-candidates-ui.test.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-daily-ui.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-broker-candidate-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-broker-candidate-ui.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-continuous-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-continuous-ui.test.js
+
+TAP version 13
+# Subtest: verified candidate profiles cannot be captured by the original single-instance window
+ok 1 - verified candidate profiles cannot be captured by the original single-instance window
+  ---
+  duration_ms: 1.8055
+  type: 'test'
+  ...
+# Subtest: Electron explicit file entry starts without require.main while imports and renderer processes remain inert
+ok 2 - Electron explicit file entry starts without require.main while imports and renderer processes remain inert
+  ---
+  duration_ms: 0.446
+  type: 'test'
+  ...
+# Subtest: independent entry launches only the canonical workbench with an argument array and ephemeral loopback port
+ok 3 - independent entry launches only the canonical workbench with an argument array and ephemeral loopback port
+  ---
+  duration_ms: 0.245
+  type: 'test'
+  ...
+# Subtest: bound candidates reject shadow packages and strip startup injection variables
+ok 4 - bound candidates reject shadow packages and strip startup injection variables
+  ---
+  duration_ms: 1.1729
+  type: 'test'
+  ...
+# Subtest: startup workspace check uses authenticated read-only requests and separates access failure from drift
+ok 5 - startup workspace check uses authenticated read-only requests and separates access failure from drift
+  ---
+  duration_ms: 42.5819
+  type: 'test'
+  ...
+# Subtest: diagnostics append new readable files and do not modify existing records
+ok 6 - diagnostics append new readable files and do not modify existing records
+  ---
+  duration_ms: 10.9351
+  type: 'test'
+  ...
+# Subtest: only the owned process and announced canonical loopback URL are accepted
+ok 7 - only the owned process and announced canonical loopback URL are accepted
+  ---
+  duration_ms: 0.3425
+  type: 'test'
+  ...
+# Subtest: split startup receipts are parsed once and invalid startup stops only its child handle
+ok 8 - split startup receipts are parsed once and invalid startup stops only its child handle
+  ---
+  duration_ms: 1.0245
+  type: 'test'
+  ...
+# Subtest: early exit and timeout do not open an unrelated existing service
+ok 9 - early exit and timeout do not open an unrelated existing service
+  ---
+  duration_ms: 18.6581
+  type: 'test'
+  ...
+# Subtest: formal HTML defines an isolated same-origin token client and never starts a monitor on load
+ok 10 - formal HTML defines an isolated same-origin token client and never starts a monitor on load
+  ---
+  duration_ms: 1.1998
+  type: 'test'
+  ...
+# Subtest: visible percentages become canonical ratios exactly once and rules keep their explicit input binding
+ok 11 - visible percentages become canonical ratios exactly once and rules keep their explicit input binding
+  ---
+  duration_ms: 0.627
+  type: 'test'
+  ...
+# Subtest: old refresh cannot replace a newer selection and unverified saves remain locked across refresh
+ok 12 - old refresh cannot replace a newer selection and unverified saves remain locked across refresh
+  ---
+  duration_ms: 5.4905
+  type: 'test'
+  ...
+# Subtest: one successful explicit operation yields one write and a durable known rejection can be cleared
+ok 13 - one successful explicit operation yields one write and a durable known rejection can be cleared
+  ---
+  duration_ms: 0.373
+  type: 'test'
+  ...
+# Subtest: saved metrics, unavailable comparison and untrusted sources remain distinct
+ok 14 - saved metrics, unavailable comparison and untrusted sources remain distinct
+  ---
+  duration_ms: 14.5905
+  type: 'test'
+  ...
+# Subtest: mounted workflow imports, saves, runs, reopens and creates paused-by-default local observation without external requests
+ok 15 - mounted workflow imports, saves, runs, reopens and creates paused-by-default local observation without external requests
+  ---
+  duration_ms: 42.8438
+  type: 'test'
+  ...
+# Subtest: research preview requires a fresh human decision and binds the exact approved record only when selected
+ok 16 - research preview requires a fresh human decision and binds the exact approved record only when selected
+  ---
+  duration_ms: 30.0848
+  type: 'test'
+  ...
+# Subtest: local feedback export shows the exact import file and next manual step without claiming delivery
+ok 17 - local feedback export shows the exact import file and next manual step without claiming delivery
+  ---
+  duration_ms: 8.4801
+  type: 'test'
+  ...
+# Subtest: a durable schedule rejection explains the time boundary and preserves the draft, while an unverified rejection remains unknown
+ok 18 - a durable schedule rejection explains the time boundary and preserves the draft, while an unverified rejection remains unknown
+  ---
+  duration_ms: 20.1735
+  type: 'test'
+  ...
+# Subtest: late or mismatched saved-result reads never replace the explicitly selected result
+ok 19 - late or mismatched saved-result reads never replace the explicitly selected result
+  ---
+  duration_ms: 4.2259
+  type: 'test'
+  ...
+# Subtest: changed runtime stays readable but blocks new operations before a pending request is created
+ok 20 - changed runtime stays readable but blocks new operations before a pending request is created
+  ---
+  duration_ms: 4.419
+  type: 'test'
+  ...
+# Subtest: stopping local observation remains available after a runtime change and requires a positive receipt
+ok 21 - stopping local observation remains available after a runtime change and requires a positive receipt
+  ---
+  duration_ms: 8.8514
+  type: 'test'
+  ...
+# Subtest: loss recovery requires a later completed session and sends the explicitly reviewed receipt head
+ok 22 - loss recovery requires a later completed session and sends the explicitly reviewed receipt head
+  ---
+  duration_ms: 6.4785
+  type: 'test'
+  ...
+# Subtest: only a stopped review-required watch can explicitly discard an exact uncommitted request with a reason
+ok 23 - only a stopped review-required watch can explicitly discard an exact uncommitted request with a reason
+  ---
+  duration_ms: 6.8535
+  type: 'test'
+  ...
+# Subtest: reopening an unknown watch offers explicit recovery of its original request without starting observation
+ok 24 - reopening an unknown watch offers explicit recovery of its original request without starting observation
+  ---
+  duration_ms: 38.0073
+  type: 'test'
+  ...
+# Subtest: pending recovery keeps normal controls and generic unknown-operation locks
+ok 25 - pending recovery keeps normal controls and generic unknown-operation locks
+  ---
+  duration_ms: 13.3006
+  type: 'test'
+  ...
+# Subtest: an unreadable durable pending record blocks a new watch without inventing a recoverable identity
+ok 26 - an unreadable durable pending record blocks a new watch without inventing a recoverable identity
+  ---
+  duration_ms: 3.798
+  type: 'test'
+  ...
+# Subtest: edited rule parameters use canonical context, discard late defaults and preserve manually entered dates
+ok 27 - edited rule parameters use canonical context, discard late defaults and preserve manually entered dates
+  ---
+  duration_ms: 3.4531
+  type: 'test'
+  ...
+# Subtest: context failures and invalid parameters remove prior requirements instead of reusing catalog defaults
+ok 28 - context failures and invalid parameters remove prior requirements instead of reusing catalog defaults
+  ---
+  duration_ms: 5.0643
+  type: 'test'
+  ...
+# Subtest: watch conditions explain stopping and unavailable protection in ordinary language
+ok 29 - watch conditions explain stopping and unavailable protection in ordinary language
+  ---
+  duration_ms: 0.395
+  type: 'test'
+  ...
+# Subtest: the real polling callback preserves focused controls, open records and the user's latest scroll without hiding cards
+ok 30 - the real polling callback preserves focused controls, open records and the user's latest scroll without hiding cards
+  ---
+  duration_ms: 15.7124
+  type: 'test'
+  ...
+# Subtest: stopping observation invalidates an in-flight poll so an older monitoring state cannot come back
+ok 31 - stopping observation invalidates an in-flight poll so an older monitoring state cannot come back
+  ---
+  duration_ms: 9.3941
+  type: 'test'
+  ...
+# Subtest: a stop awaiting its receipt cannot become an enabled start button after another status read
+ok 32 - a stop awaiting its receipt cannot become an enabled start button after another status read
+  ---
+  duration_ms: 9.4113
+  type: 'test'
+  ...
+# Subtest: a failed stop that cancels a manual refresh does not leave the refresh control permanently busy
+ok 33 - a failed stop that cancels a manual refresh does not leave the refresh control permanently busy
+  ---
+  duration_ms: 6.7534
+  type: 'test'
+  ...
+# Subtest: background account failures retain confirmed records and stop controls but block dependent writes until verified
+ok 34 - background account failures retain confirmed records and stop controls but block dependent writes until verified
+  ---
+  duration_ms: 8.1277
+  type: 'test'
+  ...
+# Subtest: late account reads from a background poll cannot overwrite a newly selected account
+ok 35 - late account reads from a background poll cannot overwrite a newly selected account
+  ---
+  duration_ms: 7.0295
+  type: 'test'
+  ...
+# Subtest: stock update checks one selected imported snapshot only after an explicit submit
+ok 36 - stock update checks one selected imported snapshot only after an explicit submit
+  ---
+  duration_ms: 7.3707
+  type: 'test'
+  ...
+# Subtest: historical revisions require an explicit acknowledgement before freezing a distinct input
+ok 37 - historical revisions require an explicit acknowledgement before freezing a distinct input
+  ---
+  duration_ms: 6.8347
+  type: 'test'
+  ...
+# Subtest: updating a task binds the selected frozen input to the current task identity without running it
+ok 38 - updating a task binds the selected frozen input to the current task identity without running it
+  ---
+  duration_ms: 6.3851
+  type: 'test'
+  ...
+# Subtest: saved run diagnostics and cost validation stay read-only until the explicit validation action
+ok 39 - saved run diagnostics and cost validation stay read-only until the explicit validation action
+  ---
+  duration_ms: 17.5516
+  type: 'test'
+  ...
+# Subtest: delivery identity is visible without raw JSON and distinguishes engineering from strategy evidence
+ok 40 - delivery identity is visible without raw JSON and distinguishes engineering from strategy evidence
+  ---
+  duration_ms: 2.8366
+  type: 'test'
+  ...
+# Subtest: read-only old account keeps records and stop control accessible while disabling continuation
+ok 41 - read-only old account keeps records and stop control accessible while disabling continuation
+  ---
+  duration_ms: 4.2143
+  type: 'test'
+  ...
+# Subtest: revision review explains consumed history and prepares a new task version without writing
+ok 42 - revision review explains consumed history and prepares a new task version without writing
+  ---
+  duration_ms: 9.2036
+  type: 'test'
+  ...
+# Subtest: company action stops identify dates and types and preserve the unsupported boundary
+ok 43 - company action stops identify dates and types and preserve the unsupported boundary
+  ---
+  duration_ms: 0.3773
+  type: 'test'
+  ...
+# Subtest: selected exchange displays only its verified calendar years without querying data
+ok 44 - selected exchange displays only its verified calendar years without querying data
+  ---
+  duration_ms: 4.0326
+  type: 'test'
+  ...
+# Subtest: zero fills distinguish waiting signals, blocked buys and unknown old evidence without inventing success
+ok 45 - zero fills distinguish waiting signals, blocked buys and unknown old evidence without inventing success
+  ---
+  duration_ms: 4.8742
+  type: 'test'
+  ...
+# Subtest: saved result list explains signals in Chinese and keeps unknown reasons and read errors escaped in collapsed details
+ok 46 - saved result list explains signals in Chinese and keeps unknown reasons and read errors escaped in collapsed details
+  ---
+  duration_ms: 4.4345
+  type: 'test'
+  ...
+# Subtest: run and completed cost comparison show sample insufficiency before technical details
+ok 47 - run and completed cost comparison show sample insufficiency before technical details
+  ---
+  duration_ms: 2.9354
+  type: 'test'
+  ...
+# Subtest: partial or unknown cost calculations never receive an unconditional completed headline
+ok 48 - partial or unknown cost calculations never receive an unconditional completed headline
+  ---
+  duration_ms: 4.8215
+  type: 'test'
+  ...
+# Subtest: file and source errors provide a Chinese recovery path while retaining exact escaped details
+ok 49 - file and source errors provide a Chinese recovery path while retaining exact escaped details
+  ---
+  duration_ms: 4.2763
+  type: 'test'
+  ...
+# Subtest: an uncertain mounted run offers receipt refresh without resubmitting or claiming no writes
+ok 50 - an uncertain mounted run offers receipt refresh without resubmitting or claiming no writes
+  ---
+  duration_ms: 8.7029
+  type: 'test'
+  ...
+# Subtest: copy diagnostics uses only identity and counts and its manual fallback performs no operation
+ok 51 - copy diagnostics uses only identity and counts and its manual fallback performs no operation
+  ---
+  duration_ms: 4.075
+  type: 'test'
+  ...
+# Subtest: copy diagnostics does not leak raw source or access-token text embedded in an error
+ok 52 - copy diagnostics does not leak raw source or access-token text embedded in an error
+  ---
+  duration_ms: 0.3644
+  type: 'test'
+  ...
+# Subtest: first-use example requires separate template, save and run decisions and restores its saved result without browser storage
+ok 53 - first-use example requires separate template, save and run decisions and restores its saved result without browser storage
+  ---
+  duration_ms: 28.5541
+  type: 'test'
+  ...
+# Subtest: first stock check requires exact security acknowledgement and saving never fetches again or creates a task
+ok 54 - first stock check requires exact security acknowledgement and saving never fetches again or creates a task
+  ---
+  duration_ms: 17.0394
+  type: 'test'
+  ...
+# Subtest: a stopped first-stock review retains the cause and never offers a save control
+ok 55 - a stopped first-stock review retains the cause and never offers a save control
+  ---
+  duration_ms: 6.85
+  type: 'test'
+  ...
+# Subtest: today navigation does not fetch and an old unknown receipt blocks every first-use write
+ok 56 - today navigation does not fetch and an old unknown receipt blocks every first-use write
+  ---
+  duration_ms: 5.8222
+  type: 'test'
+  ...
+# Subtest: a newly selected template with insufficient context cannot reuse the previous valid guide settings
+ok 57 - a newly selected template with insufficient context cannot reuse the previous valid guide settings
+  ---
+  duration_ms: 5.2037
+  type: 'test'
+  ...
+# Subtest: a late stock-review read cannot replace the latest selected security or its confirmation
+ok 58 - a late stock-review read cannot replace the latest selected security or its confirmation
+  ---
+  duration_ms: 12.7024
+  type: 'test'
+  ...
+# Subtest: opening another stock review disables the previous confirmation and cannot borrow its guide identity
+ok 59 - opening another stock review disables the previous confirmation and cannot borrow its guide identity
+  ---
+  duration_ms: 14.1549
+  type: 'test'
+  ...
+# Subtest: a committed source-check receipt with UNKNOWN content keeps first-use writes locked while saved steps remain readable
+ok 60 - a committed source-check receipt with UNKNOWN content keeps first-use writes locked while saved steps remain readable
+  ---
+  duration_ms: 12.9042
+  type: 'test'
+  ...
+# Subtest: trial accepts the complete frozen tree and rejects additions or changed bytes
+ok 61 - trial accepts the complete frozen tree and rejects additions or changed bytes
+  ---
+  duration_ms: 28.0585
+  type: 'test'
+  ...
+# Subtest: archive bytes remain part of the frozen manifest
+ok 62 - archive bytes remain part of the frozen manifest
+  ---
+  duration_ms: 15.3233
+  type: 'test'
+  ...
+# Subtest: Electron explicit and package entries run while imported verifier stays inert
+ok 63 - Electron explicit and package entries run while imported verifier stays inert
+  ---
+  duration_ms: 10.2351
+  type: 'test'
+  ...
+# Subtest: default trial data stays outside program files and ignores legacy workspace overrides
+ok 64 - default trial data stays outside program files and ignores legacy workspace overrides
+  ---
+  duration_ms: 1.0916
+  type: 'test'
+  ...
+# Subtest: short workspace name binds the full identity and never adopts or overwrites another workspace
+ok 65 - short workspace name binds the full identity and never adopts or overwrites another workspace
+  ---
+  duration_ms: 13.3732
+  type: 'test'
+  ...
+# Subtest: physical workspace length is checked before a marker or research record is written
+ok 66 - physical workspace length is checked before a marker or research record is written
+  ---
+  duration_ms: 6.2129
+  type: 'test'
+  ...
+# Subtest: probe uses only bundled Python, handles drift and never launches an engine
+ok 67 - probe uses only bundled Python, handles drift and never launches an engine
+  ---
+  duration_ms: 16.9501
+  type: 'test'
+  ...
+1..67
+# tests 67
+# suites 0
+# pass 67
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 575.5336
+TAP version 13
+# Subtest: module only defines APIs and all data calls remain read-only GET resources
+ok 1 - module only defines APIs and all data calls remain read-only GET resources
+  ---
+  duration_ms: 4.0353
+  type: 'test'
+  ...
+# Subtest: request validation uses exact inputs, unique symbols, explicit dates and first-id baseline
+ok 2 - request validation uses exact inputs, unique symbols, explicit dates and first-id baseline
+  ---
+  duration_ms: 0.5219
+  type: 'test'
+  ...
+# Subtest: late observation and comparison responses cannot replace newer selections or survive invalidation
+ok 3 - late observation and comparison responses cannot replace newer selections or survive invalidation
+  ---
+  duration_ms: 0.2459
+  type: 'test'
+  ...
+# Subtest: failed or mismatched reads clear prior output and preserve unavailable state
+ok 4 - failed or mismatched reads clear prior output and preserve unavailable state
+  ---
+  duration_ms: 0.2611
+  type: 'test'
+  ...
+# Subtest: structure uses observation-day distance and keeps confirmation, historical breakout and incomplete periods explicit
+ok 5 - structure uses observation-day distance and keeps confirmation, historical breakout and incomplete periods explicit
+  ---
+  duration_ms: 12.9682
+  type: 'test'
+  ...
+# Subtest: cards distinguish no input, warmup and unavailable data without inventing values
+ok 6 - cards distinguish no input, warmup and unavailable data without inventing values
+  ---
+  duration_ms: 0.9974
+  type: 'test'
+  ...
+# Subtest: comparison renders server rankings, null correlation and exact normalized series with a table fallback
+ok 7 - comparison renders server rankings, null correlation and exact normalized series with a table fallback
+  ---
+  duration_ms: 2.319
+  type: 'test'
+  ...
+# Subtest: reveal scrolls the iframe document below the actual sticky navigation and corrects the next-frame layout
+ok 8 - reveal scrolls the iframe document below the actual sticky navigation and corrects the next-frame layout
+  ---
+  duration_ms: 1.1269
+  type: 'test'
+  ...
+# Subtest: mounted historical observation, same-group supplement, comparison and table form a usable read-only flow
+ok 9 - mounted historical observation, same-group supplement, comparison and table form a usable read-only flow
+  ---
+  duration_ms: 2.979
+  type: 'test'
+  ...
+# Subtest: frozen contexts without a visible prefix or exact input never fall back to future or same-symbol inputs
+ok 10 - frozen contexts without a visible prefix or exact input never fall back to future or same-symbol inputs
+  ---
+  duration_ms: 1.3477
+  type: 'test'
+  ...
+# Subtest: opening an earlier frozen context clears future peer results and caps comparison until explicitly changed
+ok 11 - opening an earlier frozen context clears future peer results and caps comparison until explicitly changed
+  ---
+  duration_ms: 2.9089
+  type: 'test'
+  ...
+# Subtest: source refresh preserves selected dates and baseline but removes results when a chosen input disappears
+ok 12 - source refresh preserves selected dates and baseline but removes results when a chosen input disappears
+  ---
+  duration_ms: 1.5524
+  type: 'test'
+  ...
+# Subtest: failed open never announces successful observation and backend calendar failure stays visible
+ok 13 - failed open never announces successful observation and backend calendar failure stays visible
+  ---
+  duration_ms: 0.5897
+  type: 'test'
+  ...
+# Subtest: real chart context getter binds the visible prefix and preserves no-visible-bar state
+ok 14 - real chart context getter binds the visible prefix and preserves no-visible-bar state
+  ---
+  duration_ms: 2.8621
+  type: 'test'
+  ...
+# Subtest: insights bridge validates exact fields independently from strategy and AI context
+ok 15 - insights bridge validates exact fields independently from strategy and AI context
+  ---
+  duration_ms: 0.213
+  type: 'test'
+  ...
+# Subtest: original chart entry queues an exact insights request until the same frame is ready without copying strategy parameters
+ok 16 - original chart entry queues an exact insights request until the same frame is ready without copying strategy parameters
+  ---
+  duration_ms: 1.3368
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 121.8673
+TAP version 13
+# Subtest: module definition never reads DOM or invokes a service
+ok 1 - module definition never reads DOM or invokes a service
+  ---
+  duration_ms: 1.8996
+  type: 'test'
+  ...
+# Subtest: six boundaries and all explicit costs are frozen without mutating original results
+ok 2 - six boundaries and all explicit costs are frozen without mutating original results
+  ---
+  duration_ms: 2.0801
+  type: 'test'
+  ...
+# Subtest: invalid dates, overlap, excluded entries and invalid costs are stopped before writing
+ok 3 - invalid dates, overlap, excluded entries and invalid costs are stopped before writing
+  ---
+  duration_ms: 1.6681
+  type: 'test'
+  ...
+# Subtest: unknown, historical blocked strategy and ADD never become new research sources
+ok 4 - unknown, historical blocked strategy and ADD never become new research sources
+  ---
+  duration_ms: 0.2835
+  type: 'test'
+  ...
+# Subtest: older experiment requires explicit registration while its saved result stays readable
+ok 5 - older experiment requires explicit registration while its saved result stays readable
+  ---
+  duration_ms: 13.193
+  type: 'test'
+  ...
+# Subtest: register, explicit run, refresh and reopen preserve independent records and never auto-run
+ok 6 - register, explicit run, refresh and reopen preserve independent records and never auto-run
+  ---
+  duration_ms: 1.3072
+  type: 'test'
+  ...
+# Subtest: uncertain register locks new writes until an exact successful receipt is found
+ok 7 - uncertain register locks new writes until an exact successful receipt is found
+  ---
+  duration_ms: 0.8749
+  type: 'test'
+  ...
+# Subtest: uncertain run never restarts and UNKNOWN receipt never claims completion
+ok 8 - uncertain run never restarts and UNKNOWN receipt never claims completion
+  ---
+  duration_ms: 0.5072
+  type: 'test'
+  ...
+# Subtest: late run reads cannot replace a newer selection and failed reads remain unknown
+ok 9 - late run reads cannot replace a newer selection and failed reads remain unknown
+  ---
+  duration_ms: 0.6578
+  type: 'test'
+  ...
+# Subtest: result presentation preserves missing values, exclusions and causal dates and escapes source text
+ok 10 - result presentation preserves missing values, exclusions and causal dates and escapes source text
+  ---
+  duration_ms: 1.3773
+  type: 'test'
+  ...
+# Subtest: derived replay has its own identities, no fabricated account trades and no result identity for structure
+ok 11 - derived replay has its own identities, no fabricated account trades and no result identity for structure
+  ---
+  duration_ms: 0.5775
+  type: 'test'
+  ...
+# Subtest: mounted form follows source → register → explicit run → reopen → validated original chart
+ok 12 - mounted form follows source → register → explicit run → reopen → validated original chart
+  ---
+  duration_ms: 6.3462
+  type: 'test'
+  ...
+# Subtest: independent frozen structure needs no BUY and unavailable replay leaves the chart untouched
+ok 13 - independent frozen structure needs no BUY and unavailable replay leaves the chart untouched
+  ---
+  duration_ms: 0.5341
+  type: 'test'
+  ...
+# Subtest: loading the module only defines APIs without DOM or network access
+ok 14 - loading the module only defines APIs without DOM or network access
+  ---
+  duration_ms: 1.7768
+  type: 'test'
+  ...
+# Subtest: create payload accepts an earlier covered cutoff including weekends and bounds the form
+ok 15 - create payload accepts an earlier covered cutoff including weekends and bounds the form
+  ---
+  duration_ms: 2.0583
+  type: 'test'
+  ...
+# Subtest: append captures the exact saved head and treats user actions as text only
+ok 16 - append captures the exact saved head and treats user actions as text only
+  ---
+  duration_ms: 0.3734
+  type: 'test'
+  ...
+# Subtest: judgment input replay uses independent identity and cannot carry pretend fills
+ok 17 - judgment input replay uses independent identity and cannot carry pretend fills
+  ---
+  duration_ms: 0.4275
+  type: 'test'
+  ...
+# Subtest: only completed runs become judgment sources while old task identities stay available
+ok 18 - only completed runs become judgment sources while old task identities stay available
+  ---
+  duration_ms: 0.292
+  type: 'test'
+  ...
+# Subtest: timeline and details escape untrusted text and distinguish cutoff, write time and AI
+ok 19 - timeline and details escape untrusted text and distinguish cutoff, write time and AI
+  ---
+  duration_ms: 12.8061
+  type: 'test'
+  ...
+# Subtest: AI generated after a historical cutoff is retrospective; unparseable timing stays unknown without changing evidence
+ok 20 - AI generated after a historical cutoff is retrospective; unparseable timing stays unknown without changing evidence
+  ---
+  duration_ms: 1.1196
+  type: 'test'
+  ...
+# Subtest: create, append all four event kinds, refresh and reopen use durable reads without trading
+ok 21 - create, append all four event kinds, refresh and reopen use durable reads without trading
+  ---
+  duration_ms: 1.225
+  type: 'test'
+  ...
+# Subtest: unknown create does not retry and clears only after its precise receipt is read
+ok 22 - unknown create does not retry and clears only after its precise receipt is read
+  ---
+  duration_ms: 0.6485
+  type: 'test'
+  ...
+# Subtest: unknown event reconciles by event request id, never by a changed head alone
+ok 23 - unknown event reconciles by event request id, never by a changed head alone
+  ---
+  duration_ms: 0.4993
+  type: 'test'
+  ...
+# Subtest: a late detail response cannot replace the latest selection; read errors remain unknown
+ok 24 - a late detail response cannot replace the latest selection; read errors remain unknown
+  ---
+  duration_ms: 0.317
+  type: 'test'
+  ...
+# Subtest: mounted controls save and reopen a historical judgment, append and send only verified frozen input
+ok 25 - mounted controls save and reopen a historical judgment, append and send only verified frozen input
+  ---
+  duration_ms: 3.8053
+  type: 'test'
+  ...
+# Subtest: unavailable replay leaves the original chart untouched and explains the missing source
+ok 26 - unavailable replay leaves the original chart untouched and explains the missing source
+  ---
+  duration_ms: 0.4654
+  type: 'test'
+  ...
+# Subtest: pivots only appear after confirmation, including when drawn at an earlier origin
+ok 27 - pivots only appear after confirmation, including when drawn at an earlier origin
+  ---
+  duration_ms: 0.6989
+  type: 'test'
+  ...
+# Subtest: future entries, exits, thresholds and outcome status cannot leak into a historical prefix
+ok 28 - future entries, exits, thresholds and outcome status cannot leak into a historical prefix
+  ---
+  duration_ms: 0.1487
+  type: 'test'
+  ...
+# Subtest: ordinary result replay has no new annotations; structure-only replay needs no trades
+ok 29 - ordinary result replay has no new annotations; structure-only replay needs no trades
+  ---
+  duration_ms: 0.5296
+  type: 'test'
+  ...
+# Subtest: show-all requests an explicit viewport fit and preserves an unavailable selected sample across Home
+ok 30 - show-all requests an explicit viewport fit and preserves an unavailable selected sample across Home
+  ---
+  duration_ms: 2.6364
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 126.7922
+TAP version 13
+# Subtest: panning and playback preserve the same timestamp values
+ok 1 - panning and playback preserve the same timestamp values
+  ---
+  duration_ms: 7.6884
+  type: 'test'
+  ...
+# Subtest: known values, no fill, and flat RSI
+ok 2 - known values, no fill, and flat RSI
+  ---
+  duration_ms: 0.6663
+  type: 'test'
+  ...
+# Subtest: the real chart breaks the path at missing observations
+ok 3 - the real chart breaks the path at missing observations
+  ---
+  duration_ms: 4.2392
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 129.0446
+TAP version 13
+# Subtest: bridge requires exact origin, exact frame source, known schema and kind
+ok 1 - bridge requires exact origin, exact frame source, known schema and kind
+  ---
+  duration_ms: 1.0478
+  type: 'test'
+  ...
+# Subtest: native engine and percent units remain distinct from the equity research core
+ok 2 - native engine and percent units remain distinct from the equity research core
+  ---
+  duration_ms: 0.4314
+  type: 'test'
+  ...
+# Subtest: replay rows preserve original session dates and reject fabricated/malformed chronology
+ok 3 - replay rows preserve original session dates and reject fabricated/malformed chronology
+  ---
+  duration_ms: 1.3652
+  type: 'test'
+  ...
+# Subtest: source identity follows target symbol and never leaks an unrelated chart source
+ok 4 - source identity follows target symbol and never leaks an unrelated chart source
+  ---
+  duration_ms: 0.1461
+  type: 'test'
+  ...
+# Subtest: explicit completion evidence survives local chart conversion and analysis payload without filling unknown flags
+ok 5 - explicit completion evidence survives local chart conversion and analysis payload without filling unknown flags
+  ---
+  duration_ms: 1.2751
+  type: 'test'
+  ...
+# Subtest: analysis payload does not invent date or provider provenance for unknown chart rows
+ok 6 - analysis payload does not invent date or provider provenance for unknown chart rows
+  ---
+  duration_ms: 0.8085
+  type: 'test'
+  ...
+# Subtest: current context reads the edited parameter form and radar target safely
+ok 7 - current context reads the edited parameter form and radar target safely
+  ---
+  duration_ms: 1.495
+  type: 'test'
+  ...
+# Subtest: market read failures show structured session guidance or native errors as plain text without retry
+ok 8 - market read failures show structured session guidance or native errors as plain text without retry
+  ---
+  duration_ms: 4.3691
+  type: 'test'
+  ...
+# Subtest: dashboard and daily page retain their headers while task and result links retain anchors
+ok 9 - dashboard and daily page retain their headers while task and result links retain anchors
+  ---
+  duration_ms: 2.3603
+  type: 'test'
+  ...
+# Subtest: old task and unverified records never masquerade as completed result summaries
+ok 10 - old task and unverified records never masquerade as completed result summaries
+  ---
+  duration_ms: 4.0306
+  type: 'test'
+  ...
+# Subtest: switching old workspaces invalidates a pending old-record response
+ok 11 - switching old workspaces invalidates a pending old-record response
+  ---
+  duration_ms: 1.4689
+  type: 'test'
+  ...
+# Subtest: frozen replay and exit refresh the original desktop summary for the actual chart symbol
+ok 12 - frozen replay and exit refresh the original desktop summary for the actual chart symbol
+  ---
+  duration_ms: 4.2174
+  type: 'test'
+  ...
+# Subtest: native parameter editor renders only declared signal keys and leaves risk in its own controls
+ok 13 - native parameter editor renders only declared signal keys and leaves risk in its own controls
+  ---
+  duration_ms: 1.6541
+  type: 'test'
+  ...
+# Subtest: comparison signal fields exclude native canonical risk defaults while preserving core fields and frozen detail
+ok 14 - comparison signal fields exclude native canonical risk defaults while preserving core fields and frozen detail
+  ---
+  duration_ms: 0.3716
+  type: 'test'
+  ...
+# Subtest: unified task and result rows retain both engines and their distinct detail routes
+ok 15 - unified task and result rows retain both engines and their distinct detail routes
+  ---
+  duration_ms: 10.8259
+  type: 'test'
+  ...
+# Subtest: core detail callback receives only a verified core record id and never a native object
+ok 16 - core detail callback receives only a verified core record id and never a native object
+  ---
+  duration_ms: 2.1689
+  type: 'test'
+  ...
+# Subtest: same-symbol context source change overrides stale inner source selection
+ok 17 - same-symbol context source change overrides stale inner source selection
+  ---
+  duration_ms: 0.7464
+  type: 'test'
+  ...
+# Subtest: unknown terminal run is not announced as complete or opened as a verified result
+ok 18 - unknown terminal run is not announced as complete or opened as a verified result
+  ---
+  duration_ms: 0.9472
+  type: 'test'
+  ...
+# Subtest: durable native job.result replaces the matching saved-task run invitation with its saved result
+ok 19 - durable native job.result replaces the matching saved-task run invitation with its saved result
+  ---
+  duration_ms: 2.6896
+  type: 'test'
+  ...
+# Subtest: save callback binds the card to the acknowledged task_id before matching completion
+ok 20 - save callback binds the card to the acknowledged task_id before matching completion
+  ---
+  duration_ms: 2.2852
+  type: 'test'
+  ...
+# Subtest: another task or an unconfirmed outcome cannot complete the currently saved task card
+ok 21 - another task or an unconfirmed outcome cannot complete the currently saved task card
+  ---
+  duration_ms: 1.4131
+  type: 'test'
+  ...
+# Subtest: auxiliary and shell refresh failures preserve the matching completed task card without another run
+ok 22 - auxiliary and shell refresh failures preserve the matching completed task card without another run
+  ---
+  duration_ms: 1.4723
+  type: 'test'
+  ...
+# Subtest: a real late older listing cannot roll back the durable saved-task completion
+ok 23 - a real late older listing cannot roll back the durable saved-task completion
+  ---
+  duration_ms: 2.5328
+  type: 'test'
+  ...
+# Subtest: newly saved task binding resists a late old completion and retains prior completion when reread
+ok 24 - newly saved task binding resists a late old completion and retains prior completion when reread
+  ---
+  duration_ms: 1.6749
+  type: 'test'
+  ...
+# Subtest: new task entry clears the saved card binding so late completion cannot occupy the draft
+ok 25 - new task entry clears the saved card binding so late completion cannot occupy the draft
+  ---
+  duration_ms: 5.5336
+  type: 'test'
+  ...
+# Subtest: explicit new draft from a strategy candidate clears the old saved card while retaining its confirmed facts
+ok 26 - explicit new draft from a strategy candidate clears the old saved card while retaining its confirmed facts
+  ---
+  duration_ms: 1.8609
+  type: 'test'
+  ...
+# Subtest: opening an already verified candidate result preserves the draft and shows actual report risk with incomplete-index notice
+ok 27 - opening an already verified candidate result preserves the draft and shows actual report risk with incomplete-index notice
+  ---
+  duration_ms: 1.4815
+  type: 'test'
+  ...
+# Subtest: starting a revision clears the old saved card before the read, including a failed read
+ok 28 - starting a revision clears the old saved card before the read, including a failed read
+  ---
+  duration_ms: 2.2856
+  type: 'test'
+  ...
+# Subtest: saved result places the original order-preparation action before the long report summary
+ok 29 - saved result places the original order-preparation action before the long report summary
+  ---
+  duration_ms: 1.3519
+  type: 'test'
+  ...
+# Subtest: completed saved-task button dispatch reads the original run and never submits a run
+ok 30 - completed saved-task button dispatch reads the original run and never submits a run
+  ---
+  duration_ms: 1.9083
+  type: 'test'
+  ...
+# Subtest: explicit saved-result entry reveals the original ID during loading and positions its completed detail
+ok 31 - explicit saved-result entry reveals the original ID during loading and positions its completed detail
+  ---
+  duration_ms: 1.5991
+  type: 'test'
+  ...
+# Subtest: failed explicit detail stays visible and same-ID retry only reads the saved result
+ok 32 - failed explicit detail stays visible and same-ID retry only reads the saved result
+  ---
+  duration_ms: 0.9709
+  type: 'test'
+  ...
+# Subtest: older reads and scheduled scrolls cannot replace or reveal a newer selected result
+ok 33 - older reads and scheduled scrolls cannot replace or reveal a newer selected result
+  ---
+  duration_ms: 0.9878
+  type: 'test'
+  ...
+# Subtest: leaving and returning to results invalidates a pending read navigation even for the same ID
+ok 34 - leaving and returning to results invalidates a pending read navigation even for the same ID
+  ---
+  duration_ms: 1.1623
+  type: 'test'
+  ...
+# Subtest: background completion does not navigate or replace an explicitly selected result
+ok 35 - background completion does not navigate or replace an explicitly selected result
+  ---
+  duration_ms: 1.9021
+  type: 'test'
+  ...
+# Subtest: historical-only strategy remains viewable but cannot start new research
+ok 36 - historical-only strategy remains viewable but cannot start new research
+  ---
+  duration_ms: 0.8317
+  type: 'test'
+  ...
+# Subtest: imported price reuse requires an available input and explicit confirmation, then selects only the returned input
+ok 37 - imported price reuse requires an available input and explicit confirmation, then selects only the returned input
+  ---
+  duration_ms: 1.1675
+  type: 'test'
+  ...
+# Subtest: local and frozen daily sources cannot pretend to switch intraday sessions
+ok 38 - local and frozen daily sources cannot pretend to switch intraday sessions
+  ---
+  duration_ms: 0.9784
+  type: 'test'
+  ...
+# Subtest: parameter copy uses the normalized original catalog and refuses incompatible risk without mutation
+ok 39 - parameter copy uses the normalized original catalog and refuses incompatible risk without mutation
+  ---
+  duration_ms: 2.4128
+  type: 'test'
+  ...
+# Subtest: delayed previous market response cannot overwrite a frozen replay
+ok 40 - delayed previous market response cannot overwrite a frozen replay
+  ---
+  duration_ms: 1.2372
+  type: 'test'
+  ...
+# Subtest: choosing a different symbol exits replay and restores the local data path
+ok 41 - choosing a different symbol exits replay and restores the local data path
+  ---
+  duration_ms: 1.3424
+  type: 'test'
+  ...
+# Subtest: switching BTC to local AAPL renders saved candles and empty stock book/log without a live quote
+ok 42 - switching BTC to local AAPL renders saved candles and empty stock book/log without a live quote
+  ---
+  duration_ms: 21.2337
+  type: 'test'
+  ...
+# Subtest: AI and current-market requests require explicitly leaving frozen replay
+ok 43 - AI and current-market requests require explicitly leaving frozen replay
+  ---
+  duration_ms: 1.5919
+  type: 'test'
+  ...
+# Subtest: all frozen sources isolate real cached quotes and update every selected-symbol summary at the historical cutoff
+ok 44 - all frozen sources isolate real cached quotes and update every selected-symbol summary at the historical cutoff
+  ---
+  duration_ms: 19.6084
+  type: 'test'
+  ...
+# Subtest: explicit fit-all restores the whole 575 or 1250 bar frozen interval after Home while live viewport limits and restoration stay unchanged
+ok 45 - explicit fit-all restores the whole 575 or 1250 bar frozen interval after Home while live viewport limits and restoration stay unchanged
+  ---
+  duration_ms: 11.0004
+  type: 'test'
+  ...
+1..45
+# tests 45
+# suites 0
+# pass 45
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 145.0195
+desktop security policy tests passed
+backend runtime contract tests passed
+chart_controller.test.js: PASS
+stock_quote_guard.test.js: PASS
+evidence_presentation.test.js: PASS
+TAP version 13
+# Subtest: real renderer retains ordinary list output and never mutates the receipt
+ok 1 - real renderer retains ordinary list output and never mutates the receipt
+  ---
+  duration_ms: 4.4995
+  type: 'test'
+  ...
+# Subtest: string risk and reason fields render as one complete item
+ok 2 - string risk and reason fields render as one complete item
+  ---
+  duration_ms: 1.7377
+  type: 'test'
+  ...
+# Subtest: rows accept text and objects, skip null and invalid entries, and escape text
+ok 3 - rows accept text and objects, skip null and invalid entries, and escape text
+  ---
+  duration_ms: 3.4793
+  type: 'test'
+  ...
+# Subtest: null analysis and nullable opportunity entries do not break the renderer
+ok 4 - null analysis and nullable opportunity entries do not break the renderer
+  ---
+  duration_ms: 2.3047
+  type: 'test'
+  ...
+# Subtest: actual strategy request and renderer publish a successful irregular JSON receipt once
+ok 5 - actual strategy request and renderer publish a successful irregular JSON receipt once
+  ---
+  duration_ms: 3.9981
+  type: 'test'
+  ...
+# Subtest: actual failed request remains an error with no renderer retry
+ok 6 - actual failed request remains an error with no renderer retry
+  ---
+  duration_ms: 2.0483
+  type: 'test'
+  ...
+# Subtest: desktop refresh forces the current symbol/bar/session through the shared coordinator and keeps existing refreshes
+ok 7 - desktop refresh forces the current symbol/bar/session through the shared coordinator and keeps existing refreshes
+  ---
+  duration_ms: 5.3768
+  type: 'test'
+  ...
+# Subtest: crypto refresh uses all-session identity instead of the previous stock session
+ok 8 - crypto refresh uses all-session identity instead of the previous stock session
+  ---
+  duration_ms: 2.4551
+  type: 'test'
+  ...
+# Subtest: frozen replay refresh keeps archived data and never requests live or local replacement data
+ok 9 - frozen replay refresh keeps archived data and never requests live or local replacement data
+  ---
+  duration_ms: 1.302
+  type: 'test'
+  ...
+# Subtest: local-only refresh reads only local lists, current market and account
+ok 10 - local-only refresh reads only local lists, current market and account
+  ---
+  duration_ms: 1.344
+  type: 'test'
+  ...
+# Subtest: repeated clicks remain single-flight until both candles and existing refreshes settle
+ok 11 - repeated clicks remain single-flight until both candles and existing refreshes settle
+  ---
+  duration_ms: 6.7766
+  type: 'test'
+  ...
+# Subtest: a failed candle request reports failure, restores the button and allows one explicit retry
+ok 12 - a failed candle request reports failure, restores the button and allows one explicit retry
+  ---
+  duration_ms: 1.41
+  type: 'test'
+  ...
+# Subtest: late refresh cannot replace frozen replay, local mode, another symbol or another session
+ok 13 - late refresh cannot replace frozen replay, local mode, another symbol or another session
+  ---
+  duration_ms: 6.0313
+  type: 'test'
+  ...
+# Subtest: late failure does not overwrite a new chart or frozen replay status
+ok 14 - late failure does not overwrite a new chart or frozen replay status
+  ---
+  duration_ms: 1.2203
+  type: 'test'
+  ...
+# Subtest: opening data records after a chart or research start loads the local history and ledger without replacing the active market
+ok 15 - opening data records after a chart or research start loads the local history and ledger without replacing the active market
+  ---
+  duration_ms: 5.4809
+  type: 'test'
+  ...
+# Subtest: an open TCP port alone does not claim usable quotes or a successful login
+ok 16 - an open TCP port alone does not claim usable quotes or a successful login
+  ---
+  duration_ms: 2.737
+  type: 'test'
+  ...
+# Subtest: permission and login errors do not mislabel a reachable OpenD as offline
+ok 17 - permission and login errors do not mislabel a reachable OpenD as offline
+  ---
+  duration_ms: 2.5971
+  type: 'test'
+  ...
+# Subtest: successful quotes are described as returned, without asserting real-time entitlement
+ok 18 - successful quotes are described as returned, without asserting real-time entitlement
+  ---
+  duration_ms: 0.911
+  type: 'test'
+  ...
+# Subtest: disconnected and local-only modes override stale quote success
+ok 19 - disconnected and local-only modes override stale quote success
+  ---
+  duration_ms: 1.3896
+  type: 'test'
+  ...
+# Subtest: order and history records preserve Chinese, signs and text-like tags without injecting elements
+ok 20 - order and history records preserve Chinese, signs and text-like tags without injecting elements
+  ---
+  duration_ms: 23.3738
+  type: 'test'
+  ...
+# Subtest: existing side filter remains effective and empty views clearly explain missing records
+ok 21 - existing side filter remains effective and empty views clearly explain missing records
+  ---
+  duration_ms: 3.2261
+  type: 'test'
+  ...
+# Subtest: event type and JSON remain text; empty or failed reads cannot erase previous entries
+ok 22 - event type and JSON remain text; empty or failed reads cannot erase previous entries
+  ---
+  duration_ms: 2.861
+  type: 'test'
+  ...
+# Subtest: both export buttons share one flight and recover their original enabled state
+ok 23 - both export buttons share one flight and recover their original enabled state
+  ---
+  duration_ms: 3.0191
+  type: 'test'
+  ...
+# Subtest: export failures are visible, retain the last successful file path and allow a manual retry
+ok 24 - export failures are visible, retain the last successful file path and allow a manual retry
+  ---
+  duration_ms: 2.3552
+  type: 'test'
+  ...
+# Subtest: partial and alternate export receipts display row counts without claiming complete history
+ok 25 - partial and alternate export receipts display row counts without claiming complete history
+  ---
+  duration_ms: 2.2095
+  type: 'test'
+  ...
+# Subtest: incomplete export receipts fail clearly instead of replacing the successful path with undefined
+ok 26 - incomplete export receipts fail clearly instead of replacing the successful path with undefined
+  ---
+  duration_ms: 2.4961
+  type: 'test'
+  ...
+# Subtest: same selected cache digest preserves explicit reports while changed or unknown context invalidates them
+ok 27 - same selected cache digest preserves explicit reports while changed or unknown context invalidates them
+  ---
+  duration_ms: 6.462
+  type: 'test'
+  ...
+# Subtest: successful explicit local analysis has current wording and never pretends to be an AI report
+ok 28 - successful explicit local analysis has current wording and never pretends to be an AI report
+  ---
+  duration_ms: 1.8186
+  type: 'test'
+  ...
+# Subtest: HTTP and application error reasons reach the UI instead of generic 423 or api error
+ok 29 - HTTP and application error reasons reach the UI instead of generic 423 or api error
+  ---
+  duration_ms: 3.1198
+  type: 'test'
+  ...
+# Subtest: the original analysis button supports OpenAI alone and labels missing second review
+ok 30 - the original analysis button supports OpenAI alone and labels missing second review
+  ---
+  duration_ms: 2.3837
+  type: 'test'
+  ...
+# Subtest: local-only mode and missing supported keys make no analysis request
+ok 31 - local-only mode and missing supported keys make no analysis request
+  ---
+  duration_ms: 3.7374
+  type: 'test'
+  ...
+# Subtest: read-only storage allows an explicit model analysis without a persistence request
+ok 32 - read-only storage allows an explicit model analysis without a persistence request
+  ---
+  duration_ms: 1.9987
+  type: 'test'
+  ...
+# Subtest: data-quality pause and two actual model receipts have distinct presentation
+ok 33 - data-quality pause and two actual model receipts have distinct presentation
+  ---
+  duration_ms: 1.3844
+  type: 'test'
+  ...
+# Subtest: background analysis cannot replace the active chart's period or session identity
+ok 34 - background analysis cannot replace the active chart's period or session identity
+  ---
+  duration_ms: 1.0833
+  type: 'test'
+  ...
+# Subtest: provider failure receipt survives the API wrapper and reaches the original analysis cards once
+ok 35 - provider failure receipt survives the API wrapper and reaches the original analysis cards once
+  ---
+  duration_ms: 1.6008
+  type: 'test'
+  ...
+# Subtest: projection-only safety metadata cannot hide provider text or failure
+ok 36 - projection-only safety metadata cannot hide provider text or failure
+  ---
+  duration_ms: 1.177
+  type: 'test'
+  ...
+# Subtest: rapid repeated analysis clicks share one in-flight request and release the button after failure
+ok 37 - rapid repeated analysis clicks share one in-flight request and release the button after failure
+  ---
+  duration_ms: 7.3208
+  type: 'test'
+  ...
+# Subtest: missing key preflight releases the analysis button without a provider request
+ok 38 - missing key preflight releases the analysis button without a provider request
+  ---
+  duration_ms: 1.7317
+  type: 'test'
+  ...
+# Subtest: DeepSeek-only configuration displays disabled GPT without treating it as a missing key
+ok 39 - DeepSeek-only configuration displays disabled GPT without treating it as a missing key
+  ---
+  duration_ms: 1.7648
+  type: 'test'
+  ...
+# Subtest: the original analysis button works with DeepSeek alone and reports one completed provider
+ok 40 - the original analysis button works with DeepSeek alone and reports one completed provider
+  ---
+  duration_ms: 1.3125
+  type: 'test'
+  ...
+# Subtest: ordinary strategy analysis cannot silently trigger paid DeepSeek analysis
+ok 41 - ordinary strategy analysis cannot silently trigger paid DeepSeek analysis
+  ---
+  duration_ms: 1.8648
+  type: 'test'
+  ...
+# Subtest: 443 public and business subscriptions stay separate and readiness waits for both acknowledgments
+ok 42 - 443 public and business subscriptions stay separate and readiness waits for both acknowledgments
+  ---
+  duration_ms: 2.5856
+  type: 'test'
+  ...
+# Subtest: provider subscription errors remain visible even if other channels acknowledge
+ok 43 - provider subscription errors remain visible even if other channels acknowledge
+  ---
+  duration_ms: 0.3047
+  type: 'test'
+  ...
+# Subtest: obsolete socket callbacks and timers cannot write after symbol identity changes
+ok 44 - obsolete socket callbacks and timers cannot write after symbol identity changes
+  ---
+  duration_ms: 0.9609
+  type: 'test'
+  ...
+# Subtest: reconnection resubscribes and ignores late data from the closed transport
+ok 45 - reconnection resubscribes and ignores late data from the closed transport
+  ---
+  duration_ms: 0.3555
+  type: 'test'
+  ...
+# Subtest: heartbeat handles plain pong and reconnects only after a missing response
+ok 46 - heartbeat handles plain pong and reconnects only after a missing response
+  ---
+  duration_ms: 0.3326
+  type: 'test'
+  ...
+# Subtest: only public read channels are accepted and malformed frames do not crash
+ok 47 - only public read channels are accepted and malformed frames do not crash
+  ---
+  duration_ms: 17.8372
+  type: 'test'
+  ...
+# Subtest: actual app rapid symbol switch and frozen replay reject both streams and cancel reconnects
+ok 48 - actual app rapid symbol switch and frozen replay reject both streams and cancel reconnects
+  ---
+  duration_ms: 3.6931
+  type: 'test'
+  ...
+# Subtest: actual app local mode creates no sockets and helper is included once before app
+ok 49 - actual app local mode creates no sockets and helper is included once before app
+  ---
+  duration_ms: 4.6752
+  type: 'test'
+  ...
+# Subtest: strategy analysis separates local-only networking from read-only storage
+ok 50 - strategy analysis separates local-only networking from read-only storage
+  ---
+  duration_ms: 5.3705
+  type: 'test'
+  ...
+# Subtest: market response arriving after symbol switch is discarded, including switch-back
+ok 51 - market response arriving after symbol switch is discarded, including switch-back
+  ---
+  duration_ms: 4.3
+  type: 'test'
+  ...
+# Subtest: timeframe/session switches invalidate reports and keep single-flight until request completes
+ok 52 - timeframe/session switches invalidate reports and keep single-flight until request completes
+  ---
+  duration_ms: 1.6197
+  type: 'test'
+  ...
+# Subtest: explicit strategy analysis sends current form and candle completion once
+ok 53 - explicit strategy analysis sends current form and candle completion once
+  ---
+  duration_ms: 1.7447
+  type: 'test'
+  ...
+# Subtest: strategy parameter changes cannot publish an old request or hand off old AI evidence
+ok 54 - strategy parameter changes cannot publish an old request or hand off old AI evidence
+  ---
+  duration_ms: 1.977
+  type: 'test'
+  ...
+# Subtest: provider failures render safe error and local result without pretending success
+ok 55 - provider failures render safe error and local result without pretending success
+  ---
+  duration_ms: 1.4161
+  type: 'test'
+  ...
+# Subtest: only completed matching AI evidence follows a research task, without changing parameters
+ok 56 - only completed matching AI evidence follows a research task, without changing parameters
+  ---
+  duration_ms: 1.855
+  type: 'test'
+  ...
+# Subtest: intraday AI does not block creation of a daily task or pretend it is daily evidence
+ok 57 - intraday AI does not block creation of a daily task or pretend it is daily evidence
+  ---
+  duration_ms: 1.3521
+  type: 'test'
+  ...
+# Subtest: paper refresh preserves same-context manual strategy analysis without changing research direction
+ok 58 - paper refresh preserves same-context manual strategy analysis without changing research direction
+  ---
+  duration_ms: 2.5136
+  type: 'test'
+  ...
+# Subtest: Hong Kong daily chart labels keep trading dates while crypto stays UTC and frozen rows stay unchanged
+ok 59 - Hong Kong daily chart labels keep trading dates while crypto stays UTC and frozen rows stay unchanged
+  ---
+  duration_ms: 17.0146
+  type: 'test'
+  ...
+# Subtest: frozen replay clears previous-symbol live order book instead of showing it under the replay symbol
+ok 60 - frozen replay clears previous-symbol live order book instead of showing it under the replay symbol
+  ---
+  duration_ms: 1.8075
+  type: 'test'
+  ...
+# Subtest: active extended session price drives headline, market row, context, log and matching chart
+ok 61 - active extended session price drives headline, market row, context, log and matching chart
+  ---
+  duration_ms: 9.7802
+  type: 'test'
+  ...
+# Subtest: regular chart selection rejects premarket overlay while current quote remains premarket
+ok 62 - regular chart selection rejects premarket overlay while current quote remains premarket
+  ---
+  duration_ms: 1.8916
+  type: 'test'
+  ...
+# Subtest: missing extended price is explicit regular reference and never overlays current chart
+ok 63 - missing extended price is explicit regular reference and never overlays current chart
+  ---
+  duration_ms: 2.4336
+  type: 'test'
+  ...
+# Subtest: batch ticker path uses identical session price and repeated projection preserves regular origin
+ok 64 - batch ticker path uses identical session price and repeated projection preserves regular origin
+  ---
+  duration_ms: 1.8408
+  type: 'test'
+  ...
+# Subtest: session selection never weakens price-quality guard or borrows regular change evidence
+ok 65 - session selection never weakens price-quality guard or borrows regular change evidence
+  ---
+  duration_ms: 1.5011
+  type: 'test'
+  ...
+# Subtest: rejected fallback cannot replace a fresh accepted Futu quote or its session
+ok 66 - rejected fallback cannot replace a fresh accepted Futu quote or its session
+  ---
+  duration_ms: 5.283
+  type: 'test'
+  ...
+# Subtest: fresh accepted source priority also applies before batch market mutation
+ok 67 - fresh accepted source priority also applies before batch market mutation
+  ---
+  duration_ms: 1.2599
+  type: 'test'
+  ...
+# Subtest: stale future unknown invalid or untrusted current context cannot block the chart fallback
+ok 68 - stale future unknown invalid or untrusted current context cannot block the chart fallback
+  ---
+  duration_ms: 12.3149
+  type: 'test'
+  ...
+# Subtest: only bounded daily evidence for the same chart context can cross the bridge
+ok 69 - only bounded daily evidence for the same chart context can cross the bridge
+  ---
+  duration_ms: 1.1761
+  type: 'test'
+  ...
+# Subtest: receiving a reference changes no strategy/risk controls and respects deselection
+ok 70 - receiving a reference changes no strategy/risk controls and respects deselection
+  ---
+  duration_ms: 2.141
+  type: 'test'
+  ...
+# Subtest: editing a saved version keeps its original reference despite a new live context
+ok 71 - editing a saved version keeps its original reference despite a new live context
+  ---
+  duration_ms: 0.7981
+  type: 'test'
+  ...
+# Subtest: raw model text is escaped and numerical identity does not claim authentication
+ok 72 - raw model text is escaped and numerical identity does not claim authentication
+  ---
+  duration_ms: 2.1676
+  type: 'test'
+  ...
+# Subtest: save action includes only selected reference and leaves execution values unchanged
+ok 73 - save action includes only selected reference and leaves execution values unchanged
+  ---
+  duration_ms: 1.3508
+  type: 'test'
+  ...
+1..73
+# tests 73
+# suites 0
+# pass 73
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 231.3457
+TAP version 13
+# Subtest: archived development assistant explains its boundary without requests or erasing draft text
+ok 1 - archived development assistant explains its boundary without requests or erasing draft text
+  ---
+  duration_ms: 2.4015
+  type: 'test'
+  ...
+# Subtest: local-only opportunity and platform review buttons do not issue model requests
+ok 2 - local-only opportunity and platform review buttons do not issue model requests
+  ---
+  duration_ms: 1.0651
+  type: 'test'
+  ...
+# Subtest: pending operations reject shutdown without waiting or killing
+ok 3 - pending operations reject shutdown without waiting or killing
+  ---
+  duration_ms: 1.3799
+  type: 'test'
+  ...
+# Subtest: request failures and unrecognized responses cannot authorize exit
+ok 4 - request failures and unrecognized responses cannot authorize exit
+  ---
+  duration_ms: 0.4109
+  type: 'test'
+  ...
+# Subtest: confirmed shutdown waits for the owned child before allowing exit
+ok 5 - confirmed shutdown waits for the owned child before allowing exit
+  ---
+  duration_ms: 0.1586
+  type: 'test'
+  ...
+# Subtest: accepted but still-running shutdown stays pending and can be observed again
+ok 6 - accepted but still-running shutdown stays pending and can be observed again
+  ---
+  duration_ms: 0.1455
+  type: 'test'
+  ...
+# Subtest: unowned processes are never stopped
+ok 7 - unowned processes are never stopped
+  ---
+  duration_ms: 0.1098
+  type: 'test'
+  ...
+# Subtest: actual child exit and timeout clean up the exit observer
+ok 8 - actual child exit and timeout clean up the exit observer
+  ---
+  duration_ms: 4.6574
+  type: 'test'
+  ...
+# Subtest: pending health must be explicit and local-only resources stay on the exact origin
+ok 9 - pending health must be explicit and local-only resources stay on the exact origin
+  ---
+  duration_ms: 0.4963
+  type: 'test'
+  ...
+# Subtest: prepare-exit sends the exact authenticated local request contract
+ok 10 - prepare-exit sends the exact authenticated local request contract
+  ---
+  duration_ms: 0.5157
+  type: 'test'
+  ...
+# Subtest: invalid control destinations never dispatch a shutdown request
+ok 11 - invalid control destinations never dispatch a shutdown request
+  ---
+  duration_ms: 0.711
+  type: 'test'
+  ...
+# Subtest: backend reuse requires explicit matching local-only mode and preserves stricter health failures
+ok 12 - backend reuse requires explicit matching local-only mode and preserves stricter health failures
+  ---
+  duration_ms: 8.3723
+  type: 'test'
+  ...
+# Subtest: actual desktop quit handler preserves owned processes on busy and unknown outcomes
+ok 13 - actual desktop quit handler preserves owned processes on busy and unknown outcomes
+  ---
+  duration_ms: 16.9956
+  type: 'test'
+  ...
+# Subtest: window close remains cancellable while an owned backend is busy
+ok 14 - window close remains cancellable while an owned backend is busy
+  ---
+  duration_ms: 4.4645
+  type: 'test'
+  ...
+# Subtest: quitting an attached window does not stop a backend it does not own
+ok 15 - quitting an attached window does not stop a backend it does not own
+  ---
+  duration_ms: 3.6545
+  type: 'test'
+  ...
+# Subtest: actual desktop quit handler allows exit only after confirmed owned shutdown
+ok 16 - actual desktop quit handler allows exit only after confirmed owned shutdown
+  ---
+  duration_ms: 4.5761
+  type: 'test'
+  ...
+# Subtest: desktop local session guard covers websocket requests and quant startup route
+ok 17 - desktop local session guard covers websocket requests and quant startup route
+  ---
+  duration_ms: 4.023
+  type: 'test'
+  ...
+# Subtest: close exits by default even with a tray and keeps owned shutdown cooperative
+ok 18 - close exits by default even with a tray and keeps owned shutdown cooperative
+  ---
+  duration_ms: 4.8144
+  type: 'test'
+  ...
+# Subtest: tray retention requires explicit opt-in and menu exit still stops owned backend
+ok 19 - tray retention requires explicit opt-in and menu exit still stops owned backend
+  ---
+  duration_ms: 4.4682
+  type: 'test'
+  ...
+# Subtest: repeat launch focuses existing window and a losing instance never boots
+ok 20 - repeat launch focuses existing window and a losing instance never boots
+  ---
+  duration_ms: 7.31
+  type: 'test'
+  ...
+# Subtest: different quant workspace gets a distinct singleton and launch keeps legacy source separate
+ok 21 - different quant workspace gets a distinct singleton and launch keeps legacy source separate
+  ---
+  duration_ms: 9.9393
+  type: 'test'
+  ...
+# Subtest: occupied service for a different workspace never attaches, spawns or receives stop
+ok 22 - occupied service for a different workspace never attaches, spawns or receives stop
+  ---
+  duration_ms: 4.3552
+  type: 'test'
+  ...
+# Subtest: backend spawn error records a bounded-diagnostic status and leaves no process authority
+ok 23 - backend spawn error records a bounded-diagnostic status and leaves no process authority
+  ---
+  duration_ms: 4.0549
+  type: 'test'
+  ...
+# Subtest: developer legacy-only selection preserves the independent developer quant default
+ok 24 - developer legacy-only selection preserves the independent developer quant default
+  ---
+  duration_ms: 4.5802
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 181.2811
+TAP version 13
+# Subtest: current-form parameter edits are compared to the analysis snapshot without mutation
+ok 1 - current-form parameter edits are compared to the analysis snapshot without mutation
+  ---
+  duration_ms: 1.9928
+  type: 'test'
+  ...
+# Subtest: missing old rule fields remain unknown and different engines never match
+ok 2 - missing old rule fields remain unknown and different engines never match
+  ---
+  duration_ms: 0.3702
+  type: 'test'
+  ...
+# Subtest: strategy context accepts only bounded explicit scalar fields
+ok 3 - strategy context accepts only bounded explicit scalar fields
+  ---
+  duration_ms: 0.1405
+  type: 'test'
+  ...
+# Subtest: browser comparison and saved backend binding agree on valid complete and legacy cases
+ok 4 - browser comparison and saved backend binding agree on valid complete and legacy cases
+  ---
+  duration_ms: 174.4338
+  type: 'test'
+  ...
+# Subtest: saving exposes an explicit run action and its click reaches perform without pre-disabling it
+ok 5 - saving exposes an explicit run action and its click reaches perform without pre-disabling it
+  ---
+  duration_ms: 6.6577
+  type: 'test'
+  ...
+# Subtest: rendered core completion is visible before callback and auxiliary refresh
+ok 6 - rendered core completion is visible before callback and auxiliary refresh
+  ---
+  duration_ms: 1.7163
+  type: 'test'
+  ...
+# Subtest: rendered success callback exceptions never become an operation failure
+ok 7 - rendered success callback exceptions never become an operation failure
+  ---
+  duration_ms: 1.6516
+  type: 'test'
+  ...
+# Subtest: successful later render clears a previous presentation error
+ok 8 - successful later render clears a previous presentation error
+  ---
+  duration_ms: 1.3644
+  type: 'test'
+  ...
+# Subtest: rendered task-form hook preselects only a known rule without saving or running
+ok 9 - rendered task-form hook preselects only a known rule without saving or running
+  ---
+  duration_ms: 1.7741
+  type: 'test'
+  ...
+# Subtest: rendered refresh failures preserve completion without frozen showError
+ok 10 - rendered refresh failures preserve completion without frozen showError
+  ---
+  duration_ms: 1.4594
+  type: 'test'
+  ...
+# Subtest: saved-result detail read fails separately and retries only that result
+ok 11 - saved-result detail read fails separately and retries only that result
+  ---
+  duration_ms: 1.6507
+  type: 'test'
+  ...
+# Subtest: unknown job and unknown result never invoke the legacy successful-run callback
+ok 12 - unknown job and unknown result never invoke the legacy successful-run callback
+  ---
+  duration_ms: 2.6759
+  type: 'test'
+  ...
+# Subtest: error after an acknowledged job returns the saved receipt and never resubmits
+ok 13 - error after an acknowledged job returns the saved receipt and never resubmits
+  ---
+  duration_ms: 1.6928
+  type: 'test'
+  ...
+# Subtest: actual core success replaces the saved-version Run action and displays report identity before auxiliary failure
+ok 14 - actual core success replaces the saved-version Run action and displays report identity before auxiliary failure
+  ---
+  duration_ms: 3.3559
+  type: 'test'
+  ...
+# Subtest: same saved version stays read-only; a real revised immutable task gets its own Run action
+ok 15 - same saved version stays read-only; a real revised immutable task gets its own Run action
+  ---
+  duration_ms: 1.6145
+  type: 'test'
+  ...
+# Subtest: saved-version result read failure keeps completion and retries only its route id
+ok 16 - saved-version result read failure keeps completion and retries only its route id
+  ---
+  duration_ms: 2.8855
+  type: 'test'
+  ...
+# Subtest: route IDs never become missing report IDs and another task completion cannot relabel the saved card
+ok 17 - route IDs never become missing report IDs and another task completion cannot relabel the saved card
+  ---
+  duration_ms: 1.4009
+  type: 'test'
+  ...
+# Subtest: read-only navigation failure keeps the saved completion and never becomes an operation error
+ok 18 - read-only navigation failure keeps the saved completion and never becomes an operation error
+  ---
+  duration_ms: 1.9583
+  type: 'test'
+  ...
+# Subtest: actual renderer passes a pure result-navigation hook in the frozen state closure
+ok 19 - actual renderer passes a pure result-navigation hook in the frozen state closure
+  ---
+  duration_ms: 0.8836
+  type: 'test'
+  ...
+# Subtest: percentage unit round trips preserve stored ratios, count and multipliers
+ok 20 - percentage unit round trips preserve stored ratios, count and multipliers
+  ---
+  duration_ms: 1.6059
+  type: 'test'
+  ...
+# Subtest: AI form and research bridge read the same raw parameters after a percentage edit
+ok 21 - AI form and research bridge read the same raw parameters after a percentage edit
+  ---
+  duration_ms: 2.8506
+  type: 'test'
+  ...
+# Subtest: native new and revised forms render percentages but do not fill missing history parameters
+ok 22 - native new and revised forms render percentages but do not fill missing history parameters
+  ---
+  duration_ms: 1.4177
+  type: 'test'
+  ...
+# Subtest: data shortage blocks submission and failed preflight does not compute
+ok 23 - data shortage blocks submission and failed preflight does not compute
+  ---
+  duration_ms: 1.852
+  type: 'test'
+  ...
+# Subtest: late preflight response cannot overwrite changed parameters
+ok 24 - late preflight response cannot overwrite changed parameters
+  ---
+  duration_ms: 0.8936
+  type: 'test'
+  ...
+# Subtest: opening another rule form preserves the native draft rule and its parameters
+ok 25 - opening another rule form preserves the native draft rule and its parameters
+  ---
+  duration_ms: 0.7299
+  type: 'test'
+  ...
+# Subtest: completed backend fact is visible before both shell refresh and result reads
+ok 26 - completed backend fact is visible before both shell refresh and result reads
+  ---
+  duration_ms: 6.3263
+  type: 'test'
+  ...
+# Subtest: auxiliary refresh failure retains completion and opens the saved result
+ok 27 - auxiliary refresh failure retains completion and opens the saved result
+  ---
+  duration_ms: 1.1488
+  type: 'test'
+  ...
+# Subtest: detail failure has a fixed-result read retry that never computes again
+ok 28 - detail failure has a fixed-result read retry that never computes again
+  ---
+  duration_ms: 1.6772
+  type: 'test'
+  ...
+# Subtest: frozen shell returning null after its own refresh cannot erase an acknowledged result
+ok 29 - frozen shell returning null after its own refresh cannot erase an acknowledged result
+  ---
+  duration_ms: 2.2798
+  type: 'test'
+  ...
+# Subtest: unknown operation or unknown research receipt is never promoted to completion
+ok 30 - unknown operation or unknown research receipt is never promoted to completion
+  ---
+  duration_ms: 1.5053
+  type: 'test'
+  ...
+# Subtest: opening a saved result is read-only and does not claim a fresh completion
+ok 31 - opening a saved result is read-only and does not claim a fresh completion
+  ---
+  duration_ms: 1.0631
+  type: 'test'
+  ...
+# Subtest: late detail response cannot replace a newer user-selected saved result
+ok 32 - late detail response cannot replace a newer user-selected saved result
+  ---
+  duration_ms: 1.4537
+  type: 'test'
+  ...
+# Subtest: a rendering exception after success stays a UI issue and returns the saved receipt
+ok 33 - a rendering exception after success stays a UI issue and returns the saved receipt
+  ---
+  duration_ms: 1.0955
+  type: 'test'
+  ...
+# Subtest: native summary uses recorded identity, percent rate and basis-point slippage without mutating input
+ok 34 - native summary uses recorded identity, percent rate and basis-point slippage without mutating input
+  ---
+  duration_ms: 1.6662
+  type: 'test'
+  ...
+# Subtest: partial old results do not fabricate currency, capital, fills, closed positions or holdings
+ok 35 - partial old results do not fabricate currency, capital, fills, closed positions or holdings
+  ---
+  duration_ms: 0.1777
+  type: 'test'
+  ...
+# Subtest: partial ledger lengths and old trades aliases cannot become total fills or closed-position counts
+ok 36 - partial ledger lengths and old trades aliases cannot become total fills or closed-position counts
+  ---
+  duration_ms: 0.8465
+  type: 'test'
+  ...
+# Subtest: held positions remain explicit and zero completed rounds does not imply zero fills
+ok 37 - held positions remain explicit and zero completed rounds does not imply zero fills
+  ---
+  duration_ms: 0.1575
+  type: 'test'
+  ...
+# Subtest: canonical raw report retains its own contract, recorded signal evidence and sample limitations
+ok 38 - canonical raw report retains its own contract, recorded signal evidence and sample limitations
+  ---
+  duration_ms: 0.3652
+  type: 'test'
+  ...
+# Subtest: native last pending signal is only a bounded explanation, never a full zero-fill diagnosis
+ok 39 - native last pending signal is only a bounded explanation, never a full zero-fill diagnosis
+  ---
+  duration_ms: 0.2936
+  type: 'test'
+  ...
+# Subtest: current core detail uses only stored requested fields and never invents USD or absent accounting
+ok 40 - current core detail uses only stored requested fields and never invents USD or absent accounting
+  ---
+  duration_ms: 0.3051
+  type: 'test'
+  ...
+# Subtest: unknown and unverified records do not gain completion or zero-fill explanations
+ok 41 - unknown and unverified records do not gain completion or zero-fill explanations
+  ---
+  duration_ms: 0.3845
+  type: 'test'
+  ...
+# Subtest: invalid numbers are missing instead of coerced to zero and every rendered value is escaped
+ok 42 - invalid numbers are missing instead of coerced to zero and every rendered value is escaped
+  ---
+  duration_ms: 0.6181
+  type: 'test'
+  ...
+# Subtest: verified original route uses only private Python with separate Unicode arguments
+ok 43 - verified original route uses only private Python with separate Unicode arguments
+  ---
+  duration_ms: 47.5484
+  type: 'test'
+  ...
+# Subtest: changed executable bytes and unexpected modules fail before launch
+ok 44 - changed executable bytes and unexpected modules fail before launch
+  ---
+  duration_ms: 29.827
+  type: 'test'
+  ...
+# Subtest: missing resource and manifest identity tampering fail closed
+ok 45 - missing resource and manifest identity tampering fail closed
+  ---
+  duration_ms: 12.7341
+  type: 'test'
+  ...
+# Subtest: existing backend requires exact package, mode and physical workspace
+ok 46 - existing backend requires exact package, mode and physical workspace
+  ---
+  duration_ms: 11.5606
+  type: 'test'
+  ...
+# Subtest: workspace is separate from immutable program and stable across versions
+ok 47 - workspace is separate from immutable program and stable across versions
+  ---
+  duration_ms: 40.5346
+  type: 'test'
+  ...
+# Subtest: directory junction and escaping relative resources are rejected
+ok 48 - directory junction and escaping relative resources are rejected
+  ---
+  duration_ms: 8.401
+  type: 'test'
+  ...
+# Subtest: quant workspace stays distinct from the legacy read root and singleton key uses installation plus workspace
+ok 49 - quant workspace stays distinct from the legacy read root and singleton key uses installation plus workspace
+  ---
+  duration_ms: 69.0755
+  type: 'test'
+  ...
+# Subtest: data directories reject relative paths, package storage and junction aliases including missing children
+ok 50 - data directories reject relative paths, package storage and junction aliases including missing children
+  ---
+  duration_ms: 91.4326
+  type: 'test'
+  ...
+# Subtest: installed Electron health contract loads its package capability resource with no source tree
+ok 51 - installed Electron health contract loads its package capability resource with no source tree
+  ---
+  duration_ms: 646.0539
+  type: 'test'
+  ...
+# Subtest: actual packaged main resolves boot, icon, contract and private backend without a source checkout
+ok 52 - actual packaged main resolves boot, icon, contract and private backend without a source checkout
+  ---
+  duration_ms: 98.4467
+  type: 'test'
+  ...
+# Subtest: diagnostic configuration overrides inherited log destinations without writing program files
+ok 53 - diagnostic configuration overrides inherited log destinations without writing program files
+  ---
+  duration_ms: 18.146
+  type: 'test'
+  ...
+# Subtest: startup stderr is bounded, redacted across chunks and frozen at completion
+ok 54 - startup stderr is bounded, redacted across chunks and frozen at completion
+  ---
+  duration_ms: 14.5562
+  type: 'test'
+  ...
+# Subtest: absent Crashpad pipe stays absent and mixed-case foreign endpoints never reach Python
+ok 55 - absent Crashpad pipe stays absent and mixed-case foreign endpoints never reach Python
+  ---
+  duration_ms: 12.0001
+  type: 'test'
+  ...
+# Subtest: a startup diagnostic write failure preserves existing bytes and cannot interrupt lifecycle
+ok 56 - a startup diagnostic write failure preserves existing bytes and cannot interrupt lifecycle
+  ---
+  duration_ms: 13.8781
+  type: 'test'
+  ...
+# Subtest: first creation fixes physical identity before singleton derivation and never creates a distinct old source
+ok 57 - first creation fixes physical identity before singleton derivation and never creates a distinct old source
+  ---
+  duration_ms: 39.818
+  type: 'test'
+  ...
+# Subtest: health matching rejects junction aliases and invalid paths instead of equating failures
+ok 58 - health matching rejects junction aliases and invalid paths instead of equating failures
+  ---
+  duration_ms: 8.7437
+  type: 'test'
+  ...
+# Subtest: virtualized creation, native health paths and bundle resources share one physical identity
+ok 59 - virtualized creation, native health paths and bundle resources share one physical identity
+  ---
+  duration_ms: 77.2915
+  type: 'test'
+  ...
+# Subtest: legacy-only selection keeps quant on its stable default without creating or writing the old root
+ok 60 - legacy-only selection keeps quant on its stable default without creating or writing the old root
+  ---
+  duration_ms: 38.6185
+  type: 'test'
+  ...
+1..60
+# tests 60
+# suites 0
+# pass 60
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1431.4248
+TAP version 13
+# Subtest: source/account reads never select orders or start a computation
+ok 1 - source/account reads never select orders or start a computation
+  ---
+  duration_ms: 1.9335
+  type: 'test'
+  ...
+# Subtest: complete receipt survives auxiliary read failure and a shell exception after callback
+ok 2 - complete receipt survives auxiliary read failure and a shell exception after callback
+  ---
+  duration_ms: 0.6799
+  type: 'test'
+  ...
+# Subtest: a pre-write account read cannot overwrite acknowledged reserved cash after shell failure
+ok 3 - a pre-write account read cannot overwrite acknowledged reserved cash after shell failure
+  ---
+  duration_ms: 0.7986
+  type: 'test'
+  ...
+# Subtest: unknown request is read back by its original id and never automatically resubmitted
+ok 4 - unknown request is read back by its original id and never automatically resubmitted
+  ---
+  duration_ms: 0.699
+  type: 'test'
+  ...
+# Subtest: late source and account reads cannot replace a newer user selection
+ok 5 - late source and account reads cannot replace a newer user selection
+  ---
+  duration_ms: 0.4114
+  type: 'test'
+  ...
+# Subtest: missing trusted security metadata and same-label different identity block new plans
+ok 6 - missing trusted security metadata and same-label different identity block new plans
+  ---
+  duration_ms: 0.4761
+  type: 'test'
+  ...
+# Subtest: an order cannot choose another security than its saved plan
+ok 7 - an order cannot choose another security than its saved plan
+  ---
+  duration_ms: 0.5835
+  type: 'test'
+  ...
+# Subtest: reconciliation prefill contains identities only, never local economic observations
+ok 8 - reconciliation prefill contains identities only, never local economic observations
+  ---
+  duration_ms: 0.6659
+  type: 'test'
+  ...
+# Subtest: reconciliation requires explicit cash/order/position entries and sends those values unchanged
+ok 9 - reconciliation requires explicit cash/order/position entries and sends those values unchanged
+  ---
+  duration_ms: 1.9013
+  type: 'test'
+  ...
+# Subtest: stale reconciliation revision and failed account reads block mutation without new requests
+ok 10 - stale reconciliation revision and failed account reads block mutation without new requests
+  ---
+  duration_ms: 2.1236
+  type: 'test'
+  ...
+# Subtest: late context comparison cannot overwrite a newly selected plan
+ok 11 - late context comparison cannot overwrite a newly selected plan
+  ---
+  duration_ms: 0.4955
+  type: 'test'
+  ...
+# Subtest: preview requires explicit direction and writes nothing until separate confirmation
+ok 12 - preview requires explicit direction and writes nothing until separate confirmation
+  ---
+  duration_ms: 1.2161
+  type: 'test'
+  ...
+# Subtest: changed source, account revision and edited order each invalidate the original preview
+ok 13 - changed source, account revision and edited order each invalidate the original preview
+  ---
+  duration_ms: 1.2952
+  type: 'test'
+  ...
+# Subtest: clearing a selection cancels pending reads and cannot retain an actionable preview
+ok 14 - clearing a selection cancels pending reads and cannot retain an actionable preview
+  ---
+  duration_ms: 0.7505
+  type: 'test'
+  ...
+# Subtest: confirmed preview with unknown receipt retains its request and never submits again
+ok 15 - confirmed preview with unknown receipt retains its request and never submits again
+  ---
+  duration_ms: 0.7952
+  type: 'test'
+  ...
+# Subtest: six-group explanation uses read-only resource with account context and preserves preview
+ok 16 - six-group explanation uses read-only resource with account context and preserves preview
+  ---
+  duration_ms: 1.4096
+  type: 'test'
+  ...
+# Subtest: explanation reads reject wrong identity, revision, schema and external permissions
+ok 17 - explanation reads reject wrong identity, revision, schema and external permissions
+  ---
+  duration_ms: 2.9902
+  type: 'test'
+  ...
+# Subtest: late explanation success or error cannot override changed account context or ledger
+ok 18 - late explanation success or error cannot override changed account context or ledger
+  ---
+  duration_ms: 2.0115
+  type: 'test'
+  ...
+# Subtest: explanation HTML keeps six groups, units, read-only evidence and escapes report text
+ok 19 - explanation HTML keeps six groups, units, read-only evidence and escapes report text
+  ---
+  duration_ms: 0.5332
+  type: 'test'
+  ...
+# Subtest: human version labels preserve recorded identity and never invent missing revisions
+ok 20 - human version labels preserve recorded identity and never invent missing revisions
+  ---
+  duration_ms: 0.357
+  type: 'test'
+  ...
+# Subtest: human version formatting cannot weaken exact preview version binding
+ok 21 - human version formatting cannot weaken exact preview version binding
+  ---
+  duration_ms: 0.493
+  type: 'test'
+  ...
+# Subtest: saved report review requires every report/task/input/engine/parameter/source/fingerprint binding
+ok 22 - saved report review requires every report/task/input/engine/parameter/source/fingerprint binding
+  ---
+  duration_ms: 1.4297
+  type: 'test'
+  ...
+# Subtest: read-only factors use exact saved raw parameters/cutoff and an explicitly selected position scenario
+ok 23 - read-only factors use exact saved raw parameters/cutoff and an explicitly selected position scenario
+  ---
+  duration_ms: 1.7638
+  type: 'test'
+  ...
+# Subtest: matching report IDs cannot hide different plan rule parameters in an order preview
+ok 24 - matching report IDs cannot hide different plan rule parameters in an order preview
+  ---
+  duration_ms: 0.4361
+  type: 'test'
+  ...
+# Subtest: factor identity, raw parameters, code fingerprint, historical cutoff and scenario cannot be substituted
+ok 25 - factor identity, raw parameters, code fingerprint, historical cutoff and scenario cannot be substituted
+  ---
+  duration_ms: 0.865
+  type: 'test'
+  ...
+# Subtest: factor read errors preserve an already successful order preview and prior completion fact
+ok 26 - factor read errors preserve an already successful order preview and prior completion fact
+  ---
+  duration_ms: 0.7699
+  type: 'test'
+  ...
+# Subtest: late factor success and failure cannot replace a changed source, account revision, scenario or newer preview
+ok 27 - late factor success and failure cannot replace a changed source, account revision, scenario or newer preview
+  ---
+  duration_ms: 13.7765
+  type: 'test'
+  ...
+# Subtest: old-engine or incomplete report stays unavailable and never falls back to a same-name strategy
+ok 28 - old-engine or incomplete report stays unavailable and never falls back to a same-name strategy
+  ---
+  duration_ms: 0.4235
+  type: 'test'
+  ...
+# Subtest: rule review displays historical dates, percent units and explicit explanation provenance without HTML injection
+ok 29 - rule review displays historical dates, percent units and explicit explanation provenance without HTML injection
+  ---
+  duration_ms: 12.993
+  type: 'test'
+  ...
+# Subtest: rule review separates legacy 3% stop compatibility from the report's actual 8% execution risk without changing raw parameters
+ok 30 - rule review separates legacy 3% stop compatibility from the report's actual 8% execution risk without changing raw parameters
+  ---
+  duration_ms: 0.8999
+  type: 'test'
+  ...
+# Subtest: factor-review DOM: explicit GET only, preview survives read failure, scenario invalidates at 1280 and 480
+ok 31 - factor-review DOM: explicit GET only, preview survives read failure, scenario invalidates at 1280 and 480
+  ---
+  duration_ms: 1852.4351
+  type: 'test'
+  ...
+# Subtest: missing cost is not zero and unknown conditions never expose a supplied delta
+ok 32 - missing cost is not zero and unknown conditions never expose a supplied delta
+  ---
+  duration_ms: 13.1204
+  type: 'test'
+  ...
+# Subtest: only comparable records display descriptive percentage point differences
+ok 33 - only comparable records display descriptive percentage point differences
+  ---
+  duration_ms: 0.5838
+  type: 'test'
+  ...
+# Subtest: ratio values and both inclusive boundaries use the same percent units
+ok 34 - ratio values and both inclusive boundaries use the same percent units
+  ---
+  duration_ms: 13.5581
+  type: 'test'
+  ...
+# Subtest: a BUY on insufficient data cannot offer strategy selection
+ok 35 - a BUY on insufficient data cannot offer strategy selection
+  ---
+  duration_ms: 0.4125
+  type: 'test'
+  ...
+# Subtest: missing factor is not zero and observed EXIT is not described as a new buy
+ok 36 - missing factor is not zero and observed EXIT is not described as a new buy
+  ---
+  duration_ms: 0.2673
+  type: 'test'
+  ...
+# Subtest: provider and strategy text is escaped in visible reasons and raw details
+ok 37 - provider and strategy text is escaped in visible reasons and raw details
+  ---
+  duration_ms: 0.3538
+  type: 'test'
+  ...
+# Subtest: saved matcher requires full immutable data/rule/parameter/cutoff identities including compatibility fields
+ok 38 - saved matcher requires full immutable data/rule/parameter/cutoff identities including compatibility fields
+  ---
+  duration_ms: 1.2314
+  type: 'test'
+  ...
+# Subtest: unique completed match reads original detail before opening and never calls new draft
+ok 39 - unique completed match reads original detail before opening and never calls new draft
+  ---
+  duration_ms: 1.6925
+  type: 'test'
+  ...
+# Subtest: multiple matches and incomplete unique indexes require explicit choice and show actual risk/costs
+ok 40 - multiple matches and incomplete unique indexes require explicit choice and show actual risk/costs
+  ---
+  duration_ms: 1.7584
+  type: 'test'
+  ...
+# Subtest: zero matches offers an explicit draft; errors never silently become no-history or a draft
+ok 41 - zero matches offers an explicit draft; errors never silently become no-history or a draft
+  ---
+  duration_ms: 0.3843
+  type: 'test'
+  ...
+# Subtest: detail failure retries only the original report with the original match and frozen index terms
+ok 42 - detail failure retries only the original report with the original match and frozen index terms
+  ---
+  duration_ms: 0.6379
+  type: 'test'
+  ...
+# Subtest: changed input/parameters/candidate scope discards both late list and late detail responses
+ok 43 - changed input/parameters/candidate scope discards both late list and late detail responses
+  ---
+  duration_ms: 4.8411
+  type: 'test'
+  ...
+# Subtest: different candidate replaces an in-flight lookup and duplicate report identity conflicts are refused
+ok 44 - different candidate replaces an in-flight lookup and duplicate report identity conflicts are refused
+  ---
+  duration_ms: 0.679
+  type: 'test'
+  ...
+1..44
+# tests 44
+# suites 0
+# pass 44
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2000.9398
+TAP version 13
+# Subtest: offline reveal and refresh only read saved records, with provider controls disabled
+ok 1 - offline reveal and refresh only read saved records, with provider controls disabled
+  ---
+  duration_ms: 544.187
+  type: 'test'
+  ...
+# Subtest: explicit check, exact security confirmation, save, and optional native import remain separate
+ok 2 - explicit check, exact security confirmation, save, and optional native import remain separate
+  ---
+  duration_ms: 362.6561
+  type: 'test'
+  ...
+# Subtest: saved success survives a later shared refresh failure and is not retried
+ok 3 - saved success survives a later shared refresh failure and is not retried
+  ---
+  duration_ms: 241.7092
+  type: 'test'
+  ...
+# Subtest: unknown submission blocks repeat actions, while GET recovery uses the original operation identity
+ok 4 - unknown submission blocks repeat actions, while GET recovery uses the original operation identity
+  ---
+  duration_ms: 233.2927
+  type: 'test'
+  ...
+# Subtest: saved receipt recovery does not resubmit an uncertain save
+ok 5 - saved receipt recovery does not resubmit an uncertain save
+  ---
+  duration_ms: 240.1855
+  type: 'test'
+  ...
+# Subtest: recorded UNKNOWN remains unknown after reread and never enables a second check
+ok 6 - recorded UNKNOWN remains unknown after reread and never enables a second check
+  ---
+  duration_ms: 206.7197
+  type: 'test'
+  ...
+# Subtest: historical revisions require acknowledgment and freeze preserves distinct prior input identity
+ok 7 - historical revisions require acknowledgment and freeze preserves distinct prior input identity
+  ---
+  duration_ms: 232.5302
+  type: 'test'
+  ...
+# Subtest: UNCHANGED, failed, and new-daily states use actual status and expose only eligible save
+ok 8 - UNCHANGED, failed, and new-daily states use actual status and expose only eligible save
+  ---
+  duration_ms: 877.2546
+  type: 'test'
+  ...
+# Subtest: explicit update check is the only update request and double submit cannot issue another
+ok 9 - explicit update check is the only update request and double submit cannot issue another
+  ---
+  duration_ms: 248.7866
+  type: 'test'
+  ...
+# Subtest: partial and hostile stored fields stay unrecorded or literal, with mobile layout and import uncertainty
+ok 10 - partial and hostile stored fields stay unrecorded or literal, with mobile layout and import uncertainty
+  ---
+  duration_ms: 379.0213
+  type: 'test'
+  ...
+# Subtest: recorded missing sessions and corporate-action failure are visible without guessing
+ok 11 - recorded missing sessions and corporate-action failure are visible without guessing
+  ---
+  duration_ms: 270.6773
+  type: 'test'
+  ...
+# Subtest: another canonical identity cannot be presented as a completed native import
+ok 12 - another canonical identity cannot be presented as a completed native import
+  ---
+  duration_ms: 266.2373
+  type: 'test'
+  ...
+# Subtest: grant failure reports not started and permits a new explicit click without an unknown job
+ok 13 - grant failure reports not started and permits a new explicit click without an unknown job
+  ---
+  duration_ms: 294.7576
+  type: 'test'
+  ...
+# Subtest: known queued permission refusal unlocks UI and reports actual zero attempts
+ok 14 - known queued permission refusal unlocks UI and reports actual zero attempts
+  ---
+  duration_ms: 268.7879
+  type: 'test'
+  ...
+# Subtest: stop during in-flight fetch blocks later use without claiming cancellation or losing returned record
+ok 15 - stop during in-flight fetch blocks later use without claiming cancellation or losing returned record
+  ---
+  duration_ms: 471.9644
+  type: 'test'
+  ...
+# Subtest: hiding during a delayed grant revokes its late permission and never submits the job
+ok 16 - hiding during a delayed grant revokes its late permission and never submits the job
+  ---
+  duration_ms: 265.048
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6009.9557
+TAP version 13
+# Subtest: reads never choose an account, side, candidate mode or create an intent
+ok 1 - reads never choose an account, side, candidate mode or create an intent
+  ---
+  duration_ms: 1.9806
+  type: 'test'
+  ...
+# Subtest: missing candidate fields remain missing and checking saves only local config
+ok 2 - missing candidate fields remain missing and checking saves only local config
+  ---
+  duration_ms: 2.9149
+  type: 'test'
+  ...
+# Subtest: complete check requires separate confirmation; unchanged recheck is GET only
+ok 3 - complete check requires separate confirmation; unchanged recheck is GET only
+  ---
+  duration_ms: 0.9258
+  type: 'test'
+  ...
+# Subtest: editing form or switching mode cannot reuse an earlier check or account
+ok 4 - editing form or switching mode cannot reuse an earlier check or account
+  ---
+  duration_ms: 0.9559
+  type: 'test'
+  ...
+# Subtest: UNKNOWN keeps original request and NOT_RECORDED cannot permit a second submission
+ok 5 - UNKNOWN keeps original request and NOT_RECORDED cannot permit a second submission
+  ---
+  duration_ms: 0.6797
+  type: 'test'
+  ...
+# Subtest: an acknowledged save survives post-success callback and refresh failure
+ok 6 - an acknowledged save survives post-success callback and refresh failure
+  ---
+  duration_ms: 0.5873
+  type: 'test'
+  ...
+# Subtest: stop bypasses a blocked save and never goes through perform
+ok 7 - stop bypasses a blocked save and never goes through perform
+  ---
+  duration_ms: 0.6345
+  type: 'test'
+  ...
+# Subtest: lost stop response recovers receipt.id without requiring a circular result id
+ok 8 - lost stop response recovers receipt.id without requiring a circular result id
+  ---
+  duration_ms: 0.4177
+  type: 'test'
+  ...
+# Subtest: resume explicitly binds latest stop plus reason and never restores external permissions
+ok 9 - resume explicitly binds latest stop plus reason and never restores external permissions
+  ---
+  duration_ms: 0.7576
+  type: 'test'
+  ...
+# Subtest: wrong receipt mode/action/request and unexpected permissions never clear UNKNOWN
+ok 10 - wrong receipt mode/action/request and unexpected permissions never clear UNKNOWN
+  ---
+  duration_ms: 1.0812
+  type: 'test'
+  ...
+# Subtest: stale saved research read cannot overwrite a changed selection or clearing
+ok 11 - stale saved research read cannot overwrite a changed selection or clearing
+  ---
+  duration_ms: 0.3732
+  type: 'test'
+  ...
+# Subtest: foreign native binding and cross-mode receipt inventory are rejected
+ok 12 - foreign native binding and cross-mode receipt inventory are rejected
+  ---
+  duration_ms: 0.3467
+  type: 'test'
+  ...
+# Subtest: field parsing preserves numeric account IDs and missing fields without made-up values
+ok 13 - field parsing preserves numeric account IDs and missing fields without made-up values
+  ---
+  duration_ms: 0.2506
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103.982
+TAP version 13
+# Subtest: canonical hash agrees with Python ASCII compact sorted-key fixture including Unicode
+ok 1 - canonical hash agrees with Python ASCII compact sorted-key fixture including Unicode
+  ---
+  duration_ms: 5.7346
+  type: 'test'
+  ...
+# Subtest: user percent input converts by exact decimal shifts without rounding at the service boundary
+ok 2 - user percent input converts by exact decimal shifts without rounding at the service boundary
+  ---
+  duration_ms: 0.833
+  type: 'test'
+  ...
+# Subtest: controller installation and source/input population have no read, mutation or storage effects
+ok 3 - controller installation and source/input population have no read, mutation or storage effects
+  ---
+  duration_ms: 0.5018
+  type: 'test'
+  ...
+# Subtest: every edited create parameter invalidates preview and model confirmation; nothing is created by preview
+ok 4 - every edited create parameter invalidates preview and model confirmation; nothing is created by preview
+  ---
+  duration_ms: 1.0064
+  type: 'test'
+  ...
+# Subtest: successful create is persisted before sending; exact acknowledgement clears pending without an auxiliary receipt dependency
+ok 5 - successful create is persisted before sending; exact acknowledgement clears pending without an auxiliary receipt dependency
+  ---
+  duration_ms: 2.4807
+  type: 'test'
+  ...
+# Subtest: storage failure or unverified storage write prevents any submission
+ok 6 - storage failure or unverified storage write prevents any submission
+  ---
+  duration_ms: 0.6431
+  type: 'test'
+  ...
+# Subtest: lost create response survives a new controller and reveal reads; only querying the same receipt clears it
+ok 7 - lost create response survives a new controller and reveal reads; only querying the same receipt clears it
+  ---
+  duration_ms: 1.1509
+  type: 'test'
+  ...
+# Subtest: not found and PENDING are not retry permission and cannot erase original request
+ok 8 - not found and PENDING are not retry permission and cannot erase original request
+  ---
+  duration_ms: 0.5413
+  type: 'test'
+  ...
+# Subtest: wrong workspace/account/action/hash/request identities never clear a pending request
+ok 9 - wrong workspace/account/action/hash/request identities never clear a pending request
+  ---
+  duration_ms: 2.2129
+  type: 'test'
+  ...
+# Subtest: malformed durable record is preserved and blocks new submissions
+ok 10 - malformed durable record is preserved and blocks new submissions
+  ---
+  duration_ms: 0.4089
+  type: 'test'
+  ...
+# Subtest: seed and step use server dates/count and advance only on explicit separate actions
+ok 11 - seed and step use server dates/count and advance only on explicit separate actions
+  ---
+  duration_ms: 0.9552
+  type: 'test'
+  ...
+# Subtest: pause has its own direct lane and original in-flight step identity; it never uses Jobs
+ok 12 - pause has its own direct lane and original in-flight step identity; it never uses Jobs
+  ---
+  duration_ms: 2.9924
+  type: 'test'
+  ...
+# Subtest: recovery review and resume are separate and neither automatically steps
+ok 13 - recovery review and resume are separate and neither automatically steps
+  ---
+  duration_ms: 1.18
+  type: 'test'
+  ...
+# Subtest: adopt requires an explicitly selected available saved input and confirmation, and no step
+ok 14 - adopt requires an explicitly selected available saved input and confirmation, and no step
+  ---
+  duration_ms: 0.5722
+  type: 'test'
+  ...
+# Subtest: saved success is never changed to operation failure by shell or state read errors
+ok 15 - saved success is never changed to operation failure by shell or state read errors
+  ---
+  duration_ms: 0.4552
+  type: 'test'
+  ...
+# Subtest: exact typed before-write refusal clears with no retry; a generic refusal still stays unknown
+ok 16 - exact typed before-write refusal clears with no retry; a generic refusal still stays unknown
+  ---
+  duration_ms: 0.6442
+  type: 'test'
+  ...
+# Subtest: parallel submit attempts cannot overtake async digest or overwrite a durable request
+ok 17 - parallel submit attempts cannot overtake async digest or overwrite a durable request
+  ---
+  duration_ms: 0.3102
+  type: 'test'
+  ...
+# Subtest: double receipt query cannot clear the same persisted record twice or create a false storage failure
+ok 18 - double receipt query cannot clear the same persisted record twice or create a false storage failure
+  ---
+  duration_ms: 2.0838
+  type: 'test'
+  ...
+# Subtest: a stale source preview response cannot restore confirmation after edits
+ok 19 - a stale source preview response cannot restore confirmation after edits
+  ---
+  duration_ms: 1.0325
+  type: 'test'
+  ...
+# Subtest: workspace change during digest blocks sending before persistence
+ok 20 - workspace change during digest blocks sending before persistence
+  ---
+  duration_ms: 0.5629
+  type: 'test'
+  ...
+# Subtest: account labels present the original human name and version without inventing a version
+ok 21 - account labels present the original human name and version without inventing a version
+  ---
+  duration_ms: 0.4103
+  type: 'test'
+  ...
+# Subtest: real DOM: explicit creation and next-day flow, percent display, lost response and read-only remount at 1280/480
+ok 22 - real DOM: explicit creation and next-day flow, percent display, lost response and read-only remount at 1280/480
+  ---
+  duration_ms: 1673.0638
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1781.1721

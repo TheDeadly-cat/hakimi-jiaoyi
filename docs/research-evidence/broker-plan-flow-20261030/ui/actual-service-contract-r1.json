@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "fixture_kind": "SYNTHETIC_TEST_ONLY_NO_SDK_OR_MARKET_EVIDENCE",
+  "fixture_sha256": "22492e678c92349410ca860e7778c5e43815e5bc35684476a3055c60284df601",
+  "fixture_mtime_unchanged": true,
+  "requests": [
+    "terminal_broker_plans/%7B%22mode%22%3A%22OFFICIAL_SIMULATION%22%7D",
+    "terminal_broker_plan_receipt/%7B%22mode%22%3A%22OFFICIAL_SIMULATION%22%2C%22request_id%22%3A%22plan-synthetic-0001%22%7D",
+    "terminal_broker_plan/%7B%22mode%22%3A%22OFFICIAL_SIMULATION%22%2C%22plan_id%22%3A%22f7046c6d9d91d3449933385df39c2159691d4cacc26b814e7f1fc447efbe754b%22%7D"
+  ],
+  "post_count": 0,
+  "sdk_calls": 0,
+  "external_calls": 0
+}

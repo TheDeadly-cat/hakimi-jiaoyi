@@ -1,0 +1,27 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "tests.test_terminal_broker_execution_journal"
+  ],
+  "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot",
+  "exit_code": 0,
+  "elapsed_seconds": 4.925159500009613,
+  "before": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "0ef50515b43ee4ce507f2525bde38c6c3921cf31a01b4ca4eb4c0a8d51db92ec",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_profile.py": "72242c9a817ff06494880e8b77f168489ece291167c09fb7e8da09f4d0f76367",
+    "outputs/python_quant_bot/tests/test_terminal_broker_execution_journal.py": "ba0c4afac1cf5db940c2bf423c7264bf46e6c5a6a7de82083d4c3fb6032830ec"
+  },
+  "after": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "0ef50515b43ee4ce507f2525bde38c6c3921cf31a01b4ca4eb4c0a8d51db92ec",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_profile.py": "72242c9a817ff06494880e8b77f168489ece291167c09fb7e8da09f4d0f76367",
+    "outputs/python_quant_bot/tests/test_terminal_broker_execution_journal.py": "ba0c4afac1cf5db940c2bf423c7264bf46e6c5a6a7de82083d4c3fb6032830ec"
+  },
+  "source_unchanged": true,
+  "scope": "New TEMP synthetic journal tests after source contract adds exact frame_bytes and possible_sent_bytes. No SDK/network/server/research or existing database access. Old evidence retained."
+}

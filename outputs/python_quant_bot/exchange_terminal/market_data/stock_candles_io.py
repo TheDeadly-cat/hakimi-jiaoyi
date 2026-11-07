@@ -366,6 +366,76 @@ def prepare_stock_candle_cache_rows(
     )
 
 
+def reconcile_stock_candle_delivery(
+    payload: dict[str, Any],
+    symbol: str,
+    interval: str,
+    session: str,
+    *,
+    provider_payload: dict[str, Any],
+) -> dict[str, Any]:
+    """Describe delivered cache-vintage rows, without changing rows or ledgers."""
+    vintage = dict(payload.get("cache_vintage") or {})
+    if not (vintage.get("retained_completed_count") or vintage.get("chain_linked")):
+        return payload
+    rows = list(payload.get("rows") or [])
+    sources = sorted({str(row.get("source") or "unknown").lower() for row in rows})
+    origin = sources[0] if len(sources) == 1 else "mixed"
+    basis = str(vintage.get("adjustment_basis") or "UNKNOWN")
+    coverage = "EMBEDDED_PROVIDER_CONTRACT" if basis in _COMPATIBLE_FORWARD_ADJUSTED_BASES else "UNKNOWN"
+    original_evidence = dict(provider_payload.get("adjustment_evidence") or {})
+    evidence = build_adjustment_evidence(
+        symbol=symbol, rows=rows, source=origin, adjustment_basis=basis,
+        corporate_actions=list(payload.get("corporate_actions") or []),
+        corporate_action_coverage=coverage,
+        interval=stock_cache_interval(interval), session=clean_stock_session(session),
+    )
+    # A response correction cannot grant authority absent from either prior gate.
+    revision = dict(payload.get("data_revision_evidence") or {})
+    def prior_status(gate: dict[str, Any]) -> str:
+        value = gate.get("status")
+        return value if type(value) is str and value in {"PASS", "REVIEW", "BLOCK"} else "UNVERIFIED"
+
+    prior_gates = {
+        "provider_adjustment": {"status": prior_status(original_evidence),
+                                "backtest_eligible": original_evidence.get("backtest_eligible") is True},
+        "accepted_cache": {"status": prior_status(revision)},
+    }
+    evidence["delivery_prior_gates"] = prior_gates
+    restricted = [
+        name for name, gate in prior_gates.items()
+        if gate["status"] != "PASS" or (name == "provider_adjustment" and gate["backtest_eligible"] is not True)
+    ]
+    if restricted:
+        # Non-basis gate failures remain BLOCK under the canonical evidence contract.
+        evidence["status"] = "BLOCK"
+        evidence["backtest_eligible"] = False
+        evidence["blockers"] = list(evidence.get("blockers") or []) + [f"delivery_prior_gate_not_pass:{name}" for name in restricted]
+    evidence["evidence_hash"] = _canonical_hash({key: value for key, value in evidence.items() if key != "evidence_hash"})
+    observed_rows = list(provider_payload.get("rows") or [])
+    return {
+        **payload,
+        "source": "stock_sqlite_cache",
+        "origin_source": origin,
+        "origin_sources": sources,
+        "cached": True,
+        "adjustment_basis": basis,
+        "corporate_action_coverage": coverage,
+        "adjustment_evidence": evidence,
+        "delivery_note": "completed history retains the accepted cache vintage; provider observation is separate",
+        "provider_observation": {
+            "source": str(provider_payload.get("source") or "unknown"),
+            "adjustment_basis": str(provider_payload.get("adjustment_basis") or "UNKNOWN"),
+            "row_count": len(observed_rows),
+            "rows_hash": _canonical_hash(observed_rows),
+            "latest_row": dict(observed_rows[-1]) if observed_rows else None,
+            "adjustment_evidence": original_evidence,
+            "revision_evidence": dict(payload.get("provider_revision_evidence") or {}),
+            "delivered_as_provider_rows": False,
+        },
+    }
+
+
 def upsert_stock_candle_cache(
     symbol: str,
     interval: str,

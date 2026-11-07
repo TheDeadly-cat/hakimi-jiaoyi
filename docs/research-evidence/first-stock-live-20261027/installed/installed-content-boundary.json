@@ -1,0 +1,175 @@
+{
+  "account_calls": 0,
+  "actual_cold_legacy_menu": true,
+  "blocked_content_readable": true,
+  "checkout_data_used": false,
+  "data_kind": "SYNTHETIC_TEST",
+  "historical_reports_modified": false,
+  "legal_zero_fill_readable": true,
+  "menu_tasks": [
+    {
+      "configuration_checked": true,
+      "run_view_checked": true,
+      "strategy": "price.dual_ma@1"
+    },
+    {
+      "configuration_checked": true,
+      "run_view_checked": true,
+      "strategy": "price.buy_and_hold@1"
+    },
+    {
+      "configuration_checked": true,
+      "run_view_checked": true,
+      "strategy": "event.earnings_schedule@1"
+    },
+    {
+      "configuration_checked": true,
+      "run_view_checked": true,
+      "strategy": "content.price_confirmation@1"
+    },
+    {
+      "configuration_checked": true,
+      "run_view_checked": true,
+      "strategy": "content.reviewed_outlook@1"
+    }
+  ],
+  "normal_content_readable": true,
+  "operator": "AGENT",
+  "order_calls": 0,
+  "original_reports_unchanged": true,
+  "protective_exit_readable": true,
+  "provider_calls": 0,
+  "reads_forbid_engines": true,
+  "rehashed_bad_copy_rejections": [
+    {
+      "case": "symbol",
+      "command": "report",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "symbol",
+      "command": "recover",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "symbol",
+      "command": "compare",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "fill_time",
+      "command": "report",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "fill_time",
+      "command": "recover",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "fill_time",
+      "command": "compare",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "signal_time",
+      "command": "report",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "signal_time",
+      "command": "recover",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "signal_time",
+      "command": "compare",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "fill_basis",
+      "command": "report",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "fill_basis",
+      "command": "recover",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "fill_basis",
+      "command": "compare",
+      "reason": "equity_fill_before_signal_or_outside_session",
+      "status": "STOPPED"
+    },
+    {
+      "case": "wrong-opportunity",
+      "command": "report",
+      "reason": "content_report_buy_not_bound_to_plan",
+      "status": "STOPPED"
+    },
+    {
+      "case": "wrong-opportunity",
+      "command": "recover",
+      "reason": "content_report_buy_not_bound_to_plan",
+      "status": "STOPPED"
+    },
+    {
+      "case": "wrong-opportunity",
+      "command": "compare",
+      "reason": "content_report_buy_not_bound_to_plan",
+      "status": "STOPPED"
+    },
+    {
+      "case": "duplicate",
+      "command": "report",
+      "reason": "content_report_buy_not_bound_to_plan",
+      "status": "STOPPED"
+    },
+    {
+      "case": "duplicate",
+      "command": "recover",
+      "reason": "content_report_buy_not_bound_to_plan",
+      "status": "STOPPED"
+    },
+    {
+      "case": "duplicate",
+      "command": "compare",
+      "reason": "content_report_buy_not_bound_to_plan",
+      "status": "STOPPED"
+    },
+    {
+      "case": "filtered",
+      "command": "report",
+      "reason": "content_report_buy_not_bound_to_plan",
+      "status": "STOPPED"
+    },
+    {
+      "case": "filtered",
+      "command": "recover",
+      "reason": "content_report_buy_not_bound_to_plan",
+      "status": "STOPPED"
+    },
+    {
+      "case": "filtered",
+      "command": "compare",
+      "reason": "content_report_buy_not_bound_to_plan",
+      "status": "STOPPED"
+    }
+  ],
+  "rejected_copies_unchanged": true,
+  "schema_version": "installed-content-boundary-workflow-v1",
+  "status": "PASS",
+  "view_recovery_compare_new_economic_runs": 0
+}

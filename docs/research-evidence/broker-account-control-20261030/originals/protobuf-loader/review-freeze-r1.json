@@ -1,0 +1,11 @@
+{
+  "status": "FROZEN_FOR_ROOT_REVIEW",
+  "files": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_verified_protobuf_loader.py": "274cd15fc3833405efa264653cd00822da72a882624d3ccfc136f48ff0720155",
+    "outputs/python_quant_bot/tests/test_futu_verified_protobuf_loader.py": "3f3e2fb286b41fa2ba3e4912ba1d844e72ba5fd24e9cdc552033e9e56c338a88"
+  },
+  "targeted_tests": 24,
+  "skipped": 0,
+  "private_probe_status": "PASS_ONCE",
+  "handoff_sha256": "0f78e20841bcdc9221a07bfa6d5704bf1ff188b6c92a29fd8dad178703ef8cb9"
+}

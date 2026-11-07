@@ -4,6 +4,8 @@ import time
 from datetime import datetime
 from typing import Any, Callable
 
+from .futu_context import open_futu_quote_context, valid_futu_snapshot_row
+
 try:
     from config import FUTU_HOST, FUTU_PORT
     from market_data.futu import (
@@ -13,7 +15,7 @@ try:
         import_futu_sdk,
         normalize_futu_quote,
         parse_futu_time_key,
-        update_futu_status_cache,
+        update_futu_quote_status,
     )
     from hakimi_research.stock_metadata import (
         futu_code,
@@ -43,7 +45,7 @@ except ModuleNotFoundError:
         import_futu_sdk,
         normalize_futu_quote,
         parse_futu_time_key,
-        update_futu_status_cache,
+        update_futu_quote_status,
     )
     from hakimi_research.stock_metadata import (
         futu_code,
@@ -83,14 +85,21 @@ def read_futu_quotes(symbols: list[str]) -> dict[str, dict[str, Any]]:
     quote_ctx = None
     started = time.perf_counter()
     try:
-        quote_ctx = futu.OpenQuoteContext(host=FUTU_HOST, port=FUTU_PORT)
+        quote_ctx = open_futu_quote_context(futu, host=FUTU_HOST, port=FUTU_PORT)
         ret, data = quote_ctx.get_market_snapshot(list(code_to_symbol.keys()))
         if ret != futu.RET_OK or data is None:
             error = f"snapshot failed: {data}"
             record_provider_call("futu", "snapshot", success=False, latency_ms=(time.perf_counter() - started) * 1000, error=error, scope="batch")
-            update_futu_status_cache(online=False, message=error)
+            update_futu_quote_status(success=False, error=error)
             return {}
         rows = data.to_dict("records") if hasattr(data, "to_dict") else []
+        rows = [row for row in rows if valid_futu_snapshot_row(row, code_to_symbol)]
+        if not rows:
+            error = "snapshot returned no matching valid quotes"
+            record_provider_call("futu", "snapshot", success=False,
+                                 latency_ms=(time.perf_counter() - started) * 1000, error=error, scope="batch")
+            update_futu_quote_status(success=False, error=error)
+            return {}
         market_states: dict[str, str] = {}
         market_state_warning = ""
         state_started = time.perf_counter()
@@ -112,8 +121,8 @@ def read_futu_quotes(symbols: list[str]) -> dict[str, dict[str, Any]]:
             record_provider_call("futu", "market_state", success=False, latency_ms=(time.perf_counter() - state_started) * 1000, error=market_state_warning, scope="batch")
         result: dict[str, dict[str, Any]] = {}
         for row in rows:
-            code = str(row.get("code", "")).upper()
-            symbol = code_to_symbol.get(code, code)
+            code = row["code"]
+            symbol = code_to_symbol[code]
             normalized = normalize_futu_quote({**row, "market_state": market_states.get(code, "")}, symbol)
             if market_state_warning:
                 normalized["market_state_warning"] = market_state_warning
@@ -126,11 +135,14 @@ def read_futu_quotes(symbols: list[str]) -> dict[str, dict[str, Any]]:
             error="snapshot returned no rows" if not result else "",
             scope="batch",
         )
-        update_futu_status_cache(online=True, sdk_installed=True, message=f"Futu snapshot {len(result)} symbols")
+        update_futu_quote_status(success=any(pct(row.get("last")) > 0 and pct(row.get("ts")) > 0
+                                             and row.get("timestamp_status") == "KNOWN"
+                                             for row in result.values()),
+                                 error="snapshot returned no valid timestamped quotes")
         return result
     except Exception as exc:
         record_provider_call("futu", "snapshot", success=False, latency_ms=(time.perf_counter() - started) * 1000, error=str(exc), scope="batch")
-        update_futu_status_cache(online=False, sdk_installed=True, message=f"Futu error: {exc}")
+        update_futu_quote_status(success=False, error=exc)
         return {}
     finally:
         try:
@@ -157,7 +169,9 @@ def augment_futu_candles_with_snapshot(
     if last <= 0:
         return rows
     normalized_interval = stock_cache_interval(interval)
-    ts = int(quote.get("ts") or now_ms())
+    ts = int(pct(quote.get("ts"), 0))
+    if ts <= 0:
+        return rows
     current_session = stock_session_from_ts(ts, symbol)
     clean_session = clean_stock_session(session)
     if clean_session != "all" and current_session != clean_session:
@@ -238,7 +252,7 @@ def read_futu_stock_candles(
     captured_at_ms = now_ms()
     started = time.perf_counter()
     try:
-        quote_ctx = futu.OpenQuoteContext(host=FUTU_HOST, port=FUTU_PORT)
+        quote_ctx = open_futu_quote_context(futu, host=FUTU_HOST, port=FUTU_PORT)
         page_key: Any = None
         page_count = 0
         while page_count < 20:
@@ -259,7 +273,7 @@ def read_futu_stock_candles(
             for row in data.to_dict("records"):
                 ts_ms = parse_futu_time_key(row.get("time_key"), symbol)
                 if ts_ms <= 0:
-                    continue
+                    raise ValueError("Futu history row timestamp missing or invalid")
                 close = pct(row.get("close", 0))
                 if close <= 0:
                     continue

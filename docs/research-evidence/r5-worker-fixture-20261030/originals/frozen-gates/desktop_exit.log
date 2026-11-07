@@ -1,0 +1,9 @@
+test_duplicate_fetch_site_is_rejected_before_body_or_close (tests.test_desktop_exit_handshake.DesktopExitBoundaryTests.test_duplicate_fetch_site_is_rejected_before_body_or_close) ... ok
+test_duplicate_or_non_json_content_type_is_rejected (tests.test_desktop_exit_handshake.DesktopExitBoundaryTests.test_duplicate_or_non_json_content_type_is_rejected) ... ok
+test_ipv4_and_ipv6_require_the_actual_bound_authority (tests.test_desktop_exit_handshake.DesktopExitBoundaryTests.test_ipv4_and_ipv6_require_the_actual_bound_authority) ... ok
+test_live_quant_operation_prevents_shutdown (tests.test_desktop_exit_handshake.DesktopExitBoundaryTests.test_live_quant_operation_prevents_shutdown) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.011s
+
+OK

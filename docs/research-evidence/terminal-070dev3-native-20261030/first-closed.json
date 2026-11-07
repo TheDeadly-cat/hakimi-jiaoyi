@@ -1,0 +1,104 @@
+{
+  "status": "PASS_READ_ONLY_CHECKPOINT",
+  "stage": "FIRST_CLOSED",
+  "at": "2026-10-29T19:38:25.040389+00:00",
+  "root_confirmed_closed": true,
+  "protected_file_count": 245,
+  "protected_roots_unchanged": true,
+  "qa_runtime": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime",
+  "qa_file_count": 18,
+  "qa_read_changed_files": false,
+  "counts": {
+    "core_inputs": 1,
+    "native_inputs": 1,
+    "native_task_versions": 1,
+    "native_completed_reports": 1,
+    "native_report_files": 1,
+    "jobs": 7
+  },
+  "job_action_counts": {
+    "terminal_save_task": 1,
+    "terminal_replay_create": 1,
+    "terminal_replay_step": 1,
+    "terminal_import_core_input": 1,
+    "terminal_replay_seed": 1,
+    "import_document": 1,
+    "terminal_run_task": 1
+  },
+  "ledgers": [
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\historical-replay\\replay-a4fe194e-5969-4459-b90b-2c14a6b5319c\\replay.sqlite",
+      "status": "READ_ONLY_SQL_SNAPSHOT",
+      "summary": {
+        "account_id": "replay-a4fe194e-5969-4459-b90b-2c14a6b5319c",
+        "head": "186abaeaac7587306aed77318ffe5860c90089f10e8f823304a62f5fb88284f4",
+        "cursor": 80,
+        "state": {
+          "cash": "9895.47419402",
+          "cursor": 80,
+          "dataset_id": "a6415acae9f068cc4b59e47381db5a2ddc58eda00ff5267dabc2573fed6172c9",
+          "entry_price": "104.42138460",
+          "event_at": 1714161600000,
+          "pause_reason": "dev3 虚构验收：关闭重开前核对",
+          "paused": true,
+          "pending_signal": {
+            "prefix_hash": "d7278e001f0c4e4ff77b728ebb38af3c2bec3aa1f0efc97aa9b786da50227bc2",
+            "signal_at": 1714161600000,
+            "signal_binding_hash": "7d04570c3faa84a64a3de6390cc303a8371517c74c3e91d02df4d15bd92caf45",
+            "value": {
+              "action": "HOLD",
+              "reason": "no_signal"
+            }
+          },
+          "quantity": 1
+        },
+        "last_session": "2024-04-26",
+        "next_session": "2024-04-29",
+        "event_count": 6,
+        "request_count": 3,
+        "event_kinds": {
+          "CREATED": 1,
+          "INTENT_RECORDED": 2,
+          "SEED_APPLIED": 1,
+          "STEP_APPLIED": 1,
+          "PAUSED": 1
+        },
+        "request_actions": {
+          "SEED": 1,
+          "ADVANCE": 1,
+          "PAUSED": 1
+        },
+        "request_ids": [
+          "replay-89e2ef9f-adac-4c21-95eb-a771e3ef91d0",
+          "replay-e301012b-d915-4992-90b8-4e854f02d535",
+          "replay-5e918d2a-a36f-49bc-8112-763f21ddf8ee"
+        ],
+        "creation_request": {
+          "request_hash": "ca02194987050931cfe47a8d1c5a3745c091a65eee093abd3e8e64043bfa99b1",
+          "request_id": "replay-a592f822-c99c-48af-8430-fef2a611435e"
+        },
+        "model": "HISTORICAL_REPLAY_WHOLE_SHARE_NEXT_OPEN_V1"
+      },
+      "sidecars": {
+        "-wal": {
+          "exists": false,
+          "size": null
+        },
+        "-shm": {
+          "exists": false,
+          "size": null
+        },
+        "-journal": {
+          "exists": false,
+          "size": null
+        }
+      }
+    }
+  ],
+  "program_verification": null,
+  "service_constructed": false,
+  "guard_run": false,
+  "db_writes": false,
+  "port_or_process_probes": 0,
+  "repairs": false
+}

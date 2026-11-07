@@ -1,0 +1,59 @@
+{
+  "status": "READY_FOR_ROOT_REVIEW_NOT_PACKAGED",
+  "recorded_at": "2026-10-29T21:03:08.786382+00:00",
+  "files": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.js": "d1d783f27fcc0a3c95218523ae146ed949ef9d5d347bb5155db50edaa5e37084",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.test.js": "17815327877255f12000002efd45395254a21338182f292561921fed8ca84931"
+  },
+  "targeted_tests": {
+    "passed": 53,
+    "failed": 0,
+    "skipped": 0,
+    "log": "targeted-tests-r2.log"
+  },
+  "browser": {
+    "before": "before-browser-verification.json",
+    "after": "after-browser-verification.json",
+    "widths": [
+      1280,
+      480
+    ],
+    "post_count": 0,
+    "new_research_runs": 0,
+    "external_calls": 0
+  },
+  "original_records": [
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-runs\\835cfd802c98c4009d8f5a25a2db4489363e337fd40ba8b340e44a1e6b649251\\report.json",
+      "before": {
+        "sha256": "1878cf8c6db9e83796938766538387266aeb20ecac272274227042419e89cebf",
+        "size": 85860,
+        "mtime_ns": 1793307228041143400
+      },
+      "after": {
+        "sha256": "1878cf8c6db9e83796938766538387266aeb20ecac272274227042419e89cebf",
+        "size": 85860,
+        "mtime_ns": 1793307228041143400
+      },
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-tasks\\b8cf71f4852b3d79c1715e58f73f2641\\versions\\c05bf26fc36be84c5b379b5758cfc909d46754851368dbd89a1f537b43323c01.json",
+      "before": {
+        "sha256": "e53be9bf6d5318a99ee7c2dd921ad03f63a021b0880930ac71b95038864fa968",
+        "size": 1872,
+        "mtime_ns": 1793307200655516700
+      },
+      "after": {
+        "sha256": "e53be9bf6d5318a99ee7c2dd921ad03f63a021b0880930ac71b95038864fa968",
+        "size": 1872,
+        "mtime_ns": 1793307200655516700
+      },
+      "unchanged": true
+    }
+  ],
+  "frozen_r2_modified": false,
+  "native_gui_used": false,
+  "service_started": false,
+  "committed": false
+}

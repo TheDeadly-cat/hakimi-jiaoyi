@@ -1,0 +1,449 @@
+{
+  "schema_version": "dev5-first-real-run-readback-v1",
+  "recorded_at": "2026-10-26T23:41:04.653169+00:00",
+  "status": "PASS_READBACK_IDENTITY_AND_PARAMETER_BINDINGS",
+  "scope": "Read existing files from first-run baseline; no engine replay, network, workbench API or GUI.",
+  "baseline": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\preservation-after-first-run.json",
+    "sha256": "44916e4fb1d213eef52c01d7e0faa61d747b43fed760a81f0141ad84ec08e98c",
+    "files": 31
+  },
+  "input": {
+    "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+    "ref": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+    "file_sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+    "security": {
+      "currency": "USD",
+      "exchange": "XNAS",
+      "instrument_type": "COMMON_STOCK",
+      "security_id": "IMPORTED:YAHOO:XNAS:NDAQ:check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+      "symbol": "NDAQ"
+    },
+    "evidence_kind": "IMPORTED_UNVERIFIED",
+    "research_admission": {
+      "allowed": true,
+      "block_reasons": [],
+      "scope": "ACTION_FREE_FIXED_WINDOW_ONLY",
+      "source_truth_verified": false,
+      "synthetic_only": false
+    },
+    "quality": {
+      "status": "PASS",
+      "expected_rows": 20,
+      "accepted_rows": 20,
+      "missing_rows": 0,
+      "duplicate_rows": 0,
+      "complete_only": true,
+      "calendar_coverage": "SOURCE_BACKED_IMPORTER_DECLARATION_NOT_EXTERNAL_TRUTH"
+    },
+    "first_session": {
+      "date": "2026-09-29",
+      "open_utc": "2026-09-29T13:30:00Z",
+      "close_utc": "2026-09-29T20:00:00Z",
+      "early_close": false
+    },
+    "last_session": {
+      "date": "2026-10-26",
+      "open_utc": "2026-10-26T13:30:00Z",
+      "close_utc": "2026-10-26T20:00:00Z",
+      "early_close": false
+    },
+    "session_count": 20,
+    "price_basis": "RAW_UNADJUSTED",
+    "bar_availability_lag_seconds": 60
+  },
+  "acquisition": {
+    "ref": "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "check_hash": "3e0addde37bf92dd0a6808d76d00425845bf679401e979d6d0d74554c2c49f70",
+    "checked_at": "2026-10-26T23:34:13.228286Z",
+    "retrieved_at": "2026-10-26T23:34:13.738139Z",
+    "coverage_start": "2026-09-29",
+    "coverage_end": "2026-10-26",
+    "history_sessions": 20,
+    "session_count": 20,
+    "source_regular_market_time": 1793044800,
+    "excluded_forming_sessions": [],
+    "excluded_pre_window_sessions": [
+      "2026-06-01",
+      "2026-06-02",
+      "2026-06-03",
+      "2026-06-04",
+      "2026-06-05",
+      "2026-06-08",
+      "2026-06-09",
+      "2026-06-10",
+      "2026-06-11",
+      "2026-06-12",
+      "2026-06-15",
+      "2026-06-16",
+      "2026-06-17",
+      "2026-06-18",
+      "2026-06-22",
+      "2026-06-23",
+      "2026-06-24",
+      "2026-06-25",
+      "2026-06-26",
+      "2026-06-29",
+      "2026-06-30",
+      "2026-07-01",
+      "2026-07-02",
+      "2026-07-06",
+      "2026-07-07",
+      "2026-07-08",
+      "2026-07-09",
+      "2026-07-10",
+      "2026-07-13",
+      "2026-07-14",
+      "2026-07-15",
+      "2026-07-16",
+      "2026-07-17",
+      "2026-07-20",
+      "2026-07-21",
+      "2026-07-22",
+      "2026-07-23",
+      "2026-07-24",
+      "2026-07-27",
+      "2026-07-28",
+      "2026-07-29",
+      "2026-07-30",
+      "2026-07-31",
+      "2026-08-03",
+      "2026-08-04",
+      "2026-08-05",
+      "2026-08-06",
+      "2026-08-07",
+      "2026-08-10",
+      "2026-08-11",
+      "2026-08-12",
+      "2026-08-13",
+      "2026-08-14",
+      "2026-08-17",
+      "2026-08-18",
+      "2026-08-19",
+      "2026-08-20",
+      "2026-08-21",
+      "2026-08-24",
+      "2026-08-25",
+      "2026-08-26",
+      "2026-08-27",
+      "2026-08-28",
+      "2026-08-31",
+      "2026-09-01",
+      "2026-09-02",
+      "2026-09-03",
+      "2026-09-04",
+      "2026-09-08",
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-14",
+      "2026-09-15",
+      "2026-09-16",
+      "2026-09-17",
+      "2026-09-18",
+      "2026-09-21",
+      "2026-09-22",
+      "2026-09-23",
+      "2026-09-24",
+      "2026-09-25",
+      "2026-09-28"
+    ],
+    "outside_window_actions": [
+      {
+        "kind": "dividends",
+        "date": "2026-06-12"
+      },
+      {
+        "kind": "dividends",
+        "date": "2026-09-11"
+      }
+    ],
+    "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?period1=1780286400&period2=1793073600&interval=1d&events=div%2Csplits&includePrePost=false",
+    "raw_original": {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\source-original.bin",
+      "sha256": "f239c6672f0aff8c47f2a2378a394518a551aad9a356d10b20bb1fa89a9649ae",
+      "bytes": 11992
+    },
+    "derived_price_csv": {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\candidate-prices.csv",
+      "sha256": "16a9f22c8afef7bb4aef03584a4f346d241fe98dfd66cc1e3ea1c143d119b887",
+      "bytes": 1348
+    }
+  },
+  "task": {
+    "ref": "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+    "task_id": "dce07104c4d5ec53a7772030f8239c836abacf1626851dafa8c78ca8168fb133",
+    "path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\versions\\r0001-111fe0f7bd3c4083a92ebe47ecce5196\\task.json",
+    "file_sha256": "91d1d73d480f9277a0bddbaf1ef3f9015f25065781d07b27827b9f97ccd36ad0",
+    "requested": {
+      "strategy": "price.dual_ma@1",
+      "params": {
+        "fast_window": 5,
+        "slow_window": 10,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.06
+      },
+      "score_start": "2026-10-15",
+      "score_end": "2026-10-26",
+      "initial_cash": 10000,
+      "fee_rate": 0.0008,
+      "slippage_pct": 0.0005
+    },
+    "effective_spec": {
+      "end_policy": "MARK_TO_MARKET",
+      "execution_policy": "STANDARD_STRATEGY_RISK",
+      "fee_rate": 0.0008,
+      "initial_cash": 10000,
+      "name": "双均线价格策略",
+      "purpose": "DESCRIPTIVE_DEVELOPMENT",
+      "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+      "risk": {
+        "max_daily_loss_pct": 1.0,
+        "max_leverage": 1.0,
+        "max_position_pct": 0.25,
+        "max_single_loss_pct": 0.03,
+        "min_cash_pct": 0.0
+      },
+      "schema_version": "us-equity-experiment-spec-v1",
+      "score_end_session": "2026-10-26",
+      "score_start_session": "2026-10-15",
+      "slippage_pct": 0.0005,
+      "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+      "strategy": {
+        "name": "dual_ma",
+        "params": {
+          "fast_window": 5,
+          "position_pct": 0.25,
+          "slow_window": 10,
+          "stop_loss_pct": 0.03,
+          "take_profit_pct": 0.06
+        }
+      }
+    }
+  },
+  "run": {
+    "ref": "runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134",
+    "run_id": "31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134",
+    "report_hash": "a8348a3a7ac46bdbc24f88911e9646524a5ed53a14995372bd8d69e7dccbace1",
+    "report_file_sha256": "4b702a243f9ce06397ea58c600eb42a8c9d70042fbe9a834555522063dfc78a3",
+    "runtime_source_sha256": "3efd7e9f0aedd4c130f6bf5fdd598912e7e50d6b6d8fbd47faf77688dcfb31b0",
+    "scoring_protocol": {
+      "score_start": "2026-10-15T13:30:00Z",
+      "score_end": "2026-10-26T20:00:00Z",
+      "available_context_sessions": 12,
+      "required_context_sessions": 12,
+      "scored_sessions": 8,
+      "warmup_trading": false,
+      "annualization": "252_REGULAR_SESSIONS_PER_YEAR_DESCRIPTIVE_ASSUMPTION",
+      "bar_availability_lag_seconds": 60,
+      "session_clock_hash": "b2a078f67001260ad92aa5f83843b6dac746d7fe8e94e30acb2dca1c7f410013",
+      "company_actions": "DECLARED_ACTION_FREE_WINDOW_ONLY",
+      "parameter_selection": false,
+      "confirmation_evaluation": false
+    },
+    "result": {
+      "total_return": 0.0,
+      "max_drawdown": 0.0,
+      "fill_count": 0,
+      "round_trip_count": 0,
+      "signal_count": 0,
+      "decision_count": 8,
+      "order_count": 0,
+      "total_fees": 0.0,
+      "statistical_status": {
+        "observation_count": 8,
+        "minimum_observations": 30,
+        "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+        "periods_per_year": 252,
+        "elapsed_years": 0.031746031746031744,
+        "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+        "annualized_return": "SHORT_SAMPLE",
+        "sharpe_ratio": "SHORT_SAMPLE",
+        "win_rate": "NO_COMPLETED_ROUND_TRIPS",
+        "status": "INSUFFICIENT_EVIDENCE"
+      }
+    },
+    "decision_actions": {
+      "HOLD": 8
+    },
+    "saved_signal_reasons": [
+      "no MA crossover"
+    ]
+  },
+  "operations": [
+    {
+      "operation_id": "12cea13d-c667-4e84-8bdf-755c4a091a71",
+      "action": "save_stock_import",
+      "request_sha256": "e80d0ba3352f6490fb7ba8eb3080919f1e96697dcf5b8f7088c65bd28fadec2e",
+      "result_sha256": "c734bdce2d4df2ecd95b5c1217d67ae14baf0b44e6bf28abbef6d775f708e97f",
+      "recorded_at": "2026-10-26T23:34:45.133323Z",
+      "committed_status": "COMMITTED",
+      "ok": true,
+      "request": {
+        "guided": true,
+        "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "intake": "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "expected_check_hash": "3e0addde37bf92dd0a6808d76d00425845bf679401e979d6d0d74554c2c49f70",
+        "confirmed_security": {
+          "security_id": "IMPORTED:YAHOO:XNAS:NDAQ:check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+          "symbol": "NDAQ",
+          "exchange": "XNAS",
+          "currency": "USD",
+          "instrument_type": "COMMON_STOCK"
+        },
+        "action": "save_stock_import",
+        "operation_id": "12cea13d-c667-4e84-8bdf-755c4a091a71"
+      },
+      "workflow": {
+        "guided": true,
+        "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "step": "INPUT_SAVED",
+        "recorded_at": "2026-10-26T23:34:45.261550Z",
+        "operation_id": "12cea13d-c667-4e84-8bdf-755c4a091a71",
+        "snapshot_ref": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+        "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+        "suggested_task": {
+          "title": "NDAQ 双均线入门 5/10",
+          "strategy": "price.dual_ma@1",
+          "params": {
+            "fast_window": 5,
+            "slow_window": 10,
+            "position_pct": 0.25,
+            "stop_loss_pct": 0.03,
+            "take_profit_pct": 0.06
+          },
+          "score_start": "2026-10-15",
+          "score_end": "2026-10-26",
+          "initial_cash": 10000,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005
+        },
+        "intake_ref": "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "check_hash": "3e0addde37bf92dd0a6808d76d00425845bf679401e979d6d0d74554c2c49f70",
+        "workflow_hash": "1c2ad3aa08f7d3e444940c82e7cdd88c07465cd29d639eb2874bad0e1a94b4ba"
+      }
+    },
+    {
+      "operation_id": "3d88a235-2314-4059-a189-6c2be81ee0d8",
+      "action": "run_task",
+      "request_sha256": "f41f0fb233b4dbb8b6735c95d550d50023300ae4bac6ba422baad311a8cdf2f1",
+      "result_sha256": "d4d3e0c2347d2a57101000c745a88f3e92404ef6a1b4cc448e2d63708ca0458a",
+      "recorded_at": "2026-10-26T23:35:24.948340Z",
+      "committed_status": "COMMITTED",
+      "ok": true,
+      "request": {
+        "guided": true,
+        "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "task": "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+        "action": "run_task",
+        "operation_id": "3d88a235-2314-4059-a189-6c2be81ee0d8"
+      },
+      "workflow": {
+        "guided": true,
+        "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "step": "RESULT_SAVED",
+        "recorded_at": "2026-10-26T23:35:25.489754Z",
+        "operation_id": "3d88a235-2314-4059-a189-6c2be81ee0d8",
+        "task_ref": "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+        "run_ref": "runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134",
+        "report_hash": "a8348a3a7ac46bdbc24f88911e9646524a5ed53a14995372bd8d69e7dccbace1",
+        "workflow_hash": "832b32932868cc9c60d3eb8b903d33134769985594a860c0c4fa00f710a1f209"
+      }
+    },
+    {
+      "operation_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+      "action": "check_stock_import",
+      "request_sha256": "3600666abb3073922bd9dec2ed5fef11a8991c5ca38b67cbbec8e15d9eb8d5ea",
+      "result_sha256": "0ed182b0fc6aa3bc4c285f22d955e6be32dfc62495f3a8c83035baf8d3992236",
+      "recorded_at": "2026-10-26T23:34:13.214830Z",
+      "committed_status": "COMMITTED",
+      "ok": true,
+      "request": {
+        "guided": true,
+        "symbol": "NDAQ",
+        "history_sessions": 20,
+        "action": "check_stock_import",
+        "operation_id": "6fb91af4-809d-4b2c-8b19-bb180258d982"
+      },
+      "workflow": {
+        "guided": true,
+        "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "step": "DATA_REVIEW",
+        "recorded_at": "2026-10-26T23:34:13.910603Z",
+        "operation_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "intake_ref": "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "check_hash": "3e0addde37bf92dd0a6808d76d00425845bf679401e979d6d0d74554c2c49f70",
+        "intake_status": "REVIEW_REQUIRED",
+        "workflow_hash": "f296bddbd75b4825844a53687c2a95a2596cbb90194442c8984377af85675b1f"
+      }
+    },
+    {
+      "operation_id": "e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+      "action": "create_task",
+      "request_sha256": "7255df4733fcb0f62a83c4529535c44f38824db0a4d14bfc62afc37394850e7d",
+      "result_sha256": "cce45368dd8857d7170a2a850b3490db20534843d93dafec8349916fcf284f40",
+      "recorded_at": "2026-10-26T23:35:12.338394Z",
+      "committed_status": "COMMITTED",
+      "ok": true,
+      "request": {
+        "guided": true,
+        "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "title": "NDAQ 双均线入门 5/10",
+        "strategy": "price.dual_ma@1",
+        "params": {
+          "fast_window": 5,
+          "slow_window": 10,
+          "position_pct": 0.25,
+          "stop_loss_pct": 0.03,
+          "take_profit_pct": 0.06
+        },
+        "score_start": "2026-10-15",
+        "score_end": "2026-10-26",
+        "initial_cash": 10000,
+        "fee_rate": 0.0008,
+        "slippage_pct": 0.0005,
+        "snapshot": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+        "event_context": null,
+        "action": "create_task",
+        "operation_id": "e303bbc1-8130-43f7-9e12-c510c2e6fb2e"
+      },
+      "workflow": {
+        "guided": true,
+        "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+        "step": "TASK_CREATED",
+        "recorded_at": "2026-10-26T23:35:12.736595Z",
+        "operation_id": "e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+        "snapshot_ref": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+        "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+        "task_ref": "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+        "task_id": "dce07104c4d5ec53a7772030f8239c836abacf1626851dafa8c78ca8168fb133",
+        "workflow_hash": "7d536e02abe4c0a78b1f3a4d4bc185d4f1d00971a64828c2d9cdac3982334a8a"
+      }
+    }
+  ],
+  "checks": {
+    "raw_source_hash_matches_check": true,
+    "freeze_check_hash_matches": true,
+    "exact_security_confirmation_matches": true,
+    "frozen_file_hash_matches": true,
+    "snapshot_ids_match": true,
+    "task_and_run_ids_match": true,
+    "requested_strategy_parameters_match_effective": true,
+    "requested_cash_and_costs_match_effective": true,
+    "last_completed_close_plus_lag_precedes_actual_retrieval": true,
+    "saved_quality_pass": true,
+    "saved_research_admission_allowed": true,
+    "source_runtime_matches_accepted": true
+  },
+  "economic_counts": {
+    "saved_formal_real_runs": 1,
+    "cost_or_benchmark_runs": 0,
+    "observer_recalculations": 0
+  },
+  "limitations": [
+    "8 scored sessions and zero fills do not establish strategy effectiveness.",
+    "Source identity and action-free coverage retain importer/source declaration limits.",
+    "External transport diagnostic bytes were not used as the product input."
+  ]
+}

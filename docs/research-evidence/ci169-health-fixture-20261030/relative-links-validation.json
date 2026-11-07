@@ -1,0 +1,82 @@
+{
+  "derived_not_original_log": true,
+  "checked": 15,
+  "broken": [],
+  "links": [
+    {
+      "markdown": "README.md",
+      "target": "fixture-diff.patch",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ci169-python-contracts-job123847153681-r1.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ci169-completed-summary-r1.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ci169-terminal-summary-r2.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/local/complete-research-contracts.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/local/result.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/local/targeted-health-r2.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/local/targeted-health-r2.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/local/archive-newline-variant-r2.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "one-test-delta-binding.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "../broker-account-control-20261030/README.md",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "original-copies.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/run-ci169-health-fixture-fix-r1.py",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "SHA256SUMS",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "relative-links-validation.json",
+      "exists": true
+    }
+  ]
+}

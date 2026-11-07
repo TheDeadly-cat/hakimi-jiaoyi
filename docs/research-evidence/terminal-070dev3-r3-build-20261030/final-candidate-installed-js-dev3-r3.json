@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "bundle_id": "e3b7d86aae0585a91636b4f39bb2b7afd2a83033c8a8a1b1be29acbbc7282333",
+  "version": "0.7.0.dev3",
+  "source_commit": "f75295867b918eebaed66f32ee4c3ee542ad8213",
+  "manifest_files": 9067,
+  "capability_definition": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r3\\components\\canonical\\hakimi_research\\contracts\\product-capabilities.json",
+  "capability_count": 15,
+  "has_source_tree": false,
+  "installed_diagnostic_helper_executed": true,
+  "inherited_pipe_and_server_url_removed": true,
+  "diagnostic_path_outside_program": true,
+  "backend_launch_isolated": true,
+  "distinct_legacy_quant_roots": true,
+  "futu_writes_bound_to_quant_root": true,
+  "startup_stderr_redaction": true,
+  "actual_msix_logical_native_identity_helper_verified": true,
+  "different_physical_workspace_rejected": true,
+  "same_physical_workspace_singleton_equal": true,
+  "node_only_no_electron_or_python_spawn": true,
+  "native_acceptance": "NOT_PERFORMED",
+  "source_repository_inaccessible_guest_test": false
+}

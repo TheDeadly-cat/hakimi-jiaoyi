@@ -1,0 +1,10 @@
+{
+  "reason": "Test used NOW + 5 minutes but fixture profile remained valid. Replaced test clock with exact profile expiry plus 1 second.",
+  "schema": "development-failure-note-v1",
+  "production_fix_required": false,
+  "failed_test": "test_late_ack_requires_original_unknown_reference_and_appends_without_resend",
+  "tests_run": 12,
+  "errors": 0,
+  "failures": 1,
+  "source": "tool console result c4d52f, not a verbatim log"
+}

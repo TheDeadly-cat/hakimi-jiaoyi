@@ -1,0 +1,7 @@
+{
+  "symbol": "NDAQ",
+  "history_sessions": 20,
+  "reference": "https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?period1=1780286400&period2=1793073600&interval=1d&events=div%2Csplits&includePrePost=false",
+  "started_at": "2026-10-26T23:34:13.228286Z",
+  "automatic_retry": false
+}

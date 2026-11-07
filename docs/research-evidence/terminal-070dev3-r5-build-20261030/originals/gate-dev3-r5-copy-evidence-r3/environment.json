@@ -1,0 +1,27 @@
+{
+  "source_commit": "b642227ca176d0f6c61984194d06177b2c0be495",
+  "source_status": "CLEAN",
+  "binding": {
+    "python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-venv-r3\\Scripts\\python.exe",
+    "canonical": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-release\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+    "repository": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-release\\哈基米v2交易",
+    "search_path": [
+      "",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\python314.zip",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\DLLs",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-venv-r3",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-venv-r3\\Lib\\site-packages",
+      "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-release\\哈基米v2交易\\src",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages"
+    ],
+    "sdk": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-venv-r3\\Lib\\site-packages\\futu\\__init__.py",
+    "sdk_imported": false
+  },
+  "node": "v22.23.4",
+  "node_sha256": "dccc52de28d8df2ee22d2062424f8c563070d95d8ad70c54c4bf01d590dec14f",
+  "new_venv": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-copy-venv-r3",
+  "downloads": 0,
+  "global_environment_changed": false
+}

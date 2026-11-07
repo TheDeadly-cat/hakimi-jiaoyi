@@ -1,0 +1,9 @@
+test_actual_get_whitelist_and_default_repository_loader_are_lazy (test_terminal_broker_plan_routes.BrokerPlanRouteTests.test_actual_get_whitelist_and_default_repository_loader_are_lazy) ... ok
+test_actual_post_get_and_read_only_recovery_keep_one_original_plan (test_terminal_broker_plan_routes.BrokerPlanRouteTests.test_actual_post_get_and_read_only_recovery_keep_one_original_plan) ... ok
+test_authentication_read_only_and_client_runtime_fields_reject_before_store_write (test_terminal_broker_plan_routes.BrokerPlanRouteTests.test_authentication_read_only_and_client_runtime_fields_reject_before_store_write) ... ok
+test_direct_stop_during_slow_plan_preparation_blocks_final_publication (test_terminal_broker_plan_routes.BrokerPlanRouteTests.test_direct_stop_during_slow_plan_preparation_blocks_final_publication) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.364s
+
+OK

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_terminal_broker_worker_supervisor",
+    "-v"
+  ],
+  "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot",
+  "source_hashes_before": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": "0220adfc0c6aae6a2d89ce4ca446ed0f184f83e1380c129987c76f65aaef260f"
+  },
+  "scope": "NEW_SYNTHETIC_OWNED_CHILDREN_ONLY_TEST_FIXTURE_CLEANUP_FIX",
+  "production_changed": false,
+  "expected_tests": 23
+}

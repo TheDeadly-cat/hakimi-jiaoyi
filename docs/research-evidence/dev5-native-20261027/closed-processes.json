@@ -1,0 +1,10 @@
+{
+  "schema_version": "dev5-native-closed-processes-v1",
+  "recorded_at": "2026-10-26T23:40:01.5604199Z",
+  "previous_launcher": 18928,
+  "previous_backend": 25312,
+  "previous_port": 51172,
+  "remaining_owned_pids": [],
+  "remaining_listeners": [],
+  "status": "PASS_OWNED_PROCESSES_AND_LISTENER_EXITED"
+}

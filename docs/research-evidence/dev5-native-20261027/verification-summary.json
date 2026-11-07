@@ -1,0 +1,162 @@
+{
+  "schema_version": "dev5-native-acceptance-v1",
+  "recorded_at": "2026-10-26T23:45:56.276449+00:00",
+  "status": "PASS_NATIVE_REAL_FIRST_STOCK_SAVE_RUN_AND_REOPEN",
+  "scope": "Local installed dev5 first-use real stock and no-change daily path; independent novice/new-machine acceptance deferred by user.",
+  "product": {
+    "program_root": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1",
+    "product_commit": "f77802073be617f662a01faf4ed9a61225826bc6",
+    "product_source_sha256": "3efd7e9f0aedd4c130f6bf5fdd598912e7e50d6b6d8fbd47faf77688dcfb31b0",
+    "bundle_id": "ab2e49cdc8e468385dd7b64dc30f2665aa7591a52b8d6022833c02983b7569a8",
+    "version": "0.6.0.dev5",
+    "manifest_sha256": "c993523546b6c84e7a8be4a00636594f6fe8734ffa18dafc62e6e15125199b03",
+    "manifest_matches_build": true,
+    "archive_sha256": "5204a33a357461b86127fc40282958bab8f8986f86f9489fb81c7315747a2b20",
+    "archive_matches_build": true,
+    "archive_bytes": 197330799,
+    "build_receipt_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-build-summary-r1.json",
+    "build_receipt_sha256": "58eb5002c50ba7960da8ecc2ef93bc172e924784567fc3b7604f60d4311d7b3b",
+    "manifest_member_count": 7095,
+    "actual_program_files": 7096,
+    "member_comparison": {
+      "missing": [],
+      "added": [],
+      "changed": []
+    },
+    "stable_inventory_during_capture": true,
+    "all_member_hashes_match": true,
+    "preservation_probe_executed_product": false,
+    "native_ui_executed_product": true
+  },
+  "first_stock": {
+    "symbol": "NDAQ",
+    "source": "Yahoo Finance",
+    "retrieved_at": "2026-10-26T23:34:13.738139Z",
+    "coverage_start": "2026-09-29",
+    "coverage_end": "2026-10-26",
+    "complete_bars": 20,
+    "raw_original": {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\source-original.bin",
+      "sha256": "f239c6672f0aff8c47f2a2378a394518a551aad9a356d10b20bb1fa89a9649ae",
+      "bytes": 11992
+    },
+    "source_truth_verified": false,
+    "intake_ref": "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+    "snapshot_ref": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json"
+  },
+  "task": {
+    "ref": "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+    "task_id": "dce07104c4d5ec53a7772030f8239c836abacf1626851dafa8c78ca8168fb133",
+    "requested_parameters": {
+      "strategy": "price.dual_ma@1",
+      "params": {
+        "fast_window": 5,
+        "slow_window": 10,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.06
+      },
+      "score_start": "2026-10-15",
+      "score_end": "2026-10-26",
+      "initial_cash": 10000,
+      "fee_rate": 0.0008,
+      "slippage_pct": 0.0005
+    }
+  },
+  "run": {
+    "ref": "runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134",
+    "report_hash": "a8348a3a7ac46bdbc24f88911e9646524a5ed53a14995372bd8d69e7dccbace1",
+    "report_file_sha256": "4b702a243f9ce06397ea58c600eb42a8c9d70042fbe9a834555522063dfc78a3",
+    "warmup": 12,
+    "scored_sessions": 8,
+    "result": {
+      "total_return": 0.0,
+      "max_drawdown": 0.0,
+      "fill_count": 0,
+      "round_trip_count": 0,
+      "signal_count": 0,
+      "decision_count": 8,
+      "order_count": 0,
+      "total_fees": 0.0,
+      "statistical_status": {
+        "observation_count": 8,
+        "minimum_observations": 30,
+        "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+        "periods_per_year": 252,
+        "elapsed_years": 0.031746031746031744,
+        "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+        "annualized_return": "SHORT_SAMPLE",
+        "sharpe_ratio": "SHORT_SAMPLE",
+        "win_rate": "NO_COMPLETED_ROUND_TRIPS",
+        "status": "INSUFFICIENT_EVIDENCE"
+      }
+    },
+    "economic_run_count": 1,
+    "cost_validation_runs": 0,
+    "parameters_tuned": false,
+    "research_event_context": null
+  },
+  "daily_update": {
+    "ref": "updates/check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2",
+    "status": "UNCHANGED",
+    "latest_completed_session": "2026-10-26",
+    "new_dates": [],
+    "revisions": [],
+    "can_freeze": false,
+    "candidate_snapshot_id": null,
+    "initial_acquisition_requests": 1,
+    "update_requests": 1,
+    "automatic_retries": 0,
+    "new_task_versions": 0,
+    "additional_economic_runs": 0
+  },
+  "reopen": {
+    "before": {
+      "window": 92931518,
+      "launcher": 18928,
+      "backend": 25312,
+      "port": 51172
+    },
+    "after": {
+      "window": 17566716,
+      "launcher": 21208,
+      "backend": 24144,
+      "port": 52506
+    },
+    "old_owned_processes_and_listener_exited": true,
+    "same_program_and_physical_workspace": true,
+    "restored_stage": "RESULT_SAVED",
+    "recorded_result_time": "2026-10-26T23:35:25.489754Z",
+    "opened_saved_result": true,
+    "files": 37,
+    "file_set_and_all_hashes_unchanged": true,
+    "operation_count_before_and_after": 5,
+    "additional_network_or_computation": false
+  },
+  "preservation": {
+    "old_dev4_files": 46,
+    "old_two_stop_records_retained": true,
+    "original_documents_dirty_state_preserved": true,
+    "untracked_original_files_preserved": 566,
+    "previous_historical_protection": "Referenced existing receipts; no broad repeated audit or cleanup."
+  },
+  "validation": {
+    "new_product_code_changes": false,
+    "new_local_full_test_runs": 0,
+    "reused_same_dev5_installation": "415 tests and 7 workflows; 51 frontend tests; 41 targeted transport tests, overlapping scopes",
+    "new_evidence_checks": "37 workspace files SHA, original screenshot bytes, report/task/input identity and unchanged records"
+  },
+  "deferrals": {
+    "new_machine": "USER_ARRANGED_LATER",
+    "nonadministrator": "USER_ARRANGED_LATER",
+    "independent_novices": "USER_ARRANGED_LATER",
+    "new_bars_or_real_revisions_this_session": "NOT_TRIGGERED_BY_ACTUAL_SOURCE; prior implementation evidence retained",
+    "phase_three": "FUTURE_SCOPE"
+  },
+  "github": {
+    "pr": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26",
+    "exact_final_head_ci": "PENDING_AT_RECEIPT_CREATION; separately reread after push, not borrowed from 60d4874"
+  },
+  "shutdown": "Explicitly requested by user only after delivery; pending at receipt creation, not proof of physical power-off."
+}

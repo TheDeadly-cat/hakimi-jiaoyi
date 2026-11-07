@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import os
+import importlib.util
 import socket
 import threading
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
+
+from .futu_context import classify_futu_error, open_futu_quote_context
 
 try:
     from config import ALLOW_STOCK_FALLBACK, FUTU_HOST, FUTU_PORT, LIVE_TRADING_HARD_BLOCK, STOCK_MARKETS
@@ -24,26 +27,71 @@ _FUTU_SDK_IMPORT_LOCK = threading.Lock()
 
 
 def reset_futu_status_cache(message: str = "unchecked") -> None:
-    FUTU_STATUS_CACHE.update({"time": 0, "online": False, "message": message})
+    FUTU_STATUS_CACHE.clear()
+    FUTU_STATUS_CACHE.update({"time": 0, "online": False, "message": message,
+                              "transport_status": "UNKNOWN", "quote_status": "UNKNOWN",
+                              "quote_error_type": "NONE", "quote_error_message": "",
+                              "quote_updated_at": 0, "login_status": "UNKNOWN",
+                              "login_checked_at": 0, "login_error_type": "NONE"})
 
 
-def update_futu_status_cache(*, online: bool, message: str, sdk_installed: bool | None = None) -> None:
-    payload: dict[str, Any] = {
-        "time": now_ms(),
-        "online": bool(online),
-        "message": message,
-    }
+def update_futu_status_cache(*, online: bool, message: str, sdk_installed: bool | None = None,
+                             transport_status: str | None = None) -> None:
+    payload: dict[str, Any] = {"time": now_ms(), "online": bool(online), "message": message,
+                               "transport_status": transport_status or ("REACHABLE" if online else "UNREACHABLE")}
     if sdk_installed is not None:
         payload["sdk_installed"] = bool(sdk_installed)
+    if not online:
+        payload.update(quote_status="UNKNOWN", quote_error_type="NONE", quote_error_message="",
+                       quote_updated_at=0, login_status="UNKNOWN", login_checked_at=0, login_error_type="NONE")
     FUTU_STATUS_CACHE.update(payload)
+
+
+def update_futu_quote_status(*, success: bool, error: Any = None) -> None:
+    kind, message = ("NONE", "") if success else classify_futu_error(error)
+    # A provider refusal or timeout says nothing conclusive about TCP reachability.
+    FUTU_STATUS_CACHE.update(quote_status="READY" if success else "ERROR",
+                             quote_error_type=kind, quote_error_message=message,
+                             quote_updated_at=now_ms())
+    if kind == "LOGIN_REQUIRED":
+        FUTU_STATUS_CACHE.update(login_status="NOT_LOGGED_IN", login_checked_at=0,
+                                 login_error_type="LOGIN_REQUIRED")
+
+
+def check_futu_quote_login(sdk: Any) -> None:
+    """An explicit refresh checks only the quote-login boolean, never trade state."""
+    context = None
+    login_status, error_type = "UNKNOWN", "INVALID_LOGIN_STATE"
+    try:
+        context = open_futu_quote_context(sdk, host=FUTU_HOST, port=FUTU_PORT)
+        ret, state = context.get_global_state()
+        if ret == sdk.RET_OK and isinstance(state, dict):
+            logged_in = state.get("qot_logined")
+            if isinstance(logged_in, bool):
+                login_status = "LOGGED_IN" if logged_in else "NOT_LOGGED_IN"
+                error_type = "NONE"
+        elif ret != sdk.RET_OK:
+            error_type, _ = classify_futu_error(state)
+    except Exception as exc:
+        error_type, _ = classify_futu_error(exc)
+    finally:
+        if context is not None:
+            try:
+                context.close()
+            except Exception:
+                pass
+    # A concurrent transport check may already have invalidated the connection.
+    if FUTU_STATUS_CACHE.get("online"):
+        FUTU_STATUS_CACHE.update(login_status=login_status, login_checked_at=now_ms(),
+                                 login_error_type=error_type)
 
 
 def futu_socket_online(timeout: float = 0.45) -> tuple[bool, str]:
     try:
         with socket.create_connection((FUTU_HOST, FUTU_PORT), timeout=timeout):
-            return True, f"OpenD {FUTU_HOST}:{FUTU_PORT} online"
+            return True, f"OpenD TCP {FUTU_HOST}:{FUTU_PORT} reachable; login and quote access unverified"
     except Exception as exc:
-        return False, f"OpenD offline: {exc}"
+        return False, f"OpenD TCP unavailable: {type(exc).__name__}"
 
 
 def import_futu_sdk() -> tuple[Any | None, str]:
@@ -78,6 +126,7 @@ def futu_market_counts() -> dict[str, int]:
 def enrich_futu_status(payload: dict[str, Any]) -> dict[str, Any]:
     online = bool(payload.get("opend_online"))
     sdk_ready = bool(payload.get("sdk_installed"))
+    quote_ready = payload.get("quote_status") == "READY"
     payload["markets"] = futu_market_counts()
     payload["capabilities"] = [
         "market_snapshot",
@@ -104,9 +153,9 @@ def enrich_futu_status(payload: dict[str, Any]) -> dict[str, Any]:
         },
         {
             "label": "行情通道",
-            "state": "ready" if online else "fallback",
-            "detail": "富途实时/历史行情" if online else (
-                "外部兜底源开启" if ALLOW_STOCK_FALLBACK else "当前使用离线种子占位，等待 OpenD"
+            "state": "ready" if quote_ready else "unknown",
+            "detail": "最近快照请求成功；时效需按报价时间核对" if quote_ready else (
+                payload.get("quote_error_message") or "尚未验证行情登录和报价权限；端口可达不代表行情可用"
             ),
         },
         {
@@ -121,9 +170,9 @@ def enrich_futu_status(payload: dict[str, Any]) -> dict[str, Any]:
         },
     ]
     payload["setup_hint"] = (
-        "启动 FutuOpenD 并保持 127.0.0.1:11111 可访问后，股票行情会自动切到 Futu。"
-        if not online else
-        "FutuOpenD 已连通，股票快照和 K 线优先使用富途通道。"
+        "本地保护模式尚未连接行情通道。" if payload.get("transport_status") == "BLOCKED_LOCAL_MODE" else
+        "启动已配置的 FutuOpenD，并在本机界面完成登录。" if not online else
+        "OpenD TCP 可达；请分别确认本机登录、行情权限和报价时间。"
     )
     payload["fallback_network_enabled"] = ALLOW_STOCK_FALLBACK
     return payload
@@ -134,27 +183,39 @@ def futu_status_cache_ms() -> int:
 
 
 def futu_status_snapshot(force: bool = False) -> dict[str, Any]:
-    if not force and now_ms() - int(FUTU_STATUS_CACHE.get("time") or 0) < futu_status_cache_ms():
-        return enrich_futu_status({
-            "ok": True,
-            "host": FUTU_HOST,
-            "port": FUTU_PORT,
-            "sdk_installed": bool(FUTU_STATUS_CACHE.get("sdk_installed")),
-            "opend_online": bool(FUTU_STATUS_CACHE.get("online")),
-            "source": "futu" if FUTU_STATUS_CACHE.get("online") else "fallback",
-            "message": FUTU_STATUS_CACHE.get("message", "unchecked"),
-            "stock_count": len(STOCK_MARKETS),
-            "live_trading_hard_block": LIVE_TRADING_HARD_BLOCK,
-            "updated_at": FUTU_STATUS_CACHE.get("time", 0),
-        })
-    futu, import_msg = import_futu_sdk()
-    port_online, port_msg = futu_socket_online()
-    update_futu_status_cache(
-        online=bool(futu and port_online),
-        sdk_installed=bool(futu),
-        message=port_msg if futu else import_msg,
-    )
-    return futu_status_snapshot(False)
+    local_only = str(os.getenv("HAKIMI_LOCAL_ONLY") or "").strip().lower() in {"1", "true", "yes", "on"}
+    if local_only:
+        sdk_present = bool(importlib.util.find_spec("futu"))
+        update_futu_status_cache(online=False, message="Local protection mode; OpenD connection not checked",
+                                 sdk_installed=sdk_present, transport_status="BLOCKED_LOCAL_MODE")
+    elif force or now_ms() - int(FUTU_STATUS_CACHE.get("time") or 0) >= futu_status_cache_ms():
+        sdk, import_message = import_futu_sdk()
+        port_online, port_message = futu_socket_online()
+        update_futu_status_cache(online=port_online, sdk_installed=bool(sdk),
+                                 message=port_message if sdk else import_message)
+        if force and port_online:
+            if sdk:
+                check_futu_quote_login(sdk)
+            else:
+                FUTU_STATUS_CACHE.update(login_status="UNKNOWN", login_checked_at=now_ms(),
+                                         login_error_type="SDK_ERROR")
+    return enrich_futu_status({
+        "ok": True, "host": FUTU_HOST, "port": FUTU_PORT,
+        "sdk_installed": bool(FUTU_STATUS_CACHE.get("sdk_installed")),
+        "opend_online": bool(FUTU_STATUS_CACHE.get("online")),
+        "transport_status": FUTU_STATUS_CACHE.get("transport_status", "UNKNOWN"),
+        "login_status": FUTU_STATUS_CACHE.get("login_status", "UNKNOWN"),
+        "login_checked_at": FUTU_STATUS_CACHE.get("login_checked_at", 0),
+        "login_error_type": FUTU_STATUS_CACHE.get("login_error_type", "NONE"),
+        "quote_status": FUTU_STATUS_CACHE.get("quote_status", "UNKNOWN"),
+        "quote_error_type": FUTU_STATUS_CACHE.get("quote_error_type", "NONE"),
+        "quote_error_message": FUTU_STATUS_CACHE.get("quote_error_message", ""),
+        "quote_updated_at": FUTU_STATUS_CACHE.get("quote_updated_at", 0),
+        "source": "futu" if FUTU_STATUS_CACHE.get("quote_status") == "READY" else "unverified",
+        "message": FUTU_STATUS_CACHE.get("message", "unchecked"), "stock_count": len(STOCK_MARKETS),
+        "live_trading_hard_block": LIVE_TRADING_HARD_BLOCK,
+        "updated_at": FUTU_STATUS_CACHE.get("time", 0),
+    })
 
 
 def futu_universe_snapshot() -> dict[str, Any]:
@@ -213,7 +274,7 @@ def parse_futu_time_key(value: Any, symbol: str) -> int:
     text = value.strip() if type(value) is str else ""
     if not text:
         return 0
-    for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d"):
+    for fmt in ("%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"):
         try:
             dt = datetime.strptime(text, fmt)
             return int(dt.replace(tzinfo=stock_timezone(symbol)).timestamp() * 1000)
@@ -224,6 +285,7 @@ def parse_futu_time_key(value: Any, symbol: str) -> int:
 
 def normalize_futu_quote(row: dict[str, Any], symbol: str) -> dict[str, Any]:
     meta = stock_meta(symbol)
+    quote_ts = parse_futu_time_key(row.get("update_time"), meta["symbol"])
     last = pct(row.get("last_price", row.get("last", 0)))
     open_price = pct(row.get("open_price", row.get("open", 0)))
     prev_close = pct(row.get("prev_close_price", row.get("prev_close", 0)))
@@ -246,7 +308,7 @@ def normalize_futu_quote(row: dict[str, Any], symbol: str) -> dict[str, Any]:
         "exchange": meta.get("exchange", "US"),
         "market": meta.get("market", "US"),
         "sector": meta.get("sector", "Stock"),
-        "status": "ONLINE" if last > 0 else "OFFLINE",
+        "status": "STALE" if quote_ts <= 0 else "ONLINE" if last > 0 else "OFFLINE",
         "last": last,
         "open24h": open_price or prev_close,
         "high24h": high,
@@ -258,9 +320,10 @@ def normalize_futu_quote(row: dict[str, Any], symbol: str) -> dict[str, Any]:
         "prevClose": prev_close,
         "change_basis": "previous_close" if prev_close > 0 else "provider",
         "change24h_pct": round(float(change_rate or 0), 2),
-        "ts": parse_futu_time_key(row.get("update_time"), meta["symbol"]),
-        "date": str(row.get("update_time", ""))[:10],
-        "time": str(row.get("update_time", ""))[11:19],
+        "ts": quote_ts,
+        "timestamp_status": "KNOWN" if quote_ts > 0 else "UNKNOWN",
+        "date": str(row.get("update_time", ""))[:10] if quote_ts > 0 else "",
+        "time": str(row.get("update_time", ""))[11:19] if quote_ts > 0 else "",
         "futu_code": meta.get("futu", meta["symbol"]),
         "market_state": str(row.get("market_state") or ""),
         "sec_status": str(row.get("sec_status") or "NORMAL"),
@@ -278,6 +341,8 @@ def normalize_futu_quote(row: dict[str, Any], symbol: str) -> dict[str, Any]:
         "overnight_volume": pct(row.get("overnight_volume", 0)),
         "overnight_turnover": pct(row.get("overnight_turnover", 0)),
     }
+    if quote_ts <= 0:
+        quote["warning"] = "报价时间缺失或无法解析，不能认定为实时行情"
     return with_stock_session_contract(
         quote,
         meta["symbol"],

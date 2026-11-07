@@ -9,6 +9,8 @@ const REQUIRED_JOBS = Object.freeze([
   "mvp-contracts",
   "electron-capability-contract",
   "market-data-renderer",
+  "terminal-python-contracts",
+  "desktop-full-check",
   "package-install-smoke",
 ]);
 

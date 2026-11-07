@@ -1,0 +1,30 @@
+{
+  "schema_version": "holdout-preacquisition-targeted-checks-v1",
+  "recorded_at": "2026-10-26T10:18:31.981983+00:00",
+  "status": "PASS",
+  "tests": 54,
+  "scope": "Synthetic protocol/transport/prefix tests plus unchanged historical importer regressions",
+  "checks": [
+    {
+      "log": "legacy-source-tests-final-r1.log",
+      "tests": 27,
+      "status": "PASS",
+      "sha256": "14702d083a0acfd10a2780d8ab3fe3658d588a1b3f4801d53e0479b27c4e7ba5"
+    },
+    {
+      "log": "blind-source-tests-final-r1.log",
+      "tests": 13,
+      "status": "PASS",
+      "sha256": "8c4158267d8e42c78a870f40d6e3f00b1d32be04a54ee73722a5c5f17a6251ef"
+    },
+    {
+      "log": "prefix-tests-final-r1.log",
+      "tests": 14,
+      "status": "PASS",
+      "sha256": "5ee768a155ef5d791d17f50d40c39513ba096aee255631cb27c257c307718228"
+    }
+  ],
+  "real_market_requests": 0,
+  "real_economic_runs": 0,
+  "source_runtime_changes": 0
+}

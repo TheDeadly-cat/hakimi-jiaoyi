@@ -1,0 +1,7 @@
+started_at=2026-10-26T11:27:18.079918+00:00
+command=["C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\acceptance\\venv\\Scripts\\python.exe", "-B", "-X", "utf8", "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\tools\\verify_strategy_prefix_isolation.py", "--run", "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace\\runs\\run-b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959", "--design", "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\protocol.json", "--design-sha256", "e43adda930945e3fc8765e1c2a87f2109fa420ff91b09b6fc3e114e493f59b07", "--preparation", "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1\\preparation.json", "--preparation-sha256", "15195410dc355cbc9d5db351783aa879641381731e9a07e5a5d6fefdbd526a44", "--output", "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-NDAQ.json"]
+STDOUT
+{"schema_version": "strategy-prefix-observation-v1", "status": "PASS"}
+STDERR
+
+exit_code=0

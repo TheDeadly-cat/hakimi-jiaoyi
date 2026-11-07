@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "scope": "READ_ONLY_COPY_OF_PREVIOUS_SYNTHETIC_R5_RESULT",
+  "id": "a2aaf4b1acff26810b8bd9ef",
+  "original_fields_unchanged": true,
+  "summary": {
+    "schema_version": "hakimi-offline-result-view-v1",
+    "strategy": {
+      "key": "price.dual_ma@1",
+      "title": "双均线价格策略",
+      "version": "1",
+      "state": "ENABLED"
+    },
+    "symbol": "TEST",
+    "data_kind": "SYNTHETIC_TEST",
+    "score_start": "2024-11-11",
+    "score_end": "2024-12-03",
+    "buy_intents": 1,
+    "fill_count": 2,
+    "blocked_new_buys": 0,
+    "research_input_outcome": {
+      "status": "NOT_APPLICABLE",
+      "rule": null,
+      "blocked_new_buys": 0,
+      "reviews": [],
+      "explanation": "价格策略没有绑定或使用研究输入。"
+    },
+    "reasons": [
+      "fast MA crossed above slow MA",
+      "no MA crossover"
+    ],
+    "total_return": -0.01025288846153849,
+    "net_pnl": -102.52888461538532,
+    "total_fees": 3.923115384615385,
+    "realized_pnl": -102.52888461538437,
+    "unrealized_pnl": 0.0,
+    "open_position_qty": 0.0,
+    "limitations": [
+      "Imported source/calendar/action declarations are not independently authenticated.",
+      "Only stable-identity, declared action-free windows are admitted. Corporate actions require further accounting implementation.",
+      "Fractional shares, proportional fees and constant slippage are research approximations, not broker rules or fills.",
+      "No spread, auction participation, liquidity or intraday execution guarantee is established.",
+      "This is a fixed development or synthetic regression, not a profitability or out-of-sample claim."
+    ],
+    "effective_leverage": 1,
+    "output_directory": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\novice-core-projection-readback-20261107-r1\\copied-readback-mrhmy8hy\\research-workspace\\runs\\run-0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346",
+    "task_id": "2bac163158c1a38248141ea33c1a495bdb2fc6a32af3ec250bb83f1d02372f92",
+    "report_hash": "767b2c41e61f25499ccd775fb96aab7595adbbf9c94a0c2f890abe41be9290d3",
+    "task_display_name": "price",
+    "task_display_name_status": "RETAINED",
+    "task_display_name_origin": "MANAGED_TASK_TITLE",
+    "task_family_id": "e5e7cb5144a74432ba5e26b6fb4743b4",
+    "task_revision": "r0001-f572029f60d84cbda66b76b0db80f53d",
+    "task_version_number": 1,
+    "task_version_label": "版本 1",
+    "id": "a2aaf4b1acff26810b8bd9ef",
+    "run_id": "0e6b4e36c34f7f4120a49736015a244313b1fe1394a21f723c1d0edf45d7c346",
+    "label": "双均线价格策略",
+    "max_drawdown": 0.01025288846153849,
+    "started_at": "2026-10-30T03:54:46.287038+00:00",
+    "execution_model": "signal-close-next-open-ohlc-v6",
+    "metric_semantics_version": "research-accounting-score-start-v2",
+    "round_trip_count": 1,
+    "currency": "USD"
+  },
+  "equity_last": {
+    "bar_time": "2024-12-03 14:30:00+00:00",
+    "cash": 9897.471115384615,
+    "equity": 9897.471115384615,
+    "point": "BAR_CLOSE",
+    "position_qty": 0.0,
+    "position_value": 0.0,
+    "time": "2024-12-03 21:00:00+00:00",
+    "drawdown": 0.010252888461538533
+  },
+  "economic_runs": 0,
+  "source_files": 30,
+  "source_unchanged": true,
+  "copied_files_unchanged": true
+}

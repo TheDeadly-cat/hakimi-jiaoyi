@@ -1,0 +1,18 @@
+{
+  "derived_summary": true,
+  "scope": "Original full manifests remain in delivery directory",
+  "input_count": 2095,
+  "unchanged": true,
+  "files": [
+    {
+      "path_relative_to_delivery": "broker-response-worker-integrated-20261030-r1/inputs-before.json",
+      "sha256": "07233dac08fdc6a2d5fc26dd0b8ebb0dd50ab301e53e6be21640ff388f5ed6b5",
+      "bytes": 352508
+    },
+    {
+      "path_relative_to_delivery": "broker-response-worker-integrated-20261030-r1/inputs-after.json",
+      "sha256": "07233dac08fdc6a2d5fc26dd0b8ebb0dd50ab301e53e6be21640ff388f5ed6b5",
+      "bytes": 352508
+    }
+  ]
+}

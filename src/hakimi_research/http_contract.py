@@ -59,6 +59,8 @@ MUTATION_PATHS = frozenset({
 READABLE_MUTATION_PATHS = frozenset({"/api/strategy/pipeline"})
 
 POST_API_PATHS = frozenset({
+    "/api/strategy/analyze",
+    "/api/ai/deepseek/analyze",
     "/api/stocks/data-audit",
     "/api/ai/market/dual-analysis",
     "/api/ai/trading-agents/discuss",

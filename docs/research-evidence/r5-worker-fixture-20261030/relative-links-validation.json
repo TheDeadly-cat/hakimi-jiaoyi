@@ -1,0 +1,157 @@
+{
+  "derived_not_original_log": true,
+  "checked": 30,
+  "broken": [],
+  "links": [
+    {
+      "markdown": "README.md",
+      "target": "source-and-validation-binding.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/dev3-r5-gate-binding-failure-r1.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/dev3-r5-gate-newline-diagnosis-r1.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/stage-c-frozen-gates-summary-dev3-r5.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/dev3-r5-clean-gates-failure-handoff-r1.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/frozen-gates/terminal.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/frozen-gates/futu_status.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/frozen-gates/desktop.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/frozen-gates/packaging.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/frozen-gates/gate_runner.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/frozen-gates/health.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/frozen-gates/desktop_exit.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "maps-derived.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/worker-fix/HANDOFF-r2.md",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/worker-fix/handoff-r2.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/worker-fix/focused.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/worker-fix/result.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "test-only-fixture-diff.patch",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/futu-environment/install-invocation.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/futu-environment/install.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/futu-environment/focused.log",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/futu-environment/result.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/futu-environment/guard-final.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "maps-derived.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/futu-environment/process-result.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/futu-environment/child.py",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "originals/ci170-completed-summary-r1.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "original-copies.json",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "SHA256SUMS",
+      "exists": true
+    },
+    {
+      "markdown": "README.md",
+      "target": "relative-links-validation.json",
+      "exists": true
+    }
+  ]
+}

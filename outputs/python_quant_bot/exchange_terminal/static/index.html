@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>哈基米研究 v2</title>
+  <title>哈基米交易</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./styles.css?v=20260822-evidence-calibration-rail-2">
   <link rel="stylesheet" href="./strategy_correlation_cluster_ticket_policy_v1.css?v=20260825-cluster-ticket-policy-a11y-2">
@@ -21,6 +21,7 @@
       letter-spacing: .02em;
     }
   </style>
+  <link rel="stylesheet" href="./quant-module.css?v=20261020-integrated-1">
 </head>
 <body>
   <div class="app-shell">
@@ -97,7 +98,7 @@
         <div class="shell-title-main">
           <div class="shell-app-icon">H</div>
           <div>
-            <strong>哈基米研究 v2</strong>
+            <strong>哈基米交易</strong>
             <span>数据核验 + 策略验证 + 风险审计</span>
           </div>
         </div>
@@ -116,7 +117,7 @@
 
       <section class="desktop-statusbar">
         <div class="statusbar-left">
-          <strong>哈基米研究 v2</strong>
+          <strong>哈基米交易</strong>
           <span id="desktopClock">--:--:--</span>
           <span id="desktopSession">本地终端</span>
         </div>
@@ -168,6 +169,27 @@
         当前产品仅支持本地数据研究、历史回测、确定性 Frozen benchmark、证据审阅与报告导出。参数优化、paper、live 已归档，订单输入已禁用。
       </section>
 
+      <section id="quantStrategyWorkspace" class="quant-strategy-workspace" aria-labelledby="quantWorkspaceTitle" hidden>
+        <div class="quant-workspace-heading">
+          <div>
+            <h2 id="quantWorkspaceTitle">策略研究</h2>
+            <p>导入行情、设置任务、比较结果，都在当前交易工作区完成。</p>
+          </div>
+          <div class="quant-workspace-tabs" role="group" aria-label="策略研究内容">
+            <button type="button" class="active" data-strategy-panel="quant" aria-pressed="true">任务与回测</button>
+            <button type="button" data-strategy-panel="legacy" aria-pressed="false">策略分析与模拟记录</button>
+          </div>
+        </div>
+        <div id="quantModulePanel" class="quant-module-panel" role="region" aria-label="量化任务与回测">
+          <div id="quantModuleFeedback" class="quant-module-feedback" role="status" aria-live="polite">
+            <span id="quantModuleFeedbackText">进入后打开本地任务与回测。</span>
+            <button id="quantModuleRetry" class="ghost-button" type="button" hidden>重新打开</button>
+          </div>
+          <iframe id="quantModuleFrame" class="quant-module-frame" title="量化任务与回测" sandbox="allow-scripts allow-same-origin allow-forms allow-downloads" allow="clipboard-write" referrerpolicy="no-referrer"></iframe>
+        </div>
+        <p id="quantLegacyHint" class="quant-legacy-hint" hidden>查看策略参数、信号解释、模拟记录与风险检查。切换功能时，任务与回测中尚未提交的配置会继续保留。</p>
+      </section>
+
       <section id="platformControlCenter" class="platform-control-center evidence-calibrated" aria-label="研究证据与权限控制中心">
         <header class="platform-control-head">
           <div>
@@ -177,7 +199,8 @@
           </div>
           <div class="platform-control-actions">
             <button id="platformValidate" type="button" title="只核对已有证据，不触发回测或参数搜索">核对当前证据</button>
-            <button id="platformOpenStrategy" class="ghost-button" type="button">策略工作台</button>
+            <button type="button" data-open-quant>任务与回测</button>
+            <button id="platformOpenStrategy" class="ghost-button" type="button">策略分析与历史记录</button>
             <button id="platformRefresh" class="ghost-button" type="button" title="刷新交易总控">刷新</button>
           </div>
         </header>
@@ -493,7 +516,7 @@
       <header class="ticker-header">
         <div class="symbol-block">
           <div class="symbol-main" id="activeSymbol">BTC-USDT</div>
-          <div class="symbol-meta">现货 / 永续 / 股票 · 哈基米交易 v2</div>
+          <div class="symbol-meta">现货 / 永续 / 股票 · 哈基米交易</div>
         </div>
         <div class="price-block">
           <div class="last-price" id="lastPrice">--</div>
@@ -634,6 +657,7 @@
               <button id="clearDrawings">清除</button>
             </div>
           </div>
+          <div class="terminal-research-actions"><button type="button" data-open-terminal-research="chart">用当前标的创建任务</button><button type="button" data-open-terminal-insights="structure">多周期结构</button><button type="button" data-open-terminal-insights="peers">同组比较</button><button type="button" data-open-terminal-insights="indicators">指标说明</button><label id="terminalLocalSourceLabel" hidden>本地日线来源 <select id="terminalLocalSource" aria-label="本地日线来源"></select></label></div>
           <div id="chartQualityStrip" class="chart-quality-strip flat">
             <div><span>数据源</span><strong id="chartQualitySource">--</strong></div>
             <div><span>新鲜度</span><strong id="chartQualityFreshness">--</strong></div>
@@ -657,6 +681,11 @@
               <em id="liveNewsDetail">外部新闻和财报日历异步补充</em>
             </div>
           </div>
+          <div id="terminalReplayNotice" class="terminal-replay-notice" hidden>
+            <div><strong id="terminalReplayTitle">冻结研究复盘</strong><p id="terminalReplayDetail"></p><details><summary>来源与记录编号</summary><p id="terminalReplayIdentity"></p></details></div>
+            <div><button type="button" data-open-terminal-research="chart">返回研究任务</button><button id="terminalReplayExit" type="button">退出冻结复盘</button></div>
+          </div>
+          <div id="terminalResearchChartControls" class="terminal-research-chart-controls" hidden></div>
           <canvas id="priceChart" width="1100" height="560"></canvas>
           <div id="chartTooltip" class="chart-tooltip hidden"></div>
           <div id="chartAiBox" class="chart-ai-box hidden"></div>
@@ -725,7 +754,9 @@
           <div class="market-ai-form">
             <textarea id="marketAiQuestion" placeholder="向AI提问：当前标的是趋势延续、回调还是反转？多空证据分别是什么？"></textarea>
             <div>
-              <button id="runMarketAiAnalysis">双AI分析</button>
+              <label for="marketAiLength">分析长度</label>
+              <select id="marketAiLength"><option value="1800">完整</option><option value="768">简要</option></select>
+              <button id="runMarketAiAnalysis">开始AI分析</button>
               <button id="refreshMarketAiSnapshot" class="ghost-button">刷新快照</button>
             </div>
           </div>
@@ -733,17 +764,17 @@
           <div class="market-ai-reports">
             <article class="market-ai-report deepseek">
               <header>
-                <strong>DeepSeek 第一遍</strong>
+                <strong>DeepSeek 分析</strong>
                 <span id="marketAiDeepSeekBadge">等待</span>
               </header>
-              <div id="marketAiDeepSeekReport">点击“双AI分析”后显示初评。</div>
+              <div id="marketAiDeepSeekReport">点击“开始AI分析”后显示分析；未配置时会明确跳过。</div>
             </article>
             <article class="market-ai-report gpt">
               <header>
-                <strong>GPT 第二遍复核</strong>
+                <strong>GPT 分析 / 复核</strong>
                 <span id="marketAiGptBadge">等待</span>
               </header>
-              <div id="marketAiGptReport">DeepSeek 初评完成后交给 GPT 做二次复核。</div>
+              <div id="marketAiGptReport">有 DeepSeek 初评时进行复核，否则按当前行情独立分析。</div>
             </article>
           </div>
           <section class="trading-agents-panel">
@@ -761,7 +792,7 @@
                 <span id="runtimeKeyState">环境接入 + 运行时内存</span>
               </div>
               <div class="runtime-key-note">
-                OpenAI 可从本机忽略文件载入；在这里手动粘贴的其他密钥只进入当前后端进程内存，刷新不显示明文，重启自动失效。
+                AI 可从本机配置载入；在这里手动粘贴的密钥只保存在当前后端进程内存中，重启后失效。
               </div>
               <div class="runtime-key-grid">
                 <label><span>GPT</span><input id="runtimeOpenAIKey" type="password" autocomplete="off" placeholder="OPENAI / GPT Key"></label>
@@ -848,6 +879,7 @@
                 <option value="CURRENT">现价</option>
               </select>
             </div>
+            <button type="button" data-open-terminal-research="strategy">将当前参数保存为研究任务</button>
             <button id="armStrategy" data-archived-capability-control disabled>模拟执行已归档</button>
             <button id="stopStrategy" class="ghost-button" data-archived-capability-control disabled>停止</button>
             <button id="resetPaper" class="ghost-button" data-archived-capability-control disabled>重置</button>
@@ -895,9 +927,16 @@
               <input id="reduceOnly" type="checkbox">
               <span>只减仓</span>
             </label>
-            <button id="analyzeStrategy">AI分析</button>
             <div id="strategyAnalysis" class="strategy-analysis">等待策略分析</div>
           </div>
+          <section class="strategy-ai-panel" aria-label="当前图表策略分析">
+            <div class="strategy-ai-actions">
+              <button id="analyzeLocalStrategy">本地规则分析</button>
+              <button id="analyzeStrategy">DeepSeek 策略分析</button>
+            </div>
+            <div id="strategyAiState" class="strategy-analysis" aria-live="polite">等待当前图表与策略参数的 AI 分析</div>
+            <div id="strategyAiReport" class="market-ai-raw"></div>
+          </section>
           <div id="aiAnalysisCards" class="ai-analysis-cards"></div>
           <div class="manual-trade-layout" data-archived-capability-surface>
             <div>
@@ -1629,7 +1668,7 @@
 
       <section class="history-panel">
         <div class="panel-title">
-          <strong>往期日线价格库</strong>
+          <strong>BTC 本地日线价格库</strong>
           <span id="historySummary">读取中</span>
         </div>
         <div class="history-wrap">
@@ -1663,6 +1702,7 @@
             </div>
             <div class="anomaly-actions">
               <button id="refreshAnomalyRadar" class="ghost-button">刷新雷达</button>
+              <button type="button" data-open-terminal-research="radar">对此标的创建任务</button>
               <button id="pushAnomalyNotice" class="ghost-button">推送提醒</button>
               <button id="anomalyToAi" class="ghost-button">带入AI行情</button>
             </div>
@@ -1898,7 +1938,7 @@
 
         <section class="v2-platform-panel">
           <div class="panel-title">
-            <strong>哈基米研究 v2 控制中心</strong>
+            <strong>哈基米交易控制中心</strong>
             <span id="v2PlatformState">加载中</span>
           </div>
           <div class="v2-platform-head">
@@ -2038,18 +2078,18 @@
         <section class="code-worker-panel">
           <div class="panel-title">
             <strong>DeepSeek 开发助手</strong>
-            <span id="codeWorkerState">草稿模式</span>
+            <span id="codeWorkerState">已归档 · 不执行</span>
           </div>
           <div class="code-worker-form">
-            <textarea id="codeWorkerTask" placeholder="整理开发任务、生成说明、起草测试或重构计划。"></textarea>
-            <select id="codeWorkerMode">
+            <textarea id="codeWorkerTask" disabled aria-disabled="true" placeholder="开发助手已归档，旧草稿文件保留。"></textarea>
+            <select id="codeWorkerMode" disabled aria-disabled="true">
               <option value="draft">代码草稿</option>
               <option value="explain">解释整理</option>
               <option value="refactor_plan">重构计划</option>
               <option value="test_draft">测试草稿</option>
             </select>
-            <button id="runCodeWorker">交给 DeepSeek</button>
-            <button id="refreshCodeWorker" class="ghost-button">刷新</button>
+            <button id="runCodeWorker" disabled aria-disabled="true">开发助手已归档</button>
+            <button id="refreshCodeWorker" class="ghost-button">查看说明</button>
           </div>
           <div id="codeWorkerRows" class="code-worker-list"></div>
         </section>
@@ -2073,11 +2113,17 @@
     </main>
   </div>
 
+  <script src="./indicator_math.js?v=20261020-indicators-1"></script>
+  <script src="./terminal-research-chart.js?v=20261021-research-1"></script>
   <script src="./chart_quality.js?v=20260801-market-session-32"></script>
   <script src="./chart_controller.js?v=20260810-refresh-coordinator-1"></script>
   <script src="./stock_quote_guard.js?v=20260811-stock-quote-context-1"></script>
   <script src="./evidence_presentation.js?v=20260821-correlation-multiplicity-ledger-1"></script>
-  <script src="./app.js?v=20260821-correlation-multiplicity-ledger-1"></script>
+  <script src="./terminal-ai-binding.js?v=20261029-astra-1"></script>
+  <script src="./terminal-quant-ui.js?v=20261029-astra-1"></script>
+  <script src="./quant-module.js?v=20261020-integrated-1"></script>
+  <script src="./market-websocket.js?v=20261029-integrated-1"></script>
+  <script src="./app.js?v=20261029-astra-1"></script>
 </body>
 </html>
 

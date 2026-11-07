@@ -1,0 +1,142 @@
+{
+  "status": "FROZEN_UI_SOURCE_AND_OFFLINE_QA",
+  "repo": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "source_files": [
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-broker-account-control-ui.js",
+      "sha256": "90c77d091d73a21f98d7de7caafc80581369f1c2c7235491b130e33bc429f093",
+      "bytes": 19124
+    },
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-broker-account-control-ui.test.js",
+      "sha256": "9a551cf2cb94f3421e87257e4aaf7de6b5edf96cac70fc10e66f336957221823",
+      "bytes": 13259
+    },
+    {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\static\\terminal-broker-candidate-ui.js",
+      "sha256": "dd0dc6321d7a86b5331d2db71b505decd3b05f1c323365c9a8d1f993b25dc6ba",
+      "bytes": 32534
+    }
+  ],
+  "api": {
+    "install": "installTerminalBrokerAccountControlUI({host,api,perform,stopAccount,notify})",
+    "setContext": "{mode,config_id}; config_id only when savedStamp === currentStamp",
+    "stop": "stopAccount({mode,config_id,request_id,reason}) -> direct POST /api/quant/broker-account/stop",
+    "resume": "perform(\"terminal_broker_account_resume\",{mode,config_id,request_id,reason,expected_stop_receipt_id},{onSuccess})"
+  },
+  "tests": {
+    "node": "22.23.4",
+    "new_account_controller": {
+      "passed": 16,
+      "failed": 0
+    },
+    "existing_candidate": {
+      "passed": 13,
+      "failed": 0
+    },
+    "raw_combined_log": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\node-tests-final.log",
+    "combined_result": "46/47 passed; only existing plan DOM test failed to resolve playwright because the ad-hoc Node invocation had no NODE_PATH. No source fix or repeated full run; parent final desktop gate owns configured dependency resolution.",
+    "targeted_pass_test_numbers": [
+      1,
+      29
+    ]
+  },
+  "browser": {
+    "raw_result": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\browser-result.json",
+    "result": "PASS",
+    "url": "http://127.0.0.1:52877",
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "buttonBounds": [
+          {
+            "label": "读取该账户当前状态",
+            "width": 310,
+            "height": 44
+          },
+          {
+            "label": "停止该账户的执行",
+            "width": 310,
+            "height": 44
+          },
+          {
+            "label": "",
+            "width": 144,
+            "height": 44
+          }
+        ]
+      }
+    ],
+    "test_scope": "Candidate/research HTTP fixture; actual AccountControl service in fresh SYNTHETIC_TEST root",
+    "checks": [
+      "Full candidate DOM mount, explicit read leaves synthetic storage absent",
+      "Normal STOP click while ordinary candidate lane busy; independent page reads shared actual account stop",
+      "Explicit latest-stop confirmation and reason resume only preparation; second page observes current resume",
+      "Lost response keeps original scope; explicit query after mode switch finds old STOP while current resume remains truthful; no retry POST",
+      "390 px viewport without horizontal overflow; visible account buttons meet 44 px",
+      "Unbound host renders unavailable and disables mutation without claiming stopped"
+    ],
+    "console_errors": 0,
+    "external_requests": 0,
+    "websocket_requests": 0,
+    "browser_plugin": "not available; existing Playwright + headless installed Chrome used",
+    "service_lifecycle": "Isolated own Python service PIDs 10380/29204 verified by exact fresh TEMP script command line and stopped after QA; browser closed by script finally."
+  },
+  "limitations": [
+    "Candidate and research declarations were fixture data; AccountControl itself was the actual SYNTHETIC_TEST service with temporary shared root.",
+    "No OpenD, original DB, actual research job, GUI/native window, package, commit or publication.",
+    "Full desktop-host integration gate is owned by parent."
+  ],
+  "artifacts": [
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\node-tests-final.log",
+      "sha256": "8ceac37c33630a48a5ef63d5d74ffcbb5d22ab79eb77ae2409718d9c90f823aa",
+      "bytes": 12714
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\browser-result.json",
+      "sha256": "a4a749c128af42b38cfbc9223b9e78dd6ec82ecbfac91131f9fd82783a707c16",
+      "bytes": 11316
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\diff-check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\server.py",
+      "sha256": "aa2be3241525fd16b38fce671e73ea4e79f336b2ead29115e949cce5797245c6",
+      "bytes": 7695
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\browser.cjs",
+      "sha256": "7b5da162f48a3e518217ba7e04c65554fac65a4b00f2e82764f52cbde9a1d5ba",
+      "bytes": 8478
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\account-narrow-390.png",
+      "sha256": "d75adb1c8f1cc44d37376b25258e8689255c8c8088dab18b15a18216a6a24b0b",
+      "bytes": 41208
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\account-original-receipt-current-scope.png",
+      "sha256": "f98bb9b97c4ac734d7ab0ab758bcf5ea03d8a2ade0e50903dd684ba933bb5114",
+      "bytes": 59055
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\account-stopped-desktop.png",
+      "sha256": "0da2444062ec518f0a9cca802d4de24f39e0f6d09c1c19fa6c9f0b1d6791be9e",
+      "bytes": 64591
+    },
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\hakimi-account-ui-20261030-094102\\account-unavailable.png",
+      "sha256": "948ff9446d3d99b4e85225f4b11dfb8b611e9c0b5cf0770daebe0044d92a8dc4",
+      "bytes": 63816
+    }
+  ]
+}

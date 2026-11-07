@@ -1,0 +1,35 @@
+{
+  "schema_version": "daily-workbench-desktop-summary-v1",
+  "source_commit": "7f61da41eb01ec8666ac6f96dd3b5754d99dfa3e",
+  "source_identity": "3adcc31e3aba61d838751e2c6a2fccd48487447016a4fbc799e5e6ebb7d825dd",
+  "status": "VERIFIED_READ_ONLY",
+  "old_runs_readable_count": 4,
+  "update_count": 3,
+  "frozen_update_count": 2,
+  "copied_old_file_count": 135,
+  "preservation": {
+    "original_files": 400,
+    "unchanged": 400,
+    "all_preserved": true
+  },
+  "reopen": {
+    "checked_at": "2026-10-22T23:42:19.437191+00:00",
+    "before_count": 230,
+    "after_count": 230,
+    "missing": [],
+    "changed": [],
+    "added": [],
+    "status": "PASS"
+  },
+  "local_evidence_sha256": {
+    "desktop-record-audit.json": "d002d67542cbde44d2c109c69db4693672c2b6f9797d65ef2e14d740b6b30f28",
+    "preservation-after.json": "4824e3fe81b3735866e6f9f9c2a7f6b3c2252e20c2b89cb9360eddf9bf046fe3",
+    "reopen-after.json": "f110acf23f1781cd208162f35946a5acfdb806333ab347d31c14756311e407ac",
+    "prior-ci-confirmed.json": "1cc600e4d0387e875cadee80ec6144ca3da778e7b94f26944a0b4c25de7fb9de",
+    "preservation-final.json": "38efc95ef270bc77c7eeee85deec8ee412199cbcd36e075e6fe95782e4f776cb"
+  },
+  "screenshots_sha256": {
+    "desktop-ndaq-reopened-actual.jpg": "94970e9db8bd816ab15234bf3171c4dbf81901b35eadb34dfa26ed2a8fb7fd86"
+  },
+  "screenshot_capture_note": "Saved actual image content from native tool output; stale return-value captures retained only in local evidence, excluded from delivery."
+}

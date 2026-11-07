@@ -1,0 +1,76 @@
+{
+  "publication_performed": false,
+  "source_inputs_match_reviewed_and_tested_versions": true,
+  "scope": "INTEGRATED_SOURCE_BYTE_BINDING_AND_DESKTOP_CHECK",
+  "backend_scope": "Separate W coordinator source validation; all 6 inputs byte-identical in integrated P",
+  "receipt_generation_r1": "PowerShell automatic Matches variable collided with receipt accumulator; invalid empty first receipt retained; no tests or product data were rerun/changed",
+  "source_files": [
+    {
+      "sha256": "ae239f1477d3e4c9efb4c4f860e15b35216444fcf608efe2afd69379393f4dff",
+      "path": "tools/run_terminal_contracts.py"
+    },
+    {
+      "sha256": "6bde310825c3583e4b980b9c1327b8c0f9d71a9a7e968688a8f4df97ebecbc25",
+      "path": "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py"
+    },
+    {
+      "sha256": "4ea4c6f3d005923582df0d5db47783265fb30f0ef1c79b13e4aaed63f3466bbd",
+      "path": "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_entrypoint.py"
+    },
+    {
+      "sha256": "f08b5d0dfdc9db50ceab263315edd32caf570b464dab47bad46a444f3ae2cf8f",
+      "path": "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py"
+    },
+    {
+      "sha256": "0c39f2b5673cf39cd03fc45745eabf28c454cb21b2326d643178bd9ed648599f",
+      "path": "outputs/python_quant_bot/tests/test_terminal_broker_action_coordinator.py"
+    },
+    {
+      "sha256": "524642b84be075df6bf3d8a9732575f2da583cd7fa5b55ebe779e9899c031d36",
+      "path": "outputs/python_quant_bot/tests/test_terminal_broker_worker_entrypoint.py"
+    },
+    {
+      "sha256": "21120b4ca06ed2d074e954c38ab49d64678af77a0716e68af381f195e589cc7f",
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.js"
+    },
+    {
+      "sha256": "2702dca47b011f6a239c2b01d5d05d40be76da6f6e8e65cafa71a2a452c0030f",
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.test.js"
+    },
+    {
+      "sha256": "4ce85924efd8e166493b52293e36fe4bd2e2e72781811e858138d7e1c01e87ed",
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-first-use-ui.js"
+    },
+    {
+      "sha256": "4cb401d8fb3e74c91b4239183c6cb8e715e930d69d6a85d3ef5a8ba20196b6f5",
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-first-use-ui.test.js"
+    },
+    {
+      "sha256": "ab9b25c384d6a706ec035f4b780c43e5198c5c6a81dc8b45e9d68654b15726cb",
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.js"
+    },
+    {
+      "sha256": "e219d228ed67436207d9a8ad86a58cace61dbed72f3ae3ea39231c5145ef695b",
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.test.js"
+    }
+  ],
+  "desktop_log_sha256": "d511b0dd0c9f2313d5287140d2bc278e5ecc0b262d6174cf4c7b4853a3cc5fd9",
+  "backend_tests": 848,
+  "desktop_exit_code": 0,
+  "backend_failures": 0,
+  "backend_skipped": 0,
+  "desktop": {
+    "skipped": 0,
+    "fail": 0,
+    "pass": 562,
+    "tests": 562
+  },
+  "desktop_log": "native-r6-combined-desktop-20261108-r2.log",
+  "source_head": "4401d1fb3b861e5fc87d819146f982d2321267c2",
+  "native_r6_contains_source_fixes": false,
+  "preserved_initial_desktop_failure": {
+    "log": "native-r6-combined-desktop-20261108-r1.log",
+    "sha256": "05994629a4b65965363695992d30f191d88f8c7729310247e3a4297a407c9923",
+    "reason": "Command PATH selected system Python without hakimi_research; corrected PATH to existing P-bound test venv, no source changes"
+  }
+}

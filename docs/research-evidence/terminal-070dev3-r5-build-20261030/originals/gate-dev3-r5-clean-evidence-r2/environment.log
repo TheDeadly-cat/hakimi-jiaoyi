@@ -1,0 +1,16 @@
+Obtaining file:///C:/Users/Administrator/.codex/worktrees/terminal-account-controls-070dev3-r5-final/%E5%93%88%E5%9F%BA%E7%B1%B3v2%E4%BA%A4%E6%98%93
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: hakimi-research
+  Building editable for hakimi-research (pyproject.toml): started
+  Building editable for hakimi-research (pyproject.toml): finished with status 'done'
+  Created wheel for hakimi-research: filename=hakimi_research-0.6.0.dev5-0.editable-py3-none-any.whl size=11111 sha256=721340e9a9314f571e95219b8c12251818b9fb8bee976c759b3d3d8c0958bf9d
+  Stored in directory: C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\gate-dev3-r5-clean-evidence-r2\setup-temporary\pip-ephem-wheel-cache-5yvvatoa\wheels\5c\a1\c4\15fb621500f014497043f441652d6606b33eeb434f6654ec2d
+Successfully built hakimi-research
+Installing collected packages: hakimi-research
+Successfully installed hakimi-research-0.6.0.dev5
+Processing C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\terminal-wheelhouse-r1\futu_api-10.7.6708-py3-none-any.whl
+Installing collected packages: futu-api
+Successfully installed futu-api-10.7.6708

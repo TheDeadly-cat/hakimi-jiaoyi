@@ -1,0 +1,17 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '绂荤嚎鏍稿績缁撴灉鐒︾偣楠岃瘉'\n- '离线核心结果焦点验证'\n",
+  "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '绂荤嚎鏍稿績缁撴灉鐒︾偣楠岃瘉'\n- '离线核心结果焦点验证'\n\n    at C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\T03-core-result-focus-20261030\\check-dom-r2.cjs:102:12",
+  "before": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-core-completion.js": "f299cdef6cdcd656c3b7cc56c3ed55c06bf194d69c1757cbc02f8e0b3def6b62",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-core-completion.test.js": "653c8ec1157be5b09e0765cc3f0c844c6d3343aa9a0e720b063e7a007d7ef8ad",
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "ae31cc3bf357f5faeda4f3c8f9ac3ec45518519ad1e54b5b8d24c11381ce2d01",
+    "outputs/python_quant_bot/vendor/research/hakimi_terminal_research/resources/desktop.html": "a431f590e78294d1688f6f801486d5e8c30c755a03d1e5d7944bde3b522d4751"
+  },
+  "after": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-core-completion.js": "f299cdef6cdcd656c3b7cc56c3ed55c06bf194d69c1757cbc02f8e0b3def6b62",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-core-completion.test.js": "653c8ec1157be5b09e0765cc3f0c844c6d3343aa9a0e720b063e7a007d7ef8ad",
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "ae31cc3bf357f5faeda4f3c8f9ac3ec45518519ad1e54b5b8d24c11381ce2d01",
+    "outputs/python_quant_bot/vendor/research/hakimi_terminal_research/resources/desktop.html": "a431f590e78294d1688f6f801486d5e8c30c755a03d1e5d7944bde3b522d4751"
+  },
+  "reports": []
+}

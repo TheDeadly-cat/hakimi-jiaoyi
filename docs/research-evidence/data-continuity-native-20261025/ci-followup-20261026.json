@@ -1,0 +1,67 @@
+{
+  "schema_version": "native-acceptance-ci-followup-v1",
+  "date": "2026-10-26",
+  "previous_commit": "d89321cf652c0913de05f94c9f8355f4e3884869",
+  "previous_ci": {
+    "run_id": 40139045445,
+    "conclusion": "failure",
+    "successful_jobs": 9,
+    "failed_jobs": [
+      "Offline terminal Python contracts",
+      "Research required gate"
+    ]
+  },
+  "controlled_ordering": {
+    "mode": "controlled_single_execution",
+    "before_mutation_return": {
+      "pending": true,
+      "close": false,
+      "initialized": true
+    },
+    "terminal_before_worker_release": {
+      "status": "succeeded",
+      "pending": true,
+      "close": false,
+      "initialized": true
+    },
+    "after_worker_release": {
+      "pending": false,
+      "close": true,
+      "initialized": false
+    },
+    "future_submission_http_status": 400,
+    "fake_service_calls": 1,
+    "new_economic_runs": 0,
+    "external_network_allowed": false,
+    "trace_timeout_seen": false
+  },
+  "test_change": {
+    "file": "outputs/python_quant_bot/tests/test_quant_workspace.py",
+    "added_lines": 5,
+    "behavior": "Wait at most 3 seconds for pending ownership to clear; preserve all close protection assertions.",
+    "production_files_changed": false,
+    "installed_package_changed": false
+  },
+  "local_validation": {
+    "targeted_module": {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "status": "PASS"
+    },
+    "full_terminal_attempt": {
+      "tests_discovered": 78,
+      "errors": 8,
+      "status": "ENVIRONMENT_MISMATCH_NOT_ACCEPTED",
+      "reason": "The installed dev3 wheel intentionally does not provide repository-only compatibility modules market_calendar and http_contract; CI uses its editable repository installation. No accepted environment was modified."
+    }
+  },
+  "logs": {
+    "terminal-close-race-reproduction.json": "bd23a7cc112356ef6481b7558982ffc1b787ccd8dccddaa3d4a4156d97873749",
+    "terminal-close-module-20261026.log": "d29369656b18d80ace48870b44fe3fc4c8828273bff7c14356b088d069520f3f",
+    "terminal-contracts-20261026.log": "fcd20323ce6d5d60631f13c9ef5ad1531e757c24a03a3c8eb51df353a9e83528",
+    "ci-job-121006653914-failure.txt": "568976e13747bba7c753ecacc5802e7f0cac8e4d29a818a6c608e93fd2ed6570"
+  },
+  "remote_validation": "New commit CI must be checked separately on PR 26."
+}

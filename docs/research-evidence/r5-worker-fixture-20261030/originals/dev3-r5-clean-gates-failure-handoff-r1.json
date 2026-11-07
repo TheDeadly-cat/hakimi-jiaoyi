@@ -1,0 +1,41 @@
+{
+  "status": "FAIL_BUILD_DEPENDENCY_CHAIN_STOPPED",
+  "source_commit": "b5547330978c6c3afaba376c13ab1f2f583e1610",
+  "actual_source_status": "CLEAN",
+  "original_summary": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-gates-summary-dev3-r5.json",
+  "original_summary_sha256": "f6e137e64a6f93b517da14b2e52f123d33612f5730596345f6580ef653da7ec8",
+  "terminal": {
+    "tests_run": 756,
+    "failures": 0,
+    "errors": 1,
+    "skipped": 0,
+    "inner_seconds": 196.322,
+    "outer_seconds": 200.367,
+    "error_test": "test_stderr_flood_and_concurrent_stdout_cannot_block_watchdog",
+    "error_phase": "unittest TemporaryDirectory addCleanup",
+    "error": "WinError32 on synthetic worker outputs/run-1 directory; root cause not yet proven"
+  },
+  "futu_status": {
+    "tests_run": 32,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "skip_test": "test_installed_sdk_pending_connection_loop_honors_configured_bound_without_network",
+    "reason": "Optional installed SDK source unavailable"
+  },
+  "passed": [
+    "desktop complete check",
+    "packaging15",
+    "gate_runner4",
+    "health6",
+    "desktop_exit4"
+  ],
+  "code_inputs_stable": true,
+  "code_input_count": 2102,
+  "packaging_inputs_stable": true,
+  "packaging_input_count": 1046,
+  "candidate_exists": false,
+  "archive_exists": false,
+  "build_probe_started": false,
+  "no_retry_or_source_mutation": true
+}

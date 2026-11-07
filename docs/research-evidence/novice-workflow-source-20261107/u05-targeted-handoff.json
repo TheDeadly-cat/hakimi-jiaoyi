@@ -1,0 +1,33 @@
+{
+  "scope": "U05_SOURCE_AND_SYNTHETIC_TARGETED_TESTS",
+  "status": "PASS_TARGETED_REAL_HOST_QA_PENDING",
+  "files": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": "6c2aee3417a08ea234aa3c2f8794d95d865ff8476b1998914aeae32637f7e278",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_execution_service.py": "271ec777ca342c288172807f8afe2c774e13fbdcca53ad5e2955191ffad1ad0d",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.js": "4f95d52e019187516326577e8e14f04577822fe0bf6556f45e284d578803bbd4",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.js": "00342d715205a5baff29c6731bca1f5ea0f5c390368ca0b5bf220026985c6df1",
+    "outputs/python_quant_bot/tests/test_terminal_research.py": "0ed95d6772015b43fb4268a177c3ccac30dd39ee6c5017639c7d8fd2b66829bf",
+    "outputs/python_quant_bot/tests/test_terminal_execution_service.py": "cde1241d2333b6ed12e3013e921a1e7cf92af21c5f083d1d582ad8b0ab58cdf8",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.test.js": "064c1ad6b7f84e3aed7fde8a5055d3010deb5934949b9f7fa852a885ebccbfd3",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.test.js": "b37dc9cf294f0bede606e909e6702a2039d19b17854fad13b369aef1c92715d9"
+  },
+  "python": {
+    "log": "u05-python-targeted-r2.log",
+    "tests": 64
+  },
+  "node": {
+    "log": "u05-node-targeted-r3.log",
+    "tests": 82
+  },
+  "full_host_capital_dom": false,
+  "real_provider_calls": 0,
+  "native_window_actions": 0,
+  "commit_or_push": false,
+  "notes": [
+    "New native tasks freeze initial_cash and optional versioned capital_context. Existing task/report bytes are never rewritten.",
+    "Run forwards initial_cash to the original runner; old callers preserve 10000 default or the revised parent capital.",
+    "Research-only read projection preserves recorded amount/currency and never alters existing plan binding.",
+    "BUY whole-share affordability uses exact decimal available cash, fee reserve and cash floor; controller and visible confirmation both block insufficiency.",
+    "Root-owned core_result_detail/present_core_run_completion hooks included as requested."
+  ]
+}

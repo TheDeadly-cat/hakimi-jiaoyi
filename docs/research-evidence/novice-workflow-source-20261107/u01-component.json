@@ -1,0 +1,692 @@
+{
+  "status": "PASS",
+  "scope": "COMPONENT_ONLY_WITH_ACTUAL_PRODUCT_CSS_SYNTHETIC_SAVED_SHAPES_NO_SERVER_NO_RESEARCH",
+  "browser_plugin": "Browser plugin not available",
+  "browser": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci151-playwright-browsers-r1\\chromium-1234\\chrome-win64\\chrome.exe",
+  "node": "v22.23.4",
+  "checks": [
+    {
+      "name": "native-profit",
+      "width": 1280,
+      "height": 900,
+      "identity": true,
+      "non_blank": true,
+      "no_framework_overlay": true,
+      "keyboard_details": true,
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "profit": {
+          "x": 106,
+          "y": 34,
+          "width": 1068,
+          "height": 409.0625,
+          "top": 34,
+          "right": 1174,
+          "bottom": 443.0625,
+          "left": 106
+        },
+        "coreFields": [
+          {
+            "key": "initial_cash",
+            "rect": {
+              "x": 123,
+              "y": 135.03125,
+              "width": 195.59375,
+              "height": 63.78125,
+              "top": 135.03125,
+              "right": 318.59375,
+              "bottom": 198.8125,
+              "left": 123
+            }
+          },
+          {
+            "key": "final_equity",
+            "rect": {
+              "x": 332.59375,
+              "y": 135.03125,
+              "width": 195.59375,
+              "height": 63.78125,
+              "top": 135.03125,
+              "right": 528.1875,
+              "bottom": 198.8125,
+              "left": 332.59375
+            }
+          },
+          {
+            "key": "net_pnl",
+            "rect": {
+              "x": 542.1875,
+              "y": 135.03125,
+              "width": 195.609375,
+              "height": 63.78125,
+              "top": 135.03125,
+              "right": 737.796875,
+              "bottom": 198.8125,
+              "left": 542.1875
+            }
+          },
+          {
+            "key": "total_return",
+            "rect": {
+              "x": 751.796875,
+              "y": 135.03125,
+              "width": 195.59375,
+              "height": 63.78125,
+              "top": 135.03125,
+              "right": 947.390625,
+              "bottom": 198.8125,
+              "left": 751.796875
+            }
+          },
+          {
+            "key": "max_drawdown",
+            "rect": {
+              "x": 961.390625,
+              "y": 135.03125,
+              "width": 195.609375,
+              "height": 63.78125,
+              "top": 135.03125,
+              "right": 1157,
+              "bottom": 198.8125,
+              "left": 961.390625
+            }
+          },
+          {
+            "key": "final_cash",
+            "rect": {
+              "x": 123,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 287,
+              "bottom": 295.875,
+              "left": 123
+            }
+          },
+          {
+            "key": "position_value",
+            "rect": {
+              "x": 297,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 461,
+              "bottom": 295.875,
+              "left": 297
+            }
+          },
+          {
+            "key": "holding",
+            "rect": {
+              "x": 471,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 635,
+              "bottom": 295.875,
+              "left": 471
+            }
+          },
+          {
+            "key": "realized_pnl",
+            "rect": {
+              "x": 645,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 809,
+              "bottom": 295.875,
+              "left": 645
+            }
+          },
+          {
+            "key": "unrealized_pnl",
+            "rect": {
+              "x": 819,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 983,
+              "bottom": 295.875,
+              "left": 819
+            }
+          },
+          {
+            "key": "total_fees",
+            "rect": {
+              "x": 993,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 1157,
+              "bottom": 295.875,
+              "left": 993
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "core-loss",
+      "width": 1280,
+      "height": 900,
+      "identity": true,
+      "non_blank": true,
+      "no_framework_overlay": true,
+      "keyboard_details": true,
+      "layout": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "profit": {
+          "x": 106,
+          "y": 34,
+          "width": 1068,
+          "height": 409.0625,
+          "top": 34,
+          "right": 1174,
+          "bottom": 443.0625,
+          "left": 106
+        },
+        "coreFields": [
+          {
+            "key": "initial_cash",
+            "rect": {
+              "x": 123,
+              "y": 135.03125,
+              "width": 195.59375,
+              "height": 63.78125,
+              "top": 135.03125,
+              "right": 318.59375,
+              "bottom": 198.8125,
+              "left": 123
+            }
+          },
+          {
+            "key": "final_equity",
+            "rect": {
+              "x": 332.59375,
+              "y": 135.03125,
+              "width": 195.59375,
+              "height": 63.78125,
+              "top": 135.03125,
+              "right": 528.1875,
+              "bottom": 198.8125,
+              "left": 332.59375
+            }
+          },
+          {
+            "key": "net_pnl",
+            "rect": {
+              "x": 542.1875,
+              "y": 135.03125,
+              "width": 195.609375,
+              "height": 63.78125,
+              "top": 135.03125,
+              "right": 737.796875,
+              "bottom": 198.8125,
+              "left": 542.1875
+            }
+          },
+          {
+            "key": "total_return",
+            "rect": {
+              "x": 751.796875,
+              "y": 135.03125,
+              "width": 195.59375,
+              "height": 63.78125,
+              "top": 135.03125,
+              "right": 947.390625,
+              "bottom": 198.8125,
+              "left": 751.796875
+            }
+          },
+          {
+            "key": "max_drawdown",
+            "rect": {
+              "x": 961.390625,
+              "y": 135.03125,
+              "width": 195.609375,
+              "height": 63.78125,
+              "top": 135.03125,
+              "right": 1157,
+              "bottom": 198.8125,
+              "left": 961.390625
+            }
+          },
+          {
+            "key": "final_cash",
+            "rect": {
+              "x": 123,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 287,
+              "bottom": 295.875,
+              "left": 123
+            }
+          },
+          {
+            "key": "position_value",
+            "rect": {
+              "x": 297,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 461,
+              "bottom": 295.875,
+              "left": 297
+            }
+          },
+          {
+            "key": "holding",
+            "rect": {
+              "x": 471,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 635,
+              "bottom": 295.875,
+              "left": 471
+            }
+          },
+          {
+            "key": "realized_pnl",
+            "rect": {
+              "x": 645,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 809,
+              "bottom": 295.875,
+              "left": 645
+            }
+          },
+          {
+            "key": "unrealized_pnl",
+            "rect": {
+              "x": 819,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 983,
+              "bottom": 295.875,
+              "left": 819
+            }
+          },
+          {
+            "key": "total_fees",
+            "rect": {
+              "x": 993,
+              "y": 248.5,
+              "width": 164,
+              "height": 47.375,
+              "top": 248.5,
+              "right": 1157,
+              "bottom": 295.875,
+              "left": 993
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-profit",
+      "width": 390,
+      "height": 900,
+      "identity": true,
+      "non_blank": true,
+      "no_framework_overlay": true,
+      "keyboard_details": true,
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "profit": {
+          "x": 16,
+          "y": 34,
+          "width": 358,
+          "height": 831.546875,
+          "top": 34,
+          "right": 374,
+          "bottom": 865.546875,
+          "left": 16
+        },
+        "coreFields": [
+          {
+            "key": "initial_cash",
+            "rect": {
+              "x": 33,
+              "y": 161.234375,
+              "width": 155,
+              "height": 66.890625,
+              "top": 161.234375,
+              "right": 188,
+              "bottom": 228.125,
+              "left": 33
+            }
+          },
+          {
+            "key": "final_equity",
+            "rect": {
+              "x": 202,
+              "y": 161.234375,
+              "width": 155,
+              "height": 66.890625,
+              "top": 161.234375,
+              "right": 357,
+              "bottom": 228.125,
+              "left": 202
+            }
+          },
+          {
+            "key": "net_pnl",
+            "rect": {
+              "x": 33,
+              "y": 242.125,
+              "width": 155,
+              "height": 66.890625,
+              "top": 242.125,
+              "right": 188,
+              "bottom": 309.015625,
+              "left": 33
+            }
+          },
+          {
+            "key": "total_return",
+            "rect": {
+              "x": 202,
+              "y": 242.125,
+              "width": 155,
+              "height": 66.890625,
+              "top": 242.125,
+              "right": 357,
+              "bottom": 309.015625,
+              "left": 202
+            }
+          },
+          {
+            "key": "max_drawdown",
+            "rect": {
+              "x": 33,
+              "y": 323.015625,
+              "width": 155,
+              "height": 66.890625,
+              "top": 323.015625,
+              "right": 188,
+              "bottom": 389.90625,
+              "left": 33
+            }
+          },
+          {
+            "key": "final_cash",
+            "rect": {
+              "x": 33,
+              "y": 467.5,
+              "width": 157,
+              "height": 53.59375,
+              "top": 467.5,
+              "right": 190,
+              "bottom": 521.09375,
+              "left": 33
+            }
+          },
+          {
+            "key": "position_value",
+            "rect": {
+              "x": 200,
+              "y": 467.5,
+              "width": 157,
+              "height": 53.59375,
+              "top": 467.5,
+              "right": 357,
+              "bottom": 521.09375,
+              "left": 200
+            }
+          },
+          {
+            "key": "holding",
+            "rect": {
+              "x": 33,
+              "y": 531.09375,
+              "width": 157,
+              "height": 53.59375,
+              "top": 531.09375,
+              "right": 190,
+              "bottom": 584.6875,
+              "left": 33
+            }
+          },
+          {
+            "key": "realized_pnl",
+            "rect": {
+              "x": 200,
+              "y": 531.09375,
+              "width": 157,
+              "height": 53.59375,
+              "top": 531.09375,
+              "right": 357,
+              "bottom": 584.6875,
+              "left": 200
+            }
+          },
+          {
+            "key": "unrealized_pnl",
+            "rect": {
+              "x": 33,
+              "y": 594.6875,
+              "width": 157,
+              "height": 53.59375,
+              "top": 594.6875,
+              "right": 190,
+              "bottom": 648.28125,
+              "left": 33
+            }
+          },
+          {
+            "key": "total_fees",
+            "rect": {
+              "x": 200,
+              "y": 594.6875,
+              "width": 157,
+              "height": 53.59375,
+              "top": 594.6875,
+              "right": 357,
+              "bottom": 648.28125,
+              "left": 200
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "core-loss",
+      "width": 390,
+      "height": 900,
+      "identity": true,
+      "non_blank": true,
+      "no_framework_overlay": true,
+      "keyboard_details": true,
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "profit": {
+          "x": 16,
+          "y": 34,
+          "width": 358,
+          "height": 831.546875,
+          "top": 34,
+          "right": 374,
+          "bottom": 865.546875,
+          "left": 16
+        },
+        "coreFields": [
+          {
+            "key": "initial_cash",
+            "rect": {
+              "x": 33,
+              "y": 161.234375,
+              "width": 155,
+              "height": 66.890625,
+              "top": 161.234375,
+              "right": 188,
+              "bottom": 228.125,
+              "left": 33
+            }
+          },
+          {
+            "key": "final_equity",
+            "rect": {
+              "x": 202,
+              "y": 161.234375,
+              "width": 155,
+              "height": 66.890625,
+              "top": 161.234375,
+              "right": 357,
+              "bottom": 228.125,
+              "left": 202
+            }
+          },
+          {
+            "key": "net_pnl",
+            "rect": {
+              "x": 33,
+              "y": 242.125,
+              "width": 155,
+              "height": 66.890625,
+              "top": 242.125,
+              "right": 188,
+              "bottom": 309.015625,
+              "left": 33
+            }
+          },
+          {
+            "key": "total_return",
+            "rect": {
+              "x": 202,
+              "y": 242.125,
+              "width": 155,
+              "height": 66.890625,
+              "top": 242.125,
+              "right": 357,
+              "bottom": 309.015625,
+              "left": 202
+            }
+          },
+          {
+            "key": "max_drawdown",
+            "rect": {
+              "x": 33,
+              "y": 323.015625,
+              "width": 155,
+              "height": 66.890625,
+              "top": 323.015625,
+              "right": 188,
+              "bottom": 389.90625,
+              "left": 33
+            }
+          },
+          {
+            "key": "final_cash",
+            "rect": {
+              "x": 33,
+              "y": 467.5,
+              "width": 157,
+              "height": 53.59375,
+              "top": 467.5,
+              "right": 190,
+              "bottom": 521.09375,
+              "left": 33
+            }
+          },
+          {
+            "key": "position_value",
+            "rect": {
+              "x": 200,
+              "y": 467.5,
+              "width": 157,
+              "height": 53.59375,
+              "top": 467.5,
+              "right": 357,
+              "bottom": 521.09375,
+              "left": 200
+            }
+          },
+          {
+            "key": "holding",
+            "rect": {
+              "x": 33,
+              "y": 531.09375,
+              "width": 157,
+              "height": 53.59375,
+              "top": 531.09375,
+              "right": 190,
+              "bottom": 584.6875,
+              "left": 33
+            }
+          },
+          {
+            "key": "realized_pnl",
+            "rect": {
+              "x": 200,
+              "y": 531.09375,
+              "width": 157,
+              "height": 53.59375,
+              "top": 531.09375,
+              "right": 357,
+              "bottom": 584.6875,
+              "left": 200
+            }
+          },
+          {
+            "key": "unrealized_pnl",
+            "rect": {
+              "x": 33,
+              "y": 594.6875,
+              "width": 157,
+              "height": 53.59375,
+              "top": 594.6875,
+              "right": 190,
+              "bottom": 648.28125,
+              "left": 33
+            }
+          },
+          {
+            "key": "total_fees",
+            "rect": {
+              "x": 200,
+              "y": 594.6875,
+              "width": 157,
+              "height": 53.59375,
+              "top": 594.6875,
+              "right": 357,
+              "bottom": 648.28125,
+              "left": 200
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "console_errors": [],
+  "external_requests": 0,
+  "before": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-result-summary.js": "ad893aa013e549dc1e7dc103c2474064e9bfcf90188b080d33cfcc5f42db3ba3",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-result-summary.test.js": "27764af555fc694f7b94dceabc1425e7d1354d053384e8a6ffc29b3fd5fdc2b0"
+  },
+  "after": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-result-summary.js": "ad893aa013e549dc1e7dc103c2474064e9bfcf90188b080d33cfcc5f42db3ba3",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-result-summary.test.js": "27764af555fc694f7b94dceabc1425e7d1354d053384e8a6ffc29b3fd5fdc2b0"
+  },
+  "targeted_tests": 18
+}

@@ -1,0 +1,59 @@
+{
+  "status": "PASS_LOCAL_SYNTHETIC_SCOPE",
+  "files": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.js": "687d4b2cf5a814220b5459929e6af6c44d2a7c006dc980131483089f8b8959fc",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.test.js": "186d7a71a57faff29a8116ec4a1851464878f13820220c0fbb9faf33e8f18eb8",
+    "outputs/python_quant_bot/tests/test_terminal_execution_service.py": "853af45bed34cbc877c1257af5c984825594c3b724c4b0f7eba38bafd0d66010"
+  },
+  "node": {
+    "tests": 39,
+    "log": "u08-node-r5.log",
+    "skip": 0
+  },
+  "python": {
+    "tests": 26,
+    "log": "u08-python-r1.log",
+    "skip": 0
+  },
+  "browser": {
+    "kind": "Playwright component with explicit synthetic callbacks",
+    "plugin_availability": "Browser plugin not available",
+    "viewports": [
+      1280,
+      390
+    ],
+    "keyboard_stop": true,
+    "stop_receipt_followed_by_read_failure": "SUCCESS_FACT_PRESERVED",
+    "missing_response_snapshot": "UNKNOWN_NOT_ZERO",
+    "external_requests": 0,
+    "console_errors": 0,
+    "order_submit_actions": 0,
+    "synthetic_control_callbacks_per_viewport": [
+      "stop",
+      "resume",
+      "stop"
+    ]
+  },
+  "actual_service_validation": "Existing fresh synthetic partial-fill/cancel/stop/resume service test now also compares cash, reserves, positions, orders and plans unchanged. No production ledger engine change.",
+  "u07_progress": "Read-only exact selected report/version/account/plan stage summary; accepted is not filled, broker disconnected and unqueried intents not zero.",
+  "u07_remaining": [
+    "Persist and reverify selected references on reopen",
+    "Normal try-strategy route to supported continuous simulation",
+    "Same-version broker intent and offline-plan linkage"
+  ],
+  "u08_remaining": "Broker mode stop and cross-workspace account control are separate scopes, not covered by this local-simulation summary.",
+  "native_acceptance": false,
+  "real_provider_calls": 0,
+  "historical_replay": false,
+  "initial_failures_preserved": [
+    "u08-node-r1.log: initial null account guard bug, repaired",
+    "u08-node-r2.log: DOM fixture attempted hidden plan selector before opening details, corrected"
+  ],
+  "screenshots": {
+    "stop-recorded-1280.png": "2c1b2a38990b8ae388c31a2634cd92dcce1be1d7ece9bda4b6db9762a0ed252d",
+    "stop-recorded-390.png": "88001b2b2b0a6ac1583b78bb305452862862676d9eacbe8a6e1313a6a7ea5e6c",
+    "stop-unknown-1280.png": "8a2682bcaf4849551e7b8c3feb3d3d410149c0c43b89d235719c5efb243d590c",
+    "stop-unknown-390.png": "7e36e8749b1e8bfef575e23082280f282351fe213be803efa8cb8612efabae6e"
+  },
+  "final_wording_correction": "Daily simulation is explicit per-step, not autonomous. Original r4 evidence retained; final r5 checks all 39 cases."
+}

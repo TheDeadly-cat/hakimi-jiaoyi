@@ -1,0 +1,233 @@
+{
+  "scope": "Byte-exact raw copies, no result replacement",
+  "files": [
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/HANDOFF.md",
+      "published": "facts/HANDOFF.md",
+      "sha256": "0b75ed46083a2fbdda2a047c7cbb18ba4619a9e420fff776963d90e63752e3de",
+      "bytes": 4896
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/review-freeze-identity.json",
+      "published": "facts/review-freeze-identity.json",
+      "sha256": "2c0f1bb7c270f353a177cc1bc8665e6f7a494dcaeed9772f732cdd9697783e52",
+      "bytes": 1643
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/response-contract-r1.json",
+      "published": "facts/response-contract-r1.json",
+      "sha256": "037d1beb5f539bcbc17d974013b5518afec7326912d7ea47f2b4d1f1cea95ea7",
+      "bytes": 37829
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/targeted-r1.log",
+      "published": "facts/targeted-r1.log",
+      "sha256": "f96d32c03e9c460942d3d1f39d6416b3f3f8244ec3e789e4e27df1da355248fe",
+      "bytes": 5662
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/targeted-r2.log",
+      "published": "facts/targeted-r2.log",
+      "sha256": "c11c36d9b15cbb5c854002225daf92ac3d88da385c2bfae0cbb7d6a0182e63aa",
+      "bytes": 5875
+    },
+    {
+      "source_relative_to_delivery": "broker-response-recording-20261030/targeted-r1-console-note.json",
+      "published": "recording/targeted-r1-console-note.json",
+      "sha256": "bed16df7e0556689fdb114d0253b331072f326e803400423a72d5c346c1a33cb",
+      "bytes": 440
+    },
+    {
+      "source_relative_to_delivery": "broker-response-recording-20261030/targeted-r2.log",
+      "published": "recording/targeted-r2.log",
+      "sha256": "09a532c9d11847c8f7bf6033e4e638081a1a9b51e45ce0b25f3f518e6e353b0f",
+      "bytes": 9002
+    },
+    {
+      "source_relative_to_delivery": "broker-response-recording-20261030/targeted-r3.log",
+      "published": "recording/targeted-r3.log",
+      "sha256": "ca9997dd43d5b12593ebdea0367eebdefe02ed1a9d20464dc33c25a44071f024",
+      "bytes": 3387
+    },
+    {
+      "source_relative_to_delivery": "broker-response-recording-20261030/review-regressions-r4.log",
+      "published": "recording/review-regressions-r4.log",
+      "sha256": "9ece5b96e224b2e2b0131ca2dd94a57856a8a697a75596f7507f2d6879a43a81",
+      "bytes": 762
+    },
+    {
+      "source_relative_to_delivery": "broker-response-recording-20261030/HANDOFF-r1.md",
+      "published": "recording/HANDOFF-r1.md",
+      "sha256": "1cb6bffafbdc9b31d6e0b577dee5a8aaada24a4e7f73cf61c52abfe5e8399629",
+      "bytes": 5435
+    },
+    {
+      "source_relative_to_delivery": "broker-response-recording-20261030/source-review-final-r1.json",
+      "published": "recording/source-review-final-r1.json",
+      "sha256": "b740a64ffa972217ea5de6e2c30bc46e4d4176b58450fe28fc9a23e76c894c1e",
+      "bytes": 4612
+    },
+    {
+      "source_relative_to_delivery": "broker-worker-supervisor-20261030/focused-r1.json",
+      "published": "worker/focused-r1.json",
+      "sha256": "e71157ac7e3e2f3832c136647110fc4b8b1656a2c2fcec2edbbbced0b611e8a7",
+      "bytes": 1689
+    },
+    {
+      "source_relative_to_delivery": "broker-worker-supervisor-20261030/focused-r1.log",
+      "published": "worker/focused-r1.log",
+      "sha256": "742b4ecb34f96310567bdd9badaa8b3039b1506864d2d9917ad854507efedb06",
+      "bytes": 3963
+    },
+    {
+      "source_relative_to_delivery": "broker-worker-supervisor-20261030/targeted-additional-r2.json",
+      "published": "worker/targeted-additional-r2.json",
+      "sha256": "2aa07933429e60b715fbca7f76bbcbee41dc02146f4a4b9ad8faefb1063b6d99",
+      "bytes": 1927
+    },
+    {
+      "source_relative_to_delivery": "broker-worker-supervisor-20261030/targeted-additional-r2.log",
+      "published": "worker/targeted-additional-r2.log",
+      "sha256": "03463857346054827a0c72577cfed42110e22328920b84b71a8ed740343d8445",
+      "bytes": 1026
+    },
+    {
+      "source_relative_to_delivery": "broker-worker-supervisor-20261030/targeted-idle-release-r3.json",
+      "published": "worker/targeted-idle-release-r3.json",
+      "sha256": "8e8d896ebb1b5e5910a177dbe35d3c2489337a62fd18e47b1150b4c6e6df5bb7",
+      "bytes": 1676
+    },
+    {
+      "source_relative_to_delivery": "broker-worker-supervisor-20261030/targeted-idle-release-r3.log",
+      "published": "worker/targeted-idle-release-r3.log",
+      "sha256": "d556ab04559762e0496ad5a63a38a5a315c8bf20f3ad04b698839e6e4c5fb701",
+      "bytes": 323
+    },
+    {
+      "source_relative_to_delivery": "broker-worker-supervisor-20261030/WORKER-HANDOFF-r1.md",
+      "published": "worker/WORKER-HANDOFF-r1.md",
+      "sha256": "b44bcd7a43f4ae19ae9e97a193479037cb4c1861d5f487c202362bdc619c3f44",
+      "bytes": 3130
+    },
+    {
+      "source_relative_to_delivery": "broker-worker-supervisor-20261030/journal-response-review-r1.json",
+      "published": "worker/journal-response-review-r1.json",
+      "sha256": "7ccea5824fc90d038b62e41dcdea02047740f050b5753872a0d5bae1d92dbfeb",
+      "bytes": 3427
+    },
+    {
+      "source_relative_to_delivery": "broker-worker-supervisor-20261030/journal-response-review-r2.json",
+      "published": "worker/journal-response-review-r2.json",
+      "sha256": "bbf5b83f62b3a657210130c6d4c6f4555e29533c2190b9c288e54f0c68658829",
+      "bytes": 2326
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/run-probe.py",
+      "published": "actual-protobuf/run-probe.py",
+      "sha256": "7071d6bdf3f548f0d92ffcd9968c86d8c2fb3736d67bb719955aa69d5cfca09f",
+      "bytes": 6147
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/probe-child.py",
+      "published": "actual-protobuf/probe-child.py",
+      "sha256": "aa9cd1a4d6d534fb5a5ba1936d845d8f54b7c0aa418253eaea5c217daa14b2d8",
+      "bytes": 22771
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/static-schema.py",
+      "published": "actual-protobuf/static-schema.py",
+      "sha256": "b94847230b1c98bfc50e79db886c032ebfc415e995d6954f287c06aee417623a",
+      "bytes": 2212
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/PROBE-HANDOFF-r1.md",
+      "published": "actual-protobuf/PROBE-HANDOFF-r1.md",
+      "sha256": "03bcc30868f9a4077745c6a83d2bddbb4fa2d3df0c9fee2f29212d7234b7cec5",
+      "bytes": 6257
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/run/guard-final.json",
+      "published": "actual-protobuf/run/guard-final.json",
+      "sha256": "486b72c288391870e0bedec2d8d5e61f1a75aac9c19e7006869e6db5c0f9af69",
+      "bytes": 49700
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/run/invocation.json",
+      "published": "actual-protobuf/run/invocation.json",
+      "sha256": "4eeffa7f751b165173d89ba3902199d1f1ac93147e2135d12964827dbdb4da62",
+      "bytes": 9573
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/run/probe-result.json",
+      "published": "actual-protobuf/run/probe-result.json",
+      "sha256": "ee431711cab29500a03c4d2384a5131f05e88cf1c49b1e7b646116d945cbb4dd",
+      "bytes": 54836
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/run/response-cases.json",
+      "published": "actual-protobuf/run/response-cases.json",
+      "sha256": "65e88e6fdbb5235c28fad5f90781077b7b7ff30893c49a775bd19bc754c12203",
+      "bytes": 173004
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/run/runner-result.json",
+      "published": "actual-protobuf/run/runner-result.json",
+      "sha256": "4906b20f305ebce02044dd16e8b1c7b0f3085d552b64742282db65fe6ac21835",
+      "bytes": 697
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/run/stderr.log",
+      "published": "actual-protobuf/run/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "source_relative_to_delivery": "broker-response-facts-20261030/private-protobuf-r1/run/stdout.log",
+      "published": "actual-protobuf/run/stdout.log",
+      "sha256": "3a5476b38b9c2db3f13fb683ddf5a0c60eeb4d0e86c1810e0dba5a1eb6f603a1",
+      "bytes": 186
+    },
+    {
+      "source_relative_to_delivery": "broker-response-worker-integrated-20261030-r1/summary.json",
+      "published": "integrated/summary.json",
+      "sha256": "a32ea728a7d5b244d3c8f96c120a6d8785dc2854eacad8e6ea2f8ded163ad2af",
+      "bytes": 4297
+    },
+    {
+      "source_relative_to_delivery": "broker-response-worker-integrated-20261030-r1/environment.json",
+      "published": "integrated/environment.json",
+      "sha256": "ae216cd0a665caeafadc59549b4178358649bc8466388aaaabed7f14eab17843",
+      "bytes": 472
+    },
+    {
+      "source_relative_to_delivery": "broker-response-worker-integrated-20261030-r1/terminal.log",
+      "published": "integrated/terminal.log",
+      "sha256": "d9eb96e37ae62237405f2abb9696277fceae50917846a1d5334bd67642054156",
+      "bytes": 143617
+    },
+    {
+      "source_relative_to_delivery": "broker-response-worker-integrated-20261030-r1/packaging.log",
+      "published": "integrated/packaging.log",
+      "sha256": "572c6acf4a8edee49367cf0d727f5b8da08679d14f9610cbf250b98140ea2bc6",
+      "bytes": 2859
+    },
+    {
+      "source_relative_to_delivery": "broker-response-worker-integrated-20261030-r1/gate_runner.log",
+      "published": "integrated/gate_runner.log",
+      "sha256": "af6c1344989d9b622dd923197638eb1dc3e6676f3ca50fed408e4c5251a945ec",
+      "bytes": 777
+    },
+    {
+      "source_relative_to_delivery": "ci167-completed-summary-r1.json",
+      "published": "ci167-completed-summary-r1.json",
+      "sha256": "4247887861172f30e1c9810b3f2077c6545456e83f74a0d64ed6d26ed56da42e",
+      "bytes": 3352
+    },
+    {
+      "source_relative_to_delivery": "run-broker-response-worker-gates-r1.py",
+      "published": "integrated/run-gates.py",
+      "sha256": "2457dbf4e6553bec11d2920483e51177298033a5bbec657da8bfe13bec72782b",
+      "bytes": 5343
+    }
+  ]
+}

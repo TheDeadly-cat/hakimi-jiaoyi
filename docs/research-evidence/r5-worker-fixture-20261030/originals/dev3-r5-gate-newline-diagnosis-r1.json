@@ -1,0 +1,80 @@
+{
+  "status": "READ_ONLY_DIAGNOSIS_NOT_ACCEPTANCE_OR_GATE_REUSE_PERMISSION",
+  "failure_receipt": "dev3-r5-gate-binding-failure-r1.json",
+  "source_files_modified": false,
+  "git_settings_changed": false,
+  "rows": {
+    "outputs/python_quant_bot/exchange_terminal/market_data/futu_context.py": {
+      "expected": "ad93cafc8f7856f2c4036fa05004f3aed6dbd9390c77746ff29f7bf5c8f24116",
+      "observed": "27fc1d65f896270c63012d73349cc19c6f29d891be9f9f044c8b9bedd0c8de5b",
+      "frozen_equals_git_blob": true,
+      "parent_sha256": "ad93cafc8f7856f2c4036fa05004f3aed6dbd9390c77746ff29f7bf5c8f24116",
+      "parent_matches_original_gate_hash": true,
+      "frozen_crlf": 0,
+      "parent_crlf": 56,
+      "only_newline_change": true,
+      "in_memory_crlf_sha256": "ad93cafc8f7856f2c4036fa05004f3aed6dbd9390c77746ff29f7bf5c8f24116",
+      "in_memory_lf_sha256": "27fc1d65f896270c63012d73349cc19c6f29d891be9f9f044c8b9bedd0c8de5b"
+    },
+    "outputs/python_quant_bot/tests/test_desktop_exit_handshake.py": {
+      "expected": "6fd1e1968c0831b6fac0c4ce61c13cdd40428692c0bfa279d8ead248eda04104",
+      "observed": "a14ebbaabf9bcfd686eaa90ac8fe65295c65dbabf1bbdc084af870d011e3c5ff",
+      "frozen_equals_git_blob": true,
+      "parent_sha256": "6fd1e1968c0831b6fac0c4ce61c13cdd40428692c0bfa279d8ead248eda04104",
+      "parent_matches_original_gate_hash": true,
+      "frozen_crlf": 0,
+      "parent_crlf": 92,
+      "only_newline_change": true,
+      "in_memory_crlf_sha256": "6fd1e1968c0831b6fac0c4ce61c13cdd40428692c0bfa279d8ead248eda04104",
+      "in_memory_lf_sha256": "a14ebbaabf9bcfd686eaa90ac8fe65295c65dbabf1bbdc084af870d011e3c5ff"
+    },
+    "outputs/python_quant_bot/tests/test_futu_connection_status.py": {
+      "expected": "0048f44d21d6d9547a4c8ca0d631ab95206ee28967760f2dcb10f4e0f79f1967",
+      "observed": "860eb268409a79b8e7a2ca8466477040c138d9f1c4e0ccc5aa2b8f416734513b",
+      "frozen_equals_git_blob": true,
+      "parent_sha256": "0048f44d21d6d9547a4c8ca0d631ab95206ee28967760f2dcb10f4e0f79f1967",
+      "parent_matches_original_gate_hash": true,
+      "frozen_crlf": 0,
+      "parent_crlf": 510,
+      "only_newline_change": true,
+      "in_memory_crlf_sha256": "0048f44d21d6d9547a4c8ca0d631ab95206ee28967760f2dcb10f4e0f79f1967",
+      "in_memory_lf_sha256": "860eb268409a79b8e7a2ca8466477040c138d9f1c4e0ccc5aa2b8f416734513b"
+    },
+    "outputs/python_quant_bot/tests/test_indicator_contract.py": {
+      "expected": "adeb5e41b165f816b0e2b5bfc15172b2d6c40cdc8c4083c6df64eea7346af249",
+      "observed": "5e0544f5957e2829551bf94fef251176b2c9a146d76374eb5259031bfebc36d4",
+      "frozen_equals_git_blob": true,
+      "parent_sha256": "adeb5e41b165f816b0e2b5bfc15172b2d6c40cdc8c4083c6df64eea7346af249",
+      "parent_matches_original_gate_hash": true,
+      "frozen_crlf": 0,
+      "parent_crlf": 119,
+      "only_newline_change": true,
+      "in_memory_crlf_sha256": "adeb5e41b165f816b0e2b5bfc15172b2d6c40cdc8c4083c6df64eea7346af249",
+      "in_memory_lf_sha256": "5e0544f5957e2829551bf94fef251176b2c9a146d76374eb5259031bfebc36d4"
+    },
+    "outputs/python_quant_bot/tests/test_quant_kernel_isolation.py": {
+      "expected": "1b895ff97f2d32bfb90da122d3e33a623a7b3942d6462d5bf21ddc948f1af210",
+      "observed": "43acf5477e8ee99fd4746812ee4c983bf2c21354f7bb02346eb752d0e7c10a27",
+      "frozen_equals_git_blob": true,
+      "parent_sha256": "1b895ff97f2d32bfb90da122d3e33a623a7b3942d6462d5bf21ddc948f1af210",
+      "parent_matches_original_gate_hash": true,
+      "frozen_crlf": 0,
+      "parent_crlf": 45,
+      "only_newline_change": true,
+      "in_memory_crlf_sha256": "1b895ff97f2d32bfb90da122d3e33a623a7b3942d6462d5bf21ddc948f1af210",
+      "in_memory_lf_sha256": "43acf5477e8ee99fd4746812ee4c983bf2c21354f7bb02346eb752d0e7c10a27"
+    },
+    "outputs/python_quant_bot/tests/test_terminal_research.py": {
+      "expected": "837ed3254f4d39ed9bf7d64ee08d3341520fd7be1932700c62c1ca9ddf0b6ef1",
+      "observed": "bc79fea3b32f27d09dcc256382541586f14b92d165b24352fc61974673524ef0",
+      "frozen_equals_git_blob": true,
+      "parent_sha256": "837ed3254f4d39ed9bf7d64ee08d3341520fd7be1932700c62c1ca9ddf0b6ef1",
+      "parent_matches_original_gate_hash": true,
+      "frozen_crlf": 0,
+      "parent_crlf": 646,
+      "only_newline_change": true,
+      "in_memory_crlf_sha256": "837ed3254f4d39ed9bf7d64ee08d3341520fd7be1932700c62c1ca9ddf0b6ef1",
+      "in_memory_lf_sha256": "bc79fea3b32f27d09dcc256382541586f14b92d165b24352fc61974673524ef0"
+    }
+  }
+}

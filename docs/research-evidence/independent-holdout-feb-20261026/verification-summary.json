@@ -1,0 +1,371 @@
+{
+  "schema_version": "february-historical-holdout-delivery-v1",
+  "status": "COMPLETED_WITH_DISCLOSED_BLINDING_DEVIATION",
+  "recorded_at": "2026-10-26T12:00:31.857840+00:00",
+  "scope": "PROJECT_HISTORICAL_HOLDOUT_PREACQUISITION",
+  "protocol_commit": "3451f2323e4acb2556aaeb382482f83ae681f5ce",
+  "protocol_sha256": "e43adda930945e3fc8765e1c2a87f2109fa420ff91b09b6fc3e114e493f59b07",
+  "plan_hash": "03b9c996063e7fb03fbb95e70fd4416bf30a5e0f54617db72fbb9ce8e18f812b",
+  "local_evidence_root": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026",
+  "workspace": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace",
+  "runtime_source_sha256": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+  "period": {
+    "score_start": "2026-02-02",
+    "score_end": "2026-02-27",
+    "context_start": "2026-01-14",
+    "context_sessions": 12,
+    "scored_sessions": 19
+  },
+  "runs": {
+    "NDAQ": {
+      "task_id": "1e59c059b27842135ee3d756b9c3dbc4054c7437cc6aa680588210d73e094cd2",
+      "task_ref": "tasks/task-blind-03b9c996063e7fb03fbb-ndaq-create_task",
+      "run_id": "b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959",
+      "run_ref": "runs/run-b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959",
+      "report_hash": "eca9aa9b8c39070a81009e72679213580640bed583f189737f794901452110be",
+      "snapshot_id": "a579a9cf9a2e27e5f6652bdf85b1c293c1d4bf3057365f6bb6543caf0bb5d90b",
+      "summary": {
+        "report_hash": "eca9aa9b8c39070a81009e72679213580640bed583f189737f794901452110be",
+        "total_return": 0.014462833802999953,
+        "max_drawdown": 0.0,
+        "final_equity": 10144.62833803,
+        "total_fees": 4.12099947,
+        "fill_count": 2,
+        "round_trip_count": 1,
+        "realized_pnl": 144.62833803000026,
+        "unrealized_pnl": 0.0,
+        "open_position_qty": 0.0,
+        "annualized_return": null,
+        "sharpe_ratio": null,
+        "win_rate": 1.0,
+        "statistical_status": {
+          "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+          "annualized_return": "SHORT_SAMPLE",
+          "elapsed_years": 0.07539682539682539,
+          "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+          "minimum_observations": 30,
+          "observation_count": 19,
+          "periods_per_year": 252,
+          "sharpe_ratio": "SHORT_SAMPLE",
+          "status": "INSUFFICIENT_EVIDENCE",
+          "win_rate": "DESCRIPTIVE_COMPLETED_ROUND_TRIPS"
+        },
+        "scored_sessions": 19
+      }
+    },
+    "KO": {
+      "task_id": "e3cd491980a4917d2760699d8a9b19e13c2a8c2e00e316896392c0e7cf5302f1",
+      "task_ref": "tasks/task-blind-03b9c996063e7fb03fbb-ko-create_task",
+      "run_id": "b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c",
+      "run_ref": "runs/run-b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c",
+      "report_hash": "027096ba20c63d15e05abd3119167914068c7cbaf1374a734567f510fa9f1089",
+      "snapshot_id": "23a5f74d3b043d6b06111b3dac35204095a5545601d478855726f2921a56c4fe",
+      "summary": {
+        "report_hash": "027096ba20c63d15e05abd3119167914068c7cbaf1374a734567f510fa9f1089",
+        "total_return": 0.0,
+        "max_drawdown": 0.0,
+        "final_equity": 10000.0,
+        "total_fees": 0.0,
+        "fill_count": 0,
+        "round_trip_count": 0,
+        "realized_pnl": 0.0,
+        "unrealized_pnl": 0.0,
+        "open_position_qty": 0.0,
+        "annualized_return": null,
+        "sharpe_ratio": null,
+        "win_rate": null,
+        "statistical_status": {
+          "annualization_basis": "SCORED_INTERVAL_COUNT_OVER_CONFIGURED_PERIODS_PER_YEAR",
+          "annualized_return": "SHORT_SAMPLE",
+          "elapsed_years": 0.07539682539682539,
+          "inference_status": "DESCRIPTIVE_ONLY_NO_STRATEGY_VALIDATION",
+          "minimum_observations": 30,
+          "observation_count": 19,
+          "periods_per_year": 252,
+          "sharpe_ratio": "SHORT_SAMPLE",
+          "status": "INSUFFICIENT_EVIDENCE",
+          "win_rate": "NO_COMPLETED_ROUND_TRIPS"
+        },
+        "scored_sessions": 19
+      }
+    }
+  },
+  "validations": {
+    "NDAQ": {
+      "validation_id": "4e033dfab3026887a02663ecb648cbc571f98316b3a899c791d5d3fcb9a42bb7",
+      "validation_ref": "validations/validation-4e033dfab3026887a02663ecb648cbc571f98316b3a899c791d5d3fcb9a42bb7",
+      "validation_hash": "3e623aa3734d2b8b16808dd1c7aa630a4cc69cab1bc10212b4ee95ff08f0b393",
+      "status": "COMPLETED",
+      "followup": {
+        "status": "NOT_RUN",
+        "reason": "NO_EXPLICIT_FOLLOWUP_INTERVAL",
+        "summary": null,
+        "report_hash": null,
+        "artifact": null,
+        "method": "FIXED_PARAMETERS_LATER_INTERVAL_DESCRIPTIVE_ONLY",
+        "blind_holdout": false,
+        "parameter_selection": false
+      }
+    },
+    "KO": {
+      "validation_id": "bbeef2bf94acb08fc873f2dd41316733d16eb2ab99500d08558f0c00f03419d9",
+      "validation_ref": "validations/validation-bbeef2bf94acb08fc873f2dd41316733d16eb2ab99500d08558f0c00f03419d9",
+      "validation_hash": "8553e77bbb15a6352b80e5876bb63447ec9e1fd8008b680bbf32b1971cf9ba9b",
+      "status": "COMPLETED",
+      "followup": {
+        "status": "NOT_RUN",
+        "reason": "NO_EXPLICIT_FOLLOWUP_INTERVAL",
+        "summary": null,
+        "report_hash": null,
+        "artifact": null,
+        "method": "FIXED_PARAMETERS_LATER_INTERVAL_DESCRIPTIVE_ONLY",
+        "blind_holdout": false,
+        "parameter_selection": false
+      }
+    }
+  },
+  "operation_counts": {
+    "validate_run": 2,
+    "run_task": 2,
+    "create_task": 2,
+    "import_input": 2
+  },
+  "economic_calculation_accounting": {
+    "formal_native_runs": 2,
+    "new_cost_and_benchmark_runs": 8,
+    "one_x_cost_reuses": 2,
+    "prefix_observer_recalculations": 2,
+    "total_including_verification": 12,
+    "readback_calculations": 0
+  },
+  "prefix_verification": {
+    "status": "PASS",
+    "total_callbacks": 38,
+    "summary_sha256": "9d653b78493406cd98ac9ccdaffa944a65dab9097623e844a9dd7268d9de644c"
+  },
+  "preservation_review": {
+    "path": "final-preservation-review.json",
+    "sha256": "eee95643565a53413d2ea4117c91fbced811ae82b77a32354b46eb574a9ef4f9",
+    "status": "PASS_ORIGINAL_FILES_WITH_DISCLOSED_AUDIT_CACHE_ADDITION"
+  },
+  "native": {
+    "formal_runs": 2,
+    "cost_validations": 2,
+    "api_imports_and_task_creations": 4,
+    "closed_window_id": 5637570,
+    "reopened_window_id": 1837662,
+    "same_entry": true,
+    "reopened_result_and_cost_readback": true,
+    "new_economic_runs_after_reopen": 0,
+    "screenshots": 8
+  },
+  "disclosed_output_deviation": {
+    "note": "metadata-review-note.json",
+    "sha256": "571d4fb9f42db87458771e8836c6d8263be014fa4b626f554556943662bae4a2",
+    "encoded_source_was_displayed": true,
+    "later_decoded_as_opaque_bytes_for_hash": true,
+    "decoded_for_selection": false,
+    "price_payload_parsed_by_source_reviewer": false,
+    "strict_blinding_claim": false,
+    "prior_prefix_summary_correction": "The earlier without-decoding shorthand describes the accidental output only; subsequent opaque-byte base64 decoding for SHA verification is disclosed in the unchanged metadata-review-note."
+  },
+  "boundaries": {
+    "chronological_oos": false,
+    "natural_forward": false,
+    "global_unseen_proven": false,
+    "historical_point_in_time_source": false,
+    "statistical_strategy_validation": false,
+    "operating_system_sandbox": false,
+    "april_stop_preserved": true,
+    "original_followup_not_run_retained": true
+  },
+  "remote_ci": "CHECK_EXACT_DELIVERY_HEAD_IN_PR_26_SEPARATELY",
+  "copied_evidence": [
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/git-seal.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\git-seal.json",
+      "sha256": "b0a91eab84d81510703158b5e79c6371f4afcfab0466af6b75d8d773567af952",
+      "bytes": 1440
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/metadata-review-note.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\metadata-review-note.json",
+      "sha256": "571d4fb9f42db87458771e8836c6d8263be014fa4b626f554556943662bae4a2",
+      "bytes": 5346
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/native-runs-readback.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native-runs-readback.json",
+      "sha256": "a8dbf212d0f264b2ba21aa4a7aa14e35bc3830ac888a2dc6c8beb33c77aeb5d9",
+      "bytes": 4711
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/cost-and-operation-readback.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\cost-and-operation-readback.json",
+      "sha256": "20b40db7ebfe74326026e8dc8df0cff765a3aded668314831e8b0ca56e6b2782",
+      "bytes": 58768
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/causality-NDAQ.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-NDAQ.json",
+      "sha256": "0b2f45fd634dde7d2e09897b01d3d381cee6c683adb09f9a8b9c2fcab512ec6d",
+      "bytes": 23334
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/causality-KO.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-KO.json",
+      "sha256": "4ca56f9c02eea765b39d2bab336faeee46a5c17bc02f47cd9185dbcda2e63f57",
+      "bytes": 23334
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/causality-NDAQ.json.started.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-NDAQ.json.started.json",
+      "sha256": "ccebb10bc7aa350d355adbe64e3ed2d5d1c76b8974ada6182bfb77ed3f1f4c8b",
+      "bytes": 356
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/causality-KO.json.started.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-KO.json.started.json",
+      "sha256": "9ffc4226851edf6632355a1766ac6a23868c2e5f4a5f9cf235720e5c8cc6df22",
+      "bytes": 356
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/prefix-verification-summary.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prefix-verification-summary.json",
+      "sha256": "9d653b78493406cd98ac9ccdaffa944a65dab9097623e844a9dd7268d9de644c",
+      "bytes": 6376
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/final-preservation-review.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\final-preservation-review.json",
+      "sha256": "eee95643565a53413d2ea4117c91fbced811ae82b77a32354b46eb574a9ef4f9",
+      "bytes": 18780
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/preservation-after.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\preservation-after.json",
+      "sha256": "9e87fabe99ca563b000c37e71c9c3a428646082b2b4f2a25ff8a1ec254c58c77",
+      "bytes": 88201
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/acquisition-started.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1\\acquisition-started.json",
+      "sha256": "9b001466e560a94a64f3a30f86e4d47ed150b4e9a5cada84a064609cf2272ba5",
+      "bytes": 406
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/acquisition.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1\\acquisition.json",
+      "sha256": "5ad081af55c6ccd628f65709af75eb47737f0f79e920f0eee7df625c26c0a97e",
+      "bytes": 3109
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/preparation.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1\\preparation.json",
+      "sha256": "15195410dc355cbc9d5db351783aa879641381731e9a07e5a5d6fefdbd526a44",
+      "bytes": 5920
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/causality-NDAQ-log.txt",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-NDAQ.log",
+      "sha256": "e6f2c9b93899443e22bdc622fcff065473c94d7524a3f76b0e21497fe938feb8",
+      "bytes": 1276
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/causality-KO-log.txt",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-KO.log",
+      "sha256": "60e1f95c985349d913e89d4835711a1b7f1b208f3b1ea30d96fbec24541eaa30",
+      "bytes": 1274
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/actual-acquisition-preparation-r1-log.txt",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\actual-acquisition-preparation-r1.log",
+      "sha256": "6ece137ec3608e5ea9e062a743df970742384836d83717dd3e9275f48bfe28ec",
+      "bytes": 2097
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/native/before-close-lifecycle.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\before-close-lifecycle.json",
+      "sha256": "b3bfd8a7be2262343c51df6b38b354d6ebed0e79dcdc5cf284dfeb6d960d8bc5",
+      "bytes": 6167
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/native/closed-lifecycle.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\closed-lifecycle.json",
+      "sha256": "3a472e19030f5c6ecc5e488763a5e7fd45d7d379200494dca594144ea3ea91b1",
+      "bytes": 153
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/native/reopened-lifecycle.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\reopened-lifecycle.json",
+      "sha256": "54de5a848c3337d2789296fa5c0f4f8cbe90cbf78424e82b20990f38b9e1a7be",
+      "bytes": 6590
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/native/launch-r1.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\launch-r1.json",
+      "sha256": "4c32d10afeabfefbb28e55628420d698a9e9ee71ef555b0cb636f3a2f9d7c255",
+      "bytes": 230
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/native/launch-r2.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\launch-r2.json",
+      "sha256": "8756734fc1c3d2bc48ea3eb0618961ba19e8e931f5649ba5fef269ad3dbef413",
+      "bytes": 234
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/native/workspace-before-reopen.json",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\workspace-before-reopen.json",
+      "sha256": "94ed4f7e2273c56155b54c5ea769ec16c3eb777bda8db419bc38809cd69576db",
+      "bytes": 79533
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/images/01-version-workspace.jpg",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\01-version-workspace.jpg",
+      "sha256": "c313c9a6a74e92cdd77a28d085d09bbfb202827befa3bd68acf4b26fdb2b0ab2",
+      "bytes": 134807
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/images/02-frozen-parameters.jpg",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\02-frozen-parameters.jpg",
+      "sha256": "aed1f0d6f2813f620ca1d57078a13ca058a60a9defe5ac64ea92e0b92b5cc623",
+      "bytes": 119192
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/images/03-ko-result.jpg",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\03-ko-result.jpg",
+      "sha256": "fd29dc34e0638742655bde32caa0642500730586ebc3d056715be8ff3f9133d9",
+      "bytes": 92913
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/images/04-ko-costs.jpg",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\04-ko-costs.jpg",
+      "sha256": "9e8f25abbcde9e7333d0a7133e417084d986c7f903a0e54a70af6ec1b58378bd",
+      "bytes": 110543
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/images/05-ndaq-result.jpg",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\05-ndaq-result.jpg",
+      "sha256": "7d3342aaca482f796aad7a906c9bff784d04eb7f35f6983244ee93a1d893ff9b",
+      "bytes": 112936
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/images/06-ndaq-costs.jpg",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\06-ndaq-costs.jpg",
+      "sha256": "51dadc712d03305b13a0c3de5c339f10b5ebe41ad498364093944ff916016c9c",
+      "bytes": 112578
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/images/07-reopened-ndaq-result.jpg",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\07-reopened-ndaq-result.jpg",
+      "sha256": "c94943d01d2e88129424d0f237a0381960b89832f891dee4cac682e0931929d7",
+      "bytes": 97159
+    },
+    {
+      "repository_path": "docs/research-evidence/independent-holdout-feb-20261026/images/08-reopened-ko-costs.jpg",
+      "local_source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\native\\08-reopened-ko-costs.jpg",
+      "sha256": "bbe02bdee058cc79bc0e6bd73c7cad8f9765ac02b949b1b97866e1a2b5343050",
+      "bytes": 110947
+    }
+  ]
+}

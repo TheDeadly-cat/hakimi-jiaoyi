@@ -1,0 +1,143 @@
+diff --git a/outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py b/outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py
+index b17e00d..e123f7c 100644
+--- a/outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py
++++ b/outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py
+@@ -44,8 +44,11 @@ def limits(**changes):
+ class WorkerSupervisorTests(unittest.TestCase):
+     def setUp(self):
+         self.temp = tempfile.TemporaryDirectory(prefix="new-worker-中文 space-")
+-        self.addCleanup(self.temp.cleanup)
+         self.root = Path(self.temp.name).resolve()
++        info = self.root.stat()
++        self._root_identity = (info.st_dev, info.st_ino)
++        self._fixture_resources_settled = False
++        self.addCleanup(self.cleanup_temporary)
+         self.fixtures = worker.create_output_parent(self.root / "fixture")
+         self.outputs = worker.create_output_parent(self.root / "outputs")
+         self.interpreter = Path(sys.executable).resolve(strict=True)
+@@ -55,15 +58,61 @@ class WorkerSupervisorTests(unittest.TestCase):
+         self.addCleanup(self.close_handles)
+ 
+     def close_handles(self):
++        # This is test-resource cleanup, after the production receipt/budgets.
++        # A timed-out receipt is never changed into a successful business result.
++        deadline = time.monotonic() + 3
+         for handle in self.handles:
++            original = handle.finish(0)
++            receipt = handle.run_dir / "result.json"
++            original_bytes = receipt.read_bytes() if receipt.is_file() else None
+             handle.close()
+-            if handle._process is not None and handle._process.poll() is None:
++            launcher = next(thread for thread in handle._threads if thread.name == "worker-launch")
++            launcher.join(timeout=max(0, deadline - time.monotonic()))
++            self.assertFalse(launcher.is_alive(), "retain fixture: owned launcher is not settled")
++            # Popen can become available while joining the launcher. Read its
++            # exact owned handle again; never search or kill an unrelated PID.
++            process = handle._process
++            if process is not None and process.poll() is None:
+                 # Only our own synthetic child. Never enumerate or kill by PID.
+-                handle._process.kill(); handle._process.wait(timeout=2)
+-            for thread in handle._threads:
+-                thread.join(timeout=1)
++                process.kill()
++            if process is not None:
++                process.wait(timeout=max(0, deadline - time.monotonic()))
++                self.assertIsNotNone(process.poll())
++            for thread in tuple(handle._threads):
++                thread.join(timeout=max(0, deadline - time.monotonic()))
++                self.assertFalse(thread.is_alive(), "retain fixture: owned thread is not settled")
++            self.assertIs(handle._process, process)
++            if process is not None:
++                for pipe in (process.stdin, process.stdout, process.stderr):
++                    if pipe is not None:
++                        pipe.close()
+             for stream in handle._streams.values():
+                 stream.close()
++            if original is not None:
++                self.assertEqual(handle.finish(0), original)
++            if original_bytes is not None:
++                self.assertEqual(receipt.read_bytes(), original_bytes)
++        self._fixture_resources_settled = True
++
++    def cleanup_temporary(self):
++        if not self._fixture_resources_settled:
++            self.temp._finalizer.detach()  # Retain only this new fixture for diagnosis.
++            self.fail("retain fixture: owned process/thread cleanup was not confirmed")
++        deadline = time.monotonic() + 2
++        while True:
++            self.assertEqual(worker._plain_path(Path(self.temp.name), exists=False), self.root)
++            if self.root.exists():
++                info = self.root.stat()
++                self.assertEqual((info.st_dev, info.st_ino), self._root_identity)
++            try:
++                self.temp.cleanup()
++                return
++            except PermissionError as error:
++                # Windows may briefly retain a directory handle after process
++                # exit. Retry only this validated fresh TEMP and only WinError32.
++                if getattr(error, "winerror", None) != 32 or time.monotonic() >= deadline:
++                    raise
++                time.sleep(min(0.02, max(0, deadline - time.monotonic())))
+ 
+     def spec(self, body):
+         self.count += 1
+@@ -345,6 +394,59 @@ while True: emit('EVIDENCE',{'test':'only'})'''
+         self.assertIsNotNone(handle._process.poll())
+         self.assertEqual(handle.finish(0), result)  # Original UNKNOWN is not repaired.
+ 
++    def test_fixture_waits_for_late_owned_handle_and_directory_release_without_rewriting_unknown(self):
++        entered, release, joined = threading.Event(), threading.Event(), threading.Event()
++        original_popen = worker.subprocess.Popen
++        def delayed(*args, **kwargs):
++            entered.set()
++            self.assertTrue(release.wait(2))
++            return original_popen(*args, **kwargs)
++        with patch.object(worker.subprocess, "Popen", delayed):
++            handle = self.launch("emit('READY'); time.sleep(30)", wall_seconds=0.3,
++                                 stop_seconds=0.1, cleanup_seconds=0.3)
++            self.assertTrue(entered.wait(1))
++            result = handle.finish(0.6) or handle.finish(0.2)
++            self.assertIsNotNone(result)
++            self.assertEqual(result["status"], "UNKNOWN")
++            self.assertFalse(result["cleanup_confirmed"])
++            self.assertIsNone(handle._process)
++            receipt_bytes = (handle.run_dir / "result.json").read_bytes()
++            launcher = next(thread for thread in handle._threads if thread.name == "worker-launch")
++            original_join = launcher.join
++            def observed_join(timeout=None):
++                joined.set()
++                return original_join(timeout)
++            releaser = threading.Thread(target=lambda: (joined.wait(1), release.set()))
++            releaser.start()
++            try:
++                with patch.object(launcher, "join", observed_join):
++                    self.close_handles()
++            finally:
++                release.set(); releaser.join(2)
++            self.assertTrue(joined.is_set())
++            self.assertFalse(releaser.is_alive())
++        self.assertIsNotNone(handle._process.poll())
++        self.assertEqual(handle._spawn_count, 1)
++        self.assertFalse(any(thread.is_alive() for thread in handle._threads))
++        self.assertEqual(handle.finish(0), result)
++        self.assertEqual((handle.run_dir / "result.json").read_bytes(), receipt_bytes)
++        original_cleanup = self.temp.cleanup
++        attempts = []
++        def transient_directory_handle():
++            attempts.append(True)
++            self.assertEqual(handle.finish(0), result)
++            self.assertEqual((handle.run_dir / "result.json").read_bytes(), receipt_bytes)
++            if len(attempts) == 1:
++                error = PermissionError("synthetic owned directory handle still closing")
++                error.winerror = 32
++                raise error
++            original_cleanup()
++        with patch.object(self.temp, "cleanup", transient_directory_handle):
++            self.cleanup_temporary()
++        self.assertEqual(len(attempts), 2)
++        self.assertFalse(self.root.exists())
++        self.assertEqual(handle.finish(0), result)
++
+     def test_fragmented_utf8_message_and_plain_stderr_preserve_complete_bytes(self):
+         body = '''emit('READY')
+ value={'schema_version':'hakimi-broker-worker-message-v1','run_id':a.run_id,

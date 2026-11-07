@@ -1,0 +1,33 @@
+{
+  "source_commit": "7e1b28e0c44b3441e808d31230204887e05eebe6",
+  "source_status": "CLEAN",
+  "binding": {
+    "python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2\\Scripts\\python.exe",
+    "canonical": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+    "repository": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易",
+    "search_path": [
+      "",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\python314.zip",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\DLLs",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2",
+      "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2\\Lib\\site-packages",
+      "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易\\src",
+      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages"
+    ],
+    "sdk_spec_origin": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2\\Lib\\site-packages\\futu\\__init__.py",
+    "sdk_version": "10.7.6708",
+    "sdk_imported": false
+  },
+  "browser_binding": {
+    "node": "v22.23.4",
+    "playwright": "1.62.1",
+    "chromium": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci151-playwright-browsers-r1\\chromium-1234\\chrome-win64\\chrome.exe"
+  },
+  "global_environment_modified": false,
+  "downloads": 0,
+  "new_venv": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2",
+  "node_modules_cache": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules",
+  "reason": "Fresh verification because six Git checkout files changed CRLF to LF, including packaged futu_context.py; no byte-normalization exception."
+}

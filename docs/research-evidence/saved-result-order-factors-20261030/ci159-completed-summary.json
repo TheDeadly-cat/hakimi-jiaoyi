@@ -1,0 +1,76 @@
+{
+  "source_commit": "0cd021ac2dbc47d847bc366a38b4272e6495d3b0",
+  "run_id": 40945319586,
+  "run_number": 159,
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 123699042943,
+      "name": "Offline research MVP contracts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123699043355,
+      "name": "Market-data renderer",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123699043432,
+      "name": "Python contracts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123699043472,
+      "name": "Offline terminal Python contracts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123699043498,
+      "name": "Package install smoke (windows-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123699043505,
+      "name": "Package install smoke (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123699043645,
+      "name": "Complete desktop check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123699043657,
+      "name": "Deterministic references",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123699043708,
+      "name": "Electron capability contract",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123699043756,
+      "name": "Historical developer reference replay",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123705514036,
+      "name": "Research required gate",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "rerun_requested": false
+}

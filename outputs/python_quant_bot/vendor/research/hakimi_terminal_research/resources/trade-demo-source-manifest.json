@@ -1,0 +1,87 @@
+{
+  "schema_version": "equity-source-task-v1",
+  "task_id": "SYNTHETIC_WORKFLOW",
+  "security": {
+    "security_id": "SYNTHETIC:NVDA:COMMON",
+    "symbol": "NVDA",
+    "name": "NVIDIA Corporation",
+    "currency": "USD",
+    "adapter": "nvidia-earnings-html-v1"
+  },
+  "selection": {
+    "purpose": "SOURCE_WORKFLOW_ENGINEERING",
+    "basis": "明确的虚构格式夹具，仅演示离线操作，不代表真实公司原件或研究结果。",
+    "selected_before_price_review": true,
+    "minimum_opportunities": 3,
+    "price_rule": "FIXED_C_PRICE_CONFIRMATION_V1",
+    "economic_scope": "NOT_REQUESTED_COSTS_AND_RETURNS_NOT_COMPUTED"
+  },
+  "source_scope": {
+    "description": "Two fictional disclosures",
+    "included_types": [
+      "EARNINGS_RELEASE"
+    ],
+    "uncovered_channels": [
+      "Calls",
+      "Historical versions"
+    ]
+  },
+  "budget": {
+    "max_events": 2,
+    "max_sources": 4,
+    "max_source_bytes": 10000,
+    "max_total_bytes": 40000,
+    "max_network_requests": 0,
+    "max_economic_runs": 0
+  },
+  "timing": {
+    "mode": "HISTORICAL_RECONSTRUCTION",
+    "collection_delay_seconds": 60,
+    "processing_delay_seconds": 60
+  },
+  "events": [
+    {
+      "event_id": "SYNTHETIC:NVDA:2024Q1",
+      "event_kind": "EARNINGS",
+      "fiscal_quarter": "2024Q1",
+      "window_start": "2023-02-01T00:00:00Z",
+      "window_end": "2023-05-31T23:59:59Z",
+      "actual_source_id": "actual",
+      "prior_source_ids": [
+        "prior"
+      ],
+      "known_material_source_ids": [
+        "prior",
+        "actual"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "prior",
+      "path": "prior.html",
+      "sha256": "b54eca6c06609f34032b68daf1386d5e19142d519f77a4a23bef00325af3f015",
+      "url": "https://nvidianews.nvidia.com/fictional-test/prior",
+      "retrieved_at": "2026-09-27T00:00:00Z",
+      "legal_use": "SYNTHETIC_TEST",
+      "declaration_version": 1,
+      "prior_source_id": null,
+      "coverage": "CONSOLIDATED_REPORTED"
+    },
+    {
+      "source_id": "actual",
+      "path": "actual.html",
+      "sha256": "c43f84db950b093ca09eab15e0cc9590bb6893a127fad04afdd4e6d7762f597b",
+      "url": "https://nvidianews.nvidia.com/fictional-test/actual",
+      "retrieved_at": "2026-09-27T00:00:00Z",
+      "legal_use": "SYNTHETIC_TEST",
+      "declaration_version": 1,
+      "prior_source_id": null,
+      "coverage": "CONSOLIDATED_REPORTED"
+    }
+  ],
+  "output_dir": "../source-runs",
+  "previous_packet": null,
+  "market_snapshot": null,
+  "evidence_kind": "SYNTHETIC_FIXTURE"
+}

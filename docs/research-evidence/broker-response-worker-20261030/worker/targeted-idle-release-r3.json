@@ -1,0 +1,25 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "tests.test_terminal_broker_worker_supervisor.WorkerSupervisorTests.test_stop_during_blocked_stdin_writer_does_not_hold_watchdog_or_control",
+    "-v"
+  ],
+  "exit_code": 0,
+  "seconds": 0.9419304000039119,
+  "before": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_terminal_broker_worker_supervisor.py": "4e343bef18d41a8d3f6270491a296116a8adb520c38ec59a80a315b671636a8b"
+  },
+  "after": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\python_quant_bot\\tests\\test_terminal_broker_worker_supervisor.py": "4e343bef18d41a8d3f6270491a296116a8adb520c38ec59a80a315b671636a8b"
+  },
+  "current_test_file_count": 22,
+  "executed_cases": 1,
+  "scope": "ONLY_BLOCKED_STDIN_LATE_IDLE_RELEASE_NO_RETRY_NO_RECEIPT_REWRITE"
+}

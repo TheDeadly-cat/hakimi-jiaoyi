@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-10-26T15:31:35.2532594Z",
+  "launch_method": "Explorer ShellExecute via explicit exe",
+  "desktop_window": 1182970,
+  "port": 62390,
+  "processes": [
+    {
+      "ProcessId": 32996,
+      "ParentProcessId": 10468,
+      "ExecutablePath": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\HakimiWorkbench.exe",
+      "CreationDate": "2026-10-26T23:28:38.295451+08:00",
+      "CommandLine": "\"C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\HakimiWorkbench.exe\" "
+    },
+    {
+      "ProcessId": 34184,
+      "ParentProcessId": 32996,
+      "ExecutablePath": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\HakimiWorkbench.exe",
+      "CreationDate": "2026-10-26T23:28:44.684679+08:00",
+      "CommandLine": "\"C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\HakimiWorkbench.exe\" --type=gpu-process --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\hakimi-research-trial\" --gpu-preferences=WAAAAAAAAADgAAAMAAAAAAAAAAAAAAAAAABgAAEAAAA4AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAYAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --field-trial-handle=1768,i,8814266925294390018,11590926297117237306,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=1760 /prefetch:2"
+    },
+    {
+      "ProcessId": 33368,
+      "ParentProcessId": 32996,
+      "ExecutablePath": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\HakimiWorkbench.exe",
+      "CreationDate": "2026-10-26T23:28:44.702716+08:00",
+      "CommandLine": "\"C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\HakimiWorkbench.exe\" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=zh-CN --service-sandbox-type=none --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\hakimi-research-trial\" --field-trial-handle=2060,i,8814266925294390018,11590926297117237306,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=1956 /prefetch:11"
+    },
+    {
+      "ProcessId": 35368,
+      "ParentProcessId": 32996,
+      "ExecutablePath": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\python.exe",
+      "CreationDate": "2026-10-26T23:28:46.70447+08:00",
+      "CommandLine": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\python.exe -I -B -u -X utf8 -m hakimi_research.workbench_server --workspace C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd --port 0"
+    },
+    {
+      "ProcessId": 32960,
+      "ParentProcessId": 32996,
+      "ExecutablePath": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\HakimiWorkbench.exe",
+      "CreationDate": "2026-10-26T23:28:48.919819+08:00",
+      "CommandLine": "\"C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\HakimiWorkbench.exe\" --type=renderer --user-data-dir=\"C:\\Users\\Administrator\\AppData\\Roaming\\HakimiResearchWorkbench\\candidates\\a1988ddf2481d46629ddf3393b565daac3aec711f8692eecf5d44a775046ff7f\" --app-path=\"C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\resources\\app\" --enable-sandbox --lang=zh-CN --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=4 --time-ticks-at-unix-epoch=-1792962166701414 --launch-time-ticks=66362209203 --field-trial-handle=2816,i,8814266925294390018,11590926297117237306,262144 --disable-features=SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit,WinRetrieveSuggestionsOnlyOnDemand --variations-seed-version --mojo-platform-channel-handle=2780 /prefetch:1"
+    }
+  ]
+}

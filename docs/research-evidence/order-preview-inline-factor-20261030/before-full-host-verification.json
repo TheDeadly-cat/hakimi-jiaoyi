@@ -1,0 +1,224 @@
+{
+  "status": "PASS",
+  "mode": "before",
+  "origin": "http://127.0.0.1:45572",
+  "viewports": [
+    1280,
+    480
+  ],
+  "full_host_render": true,
+  "fixture": "explicit in-memory unit QA contracts; no business record opened",
+  "browser_plugin": "NOT_AVAILABLE",
+  "browser": "headless Chrome via existing Playwright",
+  "results": [
+    {
+      "width": 1280,
+      "case": "preview_has_no_local_factor_action",
+      "status": "REPRODUCED"
+    },
+    {
+      "width": 480,
+      "case": "preview_has_no_local_factor_action",
+      "status": "REPRODUCED"
+    }
+  ],
+  "requests": [
+    {
+      "width": 1280,
+      "resource": "status",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "strategies",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "jobs",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_catalog",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_inputs",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_tasks",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_history",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_reports",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "status",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_core_inputs",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_execution_accounts",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_judgments",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_exit_experiments",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_exit_runs",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_insights",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_execution_research/{\"reference\":{\"kind\":\"terminal_run\",\"id\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"}}",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_runs/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_execution_account/account-a",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "status",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "strategies",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "jobs",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_catalog",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_inputs",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_tasks",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_history",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_reports",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "status",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_core_inputs",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_execution_accounts",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_judgments",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_exit_experiments",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_exit_runs",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_insights",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_execution_research/{\"reference\":{\"kind\":\"terminal_run\",\"id\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"}}",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_runs/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_execution_account/account-a",
+      "method": "GET"
+    }
+  ],
+  "errors": [],
+  "expected_injected_503": 0,
+  "relevantErrors": [],
+  "post_count": 0,
+  "new_research_runs": 0,
+  "new_orders": 0,
+  "external_requests": 0
+}

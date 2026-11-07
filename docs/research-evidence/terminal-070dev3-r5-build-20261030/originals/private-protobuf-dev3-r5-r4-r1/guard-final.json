@@ -1,0 +1,16 @@
+{
+  "attempts": {
+    "socket": 0,
+    "database": 0,
+    "subprocess": 0,
+    "thread": 0,
+    "futu_import": 0,
+    "server_import": 0
+  },
+  "private_flags": {
+    "isolated": 1,
+    "no_site": 1,
+    "ignore_environment": 1,
+    "dont_write_bytecode": 1
+  }
+}

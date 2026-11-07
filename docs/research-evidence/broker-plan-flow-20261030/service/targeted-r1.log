@@ -1,0 +1,99 @@
+test_capacity_and_closed_service_do_not_start_more_preparation (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_capacity_and_closed_service_do_not_start_more_preparation) ... ok
+test_cross_instance_same_id_has_one_durable_claim_and_one_preparation (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_cross_instance_same_id_has_one_durable_claim_and_one_preparation) ... ok
+test_exact_six_fields_and_changed_request_conflict_never_accept_client_authority (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_exact_six_fields_and_changed_request_conflict_never_accept_client_authority) ... ok
+test_expiry_is_rechecked_at_final_publication (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_expiry_is_rechecked_at_final_publication) ... ok
+test_interruption_and_write_rollback_keep_preparing_no_automatic_retry (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_interruption_and_write_rollback_keep_preparing_no_automatic_retry) ... ok
+test_lazy_reads_and_capabilities_create_zero_store_and_no_research (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_lazy_reads_and_capabilities_create_zero_store_and_no_research) ... ok
+test_lost_response_after_atomic_commit_reads_original_success_without_recomputation (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_lost_response_after_atomic_commit_reads_original_success_without_recomputation) ... ok
+test_modes_and_workspace_store_context_cannot_be_interchanged (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_modes_and_workspace_store_context_cannot_be_interchanged) ... ERROR
+test_not_packaged_and_package_changed_are_durable_refusals_without_fallback (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_not_packaged_and_package_changed_are_durable_refusals_without_fallback) ... ok
+test_original_request_reads_and_replays_do_not_reload_research_package_or_expiry (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_original_request_reads_and_replays_do_not_reload_research_package_or_expiry) ... C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_broker_execution_plan.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x000001C9B69B8B80>
+  def _require(condition, message):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_plain_runtime_dictionary_is_not_a_trusted_loader_result (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_plain_runtime_dictionary_is_not_a_trusted_loader_result) ... ok
+test_plan_and_receipt_commit_together_from_original_candidate_records (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_plan_and_receipt_commit_together_from_original_candidate_records) ... ok
+test_plan_commit_linearizes_before_concurrent_stop_in_short_barrier (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_plan_commit_linearizes_before_concurrent_stop_in_short_barrier) ... ok
+test_resealed_receipt_permission_and_request_identity_drift_fail_closed (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_resealed_receipt_permission_and_request_identity_drift_fail_closed) ... ERROR
+test_stop_and_resume_during_slow_loader_invalidate_old_preparation_revision (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_stop_and_resume_during_slow_loader_invalidate_old_preparation_revision) ... ok
+test_transaction_failure_rolls_back_both_plan_and_final_receipt (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_transaction_failure_rolls_back_both_plan_and_final_receipt) ... C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_broker_execution_plan.py:63: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x000001C9B6A4B790>
+  def check(item, depth=0):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_broker_execution_plan.py:63: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x000001C9B6A4BD30>
+  def check(item, depth=0):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_broker_execution_plan.py:63: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x000001C9B6A4BE20>
+  def check(item, depth=0):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\terminal_broker_execution_plan.py:63: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x000001C9B6A4BA60>
+  def check(item, depth=0):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_original_receipt_and_plan_survive_package_change_but_new_prepare_refuses (tests.test_terminal_broker_plan_integration.BrokerPlanIntegrationTests.test_original_receipt_and_plan_survive_package_change_but_new_prepare_refuses) ... ok
+test_production_factory_uses_real_repository_loader_and_lazy_reads (tests.test_terminal_broker_plan_integration.BrokerPlanIntegrationTests.test_production_factory_uses_real_repository_loader_and_lazy_reads) ... ok
+test_real_saved_resolver_original_candidate_manifest_loader_to_plan_without_research (tests.test_terminal_broker_plan_integration.BrokerPlanIntegrationTests.test_real_saved_resolver_original_candidate_manifest_loader_to_plan_without_research) ... ok
+test_stale_control_rejects_and_renderer_cannot_supply_package_or_originals (tests.test_terminal_broker_plan_integration.BrokerPlanIntegrationTests.test_stale_control_rejects_and_renderer_cannot_supply_package_or_originals) ... ok
+test_terminal_service_close_marks_plan_service_closed_without_recovery_writes (tests.test_terminal_broker_plan_integration.BrokerPlanIntegrationTests.test_terminal_service_close_marks_plan_service_closed_without_recovery_writes) ... ok
+
+======================================================================
+ERROR: test_modes_and_workspace_store_context_cannot_be_interchanged (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_modes_and_workspace_store_context_cannot_be_interchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 701, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\broker-plan-new-synthetic-lzv_85bz\\new-workspace\\broker-plans-v1\\official-simulation\\plans.sqlite3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 705, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 930, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\broker-plan-new-synthetic-lzv_85bz\\new-workspace\\broker-plans-v1\\official-simulation\\plans.sqlite3'
+
+======================================================================
+ERROR: test_resealed_receipt_permission_and_request_identity_drift_fail_closed (tests.test_terminal_broker_plan_service.BrokerPlanServiceTests.test_resealed_receipt_permission_and_request_identity_drift_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 701, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\broker-plan-new-synthetic-1o2mmo_g\\new-workspace\\broker-plans-v1\\official-simulation\\plans.sqlite3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 705, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 930, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\broker-plan-new-synthetic-1o2mmo_g\\new-workspace\\broker-plans-v1\\official-simulation\\plans.sqlite3'
+
+----------------------------------------------------------------------
+Ran 21 tests in 5.865s
+
+FAILED (errors=2)

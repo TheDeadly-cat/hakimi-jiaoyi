@@ -1,0 +1,29 @@
+{
+  "status": "OPAQUE_ID_REGRESSION_PASS_FROZEN",
+  "owned_changed_files": [
+    "outputs/python_quant_bot/tests/test_terminal_broker_execution_journal.py"
+  ],
+  "new_cases": 1,
+  "current_file_total_cases": 30,
+  "executed_cases": 2,
+  "unittest_seconds": 0.379,
+  "exit_code": 0,
+  "source_unchanged": true,
+  "hashes": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "cf41a3585d91b448dacd78cb23f68dd8029926fb1103eba0e4d323c527df8736",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_profile.py": "72242c9a817ff06494880e8b77f168489ece291167c09fb7e8da09f4d0f76367",
+    "outputs/python_quant_bot/tests/test_terminal_broker_execution_journal.py": "191c65920ae1034253966f10894854844f83efe958abd44f9f0cbae10e4f421d"
+  },
+  "proof": "ACK US-ORDER-0001 remains original string; exact observe/cancel succeed; whitespace, numeric extraction, case or ID change are rejected; cancel ACK alone keeps reserve.",
+  "current_receipt": "targeted-opaque-r5.json",
+  "current_log": "targeted-opaque-r5.log",
+  "prior_29_evidence": {
+    "receipt": "targeted-final29-r4.json",
+    "service_sha256": "0ef50515b43ee4ce507f2525bde38c6c3921cf31a01b4ca4eb4c0a8d51db92ec",
+    "applies_to": "Prior frame/possible-sent contract source before opaque orderIDEx validation correction",
+    "not_rerun_on_current_source": true
+  },
+  "scope": "Only opaque broker-ID validation regression and existing wrong-account/mode/order test. No other service logic changed by this agent; no SDK/network/server/research/GUI/existing store.",
+  "old_evidence_preserved": true
+}

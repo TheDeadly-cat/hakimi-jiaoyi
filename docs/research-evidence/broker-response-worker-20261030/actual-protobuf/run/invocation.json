@@ -1,0 +1,88 @@
+{
+  "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "package": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4",
+  "output": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-response-facts-20261030\\private-protobuf-r1\\run",
+  "package_manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+  "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5",
+  "package_source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+  "parent_git_head": "6581c5926d5283a0b3916041b2292dcc1b1031d5",
+  "parent_git_status": " M outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py\n M tools/run_terminal_contracts.py\n?? outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py\n?? outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py\n?? outputs/python_quant_bot/tests/test_terminal_broker_response_facts.py\n?? outputs/python_quant_bot/tests/test_terminal_broker_response_recording.py\n?? outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py\n",
+  "source_hashes": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\__init__.py": "3ef5dff0950326a45593bad0b6afc529fcaf6772e0bb3a59b9b327e8e483ddca",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\__init__.py": "205eeededbfaa0f67e4704849d0c50a9b92db578441ec9e0890ae0ac461036d1",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_candidate_service.py": "014f8109512d8d664667550fb76bb54195598dad7a43032ca852ad7f369a95ed",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_execution_journal.py": "e2a3dc56cd4fa810d9b45e92c092a974ea2437b68d2df48db78c72041243d172",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_response_facts.py": "010f5c3fc3e0cc1fe3674591dfcdb3d3ae29d7f12398811c1b997ffb473f1414",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_result_comparison.py": "b61d1431b48db73d8219850e58e052349f8a19b9062ef3f3faa26c53b7ac9490",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\adapters\\futu_us_equity_simulate_wire_v2.py": "c7095e5f9012cf5473a5721d0ae98b3816b792a9bca3ce8d7414d2ff7f458709",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\__init__.py": "77f85c411e95612b0e56e02c68a640d7f417dabfe1b4a826d7ed470c329b4cf2",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_terminal_broker_execution_plan.py": "3ed9cb11a9931439bfd516245207100d30038339108cc619116995f3472107e0",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_terminal_broker_wire_profile.py": "72242c9a817ff06494880e8b77f168489ece291167c09fb7e8da09f4d0f76367",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_futu_us_equity_simulate_wire_v2.py": "cf37b0d3dfc97e8aea46fb0f43785422c5c933aeedfa2f9f10d800f33f022b7d"
+  },
+  "allowed_pb": {
+    "Trd_GetOrderFee_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Trd_GetOrderFee_pb2.py",
+      "sha256": "2acacd80cb7377c96d6250f73bd7b892b09b75d8d4dbba270acb4776469c29b6"
+    },
+    "Trd_Common_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Trd_Common_pb2.py",
+      "sha256": "07648d02e70d365a4311f90297880e054e983f14989232ba8ccc560a9e29f985"
+    },
+    "Qot_Common_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Qot_Common_pb2.py",
+      "sha256": "e93d3422e160a72d867cc1f6363bf8904bd2dd87536f71d3528c5ee0a6652f6c"
+    },
+    "Common_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Common_pb2.py",
+      "sha256": "d82536ac263f62fdf946bb6ff07dd4f2d710b53d1d4501aa92eba31145a6efcf"
+    },
+    "Trd_ModifyOrder_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Trd_ModifyOrder_pb2.py",
+      "sha256": "26e83b4cf26bdc381ef072168799e66ae343da51c7faaf13627cf56cb49fe8db"
+    },
+    "Trd_GetOrderList_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Trd_GetOrderList_pb2.py",
+      "sha256": "04061b2789e084360d7234a7ec6476e6cc14c77a5df20b87065d47134bbd890a"
+    },
+    "Trd_PlaceOrder_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Trd_PlaceOrder_pb2.py",
+      "sha256": "5f7f46ab596f6c74be9493ada66160c76aa25aa70208a68f951c51b228861fa8"
+    },
+    "Qot_GetSecuritySnapshot_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Qot_GetSecuritySnapshot_pb2.py",
+      "sha256": "fd7ef08fa5509cbe879d6d5bd52f40f8f23fda1698bcde702a49cc1e0028dc34"
+    },
+    "Qot_GetStaticInfo_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Qot_GetStaticInfo_pb2.py",
+      "sha256": "72c2e4d1d337c7db07fc45321ee6c77f07470805486d6d5fd66b221ee624b542"
+    },
+    "Trd_GetPositionList_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Trd_GetPositionList_pb2.py",
+      "sha256": "c050013ed9e78dec4f491511b181af14bbb6ae43ebc2d82864bd9d2b17819ebe"
+    },
+    "Trd_GetFunds_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Trd_GetFunds_pb2.py",
+      "sha256": "eb0f29a59905c86daa80f5e79d8f289a88c33fadf93d1b7e100b74a318b3c4df"
+    },
+    "Trd_GetAccList_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\Trd_GetAccList_pb2.py",
+      "sha256": "9ad0dfeec44f829faddcb9f8cad9e324dbc82ab7d80ccd51dac659a9b452926d"
+    },
+    "GetGlobalState_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\GetGlobalState_pb2.py",
+      "sha256": "ba2303787c2be56ab80d6ee7eea688b08d645f2c490f002f76b57df6e3af8917"
+    },
+    "InitConnect_pb2": {
+      "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\Lib\\site-packages\\futu\\common\\pb\\InitConnect_pb2.py",
+      "sha256": "93ffed96eb8cb7b1c488ef883d4cdbaa487fc471743b9188bbddb3ce900b7e9d"
+    }
+  },
+  "private_runtime_members_verified": 7962,
+  "child_sha256": "aa9cd1a4d6d534fb5a5ba1936d845d8f54b7c0aa418253eaea5c217daa14b2d8",
+  "runner_sha256": "7071d6bdf3f548f0d92ffcd9968c86d8c2fb3736d67bb719955aa69d5cfca09f",
+  "source_scope": "EXPLICIT_PARENT_SOURCE_AND_SYNTHETIC_ACTION_FIXTURES_NOT_INSTALLED_FACTS_SERVICE"
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": "hakimi-r5-input-environment-map-summary-v1",
+  "derived_not_original_log": true,
+  "raw_maps": [
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\inputs-before.json",
+      "bytes": 353595,
+      "sha256": "c7c676a2c76beaaf92090038028de83bce77e0eee17c1bf508a40bb572e53a66",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\inputs-after.json",
+      "bytes": 353595,
+      "sha256": "c7c676a2c76beaaf92090038028de83bce77e0eee17c1bf508a40bb572e53a66",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\packaging-inputs-before.json",
+      "bytes": 400741,
+      "sha256": "954949385ed4d1a3cc8d2ba262f10f3f547801daf919eacef14bc1e0a87a6b80",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\packaging-inputs-after.json",
+      "bytes": 400083,
+      "sha256": "b2185db95040f1d6f22008ee1d371f8d09845b509011c62cbca3627f4aa82e0e",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\venv-site-before.json",
+      "bytes": 104370,
+      "sha256": "e5614dbf44ef9bb228ba7c0f93875a7405699ed53a61d1e7027104c3256a4245",
+      "copied": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\venv-site-after.json",
+      "bytes": 136812,
+      "sha256": "2a20d2fb27ed7cee3363fb32041774a709db1ca135e9ea6e1778ea89e2c93e2f",
+      "copied": false
+    }
+  ],
+  "frozen_code": {
+    "count": 2102,
+    "mapping_equal": true,
+    "raw_bytes_equal": true
+  },
+  "frozen_packaging": {
+    "count": 1046,
+    "files_sha256_equal": true,
+    "installed_source_map_equal": true,
+    "files_mapping_canonical_sha256": "d2723e60a8bce354bd0ed6e355ceb4df779531e3ccb025730bae43ada02c9ec4",
+    "installed_source_mapping_canonical_sha256": "437e0e22582cdc78870f8f30e0245d4750b3ded8e1cd5a4a60256a0f2a4949e7",
+    "raw_bytes_equal": false,
+    "before_only_metadata": {
+      "reviewed_deltas": {
+        "docs/windows-original-terminal-first-use.md": {
+          "before": "b2b5f8d2c446f3d60bab5cb2ee82cc61dd985e7861dda7734fb27be63e6ca599",
+          "after": "45f055ac9870b1cfd7b56203cf8429fd2e1633876dcd8b5ba154b1a2f25db966"
+        },
+        "outputs/python_quant_bot/exchange_terminal/market_data/futu_context.py": {
+          "before": "ad93cafc8f7856f2c4036fa05004f3aed6dbd9390c77746ff29f7bf5c8f24116",
+          "after": "27fc1d65f896270c63012d73349cc19c6f29d891be9f9f044c8b9bedd0c8de5b"
+        }
+      },
+      "source_commit": "b5547330978c6c3afaba376c13ab1f2f583e1610",
+      "source_status": "CLEAN",
+      "scope": "ACTUAL_NEW_CLEAN_BYTES_NOT_NORMALIZED_OLD_GATE"
+    },
+    "raw_difference_reason": "before also includes reviewed_deltas/source_commit/source_status/scope; do not claim raw JSON bytes identical",
+    "futu_context_is_packaged_input": true
+  },
+  "new_gate_venv": {
+    "before_count": 871,
+    "after_count": 1157,
+    "changed_count": 286,
+    "added": 286,
+    "modified_existing": 0,
+    "removed": 0,
+    "changed_roots": [
+      "futu",
+      "futu_api-10.7.6708.dist-info"
+    ],
+    "only_locked_futu_distribution_changed": true,
+    "original_delta_receipt": "originals/futu-environment/process-result.json",
+    "full_maps_omitted": true
+  }
+}

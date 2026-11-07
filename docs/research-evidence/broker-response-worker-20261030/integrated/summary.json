@@ -1,0 +1,131 @@
+{
+  "status": "PASS",
+  "source_input_count": 2095,
+  "source_inputs_unchanged": true,
+  "gates": [
+    {
+      "gate": "gate_runner",
+      "exit_code": 0,
+      "seconds": 0.458,
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools",
+        "-p",
+        "test_terminal_ci_gate.py",
+        "-v"
+      ]
+    },
+    {
+      "gate": "packaging",
+      "exit_code": 0,
+      "seconds": 4.207,
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/repository_only",
+        "-p",
+        "test_windows_terminal.py",
+        "-v"
+      ]
+    },
+    {
+      "gate": "terminal",
+      "exit_code": 0,
+      "seconds": 202.229,
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+        "-B",
+        "tools/run_terminal_contracts.py"
+      ]
+    }
+  ],
+  "terminal": {
+    "terminal_contracts": "PASS",
+    "files": {
+      "test_causal_structure.py": 5,
+      "test_exit_comparison_math.py": 7,
+      "test_indicator_contract.py": 5,
+      "test_indicator_migration.py": 1,
+      "test_offline_execution.py": 32,
+      "test_quant_kernel_isolation.py": 2,
+      "test_quant_completion_adapter.py": 3,
+      "test_quant_workspace.py": 13,
+      "test_strategy_presentation.py": 8,
+      "test_terminal_ai_evidence.py": 6,
+      "test_terminal_ai_strategy_binding.py": 8,
+      "test_terminal_candidate_service.py": 6,
+      "test_terminal_broker_candidate_service.py": 30,
+      "test_terminal_broker_execution_plan.py": 22,
+      "test_terminal_broker_wire_profile.py": 24,
+      "test_terminal_broker_execution_journal.py": 30,
+      "test_terminal_broker_response_facts.py": 27,
+      "test_terminal_broker_response_recording.py": 18,
+      "test_terminal_broker_worker_supervisor.py": 22,
+      "test_terminal_broker_scoped_transport.py": 33,
+      "test_futu_us_equity_simulate_wire_v2.py": 13,
+      "test_terminal_broker_package_loader.py": 24,
+      "test_terminal_broker_plan_service.py": 19,
+      "test_terminal_broker_plan_integration.py": 6,
+      "test_terminal_broker_plan_routes.py": 4,
+      "test_terminal_broker_integration.py": 6,
+      "test_terminal_corporate_actions.py": 10,
+      "test_terminal_continuous_replay.py": 14,
+      "test_terminal_daily_bridge.py": 10,
+      "test_terminal_daily_integration.py": 14,
+      "test_terminal_daily_research.py": 6,
+      "test_terminal_data_preflight.py": 5,
+      "test_terminal_execution_integration.py": 4,
+      "test_terminal_execution_integration_core.py": 4,
+      "test_terminal_execution_explanation.py": 10,
+      "test_terminal_execution_service.py": 24,
+      "test_terminal_exit_research.py": 14,
+      "test_terminal_history.py": 16,
+      "test_terminal_insights.py": 17,
+      "test_terminal_integration_contract.py": 9,
+      "test_terminal_judgment.py": 15,
+      "test_terminal_market_data.py": 27,
+      "test_terminal_public_daily_access.py": 15,
+      "test_terminal_research.py": 35,
+      "test_terminal_replay_adapter.py": 6,
+      "test_terminal_replay_api.py": 16,
+      "test_terminal_replay_capacity.py": 4,
+      "test_terminal_replay_integration.py": 5,
+      "test_terminal_result_comparison.py": 9,
+      "test_terminal_saved_results.py": 10,
+      "test_terminal_strategy_candidates.py": 12,
+      "test_terminal_task_names.py": 2,
+      "test_terminal_workspace_history.py": 10,
+      "test_terminal_workspace_history_msix.py": 12
+    },
+    "tests_run": 709,
+    "skipped": 0,
+    "failures": 0,
+    "errors": 0,
+    "external_network_allowed": false
+  },
+  "other_counts": {
+    "packaging": {
+      "expected": 15,
+      "actual": 15,
+      "ok": true
+    },
+    "gate_runner": {
+      "expected": 4,
+      "actual": 4,
+      "ok": true
+    }
+  },
+  "changed_inputs": [],
+  "scope": "NEW_SYNTHETIC_FIXTURES_ONLY_NO_SDK_OR_GUI_OR_EXTERNAL_ACCOUNT",
+  "current_package_unchanged": "a235e8a/dev3-r4",
+  "new_candidate_built": false
+}

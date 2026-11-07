@@ -1,0 +1,48 @@
+					7 按钮 开始与继续
+					8 按钮 任务工作台
+					9 按钮 数据与研究
+					10 按钮 持续模拟
+				18 按钮 刷新记录 ID: refresh
+				20 按钮 版本与诊断 · 0.6.0.dev5 ID: delivery-label
+				511 按钮 返回开始页
+				513 编辑 (settable, string) 美股代码 Description: 例如 NDAQ Value: NDAQ ID: first-stock-symbol
+				514 文本 准备多少完整日线
+				515 组合框 (settable, string) 准备多少完整日线 Value: 最近20个交易日 ID: first-stock-history
+				516 文本 日线数量包含指标预热，实际评分天数更少。结束日按交易所最近完整收盘确定。存在分红、拆股、缺行或不支持的日期时会停止，不会自动换区间。
+				517 文本 来源为 Yahoo Finance。仅在点击下方按钮后联网；来源身份仍需核对。
+				518 按钮 获取并检查数据
+						525 项 NDAQ
+						540 项 2026-09-29 至 2026-10-26
+						542 项 完整日线
+						546 项 2026-10-26T23:34:13.738139Z
+				550 按钮 确认证券并保存本次数据
+				551 按钮 返回开始页
+				552 按钮 来源、检查和技术详情
+				553 按钮 已保存的首次数据检查
+				554 按钮 高级导入：已有行情 JSON、CSV 和研究文件
+				556 文本 已有可用行情
+				557 组合框 (settable, string) 已有可用行情 Value: NDAQ · 至 2026-10-26 ID: stock-update-snapshot
+				558 文本 Nasdaq 已核对年份：2026。仅检查常规时段完整日线；跨年须覆盖每一年的对应交易所年表。窗口最多 366 个自然日（含首尾）；Yahoo Finance 需明确点击才查询。每次检查 1 只，可逐只操作；刷新页面不查询，检查后须另行冻结新输入。
+				559 按钮 检查这只股票是否有新日线
+				560 文本 尚无日线更新检查；刷新页面不会主动联网。
+						569 项 NDAQ 行情快照
+							570 文本 NDAQ
+						572 项 2026-09-29 至 2026-10-26 20 根完整日线
+							573 文本 2026-09-29 至 2026-10-26
+							574 文本 20 根完整日线
+							578 按钮 查看来源
+				581 组合框 (settable, string) 已有任务 Value: 选择要更新的任务 ID: bind-task
+				583 组合框 (settable, string) 已保存的新行情 Value: 选择已冻结的新行情 ID: bind-snapshot
+					586 调节按钮 (settable, float) 年 新的评估止日 Value: 0
+					588 调节按钮 (settable, float) 月 新的评估止日 Value: 0
+					590 调节按钮 (settable, float) 日 新的评估止日 Value: 0
+				592 按钮 保存新的任务版本
+				595 按钮 (settable, string) 研究结果 JSON: 未选择任何文件 Value: 未选择任何文件 ID: research-result-file
+				597 按钮 (settable, string) 配套财报排期 JSON: 未选择任何文件 Value: 未选择任何文件 ID: research-context-file
+				599 按钮 (settable, string) 原始来源文件（接纳前必须提供）: 未选择任何文件 Value: 未选择任何文件 ID: research-source-file
+				601 组合框 (settable, string) 对应证券 Value: 选择对应行情证券 ID: research-security
+				602 按钮 保留文件并预览
+			53 按钮 最小化
+			54 按钮 最大化
+			55 按钮 关闭
+NDAQ

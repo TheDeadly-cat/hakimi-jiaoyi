@@ -1,0 +1,11 @@
+test_stop_during_blocked_stdin_writer_does_not_hold_watchdog_or_control (tests.test_terminal_broker_worker_supervisor.WorkerSupervisorTests.test_stop_during_blocked_stdin_writer_does_not_hold_watchdog_or_control) ... ok
+C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py:84: ResourceWarning: unclosed file <_io.FileIO name=6 mode='wb' closefd=True>
+  return self.run(*args, **kwds)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+test_late_process_creation_after_timeout_is_killed_without_restart (tests.test_terminal_broker_worker_supervisor.WorkerSupervisorTests.test_late_process_creation_after_timeout_is_killed_without_restart) ... ok
+test_fragmented_utf8_message_and_plain_stderr_preserve_complete_bytes (tests.test_terminal_broker_worker_supervisor.WorkerSupervisorTests.test_fragmented_utf8_message_and_plain_stderr_preserve_complete_bytes) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.432s
+
+OK

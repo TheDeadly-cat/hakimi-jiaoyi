@@ -1,0 +1,120 @@
+{
+  "derived_summary_not_original_probe_output": true,
+  "status": "PASS_INSTALLED_PRIVATE_PROTOBUF_SOURCE_IDENTITY",
+  "source_commit": "b642227ca176d0f6c61984194d06177b2c0be495",
+  "bundle_id": "7382e481c0fb98e21bae87276a7fb75af6f7c9743e4e55d2105ffdf25110a013",
+  "manifest_sha256": "f3380aa2f5919161e5020b7502000341c17c2e640ff04af48087979e84f9ad68",
+  "private_python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r5\\runtime\\python\\python.exe",
+  "loader_module": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r5\\components\\terminal\\exchange_terminal\\adapters\\futu_verified_protobuf_loader.py",
+  "loader_module_sha256": "274cd15fc3833405efa264653cd00822da72a882624d3ccfc136f48ff0720155",
+  "actual_protocols": [
+    {
+      "protocol": 1001,
+      "request": "InitConnect.Request",
+      "response": "InitConnect.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    },
+    {
+      "protocol": 1002,
+      "request": "GetGlobalState.Request",
+      "response": "GetGlobalState.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    },
+    {
+      "protocol": 2001,
+      "request": "Trd_GetAccList.Request",
+      "response": "Trd_GetAccList.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    },
+    {
+      "protocol": 2101,
+      "request": "Trd_GetFunds.Request",
+      "response": "Trd_GetFunds.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    },
+    {
+      "protocol": 2102,
+      "request": "Trd_GetPositionList.Request",
+      "response": "Trd_GetPositionList.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    },
+    {
+      "protocol": 3202,
+      "request": "Qot_GetStaticInfo.Request",
+      "response": "Qot_GetStaticInfo.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    },
+    {
+      "protocol": 3203,
+      "request": "Qot_GetSecuritySnapshot.Request",
+      "response": "Qot_GetSecuritySnapshot.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    },
+    {
+      "protocol": 2202,
+      "request": "Trd_PlaceOrder.Request",
+      "response": "Trd_PlaceOrder.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    },
+    {
+      "protocol": 2201,
+      "request": "Trd_GetOrderList.Request",
+      "response": "Trd_GetOrderList.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    },
+    {
+      "protocol": 2205,
+      "request": "Trd_ModifyOrder.Request",
+      "response": "Trd_ModifyOrder.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    },
+    {
+      "protocol": 2225,
+      "request": "Trd_GetOrderFee.Request",
+      "response": "Trd_GetOrderFee.Response",
+      "synthetic_response_bytes": 2,
+      "synthetic_response_sha256": "e545d395bb3fd971f91bf9a2b6722831df704efae6c1aa9da0989ed0970b77bb"
+    }
+  ],
+  "loaded_file_count": 192,
+  "loaded_file_map_retained_in_original": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-protobuf-loader-dev3-r5-r4.json",
+  "original_sha256": "a87c5d3103ffa4e3aec2d0012ea5624ff76b80815b6b087fa48bf90f9b57618c",
+  "original_bytes": 42566,
+  "attempts": {
+    "socket": 0,
+    "database": 0,
+    "subprocess": 0,
+    "thread": 0,
+    "futu_import": 0,
+    "server_import": 0
+  },
+  "second_load": "NEW_PRIVATE_WORKER_REQUIRED",
+  "source_identity_only": true,
+  "runtime_compatibility": "NOT_VERIFIED",
+  "production_transport_available": false,
+  "permissions": {
+    "automatic_mode_fallback": false,
+    "automatic_resume": false,
+    "automatic_retry": false,
+    "cancel_allowed": false,
+    "external_connection_allowed": false,
+    "query_allowed": false,
+    "submit_allowed": false,
+    "unlock_allowed": false,
+    "user_authorization_granted": false
+  },
+  "economic_runs": 0,
+  "account_facts_created": 0,
+  "worker_dispatches": 0,
+  "scope": "ACTUAL_INSTALLED_PINNED_PROTOBUF_CLASSES_WITH_MINIMAL_SYNTHETIC_RET_TYPE_BYTES_ONLY"
+}

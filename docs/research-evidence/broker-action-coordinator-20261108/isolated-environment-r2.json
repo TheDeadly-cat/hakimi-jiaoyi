@@ -1,0 +1,10 @@
+{
+  "interpreter": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-action-venv\\Scripts\\python.exe",
+  "canonical_file": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-action-coordinator-20261108\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+  "dependency_paths": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-action-venv\\Lib\\site-packages",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Lib\\site-packages",
+    "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages"
+  ],
+  "environment_install": "editable-current-worktree; shared dependencies read-only; no network"
+}

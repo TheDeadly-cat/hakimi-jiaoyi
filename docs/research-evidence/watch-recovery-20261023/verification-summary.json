@@ -1,0 +1,109 @@
+{
+  "schema_version": "watch-recovery-delivery-evidence-v1",
+  "scope": "SYNTHETIC_SOFTWARE_RECOVERY_ONLY",
+  "runtime_commit": "2036fdb66edd00a884ba2137255a042017b40802",
+  "source_content_sha256": "3b416283b23eb9f965770daa8b988b630cbe31c209b07c9927d7a542018acbf1",
+  "wheel_sha256": "cde55fa3cb5626ccee0624e362ad1f0a715c1b46a591e7bd1fa11f70567c4954",
+  "wheel_acceptance_sha256": "1bfa63dfd80bf3a1bf3e54c2476d2cfba38312ebcb9ebc7c86342e1851e911e9",
+  "installed_test_execution": {
+    "errors": 0,
+    "expected_failures": 0,
+    "failures": 0,
+    "network_policy": "OUTBOUND_PYTHON_SOCKET_ACCESS_DENIED",
+    "schema_version": "research-installed-test-results-v1",
+    "skipped": 0,
+    "status": "PASS",
+    "tests_run": 357,
+    "unexpected_successes": 0
+  },
+  "editable": false,
+  "pythonpath_used": false,
+  "system_site_packages": false,
+  "installed_workflow_statuses": {
+    "trade_installed_workflow": "PASS",
+    "managed_task_installed_workflow": "PASS",
+    "configuration_consistency_installed_workflow": "PASS",
+    "strategy_switch_installed_workflow": "PASS",
+    "input_workflow_installed_workflow": "PASS",
+    "content_boundary_installed_workflow": "PASS",
+    "shared_funds_installed_workflow": "PASS"
+  },
+  "targeted_tests": {
+    "python": 27,
+    "ui": 26,
+    "python_log_sha256": "325ee1004e2676475a8b999bc176bb727e9863abe94579f3e5b32799565a805d",
+    "ui_log_sha256": "0825548d9e6ddf85acaf94de7faf29ff22375553ac5a3caa70a3e939ee3b37a5"
+  },
+  "crash_recovery_cases": [
+    {
+      "case": "committed",
+      "sequence": 1,
+      "receipt_head": "369bde559d44573f1abd383a8f53716643f5e863e211263e20bf98c08759ad95",
+      "pending_operation_id": null,
+      "status": "CURRENT",
+      "original_request_sha_unchanged": true,
+      "action_operation_ids": [
+        "08f037d7-dc6c-4dff-ac2b-683d17c6bf62"
+      ]
+    },
+    {
+      "case": "uncommitted",
+      "sequence": 1,
+      "receipt_head": "4bbc805e08366ac72c0b6a05e83461b5b36461d7146dbc2c296aa3205c93a477",
+      "pending_operation_id": null,
+      "status": "CURRENT",
+      "original_request_sha_unchanged": true,
+      "action_operation_ids": [
+        "e8935c5a-2740-4e83-8616-ec40108dc81d"
+      ]
+    },
+    {
+      "case": "expired",
+      "sequence": 0,
+      "receipt_head": "0000000000000000000000000000000000000000000000000000000000000000",
+      "pending_operation_id": null,
+      "status": "STOPPED",
+      "original_request_sha_unchanged": true,
+      "action_operation_ids": [
+        "5f6c6579-def9-4a0a-a8f7-02796ade3c34",
+        "633612e2-14b5-4052-8732-ce07505e2bc7"
+      ]
+    },
+    {
+      "case": "controls",
+      "sequence": 1,
+      "receipt_head": "273e55a4da9a7c88380d173c87f38004d90ea0767036d02e3a9ec36ea6aeaa21",
+      "pending_operation_id": "watch-f995886e5d16974c9e96e58989df09eada91214d08560d6202ba6aa300dff269",
+      "status": "PENDING_REVIEW_REQUIRED",
+      "original_request_sha_unchanged": true,
+      "action_operation_ids": [
+        "1a3f9f68-7de1-4390-86ac-f135857e7641"
+      ]
+    }
+  ],
+  "readonly_check_count": 54,
+  "readonly_verification_sha256": "f0dfdc22174e286b6317485e686ebd392aee8f72f91d150212712dd2a7d54abe",
+  "ui_validation_sha256": "21fcd7fb75db55239fa2afa27f16e59ebeb763399d70d91d8dbaad455a21e454",
+  "screenshots_sha256": {
+    "native-before-recovery.jpg": "998765cced06d364ad571c98d821d8316fa3c256a871cde2aa073c8fa9cb7f52",
+    "native-recovery-entry.jpg": "ca15e1ac74147f5fbbdc4de94ffc1c4a85c0395eeb69ed1e4e2fce8a96d0ea71",
+    "native-recovery-success.jpg": "777ad51866dd1efa476679dc1d8a3e2097bd38cdc8eff46a184c756db2d62ea5",
+    "native-reopened-stopped.jpg": "7a0b0be1ab4310d90e68c1c3b28e25c5c221e4281b479dced00b876938311f51",
+    "browser-control-review.png": "5fbd0ae63fbf783138fba552c58e4bb2c589e3b15c0044de0651e0e1b18d40d8"
+  },
+  "real_workspace_preservation": {
+    "baseline_files": 156,
+    "current_files": 156,
+    "changed": [],
+    "missing": [],
+    "added": []
+  },
+  "limitations": [
+    "Fictional data; not market research or strategy performance evidence.",
+    "Existing NDAQ runtime and data were preserved; no repeated research run or feedback import.",
+    "UI setup used ordinary Workbench API fixtures; native recovery exercised committed case, browser exercised remaining cases.",
+    "Native desktop closed and reopened on same installed candidate; observation remained stopped.",
+    "Concurrent services on one workspace and corrupt watch configuration/binding are not covered by this recovery path.",
+    "Local Electron wrapper isolates profile only; not a portable Release."
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "binding": {
+    "python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "canonical": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+    "repository": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+    "temp": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-execution-plan-20261030\\integration-r1\\temp"
+  },
+  "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易",
+  "new_environment_created": false,
+  "dependency_install": false,
+  "isolated_environment": {
+    "HAKIMI_TEST_PYTHON": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "HAKIMI_LOCAL_ONLY": "1",
+    "HAKIMI_RUNTIME_READ_ONLY": "1",
+    "HAKIMI_SKIP_LOCAL_AI_ENV": "1",
+    "HAKIMI_LOAD_LOCAL_AI_ENV": "0",
+    "HAKIMI_RUNTIME_DIR": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-execution-plan-20261030\\integration-r1\\data\\legacy-read",
+    "HAKIMI_QUANT_WORKSPACE_DIR": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-execution-plan-20261030\\integration-r1\\data\\quant",
+    "HAKIMI_RESEARCH_HOME": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-execution-plan-20261030\\integration-r1\\data\\research",
+    "FUTU_PY_APPDATA": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-execution-plan-20261030\\integration-r1\\data\\futu-sdk",
+    "TEMP": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-execution-plan-20261030\\integration-r1\\temp",
+    "TMP": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-execution-plan-20261030\\integration-r1\\temp",
+    "TMPDIR": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-execution-plan-20261030\\integration-r1\\temp"
+  }
+}

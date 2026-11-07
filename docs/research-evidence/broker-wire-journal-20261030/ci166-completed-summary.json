@@ -1,0 +1,112 @@
+{
+  "schema_version": "hakimi-ci-completed-readback-v1",
+  "checked_at_utc": "2026-10-29 23:56:07 UTC",
+  "repository": "TheDeadly-cat/hakimi-jiaoyi",
+  "pull_request": 26,
+  "run_id": 40974805001,
+  "run_number": 166,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "head_sha": "7ee12e44db381ac9a9651e60fa3d5bdd15bca27b",
+  "expected_head_sha": "7ee12e44db381ac9a9651e60fa3d5bdd15bca27b",
+  "exact_head_matches": true,
+  "status": "completed",
+  "conclusion": "success",
+  "run_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001",
+  "created_at": "2026-10-29T23:41:09Z",
+  "updated_at": "2026-10-29T23:55:23Z",
+  "job_count": 11,
+  "all_11_completed_success": true,
+  "jobs": [
+    {
+      "id": 123800083585,
+      "name": "Deterministic references",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123800083585"
+    },
+    {
+      "id": 123800083828,
+      "name": "Offline terminal Python contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123800083828"
+    },
+    {
+      "id": 123800083941,
+      "name": "Python contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123800083941"
+    },
+    {
+      "id": 123800083956,
+      "name": "Market-data renderer",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123800083956"
+    },
+    {
+      "id": 123800083967,
+      "name": "Offline research MVP contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123800083967"
+    },
+    {
+      "id": 123800084017,
+      "name": "Historical developer reference replay",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123800084017"
+    },
+    {
+      "id": 123800084065,
+      "name": "Package install smoke (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123800084065"
+    },
+    {
+      "id": 123800084086,
+      "name": "Electron capability contract",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123800084086"
+    },
+    {
+      "id": 123800084094,
+      "name": "Package install smoke (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123800084094"
+    },
+    {
+      "id": 123800084113,
+      "name": "Complete desktop check",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123800084113"
+    },
+    {
+      "id": 123804805936,
+      "name": "Research required gate",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/job/123804805936"
+    }
+  ],
+  "read_sources": [
+    "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001",
+    "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40974805001/jobs"
+  ],
+  "poll_interval_seconds": 55,
+  "commit_scope": "DELIVERY_DOCUMENTATION_AND_EVIDENCE_COMMIT",
+  "candidate_program_identity": {
+    "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+    "source_ci_run_number": 165,
+    "source_ci_run_id": 40971259290,
+    "not_replaced_by_this_documentation_ci": true
+  },
+  "scope": "Independent read-only exact-head CI verification. No rerun/cancel/push/PR edit/GUI/business or source mutation; this is not full-goal completion."
+}

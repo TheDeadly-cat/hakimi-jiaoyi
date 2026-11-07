@@ -1,0 +1,16 @@
+{
+  "phase": "IMPORT_PANDAS",
+  "attempts": {
+    "socket": 1,
+    "thread": 0,
+    "database": 0,
+    "subprocess": 0,
+    "forbidden_constructor": 0
+  },
+  "exception": {
+    "type": "AssertionError",
+    "message": "OFFLINE_PROBE_SOCKET_AUDIT"
+  },
+  "source_hashes_unchanged": true,
+  "scope": "OFFLINE_CODEC_PROBE_GUARDS_NOT_PRODUCTION_ACCEPTANCE"
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": "daily-delivery-acceptance-v1",
+  "status": "PASS",
+  "package_version": "0.6.0.dev2",
+  "source_build": {
+    "commit": "6680aa921458431fa8a20d5c52d3d2568ec8100a",
+    "status": "CLEAN"
+  },
+  "source_content_sha256": "2f3de9bcc6667a05b6dbfb31f961f117b93d3692afc0c2504dd9d9b836f28055",
+  "wheel_sha256": "2b87b8164cbb722befe3280933d824963a4226a4a497a39e083217cc7f885525",
+  "installed_tests": {
+    "errors": 0,
+    "expected_failures": 0,
+    "failures": 0,
+    "network_policy": "OUTBOUND_PYTHON_SOCKET_ACCESS_DENIED",
+    "schema_version": "research-installed-test-results-v1",
+    "skipped": 0,
+    "status": "PASS",
+    "tests_run": 382,
+    "unexpected_successes": 0
+  },
+  "installed_workflows": {
+    "trade_installed_workflow": "PASS",
+    "managed_task_installed_workflow": "PASS",
+    "configuration_consistency_installed_workflow": "PASS",
+    "strategy_switch_installed_workflow": "PASS",
+    "input_workflow_installed_workflow": "PASS",
+    "content_boundary_installed_workflow": "PASS",
+    "shared_funds_installed_workflow": "PASS"
+  },
+  "targeted_checks": {
+    "workbench_python": 13,
+    "desktop_entry_python": 6,
+    "ui_node": 32,
+    "desktop_node": 6
+  },
+  "read_only_record_counts": {
+    "tasks": 4,
+    "runs": 6,
+    "validations": 2,
+    "accounts": 2
+  },
+  "native_desktop": {
+    "first_window": 656646,
+    "reopened_window": 5572400,
+    "first_port": 54278,
+    "reopened_port": 54504,
+    "identity_display_verified": true,
+    "old_account_read_only_verified": true,
+    "closed_processes_gone": true,
+    "same_entry_reopened": true,
+    "saved_ndaq_costs_read": true,
+    "new_real_economic_runs": 0
+  },
+  "preservation": {
+    "status": "PASS",
+    "original_files_unchanged": 495,
+    "candidate_workspace_files_unchanged": 236,
+    "new_real_economic_runs": 0,
+    "original_checkout_status_unchanged": true,
+    "original_checkout_status_lines": 603
+  },
+  "browser": {
+    "viewports": [
+      [
+        1440,
+        960
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "javascript_errors": 0,
+    "note": "Initial resource 404; default favicon route is 404; reload and mobile showed no errors.",
+    "new_post_actions": 0,
+    "browser_plugin": "Absent; existing Chrome via Playwright; no dependency download"
+  },
+  "screenshots_sha256": {
+    "native-identity.jpg": "e720d9172ae95af1aa3692197bb41e4b24109140133a7008bf4056fb6e919ecc",
+    "native-legacy-account.jpg": "556b842fccf4fb5783cc5379dd35c3ba10fe05c7e56b229f2a9685e806004c12",
+    "native-reopened-costs.jpg": "b53bc477dd2027d94fc15f36b44571dd136cc10fc3d16e88e4951eb3753d046b"
+  },
+  "scope": {
+    "daily_candidate_not_release": true,
+    "research_strategy_evidence_unchanged": true,
+    "broker_calls": 0,
+    "provider_calls": 0,
+    "research_database_access": false,
+    "no_new_market_fetch": true
+  },
+  "remote_ci": "PENDING_SEPARATE_FINAL_HEAD_CHECK"
+}

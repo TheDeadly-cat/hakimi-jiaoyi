@@ -1,0 +1,39 @@
+{
+  "schema_version": "trial-physical-workspace-fix-validation-v1",
+  "recorded_at": "2026-10-26T15:27:17.155394Z",
+  "status": "PASS_TARGETED_CHECKS_NATIVE_R3_PENDING",
+  "commit": "b1bdc5743de335310988e4121f85cfed83a07b82",
+  "changed_files_sha256": {
+    "outputs/hakimi_trade_electron/trial-main.js": "7cb49d01903443d5668e8e9e942342eb219ed00ea9d0c440737d6911e53c1f2f",
+    "outputs/hakimi_trade_electron/trial-main.test.js": "c28d2b8d32c53b22f0c663f4e0680da68975fd0ff9a74d7387eabb8713e9f10d",
+    "outputs/hakimi_trade_electron/research-main.js": "ac4d711147ea9f821727d6734efd795b55c778310bbc9c7285aedf51cb2d1f59",
+    "outputs/hakimi_trade_electron/research-main.test.js": "24d102b63f579432a4628693a9264c974808986e7642d567494990bc858b1c51",
+    "outputs/hakimi_trade_electron/trial-main.electron-test.js": "b08d08343af8959170def98cfc39ce1496a73c0cc99bfb3f2f944d719aa78aad",
+    "docs/windows-trial-package.md": "14642309985c48a295e5e8bfd1f112696407ab332f2d627290170e7fe1f0287e"
+  },
+  "evidence_sha256": {
+    "physical-path-node-tests-r1.log": "498495158e782aad13f1431116fd2a30ff886a1ba96e98b6734db6a84ef0db51",
+    "electron-physical-path-regression-r1/browser-result.json": "a0cdfa6ea31013db2b8f072b4a198b304157f1065f7d903abb8a1fa125e0dc03",
+    "electron-physical-path-regression-r1/package-entry-result.json": "5101e20ce4770e8f0a1661f9c1246a62e83c2a0a65761ce35e1dd60ea69bcb17",
+    "electron-physical-path-regression-r1/summary.json": "91ce169c32b6e8239003a312cbbcc194328ec7180abf290c97d42daf4d6786ca"
+  },
+  "node_tests": {
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0
+  },
+  "actual_electron_browser_processes": 2,
+  "scope": [
+    "Synthetic redirected physical path exceeds 260; no identity marker written and existing marker retained.",
+    "Actual loopback fake HTTP service tests authenticated GET only, redirect refused, auth failure distinguished from directory drift.",
+    "Actual Electron original-fs native API exercised read-only, complete old r1 archive verified, synthetic package entry stops before Python."
+  ],
+  "new_product_backend_starts": 0,
+  "new_product_windows": 0,
+  "new_economic_runs": 0,
+  "product_python_changed": false,
+  "accepted_wheel_source_sha256": "695522c5f77e02f8189484ef97eb30f48ea64b30a582c64a4e18c08710eba766",
+  "clean_windows_acceptance": "NOT_PERFORMED",
+  "independent_readonly_review": "PASS_BY_blind_protocol_review",
+  "push_performed": false
+}

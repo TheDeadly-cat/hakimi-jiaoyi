@@ -1,0 +1,127 @@
+{
+  "schema_version": "independent-holdout-prefix-verification-summary-v1",
+  "status": "PASS",
+  "recorded_at": "2026-10-26T11:28:21.401068+00:00",
+  "total_callbacks": 38,
+  "additional_validation_calculations": 2,
+  "new_product_runs": 0,
+  "automatic_retries": 0,
+  "symbols": [
+    {
+      "symbol": "NDAQ",
+      "run_id": "b226aeeefd78a97cbd0714442bca757d32daa42cf54eeeceaaf60e8336a59959",
+      "status": "PASS",
+      "callbacks": 19,
+      "visible_rows": [
+        12,
+        30
+      ],
+      "first_available_at": "2026-01-30T21:01:00+00:00",
+      "first_execution_open": "2026-02-02T14:30:00+00:00",
+      "last_available_at": "2026-02-26T21:01:00+00:00",
+      "last_execution_open": "2026-02-27T14:30:00+00:00",
+      "economic_result_exact_match": true,
+      "original_files_unchanged": 6,
+      "additional_validation_calculations": 1,
+      "new_product_runs": 0,
+      "output_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-NDAQ.json",
+      "sha256": "0b2f45fd634dde7d2e09897b01d3d381cee6c683adb09f9a8b9c2fcab512ec6d",
+      "log_sha256": "e6f2c9b93899443e22bdc622fcff065473c94d7524a3f76b0e21497fe938feb8",
+      "blinding_evidence": {
+        "acquisition_sha256": "5ad081af55c6ccd628f65709af75eb47737f0f79e920f0eee7df625c26c0a97e",
+        "callback_observer_alone_proves_blind_holdout": false,
+        "chronological_oos": false,
+        "exposure_addendum_sha256": "12335dd154f6b13771f236deaf83a35d0556f07d2a5940af4a39657ac184ef7e",
+        "exposure_audit_sha256": "e04d24279d25d0a8ed115a252e5a17eb93eaf576eaf4513e7c61f782094d9564",
+        "frozen_economics_match_preparation": true,
+        "frozen_parameter_source_verified": true,
+        "global_unseen_data_proven": false,
+        "historical_point_in_time_source": false,
+        "parameter_design_sha256": "6f2a7ed165cebae74f1675f34e8ff7d3102dfd2b02a03de3e2d4582f02d75c5b",
+        "preacquisition_commitment_verified": true,
+        "preparation_sha256": "15195410dc355cbc9d5db351783aa879641381731e9a07e5a5d6fefdbd526a44",
+        "prepared_at": "2026-10-26T11:11:56.732593Z",
+        "prepared_snapshot_matches_formal_run": true,
+        "project_exposure_audit_verified": true,
+        "protocol_commit": "3451f2323e4acb2556aaeb382482f83ae681f5ce",
+        "protocol_committed_at": "2026-10-26T11:11:22Z",
+        "scope": "PROJECT_HISTORICAL_HOLDOUT_PREACQUISITION",
+        "sources": {
+          "KO": {
+            "attempts": 1,
+            "raw_sha256": "873b1cc2cb0a3886235f299646278f6ca0e40ce2b9ef31858565664372605276",
+            "request_started_at": "2026-10-26T11:11:55.317670Z",
+            "retrieved_at": "2026-10-26T11:11:55.909582Z"
+          },
+          "NDAQ": {
+            "attempts": 1,
+            "raw_sha256": "753cd5849cba994df592b75b38eeb97c16525c0c013f3ac47cb9e8db52829abe",
+            "request_started_at": "2026-10-26T11:11:55.918646Z",
+            "retrieved_at": "2026-10-26T11:11:56.500549Z"
+          }
+        }
+      }
+    },
+    {
+      "symbol": "KO",
+      "run_id": "b57a1adc52aef12fd1bc1180f9c78998f8a10cc317a9f365523606356ec75e8c",
+      "status": "PASS",
+      "callbacks": 19,
+      "visible_rows": [
+        12,
+        30
+      ],
+      "first_available_at": "2026-01-30T21:01:00+00:00",
+      "first_execution_open": "2026-02-02T14:30:00+00:00",
+      "last_available_at": "2026-02-26T21:01:00+00:00",
+      "last_execution_open": "2026-02-27T14:30:00+00:00",
+      "economic_result_exact_match": true,
+      "original_files_unchanged": 6,
+      "additional_validation_calculations": 1,
+      "new_product_runs": 0,
+      "output_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\causality-KO.json",
+      "sha256": "4ca56f9c02eea765b39d2bab336faeee46a5c17bc02f47cd9185dbcda2e63f57",
+      "log_sha256": "60e1f95c985349d913e89d4835711a1b7f1b208f3b1ea30d96fbec24541eaa30",
+      "blinding_evidence": {
+        "acquisition_sha256": "5ad081af55c6ccd628f65709af75eb47737f0f79e920f0eee7df625c26c0a97e",
+        "callback_observer_alone_proves_blind_holdout": false,
+        "chronological_oos": false,
+        "exposure_addendum_sha256": "12335dd154f6b13771f236deaf83a35d0556f07d2a5940af4a39657ac184ef7e",
+        "exposure_audit_sha256": "e04d24279d25d0a8ed115a252e5a17eb93eaf576eaf4513e7c61f782094d9564",
+        "frozen_economics_match_preparation": true,
+        "frozen_parameter_source_verified": true,
+        "global_unseen_data_proven": false,
+        "historical_point_in_time_source": false,
+        "parameter_design_sha256": "6f2a7ed165cebae74f1675f34e8ff7d3102dfd2b02a03de3e2d4582f02d75c5b",
+        "preacquisition_commitment_verified": true,
+        "preparation_sha256": "15195410dc355cbc9d5db351783aa879641381731e9a07e5a5d6fefdbd526a44",
+        "prepared_at": "2026-10-26T11:11:56.732593Z",
+        "prepared_snapshot_matches_formal_run": true,
+        "project_exposure_audit_verified": true,
+        "protocol_commit": "3451f2323e4acb2556aaeb382482f83ae681f5ce",
+        "protocol_committed_at": "2026-10-26T11:11:22Z",
+        "scope": "PROJECT_HISTORICAL_HOLDOUT_PREACQUISITION",
+        "sources": {
+          "KO": {
+            "attempts": 1,
+            "raw_sha256": "873b1cc2cb0a3886235f299646278f6ca0e40ce2b9ef31858565664372605276",
+            "request_started_at": "2026-10-26T11:11:55.317670Z",
+            "retrieved_at": "2026-10-26T11:11:55.909582Z"
+          },
+          "NDAQ": {
+            "attempts": 1,
+            "raw_sha256": "753cd5849cba994df592b75b38eeb97c16525c0c013f3ac47cb9e8db52829abe",
+            "request_started_at": "2026-10-26T11:11:55.918646Z",
+            "retrieved_at": "2026-10-26T11:11:56.500549Z"
+          }
+        }
+      }
+    }
+  ],
+  "metadata_review_note": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\metadata-review-note.json",
+    "sha256": "571d4fb9f42db87458771e8836c6d8263be014fa4b626f554556943662bae4a2",
+    "modified_by_this_validation": false,
+    "known_deviation": "Prior reviewer displayed raw_base64 without decoding after protocol sealing; original note retained, not excluded from the record."
+  }
+}

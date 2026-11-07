@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+  "version": "0.7.0.dev3",
+  "expected_tests": 542,
+  "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+  "archive_sha256": "2dd7045c8de3701fb892ed1c8fc5ac3370530b2510b3c5e8263b1d6a375f20c0",
+  "structural_inventory_and_zip_pass": true,
+  "auxiliary_checks": [
+    {
+      "check": "installed_js",
+      "exit_code": 0,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-installed-js-dev3-r4.log"
+    },
+    {
+      "check": "private_feature_closure",
+      "exit_code": 0,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-feature-closure-launch-dev3-r4.log"
+    }
+  ],
+  "synthetic_runs": 1,
+  "market_data_runs": 0,
+  "historical_replays": 0,
+  "provider_calls": 0,
+  "normal_probe_local_sdk_import": true,
+  "identity_only_probe_sdk_import": false,
+  "broker_identity_modes": [
+    "OFFICIAL_SIMULATION",
+    "LIVE_CANDIDATE"
+  ],
+  "broker_plan_scope": "INSTALLED_OFFLINE_LOADER_SERVICE_UI_NO_EXECUTION_ADAPTER",
+  "installed_plan_reads_verified": true,
+  "installed_plan_mutations_performed": false,
+  "embedded_ui_count": 14,
+  "native_app_started": false,
+  "production_server_started": false,
+  "source_repository_inaccessible_guest_test": false,
+  "reason": "Host-only private module closure and full HTML assembly; native/guest acceptance is separate."
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "stdlib-proxy-selection-evidence-v1",
+  "library": {
+    "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\Lib\\urllib\\request.py",
+    "sha256": "85f6ea0e6af99603cbc4f25f1ec228f232710e6ebf5a3c9194756ab3e5d16809",
+    "bytes": 79200
+  },
+  "selector_line_numbers": [
+    2125
+  ],
+  "selector": "return getproxies_environment() or getproxies_registry()",
+  "interpretation": "A nonempty environment mapping containing only no prevents registry fallback, even though it supplies no HTTP(S) proxy.",
+  "new_network_requests": 0
+}

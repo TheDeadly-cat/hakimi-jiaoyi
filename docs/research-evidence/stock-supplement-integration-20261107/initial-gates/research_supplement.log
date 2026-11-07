@@ -1,0 +1,39 @@
+test_actions_outside_the_fixed_window_are_retained_not_removed (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_actions_outside_the_fixed_window_are_retained_not_removed) ... ok
+test_collector_nonfinite_markers_become_null_only_via_known_transform (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_collector_nonfinite_markers_become_null_only_via_known_transform) ... ok
+test_failed_status_clock_and_unexpected_pagination_remain_incomplete (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_failed_status_clock_and_unexpected_pagination_remain_incomplete) ... ok
+test_finite_json_byte_identity_and_window_boundaries (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_finite_json_byte_identity_and_window_boundaries) ... ok
+test_flag_absence_is_not_manufactured_from_nonnull_columns (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_flag_absence_is_not_manufactured_from_nonnull_columns) ... ok
+test_futu_forward_and_reverse_ratio_direction_without_accounting (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_futu_forward_and_reverse_ratio_direction_without_accounting) ... ok
+test_malformed_partial_unknown_and_duplicate_event_rows_do_not_get_negative_conclusion (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_malformed_partial_unknown_and_duplicate_event_rows_do_not_get_negative_conclusion) ... ok
+test_missing_rows_cannot_be_replaced_by_checkbox_or_complete_field (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_missing_rows_cannot_be_replaced_by_checkbox_or_complete_field) ... ok
+test_no_external_or_filesystem_execution_dependency (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_no_external_or_filesystem_execution_dependency) ... ok
+test_nonterminating_display_ratio_does_not_change_exact_integer_quantity_ratio (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_nonterminating_display_ratio_does_not_change_exact_integer_quantity_ratio) ... ok
+test_original_bytes_status_and_fields_are_exactly_retained (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_original_bytes_status_and_fields_are_exactly_retained) ... ok
+test_real_collector_dataframe_null_columns_and_decimal_format_are_reproduced (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_real_collector_dataframe_null_columns_and_decimal_format_are_reproduced) ... ok
+test_request_code_stock_id_exchange_and_single_security_are_bound (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_request_code_stock_id_exchange_and_single_security_are_bound) ... ok
+test_row_counts_presence_order_and_boolean_are_exact (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_row_counts_presence_order_and_boolean_are_exact) ... ok
+test_sdk_decoded_rows_are_required_and_conflicts_cannot_hide_behind_success (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_sdk_decoded_rows_are_required_and_conflicts_cannot_hide_behind_success) ... ok
+test_success_empty_rows_are_observed_zero_not_a_complete_source_claim (tests.test_futu_rehab_evidence.FutuRehabRetainedReaderTests.test_success_empty_rows_are_observed_zero_not_a_complete_source_claim) ... ok
+test_stock_intake_futu_supplement (unittest.loader._FailedTest.test_stock_intake_futu_supplement) ... ERROR
+test_explicit_demo_resources_are_identity_bound_and_not_arbitrary_html (tests.test_runtime_package_boundary.RuntimePackageBoundaryTests.test_explicit_demo_resources_are_identity_bound_and_not_arbitrary_html) ... ok
+test_formal_runtime_manifest_excludes_repository_only_tools (tests.test_runtime_package_boundary.RuntimePackageBoundaryTests.test_formal_runtime_manifest_excludes_repository_only_tools) ... ok
+test_missing_declared_and_unexpected_installed_sources_fail_closed (tests.test_runtime_package_boundary.RuntimePackageBoundaryTests.test_missing_declared_and_unexpected_installed_sources_fail_closed) ... ok
+test_source_checkout_ignores_only_explicitly_unshipped_developer_files (tests.test_runtime_package_boundary.RuntimePackageBoundaryTests.test_source_checkout_ignores_only_explicitly_unshipped_developer_files) ... ok
+test_stock_supplement_review_is_in_the_formal_package_identity (tests.test_runtime_package_boundary.RuntimePackageBoundaryTests.test_stock_supplement_review_is_in_the_formal_package_identity) ... ok
+
+======================================================================
+ERROR: test_stock_intake_futu_supplement (unittest.loader._FailedTest.test_stock_intake_futu_supplement)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_stock_intake_futu_supplement
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\tests\test_stock_intake_futu_supplement.py", line 23, in <module>
+    from test_daily_updates import encoded, source_reply
+ModuleNotFoundError: No module named 'test_daily_updates'
+
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.129s
+
+FAILED (errors=1)

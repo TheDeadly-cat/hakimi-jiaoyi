@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "exit_code": 0,
+  "elapsed_seconds": 20.01,
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node.exe",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node_modules\\npm\\bin\\npm-cli.js",
+    "run",
+    "check"
+  ],
+  "python_binding": {
+    "python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "canonical": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\src\\hakimi_research\\__init__.py"
+  },
+  "source_inputs": 2082,
+  "matches_combined_frozen_inputs": true,
+  "prior_failures_preserved": [
+    "desktop.log",
+    "desktop-bound-python-r2.log"
+  ],
+  "playwright_node_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules",
+  "playwright_version": "1.62.1",
+  "initial_failure_reason": "The root launcher initially omitted child Python binding, then omitted the existing cached Playwright NODE_PATH. Both environment-only failures are preserved; this run uses the prior successful gate environment bindings.",
+  "product_source_or_test_changes_for_retry": false,
+  "global_environment_modified": false,
+  "scope": "Complete Node22 desktop checks with child Python bound to the existing canonical parent test environment; no native app acceptance"
+}

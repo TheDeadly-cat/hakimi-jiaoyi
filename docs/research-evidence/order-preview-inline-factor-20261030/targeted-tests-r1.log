@@ -1,0 +1,40 @@
+✔ source/account reads never select orders or start a computation (1.8284ms)
+✔ complete receipt survives auxiliary read failure and a shell exception after callback (1.1493ms)
+✔ a pre-write account read cannot overwrite acknowledged reserved cash after shell failure (0.2979ms)
+✔ unknown request is read back by its original id and never automatically resubmitted (0.7039ms)
+✔ late source and account reads cannot replace a newer user selection (0.4132ms)
+✔ missing trusted security metadata and same-label different identity block new plans (0.4503ms)
+✔ an order cannot choose another security than its saved plan (0.4366ms)
+✔ reconciliation prefill contains identities only, never local economic observations (0.6282ms)
+✔ reconciliation requires explicit cash/order/position entries and sends those values unchanged (1.6284ms)
+✔ stale reconciliation revision and failed account reads block mutation without new requests (3.7506ms)
+✔ late context comparison cannot overwrite a newly selected plan (0.5092ms)
+✔ preview requires explicit direction and writes nothing until separate confirmation (1.0133ms)
+✔ changed source, account revision and edited order each invalidate the original preview (1.1723ms)
+✔ clearing a selection cancels pending reads and cannot retain an actionable preview (0.4883ms)
+✔ confirmed preview with unknown receipt retains its request and never submits again (0.6122ms)
+✔ six-group explanation uses read-only resource with account context and preserves preview (0.6908ms)
+✔ explanation reads reject wrong identity, revision, schema and external permissions (2.8536ms)
+✔ late explanation success or error cannot override changed account context or ledger (1.6206ms)
+✔ explanation HTML keeps six groups, units, read-only evidence and escapes report text (0.5371ms)
+✔ human version labels preserve recorded identity and never invent missing revisions (0.3327ms)
+✔ human version formatting cannot weaken exact preview version binding (0.4122ms)
+✔ saved report review requires every report/task/input/engine/parameter/source/fingerprint binding (1.2689ms)
+✔ read-only factors use exact saved raw parameters/cutoff and an explicitly selected position scenario (1.8837ms)
+✔ choosing a historical factor scenario preserves the exact preview terms, quote time and plan identity (0.8337ms)
+✔ matching report IDs cannot hide different plan rule parameters in an order preview (0.4465ms)
+✔ factor identity, raw parameters, code fingerprint, historical cutoff and scenario cannot be substituted (0.8905ms)
+✔ factor read errors preserve an already successful order preview and prior completion fact (0.7285ms)
+✔ late factor success and failure cannot replace a changed source, account revision, scenario or newer preview (12.5332ms)
+✔ old-engine or incomplete report stays unavailable and never falls back to a same-name strategy (0.3999ms)
+✔ rule review displays historical dates, percent units and explicit explanation provenance without HTML injection (13.7257ms)
+✔ rule review separates legacy 3% stop compatibility from the report's actual 8% execution risk without changing raw parameters (0.8686ms)
+✔ factor-review DOM: one inline control preserves preview and details across explicit scenarios and retries at 1280 and 480 (2347.8322ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2502.9963

@@ -1,0 +1,195 @@
+{
+  "source": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\offline-execution\\sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\\account.sqlite",
+  "source_sha256": "82b0d952c76c2321db321426e335ffe920702514e185231869e7ba3ddfa47bfc",
+  "copy": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-window-r2\\FIRST_CLOSED\\qa-sqlite-copy-r1\\account.sqlite",
+  "copy_matches_source": true,
+  "source_sqlite_opened": false,
+  "mode": "ro",
+  "journal_mode": "wal",
+  "source_sidecars_absent_before_and_after": true,
+  "schema": [
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_fills_1",
+      "tbl_name": "fills",
+      "sql": null
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_marks_1",
+      "tbl_name": "marks",
+      "sql": null
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_observations_1",
+      "tbl_name": "observations",
+      "sql": null
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_opportunities_1",
+      "tbl_name": "opportunities",
+      "sql": null
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_opportunities_2",
+      "tbl_name": "opportunities",
+      "sql": null
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_orders_1",
+      "tbl_name": "orders",
+      "sql": null
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_plans_1",
+      "tbl_name": "plans",
+      "sql": null
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_positions_1",
+      "tbl_name": "positions",
+      "sql": null
+    },
+    {
+      "type": "index",
+      "name": "sqlite_autoindex_requests_1",
+      "tbl_name": "requests",
+      "sql": null
+    },
+    {
+      "type": "table",
+      "name": "events",
+      "tbl_name": "events",
+      "sql": "CREATE TABLE events(sequence INTEGER PRIMARY KEY, kind TEXT NOT NULL, payload TEXT NOT NULL,\n                previous_hash TEXT NOT NULL, event_hash TEXT NOT NULL)"
+    },
+    {
+      "type": "table",
+      "name": "fills",
+      "tbl_name": "fills",
+      "sql": "CREATE TABLE fills(evidence_id TEXT PRIMARY KEY, order_id TEXT NOT NULL, quantity INTEGER NOT NULL,\n                notional TEXT NOT NULL, fee TEXT NOT NULL)"
+    },
+    {
+      "type": "table",
+      "name": "marks",
+      "tbl_name": "marks",
+      "sql": "CREATE TABLE marks(security_id TEXT PRIMARY KEY, quote TEXT NOT NULL)"
+    },
+    {
+      "type": "table",
+      "name": "meta",
+      "tbl_name": "meta",
+      "sql": "CREATE TABLE meta(config TEXT NOT NULL, config_hash TEXT NOT NULL, cash TEXT NOT NULL, stop_reason TEXT)"
+    },
+    {
+      "type": "table",
+      "name": "observations",
+      "tbl_name": "observations",
+      "sql": "CREATE TABLE observations(evidence_id TEXT PRIMARY KEY, payload_hash TEXT NOT NULL)"
+    },
+    {
+      "type": "table",
+      "name": "opportunities",
+      "tbl_name": "opportunities",
+      "sql": "CREATE TABLE opportunities(opportunity_id TEXT PRIMARY KEY, order_id TEXT NOT NULL UNIQUE)"
+    },
+    {
+      "type": "table",
+      "name": "orders",
+      "tbl_name": "orders",
+      "sql": "CREATE TABLE orders(order_id TEXT PRIMARY KEY, terms TEXT NOT NULL, terms_hash TEXT NOT NULL,\n                state TEXT NOT NULL, filled INTEGER NOT NULL, notional TEXT NOT NULL, fee TEXT NOT NULL,\n                reserved_cash TEXT NOT NULL, reserved_shares INTEGER NOT NULL, cancel_state TEXT)"
+    },
+    {
+      "type": "table",
+      "name": "plans",
+      "tbl_name": "plans",
+      "sql": "CREATE TABLE plans(plan_id TEXT PRIMARY KEY, document TEXT NOT NULL)"
+    },
+    {
+      "type": "table",
+      "name": "positions",
+      "tbl_name": "positions",
+      "sql": "CREATE TABLE positions(owner_id TEXT NOT NULL, security_id TEXT NOT NULL, quantity INTEGER NOT NULL,\n                PRIMARY KEY(owner_id,security_id))"
+    },
+    {
+      "type": "table",
+      "name": "requests",
+      "tbl_name": "requests",
+      "sql": "CREATE TABLE requests(request_id TEXT PRIMARY KEY, payload_hash TEXT NOT NULL,\n                receipt TEXT NOT NULL, receipt_hash TEXT NOT NULL)"
+    }
+  ],
+  "tables": {
+    "events": {
+      "count": 1,
+      "rows": [
+        {
+          "sequence": 1,
+          "kind": "OPERATION_RECORDED",
+          "payload": "{\"action\":\"CREATE_PLAN\",\"outcome\":{\"binding_hash\":\"c6744f99da78a1df20028d8b6a02e0351cbd2d51360996ca7cf780fab442937c\",\"plan_id\":\"e4969c73d2b06b1e2d7467086b2e6bfb9b7b04ff4104c1ea65152d01df842e3e\",\"stage\":\"SIMULATION\",\"status\":\"PLAN_SAVED\"},\"request_hash\":\"ad2c8c5958665edccd7737e081d45685db76ebc9615746d32c66cb248eababc4\",\"request_id\":\"execution-4299f852-5590-41bf-97c4-6966f3eb5e7e\"}",
+          "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "event_hash": "a26c9e5027a45ac8286dd4e234e7c881cfd338bd170aeb434b44315c5ef2e54f"
+        }
+      ]
+    },
+    "fills": {
+      "count": 0,
+      "rows": []
+    },
+    "marks": {
+      "count": 0,
+      "rows": []
+    },
+    "meta": {
+      "count": 1,
+      "rows": [
+        {
+          "config": "{\"account_id\":\"sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\",\"currency\":\"USD\",\"evidence_kind\":\"SYNTHETIC_TEST\",\"initial_cash\":\"10000\",\"max_orders\":1000,\"permissions\":{\"broker_connection_allowed\":false,\"live_order_allowed\":false,\"local_simulation_allowed\":true,\"model_calls_allowed\":false,\"order_allowed\":false,\"paper_order_allowed\":false},\"quantity_policy\":\"WHOLE_SHARES_LONG_ONLY\",\"rules\":{\"cash_floor\":\"0\",\"fee_buffer\":\"1\",\"max_account_loss\":\"1000\",\"max_order_notional\":\"1000\",\"max_security_exposure\":\"5000\",\"max_total_exposure\":\"10000\",\"quote_max_age_ms\":60000},\"schema_version\":\"hakimi-offline-execution-v1\",\"securities\":{\"QA:SIMULATED:COMMON_STOCK\":{\"symbol\":\"QADEMO\",\"tick_size\":\"0.01\"}}}",
+          "config_hash": "926e0e7f1e8d65b30fad1070c2ab1731dcc0b471cb512c9edae359d35fb3f95e",
+          "cash": "10000",
+          "stop_reason": null
+        }
+      ]
+    },
+    "observations": {
+      "count": 0,
+      "rows": []
+    },
+    "opportunities": {
+      "count": 0,
+      "rows": []
+    },
+    "orders": {
+      "count": 0,
+      "rows": []
+    },
+    "plans": {
+      "count": 1,
+      "rows": [
+        {
+          "plan_id": "e4969c73d2b06b1e2d7467086b2e6bfb9b7b04ff4104c1ea65152d01df842e3e",
+          "document": "{\"account_id\":\"sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\",\"account_rules_hash\":\"e191f3ec68c6726e0d19f255dec9a2b9144ab032729d542b011184f3a36fc69b\",\"binding_hash\":\"c6744f99da78a1df20028d8b6a02e0351cbd2d51360996ca7cf780fab442937c\",\"owner_id\":\"16c77b6e1aec197ab5a7e7b99acd780cfc902c990be0ada53833782116154fad\",\"permissions\":{\"broker_connection_allowed\":false,\"live_order_allowed\":false,\"local_simulation_allowed\":true,\"model_calls_allowed\":false,\"order_allowed\":false,\"paper_order_allowed\":false},\"research_binding\":{\"costs\":{\"fee_rate\":0.0005,\"slippage_bps\":2},\"engine_id\":\"terminal.causal-long-only-signals-v7\",\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\",\"report_hash\":\"df059e7b58636d95ba4797fdbfb13ff71b0a3f0da39eb7b7c24456e820b12921\",\"report_id\":\"df059e7b58636d95ba4797fdbfb13ff71b0a3f0da39eb7b7c24456e820b12921\",\"risk\":{\"leverage\":1,\"position_pct\":25,\"stop_loss_pct\":8,\"take_profit_pct\":0},\"schema_version\":\"hakimi-offline-research-binding-v1\",\"security_id\":\"QA:SIMULATED:COMMON_STOCK\",\"status\":\"COMPLETED\",\"strategy_id\":\"dual_ma\",\"strategy_params\":{\"fast_window\":20,\"position_pct\":0.25,\"slow_window\":60,\"stop_loss_pct\":0.03},\"task_id\":\"c05bf26fc36be84c5b379b5758cfc909d46754851368dbd89a1f537b43323c01\",\"task_version\":1},\"research_stage\":\"BACKTESTED\",\"schema_version\":\"hakimi-offline-plan-v1\",\"stage\":\"SIMULATION\"}"
+        }
+      ]
+    },
+    "positions": {
+      "count": 0,
+      "rows": []
+    },
+    "requests": {
+      "count": 1,
+      "rows": [
+        {
+          "request_id": "execution-4299f852-5590-41bf-97c4-6966f3eb5e7e",
+          "payload_hash": "ad2c8c5958665edccd7737e081d45685db76ebc9615746d32c66cb248eababc4",
+          "receipt": "{\"account_id\":\"sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\",\"action\":\"CREATE_PLAN\",\"outcome\":{\"binding_hash\":\"c6744f99da78a1df20028d8b6a02e0351cbd2d51360996ca7cf780fab442937c\",\"plan_id\":\"e4969c73d2b06b1e2d7467086b2e6bfb9b7b04ff4104c1ea65152d01df842e3e\",\"stage\":\"SIMULATION\",\"status\":\"PLAN_SAVED\"},\"permissions\":{\"broker_connection_allowed\":false,\"live_order_allowed\":false,\"local_simulation_allowed\":true,\"model_calls_allowed\":false,\"order_allowed\":false,\"paper_order_allowed\":false},\"request_hash\":\"ad2c8c5958665edccd7737e081d45685db76ebc9615746d32c66cb248eababc4\",\"request_id\":\"execution-4299f852-5590-41bf-97c4-6966f3eb5e7e\",\"revision\":1,\"schema_version\":\"hakimi-offline-execution-receipt-v1\"}",
+          "receipt_hash": "5971f61fbff53d6d480be71e8058305534f3486b636df9b1d6649e5b84fc4984"
+        }
+      ]
+    }
+  }
+}

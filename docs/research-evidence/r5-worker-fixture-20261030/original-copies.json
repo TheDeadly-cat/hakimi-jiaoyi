@@ -1,0 +1,198 @@
+{
+  "schema_version": "hakimi-byte-identical-original-copies-v1",
+  "copy_count": 27,
+  "copy_bytes": 389023,
+  "all_byte_identical": true,
+  "files": [
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-gate-binding-failure-r1.json",
+      "destination": "originals/dev3-r5-gate-binding-failure-r1.json",
+      "bytes": 2062,
+      "sha256": "74888526b274462f01c2632c3888e1f317725c18668a616eafbf5462bd8d6d95",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-gate-newline-diagnosis-r1.json",
+      "destination": "originals/dev3-r5-gate-newline-diagnosis-r1.json",
+      "bytes": 4547,
+      "sha256": "d7d49ef8eb1e877e8eee3c291809cde6781ecc64c07a91b1110242184b8be5a8",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-gates-summary-dev3-r5.json",
+      "destination": "originals/stage-c-frozen-gates-summary-dev3-r5.json",
+      "bytes": 11400,
+      "sha256": "f6e137e64a6f93b517da14b2e52f123d33612f5730596345f6580ef653da7ec8",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-clean-gates-failure-handoff-r1.json",
+      "destination": "originals/dev3-r5-clean-gates-failure-handoff-r1.json",
+      "bytes": 1460,
+      "sha256": "3d10c02c6b0c09771f167345271661d21f035a58a618b0f0f4614cac8b5aa70a",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci170-completed-summary-r1.json",
+      "destination": "originals/ci170-completed-summary-r1.json",
+      "bytes": 5566,
+      "sha256": "4cea42a7c7147b10e82516c5c0c5b0a652704a43a52a67c0aa27028fd917be1e",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\desktop.log",
+      "destination": "originals/frozen-gates/desktop.log",
+      "bytes": 115828,
+      "sha256": "11b174842fbdf6687b486a4fd0862dabef2b9a30fea7c528e21b80a4903c4116",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\desktop_exit.log",
+      "destination": "originals/frozen-gates/desktop_exit.log",
+      "bytes": 797,
+      "sha256": "5e817489f44e05ee16586f9d2049f09d22043dc18bc51979601df490efe93a63",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\environment.json",
+      "destination": "originals/frozen-gates/environment.json",
+      "bytes": 2064,
+      "sha256": "1b5f932590d986dc3c4909310eed96451c6d806c817b2c8336fdec947c0aa46e",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\environment.log",
+      "destination": "originals/frozen-gates/environment.log",
+      "bytes": 1189,
+      "sha256": "399ec7a91d57fc489f4570651123622319d1843e8d5cae9c729f10ce234f4511",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\futu_status.log",
+      "destination": "originals/frozen-gates/futu_status.log",
+      "bytes": 6517,
+      "sha256": "c431d8a038a15af5af3ef750b2ff7bc4ac022dcfe0c801623dcb286faae120f5",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\gate_runner.log",
+      "destination": "originals/frozen-gates/gate_runner.log",
+      "bytes": 777,
+      "sha256": "ed8b04f079dbaf00e11315a26887572fb2f8020ee64a5f6b3d7b1ae7efa382e6",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\health.log",
+      "destination": "originals/frozen-gates/health.log",
+      "bytes": 1447,
+      "sha256": "f6cf0216e6a05645e9694b3b4d7bb83ae314a2cd50a26abc3d1ef4fc216c5590",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\packaging.log",
+      "destination": "originals/frozen-gates/packaging.log",
+      "bytes": 2859,
+      "sha256": "d7aedd032dfa8fcdd10f0baea2234f4c61b8385e9df288666142ff58965ee24c",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r1\\terminal.log",
+      "destination": "originals/frozen-gates/terminal.log",
+      "bytes": 158647,
+      "sha256": "97b5ded64856ddd95a705715e3e482d7c9d90a99699bdfde18a65ff01218aa4a",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-worker-fixture-fix-r2\\focused.log",
+      "destination": "originals/worker-fix/focused.log",
+      "bytes": 4867,
+      "sha256": "15fbcd4df98d5c2b7c1e19c0f2d61b73f9b41d46e74834d81206bd926a3100b5",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-worker-fixture-fix-r2\\handoff-r2.json",
+      "destination": "originals/worker-fix/handoff-r2.json",
+      "bytes": 3901,
+      "sha256": "bd224887c82c824ddbc0ab85b0baff708312c743c888d516a14c72ff44b24f96",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-worker-fixture-fix-r2\\HANDOFF-r2.md",
+      "destination": "originals/worker-fix/HANDOFF-r2.md",
+      "bytes": 2618,
+      "sha256": "14cd3f2a911d16d51c210e46a7a336280d9ea6bec3138235ecba7e3aa452db65",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-worker-fixture-fix-r2\\invocation.json",
+      "destination": "originals/worker-fix/invocation.json",
+      "bytes": 856,
+      "sha256": "07c82ea2946e807a4b1adfe74d507ff4b73cdb682ef5b7917386e7f7928a9497",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-worker-fixture-fix-r2\\result.json",
+      "destination": "originals/worker-fix/result.json",
+      "bytes": 1024,
+      "sha256": "c3a310a19786e9a93d8a003019cea6acb43f772183a6a5949b7aa7c8dac6bb57",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\child.py",
+      "destination": "originals/futu-environment/child.py",
+      "bytes": 2448,
+      "sha256": "e9995061cc2d7f7bfa6e9b0e7aac2b82cb4c6ecfb5e2913767b4b5af8770387c",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\focused.log",
+      "destination": "originals/futu-environment/focused.log",
+      "bytes": 6422,
+      "sha256": "9b9110138d4a53a07dda7e3bde4683b6c9b49844a6d9b106be63be4dc441b225",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\guard-final.json",
+      "destination": "originals/futu-environment/guard-final.json",
+      "bytes": 126,
+      "sha256": "50b3b7831ca8182c7ea76886ac33a31df2e4e66fddb727c238df35464d4aea09",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\install-invocation.json",
+      "destination": "originals/futu-environment/install-invocation.json",
+      "bytes": 644,
+      "sha256": "bfeaaeedafcfe7fe8b58ed19b188c42ddd4c352086e84c7bae2c98d75956efbe",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\install.log",
+      "destination": "originals/futu-environment/install.log",
+      "bytes": 219,
+      "sha256": "3f098c5ff473e3783e79a64e6ae4aa3b5ef92e90e01903bfd6c8d30e42dac352",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\process-result.json",
+      "destination": "originals/futu-environment/process-result.json",
+      "bytes": 46993,
+      "sha256": "050a290b1f2caeefac67feac215e265460b0b7b3358bf241e0e98eaa3671af50",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\result.json",
+      "destination": "originals/futu-environment/result.json",
+      "bytes": 674,
+      "sha256": "55b43b2e5c8ac79a7a4f0658975c1bf92ee562cfc158f37692ecbe9415e7059d",
+      "byte_identical": true
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\dev3-r5-futu-environment-fix-r2\\test-invocation.json",
+      "destination": "originals/futu-environment/test-invocation.json",
+      "bytes": 3071,
+      "sha256": "67bcc7c6817755d316cb726281347f211e2d6a4732459b495c1ebb532af6c8de",
+      "byte_identical": true
+    }
+  ],
+  "excluded": "Full source/packaging/site-packages maps, temporary runtime data, Node compile cache, wheel binaries and environments remain in the audit directory."
+}

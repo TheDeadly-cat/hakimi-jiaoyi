@@ -1,0 +1,22 @@
+{
+  "schema_version": "holdout-preacquisition-git-seal-v1",
+  "recorded_at": "2026-10-26T10:19:52.660507+00:00",
+  "commit": "aa7935214e6e84197f48c1d6fb2908bed3d0851e",
+  "commit_time": "2026-10-26T18:18:55+08:00",
+  "protocol_sha256": "36b00eab50a83a82c405a40897d8f8b1701a45759e50f972db04d52ecb9d6071",
+  "plan_hash": "9013fb069e7da37f15b4774f7ea7a5b7e6cce9c4b677c695cbb3028f82c61fa6",
+  "tool_hashes": {
+    "tools/prepare_blind_holdout.py": "3322cc06763ab2be3e0b6e38bd5c998a3125d4fe8c1837d90738f15594306565",
+    "tools/prepare_sealed_month_replay.py": "32f4771a5ae9e4436d0bd71fd3500e7fc3e9b71d8e6d5578a7fd296a14eee118",
+    "tools/verify_strategy_prefix_isolation.py": "79437dbdc4308ed0e886eaac38b969a0fa179c95678594fb4d628dbbea6a9c03",
+    "tests/repository_only/test_blind_holdout.py": "49f3634244ab7a8ad6f06d550779209394e17656c730af21a99661fd8277f29e",
+    "tests/repository_only/test_strategy_prefix_isolation.py": "7c28d0c467d072dca9cd8252c65b6aa28dc520465a9cce4d577ff4acbf072c66",
+    "tests/repository_only/test_sealed_month_replay.py": "69b091a000adacbacfeb2d827cab1f293a64d6415c7236046e75395bbc53e889",
+    "docs/research-evidence/independent-holdout-20261026/audit_exposure_v2.py": "cc24b30941715033795163194682df5aa21d296293bd49df16a50ae924fc5441",
+    "docs/research-evidence/independent-holdout-20261026/audit_anonymous_csv_attribution.py": "303e3aed76287c082ac981d751f2497adf183389d87eba0df9f13371ec795492",
+    "docs/research-evidence/independent-holdout-20261026/stage_tasks_once.py": "68adc0363c2b0478c9be8ec7394ed8bdf2c8d8f56f7bcdd5d4b8fc58b3fba6ab"
+  },
+  "source_requests": 0,
+  "real_economic_runs": 0,
+  "output_absent_at_seal": true
+}

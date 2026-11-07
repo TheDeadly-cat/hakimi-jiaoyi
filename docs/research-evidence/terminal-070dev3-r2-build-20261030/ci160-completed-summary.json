@@ -1,0 +1,76 @@
+{
+  "source_commit": "43c155a0a461edbefeaf98edba5418db560da5d5",
+  "run_id": 40948746518,
+  "run_number": 160,
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 123710889841,
+      "name": "Python contracts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123710890072,
+      "name": "Deterministic references",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123710890144,
+      "name": "Historical developer reference replay",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123710890154,
+      "name": "Offline research MVP contracts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123710890242,
+      "name": "Offline terminal Python contracts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123710890283,
+      "name": "Market-data renderer",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123710890298,
+      "name": "Package install smoke (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123710890371,
+      "name": "Complete desktop check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123710890474,
+      "name": "Package install smoke (windows-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123710890578,
+      "name": "Electron capability contract",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 123717203378,
+      "name": "Research required gate",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "rerun_requested": false
+}

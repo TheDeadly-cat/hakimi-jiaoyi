@@ -1,0 +1,66 @@
+{
+  "status": "REVIEW_REQUIRED",
+  "label": "FIRST_CLOSED",
+  "at": "2026-10-29T21:29:50.521801+00:00",
+  "root_confirmed_closed": true,
+  "qa_runtime": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime",
+  "qa_file_count": 20,
+  "counts": {
+    "core_inputs": 1,
+    "native_inputs": 1,
+    "task_versions": 1,
+    "completed_reports": 1,
+    "report_files": 1,
+    "accounts": 1,
+    "plan_links": 1,
+    "jobs": 6,
+    "historical_replay_databases": 0
+  },
+  "job_actions": {
+    "terminal_execution_create_account": 1,
+    "terminal_save_task": 1,
+    "terminal_import_core_input": 1,
+    "import_document": 1,
+    "terminal_execution_create_plan": 1,
+    "terminal_run_task": 1
+  },
+  "databases": [
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\offline-execution\\sim-6bf0caa7-fb0f-497f-95cb-0c2b0393ff9b\\account.sqlite",
+      "status": "WAL_OR_JOURNAL_REQUIRES_SEPARATE_READ_PLAN",
+      "sidecars": {
+        "-wal": {
+          "exists": false,
+          "size": null
+        },
+        "-shm": {
+          "exists": false,
+          "size": null
+        },
+        "-journal": {
+          "exists": false,
+          "size": null
+        }
+      },
+      "table_counts": {}
+    }
+  ],
+  "reports": [
+    {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime\\research-workspace\\terminal-runs\\835cfd802c98c4009d8f5a25a2db4489363e337fd40ba8b340e44a1e6b649251\\report.json",
+      "id": "df059e7b58636d95ba4797fdbfb13ff71b0a3f0da39eb7b7c24456e820b12921",
+      "status": "COMPLETED",
+      "task_id": "c05bf26fc36be84c5b379b5758cfc909d46754851368dbd89a1f537b43323c01",
+      "task_version": null,
+      "input_id": null,
+      "operation_id": "835cfd802c98c4009d8f5a25a2db4489363e337fd40ba8b340e44a1e6b649251"
+    }
+  ],
+  "read_changed_files": [],
+  "service_constructed": false,
+  "verifier_run": false,
+  "production_mutation": false,
+  "old_databases_read": false,
+  "program_rehashed": false,
+  "verification_boundary": "Raw saved JSON/SQLite facts only; no application verification, guard, replay, repair or mutation."
+}

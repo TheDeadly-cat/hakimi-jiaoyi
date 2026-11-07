@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-29T21:31:32.722907+00:00",
+  "launch": "reopen",
+  "pid": 41788,
+  "package": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r2",
+  "source_commit": "43c155a0a461edbefeaf98edba5418db560da5d5",
+  "bundle_id": "be331bd6bae86eb60fc1bc6a379fcb2bbae6e78d92653f01255724ea0fcaec76",
+  "runtime": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r2\\runtime",
+  "host": "127.0.0.1",
+  "port": 8874,
+  "local_only": true,
+  "global_environment_modified": false,
+  "startup_or_native_acceptance_confirmed": false
+}

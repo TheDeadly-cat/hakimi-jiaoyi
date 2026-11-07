@@ -1,0 +1,4320 @@
+[
+  {
+    "label": "matched-trade_submit",
+    "action": "trade_submit",
+    "request_frame_hex": "46549a080000000065000000470000008cbc6ac7940242396a3cf4f372cff4a7099bbe8300000000000000000a450a0408211065120d0800108180b1a2b9d1cc011802180120012a0454534c41310000000000000840391ef32a00000034404000490000000000000000500260006800900101",
+    "response_frame_hex": "46549a08000000006500000027000000e7f653d54548410c6845cac5c7ea2fd6e2605f5c0000000000000000080022230a0d0800108180b1a2b9d1cc0118021a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "7e29a8982dccb7db060d9b722093efa94f073a87771857a535b5f52b9fd0b158",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_submit",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "account_scope_matched": true,
+        "broker_order_id": "fictional-order-44",
+        "fees_final": null,
+        "order_terminal_confirmed": false
+      },
+      "id": "26cbbdb82e9435bb0880bb93c71e4dff8166b03f70cc7488353edc239cb6b2b7",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "7e29a8982dccb7db060d9b722093efa94f073a87771857a535b5f52b9fd0b158",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderID": {
+              "present": false,
+              "value": null
+            },
+            "orderIDEx": {
+              "present": true,
+              "value": "fictional-order-44"
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2202,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 115,
+        "sha256": "cf2267f908c19bc809c5239758387a368ac3c420cefaaa26686fe3ad6d2a4848"
+      },
+      "request_id": "synthetic-facts-101",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 83,
+        "sha256": "a6f87451e61f867204885bd4aaf8c819143e9387269369943656e9bdfd404a2a"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 101,
+      "source_authenticated": false,
+      "status": "ACK_SCOPE_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "api-error-not-rejection-trade_submit",
+    "action": "trade_submit",
+    "request_frame_hex": "46549a08000000006600000047000000c4b27b22f6e0a7ba8a45767dac40a495cd1d340400000000000000000a450a0408211066120d0800108180b1a2b9d1cc011802180120012a0454534c41310000000000000840391ef32a00000034404000490000000000000000500260006800900101",
+    "response_frame_hex": "46549a0800000000660000001e00000004a09454362b7163a3c5e2d85dd11733973b17fb000000000000000008ffffffffffffffffff01120f53594e5448455449435f4552524f52182a",
+    "action_receipt_id": "3fbe1ec9004d1a2b2805cc8fad5f26028214c421d7caec401bf87b3ec92380c0",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_submit",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {},
+      "id": "ba1346ce5d45ac1b10629f10232d99840c771533f4d293c28d1b2e63b402b78e",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "3fbe1ec9004d1a2b2805cc8fad5f26028214c421d7caec401bf87b3ec92380c0",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": true,
+          "value": 42
+        },
+        "retMsg": {
+          "present": true,
+          "value": "SYNTHETIC_ERROR"
+        },
+        "retType": {
+          "present": true,
+          "value": -1
+        },
+        "s2c": {
+          "present": false,
+          "value": null
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2202,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 115,
+        "sha256": "8fe43d5d4e8472d77cb2e59759ed26cc42700ab701de7da01189275406d8006d"
+      },
+      "request_id": "synthetic-facts-102",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 74,
+        "sha256": "06abd8531673646a0a37d16d5a1f3ccacb63d4a3e3d596a80d592c610847baee"
+      },
+      "ret_type": -1,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 102,
+      "source_authenticated": false,
+      "status": "API_ERROR_RESPONSE",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "matched-trade_cancel",
+    "action": "trade_cancel",
+    "request_frame_hex": "46549d0800000000670000003200000075035c0f88ad4e1940cd2e3d69d6188f337e99e100000000000000000a300a0408211067120d0800108180b1a2b9d1cc01180218002002280082011266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "46549d080000000067000000290000004e4b224981a6096e041f5acc2c2281e46be4ccff0000000000000000080022250a0d0800108180b1a2b9d1cc01180210001a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "d3d9ea6ad6448e0b273f4ada9fa0ecf6d00fda4b301e9989e2b88a753c1aadd8",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_cancel",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "account_scope_matched": true,
+        "broker_order_id": "fictional-order-44",
+        "fees_final": null,
+        "order_terminal_confirmed": false
+      },
+      "id": "d2524ea9bf068d07d17774bcfe1ad3b35a56a6febab7378e8a8faf75b6ff3564",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "d3d9ea6ad6448e0b273f4ada9fa0ecf6d00fda4b301e9989e2b88a753c1aadd8",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderID": {
+              "present": true,
+              "value": 0
+            },
+            "orderIDEx": {
+              "present": true,
+              "value": "fictional-order-44"
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2205,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 94,
+        "sha256": "32a6fcaf77b6465447a906411bf80bbe22133aeee33fed9f1ce2ea69a261dd76"
+      },
+      "request_id": "synthetic-facts-103",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 85,
+        "sha256": "2210cbb916be3d33624064082bb151499b47a9f46f8d30c8b391f8facb11d6b4"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 103,
+      "source_authenticated": false,
+      "status": "CANCEL_ACK_NOT_TERMINAL",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "api-error-not-rejection-trade_cancel",
+    "action": "trade_cancel",
+    "request_frame_hex": "46549d080000000068000000320000003ad353f01574fddcc0c0515ac60bcdb9f75f9a8700000000000000000a300a0408211068120d0800108180b1a2b9d1cc01180218002002280082011266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "46549d0800000000680000001e00000004a09454362b7163a3c5e2d85dd11733973b17fb000000000000000008ffffffffffffffffff01120f53594e5448455449435f4552524f52182a",
+    "action_receipt_id": "32c7fa931d4c588ae85a48eadd1105a4b00bee24c9577a0bb4b366f11135400b",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_cancel",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {},
+      "id": "82901bb6e218bf7a1bb7cd2766e70c726be38e0a7cb351866d354906b1b10c0c",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "32c7fa931d4c588ae85a48eadd1105a4b00bee24c9577a0bb4b366f11135400b",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": true,
+          "value": 42
+        },
+        "retMsg": {
+          "present": true,
+          "value": "SYNTHETIC_ERROR"
+        },
+        "retType": {
+          "present": true,
+          "value": -1
+        },
+        "s2c": {
+          "present": false,
+          "value": null
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2205,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 94,
+        "sha256": "ed587e4c19c20861273ca74156d4040abaf9f348bf2b21ce3f0a7f4b2dce3852"
+      },
+      "request_id": "synthetic-facts-104",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 74,
+        "sha256": "734371eae7783150951a3eb0b62596f7629b1ef3b6132c850cfe1705956d058a"
+      },
+      "ret_type": -1,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 104,
+      "source_authenticated": false,
+      "status": "API_ERROR_RESPONSE",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "matched-trade_observe",
+    "action": "trade_observe",
+    "request_frame_hex": "46549908000000006900000031000000c53899847b5012251c91eecd01580fbfff56dca100000000000000000a2f0a0d0800108180b1a2b9d1cc011802121c0a0454534c412a1266696374696f6e616c2d6f726465722d343430022001",
+    "response_frame_hex": "465499080000000069000000a800000077aff650d3a522bade4ba198e33a95a7de64bf540000000000000000080022a3010a0d0800108180b1a2b9d1cc01180212910108011001180a20002a1266696374696f6e616c2d6f726465722d3434320454534c413a0e53594e5448455449435f54455354410000000000000840491ef32a00000034405213323032362d31302d33302030383a30303a30305a13323032362d31302d33302030383a30303a30316100000000000000406900000000000033407802980100a00100c80102d00102d80101",
+    "action_receipt_id": "a86aba697aceced88b26817d98dff909362bd27d6c6607a7e46dc41a384de713",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_observe",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {
+        "exact_notional": false,
+        "fill_notional_estimate": "38.00",
+        "method": "SOURCE_FILL_QTY_TIMES_SOURCE_FILL_AVG_PRICE"
+      },
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_order_id": "fictional-order-44",
+        "broker_status_code": 10,
+        "broker_status_name": "FILLED_PART",
+        "code": "TSLA",
+        "fees": null,
+        "fees_final": null,
+        "fill_average_price": "19.0",
+        "filled_notional": null,
+        "filled_quantity": "2.0",
+        "limit_price": "20.00000001",
+        "quantity": "3.0",
+        "update_time_raw": "2026-10-30 08:00:01",
+        "update_timestamp_raw": null
+      },
+      "id": "7730f09a5abe6ed191a70fbd2fa10018f91ad1046a301e6551aa5fed2fea5911",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "a86aba697aceced88b26817d98dff909362bd27d6c6607a7e46dc41a384de713",
+      "missing": [
+        {
+          "field": "filled_notional",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        },
+        {
+          "field": "fees",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        },
+        {
+          "field": "fees_final",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderList": {
+              "present": true,
+              "value": [
+                {
+                  "auxPrice": {
+                    "present": false,
+                    "value": null
+                  },
+                  "code": {
+                    "present": true,
+                    "value": "TSLA"
+                  },
+                  "comboLegs": {
+                    "present": false,
+                    "value": []
+                  },
+                  "createTime": {
+                    "present": true,
+                    "value": "2026-10-30 08:00:00"
+                  },
+                  "createTimestamp": {
+                    "present": false,
+                    "value": null
+                  },
+                  "currency": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "expireTime": {
+                    "present": false,
+                    "value": null
+                  },
+                  "fillAvgPrice": {
+                    "present": true,
+                    "value": 19.0
+                  },
+                  "fillOutsideRTH": {
+                    "present": true,
+                    "value": false
+                  },
+                  "fillQty": {
+                    "present": true,
+                    "value": 2.0
+                  },
+                  "jpAccType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "lastErrMsg": {
+                    "present": false,
+                    "value": null
+                  },
+                  "name": {
+                    "present": true,
+                    "value": "SYNTHETIC_TEST"
+                  },
+                  "orderAmount": {
+                    "present": false,
+                    "value": null
+                  },
+                  "orderID": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "orderIDEx": {
+                    "present": true,
+                    "value": "fictional-order-44"
+                  },
+                  "orderStatus": {
+                    "present": true,
+                    "value": 10
+                  },
+                  "orderType": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "price": {
+                    "present": true,
+                    "value": 20.00000001
+                  },
+                  "qty": {
+                    "present": true,
+                    "value": 3.0
+                  },
+                  "remark": {
+                    "present": false,
+                    "value": null
+                  },
+                  "secMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "session": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "strategyType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "timeInForce": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "trailSpread": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trailType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trailValue": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trdMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "trdSide": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "updateTime": {
+                    "present": true,
+                    "value": "2026-10-30 08:00:01"
+                  },
+                  "updateTimestamp": {
+                    "present": false,
+                    "value": null
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2201,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 93,
+        "sha256": "31f4529c3faac9436080b6d666f01358d3d77d97c805e0c951cddb9f47a3b29a"
+      },
+      "request_id": "synthetic-facts-105",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 212,
+        "sha256": "2fc8b3dbf07d986ec21bfab12d2a1581d29dda80082e6e50ebe628ee7e987362"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 105,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "api-error-not-rejection-trade_observe",
+    "action": "trade_observe",
+    "request_frame_hex": "46549908000000006a00000031000000c53899847b5012251c91eecd01580fbfff56dca100000000000000000a2f0a0d0800108180b1a2b9d1cc011802121c0a0454534c412a1266696374696f6e616c2d6f726465722d343430022001",
+    "response_frame_hex": "46549908000000006a0000001e00000004a09454362b7163a3c5e2d85dd11733973b17fb000000000000000008ffffffffffffffffff01120f53594e5448455449435f4552524f52182a",
+    "action_receipt_id": "87221698ca77863ead24cf7d7e6bfa8d48c49b617573e8ef896231505d6ec87e",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_observe",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {},
+      "id": "a042a26d292c950eb2d88dc8248fc9039b3891ed19d000ad912fa0f4a0961a3a",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "87221698ca77863ead24cf7d7e6bfa8d48c49b617573e8ef896231505d6ec87e",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": true,
+          "value": 42
+        },
+        "retMsg": {
+          "present": true,
+          "value": "SYNTHETIC_ERROR"
+        },
+        "retType": {
+          "present": true,
+          "value": -1
+        },
+        "s2c": {
+          "present": false,
+          "value": null
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2201,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 93,
+        "sha256": "8db4036ddaf952e096153777d1d71143e304d04ed2dd8e4284e92ec99f3cf151"
+      },
+      "request_id": "synthetic-facts-106",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 74,
+        "sha256": "22b53800816b8958f282a98a2ed60b906927ce8867244ad95d1b7541eae76f59"
+      },
+      "ret_type": -1,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 106,
+      "source_authenticated": false,
+      "status": "API_ERROR_RESPONSE",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "matched-trade_accounts",
+    "action": "trade_accounts",
+    "request_frame_hex": "4654d107000000006b00000008000000f7687eabbf3e1c6eea8df483e9d5c9f4b9c7e0fb00000000000000000a06081610011800",
+    "response_frame_hex": "4654d107000000006b000000130000005e1cf954ebc534654bd154d8389ff37634a9daee00000000000000000800220f0a0d0800108180b1a2b9d1cc011802",
+    "action_receipt_id": "c62e970de513fec668b6f3e98d6f751b460e4f8c80ff61dc8a8314a7cd8bb244",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_accounts",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "account_status_code": null,
+        "currency": null,
+        "environment": "SIMULATE",
+        "returned_account_count": 1,
+        "security_firm_code": null,
+        "target_account_id": "900000000000001",
+        "trading_permission_verified": false,
+        "us_market_listed": true
+      },
+      "id": "efae258f5ad6d669198ba50ef8c60e4cc58731319d3f88107bb186e6aecabf00",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "c62e970de513fec668b6f3e98d6f751b460e4f8c80ff61dc8a8314a7cd8bb244",
+      "missing": [
+        {
+          "field": "currency",
+          "reason": "NOT_PROVIDED_BY_ACCOUNT_LIST",
+          "required_for": "currency_evidence"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "accList": {
+              "present": true,
+              "value": [
+                {
+                  "accID": {
+                    "present": true,
+                    "value": 900000000000001
+                  },
+                  "accRole": {
+                    "present": false,
+                    "value": null
+                  },
+                  "accStatus": {
+                    "present": false,
+                    "value": null
+                  },
+                  "accType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "cardNum": {
+                    "present": false,
+                    "value": null
+                  },
+                  "competitionAccName": {
+                    "present": false,
+                    "value": null
+                  },
+                  "jpAccType": {
+                    "present": false,
+                    "value": []
+                  },
+                  "securityFirm": {
+                    "present": false,
+                    "value": null
+                  },
+                  "simAccType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trdEnv": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "trdMarketAuthList": {
+                    "present": true,
+                    "value": [
+                      2
+                    ]
+                  },
+                  "uniCardNum": {
+                    "present": false,
+                    "value": null
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2001,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 52,
+        "sha256": "d12faf9bfcfc84071de262d28797f1612e9ed0b632d77b1240050f34aa9ebe94"
+      },
+      "request_id": "synthetic-facts-107",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 63,
+        "sha256": "f45cdd00564fa38af234a8bcfae827f58eac9fcbc3f151a8755ed1936f2e05df"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 107,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "api-error-not-rejection-trade_accounts",
+    "action": "trade_accounts",
+    "request_frame_hex": "4654d107000000006c00000008000000f7687eabbf3e1c6eea8df483e9d5c9f4b9c7e0fb00000000000000000a06081610011800",
+    "response_frame_hex": "4654d107000000006c0000001e00000004a09454362b7163a3c5e2d85dd11733973b17fb000000000000000008ffffffffffffffffff01120f53594e5448455449435f4552524f52182a",
+    "action_receipt_id": "7a284f443b0c3e92072b939c862413ecd9bb9f28836d770f3f1731e0556265bf",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_accounts",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {},
+      "id": "fc3117378406bafa47080b4b74c3df0112a2d87674f4372ffa29663b59e5036a",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "7a284f443b0c3e92072b939c862413ecd9bb9f28836d770f3f1731e0556265bf",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": true,
+          "value": 42
+        },
+        "retMsg": {
+          "present": true,
+          "value": "SYNTHETIC_ERROR"
+        },
+        "retType": {
+          "present": true,
+          "value": -1
+        },
+        "s2c": {
+          "present": false,
+          "value": null
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2001,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 52,
+        "sha256": "4cf4735906dc3023f214804471e18c44a90dfaaf737ae91f5685a024ed963ed4"
+      },
+      "request_id": "synthetic-facts-108",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 74,
+        "sha256": "0cd8e35def117df3ad9666eaa108e7a2de256740f88c18287e95752552e21a03"
+      },
+      "ret_type": -1,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 108,
+      "source_authenticated": false,
+      "status": "API_ERROR_RESPONSE",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "matched-trade_funds",
+    "action": "trade_funds",
+    "request_frame_hex": "46543508000000006d000000170000004cd6b0dd81c41644b12fc768b312e414150f3a3900000000000000000a150a0d0800108180b1a2b9d1cc011802100118022002",
+    "response_frame_hex": "46543508000000006d0000005f000000448bca46f4e809545c0ab4e004dfd338ab05018700000000000000000800225b0a0d0800108180b1a2b9d1cc011802124a09000000000070a740110000000000409f40190000000000408f40210000000000407f40290000000000005940310000000000004940390000000000208c404002490000000000008940",
+    "action_receipt_id": "309ff7fa4207ed62808f06b9fda74d3be77a95e6bfe07ef23fdb6de057234259",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_funds",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "available_funds": "800.0",
+        "cash": "1000.0",
+        "cash_available_for_reservation": null,
+        "currency": "USD",
+        "financing_power_is_not_cash": true,
+        "frozen_cash": "100.0",
+        "power": "3000.0",
+        "requested_currency": "USD"
+      },
+      "id": "c721fe82645adf45460f311fdee2b9692401241669710f9c577befe1d09d42d7",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "309ff7fa4207ed62808f06b9fda74d3be77a95e6bfe07ef23fdb6de057234259",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "funds": {
+              "present": true,
+              "value": {
+                "availableFunds": {
+                  "present": true,
+                  "value": 800.0
+                },
+                "avlWithdrawalCash": {
+                  "present": true,
+                  "value": 900.0
+                },
+                "beginningDTBP": {
+                  "present": false,
+                  "value": null
+                },
+                "bondAssets": {
+                  "present": false,
+                  "value": null
+                },
+                "cash": {
+                  "present": true,
+                  "value": 1000.0
+                },
+                "cashInfoList": {
+                  "present": false,
+                  "value": []
+                },
+                "cryptoMv": {
+                  "present": false,
+                  "value": null
+                },
+                "currency": {
+                  "present": true,
+                  "value": 2
+                },
+                "debtCash": {
+                  "present": true,
+                  "value": 50.0
+                },
+                "dtCallAmount": {
+                  "present": false,
+                  "value": null
+                },
+                "dtStatus": {
+                  "present": false,
+                  "value": null
+                },
+                "exposureLevel": {
+                  "present": false,
+                  "value": null
+                },
+                "exposureLimit": {
+                  "present": false,
+                  "value": null
+                },
+                "frozenCash": {
+                  "present": true,
+                  "value": 100.0
+                },
+                "fundAssets": {
+                  "present": false,
+                  "value": null
+                },
+                "initialMargin": {
+                  "present": false,
+                  "value": null
+                },
+                "isPdt": {
+                  "present": false,
+                  "value": null
+                },
+                "longMv": {
+                  "present": false,
+                  "value": null
+                },
+                "maintenanceMargin": {
+                  "present": false,
+                  "value": null
+                },
+                "marginCallMargin": {
+                  "present": false,
+                  "value": null
+                },
+                "marketInfoList": {
+                  "present": false,
+                  "value": []
+                },
+                "marketVal": {
+                  "present": true,
+                  "value": 500.0
+                },
+                "maxPowerShort": {
+                  "present": false,
+                  "value": null
+                },
+                "maxWithdrawal": {
+                  "present": false,
+                  "value": null
+                },
+                "netCashPower": {
+                  "present": false,
+                  "value": null
+                },
+                "pdtSeq": {
+                  "present": false,
+                  "value": null
+                },
+                "pendingAsset": {
+                  "present": false,
+                  "value": null
+                },
+                "power": {
+                  "present": true,
+                  "value": 3000.0
+                },
+                "realizedPL": {
+                  "present": false,
+                  "value": null
+                },
+                "remainingDTBP": {
+                  "present": false,
+                  "value": null
+                },
+                "remainingLimit": {
+                  "present": false,
+                  "value": null
+                },
+                "riskLevel": {
+                  "present": false,
+                  "value": null
+                },
+                "riskStatus": {
+                  "present": false,
+                  "value": null
+                },
+                "securitiesAssets": {
+                  "present": false,
+                  "value": null
+                },
+                "shortMv": {
+                  "present": false,
+                  "value": null
+                },
+                "totalAssets": {
+                  "present": true,
+                  "value": 2000.0
+                },
+                "unrealizedPL": {
+                  "present": false,
+                  "value": null
+                },
+                "usedLimit": {
+                  "present": false,
+                  "value": null
+                }
+              }
+            },
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2101,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 67,
+        "sha256": "a1d792f8cb2b9af04ca6e2b767ac5ea65533ef20ec4de2f98cb8b04a4110df22"
+      },
+      "request_id": "synthetic-facts-109",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 139,
+        "sha256": "e6201f7b765e651e78b4f4a45e295c005057499619c28094f94945e4eac26a7e"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 109,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "api-error-not-rejection-trade_funds",
+    "action": "trade_funds",
+    "request_frame_hex": "46543508000000006e000000170000004cd6b0dd81c41644b12fc768b312e414150f3a3900000000000000000a150a0d0800108180b1a2b9d1cc011802100118022002",
+    "response_frame_hex": "46543508000000006e0000001e00000004a09454362b7163a3c5e2d85dd11733973b17fb000000000000000008ffffffffffffffffff01120f53594e5448455449435f4552524f52182a",
+    "action_receipt_id": "75018d0d247239a2aadf06b3ec56f9d1518864132657e7a45667ee4c21e7cfdc",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_funds",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {},
+      "id": "7c8371fad6932b233e595d42bfd966beaa933685acf7aa1c28ca272c93e4367b",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "75018d0d247239a2aadf06b3ec56f9d1518864132657e7a45667ee4c21e7cfdc",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": true,
+          "value": 42
+        },
+        "retMsg": {
+          "present": true,
+          "value": "SYNTHETIC_ERROR"
+        },
+        "retType": {
+          "present": true,
+          "value": -1
+        },
+        "s2c": {
+          "present": false,
+          "value": null
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2101,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 67,
+        "sha256": "d39991ec23c9f2e76bb32ace93ed29aa3898fea65ec56233533f0d11a856bc2c"
+      },
+      "request_id": "synthetic-facts-110",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 74,
+        "sha256": "635f4afda20b8f6e497b098594d794c74fd615dc364a0d8e69039b0e0fda38f9"
+      },
+      "ret_type": -1,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 110,
+      "source_authenticated": false,
+      "status": "API_ERROR_RESPONSE",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "matched-trade_positions",
+    "action": "trade_positions",
+    "request_frame_hex": "46543608000000006f0000002300000019c86de02e180d7d179e937ebd8b53dd46a98e6900000000000000000a210a0d0800108180b1a2b9d1cc01180212080a0454534c4130022801300238024000",
+    "response_frame_hex": "46543608000000006f0000006e000000a6d6b4681b5ec514618b90b20c647a0ec36ce63300000000000000000800226a0a0d0800108180b1a2b9d1cc0118021259080710001a0454534c41220e53594e5448455449435f54455354290000000000000840310000000000000040390000000000003440490000000000004e405100000000000000006002f00102f80102b0028180b1a2b9d1cc01",
+    "action_receipt_id": "6743d6132c6d644fe5118831ca3f0bf59db82c3631124e4d844e176e0749c339",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_positions",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_positions": [
+          {
+            "can_sell_quantity": "2.0",
+            "code": "TSLA",
+            "owner_scope_id": null,
+            "position_id": "7",
+            "position_side_code": 0,
+            "quantity": "3.0"
+          }
+        ],
+        "owner_allocation_verified": false,
+        "owner_positions": null
+      },
+      "id": "4e3d70f11f0eeaa4a5106f3e98a64959a69282442a941fe94712eb54fa210fab",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "6743d6132c6d644fe5118831ca3f0bf59db82c3631124e4d844e176e0749c339",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "positionList": {
+              "present": true,
+              "value": [
+                {
+                  "accID": {
+                    "present": true,
+                    "value": 900000000000001
+                  },
+                  "averageCostPrice": {
+                    "present": false,
+                    "value": null
+                  },
+                  "averagePlRatio": {
+                    "present": false,
+                    "value": null
+                  },
+                  "canSellQty": {
+                    "present": true,
+                    "value": 2.0
+                  },
+                  "code": {
+                    "present": true,
+                    "value": "TSLA"
+                  },
+                  "comboID": {
+                    "present": false,
+                    "value": null
+                  },
+                  "costPrice": {
+                    "present": false,
+                    "value": null
+                  },
+                  "currency": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "dilutedCostPrice": {
+                    "present": false,
+                    "value": null
+                  },
+                  "jpAccType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "name": {
+                    "present": true,
+                    "value": "SYNTHETIC_TEST"
+                  },
+                  "plRatio": {
+                    "present": false,
+                    "value": null
+                  },
+                  "plVal": {
+                    "present": true,
+                    "value": 0.0
+                  },
+                  "positionID": {
+                    "present": true,
+                    "value": 7
+                  },
+                  "positionSide": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "positionType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "price": {
+                    "present": true,
+                    "value": 20.0
+                  },
+                  "qty": {
+                    "present": true,
+                    "value": 3.0
+                  },
+                  "realizedPL": {
+                    "present": false,
+                    "value": null
+                  },
+                  "secMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "strategyType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "td_buyQty": {
+                    "present": false,
+                    "value": null
+                  },
+                  "td_buyVal": {
+                    "present": false,
+                    "value": null
+                  },
+                  "td_plVal": {
+                    "present": false,
+                    "value": null
+                  },
+                  "td_sellQty": {
+                    "present": false,
+                    "value": null
+                  },
+                  "td_sellVal": {
+                    "present": false,
+                    "value": null
+                  },
+                  "td_trdVal": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trdMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "unrealizedPL": {
+                    "present": false,
+                    "value": null
+                  },
+                  "val": {
+                    "present": true,
+                    "value": 60.0
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2102,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 79,
+        "sha256": "45cd5c8163b88cef1f713a1cce6bf4fd6358e2a1193be9dcd04bb8c55555e468"
+      },
+      "request_id": "synthetic-facts-111",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 154,
+        "sha256": "1fb893a56b77da2c865dc2378dc4116658f8d5a463b27428d10fa7f937f80aae"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 111,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "api-error-not-rejection-trade_positions",
+    "action": "trade_positions",
+    "request_frame_hex": "4654360800000000700000002300000019c86de02e180d7d179e937ebd8b53dd46a98e6900000000000000000a210a0d0800108180b1a2b9d1cc01180212080a0454534c4130022801300238024000",
+    "response_frame_hex": "4654360800000000700000001e00000004a09454362b7163a3c5e2d85dd11733973b17fb000000000000000008ffffffffffffffffff01120f53594e5448455449435f4552524f52182a",
+    "action_receipt_id": "11291089edc053e2868eda0c450be74e04d9009df2aec479963a39ba09324dad",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_positions",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {},
+      "id": "bf121355021832e04a2659102809ed9b5406fd5d8af2ad17952867f30907a06f",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "11291089edc053e2868eda0c450be74e04d9009df2aec479963a39ba09324dad",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": true,
+          "value": 42
+        },
+        "retMsg": {
+          "present": true,
+          "value": "SYNTHETIC_ERROR"
+        },
+        "retType": {
+          "present": true,
+          "value": -1
+        },
+        "s2c": {
+          "present": false,
+          "value": null
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2102,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 79,
+        "sha256": "8cddd3ad05078fc45905473a5c3bb459334edecfed1949710cf17cafb87c019f"
+      },
+      "request_id": "synthetic-facts-112",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 74,
+        "sha256": "2fdfbd88a2a67a76486d384cb6bedecb224709e6f0fecab3bfdde2f11ff6f130"
+      },
+      "ret_type": -1,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 112,
+      "source_authenticated": false,
+      "status": "API_ERROR_RESPONSE",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "matched-trade_fees",
+    "action": "trade_fees",
+    "request_frame_hex": "4654b108000000007100000025000000de5ba31a29c51c01ef2ccfddd84a137bc2926b5d00000000000000000a230a0d0800108180b1a2b9d1cc011802121266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "4654b1080000000071000000320000004a19bdb4da8738ee28ee9e063444feda37399ddd00000000000000000800222e0a0d0800108180b1a2b9d1cc011802121d0a1266696374696f6e616c2d6f726465722d343411000000000000d03f",
+    "action_receipt_id": "392df4f45453103002fe754d56c57926fb80470775c5f3b348aa64b7b14e17f0",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_fees",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_order_id": "fictional-order-44",
+        "currency": null,
+        "fee_amount": "0.25",
+        "fees_final": null,
+        "requested_currency": "USD"
+      },
+      "id": "930c0b8eb63791e469cb746049fb165f2553df9939ff7ae57bafa6ece173af10",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "392df4f45453103002fe754d56c57926fb80470775c5f3b348aa64b7b14e17f0",
+      "missing": [
+        {
+          "field": "currency",
+          "reason": "NOT_PROVIDED_BY_ORDER_FEE",
+          "required_for": "fee_currency_evidence"
+        },
+        {
+          "field": "fees_final",
+          "reason": "NOT_PROVIDED_BY_ORDER_FEE",
+          "required_for": "journal_economic_observation"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderFeeList": {
+              "present": true,
+              "value": [
+                {
+                  "feeAmount": {
+                    "present": true,
+                    "value": 0.25
+                  },
+                  "feeList": {
+                    "present": false,
+                    "value": []
+                  },
+                  "orderIDEx": {
+                    "present": true,
+                    "value": "fictional-order-44"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2225,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 81,
+        "sha256": "f3a9c2749a11f98eedd642ccda8b4f9f4aa251370710408c0bcafeef85d61c92"
+      },
+      "request_id": "synthetic-facts-113",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 94,
+        "sha256": "e1d8d3976f0a00a5039ed4a3bfc77898c9d81d8558a2f5aa04858c9d5c5d5770"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 113,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "api-error-not-rejection-trade_fees",
+    "action": "trade_fees",
+    "request_frame_hex": "4654b108000000007200000025000000de5ba31a29c51c01ef2ccfddd84a137bc2926b5d00000000000000000a230a0d0800108180b1a2b9d1cc011802121266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "4654b10800000000720000001e00000004a09454362b7163a3c5e2d85dd11733973b17fb000000000000000008ffffffffffffffffff01120f53594e5448455449435f4552524f52182a",
+    "action_receipt_id": "c8d81f67e653188d3f3e1f718e75c05c09be88fdf8f5a16d776749ba3c6d9236",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_fees",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {},
+      "id": "d5c1926a01698b688fee67ca4acc2585c69fa121d1bad271dd9ce455f35a26a4",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "c8d81f67e653188d3f3e1f718e75c05c09be88fdf8f5a16d776749ba3c6d9236",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": true,
+          "value": 42
+        },
+        "retMsg": {
+          "present": true,
+          "value": "SYNTHETIC_ERROR"
+        },
+        "retType": {
+          "present": true,
+          "value": -1
+        },
+        "s2c": {
+          "present": false,
+          "value": null
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2225,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 81,
+        "sha256": "9a0358120a5fbf6a9888c4d8ad40a4c9b0dae964875037327f0dd0ddf1b9a805"
+      },
+      "request_id": "synthetic-facts-114",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 74,
+        "sha256": "a43f22e1c6f1c6cba74fff5cf916a9106b385317c1d971dc949f6de01473eedf"
+      },
+      "ret_type": -1,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 114,
+      "source_authenticated": false,
+      "status": "API_ERROR_RESPONSE",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "wrong-trdEnv-trade_submit",
+    "action": "trade_submit",
+    "request_frame_hex": "46549a080000000073000000470000005ae3be113786ac8de95b4c9c90c9e2afdfbab4a900000000000000000a450a0408211073120d0800108180b1a2b9d1cc011802180120012a0454534c41310000000000000840391ef32a00000034404000490000000000000000500260006800900101",
+    "response_frame_hex": "46549a080000000073000000270000003c929edef697e2ed4ed5d641f06605f5654a227b0000000000000000080022230a0d0801108180b1a2b9d1cc0118021a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "2fd25b1d573c073c7231c24b149e1702473ffbe77759652e8c53c25c87e4c923",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdEnv"
+  },
+  {
+    "label": "wrong-accID-trade_submit",
+    "action": "trade_submit",
+    "request_frame_hex": "46549a080000000074000000470000005270a2150a934bd42ea47bfacfed4f70d559880100000000000000000a450a0408211074120d0800108180b1a2b9d1cc011802180120012a0454534c41310000000000000840391ef32a00000034404000490000000000000000500260006800900101",
+    "response_frame_hex": "46549a0800000000740000002700000022890493cc86f290df698b94b8c14259bce77f390000000000000000080022230a0d0800108280b1a2b9d1cc0118021a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "8a87179f32dc46108f46bd20eeaca02c8f080d6bf4e00419393a091899dd405f",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.accID"
+  },
+  {
+    "label": "wrong-trdMarket-trade_submit",
+    "action": "trade_submit",
+    "request_frame_hex": "46549a08000000007500000047000000a229afc7e3bb66d51f840ce9f90ff1f7240f681e00000000000000000a450a0408211075120d0800108180b1a2b9d1cc011802180120012a0454534c41310000000000000840391ef32a00000034404000490000000000000000500260006800900101",
+    "response_frame_hex": "46549a0800000000750000002700000035087bef6899a79fea84271ca5d14eff09fb3add0000000000000000080022230a0d0800108180b1a2b9d1cc0118011a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "60b6698c78796c431d79422c7d3626cc8d66b85ff7aa7a78d5d05c16738dae96",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdMarket"
+  },
+  {
+    "label": "wrong-trdEnv-trade_cancel",
+    "action": "trade_cancel",
+    "request_frame_hex": "46549d08000000007600000032000000b9e1090af3f818ff20cdb2e907c3f9050ea0ddf200000000000000000a300a0408211076120d0800108180b1a2b9d1cc01180218002002280082011266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "46549d08000000007600000029000000046744f9cf4f9a5d088c64d8c4466b78de4b40de0000000000000000080022250a0d0801108180b1a2b9d1cc01180210001a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "9d701ed498beeef0a0926a9ad6a32df860760fc1799f77e60a62b48b1d6fd269",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdEnv"
+  },
+  {
+    "label": "wrong-accID-trade_cancel",
+    "action": "trade_cancel",
+    "request_frame_hex": "46549d08000000007700000032000000a889701633c5f8d616cb30185945f59b50b3295300000000000000000a300a0408211077120d0800108180b1a2b9d1cc01180218002002280082011266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "46549d080000000077000000290000001c23176b9913e6a5762915f39019a996a19009040000000000000000080022250a0d0800108280b1a2b9d1cc01180210001a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "d2b8852e0e23e2b047a329af9b5380c0785395c86e65454017ee92f1b85bf1a9",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.accID"
+  },
+  {
+    "label": "wrong-trdMarket-trade_cancel",
+    "action": "trade_cancel",
+    "request_frame_hex": "46549d0800000000780000003200000014cc317204c15d970964d0a25e28611d0a09e70a00000000000000000a300a0408211078120d0800108180b1a2b9d1cc01180218002002280082011266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "46549d0800000000780000002900000072e7806e3e9969c8717b4f0c08f1cebea17b5d240000000000000000080022250a0d0800108180b1a2b9d1cc01180110001a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "760fe9e983217e4b07c6243360ed839fc5e46ef51feee1bde1e7efa76c8abfc9",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdMarket"
+  },
+  {
+    "label": "wrong-trdEnv-trade_observe",
+    "action": "trade_observe",
+    "request_frame_hex": "46549908000000007900000031000000c53899847b5012251c91eecd01580fbfff56dca100000000000000000a2f0a0d0800108180b1a2b9d1cc011802121c0a0454534c412a1266696374696f6e616c2d6f726465722d343430022001",
+    "response_frame_hex": "465499080000000079000000a8000000873e3b6a07bae37b30e16e43f75287358da842dd0000000000000000080022a3010a0d0801108180b1a2b9d1cc01180212910108011001180a20002a1266696374696f6e616c2d6f726465722d3434320454534c413a0e53594e5448455449435f54455354410000000000000840491ef32a00000034405213323032362d31302d33302030383a30303a30305a13323032362d31302d33302030383a30303a30316100000000000000406900000000000033407802980100a00100c80102d00102d80101",
+    "action_receipt_id": "06c1528f0813b63afb10b9fbbaee2b0a98175d686a631c5e94dc15546e9f8771",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdEnv"
+  },
+  {
+    "label": "wrong-accID-trade_observe",
+    "action": "trade_observe",
+    "request_frame_hex": "46549908000000007a00000031000000c53899847b5012251c91eecd01580fbfff56dca100000000000000000a2f0a0d0800108180b1a2b9d1cc011802121c0a0454534c412a1266696374696f6e616c2d6f726465722d343430022001",
+    "response_frame_hex": "46549908000000007a000000a80000000a54be37e7cb7c12c2e7685ce77c6f0e28875d740000000000000000080022a3010a0d0800108280b1a2b9d1cc01180212910108011001180a20002a1266696374696f6e616c2d6f726465722d3434320454534c413a0e53594e5448455449435f54455354410000000000000840491ef32a00000034405213323032362d31302d33302030383a30303a30305a13323032362d31302d33302030383a30303a30316100000000000000406900000000000033407802980100a00100c80102d00102d80101",
+    "action_receipt_id": "b0e776afb9a628c053f8cad74dc2a8c9e6adf8850edeb5144305b850639608da",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.accID"
+  },
+  {
+    "label": "wrong-trdMarket-trade_observe",
+    "action": "trade_observe",
+    "request_frame_hex": "46549908000000007b00000031000000c53899847b5012251c91eecd01580fbfff56dca100000000000000000a2f0a0d0800108180b1a2b9d1cc011802121c0a0454534c412a1266696374696f6e616c2d6f726465722d343430022001",
+    "response_frame_hex": "46549908000000007b000000a80000002f65907333a79479b570a9622ffb82cfdefaf82f0000000000000000080022a3010a0d0800108180b1a2b9d1cc01180112910108011001180a20002a1266696374696f6e616c2d6f726465722d3434320454534c413a0e53594e5448455449435f54455354410000000000000840491ef32a00000034405213323032362d31302d33302030383a30303a30305a13323032362d31302d33302030383a30303a30316100000000000000406900000000000033407802980100a00100c80102d00102d80101",
+    "action_receipt_id": "d0f085ebf1168cf22d6d0df989b112a22f45fe7bb87fa8557583ba3e02aee943",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdMarket"
+  },
+  {
+    "label": "wrong-trdEnv-trade_funds",
+    "action": "trade_funds",
+    "request_frame_hex": "46543508000000007c000000170000004cd6b0dd81c41644b12fc768b312e414150f3a3900000000000000000a150a0d0800108180b1a2b9d1cc011802100118022002",
+    "response_frame_hex": "46543508000000007c0000005f000000002f6a7eb78621098acb221b88f3db02cd76a4e000000000000000000800225b0a0d0801108180b1a2b9d1cc011802124a09000000000070a740110000000000409f40190000000000408f40210000000000407f40290000000000005940310000000000004940390000000000208c404002490000000000008940",
+    "action_receipt_id": "887f9e304664ef7819658d9bb9370c6bb51cb69b9c3fde6087231d30b1d341ac",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdEnv"
+  },
+  {
+    "label": "wrong-accID-trade_funds",
+    "action": "trade_funds",
+    "request_frame_hex": "46543508000000007d000000170000004cd6b0dd81c41644b12fc768b312e414150f3a3900000000000000000a150a0d0800108180b1a2b9d1cc011802100118022002",
+    "response_frame_hex": "46543508000000007d0000005f000000e91b361213974f92a042edd0c36da46a92c12fa100000000000000000800225b0a0d0800108280b1a2b9d1cc011802124a09000000000070a740110000000000409f40190000000000408f40210000000000407f40290000000000005940310000000000004940390000000000208c404002490000000000008940",
+    "action_receipt_id": "265a145d284823e13b8c5b0420dd001bff6bc1f57bd6d7adb06ae4fae6ad36dd",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.accID"
+  },
+  {
+    "label": "wrong-trdMarket-trade_funds",
+    "action": "trade_funds",
+    "request_frame_hex": "46543508000000007e000000170000004cd6b0dd81c41644b12fc768b312e414150f3a3900000000000000000a150a0d0800108180b1a2b9d1cc011802100118022002",
+    "response_frame_hex": "46543508000000007e0000005f000000e74970d6aa84a3158377c4095a86b800e822c7e100000000000000000800225b0a0d0800108180b1a2b9d1cc011801124a09000000000070a740110000000000409f40190000000000408f40210000000000407f40290000000000005940310000000000004940390000000000208c404002490000000000008940",
+    "action_receipt_id": "b2f1c407cf9e6e8beec13c0e7b0c87b14526775998c0b2ca1d98230a682bf03f",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdMarket"
+  },
+  {
+    "label": "wrong-trdEnv-trade_positions",
+    "action": "trade_positions",
+    "request_frame_hex": "46543608000000007f0000002300000019c86de02e180d7d179e937ebd8b53dd46a98e6900000000000000000a210a0d0800108180b1a2b9d1cc01180212080a0454534c4130022801300238024000",
+    "response_frame_hex": "46543608000000007f0000006e00000034b6a3471e7c9cc11eca16126873b25084857b2600000000000000000800226a0a0d0801108180b1a2b9d1cc0118021259080710001a0454534c41220e53594e5448455449435f54455354290000000000000840310000000000000040390000000000003440490000000000004e405100000000000000006002f00102f80102b0028180b1a2b9d1cc01",
+    "action_receipt_id": "af08d1f2b12d79ec3e3de31b0b28c6de24d0cc90f09dc93c399e464604630c48",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdEnv"
+  },
+  {
+    "label": "wrong-accID-trade_positions",
+    "action": "trade_positions",
+    "request_frame_hex": "4654360800000000800000002300000019c86de02e180d7d179e937ebd8b53dd46a98e6900000000000000000a210a0d0800108180b1a2b9d1cc01180212080a0454534c4130022801300238024000",
+    "response_frame_hex": "4654360800000000800000006e0000009de78c4685a1acbfcb94c349f590b498430ea6fb00000000000000000800226a0a0d0800108280b1a2b9d1cc0118021259080710001a0454534c41220e53594e5448455449435f54455354290000000000000840310000000000000040390000000000003440490000000000004e405100000000000000006002f00102f80102b0028180b1a2b9d1cc01",
+    "action_receipt_id": "6857c5fefe1f6f4c38e3b9e7deded2640042f4c1f551e8342b972ef2f9955f04",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.accID"
+  },
+  {
+    "label": "wrong-trdMarket-trade_positions",
+    "action": "trade_positions",
+    "request_frame_hex": "4654360800000000810000002300000019c86de02e180d7d179e937ebd8b53dd46a98e6900000000000000000a210a0d0800108180b1a2b9d1cc01180212080a0454534c4130022801300238024000",
+    "response_frame_hex": "4654360800000000810000006e00000054cf20e98657f25b0868354c7f6f6b4e8d91902600000000000000000800226a0a0d0800108180b1a2b9d1cc0118011259080710001a0454534c41220e53594e5448455449435f54455354290000000000000840310000000000000040390000000000003440490000000000004e405100000000000000006002f00102f80102b0028180b1a2b9d1cc01",
+    "action_receipt_id": "a1e32b9706432f5d43b37c542d2e9825d7c5a3e1f10f6096da92e391dd5f218b",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdMarket"
+  },
+  {
+    "label": "wrong-trdEnv-trade_fees",
+    "action": "trade_fees",
+    "request_frame_hex": "4654b108000000008200000025000000de5ba31a29c51c01ef2ccfddd84a137bc2926b5d00000000000000000a230a0d0800108180b1a2b9d1cc011802121266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "4654b108000000008200000032000000bd4d3063d09f65038c091a568a01eb744f1510e800000000000000000800222e0a0d0801108180b1a2b9d1cc011802121d0a1266696374696f6e616c2d6f726465722d343411000000000000d03f",
+    "action_receipt_id": "5bd598e2d88bd0bf249cafb14bb2e1c3902eb32dd4464fc30e1222f478327aa7",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdEnv"
+  },
+  {
+    "label": "wrong-accID-trade_fees",
+    "action": "trade_fees",
+    "request_frame_hex": "4654b108000000008300000025000000de5ba31a29c51c01ef2ccfddd84a137bc2926b5d00000000000000000a230a0d0800108180b1a2b9d1cc011802121266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "4654b108000000008300000032000000ecfb56653a7945358eb15bdf6932033addff928b00000000000000000800222e0a0d0800108280b1a2b9d1cc011802121d0a1266696374696f6e616c2d6f726465722d343411000000000000d03f",
+    "action_receipt_id": "c46da3c21612e9252a932c86aa3a0b96c228a2320fb1e8b3a511052e36a02f49",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.accID"
+  },
+  {
+    "label": "wrong-trdMarket-trade_fees",
+    "action": "trade_fees",
+    "request_frame_hex": "4654b108000000008400000025000000de5ba31a29c51c01ef2ccfddd84a137bc2926b5d00000000000000000a230a0d0800108180b1a2b9d1cc011802121266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "4654b1080000000084000000320000003e4a2b1e5c59af9ca55e5331fddf8e82ccdad41c00000000000000000800222e0a0d0800108180b1a2b9d1cc011801121d0a1266696374696f6e616c2d6f726465722d343411000000000000d03f",
+    "action_receipt_id": "26b5f94caa67cdc20c613809fafb03b90a2b75aacef3eb3780dd13d254457ecf",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.header.trdMarket"
+  },
+  {
+    "label": "wrong-account-environment",
+    "action": "trade_accounts",
+    "request_frame_hex": "4654d107000000008500000008000000f7687eabbf3e1c6eea8df483e9d5c9f4b9c7e0fb00000000000000000a06081610011800",
+    "response_frame_hex": "4654d107000000008500000013000000fcb243c057fd22b68b46009d25b3087a4b748c7a00000000000000000800220f0a0d0801108180b1a2b9d1cc011802",
+    "action_receipt_id": "6ad007fdde4a2fa01bc5ab0c3b3a842d46edf59083d1b6938e5e2ed9cf1b85fb",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_scope_mismatch:s2c.accList[target].trdEnv"
+  },
+  {
+    "label": "target-account-not-found",
+    "action": "trade_accounts",
+    "request_frame_hex": "4654d107000000008600000008000000f7687eabbf3e1c6eea8df483e9d5c9f4b9c7e0fb00000000000000000a06081610011800",
+    "response_frame_hex": "4654d10700000000860000001300000045669633a9b78794b694cc827067d859b7707f0f00000000000000000800220f0a0d0800108280b1a2b9d1cc011802",
+    "action_receipt_id": "9e580924a1a4be6528222e4f652789518b4c5e6eb17af5f349d665b0deb38d1a",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_accounts",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "returned_account_count": 1,
+        "target_account_id": null
+      },
+      "id": "1bf017e3ce1e182dc0ddb05699943ddad5c6c0e9fad46fa64e4e7ace7a2f0656",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "9e580924a1a4be6528222e4f652789518b4c5e6eb17af5f349d665b0deb38d1a",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "accList": {
+              "present": true,
+              "value": [
+                {
+                  "accID": {
+                    "present": true,
+                    "value": 900000000000002
+                  },
+                  "accRole": {
+                    "present": false,
+                    "value": null
+                  },
+                  "accStatus": {
+                    "present": false,
+                    "value": null
+                  },
+                  "accType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "cardNum": {
+                    "present": false,
+                    "value": null
+                  },
+                  "competitionAccName": {
+                    "present": false,
+                    "value": null
+                  },
+                  "jpAccType": {
+                    "present": false,
+                    "value": []
+                  },
+                  "securityFirm": {
+                    "present": false,
+                    "value": null
+                  },
+                  "simAccType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trdEnv": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "trdMarketAuthList": {
+                    "present": true,
+                    "value": [
+                      2
+                    ]
+                  },
+                  "uniCardNum": {
+                    "present": false,
+                    "value": null
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2001,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 52,
+        "sha256": "1c9ba8b0a9b9f0355edcb3b4ccaf208d8cd0539af3fdb47d21e40c972ad16869"
+      },
+      "request_id": "synthetic-facts-134",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 63,
+        "sha256": "198cb6f88a133324674c525d9edad01575e33badb1add1e059ddb7c356ff0fbf"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 134,
+      "source_authenticated": false,
+      "status": "NOT_FOUND_UNCONFIRMED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "empty-trade_observe",
+    "action": "trade_observe",
+    "request_frame_hex": "46549908000000008700000031000000c53899847b5012251c91eecd01580fbfff56dca100000000000000000a2f0a0d0800108180b1a2b9d1cc011802121c0a0454534c412a1266696374696f6e616c2d6f726465722d343430022001",
+    "response_frame_hex": "465499080000000087000000130000005e1cf954ebc534654bd154d8389ff37634a9daee00000000000000000800220f0a0d0800108180b1a2b9d1cc011802",
+    "action_receipt_id": "3d39d3d7b21a0b03fd4fa942ab20df1405af038878026a8460766898320bf4cd",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_observe",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {},
+      "id": "118c52f6b52c7d41d9d915948d69f99dcdaecfa8971ca1dc02f8b23c9e0795be",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "3d39d3d7b21a0b03fd4fa942ab20df1405af038878026a8460766898320bf4cd",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderList": {
+              "present": false,
+              "value": []
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2201,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 93,
+        "sha256": "6ff0dd8e37abfc4881f6dbbcb017ffdb931e27c4b7ae36410a3bb1bee3776501"
+      },
+      "request_id": "synthetic-facts-135",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 63,
+        "sha256": "4fe978ed4cecf2a6e066f0e3676a17e7888cd654ee3f9dcb39f32086a4424db3"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 135,
+      "source_authenticated": false,
+      "status": "NOT_FOUND_UNCONFIRMED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "duplicate-trade_observe",
+    "action": "trade_observe",
+    "request_frame_hex": "46549908000000008800000031000000c53899847b5012251c91eecd01580fbfff56dca100000000000000000a2f0a0d0800108180b1a2b9d1cc011802121c0a0454534c412a1266696374696f6e616c2d6f726465722d343430022001",
+    "response_frame_hex": "4654990800000000880000003c0100008234a0767deac3db2accc3414fd3d9efb0d641b60000000000000000080022b7020a0d0800108180b1a2b9d1cc01180212910108011001180a20002a1266696374696f6e616c2d6f726465722d3434320454534c413a0e53594e5448455449435f54455354410000000000000840491ef32a00000034405213323032362d31302d33302030383a30303a30305a13323032362d31302d33302030383a30303a30316100000000000000406900000000000033407802980100a00100c80102d00102d8010112910108011001180a20002a1266696374696f6e616c2d6f726465722d3434320454534c413a0e53594e5448455449435f54455354410000000000000840491ef32a00000034405213323032362d31302d33302030383a30303a30305a13323032362d31302d33302030383a30303a30316100000000000000406900000000000033407802980100a00100c80102d00102d80101",
+    "action_receipt_id": "a78b5812508e38dd2cfb1a3b345726c0e5da13a1f4ae28e4d1d9f09baa169dfb",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "duplicate_or_foreign_order_rows"
+  },
+  {
+    "label": "empty-trade_positions",
+    "action": "trade_positions",
+    "request_frame_hex": "4654360800000000890000002300000019c86de02e180d7d179e937ebd8b53dd46a98e6900000000000000000a210a0d0800108180b1a2b9d1cc01180212080a0454534c4130022801300238024000",
+    "response_frame_hex": "465436080000000089000000130000005e1cf954ebc534654bd154d8389ff37634a9daee00000000000000000800220f0a0d0800108180b1a2b9d1cc011802",
+    "action_receipt_id": "000df40dfc06a17937592f33f5206af6ef6a547534417d01ff1f8918eb5d3823",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_positions",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_positions": [],
+        "owner_allocation_verified": false,
+        "owner_positions": null
+      },
+      "id": "cd762586aeb79a0c832eadcd2ab66ea20a41a09481c347a1956eaaa4ef85ad08",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "000df40dfc06a17937592f33f5206af6ef6a547534417d01ff1f8918eb5d3823",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "positionList": {
+              "present": false,
+              "value": []
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2102,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 79,
+        "sha256": "bbe31ac03f703b03ebb2f7223034035fc98e6a4e7305fb71c8873f849ad8a4aa"
+      },
+      "request_id": "synthetic-facts-137",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 63,
+        "sha256": "98b20a1953e5f2d8c13e5e750fb4a66fa1527238ce7675fdfee833dfbef9b091"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 137,
+      "source_authenticated": false,
+      "status": "NOT_FOUND_UNCONFIRMED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "duplicate-trade_positions",
+    "action": "trade_positions",
+    "request_frame_hex": "46543608000000008a0000002300000019c86de02e180d7d179e937ebd8b53dd46a98e6900000000000000000a210a0d0800108180b1a2b9d1cc01180212080a0454534c4130022801300238024000",
+    "response_frame_hex": "46543608000000008a000000ca00000001a75f03d203e41f4fb020e15413d1cf84c0ff620000000000000000080022c5010a0d0800108180b1a2b9d1cc0118021259080710001a0454534c41220e53594e5448455449435f54455354290000000000000840310000000000000040390000000000003440490000000000004e405100000000000000006002f00102f80102b0028180b1a2b9d1cc011259080710001a0454534c41220e53594e5448455449435f54455354290000000000000840310000000000000040390000000000003440490000000000004e405100000000000000006002f00102f80102b0028180b1a2b9d1cc01",
+    "action_receipt_id": "2096b9f08944b69db8d7d36e4033e670719461ae35e03c6de8744e534e6ade6d",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "duplicate_position_rows"
+  },
+  {
+    "label": "empty-trade_accounts",
+    "action": "trade_accounts",
+    "request_frame_hex": "4654d107000000008b00000008000000f7687eabbf3e1c6eea8df483e9d5c9f4b9c7e0fb00000000000000000a06081610011800",
+    "response_frame_hex": "4654d107000000008b000000040000004a43d18fae2fcebf3d79045f4ff90b250f577dda000000000000000008002200",
+    "action_receipt_id": "fcb0ed7b450da56f1b35eb4c8e45c6e0463529e37a75d3ee6c91ddaa8578b340",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_accounts",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "returned_account_count": 0,
+        "target_account_id": null
+      },
+      "id": "915f78e12d1a1956edd88eea2ad28558372ec4f9ca77e00c47c3ba93874b762a",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "fcb0ed7b450da56f1b35eb4c8e45c6e0463529e37a75d3ee6c91ddaa8578b340",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "accList": {
+              "present": false,
+              "value": []
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2001,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 52,
+        "sha256": "d4bf7ee74a4c668c29004ec82482e416fdbb235c27fbe018ce3ae12c08b1c9ec"
+      },
+      "request_id": "synthetic-facts-139",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 48,
+        "sha256": "1c3815b14a16c409bc91d2966b7ea3374e5800a013eebf5e9870cd5594608dac"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 139,
+      "source_authenticated": false,
+      "status": "NOT_FOUND_UNCONFIRMED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "duplicate-trade_accounts",
+    "action": "trade_accounts",
+    "request_frame_hex": "4654d107000000008c00000008000000f7687eabbf3e1c6eea8df483e9d5c9f4b9c7e0fb00000000000000000a06081610011800",
+    "response_frame_hex": "4654d107000000008c0000002200000058f073034ac12369ffd6f3be231e5d1677e76d5800000000000000000800221e0a0d0800108180b1a2b9d1cc0118020a0d0800108180b1a2b9d1cc011802",
+    "action_receipt_id": "581df61b2a2625a3ccc68d9b73048accb8bd5b97b6232468a1816a9b49703096",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "duplicate_account_rows"
+  },
+  {
+    "label": "empty-trade_fees",
+    "action": "trade_fees",
+    "request_frame_hex": "4654b108000000008d00000025000000de5ba31a29c51c01ef2ccfddd84a137bc2926b5d00000000000000000a230a0d0800108180b1a2b9d1cc011802121266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "4654b108000000008d000000130000005e1cf954ebc534654bd154d8389ff37634a9daee00000000000000000800220f0a0d0800108180b1a2b9d1cc011802",
+    "action_receipt_id": "7c7df975035f3d41fc955afcfdda26f40a36771bc0b856685bf75f55e3255d9d",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_fees",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {},
+      "id": "1d7c5f604b4b685872d1193cc2a3e4c2292e466d0701021eaee7160f6cf4fd07",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "7c7df975035f3d41fc955afcfdda26f40a36771bc0b856685bf75f55e3255d9d",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderFeeList": {
+              "present": false,
+              "value": []
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2225,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 81,
+        "sha256": "3a2f6ccc135e41a263070362534c0f359106b35a4ab75bcd6f762c0e93b29452"
+      },
+      "request_id": "synthetic-facts-141",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 63,
+        "sha256": "3d38509f9196780202ad6a6f45db0fb5681d41d43fc3f3423eb969805a172f50"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 141,
+      "source_authenticated": false,
+      "status": "NOT_FOUND_UNCONFIRMED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "duplicate-trade_fees",
+    "action": "trade_fees",
+    "request_frame_hex": "4654b108000000008e00000025000000de5ba31a29c51c01ef2ccfddd84a137bc2926b5d00000000000000000a230a0d0800108180b1a2b9d1cc011802121266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "4654b108000000008e000000510000006e02a1d08fc412f2fb2ffbec132f04cae24aef3000000000000000000800224d0a0d0800108180b1a2b9d1cc011802121d0a1266696374696f6e616c2d6f726465722d343411000000000000d03f121d0a1266696374696f6e616c2d6f726465722d343411000000000000d03f",
+    "action_receipt_id": "bae4aca8f56904823b9dcc10c7c377fc8a334e8d7513f47352cf8681f015a213",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "duplicate_or_foreign_order_rows"
+  },
+  {
+    "label": "wrong-order-trade_cancel",
+    "action": "trade_cancel",
+    "request_frame_hex": "46549d08000000008f00000033000000899b9eb96ca11389a441a3b409294ae71b82318900000000000000000a310a050821108f01120d0800108180b1a2b9d1cc01180218002002280082011266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "46549d08000000008f000000220000004b72de1337b18a0ffc1f7150029b106f36675e6200000000000000000800221e0a0d0800108180b1a2b9d1cc01180210001a0b4f544845522d4f52444552",
+    "action_receipt_id": "4032a94e953e680cfecfd66eedc748aa71f11d0e4590a3dc958d042847d8f8e6",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_original_order_id_mismatch"
+  },
+  {
+    "label": "wrong-order-trade_observe",
+    "action": "trade_observe",
+    "request_frame_hex": "46549908000000009000000031000000c53899847b5012251c91eecd01580fbfff56dca100000000000000000a2f0a0d0800108180b1a2b9d1cc011802121c0a0454534c412a1266696374696f6e616c2d6f726465722d343430022001",
+    "response_frame_hex": "465499080000000090000000a1000000138a31043403969872bd13627fdfc04c999b92b700000000000000000800229c010a0d0800108180b1a2b9d1cc011802128a0108011001180a20002a0b4f544845522d4f52444552320454534c413a0e53594e5448455449435f54455354410000000000000840491ef32a00000034405213323032362d31302d33302030383a30303a30305a13323032362d31302d33302030383a30303a30316100000000000000406900000000000033407802980100a00100c80102d00102d80101",
+    "action_receipt_id": "a9e5244ecb64692076873eb90dd06ecefa4faf5dcb7319c198be71721eb05431",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_original_order_id_mismatch"
+  },
+  {
+    "label": "wrong-order-trade_fees",
+    "action": "trade_fees",
+    "request_frame_hex": "4654b108000000009100000025000000de5ba31a29c51c01ef2ccfddd84a137bc2926b5d00000000000000000a230a0d0800108180b1a2b9d1cc011802121266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "4654b10800000000910000002b0000003df05cfc1c93fddb033c53c574384ba88bec2b6a0000000000000000080022270a0d0800108180b1a2b9d1cc01180212160a0b4f544845522d4f5244455211000000000000d03f",
+    "action_receipt_id": "ef42ba6a9aaf2274954a2d8a00efe5d41b00031bd085e841931b20003977c3c4",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_original_order_id_mismatch"
+  },
+  {
+    "label": "available-funds-absent",
+    "action": "trade_funds",
+    "request_frame_hex": "465435080000000092000000170000004cd6b0dd81c41644b12fc768b312e414150f3a3900000000000000000a150a0d0800108180b1a2b9d1cc011802100118022002",
+    "response_frame_hex": "465435080000000092000000560000008f732ea19546febc0c7f1c7dcf08c3a3026394f60000000000000000080022520a0d0800108180b1a2b9d1cc011802124109000000000070a740110000000000409f40190000000000408f40210000000000407f40290000000000005940310000000000004940390000000000208c404002",
+    "action_receipt_id": "7bc3b7665d61811a2c38433a61376486387d19dbfaa781aeffb5c50690283754",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_funds",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "available_funds": null,
+        "cash": "1000.0",
+        "cash_available_for_reservation": null,
+        "currency": "USD",
+        "financing_power_is_not_cash": true,
+        "frozen_cash": "100.0",
+        "power": "3000.0",
+        "requested_currency": "USD"
+      },
+      "id": "2ba6ed7e7bb10a98f476598c8007f08bbe575c233f1c6567561587fceff12acc",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "7bc3b7665d61811a2c38433a61376486387d19dbfaa781aeffb5c50690283754",
+      "missing": [
+        {
+          "field": "s2c.funds.availableFunds",
+          "reason": "NOT_PRESENT",
+          "required_for": "scope_or_requested_fact"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "funds": {
+              "present": true,
+              "value": {
+                "availableFunds": {
+                  "present": false,
+                  "value": null
+                },
+                "avlWithdrawalCash": {
+                  "present": true,
+                  "value": 900.0
+                },
+                "beginningDTBP": {
+                  "present": false,
+                  "value": null
+                },
+                "bondAssets": {
+                  "present": false,
+                  "value": null
+                },
+                "cash": {
+                  "present": true,
+                  "value": 1000.0
+                },
+                "cashInfoList": {
+                  "present": false,
+                  "value": []
+                },
+                "cryptoMv": {
+                  "present": false,
+                  "value": null
+                },
+                "currency": {
+                  "present": true,
+                  "value": 2
+                },
+                "debtCash": {
+                  "present": true,
+                  "value": 50.0
+                },
+                "dtCallAmount": {
+                  "present": false,
+                  "value": null
+                },
+                "dtStatus": {
+                  "present": false,
+                  "value": null
+                },
+                "exposureLevel": {
+                  "present": false,
+                  "value": null
+                },
+                "exposureLimit": {
+                  "present": false,
+                  "value": null
+                },
+                "frozenCash": {
+                  "present": true,
+                  "value": 100.0
+                },
+                "fundAssets": {
+                  "present": false,
+                  "value": null
+                },
+                "initialMargin": {
+                  "present": false,
+                  "value": null
+                },
+                "isPdt": {
+                  "present": false,
+                  "value": null
+                },
+                "longMv": {
+                  "present": false,
+                  "value": null
+                },
+                "maintenanceMargin": {
+                  "present": false,
+                  "value": null
+                },
+                "marginCallMargin": {
+                  "present": false,
+                  "value": null
+                },
+                "marketInfoList": {
+                  "present": false,
+                  "value": []
+                },
+                "marketVal": {
+                  "present": true,
+                  "value": 500.0
+                },
+                "maxPowerShort": {
+                  "present": false,
+                  "value": null
+                },
+                "maxWithdrawal": {
+                  "present": false,
+                  "value": null
+                },
+                "netCashPower": {
+                  "present": false,
+                  "value": null
+                },
+                "pdtSeq": {
+                  "present": false,
+                  "value": null
+                },
+                "pendingAsset": {
+                  "present": false,
+                  "value": null
+                },
+                "power": {
+                  "present": true,
+                  "value": 3000.0
+                },
+                "realizedPL": {
+                  "present": false,
+                  "value": null
+                },
+                "remainingDTBP": {
+                  "present": false,
+                  "value": null
+                },
+                "remainingLimit": {
+                  "present": false,
+                  "value": null
+                },
+                "riskLevel": {
+                  "present": false,
+                  "value": null
+                },
+                "riskStatus": {
+                  "present": false,
+                  "value": null
+                },
+                "securitiesAssets": {
+                  "present": false,
+                  "value": null
+                },
+                "shortMv": {
+                  "present": false,
+                  "value": null
+                },
+                "totalAssets": {
+                  "present": true,
+                  "value": 2000.0
+                },
+                "unrealizedPL": {
+                  "present": false,
+                  "value": null
+                },
+                "usedLimit": {
+                  "present": false,
+                  "value": null
+                }
+              }
+            },
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2101,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 67,
+        "sha256": "720623198dfcd2a8edbbb60ec57f1a1bf8b024be2ba251d1d9d87a1597ca7ecc"
+      },
+      "request_id": "synthetic-facts-146",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 130,
+        "sha256": "698149dd3754082950f90aa0ae3878ae828ac16d52c904864d791e6aa02f206a"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 146,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "available-funds-explicit-zero",
+    "action": "trade_funds",
+    "request_frame_hex": "465435080000000093000000170000004cd6b0dd81c41644b12fc768b312e414150f3a3900000000000000000a150a0d0800108180b1a2b9d1cc011802100118022002",
+    "response_frame_hex": "4654350800000000930000005f0000003ad29789dbabf9ab2b39de0be102e5dc5321079400000000000000000800225b0a0d0800108180b1a2b9d1cc011802124a09000000000070a740110000000000409f40190000000000408f40210000000000407f40290000000000005940310000000000004940390000000000208c404002490000000000000000",
+    "action_receipt_id": "6e1067f239cc989bdec4d520939ce563dc86567367b4948e67e733359905910d",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_funds",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "available_funds": "0.0",
+        "cash": "1000.0",
+        "cash_available_for_reservation": null,
+        "currency": "USD",
+        "financing_power_is_not_cash": true,
+        "frozen_cash": "100.0",
+        "power": "3000.0",
+        "requested_currency": "USD"
+      },
+      "id": "e5dddb7bc68d7c694a8be4c989a1e0ffb2a427292be9acf10e16830546db5d60",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "6e1067f239cc989bdec4d520939ce563dc86567367b4948e67e733359905910d",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "funds": {
+              "present": true,
+              "value": {
+                "availableFunds": {
+                  "present": true,
+                  "value": 0.0
+                },
+                "avlWithdrawalCash": {
+                  "present": true,
+                  "value": 900.0
+                },
+                "beginningDTBP": {
+                  "present": false,
+                  "value": null
+                },
+                "bondAssets": {
+                  "present": false,
+                  "value": null
+                },
+                "cash": {
+                  "present": true,
+                  "value": 1000.0
+                },
+                "cashInfoList": {
+                  "present": false,
+                  "value": []
+                },
+                "cryptoMv": {
+                  "present": false,
+                  "value": null
+                },
+                "currency": {
+                  "present": true,
+                  "value": 2
+                },
+                "debtCash": {
+                  "present": true,
+                  "value": 50.0
+                },
+                "dtCallAmount": {
+                  "present": false,
+                  "value": null
+                },
+                "dtStatus": {
+                  "present": false,
+                  "value": null
+                },
+                "exposureLevel": {
+                  "present": false,
+                  "value": null
+                },
+                "exposureLimit": {
+                  "present": false,
+                  "value": null
+                },
+                "frozenCash": {
+                  "present": true,
+                  "value": 100.0
+                },
+                "fundAssets": {
+                  "present": false,
+                  "value": null
+                },
+                "initialMargin": {
+                  "present": false,
+                  "value": null
+                },
+                "isPdt": {
+                  "present": false,
+                  "value": null
+                },
+                "longMv": {
+                  "present": false,
+                  "value": null
+                },
+                "maintenanceMargin": {
+                  "present": false,
+                  "value": null
+                },
+                "marginCallMargin": {
+                  "present": false,
+                  "value": null
+                },
+                "marketInfoList": {
+                  "present": false,
+                  "value": []
+                },
+                "marketVal": {
+                  "present": true,
+                  "value": 500.0
+                },
+                "maxPowerShort": {
+                  "present": false,
+                  "value": null
+                },
+                "maxWithdrawal": {
+                  "present": false,
+                  "value": null
+                },
+                "netCashPower": {
+                  "present": false,
+                  "value": null
+                },
+                "pdtSeq": {
+                  "present": false,
+                  "value": null
+                },
+                "pendingAsset": {
+                  "present": false,
+                  "value": null
+                },
+                "power": {
+                  "present": true,
+                  "value": 3000.0
+                },
+                "realizedPL": {
+                  "present": false,
+                  "value": null
+                },
+                "remainingDTBP": {
+                  "present": false,
+                  "value": null
+                },
+                "remainingLimit": {
+                  "present": false,
+                  "value": null
+                },
+                "riskLevel": {
+                  "present": false,
+                  "value": null
+                },
+                "riskStatus": {
+                  "present": false,
+                  "value": null
+                },
+                "securitiesAssets": {
+                  "present": false,
+                  "value": null
+                },
+                "shortMv": {
+                  "present": false,
+                  "value": null
+                },
+                "totalAssets": {
+                  "present": true,
+                  "value": 2000.0
+                },
+                "unrealizedPL": {
+                  "present": false,
+                  "value": null
+                },
+                "usedLimit": {
+                  "present": false,
+                  "value": null
+                }
+              }
+            },
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2101,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 67,
+        "sha256": "47e5081007b535807758ee45e49beb42720a6653b568ec3141e3351c0948371a"
+      },
+      "request_id": "synthetic-facts-147",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 139,
+        "sha256": "adc8ea8a2ad074b17f4d019593dd7688bd5b3d0c49fac0d9c83a5e656bd18401"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 147,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "fee-amount-absent",
+    "action": "trade_fees",
+    "request_frame_hex": "4654b108000000009400000025000000de5ba31a29c51c01ef2ccfddd84a137bc2926b5d00000000000000000a230a0d0800108180b1a2b9d1cc011802121266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "4654b108000000009400000029000000011000b164ca314f37cf8a36c9014fae76c7d5ae0000000000000000080022250a0d0800108180b1a2b9d1cc01180212140a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "f755009052d7503f6d57d27e507cd6e3eedaa06b818b24c6006dcecfe28c87ac",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_fees",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_order_id": "fictional-order-44",
+        "currency": null,
+        "fee_amount": null,
+        "fees_final": null,
+        "requested_currency": "USD"
+      },
+      "id": "966cbdf08cef7c050365cb3b43f774076900f184ced58a1725a299c7e6562708",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "f755009052d7503f6d57d27e507cd6e3eedaa06b818b24c6006dcecfe28c87ac",
+      "missing": [
+        {
+          "field": "s2c.orderFeeList[].feeAmount",
+          "reason": "NOT_PRESENT",
+          "required_for": "scope_or_requested_fact"
+        },
+        {
+          "field": "currency",
+          "reason": "NOT_PROVIDED_BY_ORDER_FEE",
+          "required_for": "fee_currency_evidence"
+        },
+        {
+          "field": "fees_final",
+          "reason": "NOT_PROVIDED_BY_ORDER_FEE",
+          "required_for": "journal_economic_observation"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderFeeList": {
+              "present": true,
+              "value": [
+                {
+                  "feeAmount": {
+                    "present": false,
+                    "value": null
+                  },
+                  "feeList": {
+                    "present": false,
+                    "value": []
+                  },
+                  "orderIDEx": {
+                    "present": true,
+                    "value": "fictional-order-44"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2225,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 81,
+        "sha256": "8ccddee7fcd0e8629995b916fcf46532011dc679acf3d955c03d265092b893b5"
+      },
+      "request_id": "synthetic-facts-148",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 85,
+        "sha256": "681c6d3eecf26a2bccd9a5b354954c13a8c606d2bfd92e7e21bbdda6236b4d60"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 148,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "fee-amount-explicit-zero",
+    "action": "trade_fees",
+    "request_frame_hex": "4654b108000000009500000025000000de5ba31a29c51c01ef2ccfddd84a137bc2926b5d00000000000000000a230a0d0800108180b1a2b9d1cc011802121266696374696f6e616c2d6f726465722d3434",
+    "response_frame_hex": "4654b108000000009500000032000000d09cf8dd865f4864b11babf744f26ff70576a67b00000000000000000800222e0a0d0800108180b1a2b9d1cc011802121d0a1266696374696f6e616c2d6f726465722d3434110000000000000000",
+    "action_receipt_id": "52fa9da79ec8536c15624b14c71f83c85fd5a6c3d6371d3dbef90f7087cc62c6",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_fees",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_order_id": "fictional-order-44",
+        "currency": null,
+        "fee_amount": "0.0",
+        "fees_final": null,
+        "requested_currency": "USD"
+      },
+      "id": "1770cab93feb2aa2bf2858e086dcb8f79a33a8434f6ed84d52b347c4365c30b5",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "52fa9da79ec8536c15624b14c71f83c85fd5a6c3d6371d3dbef90f7087cc62c6",
+      "missing": [
+        {
+          "field": "currency",
+          "reason": "NOT_PROVIDED_BY_ORDER_FEE",
+          "required_for": "fee_currency_evidence"
+        },
+        {
+          "field": "fees_final",
+          "reason": "NOT_PROVIDED_BY_ORDER_FEE",
+          "required_for": "journal_economic_observation"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderFeeList": {
+              "present": true,
+              "value": [
+                {
+                  "feeAmount": {
+                    "present": true,
+                    "value": 0.0
+                  },
+                  "feeList": {
+                    "present": false,
+                    "value": []
+                  },
+                  "orderIDEx": {
+                    "present": true,
+                    "value": "fictional-order-44"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2225,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 81,
+        "sha256": "b5936f5cdec96d6ac83da24094a1d3f7e21f178a24b42e1f84bdc6acb65b4235"
+      },
+      "request_id": "synthetic-facts-149",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 94,
+        "sha256": "8a0558ec18bcc4c1c3140f6574d87a0162eacca6e2d724262f4c40c144cb6dbf"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 149,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "fill-fields-absent",
+    "action": "trade_observe",
+    "request_frame_hex": "46549908000000009600000031000000c53899847b5012251c91eecd01580fbfff56dca100000000000000000a2f0a0d0800108180b1a2b9d1cc011802121c0a0454534c412a1266696374696f6e616c2d6f726465722d343430022001",
+    "response_frame_hex": "465499080000000096000000950000007f791ad6c757b6ac8a39d61e7acfd8f61174050f000000000000000008002290010a0d0800108180b1a2b9d1cc011802127f08011001180a20002a1266696374696f6e616c2d6f726465722d3434320454534c413a0e53594e5448455449435f54455354410000000000000840491ef32a00000034405213323032362d31302d33302030383a30303a30305a13323032362d31302d33302030383a30303a30317802980100a00100c80102d00102d80101",
+    "action_receipt_id": "cb3cfa59db3f988dbcf62c7f42571503b0318ff26f8d8809823e390afd8661f9",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_observe",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_order_id": "fictional-order-44",
+        "broker_status_code": 10,
+        "broker_status_name": "FILLED_PART",
+        "code": "TSLA",
+        "fees": null,
+        "fees_final": null,
+        "fill_average_price": null,
+        "filled_notional": null,
+        "filled_quantity": null,
+        "limit_price": "20.00000001",
+        "quantity": "3.0",
+        "update_time_raw": "2026-10-30 08:00:01",
+        "update_timestamp_raw": null
+      },
+      "id": "2558c0f2660bd56df7be730806660fa284be65a13c16e4c5860a2e92c0865a29",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "cb3cfa59db3f988dbcf62c7f42571503b0318ff26f8d8809823e390afd8661f9",
+      "missing": [
+        {
+          "field": "s2c.orderList[].fillQty",
+          "reason": "NOT_PRESENT",
+          "required_for": "scope_or_requested_fact"
+        },
+        {
+          "field": "s2c.orderList[].fillAvgPrice",
+          "reason": "NOT_PRESENT",
+          "required_for": "scope_or_requested_fact"
+        },
+        {
+          "field": "filled_notional",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        },
+        {
+          "field": "fees",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        },
+        {
+          "field": "fees_final",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderList": {
+              "present": true,
+              "value": [
+                {
+                  "auxPrice": {
+                    "present": false,
+                    "value": null
+                  },
+                  "code": {
+                    "present": true,
+                    "value": "TSLA"
+                  },
+                  "comboLegs": {
+                    "present": false,
+                    "value": []
+                  },
+                  "createTime": {
+                    "present": true,
+                    "value": "2026-10-30 08:00:00"
+                  },
+                  "createTimestamp": {
+                    "present": false,
+                    "value": null
+                  },
+                  "currency": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "expireTime": {
+                    "present": false,
+                    "value": null
+                  },
+                  "fillAvgPrice": {
+                    "present": false,
+                    "value": null
+                  },
+                  "fillOutsideRTH": {
+                    "present": true,
+                    "value": false
+                  },
+                  "fillQty": {
+                    "present": false,
+                    "value": null
+                  },
+                  "jpAccType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "lastErrMsg": {
+                    "present": false,
+                    "value": null
+                  },
+                  "name": {
+                    "present": true,
+                    "value": "SYNTHETIC_TEST"
+                  },
+                  "orderAmount": {
+                    "present": false,
+                    "value": null
+                  },
+                  "orderID": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "orderIDEx": {
+                    "present": true,
+                    "value": "fictional-order-44"
+                  },
+                  "orderStatus": {
+                    "present": true,
+                    "value": 10
+                  },
+                  "orderType": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "price": {
+                    "present": true,
+                    "value": 20.00000001
+                  },
+                  "qty": {
+                    "present": true,
+                    "value": 3.0
+                  },
+                  "remark": {
+                    "present": false,
+                    "value": null
+                  },
+                  "secMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "session": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "strategyType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "timeInForce": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "trailSpread": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trailType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trailValue": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trdMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "trdSide": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "updateTime": {
+                    "present": true,
+                    "value": "2026-10-30 08:00:01"
+                  },
+                  "updateTimestamp": {
+                    "present": false,
+                    "value": null
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2201,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 93,
+        "sha256": "41d8ba8bb7b88b806a5637fb6837308956f089956c3ec3337e65d525d50ce8d4"
+      },
+      "request_id": "synthetic-facts-150",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 193,
+        "sha256": "cbc60f6956f42c0d26ac79e1f498d323e51dc79805013cfdb9994f8448bb9827"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 150,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "terminal-status-not-final-economics",
+    "action": "trade_observe",
+    "request_frame_hex": "46549908000000009700000031000000c53899847b5012251c91eecd01580fbfff56dca100000000000000000a2f0a0d0800108180b1a2b9d1cc011802121c0a0454534c412a1266696374696f6e616c2d6f726465722d343430022001",
+    "response_frame_hex": "465499080000000097000000a8000000379f1c3058f7d8a4634af88cc4d552859c2dd3dd0000000000000000080022a3010a0d0800108180b1a2b9d1cc01180212910108011001180b20002a1266696374696f6e616c2d6f726465722d3434320454534c413a0e53594e5448455449435f54455354410000000000000840491ef32a00000034405213323032362d31302d33302030383a30303a30305a13323032362d31302d33302030383a30303a30316100000000000008406900000000000033407802980100a00100c80102d00102d80101",
+    "action_receipt_id": "62d8a496de99722d79dbd9cb448a3147a9b9ea00d2e59bd4121d4692d7e69c2f",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_observe",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {
+        "exact_notional": false,
+        "fill_notional_estimate": "57.00",
+        "method": "SOURCE_FILL_QTY_TIMES_SOURCE_FILL_AVG_PRICE"
+      },
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "broker_order_id": "fictional-order-44",
+        "broker_status_code": 11,
+        "broker_status_name": "FILLED_ALL",
+        "code": "TSLA",
+        "fees": null,
+        "fees_final": null,
+        "fill_average_price": "19.0",
+        "filled_notional": null,
+        "filled_quantity": "3.0",
+        "limit_price": "20.00000001",
+        "quantity": "3.0",
+        "update_time_raw": "2026-10-30 08:00:01",
+        "update_timestamp_raw": null
+      },
+      "id": "59eed980bc8b857d89510c2536a0b7b5041efc98ea9118893b9e07f86fe02da2",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "62d8a496de99722d79dbd9cb448a3147a9b9ea00d2e59bd4121d4692d7e69c2f",
+      "missing": [
+        {
+          "field": "filled_notional",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        },
+        {
+          "field": "fees",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        },
+        {
+          "field": "fees_final",
+          "reason": "NOT_PROVIDED_BY_ORDER_LIST",
+          "required_for": "journal_economic_observation"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderList": {
+              "present": true,
+              "value": [
+                {
+                  "auxPrice": {
+                    "present": false,
+                    "value": null
+                  },
+                  "code": {
+                    "present": true,
+                    "value": "TSLA"
+                  },
+                  "comboLegs": {
+                    "present": false,
+                    "value": []
+                  },
+                  "createTime": {
+                    "present": true,
+                    "value": "2026-10-30 08:00:00"
+                  },
+                  "createTimestamp": {
+                    "present": false,
+                    "value": null
+                  },
+                  "currency": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "expireTime": {
+                    "present": false,
+                    "value": null
+                  },
+                  "fillAvgPrice": {
+                    "present": true,
+                    "value": 19.0
+                  },
+                  "fillOutsideRTH": {
+                    "present": true,
+                    "value": false
+                  },
+                  "fillQty": {
+                    "present": true,
+                    "value": 3.0
+                  },
+                  "jpAccType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "lastErrMsg": {
+                    "present": false,
+                    "value": null
+                  },
+                  "name": {
+                    "present": true,
+                    "value": "SYNTHETIC_TEST"
+                  },
+                  "orderAmount": {
+                    "present": false,
+                    "value": null
+                  },
+                  "orderID": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "orderIDEx": {
+                    "present": true,
+                    "value": "fictional-order-44"
+                  },
+                  "orderStatus": {
+                    "present": true,
+                    "value": 11
+                  },
+                  "orderType": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "price": {
+                    "present": true,
+                    "value": 20.00000001
+                  },
+                  "qty": {
+                    "present": true,
+                    "value": 3.0
+                  },
+                  "remark": {
+                    "present": false,
+                    "value": null
+                  },
+                  "secMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "session": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "strategyType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "timeInForce": {
+                    "present": true,
+                    "value": 0
+                  },
+                  "trailSpread": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trailType": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trailValue": {
+                    "present": false,
+                    "value": null
+                  },
+                  "trdMarket": {
+                    "present": true,
+                    "value": 2
+                  },
+                  "trdSide": {
+                    "present": true,
+                    "value": 1
+                  },
+                  "updateTime": {
+                    "present": true,
+                    "value": "2026-10-30 08:00:01"
+                  },
+                  "updateTimestamp": {
+                    "present": false,
+                    "value": null
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2201,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 93,
+        "sha256": "aab4da41427baa94301fbfb245dfd38fd296d9f1bc49376bf8ee7d46405bafc3"
+      },
+      "request_id": "synthetic-facts-151",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 212,
+        "sha256": "56284209dd72c3c4d522cc91460bdbad7b10c8b27f298fb53fe07baa1e2c1718"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 151,
+      "source_authenticated": false,
+      "status": "READ_FACTS_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "missing-s2c",
+    "action": "trade_submit",
+    "request_frame_hex": "46549a08000000009800000048000000f47a4d28987ff6633c0a64bdd4decfa6a7543d2400000000000000000a460a050821109801120d0800108180b1a2b9d1cc011802180120012a0454534c41310000000000000840391ef32a00000034404000490000000000000000500260006800900101",
+    "response_frame_hex": "46549a08000000009800000002000000053d8d6ceeba9453c97d0ee5374db863e6f77ad400000000000000000800",
+    "action_receipt_id": "e871e6c04ad68dac05c20fd11721cff801a18a0e8f8d1a21daccf1d81386f5a1",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_submit",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {},
+      "id": "5f8efc98bb030e09342c8d466847d389930d4508eb0a5502bcd126ae57df2c04",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "e871e6c04ad68dac05c20fd11721cff801a18a0e8f8d1a21daccf1d81386f5a1",
+      "missing": [
+        {
+          "field": "s2c",
+          "reason": "NOT_PRESENT",
+          "required_for": "scope_or_requested_fact"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": false,
+          "value": null
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2202,
+      "received_after_profile_expiry": false,
+      "received_at": "2026-10-30T08:00:01+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 116,
+        "sha256": "7ad98131235250af51d7cd93e5b87982ffff4c84ca166e9ef7c5b2bfbf2aa6dd"
+      },
+      "request_id": "synthetic-facts-152",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 46,
+        "sha256": "5e2bf8ca088ff0f0695f43f3f48f758c6319ba8431ce58528161e14169aa82c9"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 152,
+      "source_authenticated": false,
+      "status": "INCOMPLETE_EVIDENCE",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  },
+  {
+    "label": "missing-required-retType",
+    "action": "trade_submit",
+    "request_frame_hex": "46549a08000000009900000048000000438e6da2fdc746cd09b0ea1f9e0416a4749a9bc000000000000000000a460a050821109901120d0800108180b1a2b9d1cc011802180120012a0454534c41310000000000000840391ef32a00000034404000490000000000000000500260006800900101",
+    "response_frame_hex": "46549a0800000000990000001c0000007da4ae3e23a26e29e9d93ee105c4c9d4f08d3f180000000000000000121a53594e5448455449435f4d495353494e475f5245515549524544",
+    "action_receipt_id": "f70e8cdcbca25f95514d4795456518e7d6c748bcbce0a5cf81e01c685b6e2d6d",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_facts_invalid:protobuf_required_fields_missing"
+  },
+  {
+    "label": "wrong-response-serial",
+    "action": "trade_submit",
+    "request_frame_hex": "46549a08000000009a00000048000000420369f2622ea8111dab3af47b3de7071a425a8500000000000000000a460a050821109a01120d0800108180b1a2b9d1cc011802180120012a0454534c41310000000000000840391ef32a00000034404000490000000000000000500260006800900101",
+    "response_frame_hex": "46549a08000000009b00000027000000e7f653d54548410c6845cac5c7ea2fd6e2605f5c0000000000000000080022230a0d0800108180b1a2b9d1cc0118021a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "86ed27df4a369b530a17b70a7a747142ded45a6d8acaaf49231be9357982dd9a",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "error": "response_facts_invalid:header_request_binding_invalid"
+  },
+  {
+    "label": "late-read-keeps-expired-fact",
+    "action": "trade_submit",
+    "request_frame_hex": "46549a08000000009b000000480000009805810b828919338d1aa5a46421598adb3d25c400000000000000000a460a050821109b01120d0800108180b1a2b9d1cc011802180120012a0454534c41310000000000000840391ef32a00000034404000490000000000000000500260006800900101",
+    "response_frame_hex": "46549a08000000009b00000027000000e7f653d54548410c6845cac5c7ea2fd6e2605f5c0000000000000000080022230a0d0800108180b1a2b9d1cc0118021a1266696374696f6e616c2d6f726465722d3434",
+    "action_receipt_id": "bb6a92a26071ab1386864a47f785a5d7402f748e89e8e97e544bcbe13cdaa32b",
+    "action_receipt_scope": "SYNTHETIC_SEALED_FIXTURE_NOT_A_DATABASE_OR_AUTHENTICATED_BROKER_RECORD",
+    "result": {
+      "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+      "action": "trade_submit",
+      "base_plan_id": "7b4856b0dd04d5fc43b7e40b81e4c84912f3971dec881517bd7b23f55c5dade2",
+      "derived": {},
+      "diagnostics": [],
+      "economic_acceptance": "NOT_INFERRED",
+      "facts": {
+        "account_scope_matched": true,
+        "broker_order_id": "fictional-order-44",
+        "fees_final": null,
+        "order_terminal_confirmed": false
+      },
+      "id": "e256c0e37aab757e278120306e8e9de5fd1b552848dcb05b09c2369b45164567",
+      "intent_scope_id": "ecd40642d24a652b8beca1392391842f8e0f79785744ea3da503a16fb76ac743",
+      "journal_observation_ready": false,
+      "journal_receipt_id": "bb6a92a26071ab1386864a47f785a5d7402f748e89e8e97e544bcbe13cdaa32b",
+      "missing": [],
+      "mode": "OFFICIAL_SIMULATION",
+      "needs_reconciliation": false,
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "presence": {
+        "errCode": {
+          "present": false,
+          "value": null
+        },
+        "retMsg": {
+          "present": false,
+          "value": null
+        },
+        "retType": {
+          "present": true,
+          "value": 0
+        },
+        "s2c": {
+          "present": true,
+          "value": {
+            "header": {
+              "present": true,
+              "value": {
+                "accID": {
+                  "present": true,
+                  "value": 900000000000001
+                },
+                "jpAccType": {
+                  "present": false,
+                  "value": null
+                },
+                "trdEnv": {
+                  "present": true,
+                  "value": 0
+                },
+                "trdMarket": {
+                  "present": true,
+                  "value": 2
+                }
+              }
+            },
+            "orderID": {
+              "present": false,
+              "value": null
+            },
+            "orderIDEx": {
+              "present": true,
+              "value": "fictional-order-44"
+            }
+          }
+        }
+      },
+      "profile_id": "8a3e99859fc5cb12d1d632482db913afbe5e197b23d31e884ea60557ed7147ee",
+      "protocol": 2202,
+      "received_after_profile_expiry": true,
+      "received_at": "2026-10-30T08:11:00+00:00",
+      "received_at_is_source_update_time": false,
+      "request_frame": {
+        "bytes": 116,
+        "sha256": "6d373da806cf3fda0443d655f0d2008be30c30dffbcba0243ea72cfd5c72298e"
+      },
+      "request_id": "synthetic-facts-155",
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "reservation_ready": false,
+      "response_frame": {
+        "bytes": 83,
+        "sha256": "a63ddebe45964838c0a7a21c61981dddf5af1c02ff8828cf29946b90fb2daeae"
+      },
+      "ret_type": 0,
+      "schema_version": "hakimi-broker-response-facts-v2",
+      "serial": 155,
+      "source_authenticated": false,
+      "status": "ACK_SCOPE_MATCHED",
+      "status_semantics": "SCOPE_AND_PRESENCE_ONLY",
+      "test_only": true,
+      "workspace_context": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  }
+]

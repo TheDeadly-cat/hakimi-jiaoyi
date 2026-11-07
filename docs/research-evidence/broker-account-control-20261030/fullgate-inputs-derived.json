@@ -1,0 +1,26 @@
+{
+  "schema_version": "hakimi-fullgate-input-summary-derived-v1",
+  "derived_not_original_log": true,
+  "source_input_count": 2102,
+  "before_after_mapping_equal": true,
+  "before_after_raw_bytes_equal": true,
+  "current_input_match_count": 2102,
+  "current_input_mismatches": [],
+  "raw_maps": [
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-controls-integrated-20261030-r1\\inputs-before.json",
+      "bytes": 353595,
+      "sha256": "2498bd31de2c31efde10e6e94c95026b2aaff200998e59adab67ef9eb8000a59",
+      "copied_to_repository": false
+    },
+    {
+      "source_path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-controls-integrated-20261030-r1\\inputs-after.json",
+      "bytes": 353595,
+      "sha256": "2498bd31de2c31efde10e6e94c95026b2aaff200998e59adab67ef9eb8000a59",
+      "copied_to_repository": false
+    }
+  ],
+  "omission_reason": "The complete 2102-entry maps remain in the audit directory; this explicitly derived summary records their exact byte hashes.",
+  "integrated_summary_sha256": "d39b0ca09b11a05817180a795ac69dbbeb3813e4ec3626e8d6e7fd1a1f12792f",
+  "integrated_environment_sha256": "9597bc7090ba93c387ef18edb4f2a2c89fd6f665a36938a77bcb45eaf2128a86"
+}

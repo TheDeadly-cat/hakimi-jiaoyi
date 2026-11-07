@@ -1,0 +1,401 @@
+﻿2026-10-30T02:00:53.1488946Z Current runner version: '2.338.0'
+2026-10-30T02:00:53.1513577Z ##[group]Runner Image Provisioner
+2026-10-30T02:00:53.1514261Z Hosted Compute Agent
+2026-10-30T02:00:53.1514676Z Version: 20261021.618
+2026-10-30T02:00:53.1515155Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-30T02:00:53.1515679Z Build Date: 2026-10-21T00:45:21Z
+2026-10-30T02:00:53.1516183Z Worker ID: {e6b208cc-9a45-43fa-8c38-d1ca00d49eb6}
+2026-10-30T02:00:53.1516703Z Region: westus3
+2026-10-30T02:00:53.1517102Z Cloud: Azure
+2026-10-30T02:00:53.1517499Z ##[endgroup]
+2026-10-30T02:00:53.1518544Z ##[group]Operating System
+2026-10-30T02:00:53.1519024Z Microsoft Windows Server 2025
+2026-10-30T02:00:53.1519487Z 10.0.26100
+2026-10-30T02:00:53.1519852Z Datacenter
+2026-10-30T02:00:53.1520233Z ##[endgroup]
+2026-10-30T02:00:53.1520619Z ##[group]Runner Image
+2026-10-30T02:00:53.1521040Z Image: windows-2025-vs2026
+2026-10-30T02:00:53.1521659Z Version: 20261021.278.1
+2026-10-30T02:00:53.1522879Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261021.278/images/windows/Windows2025-VS2026-Readme.md
+2026-10-30T02:00:53.1524536Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261021.278
+2026-10-30T02:00:53.1525436Z ##[endgroup]
+2026-10-30T02:00:53.1526311Z ##[group]GITHUB_TOKEN Permissions
+2026-10-30T02:00:53.1527924Z Contents: read
+2026-10-30T02:00:53.1528445Z Metadata: read
+2026-10-30T02:00:53.1528884Z ##[endgroup]
+2026-10-30T02:00:53.1530739Z Secret source: Actions
+2026-10-30T02:00:53.1531413Z Cache mode: write
+2026-10-30T02:00:53.1531958Z Prepare workflow directory
+2026-10-30T02:00:53.1906053Z Prepare all required actions
+2026-10-30T02:00:53.1948345Z Getting action download info
+2026-10-30T02:00:53.4937911Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-30T02:00:53.5882419Z Download action repository 'actions/setup-python@v7' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+2026-10-30T02:00:54.2122153Z Download action repository 'actions/setup-node@v7' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+2026-10-30T02:00:54.4753421Z Complete job name: Python contracts
+2026-10-30T02:00:54.5971517Z ##[group]Run git config --global core.longpaths true
+2026-10-30T02:00:54.5972519Z [36;1mgit config --global core.longpaths true[0m
+2026-10-30T02:00:54.6273675Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-30T02:00:54.6274722Z env:
+2026-10-30T02:00:54.6275077Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-30T02:00:54.6275547Z   PIP_NO_INPUT: 1
+2026-10-30T02:00:54.6275927Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-30T02:00:54.6276370Z   HAKIMI_RUNTIME_READ_ONLY: 1
+2026-10-30T02:00:54.6277005Z   HAKIMI_SKIP_LOCAL_AI_ENV: 1
+2026-10-30T02:00:54.6277504Z ##[endgroup]
+2026-10-30T02:00:56.1432640Z ##[group]Run actions/checkout@v7
+2026-10-30T02:00:56.1433040Z with:
+2026-10-30T02:00:56.1433254Z   persist-credentials: false
+2026-10-30T02:00:56.1433521Z   repository: TheDeadly-cat/hakimi-jiaoyi
+2026-10-30T02:00:56.1435817Z   token: ***
+2026-10-30T02:00:56.1436014Z   ssh-strict: true
+2026-10-30T02:00:56.1436199Z   ssh-user: git
+2026-10-30T02:00:56.1436380Z   clean: true
+2026-10-30T02:00:56.1436576Z   sparse-checkout-cone-mode: true
+2026-10-30T02:00:56.1436804Z   fetch-depth: 1
+2026-10-30T02:00:56.1436987Z   fetch-tags: false
+2026-10-30T02:00:56.1437174Z   show-progress: true
+2026-10-30T02:00:56.1437373Z   lfs: false
+2026-10-30T02:00:56.1437547Z   submodules: false
+2026-10-30T02:00:56.1437739Z   set-safe-directory: true
+2026-10-30T02:00:56.1437968Z   allow-unsafe-pr-checkout: false
+2026-10-30T02:00:56.1438232Z env:
+2026-10-30T02:00:56.1438445Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-30T02:00:56.1438699Z   PIP_NO_INPUT: 1
+2026-10-30T02:00:56.1438953Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-30T02:00:56.1439172Z   HAKIMI_RUNTIME_READ_ONLY: 1
+2026-10-30T02:00:56.1439389Z   HAKIMI_SKIP_LOCAL_AI_ENV: 1
+2026-10-30T02:00:56.1439598Z ##[endgroup]
+2026-10-30T02:00:56.2829890Z Syncing repository: TheDeadly-cat/hakimi-jiaoyi
+2026-10-30T02:00:56.2833571Z ##[group]Getting Git version info
+2026-10-30T02:00:56.2833933Z Working directory is 'D:\a\hakimi-jiaoyi\hakimi-jiaoyi'
+2026-10-30T02:00:56.3300459Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-30T02:00:56.3592169Z git version 2.56.0.windows.2
+2026-10-30T02:00:56.3631053Z ##[endgroup]
+2026-10-30T02:00:56.3639918Z Copying 'C:\Users\runneradmin\.gitconfig' to 'D:\a\_temp\7907029b-eb1d-41c2-a9f4-f03af8e5b2c2\.gitconfig'
+2026-10-30T02:00:56.3656599Z Temporarily overriding HOME='D:\a\_temp\7907029b-eb1d-41c2-a9f4-f03af8e5b2c2' before making global git config changes
+2026-10-30T02:00:56.3657264Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-30T02:00:56.3665035Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\hakimi-jiaoyi\hakimi-jiaoyi
+2026-10-30T02:00:56.3978509Z Deleting the contents of 'D:\a\hakimi-jiaoyi\hakimi-jiaoyi'
+2026-10-30T02:00:56.3982408Z ##[group]Determining repository object format
+2026-10-30T02:00:56.3984097Z ##[endgroup]
+2026-10-30T02:00:56.3984482Z ##[group]Initializing the repository
+2026-10-30T02:00:56.3991713Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\hakimi-jiaoyi\hakimi-jiaoyi
+2026-10-30T02:00:56.8872060Z Initialized empty Git repository in D:/a/hakimi-jiaoyi/hakimi-jiaoyi/.git/
+2026-10-30T02:00:56.8923116Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/TheDeadly-cat/hakimi-jiaoyi
+2026-10-30T02:00:56.9578785Z ##[endgroup]
+2026-10-30T02:00:56.9579359Z ##[group]Disabling automatic garbage collection
+2026-10-30T02:00:56.9588876Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-10-30T02:00:56.9941378Z ##[endgroup]
+2026-10-30T02:00:56.9942163Z ##[group]Setting up auth
+2026-10-30T02:00:56.9942566Z Removing SSH command configuration
+2026-10-30T02:00:56.9953126Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-30T02:00:57.0304904Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-30T02:00:59.9851161Z Removing HTTP extra header
+2026-10-30T02:00:59.9868497Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-30T02:01:00.0214463Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-30T02:01:00.5195447Z Removing includeIf entries pointing to credentials config files
+2026-10-30T02:01:00.5202102Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-30T02:01:00.5522868Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-30T02:01:01.0460325Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-a895f810-9024-4a87-a357-f3237c970c26.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-10-30T02:01:01.0825791Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/hakimi-jiaoyi/hakimi-jiaoyi/.git.path D:\a\_temp\git-credentials-a895f810-9024-4a87-a357-f3237c970c26.config
+2026-10-30T02:01:01.1167278Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/hakimi-jiaoyi/hakimi-jiaoyi/.git/worktrees/*.path D:\a\_temp\git-credentials-a895f810-9024-4a87-a357-f3237c970c26.config
+2026-10-30T02:01:01.1559024Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a895f810-9024-4a87-a357-f3237c970c26.config
+2026-10-30T02:01:01.1893380Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a895f810-9024-4a87-a357-f3237c970c26.config
+2026-10-30T02:01:01.2216566Z ##[endgroup]
+2026-10-30T02:01:01.2217020Z ##[group]Fetching the repository
+2026-10-30T02:01:01.2228580Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e05db0ce8a6c41ad718395b49a6447dce23b9fe0:refs/remotes/pull/26/merge
+2026-10-30T02:01:04.0673898Z From https://github.com/TheDeadly-cat/hakimi-jiaoyi
+2026-10-30T02:01:04.0674539Z  * [new ref]         e05db0ce8a6c41ad718395b49a6447dce23b9fe0 -> pull/26/merge
+2026-10-30T02:01:04.0715570Z ##[endgroup]
+2026-10-30T02:01:04.0716106Z ##[group]Determining the checkout info
+2026-10-30T02:01:04.0716604Z ##[endgroup]
+2026-10-30T02:01:04.0725660Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-10-30T02:01:04.1212460Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-10-30T02:01:04.1523781Z ##[group]Checking out the ref
+2026-10-30T02:01:04.1535655Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/26/merge
+2026-10-30T02:01:05.2109669Z Updating files:  72% (3135/4328)
+2026-10-30T02:01:05.2202114Z Updating files:  73% (3160/4328)
+2026-10-30T02:01:05.2292510Z Updating files:  74% (3203/4328)
+2026-10-30T02:01:05.2387337Z Updating files:  75% (3246/4328)
+2026-10-30T02:01:05.2483822Z Updating files:  76% (3290/4328)
+2026-10-30T02:01:05.2571545Z Updating files:  77% (3333/4328)
+2026-10-30T02:01:05.2668338Z Updating files:  78% (3376/4328)
+2026-10-30T02:01:05.2766842Z Updating files:  79% (3420/4328)
+2026-10-30T02:01:05.2862333Z Updating files:  80% (3463/4328)
+2026-10-30T02:01:05.2972402Z Updating files:  81% (3506/4328)
+2026-10-30T02:01:05.3073462Z Updating files:  82% (3549/4328)
+2026-10-30T02:01:05.3187398Z Updating files:  83% (3593/4328)
+2026-10-30T02:01:05.3298110Z Updating files:  84% (3636/4328)
+2026-10-30T02:01:05.3408243Z Updating files:  85% (3679/4328)
+2026-10-30T02:01:05.3510978Z Updating files:  86% (3723/4328)
+2026-10-30T02:01:05.3612903Z Updating files:  87% (3766/4328)
+2026-10-30T02:01:05.3709999Z Updating files:  88% (3809/4328)
+2026-10-30T02:01:05.3822502Z Updating files:  89% (3852/4328)
+2026-10-30T02:01:05.3932686Z Updating files:  90% (3896/4328)
+2026-10-30T02:01:05.4033432Z Updating files:  91% (3939/4328)
+2026-10-30T02:01:05.4160305Z Updating files:  92% (3982/4328)
+2026-10-30T02:01:05.4335218Z Updating files:  93% (4026/4328)
+2026-10-30T02:01:05.4439922Z Updating files:  94% (4069/4328)
+2026-10-30T02:01:05.4539683Z Updating files:  95% (4112/4328)
+2026-10-30T02:01:05.4642950Z Updating files:  96% (4155/4328)
+2026-10-30T02:01:05.4744828Z Updating files:  97% (4199/4328)
+2026-10-30T02:01:05.4852231Z Updating files:  98% (4242/4328)
+2026-10-30T02:01:05.4946412Z Updating files:  99% (4285/4328)
+2026-10-30T02:01:05.4946875Z Updating files: 100% (4328/4328)
+2026-10-30T02:01:05.4947116Z Updating files: 100% (4328/4328), done.
+2026-10-30T02:01:05.5083266Z Note: switching to 'refs/remotes/pull/26/merge'.
+2026-10-30T02:01:05.5083647Z 
+2026-10-30T02:01:05.5083868Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-30T02:01:05.5084387Z changes and commit them, and you can discard any commits you make in this
+2026-10-30T02:01:05.5084892Z state without impacting any branches by switching back to a branch.
+2026-10-30T02:01:05.5085163Z 
+2026-10-30T02:01:05.5085483Z If you want to create a new branch to retain commits you create, you may
+2026-10-30T02:01:05.5085934Z do so (now or later) by using -c with the switch command. Example:
+2026-10-30T02:01:05.5086250Z 
+2026-10-30T02:01:05.5086409Z   git switch -c <new-branch-name>
+2026-10-30T02:01:05.5086624Z 
+2026-10-30T02:01:05.5086733Z Or undo this operation with:
+2026-10-30T02:01:05.5086924Z 
+2026-10-30T02:01:05.5087402Z   git switch -
+2026-10-30T02:01:05.5087742Z 
+2026-10-30T02:01:05.5088007Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-30T02:01:05.5088415Z 
+2026-10-30T02:01:05.5088848Z HEAD is now at e05db0c Merge a0356e09da9dd493c1dc035624366b64eb2fc1c8 into e33c1ef324f142be3889bbef44b663b6b5f54a1a
+2026-10-30T02:01:05.5502461Z ##[endgroup]
+2026-10-30T02:01:05.6720316Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-10-30T02:01:05.7020619Z e05db0ce8a6c41ad718395b49a6447dce23b9fe0
+2026-10-30T02:01:05.7062666Z ##[group]Removing auth
+2026-10-30T02:01:05.7063353Z Removing SSH command configuration
+2026-10-30T02:01:05.7071448Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-30T02:01:05.7423938Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-30T02:01:06.3428835Z Removing HTTP extra header
+2026-10-30T02:01:06.3436290Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-30T02:01:06.3765141Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-30T02:01:06.8516634Z Removing includeIf entries pointing to credentials config files
+2026-10-30T02:01:06.8524807Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-30T02:01:06.8830801Z includeif.gitdir:D:/a/hakimi-jiaoyi/hakimi-jiaoyi/.git.path
+2026-10-30T02:01:06.8831886Z includeif.gitdir:D:/a/hakimi-jiaoyi/hakimi-jiaoyi/.git/worktrees/*.path
+2026-10-30T02:01:06.8832240Z includeif.gitdir:/github/workspace/.git.path
+2026-10-30T02:01:06.8832546Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-30T02:01:06.8880311Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/hakimi-jiaoyi/hakimi-jiaoyi/.git.path
+2026-10-30T02:01:06.9170423Z D:\a\_temp\git-credentials-a895f810-9024-4a87-a357-f3237c970c26.config
+2026-10-30T02:01:06.9210900Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/hakimi-jiaoyi/hakimi-jiaoyi/.git.path D\:\\a\\_temp\\git\-credentials\-a895f810\-9024\-4a87\-a357\-f3237c970c26\.config
+2026-10-30T02:01:06.9545602Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/hakimi-jiaoyi/hakimi-jiaoyi/.git/worktrees/*.path
+2026-10-30T02:01:06.9861033Z D:\a\_temp\git-credentials-a895f810-9024-4a87-a357-f3237c970c26.config
+2026-10-30T02:01:06.9900675Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/hakimi-jiaoyi/hakimi-jiaoyi/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-a895f810\-9024\-4a87\-a357\-f3237c970c26\.config
+2026-10-30T02:01:07.0234151Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-30T02:01:07.0513243Z /github/runner_temp/git-credentials-a895f810-9024-4a87-a357-f3237c970c26.config
+2026-10-30T02:01:07.0552665Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-a895f810\-9024\-4a87\-a357\-f3237c970c26\.config
+2026-10-30T02:01:07.0885125Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-30T02:01:07.1186446Z /github/runner_temp/git-credentials-a895f810-9024-4a87-a357-f3237c970c26.config
+2026-10-30T02:01:07.1226653Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-a895f810\-9024\-4a87\-a357\-f3237c970c26\.config
+2026-10-30T02:01:07.1570402Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-30T02:01:07.6704928Z Removing credentials config 'D:\a\_temp\git-credentials-a895f810-9024-4a87-a357-f3237c970c26.config'
+2026-10-30T02:01:07.6715865Z ##[endgroup]
+2026-10-30T02:01:07.7017155Z ##[group]Run actions/setup-python@v7
+2026-10-30T02:01:07.7017418Z with:
+2026-10-30T02:01:07.7017574Z   python-version: 3.14
+2026-10-30T02:01:07.7017742Z   check-latest: false
+2026-10-30T02:01:07.7019634Z   token: ***
+2026-10-30T02:01:07.7019880Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+2026-10-30T02:01:07.7020177Z   update-environment: true
+2026-10-30T02:01:07.7020356Z   allow-prereleases: false
+2026-10-30T02:01:07.7020527Z   freethreaded: false
+2026-10-30T02:01:07.7020679Z env:
+2026-10-30T02:01:07.7020821Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-30T02:01:07.7021024Z   PIP_NO_INPUT: 1
+2026-10-30T02:01:07.7021180Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-30T02:01:07.7021359Z   HAKIMI_RUNTIME_READ_ONLY: 1
+2026-10-30T02:01:07.7021527Z   HAKIMI_SKIP_LOCAL_AI_ENV: 1
+2026-10-30T02:01:07.7021691Z ##[endgroup]
+2026-10-30T02:01:07.8257018Z ##[group]Installed versions
+2026-10-30T02:01:07.8327507Z Successfully set up CPython (3.14.9)
+2026-10-30T02:01:07.8328067Z ##[endgroup]
+2026-10-30T02:01:07.8602049Z ##[group]Run actions/setup-node@v7
+2026-10-30T02:01:07.8602305Z with:
+2026-10-30T02:01:07.8602453Z   node-version: 22
+2026-10-30T02:01:07.8602616Z   check-latest: false
+2026-10-30T02:01:07.8604550Z   token: ***
+2026-10-30T02:01:07.8604712Z   package-manager-cache: true
+2026-10-30T02:01:07.8604888Z env:
+2026-10-30T02:01:07.8605044Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-30T02:01:07.8605227Z   PIP_NO_INPUT: 1
+2026-10-30T02:01:07.8605388Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-30T02:01:07.8605564Z   HAKIMI_RUNTIME_READ_ONLY: 1
+2026-10-30T02:01:07.8605755Z   HAKIMI_SKIP_LOCAL_AI_ENV: 1
+2026-10-30T02:01:07.8605982Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:07.8606336Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.14.9\x64/lib/pkgconfig
+2026-10-30T02:01:07.8606666Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:07.8606963Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:07.8607288Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:07.8607521Z ##[endgroup]
+2026-10-30T02:01:07.9965216Z Found in cache @ C:\hostedtoolcache\windows\node\22.23.4\x64
+2026-10-30T02:01:09.7999163Z ##[group]Environment details
+2026-10-30T02:01:16.4501776Z node: v22.23.4
+2026-10-30T02:01:16.4502000Z npm: 10.9.9
+2026-10-30T02:01:16.4502155Z yarn: 1.22.22
+2026-10-30T02:01:16.4502566Z ##[endgroup]
+2026-10-30T02:01:16.4734273Z ##[group]Run python -m pip install --requirement requirements.research.lock
+2026-10-30T02:01:16.4734776Z [36;1mpython -m pip install --requirement requirements.research.lock[0m
+2026-10-30T02:01:16.4793796Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-30T02:01:16.4794074Z env:
+2026-10-30T02:01:16.4794234Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-30T02:01:16.4794423Z   PIP_NO_INPUT: 1
+2026-10-30T02:01:16.4794595Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-30T02:01:16.4794786Z   HAKIMI_RUNTIME_READ_ONLY: 1
+2026-10-30T02:01:16.4794962Z   HAKIMI_SKIP_LOCAL_AI_ENV: 1
+2026-10-30T02:01:16.4795192Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:16.4795533Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.14.9\x64/lib/pkgconfig
+2026-10-30T02:01:16.4795865Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:16.4796161Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:16.4796504Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:16.4796741Z ##[endgroup]
+2026-10-30T02:01:22.4045770Z Collecting numpy==2.4.6 (from -r requirements.research.lock (line 5))
+2026-10-30T02:01:22.4411451Z   Downloading numpy-2.4.6-cp314-cp314-win_amd64.whl.metadata (6.6 kB)
+2026-10-30T02:01:22.5952076Z Collecting pandas==3.0.3 (from -r requirements.research.lock (line 6))
+2026-10-30T02:01:22.6021117Z   Downloading pandas-3.0.3-cp314-cp314-win_amd64.whl.metadata (19 kB)
+2026-10-30T02:01:22.6643151Z Collecting python-dateutil==2.9.0.post0 (from -r requirements.research.lock (line 7))
+2026-10-30T02:01:22.6688374Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-10-30T02:01:22.7317685Z Collecting six==1.17.0 (from -r requirements.research.lock (line 8))
+2026-10-30T02:01:22.7366891Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-10-30T02:01:22.7933863Z Collecting tzdata==2026.2 (from -r requirements.research.lock (line 9))
+2026-10-30T02:01:22.7979889Z   Downloading tzdata-2026.2-py2.py3-none-any.whl.metadata (1.4 kB)
+2026-10-30T02:01:22.8372593Z Downloading numpy-2.4.6-cp314-cp314-win_amd64.whl (12.5 MB)
+2026-10-30T02:01:23.2181151Z    ---------------------------------------- 12.5/12.5 MB 32.4 MB/s  0:00:00
+2026-10-30T02:01:23.2242599Z Downloading pandas-3.0.3-cp314-cp314-win_amd64.whl (9.9 MB)
+2026-10-30T02:01:23.9399866Z    ---------------------------------------- 9.9/9.9 MB 13.7 MB/s  0:00:00
+2026-10-30T02:01:23.9469567Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-10-30T02:01:23.9713294Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-10-30T02:01:23.9971564Z Downloading tzdata-2026.2-py2.py3-none-any.whl (349 kB)
+2026-10-30T02:01:24.3807223Z Installing collected packages: tzdata, six, numpy, python-dateutil, pandas
+2026-10-30T02:01:39.5753696Z 
+2026-10-30T02:01:39.5768833Z Successfully installed numpy-2.4.6 pandas-3.0.3 python-dateutil-2.9.0.post0 six-1.17.0 tzdata-2026.2
+2026-10-30T02:01:39.7579483Z ##[group]Run python -m pip install --no-deps --editable .
+2026-10-30T02:01:39.7580064Z [36;1mpython -m pip install --no-deps --editable .[0m
+2026-10-30T02:01:39.7660487Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-30T02:01:39.7660767Z env:
+2026-10-30T02:01:39.7660931Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-30T02:01:39.7661128Z   PIP_NO_INPUT: 1
+2026-10-30T02:01:39.7661305Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-30T02:01:39.7661495Z   HAKIMI_RUNTIME_READ_ONLY: 1
+2026-10-30T02:01:39.7661677Z   HAKIMI_SKIP_LOCAL_AI_ENV: 1
+2026-10-30T02:01:39.7661913Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:39.7662268Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.14.9\x64/lib/pkgconfig
+2026-10-30T02:01:39.7662623Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:39.7662928Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:39.7663265Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:39.7663505Z ##[endgroup]
+2026-10-30T02:01:40.8971120Z Obtaining file:///D:/a/hakimi-jiaoyi/hakimi-jiaoyi
+2026-10-30T02:01:40.8995485Z   Installing build dependencies: started
+2026-10-30T02:01:42.6518306Z   Installing build dependencies: finished with status 'done'
+2026-10-30T02:01:42.6533021Z   Checking if build backend supports build_editable: started
+2026-10-30T02:01:43.2618307Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-10-30T02:01:43.2644408Z   Getting requirements to build editable: started
+2026-10-30T02:01:43.8432002Z   Getting requirements to build editable: finished with status 'done'
+2026-10-30T02:01:43.8458197Z   Preparing editable metadata (pyproject.toml): started
+2026-10-30T02:01:44.4351494Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-10-30T02:01:44.4417986Z Building wheels for collected packages: hakimi-research
+2026-10-30T02:01:44.4439297Z   Building editable for hakimi-research (pyproject.toml): started
+2026-10-30T02:01:45.1186089Z   Building editable for hakimi-research (pyproject.toml): finished with status 'done'
+2026-10-30T02:01:45.1227324Z   Created wheel for hakimi-research: filename=hakimi_research-0.6.0.dev5-0.editable-py3-none-any.whl size=11029 sha256=558e74fbf3be1919dec192dc6b1d898c36a8315569393124d4e53f872b6d0817
+2026-10-30T02:01:45.1228571Z   Stored in directory: C:\Users\runneradmin\AppData\Local\Temp\pip-ephem-wheel-cache-6jrfyp2i\wheels\c0\6b\de\fd4ad205c54b76f085061c95d6bfe44d2fd0260c90f8b328e3
+2026-10-30T02:01:45.1262075Z Successfully built hakimi-research
+2026-10-30T02:01:45.1411186Z Installing collected packages: hakimi-research
+2026-10-30T02:01:45.1875525Z Successfully installed hakimi-research-0.6.0.dev5
+2026-10-30T02:01:45.4360203Z ##[group]Run python -m pip check
+2026-10-30T02:01:45.4360498Z [36;1mpython -m pip check[0m
+2026-10-30T02:01:45.4418907Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-30T02:01:45.4419192Z env:
+2026-10-30T02:01:45.4419348Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-30T02:01:45.4419550Z   PIP_NO_INPUT: 1
+2026-10-30T02:01:45.4419717Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-30T02:01:45.4419900Z   HAKIMI_RUNTIME_READ_ONLY: 1
+2026-10-30T02:01:45.4420079Z   HAKIMI_SKIP_LOCAL_AI_ENV: 1
+2026-10-30T02:01:45.4420317Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:45.4420658Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.14.9\x64/lib/pkgconfig
+2026-10-30T02:01:45.4420991Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:45.4421289Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:45.4421635Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:45.4421867Z ##[endgroup]
+2026-10-30T02:01:46.3700585Z No broken requirements found.
+2026-10-30T02:01:46.5074633Z ##[group]Run python -B tools/generate_product_capabilities.py --check
+2026-10-30T02:01:46.5075086Z [36;1mpython -B tools/generate_product_capabilities.py --check[0m
+2026-10-30T02:01:46.5135458Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-30T02:01:46.5135741Z env:
+2026-10-30T02:01:46.5135899Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-30T02:01:46.5136088Z   PIP_NO_INPUT: 1
+2026-10-30T02:01:46.5136259Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-30T02:01:46.5136453Z   HAKIMI_RUNTIME_READ_ONLY: 1
+2026-10-30T02:01:46.5136632Z   HAKIMI_SKIP_LOCAL_AI_ENV: 1
+2026-10-30T02:01:46.5136862Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:46.5137206Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.14.9\x64/lib/pkgconfig
+2026-10-30T02:01:46.5137543Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:46.5137841Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:46.5138440Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:46.5138681Z ##[endgroup]
+2026-10-30T02:01:46.8088646Z Canonical Python capability projection: PASS
+2026-10-30T02:01:46.9143124Z ##[group]Run python -B -m unittest tests.test_exchange_terminal_layer_dependency_audit_v2 tests.test_research_only_architecture tests.test_domain_contracts_fail_closed_v1 tests.test_legacy_cli_boundary tests.test_quant_bot_backtest tests.test_quant_bot_protective_exit_contract_v1 tests.test_reproducible_experiment_manifest_v1 tests.test_backtest_reproducibility_builder_v1 tests.test_research_dependency_lock_v1 tests.test_research_ci_workflow_v1 tests.test_canonical_product_capability_source_v1 tests.test_canonical_cli_entrypoint_v1 tests.test_frozen_evaluation_protocol_v1 tests.test_canonical_research_core_source_v1 tests.test_canonical_research_config_source_v1 tests.test_canonical_research_data_source_v1 tests.test_canonical_research_models_source_v1 tests.test_canonical_research_strategy_base_hardening_v1 tests.test_canonical_research_backtest_source_v1 tests.test_canonical_research_execution_source_v1 tests.test_canonical_research_risk_source_v1 tests.test_package_metadata_v1 tests.test_research_management_boundary tests.test_canonical_http_contract_source_v1 tests.test_archived_execution_http_route_guard_v1 tests.test_archived_paper_runtime_facade_v1 tests.test_archived_paper_persistence_source_v1 tests.test_stock_candle_market_schedule_gate_v1 tests.test_stock_candle_completion_gate_v1 tests.test_stock_candle_temporal_conformance_v1 tests.test_stock_data_quality_boundary_v2
+2026-10-30T02:01:46.9151044Z [36;1mpython -B -m unittest tests.test_exchange_terminal_layer_dependency_audit_v2 tests.test_research_only_architecture tests.test_domain_contracts_fail_closed_v1 tests.test_legacy_cli_boundary tests.test_quant_bot_backtest tests.test_quant_bot_protective_exit_contract_v1 tests.test_reproducible_experiment_manifest_v1 tests.test_backtest_reproducibility_builder_v1 tests.test_research_dependency_lock_v1 tests.test_research_ci_workflow_v1 tests.test_canonical_product_capability_source_v1 tests.test_canonical_cli_entrypoint_v1 tests.test_frozen_evaluation_protocol_v1 tests.test_canonical_research_core_source_v1 tests.test_canonical_research_config_source_v1 tests.test_canonical_research_data_source_v1 tests.test_canonical_research_models_source_v1 tests.test_canonical_research_strategy_base_hardening_v1 tests.test_canonical_research_backtest_source_v1 tests.test_canonical_research_execution_source_v1 tests.test_canonical_research_risk_source_v1 tests.test_package_metadata_v1 tests.test_research_management_boundary tests.test_canonical_http_contract_source_v1 tests.test_archived_execution_http_route_guard_v1 tests.test_archived_paper_runtime_facade_v1 tests.test_archived_paper_persistence_source_v1 tests.test_stock_candle_market_schedule_gate_v1 tests.test_stock_candle_completion_gate_v1 tests.test_stock_candle_temporal_conformance_v1 tests.test_stock_data_quality_boundary_v2[0m
+2026-10-30T02:01:46.9225912Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-30T02:01:46.9226195Z env:
+2026-10-30T02:01:46.9226357Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-30T02:01:46.9226585Z   PIP_NO_INPUT: 1
+2026-10-30T02:01:46.9226748Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-30T02:01:46.9226931Z   HAKIMI_RUNTIME_READ_ONLY: 1
+2026-10-30T02:01:46.9227410Z   HAKIMI_SKIP_LOCAL_AI_ENV: 1
+2026-10-30T02:01:46.9227708Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:46.9228061Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.14.9\x64/lib/pkgconfig
+2026-10-30T02:01:46.9228394Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:46.9228694Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:46.9228988Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.14.9\x64
+2026-10-30T02:01:46.9229224Z ##[endgroup]
+2026-10-30T02:02:02.8441430Z .....................................Insufficient real OKX history for BTC-USDT 1d: got 2, need 3; synthetic fallback is disabled.
+2026-10-30T02:02:07.9073302Z ................................................................................................................................................................................F..........................................................
+2026-10-30T02:02:07.9074007Z ======================================================================
+2026-10-30T02:02:07.9075011Z FAIL: test_readonly_health_and_status_dispatch_preserves_status_consumers (tests.test_research_management_boundary.ResearchManagementBoundaryTests.test_readonly_health_and_status_dispatch_preserves_status_consumers) (route='/api/health')
+2026-10-30T02:02:07.9075927Z ----------------------------------------------------------------------
+2026-10-30T02:02:07.9076228Z Traceback (most recent call last):
+2026-10-30T02:02:07.9076921Z   File "D:\a\hakimi-jiaoyi\hakimi-jiaoyi\outputs\python_quant_bot\tests\test_research_management_boundary.py", line 132, in test_readonly_health_and_status_dispatch_preserves_status_consumers
+2026-10-30T02:02:07.9077763Z     self.assertEqual(responses, [(expected, 200)])
+2026-10-30T02:02:07.9078134Z     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-30T02:02:07.9079251Z AssertionError: Lists differ: [({'ok': False, 'error': "name 'BROKER_CONTROL_ROO[21 chars]502)] != [({'ok': True, 'status': 'fixture', 'local_only': [331 chars]200)]
+2026-10-30T02:02:07.9079878Z 
+2026-10-30T02:02:07.9080021Z First differing element 0:
+2026-10-30T02:02:07.9080432Z ({'ok': False, 'error': "name 'BROKER_CONTROL_ROO[20 chars] 502)
+2026-10-30T02:02:07.9080931Z ({'ok': True, 'status': 'fixture', 'local_only': [330 chars] 200)
+2026-10-30T02:02:07.9081203Z 
+2026-10-30T02:02:07.9081488Z - [({'error': "name 'BROKER_CONTROL_ROOT' is not defined", 'ok': False}, 502)]
+2026-10-30T02:02:07.9081917Z + [({'local_only': False,
+2026-10-30T02:02:07.9082176Z +    'ok': True,
+2026-10-30T02:02:07.9082473Z +    'quant_workspace': {'pending': False,
+2026-10-30T02:02:07.9082848Z +                        'read_only': True,
+2026-10-30T02:02:07.9083524Z +                        'root': 'C:\\Users\\runneradmin\\AppData\\Local\\Temp\\tmp2d9nqltp\\research-workspace'},
+2026-10-30T02:02:07.9084105Z +    'status': 'fixture',
+2026-10-30T02:02:07.9084413Z +    'terminal_build_commit': '',
+2026-10-30T02:02:07.9084761Z +    'terminal_package_id': '',
+2026-10-30T02:02:07.9085109Z +    'terminal_package_version': '',
+2026-10-30T02:02:07.9085727Z +    'terminal_workspace_root': 'C:\\Users\\runneradmin\\AppData\\Local\\Temp\\tmp2d9nqltp'},
+2026-10-30T02:02:07.9086305Z +   200)]
+2026-10-30T02:02:07.9086430Z 
+2026-10-30T02:02:07.9086680Z ----------------------------------------------------------------------
+2026-10-30T02:02:07.9087308Z Ran 272 tests in 17.824s
+2026-10-30T02:02:07.9087472Z 
+2026-10-30T02:02:07.9087587Z FAILED (failures=1)
+2026-10-30T02:02:08.3250331Z ##[error]Process completed with exit code 1.
+2026-10-30T02:02:08.3448673Z Post job cleanup.
+2026-10-30T02:02:08.4983346Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-30T02:02:08.5285772Z git version 2.56.0.windows.2
+2026-10-30T02:02:08.5338108Z Copying 'C:\Users\runneradmin\.gitconfig' to 'D:\a\_temp\14f9875d-6a2c-4d99-9feb-19e725dde763\.gitconfig'
+2026-10-30T02:02:08.5355645Z Temporarily overriding HOME='D:\a\_temp\14f9875d-6a2c-4d99-9feb-19e725dde763' before making global git config changes
+2026-10-30T02:02:08.5356797Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-30T02:02:08.5364599Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\hakimi-jiaoyi\hakimi-jiaoyi
+2026-10-30T02:02:08.5694185Z Removing SSH command configuration
+2026-10-30T02:02:08.5703811Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-30T02:02:08.6026903Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-30T02:02:09.1215485Z Removing HTTP extra header
+2026-10-30T02:02:09.1225020Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-30T02:02:09.1551603Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-30T02:02:09.6677413Z Removing includeIf entries pointing to credentials config files
+2026-10-30T02:02:09.6687623Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-30T02:02:09.7034868Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-30T02:02:10.2400933Z Cleaning up orphan processes

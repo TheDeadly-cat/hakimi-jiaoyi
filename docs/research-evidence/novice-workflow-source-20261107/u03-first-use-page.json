@@ -1,0 +1,58 @@
+{
+  "scope": "ACTUAL_QUANT_HTTP_AND_PAGE_ONE_SYNTHETIC_INPUT_NO_TASK_OR_RESEARCH",
+  "source_before": {
+    "services/terminal_teaching_flow.py": "7eb3b5b3619fc4ce89a73f639fc808524b36e2b6985b636ed788fa1e907d2af3",
+    "static/terminal-first-use-ui.js": "bc83d62b96163188ddb40044b89f93932829d16a2ddff12abd99426c46eea1ce",
+    "static/terminal-quant-ui.js": "394a5e25f8ee2fb7decd8e0948f3a259e6c966ad735cdccdda74fa534411c3ec"
+  },
+  "status": "PASS",
+  "source_after": {
+    "services/terminal_teaching_flow.py": "7eb3b5b3619fc4ce89a73f639fc808524b36e2b6985b636ed788fa1e907d2af3",
+    "static/terminal-first-use-ui.js": "bc83d62b96163188ddb40044b89f93932829d16a2ddff12abd99426c46eea1ce",
+    "static/terminal-quant-ui.js": "394a5e25f8ee2fb7decd8e0948f3a259e6c966ad735cdccdda74fa534411c3ec"
+  },
+  "mutations": [
+    "terminal_prepare_teaching_input"
+  ],
+  "input_count": 1,
+  "tasks": 0,
+  "economic_runs": 0,
+  "job_id": "06f6765a-1a49-428b-90da-78b0f4348b93",
+  "input_id": "db3fa90eb8f56a5e0deaaf0f",
+  "browser": {
+    "status": "PASS",
+    "url": "http://127.0.0.1:55794/quant/#dashboard",
+    "title": "量化任务与回测 · 哈基米交易",
+    "browser": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci151-playwright-browsers-r1\\chromium-1234\\chrome-win64\\chrome.exe",
+    "browser_plugin": "Browser plugin not available",
+    "console_errors": [],
+    "external_requests": [],
+    "posts": [
+      {
+        "url": "http://127.0.0.1:55794/api/quant/public-daily-access/revoke"
+      },
+      {
+        "url": "http://127.0.0.1:55794/api/quant/actions/terminal_prepare_teaching_input",
+        "request_id": "06f6765a-1a49-428b-90da-78b0f4348b93"
+      }
+    ],
+    "draft_nodes_preserved": true,
+    "teaching_form_draft_retained": true,
+    "reload_readonly": true,
+    "layout": {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "primary": {
+        "x": 31,
+        "y": 591.921875,
+        "width": 130,
+        "height": 44,
+        "top": 591.921875,
+        "right": 161,
+        "bottom": 635.921875,
+        "left": 31
+      }
+    }
+  },
+  "owner_closed": true
+}

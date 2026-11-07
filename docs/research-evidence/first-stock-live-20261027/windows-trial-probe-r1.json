@@ -1,0 +1,50 @@
+{
+  "schema_version": "windows-trial-private-runtime-probe-v1",
+  "recorded_at": "2026-10-26T17:11:15.836Z",
+  "status": "PASS_PRIVATE_RUNTIME_AND_FILE_IDENTITY",
+  "program_root": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1",
+  "bundle_id": "ab2e49cdc8e468385dd7b64dc30f2665aa7591a52b8d6022833c02983b7569a8",
+  "hashed_files_verified_before_and_after": 7095,
+  "manifest_unchanged": true,
+  "program_files_unchanged": true,
+  "command": {
+    "executable": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python\\python.exe",
+    "args": [
+      "-I",
+      "-B",
+      "-X",
+      "utf8",
+      "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\resources\\app\\runtime-probe.py"
+    ],
+    "cwd": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1",
+    "shell": false,
+    "windowsHide": true,
+    "externalPythonHomeRemoved": true,
+    "externalPythonPathRemoved": true
+  },
+  "python_version": "3.14.6",
+  "package_directory": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python\\Lib\\site-packages\\hakimi_research",
+  "source_sha256": "3efd7e9f0aedd4c130f6bf5fdd598912e7e50d6b6d8fbd47faf77688dcfb31b0",
+  "source_build_commit": "f77802073be617f662a01faf4ed9a61225826bc6",
+  "source_build_status": "CLEAN",
+  "python_prefix": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python",
+  "python_base_prefix": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python",
+  "import_search_paths": [
+    "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python\\python314.zip",
+    "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python\\DLLs",
+    "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python\\Lib",
+    "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python",
+    "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\runtime\\python\\Lib\\site-packages"
+  ],
+  "probe_subprocesses": 1,
+  "new_economic_runs": 0,
+  "new_backend_servers": 0,
+  "new_desktop_windows": 0,
+  "new_market_requests": 0,
+  "workspace_accessed_by_this_probe": false,
+  "clean_windows_acceptance": "NOT_PERFORMED",
+  "limitations": [
+    "Existing developer host and host Node used as read-only harness; private runtime and complete search paths verified in Chinese-and-space program path.",
+    "No native Electron product launch by this probe; parent native acceptance proceeds independently."
+  ]
+}

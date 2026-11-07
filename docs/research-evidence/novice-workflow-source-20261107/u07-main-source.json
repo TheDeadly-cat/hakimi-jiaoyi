@@ -1,0 +1,37 @@
+{
+  "schema": "u07-main-handoff-v1",
+  "status": "PASS",
+  "source_files": [
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.js",
+      "sha256": "339e630254b49c5320268ee4e76ba81cc222e9307a92e7e55a3d857f109a7741"
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.test.js",
+      "sha256": "8bcf0734715df7f0114fc2caf70acfe971bbd71c02213cda74ebcbf1fbc4f80f"
+    }
+  ],
+  "targeted_test": "u07-main-node-r3.log: 54/54",
+  "actual_page_summary": "u07-main-two-origins-20261108-r5/summary.json",
+  "closed_business_hashes": "u07-main-two-origins-20261108-r5/business-fingerprints.json",
+  "screenshots": [
+    "u07-main-two-origins-20261108-r5/03-origin-b-390.png",
+    "u07-main-two-origins-20261108-r5/04-owner-restarted-1280.png"
+  ],
+  "results": [
+    "Same saved core research/account/plan on two origins and closed/reopened owner",
+    "No automatic preferences POST on reload or reopen",
+    "Only explicit temporary synthetic account+plan setup actions, zero new economic runs",
+    "Original 30 retained files unchanged; complete closed offline execution directory unchanged",
+    "Readiness stays reconciliation_required after owner reopen, no automatic reconciliation or permission restoration"
+  ],
+  "known_product_failures": [],
+  "limits": [
+    "Actual full-page fixture is core synthetic report and manual local plan; native replay and broker old-plan restore covered by targeted controller/service tests",
+    "Native factors correctly unavailable for a core report; no same-name engine substitution",
+    "No native package installation or independent novice acceptance in this child task"
+  ],
+  "previous_evidence": [
+    "r1-r4 retained; script assertions corrected for folded/route identities, explicit daily revoke, SQLite WAL checkpoint, and per-session reconciliation readiness"
+  ]
+}

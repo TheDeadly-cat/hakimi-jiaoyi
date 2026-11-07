@@ -1,0 +1,445 @@
+{
+  "schema_version": "byte-preserved-dev5-native-copies-v1",
+  "files": [
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\.workbench.lock",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/.workbench.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "bytes": 1
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\data\\snapshots\\f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd\\91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+      "sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+      "bytes": 104957
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\12cea13d-c667-4e84-8bdf-755c4a091a71\\request.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/operations/12cea13d-c667-4e84-8bdf-755c4a091a71/request.json",
+      "sha256": "e80d0ba3352f6490fb7ba8eb3080919f1e96697dcf5b8f7088c65bd28fadec2e",
+      "bytes": 738
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\12cea13d-c667-4e84-8bdf-755c4a091a71\\result.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/operations/12cea13d-c667-4e84-8bdf-755c4a091a71/result.json",
+      "sha256": "c734bdce2d4df2ecd95b5c1217d67ae14baf0b44e6bf28abbef6d775f708e97f",
+      "bytes": 5311
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\3d88a235-2314-4059-a189-6c2be81ee0d8\\request.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/operations/3d88a235-2314-4059-a189-6c2be81ee0d8/request.json",
+      "sha256": "f41f0fb233b4dbb8b6735c95d550d50023300ae4bac6ba422baad311a8cdf2f1",
+      "bytes": 381
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\3d88a235-2314-4059-a189-6c2be81ee0d8\\result.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/operations/3d88a235-2314-4059-a189-6c2be81ee0d8/result.json",
+      "sha256": "d4d3e0c2347d2a57101000c745a88f3e92404ef6a1b4cc448e2d63708ca0458a",
+      "bytes": 36893
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\6fb91af4-809d-4b2c-8b19-bb180258d982\\request.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/operations/6fb91af4-809d-4b2c-8b19-bb180258d982/request.json",
+      "sha256": "3600666abb3073922bd9dec2ed5fef11a8991c5ca38b67cbbec8e15d9eb8d5ea",
+      "bytes": 322
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\6fb91af4-809d-4b2c-8b19-bb180258d982\\result.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/operations/6fb91af4-809d-4b2c-8b19-bb180258d982/result.json",
+      "sha256": "0ed182b0fc6aa3bc4c285f22d955e6be32dfc62495f3a8c83035baf8d3992236",
+      "bytes": 5728
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\request.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/operations/e303bbc1-8130-43f7-9e12-c510c2e6fb2e/request.json",
+      "sha256": "7255df4733fcb0f62a83c4529535c44f38824db0a4d14bfc62afc37394850e7d",
+      "bytes": 896
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\result.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/operations/e303bbc1-8130-43f7-9e12-c510c2e6fb2e/result.json",
+      "sha256": "cce45368dd8857d7170a2a850b3490db20534843d93dafec8349916fcf284f40",
+      "bytes": 7085
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\request.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/operations/fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/request.json",
+      "sha256": "5f52983bb71ddb09b2bcfecc37b1c72c4c0fb697d26ffde2eae28392bfe5fa67",
+      "bytes": 421
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\result.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/operations/fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/result.json",
+      "sha256": "14157ff5682980f547d638e621709a8fd0d9727adf976bc0ff541bbfac180568",
+      "bytes": 4521
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\.run-locks\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134.lock",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/runs/.run-locks/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "bytes": 1
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\index.html",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/index.html",
+      "sha256": "1f0b18a0fb66b924f81d64aa123d9e9038f031e9f2385fb6c5fd27c4d3294fc0",
+      "bytes": 4568
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\inputs.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/inputs.json",
+      "sha256": "cde6c550502e9e63df119f81b1057d62474980e860d9634dd291ea8c72b56092",
+      "bytes": 23070
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\inputs\\snapshot.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/inputs/snapshot.json",
+      "sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+      "bytes": 104957
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\preparation.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/preparation.json",
+      "sha256": "26255d9dbb71842a38ce3fe61312df972faf7ac44b633fa641c105389ea853bb",
+      "bytes": 266
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\report.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/report.json",
+      "sha256": "4b702a243f9ce06397ea58c600eb42a8c9d70042fbe9a834555522063dfc78a3",
+      "bytes": 38829
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\started.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/started.json",
+      "sha256": "525484d8972736908e3042ba7c139bd56dc3fbaf09d6ec52485fcab10d8d404e",
+      "bytes": 135
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\.freeze.lock",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/.freeze.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "bytes": 1
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\calendar.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/calendar.json",
+      "sha256": "c367399cdb316fecae4e63b95d0d183b4959b61237145b8e01a0f3b1a2561491",
+      "bytes": 860
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\candidate-prices.csv",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/candidate-prices.csv",
+      "sha256": "16a9f22c8afef7bb4aef03584a4f346d241fe98dfd66cc1e3ea1c143d119b887",
+      "bytes": 1348
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\check.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/check.json",
+      "sha256": "a6beaa9936f4fa0a6c8cc8f0bbe11c2cbb60060a265f30b6b94a388d67833f00",
+      "bytes": 3748
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\freeze.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/freeze.json",
+      "sha256": "59db3ad7ff0b8bc839bfa067e7d93da2f1df940aaef5775d489a1cf0bfa36d59",
+      "bytes": 790
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\request-started.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/request-started.json",
+      "sha256": "e23f191f1e80ded82cc69425552db189371a522add693abfaa7b9a6a8348ed99",
+      "bytes": 288
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\source-original.bin",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/source-original.bin",
+      "sha256": "f239c6672f0aff8c47f2a2378a394518a551aad9a356d10b20bb1fa89a9649ae",
+      "bytes": 11992
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\.task-locks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e.lock",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/tasks/.task-locks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "bytes": 1
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\family.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e/family.json",
+      "sha256": "ff5ef43026ebeef4a7075a10bf4be85f4be591b4a8929fdec6a17b020dd6c391",
+      "bytes": 224
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\journal\\000001.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e/journal/000001.json",
+      "sha256": "3f836394bf5969ee043e5ede223e00742eb0e55a4bd1101bd6795c986fded135",
+      "bytes": 410
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\versions\\r0001-111fe0f7bd3c4083a92ebe47ecce5196\\inputs\\snapshot.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e/versions/r0001-111fe0f7bd3c4083a92ebe47ecce5196/inputs/snapshot.json",
+      "sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+      "bytes": 104957
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\versions\\r0001-111fe0f7bd3c4083a92ebe47ecce5196\\task.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e/versions/r0001-111fe0f7bd3c4083a92ebe47ecce5196/task.json",
+      "sha256": "91d1d73d480f9277a0bddbaf1ef3f9015f25065781d07b27827b9f97ccd36ad0",
+      "bytes": 1286
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\versions\\r0001-111fe0f7bd3c4083a92ebe47ecce5196\\version.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e/versions/r0001-111fe0f7bd3c4083a92ebe47ecce5196/version.json",
+      "sha256": "a650692b3d153f0d9e876c8a06b5964b97c1a4baeb638a00806c95edf17cc083",
+      "bytes": 482
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\trial-workspace-identity.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/trial-workspace-identity.json",
+      "sha256": "50da852216df89a97dbfc25a64579f48c4f6220ad7f59402b43edc541f716220",
+      "bytes": 128
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\updates\\check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\baseline-snapshot.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/updates/check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/baseline-snapshot.json",
+      "sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+      "bytes": 104957
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\updates\\check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\calendar.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/updates/check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/calendar.json",
+      "sha256": "c367399cdb316fecae4e63b95d0d183b4959b61237145b8e01a0f3b1a2561491",
+      "bytes": 860
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\updates\\check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\check.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/updates/check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/check.json",
+      "sha256": "9c1a08b660bfc2008783ecb17c5dcaae376652fb6ce83f9f6745b868d9a92901",
+      "bytes": 3940
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\updates\\check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\source-yahoo-chart.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/workspace/updates/check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/source-yahoo-chart.json",
+      "sha256": "e0823ad60a4aff6b990370064e74f1ae6e8c03d29f5e07ad5aff473359036171",
+      "bytes": 11992
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\initial-workspace-observation.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/initial-workspace-observation.json",
+      "sha256": "1a4bb7c059c90c062ed46cc87dd0e7745721f4095de90469d5843cd46db58dee",
+      "bytes": 1321
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\first-run-readback.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/first-run-readback.json",
+      "sha256": "e2d09d13d492cb87a6810a561a2b4cafcd93ea44494b8ce2119bf664702a9382",
+      "bytes": 16922
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\pre-close-workspace.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/pre-close-workspace.json",
+      "sha256": "fb3c85dedbc95ebc1b792246ded22e09d4780d94e7f0c9c7bd5e68136910f6db",
+      "bytes": 13386
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\pre-close-processes.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/pre-close-processes.json",
+      "sha256": "aadf48d7c659395ce9165f9b726ab568a1ad29f1e58acd3f850f55dab042236a",
+      "bytes": 4582
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\closed-processes.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/closed-processes.json",
+      "sha256": "ab7d623cc0f5db106815ae99610b308ade37947b51e1ace2f65049e2cd89a864",
+      "bytes": 315
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\post-reopen-workspace.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/post-reopen-workspace.json",
+      "sha256": "ccae0e28f6cdb060f8c563617e36901a907fb4ac5234bffee39293f5751cd253",
+      "bytes": 14069
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\preservation-public.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/preservation-public.json",
+      "sha256": "b625108fb79a76aeda6cca7d549dd53ff55d980fa447c815deeae3b88bd77203",
+      "bytes": 32383
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\01-home.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/01-home.txt",
+      "sha256": "97a6fdf3f388ed91ebc6848556b607ce6d31ee184c9031d9cb60526cb9c32d87",
+      "bytes": 4608
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\01-home-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/01-home-1.jpg",
+      "sha256": "1ccb547d4de511f0be154a40707002c8a82cb4c08b7f306acb2dfbef2a7022d7",
+      "bytes": 107996
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\02-identity.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/02-identity.txt",
+      "sha256": "e08efc22b98114376c859eac9d481ba9630760bcfad8c691c3fd966c80f6b032",
+      "bytes": 6130
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\02-identity-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/02-identity-1.jpg",
+      "sha256": "a813598a8c296391ee4ba33052a177608eb967fe3cb6eb4d7fe41aa39e4ac11e",
+      "bytes": 130690
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\06-check-result.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/06-check-result.txt",
+      "sha256": "6c1539139e60cd9f50b27f270f6afcff9863e048adb63c1c80ff44687e837111",
+      "bytes": 6285
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\06-check-result-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/06-check-result-1.jpg",
+      "sha256": "f0537db3f0914643fd671b00eec97012f8145ebc9e0ba7da369707f7625b6cfb",
+      "bytes": 103991
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\07-security-confirmed.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/07-security-confirmed.txt",
+      "sha256": "6c1539139e60cd9f50b27f270f6afcff9863e048adb63c1c80ff44687e837111",
+      "bytes": 6285
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\07-security-confirmed-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/07-security-confirmed-1.jpg",
+      "sha256": "5d42da2242f9a04550049f9d1d293c83532b4150b3cebbfbfca182667c3ae340",
+      "bytes": 105352
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\09-saved.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/09-saved.txt",
+      "sha256": "e2ce5568cf5015ba2460902a175a8fcf12d7ee4ba63f8e6bbbc924eff1e944da",
+      "bytes": 4373
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\09-saved-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/09-saved-1.jpg",
+      "sha256": "19d45097dfc8573e8cc8ff65a3c1ac582a717691f01a0d34fe4290b836f2c78a",
+      "bytes": 124598
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\10-settings.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/10-settings.txt",
+      "sha256": "0d0a162981a9a1e5a0859ad169ebe190795138dc9f7f07059b85f0a25ce653a9",
+      "bytes": 4959
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\10-settings-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/10-settings-1.jpg",
+      "sha256": "3abc054e980cdfaf8e9ef785e6c626d1b938e7a7fad9ad3aaa22a1523376e645",
+      "bytes": 120641
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\12-task-saved.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/12-task-saved.txt",
+      "sha256": "29bdcaebb0de6fc2af41a15f85088f4c3675c8c953f8affc94a6b4f3e100dd34",
+      "bytes": 6156
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\12-task-saved-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/12-task-saved-1.jpg",
+      "sha256": "799b8b82b19b517cdd62db4741a38ae5bd55fb5a7e0849b0ed44096f5c8d1210",
+      "bytes": 119604
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\14-result.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/14-result.txt",
+      "sha256": "5cf7e4906e4c84adf6901f429b3f88f863d8be3599dc5ee3cb5164ee3127d48f",
+      "bytes": 9769
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\14-result-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/14-result-1.jpg",
+      "sha256": "a8b93deddf444b9738e80cedcdb0916edfcfbb8302508b8627b2fa05253b286c",
+      "bytes": 106654
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\18-today-before-check.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/18-today-before-check.txt",
+      "sha256": "95192719f813ee4bc6db24b6ea2c469c267c668b43a5a668b970f408ba089131",
+      "bytes": 3158
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\18-today-before-check-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/18-today-before-check-1.jpg",
+      "sha256": "ae02b981b82b25d698fc293f2059afb1a53b25d31313a88d4dd8e410b04e4748",
+      "bytes": 111420
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\20-update-result.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/20-update-result.txt",
+      "sha256": "1391d5739912594ece6070712b76e74c04175b3b9f4e2cfb9c499ea867269c98",
+      "bytes": 3863
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\20-update-result-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/20-update-result-1.jpg",
+      "sha256": "9aa71e807ad70d0ac6dde175bff6ea8596ef9bcadaee8bc0767cead426aae4ad",
+      "bytes": 103570
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\23-pre-close-continue.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/23-pre-close-continue.txt",
+      "sha256": "b684452014368200829b6393a3b3b71abc6611f65b4865772f9887b5abc714fa",
+      "bytes": 2346
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\23-pre-close-continue-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/23-pre-close-continue-1.jpg",
+      "sha256": "b8bc7024cb5bee3f5e1ba6feb1c53703cd8933105cb79f836a52b6bd91e7282c",
+      "bytes": 114414
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\26-reopened-home.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/26-reopened-home.txt",
+      "sha256": "c6a38d09546e423cb362e6f3c94654f8e065008b4c35c8267c808a88706ec9d6",
+      "bytes": 6017
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\26-reopened-home-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/26-reopened-home-1.jpg",
+      "sha256": "35d6405c30e71cf1dc7b741c9ac2f09ad19ebcfb963dc25f33937ce9bbd36703",
+      "bytes": 112967
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\27-reopened-identity.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/27-reopened-identity.txt",
+      "sha256": "9b986722b5082be041d6cca3bb4e96723fc2e04650ee413546fc2a2db3e5c45b",
+      "bytes": 3648
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\27-reopened-identity-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/27-reopened-identity-1.jpg",
+      "sha256": "3b768064f6b07c840602eb127b3ae2fb4e9682abee6c81412aa70b5305232945",
+      "bytes": 130496
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\29-reopened-result.txt",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/29-reopened-result.txt",
+      "sha256": "26069deace395f06bb9390bdbc3e40fc611f9da35f987f697bf741cbde0a08e7",
+      "bytes": 2713
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\native\\29-reopened-result-1.jpg",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/native/29-reopened-result-1.jpg",
+      "sha256": "d7b421b27c955f2edae042fd2be005a48204ad1eea75d79ab285ed364aced913",
+      "bytes": 106893
+    },
+    {
+      "source": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-dev5-native-20261027\\post-reopen-processes.json",
+      "repository_path": "docs/research-evidence/dev5-native-20261027/post-reopen-processes.json",
+      "sha256": "84011b6baac573e065bf314ab21d1634dc570513b3311371bf137edd651cdaac",
+      "bytes": 4628
+    }
+  ],
+  "all_source_destination_bytes_equal": true,
+  "workspace_files": 37
+}

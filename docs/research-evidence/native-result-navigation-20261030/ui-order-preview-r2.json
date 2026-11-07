@@ -1,0 +1,61 @@
+{
+  "schema_version": "native-ui-observations-v1",
+  "evidence_type": "manual record of root Windows Computer Use screenshots and accessibility; not a network trace or closed-database audit",
+  "source_commit": "43c155a0a461edbefeaf98edba5418db560da5d5",
+  "bundle_id": "be331bd6bae86eb60fc1bc6a379fcb2bbae6e78d92653f01255724ea0fcaec76",
+  "window_id": 788252,
+  "fictional_qa_only": true,
+  "task_id": "c05bf26fc36be84c5b379b5758cfc909d46754851368dbd89a1f537b43323c01",
+  "report_id": "df059e7b58636d95ba4797fdbfb13ff71b0a3f0da39eb7b7c24456e820b12921",
+  "input_id": "c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548",
+  "candidate_saved_report_opened": true,
+  "same_report_chart_replay_read": true,
+  "candidate_order_preparation_action_visible": true,
+  "saved_card_completed_state_passed": true,
+  "ordinary_saved_result_navigation_defect": "REPRODUCED; correction in parent source only; frozen r2 unchanged",
+  "saved_terms_visible": {
+    "strategy": "dual_ma", "fast_window": 20, "slow_window": 60,
+    "start_date": "2024-01-02", "end_date": "2024-07-31",
+    "position_percent": 25, "stop_loss_percent": 8, "take_profit_percent": 0,
+    "legacy_compatibility_risk_separately_collapsed": true
+  },
+  "factor_review": {
+    "explicit_context": "flat",
+    "display_fast_ma": "115.39841",
+    "display_slow_ma": "112.65529",
+    "entry_condition": "fast > slow", "entry_satisfied": true,
+    "diagnostic_id": "2f67a0f8c44baeddaa37aee35006e05ab14b2a68eeee18207db166acead7c62b",
+    "rule_fingerprint": "02739acc6023aca001923e89deec545275d1ebc9fe918a8a4f095e389929bfa1",
+    "same_task_report_input_visible": true,
+    "read_only_diagnostic_actions": 2,
+    "second_read_reason": "Account/plan changes invalidated the first diagnostic; explicitly reread after the one preview",
+    "historical_not_current_instruction_notice_visible": true,
+    "second_read_kept_order_preview": true,
+    "second_factor_display_inside_preview": "PENDING: top factor area confirmed; expanded preview detail not yet observed after second read"
+  },
+  "local_account": {
+    "save_actions": 1, "name": "dev3 r2 原生验收合成账户",
+    "cash_usd_visible": "10000", "reserved_usd_visible": "0",
+    "per_order_limit_usd": "1000", "fee_buffer_usd": "1"
+  },
+  "local_plan": {
+    "save_actions": 1,
+    "id_visible": "e4969c73d2b06b1e2d7467086b2e6bfb9b7b04ff4104c1ea65152d01df842e3e",
+    "bound_to_original_report_and_task": true
+  },
+  "order_preview": {
+    "actions": 1, "side": "BUY", "quantity": 1,
+    "limit_usd": "100", "synthetic_reference_usd": "100",
+    "gross_estimate_usd": "100.00", "reserve_estimate_with_fee_usd": "101.00",
+    "reference_time_visible": "2026/10/30 05:10:49",
+    "final_confirmation_checkbox_checked": false, "submit_actions": 0,
+    "cancel_actions": 0, "fill_actions": 0
+  },
+  "cumulative_research_run_actions": 1,
+  "t22_create_seed_step_resume_actions": 0,
+  "external_market_model_broker_actions": 0,
+  "closed": false,
+  "interruption": "Computer Use reported user input; app input suspended while user uses desktop. Continue independent source and GitHub work.",
+  "closed_database_counts_verified": false,
+  "remaining": ["preview factor expansion after second read", "first close checkpoint", "same-package reopen readback", "final protected-data and program-file verification", "new package native verification for navigation correction"]
+}

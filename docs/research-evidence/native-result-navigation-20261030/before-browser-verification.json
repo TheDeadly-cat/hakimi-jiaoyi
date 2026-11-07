@@ -1,0 +1,207 @@
+{
+  "mode": "before",
+  "status": "PASS",
+  "origin": "http://127.0.0.1:45571",
+  "browser_plugin": "NOT_AVAILABLE",
+  "reason": "Browser plugin and skill absent; existing Playwright used headlessly with every HTTP request intercepted",
+  "viewports": [
+    1280,
+    480
+  ],
+  "actual_host_render": true,
+  "test_hook": "initializes saved card from existing QA raw records; does not replace handlers or computations",
+  "results": [
+    {
+      "width": 1280,
+      "case": "saved_card_invisible_result_reproduced",
+      "hash": "#dashboard",
+      "scrollY": 4727,
+      "detailTop": -3574.578125,
+      "headingTop": -3574.578125,
+      "clearance": 56,
+      "visible": false,
+      "documentWidth": 1280,
+      "text": "dev3 r2 使用验收 · 虚构 QADEMO · 版本 1\n冻结研究结果 · 来源待复核 · 不授予模拟或实盘权限\n用此版本准备订单演练\n在行情图表复盘\n复制参数到策略分析\n记录这次结果的判断\n出场对照研究\n这次保存的研究\n股票 / 标的\n\nQADEMO\n\n保存的规则\n\n双均线趋势 · dual_ma\n\n保存的引擎"
+    },
+    {
+      "width": 480,
+      "case": "saved_card_invisible_result_reproduced",
+      "hash": "#dashboard",
+      "scrollY": 7485,
+      "detailTop": -5886.515625,
+      "headingTop": -5886.515625,
+      "clearance": 98,
+      "visible": false,
+      "documentWidth": 480,
+      "text": "dev3 r2 使用验收 · 虚构 QADEMO · 版本 1\n冻结研究结果 · 来源待复核 · 不授予模拟或实盘权限\n用此版本准备订单演练\n在行情图表复盘\n复制参数到策略分析\n记录这次结果的判断\n出场对照研究\n这次保存的研究\n股票 / 标的\n\nQADEMO\n\n保存的规则\n\n双均线趋势 · dual_ma\n\n保存的引擎"
+    }
+  ],
+  "errors": [],
+  "relevantErrors": [],
+  "blocked": [],
+  "requests": [
+    {
+      "width": 1280,
+      "resource": "status",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "strategies",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "jobs",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_catalog",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_inputs",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_tasks",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_history",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_reports",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "status",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_core_inputs",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_judgments",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_exit_experiments",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_exit_runs",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_insights",
+      "method": "GET"
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_runs/df059e7b58636d95ba4797fdbfb13ff71b0a3f0da39eb7b7c24456e820b12921",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "status",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "strategies",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "jobs",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_catalog",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_inputs",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_tasks",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_history",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_reports",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "status",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_core_inputs",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_judgments",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_exit_experiments",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_exit_runs",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_insights",
+      "method": "GET"
+    },
+    {
+      "width": 480,
+      "resource": "terminal_runs/df059e7b58636d95ba4797fdbfb13ff71b0a3f0da39eb7b7c24456e820b12921",
+      "method": "GET"
+    }
+  ],
+  "post_count": 0,
+  "actual_provider_requests": 0,
+  "new_research_runs": 0
+}

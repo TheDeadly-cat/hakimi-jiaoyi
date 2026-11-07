@@ -1,0 +1,12 @@
+{
+  "schema_version": "published-us-equity-calendar-v1",
+  "year": 2026,
+  "timezone": "America/New_York",
+  "regular_open": "09:30:00",
+  "regular_close": "16:00:00",
+  "holidays": ["2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03", "2026-05-25", "2026-06-19", "2026-07-03", "2026-09-07", "2026-11-26", "2026-12-25"],
+  "early_closes": {"2026-11-27": "13:00:00", "2026-12-24": "13:00:00"},
+  "sources": ["https://www.nyse.com/trade/hours-calendars", "https://www.nasdaq.com/market-activity/stock-market-holiday-schedule"],
+  "recorded_at": "2026-10-22T23:10:47.142470Z",
+  "source_policy": "Published 2026 NYSE and Nasdaq regular equity sessions, checked against the linked exchange schedules. Temporary closures and later schedule changes are not covered. Missing expected bars are rejected, never relabeled as holidays. Other years are unavailable."
+}

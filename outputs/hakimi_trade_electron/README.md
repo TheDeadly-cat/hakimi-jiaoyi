@@ -1,13 +1,29 @@
 # 哈基米交易 v2 Electron 桌面壳
 
-这是 **Legacy Preview** 桌面包装层，不属于正式研究 MVP 的发布范围。
-正式入口是安装后的 `hakimi-research snapshot-import / research / replay / report-show`。
+这是原程序的 Electron 源码入口；当前整合候选保留行情、策略分析、量化任务、旧结果与记录导出。
+新的 Windows 原终端候选由 `tools/build_windows_terminal.py` 构建，日常入口为包内 `HakimiTrade.exe`，
+使用经过资源清单核验的包内 Python 启动原终端，并进入同窗 `/quant/`。
+[首用与验收范围](../../docs/windows-original-terminal-candidate.md)记录新候选操作；
+`tools/build_windows_trial.py` 和已安装 dev5 的 `trial-main.js` / `workbench_server` 保留历史身份。
+原正式命令行 `hakimi-research snapshot-import / research / replay / report-show` 继续保留。
 桌面仍承载旧终端及其 `signal-close-next-open-ohlc-conservative-v3` 核心；
 其结果不能冒充正式 `ExperimentRunner` 报告或与其混合比较。
 
-桌面启动的后端强制 `HAKIMI_RUNTIME_READ_ONLY=1`，不自动启动 FutuOpenD，
-移除了 Futu 管理菜单。已有后台只有明确只读、未启动 guardian、未 armed 才可接入。
-下列历史功能清单仅用于识别旧界面，不构成当前可用性或发布验收声明。
+桌面启动的旧运行层强制 `HAKIMI_RUNTIME_READ_ONLY=1`，不自动启动 FutuOpenD，
+移除了 Futu 管理菜单。量化工作区单独使用 `HAKIMI_QUANT_READ_ONLY`：桌面默认为 `0`，
+允许明确保存新任务和运行研究；直接运行 Python 时默认跟随旧运行层的只读状态。
+旧任务/结果仍按原身份读取，只有明确运行操作才计算，paper/live/order 仍封存。
+已有后台必须通过严格健康检查且 `local_only` 与桌面模式一致；不匹配时保留原进程并拒绝复用。
+9 个原策略允许新研究；趋势回调、波动挤压突破禁止新研究，网格、马丁、反马丁仍锁定。
+下列历史功能清单用于识别原界面，已归档功能以当前能力目录为准，不构成正式发布验收声明。
+
+只读导出默认写入用户下载目录 `Hakimi-Exports`，可用 `HAKIMI_EXPORT_DIR` 指定原数据目录之外的位置。
+CSV 及请求去重记录都留在导出目录；读取原订单、事件和账户时不会创建源数据库的 WAL/SHM。
+已有 AI 配置可由明确的 `HAKIMI_LOAD_LOCAL_AI_ENV=1` 读取忽略文件 `.env.local`；
+在旧运行层只读时还需 `HAKIMI_LOAD_LOCAL_AI_ENV_IN_READ_ONLY=1`（桌面显式设置）。
+白名单同时支持 DeepSeek 和 OpenAI，已有进程配置优先；`HAKIMI_AI_ENV_FILE` 可指定已有配置文件。
+本地模式、测试模式或显式跳过配置均不读取文件。不要提交或打印密钥；加载配置不会调用模型。
+`HAKIMI_LOCAL_ONLY=1` 时页面与后台共同阻止外部模型分析。
 
 产品能力由 `src/hakimi_research/capability_definition.py` 定义，生成
 `src/hakimi_research/contracts/product-capabilities.json` 投影供 Electron 读取。
@@ -18,9 +34,9 @@ Electron 对 `product-capability-catalog-v2` 和永久 research-only 权限做�
 - 如果后台未启动，自动拉起 `outputs/python_quant_bot/exchange_terminal/server.py`
 - 后台就绪后加载 `http://127.0.0.1:8765/`
 - 不自动启动本机 `FutuOpenD.exe`
-- 只允许一个哈基米交易窗口运行
+- 同一安装和物理工作区重复启动聚焦已有窗口
 - 记住窗口大小、位置和最大化状态
-- 托盘常驻，可快速显示窗口、回到交易台、打开富途配置、重启后台
+- 默认关闭即退出；托盘常驻需明确勾选，菜单说明后台是否继续运行
 - 顶部桌面控制台提供模拟/观察/实盘锁模式、行情源切换、手动刷新和富途入口
 - 命令面板支持市场、模块和动作分组，可快速跳转
 - 新增软件标题栏、工作区导航和策略指挥条，便于把交易台、策略、订单和账户作为桌面软件工作区使用
@@ -77,11 +93,12 @@ npm.cmd run smoke
 新窗口在已受保护的当前窗口内处理，不创建不受导航规则约束的子窗口。
 管理路由清单及退出首发注册表的范围见 `../../docs/research-consumer-boundary.md`。
 
-关闭窗口默认会隐藏到系统托盘。要完全退出，请从顶部菜单或托盘菜单选择“退出”。
+关闭窗口或退出前，自有后台通过私有 token 协商退出。研究仍忙、响应未知或尚未退出时保留窗口；
+只有确认后台正常退出后才结束桌面。附着到其他入口的后台不会被关闭，不按端口结束进程。
 
-## 后续升级
+## 交付边界
 
-- 加安装包：引入 `electron-builder`
+- 新的完整文件夹候选已具备独立组件、运行时与资源清单构建路径，实际候选验收按具体构建另记
 - 加自动更新：拆分 release 通道
 - 加本机配置中心：端口、FutuOpenD 路径、主题、启动模块
 - 加崩溃恢复：后台异常时自动重启并提示

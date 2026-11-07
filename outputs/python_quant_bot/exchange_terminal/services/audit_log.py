@@ -7,6 +7,7 @@ import sqlite3
 import threading
 from typing import Any, Callable, Iterator
 
+from .legacy_record_snapshot import read_legacy_record_snapshot
 from .sqlite_runtime import connect_runtime_sqlite, require_runtime_writable
 
 
@@ -152,6 +153,21 @@ class AuditLog:
             with self._connect() as connection:
                 records = connection.execute(sql, params).fetchall()
         return [json.loads(record["payload_json"]) for record in reversed(records)]
+
+    def export_snapshot(self) -> list[dict[str, Any]]:
+        """Read all committed events in one snapshot, without UI pagination.
+
+        Exporting does not initialize the schema, invoke callbacks or create
+        source sidecars. A retained WAL is read through a private stable copy.
+        """
+        with self._lock:
+            records = read_legacy_record_snapshot(
+                self.db_path, "SELECT payload_json FROM audit_events ORDER BY id ASC"
+            )
+        rows = [json.loads(record[0]) for record in records]
+        if any(not isinstance(row, dict) for row in rows):
+            raise ValueError("audit_event_payload_invalid")
+        return rows
 
     def query(
         self,

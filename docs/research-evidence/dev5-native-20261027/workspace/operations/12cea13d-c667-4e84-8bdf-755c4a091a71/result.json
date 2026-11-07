@@ -1,0 +1,120 @@
+{
+  "operation_id": "12cea13d-c667-4e84-8bdf-755c4a091a71",
+  "ok": true,
+  "status": "COMMITTED",
+  "result": {
+    "kind": "PRICE_SNAPSHOT",
+    "input_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+    "security": {
+      "currency": "USD",
+      "exchange": "XNAS",
+      "instrument_type": "COMMON_STOCK",
+      "security_id": "IMPORTED:YAHOO:XNAS:NDAQ:check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+      "symbol": "NDAQ"
+    },
+    "coverage_start": "2026-09-29",
+    "coverage_end": "2026-10-26",
+    "sessions": 20,
+    "price_basis": "RAW_UNADJUSTED",
+    "volume_unit": "shares",
+    "timezone": "America/New_York",
+    "as_of": "2026-10-26T23:34:13.738139Z",
+    "retrieved_at": "2026-10-26T23:34:13.738139Z",
+    "bar_availability_lag_seconds": 60,
+    "availability_policy": "SESSION_CLOSE_PLUS_DECLARED_LAG_NOT_HISTORICAL_RECEIPT",
+    "source": {
+      "name": "Yahoo raw quote CSV; eight-decimal formatting, no adjustment",
+      "reference": "https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?period1=1780286400&period2=1793073600&interval=1d&events=div%2Csplits&includePrePost=false",
+      "retrieved_at": "2026-10-26T23:34:13.738139Z",
+      "raw_sha256": "16a9f22c8afef7bb4aef03584a4f346d241fe98dfd66cc1e3ea1c143d119b887"
+    },
+    "security_identity_status": true,
+    "calendar_coverage": "SOURCE_BACKED_IMPORTER_DECLARATION_NOT_EXTERNAL_TRUTH",
+    "corporate_actions": "ACTION_FREE_FIXED_WINDOW_ONLY",
+    "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+    "evidence_kind": "IMPORTED_UNVERIFIED",
+    "status": "STOCK_INPUT_SAVED",
+    "reasons": [],
+    "path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\data\\snapshots\\f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd\\91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+    "file_sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+    "admission_status": "READY",
+    "original_bytes_retained": true,
+    "check_hash": "3e0addde37bf92dd0a6808d76d00425845bf679401e979d6d0d74554c2c49f70",
+    "suggested_task": {
+      "title": "NDAQ 双均线入门 5/10",
+      "strategy": "price.dual_ma@1",
+      "params": {
+        "fast_window": 5,
+        "slow_window": 10,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.06
+      },
+      "score_start": "2026-10-15",
+      "score_end": "2026-10-26",
+      "initial_cash": 10000,
+      "fee_rate": 0.0008,
+      "slippage_pct": 0.0005
+    },
+    "new_economic_runs": 0,
+    "ref": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+    "intake_ref": "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "workflow": {
+      "guided": true,
+      "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+      "step": "INPUT_SAVED",
+      "recorded_at": "2026-10-26T23:34:45.261550Z",
+      "operation_id": "12cea13d-c667-4e84-8bdf-755c4a091a71",
+      "snapshot_ref": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+      "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+      "suggested_task": {
+        "title": "NDAQ 双均线入门 5/10",
+        "strategy": "price.dual_ma@1",
+        "params": {
+          "fast_window": 5,
+          "slow_window": 10,
+          "position_pct": 0.25,
+          "stop_loss_pct": 0.03,
+          "take_profit_pct": 0.06
+        },
+        "score_start": "2026-10-15",
+        "score_end": "2026-10-26",
+        "initial_cash": 10000,
+        "fee_rate": 0.0008,
+        "slippage_pct": 0.0005
+      },
+      "intake_ref": "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+      "check_hash": "3e0addde37bf92dd0a6808d76d00425845bf679401e979d6d0d74554c2c49f70",
+      "workflow_hash": "1c2ad3aa08f7d3e444940c82e7cdd88c07465cd29d639eb2874bad0e1a94b4ba"
+    }
+  },
+  "recorded_at": "2026-10-26T23:34:45.261550Z",
+  "workflow": {
+    "guided": true,
+    "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "step": "INPUT_SAVED",
+    "recorded_at": "2026-10-26T23:34:45.261550Z",
+    "operation_id": "12cea13d-c667-4e84-8bdf-755c4a091a71",
+    "snapshot_ref": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+    "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+    "suggested_task": {
+      "title": "NDAQ 双均线入门 5/10",
+      "strategy": "price.dual_ma@1",
+      "params": {
+        "fast_window": 5,
+        "slow_window": 10,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.06
+      },
+      "score_start": "2026-10-15",
+      "score_end": "2026-10-26",
+      "initial_cash": 10000,
+      "fee_rate": 0.0008,
+      "slippage_pct": 0.0005
+    },
+    "intake_ref": "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "check_hash": "3e0addde37bf92dd0a6808d76d00425845bf679401e979d6d0d74554c2c49f70",
+    "workflow_hash": "1c2ad3aa08f7d3e444940c82e7cdd88c07465cd29d639eb2874bad0e1a94b4ba"
+  }
+}

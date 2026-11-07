@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "tests": 6,
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_research_management_boundary",
+    "-v"
+  ],
+  "seconds": 0.8272058000002289,
+  "fixture_file_sha256": "ceebfa9b751c96518b32e29c9f0c5579ddd1bdded1e4a0ee6ca1d31ce33b0bda",
+  "scope": "Bound and unbound real extracted health handler; fresh TEMP, no directory creation, no production edits"
+}

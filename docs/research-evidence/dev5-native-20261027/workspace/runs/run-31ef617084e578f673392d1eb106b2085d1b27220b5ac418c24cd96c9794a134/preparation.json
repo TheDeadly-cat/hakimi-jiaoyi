@@ -1,0 +1,7 @@
+{
+  "schema_version": "hakimi-run-preparation-v1",
+  "run_id": "31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134",
+  "task_id": "dce07104c4d5ec53a7772030f8239c836abacf1626851dafa8c78ca8168fb133",
+  "state": "PREPARING",
+  "strategy_started": false
+}

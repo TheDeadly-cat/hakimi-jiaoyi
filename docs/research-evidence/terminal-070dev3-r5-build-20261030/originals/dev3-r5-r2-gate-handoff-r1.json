@@ -1,0 +1,167 @@
+{
+  "status": "ALL_NEW_FROZEN_GATES_PASS_BUILD_HELD_FOR_COPY_CORRECTION",
+  "source_commit": "7e1b28e0c44b3441e808d31230204887e05eebe6",
+  "source_directory": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易",
+  "source_status": "CLEAN",
+  "summary": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-frozen-gates-summary-dev3-r5-r2.json",
+  "summary_sha256": "b1d7d9c4548efd688410e6cd9fc2e12f4344a5e45dccd0fe01e649406153665f",
+  "terminal_inner_seconds": 199.585,
+  "terminal_tests": 757,
+  "gates": [
+    {
+      "gate": "gate_runner",
+      "exit_code": 0,
+      "elapsed_seconds": 0.46,
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools",
+        "-p",
+        "test_terminal_ci_gate.py",
+        "-v"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易",
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\gate_runner.log"
+    },
+    {
+      "gate": "health",
+      "exit_code": 0,
+      "elapsed_seconds": 1.023,
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_research_management_boundary",
+        "-v"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易\\outputs\\python_quant_bot",
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\health.log"
+    },
+    {
+      "gate": "desktop_exit",
+      "exit_code": 0,
+      "elapsed_seconds": 0.887,
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_desktop_exit_handshake",
+        "-v"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易\\outputs\\python_quant_bot",
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\desktop_exit.log"
+    },
+    {
+      "gate": "futu_status",
+      "exit_code": 0,
+      "elapsed_seconds": 0.563,
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_futu_connection_status",
+        "-v"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易\\outputs\\python_quant_bot",
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\futu_status.log"
+    },
+    {
+      "gate": "packaging",
+      "exit_code": 0,
+      "elapsed_seconds": 4.729,
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/repository_only",
+        "-p",
+        "test_windows_terminal.py",
+        "-v"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易",
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\packaging.log"
+    },
+    {
+      "gate": "desktop",
+      "exit_code": 0,
+      "elapsed_seconds": 19.23,
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node.exe",
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node_modules\\npm\\bin\\npm-cli.js",
+        "run",
+        "check"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易\\outputs\\hakimi_trade_electron",
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\desktop.log"
+    },
+    {
+      "gate": "terminal",
+      "exit_code": 0,
+      "elapsed_seconds": 203.455,
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-venv-r2\\Scripts\\python.exe",
+        "-B",
+        "tools/run_terminal_contracts.py"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\terminal-account-controls-070dev3-r5-final\\哈基米v2交易",
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-dev3-r5-clean-evidence-r2\\terminal.log"
+    }
+  ],
+  "other_counts": {
+    "packaging": {
+      "expected": 15,
+      "actual": 15,
+      "ok": true
+    },
+    "gate_runner": {
+      "expected": 4,
+      "actual": 4,
+      "ok": true
+    },
+    "health": {
+      "expected": 6,
+      "actual": 6,
+      "ok": true
+    },
+    "desktop_exit": {
+      "expected": 4,
+      "actual": 4,
+      "ok": true
+    },
+    "futu_status": {
+      "expected": 32,
+      "actual": 32,
+      "ok": true
+    }
+  },
+  "code_input_count": 2102,
+  "code_inputs_unchanged": true,
+  "packaging_input_count": 1046,
+  "packaging_inputs_unchanged": true,
+  "sdk_install_guard": {
+    "attempts": {
+      "external_socket": 0,
+      "subprocess": 0,
+      "futu_import": 0,
+      "local_hostname_reads": 1,
+      "local_socket_constructions": 1,
+      "local_ephemeral_bind_checks": 1
+    },
+    "sdk_imported": false
+  },
+  "build_started": false,
+  "candidate_exists": false,
+  "archive_exists": false,
+  "build_hold_reason": "Root identified shared stop/resume copy mismatch; waiting new copy commit and explicit delta binding plus updated desktop checks",
+  "old_failures_preserved": true
+}

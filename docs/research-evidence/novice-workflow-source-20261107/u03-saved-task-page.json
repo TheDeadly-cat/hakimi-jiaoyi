@@ -1,0 +1,126 @@
+{
+  "scope": "ACTUAL_QUANT_HTTP_ONE_SYNTHETIC_INPUT_ONE_TASK_NO_ECONOMIC_RUN",
+  "source_before": {
+    "services/terminal_teaching_flow.py": "7eb3b5b3619fc4ce89a73f639fc808524b36e2b6985b636ed788fa1e907d2af3",
+    "static/terminal-first-use-ui.js": "bc83d62b96163188ddb40044b89f93932829d16a2ddff12abd99426c46eea1ce",
+    "static/terminal-quant-ui.js": "d6849a6f6215a340dc4a9501d8286f7fe6cb96a481d3ebd8e405406387eb2e49",
+    "static/terminal-core-completion.js": "a5e51032f8d453868bd5abed28a343505660d9af91a02f7e62469c6db2939e2d",
+    "services/quant_workspace.py": "54d8dc4f7dcc6dbddf3980b25d76bdef4468b67ec715c179e87aa22c00f286f7"
+  },
+  "status": "PASS",
+  "source_after": {
+    "services/terminal_teaching_flow.py": "7eb3b5b3619fc4ce89a73f639fc808524b36e2b6985b636ed788fa1e907d2af3",
+    "static/terminal-first-use-ui.js": "bc83d62b96163188ddb40044b89f93932829d16a2ddff12abd99426c46eea1ce",
+    "static/terminal-quant-ui.js": "d6849a6f6215a340dc4a9501d8286f7fe6cb96a481d3ebd8e405406387eb2e49",
+    "static/terminal-core-completion.js": "a5e51032f8d453868bd5abed28a343505660d9af91a02f7e62469c6db2939e2d",
+    "services/quant_workspace.py": "54d8dc4f7dcc6dbddf3980b25d76bdef4468b67ec715c179e87aa22c00f286f7"
+  },
+  "mutations": [
+    "terminal_prepare_teaching_input",
+    "create_task"
+  ],
+  "input_count": 1,
+  "tasks": 1,
+  "economic_runs": 0,
+  "task_id": "58407618523bc9772cfb9107",
+  "task_version": "3dbe200f85c5076ebb4bc724e658b453a83903fb91ac3a092a9c4d51eaf66779",
+  "initial_cash": 100,
+  "job_ids": [
+    "c1eaf03c-1e5a-4c1f-818f-67c4d5b743ca",
+    "eacd34ce-1b35-4de8-abd8-cd442c9308bf"
+  ],
+  "input_id": "db3fa90eb8f56a5e0deaaf0f",
+  "browser": {
+    "status": "PASS_SAVE_CONTINUE_AND_EXPLICIT_RUN_ENTRY",
+    "url": "http://127.0.0.1:54558/quant/#tasks",
+    "browser": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\ci151-playwright-browsers-r1\\chromium-1234\\chrome-win64\\chrome.exe",
+    "browser_plugin": "Browser plugin not available",
+    "console_errors": [],
+    "external_requests": [],
+    "posts": [
+      {
+        "url": "http://127.0.0.1:54558/api/quant/actions/terminal_prepare_teaching_input",
+        "body": {
+          "request_id": "eacd34ce-1b35-4de8-abd8-cd442c9308bf",
+          "payload": {}
+        }
+      },
+      {
+        "url": "http://127.0.0.1:54558/api/quant/actions/create_task",
+        "body": {
+          "request_id": "c1eaf03c-1e5a-4c1f-818f-67c4d5b743ca",
+          "payload": {
+            "name": "教学-本金100-只保存一次",
+            "strategy": "price.dual_ma@1",
+            "params": {
+              "fast_window": 2,
+              "slow_window": 4,
+              "position_pct": 0.25,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.06
+            },
+            "risk": {
+              "max_daily_loss_pct": 1,
+              "max_leverage": 1,
+              "max_position_pct": 0.25,
+              "max_single_loss_pct": 0.03,
+              "min_cash_pct": 0
+            },
+            "initial_cash": 100,
+            "fee_rate": 0.0008,
+            "slippage_pct": 0.0005,
+            "snapshot_id": "db3fa90eb8f56a5e0deaaf0f"
+          }
+        }
+      }
+    ],
+    "saved_task": "58407618523bc9772cfb9107",
+    "saved_version": "3dbe200f85c5076ebb4bc724e658b453a83903fb91ac3a092a9c4d51eaf66779",
+    "initial_cash": 100,
+    "events": 1,
+    "reload_readonly": true,
+    "directActions": [
+      {
+        "text": "",
+        "disabled": false,
+        "action": "close-dialog",
+        "task": ""
+      },
+      {
+        "text": "运行这次回测",
+        "disabled": false,
+        "action": "",
+        "task": "3dbe200f85c5076ebb4bc724e658b453a83903fb91ac3a092a9c4d51eaf66779"
+      },
+      {
+        "text": "检查",
+        "disabled": false,
+        "action": "check-task",
+        "task": "58407618523bc9772cfb9107"
+      },
+      {
+        "text": "复制",
+        "disabled": false,
+        "action": "copy-task",
+        "task": "58407618523bc9772cfb9107"
+      },
+      {
+        "text": "暂停",
+        "disabled": false,
+        "action": "state-task",
+        "task": "58407618523bc9772cfb9107"
+      },
+      {
+        "text": "修订任务",
+        "disabled": false,
+        "action": "edit-task",
+        "task": "58407618523bc9772cfb9107"
+      }
+    ],
+    "layout": {
+      "viewport": 390,
+      "scrollWidth": 390
+    }
+  },
+  "owner_closed": true
+}

@@ -1,0 +1,8 @@
+{
+  "ast_parse": "PASS",
+  "trailing_whitespace": "PASS",
+  "new_test_class_count": 1,
+  "discovered_test_count": 11,
+  "runner_registered": false,
+  "backend_edited": false
+}

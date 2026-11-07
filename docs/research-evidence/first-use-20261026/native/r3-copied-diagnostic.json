@@ -1,0 +1,16 @@
+{
+  "schema_version": "workbench-desktop-diagnostic-v1",
+  "recorded_at": "2026-10-26T15:33:23.645Z",
+  "state": "USER_REQUESTED",
+  "error": null,
+  "workspace": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd",
+  "version": "0.6.0.dev4",
+  "electron_version": "31.7.7",
+  "expected_identity": {
+    "package_location": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\Lib\\site-packages\\hakimi_research",
+    "python_executable": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\python.exe",
+    "loaded_source_sha256": "695522c5f77e02f8189484ef97eb30f48ea64b30a582c64a4e18c08710eba766",
+    "workspace": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd"
+  },
+  "new_economic_calculations": 0
+}

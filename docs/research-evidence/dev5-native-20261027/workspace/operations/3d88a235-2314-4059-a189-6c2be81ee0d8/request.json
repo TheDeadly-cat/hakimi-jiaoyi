@@ -1,0 +1,11 @@
+{
+  "request_hash": "4f34c26107871489b2e63e648f93803458bbc6d836b90e1193690aca250884d5",
+  "request": {
+    "guided": true,
+    "guide_id": "6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "task": "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e",
+    "action": "run_task",
+    "operation_id": "3d88a235-2314-4059-a189-6c2be81ee0d8"
+  },
+  "recorded_at": "2026-10-26T23:35:24.948340Z"
+}

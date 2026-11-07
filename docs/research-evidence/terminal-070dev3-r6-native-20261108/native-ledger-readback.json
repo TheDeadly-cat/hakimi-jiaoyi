@@ -1,0 +1,144 @@
+{
+  "status": "PASS_REPORT_PLAN_ACCOUNT_UNCHANGED_ONLY_EXPLICIT_NAVIGATION_CHANGED",
+  "scope": "MAINTAINER_NATIVE_R6_SYNTHETIC_WORKFLOW_PLUS_CLOSED_COPIES_READ_WITH_SQLITE_MODE_RO_IMMUTABLE",
+  "native_explicit_research_runs": 1,
+  "readback_new_economic_runs": 0,
+  "source_sqlite_opened_for_analysis": false,
+  "product_imports_or_business_api_for_sqlite_readback": false,
+  "account": {
+    "count": 1,
+    "account_id": "sim-50a1d7c3-7a4a-4650-8817-1842e317f1e1",
+    "currency": "USD",
+    "initial_cash": "100",
+    "cash": "100",
+    "evidence_kind": "SYNTHETIC_TEST",
+    "local_new_risk_paused": true,
+    "stop_reason": "用户在订单核对页明确暂停新增风险",
+    "stop_request_id": "execution-17fe7ae7-f8e9-40bd-8691-985c6f4a7598",
+    "ledger_event_count": 3,
+    "orders": 0,
+    "fills": 0,
+    "positions": 0,
+    "observations": 0,
+    "plan_count": 1
+  },
+  "plan_identity": {
+    "plan_id": "bb3f46e788f7e5ee04723c47bd8fe99a08641b7661b63d1610f3de01d65072ca",
+    "account_id": "sim-50a1d7c3-7a4a-4650-8817-1842e317f1e1",
+    "stage": "SIMULATION",
+    "research_stage": "BACKTESTED",
+    "unique_run_task_version_match": true
+  },
+  "saved_research": {
+    "run_count": 1,
+    "core_run_opaque_id": "ec337074c726293eff9cbd30",
+    "run_id": "0fbc177eb3ebf3b3e6edd5b9e1035eef20fa1c7a88f829f802d08aeee5fa8184",
+    "report_hash": "ac46917985be68a8afc2deefd08be57573b3f72188d848d468d1ea97e56a989a",
+    "task_id": "37fc9227ec6555c599673f5c99b26e41551d2f141753763b0879658ca4675716",
+    "version_number": 1,
+    "version_id": "r0001-0d14e96b3603419ba2d89c4c4e892db5",
+    "research_task_state": "ENABLED",
+    "initial_cash": 100,
+    "evidence_kind": "SYNTHETIC_TEST",
+    "version_file_hashes_match": true
+  },
+  "journey": {
+    "workspace_context": "d8da05d1084e5287f6a2b0689a6608f5c9a5a8634bcea110d99d9404d6e570a5",
+    "revision": 5,
+    "selection": {
+      "broker": null,
+      "manual": {
+        "account_id": "sim-50a1d7c3-7a4a-4650-8817-1842e317f1e1",
+        "plan_id": "bb3f46e788f7e5ee04723c47bd8fe99a08641b7661b63d1610f3de01d65072ca"
+      },
+      "replay": null,
+      "research": {
+        "id": "ec337074c726293eff9cbd30",
+        "kind": "core_run"
+      },
+      "task": null,
+      "view": "results"
+    },
+    "same_account_plan_and_core_run": true,
+    "recorded_request_count": 5
+  },
+  "sqlite_quick_checks": "2/2 ok",
+  "copied_workspace_files": 21,
+  "unchanged_business_files": 20,
+  "changed_file": "ui/strategy-journey-v1.sqlite3",
+  "changed_file_hash_size_mtime": {
+    "ui/strategy-journey-v1.sqlite3": {
+      "first_closed": {
+        "sha256": "3a0f97105993f383b04614eb7b8bd90f9b70e506abda4687aa9a84b50cc9ee03",
+        "bytes": 16384,
+        "mtime_ns": 1794072567119835800
+      },
+      "reopen_closed": {
+        "sha256": "7484b90b463b008df351fbf6994bb680339e0e2181aaf57a3940844a0c552b25",
+        "bytes": 16384,
+        "mtime_ns": 1794072926127226300
+      }
+    }
+  },
+  "account_sqlite_all_tables_rows_schema_identical": true,
+  "journey_schema_identical": true,
+  "selection_revision_before": 4,
+  "selection_revision_after": 5,
+  "decoded_selection_field_diff": {
+    "view": {
+      "before": "execution",
+      "after": "results"
+    }
+  },
+  "old_journey_request_rows_identical": 4,
+  "added_navigation_request": {
+    "id": "journey-77f4571f-5f43-4207-888d-08c14b71a0e6",
+    "fingerprint": "fa6419dc27a4d0e04bac015176a58c97c75de7b3bf197c98fdb8c5b027ed7d1c",
+    "receipt": {
+      "automatic_retry": false,
+      "external_calls": 0,
+      "new_economic_runs": 0,
+      "permissions": {
+        "live_allowed": false,
+        "order_allowed": false,
+        "paper_allowed": false,
+        "research_only": true
+      },
+      "read_only": false,
+      "replayed": false,
+      "request_id": "journey-77f4571f-5f43-4207-888d-08c14b71a0e6",
+      "revision": 5,
+      "saved": true,
+      "schema_version": "hakimi-terminal-journey-v1",
+      "selection": {
+        "broker": null,
+        "manual": {
+          "account_id": "sim-50a1d7c3-7a4a-4650-8817-1842e317f1e1",
+          "plan_id": "bb3f46e788f7e5ee04723c47bd8fe99a08641b7661b63d1610f3de01d65072ca"
+        },
+        "replay": null,
+        "research": {
+          "id": "ec337074c726293eff9cbd30",
+          "kind": "core_run"
+        },
+        "task": null,
+        "view": "results"
+      },
+      "status": "SAVED",
+      "workspace_context": "d8da05d1084e5287f6a2b0689a6608f5c9a5a8634bcea110d99d9404d6e570a5"
+    }
+  },
+  "added_request_hash_matches_expected_revision_4_and_same_selection": true,
+  "unchanged_file_categories": [
+    "report",
+    "task and version",
+    "input snapshots",
+    "plan link",
+    "account SQLite and metadata"
+  ],
+  "original_and_copy_protection": {
+    "source_before_after_copy_hash_size_mtime_equal": true,
+    "copied_hash_size_mtime_unchanged_during_reads": true
+  },
+  "raw_databases_or_price_rows_in_this_folder": false
+}

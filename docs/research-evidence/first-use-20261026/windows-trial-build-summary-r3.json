@@ -1,0 +1,125 @@
+{
+  "schema_version": "windows-trial-build-summary-v1",
+  "status": "BUILT_AND_PRIVATE_RUNTIME_VERIFIED_NATIVE_ACCEPTANCE_DELEGATED",
+  "recorded_at": "2026-10-26T15:30:19.901143Z",
+  "product_version": "0.6.0.dev4",
+  "packaging_commit": "b1bdc5743de335310988e4121f85cfed83a07b82",
+  "packaging_clean_scope": "ONLY_PACKAGED_DESKTOP_FILES_AND_BUILD_DEFINITIONS",
+  "accepted_product_commit": "0ea9c9977545285a963b548eb5b4ebe953414a06",
+  "source_worktree_clean": false,
+  "current_git_head_at_verification": "b1bdc5743de335310988e4121f85cfed83a07b82",
+  "concurrent_parent_worktree_status": [
+    " M CURRENT_STATUS.md",
+    " M README.md",
+    " M docs/daily-delivery.md"
+  ],
+  "product_source_sha256": "695522c5f77e02f8189484ef97eb30f48ea64b30a582c64a4e18c08710eba766",
+  "registered_product_files": 89,
+  "bundle_id": "a1988ddf2481d46629ddf3393b565daac3aec711f8692eecf5d44a775046ff7f",
+  "manifest": {
+    "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\trial-manifest.json",
+    "sha256": "e5df2abd47fe486be5512f20f20da4cf21692bb6ba4bfe0125d4d0ea42866aef",
+    "bytes": 917717
+  },
+  "program_root": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3",
+  "desktop_entry": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\HakimiWorkbench.exe",
+  "desktop_entry_sha256": "1fa93c3471c11dc8128998c662c705104e4528b98901b61c8a25216acda424c5",
+  "archive": {
+    "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3.zip",
+    "sha256": "322c22c353bfc4699dcabd675f3ab21f64ae100906746dd2810228b5d688eab6",
+    "bytes": 197328391
+  },
+  "hashed_program_files": 7095,
+  "archive_files_including_manifest": 7096,
+  "zip_inventory_and_each_uncompressed_file_sha256_equal_program_tree": true,
+  "maximum_relative_program_path_utf16_characters": 112,
+  "third_party_notices": {
+    "index": {
+      "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\THIRD-PARTY-NOTICES.json",
+      "sha256": "f8f30a368fc263d89210cc7f66b7ff62c9b276d18462c559443eb65ee7797dbe",
+      "bytes": 12562
+    },
+    "components": 7,
+    "notice_files_verified": 77,
+    "project_license_added": false
+  },
+  "accepted_wheel_receipt": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\acceptance-r2\\wheel-acceptance.json",
+    "sha256": "9646e707313a9e8681e2b2b9153784e58537eb785a768256bea1d2bcfcec193c",
+    "bytes": 109266
+  },
+  "accepted_wheel": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\acceptance-r2\\dist\\hakimi_research-0.6.0.dev4-py3-none-any.whl",
+    "sha256": "13a95c28bb4717a98f9fc5abb5076142e855212c457e9e0c9939830fe3f0a846",
+    "bytes": 396401
+  },
+  "build_execution": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\windows-trial-build-r3-execution.json",
+    "sha256": "13240f2aebd1bd37488e2ac01b35f9887f48e5941d020f897720e5f99e7135ed",
+    "bytes": 428
+  },
+  "build_log": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\windows-trial-build-r3.log",
+    "sha256": "697daee7c813217e0667710ae493d8ed5f6ed7d898f8d5088b3555fe2cda1843",
+    "bytes": 1554
+  },
+  "private_runtime_probe": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\windows-trial-probe-r3.json",
+    "sha256": "81e579408952978dd138d7daf5aa7872931024d15d27a3ee985e7caf873fbaf5",
+    "bytes": 2565
+  },
+  "private_runtime_probe_log": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\windows-trial-probe-r3.log",
+    "sha256": "8f41872a430826df5a0c74ed6d407f3bec714b7c7c2c41c16a59a1370309d16d",
+    "bytes": 10087
+  },
+  "runtime_source_evidence": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\windows-trial-runtime-sources-r3.json",
+    "sha256": "9d40146ebeb32ca7c40e95f532d40db2c0e031b1d28c68e390c3eb8281dfdef9",
+    "bytes": 3077
+  },
+  "physical_path_fix_validation": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\physical-path-validation-r1.json",
+    "sha256": "7a92a3c9b619b7fe67732d0f4be1700bcd4e09f7873bc94fd7fa776865116e45",
+    "bytes": 2453
+  },
+  "retained_old_program_artifacts": [
+    {
+      "program_root": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-0ea9c99-r1",
+      "files_unchanged": 7096,
+      "archive": {
+        "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-0ea9c99-r1.zip",
+        "sha256": "e7fe95fbc76f41bcddcdb8d6e54d4474336abeb2b1acad56a060cf7e8eec4483",
+        "bytes": 197326728
+      }
+    },
+    {
+      "program_root": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-1e6793d-r2",
+      "files_unchanged": 7096,
+      "archive": {
+        "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-1e6793d-r2.zip",
+        "sha256": "7d086e34605f29539f35d5e2f848b269254aececbcf554f021e6cebc0f27ac47",
+        "bytes": 197327194
+      }
+    }
+  ],
+  "default_workspace_relative_policy": "LOCALAPPDATA/HakimiTradeTrial/workspaces/<first_20_bundle_id>; exclusive marker binds full bundle_id",
+  "expected_ordinary_explorer_workspace": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd",
+  "native_desktop_acceptance": "DELEGATED_TO_PARENT_NOT_PERFORMED_BY_BUILD_AGENT",
+  "clean_windows_acceptance": "NOT_PERFORMED",
+  "relocation_probe": "NOT_REPEATED_FOR_R3",
+  "new_economic_runs_by_build_agent": 0,
+  "new_desktop_windows_by_build_agent": 0,
+  "new_market_requests": 0,
+  "new_runtime_downloads": 0,
+  "new_workspace_access_by_build_agent": false,
+  "old_program_artifacts_modified": false,
+  "product_core_or_build_inputs_modified": false,
+  "push_performed": false,
+  "limitations": [
+    "Portable ZIP, not a signed installer or formal Release.",
+    "Existing developer host, no clean Windows acceptance.",
+    "Python product receipt remains CLEAN 0ea9c99; shell provenance separately binds b1bdc57. Whole worktree status is recorded without treating concurrent parent document edits as product changes.",
+    "Native first-use acceptance proceeds separately through ordinary Explorer; current process context cannot establish its workspace identity without a fresh physical-path/marker check."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "status": "READY_FOR_ROOT_REVIEW_NOT_PACKAGED",
+  "recorded_at": "2026-10-29T21:30:28.823441+00:00",
+  "files": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.js": "dd662799a8263439a58695b4dac5f59b489073609ddcd607ff3dbdfd31604a6a",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-execution-ui.test.js": "9da9bcd401cf53c9df4206c05543e3089b83f6844711b741ddab29c7229174b1"
+  },
+  "tests": {
+    "passed": 32,
+    "failed": 0,
+    "skipped": 0,
+    "log": "targeted-tests-r1.log"
+  },
+  "full_host": {
+    "before": "before-full-host-verification.json",
+    "after": "after-full-host-verification.json",
+    "widths": [
+      1280,
+      480
+    ],
+    "post_count": 0,
+    "new_research_runs": 0,
+    "new_orders": 0,
+    "external_requests": 0,
+    "qa_business_database_opened": false
+  },
+  "native_gui_used": false,
+  "source_originals_read": false,
+  "frozen_package_modified": false,
+  "committed": false
+}

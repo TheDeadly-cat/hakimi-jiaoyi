@@ -1,0 +1,10 @@
+{
+  "python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+  "head": "6581c5926d5283a0b3916041b2292dcc1b1031d5",
+  "status": "DIRTY_SOURCE_BYTES_EXPLICITLY_HASHED",
+  "expected_terminal_tests": 709,
+  "desktop_repeated": false,
+  "desktop_reason": "No JavaScript, frontend, host runtime or existing service route changed.",
+  "real_sdk_probe_repeated": false,
+  "native_or_market_acceptance": false
+}

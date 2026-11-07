@@ -1,0 +1,1315 @@
+{
+  "evidence_kind": "SYNTHETIC_TEST_ONLY_NO_SDK_OR_MARKET_EVIDENCE",
+  "renderer_request": {
+    "mode": "OFFICIAL_SIMULATION",
+    "request_id": "plan-synthetic-0001",
+    "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+    "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+    "expected_control_revision": 0,
+    "bounds": {
+      "valid_until": "2026-10-30T08:15:00+00:00",
+      "calls": {
+        "connect": 1,
+        "runtime_read": 1,
+        "account_read": 1,
+        "position_read": 1,
+        "security_read": 1,
+        "quote_read": 1,
+        "fee_read": 1,
+        "submit": 1,
+        "observe": 5,
+        "cancel": 1,
+        "unlock": 0
+      },
+      "wall_timeout_seconds": 180,
+      "call_timeout_seconds": 15,
+      "cleanup_timeout_seconds": 5,
+      "max_output_bytes": 131072,
+      "max_observation_records": 50,
+      "max_evidence_age_seconds": 30,
+      "max_total_fees": "2.00",
+      "endpoint": {
+        "host": "127.0.0.1",
+        "port": 11111
+      }
+    }
+  },
+  "candidate_context": {
+    "mode": "OFFICIAL_SIMULATION",
+    "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+    "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+    "terms": {
+      "account_id": "900000000000001",
+      "asset_class": "EQUITY",
+      "asset_code": "US.TSLA",
+      "currency": "USD",
+      "expires_at": "2026-10-30T09:00:00+00:00",
+      "limit_price": "20.00000001",
+      "market": "US",
+      "max_notional": "100.00",
+      "max_quantity": 4,
+      "quantity": 3,
+      "side": "BUY",
+      "time_in_force": "DAY"
+    },
+    "control_revision": 0
+  },
+  "capabilities": {
+    "schema_version": "hakimi-broker-plan-service-v1",
+    "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+    "mode": "OFFICIAL_SIMULATION",
+    "status": "PACKAGED_IDENTITY_MATCHED",
+    "runtime": {
+      "schema_version": "hakimi-broker-package-load-v1",
+      "status": "PACKAGED_IDENTITY_MATCHED",
+      "mode": "OFFICIAL_SIMULATION",
+      "package": {
+        "bundle_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "manifest_sha256": "d10448075f34313732e330a26274910d5052aec446d24197832098ddff9fd894",
+        "source_commit": "1111111111111111111111111111111111111111",
+        "version": "0.0.0.synthetic"
+      },
+      "sdk": {
+        "installed_file_count": 2,
+        "installed_files_sha256": "e7a1d711b4c5363236917a3a001fdece843c98f5fcdc7e6833d137cfdee89dc4",
+        "name": "futu-api",
+        "runtime_compatibility": "NOT_VERIFIED",
+        "version": "10.7.6708",
+        "wheel_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "adapter": {
+        "capabilities": {
+          "adapter_id": "FICTIONAL_OFFLINE_FIXTURE",
+          "asset_class": "EQUITY",
+          "contract_id": "hakimi-futu-us-equity-simulate-v1",
+          "currency": "USD",
+          "entrypoint": {
+            "function": "build_scoped_transport",
+            "path": "components/terminal/exchange_terminal/adapters/fixture_simulate.py"
+          },
+          "market": "US",
+          "mode": "OFFICIAL_SIMULATION",
+          "order_type": "LIMIT",
+          "quantity_policy": "WHOLE_SHARES",
+          "schema_version": "hakimi-broker-adapter-capability-v1",
+          "sdk_environment": "SIMULATE",
+          "sdk_name": "futu-api",
+          "sdk_version": "10.7.6708",
+          "security_mapping": "EXACT_SAVED_US_SYMBOL_V1",
+          "sides": [
+            "BUY",
+            "SELL"
+          ],
+          "source_files": {
+            "components/terminal/exchange_terminal/adapters/fixture_simulate.py": "b73f4ece406ac752ef53415bbc1150491a2a7c2cec199f76a60bdb795752757e"
+          },
+          "time_in_force": "DAY"
+        },
+        "descriptor_path": "components/terminal/fixture-capability.json",
+        "descriptor_sha256": "de396f19696bd1dd4bbfa917528e00f5994ee3967111f1df8f341685e5199144",
+        "runtime_compatibility": "NOT_VERIFIED"
+      },
+      "missing_capabilities": [],
+      "runtime_compatibility": "NOT_VERIFIED",
+      "fresh_check_scope": "MANIFEST_SDK_ADAPTER_AND_LOADER_CONTRACT_FILES",
+      "identity_match_only": true,
+      "permissions": {
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "cancel_allowed": false,
+        "unlock_allowed": false,
+        "automatic_retry": false,
+        "automatic_resume": false,
+        "automatic_mode_fallback": false,
+        "user_authorization_granted": false
+      }
+    },
+    "read_only": true,
+    "permissions": {
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "cancel_allowed": false,
+      "unlock_allowed": false,
+      "automatic_retry": false,
+      "automatic_resume": false,
+      "automatic_mode_fallback": false,
+      "user_authorization_granted": false
+    },
+    "automatic_retry": false
+  },
+  "prepare": {
+    "schema_version": "hakimi-broker-plan-service-v1",
+    "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+    "mode": "OFFICIAL_SIMULATION",
+    "status": "PLAN_SAVED",
+    "request_id": "plan-synthetic-0001",
+    "result": {
+      "mode": "OFFICIAL_SIMULATION",
+      "request_id": "plan-synthetic-0001",
+      "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+      "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+      "status": "PLAN_SAVED",
+      "plan_id": "f7046c6d9d91d3449933385df39c2159691d4cacc26b814e7f1fc447efbe754b",
+      "plan_status": "OFFLINE_ONLY_SYNTHETIC_RESEARCH",
+      "reason": null,
+      "permissions": {
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "cancel_allowed": false,
+        "unlock_allowed": false,
+        "automatic_retry": false,
+        "automatic_resume": false,
+        "automatic_mode_fallback": false,
+        "user_authorization_granted": false
+      }
+    },
+    "claim": {
+      "schema_version": "hakimi-broker-plan-claim-v1",
+      "action": "terminal_broker_prepare_plan",
+      "mode": "OFFICIAL_SIMULATION",
+      "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+      "request_id": "plan-synthetic-0001",
+      "request_hash": "297c0b03644b96a50cada2a8249496d0f3ba1751fa9bae3f8df3f9f66dda40c7",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "plan-synthetic-0001",
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "expected_control_revision": 0,
+        "bounds": {
+          "valid_until": "2026-10-30T08:15:00+00:00",
+          "calls": {
+            "connect": 1,
+            "runtime_read": 1,
+            "account_read": 1,
+            "position_read": 1,
+            "security_read": 1,
+            "quote_read": 1,
+            "fee_read": 1,
+            "submit": 1,
+            "observe": 5,
+            "cancel": 1,
+            "unlock": 0
+          },
+          "wall_timeout_seconds": 180,
+          "call_timeout_seconds": 15,
+          "cleanup_timeout_seconds": 5,
+          "max_output_bytes": 131072,
+          "max_observation_records": 50,
+          "max_evidence_age_seconds": 30,
+          "max_total_fees": "2.00",
+          "endpoint": {
+            "host": "127.0.0.1",
+            "port": 11111
+          }
+        }
+      },
+      "created_at": "2026-10-30T08:00:00+00:00",
+      "permissions": {
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "cancel_allowed": false,
+        "unlock_allowed": false,
+        "automatic_retry": false,
+        "automatic_resume": false,
+        "automatic_mode_fallback": false,
+        "user_authorization_granted": false
+      },
+      "id": "41bc595d1854383ea3dfbd16da4598bdecaea620e4696c0b2f26368f086c1759"
+    },
+    "receipt": {
+      "schema_version": "hakimi-broker-plan-receipt-v1",
+      "action": "terminal_broker_prepare_plan",
+      "mode": "OFFICIAL_SIMULATION",
+      "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+      "request_id": "plan-synthetic-0001",
+      "request_hash": "297c0b03644b96a50cada2a8249496d0f3ba1751fa9bae3f8df3f9f66dda40c7",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "plan-synthetic-0001",
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "expected_control_revision": 0,
+        "bounds": {
+          "valid_until": "2026-10-30T08:15:00+00:00",
+          "calls": {
+            "connect": 1,
+            "runtime_read": 1,
+            "account_read": 1,
+            "position_read": 1,
+            "security_read": 1,
+            "quote_read": 1,
+            "fee_read": 1,
+            "submit": 1,
+            "observe": 5,
+            "cancel": 1,
+            "unlock": 0
+          },
+          "wall_timeout_seconds": 180,
+          "call_timeout_seconds": 15,
+          "cleanup_timeout_seconds": 5,
+          "max_output_bytes": 131072,
+          "max_observation_records": 50,
+          "max_evidence_age_seconds": 30,
+          "max_total_fees": "2.00",
+          "endpoint": {
+            "host": "127.0.0.1",
+            "port": 11111
+          }
+        }
+      },
+      "claim_id": "41bc595d1854383ea3dfbd16da4598bdecaea620e4696c0b2f26368f086c1759",
+      "created_at": "2026-10-30T08:00:00+00:00",
+      "result": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "plan-synthetic-0001",
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "status": "PLAN_SAVED",
+        "plan_id": "f7046c6d9d91d3449933385df39c2159691d4cacc26b814e7f1fc447efbe754b",
+        "plan_status": "OFFLINE_ONLY_SYNTHETIC_RESEARCH",
+        "reason": null,
+        "permissions": {
+          "external_connection_allowed": false,
+          "query_allowed": false,
+          "submit_allowed": false,
+          "cancel_allowed": false,
+          "unlock_allowed": false,
+          "automatic_retry": false,
+          "automatic_resume": false,
+          "automatic_mode_fallback": false,
+          "user_authorization_granted": false
+        }
+      },
+      "permissions": {
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "cancel_allowed": false,
+        "unlock_allowed": false,
+        "automatic_retry": false,
+        "automatic_resume": false,
+        "automatic_mode_fallback": false,
+        "user_authorization_granted": false
+      },
+      "id": "d0717d122e598feb401a74593fa9649332f058a38f416658c82a91e69f328d10"
+    },
+    "retry_allowed": false,
+    "read_only": false,
+    "permissions": {
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "cancel_allowed": false,
+      "unlock_allowed": false,
+      "automatic_retry": false,
+      "automatic_resume": false,
+      "automatic_mode_fallback": false,
+      "user_authorization_granted": false
+    },
+    "automatic_retry": false
+  },
+  "receipt": {
+    "schema_version": "hakimi-broker-plan-service-v1",
+    "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+    "mode": "OFFICIAL_SIMULATION",
+    "status": "FOUND",
+    "request_id": "plan-synthetic-0001",
+    "result": {
+      "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+      "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+      "mode": "OFFICIAL_SIMULATION",
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "plan_id": "f7046c6d9d91d3449933385df39c2159691d4cacc26b814e7f1fc447efbe754b",
+      "plan_status": "OFFLINE_ONLY_SYNTHETIC_RESEARCH",
+      "reason": null,
+      "request_id": "plan-synthetic-0001",
+      "status": "PLAN_SAVED"
+    },
+    "claim": {
+      "action": "terminal_broker_prepare_plan",
+      "created_at": "2026-10-30T08:00:00+00:00",
+      "id": "41bc595d1854383ea3dfbd16da4598bdecaea620e4696c0b2f26368f086c1759",
+      "mode": "OFFICIAL_SIMULATION",
+      "payload": {
+        "bounds": {
+          "call_timeout_seconds": 15,
+          "calls": {
+            "account_read": 1,
+            "cancel": 1,
+            "connect": 1,
+            "fee_read": 1,
+            "observe": 5,
+            "position_read": 1,
+            "quote_read": 1,
+            "runtime_read": 1,
+            "security_read": 1,
+            "submit": 1,
+            "unlock": 0
+          },
+          "cleanup_timeout_seconds": 5,
+          "endpoint": {
+            "host": "127.0.0.1",
+            "port": 11111
+          },
+          "max_evidence_age_seconds": 30,
+          "max_observation_records": 50,
+          "max_output_bytes": 131072,
+          "max_total_fees": "2.00",
+          "valid_until": "2026-10-30T08:15:00+00:00",
+          "wall_timeout_seconds": 180
+        },
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "expected_control_revision": 0,
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "plan-synthetic-0001"
+      },
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "request_hash": "297c0b03644b96a50cada2a8249496d0f3ba1751fa9bae3f8df3f9f66dda40c7",
+      "request_id": "plan-synthetic-0001",
+      "schema_version": "hakimi-broker-plan-claim-v1",
+      "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050"
+    },
+    "receipt": {
+      "action": "terminal_broker_prepare_plan",
+      "claim_id": "41bc595d1854383ea3dfbd16da4598bdecaea620e4696c0b2f26368f086c1759",
+      "created_at": "2026-10-30T08:00:00+00:00",
+      "id": "d0717d122e598feb401a74593fa9649332f058a38f416658c82a91e69f328d10",
+      "mode": "OFFICIAL_SIMULATION",
+      "payload": {
+        "bounds": {
+          "call_timeout_seconds": 15,
+          "calls": {
+            "account_read": 1,
+            "cancel": 1,
+            "connect": 1,
+            "fee_read": 1,
+            "observe": 5,
+            "position_read": 1,
+            "quote_read": 1,
+            "runtime_read": 1,
+            "security_read": 1,
+            "submit": 1,
+            "unlock": 0
+          },
+          "cleanup_timeout_seconds": 5,
+          "endpoint": {
+            "host": "127.0.0.1",
+            "port": 11111
+          },
+          "max_evidence_age_seconds": 30,
+          "max_observation_records": 50,
+          "max_output_bytes": 131072,
+          "max_total_fees": "2.00",
+          "valid_until": "2026-10-30T08:15:00+00:00",
+          "wall_timeout_seconds": 180
+        },
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "expected_control_revision": 0,
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "plan-synthetic-0001"
+      },
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "request_hash": "297c0b03644b96a50cada2a8249496d0f3ba1751fa9bae3f8df3f9f66dda40c7",
+      "request_id": "plan-synthetic-0001",
+      "result": {
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "mode": "OFFICIAL_SIMULATION",
+        "permissions": {
+          "automatic_mode_fallback": false,
+          "automatic_resume": false,
+          "automatic_retry": false,
+          "cancel_allowed": false,
+          "external_connection_allowed": false,
+          "query_allowed": false,
+          "submit_allowed": false,
+          "unlock_allowed": false,
+          "user_authorization_granted": false
+        },
+        "plan_id": "f7046c6d9d91d3449933385df39c2159691d4cacc26b814e7f1fc447efbe754b",
+        "plan_status": "OFFLINE_ONLY_SYNTHETIC_RESEARCH",
+        "reason": null,
+        "request_id": "plan-synthetic-0001",
+        "status": "PLAN_SAVED"
+      },
+      "schema_version": "hakimi-broker-plan-receipt-v1",
+      "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050"
+    },
+    "retry_allowed": false,
+    "read_only": true,
+    "permissions": {
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "cancel_allowed": false,
+      "unlock_allowed": false,
+      "automatic_retry": false,
+      "automatic_resume": false,
+      "automatic_mode_fallback": false,
+      "user_authorization_granted": false
+    },
+    "automatic_retry": false
+  },
+  "plan": {
+    "schema_version": "hakimi-broker-plan-service-v1",
+    "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+    "mode": "OFFICIAL_SIMULATION",
+    "status": "FOUND",
+    "plan": {
+      "bounds": {
+        "call_timeout_seconds": 15,
+        "calls": {
+          "account_read": 1,
+          "cancel": 1,
+          "connect": 1,
+          "fee_read": 1,
+          "observe": 5,
+          "position_read": 1,
+          "quote_read": 1,
+          "runtime_read": 1,
+          "security_read": 1,
+          "submit": 1,
+          "unlock": 0
+        },
+        "cleanup_timeout_seconds": 5,
+        "endpoint": {
+          "host": "127.0.0.1",
+          "port": 11111
+        },
+        "max_evidence_age_seconds": 30,
+        "max_observation_records": 50,
+        "max_output_bytes": 131072,
+        "max_total_fees": "2.00",
+        "valid_until": "2026-10-30T08:15:00+00:00",
+        "wall_timeout_seconds": 180
+      },
+      "candidate_config": {
+        "config": {
+          "account_id": "900000000000001",
+          "asset_class": "EQUITY",
+          "asset_code": "US.TSLA",
+          "currency": "USD",
+          "expires_at": "2026-10-30T09:00:00+00:00",
+          "limit_price": "20.00000001",
+          "market": "US",
+          "max_notional": "100.00",
+          "max_quantity": 4,
+          "quantity": 3,
+          "side": "BUY",
+          "time_in_force": "DAY"
+        },
+        "id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "kind": "configs",
+        "mode": "OFFICIAL_SIMULATION",
+        "research": {
+          "assumptions": {
+            "fill_model": "NEXT_BAR_OPEN",
+            "quantity_policy": "WHOLE_SHARES"
+          },
+          "binding": {
+            "costs": {
+              "fee_rate": 0.001,
+              "slippage_bps": 5
+            },
+            "engine_id": "terminal.native-qa",
+            "input_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "report_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "report_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "risk": {
+              "stop_loss_pct": 8
+            },
+            "schema_version": "hakimi-offline-research-binding-v1",
+            "security_id": "FICTIONAL:TSLA",
+            "status": "COMPLETED",
+            "strategy_id": "dual_ma",
+            "strategy_params": {
+              "fast": 5,
+              "slow": 20
+            },
+            "task_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "task_version": 1
+          },
+          "display": {
+            "asset_class": "US_EQUITY",
+            "currency": "USD",
+            "security_id": "FICTIONAL:TSLA",
+            "symbol": "TSLA"
+          },
+          "reference": {
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "terminal_run"
+          }
+        },
+        "research_sha256": "0cc470bbc03e4075d0947ead44174dd436e5be44aa740f4760fe302c5679d0b5",
+        "schema_version": "hakimi-broker-candidate-v2"
+      },
+      "candidate_intent": {
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "kind": "intents",
+        "mode": "OFFICIAL_SIMULATION",
+        "permissions": {
+          "adapter_installed": false,
+          "automatic_resume": false,
+          "automatic_retry": false,
+          "cancel_allowed": false,
+          "external_connection_allowed": false,
+          "query_allowed": false,
+          "submit_allowed": false,
+          "unlock_allowed": false
+        },
+        "request_id": "candidate-intent-0001",
+        "research_sha256": "0cc470bbc03e4075d0947ead44174dd436e5be44aa740f4760fe302c5679d0b5",
+        "schema_version": "hakimi-broker-candidate-v2",
+        "security_binding": {
+          "account_verified": false,
+          "asset_rules_verified": false,
+          "broker_mapping_verified": false,
+          "saved_security": {
+            "asset_class": "US_EQUITY",
+            "currency": "USD",
+            "security_id": "FICTIONAL:TSLA",
+            "symbol": "TSLA"
+          },
+          "status": "MATCHED_SAVED_DECLARATION"
+        },
+        "status": "UNSENT_OFFLINE_PREVIEW",
+        "terms": {
+          "account_id": "900000000000001",
+          "asset_class": "EQUITY",
+          "asset_code": "US.TSLA",
+          "currency": "USD",
+          "expires_at": "2026-10-30T09:00:00+00:00",
+          "limit_price": "20.00000001",
+          "market": "US",
+          "max_notional": "100.00",
+          "max_quantity": 4,
+          "quantity": 3,
+          "side": "BUY",
+          "time_in_force": "DAY"
+        }
+      },
+      "capability_gaps": [],
+      "contract_id": "hakimi-futu-us-equity-simulate-v1",
+      "control": {
+        "control": {
+          "latest_control_receipt_id": null,
+          "latest_stop_receipt_id": null,
+          "new_intents_blocked": false,
+          "permissions": {
+            "adapter_installed": false,
+            "automatic_resume": false,
+            "automatic_retry": false,
+            "cancel_allowed": false,
+            "external_connection_allowed": false,
+            "query_allowed": false,
+            "submit_allowed": false,
+            "unlock_allowed": false
+          },
+          "resume_allowed": false,
+          "revision": 0,
+          "state": "OFFLINE_PREPARATION_ALLOWED"
+        },
+        "mode": "OFFICIAL_SIMULATION"
+      },
+      "created_at": "2026-10-30T08:00:00+00:00",
+      "deduplication": {
+        "account_scope_id": "a3eceace1a8bdbdba2d42ddf38eb14d28dc111dbe80347df3ec3f985bc46f7a1",
+        "intent_scope_id": "d1e3c7044ab09bec264ff996a84fb350f60388a32c10dc1ee09cd7123907d4b4",
+        "new_plan_must_not_reset_submit_claim": true,
+        "scope": "ORIGINAL_INTENT_ACROSS_ALL_PLANS_AND_RESTARTS"
+      },
+      "id": "f7046c6d9d91d3449933385df39c2159691d4cacc26b814e7f1fc447efbe754b",
+      "missing_evidence": [
+        {
+          "code": "SDK_ADAPTER_COMPATIBILITY",
+          "description": "已安装 SDK 与本应用适配器的离线合同兼容性",
+          "evidence_ref": null,
+          "required_before": "BEFORE_CONNECTION",
+          "status": "NOT_PROVIDED"
+        },
+        {
+          "code": "EXPLICIT_SCOPED_AUTHORIZATION",
+          "description": "本计划各外部阶段的独立明确授权",
+          "evidence_ref": null,
+          "required_before": "BEFORE_CONNECTION",
+          "status": "NOT_PROVIDED"
+        },
+        {
+          "code": "RESEARCH_EXTERNAL_ADMISSION",
+          "description": "该保存研究输入的独立外部使用资格；合成/QA资料不可升级",
+          "evidence_ref": null,
+          "required_before": "BEFORE_SUBMIT",
+          "status": "NOT_PROVIDED"
+        },
+        {
+          "code": "OPEND_PROTOCOL_COMPATIBILITY",
+          "description": "经单独授权连接后读取的实际 OpenD 版本及协议兼容性",
+          "evidence_ref": null,
+          "required_before": "BEFORE_SUBMIT",
+          "status": "NOT_PROVIDED"
+        },
+        {
+          "code": "BROKER_ACCOUNT_ENVIRONMENT",
+          "description": "券商实际账户、模式和交易权限",
+          "evidence_ref": null,
+          "required_before": "BEFORE_SUBMIT",
+          "status": "NOT_PROVIDED"
+        },
+        {
+          "code": "BROKER_SECURITY_RULES",
+          "description": "实际证券映射、整股/价格步长和交易状态",
+          "evidence_ref": null,
+          "required_before": "BEFORE_SUBMIT",
+          "status": "NOT_PROVIDED"
+        },
+        {
+          "code": "FRESH_MARKET_QUOTE",
+          "description": "带来源和时间的有效报价及限价核对",
+          "evidence_ref": null,
+          "required_before": "BEFORE_SUBMIT",
+          "status": "NOT_PROVIDED"
+        },
+        {
+          "code": "BROKER_FEES",
+          "description": "费用规则、币种和有界费用估计，缺失不能补零",
+          "evidence_ref": null,
+          "required_before": "BEFORE_SUBMIT",
+          "status": "NOT_PROVIDED"
+        },
+        {
+          "code": "SHARED_ACCOUNT_RESERVATIONS",
+          "description": "同账户未完成意图占用与去重，不能复用额度",
+          "evidence_ref": null,
+          "required_before": "BEFORE_SUBMIT",
+          "status": "NOT_PROVIDED"
+        },
+        {
+          "code": "BROKER_CASH",
+          "description": "实际可用资金及费用占用",
+          "evidence_ref": null,
+          "required_before": "BEFORE_SUBMIT",
+          "status": "NOT_PROVIDED"
+        }
+      ],
+      "mode": "OFFICIAL_SIMULATION",
+      "order": {
+        "account_id": "900000000000001",
+        "actual_fees": null,
+        "asset_class": "EQUITY",
+        "asset_code": "US.TSLA",
+        "currency": "USD",
+        "expires_at": "2026-10-30T09:00:00+00:00",
+        "limit_price": "20.00000001",
+        "market": "US",
+        "max_notional": "100.00",
+        "max_quantity": 4,
+        "maximum_cash_debit": "62.00000003",
+        "notional_excludes_fees": true,
+        "order_notional": "60.00000003",
+        "order_type": "LIMIT",
+        "quantity": 3,
+        "security_id": "FICTIONAL:TSLA",
+        "side": "BUY",
+        "time_in_force": "DAY"
+      },
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "recovery_contract": {
+        "cancel_ack": "NOT_A_TERMINAL_CANCELLATION",
+        "fills": "CUMULATIVE_PER_ORIGINAL_ORDER_NO_DOUBLE_COUNT",
+        "legacy_profile_or_journal_reuse": false,
+        "new_journal_required": true,
+        "not_found": "NOT_PROOF_OF_UNSENT",
+        "restart": "RECONCILE_THEN_EXPLICIT_RESUME",
+        "resubmit": false,
+        "stop": "BLOCK_NEW_CALLS_NOT_CANCEL_IN_FLIGHT",
+        "unknown": "QUERY_ORIGINAL_ID_ONLY"
+      },
+      "research": {
+        "owner": {
+          "account_id": "900000000000001",
+          "engine_id": "terminal.native-qa",
+          "mode": "OFFICIAL_SIMULATION",
+          "owner_id": "family:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        },
+        "owner_scope_id": "64ccec7a7a4cacea814ccb82e00dd314eee586b16e6362b2b3404026c971e4af",
+        "recorded_classification": {
+          "decision": {
+            "admission_cannot_override_synthetic": true,
+            "external_admission_required": true,
+            "external_research_eligible": false,
+            "offline_only": true,
+            "status": "SYNTHETIC_OFFLINE_ONLY"
+          },
+          "engine_id": "terminal.native-qa",
+          "facts": [
+            {
+              "path": "report.input_summary.meta.evidence_kind",
+              "value": "SYNTHETIC_TEST"
+            }
+          ],
+          "id": "162d0cd7bb8eb06dfefa0fa625c2d236e47176d7359a93109f978fd63f346da2",
+          "input_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "reference": {
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "terminal_run"
+          },
+          "report_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "schema_version": "hakimi-saved-research-classification-v1",
+          "task_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "recorded_source": {
+          "kind": "NATIVE_SAVED_SOURCE_MAP",
+          "record": {
+            "content_sha256": "f34367f01ca9bd42e62576fff3ca34b39d4d6526b18bf4de9a1642fc63807055",
+            "digest_rule": "ASCII_SORTED_COMPACT_JSON_SOURCE_FILES_V1",
+            "engine_id": "terminal.native-qa",
+            "fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "id": "b5ba2063852c4d0e598bf4afbf488391da1d69cc247d007b3b630585588157c1",
+            "input_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "reference": {
+              "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "kind": "terminal_run"
+            },
+            "report_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "schema_version": "hakimi-saved-native-source-v1",
+            "source_files": {
+              "backtest_engine.py": "1111111111111111111111111111111111111111111111111111111111111111",
+              "indicator_math.py": "4444444444444444444444444444444444444444444444444444444444444444",
+              "market_calendar.py": "3333333333333333333333333333333333333333333333333333333333333333",
+              "strategy_signals.py": "2222222222222222222222222222222222222222222222222222222222222222"
+            },
+            "task_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        },
+        "resolution": {
+          "assumptions": {
+            "fill_model": "NEXT_BAR_OPEN",
+            "quantity_policy": "WHOLE_SHARES"
+          },
+          "binding": {
+            "costs": {
+              "fee_rate": 0.001,
+              "slippage_bps": 5
+            },
+            "engine_id": "terminal.native-qa",
+            "input_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "report_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "report_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "risk": {
+              "stop_loss_pct": 8
+            },
+            "schema_version": "hakimi-offline-research-binding-v1",
+            "security_id": "FICTIONAL:TSLA",
+            "status": "COMPLETED",
+            "strategy_id": "dual_ma",
+            "strategy_params": {
+              "fast": 5,
+              "slow": 20
+            },
+            "task_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "task_version": 1
+          },
+          "display": {
+            "asset_class": "US_EQUITY",
+            "currency": "USD",
+            "security_id": "FICTIONAL:TSLA",
+            "symbol": "TSLA"
+          },
+          "reference": {
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "kind": "terminal_run"
+          }
+        }
+      },
+      "research_eligibility": {
+        "admission_cannot_override_synthetic": true,
+        "external_admission_required": true,
+        "external_research_eligible": false,
+        "offline_only": true,
+        "status": "SYNTHETIC_OFFLINE_ONLY"
+      },
+      "runtime": {
+        "adapter": {
+          "capabilities": {
+            "adapter_id": "FICTIONAL_OFFLINE_FIXTURE",
+            "asset_class": "EQUITY",
+            "contract_id": "hakimi-futu-us-equity-simulate-v1",
+            "currency": "USD",
+            "entrypoint": {
+              "function": "build_scoped_transport",
+              "path": "components/terminal/exchange_terminal/adapters/fixture_simulate.py"
+            },
+            "market": "US",
+            "mode": "OFFICIAL_SIMULATION",
+            "order_type": "LIMIT",
+            "quantity_policy": "WHOLE_SHARES",
+            "schema_version": "hakimi-broker-adapter-capability-v1",
+            "sdk_environment": "SIMULATE",
+            "sdk_name": "futu-api",
+            "sdk_version": "10.7.6708",
+            "security_mapping": "EXACT_SAVED_US_SYMBOL_V1",
+            "sides": [
+              "BUY",
+              "SELL"
+            ],
+            "source_files": {
+              "components/terminal/exchange_terminal/adapters/fixture_simulate.py": "b73f4ece406ac752ef53415bbc1150491a2a7c2cec199f76a60bdb795752757e"
+            },
+            "time_in_force": "DAY"
+          },
+          "descriptor_path": "components/terminal/fixture-capability.json",
+          "descriptor_sha256": "de396f19696bd1dd4bbfa917528e00f5994ee3967111f1df8f341685e5199144",
+          "runtime_compatibility": "NOT_VERIFIED"
+        },
+        "id": "cfc2f274996f63eba8a3ea0a6e114f444b242c62e7cdc4863733e43f2e577771",
+        "mode": "OFFICIAL_SIMULATION",
+        "package": {
+          "bundle_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "manifest_sha256": "d10448075f34313732e330a26274910d5052aec446d24197832098ddff9fd894",
+          "source_commit": "1111111111111111111111111111111111111111",
+          "version": "0.0.0.synthetic"
+        },
+        "permissions": {
+          "automatic_mode_fallback": false,
+          "automatic_resume": false,
+          "automatic_retry": false,
+          "cancel_allowed": false,
+          "external_connection_allowed": false,
+          "query_allowed": false,
+          "submit_allowed": false,
+          "unlock_allowed": false,
+          "user_authorization_granted": false
+        },
+        "schema_version": "hakimi-broker-runtime-identity-v1",
+        "sdk": {
+          "installed_file_count": 2,
+          "installed_files_sha256": "e7a1d711b4c5363236917a3a001fdece843c98f5fcdc7e6833d137cfdee89dc4",
+          "name": "futu-api",
+          "runtime_compatibility": "NOT_VERIFIED",
+          "version": "10.7.6708",
+          "wheel_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      },
+      "schema_version": "hakimi-broker-execution-plan-v1",
+      "sdk_environment": "SIMULATE",
+      "status": "OFFLINE_ONLY_SYNTHETIC_RESEARCH",
+      "worker_contract": {
+        "allowed_actions": [
+          "connect",
+          "runtime_read",
+          "account_read",
+          "position_read",
+          "security_read",
+          "quote_read",
+          "fee_read",
+          "submit",
+          "observe",
+          "cancel"
+        ],
+        "authorization_required_for_every_external_action": true,
+        "barriers": [
+          "BEFORE_CONNECTION",
+          "BEFORE_CLAIM",
+          "BEFORE_SUBMIT",
+          "BEFORE_CANCEL"
+        ],
+        "cancel_requires_exact_own_broker_order": true,
+        "control_revision_must_equal": 0,
+        "counts_scope": "ENTIRE_PLAN_ACROSS_WORKERS_AND_RESTARTS",
+        "deadline_scope": "PLAN_AND_WORKER_WALL_CLOCK",
+        "mode_fallback": false,
+        "outputs_scope": "ALL_WORKER_OUTPUT_AND_RAW_EVIDENCE_BYTES",
+        "short_selling": false,
+        "submit_claim_scope": "ORIGINAL_INTENT_ACROSS_ALL_PLANS_AND_RESTARTS"
+      }
+    },
+    "read_only": true,
+    "retry_allowed": false,
+    "permissions": {
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "cancel_allowed": false,
+      "unlock_allowed": false,
+      "automatic_retry": false,
+      "automatic_resume": false,
+      "automatic_mode_fallback": false,
+      "user_authorization_granted": false
+    },
+    "automatic_retry": false
+  },
+  "preparing_receipt": {
+    "schema_version": "hakimi-broker-plan-service-v1",
+    "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+    "mode": "OFFICIAL_SIMULATION",
+    "status": "PREPARING_UNCONFIRMED",
+    "request_id": "example-pending-0001",
+    "result": null,
+    "claim": {
+      "action": "terminal_broker_prepare_plan",
+      "created_at": "2026-10-30T08:00:00+00:00",
+      "id": "8a3252554816527b52d8ad9c147bea5675e22c3e3338003cb332b3938f03fc36",
+      "mode": "OFFICIAL_SIMULATION",
+      "payload": {
+        "bounds": {
+          "call_timeout_seconds": 15,
+          "calls": {
+            "account_read": 1,
+            "cancel": 1,
+            "connect": 1,
+            "fee_read": 1,
+            "observe": 5,
+            "position_read": 1,
+            "quote_read": 1,
+            "runtime_read": 1,
+            "security_read": 1,
+            "submit": 1,
+            "unlock": 0
+          },
+          "cleanup_timeout_seconds": 5,
+          "endpoint": {
+            "host": "127.0.0.1",
+            "port": 11111
+          },
+          "max_evidence_age_seconds": 30,
+          "max_observation_records": 50,
+          "max_output_bytes": 131072,
+          "max_total_fees": "2.00",
+          "valid_until": "2026-10-30T08:15:00+00:00",
+          "wall_timeout_seconds": 180
+        },
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "expected_control_revision": 0,
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "example-pending-0001"
+      },
+      "permissions": {
+        "automatic_mode_fallback": false,
+        "automatic_resume": false,
+        "automatic_retry": false,
+        "cancel_allowed": false,
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "unlock_allowed": false,
+        "user_authorization_granted": false
+      },
+      "request_hash": "fe63fdcd12faef08e0bd55b7ba07b75efe5d35f2c8fa3d45d666793a87ef4ae4",
+      "request_id": "example-pending-0001",
+      "schema_version": "hakimi-broker-plan-claim-v1",
+      "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050"
+    },
+    "receipt": null,
+    "retry_allowed": false,
+    "read_only": true,
+    "permissions": {
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "cancel_allowed": false,
+      "unlock_allowed": false,
+      "automatic_retry": false,
+      "automatic_resume": false,
+      "automatic_mode_fallback": false,
+      "user_authorization_granted": false
+    },
+    "automatic_retry": false
+  },
+  "refused": {
+    "schema_version": "hakimi-broker-plan-service-v1",
+    "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+    "mode": "OFFICIAL_SIMULATION",
+    "status": "PLAN_NOT_CREATED",
+    "request_id": "example-refused-0001",
+    "result": {
+      "mode": "OFFICIAL_SIMULATION",
+      "request_id": "example-refused-0001",
+      "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+      "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+      "status": "PLAN_NOT_CREATED",
+      "plan_id": null,
+      "plan_status": null,
+      "reason": "NOT_PACKAGED",
+      "permissions": {
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "cancel_allowed": false,
+        "unlock_allowed": false,
+        "automatic_retry": false,
+        "automatic_resume": false,
+        "automatic_mode_fallback": false,
+        "user_authorization_granted": false
+      }
+    },
+    "claim": {
+      "schema_version": "hakimi-broker-plan-claim-v1",
+      "action": "terminal_broker_prepare_plan",
+      "mode": "OFFICIAL_SIMULATION",
+      "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+      "request_id": "example-refused-0001",
+      "request_hash": "05b89bdacef59699765c30b91da0a4073c85f8739107f290a02c80e6e9b4a1a6",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "example-refused-0001",
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "expected_control_revision": 0,
+        "bounds": {
+          "valid_until": "2026-10-30T08:15:00+00:00",
+          "calls": {
+            "connect": 1,
+            "runtime_read": 1,
+            "account_read": 1,
+            "position_read": 1,
+            "security_read": 1,
+            "quote_read": 1,
+            "fee_read": 1,
+            "submit": 1,
+            "observe": 5,
+            "cancel": 1,
+            "unlock": 0
+          },
+          "wall_timeout_seconds": 180,
+          "call_timeout_seconds": 15,
+          "cleanup_timeout_seconds": 5,
+          "max_output_bytes": 131072,
+          "max_observation_records": 50,
+          "max_evidence_age_seconds": 30,
+          "max_total_fees": "2.00",
+          "endpoint": {
+            "host": "127.0.0.1",
+            "port": 11111
+          }
+        }
+      },
+      "created_at": "2026-10-30T08:00:00+00:00",
+      "permissions": {
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "cancel_allowed": false,
+        "unlock_allowed": false,
+        "automatic_retry": false,
+        "automatic_resume": false,
+        "automatic_mode_fallback": false,
+        "user_authorization_granted": false
+      },
+      "id": "08cda9a46c51fd9b5f7290893f37a33e05be38d398c7bcd6a3b6cd0ee51066a2"
+    },
+    "receipt": {
+      "schema_version": "hakimi-broker-plan-receipt-v1",
+      "action": "terminal_broker_prepare_plan",
+      "mode": "OFFICIAL_SIMULATION",
+      "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+      "request_id": "example-refused-0001",
+      "request_hash": "05b89bdacef59699765c30b91da0a4073c85f8739107f290a02c80e6e9b4a1a6",
+      "payload": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "example-refused-0001",
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "expected_control_revision": 0,
+        "bounds": {
+          "valid_until": "2026-10-30T08:15:00+00:00",
+          "calls": {
+            "connect": 1,
+            "runtime_read": 1,
+            "account_read": 1,
+            "position_read": 1,
+            "security_read": 1,
+            "quote_read": 1,
+            "fee_read": 1,
+            "submit": 1,
+            "observe": 5,
+            "cancel": 1,
+            "unlock": 0
+          },
+          "wall_timeout_seconds": 180,
+          "call_timeout_seconds": 15,
+          "cleanup_timeout_seconds": 5,
+          "max_output_bytes": 131072,
+          "max_observation_records": 50,
+          "max_evidence_age_seconds": 30,
+          "max_total_fees": "2.00",
+          "endpoint": {
+            "host": "127.0.0.1",
+            "port": 11111
+          }
+        }
+      },
+      "claim_id": "08cda9a46c51fd9b5f7290893f37a33e05be38d398c7bcd6a3b6cd0ee51066a2",
+      "created_at": "2026-10-30T08:00:00+00:00",
+      "result": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "example-refused-0001",
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "status": "PLAN_NOT_CREATED",
+        "plan_id": null,
+        "plan_status": null,
+        "reason": "NOT_PACKAGED",
+        "permissions": {
+          "external_connection_allowed": false,
+          "query_allowed": false,
+          "submit_allowed": false,
+          "cancel_allowed": false,
+          "unlock_allowed": false,
+          "automatic_retry": false,
+          "automatic_resume": false,
+          "automatic_mode_fallback": false,
+          "user_authorization_granted": false
+        }
+      },
+      "permissions": {
+        "external_connection_allowed": false,
+        "query_allowed": false,
+        "submit_allowed": false,
+        "cancel_allowed": false,
+        "unlock_allowed": false,
+        "automatic_retry": false,
+        "automatic_resume": false,
+        "automatic_mode_fallback": false,
+        "user_authorization_granted": false
+      },
+      "id": "f9ddbd539a1424179ac69ff624e8be2039faa27d7f807503d19ba9135a985e9c"
+    },
+    "retry_allowed": false,
+    "read_only": false,
+    "permissions": {
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "cancel_allowed": false,
+      "unlock_allowed": false,
+      "automatic_retry": false,
+      "automatic_resume": false,
+      "automatic_mode_fallback": false,
+      "user_authorization_granted": false
+    },
+    "automatic_retry": false
+  },
+  "plans_with_all_request_states": {
+    "schema_version": "hakimi-broker-plan-service-v1",
+    "workspace_context": "f26604a37c1948b76921e6e7b3a798181b62350993510e329d6822fe2e930050",
+    "mode": "OFFICIAL_SIMULATION",
+    "items": [
+      {
+        "plan_id": "f7046c6d9d91d3449933385df39c2159691d4cacc26b814e7f1fc447efbe754b",
+        "status": "OFFLINE_ONLY_SYNTHETIC_RESEARCH",
+        "created_at": "2026-10-30T08:00:00+00:00",
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "account_id": "900000000000001",
+        "symbol": "TSLA",
+        "strategy_id": "dual_ma",
+        "task_version": 1,
+        "research_eligibility": {
+          "admission_cannot_override_synthetic": true,
+          "external_admission_required": true,
+          "external_research_eligible": false,
+          "offline_only": true,
+          "status": "SYNTHETIC_OFFLINE_ONLY"
+        }
+      }
+    ],
+    "requests": [
+      {
+        "request_id": "example-pending-0001",
+        "request_hash": "fe63fdcd12faef08e0bd55b7ba07b75efe5d35f2c8fa3d45d666793a87ef4ae4",
+        "state": "PREPARING",
+        "status": "PREPARING_UNCONFIRMED",
+        "plan_id": null,
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "created_at": "2026-10-30T08:00:00+00:00",
+        "reason": null
+      },
+      {
+        "request_id": "example-refused-0001",
+        "request_hash": "05b89bdacef59699765c30b91da0a4073c85f8739107f290a02c80e6e9b4a1a6",
+        "state": "REFUSED",
+        "status": "PLAN_NOT_CREATED",
+        "plan_id": null,
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "created_at": "2026-10-30T08:00:00+00:00",
+        "reason": "NOT_PACKAGED"
+      },
+      {
+        "request_id": "plan-synthetic-0001",
+        "request_hash": "297c0b03644b96a50cada2a8249496d0f3ba1751fa9bae3f8df3f9f66dda40c7",
+        "state": "COMPLETED",
+        "status": "PLAN_SAVED",
+        "plan_id": "f7046c6d9d91d3449933385df39c2159691d4cacc26b814e7f1fc447efbe754b",
+        "config_id": "a668d3c60c20faaf4ed05e23e2132b0cfd8ed8016443c62a3dfc2a5867516d80",
+        "intent_id": "8953ea38fd1944cdc55ccb0ab93ab7022ae6959c3da4df35f1724db2d59f055d",
+        "created_at": "2026-10-30T08:00:00+00:00",
+        "reason": null
+      }
+    ],
+    "read_only": true,
+    "retry_allowed": false,
+    "permissions": {
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "cancel_allowed": false,
+      "unlock_allowed": false,
+      "automatic_retry": false,
+      "automatic_resume": false,
+      "automatic_mode_fallback": false,
+      "user_authorization_granted": false
+    },
+    "automatic_retry": false
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "status": "SOURCE_FROZEN_24_DIRECT_PASS",
+  "observed_at": "2026-10-29T23:57:23.583658+00:00",
+  "parent_head": "7ee12e44db381ac9a9651e60fa3d5bdd15bca27b",
+  "files": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_profile.py": "72242c9a817ff06494880e8b77f168489ece291167c09fb7e8da09f4d0f76367",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py": "014f8109512d8d664667550fb76bb54195598dad7a43032ca852ad7f369a95ed",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_package_loader.py": "1c34c69b5e5d5987b707e69f25f70bf7480ae4954456dc65c5fed08694f25b8b",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "outputs/python_quant_bot/tests/test_terminal_broker_execution_plan.py": "3ed9cb11a9931439bfd516245207100d30038339108cc619116995f3472107e0"
+  },
+  "owned_files": [
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_profile.py"
+  ],
+  "dependency_hashes_unchanged": true,
+  "test_log": "targeted-r2.log",
+  "test_methods": 24,
+  "tests_passed": 24,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "validation_api": "expected_profile_id is required for both typed and serialized profiles"
+}

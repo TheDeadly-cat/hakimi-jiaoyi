@@ -1,0 +1,324 @@
+{
+  "status": "PASS",
+  "scope": "actual current render_quant_html and terminal-quant-ui host; intercepted GET responses only",
+  "source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-strategy-candidates-ui.js": "97173cbc2f9c5e6cfd358157bfe113866f4b6dcbcb785d9061ff235c021226cb",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-strategy-candidates-ui.test.js": "46ea2b82c84608e50c4de2bce9ff5ebeec8537b732ab81c6da233285eb99fada",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.js": "9caf65612306db293968a842e32b22b33a4db972c0cdf19df43ae58613d2323e",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-quant-ui.test.js": "d54e3b452ef1776274e3d89edffbdce1fb7bac4b2786d12f4136c038fe854039"
+  },
+  "html_sha256": "8026442aa5d86c3a5feb2a22899d90fc9dccff1d7cc50bf9ed8c56d4970fdcf0",
+  "captured_real_report": {
+    "kind": "terminal_run",
+    "id": "fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f"
+  },
+  "fixture_kind": "Unique uses previously captured same-report native QA report/resolver/candidate replies; multi/empty/fail cases are explicitly synthetic protocol variants",
+  "layouts": [
+    {
+      "width": 1280,
+      "scrollWidth": 1280,
+      "titleTop": 115.453125,
+      "titleBottom": 138.703125,
+      "termsTop": 93.765625,
+      "detailTop": 72.078125,
+      "headerBottom": -1371,
+      "sidebarBottom": 56,
+      "orderActionTop": 187.953125,
+      "orderActionBottom": 221.953125,
+      "orderActionCenterHit": true
+    },
+    {
+      "width": 480,
+      "scrollWidth": 480,
+      "titleTop": 238.203125,
+      "titleBottom": 261.453125,
+      "termsTop": 188.609375,
+      "detailTop": 114.21875,
+      "headerBottom": -1821,
+      "sidebarBottom": 98,
+      "orderActionTop": 310.703125,
+      "orderActionBottom": 344.703125,
+      "orderActionCenterHit": true
+    }
+  ],
+  "flows": [
+    {
+      "width": 1280,
+      "scope": "actual candidate→host result→execution same reference",
+      "calls": [
+        {
+          "resource": "terminal_runs",
+          "method": "GET"
+        },
+        {
+          "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+          "method": "GET"
+        },
+        {
+          "resource": "terminal_execution_accounts",
+          "method": "GET"
+        },
+        {
+          "resource": "terminal_execution_research/{\"reference\":{\"kind\":\"terminal_run\",\"id\":\"fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f\"}}",
+          "method": "GET"
+        },
+        {
+          "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "width": 480,
+      "scope": "actual candidate→host result→execution same reference",
+      "calls": [
+        {
+          "resource": "terminal_runs",
+          "method": "GET"
+        },
+        {
+          "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+          "method": "GET"
+        },
+        {
+          "resource": "terminal_execution_accounts",
+          "method": "GET"
+        },
+        {
+          "resource": "terminal_execution_research/{\"reference\":{\"kind\":\"terminal_run\",\"id\":\"fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f\"}}",
+          "method": "GET"
+        },
+        {
+          "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+          "method": "GET"
+        }
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "resource": "status",
+      "method": "GET"
+    },
+    {
+      "resource": "strategies",
+      "method": "GET"
+    },
+    {
+      "resource": "jobs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_catalog",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_inputs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_tasks",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_history",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_reports",
+      "method": "GET"
+    },
+    {
+      "resource": "status",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_core_inputs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_judgments",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_exit_experiments",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_exit_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_insights",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_strategy_candidates/{\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\",\"position_context\":{\"has_position\":false}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_execution_accounts",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_execution_research/{\"reference\":{\"kind\":\"terminal_run\",\"id\":\"fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f\"}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_strategy_candidates/{\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\",\"position_context\":{\"has_position\":false}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_execution_accounts",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_execution_research/{\"reference\":{\"kind\":\"terminal_run\",\"id\":\"fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f\"}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_strategy_candidates/{\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\",\"position_context\":{\"has_position\":false}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_strategy_candidates/{\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\",\"position_context\":{\"has_position\":false}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_strategy_candidates/{\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\",\"position_context\":{\"has_position\":false}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_preflight/{\"strategy_id\":\"dual_ma\",\"strategy_params\":{\"fast_window\":20,\"slow_window\":60},\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\"}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_strategy_candidates/{\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\",\"position_context\":{\"has_position\":false}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_strategy_candidates/{\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\",\"position_context\":{\"has_position\":false}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_strategy_candidates/{\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\",\"position_context\":{\"has_position\":false}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_preflight/{\"strategy_id\":\"dual_ma\",\"strategy_params\":{\"fast_window\":21,\"slow_window\":60},\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\"}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_strategy_candidates/{\"input_id\":\"c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548\",\"position_context\":{\"has_position\":false}}",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs",
+      "method": "GET"
+    },
+    {
+      "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+      "method": "GET"
+    }
+  ],
+  "mutations": [],
+  "application_script_errors": [],
+  "unexpected_console_errors": [],
+  "expected_injected_503_console": [
+    {
+      "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+      "url": "http://127.0.0.1:55323/api/quant/terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+      "phase": "injected-detail-failure",
+      "resource": "terminal_runs/fc34b56f1b0f305d4ed9dff3e957c5b56cc31d31f9449759835d4f80d263019f",
+      "status": 503
+    },
+    {
+      "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+      "url": "http://127.0.0.1:55323/api/quant/terminal_runs",
+      "phase": "injected-index-failure",
+      "resource": "terminal_runs",
+      "status": 503
+    }
+  ],
+  "external_requests": [],
+  "new_research_runs": 0,
+  "server_launches": 0,
+  "assertions": [
+    "unique re-read before actual result navigation",
+    "result title, actual risk/cost and order-preparation action visible below sticky navigation at both widths",
+    "execution shortcut reads identical original reference and selects no account or side",
+    "multiple and incomplete unique results require explicit selection",
+    "empty lookup requires explicit draft button",
+    "detail retry reads only original id",
+    "late list and detail invalidated by parameter edits"
+  ],
+  "limitations": [
+    "No new backend verification, research, native process or provider call.",
+    "Cached native report is fictional QA data, not market-performance evidence.",
+    "Two expected HTTP 503 console diagnostics are matched to the exact injected request URL and test phase; all others are failures."
+  ]
+}

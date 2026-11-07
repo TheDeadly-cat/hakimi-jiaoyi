@@ -1,0 +1,108 @@
+{
+  "schema_version": "first-stock-live-progress-v1",
+  "recorded_at": "2026-10-26T17:29:34.364735+00:00",
+  "status": "BACKEND_FIX_AND_PACKAGE_PASSED_NATIVE_REAL_FLOW_PAUSED_BY_USER",
+  "product_commit": "f77802073be617f662a01faf4ed9a61225826bc6",
+  "product_version": "0.6.0.dev5",
+  "runtime_source_sha256": "3efd7e9f0aedd4c130f6bf5fdd598912e7e50d6b6d8fbd47faf77688dcfb31b0",
+  "registered_runtime_files": 89,
+  "wheel_sha256": "26a4ccca4943b5bb9fabfad46a170c812bf459a6994ba2e8f02f08440a348d6d",
+  "bundle_id": "ab2e49cdc8e468385dd7b64dc30f2665aa7591a52b8d6022833c02983b7569a8",
+  "archive": {
+    "path": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1.zip",
+    "sha256": "5204a33a357461b86127fc40282958bab8f8986f86f9489fb81c7315747a2b20",
+    "bytes": 197330799
+  },
+  "manifest": {
+    "path": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\trial-manifest.json",
+    "sha256": "c993523546b6c84e7a8be4a00636594f6fe8734ffa18dafc62e6e15125199b03",
+    "bytes": 917717
+  },
+  "source_evidence": "windows-trial-build-summary-r1.json",
+  "checks": {
+    "transport_fixture": {
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "market_requests": 0,
+      "economic_runner_calls": 0,
+      "receipt": "transport-fix-validation-r1.json"
+    },
+    "frontend": {
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "Node simulated DOM contracts, not native desktop",
+      "log": "ui-final-reasons-r1.log"
+    },
+    "ordinary_installed_wheel": {
+      "passed": 415,
+      "failed": 0,
+      "skipped": 0,
+      "installed_workflows_passed": 7,
+      "receipt": "installed/wheel-acceptance.json",
+      "scope": "installed/test-scope.json"
+    },
+    "overlap": "Scopes overlap; counts must not be added.",
+    "portable_zip": {
+      "members": 7096,
+      "all_members_sha256_equal_program_files": true,
+      "private_runtime_probe": "windows-trial-probe-r1.json"
+    },
+    "build": {
+      "builder_exit": 0,
+      "wrapper_exit": 1,
+      "wrapper_failure": "Post-build display decoded CP936 Chinese path as UTF-8",
+      "build_repeated": false,
+      "evidence": "build-log-encoding-note.json"
+    }
+  },
+  "native": {
+    "last_observation": "desktop-hold.json",
+    "image": "native/dev5-01-home.jpg",
+    "actual_version_details": "NOT_VERIFIED",
+    "actual_ndaq_check_save_task_run": "NOT_VERIFIED",
+    "successful_result_saved_close_reopen": "NOT_VERIFIED",
+    "real_stock_today_navigation_and_explicit_update": "NOT_VERIFIED"
+  },
+  "external_transport_diagnostic": {
+    "requests_total": 2,
+    "automatic_retry": false,
+    "codex_body_bytes": 11989,
+    "codex_body_sha256": "2ac9f2836f92227b6e488a2761458f74343e381320531db0ddc1e440f67b3c22",
+    "explorer_failed_phase": "open",
+    "raw_body_imported_into_product": false,
+    "new_economic_runs": 0,
+    "old_stop_phase_backfilled": false
+  },
+  "preservation": {
+    "r3_program_files_unchanged": 7096,
+    "r3_workspace_files_unchanged": 46,
+    "scope_time": "As verified by build and diagnostic receipts, before desktop hold. No live workspace scan after hold.",
+    "old_stop_ids": [
+      "check-abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d",
+      "check-771a347c-975a-4279-982d-78ddef69e318"
+    ],
+    "historical_reports_and_original_documents": "Original protected baseline and prior preservation checks retained; no overwrite or cleanup.",
+    "baseline": "preservation-baseline.json",
+    "diagnostic_after": "diagnostic-preservation-after.json"
+  },
+  "deferred_by_user": [
+    "clean new Windows host",
+    "ordinary nonadministrator account",
+    "independent human novice trial"
+  ],
+  "not_in_scope": [
+    "Phase 3 accounting/calendar expansion/strategy expansion/evidence migration",
+    "paid Provider calls",
+    "order placement",
+    "database migration",
+    "formal Release"
+  ],
+  "github": {
+    "pull_request": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26",
+    "push_and_exact_head_ci": "PENDING_AT_THIS_RECEIPT",
+    "old_603e128_ci_not_reused": true
+  },
+  "completion": "NOT_COMPLETE; resume real desktop work only on explicit human instruction."
+}

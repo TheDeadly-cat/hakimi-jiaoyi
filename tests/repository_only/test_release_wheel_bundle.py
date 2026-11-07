@@ -252,6 +252,54 @@ class ReleaseWheelBundleTests(unittest.TestCase):
             self.assertEqual(Path(receipt["wheel"]).read_bytes(), original)
             self.assertFalse((root / "public").exists())
 
+    def test_python_digit_regex_is_not_a_drive_path_and_export_preserves_accepted_bytes(self):
+        sources = [
+            br'import re; clock = re.compile(r"\d\d:\d\d:\d\d")',
+            br'import re; clock = re.compile("\\d\\d:\\d\\d")',
+            br'import re; clock = re.fullmatch(pattern=rb"\d\d:\d\d", string=b"12:30")',
+            (ROOT / "src/hakimi_research/collaboration_schedule_adapter.py").read_bytes(),
+        ]
+        for code in sources:
+            with self.subTest(code=code[:80]), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                receipt = fixture(root, code=code)
+                original = Path(receipt["wheel"]).read_bytes()
+                BUNDLE.export_bundle(receipt, root / "public")
+                self.assertEqual((root / "public" / Path(receipt["wheel"]).name).read_bytes(), original)
+                self.assertEqual(Path(receipt["wheel"]).read_bytes(), original)
+
+    def test_regex_exemption_never_hides_real_roots_comments_or_uncertain_context(self):
+        sources = [
+            br'path = r"C:\Users\PRIVATE\file"',
+            br'path = r"d:\private\file"',
+            br'path = r"\d:\private\file"',
+            br'path = "/home/private/file"',
+            br'path = "/Users/private/file"',
+            br'path = "/tmp/private/file"',
+            br'path = "/private/private/file"',
+            br'import re; pattern = re.compile(r"C:\\Users\\PRIVATE")',
+            br'import re; pattern = re.compile(r"\\d:\\private")',
+            br'import re; pattern = re.compile("d:\temp")',
+            br'import re; pattern = re.compile("\\d:\\d|d:\temp")',
+            br'import re; pattern = re.compile(r"\d:/home/private")',
+            br'import re; pattern = re.compile(r"\d\d:\d|/tmp/private")',
+            br'import re; pattern = re.compile(r"\d\d:\d") # C:/Users/private',
+            b'import re; pattern = re.compile(r"\\d\\d:\\d" # /home/private\n r"suffix")',
+            br'ordinary_data = r"\d\d:\d"',
+            br'import re; pattern = re.compile(r"\d\d:\d[")',
+        ]
+        for code in sources:
+            with self.subTest(code=code), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                receipt = fixture(root, code=code)
+                original = Path(receipt["wheel"]).read_bytes()
+                with self.assertRaisesRegex(ValueError, "machine-specific absolute path"):
+                    BUNDLE.export_bundle(receipt, root / "public")
+                self.assertFalse((root / "public").exists())
+                self.assertEqual(Path(receipt["wheel"]).read_bytes(), original)
+        self.assertTrue(BUNDLE._contains_private_path("metadata.txt", sources[0]))
+        self.assertTrue(BUNDLE._contains_private_path("metadata.txt", br're.compile(r"\d\d:\d")'))
+
     def test_ci_checkout_identity_cannot_be_relabelled_as_reviewed_head(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

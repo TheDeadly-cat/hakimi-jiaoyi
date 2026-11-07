@@ -1,0 +1,12 @@
+{
+  "schema_version": "hakimi-task-version-v1",
+  "family_id": "051add03c1a4439da748a63ca582a5a5",
+  "revision": "r0001-111fe0f7bd3c4083a92ebe47ecce5196",
+  "number": 1,
+  "parent_revision": null,
+  "files": {
+    "task.json": "91d1d73d480f9277a0bddbaf1ef3f9015f25065781d07b27827b9f97ccd36ad0",
+    "inputs/snapshot.json": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c"
+  },
+  "version_hash": "1b548d1ebf07241930fa8d00307829e68d4afc6b953c0953cbf180f2a9ac2fe1"
+}

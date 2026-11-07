@@ -1,0 +1,137 @@
+{
+  "schema_version": "hakimi-ci-completed-readback-v1",
+  "checked_at_utc": "2026-10-30 03:44:07 UTC",
+  "repository": "TheDeadly-cat/hakimi-jiaoyi",
+  "pull_request": 26,
+  "run_id": 40997753341,
+  "run_number": 173,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "head_sha": "0fca01e589e7fda38d9d43dff0314cc2bfdae140",
+  "expected_head_sha": "0fca01e589e7fda38d9d43dff0314cc2bfdae140",
+  "exact_head_matches": true,
+  "status": "completed",
+  "conclusion": "success",
+  "run_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341",
+  "created_at": "2026-10-30T03:30:23Z",
+  "updated_at": "2026-10-30T03:43:11Z",
+  "job_count": 11,
+  "all_11_completed_success": true,
+  "jobs": [
+    {
+      "id": 123874767459,
+      "name": "Offline research MVP contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123874767459"
+    },
+    {
+      "id": 123874767627,
+      "name": "Market-data renderer",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123874767627"
+    },
+    {
+      "id": 123874767657,
+      "name": "Python contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123874767657"
+    },
+    {
+      "id": 123874767708,
+      "name": "Complete desktop check",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123874767708"
+    },
+    {
+      "id": 123874767725,
+      "name": "Package install smoke (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123874767725"
+    },
+    {
+      "id": 123874767768,
+      "name": "Deterministic references",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123874767768"
+    },
+    {
+      "id": 123874767776,
+      "name": "Electron capability contract",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123874767776"
+    },
+    {
+      "id": 123874767813,
+      "name": "Offline terminal Python contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123874767813"
+    },
+    {
+      "id": 123874767819,
+      "name": "Package install smoke (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123874767819"
+    },
+    {
+      "id": 123874768177,
+      "name": "Historical developer reference replay",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123874768177"
+    },
+    {
+      "id": 123878422099,
+      "name": "Research required gate",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/job/123878422099"
+    }
+  ],
+  "all_jobs_exact_head_match": true,
+  "all_jobs_run_id_match": true,
+  "read_sources": [
+    "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341",
+    "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40997753341/jobs?per_page=100"
+  ],
+  "poll_interval_seconds": 55,
+  "observation_count": 12,
+  "commit_scope": "DOCUMENTATION_AND_R5_DELIVERY_EVIDENCE_COMMIT",
+  "observed_test_counts": {
+    "research_only": {
+      "job_id": 123874767657,
+      "tests_run": 273,
+      "status": "OK",
+      "log_line": "2026-10-30T03:31:21.0416386Z Ran 273 tests in 12.726s",
+      "log_url": "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/actions/jobs/123874767657/logs"
+    },
+    "offline_terminal": {
+      "job_id": 123874767813,
+      "tests_run": 757,
+      "file_count": 57,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "external_network_allowed": false,
+      "log_url": "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/actions/jobs/123874767813/logs",
+      "log_line": "2026-10-30T03:33:29.2338376Z Ran 757 tests in 143.783s"
+    }
+  },
+  "candidate_program_identity": {
+    "source_commit": "b642227ca176d0f6c61984194d06177b2c0be495",
+    "candidate": "0.7.0.dev3 candidate-r5",
+    "source_ci_run_number": 172,
+    "source_ci_run_id": 40995991361,
+    "separate_not_replaced_by_this_documentation_ci": true,
+    "package_or_native_acceptance_reverified": false
+  },
+  "scope": "Independent read-only exact-head documentation CI verification via GitHub GET. No rerun/cancel/push/PR edits/tests/SDK/GUI/business/source/package mutation or inspection. Prior171/172 evidence untouched. This result belongs to0fca documentation commit; r5 runtime remains b642 with its separate CI172. Not full-goal completion."
+}

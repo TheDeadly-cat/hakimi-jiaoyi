@@ -1,0 +1,136 @@
+{
+  "version": "collaboration_result_v1",
+  "schema_sha256": "045303bb4bb5c52a135a6f7de25f29c8dce2f01e1be6dd24945e8685f547bd1c",
+  "invocation_binding": {
+    "client_request_id": "request_00000001",
+    "request_sha256": "6a225e8d057f51d3f34dca14822cb2a4c324e80f172138e78957018eb7cdc880",
+    "room_id": "room_inv_426f634e1b02dea9c903a03668dc17472f8c1d122c5e024332cbbda5eb2ccc19",
+    "caller_id": "caller_alpha",
+    "project_id": "project_multi_domain",
+    "source_item_id": "source_item_001",
+    "source_revision": "revision-7"
+  },
+  "studio_binding": {
+    "round_id": "",
+    "artifact_id": "",
+    "artifact_version": 0,
+    "artifact_snapshot_sha256": "",
+    "manual_chatgpt_session_id": "",
+    "manual_chatgpt_result_sha256": "",
+    "decision_card_sha256": ""
+  },
+  "workflow_kind": "research",
+  "result_profile": "research_report_v1",
+  "domain_context": {
+    "schema_version": "equity-event-context-v1",
+    "schema_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "payload_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "source_manifest": [
+    {
+      "source_id": "source_domain",
+      "source_kind": "domain_context",
+      "record_id": "domain_context",
+      "record_revision": "equity-event-context-v1",
+      "record_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "provenance": "caller_supplied",
+      "trust_state": "hash_bound_only"
+    },
+    {
+      "source_id": "source_project",
+      "source_kind": "project_source",
+      "record_id": "source_item_001",
+      "record_revision": "revision-7",
+      "record_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "provenance": "caller_supplied",
+      "trust_state": "hash_bound_only"
+    }
+  ],
+  "evidence_manifest": [
+    {
+      "evidence_id": "evidence_domain_context",
+      "source_id": "source_domain",
+      "evidence_role": "context",
+      "verification_status": "unreviewed",
+      "review_note": "The domain context payload is hash-bound; its claims remain unreviewed."
+    },
+    {
+      "evidence_id": "evidence_project_source",
+      "source_id": "source_project",
+      "evidence_role": "context",
+      "verification_status": "unreviewed",
+      "review_note": "The caller source identity and content hash are bound; domain truth is not asserted."
+    }
+  ],
+  "profile": {
+    "version": "research_report_v1",
+    "title": "Pending evidence-bound research result",
+    "scope": {
+      "subject": "The hash-bound project invocation and domain context.",
+      "data_cutoff_utc": ""
+    },
+    "summary": {
+      "text": "No verified research result is available; substantive findings are withheld.",
+      "evidence_ids": [
+        "evidence_domain_context",
+        "evidence_project_source"
+      ]
+    },
+    "findings": [],
+    "counterpoints": [],
+    "limitations": [
+      {
+        "limitation_id": "limitation_result_pending",
+        "text": "Only input identity and hashes are bound; domain claims have not been established.",
+        "evidence_ids": [
+          "evidence_domain_context",
+          "evidence_project_source"
+        ]
+      }
+    ],
+    "open_questions": [
+      {
+        "question_id": "question_research_result",
+        "text": "Which sealed evidence and independent review will support the first finding?",
+        "evidence_ids": [
+          "evidence_domain_context",
+          "evidence_project_source"
+        ]
+      }
+    ],
+    "conclusion": {
+      "state": "withheld",
+      "text": "No conclusion is issued before verified evidence is available.",
+      "evidence_ids": []
+    }
+  },
+  "independent_review": {
+    "status": "not_run",
+    "source_ids": [],
+    "findings": [],
+    "open_questions": [],
+    "review_bundle_sha256": ""
+  },
+  "user_boundary": {
+    "status": "pending",
+    "outcome": "unresolved",
+    "record_id": "",
+    "record_version": "",
+    "record_sha256": "",
+    "selected_item_id": ""
+  },
+  "profile_schema_sha256": "b98fb471f5b3b4fc9f03dc0592cc8d36296446561b3f4da212984d97684640a5",
+  "profile_sha256": "78ceaa765934016be616bda8d75f42884c2dcf2baff851ef1382941d25be47fa",
+  "safety": {
+    "advisory_only": true,
+    "execution_capability": "none",
+    "live_trading_allowed": false,
+    "betting_allowed": false,
+    "external_write_authorized": false,
+    "can_autonomously_decide": false,
+    "can_replace_user_decision": false,
+    "user_final_decision_required": true
+  },
+  "result_id": "result_a269168717a7b550244a0c0534691c9c",
+  "result_sha256": "4c84955b364b46b943bf0c6160a9e847c9e26b2dfe0bdb0932513d0815f4c016"
+}

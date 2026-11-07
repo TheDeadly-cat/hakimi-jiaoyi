@@ -1,0 +1,8 @@
+{
+  "outputs/python_quant_bot/exchange_terminal/services/strategy_presentation.py": "fba594a73a951778363cd4c5c9589efe6b0ab3c6a344902e9e75745900402baf",
+  "outputs/python_quant_bot/exchange_terminal/services/terminal_strategy_candidates.py": "1001df61d4d8e6a3904e3e383380bce31ae9ce749029027955c8c25b5764b312",
+  "outputs/python_quant_bot/exchange_terminal/static/terminal-strategy-candidates-ui.js": "a1acff8557e0b635348308e8da30e2a8b23aa9ac255f21fc937a4b47695da76f",
+  "outputs/python_quant_bot/exchange_terminal/static/terminal-strategy-candidates-ui.test.js": "83ee41fa2eba14b02edd93d0de0e892c4a2a7bd88d251a2d513b027dd71e366c",
+  "outputs/python_quant_bot/tests/test_strategy_presentation.py": "57da9f951df242ff28646ca004c7b4581c3328788fe242217153b5a2c85cd55d",
+  "outputs/python_quant_bot/tests/test_terminal_strategy_candidates.py": "d632cdf572302828aa1d0f88d9fa595171a869ce6be10aa837678d3504bc8915"
+}

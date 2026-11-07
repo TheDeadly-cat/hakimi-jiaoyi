@@ -1,0 +1,27 @@
+{
+  "schema": "ci175-journey-alias-fix-v1",
+  "base_commit": "06d974447c077b2e214f849afe0396027301f3e8",
+  "files": [
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/services/terminal_journey_service.py",
+      "sha256": "ee071c93fc35607d44190a9ca41610279e2537b57212b886569210a4a2379104"
+    },
+    {
+      "path": "outputs/python_quant_bot/tests/test_terminal_journey_service.py",
+      "sha256": "04e05ce9a7fdf2963308d110490b7b60e1437ab3030be9b6c3e5b2731eeada14"
+    }
+  ],
+  "reproduction": "Actual GetShortPathNameW alias used as TEMP/TMP; samefile=true; unchanged suite reproduces 8 errors of 10",
+  "before": "ci175-journey-before.log",
+  "normal_after": "ci175-journey-normal-after.log: 15/15, no skips",
+  "short_temp_after": "ci175-journey-after.log: 15/15, no skips",
+  "behavior": "Validate supplied path for reparse links first, then canonicalize root before existing containment checks. Existing workspace context formula remains unchanged.",
+  "regressions": [
+    "real short parent missing-workspace GET creates no files",
+    "short-root save and long/uppercase/short reopen share DB/context and preserve bytes+mtime",
+    "actual Windows junction rejection for supplied workspace and store parent",
+    "outside store rejected without creation",
+    "existing workspace inode replacement rejected"
+  ],
+  "scope": "Only terminal_journey_service.py and test_terminal_journey_service.py; no commit/push/UI/economic run/external calls"
+}

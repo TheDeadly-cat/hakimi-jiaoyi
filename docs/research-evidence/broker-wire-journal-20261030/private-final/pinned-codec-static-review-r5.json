@@ -1,0 +1,10 @@
+{
+  "status": "STATIC_ONLY_PENDING_ROOT_REVIEW",
+  "change": "Keep subprocess.Popen a class; deny its constructor and retain subprocess.Popen audit denial",
+  "script_hashes": {
+    "pinned-codec-probe-child-r5.py": "628ae15340ae36c7ad9a30cb11eccf164e4526f63c72854234048d6f5b5322b9",
+    "run-pinned-codec-probe-r5.py": "6bcdb3b33b12ad719e7495add0271600de0867290b8de1a8b2069b90f48ecd3e"
+  },
+  "proposed_new_output": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-scoped-transport-20261030\\pinned-codec-private-r4",
+  "external_process_permission_added": false
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "holdout-stop-evidence-v1",
+  "status": "STOPPED_BY_PRECOMMITTED_SOURCE_RULE",
+  "recorded_at": "2026-10-26T10:23:38.527862Z",
+  "protocol_commit": "aa7935214e6e84197f48c1d6fb2908bed3d0851e",
+  "plan_hash": "9013fb069e7da37f15b4774f7ea7a5b7e6cce9c4b677c695cbb3028f82c61fa6",
+  "preparation_sha256": "56e5b942900200dd30340a34d6bcfb593313047d7aa56435983853cfc8cc321d",
+  "acquisition_sha256": "8d6cb9f8ff12b3ea1c7e96d7d76490ce65176600f9d66a4253b4c4a6cc6f7fc6",
+  "sources": {
+    "KO": {
+      "source_sha256": "cc7bcc932d852ed7b0a44a8f9eceeec8207ffe53f3604d6c900cfbf46965600a",
+      "retrieved_at": "2026-10-26T10:20:06.450387Z",
+      "attempts": 1,
+      "first_session": "2026-03-16",
+      "last_session": "2026-10-23",
+      "source_rows": 155,
+      "in_window_events": [],
+      "preparation_status": "READY"
+    },
+    "NDAQ": {
+      "source_sha256": "fba35c1dd090fa8ac1ceb8db66d76a1252c5461b17a1e92e855de569914c11f3",
+      "retrieved_at": "2026-10-26T10:20:07.004063Z",
+      "attempts": 1,
+      "first_session": "2026-03-16",
+      "last_session": "2026-10-23",
+      "source_rows": 155,
+      "in_window_events": [
+        {
+          "kind": "dividends",
+          "date": "2026-03-16"
+        }
+      ],
+      "preparation_status": "STOPPED"
+    }
+  },
+  "formal_runs": 0,
+  "cost_runs": 0,
+  "observer_recalculations": 0,
+  "prices_or_returns_emitted": false,
+  "original_protocol_unchanged": true,
+  "proposed_new_round_not_started": {
+    "month": "2026-02",
+    "score_start": "2026-02-02",
+    "score_end": "2026-02-27",
+    "score_sessions": 19,
+    "context_start": "2026-01-14",
+    "context_sessions": 12,
+    "selection_rule": "Latest complete month before all retained source dates, using calendar and source timestamp metadata only.",
+    "requires_new_commitment": true
+  }
+}

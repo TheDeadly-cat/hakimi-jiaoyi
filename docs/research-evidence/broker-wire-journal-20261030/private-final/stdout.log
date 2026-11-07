@@ -1,0 +1,1 @@
+{"status": "PASS_OFFLINE_PINNED_PROTOBUF_AND_PLAINTEXT_PACK_ONLY", "checks": 24, "sdk_version": "10.07.6708", "attempts": {"socket": 0, "thread": 0, "database": 0, "subprocess": 0, "forbidden_constructor": 0}, "production_adapter_available": false}

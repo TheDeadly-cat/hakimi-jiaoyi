@@ -1,0 +1,68 @@
+{
+  "status": "PASS_FINAL_PROTECTION_AND_EXACT_NAVIGATION_DIFF",
+  "at": "2026-11-07T17:38:59.999375+00:00",
+  "source_commit": "e9e46fcd80b46f9c7ddf0e9453a1220c9c2bbbf8",
+  "bundle_id": "7c1b0258545af44abf8f17106f640c10e8542076ed22a6300ba43545741981d4",
+  "protection": {
+    "old_roots_unchanged": true,
+    "program_unchanged": true,
+    "old_file_count": 278
+  },
+  "program_files_including_manifest": 9090,
+  "owned_exited": true,
+  "port_free": true,
+  "port": 8876,
+  "runtime_file_count": 28,
+  "process_identity_checks": [
+    {
+      "mode": "first",
+      "pid": 14596,
+      "creation_ticks": 134385453012550952,
+      "same_process_still_present": false
+    },
+    {
+      "mode": "reopen",
+      "pid": 23516,
+      "creation_ticks": 134385464494617747,
+      "same_process_still_present": false
+    }
+  ],
+  "unresolved_owned_processes": 0,
+  "current_package_processes": 0,
+  "runtime_sha_size_diff": {
+    "research-workspace/ui/strategy-journey-v1.sqlite3": {
+      "first_closed": {
+        "sha256": "3a0f97105993f383b04614eb7b8bd90f9b70e506abda4687aa9a84b50cc9ee03",
+        "bytes": 16384
+      },
+      "final_closed": {
+        "sha256": "7484b90b463b008df351fbf6994bb680339e0e2181aaf57a3940844a0c552b25",
+        "bytes": 16384
+      }
+    }
+  },
+  "business_workspace_files_unchanged": 20,
+  "journey_delta": {
+    "selection_view": [
+      "execution",
+      "results"
+    ],
+    "revision": [
+      4,
+      5
+    ],
+    "same_report_account_plan": true,
+    "new_request_rows": 1,
+    "old_request_rows_unchanged": 4
+  },
+  "frozen_helper_sha256": "3bcb5880682b8f2d1d1fecab75248b624208276d23b949bb127e36159f692fd0",
+  "frozen_helper_unchanged": true,
+  "final_protection_check_imported_helper_without_main": true,
+  "failed_helper_phases_preserved_without_receipt": {
+    "first-saved": "PermissionError digesting a path while app was running",
+    "reopen-closed": "saved_research_changed_after_reopen: broad immutable guard also included journey navigation database"
+  },
+  "no_failure_was_relabelled_as_pass": true,
+  "business_api_calls": 0,
+  "economic_runs_created_by_readback_tool": 0
+}

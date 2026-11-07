@@ -633,6 +633,33 @@ def verify_adjustment_evidence(evidence: dict[str, Any]) -> dict[str, Any]:
             for item in normalized_actions
             if item.get("action_type") == "DIVIDEND" and not item.get("pay_date")
         )
+    # Delivery annotations can only preserve an earlier restriction. Older
+    # evidence has no such field and retains the original verification rules.
+    if "delivery_prior_gates" in evidence:
+        prior_gates = evidence["delivery_prior_gates"]
+        expected_fields = {
+            "provider_adjustment": {"status", "backtest_eligible"},
+            "accepted_cache": {"status"},
+        }
+        prior_gates_valid = type(prior_gates) is dict and set(prior_gates) == set(expected_fields)
+        if prior_gates_valid:
+            for name, fields in expected_fields.items():
+                gate = prior_gates[name]
+                if (type(gate) is not dict or set(gate) != fields
+                        or type(gate.get("status")) is not str
+                        or gate["status"] not in {"PASS", "REVIEW", "BLOCK", "UNVERIFIED"}
+                        or (name == "provider_adjustment" and type(gate.get("backtest_eligible")) is not bool)):
+                    prior_gates_valid = False
+                    break
+        if not prior_gates_valid:
+            blockers.append("adjustment_delivery_prior_gates_invalid")
+        else:
+            semantic_blockers.extend(
+                f"delivery_prior_gate_not_pass:{name}"
+                for name in expected_fields
+                if prior_gates[name]["status"] != "PASS"
+                or (name == "provider_adjustment" and prior_gates[name]["backtest_eligible"] is not True)
+            )
     semantic_blockers = list(dict.fromkeys(semantic_blockers))
     declared_value = evidence.get("blockers")
     declared_blockers = [str(item) for item in declared_value or [] if str(item)] if isinstance(declared_value, list) else []

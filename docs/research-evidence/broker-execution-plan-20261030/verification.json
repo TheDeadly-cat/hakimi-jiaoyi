@@ -1,0 +1,26 @@
+{
+  "supersedes": "initial source_hash assumption in ../HANDOFF.md; prior logs preserved",
+  "files": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_terminal_broker_execution_plan.py": "3ed9cb11a9931439bfd516245207100d30038339108cc619116995f3472107e0",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_terminal_saved_results.py": "e99f72f71b03a0d6d3c176956906b8ee5d358e7558a398d491c7a7dbcf049c0e"
+  },
+  "focused_command": "python -B -m unittest tests.test_terminal_broker_execution_plan tests.test_terminal_saved_results.RecordedSourceProjectionTests -v",
+  "tests": 25,
+  "result": "PASS",
+  "seconds": 0.648,
+  "log": "targeted-r1.log",
+  "actual_native_chain": "new TEMP input/task + explicitly sealed SYNTHETIC completed record, no economic computation; actual verified_saved_result and resolve_execution_research; default candidate save -> opt-in resolver -> plan",
+  "research_runner_calls": 0,
+  "current_source_fallback": false,
+  "fingerprint_recompute_during_resolution": false,
+  "default_resolver_structure_and_values_unchanged": true,
+  "historical_candidate_rewritten": false,
+  "fixture_original_bytes_and_mtime_unchanged": true,
+  "synthetic_external_eligibility": false,
+  "external_actions": 0,
+  "sdk_calls": 0,
+  "old_workspace_or_db_reads": 0,
+  "T29_complete": false
+}

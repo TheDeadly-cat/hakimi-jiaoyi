@@ -1,0 +1,53 @@
+{
+  "schema_version": "windows-trial-runtime-source-evidence-v1",
+  "recorded_at": "2026-10-26T17:07:03.227315Z",
+  "status": "LOCAL_SOURCE_METADATA_AND_HASHES_MATCH",
+  "python": {
+    "archive": {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Python\\_cache\\pythoncore-3.14-64-3.14.6.zip",
+      "sha256": "75afa83f93b284d19040e24bc440ab741c09582c0d5310504d607a4e08c3dbaf",
+      "bytes": 36547413
+    },
+    "archive_metadata_member": "__install__.json",
+    "archive_metadata_sha256": "8dfdfe5b289ff22ad28a3a83be69df891465397f18296355fd84196d4c6d90bd",
+    "archive_declared_url": "https://www.python.org/ftp/python/3.14.6/python-3.14.6-amd64.zip",
+    "manager_metadata": {
+      "path": "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\__install__.json",
+      "sha256": "13274ef6390890040cddec77dff176b9ccef0512188192a6941ec382229b2f2d",
+      "bytes": 4214
+    },
+    "manager_url_field": "https://www.python.org/ftp/python/3.14.6/python-3.14.6-amd64.zip",
+    "manager_hash_sha256_field": "75afa83f93b284d19040e24bc440ab741c09582c0d5310504d607a4e08c3dbaf",
+    "matches_local_archive": true,
+    "remote_official_sha256_revalidated_by_this_agent": false
+  },
+  "electron": {
+    "archive": {
+      "path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\.electron-cache\\5e0e70a0e0fed4233dc44442e29139d03b0ea0c6387fd4fc014de101787c1422\\electron-v31.7.7-win32-x64.zip",
+      "sha256": "e91986dd243d55947e6c5d3fad21795562ec21fa0eec5e95f7e28c830571467f",
+      "bytes": 110740332
+    },
+    "npm_checksum_table": {
+      "path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\hakimi_trade_electron\\node_modules\\electron\\checksums.json",
+      "sha256": "d7ba0b7bfe0f0995ab077bfc441a16aabcc4ff9349da199c2f06ece3e27541e1",
+      "bytes": 8126
+    },
+    "npm_checksum_key": "electron-v31.7.7-win32-x64.zip",
+    "npm_checksum_value": "e91986dd243d55947e6c5d3fad21795562ec21fa0eec5e95f7e28c830571467f",
+    "matches_local_archive": true,
+    "declared_upstream_release_url": "https://github.com/electron/electron/releases/download/v31.7.7/electron-v31.7.7-win32-x64.zip",
+    "release_url_origin": "Declared official release location, not an observed historical download request",
+    "actual_historical_download_transport_or_mirror": "UNKNOWN",
+    "remote_official_shasums_revalidated_by_this_agent": false
+  },
+  "limitations": [
+    "This records local manager/npm metadata corroboration; it does not claim this agent independently fetched official remote checksum files.",
+    "Original runtime archives and metadata were only read, not replaced or downloaded."
+  ],
+  "new_runtime_downloads": 0,
+  "rechecked_source_evidence": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\windows-trial-runtime-sources-r3.json",
+    "sha256": "9d40146ebeb32ca7c40e95f532d40db2c0e031b1d28c68e390c3eb8281dfdef9"
+  },
+  "revision": "dev5_r1_same_runtime_archives_rechecked"
+}

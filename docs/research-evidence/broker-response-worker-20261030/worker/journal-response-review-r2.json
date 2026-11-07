@@ -1,0 +1,28 @@
+{
+  "status": "STATIC_FIX_REVIEW_NO_NEW_BLOCKER",
+  "scope": "READ_ONLY_LOCAL_DIFF_AND_REGRESSION_SOURCE_NO_EXECUTION",
+  "source_hashes": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_execution_journal.py": "e2a3dc56cd4fa810d9b45e92c092a974ea2437b68d2df48db78c72041243d172",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\terminal_broker_response_facts.py": "010f5c3fc3e0cc1fe3674591dfcdb3d3ae29d7f12398811c1b997ffb473f1414",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_terminal_broker_response_recording.py": "1725b39c62e4b88641420fc1addc793f67235894d1544d92980382315586bbfc"
+  },
+  "source_stable": true,
+  "current_recording_test_count": 18,
+  "original_finding": "journal-response-review-r1.json",
+  "reviewed_fix": [
+    "Matched in-range late fill after terminal/rebase now adds reconciliation reason while original quantity, exact notional and cash stay unchanged.",
+    "Test explicitly demonstrates original pure facts.needs_reconciliation=False and subsequent new claim rejection.",
+    "Final fee changes and regressing cumulative fee evidence now block new risk while original values remain intact.",
+    "Average-price evidence stays descriptive; quantity-times-average is not booked as exact notional.",
+    "Original ACTION rows/results and original UNKNOWN receipt remain unchanged; no send or retry is introduced."
+  ],
+  "reviewed_new_tests": [
+    "test_plausible_late_fill_after_terminal_and_rebase_blocks_new_risk",
+    "test_late_fee_change_after_final_fee_blocks_risk_without_rewriting_cash",
+    "test_source_average_outside_limit_blocks_risk_without_becoming_notional"
+  ],
+  "test_execution_by_this_review": false,
+  "root_reported_new_regressions": "3 PASS, 0.480s; not rerun here",
+  "remaining_boundary": "Only offline SYNTHETIC_TEST facts. Production source authentication, economic observation admission and external dispatch remain unavailable.",
+  "fullgate_status_at_review": "Pending root execution; this static review does not claim 709 PASS."
+}

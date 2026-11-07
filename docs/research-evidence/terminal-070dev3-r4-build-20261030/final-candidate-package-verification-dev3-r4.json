@@ -1,0 +1,209 @@
+{
+  "status": "PASS",
+  "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+  "source_status": "CLEAN",
+  "version": "0.7.0.dev3",
+  "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+  "program_file_count": 9070,
+  "archive_members": 9071,
+  "archive_bytes": 193140432,
+  "archive_sha256": "2dd7045c8de3701fb892ed1c8fc5ac3370530b2510b3c5e8263b1d6a375f20c0",
+  "manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+  "first_use_source_bytes_match": true,
+  "first_use_sha256": "b2b5f8d2c446f3d60bab5cb2ee82cc61dd985e7861dda7734fb27be63e6ca599",
+  "app_package": {
+    "main": "main.js",
+    "name": "hakimi-original-terminal",
+    "productName": "哈基米交易",
+    "version": "0.7.0.dev3"
+  },
+  "required_resource_entries": [
+    "resources/app/main.js",
+    "resources/app/terminal-package-runtime.js",
+    "resources/app/backend-runtime-contract.js",
+    "resources/app/boot.html",
+    "resources/app/terminal-bootstrap.py",
+    "components/terminal/exchange_terminal/server.py",
+    "components/terminal/exchange_terminal/static/terminal-quant-ui.js",
+    "components/terminal/exchange_terminal/static/terminal-core-completion.js",
+    "components/canonical/hakimi_research/contracts/product-capabilities.json",
+    "components/terminal/assets/hakimi_trade_v2.ico",
+    "FIRST_USE.md",
+    "components/canonical/hakimi_research/_build_identity.json",
+    "components/terminal/vendor/research/hakimi_terminal_research/_build_identity.json",
+    "components/terminal/exchange_terminal/services/terminal_daily_research.py",
+    "components/terminal/exchange_terminal/services/terminal_public_daily_access.py",
+    "components/terminal/exchange_terminal/services/terminal_daily_bridge.py",
+    "components/terminal/exchange_terminal/services/terminal_execution_service.py",
+    "components/terminal/exchange_terminal/services/offline_execution.py",
+    "components/terminal/exchange_terminal/services/terminal_saved_results.py",
+    "components/terminal/exchange_terminal/services/terminal_candidate_service.py",
+    "components/terminal/exchange_terminal/services/terminal_strategy_candidates.py",
+    "components/terminal/exchange_terminal/static/terminal-daily-ui.js",
+    "components/terminal/exchange_terminal/static/terminal-execution-ui.js",
+    "components/terminal/exchange_terminal/static/terminal-result-comparison.js",
+    "components/terminal/exchange_terminal/static/terminal-strategy-candidates-ui.js",
+    "resources/app/desktop-security-policy.js",
+    "resources/app/desktop-lifecycle.js",
+    "components/terminal/exchange_terminal/services/quant_workspace.py",
+    "components/terminal/exchange_terminal/services/terminal_workspace_history.py",
+    "components/terminal/exchange_terminal/services/terminal_broker_candidate_service.py",
+    "components/terminal/exchange_terminal/services/terminal_broker_execution_plan.py",
+    "components/terminal/exchange_terminal/services/terminal_broker_package_loader.py",
+    "components/terminal/exchange_terminal/services/terminal_broker_plan_service.py",
+    "components/terminal/exchange_terminal/static/terminal-broker-plan-ui.js",
+    "components/terminal/exchange_terminal/services/terminal_continuous_replay.py",
+    "components/terminal/exchange_terminal/services/terminal_replay_service.py",
+    "components/terminal/exchange_terminal/static/terminal-broker-candidate-ui.js",
+    "components/terminal/exchange_terminal/static/terminal-continuous-ui.js",
+    "components/canonical/hakimi_research/stock_intake_supplement.py",
+    "components/terminal-canonical/hakimi_research/terminal_config.py"
+  ],
+  "private_interpreter": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\python.exe",
+  "external_modules": 0,
+  "temporary_probe_workspace": true,
+  "pinned_dependency_count": 16,
+  "stock_calendar_sessions": 20,
+  "package_files_and_every_zip_member_hash_verified": true,
+  "no_servers_started": true,
+  "synthetic_runs": 1,
+  "market_data_runs": 0,
+  "historical_replays": 0,
+  "component_receipts": {
+    "canonical": {
+      "path": "components/canonical/hakimi_research/_build_identity.json",
+      "sha256": "4b434645d1336a01108d13c77887a8d6c9a9b307819834661b3e2a015eae1c2a",
+      "content_sha256": "a4e40b07034d4fcd3adbacf79f52e4d09c640505060df690650c640da027e321"
+    },
+    "frozen": {
+      "path": "components/terminal/vendor/research/hakimi_terminal_research/_build_identity.json",
+      "sha256": "dff7a750619cc9c91c3a22829652a47d2c90efecc3b8f4273d096109042b4fbb",
+      "content_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918"
+    }
+  },
+  "private_execution_probe": {
+    "status": "VERIFIED_NEW_SYNTHETIC_RUN",
+    "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+    "frozen_content_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+    "synthetic_runs": 1,
+    "market_data_runs": 0,
+    "historical_replays": 0,
+    "provider_calls": 0,
+    "listening_servers": 0,
+    "external_module_count": 0,
+    "saved_task_id": "714e394bf41a1e1fdcca2a7a1963d6aa2747ef806e4a0cbe24ffc9040fe4819c",
+    "run_id": "9453a99fbbe4ed73eaedc5c78b31cde768f6498abc6b8c0727da44129534fd6c",
+    "report_hash": "745bec57d0b4881825d5798c8a509209951db4627bed772e57eee6863606c47d",
+    "evidence_kind": "SYNTHETIC_TEST",
+    "save_computed": false,
+    "read_computed": false,
+    "read_changed_files": false,
+    "source_status": "BUILD_VERIFIED",
+    "dependency_status": "VERIFIED",
+    "temporary_workspace": true,
+    "private_python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\python.exe"
+  },
+  "broker_identity_probe": {
+    "status": "PACKAGE_IDENTITY_ONLY_VERIFIED",
+    "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+    "modes": {
+      "OFFICIAL_SIMULATION": {
+        "schema_version": "hakimi-broker-package-load-v1",
+        "status": "PACKAGED_IDENTITY_MATCHED",
+        "mode": "OFFICIAL_SIMULATION",
+        "package": {
+          "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+          "manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+          "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+          "version": "0.7.0.dev3"
+        },
+        "sdk": {
+          "installed_file_count": 283,
+          "installed_files_sha256": "093b3a85e4b5ed3cfe557036e75507992dc2b0246aa92afc32fa5200bb61b63c",
+          "name": "futu-api",
+          "runtime_compatibility": "NOT_VERIFIED",
+          "version": "10.7.6708",
+          "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5"
+        },
+        "adapter": null,
+        "missing_capabilities": [
+          "APPLICATION_ADAPTER_NOT_PACKAGED"
+        ],
+        "runtime_compatibility": "NOT_VERIFIED",
+        "fresh_check_scope": "MANIFEST_SDK_ADAPTER_AND_LOADER_CONTRACT_FILES",
+        "identity_match_only": true,
+        "permissions": {
+          "external_connection_allowed": false,
+          "query_allowed": false,
+          "submit_allowed": false,
+          "cancel_allowed": false,
+          "unlock_allowed": false,
+          "automatic_retry": false,
+          "automatic_resume": false,
+          "automatic_mode_fallback": false,
+          "user_authorization_granted": false
+        }
+      },
+      "LIVE_CANDIDATE": {
+        "schema_version": "hakimi-broker-package-load-v1",
+        "status": "PACKAGED_IDENTITY_MATCHED",
+        "mode": "LIVE_CANDIDATE",
+        "package": {
+          "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+          "manifest_sha256": "a8cfa662966720fe8d46dbcdd966c08f359dc2af591168f8b8652c96be9d198a",
+          "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+          "version": "0.7.0.dev3"
+        },
+        "sdk": {
+          "installed_file_count": 283,
+          "installed_files_sha256": "093b3a85e4b5ed3cfe557036e75507992dc2b0246aa92afc32fa5200bb61b63c",
+          "name": "futu-api",
+          "runtime_compatibility": "NOT_VERIFIED",
+          "version": "10.7.6708",
+          "wheel_sha256": "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5"
+        },
+        "adapter": null,
+        "missing_capabilities": [
+          "APPLICATION_ADAPTER_NOT_PACKAGED"
+        ],
+        "runtime_compatibility": "NOT_VERIFIED",
+        "fresh_check_scope": "MANIFEST_SDK_ADAPTER_AND_LOADER_CONTRACT_FILES",
+        "identity_match_only": true,
+        "permissions": {
+          "external_connection_allowed": false,
+          "query_allowed": false,
+          "submit_allowed": false,
+          "cancel_allowed": false,
+          "unlock_allowed": false,
+          "automatic_retry": false,
+          "automatic_resume": false,
+          "automatic_mode_fallback": false,
+          "user_authorization_granted": false
+        }
+      }
+    },
+    "loader_module": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\components\\terminal\\exchange_terminal\\services\\terminal_broker_package_loader.py",
+    "plan_module": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\components\\terminal\\exchange_terminal\\services\\terminal_broker_execution_plan.py",
+    "runtime_compatibility": "NOT_VERIFIED",
+    "sdk_imported": false,
+    "server_imported": false,
+    "external_calls": 0,
+    "economic_runs": 0,
+    "business_files_created": 0,
+    "permissions": {
+      "external_connection_allowed": false,
+      "query_allowed": false,
+      "submit_allowed": false,
+      "cancel_allowed": false,
+      "unlock_allowed": false,
+      "automatic_retry": false,
+      "automatic_resume": false,
+      "automatic_mode_fallback": false,
+      "user_authorization_granted": false
+    }
+  },
+  "normal_probe_local_sdk_import": true,
+  "identity_only_probe_sdk_import": false,
+  "broker_plan_scope": "INSTALLED_OFFLINE_LOADER_SERVICE_UI_NO_EXECUTION_ADAPTER",
+  "no_native_acceptance_claim": true
+}

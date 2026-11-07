@@ -1,0 +1,1679 @@
+{
+  "schema_version": "native-dev3-r2-physical-protection-checkpoint-v1",
+  "status": "PASS_PHYSICAL_PROTECTION_CHECKPOINT",
+  "recorded_at": "2026-10-29T21:28:08.603944+00:00",
+  "root_confirmed_closed": true,
+  "physical_binding_sha256": "f0642b5140ff4c2976c321404165e0e55d3ada7a053fb0733a3fc9360ace9071",
+  "before_sha256": "1829d8c3d4f4fb41b615119a385e0650cb7e9a5511fe1d5030442f1bf2f8abd7",
+  "expected_protected_file_count": 265,
+  "observed_file_count": 265,
+  "logical_alias_fallback_used": false,
+  "roots": [
+    {
+      "physical_root_at_before": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime",
+      "file_count": 57,
+      "files": {
+        "research-workspace/workspace.json": {
+          "sha256": "f3fbddd1fe43d76c8d539dbd249d0946c674e6eb3a3ede435b3139f769bc0f02",
+          "size": 334,
+          "mtime_ns": 1793248227484726600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\workspace.json"
+        },
+        "research-workspace/tasks/price/family.json": {
+          "sha256": "ded531701e7fc35d222f7dcfaa2d6511bbd25e8a4390b0e61c5cab5e6adec744",
+          "size": 204,
+          "mtime_ns": 1793248226942889400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\price\\family.json"
+        },
+        "research-workspace/tasks/price/versions/r0001-68d7d3036f384c86b5b6cf105c543a68/task.json": {
+          "sha256": "e0f5189dbb12ea3dc46c21ecbd8f2a95640db486dc3170742343d81d0abca442",
+          "size": 1282,
+          "mtime_ns": 1793248227042010300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\price\\versions\\r0001-68d7d3036f384c86b5b6cf105c543a68\\task.json"
+        },
+        "research-workspace/tasks/price/versions/r0001-68d7d3036f384c86b5b6cf105c543a68/version.json": {
+          "sha256": "7cf0d7469688c402ed345550d3d067feba5871f35c6d35d1133598a8ebc66578",
+          "size": 482,
+          "mtime_ns": 1793248227053218900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\price\\versions\\r0001-68d7d3036f384c86b5b6cf105c543a68\\version.json"
+        },
+        "research-workspace/tasks/price/versions/r0001-68d7d3036f384c86b5b6cf105c543a68/inputs/snapshot.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1793248226979828000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\price\\versions\\r0001-68d7d3036f384c86b5b6cf105c543a68\\inputs\\snapshot.json"
+        },
+        "research-workspace/tasks/price/journal/000001.json": {
+          "sha256": "7d8f52cc9d01424bd883d21319559d6b2fda6907a220ae19c9c9383a5345967d",
+          "size": 410,
+          "mtime_ns": 1793248227088420700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\price\\journal\\000001.json"
+        },
+        "research-workspace/tasks/named-ffd3ea3a01cc29876f700531c2edd64b/family.json": {
+          "sha256": "b16f8b45994f1a9131409540cd523f14bc0afc247807be6378607c68139b2aae",
+          "size": 229,
+          "mtime_ns": 1793283295052975600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\named-ffd3ea3a01cc29876f700531c2edd64b\\family.json"
+        },
+        "research-workspace/tasks/named-ffd3ea3a01cc29876f700531c2edd64b/versions/r0001-ad3554e3966c43718e9a348bab374577/task.json": {
+          "sha256": "32839fdd2818df028e8485bfc8a3fc5b0c91b47c0ed2112b571f552dd2ce8706",
+          "size": 1282,
+          "mtime_ns": 1793283295146896300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\named-ffd3ea3a01cc29876f700531c2edd64b\\versions\\r0001-ad3554e3966c43718e9a348bab374577\\task.json"
+        },
+        "research-workspace/tasks/named-ffd3ea3a01cc29876f700531c2edd64b/versions/r0001-ad3554e3966c43718e9a348bab374577/version.json": {
+          "sha256": "e42596e4d42109b29da7721fec71b7ea69fcbc1721eafa2aa977ac9d46e406db",
+          "size": 482,
+          "mtime_ns": 1793283295161006100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\named-ffd3ea3a01cc29876f700531c2edd64b\\versions\\r0001-ad3554e3966c43718e9a348bab374577\\version.json"
+        },
+        "research-workspace/tasks/named-ffd3ea3a01cc29876f700531c2edd64b/versions/r0001-ad3554e3966c43718e9a348bab374577/inputs/snapshot.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1793283295083977800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\named-ffd3ea3a01cc29876f700531c2edd64b\\versions\\r0001-ad3554e3966c43718e9a348bab374577\\inputs\\snapshot.json"
+        },
+        "research-workspace/tasks/named-ffd3ea3a01cc29876f700531c2edd64b/journal/000001.json": {
+          "sha256": "8cbda3b72469ff89766167d6316e7a216741e056e6e8a9e6aba67fc9a73d02f3",
+          "size": 410,
+          "mtime_ns": 1793283295201347800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\named-ffd3ea3a01cc29876f700531c2edd64b\\journal\\000001.json"
+        },
+        "research-workspace/tasks/event/family.json": {
+          "sha256": "be0172c1baaa6f57e2d91cd74c85bba2b3bf5ad429cebe0778598f9c16d02995",
+          "size": 204,
+          "mtime_ns": 1793248227194112200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\event\\family.json"
+        },
+        "research-workspace/tasks/event/versions/r0001-7e538a2d73ab472aa60334dd57df5b2a/task.json": {
+          "sha256": "688c9cafe1ab0d5d7a90853375f8ac53058923def3f435f6736924393eb8b64e",
+          "size": 1485,
+          "mtime_ns": 1793248227335255300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\event\\versions\\r0001-7e538a2d73ab472aa60334dd57df5b2a\\task.json"
+        },
+        "research-workspace/tasks/event/versions/r0001-7e538a2d73ab472aa60334dd57df5b2a/version.json": {
+          "sha256": "36cd3f9feffa9a5bda6753fdef91a21fc3ff3bb74629250304c80f56ea9d34a2",
+          "size": 583,
+          "mtime_ns": 1793248227344931900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\event\\versions\\r0001-7e538a2d73ab472aa60334dd57df5b2a\\version.json"
+        },
+        "research-workspace/tasks/event/versions/r0001-7e538a2d73ab472aa60334dd57df5b2a/inputs/event-context.json": {
+          "sha256": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+          "size": 2747,
+          "mtime_ns": 1793248227267681900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\event\\versions\\r0001-7e538a2d73ab472aa60334dd57df5b2a\\inputs\\event-context.json"
+        },
+        "research-workspace/tasks/event/versions/r0001-7e538a2d73ab472aa60334dd57df5b2a/inputs/snapshot.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1793248227258643000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\event\\versions\\r0001-7e538a2d73ab472aa60334dd57df5b2a\\inputs\\snapshot.json"
+        },
+        "research-workspace/tasks/event/journal/000001.json": {
+          "sha256": "e0f32d23560176405cd7017f63c8425a28f20f81eebfc0770ed03d82ae10ca40",
+          "size": 410,
+          "mtime_ns": 1793248227378352200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\event\\journal\\000001.json"
+        },
+        "research-workspace/tasks/.task-locks/event.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793248227193610700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\.task-locks\\event.lock"
+        },
+        "research-workspace/tasks/.task-locks/named-ffd3ea3a01cc29876f700531c2edd64b.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793283295051975000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\.task-locks\\named-ffd3ea3a01cc29876f700531c2edd64b.lock"
+        },
+        "research-workspace/tasks/.task-locks/price.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793248226942127800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\tasks\\.task-locks\\price.lock"
+        },
+        "research-workspace/runs/run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0/index.html": {
+          "sha256": "7d0485d6e309a58fa17c6bff97095582230a9af9ba039646c5ebee3ab0d373b5",
+          "size": 4675,
+          "mtime_ns": 1793283357841230900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\runs\\run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0\\index.html"
+        },
+        "research-workspace/runs/run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0/inputs.json": {
+          "sha256": "922938f63bbebb7656e4fce103b4693146c978066a9e82efc2929265daff1421",
+          "size": 23160,
+          "mtime_ns": 1793283357631607700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\runs\\run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0\\inputs.json"
+        },
+        "research-workspace/runs/run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0/preparation.json": {
+          "sha256": "5c233a50314c97fcdda9b3603688a58fd5ed3e15999ab7e2a3118112cd30653d",
+          "size": 266,
+          "mtime_ns": 1793283357547490400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\runs\\run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0\\preparation.json"
+        },
+        "research-workspace/runs/run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0/report.json": {
+          "sha256": "efb8dbef3c8d3a5b31d7fcad0a5fa950b270721c478c7d16aa1eeb9e66a209ad",
+          "size": 48409,
+          "mtime_ns": 1793283357757442800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\runs\\run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0\\report.json"
+        },
+        "research-workspace/runs/run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0/started.json": {
+          "sha256": "7a8c83679f2cf3610ff76b0d1ef7927d3313b711df77aa788d25d244c8090e31",
+          "size": 135,
+          "mtime_ns": 1793283357642608000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\runs\\run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0\\started.json"
+        },
+        "research-workspace/runs/run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0/inputs/snapshot.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1793283357607104600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\runs\\run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0\\inputs\\snapshot.json"
+        },
+        "research-workspace/runs/run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0/inputs/task-presentation.json": {
+          "sha256": "c8184f544bf00c1e0b2408d709120ba886d4cae61eae28977beaedf7399512a4",
+          "size": 344,
+          "mtime_ns": 1793283357619607700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\runs\\run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0\\inputs\\task-presentation.json"
+        },
+        "research-workspace/runs/.run-locks/run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793283357546490000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\runs\\.run-locks\\run-7b519a1de8dab29944f420135feb02d4cecf90b37cc1b89d4502a65d571381f0.lock"
+        },
+        "research-workspace/offline-execution/sim-0db2fb53-9635-4740-a3b4-956b996bf573/account.json": {
+          "sha256": "c6ac540b53049fd669dfbc3ac45a3fd3903505461e55425b777bdd4d86384304",
+          "size": 769,
+          "mtime_ns": 1793289404158448400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\offline-execution\\sim-0db2fb53-9635-4740-a3b4-956b996bf573\\account.json"
+        },
+        "research-workspace/offline-execution/sim-0db2fb53-9635-4740-a3b4-956b996bf573/account.sqlite": {
+          "sha256": "4b4576fdc7abe9c86cce1c39384ee65cf8823422ae5064b7d4b362c8587bb28d",
+          "size": 81920,
+          "mtime_ns": 1793290202802764400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\offline-execution\\sim-0db2fb53-9635-4740-a3b4-956b996bf573\\account.sqlite"
+        },
+        "research-workspace/offline-execution/sim-0db2fb53-9635-4740-a3b4-956b996bf573/creation-intent.json": {
+          "sha256": "59241bcc86a80f6febceec554fb82a59e2fd2729112ef5664a2674b73b125954",
+          "size": 780,
+          "mtime_ns": 1793289404129840400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\offline-execution\\sim-0db2fb53-9635-4740-a3b4-956b996bf573\\creation-intent.json"
+        },
+        "research-workspace/offline-execution/sim-0db2fb53-9635-4740-a3b4-956b996bf573/plan-links/b1a9ad2679072e7916c00acdb03e0c96f135de82bc6a8a9b87b9f3f3d07fcffc.json": {
+          "sha256": "960dc06e25931b142e74fe13e893845305152c910c653d576371274b6f518df2",
+          "size": 523,
+          "mtime_ns": 1793289959417601100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\offline-execution\\sim-0db2fb53-9635-4740-a3b4-956b996bf573\\plan-links\\b1a9ad2679072e7916c00acdb03e0c96f135de82bc6a8a9b87b9f3f3d07fcffc.json"
+        },
+        "research-workspace/data/actual.html": {
+          "sha256": "c43f84db950b093ca09eab15e0cc9590bb6893a127fad04afdd4e6d7762f597b",
+          "size": 459,
+          "mtime_ns": 1793248226940127400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\data\\actual.html"
+        },
+        "research-workspace/data/equity_dataset_ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1793248226924453900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\data\\equity_dataset_ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec.json"
+        },
+        "research-workspace/data/event-context.json": {
+          "sha256": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+          "size": 2747,
+          "mtime_ns": 1793248226938126800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\data\\event-context.json"
+        },
+        "research-workspace/data/prior.html": {
+          "sha256": "b54eca6c06609f34032b68daf1386d5e19142d519f77a4a23bef00325af3f015",
+          "size": 457,
+          "mtime_ns": 1793248226940127400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\data\\prior.html"
+        },
+        "research-workspace/data/source-manifest.json": {
+          "sha256": "cadc873e7751efa65f0dcd24cd2ed53e2f08309e4a08a4e0e8aed0fd80fadcd2",
+          "size": 2528,
+          "mtime_ns": 1793248226940127400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\data\\source-manifest.json"
+        },
+        "research-workspace/data/content-example/fictional.html": {
+          "sha256": "617ea078f4d246dfa1a8529dd6836659c80df500a922a2c00cf753fcfe5a12c8",
+          "size": 93,
+          "mtime_ns": 1793248226939127000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\data\\content-example\\fictional.html"
+        },
+        "research-workspace/data/content-example/fictional.txt": {
+          "sha256": "617ea078f4d246dfa1a8529dd6836659c80df500a922a2c00cf753fcfe5a12c8",
+          "size": 93,
+          "mtime_ns": 1793248226939127000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\data\\content-example\\fictional.txt"
+        },
+        "research-workspace/data/content-example/packet.json": {
+          "sha256": "46209fa73effbe017e3fb0119f39c39d976f3542ce2e9d46e0f316a0cfebf3ac",
+          "size": 1935,
+          "mtime_ns": 1793248226939127000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\data\\content-example\\packet.json"
+        },
+        "research-workspace/daily/.workbench.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793288439449881500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\daily\\.workbench.lock"
+        },
+        "research-workspace/daily/stock-intakes/check-76564997-32e4-463d-8e9c-918a2649b59e/calendar.json": {
+          "sha256": "c367399cdb316fecae4e63b95d0d183b4959b61237145b8e01a0f3b1a2561491",
+          "size": 860,
+          "mtime_ns": 1793288440141043400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\daily\\stock-intakes\\check-76564997-32e4-463d-8e9c-918a2649b59e\\calendar.json"
+        },
+        "research-workspace/daily/stock-intakes/check-76564997-32e4-463d-8e9c-918a2649b59e/check.json": {
+          "sha256": "6bd25cea1a62b2bc5be0f9910bb9bee89f6440f47c959ee927c39fb62667a1c8",
+          "size": 2192,
+          "mtime_ns": 1793288440155131800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\daily\\stock-intakes\\check-76564997-32e4-463d-8e9c-918a2649b59e\\check.json"
+        },
+        "research-workspace/daily/stock-intakes/check-76564997-32e4-463d-8e9c-918a2649b59e/request-started.json": {
+          "sha256": "94b1d9c885a54df6648d749c99fe6bd54dffa6a7e3449ae5bddf09449f330a67",
+          "size": 289,
+          "mtime_ns": 1793288439492053800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\daily\\stock-intakes\\check-76564997-32e4-463d-8e9c-918a2649b59e\\request-started.json"
+        },
+        "research-workspace/daily/stock-intakes/check-76564997-32e4-463d-8e9c-918a2649b59e/source-original.bin": {
+          "sha256": "9a5d54efc822d90b36006396690e2ddc2bb33447c0800bf473246e6c01e7f470",
+          "size": 22847,
+          "mtime_ns": 1793288440127041000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\daily\\stock-intakes\\check-76564997-32e4-463d-8e9c-918a2649b59e\\source-original.bin"
+        },
+        "research-workspace/daily/operations/76564997-32e4-463d-8e9c-918a2649b59e/request.json": {
+          "sha256": "0d76092767d485e2d966a041ff05c0dcd1f49a1c7a07b4e80962ac17535c39b0",
+          "size": 303,
+          "mtime_ns": 1793288439464883600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\daily\\operations\\76564997-32e4-463d-8e9c-918a2649b59e\\request.json"
+        },
+        "research-workspace/daily/operations/76564997-32e4-463d-8e9c-918a2649b59e/result.json": {
+          "sha256": "ed7e3f78d0def6857ce7b175cc82260bc3b697f0f0e6e8aa9b0e34b442e9a0af",
+          "size": 2914,
+          "mtime_ns": 1793288440193574200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\research-workspace\\daily\\operations\\76564997-32e4-463d-8e9c-918a2649b59e\\result.json"
+        },
+        ".hakimi-ui/95c901012e2ea1dec32d/server.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793248136851136700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\.hakimi-ui\\95c901012e2ea1dec32d\\server.lock"
+        },
+        ".hakimi-ui/95c901012e2ea1dec32d/jobs/1a86bbb2-33b8-48dd-a3f9-ddbb1e8a7c13.json": {
+          "sha256": "08020a90e09d8d86cf435d3b9606b3380c80ece53eb64cd2d9de2ba9ea9db67e",
+          "size": 643,
+          "mtime_ns": 1793248424544102300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\.hakimi-ui\\95c901012e2ea1dec32d\\jobs\\1a86bbb2-33b8-48dd-a3f9-ddbb1e8a7c13.json"
+        },
+        ".hakimi-ui/95c901012e2ea1dec32d/jobs/1c35ee2b-6b28-42c9-879e-d0469e30a6af.json": {
+          "sha256": "7c2e7e4386c3c5c842f0955062de7bcea381f3be1f898a76ef892f8809d02cbf",
+          "size": 14687,
+          "mtime_ns": 1793248227949570400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\.hakimi-ui\\95c901012e2ea1dec32d\\jobs\\1c35ee2b-6b28-42c9-879e-d0469e30a6af.json"
+        },
+        ".hakimi-ui/95c901012e2ea1dec32d/jobs/2fbf698d-95b0-432a-8857-45f1a19d8061.json": {
+          "sha256": "96ac4672bf4af84b134b5e3307e50379ecdee87c738efda00c8a1636d036dcc8",
+          "size": 616,
+          "mtime_ns": 1793248854480600900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\.hakimi-ui\\95c901012e2ea1dec32d\\jobs\\2fbf698d-95b0-432a-8857-45f1a19d8061.json"
+        },
+        ".hakimi-ui/95c901012e2ea1dec32d/jobs/35830f3f-36c2-425c-adaa-29607400dd96.json": {
+          "sha256": "6d6a223f17c791230029af58c703653bcd626ef0eb3775ec859415fa05bd58f7",
+          "size": 7217,
+          "mtime_ns": 1793290090477259800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\.hakimi-ui\\95c901012e2ea1dec32d\\jobs\\35830f3f-36c2-425c-adaa-29607400dd96.json"
+        },
+        ".hakimi-ui/95c901012e2ea1dec32d/jobs/4bf45874-b3a2-4d34-9543-4c22ce531988.json": {
+          "sha256": "564e0b26cd39ad5bff2a8f59a583c3e79481be22fadf1238dcc95cc71b44b151",
+          "size": 5152,
+          "mtime_ns": 1793283295514991800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\.hakimi-ui\\95c901012e2ea1dec32d\\jobs\\4bf45874-b3a2-4d34-9543-4c22ce531988.json"
+        },
+        ".hakimi-ui/95c901012e2ea1dec32d/jobs/555e5c15-7a65-4b2a-a6f7-57a9a98ee508.json": {
+          "sha256": "49c533c310de573913c656fe9b2a7060c3f82899aa5ad799039c94756ea09f70",
+          "size": 4128,
+          "mtime_ns": 1793288440225802200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\.hakimi-ui\\95c901012e2ea1dec32d\\jobs\\555e5c15-7a65-4b2a-a6f7-57a9a98ee508.json"
+        },
+        ".hakimi-ui/95c901012e2ea1dec32d/jobs/6f5c182f-35bd-420e-ae6b-65883a75775d.json": {
+          "sha256": "7ad6f1e4f8881b3ac70921dc1468f3262cca0e99e83b7289d4a5fde6881474bf",
+          "size": 6059,
+          "mtime_ns": 1793289959428108000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\.hakimi-ui\\95c901012e2ea1dec32d\\jobs\\6f5c182f-35bd-420e-ae6b-65883a75775d.json"
+        },
+        ".hakimi-ui/95c901012e2ea1dec32d/jobs/b0eea9ed-8290-4c3e-8ed1-e7f1329f4558.json": {
+          "sha256": "03bfd84400412b7c840df7a9a2615a5f16d3e8a3ec837b7ce2ec01b4ff90ad1f",
+          "size": 16696,
+          "mtime_ns": 1793283358028035600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\.hakimi-ui\\95c901012e2ea1dec32d\\jobs\\b0eea9ed-8290-4c3e-8ed1-e7f1329f4558.json"
+        },
+        ".hakimi-ui/95c901012e2ea1dec32d/jobs/c620c868-b3e0-47a2-851e-6f5b4c41e6ad.json": {
+          "sha256": "9ffa87170f9edbca607b759c03e5e2e0910fde5a8263c0f019739d40f6b04bfb",
+          "size": 3371,
+          "mtime_ns": 1793289404161803400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\default\\runtime\\.hakimi-ui\\95c901012e2ea1dec32d\\jobs\\c620c868-b3e0-47a2-851e-6f5b4c41e6ad.json"
+        }
+      },
+      "comparison_to_r2_before": {
+        "missing": [],
+        "extra": [],
+        "changed": []
+      },
+      "unchanged": true
+    },
+    {
+      "physical_root_at_before": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace",
+      "file_count": 85,
+      "files": {
+        "workspace.json": {
+          "sha256": "f3fbddd1fe43d76c8d539dbd249d0946c674e6eb3a3ede435b3139f769bc0f02",
+          "size": 334,
+          "mtime_ns": 1792433341815647400,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\workspace.json"
+        },
+        "terminal-tasks/5b1807ad9fa2ea2d7252d569614c1bae/family.json": {
+          "sha256": "bed467a421ec352b387250a8214de96fbbfd85a81f27d5ea47b8d44bfe4cdc9b",
+          "size": 174,
+          "mtime_ns": 1792514095199540200,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-tasks\\5b1807ad9fa2ea2d7252d569614c1bae\\family.json"
+        },
+        "terminal-tasks/5b1807ad9fa2ea2d7252d569614c1bae/versions/5aa58a6560d623e6772acc81d0e24ee5887bf7ae0a33d007c6ca0d06269139b4.json": {
+          "sha256": "c9200508d0e4cae1c22d94a8edf2d77d46f786c8a9b3f66ce24399608a91ec67",
+          "size": 6480,
+          "mtime_ns": 1792514487071504500,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-tasks\\5b1807ad9fa2ea2d7252d569614c1bae\\versions\\5aa58a6560d623e6772acc81d0e24ee5887bf7ae0a33d007c6ca0d06269139b4.json"
+        },
+        "terminal-tasks/5b1807ad9fa2ea2d7252d569614c1bae/versions/a87ebe6b5be0675cc21a0b542ed9c5bc68c8002d5d5e45e4860b8a909e835cfe.json": {
+          "sha256": "f39258789054d491d5f204e0db9e456fd696606a8bf210d11b34a6f5d655a87d",
+          "size": 6418,
+          "mtime_ns": 1792514095204622900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-tasks\\5b1807ad9fa2ea2d7252d569614c1bae\\versions\\a87ebe6b5be0675cc21a0b542ed9c5bc68c8002d5d5e45e4860b8a909e835cfe.json"
+        },
+        "terminal-tasks/5b1807ad9fa2ea2d7252d569614c1bae/journal/000001.json": {
+          "sha256": "7aff54f3ffb6cebf8ca2234c4de0965097d6fbe02b1b58551952b24f66ff6778",
+          "size": 316,
+          "mtime_ns": 1792514095209162600,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-tasks\\5b1807ad9fa2ea2d7252d569614c1bae\\journal\\000001.json"
+        },
+        "terminal-tasks/5b1807ad9fa2ea2d7252d569614c1bae/journal/000002.json": {
+          "sha256": "db9ee50622a461a8bb99451128c6ac900491b25012c7e39fb8df999098c7c83d",
+          "size": 378,
+          "mtime_ns": 1792514487074565700,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-tasks\\5b1807ad9fa2ea2d7252d569614c1bae\\journal\\000002.json"
+        },
+        "terminal-tasks/1de1ffdc21c886b4ec541cf70fdc8a36/family.json": {
+          "sha256": "0dc9f7fd2d11545ef2f29da4116733e9c8975048ae4ab81c9fbf183306e83869",
+          "size": 174,
+          "mtime_ns": 1792784066072003900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-tasks\\1de1ffdc21c886b4ec541cf70fdc8a36\\family.json"
+        },
+        "terminal-tasks/1de1ffdc21c886b4ec541cf70fdc8a36/versions/6a05431cd6a49755740cddd4fdd17fdd3c6d85b3029f91599e9796262836c955.json": {
+          "sha256": "2b0646a7768ea29fbebc6dc6c0bc0023bbe5cc2093dc5e292c44de6cfbaac39c",
+          "size": 5550,
+          "mtime_ns": 1792784066080017700,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-tasks\\1de1ffdc21c886b4ec541cf70fdc8a36\\versions\\6a05431cd6a49755740cddd4fdd17fdd3c6d85b3029f91599e9796262836c955.json"
+        },
+        "terminal-tasks/1de1ffdc21c886b4ec541cf70fdc8a36/journal/000001.json": {
+          "sha256": "e83894928a40db7a3802867c4984c32595b041cc61a5e5cb0430cfc0a714da55",
+          "size": 316,
+          "mtime_ns": 1792784066084524800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-tasks\\1de1ffdc21c886b4ec541cf70fdc8a36\\journal\\000001.json"
+        },
+        "terminal-runs/d19c78e79fc9566326ce1c69d92d68af415c01bb1e3e707d4a730c81c18d866d/report.json": {
+          "sha256": "9175a250ea6e530fe3145a1980418e5624bb642797b013dcda2880b84c1ad35e",
+          "size": 48826,
+          "mtime_ns": 1792514498203353500,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-runs\\d19c78e79fc9566326ce1c69d92d68af415c01bb1e3e707d4a730c81c18d866d\\report.json"
+        },
+        "terminal-runs/d19c78e79fc9566326ce1c69d92d68af415c01bb1e3e707d4a730c81c18d866d/started.json": {
+          "sha256": "829dbfd78bcdbb8cfd475840670c064c2cb05eb296a78e78e653b96363dd7ed3",
+          "size": 430,
+          "mtime_ns": 1792514497818448900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-runs\\d19c78e79fc9566326ce1c69d92d68af415c01bb1e3e707d4a730c81c18d866d\\started.json"
+        },
+        "terminal-runs/579a97d2c51d88bb88bbfee1a2d51a82d592fa91c326b37083f8ca51022e3015/report.json": {
+          "sha256": "622f3c3d9a9674850c2d3d70d392c34e940006896364819d85fad9c0479beae3",
+          "size": 48400,
+          "mtime_ns": 1792784080286663200,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-runs\\579a97d2c51d88bb88bbfee1a2d51a82d592fa91c326b37083f8ca51022e3015\\report.json"
+        },
+        "terminal-runs/579a97d2c51d88bb88bbfee1a2d51a82d592fa91c326b37083f8ca51022e3015/started.json": {
+          "sha256": "9248f2fe5571577b1e6a26473acb87d2ac5e4fd74526fc8c37dfb7be779b25b9",
+          "size": 430,
+          "mtime_ns": 1792784079989063400,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-runs\\579a97d2c51d88bb88bbfee1a2d51a82d592fa91c326b37083f8ca51022e3015\\started.json"
+        },
+        "terminal-runs/25e2872aa13e30dd35a1d2e162bd9f9caa17d0933d17aaba382448d52314e06f/report.json": {
+          "sha256": "3ca3b1b15d754c456142f477118558a09b4f73f4264515f342bcdf1d5cda79b0",
+          "size": 9792,
+          "mtime_ns": 1792514133298222900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-runs\\25e2872aa13e30dd35a1d2e162bd9f9caa17d0933d17aaba382448d52314e06f\\report.json"
+        },
+        "terminal-runs/25e2872aa13e30dd35a1d2e162bd9f9caa17d0933d17aaba382448d52314e06f/started.json": {
+          "sha256": "a0f56e7355a0a3cfa28c6c3b54cd322765f815e52b16ec7a45100d82497dc1c2",
+          "size": 430,
+          "mtime_ns": 1792514133227273700,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-runs\\25e2872aa13e30dd35a1d2e162bd9f9caa17d0933d17aaba382448d52314e06f\\started.json"
+        },
+        "terminal-judgments/91fddf006a1adb013cb07c57b0c8219ddf7dd2c03a308f67953662b77a9d4b64/record.json": {
+          "sha256": "fe6e9c014be3cb2ba253818aa3bcf921fae3eae1bc1d1e05d5200a7d3cf37dca",
+          "size": 2954,
+          "mtime_ns": 1792532652273964700,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-judgments\\91fddf006a1adb013cb07c57b0c8219ddf7dd2c03a308f67953662b77a9d4b64\\record.json"
+        },
+        "terminal-judgments/91fddf006a1adb013cb07c57b0c8219ddf7dd2c03a308f67953662b77a9d4b64/events/000001.json": {
+          "sha256": "3cb18d4832be878c27878043184727fc4438a9e28af6408898a8fae74991111f",
+          "size": 649,
+          "mtime_ns": 1792532758960636900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-judgments\\91fddf006a1adb013cb07c57b0c8219ddf7dd2c03a308f67953662b77a9d4b64\\events\\000001.json"
+        },
+        "terminal-judgment-requests/3c461c4c81d9ff50cc5bddeef4208bb89c8371273a1757ead44badfc65fb95ee.json": {
+          "sha256": "7f76bfd6f10f9bf372bb67821a4a9db80ae182396fa4e789b796fb1217b2d08f",
+          "size": 945,
+          "mtime_ns": 1792532758957295200,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-judgment-requests\\3c461c4c81d9ff50cc5bddeef4208bb89c8371273a1757ead44badfc65fb95ee.json"
+        },
+        "terminal-judgment-requests/b358e8dd1a6da5af1beb6609a0617af2619250cd43ef8458f4519836c82be296.json": {
+          "sha256": "0f5afd3acf6654117a6c786c7d1a8e94797ac6a521c3737e8359ee3f08faa852",
+          "size": 3251,
+          "mtime_ns": 1792532652270856900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-judgment-requests\\b358e8dd1a6da5af1beb6609a0617af2619250cd43ef8458f4519836c82be296.json"
+        },
+        "terminal-inputs/b4b0da3f1b8295a04a8a044e74a863b70e0327adfebedf1d9fd91c6a3cb075ef.json": {
+          "sha256": "8dc9545a61713e3140107999a1758a216ee73cdfe0574f75ff9ec33b73846000",
+          "size": 115317,
+          "mtime_ns": 1792606088602354700,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-inputs\\b4b0da3f1b8295a04a8a044e74a863b70e0327adfebedf1d9fd91c6a3cb075ef.json"
+        },
+        "terminal-inputs/ce63210e6626cbb0d531a56c013be5c56457482d929a28faa3a762cb52bfbd08.json": {
+          "sha256": "ba56ab31183eebfd97ed4efd36cedb3d66771c438a0939f015f39c608d0f5cfc",
+          "size": 116637,
+          "mtime_ns": 1792514081673393800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-inputs\\ce63210e6626cbb0d531a56c013be5c56457482d929a28faa3a762cb52bfbd08.json"
+        },
+        "terminal-inputs/dc279134d202708a7e263f9c921dd2fe90d3bde51897b33ef4eee6a27999b7d7.json": {
+          "sha256": "d04c91f10f3c94dc38595f0f32d817f982eee1d353efda93acd0310d6826a3cd",
+          "size": 117328,
+          "mtime_ns": 1792784057371772000,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-inputs\\dc279134d202708a7e263f9c921dd2fe90d3bde51897b33ef4eee6a27999b7d7.json"
+        },
+        "terminal-exit-runs/396bd91f0c020966e6cd1747415dbe7dbef3adaf29dd2d2302ecd684f42c5c82/report.json": {
+          "sha256": "08aaddb8a513587464ba39b03e0c82a4e29c3abae52f45227b8b23306bf0f4de",
+          "size": 587094,
+          "mtime_ns": 1792532908629240100,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-exit-runs\\396bd91f0c020966e6cd1747415dbe7dbef3adaf29dd2d2302ecd684f42c5c82\\report.json"
+        },
+        "terminal-exit-runs/396bd91f0c020966e6cd1747415dbe7dbef3adaf29dd2d2302ecd684f42c5c82/started.json": {
+          "sha256": "c083a442401e0dbaf69947c0f794455a45172063617687ccb7dd2590705ad741",
+          "size": 962,
+          "mtime_ns": 1792532908586268500,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-exit-runs\\396bd91f0c020966e6cd1747415dbe7dbef3adaf29dd2d2302ecd684f42c5c82\\started.json"
+        },
+        "terminal-exit-requests/a2c6e56959dd1c558c80e1bff6da0cb1b353436b8a4fc3e55f679f79a967034e.json": {
+          "sha256": "be7895db47feee7275729663ec89938a971ef6f336aa224d2c1e4209518a098c",
+          "size": 444,
+          "mtime_ns": 1792532908582601800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-exit-requests\\a2c6e56959dd1c558c80e1bff6da0cb1b353436b8a4fc3e55f679f79a967034e.json"
+        },
+        "terminal-exit-requests/d413a3c3f403b8bfa9d8bdf248c1d1b2ecca781c8f343e79ba4c4df8e36fbb89.json": {
+          "sha256": "ff2a65cd5252723eaf20099daa49613b13de24d21c78f8531abc83dc0dc2911a",
+          "size": 4381,
+          "mtime_ns": 1792532892234724400,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-exit-requests\\d413a3c3f403b8bfa9d8bdf248c1d1b2ecca781c8f343e79ba4c4df8e36fbb89.json"
+        },
+        "terminal-exit-experiments/ec2f43f2e8b65a9e612ddf9e4e98d835caa0e94e66393e929cd27d79c6b3a9a2/experiment.json": {
+          "sha256": "37397e8c4ab8ba809b7342fe415c52453d82f4c804b31f58f8a8bd487c8ec649",
+          "size": 4082,
+          "mtime_ns": 1792532892239231900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\terminal-exit-experiments\\ec2f43f2e8b65a9e612ddf9e4e98d835caa0e94e66393e929cd27d79c6b3a9a2\\experiment.json"
+        },
+        "tasks/合成CSV-买入持有/family.json": {
+          "sha256": "25380075ae44ff8f1dbed59f2fd6242b48240b29ecf02c34f021e4684031d11a",
+          "size": 221,
+          "mtime_ns": 1792433341789696400,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\合成CSV-买入持有\\family.json"
+        },
+        "tasks/合成CSV-买入持有/versions/r0001-314cf6ab132e4f60a2c940c68c6b6e5f/task.json": {
+          "sha256": "5af41047852f76c27e2f09f413d6e0d1dc579a2636db7672b8004956999d3e9e",
+          "size": 1192,
+          "mtime_ns": 1792433341805534600,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\合成CSV-买入持有\\versions\\r0001-314cf6ab132e4f60a2c940c68c6b6e5f\\task.json"
+        },
+        "tasks/合成CSV-买入持有/versions/r0001-314cf6ab132e4f60a2c940c68c6b6e5f/version.json": {
+          "sha256": "754f5d857b1c07bd6f6428d5a6862e380ccda41a1acb31635d729b50da1756e5",
+          "size": 482,
+          "mtime_ns": 1792433341809573800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\合成CSV-买入持有\\versions\\r0001-314cf6ab132e4f60a2c940c68c6b6e5f\\version.json"
+        },
+        "tasks/合成CSV-买入持有/versions/r0001-314cf6ab132e4f60a2c940c68c6b6e5f/inputs/snapshot.json": {
+          "sha256": "2d5df593a100c150d69a2886e9cbfee0e8452fc836de9b49d747a045c7f539a8",
+          "size": 48478,
+          "mtime_ns": 1792433341801521000,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\合成CSV-买入持有\\versions\\r0001-314cf6ab132e4f60a2c940c68c6b6e5f\\inputs\\snapshot.json"
+        },
+        "tasks/合成CSV-买入持有/journal/000001.json": {
+          "sha256": "dbd17ed2419b68718265678ba1f98c8795f479811455ec2e8871d87981f9a6a7",
+          "size": 410,
+          "mtime_ns": 1792433341796476700,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\合成CSV-买入持有\\journal\\000001.json"
+        },
+        "tasks/price/family.json": {
+          "sha256": "2075ae06cc62abcf4510c6ed15121825e01a2e89cd0ef5b4e27dde6390fc1ae1",
+          "size": 204,
+          "mtime_ns": 1792433341731846800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\family.json"
+        },
+        "tasks/price/versions/r0002-e9cf8e01ffde4920a9d12f42d544fce8/task.json": {
+          "sha256": "5753679177720850fe09042a243d3a365eaed33855f0e3e58cfb73a6a7f2899a",
+          "size": 1275,
+          "mtime_ns": 1792433341779575800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\versions\\r0002-e9cf8e01ffde4920a9d12f42d544fce8\\task.json"
+        },
+        "tasks/price/versions/r0002-e9cf8e01ffde4920a9d12f42d544fce8/version.json": {
+          "sha256": "3e9bed7e678bb4dc1d2e0d3a5bf616ceb621a07e214913f896cbc4a571151b10",
+          "size": 518,
+          "mtime_ns": 1792433341783603900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\versions\\r0002-e9cf8e01ffde4920a9d12f42d544fce8\\version.json"
+        },
+        "tasks/price/versions/r0002-e9cf8e01ffde4920a9d12f42d544fce8/inputs/snapshot.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1792433341775561200,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\versions\\r0002-e9cf8e01ffde4920a9d12f42d544fce8\\inputs\\snapshot.json"
+        },
+        "tasks/price/versions/r0001-b9831b52207d47abb1f5bde18b3c4168/task.json": {
+          "sha256": "7a23218447754e83353960847f84164ca4196eeea24be336cd95fe087d8da95d",
+          "size": 1282,
+          "mtime_ns": 1792433341766484600,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\versions\\r0001-b9831b52207d47abb1f5bde18b3c4168\\task.json"
+        },
+        "tasks/price/versions/r0001-b9831b52207d47abb1f5bde18b3c4168/version.json": {
+          "sha256": "1e92503e52841e338b23dfd55dcbc09bbc5b551ebda9846e20f69a11fe683aac",
+          "size": 482,
+          "mtime_ns": 1792433341769533100,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\versions\\r0001-b9831b52207d47abb1f5bde18b3c4168\\version.json"
+        },
+        "tasks/price/versions/r0001-b9831b52207d47abb1f5bde18b3c4168/inputs/snapshot.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1792433341761497800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\versions\\r0001-b9831b52207d47abb1f5bde18b3c4168\\inputs\\snapshot.json"
+        },
+        "tasks/price/journal/000001.json": {
+          "sha256": "afa4572948fb5162d106fbba084000b00e5043c1ee1c2f51d0872a6753fede98",
+          "size": 410,
+          "mtime_ns": 1792433341737913800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\journal\\000001.json"
+        },
+        "tasks/price/journal/000002.json": {
+          "sha256": "4aa1c9d3caef3d0357c1f17850deceba1617a5e02520b94654da6c22406088ae",
+          "size": 470,
+          "mtime_ns": 1792433341744323500,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\journal\\000002.json"
+        },
+        "tasks/price/journal/000003.json": {
+          "sha256": "0a46e73b727e89942daaafb8ba9a85b87d087965767045bd40b8e397d2b42a41",
+          "size": 471,
+          "mtime_ns": 1792433341749340800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\journal\\000003.json"
+        },
+        "tasks/price/journal/000004.json": {
+          "sha256": "aa94558272e04837640353dcf6d71e4442c98e8c52a3965114a8a3656b63adde",
+          "size": 471,
+          "mtime_ns": 1792433341756477800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\price\\journal\\000004.json"
+        },
+        "tasks/event/family.json": {
+          "sha256": "fa54733ae281482a4a365880d925f8d7094bd893d32848b01cab9d76689b7fee",
+          "size": 204,
+          "mtime_ns": 1792433341699148300,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\event\\family.json"
+        },
+        "tasks/event/versions/r0001-cc048375977d442e9d439f99b29880fc/task.json": {
+          "sha256": "87f6fd7526af8a39fa909a5d020728ae15680d50362e182802c70450e593a23c",
+          "size": 1485,
+          "mtime_ns": 1792433341721733600,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\event\\versions\\r0001-cc048375977d442e9d439f99b29880fc\\task.json"
+        },
+        "tasks/event/versions/r0001-cc048375977d442e9d439f99b29880fc/version.json": {
+          "sha256": "1ac62522459530e5f7d08dbe8cbb50d1c0d6000ab9dd278782b6811ff7cbe010",
+          "size": 583,
+          "mtime_ns": 1792433341725811200,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\event\\versions\\r0001-cc048375977d442e9d439f99b29880fc\\version.json"
+        },
+        "tasks/event/versions/r0001-cc048375977d442e9d439f99b29880fc/inputs/event-context.json": {
+          "sha256": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+          "size": 2747,
+          "mtime_ns": 1792433341713031600,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\event\\versions\\r0001-cc048375977d442e9d439f99b29880fc\\inputs\\event-context.json"
+        },
+        "tasks/event/versions/r0001-cc048375977d442e9d439f99b29880fc/inputs/snapshot.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1792433341717702500,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\event\\versions\\r0001-cc048375977d442e9d439f99b29880fc\\inputs\\snapshot.json"
+        },
+        "tasks/event/journal/000001.json": {
+          "sha256": "3d8a3289f78d67e643c6007e22a977f85e3cb55a1d8576ee11a5608b69774b03",
+          "size": 410,
+          "mtime_ns": 1792433341704942600,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\event\\journal\\000001.json"
+        },
+        "tasks/.task-locks/event.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1792433341677369900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\.task-locks\\event.lock"
+        },
+        "tasks/.task-locks/price.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1792433341684430100,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\.task-locks\\price.lock"
+        },
+        "tasks/.task-locks/合成CSV-买入持有.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1792433341690461300,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\tasks\\.task-locks\\合成CSV-买入持有.lock"
+        },
+        "runs/run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782/index.html": {
+          "sha256": "ba46a7ea0066746a51a00a9f2a6b1f894129af62d9c0faddccd27101b972aa7b",
+          "size": 4592,
+          "mtime_ns": 1792433341647647200,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782\\index.html"
+        },
+        "runs/run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782/inputs.json": {
+          "sha256": "8911634b341bcabded09dca274fe81e5d90d14c01f47d9792dd1ef6315f2d042",
+          "size": 21273,
+          "mtime_ns": 1792433341650666700,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782\\inputs.json"
+        },
+        "runs/run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782/preparation.json": {
+          "sha256": "f543c58292fd50a6bcefaa69ed73f9db9ad319bcc3f657391f5a388f92028e78",
+          "size": 266,
+          "mtime_ns": 1792433341660745000,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782\\preparation.json"
+        },
+        "runs/run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782/report.json": {
+          "sha256": "7d84c64c1d91c7b1769307492de0807da722ca8505fddf5c6375993bc73a1dba",
+          "size": 46630,
+          "mtime_ns": 1792433341667296400,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782\\report.json"
+        },
+        "runs/run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782/started.json": {
+          "sha256": "135d510f8253f9bf81cf2b9f5f66cca594e2b07e6c8fa5f1fad78468109961e1",
+          "size": 135,
+          "mtime_ns": 1792433341671307800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782\\started.json"
+        },
+        "runs/run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782/inputs/snapshot.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1792433341656695400,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782\\inputs\\snapshot.json"
+        },
+        "runs/run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e/index.html": {
+          "sha256": "0d5c750ca4aecc5c95efde2969fde72e0f03e52519fa3d2fbf4e70f47403cb26",
+          "size": 4594,
+          "mtime_ns": 1792433341609354100,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e\\index.html"
+        },
+        "runs/run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e/inputs.json": {
+          "sha256": "246adec31389b287b8604cc801278adbcc1a0afe6b65dfb3ee9b66e7fa48abf8",
+          "size": 21280,
+          "mtime_ns": 1792433341615667000,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e\\inputs.json"
+        },
+        "runs/run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e/preparation.json": {
+          "sha256": "267ee7d77b83640817900c6f2deeaad5968396f28b4fa0bc2dcfc32147a6c9e1",
+          "size": 266,
+          "mtime_ns": 1792433341628408500,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e\\preparation.json"
+        },
+        "runs/run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e/report.json": {
+          "sha256": "9cca41e0076bb10425009c87617224149849aa142da5789fd02212c1610becec",
+          "size": 46627,
+          "mtime_ns": 1792433341637118400,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e\\report.json"
+        },
+        "runs/run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e/started.json": {
+          "sha256": "3112d63ead2b315fa1ea395d860ff1b116017f52f917594b55b4de1b10a68e80",
+          "size": 135,
+          "mtime_ns": 1792433341642495900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e\\started.json"
+        },
+        "runs/run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e/inputs/snapshot.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1792433341623599300,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e\\inputs\\snapshot.json"
+        },
+        "runs/run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95/index.html": {
+          "sha256": "bf2daae1651ec0e4939e29b108a2f88e92b0fb00c5c29ec38d6fb213c12a6bf7",
+          "size": 4665,
+          "mtime_ns": 1792433341564989100,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95\\index.html"
+        },
+        "runs/run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95/inputs.json": {
+          "sha256": "3edc8c8d236be11e4b8b22ec234bb523e192c9b510cbd2feff2ee32b74ceff3c",
+          "size": 21182,
+          "mtime_ns": 1792433341571055300,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95\\inputs.json"
+        },
+        "runs/run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95/preparation.json": {
+          "sha256": "d2e95c75a010439fbcc130b556cd5932e5ac4798c608eef35f49577cef7c010c",
+          "size": 266,
+          "mtime_ns": 1792433341591706900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95\\preparation.json"
+        },
+        "runs/run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95/report.json": {
+          "sha256": "f1ffd754080d1852bb234a5b9e4afbc8b2eba38f7f02f00045e344d0635ee1eb",
+          "size": 49210,
+          "mtime_ns": 1792433341598278100,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95\\report.json"
+        },
+        "runs/run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95/started.json": {
+          "sha256": "edb060bd36753bdd262afb1e2c3126c51f15c38881e6fbeaf06a59a9d757c839",
+          "size": 135,
+          "mtime_ns": 1792433341603317900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95\\started.json"
+        },
+        "runs/run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95/inputs/snapshot.json": {
+          "sha256": "2d5df593a100c150d69a2886e9cbfee0e8452fc836de9b49d747a045c7f539a8",
+          "size": 48478,
+          "mtime_ns": 1792433341581728900,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95\\inputs\\snapshot.json"
+        },
+        "runs/.run-locks/run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1792433341534636600,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\.run-locks\\run-94b00a04f09715374dc77aa7ab2d81fdfc54ffa63d261fdf9cd0b12a66253c95.lock"
+        },
+        "runs/.run-locks/run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1792433341549949000,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\.run-locks\\run-b37dd2d2d4ba047f2ab9e46cc4dbe1db85610657b81aa9093c341dd56506e20e.lock"
+        },
+        "runs/.run-locks/run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1792433341557128700,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\runs\\.run-locks\\run-f054a601f9fa66d7b31d40402ebe1cd81e86aff2ef86cf299d8bfbe255821782.lock"
+        },
+        "data/actual.html": {
+          "sha256": "c43f84db950b093ca09eab15e0cc9590bb6893a127fad04afdd4e6d7762f597b",
+          "size": 459,
+          "mtime_ns": 1792433341470635300,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\actual.html"
+        },
+        "data/equity_dataset_ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec.json": {
+          "sha256": "9f3c9be2429b77ef3795ef21958a11ebea82d1c21b5ac804e7b5cf3680670e5a",
+          "size": 38847,
+          "mtime_ns": 1792433341504696800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\equity_dataset_ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec.json"
+        },
+        "data/event-context.json": {
+          "sha256": "c427bf42ffbfe06c0f3a4c9cd896766246915fb1674015085a4eeb4db3ca825b",
+          "size": 2747,
+          "mtime_ns": 1792433341507583500,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\event-context.json"
+        },
+        "data/prior.html": {
+          "sha256": "b54eca6c06609f34032b68daf1386d5e19142d519f77a4a23bef00325af3f015",
+          "size": 457,
+          "mtime_ns": 1792433341510837400,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\prior.html"
+        },
+        "data/source-manifest.json": {
+          "sha256": "cadc873e7751efa65f0dcd24cd2ed53e2f08309e4a08a4e0e8aed0fd80fadcd2",
+          "size": 2528,
+          "mtime_ns": 1792433341524802600,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\source-manifest.json"
+        },
+        "data/snapshots/bf4bc2ff21783a8544a1fe475fc9d563a3d6e5fc1c9fd41fd6fad5880e33f8c8/2d5df593a100c150d69a2886e9cbfee0e8452fc836de9b49d747a045c7f539a8.json": {
+          "sha256": "2d5df593a100c150d69a2886e9cbfee0e8452fc836de9b49d747a045c7f539a8",
+          "size": 48478,
+          "mtime_ns": 1792433341521969800,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\snapshots\\bf4bc2ff21783a8544a1fe475fc9d563a3d6e5fc1c9fd41fd6fad5880e33f8c8\\2d5df593a100c150d69a2886e9cbfee0e8452fc836de9b49d747a045c7f539a8.json"
+        },
+        "data/csv-imports/3495b40318dd5c7330c99f042109ee72b1bc6c35f859fbf17d3ec66246f922e7/285f78db8dfcf5ee51444854ad54bfc67c87f845d6d93b2f4200698ea66fe89d/conversion.json": {
+          "sha256": "285f78db8dfcf5ee51444854ad54bfc67c87f845d6d93b2f4200698ea66fe89d",
+          "size": 428,
+          "mtime_ns": 1792433341491875600,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\csv-imports\\3495b40318dd5c7330c99f042109ee72b1bc6c35f859fbf17d3ec66246f922e7\\285f78db8dfcf5ee51444854ad54bfc67c87f845d6d93b2f4200698ea66fe89d\\conversion.json"
+        },
+        "data/csv-imports/3495b40318dd5c7330c99f042109ee72b1bc6c35f859fbf17d3ec66246f922e7/285f78db8dfcf5ee51444854ad54bfc67c87f845d6d93b2f4200698ea66fe89d/normalized.csv": {
+          "sha256": "26d27fcc06b6171301c5907bbec84e587f21f2370866287230223eea1caac3b9",
+          "size": 713,
+          "mtime_ns": 1792433341496755600,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\csv-imports\\3495b40318dd5c7330c99f042109ee72b1bc6c35f859fbf17d3ec66246f922e7\\285f78db8dfcf5ee51444854ad54bfc67c87f845d6d93b2f4200698ea66fe89d\\normalized.csv"
+        },
+        "data/csv-imports/3495b40318dd5c7330c99f042109ee72b1bc6c35f859fbf17d3ec66246f922e7/285f78db8dfcf5ee51444854ad54bfc67c87f845d6d93b2f4200698ea66fe89d/original.csv": {
+          "sha256": "3495b40318dd5c7330c99f042109ee72b1bc6c35f859fbf17d3ec66246f922e7",
+          "size": 705,
+          "mtime_ns": 1792433341499568300,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\csv-imports\\3495b40318dd5c7330c99f042109ee72b1bc6c35f859fbf17d3ec66246f922e7\\285f78db8dfcf5ee51444854ad54bfc67c87f845d6d93b2f4200698ea66fe89d\\original.csv"
+        },
+        "data/content-example/fictional.html": {
+          "sha256": "617ea078f4d246dfa1a8529dd6836659c80df500a922a2c00cf753fcfe5a12c8",
+          "size": 93,
+          "mtime_ns": 1792433341476865500,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\content-example\\fictional.html"
+        },
+        "data/content-example/fictional.txt": {
+          "sha256": "617ea078f4d246dfa1a8529dd6836659c80df500a922a2c00cf753fcfe5a12c8",
+          "size": 93,
+          "mtime_ns": 1792433341483907100,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\content-example\\fictional.txt"
+        },
+        "data/content-example/packet.json": {
+          "sha256": "46209fa73effbe017e3fb0119f39c39d976f3542ce2e9d46e0f316a0cfebf3ac",
+          "size": 1935,
+          "mtime_ns": 1792433341487786700,
+          "observed_physical_path": "C:\\Users\\Administrator\\Documents\\哈基米v2交易\\outputs\\python_quant_bot\\runtime\\research-workspace\\data\\content-example\\packet.json"
+        }
+      },
+      "comparison_to_r2_before": {
+        "missing": [],
+        "extra": [],
+        "changed": []
+      },
+      "unchanged": true
+    },
+    {
+      "physical_root_at_before": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTrial\\workspaces\\365aa672f5888de86bca",
+      "file_count": 1,
+      "files": {
+        "trial-workspace-identity.json": {
+          "sha256": "b0af80c1d270d429bcbbb847b1772a22795d17332a063bf89c0686c1e37c2a81",
+          "size": 128,
+          "mtime_ns": 1793026901807627300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTrial\\workspaces\\365aa672f5888de86bca\\trial-workspace-identity.json"
+        }
+      },
+      "comparison_to_r2_before": {
+        "missing": [],
+        "extra": [],
+        "changed": []
+      },
+      "unchanged": true
+    },
+    {
+      "physical_root_at_before": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd",
+      "file_count": 65,
+      "files": {
+        ".workbench.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793028564162201500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\.workbench.lock"
+        },
+        "trial-workspace-identity.json": {
+          "sha256": "49ddd8073b1af761df794e1875bb8db49e2a6cfd7f3fadf82c7b2f2f4c9786a2",
+          "size": 128,
+          "mtime_ns": 1793028526701287800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\trial-workspace-identity.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/started.json": {
+          "sha256": "f893600a998885c952d2b1b174f48163e2a99874e9f4b376abeaed7a77770005",
+          "size": 217,
+          "mtime_ns": 1793028762407242700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\started.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/validation.json": {
+          "sha256": "b2eddd3a7a3ea5dabba71deb2f597cbbe52a283607885e84a3277a0b35db17f7",
+          "size": 18267,
+          "mtime_ns": 1793028762762932400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\validation.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/cost-3/report.json": {
+          "sha256": "cd551f4c1f6eeb9ed3d46493beed02800c8b21c139351c179f62c24bf9de96c2",
+          "size": 48196,
+          "mtime_ns": 1793028762621944500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\cost-3\\report.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/cost-3/spec.json": {
+          "sha256": "bc67842e01e5948060ad62f7b44410456859d1ecaad1cc200265b6c6b11ad961",
+          "size": 884,
+          "mtime_ns": 1793028762575697800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\cost-3\\spec.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/cost-2/report.json": {
+          "sha256": "80639e1d7431ad672a44f8286734263d067f7a28aec435c72cf4ad4e521eedd2",
+          "size": 48173,
+          "mtime_ns": 1793028762562528100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\cost-2\\report.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/cost-2/spec.json": {
+          "sha256": "480974c0e908ab5e116c2b02cdc5f4147f8b3c828ce4e0c30b067bba39298c56",
+          "size": 868,
+          "mtime_ns": 1793028762517008100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\cost-2\\spec.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/benchmark-cash/report.json": {
+          "sha256": "fba1f97b413434aad644b5a5c4f4f74461f91b08f37d3204a7f0dfe37fff4379",
+          "size": 44619,
+          "mtime_ns": 1793028762679064500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\benchmark-cash\\report.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/benchmark-cash/spec.json": {
+          "sha256": "9bb7ab2c806b94a145d82d2972c9660f80a65affe169bad83aaf20d66a8ce9fd",
+          "size": 726,
+          "mtime_ns": 1793028762636131600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\benchmark-cash\\spec.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/benchmark-buy_and_hold/report.json": {
+          "sha256": "4d8aaf1772a20b9e3d8e62afa14e321bbd57273f1b428fb44bcfd833acd906ef",
+          "size": 47766,
+          "mtime_ns": 1793028762731948700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\benchmark-buy_and_hold\\report.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/benchmark-buy_and_hold/spec.json": {
+          "sha256": "b69355f89f3f1537ae796feeb4297196e58602db3f36a24d716ef45a64e64f90",
+          "size": 789,
+          "mtime_ns": 1793028762689783800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\benchmark-buy_and_hold\\spec.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/base/inputs.json": {
+          "sha256": "ef25beed6e6cc966bbfe4eafcc89c812ef75f12e9f708256102f5b30f65af348",
+          "size": 23058,
+          "mtime_ns": 1793028762422407200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\base\\inputs.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/base/report.json": {
+          "sha256": "b534955510d5ce75e0dd5d8fea9f6b6697e1f2d8a946c973446a418e129dc223",
+          "size": 48405,
+          "mtime_ns": 1793028762440738400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\base\\report.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/base/started.json": {
+          "sha256": "8605c35ae034c09769efe0204eaeb7f97879ee11bd8795e913ad210cbc2f2169",
+          "size": 135,
+          "mtime_ns": 1793028762434714200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\base\\started.json"
+        },
+        "validations/validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b/base/inputs/snapshot.json": {
+          "sha256": "88898e373d1fcaf20b58e3e372e6074f2fe43e41becc2fc13e5c5eea7a14efce",
+          "size": 38847,
+          "mtime_ns": 1793028762453890600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\validations\\validation-fc77de4b6ef20ca4d404986e661e25d718a0c577d281c061b5cdddce65bd495b\\base\\inputs\\snapshot.json"
+        },
+        "tasks/task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0/family.json": {
+          "sha256": "9d59c1763319c02a3fcb43fd465c5f6ea9dfa4cefa73ba46f0ede56640a6ec86",
+          "size": 223,
+          "mtime_ns": 1793028597635058900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0\\family.json"
+        },
+        "tasks/task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0/versions/r0001-7ca96cc3f12e4d0995e6c034c5dca215/task.json": {
+          "sha256": "7dd15b319a54d4ae1a103038b5541d1d9c540e7ce1ed34f5cc1911cc3a6e74bb",
+          "size": 1282,
+          "mtime_ns": 1793028597746086000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0\\versions\\r0001-7ca96cc3f12e4d0995e6c034c5dca215\\task.json"
+        },
+        "tasks/task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0/versions/r0001-7ca96cc3f12e4d0995e6c034c5dca215/version.json": {
+          "sha256": "d6832bb1357aa7e19e06b1dd2e0a63255d8aedcc8aa99871b9965fd7905958ab",
+          "size": 482,
+          "mtime_ns": 1793028597763495400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0\\versions\\r0001-7ca96cc3f12e4d0995e6c034c5dca215\\version.json"
+        },
+        "tasks/task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0/versions/r0001-7ca96cc3f12e4d0995e6c034c5dca215/inputs/snapshot.json": {
+          "sha256": "88898e373d1fcaf20b58e3e372e6074f2fe43e41becc2fc13e5c5eea7a14efce",
+          "size": 38847,
+          "mtime_ns": 1793028597682613800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0\\versions\\r0001-7ca96cc3f12e4d0995e6c034c5dca215\\inputs\\snapshot.json"
+        },
+        "tasks/task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0/journal/000001.json": {
+          "sha256": "2f9d84e02fa68ddd230fd7c8b0014adb657b54ef33c63266101e563ed5178825",
+          "size": 410,
+          "mtime_ns": 1793028597800980400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0\\journal\\000001.json"
+        },
+        "tasks/task-1bf84304-7570-4f0a-b10d-6059e37f675d/family.json": {
+          "sha256": "bdb74ee7b3e1f3b568dc1b8c75ca9812a18f532a5895202bb0136ce9496aff9d",
+          "size": 223,
+          "mtime_ns": 1793216900696605100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\task-1bf84304-7570-4f0a-b10d-6059e37f675d\\family.json"
+        },
+        "tasks/task-1bf84304-7570-4f0a-b10d-6059e37f675d/versions/r0001-73a1a2302a814e4cb4c89d77d0013a07/task.json": {
+          "sha256": "5337760fc1cb079340500f60423fa4f0e2b0121b0e35798d8a4fa332c1f10605",
+          "size": 1282,
+          "mtime_ns": 1793216900784826300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\task-1bf84304-7570-4f0a-b10d-6059e37f675d\\versions\\r0001-73a1a2302a814e4cb4c89d77d0013a07\\task.json"
+        },
+        "tasks/task-1bf84304-7570-4f0a-b10d-6059e37f675d/versions/r0001-73a1a2302a814e4cb4c89d77d0013a07/version.json": {
+          "sha256": "fdca53d9aaa5f5d1ba45867ebe7368fb20673be68a39af804afe7591b38dcd4e",
+          "size": 482,
+          "mtime_ns": 1793216900795829900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\task-1bf84304-7570-4f0a-b10d-6059e37f675d\\versions\\r0001-73a1a2302a814e4cb4c89d77d0013a07\\version.json"
+        },
+        "tasks/task-1bf84304-7570-4f0a-b10d-6059e37f675d/versions/r0001-73a1a2302a814e4cb4c89d77d0013a07/inputs/snapshot.json": {
+          "sha256": "88898e373d1fcaf20b58e3e372e6074f2fe43e41becc2fc13e5c5eea7a14efce",
+          "size": 38847,
+          "mtime_ns": 1793216900725619500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\task-1bf84304-7570-4f0a-b10d-6059e37f675d\\versions\\r0001-73a1a2302a814e4cb4c89d77d0013a07\\inputs\\snapshot.json"
+        },
+        "tasks/task-1bf84304-7570-4f0a-b10d-6059e37f675d/journal/000001.json": {
+          "sha256": "17a0344118080c1ba57e77bffd09f0ac1636e76566a35b4ab5fc1fd022319302",
+          "size": 410,
+          "mtime_ns": 1793216900832852400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\task-1bf84304-7570-4f0a-b10d-6059e37f675d\\journal\\000001.json"
+        },
+        "tasks/.task-locks/task-1bf84304-7570-4f0a-b10d-6059e37f675d.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793216900696605100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\.task-locks\\task-1bf84304-7570-4f0a-b10d-6059e37f675d.lock"
+        },
+        "tasks/.task-locks/task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793028597633687200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\tasks\\.task-locks\\task-f71d54e8-3cd4-4bca-a942-f4f04e819cf0.lock"
+        },
+        "stock-intakes/check-abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d/check.json": {
+          "sha256": "19aadea62488c9c8da6acbbebf081d937b3df69bdce989324b757e17fb77eb70",
+          "size": 1362,
+          "mtime_ns": 1793028694540792600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\stock-intakes\\check-abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d\\check.json"
+        },
+        "stock-intakes/check-abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d/request-started.json": {
+          "sha256": "4e43052ce5362b448bee2d7a101f029ba406987852098c983861a13859e320bb",
+          "size": 288,
+          "mtime_ns": 1793028682294323700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\stock-intakes\\check-abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d\\request-started.json"
+        },
+        "stock-intakes/check-771a347c-975a-4279-982d-78ddef69e318/check.json": {
+          "sha256": "21f9aad5869a2bdeff27afd811ae6656470a6a911915272c8362e62668f629c2",
+          "size": 1362,
+          "mtime_ns": 1793029158946979100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\stock-intakes\\check-771a347c-975a-4279-982d-78ddef69e318\\check.json"
+        },
+        "stock-intakes/check-771a347c-975a-4279-982d-78ddef69e318/request-started.json": {
+          "sha256": "d1cd54fdd918ab1dc292bf84a93dfbb4fb0bf2c3f8a215427e4b8368b7648a6b",
+          "size": 288,
+          "mtime_ns": 1793029146726372000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\stock-intakes\\check-771a347c-975a-4279-982d-78ddef69e318\\request-started.json"
+        },
+        "runs/run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60/index.html": {
+          "sha256": "8769fe9b2c2e84dfe2974d7d6f4aa1a74d12976727138ed4e026ae8e56bf8acd",
+          "size": 4605,
+          "mtime_ns": 1793216904783428800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60\\index.html"
+        },
+        "runs/run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60/inputs.json": {
+          "sha256": "990afd32641b0a7d290c697690afeaf4d9edf086cba0862e7ce494e90a594741",
+          "size": 23006,
+          "mtime_ns": 1793216904605379600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60\\inputs.json"
+        },
+        "runs/run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60/preparation.json": {
+          "sha256": "99c1968ad1950c2496c29c5e3af373797149ecf3ec5a249f8edf8d2113fbf32b",
+          "size": 266,
+          "mtime_ns": 1793216904582377600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60\\preparation.json"
+        },
+        "runs/run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60/report.json": {
+          "sha256": "efb305f29c6d0501024f5a5669bba8219b2c2e774bd78df105553e71ae226a0b",
+          "size": 48353,
+          "mtime_ns": 1793216904720408800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60\\report.json"
+        },
+        "runs/run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60/started.json": {
+          "sha256": "c69aee714d806594597175037cbe2525b1361a615c20e194d06a5be97b2d25ed",
+          "size": 135,
+          "mtime_ns": 1793216904618381900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60\\started.json"
+        },
+        "runs/run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60/inputs/snapshot.json": {
+          "sha256": "88898e373d1fcaf20b58e3e372e6074f2fe43e41becc2fc13e5c5eea7a14efce",
+          "size": 38847,
+          "mtime_ns": 1793216904595377300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60\\inputs\\snapshot.json"
+        },
+        "runs/run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d/index.html": {
+          "sha256": "6464581612de8f45b8b04cf8a9cc6b7f9fcf68d2b0426092d7a2d510e22ec6f8",
+          "size": 4605,
+          "mtime_ns": 1793028609511915200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d\\index.html"
+        },
+        "runs/run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d/inputs.json": {
+          "sha256": "ef25beed6e6cc966bbfe4eafcc89c812ef75f12e9f708256102f5b30f65af348",
+          "size": 23058,
+          "mtime_ns": 1793028609330943900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d\\inputs.json"
+        },
+        "runs/run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d/preparation.json": {
+          "sha256": "0112f2fd2407d0fc45989020660336ce2614d0b2e94e48e5ef4a0b141e77d9f3",
+          "size": 266,
+          "mtime_ns": 1793028609301608400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d\\preparation.json"
+        },
+        "runs/run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d/report.json": {
+          "sha256": "b534955510d5ce75e0dd5d8fea9f6b6697e1f2d8a946c973446a418e129dc223",
+          "size": 48405,
+          "mtime_ns": 1793028609446384500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d\\report.json"
+        },
+        "runs/run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d/started.json": {
+          "sha256": "8605c35ae034c09769efe0204eaeb7f97879ee11bd8795e913ad210cbc2f2169",
+          "size": 135,
+          "mtime_ns": 1793028609345038600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d\\started.json"
+        },
+        "runs/run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d/inputs/snapshot.json": {
+          "sha256": "88898e373d1fcaf20b58e3e372e6074f2fe43e41becc2fc13e5c5eea7a14efce",
+          "size": 38847,
+          "mtime_ns": 1793028609318653700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d\\inputs\\snapshot.json"
+        },
+        "runs/.run-locks/run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793028609301093200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\.run-locks\\run-3eeea73d0e7bfd08ee5105bcf40b72ea230a735ff30df3c9a8a3b5122507981d.lock"
+        },
+        "runs/.run-locks/run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793216904581378300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\runs\\.run-locks\\run-dde1b34700565b5df8f11fe6576eafa11336f9715f392e0a64d0643d8c769d60.lock"
+        },
+        "operations/f71d54e8-3cd4-4bca-a942-f4f04e819cf0/request.json": {
+          "sha256": "1ab33caac03e9e8ea9f6a07777a5fc35a6aa17293a07b179bf78868e62dbc3da",
+          "size": 894,
+          "mtime_ns": 1793028597625563900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\f71d54e8-3cd4-4bca-a942-f4f04e819cf0\\request.json"
+        },
+        "operations/f71d54e8-3cd4-4bca-a942-f4f04e819cf0/result.json": {
+          "sha256": "54279d14892dcbea08818fc0aaa372e8dac438517c83600c0bcdb915eae5d47d",
+          "size": 6856,
+          "mtime_ns": 1793028598035568800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\f71d54e8-3cd4-4bca-a942-f4f04e819cf0\\result.json"
+        },
+        "operations/abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d/request.json": {
+          "sha256": "5aa0a538bb5f972ac9dfd9611d6fd6bd73e686c81f63eaeb2d2c6f7f2f7317d6",
+          "size": 322,
+          "mtime_ns": 1793028682276702600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d\\request.json"
+        },
+        "operations/abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d/result.json": {
+          "sha256": "986fc4e4b9310b1ad1c3fb1f43173a266e4e2898dea1c99f8afab85c42c93d25",
+          "size": 3027,
+          "mtime_ns": 1793028694575615500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\abb9316a-ed70-4a5d-8ea0-3b6a0dcbba4d\\result.json"
+        },
+        "operations/a2af01d0-1f69-45ac-9fd6-f2cf1ca5cf47/request.json": {
+          "sha256": "d164f481f8533c6f416480b948446aa011edda78ebbd5c4629bf06f6763bcf3a",
+          "size": 381,
+          "mtime_ns": 1793028609136666700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\a2af01d0-1f69-45ac-9fd6-f2cf1ca5cf47\\request.json"
+        },
+        "operations/a2af01d0-1f69-45ac-9fd6-f2cf1ca5cf47/result.json": {
+          "sha256": "916d9c3c0889dd63ad1d3f71c6f234386e0c594fa62dc11fb24997b6d4572747",
+          "size": 44022,
+          "mtime_ns": 1793028609686502100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\a2af01d0-1f69-45ac-9fd6-f2cf1ca5cf47\\result.json"
+        },
+        "operations/a1551590-85d3-43ff-889e-d980f739db78/request.json": {
+          "sha256": "772d383c3e29731c01b71efdaa5f6f3f130099aa0c2659d16b5e03d905206a3a",
+          "size": 298,
+          "mtime_ns": 1793028564182866500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\a1551590-85d3-43ff-889e-d980f739db78\\request.json"
+        },
+        "operations/a1551590-85d3-43ff-889e-d980f739db78/result.json": {
+          "sha256": "24f456408a107110b4a256e7e6afe291a6e87ee8c73b781da9d8c4360c087373",
+          "size": 4621,
+          "mtime_ns": 1793028564212775700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\a1551590-85d3-43ff-889e-d980f739db78\\result.json"
+        },
+        "operations/771a347c-975a-4279-982d-78ddef69e318/request.json": {
+          "sha256": "fcd284237f7b1cde70ff43bb68cefcb93d0ce4193bc172421796c10fa0fc202e",
+          "size": 378,
+          "mtime_ns": 1793029146708456600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\771a347c-975a-4279-982d-78ddef69e318\\request.json"
+        },
+        "operations/771a347c-975a-4279-982d-78ddef69e318/result.json": {
+          "sha256": "f4803b1cb93134aa15b0b68e3459ef706dd884b5f9aacd72c0424391ac7b339c",
+          "size": 3027,
+          "mtime_ns": 1793029158982680700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\771a347c-975a-4279-982d-78ddef69e318\\result.json"
+        },
+        "operations/29ce014f-8ab4-4981-b421-6efe05c88169/request.json": {
+          "sha256": "f290e2a8a2f849c3e52d3c1fb88e79a1f698a26807f2e5b3c9fea03d85765adf",
+          "size": 298,
+          "mtime_ns": 1793216881245208500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\29ce014f-8ab4-4981-b421-6efe05c88169\\request.json"
+        },
+        "operations/29ce014f-8ab4-4981-b421-6efe05c88169/result.json": {
+          "sha256": "1f2760bae159c51444b40297c2c8befd55f22aaf87f42e0c5bffb915fd806165",
+          "size": 4621,
+          "mtime_ns": 1793216881263776200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\29ce014f-8ab4-4981-b421-6efe05c88169\\result.json"
+        },
+        "operations/1bf84304-7570-4f0a-b10d-6059e37f675d/request.json": {
+          "sha256": "120c52dee4293f1bd456f20db64db50ee9d3ce47561c849e74401ab3945dae64",
+          "size": 894,
+          "mtime_ns": 1793216900685599200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\1bf84304-7570-4f0a-b10d-6059e37f675d\\request.json"
+        },
+        "operations/1bf84304-7570-4f0a-b10d-6059e37f675d/result.json": {
+          "sha256": "071a64aac070e8db0cf1e9d0f956b06a606ef831638e9d01328ec2369c00d777",
+          "size": 6856,
+          "mtime_ns": 1793216901078945300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\1bf84304-7570-4f0a-b10d-6059e37f675d\\result.json"
+        },
+        "operations/15bdb958-5db9-4446-b83c-63baec58ccbb/request.json": {
+          "sha256": "bd5ff681d6840063f20d49e24d4f44ede00f21851db655ffd9e3c5e17606e5ca",
+          "size": 334,
+          "mtime_ns": 1793028762276730800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\15bdb958-5db9-4446-b83c-63baec58ccbb\\request.json"
+        },
+        "operations/15bdb958-5db9-4446-b83c-63baec58ccbb/result.json": {
+          "sha256": "0abe1e24027b9e6f15d96e6e49c2e70bb428976e215ba4e085b5a22dae2ae5d2",
+          "size": 19495,
+          "mtime_ns": 1793028763122591900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\15bdb958-5db9-4446-b83c-63baec58ccbb\\result.json"
+        },
+        "operations/10cc09cc-1794-4fea-b539-f044fb44a86c/request.json": {
+          "sha256": "8e7cd9d131a11a73edf9f0d60e1061190a731c1f64a5ef8d5be36db7e6f6fd70",
+          "size": 381,
+          "mtime_ns": 1793216904411185100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\10cc09cc-1794-4fea-b539-f044fb44a86c\\request.json"
+        },
+        "operations/10cc09cc-1794-4fea-b539-f044fb44a86c/result.json": {
+          "sha256": "d2e66f20957c31b00aadecbd843f7d201fd3ebc4b42e80cc99c30e386bb28302",
+          "size": 43970,
+          "mtime_ns": 1793216904962410300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\operations\\10cc09cc-1794-4fea-b539-f044fb44a86c\\result.json"
+        },
+        "data/snapshots/ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec/88898e373d1fcaf20b58e3e372e6074f2fe43e41becc2fc13e5c5eea7a14efce.json": {
+          "sha256": "88898e373d1fcaf20b58e3e372e6074f2fe43e41becc2fc13e5c5eea7a14efce",
+          "size": 38847,
+          "mtime_ns": 1793028564199244500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd\\data\\snapshots\\ff73fa10a3387f953f6f825b575d85081145a8c8d7ac361bd7259951df0b65ec\\88898e373d1fcaf20b58e3e372e6074f2fe43e41becc2fc13e5c5eea7a14efce.json"
+        }
+      },
+      "comparison_to_r2_before": {
+        "missing": [],
+        "extra": [],
+        "changed": []
+      },
+      "unchanged": true
+    },
+    {
+      "physical_root_at_before": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7",
+      "file_count": 37,
+      "files": {
+        ".workbench.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793057653190791600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\.workbench.lock"
+        },
+        "trial-workspace-identity.json": {
+          "sha256": "50da852216df89a97dbfc25a64579f48c4f6220ad7f59402b43edc541f716220",
+          "size": 128,
+          "mtime_ns": 1793034681417190400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\trial-workspace-identity.json"
+        },
+        "updates/check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/baseline-snapshot.json": {
+          "sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+          "size": 104957,
+          "mtime_ns": 1793057847478706800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\updates\\check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\baseline-snapshot.json"
+        },
+        "updates/check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/calendar.json": {
+          "sha256": "c367399cdb316fecae4e63b95d0d183b4959b61237145b8e01a0f3b1a2561491",
+          "size": 860,
+          "mtime_ns": 1793057847982377600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\updates\\check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\calendar.json"
+        },
+        "updates/check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/check.json": {
+          "sha256": "9c1a08b660bfc2008783ecb17c5dcaae376652fb6ce83f9f6745b868d9a92901",
+          "size": 3940,
+          "mtime_ns": 1793057847987259100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\updates\\check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\check.json"
+        },
+        "updates/check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/source-yahoo-chart.json": {
+          "sha256": "e0823ad60a4aff6b990370064e74f1ae6e8c03d29f5e07ad5aff473359036171",
+          "size": 11992,
+          "mtime_ns": 1793057847968871000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\updates\\check-fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\source-yahoo-chart.json"
+        },
+        "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e/family.json": {
+          "sha256": "ff5ef43026ebeef4a7075a10bf4be85f4be591b4a8929fdec6a17b020dd6c391",
+          "size": 224,
+          "mtime_ns": 1793057712350645300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\family.json"
+        },
+        "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e/versions/r0001-111fe0f7bd3c4083a92ebe47ecce5196/task.json": {
+          "sha256": "91d1d73d480f9277a0bddbaf1ef3f9015f25065781d07b27827b9f97ccd36ad0",
+          "size": 1286,
+          "mtime_ns": 1793057712457782400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\versions\\r0001-111fe0f7bd3c4083a92ebe47ecce5196\\task.json"
+        },
+        "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e/versions/r0001-111fe0f7bd3c4083a92ebe47ecce5196/version.json": {
+          "sha256": "a650692b3d153f0d9e876c8a06b5964b97c1a4baeb638a00806c95edf17cc083",
+          "size": 482,
+          "mtime_ns": 1793057712467771700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\versions\\r0001-111fe0f7bd3c4083a92ebe47ecce5196\\version.json"
+        },
+        "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e/versions/r0001-111fe0f7bd3c4083a92ebe47ecce5196/inputs/snapshot.json": {
+          "sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+          "size": 104957,
+          "mtime_ns": 1793057712396901500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\versions\\r0001-111fe0f7bd3c4083a92ebe47ecce5196\\inputs\\snapshot.json"
+        },
+        "tasks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e/journal/000001.json": {
+          "sha256": "3f836394bf5969ee043e5ede223e00742eb0e55a4bd1101bd6795c986fded135",
+          "size": 410,
+          "mtime_ns": 1793057712503047400,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\journal\\000001.json"
+        },
+        "tasks/.task-locks/task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793057712350645300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\tasks\\.task-locks\\task-e303bbc1-8130-43f7-9e12-c510c2e6fb2e.lock"
+        },
+        "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/.freeze.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793057685143397800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\.freeze.lock"
+        },
+        "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/calendar.json": {
+          "sha256": "c367399cdb316fecae4e63b95d0d183b4959b61237145b8e01a0f3b1a2561491",
+          "size": 860,
+          "mtime_ns": 1793057653753456700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\calendar.json"
+        },
+        "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/candidate-prices.csv": {
+          "sha256": "16a9f22c8afef7bb4aef03584a4f346d241fe98dfd66cc1e3ea1c143d119b887",
+          "size": 1348,
+          "mtime_ns": 1793057653767607500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\candidate-prices.csv"
+        },
+        "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/check.json": {
+          "sha256": "a6beaa9936f4fa0a6c8cc8f0bbe11c2cbb60060a265f30b6b94a388d67833f00",
+          "size": 3748,
+          "mtime_ns": 1793057653775784500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\check.json"
+        },
+        "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/freeze.json": {
+          "sha256": "59db3ad7ff0b8bc839bfa067e7d93da2f1df940aaef5775d489a1cf0bfa36d59",
+          "size": 790,
+          "mtime_ns": 1793057685251245300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\freeze.json"
+        },
+        "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/request-started.json": {
+          "sha256": "e23f191f1e80ded82cc69425552db189371a522add693abfaa7b9a6a8348ed99",
+          "size": 288,
+          "mtime_ns": 1793057653231753100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\request-started.json"
+        },
+        "stock-intakes/check-6fb91af4-809d-4b2c-8b19-bb180258d982/source-original.bin": {
+          "sha256": "f239c6672f0aff8c47f2a2378a394518a551aad9a356d10b20bb1fa89a9649ae",
+          "size": 11992,
+          "mtime_ns": 1793057653738313700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\stock-intakes\\check-6fb91af4-809d-4b2c-8b19-bb180258d982\\source-original.bin"
+        },
+        "runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/index.html": {
+          "sha256": "1f0b18a0fb66b924f81d64aa123d9e9038f031e9f2385fb6c5fd27c4d3294fc0",
+          "size": 4568,
+          "mtime_ns": 1793057725319582900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\index.html"
+        },
+        "runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/inputs.json": {
+          "sha256": "cde6c550502e9e63df119f81b1057d62474980e860d9634dd291ea8c72b56092",
+          "size": 23070,
+          "mtime_ns": 1793057725143757300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\inputs.json"
+        },
+        "runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/preparation.json": {
+          "sha256": "26255d9dbb71842a38ce3fe61312df972faf7ac44b633fa641c105389ea853bb",
+          "size": 266,
+          "mtime_ns": 1793057725119254800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\preparation.json"
+        },
+        "runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/report.json": {
+          "sha256": "4b702a243f9ce06397ea58c600eb42a8c9d70042fbe9a834555522063dfc78a3",
+          "size": 38829,
+          "mtime_ns": 1793057725254538500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\report.json"
+        },
+        "runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/started.json": {
+          "sha256": "525484d8972736908e3042ba7c139bd56dc3fbaf09d6ec52485fcab10d8d404e",
+          "size": 135,
+          "mtime_ns": 1793057725155027000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\started.json"
+        },
+        "runs/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134/inputs/snapshot.json": {
+          "sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+          "size": 104957,
+          "mtime_ns": 1793057725132513300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134\\inputs\\snapshot.json"
+        },
+        "runs/.run-locks/run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793057725119254800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\runs\\.run-locks\\run-31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134.lock"
+        },
+        "operations/fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/request.json": {
+          "sha256": "5f52983bb71ddb09b2bcfecc37b1c72c4c0fb697d26ffde2eae28392bfe5fa67",
+          "size": 421,
+          "mtime_ns": 1793057847452940900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\request.json"
+        },
+        "operations/fe2c1359-24be-4ff5-a5e9-ef33c4066bf2/result.json": {
+          "sha256": "14157ff5682980f547d638e621709a8fd0d9727adf976bc0ff541bbfac180568",
+          "size": 4521,
+          "mtime_ns": 1793057848097506800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\fe2c1359-24be-4ff5-a5e9-ef33c4066bf2\\result.json"
+        },
+        "operations/e303bbc1-8130-43f7-9e12-c510c2e6fb2e/request.json": {
+          "sha256": "7255df4733fcb0f62a83c4529535c44f38824db0a4d14bfc62afc37394850e7d",
+          "size": 896,
+          "mtime_ns": 1793057712338686600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\request.json"
+        },
+        "operations/e303bbc1-8130-43f7-9e12-c510c2e6fb2e/result.json": {
+          "sha256": "cce45368dd8857d7170a2a850b3490db20534843d93dafec8349916fcf284f40",
+          "size": 7085,
+          "mtime_ns": 1793057712735903500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\e303bbc1-8130-43f7-9e12-c510c2e6fb2e\\result.json"
+        },
+        "operations/6fb91af4-809d-4b2c-8b19-bb180258d982/request.json": {
+          "sha256": "3600666abb3073922bd9dec2ed5fef11a8991c5ca38b67cbbec8e15d9eb8d5ea",
+          "size": 322,
+          "mtime_ns": 1793057653214554500,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\6fb91af4-809d-4b2c-8b19-bb180258d982\\request.json"
+        },
+        "operations/6fb91af4-809d-4b2c-8b19-bb180258d982/result.json": {
+          "sha256": "0ed182b0fc6aa3bc4c285f22d955e6be32dfc62495f3a8c83035baf8d3992236",
+          "size": 5728,
+          "mtime_ns": 1793057653910895700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\6fb91af4-809d-4b2c-8b19-bb180258d982\\result.json"
+        },
+        "operations/3d88a235-2314-4059-a189-6c2be81ee0d8/request.json": {
+          "sha256": "f41f0fb233b4dbb8b6735c95d550d50023300ae4bac6ba422baad311a8cdf2f1",
+          "size": 381,
+          "mtime_ns": 1793057724948722000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\3d88a235-2314-4059-a189-6c2be81ee0d8\\request.json"
+        },
+        "operations/3d88a235-2314-4059-a189-6c2be81ee0d8/result.json": {
+          "sha256": "d4d3e0c2347d2a57101000c745a88f3e92404ef6a1b4cc448e2d63708ca0458a",
+          "size": 36893,
+          "mtime_ns": 1793057725489960700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\3d88a235-2314-4059-a189-6c2be81ee0d8\\result.json"
+        },
+        "operations/12cea13d-c667-4e84-8bdf-755c4a091a71/request.json": {
+          "sha256": "e80d0ba3352f6490fb7ba8eb3080919f1e96697dcf5b8f7088c65bd28fadec2e",
+          "size": 738,
+          "mtime_ns": 1793057685133738300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\12cea13d-c667-4e84-8bdf-755c4a091a71\\request.json"
+        },
+        "operations/12cea13d-c667-4e84-8bdf-755c4a091a71/result.json": {
+          "sha256": "c734bdce2d4df2ecd95b5c1217d67ae14baf0b44e6bf28abbef6d775f708e97f",
+          "size": 5311,
+          "mtime_ns": 1793057685261360600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\operations\\12cea13d-c667-4e84-8bdf-755c4a091a71\\result.json"
+        },
+        "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json": {
+          "sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+          "size": 104957,
+          "mtime_ns": 1793057685237106800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7\\data\\snapshots\\f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd\\91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json"
+        }
+      },
+      "comparison_to_r2_before": {
+        "missing": [],
+        "extra": [],
+        "changed": []
+      },
+      "unchanged": true
+    },
+    {
+      "physical_root_at_before": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime",
+      "file_count": 20,
+      "files": {
+        "research-workspace/workspace.json": {
+          "sha256": "73dd798923ad7d6425e65c25d1ad59390b0ee17640bd594799de3f9b613096e1",
+          "size": 270,
+          "mtime_ns": 1793301813924168900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\workspace.json"
+        },
+        "research-workspace/terminal-tasks/e88c1ff50f07b24381eb322cb9c22cc9/family.json": {
+          "sha256": "bcd41abdc263d4d3315f203dfa17c5ca33a17fe26b38903e481cc6b2889793d1",
+          "size": 174,
+          "mtime_ns": 1793302010525015600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\terminal-tasks\\e88c1ff50f07b24381eb322cb9c22cc9\\family.json"
+        },
+        "research-workspace/terminal-tasks/e88c1ff50f07b24381eb322cb9c22cc9/versions/efb38357c0dace53b622c552304397b164748b10904901fcfae47c5cedae2cc1.json": {
+          "sha256": "dc49518f0bf0f9c7d8e7f45c774616e5b303b53afa0d97b9a480f427e20f4a7b",
+          "size": 1869,
+          "mtime_ns": 1793302010533095300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\terminal-tasks\\e88c1ff50f07b24381eb322cb9c22cc9\\versions\\efb38357c0dace53b622c552304397b164748b10904901fcfae47c5cedae2cc1.json"
+        },
+        "research-workspace/terminal-tasks/e88c1ff50f07b24381eb322cb9c22cc9/journal/000001.json": {
+          "sha256": "3c5a6dbe34698d4cb82b7da87f8ba9057ed8659a10094b5bc55a0a6691ab6396",
+          "size": 316,
+          "mtime_ns": 1793302010536633300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\terminal-tasks\\e88c1ff50f07b24381eb322cb9c22cc9\\journal\\000001.json"
+        },
+        "research-workspace/terminal-runs/caa2c07ea760f7b922ea3474327ea52f816fbd383fe22fb160e7a3c93adf69eb/report.json": {
+          "sha256": "b5e8f7cb0af111bda171fe8fb3d35a461810ff6e6e78976fcfb4a4de40b75568",
+          "size": 85857,
+          "mtime_ns": 1793302029621022000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\terminal-runs\\caa2c07ea760f7b922ea3474327ea52f816fbd383fe22fb160e7a3c93adf69eb\\report.json"
+        },
+        "research-workspace/terminal-runs/caa2c07ea760f7b922ea3474327ea52f816fbd383fe22fb160e7a3c93adf69eb/started.json": {
+          "sha256": "051b78b2b95760cb100bc6f24921b0b2c7fb01255af8c4e44115398e8306d1b9",
+          "size": 430,
+          "mtime_ns": 1793302029593186900,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\terminal-runs\\caa2c07ea760f7b922ea3474327ea52f816fbd383fe22fb160e7a3c93adf69eb\\started.json"
+        },
+        "research-workspace/terminal-inputs/c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548.json": {
+          "sha256": "ee313c6a6b13f0793e06db0d7e06c91c162e5649128fe92a338c13abb56db095",
+          "size": 105024,
+          "mtime_ns": 1793301952034245200,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\terminal-inputs\\c0828334a677569d219fddd0a5bb1acb4d8f5898618f9ad560ba589bee78b548.json"
+        },
+        "research-workspace/terminal-inputs/core-originals/f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113.json": {
+          "sha256": "f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113",
+          "size": 217619,
+          "mtime_ns": 1793301952029245300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\terminal-inputs\\core-originals\\f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113.json"
+        },
+        "research-workspace/historical-replay/replay-a4fe194e-5969-4459-b90b-2c14a6b5319c/replay.sqlite": {
+          "sha256": "6c1867ab42915978205d6f90077cf0ae9a517e4754577cb575f9e257e287334c",
+          "size": 81920,
+          "mtime_ns": 1793303029580940800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\historical-replay\\replay-a4fe194e-5969-4459-b90b-2c14a6b5319c\\replay.sqlite"
+        },
+        "research-workspace/data/snapshots/6a13f6b5d54959071819f9462474a987221ea53f6fbea87ff1569a922c85a8c1/f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113.json": {
+          "sha256": "f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113",
+          "size": 217619,
+          "mtime_ns": 1793301813935234000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\research-workspace\\data\\snapshots\\6a13f6b5d54959071819f9462474a987221ea53f6fbea87ff1569a922c85a8c1\\f7918863f9ef5ab46c08672de367bc9d0c292fe39044ae0dd0fc2ab2d6bea113.json"
+        },
+        ".hakimi-ui/548f42e19a5d180010c1/server.lock": {
+          "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "size": 1,
+          "mtime_ns": 1793301703432522000,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\.hakimi-ui\\548f42e19a5d180010c1\\server.lock"
+        },
+        ".hakimi-ui/548f42e19a5d180010c1/jobs/0183e7fc-28e7-4cea-b07d-e0ad2ea1e25d.json": {
+          "sha256": "ee5f2b2229a455c8f160aabe8f00f756a5c94ce4bd69079bb239da39fe1e31ef",
+          "size": 1132,
+          "mtime_ns": 1793303029582940800,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\.hakimi-ui\\548f42e19a5d180010c1\\jobs\\0183e7fc-28e7-4cea-b07d-e0ad2ea1e25d.json"
+        },
+        ".hakimi-ui/548f42e19a5d180010c1/jobs/1038c745-8d48-42ba-8f06-f124ba2d91ef.json": {
+          "sha256": "fc61deed50d8200d364fd691ef7408737ac0f8482013d170cfdfa95fe3a8b302",
+          "size": 81609,
+          "mtime_ns": 1793302010603557600,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\.hakimi-ui\\548f42e19a5d180010c1\\jobs\\1038c745-8d48-42ba-8f06-f124ba2d91ef.json"
+        },
+        ".hakimi-ui/548f42e19a5d180010c1/jobs/1f1efd2c-e195-4ee1-a6a8-4e601bf906b0.json": {
+          "sha256": "add1930ed82f34a5ede1e930bd2693cc096985afc41e10e8fbe5558c3998a758",
+          "size": 1636,
+          "mtime_ns": 1793302289104586100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\.hakimi-ui\\548f42e19a5d180010c1\\jobs\\1f1efd2c-e195-4ee1-a6a8-4e601bf906b0.json"
+        },
+        ".hakimi-ui/548f42e19a5d180010c1/jobs/20a472f7-4b14-4108-9bc6-b6aa5fcf0907.json": {
+          "sha256": "04f64d27bacbe8fd3f8de2c3ee6b027651a27644437b2e6c4d4967936c6d69ed",
+          "size": 1680,
+          "mtime_ns": 1793302388485273300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\.hakimi-ui\\548f42e19a5d180010c1\\jobs\\20a472f7-4b14-4108-9bc6-b6aa5fcf0907.json"
+        },
+        ".hakimi-ui/548f42e19a5d180010c1/jobs/4d2be0b2-6960-4228-bf86-620882e674d0.json": {
+          "sha256": "e639704a6563e98e1d578dfea4c406b8d7f1892e2297a69d96e36e0e410626ce",
+          "size": 111871,
+          "mtime_ns": 1793301952038245700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\.hakimi-ui\\548f42e19a5d180010c1\\jobs\\4d2be0b2-6960-4228-bf86-620882e674d0.json"
+        },
+        ".hakimi-ui/548f42e19a5d180010c1/jobs/a85ccb6c-d0bd-4d87-a0b5-96d54b3dc43a.json": {
+          "sha256": "b3f4138896580379f3d89720e4a8a0d7855b835d072f9059defccb11a1655cc6",
+          "size": 1419,
+          "mtime_ns": 1793302312551366300,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\.hakimi-ui\\548f42e19a5d180010c1\\jobs\\a85ccb6c-d0bd-4d87-a0b5-96d54b3dc43a.json"
+        },
+        ".hakimi-ui/548f42e19a5d180010c1/jobs/b28bbed8-c9a9-4fc1-bb8e-a81e5145fad1.json": {
+          "sha256": "ddc9ac5ee3cfe2760fc8b67968a3ff2b9ec090231471d7f7812e0c6d5e41db37",
+          "size": 292318,
+          "mtime_ns": 1793301813957836100,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\.hakimi-ui\\548f42e19a5d180010c1\\jobs\\b28bbed8-c9a9-4fc1-bb8e-a81e5145fad1.json"
+        },
+        ".hakimi-ui/548f42e19a5d180010c1/jobs/c9ebdbeb-ba2b-42a6-9e0e-a69fbd88b694.json": {
+          "sha256": "05eabd435da07fa75cd9d130edd98e2edd17be5027bf41ecf5f43f8d915e947e",
+          "size": 1160,
+          "mtime_ns": 1793302976329269700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\.hakimi-ui\\548f42e19a5d180010c1\\jobs\\c9ebdbeb-ba2b-42a6-9e0e-a69fbd88b694.json"
+        },
+        ".hakimi-ui/548f42e19a5d180010c1/jobs/f1862a1f-8d78-43a0-b91a-d32fc60c43b1.json": {
+          "sha256": "9cdd49be83518a590a4b27eafa36c0b6467554487e0a0c3dc5a45ee170d34511",
+          "size": 201168,
+          "mtime_ns": 1793302029672037700,
+          "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTerminal\\workspaces\\dev3-native-qa-20261030-r1\\runtime\\.hakimi-ui\\548f42e19a5d180010c1\\jobs\\f1862a1f-8d78-43a0-b91a-d32fc60c43b1.json"
+        }
+      },
+      "comparison_to_r2_before": {
+        "missing": [],
+        "extra": [],
+        "changed": []
+      },
+      "unchanged": true
+    }
+  ],
+  "error": null,
+  "qa_records_verified": false,
+  "old_program_packages_hashed": false,
+  "network_calls": 0
+}

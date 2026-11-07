@@ -1,0 +1,83 @@
+{
+  "schema": "ndaq-schedule-closeout-summary-v1",
+  "date": "2026-10-23",
+  "scope": "local_research_demo_only",
+  "candidate": {
+    "commit": "166e18ef8bf27a50f3886667868ab198017fe73f",
+    "wheel_sha256": "022f278cfcdf8ef7fa600cba4718a53efee7b0e5a65ea8ce0276c177a14746d4",
+    "installed_content_sha256": "a8fff8d8df748b0c829c5b735a362f85cb3468d811b2597a1a4feaed5c525961",
+    "installed_checks": "350/350 PASS",
+    "ci_run": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/39770005525",
+    "ci_required_checks": "11/11 PASS"
+  },
+  "research_input": {
+    "security_id": "US:COMMON:NASDAQ:NDAQ",
+    "human_confirmation": "ACCEPT_FOR_INPUT_CHECK",
+    "human_confirmation_file_sha256": "0b3e536a7f225e6d91b0877ac60c767b9797e3a27df8126974708c6fac6513d4",
+    "research_result_file_sha256": "5e522d2732066d61117b331cb04d80425a4abf6f0654e4f0aff4576fefddcd14",
+    "event_context_file_sha256": "c2ca58ec77bbe27dcde0b72d4984ae5e50cfbe1d06448572773c7f2dd6803933",
+    "source_file_sha256": "c7bc8b93d9269384cde6e9b148e7326d6af4ede0006798203e176bbfc57e57a9",
+    "available_at_utc": "2026-10-21T23:33:13Z"
+  },
+  "market_input": {
+    "snapshot_id": "ecb3b642399dce5b4815ee6542b7601ca6dfe130c3976ce7a4e2d25c43c0d5c7",
+    "snapshot_file_sha256": "ec30b0d63eed39b1a66220fc872f9603e56c2250a41480deee3bd3f1e1091e96",
+    "sessions": 27,
+    "first_session": "2026-09-16",
+    "last_session": "2026-10-22",
+    "quality": "PASS",
+    "source_status": "IMPORTED_UNVERIFIED",
+    "price_basis": "RAW_UNADJUSTED",
+    "prior_session_revisions": ["2026-10-21 high", "2026-10-21 volume"],
+    "single_new_source_for_all_sessions": true
+  },
+  "task": {
+    "operation_id": "5833fea2-2cc1-4e06-a594-d5770853a9e3",
+    "task_id": "f83ed552ad167532a75999ff5673d482fe13c5fccfcb1be34bc3ffbbcebe5831",
+    "revision": "r0001-c54e345a71434b838da1e88a5a8e8bbc"
+  },
+  "run": {
+    "operation_id": "dde2c5de-f40b-4d8e-bc94-bd1d42b1abfc",
+    "run_id": "run-b5c661c52f67fdf1073795730deba747d4b763441f679f0b31c32a4e8907f824",
+    "verify_run": "PASS",
+    "report_file_sha256": "876bc53d358cde1679be9a545a2f57637e07798b29209678df99b9b7fcc17b5d",
+    "score_start": "2026-10-02",
+    "score_end": "2026-10-22",
+    "net_return_pct": "1.4462833803",
+    "max_drawdown_pct": "0.6451114751",
+    "fees_usd": "4.12099947",
+    "simulated_fills": 2,
+    "schedule_status": "NO_SCHEDULE_INTERVENTION",
+    "blocked_new_buys": 0,
+    "oct_22_open_known_versions": 1,
+    "oct_22_open_price_action": "HOLD"
+  },
+  "feedback": {
+    "export_operation_id": "6c32cf7e-69bd-45b0-91aa-bfe08ae8fbed",
+    "filename": "research-feedback-4c6d3b993e7d31c7b4a19f3f6ea791865829c39a58439c10405d1c4beafbccca.md",
+    "file_sha256": "4c6d3b993e7d31c7b4a19f3f6ea791865829c39a58439c10405d1c4beafbccca",
+    "file_bytes": 12964,
+    "research_room_id": "room_market",
+    "research_material_id": "mat_bd54f3e6c8c8",
+    "research_material_version_id": "material_version_164c575fb212",
+    "received_source_sha_matches": true,
+    "extracted_chars_after_normalization": 8813,
+    "truncated": false,
+    "content_hash_and_text_match": true
+  },
+  "preservation": {
+    "workspace_baseline_files_unchanged": 122,
+    "workspace_new_files": 34,
+    "research_materials_added": 1,
+    "research_material_versions_added": 1,
+    "room_summary_updated_by_import": true,
+    "research_rounds_or_provider_calls_added": 0,
+    "ndaq_followup_automation_deleted_after_completion": true
+  },
+  "history_and_limits": [
+    "The earlier 2026-10-21 input was STOPPED before task creation because its last completed candle preceded the accepted context availability time.",
+    "Zero blocked buys means this run does not demonstrate schedule-filter effectiveness or strategy advantage.",
+    "The new workflow was completed in the background browser against the installed candidate service; a refreshed end-to-end native-window view was not verified.",
+    "The market source and corporate-action coverage were declared, not independently authenticated; no model or order API was called."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "checks": {
+    "protected_245_unchanged": true,
+    "one_native_report": true,
+    "saved_report_sha_size_mtime_unchanged": true,
+    "original_events_unchanged": true,
+    "original_requests_unchanged": true,
+    "only_reconcile_resume_appended": true,
+    "8_events_5_requests": true,
+    "economic_state_unchanged": true,
+    "unpaused": true,
+    "cursor80_session_april26": true,
+    "no_second_step": true,
+    "program_9066_plus_manifest_unchanged": true,
+    "checkpoint_read_only": true
+  },
+  "first_head": "186abaeaac7587306aed77318ffe5860c90089f10e8f823304a62f5fb88284f4",
+  "final_head": "2ecc28e79afea1e6c6201b6e3cf33b11e7b294767a83a2981858bcc4ad8863f3",
+  "new_request_ids": [
+    "replay-b6ecba02-24af-447f-84ff-2fdac1bc6008",
+    "replay-ef1efeae-21dd-4c69-98e3-ecf981e610a6"
+  ],
+  "cash": "9895.47419402",
+  "quantity": 1,
+  "next_session": "2024-04-29",
+  "evidence_only_comparison": true,
+  "source_snapshots": {
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-window-r1\\FIRST_CLOSED\\checkpoint-summary.json": "8cf8d6c59b9025ac53bbc5c2a002866978e8fbcbcc9cfa00b054356e98a76642",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-dev3-window-r1\\FINAL_CLOSED\\checkpoint-summary.json": "ef38f001d4965e5f97a25a140d00b40f2694b9e71b5d71deb0542e829232aae7"
+  }
+}

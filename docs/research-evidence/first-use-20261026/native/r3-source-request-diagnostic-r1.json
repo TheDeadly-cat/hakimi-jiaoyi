@@ -1,0 +1,34 @@
+{
+  "automatic_retry": false,
+  "completed_at": "2026-10-26T15:37:02.340534Z",
+  "data_admission": false,
+  "economic_runs": 0,
+  "elapsed_seconds": 0.805902,
+  "headers": {
+    "Accept": "application/json",
+    "User-Agent": "Mozilla/5.0 HakimiResearch/0.6"
+  },
+  "launch_context": "Codex exec using the r3 private interpreter; not proof of identical Explorer process environment",
+  "limitation": "An additional diagnostic request only; it cannot change or explain retrospectively details not retained by the original STOP and does not establish a valid market-data snapshot.",
+  "max_requests": 1,
+  "network_requests": 1,
+  "original_check_sha256": "19aadea62488c9c8da6acbbebf081d937b3df69bdce989324b757e17fb77eb70",
+  "original_check_unchanged": true,
+  "product_imports": 0,
+  "product_workspace_writes": 0,
+  "python_executable": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3\\runtime\\python\\python.exe",
+  "python_version": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+  "request_url": "https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?period1=1780200000&period2=1793073600&interval=1d&events=div%2Csplits&includePrePost=false",
+  "result": {
+    "body_read": false,
+    "final_url_matches_request": true,
+    "http_status": 200,
+    "response_body_saved": false,
+    "status": "HTTP_RESPONSE_HEADERS_RECEIVED"
+  },
+  "schema_version": "source-transport-diagnostic-started-v1",
+  "ssl_library": "OpenSSL 3.5.7 9 Jun 2026",
+  "started_at": "2026-10-26T15:37:01.534103Z",
+  "started_receipt_sha256": "4c62ab875c253ae8677cfbb4526470afa3291033fc0106cb8ed97023c9dbb737",
+  "timeout_seconds": 12
+}

@@ -1,0 +1,767 @@
+{
+  "status": "PASS",
+  "evidence_kind": "EXPLICIT_SYNTHETIC_MOCK_BACKEND_FULL_RENDERED_HOST",
+  "full_host": true,
+  "source_hashes_stable": true,
+  "source_files": {
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-plan-ui.js": "4b8aae7e1c1499b8b60de5277af9b50a64b4658f0193120e243b8eed387a4471",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-plan-ui.test.js": "18aae8b63b626c56df5eecb5a3085e55df9a84093a5cd9c3b8e718f5690b96a3",
+    "outputs/python_quant_bot/exchange_terminal/static/terminal-broker-candidate-ui.js": "b37fa0a64633a29ff0516d4dcc3d480eef3aa6551f0f395d375394cb482ee120",
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "0f5a4ae7ba425b8baba6a69c121f3a51f661acb951f25e2bbad7462bdae570cd",
+    "outputs/hakimi_trade_electron/package.json": "a809088070ff1de8458062f197b95f4d612894a256422960e1b4ae60a4fcdce5"
+  },
+  "viewports": [
+    1280,
+    480
+  ],
+  "results": [
+    {
+      "width": 1280,
+      "status": "PASS",
+      "explicit_candidate_and_intent_then_plan": true,
+      "no_automatic_plan_reads": true,
+      "saved_fact_survived_auxiliary_failure": true,
+      "original_plan_read": true,
+      "independent_stop_while_plan_busy": true,
+      "preparing_read_preserved_original_request": true,
+      "recovered_original_mode_after_mode_switch": true,
+      "repeat_post_count": 0,
+      "overflow": false,
+      "mock_posts": 5
+    },
+    {
+      "width": 480,
+      "status": "PASS",
+      "explicit_candidate_and_intent_then_plan": true,
+      "no_automatic_plan_reads": true,
+      "saved_fact_survived_auxiliary_failure": true,
+      "original_plan_read": true,
+      "independent_stop_while_plan_busy": true,
+      "preparing_read_preserved_original_request": true,
+      "recovered_original_mode_after_mode_switch": true,
+      "repeat_post_count": 0,
+      "overflow": false,
+      "mock_posts": 5
+    }
+  ],
+  "requests": [
+    {
+      "width": 1280,
+      "resource": "status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "strategies",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "jobs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_catalog",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_inputs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_tasks",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_runs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_history",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_reports",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_core_inputs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_judgments",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_exit_experiments",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_exit_runs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_insights",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_research/{\"reference\":{\"kind\":\"terminal_run\",\"id\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "actions/terminal_broker_save_candidate",
+      "method": "POST",
+      "body": {
+        "request_id": "3d068583-be02-4165-a5ae-84108010d0dc",
+        "payload": {
+          "mode": "OFFICIAL_SIMULATION",
+          "request_id": "broker-candidate-e5d7adbc-5179-40d1-8f2e-4983432f6990",
+          "config": {
+            "asset_class": "EQUITY",
+            "time_in_force": "DAY",
+            "account_id": "900000000000001",
+            "market": "US",
+            "asset_code": "US.TEST",
+            "max_quantity": 2,
+            "max_notional": "50.00",
+            "side": "BUY",
+            "quantity": 1,
+            "limit_price": "20.00",
+            "expires_at": "2026-10-29T23:58:00.000Z",
+            "currency": "USD"
+          },
+          "research_reference": {
+            "kind": "terminal_run",
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        }
+      }
+    },
+    {
+      "width": 1280,
+      "resource": "status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "strategies",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "jobs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_check/{\"mode\":\"OFFICIAL_SIMULATION\",\"config_id\":\"ccb10201dd87cbecf5f9abaa14054bb23e8a91f5518b4f65f54f537a0254f872\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "actions/terminal_broker_prepare_intent",
+      "method": "POST",
+      "body": {
+        "request_id": "2e9c2c76-69a2-4403-bfac-99cd95eea46c",
+        "payload": {
+          "mode": "OFFICIAL_SIMULATION",
+          "request_id": "broker-candidate-64ebc18e-6ec0-448a-af44-3819cd19170f",
+          "config_id": "ccb10201dd87cbecf5f9abaa14054bb23e8a91f5518b4f65f54f537a0254f872"
+        }
+      }
+    },
+    {
+      "width": 1280,
+      "resource": "status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "strategies",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "jobs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_plan_capabilities/{\"mode\":\"OFFICIAL_SIMULATION\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "actions/terminal_broker_prepare_plan",
+      "method": "POST",
+      "body": {
+        "request_id": "ba1f93e8-e267-46ef-bdc9-1ec4bcb1ed9e",
+        "payload": {
+          "mode": "OFFICIAL_SIMULATION",
+          "request_id": "broker-plan-05194c13-b5b2-413b-985b-177e17202f55",
+          "config_id": "ccb10201dd87cbecf5f9abaa14054bb23e8a91f5518b4f65f54f537a0254f872",
+          "intent_id": "25acdc57f69fc52daeb1814b3ba2ebb5555a3c3201b2495960c6e47f208c6c78",
+          "expected_control_revision": 0,
+          "bounds": {
+            "valid_until": "2026-10-29T23:13:00.000Z",
+            "calls": {
+              "connect": 1,
+              "runtime_read": 1,
+              "account_read": 1,
+              "position_read": 1,
+              "security_read": 1,
+              "quote_read": 1,
+              "fee_read": 1,
+              "submit": 1,
+              "observe": 5,
+              "cancel": 1,
+              "unlock": 0
+            },
+            "wall_timeout_seconds": 180,
+            "call_timeout_seconds": 15,
+            "cleanup_timeout_seconds": 5,
+            "max_output_bytes": 131072,
+            "max_observation_records": 50,
+            "max_evidence_age_seconds": 30,
+            "max_total_fees": "2.00",
+            "endpoint": {
+              "host": "127.0.0.1",
+              "port": 11111
+            }
+          }
+        }
+      }
+    },
+    {
+      "width": 1280,
+      "resource": "status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "strategies",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "jobs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_plans/{\"mode\":\"OFFICIAL_SIMULATION\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_plans/{\"mode\":\"OFFICIAL_SIMULATION\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_plan/{\"mode\":\"OFFICIAL_SIMULATION\",\"plan_id\":\"a617a4f7712ad70cd3b44b88f14b2544113c2bd9e1bae9febf8e3bff85a49e42\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "actions/terminal_broker_prepare_plan",
+      "method": "POST",
+      "body": {
+        "request_id": "817f97c7-0b25-476e-8e16-88b4bdaefb50",
+        "payload": {
+          "mode": "OFFICIAL_SIMULATION",
+          "request_id": "broker-plan-2f4ee8b3-3b2e-41ba-a1e9-240ed0f25967",
+          "config_id": "ccb10201dd87cbecf5f9abaa14054bb23e8a91f5518b4f65f54f537a0254f872",
+          "intent_id": "25acdc57f69fc52daeb1814b3ba2ebb5555a3c3201b2495960c6e47f208c6c78",
+          "expected_control_revision": 0,
+          "bounds": {
+            "valid_until": "2026-10-29T23:13:00.000Z",
+            "calls": {
+              "connect": 1,
+              "runtime_read": 1,
+              "account_read": 1,
+              "position_read": 1,
+              "security_read": 1,
+              "quote_read": 1,
+              "fee_read": 1,
+              "submit": 1,
+              "observe": 5,
+              "cancel": 1,
+              "unlock": 0
+            },
+            "wall_timeout_seconds": 180,
+            "call_timeout_seconds": 15,
+            "cleanup_timeout_seconds": 5,
+            "max_output_bytes": 131072,
+            "max_observation_records": 50,
+            "max_evidence_age_seconds": 30,
+            "max_total_fees": "3.00",
+            "endpoint": {
+              "host": "127.0.0.1",
+              "port": 11111
+            }
+          }
+        }
+      }
+    },
+    {
+      "width": 1280,
+      "resource": "broker-candidate/stop",
+      "method": "POST",
+      "body": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "broker-candidate-48722be9-a3e1-4995-9c68-c10b59a62a10",
+        "reason": "用户明确点击停止准备新意图"
+      }
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_plan_receipt/{\"mode\":\"OFFICIAL_SIMULATION\",\"request_id\":\"broker-plan-2f4ee8b3-3b2e-41ba-a1e9-240ed0f25967\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 1280,
+      "resource": "terminal_broker_plan_receipt/{\"mode\":\"OFFICIAL_SIMULATION\",\"request_id\":\"broker-plan-2f4ee8b3-3b2e-41ba-a1e9-240ed0f25967\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "strategies",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "jobs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_catalog",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_inputs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_tasks",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_runs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_history",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_reports",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_core_inputs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_judgments",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_exit_experiments",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_exit_runs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_insights",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_research/{\"reference\":{\"kind\":\"terminal_run\",\"id\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "actions/terminal_broker_save_candidate",
+      "method": "POST",
+      "body": {
+        "request_id": "ab29be69-2bfd-4950-8a81-be98bb6d5891",
+        "payload": {
+          "mode": "OFFICIAL_SIMULATION",
+          "request_id": "broker-candidate-62664063-2aab-442a-8cf8-78c489a90253",
+          "config": {
+            "asset_class": "EQUITY",
+            "time_in_force": "DAY",
+            "account_id": "900000000000001",
+            "market": "US",
+            "asset_code": "US.TEST",
+            "max_quantity": 2,
+            "max_notional": "50.00",
+            "side": "BUY",
+            "quantity": 1,
+            "limit_price": "20.00",
+            "expires_at": "2026-10-29T23:58:00.000Z",
+            "currency": "USD"
+          },
+          "research_reference": {
+            "kind": "terminal_run",
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        }
+      }
+    },
+    {
+      "width": 480,
+      "resource": "status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "strategies",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "jobs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_check/{\"mode\":\"OFFICIAL_SIMULATION\",\"config_id\":\"ed7e31fbe61aff8c3dd820e567f6414db4799436a8d9a0bb56cb364f21f96a07\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "actions/terminal_broker_prepare_intent",
+      "method": "POST",
+      "body": {
+        "request_id": "8555e5b0-5e8b-4c2d-9c33-4efefa1c73e5",
+        "payload": {
+          "mode": "OFFICIAL_SIMULATION",
+          "request_id": "broker-candidate-7338cf6b-cff4-4fac-abbc-d2ccbcbd891d",
+          "config_id": "ed7e31fbe61aff8c3dd820e567f6414db4799436a8d9a0bb56cb364f21f96a07"
+        }
+      }
+    },
+    {
+      "width": 480,
+      "resource": "status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "strategies",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "jobs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_plan_capabilities/{\"mode\":\"OFFICIAL_SIMULATION\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "actions/terminal_broker_prepare_plan",
+      "method": "POST",
+      "body": {
+        "request_id": "b5e7019a-d44e-4f2c-ab2c-12af25db178f",
+        "payload": {
+          "mode": "OFFICIAL_SIMULATION",
+          "request_id": "broker-plan-615ae4ef-d6c8-47d3-9af3-f28b45418659",
+          "config_id": "ed7e31fbe61aff8c3dd820e567f6414db4799436a8d9a0bb56cb364f21f96a07",
+          "intent_id": "4edad42214ab7b44efb56a380d2888671a5501a0b97b484a83a3ead5f2564557",
+          "expected_control_revision": 0,
+          "bounds": {
+            "valid_until": "2026-10-29T23:13:00.000Z",
+            "calls": {
+              "connect": 1,
+              "runtime_read": 1,
+              "account_read": 1,
+              "position_read": 1,
+              "security_read": 1,
+              "quote_read": 1,
+              "fee_read": 1,
+              "submit": 1,
+              "observe": 5,
+              "cancel": 1,
+              "unlock": 0
+            },
+            "wall_timeout_seconds": 180,
+            "call_timeout_seconds": 15,
+            "cleanup_timeout_seconds": 5,
+            "max_output_bytes": 131072,
+            "max_observation_records": 50,
+            "max_evidence_age_seconds": 30,
+            "max_total_fees": "2.00",
+            "endpoint": {
+              "host": "127.0.0.1",
+              "port": 11111
+            }
+          }
+        }
+      }
+    },
+    {
+      "width": 480,
+      "resource": "status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "strategies",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "jobs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_plans/{\"mode\":\"OFFICIAL_SIMULATION\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_plans/{\"mode\":\"OFFICIAL_SIMULATION\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_plan/{\"mode\":\"OFFICIAL_SIMULATION\",\"plan_id\":\"757e22e6645b4d7cbdbb3ca4fabe545a64f0d22c465c55c5b46a0a384c7b1365\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "actions/terminal_broker_prepare_plan",
+      "method": "POST",
+      "body": {
+        "request_id": "f83353e2-e994-4546-bf4a-d03371099b0a",
+        "payload": {
+          "mode": "OFFICIAL_SIMULATION",
+          "request_id": "broker-plan-a0ac1b41-2d25-4fb6-94d6-3979a20c1ca6",
+          "config_id": "ed7e31fbe61aff8c3dd820e567f6414db4799436a8d9a0bb56cb364f21f96a07",
+          "intent_id": "4edad42214ab7b44efb56a380d2888671a5501a0b97b484a83a3ead5f2564557",
+          "expected_control_revision": 0,
+          "bounds": {
+            "valid_until": "2026-10-29T23:13:00.000Z",
+            "calls": {
+              "connect": 1,
+              "runtime_read": 1,
+              "account_read": 1,
+              "position_read": 1,
+              "security_read": 1,
+              "quote_read": 1,
+              "fee_read": 1,
+              "submit": 1,
+              "observe": 5,
+              "cancel": 1,
+              "unlock": 0
+            },
+            "wall_timeout_seconds": 180,
+            "call_timeout_seconds": 15,
+            "cleanup_timeout_seconds": 5,
+            "max_output_bytes": 131072,
+            "max_observation_records": 50,
+            "max_evidence_age_seconds": 30,
+            "max_total_fees": "3.00",
+            "endpoint": {
+              "host": "127.0.0.1",
+              "port": 11111
+            }
+          }
+        }
+      }
+    },
+    {
+      "width": 480,
+      "resource": "broker-candidate/stop",
+      "method": "POST",
+      "body": {
+        "mode": "OFFICIAL_SIMULATION",
+        "request_id": "broker-candidate-e30eaae5-1363-4889-9feb-e5094795dab0",
+        "reason": "用户明确点击停止准备新意图"
+      }
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_status",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_plan_receipt/{\"mode\":\"OFFICIAL_SIMULATION\",\"request_id\":\"broker-plan-a0ac1b41-2d25-4fb6-94d6-3979a20c1ca6\"}",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "width": 480,
+      "resource": "terminal_broker_plan_receipt/{\"mode\":\"OFFICIAL_SIMULATION\",\"request_id\":\"broker-plan-a0ac1b41-2d25-4fb6-94d6-3979a20c1ca6\"}",
+      "method": "GET",
+      "body": null
+    }
+  ],
+  "errors": [
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+  ],
+  "expected_injected_503": 2,
+  "external_requests": 0,
+  "real_business_writes": 0,
+  "new_research": 0,
+  "real_orders": 0,
+  "SDK_calls": 0,
+  "production_server_started": false,
+  "native_GUI_used": false
+}

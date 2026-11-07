@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "exit_code": 0,
+  "elapsed_seconds": 8.688908600001014,
+  "source_hashes_before": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": "0220adfc0c6aae6a2d89ce4ca446ed0f184f83e1380c129987c76f65aaef260f"
+  },
+  "source_hashes_after": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": "0220adfc0c6aae6a2d89ce4ca446ed0f184f83e1380c129987c76f65aaef260f"
+  },
+  "production_source_unchanged": true,
+  "tests": 23,
+  "unchanged_production_budget": true,
+  "original_unknown_and_result_bytes_preserved": true,
+  "external_connection_or_broker_context": false,
+  "original_failed_gate_retained": true
+}

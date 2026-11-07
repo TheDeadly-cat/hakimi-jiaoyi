@@ -1,0 +1,7 @@
+test_loading_terminal_preserves_canonical_modules_and_search_paths (test_quant_kernel_isolation.QuantKernelIsolationTests.test_loading_terminal_preserves_canonical_modules_and_search_paths) ... ok
+test_static_namespace_is_the_only_change_to_pinned_sources (test_quant_kernel_isolation.QuantKernelIsolationTests.test_static_namespace_is_the_only_change_to_pinned_sources) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.618s
+
+OK

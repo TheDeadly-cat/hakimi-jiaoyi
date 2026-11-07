@@ -1,0 +1,1132 @@
+
+> hakimi-trade-v2-desktop@2.1.0 check
+> node --check research-main.js && node --check trial-main.electron-test.js && node --test research-main.test.js research-workbench-ui.test.js trial-main.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-insights-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-insights-ui.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-judgment-ui.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-exit-research-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-judgment-ui.test.js ../python_quant_bot/exchange_terminal/static/terminal-exit-research-ui.test.js ../python_quant_bot/exchange_terminal/static/terminal-research-chart.test.js && node --check ../python_quant_bot/exchange_terminal/static/indicator_math.js && node --test ../python_quant_bot/exchange_terminal/static/indicator_math.test.js && node --check ../python_quant_bot/exchange_terminal/static/quant-module.js && node --check ../python_quant_bot/exchange_terminal/static/app.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-quant-ui.js && node ../python_quant_bot/exchange_terminal/static/terminal-quant-ui.test.js && node --check main.js && node --check desktop-security-policy.js && node desktop-security-policy.test.js && node --check backend-runtime-contract.js && node backend-runtime-contract.test.js && node --check electron-smoke-runtime.js && node --check smoke-test.js && node --check chart-switch-smoke.js && node --check ..\python_quant_bot\exchange_terminal\static\chart_quality.js && node --check ..\python_quant_bot\exchange_terminal\static\chart_controller.js && node ..\python_quant_bot\exchange_terminal\static\chart_controller.test.js && node --check ..\python_quant_bot\exchange_terminal\static\stock_quote_guard.js && node ..\python_quant_bot\exchange_terminal\static\stock_quote_guard.test.js && node --check ..\python_quant_bot\exchange_terminal\static\evidence_presentation.js && node ..\python_quant_bot\exchange_terminal\static\evidence_presentation.test.js && node --test ../python_quant_bot/exchange_terminal/static/market-websocket.test.js ../python_quant_bot/exchange_terminal/static/stock_session_quote.test.js ../python_quant_bot/exchange_terminal/static/market-ai-flow.test.js ../python_quant_bot/exchange_terminal/static/deepseek-renderer.test.js ../python_quant_bot/exchange_terminal/static/stock-ai-integration.test.js ../python_quant_bot/exchange_terminal/static/terminal-ai-evidence.test.js ../python_quant_bot/exchange_terminal/static/desktop-refresh.test.js ../python_quant_bot/exchange_terminal/static/local-market-report-retention.test.js ../python_quant_bot/exchange_terminal/static/legacy-records-exports.test.js ../python_quant_bot/exchange_terminal/static/futu-status.test.js && node --test desktop-lifecycle.test.js ../python_quant_bot/exchange_terminal/static/archived-management-ui.test.js && node --test terminal-package-runtime.test.js ../python_quant_bot/exchange_terminal/static/terminal-quant-completion.test.js ../python_quant_bot/exchange_terminal/static/terminal-core-completion.test.js ../python_quant_bot/exchange_terminal/static/terminal-parameter-preflight.test.js ../python_quant_bot/exchange_terminal/static/terminal-result-summary.test.js ../python_quant_bot/exchange_terminal/static/terminal-ai-binding.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-daily-ui.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-execution-ui.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-strategy-candidates-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-result-comparison.test.js ../python_quant_bot/exchange_terminal/static/terminal-execution-ui.test.js ../python_quant_bot/exchange_terminal/static/terminal-strategy-candidates-ui.test.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-daily-ui.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-broker-candidate-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-broker-candidate-ui.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-continuous-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-continuous-ui.test.js && node --check ../python_quant_bot/exchange_terminal/static/terminal-broker-plan-ui.js && node --test ../python_quant_bot/exchange_terminal/static/terminal-broker-plan-ui.test.js
+
+TAP version 13
+# Subtest: verified candidate profiles cannot be captured by the original single-instance window
+ok 1 - verified candidate profiles cannot be captured by the original single-instance window
+  ---
+  duration_ms: 2.3609
+  type: 'test'
+  ...
+# Subtest: Electron explicit file entry starts without require.main while imports and renderer processes remain inert
+ok 2 - Electron explicit file entry starts without require.main while imports and renderer processes remain inert
+  ---
+  duration_ms: 0.8156
+  type: 'test'
+  ...
+# Subtest: independent entry launches only the canonical workbench with an argument array and ephemeral loopback port
+ok 3 - independent entry launches only the canonical workbench with an argument array and ephemeral loopback port
+  ---
+  duration_ms: 0.522
+  type: 'test'
+  ...
+# Subtest: bound candidates reject shadow packages and strip startup injection variables
+ok 4 - bound candidates reject shadow packages and strip startup injection variables
+  ---
+  duration_ms: 1.7197
+  type: 'test'
+  ...
+# Subtest: startup workspace check uses authenticated read-only requests and separates access failure from drift
+ok 5 - startup workspace check uses authenticated read-only requests and separates access failure from drift
+  ---
+  duration_ms: 52.6916
+  type: 'test'
+  ...
+# Subtest: diagnostics append new readable files and do not modify existing records
+ok 6 - diagnostics append new readable files and do not modify existing records
+  ---
+  duration_ms: 10.1163
+  type: 'test'
+  ...
+# Subtest: only the owned process and announced canonical loopback URL are accepted
+ok 7 - only the owned process and announced canonical loopback URL are accepted
+  ---
+  duration_ms: 0.3699
+  type: 'test'
+  ...
+# Subtest: split startup receipts are parsed once and invalid startup stops only its child handle
+ok 8 - split startup receipts are parsed once and invalid startup stops only its child handle
+  ---
+  duration_ms: 0.9811
+  type: 'test'
+  ...
+# Subtest: early exit and timeout do not open an unrelated existing service
+ok 9 - early exit and timeout do not open an unrelated existing service
+  ---
+  duration_ms: 11.8601
+  type: 'test'
+  ...
+# Subtest: formal HTML defines an isolated same-origin token client and never starts a monitor on load
+ok 10 - formal HTML defines an isolated same-origin token client and never starts a monitor on load
+  ---
+  duration_ms: 1.5104
+  type: 'test'
+  ...
+# Subtest: visible percentages become canonical ratios exactly once and rules keep their explicit input binding
+ok 11 - visible percentages become canonical ratios exactly once and rules keep their explicit input binding
+  ---
+  duration_ms: 0.9914
+  type: 'test'
+  ...
+# Subtest: old refresh cannot replace a newer selection and unverified saves remain locked across refresh
+ok 12 - old refresh cannot replace a newer selection and unverified saves remain locked across refresh
+  ---
+  duration_ms: 8.05
+  type: 'test'
+  ...
+# Subtest: one successful explicit operation yields one write and a durable known rejection can be cleared
+ok 13 - one successful explicit operation yields one write and a durable known rejection can be cleared
+  ---
+  duration_ms: 0.6411
+  type: 'test'
+  ...
+# Subtest: saved metrics, unavailable comparison and untrusted sources remain distinct
+ok 14 - saved metrics, unavailable comparison and untrusted sources remain distinct
+  ---
+  duration_ms: 18.3944
+  type: 'test'
+  ...
+# Subtest: mounted workflow imports, saves, runs, reopens and creates paused-by-default local observation without external requests
+ok 15 - mounted workflow imports, saves, runs, reopens and creates paused-by-default local observation without external requests
+  ---
+  duration_ms: 50.6958
+  type: 'test'
+  ...
+# Subtest: research preview requires a fresh human decision and binds the exact approved record only when selected
+ok 16 - research preview requires a fresh human decision and binds the exact approved record only when selected
+  ---
+  duration_ms: 37.0306
+  type: 'test'
+  ...
+# Subtest: local feedback export shows the exact import file and next manual step without claiming delivery
+ok 17 - local feedback export shows the exact import file and next manual step without claiming delivery
+  ---
+  duration_ms: 12.2567
+  type: 'test'
+  ...
+# Subtest: a durable schedule rejection explains the time boundary and preserves the draft, while an unverified rejection remains unknown
+ok 18 - a durable schedule rejection explains the time boundary and preserves the draft, while an unverified rejection remains unknown
+  ---
+  duration_ms: 25.655
+  type: 'test'
+  ...
+# Subtest: late or mismatched saved-result reads never replace the explicitly selected result
+ok 19 - late or mismatched saved-result reads never replace the explicitly selected result
+  ---
+  duration_ms: 4.5173
+  type: 'test'
+  ...
+# Subtest: changed runtime stays readable but blocks new operations before a pending request is created
+ok 20 - changed runtime stays readable but blocks new operations before a pending request is created
+  ---
+  duration_ms: 5.361
+  type: 'test'
+  ...
+# Subtest: stopping local observation remains available after a runtime change and requires a positive receipt
+ok 21 - stopping local observation remains available after a runtime change and requires a positive receipt
+  ---
+  duration_ms: 11.1967
+  type: 'test'
+  ...
+# Subtest: loss recovery requires a later completed session and sends the explicitly reviewed receipt head
+ok 22 - loss recovery requires a later completed session and sends the explicitly reviewed receipt head
+  ---
+  duration_ms: 7.8978
+  type: 'test'
+  ...
+# Subtest: only a stopped review-required watch can explicitly discard an exact uncommitted request with a reason
+ok 23 - only a stopped review-required watch can explicitly discard an exact uncommitted request with a reason
+  ---
+  duration_ms: 9.7572
+  type: 'test'
+  ...
+# Subtest: reopening an unknown watch offers explicit recovery of its original request without starting observation
+ok 24 - reopening an unknown watch offers explicit recovery of its original request without starting observation
+  ---
+  duration_ms: 49.1792
+  type: 'test'
+  ...
+# Subtest: pending recovery keeps normal controls and generic unknown-operation locks
+ok 25 - pending recovery keeps normal controls and generic unknown-operation locks
+  ---
+  duration_ms: 13.3724
+  type: 'test'
+  ...
+# Subtest: an unreadable durable pending record blocks a new watch without inventing a recoverable identity
+ok 26 - an unreadable durable pending record blocks a new watch without inventing a recoverable identity
+  ---
+  duration_ms: 4.4426
+  type: 'test'
+  ...
+# Subtest: edited rule parameters use canonical context, discard late defaults and preserve manually entered dates
+ok 27 - edited rule parameters use canonical context, discard late defaults and preserve manually entered dates
+  ---
+  duration_ms: 5.4982
+  type: 'test'
+  ...
+# Subtest: context failures and invalid parameters remove prior requirements instead of reusing catalog defaults
+ok 28 - context failures and invalid parameters remove prior requirements instead of reusing catalog defaults
+  ---
+  duration_ms: 6.0712
+  type: 'test'
+  ...
+# Subtest: watch conditions explain stopping and unavailable protection in ordinary language
+ok 29 - watch conditions explain stopping and unavailable protection in ordinary language
+  ---
+  duration_ms: 0.4468
+  type: 'test'
+  ...
+# Subtest: the real polling callback preserves focused controls, open records and the user's latest scroll without hiding cards
+ok 30 - the real polling callback preserves focused controls, open records and the user's latest scroll without hiding cards
+  ---
+  duration_ms: 17.1928
+  type: 'test'
+  ...
+# Subtest: stopping observation invalidates an in-flight poll so an older monitoring state cannot come back
+ok 31 - stopping observation invalidates an in-flight poll so an older monitoring state cannot come back
+  ---
+  duration_ms: 12.2588
+  type: 'test'
+  ...
+# Subtest: a stop awaiting its receipt cannot become an enabled start button after another status read
+ok 32 - a stop awaiting its receipt cannot become an enabled start button after another status read
+  ---
+  duration_ms: 11.1219
+  type: 'test'
+  ...
+# Subtest: a failed stop that cancels a manual refresh does not leave the refresh control permanently busy
+ok 33 - a failed stop that cancels a manual refresh does not leave the refresh control permanently busy
+  ---
+  duration_ms: 7.8541
+  type: 'test'
+  ...
+# Subtest: background account failures retain confirmed records and stop controls but block dependent writes until verified
+ok 34 - background account failures retain confirmed records and stop controls but block dependent writes until verified
+  ---
+  duration_ms: 9.1549
+  type: 'test'
+  ...
+# Subtest: late account reads from a background poll cannot overwrite a newly selected account
+ok 35 - late account reads from a background poll cannot overwrite a newly selected account
+  ---
+  duration_ms: 8.2583
+  type: 'test'
+  ...
+# Subtest: stock update checks one selected imported snapshot only after an explicit submit
+ok 36 - stock update checks one selected imported snapshot only after an explicit submit
+  ---
+  duration_ms: 9.3277
+  type: 'test'
+  ...
+# Subtest: historical revisions require an explicit acknowledgement before freezing a distinct input
+ok 37 - historical revisions require an explicit acknowledgement before freezing a distinct input
+  ---
+  duration_ms: 7.9838
+  type: 'test'
+  ...
+# Subtest: updating a task binds the selected frozen input to the current task identity without running it
+ok 38 - updating a task binds the selected frozen input to the current task identity without running it
+  ---
+  duration_ms: 6.9279
+  type: 'test'
+  ...
+# Subtest: saved run diagnostics and cost validation stay read-only until the explicit validation action
+ok 39 - saved run diagnostics and cost validation stay read-only until the explicit validation action
+  ---
+  duration_ms: 23.0961
+  type: 'test'
+  ...
+# Subtest: delivery identity is visible without raw JSON and distinguishes engineering from strategy evidence
+ok 40 - delivery identity is visible without raw JSON and distinguishes engineering from strategy evidence
+  ---
+  duration_ms: 3.5939
+  type: 'test'
+  ...
+# Subtest: read-only old account keeps records and stop control accessible while disabling continuation
+ok 41 - read-only old account keeps records and stop control accessible while disabling continuation
+  ---
+  duration_ms: 6.7385
+  type: 'test'
+  ...
+# Subtest: revision review explains consumed history and prepares a new task version without writing
+ok 42 - revision review explains consumed history and prepares a new task version without writing
+  ---
+  duration_ms: 10.8469
+  type: 'test'
+  ...
+# Subtest: company action stops identify dates and types and preserve the unsupported boundary
+ok 43 - company action stops identify dates and types and preserve the unsupported boundary
+  ---
+  duration_ms: 0.4218
+  type: 'test'
+  ...
+# Subtest: selected exchange displays only its verified calendar years without querying data
+ok 44 - selected exchange displays only its verified calendar years without querying data
+  ---
+  duration_ms: 4.5274
+  type: 'test'
+  ...
+# Subtest: zero fills distinguish waiting signals, blocked buys and unknown old evidence without inventing success
+ok 45 - zero fills distinguish waiting signals, blocked buys and unknown old evidence without inventing success
+  ---
+  duration_ms: 4.8676
+  type: 'test'
+  ...
+# Subtest: saved result list explains signals in Chinese and keeps unknown reasons and read errors escaped in collapsed details
+ok 46 - saved result list explains signals in Chinese and keeps unknown reasons and read errors escaped in collapsed details
+  ---
+  duration_ms: 5.9748
+  type: 'test'
+  ...
+# Subtest: run and completed cost comparison show sample insufficiency before technical details
+ok 47 - run and completed cost comparison show sample insufficiency before technical details
+  ---
+  duration_ms: 3.244
+  type: 'test'
+  ...
+# Subtest: partial or unknown cost calculations never receive an unconditional completed headline
+ok 48 - partial or unknown cost calculations never receive an unconditional completed headline
+  ---
+  duration_ms: 5.5796
+  type: 'test'
+  ...
+# Subtest: file and source errors provide a Chinese recovery path while retaining exact escaped details
+ok 49 - file and source errors provide a Chinese recovery path while retaining exact escaped details
+  ---
+  duration_ms: 4.7261
+  type: 'test'
+  ...
+# Subtest: an uncertain mounted run offers receipt refresh without resubmitting or claiming no writes
+ok 50 - an uncertain mounted run offers receipt refresh without resubmitting or claiming no writes
+  ---
+  duration_ms: 10.5933
+  type: 'test'
+  ...
+# Subtest: copy diagnostics uses only identity and counts and its manual fallback performs no operation
+ok 51 - copy diagnostics uses only identity and counts and its manual fallback performs no operation
+  ---
+  duration_ms: 5.4791
+  type: 'test'
+  ...
+# Subtest: copy diagnostics does not leak raw source or access-token text embedded in an error
+ok 52 - copy diagnostics does not leak raw source or access-token text embedded in an error
+  ---
+  duration_ms: 0.3293
+  type: 'test'
+  ...
+# Subtest: first-use example requires separate template, save and run decisions and restores its saved result without browser storage
+ok 53 - first-use example requires separate template, save and run decisions and restores its saved result without browser storage
+  ---
+  duration_ms: 36.4098
+  type: 'test'
+  ...
+# Subtest: first stock check requires exact security acknowledgement and saving never fetches again or creates a task
+ok 54 - first stock check requires exact security acknowledgement and saving never fetches again or creates a task
+  ---
+  duration_ms: 20.0674
+  type: 'test'
+  ...
+# Subtest: a stopped first-stock review retains the cause and never offers a save control
+ok 55 - a stopped first-stock review retains the cause and never offers a save control
+  ---
+  duration_ms: 9.6812
+  type: 'test'
+  ...
+# Subtest: today navigation does not fetch and an old unknown receipt blocks every first-use write
+ok 56 - today navigation does not fetch and an old unknown receipt blocks every first-use write
+  ---
+  duration_ms: 6.4347
+  type: 'test'
+  ...
+# Subtest: a newly selected template with insufficient context cannot reuse the previous valid guide settings
+ok 57 - a newly selected template with insufficient context cannot reuse the previous valid guide settings
+  ---
+  duration_ms: 5.3726
+  type: 'test'
+  ...
+# Subtest: a late stock-review read cannot replace the latest selected security or its confirmation
+ok 58 - a late stock-review read cannot replace the latest selected security or its confirmation
+  ---
+  duration_ms: 17.4166
+  type: 'test'
+  ...
+# Subtest: opening another stock review disables the previous confirmation and cannot borrow its guide identity
+ok 59 - opening another stock review disables the previous confirmation and cannot borrow its guide identity
+  ---
+  duration_ms: 18.2268
+  type: 'test'
+  ...
+# Subtest: a committed source-check receipt with UNKNOWN content keeps first-use writes locked while saved steps remain readable
+ok 60 - a committed source-check receipt with UNKNOWN content keeps first-use writes locked while saved steps remain readable
+  ---
+  duration_ms: 17.0404
+  type: 'test'
+  ...
+# Subtest: trial accepts the complete frozen tree and rejects additions or changed bytes
+ok 61 - trial accepts the complete frozen tree and rejects additions or changed bytes
+  ---
+  duration_ms: 34.7729
+  type: 'test'
+  ...
+# Subtest: archive bytes remain part of the frozen manifest
+ok 62 - archive bytes remain part of the frozen manifest
+  ---
+  duration_ms: 20.4431
+  type: 'test'
+  ...
+# Subtest: Electron explicit and package entries run while imported verifier stays inert
+ok 63 - Electron explicit and package entries run while imported verifier stays inert
+  ---
+  duration_ms: 12.8587
+  type: 'test'
+  ...
+# Subtest: default trial data stays outside program files and ignores legacy workspace overrides
+ok 64 - default trial data stays outside program files and ignores legacy workspace overrides
+  ---
+  duration_ms: 1.4737
+  type: 'test'
+  ...
+# Subtest: short workspace name binds the full identity and never adopts or overwrites another workspace
+ok 65 - short workspace name binds the full identity and never adopts or overwrites another workspace
+  ---
+  duration_ms: 15.5145
+  type: 'test'
+  ...
+# Subtest: physical workspace length is checked before a marker or research record is written
+ok 66 - physical workspace length is checked before a marker or research record is written
+  ---
+  duration_ms: 4.9895
+  type: 'test'
+  ...
+# Subtest: probe uses only bundled Python, handles drift and never launches an engine
+ok 67 - probe uses only bundled Python, handles drift and never launches an engine
+  ---
+  duration_ms: 23.8583
+  type: 'test'
+  ...
+1..67
+# tests 67
+# suites 0
+# pass 67
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 701.2645
+TAP version 13
+# Subtest: module only defines APIs and all data calls remain read-only GET resources
+ok 1 - module only defines APIs and all data calls remain read-only GET resources
+  ---
+  duration_ms: 4.1295
+  type: 'test'
+  ...
+# Subtest: request validation uses exact inputs, unique symbols, explicit dates and first-id baseline
+ok 2 - request validation uses exact inputs, unique symbols, explicit dates and first-id baseline
+  ---
+  duration_ms: 0.7729
+  type: 'test'
+  ...
+# Subtest: late observation and comparison responses cannot replace newer selections or survive invalidation
+ok 3 - late observation and comparison responses cannot replace newer selections or survive invalidation
+  ---
+  duration_ms: 0.352
+  type: 'test'
+  ...
+# Subtest: failed or mismatched reads clear prior output and preserve unavailable state
+ok 4 - failed or mismatched reads clear prior output and preserve unavailable state
+  ---
+  duration_ms: 0.349
+  type: 'test'
+  ...
+# Subtest: structure uses observation-day distance and keeps confirmation, historical breakout and incomplete periods explicit
+ok 5 - structure uses observation-day distance and keeps confirmation, historical breakout and incomplete periods explicit
+  ---
+  duration_ms: 14.3229
+  type: 'test'
+  ...
+# Subtest: cards distinguish no input, warmup and unavailable data without inventing values
+ok 6 - cards distinguish no input, warmup and unavailable data without inventing values
+  ---
+  duration_ms: 1.0998
+  type: 'test'
+  ...
+# Subtest: comparison renders server rankings, null correlation and exact normalized series with a table fallback
+ok 7 - comparison renders server rankings, null correlation and exact normalized series with a table fallback
+  ---
+  duration_ms: 2.4654
+  type: 'test'
+  ...
+# Subtest: reveal scrolls the iframe document below the actual sticky navigation and corrects the next-frame layout
+ok 8 - reveal scrolls the iframe document below the actual sticky navigation and corrects the next-frame layout
+  ---
+  duration_ms: 1.2344
+  type: 'test'
+  ...
+# Subtest: mounted historical observation, same-group supplement, comparison and table form a usable read-only flow
+ok 9 - mounted historical observation, same-group supplement, comparison and table form a usable read-only flow
+  ---
+  duration_ms: 3.8417
+  type: 'test'
+  ...
+# Subtest: frozen contexts without a visible prefix or exact input never fall back to future or same-symbol inputs
+ok 10 - frozen contexts without a visible prefix or exact input never fall back to future or same-symbol inputs
+  ---
+  duration_ms: 1.4484
+  type: 'test'
+  ...
+# Subtest: opening an earlier frozen context clears future peer results and caps comparison until explicitly changed
+ok 11 - opening an earlier frozen context clears future peer results and caps comparison until explicitly changed
+  ---
+  duration_ms: 3.4043
+  type: 'test'
+  ...
+# Subtest: source refresh preserves selected dates and baseline but removes results when a chosen input disappears
+ok 12 - source refresh preserves selected dates and baseline but removes results when a chosen input disappears
+  ---
+  duration_ms: 1.6036
+  type: 'test'
+  ...
+# Subtest: failed open never announces successful observation and backend calendar failure stays visible
+ok 13 - failed open never announces successful observation and backend calendar failure stays visible
+  ---
+  duration_ms: 0.6549
+  type: 'test'
+  ...
+# Subtest: real chart context getter binds the visible prefix and preserves no-visible-bar state
+ok 14 - real chart context getter binds the visible prefix and preserves no-visible-bar state
+  ---
+  duration_ms: 3.2028
+  type: 'test'
+  ...
+# Subtest: insights bridge validates exact fields independently from strategy and AI context
+ok 15 - insights bridge validates exact fields independently from strategy and AI context
+  ---
+  duration_ms: 0.3098
+  type: 'test'
+  ...
+# Subtest: original chart entry queues an exact insights request until the same frame is ready without copying strategy parameters
+ok 16 - original chart entry queues an exact insights request until the same frame is ready without copying strategy parameters
+  ---
+  duration_ms: 1.7313
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 140.7431
+TAP version 13
+# Subtest: module definition never reads DOM or invokes a service
+ok 1 - module definition never reads DOM or invokes a service
+  ---
+  duration_ms: 1.9381
+  type: 'test'
+  ...
+# Subtest: six boundaries and all explicit costs are frozen without mutating original results
+ok 2 - six boundaries and all explicit costs are frozen without mutating original results
+  ---
+  duration_ms: 2.5225
+  type: 'test'
+  ...
+# Subtest: invalid dates, overlap, excluded entries and invalid costs are stopped before writing
+ok 3 - invalid dates, overlap, excluded entries and invalid costs are stopped before writing
+  ---
+  duration_ms: 2.3608
+  type: 'test'
+  ...
+# Subtest: unknown, historical blocked strategy and ADD never become new research sources
+ok 4 - unknown, historical blocked strategy and ADD never become new research sources
+  ---
+  duration_ms: 0.2994
+  type: 'test'
+  ...
+# Subtest: older experiment requires explicit registration while its saved result stays readable
+ok 5 - older experiment requires explicit registration while its saved result stays readable
+  ---
+  duration_ms: 15.8135
+  type: 'test'
+  ...
+# Subtest: register, explicit run, refresh and reopen preserve independent records and never auto-run
+ok 6 - register, explicit run, refresh and reopen preserve independent records and never auto-run
+  ---
+  duration_ms: 1.6245
+  type: 'test'
+  ...
+# Subtest: uncertain register locks new writes until an exact successful receipt is found
+ok 7 - uncertain register locks new writes until an exact successful receipt is found
+  ---
+  duration_ms: 1.1455
+  type: 'test'
+  ...
+# Subtest: uncertain run never restarts and UNKNOWN receipt never claims completion
+ok 8 - uncertain run never restarts and UNKNOWN receipt never claims completion
+  ---
+  duration_ms: 0.5679
+  type: 'test'
+  ...
+# Subtest: late run reads cannot replace a newer selection and failed reads remain unknown
+ok 9 - late run reads cannot replace a newer selection and failed reads remain unknown
+  ---
+  duration_ms: 1.0604
+  type: 'test'
+  ...
+# Subtest: result presentation preserves missing values, exclusions and causal dates and escapes source text
+ok 10 - result presentation preserves missing values, exclusions and causal dates and escapes source text
+  ---
+  duration_ms: 1.1868
+  type: 'test'
+  ...
+# Subtest: derived replay has its own identities, no fabricated account trades and no result identity for structure
+ok 11 - derived replay has its own identities, no fabricated account trades and no result identity for structure
+  ---
+  duration_ms: 0.5929
+  type: 'test'
+  ...
+# Subtest: mounted form follows source → register → explicit run → reopen → validated original chart
+ok 12 - mounted form follows source → register → explicit run → reopen → validated original chart
+  ---
+  duration_ms: 6.7053
+  type: 'test'
+  ...
+# Subtest: independent frozen structure needs no BUY and unavailable replay leaves the chart untouched
+ok 13 - independent frozen structure needs no BUY and unavailable replay leaves the chart untouched
+  ---
+  duration_ms: 0.6418
+  type: 'test'
+  ...
+# Subtest: loading the module only defines APIs without DOM or network access
+ok 14 - loading the module only defines APIs without DOM or network access
+  ---
+  duration_ms: 1.8635
+  type: 'test'
+  ...
+# Subtest: create payload accepts an earlier covered cutoff including weekends and bounds the form
+ok 15 - create payload accepts an earlier covered cutoff including weekends and bounds the form
+  ---
+  duration_ms: 2.5533
+  type: 'test'
+  ...
+# Subtest: append captures the exact saved head and treats user actions as text only
+ok 16 - append captures the exact saved head and treats user actions as text only
+  ---
+  duration_ms: 0.4204
+  type: 'test'
+  ...
+# Subtest: judgment input replay uses independent identity and cannot carry pretend fills
+ok 17 - judgment input replay uses independent identity and cannot carry pretend fills
+  ---
+  duration_ms: 0.467
+  type: 'test'
+  ...
+# Subtest: only completed runs become judgment sources while old task identities stay available
+ok 18 - only completed runs become judgment sources while old task identities stay available
+  ---
+  duration_ms: 0.3108
+  type: 'test'
+  ...
+# Subtest: timeline and details escape untrusted text and distinguish cutoff, write time and AI
+ok 19 - timeline and details escape untrusted text and distinguish cutoff, write time and AI
+  ---
+  duration_ms: 16.536
+  type: 'test'
+  ...
+# Subtest: AI generated after a historical cutoff is retrospective; unparseable timing stays unknown without changing evidence
+ok 20 - AI generated after a historical cutoff is retrospective; unparseable timing stays unknown without changing evidence
+  ---
+  duration_ms: 1.4829
+  type: 'test'
+  ...
+# Subtest: create, append all four event kinds, refresh and reopen use durable reads without trading
+ok 21 - create, append all four event kinds, refresh and reopen use durable reads without trading
+  ---
+  duration_ms: 2.0853
+  type: 'test'
+  ...
+# Subtest: unknown create does not retry and clears only after its precise receipt is read
+ok 22 - unknown create does not retry and clears only after its precise receipt is read
+  ---
+  duration_ms: 1.0964
+  type: 'test'
+  ...
+# Subtest: unknown event reconciles by event request id, never by a changed head alone
+ok 23 - unknown event reconciles by event request id, never by a changed head alone
+  ---
+  duration_ms: 0.8502
+  type: 'test'
+  ...
+# Subtest: a late detail response cannot replace the latest selection; read errors remain unknown
+ok 24 - a late detail response cannot replace the latest selection; read errors remain unknown
+  ---
+  duration_ms: 0.3335
+  type: 'test'
+  ...
+# Subtest: mounted controls save and reopen a historical judgment, append and send only verified frozen input
+ok 25 - mounted controls save and reopen a historical judgment, append and send only verified frozen input
+  ---
+  duration_ms: 5.0386
+  type: 'test'
+  ...
+# Subtest: unavailable replay leaves the original chart untouched and explains the missing source
+ok 26 - unavailable replay leaves the original chart untouched and explains the missing source
+  ---
+  duration_ms: 0.4926
+  type: 'test'
+  ...
+# Subtest: pivots only appear after confirmation, including when drawn at an earlier origin
+ok 27 - pivots only appear after confirmation, including when drawn at an earlier origin
+  ---
+  duration_ms: 1.1182
+  type: 'test'
+  ...
+# Subtest: future entries, exits, thresholds and outcome status cannot leak into a historical prefix
+ok 28 - future entries, exits, thresholds and outcome status cannot leak into a historical prefix
+  ---
+  duration_ms: 0.2916
+  type: 'test'
+  ...
+# Subtest: ordinary result replay has no new annotations; structure-only replay needs no trades
+ok 29 - ordinary result replay has no new annotations; structure-only replay needs no trades
+  ---
+  duration_ms: 0.6343
+  type: 'test'
+  ...
+# Subtest: show-all requests an explicit viewport fit and preserves an unavailable selected sample across Home
+ok 30 - show-all requests an explicit viewport fit and preserves an unavailable selected sample across Home
+  ---
+  duration_ms: 2.6891
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 144.8744
+TAP version 13
+# Subtest: panning and playback preserve the same timestamp values
+ok 1 - panning and playback preserve the same timestamp values
+  ---
+  duration_ms: 5.8604
+  type: 'test'
+  ...
+# Subtest: known values, no fill, and flat RSI
+ok 2 - known values, no fill, and flat RSI
+  ---
+  duration_ms: 0.4515
+  type: 'test'
+  ...
+# Subtest: the real chart breaks the path at missing observations
+ok 3 - the real chart breaks the path at missing observations
+  ---
+  duration_ms: 3.1722
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 91.0723
+TAP version 13
+# Subtest: bridge requires exact origin, exact frame source, known schema and kind
+ok 1 - bridge requires exact origin, exact frame source, known schema and kind
+  ---
+  duration_ms: 1.2365
+  type: 'test'
+  ...
+# Subtest: native engine and percent units remain distinct from the equity research core
+ok 2 - native engine and percent units remain distinct from the equity research core
+  ---
+  duration_ms: 0.3752
+  type: 'test'
+  ...
+# Subtest: replay rows preserve original session dates and reject fabricated/malformed chronology
+ok 3 - replay rows preserve original session dates and reject fabricated/malformed chronology
+  ---
+  duration_ms: 1.3813
+  type: 'test'
+  ...
+# Subtest: source identity follows target symbol and never leaks an unrelated chart source
+ok 4 - source identity follows target symbol and never leaks an unrelated chart source
+  ---
+  duration_ms: 0.1345
+  type: 'test'
+  ...
+# Subtest: explicit completion evidence survives local chart conversion and analysis payload without filling unknown flags
+ok 5 - explicit completion evidence survives local chart conversion and analysis payload without filling unknown flags
+  ---
+  duration_ms: 1.303
+  type: 'test'
+  ...
+# Subtest: analysis payload does not invent date or provider provenance for unknown chart rows
+ok 6 - analysis payload does not invent date or provider provenance for unknown chart rows
+  ---
+  duration_ms: 1.1032
+  type: 'test'
+  ...
+# Subtest: current context reads the edited parameter form and radar target safely
+ok 7 - current context reads the edited parameter form and radar target safely
+  ---
+  duration_ms: 2.0507
+  type: 'test'
+  ...
+# Subtest: market read failures show structured session guidance or native errors as plain text without retry
+ok 8 - market read failures show structured session guidance or native errors as plain text without retry
+  ---
+  duration_ms: 3.2165
+  type: 'test'
+  ...
+# Subtest: dashboard and daily page retain their headers while task and result links retain anchors
+ok 9 - dashboard and daily page retain their headers while task and result links retain anchors
+  ---
+  duration_ms: 2.3096
+  type: 'test'
+  ...
+# Subtest: old task and unverified records never masquerade as completed result summaries
+ok 10 - old task and unverified records never masquerade as completed result summaries
+  ---
+  duration_ms: 3.1122
+  type: 'test'
+  ...
+# Subtest: switching old workspaces invalidates a pending old-record response
+ok 11 - switching old workspaces invalidates a pending old-record response
+  ---
+  duration_ms: 1.1558
+  type: 'test'
+  ...
+# Subtest: frozen replay and exit refresh the original desktop summary for the actual chart symbol
+ok 12 - frozen replay and exit refresh the original desktop summary for the actual chart symbol
+  ---
+  duration_ms: 3.1437
+  type: 'test'
+  ...
+# Subtest: native parameter editor renders only declared signal keys and leaves risk in its own controls
+ok 13 - native parameter editor renders only declared signal keys and leaves risk in its own controls
+  ---
+  duration_ms: 0.9364
+  type: 'test'
+  ...
+# Subtest: comparison signal fields exclude native canonical risk defaults while preserving core fields and frozen detail
+ok 14 - comparison signal fields exclude native canonical risk defaults while preserving core fields and frozen detail
+  ---
+  duration_ms: 0.2141
+  type: 'test'
+  ...
+# Subtest: unified task and result rows retain both engines and their distinct detail routes
+ok 15 - unified task and result rows retain both engines and their distinct detail routes
+  ---
+  duration_ms: 9.0935
+  type: 'test'
+  ...
+# Subtest: core detail callback receives only a verified core record id and never a native object
+ok 16 - core detail callback receives only a verified core record id and never a native object
+  ---
+  duration_ms: 1.3408
+  type: 'test'
+  ...
+# Subtest: same-symbol context source change overrides stale inner source selection
+ok 17 - same-symbol context source change overrides stale inner source selection
+  ---
+  duration_ms: 1.053
+  type: 'test'
+  ...
+# Subtest: unknown terminal run is not announced as complete or opened as a verified result
+ok 18 - unknown terminal run is not announced as complete or opened as a verified result
+  ---
+  duration_ms: 1.5542
+  type: 'test'
+  ...
+# Subtest: durable native job.result replaces the matching saved-task run invitation with its saved result
+ok 19 - durable native job.result replaces the matching saved-task run invitation with its saved result
+  ---
+  duration_ms: 2.9364
+  type: 'test'
+  ...
+# Subtest: save callback binds the card to the acknowledged task_id before matching completion
+ok 20 - save callback binds the card to the acknowledged task_id before matching completion
+  ---
+  duration_ms: 2.0419
+  type: 'test'
+  ...
+# Subtest: another task or an unconfirmed outcome cannot complete the currently saved task card
+ok 21 - another task or an unconfirmed outcome cannot complete the currently saved task card
+  ---
+  duration_ms: 1.587
+  type: 'test'
+  ...
+# Subtest: auxiliary and shell refresh failures preserve the matching completed task card without another run
+ok 22 - auxiliary and shell refresh failures preserve the matching completed task card without another run
+  ---
+  duration_ms: 1.4829
+  type: 'test'
+  ...
+# Subtest: a real late older listing cannot roll back the durable saved-task completion
+ok 23 - a real late older listing cannot roll back the durable saved-task completion
+  ---
+  duration_ms: 1.9152
+  type: 'test'
+  ...
+# Subtest: newly saved task binding resists a late old completion and retains prior completion when reread
+ok 24 - newly saved task binding resists a late old completion and retains prior completion when reread
+  ---
+  duration_ms: 1.4584
+  type: 'test'
+  ...
+# Subtest: new task entry clears the saved card binding so late completion cannot occupy the draft
+ok 25 - new task entry clears the saved card binding so late completion cannot occupy the draft
+  ---
+  duration_ms: 5.1442
+  type: 'test'
+  ...
+# Subtest: explicit new draft from a strategy candidate clears the old saved card while retaining its confirmed facts
+ok 26 - explicit new draft from a strategy candidate clears the old saved card while retaining its confirmed facts
+  ---
+  duration_ms: 2.2194
+  type: 'test'
+  ...
+# Subtest: opening an already verified candidate result preserves the draft and shows actual report risk with incomplete-index notice
+ok 27 - opening an already verified candidate result preserves the draft and shows actual report risk with incomplete-index notice
+  ---
+  duration_ms: 1.2621
+  type: 'test'
+  ...
+# Subtest: starting a revision clears the old saved card before the read, including a failed read
+ok 28 - starting a revision clears the old saved card before the read, including a failed read
+  ---
+  duration_ms: 1.6344
+  type: 'test'
+  ...
+# Subtest: saved result places the original order-preparation action before the long report summary
+ok 29 - saved result places the original order-preparation action before the long report summary
+  ---
+  duration_ms: 0.8038
+  type: 'test'
+  ...
+# Subtest: completed saved-task button dispatch reads the original run and never submits a run
+ok 30 - completed saved-task button dispatch reads the original run and never submits a run
+  ---
+  duration_ms: 1.4286
+  type: 'test'
+  ...
+# Subtest: explicit saved-result entry reveals the original ID during loading and positions its completed detail
+ok 31 - explicit saved-result entry reveals the original ID during loading and positions its completed detail
+  ---
+  duration_ms: 1.2209
+  type: 'test'
+  ...
+# Subtest: failed explicit detail stays visible and same-ID retry only reads the saved result
+ok 32 - failed explicit detail stays visible and same-ID retry only reads the saved result
+  ---
+  duration_ms: 1.0778
+  type: 'test'
+  ...
+# Subtest: older reads and scheduled scrolls cannot replace or reveal a newer selected result
+ok 33 - older reads and scheduled scrolls cannot replace or reveal a newer selected result
+  ---
+  duration_ms: 0.728
+  type: 'test'
+  ...
+# Subtest: leaving and returning to results invalidates a pending read navigation even for the same ID
+ok 34 - leaving and returning to results invalidates a pending read navigation even for the same ID
+  ---
+  duration_ms: 0.6537
+  type: 'test'
+  ...
+# Subtest: background completion does not navigate or replace an explicitly selected result
+ok 35 - background completion does not navigate or replace an explicitly selected result
+  ---
+  duration_ms: 1.3446
+  type: 'test'
+  ...
+# Subtest: historical-only strategy remains viewable but cannot start new research
+ok 36 - historical-only strategy remains viewable but cannot start new research
+  ---
+  duration_ms: 0.7165
+  type: 'test'
+  ...
+# Subtest: imported price reuse requires an available input and explicit confirmation, then selects only the returned input
+ok 37 - imported price reuse requires an available input and explicit confirmation, then selects only the returned input
+  ---
+  duration_ms: 0.7916
+  type: 'test'
+  ...
+# Subtest: local and frozen daily sources cannot pretend to switch intraday sessions
+ok 38 - local and frozen daily sources cannot pretend to switch intraday sessions
+  ---
+  duration_ms: 0.76
+  type: 'test'
+  ...
+# Subtest: parameter copy uses the normalized original catalog and refuses incompatible risk without mutation
+ok 39 - parameter copy uses the normalized original catalog and refuses incompatible risk without mutation
+  ---
+  duration_ms: 2.6244
+  type: 'test'
+  ...
+# Subtest: delayed previous market response cannot overwrite a frozen replay
+ok 40 - delayed previous market response cannot overwrite a frozen replay
+  ---
+  duration_ms: 1.2642
+  type: 'test'
+  ...
+# Subtest: choosing a different symbol exits replay and restores the local data path
+ok 41 - choosing a different symbol exits replay and restores the local data path
+  ---
+  duration_ms: 1.5646
+  type: 'test'
+  ...
+# Subtest: switching BTC to local AAPL renders saved candles and empty stock book/log without a live quote
+ok 42 - switching BTC to local AAPL renders saved candles and empty stock book/log without a live quote
+  ---
+  duration_ms: 17.6949
+  type: 'test'
+  ...
+# Subtest: AI and current-market requests require explicitly leaving frozen replay
+ok 43 - AI and current-market requests require explicitly leaving frozen replay
+  ---
+  duration_ms: 1.657
+  type: 'test'
+  ...
+# Subtest: all frozen sources isolate real cached quotes and update every selected-symbol summary at the historical cutoff
+ok 44 - all frozen sources isolate real cached quotes and update every selected-symbol summary at the historical cutoff
+  ---
+  duration_ms: 19.3956
+  type: 'test'
+  ...
+# Subtest: explicit fit-all restores the whole 575 or 1250 bar frozen interval after Home while live viewport limits and restoration stay unchanged
+ok 45 - explicit fit-all restores the whole 575 or 1250 bar frozen interval after Home while live viewport limits and restoration stay unchanged
+  ---
+  duration_ms: 10.3922
+  type: 'test'
+  ...
+1..45
+# tests 45
+# suites 0
+# pass 45
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 128.9862
+desktop security policy tests passed
+backend runtime contract tests passed
+chart_controller.test.js: PASS
+stock_quote_guard.test.js: PASS
+Traceback (most recent call last):
+  File "<string>", line 3, in <module>
+    from tests.test_strategy_research_pointer import StrategyResearchPointerTests
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_strategy_research_pointer.py", line 10, in <module>
+    from exchange_terminal.services import strategy_research_pointer as pointer_module
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\strategy_research_pointer.py", line 25, in <module>
+    from .strategy_research_evidence import (
+    ...<2 lines>...
+    )
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\strategy_research_evidence.py", line 7, in <module>
+    from .backtest_engine import EXECUTION_MODEL_VERSION, prepare_backtest_dataset
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\backtest_engine.py", line 11, in <module>
+    from hakimi_research.candle_contract import candle_is_complete
+ModuleNotFoundError: No module named 'hakimi_research'
+node:child_process:955
+    throw err;
+    ^
+
+Error: Command failed: python -c 
+import json
+from tests.test_strategy_research_pointer import StrategyResearchPointerTests
+from exchange_terminal.services import strategy_research_pointer as pointer_module
+
+def project(report):
+    pointer = pointer_module._build_pointer("frozen.json", "f" * 64, report)
+    return pointer_module._evidence_projection(
+        report,
+        pointer,
+        StrategyResearchPointerTests._verification(),
+        requested_strategy_id="dual_ma",
+        implementation_fingerprint_fn=lambda _strategy, _params: "d" * 64,
+        observed_at_ms=None,
+    )
+
+bound_report = StrategyResearchPointerTests._schema14_report()
+receipt_only_report = StrategyResearchPointerTests._schema14_report(receipt_only=True)
+drift_report = StrategyResearchPointerTests._schema14_report()
+drift_report["preregistered_failure_admission"]["search_lineage_binding"]["current_trial_count"] += 1
+print(json.dumps({
+    "bound": project(bound_report),
+    "receipt_only": project(receipt_only_report),
+    "drift": project(drift_report),
+}, ensure_ascii=False))
+
+Traceback (most recent call last):
+  File "<string>", line 3, in <module>
+    from tests.test_strategy_research_pointer import StrategyResearchPointerTests
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\tests\test_strategy_research_pointer.py", line 10, in <module>
+    from exchange_terminal.services import strategy_research_pointer as pointer_module
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\strategy_research_pointer.py", line 25, in <module>
+    from .strategy_research_evidence import (
+    ...<2 lines>...
+    )
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\strategy_research_evidence.py", line 7, in <module>
+    from .backtest_engine import EXECUTION_MODEL_VERSION, prepare_backtest_dataset
+  File "C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\services\backtest_engine.py", line 11, in <module>
+    from hakimi_research.candle_contract import candle_is_complete
+ModuleNotFoundError: No module named 'hakimi_research'
+
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:916:11)
+    at execFileSync (node:child_process:952:15)
+    at projectRealSchema14Snapshots (C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\static\evidence_presentation.test.js:37:21)
+    at Object.<anonymous> (C:\Users\Administrator\.codex\worktrees\insights-github-20261022\哈基米v2交易\outputs\python_quant_bot\exchange_terminal\static\evidence_presentation.test.js:1260:31)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Object..js (node:internal/modules/cjs/loader:1913:10)
+    at Module.load (node:internal/modules/cjs/loader:1505:32)
+    at Function._load (node:internal/modules/cjs/loader:1309:12) {
+  status: 1,
+  signal: null,
+  output: [
+    null,
+    '',
+    'Traceback (most recent call last):\r\n' +
+      '  File "<string>", line 3, in <module>\r\n' +
+      '    from tests.test_strategy_research_pointer import StrategyResearchPointerTests\r\n' +
+      '  File "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_strategy_research_pointer.py", line 10, in <module>\r\n' +
+      '    from exchange_terminal.services import strategy_research_pointer as pointer_module\r\n' +
+      '  File "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\strategy_research_pointer.py", line 25, in <module>\r\n' +
+      '    from .strategy_research_evidence import (\r\n' +
+      '    ...<2 lines>...\r\n' +
+      '    )\r\n' +
+      '  File "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\strategy_research_evidence.py", line 7, in <module>\r\n' +
+      '    from .backtest_engine import EXECUTION_MODEL_VERSION, prepare_backtest_dataset\r\n' +
+      '  File "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\backtest_engine.py", line 11, in <module>\r\n' +
+      '    from hakimi_research.candle_contract import candle_is_complete\r\n' +
+      "ModuleNotFoundError: No module named 'hakimi_research'\r\n"
+  ],
+  pid: 7908,
+  stdout: '',
+  stderr: 'Traceback (most recent call last):\r\n' +
+    '  File "<string>", line 3, in <module>\r\n' +
+    '    from tests.test_strategy_research_pointer import StrategyResearchPointerTests\r\n' +
+    '  File "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\tests\\test_strategy_research_pointer.py", line 10, in <module>\r\n' +
+    '    from exchange_terminal.services import strategy_research_pointer as pointer_module\r\n' +
+    '  File "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\strategy_research_pointer.py", line 25, in <module>\r\n' +
+    '    from .strategy_research_evidence import (\r\n' +
+    '    ...<2 lines>...\r\n' +
+    '    )\r\n' +
+    '  File "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\strategy_research_evidence.py", line 7, in <module>\r\n' +
+    '    from .backtest_engine import EXECUTION_MODEL_VERSION, prepare_backtest_dataset\r\n' +
+    '  File "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot\\exchange_terminal\\services\\backtest_engine.py", line 11, in <module>\r\n' +
+    '    from hakimi_research.candle_contract import candle_is_complete\r\n' +
+    "ModuleNotFoundError: No module named 'hakimi_research'\r\n"
+}
+
+Node.js v22.23.4

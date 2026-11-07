@@ -1,0 +1,53 @@
+{
+  "schema_version": "blind-holdout-acquisition-v1",
+  "plan_hash": "03b9c996063e7fb03fbb95e70fd4416bf30a5e0f54617db72fbb9ce8e18f812b",
+  "design_sha256": "e43adda930945e3fc8765e1c2a87f2109fa420ff91b09b6fc3e114e493f59b07",
+  "commit": "3451f2323e4acb2556aaeb382482f83ae681f5ce",
+  "commit_time": "2026-10-26T11:11:22Z",
+  "started_at": "2026-10-26T11:11:55.271611Z",
+  "completed_at": "2026-10-26T11:11:56.508546Z",
+  "commit_time_authority": "GIT_COMMITTER_TIMESTAMP_NOT_EXTERNAL_TIME_ATTESTATION",
+  "status": "ACQUIRED",
+  "sources": {
+    "KO": {
+      "status": "ACQUIRED",
+      "reference": "https://query1.finance.yahoo.com/v8/finance/chart/KO?period1=1768366800&period2=1793013038&interval=1d&events=div%2Csplits&includePrePost=false",
+      "request_started_at": "2026-10-26T11:11:55.317670Z",
+      "retrieved_at": "2026-10-26T11:11:55.909582Z",
+      "raw_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1\\KO\\attempt-1\\response.bin",
+      "raw_sha256": "873b1cc2cb0a3886235f299646278f6ca0e40ce2b9ef31858565664372605276",
+      "attempts": [
+        {
+          "number": 1,
+          "reference": "https://query1.finance.yahoo.com/v8/finance/chart/KO?period1=1768366800&period2=1793013038&interval=1d&events=div%2Csplits&includePrePost=false",
+          "request_started_at": "2026-10-26T11:11:55.317670Z",
+          "status": "ACQUIRED",
+          "raw_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1\\KO\\attempt-1\\response.bin",
+          "raw_sha256": "873b1cc2cb0a3886235f299646278f6ca0e40ce2b9ef31858565664372605276",
+          "completed_at": "2026-10-26T11:11:55.909582Z",
+          "response_status": 200
+        }
+      ]
+    },
+    "NDAQ": {
+      "status": "ACQUIRED",
+      "reference": "https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?period1=1768366800&period2=1793013038&interval=1d&events=div%2Csplits&includePrePost=false",
+      "request_started_at": "2026-10-26T11:11:55.918646Z",
+      "retrieved_at": "2026-10-26T11:11:56.500549Z",
+      "raw_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1\\NDAQ\\attempt-1\\response.bin",
+      "raw_sha256": "753cd5849cba994df592b75b38eeb97c16525c0c013f3ac47cb9e8db52829abe",
+      "attempts": [
+        {
+          "number": 1,
+          "reference": "https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?period1=1768366800&period2=1793013038&interval=1d&events=div%2Csplits&includePrePost=false",
+          "request_started_at": "2026-10-26T11:11:55.918646Z",
+          "status": "ACQUIRED",
+          "raw_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\prepared-r1\\NDAQ\\attempt-1\\response.bin",
+          "raw_sha256": "753cd5849cba994df592b75b38eeb97c16525c0c013f3ac47cb9e8db52829abe",
+          "completed_at": "2026-10-26T11:11:56.500549Z",
+          "response_status": 200
+        }
+      ]
+    }
+  }
+}

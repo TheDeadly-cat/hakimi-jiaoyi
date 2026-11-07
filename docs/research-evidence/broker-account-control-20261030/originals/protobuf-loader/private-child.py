@@ -1,0 +1,112 @@
+"""No contexts or provider: load actual pinned generated classes once."""
+from hashlib import sha256
+import importlib.abc
+import importlib.machinery
+import importlib.util
+import json
+import os
+from pathlib import Path
+import socket
+import sqlite3
+import subprocess
+import sys
+import threading
+import time
+import types
+
+spec=json.loads(Path(sys.argv[1]).read_bytes())
+package,parent,output=(Path(spec[key]).resolve(strict=True) for key in ['package','parent','output'])
+def digest(path): return sha256(path.read_bytes()).hexdigest()
+assert digest(Path(__file__))==spec['child_sha256']
+assert Path(sys.executable)==package/'runtime/python/python.exe'
+assert sys.flags.isolated and sys.flags.no_site and sys.flags.dont_write_bytecode and sys.dont_write_bytecode
+assert all(Path(p).is_relative_to(package/'runtime/python') for p in sys.path)
+manifest_raw=(package/'terminal-manifest.json').read_bytes()
+assert sha256(manifest_raw).hexdigest()==spec['package_manifest_sha256']
+manifest=json.loads(manifest_raw)
+for name,expected in spec['runtime_preflight_files'].items(): assert digest(package/name)==expected,name
+for name,expected in spec['source_hashes'].items(): assert digest(Path(name))==expected,name
+attempts={kind:0 for kind in ['socket','database','subprocess','thread','futu_import']}
+def deny(kind):
+    def blocked(*args,**kwargs):
+        attempts[kind]+=1
+        raise AssertionError('FORBIDDEN_'+kind)
+    return blocked
+socket.socket.connect=deny('socket'); socket.socket.connect_ex=deny('socket')
+socket.create_connection=deny('socket'); socket.getaddrinfo=deny('socket')
+sqlite3.connect=deny('database'); subprocess.Popen.__init__=deny('subprocess'); threading.Thread.start=deny('thread')
+def audit(event,args):
+    if event.startswith('socket.'): deny('socket')()
+    if event.startswith('sqlite3.connect'): deny('database')()
+    if event=='subprocess.Popen': deny('subprocess')()
+    if event=='import' and args and (args[0]=='futu' or args[0].startswith('futu.')): deny('futu_import')()
+    if event=='open' and len(args)>=3 and isinstance(args[0],(str,bytes)):
+        path=Path(os.fsdecode(args[0])).resolve(); flags=args[2]
+        if flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND):
+            assert path.is_relative_to(output),'write outside probe'
+        else:
+            assert path.is_relative_to(package) or path.is_relative_to(output) or str(path) in spec['source_hashes'],'unapproved read '+str(path)
+sys.addaudithook(audit)
+
+class ParentSource(importlib.abc.Loader):
+    def __init__(self,path): self.path=path
+    def create_module(self,spec): return None
+    def exec_module(self,module):
+        raw=self.path.read_bytes(); assert sha256(raw).hexdigest()==spec['source_hashes'][str(self.path)]
+        exec(compile(raw,str(self.path),'exec',dont_inherit=True),module.__dict__)
+class ParentFinder(importlib.abc.MetaPathFinder):
+    def find_spec(self,fullname,path=None,target=None):
+        if fullname=='exchange_terminal.adapters':
+            result=importlib.machinery.ModuleSpec(fullname,loader=None,is_package=True); result.submodule_search_locations=[];return result
+        if not fullname.startswith('exchange_terminal'): return None
+        stem=parent/'outputs/python_quant_bot'/fullname.replace('.','/')
+        choices=[stem.with_suffix('.py'),stem/'__init__.py']
+        matches=[p for p in choices if str(p) in spec['source_hashes']]
+        assert len(matches)==1,'unapproved parent import '+fullname
+        location=matches[0]
+        return importlib.util.spec_from_file_location(fullname,location,loader=ParentSource(location),
+            submodule_search_locations=[str(location.parent)] if location.name=='__init__.py' else None)
+finder=ParentFinder();sys.meta_path.insert(0,finder)
+from exchange_terminal.services import terminal_broker_execution_plan as contract
+from exchange_terminal.adapters import futu_verified_protobuf_loader as loader
+sys.meta_path.remove(finder)
+assert not any(n=='futu' or n.startswith('futu.') or n=='google' or n.startswith('google.') or n.endswith('_pb2') for n in sys.modules)
+site='runtime/python/Lib/site-packages/'
+observed={name:digest(package/name) for name in manifest['files'] if name.startswith((site+'futu/',site+'futu_api-10.7.6708.dist-info/'))}
+runtime=contract.verify_runtime_identity(manifest_bytes=manifest_raw,expected_manifest_sha256=spec['package_manifest_sha256'],
+    observed_file_sha256=observed,mode='OFFICIAL_SIMULATION')
+assert runtime.as_dict()['adapter'] is None
+start=time.monotonic()
+bindings=loader.load_verified_protobuf(package_root=package,expected_manifest_sha256=spec['package_manifest_sha256'],runtime_identity=runtime)
+loaded_seconds=time.monotonic()-start
+metadata=bindings.as_dict()
+checks=[]
+for proto,name in loader.PROTO_NAMES.items():
+    request=bindings.request_classes[proto]()
+    assert request.DESCRIPTOR.full_name==name+'.Request'
+    # Every response shares required retType. Serialize real generated bytes;
+    # no broker facts/account/order or transport is manufactured by this probe.
+    response=bindings.response_classes[proto]();response.retType=0
+    raw=response.SerializeToString()
+    decoded=bindings.response_classes[proto]();decoded.ParseFromString(raw)
+    assert decoded.HasField('retType') and decoded.retType==0
+    checks.append({'protocol':proto,'request':request.DESCRIPTOR.full_name,'response':decoded.DESCRIPTOR.full_name,
+                   'synthetic_response_sha256':sha256(raw).hexdigest(),'response_bytes':len(raw)})
+assert bindings.verify_current()==metadata
+try:
+    loader.load_verified_protobuf(package_root=package,expected_manifest_sha256=spec['package_manifest_sha256'],runtime_identity=runtime)
+except loader.ProtobufLoaderError as error:
+    assert error.code=='NEW_PRIVATE_WORKER_REQUIRED'
+else: raise AssertionError('second load must be refused')
+assert not any(n=='futu' or n.startswith('futu.') for n in sys.modules)
+assert not any(attempts.values())
+assert metadata['source_identity_only'] and not metadata['production_transport_available']
+assert len(metadata['permissions'])==9 and not any(metadata['permissions'].values())
+assert metadata['runtime_compatibility']=='NOT_VERIFIED'
+result={'status':'PASS','scope':spec['scope'],'loaded_seconds':loaded_seconds,'protocol_roundtrips':checks,
+    'loaded_file_count':len(metadata['loaded_files']),'observed_sdk_files':len(observed),'attempts':attempts,
+    'source_hashes':spec['source_hashes'],'package_manifest_sha256':spec['package_manifest_sha256'],
+    'runtime_identity':runtime.as_dict(),'loader_identity':metadata,'second_load':'NEW_PRIVATE_WORKER_REQUIRED',
+    'no_installed_loader_claim':True,'no_runtime_or_authorization_claim':True}
+(output/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+print(json.dumps({key:result[key] for key in ['status','loaded_seconds','loaded_file_count','observed_sdk_files','attempts']},ensure_ascii=False))

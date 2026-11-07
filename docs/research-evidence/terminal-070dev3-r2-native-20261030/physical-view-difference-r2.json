@@ -1,0 +1,33 @@
+{
+  "schema_version": "native-dev3-r2-prior-physical-view-difference-v1",
+  "status": "RECORDED_VIEW_DIFFERENCE_NOT_REPAIRED",
+  "logical_alias": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\365aa672f5888de86bca",
+  "relative_file": "trial-workspace-identity.json",
+  "original_before": {
+    "sha256": "b0af80c1d270d429bcbbb847b1772a22795d17332a063bf89c0686c1e37c2a81",
+    "size": 128,
+    "mtime_ns": 1793027489523869400,
+    "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\365aa672f5888de86bca\\trial-workspace-identity.json"
+  },
+  "r1_final_closed": {
+    "sha256": "b0af80c1d270d429bcbbb847b1772a22795d17332a063bf89c0686c1e37c2a81",
+    "size": 128,
+    "mtime_ns": 1793027489523869400,
+    "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\365aa672f5888de86bca\\trial-workspace-identity.json"
+  },
+  "r2_before": {
+    "sha256": "b0af80c1d270d429bcbbb847b1772a22795d17332a063bf89c0686c1e37c2a81",
+    "size": 128,
+    "mtime_ns": 1793026901807627300,
+    "observed_physical_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\HakimiTradeTrial\\workspaces\\365aa672f5888de86bca\\trial-workspace-identity.json"
+  },
+  "same_sha256_and_size": true,
+  "old_mtime_utc": "2026-10-26T15:11:29.523870+00:00",
+  "r2_view_mtime_utc": "2026-10-26T15:01:41.807627+00:00",
+  "interpretation": "Recorded physical paths differ. Both mtimes predate this preparation. This does not establish cross-view mtime continuity or a write during this run. Original receipts and times are retained unchanged.",
+  "r2_comparison_baseline": "native-before-r2.json via physical-protection-bindings-r2.json",
+  "all_265_sha_and_size_match_previous_evidence": true,
+  "same_recorded_mtime_count": 264,
+  "cross_view_mtime_difference_count": 1,
+  "business_files_reread_for_this_note": 0
+}

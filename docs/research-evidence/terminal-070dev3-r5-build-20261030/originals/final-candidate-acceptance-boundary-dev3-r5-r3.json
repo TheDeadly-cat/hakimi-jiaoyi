@@ -1,0 +1,39 @@
+{
+  "status": "FAIL",
+  "source_commit": "b642227ca176d0f6c61984194d06177b2c0be495",
+  "version": "0.7.0.dev3",
+  "expected_tests": 757,
+  "bundle_id": "7382e481c0fb98e21bae87276a7fb75af6f7c9743e4e55d2105ffdf25110a013",
+  "archive_sha256": "aec1b2fd6ada4bb05d81616ff2ea071a7f62c0af2b3aae2d86c45e5279c1ed1b",
+  "structural_inventory_and_zip_pass": true,
+  "program_inventory_unchanged_after_private_checks": true,
+  "auxiliary_checks": [
+    {
+      "check": "installed_js",
+      "exit_code": 1,
+      "log": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\final-candidate-installed-js-dev3-r5-r3.log"
+    }
+  ],
+  "original_backend_gate_source_commit": "7e1b28e0c44b3441e808d31230204887e05eebe6",
+  "new_complete_desktop_gate_pass": true,
+  "reviewed_copy_delta_binding": true,
+  "gate_binding": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\stage-c-copy-delta-binding-dev3-r5-r3.json",
+  "synthetic_runs": 1,
+  "market_data_runs": 0,
+  "historical_replays": 0,
+  "provider_calls": 0,
+  "normal_probe_local_sdk_import": true,
+  "identity_only_probe_sdk_import": false,
+  "broker_identity_modes": [
+    "OFFICIAL_SIMULATION",
+    "LIVE_CANDIDATE"
+  ],
+  "broker_plan_scope": "INSTALLED_SHARED_ACCOUNT_CONTROL_OFFLINE_WIRE_FACTS_WORKER_HELPERS_NO_DISPATCH",
+  "installed_plan_reads_verified": false,
+  "installed_plan_mutations_performed": false,
+  "embedded_ui_count": null,
+  "native_app_started": false,
+  "production_server_started": false,
+  "source_repository_inaccessible_guest_test": false,
+  "reason": "Host-only private module closure and full HTML assembly; native/guest acceptance is separate."
+}

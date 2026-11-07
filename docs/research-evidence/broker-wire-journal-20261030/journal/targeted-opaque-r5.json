@@ -1,0 +1,28 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "tests.test_terminal_broker_execution_journal.JournalTests.test_opaque_broker_order_id_is_preserved_and_observe_cancel_require_exact_original",
+    "tests.test_terminal_broker_execution_journal.JournalTests.test_wrong_account_mode_and_broker_order_cannot_rebind_existing_claim"
+  ],
+  "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\python_quant_bot",
+  "exit_code": 0,
+  "elapsed_seconds": 0.8067061999900034,
+  "before": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "cf41a3585d91b448dacd78cb23f68dd8029926fb1103eba0e4d323c527df8736",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_profile.py": "72242c9a817ff06494880e8b77f168489ece291167c09fb7e8da09f4d0f76367",
+    "outputs/python_quant_bot/tests/test_terminal_broker_execution_journal.py": "191c65920ae1034253966f10894854844f83efe958abd44f9f0cbae10e4f421d"
+  },
+  "after": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "cf41a3585d91b448dacd78cb23f68dd8029926fb1103eba0e4d323c527df8736",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "3583ed1cc8ad6aa9b1e9a061aee199d3ef1cda06857590086d533e028add7ecc",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_profile.py": "72242c9a817ff06494880e8b77f168489ece291167c09fb7e8da09f4d0f76367",
+    "outputs/python_quant_bot/tests/test_terminal_broker_execution_journal.py": "191c65920ae1034253966f10894854844f83efe958abd44f9f0cbae10e4f421d"
+  },
+  "source_unchanged": true,
+  "scope": "One new opaque orderIDEx regression plus existing identity-mismatch test only. New synthetic TEMP records; no SDK/network/server/research/existing store. Prior29 evidence is historical source0ef50515, not claimed current full-suite verification."
+}

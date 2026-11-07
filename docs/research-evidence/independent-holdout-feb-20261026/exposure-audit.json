@@ -1,0 +1,221 @@
+{
+  "schema_version": "project-scoped-holdout-exposure-delta-v1",
+  "recorded_at": "2026-10-26T11:08:32.697838Z",
+  "new_source_requests": 0,
+  "economic_runs": 0,
+  "candidate_selection_changed_from_user_authorized_round": false,
+  "prior_april_stop_preserved": true,
+  "separate_user_authorized_round": true,
+  "authorization_reference": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\preservation-before.json",
+    "sha256": "43f826178d979c19d56b18d6016cc7e28618479c5df0618ca1acb0ca74b347c1",
+    "bytes": 276271
+  },
+  "prior_audit": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\exposure-audit-v2.json",
+    "sha256": "cac0cb85c56e3dedba85c40f8498cb828adfb6067ffaf7b79fee888d72614441",
+    "bytes": 559961
+  },
+  "prior_attribution": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\anonymous-csv-attribution.json",
+    "sha256": "7cfbabb123757d9d094a352e6ac67eb4d5a9146924018df01e6e02098a8dd8a8",
+    "bytes": 230426
+  },
+  "revalidation": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\eligibility-reference-revalidation.json",
+    "sha256": "82de591096da42711e7e1fc0acda62a4ba14a5abf5ee564edfcad0ac53e98ec1",
+    "bytes": 260580
+  },
+  "script": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\audit_february_exposure_delta.py",
+    "sha256": "a032edd0f6b5d18166e5a2bcac4a9310f68b485ac7b1f624e313f878b0fb0b28",
+    "bytes": 17978
+  },
+  "status": "PASS_PROJECT_SCOPE",
+  "excluded_intervals": [
+    {
+      "start": "2026-03-16",
+      "end": "2026-10-23",
+      "symbols": [
+        "KO",
+        "NDAQ"
+      ],
+      "reason": "Union of prior retained sources and the preserved April first-acquisition originals, including all unscored dates."
+    }
+  ],
+  "selected_month": "2026-02",
+  "selected_context_start": "2026-01-14",
+  "selected_score_start": "2026-02-02",
+  "selected_score_end": "2026-02-27",
+  "selected_context_dates": [
+    "2026-01-14",
+    "2026-01-15",
+    "2026-01-16",
+    "2026-01-20",
+    "2026-01-21",
+    "2026-01-22",
+    "2026-01-23",
+    "2026-01-26",
+    "2026-01-27",
+    "2026-01-28",
+    "2026-01-29",
+    "2026-01-30"
+  ],
+  "selected_score_dates": [
+    "2026-02-02",
+    "2026-02-03",
+    "2026-02-04",
+    "2026-02-05",
+    "2026-02-06",
+    "2026-02-09",
+    "2026-02-10",
+    "2026-02-11",
+    "2026-02-12",
+    "2026-02-13",
+    "2026-02-17",
+    "2026-02-18",
+    "2026-02-19",
+    "2026-02-20",
+    "2026-02-23",
+    "2026-02-24",
+    "2026-02-25",
+    "2026-02-26",
+    "2026-02-27"
+  ],
+  "calendar_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\src\\hakimi_research\\resources\\us-equity-calendar-2026.json",
+  "calendar_sha256": "c367399cdb316fecae4e63b95d0d183b4959b61237145b8e01a0f3b1a2561491",
+  "selection_rule": "Latest complete calendar month wholly before the earliest retained NDAQ/KO source; fixed 12-session context. February is a new explicitly authorized round after April source STOP, not an automatic retry or performance-based replacement.",
+  "prior_project_scope_reused": true,
+  "prior_exposure_group_count": 44,
+  "identified_files_rehashed": 366,
+  "database_files_rehashed": 112,
+  "database_queries_repeated": 0,
+  "anonymous_identity_evidence_files_rehashed": 20,
+  "added_april_sources": [
+    {
+      "symbol": "KO",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\prepared-r1\\KO\\attempt-1\\response.bin",
+      "sha256": "cc7bcc932d852ed7b0a44a8f9eceeec8207ffe53f3604d6c900cfbf46965600a",
+      "bytes": 17853,
+      "actual_retrieved_at": "2026-10-26T10:20:06.450387Z",
+      "first_session": "2026-03-16",
+      "last_session": "2026-10-23",
+      "source_rows": 155,
+      "session_dates_sha256": "20a4e589ec3daadef3e1311d8722959e0f93fe4d01f603cba6fd5d2b3b10ab3d",
+      "event_dates": [
+        {
+          "kind": "dividends",
+          "date": "2026-06-15"
+        },
+        {
+          "kind": "dividends",
+          "date": "2026-09-15"
+        }
+      ],
+      "scope": "Timestamp and event-date metadata only; no price/volume/adjustment/performance values inspected."
+    },
+    {
+      "symbol": "NDAQ",
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\prepared-r1\\NDAQ\\attempt-1\\response.bin",
+      "sha256": "fba35c1dd090fa8ac1ceb8db66d76a1252c5461b17a1e92e855de569914c11f3",
+      "bytes": 17514,
+      "actual_retrieved_at": "2026-10-26T10:20:07.004063Z",
+      "first_session": "2026-03-16",
+      "last_session": "2026-10-23",
+      "source_rows": 155,
+      "session_dates_sha256": "20a4e589ec3daadef3e1311d8722959e0f93fe4d01f603cba6fd5d2b3b10ab3d",
+      "event_dates": [
+        {
+          "kind": "dividends",
+          "date": "2026-03-16"
+        },
+        {
+          "kind": "dividends",
+          "date": "2026-06-12"
+        },
+        {
+          "kind": "dividends",
+          "date": "2026-09-11"
+        }
+      ],
+      "scope": "Timestamp and event-date metadata only; no price/volume/adjustment/performance values inspected."
+    }
+  ],
+  "retained_april_protocol": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\protocol.json",
+    "sha256": "36b00eab50a83a82c405a40897d8f8b1701a45759e50f972db04d52ecb9d6071",
+    "bytes": 10761
+  },
+  "retained_april_preparation": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\prepared-r1\\preparation.json",
+    "sha256": "56e5b942900200dd30340a34d6bcfb593313047d7aa56435983853cfc8cc321d",
+    "bytes": 4523
+  },
+  "retained_april_acquisition": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\prepared-r1\\acquisition.json",
+    "sha256": "8d6cb9f8ff12b3ea1c7e96d7d76490ce65176600f9d66a4253b4c4a6cc6f7fc6",
+    "bytes": 3093
+  },
+  "retained_april_stop": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026\\stop-evidence.json",
+    "sha256": "b3888cad3e720cd6605f375146248772e265b12b465b5853b98dbc63dc934f4f",
+    "bytes": 1876
+  },
+  "anonymous_addendum": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\anonymous-csv-attribution.json",
+    "sha256": "12335dd154f6b13771f236deaf83a35d0556f07d2a5940af4a39657ac184ef7e",
+    "bytes": 233876
+  },
+  "git": {
+    "baseline_head": "6f3d11021c97f0d9409924fe01d207f3051846b5",
+    "checked_head": "68a22b4d7b3bd67a8b1e673c0ab7024ee4502b74",
+    "changed_paths_since_baseline": [
+      "CURRENT_STATUS.md",
+      "README.md",
+      "docs/research-evidence/independent-holdout-20261026/.gitattributes",
+      "docs/research-evidence/independent-holdout-20261026/README.md",
+      "docs/research-evidence/independent-holdout-20261026/STOP.md",
+      "docs/research-evidence/independent-holdout-20261026/acquisition-r1.json",
+      "docs/research-evidence/independent-holdout-20261026/actual-acquisition-preparation-r1.log",
+      "docs/research-evidence/independent-holdout-20261026/anonymous-csv-attribution.json",
+      "docs/research-evidence/independent-holdout-20261026/audit_anonymous_csv_attribution.py",
+      "docs/research-evidence/independent-holdout-20261026/audit_exposure_v1.py",
+      "docs/research-evidence/independent-holdout-20261026/audit_exposure_v2.py",
+      "docs/research-evidence/independent-holdout-20261026/blind-source-tests-final-r1.log",
+      "docs/research-evidence/independent-holdout-20261026/exposure-audit-v1.json",
+      "docs/research-evidence/independent-holdout-20261026/exposure-audit-v2.json",
+      "docs/research-evidence/independent-holdout-20261026/git-seal.json",
+      "docs/research-evidence/independent-holdout-20261026/legacy-source-tests-final-r1.log",
+      "docs/research-evidence/independent-holdout-20261026/preacquisition-checks.json",
+      "docs/research-evidence/independent-holdout-20261026/prefix-tests-final-r1.log",
+      "docs/research-evidence/independent-holdout-20261026/preparation-r1.json",
+      "docs/research-evidence/independent-holdout-20261026/protocol.json",
+      "docs/research-evidence/independent-holdout-20261026/stage_tasks_once.py",
+      "docs/research-evidence/independent-holdout-20261026/stop-evidence.json",
+      "docs/research-evidence/independent-holdout-20261026/stopped-preservation.json",
+      "tests/repository_only/test_blind_holdout.py",
+      "tests/repository_only/test_strategy_prefix_isolation.py",
+      "tools/prepare_blind_holdout.py",
+      "tools/verify_strategy_prefix_isolation.py"
+    ],
+    "april_protocol_commit": "aa7935214e6e84197f48c1d6fb2908bed3d0851e",
+    "april_stop_commit": "68a22b4d7b3bd67a8b1e673c0ab7024ee4502b74",
+    "fetched": false
+  },
+  "unreadable_or_unclassified_relevant_metadata": [],
+  "opaque_symbol_named_data": [],
+  "candidate_actual_ndaq_ko_development_or_tuning_exposure_identified": false,
+  "qualifications": "No identified NDAQ/KO real-data use in January 14 through February 27 within the audited project scope; not proof of global ignorance or statistical independence.",
+  "limitations": [
+    "Project-scope absence of identified use is not global unviewed-data or statistical-independence proof.",
+    "Cannot audit deleted/unreachable Git objects, external chats/accounts/files, human memory or model pretraining.",
+    "Anonymous price files without symbol metadata and unlisted proprietary/binary stores are not certified.",
+    "Only locally visible Git refs/history are covered; no remote fetch was performed.",
+    "Known synthetic strategy tests are development evidence, not independent real-market observations.",
+    "Data intake/quality reconciliation used future-to-window source metadata in the prior retrospective study; all retained source dates are excluded here.",
+    "This is an incremental audit of already bound evidence plus the two April raw acquisitions; it does not repeat the 2175-file discovery or 112-database query audit.",
+    "Existing source prices after March 16 are excluded conservatively whether scored or not; they do not establish point-in-time historical truth.",
+    "No new candidate prices or performance were obtained for this eligibility delta. All old parameters and source guards must be separately frozen unchanged before acquisition.",
+    "If new unbound evidence or material drift appears, this project-scoped eligibility conclusion must be revisited before execution."
+  ]
+}

@@ -1,0 +1,292 @@
+TAP version 13
+# Subtest: pending operations reject shutdown without waiting or killing
+ok 1 - pending operations reject shutdown without waiting or killing
+  ---
+  duration_ms: 1.317
+  type: 'test'
+  ...
+# Subtest: request failures and unrecognized responses cannot authorize exit
+ok 2 - request failures and unrecognized responses cannot authorize exit
+  ---
+  duration_ms: 0.3514
+  type: 'test'
+  ...
+# Subtest: confirmed shutdown waits for the owned child before allowing exit
+ok 3 - confirmed shutdown waits for the owned child before allowing exit
+  ---
+  duration_ms: 0.1429
+  type: 'test'
+  ...
+# Subtest: accepted but still-running shutdown stays pending and can be observed again
+ok 4 - accepted but still-running shutdown stays pending and can be observed again
+  ---
+  duration_ms: 0.131
+  type: 'test'
+  ...
+# Subtest: unowned processes are never stopped
+ok 5 - unowned processes are never stopped
+  ---
+  duration_ms: 0.1034
+  type: 'test'
+  ...
+# Subtest: actual child exit and timeout clean up the exit observer
+ok 6 - actual child exit and timeout clean up the exit observer
+  ---
+  duration_ms: 19.7967
+  type: 'test'
+  ...
+# Subtest: pending health must be explicit and local-only resources stay on the exact origin
+ok 7 - pending health must be explicit and local-only resources stay on the exact origin
+  ---
+  duration_ms: 0.5544
+  type: 'test'
+  ...
+# Subtest: prepare-exit sends the exact authenticated local request contract
+ok 8 - prepare-exit sends the exact authenticated local request contract
+  ---
+  duration_ms: 0.5196
+  type: 'test'
+  ...
+# Subtest: invalid control destinations never dispatch a shutdown request
+ok 9 - invalid control destinations never dispatch a shutdown request
+  ---
+  duration_ms: 0.7788
+  type: 'test'
+  ...
+# Subtest: backend reuse requires explicit matching local-only mode and preserves stricter health failures
+ok 10 - backend reuse requires explicit matching local-only mode and preserves stricter health failures
+  ---
+  duration_ms: 12.0709
+  type: 'test'
+  ...
+# Subtest: same workspace backend without the fixed shared root identity cannot attach
+ok 11 - same workspace backend without the fixed shared root identity cannot attach
+  ---
+  duration_ms: 6.0894
+  type: 'test'
+  ...
+# Subtest: actual desktop quit handler preserves owned processes on busy and unknown outcomes
+ok 12 - actual desktop quit handler preserves owned processes on busy and unknown outcomes
+  ---
+  duration_ms: 24.9561
+  type: 'test'
+  ...
+# Subtest: window close remains cancellable while an owned backend is busy
+ok 13 - window close remains cancellable while an owned backend is busy
+  ---
+  duration_ms: 7.0223
+  type: 'test'
+  ...
+# Subtest: quitting an attached window does not stop a backend it does not own
+ok 14 - quitting an attached window does not stop a backend it does not own
+  ---
+  duration_ms: 7.2292
+  type: 'test'
+  ...
+# Subtest: actual desktop quit handler allows exit only after confirmed owned shutdown
+ok 15 - actual desktop quit handler allows exit only after confirmed owned shutdown
+  ---
+  duration_ms: 7.4045
+  type: 'test'
+  ...
+# Subtest: desktop local session guard covers websocket requests and quant startup route
+ok 16 - desktop local session guard covers websocket requests and quant startup route
+  ---
+  duration_ms: 5.9277
+  type: 'test'
+  ...
+# Subtest: close exits by default even with a tray and keeps owned shutdown cooperative
+ok 17 - close exits by default even with a tray and keeps owned shutdown cooperative
+  ---
+  duration_ms: 7.0828
+  type: 'test'
+  ...
+# Subtest: tray retention requires explicit opt-in and menu exit still stops owned backend
+ok 18 - tray retention requires explicit opt-in and menu exit still stops owned backend
+  ---
+  duration_ms: 7.1028
+  type: 'test'
+  ...
+# Subtest: repeat launch focuses existing window and a losing instance never boots
+ok 19 - repeat launch focuses existing window and a losing instance never boots
+  ---
+  duration_ms: 11.7386
+  type: 'test'
+  ...
+# Subtest: different quant workspace gets a distinct singleton and launch keeps legacy source separate
+ok 20 - different quant workspace gets a distinct singleton and launch keeps legacy source separate
+  ---
+  duration_ms: 14.804
+  type: 'test'
+  ...
+# Subtest: occupied service for a different workspace never attaches, spawns or receives stop
+ok 21 - occupied service for a different workspace never attaches, spawns or receives stop
+  ---
+  duration_ms: 5.8901
+  type: 'test'
+  ...
+# Subtest: backend spawn error records a bounded-diagnostic status and leaves no process authority
+ok 22 - backend spawn error records a bounded-diagnostic status and leaves no process authority
+  ---
+  duration_ms: 6.2916
+  type: 'test'
+  ...
+# Subtest: developer legacy-only selection preserves the independent developer quant default
+ok 23 - developer legacy-only selection preserves the independent developer quant default
+  ---
+  duration_ms: 6.8512
+  type: 'test'
+  ...
+# Subtest: verified original route uses only private Python with separate Unicode arguments
+ok 24 - verified original route uses only private Python with separate Unicode arguments
+  ---
+  duration_ms: 30.3745
+  type: 'test'
+  ...
+# Subtest: changed executable bytes and unexpected modules fail before launch
+ok 25 - changed executable bytes and unexpected modules fail before launch
+  ---
+  duration_ms: 29.0712
+  type: 'test'
+  ...
+# Subtest: missing resource and manifest identity tampering fail closed
+ok 26 - missing resource and manifest identity tampering fail closed
+  ---
+  duration_ms: 14.2234
+  type: 'test'
+  ...
+# Subtest: existing backend requires exact package, mode and physical workspace
+ok 27 - existing backend requires exact package, mode and physical workspace
+  ---
+  duration_ms: 21.8007
+  type: 'test'
+  ...
+# Subtest: workspace is separate from immutable program and stable across versions
+ok 28 - workspace is separate from immutable program and stable across versions
+  ---
+  duration_ms: 44.1569
+  type: 'test'
+  ...
+# Subtest: directory junction and escaping relative resources are rejected
+ok 29 - directory junction and escaping relative resources are rejected
+  ---
+  duration_ms: 10.0274
+  type: 'test'
+  ...
+# Subtest: quant workspace stays distinct from the legacy read root and singleton key uses installation plus workspace
+ok 30 - quant workspace stays distinct from the legacy read root and singleton key uses installation plus workspace
+  ---
+  duration_ms: 63.7306
+  type: 'test'
+  ...
+# Subtest: data directories reject relative paths, package storage and junction aliases including missing children
+ok 31 - data directories reject relative paths, package storage and junction aliases including missing children
+  ---
+  duration_ms: 71.57
+  type: 'test'
+  ...
+# Subtest: installed Electron health contract loads its package capability resource with no source tree
+ok 32 - installed Electron health contract loads its package capability resource with no source tree
+  ---
+  duration_ms: 2163.8155
+  type: 'test'
+  ...
+# Subtest: actual packaged main resolves boot, icon, contract and private backend without a source checkout
+ok 33 - actual packaged main resolves boot, icon, contract and private backend without a source checkout
+  ---
+  duration_ms: 87.6936
+  type: 'test'
+  ...
+# Subtest: diagnostic configuration overrides inherited log destinations without writing program files
+ok 34 - diagnostic configuration overrides inherited log destinations without writing program files
+  ---
+  duration_ms: 19.0424
+  type: 'test'
+  ...
+# Subtest: startup stderr is bounded, redacted across chunks and frozen at completion
+ok 35 - startup stderr is bounded, redacted across chunks and frozen at completion
+  ---
+  duration_ms: 14.9931
+  type: 'test'
+  ...
+# Subtest: absent Crashpad pipe stays absent and mixed-case foreign endpoints never reach Python
+ok 36 - absent Crashpad pipe stays absent and mixed-case foreign endpoints never reach Python
+  ---
+  duration_ms: 14.7512
+  type: 'test'
+  ...
+# Subtest: a startup diagnostic write failure preserves existing bytes and cannot interrupt lifecycle
+ok 37 - a startup diagnostic write failure preserves existing bytes and cannot interrupt lifecycle
+  ---
+  duration_ms: 11.5605
+  type: 'test'
+  ...
+# Subtest: first creation fixes physical identity before singleton derivation and never creates a distinct old source
+ok 38 - first creation fixes physical identity before singleton derivation and never creates a distinct old source
+  ---
+  duration_ms: 41.5168
+  type: 'test'
+  ...
+# Subtest: health matching rejects junction aliases and invalid paths instead of equating failures
+ok 39 - health matching rejects junction aliases and invalid paths instead of equating failures
+  ---
+  duration_ms: 11.7004
+  type: 'test'
+  ...
+# Subtest: virtualized creation, native health paths and bundle resources share one physical identity
+ok 40 - virtualized creation, native health paths and bundle resources share one physical identity
+  ---
+  duration_ms: 67.5478
+  type: 'test'
+  ...
+# Subtest: legacy-only selection keeps quant on its stable default without creating or writing the old root
+ok 41 - legacy-only selection keeps quant on its stable default without creating or writing the old root
+  ---
+  duration_ms: 39.7382
+  type: 'test'
+  ...
+# Subtest: shared broker root uses trusted host platform data without creating a directory
+ok 42 - shared broker root uses trusted host platform data without creating a directory
+  ---
+  duration_ms: 14.742
+  type: 'test'
+  ...
+# Subtest: shared broker root rejects program storage and aliases including nonexistent descendants
+ok 43 - shared broker root rejects program storage and aliases including nonexistent descendants
+  ---
+  duration_ms: 13.334
+  type: 'test'
+  ...
+# Subtest: shared broker root stays identical across installation version and workspace choices
+ok 44 - shared broker root stays identical across installation version and workspace choices
+  ---
+  duration_ms: 43.7313
+  type: 'test'
+  ...
+# Subtest: backend launch refuses missing or unsafe host binding rather than inheriting an environment root
+ok 45 - backend launch refuses missing or unsafe host binding rather than inheriting an environment root
+  ---
+  duration_ms: 12.0225
+  type: 'test'
+  ...
+# Subtest: actual development startup fixes the host shared root before later environment changes
+ok 46 - actual development startup fixes the host shared root before later environment changes
+  ---
+  duration_ms: 16.7309
+  type: 'test'
+  ...
+# Subtest: shared root identity matches the Python normcase UTF8 contract and preserves platform case semantics
+ok 47 - shared root identity matches the Python normcase UTF8 contract and preserves platform case semantics
+  ---
+  duration_ms: 14.2144
+  type: 'test'
+  ...
+1..47
+# tests 47
+# suites 0
+# pass 47
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2976.7358

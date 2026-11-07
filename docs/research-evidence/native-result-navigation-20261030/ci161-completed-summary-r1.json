@@ -1,0 +1,214 @@
+{
+  "schema_version": "github-completed-ci-summary-v1",
+  "observed_at": "2026-10-29T20:55:48.251Z",
+  "repository": "TheDeadly-cat/hakimi-jiaoyi",
+  "run_id": 40951371549,
+  "run_number": 161,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "exact_sha": "cdc6adf0fbe3cb49a76a7b58f75e91d0d621e4ff",
+  "head_commit_id": "cdc6adf0fbe3cb49a76a7b58f75e91d0d621e4ff",
+  "branch": "codex/p0-m32-research-integration-20261022",
+  "workflow": ".github/workflows/research-contracts.yml",
+  "status": "completed",
+  "conclusion": "success",
+  "run_started_at": "2026-10-29T20:42:07Z",
+  "updated_at": "2026-10-29T20:55:21Z",
+  "run_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549",
+  "expected_job_count": 11,
+  "observed_job_count": 11,
+  "jobs": [
+    {
+      "id": 123720061054,
+      "name": "Electron capability contract",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123720061054"
+    },
+    {
+      "id": 123720061226,
+      "name": "Offline terminal Python contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123720061226"
+    },
+    {
+      "id": 123720061284,
+      "name": "Package install smoke (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123720061284"
+    },
+    {
+      "id": 123720061297,
+      "name": "Market-data renderer",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123720061297"
+    },
+    {
+      "id": 123720061301,
+      "name": "Package install smoke (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123720061301"
+    },
+    {
+      "id": 123720061319,
+      "name": "Complete desktop check",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123720061319"
+    },
+    {
+      "id": 123720061364,
+      "name": "Python contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123720061364"
+    },
+    {
+      "id": 123720061420,
+      "name": "Deterministic references",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123720061420"
+    },
+    {
+      "id": 123720061497,
+      "name": "Historical developer reference replay",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123720061497"
+    },
+    {
+      "id": 123720061545,
+      "name": "Offline research MVP contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123720061545"
+    },
+    {
+      "id": 123726461458,
+      "name": "Research required gate",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40951371549,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40951371549/job/123726461458"
+    }
+  ],
+  "read_only": true,
+  "rerun_requested": false,
+  "cancel_requested": false,
+  "source_or_pr_modified": false,
+  "running_qa_database_read": false,
+  "observations": [
+    {
+      "at": "2026-10-29T20:44:22.394Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 10,
+      "successful": 4,
+      "pending": 6
+    },
+    {
+      "at": "2026-10-29T20:45:27.557Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 10,
+      "successful": 6,
+      "pending": 4
+    },
+    {
+      "at": "2026-10-29T20:46:27.754Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 10,
+      "successful": 8,
+      "pending": 2
+    },
+    {
+      "at": "2026-10-29T20:47:27.558Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 10,
+      "successful": 8,
+      "pending": 2
+    },
+    {
+      "at": "2026-10-29T20:48:30.325Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 10,
+      "successful": 8,
+      "pending": 2
+    },
+    {
+      "at": "2026-10-29T20:49:39.094Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 10,
+      "successful": 9,
+      "pending": 1
+    },
+    {
+      "at": "2026-10-29T20:50:39.544Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 10,
+      "successful": 9,
+      "pending": 1
+    },
+    {
+      "at": "2026-10-29T20:51:46.109Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 10,
+      "successful": 9,
+      "pending": 1
+    },
+    {
+      "at": "2026-10-29T20:52:51.207Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 10,
+      "successful": 9,
+      "pending": 1
+    },
+    {
+      "at": "2026-10-29T20:53:57.000Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 10,
+      "successful": 9,
+      "pending": 1
+    },
+    {
+      "at": "2026-10-29T20:55:06.449Z",
+      "status": "in_progress",
+      "conclusion": null,
+      "job_count": 11,
+      "successful": 10,
+      "pending": 1
+    },
+    {
+      "at": "2026-10-29T20:55:48.251Z",
+      "status": "completed",
+      "conclusion": "success",
+      "job_count": 11,
+      "successful": 11,
+      "pending": 0
+    }
+  ],
+  "boundary": "CI for documentation commit cdc6adf0fbe3cb49a76a7b58f75e91d0d621e4ff; dev3 r2 package retains its source identity 43c155a0a461edbefeaf98edba5418db560da5d5. This does not replace native acceptance."
+}

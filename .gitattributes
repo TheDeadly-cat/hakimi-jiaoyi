@@ -178,3 +178,6 @@ docs/research-evidence/nvda-event-price-20260930/economic-20261002/** text eol=l
 # Demo resource bytes are bound by the import manifests and portable source identity.
 src/hakimi_research/resources/*.csv -text diff merge
 src/hakimi_research/resources/*.html -text diff merge
+
+# Retained terminal kernel files are bound by a byte-exact runtime manifest.
+outputs/python_quant_bot/vendor/research/hakimi_terminal_research/** -text diff merge

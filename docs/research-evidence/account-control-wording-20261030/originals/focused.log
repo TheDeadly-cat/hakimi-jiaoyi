@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: mount/context selection is inert; explicit status reads never create records or choose an account
+ok 1 - mount/context selection is inert; explicit status reads never create records or choose an account
+  ---
+  duration_ms: 5.9632
+  type: 'test'
+  ...
+# Subtest: direct stop uses exact identity and bypasses all parent busy/research/plan flags and perform
+ok 2 - direct stop uses exact identity and bypasses all parent busy/research/plan flags and perform
+  ---
+  duration_ms: 1.4461
+  type: 'test'
+  ...
+# Subtest: draft scope invalidation prevents stopping previously saved account while preserving unresolved original
+ok 3 - draft scope invalidation prevents stopping previously saved account while preserving unresolved original
+  ---
+  duration_ms: 1.1867
+  type: 'test'
+  ...
+# Subtest: lost stop recovers original account/mode/config/request after switching without another POST
+ok 4 - lost stop recovers original account/mode/config/request after switching without another POST
+  ---
+  duration_ms: 0.936
+  type: 'test'
+  ...
+# Subtest: NOT_RECORDED stays unresolved and repeated queries never resubmit
+ok 5 - NOT_RECORDED stays unresolved and repeated queries never resubmit
+  ---
+  duration_ms: 1.2799
+  type: 'test'
+  ...
+# Subtest: replayed old STOP receipt displays current resumed state and cannot re-stop it
+ok 6 - replayed old STOP receipt displays current resumed state and cannot re-stop it
+  ---
+  duration_ms: 1.1424
+  type: 'test'
+  ...
+# Subtest: late stop response cannot impersonate the newly selected scope
+ok 7 - late stop response cannot impersonate the newly selected scope
+  ---
+  duration_ms: 0.8482
+  type: 'test'
+  ...
+# Subtest: late read and older mutation responses cannot overwrite a newer current revision
+ok 8 - late read and older mutation responses cannot overwrite a newer current revision
+  ---
+  duration_ms: 1.1371
+  type: 'test'
+  ...
+# Subtest: resume requires explicit latest receipt, checkbox and reason; changes revoke confirmation
+ok 9 - resume requires explicit latest receipt, checkbox and reason; changes revoke confirmation
+  ---
+  duration_ms: 1.5698
+  type: 'test'
+  ...
+# Subtest: account STOP remains independent of a pending resume job and stale resumed view cannot replace STOP
+ok 10 - account STOP remains independent of a pending resume job and stale resumed view cannot replace STOP
+  ---
+  duration_ms: 1.4398
+  type: 'test'
+  ...
+# Subtest: host unavailable remains honest and cannot submit account changes
+ok 11 - host unavailable remains honest and cannot submit account changes
+  ---
+  duration_ms: 0.322
+  type: 'test'
+  ...
+# Subtest: malformed permission, account scope, receipt payload and root changes remain unresolved
+ok 12 - malformed permission, account scope, receipt payload and root changes remain unresolved
+  ---
+  duration_ms: 2.2532
+  type: 'test'
+  ...
+# Subtest: acknowledged receipt survives host post-success failure and presentation failure
+ok 13 - acknowledged receipt survives host post-success failure and presentation failure
+  ---
+  duration_ms: 1.0969
+  type: 'test'
+  ...
+# Subtest: read failure revokes resume confirmation; mode/config boundaries remain separate
+ok 14 - read failure revokes resume confirmation; mode/config boundaries remain separate
+  ---
+  duration_ms: 1.0468
+  type: 'test'
+  ...
+# Subtest: same-window integration passes only unchanged saved scope and retains original mode stop
+ok 15 - same-window integration passes only unchanged saved scope and retains original mode stop
+  ---
+  duration_ms: 1.1911
+  type: 'test'
+  ...
+# Subtest: canonical receipt hashing matches the backend ASCII encoding for Chinese reasons and surrogate pairs
+ok 16 - canonical receipt hashing matches the backend ASCII encoding for Chinese reasons and surrogate pairs
+  ---
+  duration_ms: 0.0895
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 140.8155

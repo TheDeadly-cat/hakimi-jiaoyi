@@ -1,0 +1,13 @@
+{
+  "scope": "READ_ONLY_BYTE_DIAGNOSIS_NO_ARCHIVE_REWRITE",
+  "path": "archive/legacy_paper/exchange_terminal_services/paper_ledger.py",
+  "worktree_sha256": "963734fc1711dadaf2c88771f013ef9c9522df46aaf7d631951822704614936c",
+  "committed_blob_sha256": "963734fc1711dadaf2c88771f013ef9c9522df46aaf7d631951822704614936c",
+  "worktree_crlf": 0,
+  "blob_crlf": 0,
+  "equal_after_crlf_to_lf": true,
+  "git_status": "",
+  "attributes": "",
+  "fresh_a035_worktree_sha256": "963734fc1711dadaf2c88771f013ef9c9522df46aaf7d631951822704614936c",
+  "fresh_matches_committed": true
+}

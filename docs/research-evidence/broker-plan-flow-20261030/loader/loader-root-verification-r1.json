@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "outputs/python_quant_bot/tests",
+    "-p",
+    "test_terminal_broker_package_loader.py",
+    "-v"
+  ],
+  "source_before": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py": "014f8109512d8d664667550fb76bb54195598dad7a43032ca852ad7f369a95ed",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_package_loader.py": "1c34c69b5e5d5987b707e69f25f70bf7480ae4954456dc65c5fed08694f25b8b",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_result_comparison.py": "b61d1431b48db73d8219850e58e052349f8a19b9062ef3f3faa26c53b7ac9490",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "outputs/python_quant_bot/tests/test_terminal_broker_package_loader.py": "2e3bf4dfc884dd2a49e2be30e17c20c4fbe4829068b8f7651eec45c60cd6ddea",
+    "tests/repository_only/test_windows_terminal.py": "ffb15a5747ea597b663b77ab0a55e17ae42fd42b47f21988387fd8e078a20673",
+    "tools/build_windows_terminal.py": "ca3c608e593c43a812e57b207d05b33ff55b4c0d40064928046fd35adbbac621",
+    "tools/terminal_package_bootstrap.py": "00c5e73d25282be010cc55968dac7e33346e644bd9333b8cf985dd54cb78e1d1"
+  },
+  "source_after": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_candidate_service.py": "014f8109512d8d664667550fb76bb54195598dad7a43032ca852ad7f369a95ed",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_plan.py": "2bab404127c2c77e4ea78057e860314a6fa4efaa596605f191d672eaddfaf659",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_package_loader.py": "1c34c69b5e5d5987b707e69f25f70bf7480ae4954456dc65c5fed08694f25b8b",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_result_comparison.py": "b61d1431b48db73d8219850e58e052349f8a19b9062ef3f3faa26c53b7ac9490",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_saved_results.py": "b6aac891a3b17f98586f2690954679c1144d71f04880fc6d53cf8a8cbe58b1af",
+    "outputs/python_quant_bot/tests/test_terminal_broker_package_loader.py": "2e3bf4dfc884dd2a49e2be30e17c20c4fbe4829068b8f7651eec45c60cd6ddea",
+    "tests/repository_only/test_windows_terminal.py": "ffb15a5747ea597b663b77ab0a55e17ae42fd42b47f21988387fd8e078a20673",
+    "tools/build_windows_terminal.py": "ca3c608e593c43a812e57b207d05b33ff55b4c0d40064928046fd35adbbac621",
+    "tools/terminal_package_bootstrap.py": "00c5e73d25282be010cc55968dac7e33346e644bd9333b8cf985dd54cb78e1d1"
+  },
+  "exit_code": 0,
+  "elapsed_seconds": 6.008,
+  "tests": 24,
+  "source_inputs_stable": true,
+  "scope": "New TEMP loader contract tests only",
+  "private_interpreter_integration": "NOT_PERFORMED",
+  "economic_runs": 0,
+  "native_gui": false,
+  "source_review": "Root reviewed all five frozen files and bootstrap/builder diffs; no remaining finding at this stage"
+}

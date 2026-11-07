@@ -1,0 +1,28 @@
+{
+  "schema_version": "desktop-hold-v1",
+  "recorded_at": "2026-10-26T17:29:34.364735+00:00",
+  "timestamp_scope": "Receipt generation time, not inferred time of the human message.",
+  "status": "COMPUTER_USE_PAUSED_BY_USER",
+  "human_instruction": "我在使用，稍后继续computeruse",
+  "scope": "Desktop interaction and workbench mutations; background packaging, documentation and authorized GitHub delivery may continue.",
+  "resume_condition": "Explicit human permission to resume desktop interaction.",
+  "last_verified_native_observation": {
+    "window_id": 134918,
+    "url": "http://127.0.0.1:56057/",
+    "visible_version": "0.6.0.dev5",
+    "saved_inputs": 0,
+    "tasks": 0,
+    "results": 0,
+    "counts_scope": "Last captured initial screen only; not a current reading after the hold.",
+    "image_sha256": "1b5903a26abde4f3c7039cb2d326fb84b327bbf0bea80aa3b9ec13530b141d85",
+    "native_identity_details": "NOT_VERIFIED",
+    "tool_observations": "native-tool-observations.json"
+  },
+  "rejected_next_action": "Version-details click returned user input detected; no identity-details acceptance inferred.",
+  "dev5_product_market_requests_by_agent": 0,
+  "dev5_product_save_task_or_run_actions_by_agent": 0,
+  "actual_live_first_stock_acceptance": "NOT_VERIFIED",
+  "successful_result_reopen_acceptance": "NOT_VERIFIED",
+  "workbench_api_mutation_used_as_substitute": false,
+  "background_external_diagnostic_body_imported": false
+}

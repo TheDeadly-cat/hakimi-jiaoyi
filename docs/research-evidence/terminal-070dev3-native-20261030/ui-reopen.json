@@ -1,0 +1,35 @@
+{
+  "schema_version": "native-ui-observations-v1",
+  "recorded_from": "Root CUA native window observations in this task; screenshots are in the tool transcript. This is a manual observation record, not a network trace.",
+  "source_commit": "500d69105ff3f33e95c8d35cbef6da9704ca8c2f",
+  "bundle_id": "c0792eda05fccd08ca7c969b6ab6aacc9f14056b67220657b65232d54c50c7b1",
+  "window_id": 72289140,
+  "main_pid": 24516,
+  "port": 8873,
+  "same_package_and_qa_runtime": true,
+  "replay_account_id": "replay-a4fe194e-5969-4459-b90b-2c14a6b5319c",
+  "reopen_requires_reconciliation": true,
+  "actions": ["reconcile_keep_paused", "explicit_resume_without_step"],
+  "reconcile_ack_kept_paused": true,
+  "resume_ack_did_not_advance": true,
+  "state_after_both_actions": {
+    "processed_date": "2024-04-26",
+    "next_date": "2024-04-29",
+    "cash": "9895.47419402",
+    "shares": 1
+  },
+  "new_research_runs_this_launch": 0,
+  "additional_step_requests": 0,
+  "old_workspace_reads": [
+    {"workspace": "365aa672f5888de86bca MSIX physical candidate", "tasks": 0, "results": 0, "logical_path_warning_retained": true},
+    {"workspace": "Documents original", "task_name": "联调验证-富途港股-MACD13-DeepSeek-20261024", "task_view_distinguishes_settings_from_result": true, "run_id": "eb83065c51850ffb07f3fc0c5c6cc799eac082c9f604275e517401bf2d0a2ef8", "historical_unknown_listed_without_open_or_run": true},
+    {"workspace": "dev5 ab2e49cdc8e468385dd7", "task_name": "NDAQ 双均线入门5/10", "run_id": "31ef617084e578f673392d1eb106b2085d1b27220b5ac418c24cd96c9794a134", "report_hash": "a8348a3a7ac46bdbc24f88911e9646524a5ed53a14995372bd8d69e7dccbace1", "zero_trades_and_insufficient_evidence_visible": true}
+  ],
+  "current_write_workspace_unchanged": true,
+  "normal_window_close": true,
+  "candidate_processes_after_close": 0,
+  "port_listeners_after_close": 0,
+  "reopen_pid_absent_after_close": true,
+  "external_source_model_broker_or_live_order_requests": 0,
+  "limitations": ["QA data are explicitly fictional.", "This does not verify the later uncommitted saved-card and order-factor UI fixes.", "Independent novice and source-inaccessible guest validation remain outstanding."]
+}

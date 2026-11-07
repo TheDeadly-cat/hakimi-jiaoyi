@@ -1,0 +1,139 @@
+{
+  "schema_version": "hakimi-ci-completed-readback-v1",
+  "checked_at_utc": "2026-10-30 02:04:46 UTC",
+  "repository": "TheDeadly-cat/hakimi-jiaoyi",
+  "pull_request": 26,
+  "run_id": 40989174236,
+  "run_number": 169,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "head_sha": "a0356e09da9dd493c1dc035624366b64eb2fc1c8",
+  "expected_head_sha": "a0356e09da9dd493c1dc035624366b64eb2fc1c8",
+  "exact_head_matches": true,
+  "status": "in_progress",
+  "conclusion": null,
+  "run_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236",
+  "created_at": "2026-10-30T02:00:49Z",
+  "updated_at": "2026-10-30T02:00:59Z",
+  "job_count": 10,
+  "expected_final_job_count": 11,
+  "all_11_completed_success": false,
+  "jobs": [
+    {
+      "id": 123847153326,
+      "name": "Electron capability contract",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/job/123847153326"
+    },
+    {
+      "id": 123847153567,
+      "name": "Complete desktop check",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/job/123847153567"
+    },
+    {
+      "id": 123847153579,
+      "name": "Offline research MVP contracts",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/job/123847153579"
+    },
+    {
+      "id": 123847153637,
+      "name": "Market-data renderer",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/job/123847153637"
+    },
+    {
+      "id": 123847153648,
+      "name": "Historical developer reference replay",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/job/123847153648"
+    },
+    {
+      "id": 123847153668,
+      "name": "Offline terminal Python contracts",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/job/123847153668"
+    },
+    {
+      "id": 123847153677,
+      "name": "Deterministic references",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/job/123847153677"
+    },
+    {
+      "id": 123847153681,
+      "name": "Python contracts",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/job/123847153681"
+    },
+    {
+      "id": 123847153739,
+      "name": "Package install smoke (ubuntu-latest)",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/job/123847153739"
+    },
+    {
+      "id": 123847153795,
+      "name": "Package install smoke (windows-latest)",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/job/123847153795"
+    }
+  ],
+  "all_jobs_exact_head_match": true,
+  "all_jobs_run_id_match": true,
+  "read_sources": [
+    "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236",
+    "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40989174236/jobs?per_page=100"
+  ],
+  "poll_interval_seconds": 55,
+  "observation_count": 2,
+  "observation_stopped_on": "SPECIFIC_JOB_FAILURE_AS_REQUESTED",
+  "run_terminal_not_claimed": true,
+  "failure": {
+    "job_id": 123847153681,
+    "job_name": "Python contracts",
+    "step_number": 10,
+    "step_name": "Run complete research-only Python contracts",
+    "tests_run": 272,
+    "failures": 1,
+    "elapsed_seconds": 17.824,
+    "test": "tests.test_research_management_boundary.ResearchManagementBoundaryTests.test_readonly_health_and_status_dispatch_preserves_status_consumers",
+    "subtest": "route='/api/health'",
+    "source_test_line": 132,
+    "expected_http_status": 200,
+    "actual_http_status": 502,
+    "error": "name 'BROKER_CONTROL_ROOT' is not defined",
+    "log_file": "ci169-python-contracts-job123847153681-r1.log",
+    "log_scope": "Decoded job log returned by GitHub plugin, saved as UTF-8 text with LF line endings. Original failure retained; no source fix or rerun."
+  },
+  "commit_scope": "NEW_COORDINATOR_SOURCE_COMMIT",
+  "candidate_program_identity": {
+    "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+    "candidate": "0.7.0.dev3 candidate-r4",
+    "source_ci_run_number": 165,
+    "source_ci_run_id": 40971259290,
+    "separate_not_reverified_by_this_run": true
+  },
+  "next_candidate": {
+    "candidate": "0.7.0.dev3 candidate-r5",
+    "package_acceptance": "NOT_ESTABLISHED_BY_THIS_CI_OBSERVATION"
+  },
+  "prior_source_ci": {
+    "run_number": 168,
+    "run_id": 40984635974,
+    "head_sha": "4ae90471f83afbdca9ef4e421e064690ede2b01d",
+    "not_reused_as_this_result": true
+  },
+  "scope": "Independent read-only exact-head CI verification via GitHub GET, stopped on specific failure while workflow still in progress. No rerun/cancel/push/PR edits/tests/SDK/GUI/business/source mutation. Not full-goal completion."
+}

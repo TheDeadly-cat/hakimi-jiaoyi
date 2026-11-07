@@ -1,0 +1,19 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\runtime\\python\\python.exe",
+    "-I",
+    "-S",
+    "-B",
+    "-X",
+    "utf8",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\private-child.py",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-protobuf-loader-20261030\\private-process-r1\\invocation.json"
+  ],
+  "exit_code": 0,
+  "failure": null,
+  "elapsed_seconds": 8.990310300010606,
+  "source_hashes_unchanged": true,
+  "manifest_unchanged": true,
+  "test_unchanged": true,
+  "status": "PRIVATE_CHILD_PASS"
+}

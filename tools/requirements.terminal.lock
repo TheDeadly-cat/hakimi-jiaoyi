@@ -1,0 +1,14 @@
+# Original-terminal Windows candidate supplements to requirements.research.lock.
+# These pins match the locally available runtime used by the original terminal.
+# No change to the historical research wheel's dependency/identity contract.
+exchange-calendars==4.13.2
+pyluach==2.3.0
+toolz==1.1.0
+korean-lunar-calendar==0.4.0
+futu-api==10.7.6708
+simplejson==4.1.1
+protobuf==7.35.1
+pycryptodome==3.23.0
+cryptography==49.0.0
+cffi==2.0.0
+pycparser==3.0

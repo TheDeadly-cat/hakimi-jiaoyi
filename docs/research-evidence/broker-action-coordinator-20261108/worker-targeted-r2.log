@@ -1,0 +1,12 @@
+test_lost_action_commit_reply_in_child_never_constructs_connection_on_recovery (test_terminal_broker_worker_entrypoint.BrokerWorkerEntrypointTests.test_lost_action_commit_reply_in_child_never_constructs_connection_on_recovery) ... ok
+test_owned_worker_real_journal_transport_and_typed_ack_keep_financial_reserve (test_terminal_broker_worker_entrypoint.BrokerWorkerEntrypointTests.test_owned_worker_real_journal_transport_and_typed_ack_keep_financial_reserve) ... ok
+test_partial_write_then_wedged_child_keeps_unknown_and_stop_remains_available (test_terminal_broker_worker_entrypoint.BrokerWorkerEntrypointTests.test_partial_write_then_wedged_child_keeps_unknown_and_stop_remains_available) ... ok
+test_second_worker_reads_same_operations_without_factory_or_new_journal_bytes (test_terminal_broker_worker_entrypoint.BrokerWorkerEntrypointTests.test_second_worker_reads_same_operations_without_factory_or_new_journal_bytes) ... ok
+test_standalone_production_entrypoint_denies_without_any_business_io (test_terminal_broker_worker_entrypoint.BrokerWorkerEntrypointTests.test_standalone_production_entrypoint_denies_without_any_business_io) ... ok
+test_two_processes_same_action_allow_only_one_actual_connection (test_terminal_broker_worker_entrypoint.BrokerWorkerEntrypointTests.test_two_processes_same_action_allow_only_one_actual_connection) ... ok
+test_worker_payload_cannot_supply_account_frame_path_or_new_binding (test_terminal_broker_worker_entrypoint.BrokerWorkerEntrypointTests.test_worker_payload_cannot_supply_account_frame_path_or_new_binding) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 12.656s
+
+OK

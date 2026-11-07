@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "bundle_id": "2a7b2ae2e703c105b64c8d2c90b2e2510486baf1c61ac5278f7df7387b18f227",
+  "version": "0.7.0.dev3",
+  "source_commit": "a235e8a2f1a303f72b99797105956bcd88cba399",
+  "manifest_files": 9070,
+  "capability_definition": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\HakimiTrade-0.7.0.dev3-candidate-r4\\components\\canonical\\hakimi_research\\contracts\\product-capabilities.json",
+  "capability_count": 15,
+  "has_source_tree": false,
+  "installed_diagnostic_helper_executed": true,
+  "inherited_pipe_and_server_url_removed": true,
+  "diagnostic_path_outside_program": true,
+  "backend_launch_isolated": true,
+  "distinct_legacy_quant_roots": true,
+  "futu_writes_bound_to_quant_root": true,
+  "startup_stderr_redaction": true,
+  "historical_msix_mapping_fixture_replayed_by_installed_helper": true,
+  "historical_msix_mapping_fixture": {
+    "path": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\native-msix-path-readonly-r3.json",
+    "sha256": "3d67b0728bb4b174393c40151a7126a7c9f90c7d909e283e20279661cc892c14",
+    "scope": "PRIOR_RECORDED_MAPPING_FIXTURE_NOT_A_NEW_NATIVE_OBSERVATION"
+  },
+  "different_physical_workspace_rejected": true,
+  "same_physical_workspace_singleton_equal": true,
+  "node_only_no_electron_or_python_spawn": true,
+  "native_acceptance": "NOT_PERFORMED",
+  "source_repository_inaccessible_guest_test": false
+}

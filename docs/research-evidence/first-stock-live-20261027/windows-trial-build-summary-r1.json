@@ -1,0 +1,143 @@
+{
+  "schema_version": "windows-trial-build-summary-v1",
+  "status": "BUILT_AND_PRIVATE_RUNTIME_VERIFIED_NATIVE_ACCEPTANCE_DELEGATED",
+  "recorded_at": "2026-10-26T17:13:48.302839Z",
+  "product_version": "0.6.0.dev5",
+  "packaging_commit": "f77802073be617f662a01faf4ed9a61225826bc6",
+  "packaging_clean_scope": "ONLY_PACKAGED_DESKTOP_FILES_AND_BUILD_DEFINITIONS",
+  "accepted_product_commit": "f77802073be617f662a01faf4ed9a61225826bc6",
+  "source_worktree_clean": true,
+  "current_git_head_at_verification": "f77802073be617f662a01faf4ed9a61225826bc6",
+  "concurrent_worktree_status": [],
+  "product_source_sha256": "3efd7e9f0aedd4c130f6bf5fdd598912e7e50d6b6d8fbd47faf77688dcfb31b0",
+  "registered_product_files": 89,
+  "bundle_id": "ab2e49cdc8e468385dd7b64dc30f2665aa7591a52b8d6022833c02983b7569a8",
+  "manifest": {
+    "path": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\trial-manifest.json",
+    "sha256": "c993523546b6c84e7a8be4a00636594f6fe8734ffa18dafc62e6e15125199b03",
+    "bytes": 917717
+  },
+  "program_root": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1",
+  "desktop_entry": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\HakimiWorkbench.exe",
+  "desktop_entry_sha256": "1fa93c3471c11dc8128998c662c705104e4528b98901b61c8a25216acda424c5",
+  "archive": {
+    "path": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1.zip",
+    "sha256": "5204a33a357461b86127fc40282958bab8f8986f86f9489fb81c7315747a2b20",
+    "bytes": 197330799
+  },
+  "hashed_program_files": 7095,
+  "archive_files_including_manifest": 7096,
+  "zip_inventory_and_each_uncompressed_file_sha256_equal_program_tree": true,
+  "program_path_contains_chinese_and_space": true,
+  "maximum_absolute_program_path_utf16_characters": 167,
+  "third_party_notices": {
+    "index": {
+      "path": "C:\\Users\\Administrator\\Downloads\\哈基米试用 dev5-f778020-r1\\THIRD-PARTY-NOTICES.json",
+      "sha256": "f8f30a368fc263d89210cc7f66b7ff62c9b276d18462c559443eb65ee7797dbe",
+      "bytes": 12562
+    },
+    "components": 7,
+    "notice_files_verified": 77,
+    "project_license_added": false
+  },
+  "accepted_wheel_receipt": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\wheel-acceptance.json",
+    "sha256": "24173c4e40b82a5d87b81541f0efb86c42ab18dbf46c5e6adb88592b1b4faeef",
+    "bytes": 110091
+  },
+  "accepted_wheel": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\acceptance-r1\\dist\\hakimi_research-0.6.0.dev5-py3-none-any.whl",
+    "sha256": "26a4ccca4943b5bb9fabfad46a170c812bf459a6994ba2e8f02f08440a348d6d",
+    "bytes": 397524
+  },
+  "accepted_wheel_tests": {
+    "passed": 415,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "installed_workflow_statuses": {
+    "trade_installed_workflow": "PASS",
+    "managed_task_installed_workflow": "PASS",
+    "configuration_consistency_installed_workflow": "PASS",
+    "strategy_switch_installed_workflow": "PASS",
+    "input_workflow_installed_workflow": "PASS",
+    "content_boundary_installed_workflow": "PASS",
+    "shared_funds_installed_workflow": "PASS"
+  },
+  "build_execution": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-build-r1-execution.json",
+    "sha256": "d807df4fac0017d6ca21203618da919fece247cf76ceff1992d971a085d712d6",
+    "bytes": 435
+  },
+  "build_log": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-build-r1.log",
+    "sha256": "f9f1aad894b06537b6373610927438b2a1285849bba9dbc73c6aa7dd5d00e584",
+    "bytes": 1563
+  },
+  "build_log_utf8_view": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-build-r1-utf8-view.log",
+    "sha256": "19b34259813479454392b200c8e471e1c2077120c3cc7eff99e9eee34b595c9d",
+    "bytes": 1573
+  },
+  "build_log_encoding_note": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\build-log-encoding-note.json",
+    "sha256": "b6b450620de745058d0e7cf87c406912b06881a6efe14770f6ee1e8bb7cb248f",
+    "bytes": 1164
+  },
+  "private_runtime_probe": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-probe-r1.json",
+    "sha256": "4a3e7bc1e6bd9c0a637f71020b4b3a2071f614a018802144f6f981f491fe6a09",
+    "bytes": 2625
+  },
+  "private_runtime_probe_log": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-probe-r1.log",
+    "sha256": "7b681299c355953b7fcc467acc5d554113974b730e99ee3da5bb4447fe6af701",
+    "bytes": 10258
+  },
+  "runtime_source_evidence": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\windows-trial-runtime-sources-r1.json",
+    "sha256": "2a723075be44be951d1db5162c0951b4314441d25ba2384f44d7f0bf5d4db035",
+    "bytes": 3082
+  },
+  "transport_independent_review": {
+    "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\transport-independent-review-r1.json",
+    "sha256": "88264851e820e6d435cd7da9a047a3862b95d1afda17166d8828861e871f2f7f",
+    "bytes": 2681
+  },
+  "retained_old_r3": {
+    "program_root": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3",
+    "program_files_unchanged": 7096,
+    "archive": {
+      "path": "C:\\Users\\Administrator\\Downloads\\HakimiTrial-dev4-b1bdc57-r3.zip",
+      "sha256": "322c22c353bfc4699dcabd675f3ab21f64ae100906746dd2810228b5d688eab6",
+      "bytes": 197328391
+    },
+    "workspace_path": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd",
+    "workspace_resolved": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\a1988ddf2481d46629dd",
+    "workspace_files_unchanged": 46,
+    "baseline": {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-stock-live-20261027\\dev5-build-preparation.json",
+      "sha256": "4f9b1f270fad60b718941687dd7b148d837508a6d07a123b9e5b420ca8e97de9",
+      "bytes": 11102
+    }
+  },
+  "default_workspace_relative_policy": "LOCALAPPDATA/HakimiTradeTrial/workspaces/<first_20_bundle_id>; exclusive marker binds full bundle_id",
+  "expected_ordinary_explorer_workspace": "C:\\Users\\Administrator\\AppData\\Local\\HakimiTradeTrial\\workspaces\\ab2e49cdc8e468385dd7",
+  "native_desktop_acceptance": "DELEGATED_TO_PARENT_NOT_PERFORMED_BY_BUILD_AGENT",
+  "clean_windows_acceptance": "NOT_PERFORMED",
+  "new_economic_runs_by_build_agent": 0,
+  "new_desktop_windows_by_build_agent": 0,
+  "new_market_requests_during_build": 0,
+  "new_runtime_downloads": 0,
+  "new_workspace_access_by_build_agent": false,
+  "old_program_artifacts_modified": false,
+  "source_files_modified_by_build_agent": false,
+  "push_performed_by_build_agent": false,
+  "limitations": [
+    "Portable ZIP, not a signed installer or formal Release.",
+    "Existing developer host, no clean Windows acceptance.",
+    "The real builder exited 0. Its wrapper exited 1 only while decoding the completed mixed-encoding build log for display; the original log remains exact and a separate UTF-8 view is provided. No build was repeated.",
+    "Ordinary Explorer native first-use and real source acquisition remain separately evidenced; external diagnostic source bytes were not bundled or imported."
+  ]
+}

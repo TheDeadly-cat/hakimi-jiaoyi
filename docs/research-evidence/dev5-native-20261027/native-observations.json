@@ -1,0 +1,246 @@
+{
+  "schema_version": "selected-original-native-evidence-v1",
+  "selection_reason": "Decisive settled states; transient pending observations remain in the local original capture set.",
+  "original_capture_index_sha256": "e5d9c567452453cf7fc35d60178e4586936a94244616810bca34cd3b7d5239f7",
+  "images": "Original tool-returned JPEG bytes; no editing.",
+  "observations": [
+    {
+      "observation": "01-home",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\01-home.txt",
+        "sha256": "97a6fdf3f388ed91ebc6848556b607ce6d31ee184c9031d9cb60526cb9c32d87"
+      },
+      "images": [
+        {
+          "path": "native\\01-home-1.jpg",
+          "sha256": "1ccb547d4de511f0be154a40707002c8a82cb4c08b7f306acb2dfbef2a7022d7",
+          "bytes": 107996,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:37:38 UTC"
+    },
+    {
+      "observation": "02-identity",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\02-identity.txt",
+        "sha256": "e08efc22b98114376c859eac9d481ba9630760bcfad8c691c3fd966c80f6b032"
+      },
+      "images": [
+        {
+          "path": "native\\02-identity-1.jpg",
+          "sha256": "a813598a8c296391ee4ba33052a177608eb967fe3cb6eb4d7fe41aa39e4ac11e",
+          "bytes": 130690,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:37:38 UTC"
+    },
+    {
+      "observation": "06-check-result",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\06-check-result.txt",
+        "sha256": "6c1539139e60cd9f50b27f270f6afcff9863e048adb63c1c80ff44687e837111"
+      },
+      "images": [
+        {
+          "path": "native\\06-check-result-1.jpg",
+          "sha256": "f0537db3f0914643fd671b00eec97012f8145ebc9e0ba7da369707f7625b6cfb",
+          "bytes": 103991,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:37:38 UTC"
+    },
+    {
+      "observation": "07-security-confirmed",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\07-security-confirmed.txt",
+        "sha256": "6c1539139e60cd9f50b27f270f6afcff9863e048adb63c1c80ff44687e837111"
+      },
+      "images": [
+        {
+          "path": "native\\07-security-confirmed-1.jpg",
+          "sha256": "5d42da2242f9a04550049f9d1d293c83532b4150b3cebbfbfca182667c3ae340",
+          "bytes": 105352,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:37:38 UTC"
+    },
+    {
+      "observation": "09-saved",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\09-saved.txt",
+        "sha256": "e2ce5568cf5015ba2460902a175a8fcf12d7ee4ba63f8e6bbbc924eff1e944da"
+      },
+      "images": [
+        {
+          "path": "native\\09-saved-1.jpg",
+          "sha256": "19d45097dfc8573e8cc8ff65a3c1ac582a717691f01a0d34fe4290b836f2c78a",
+          "bytes": 124598,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:37:38 UTC"
+    },
+    {
+      "observation": "10-settings",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\10-settings.txt",
+        "sha256": "0d0a162981a9a1e5a0859ad169ebe190795138dc9f7f07059b85f0a25ce653a9"
+      },
+      "images": [
+        {
+          "path": "native\\10-settings-1.jpg",
+          "sha256": "3abc054e980cdfaf8e9ef785e6c626d1b938e7a7fad9ad3aaa22a1523376e645",
+          "bytes": 120641,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:37:38 UTC"
+    },
+    {
+      "observation": "12-task-saved",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\12-task-saved.txt",
+        "sha256": "29bdcaebb0de6fc2af41a15f85088f4c3675c8c953f8affc94a6b4f3e100dd34"
+      },
+      "images": [
+        {
+          "path": "native\\12-task-saved-1.jpg",
+          "sha256": "799b8b82b19b517cdd62db4741a38ae5bd55fb5a7e0849b0ed44096f5c8d1210",
+          "bytes": 119604,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:37:38 UTC"
+    },
+    {
+      "observation": "14-result",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\14-result.txt",
+        "sha256": "5cf7e4906e4c84adf6901f429b3f88f863d8be3599dc5ee3cb5164ee3127d48f"
+      },
+      "images": [
+        {
+          "path": "native\\14-result-1.jpg",
+          "sha256": "a8b93deddf444b9738e80cedcdb0916edfcfbb8302508b8627b2fa05253b286c",
+          "bytes": 106654,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:37:38 UTC"
+    },
+    {
+      "observation": "18-today-before-check",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\18-today-before-check.txt",
+        "sha256": "95192719f813ee4bc6db24b6ea2c469c267c668b43a5a668b970f408ba089131"
+      },
+      "images": [
+        {
+          "path": "native\\18-today-before-check-1.jpg",
+          "sha256": "ae02b981b82b25d698fc293f2059afb1a53b25d31313a88d4dd8e410b04e4748",
+          "bytes": 111420,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:37:38 UTC"
+    },
+    {
+      "observation": "20-update-result",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\20-update-result.txt",
+        "sha256": "1391d5739912594ece6070712b76e74c04175b3b9f4e2cfb9c499ea867269c98"
+      },
+      "images": [
+        {
+          "path": "native\\20-update-result-1.jpg",
+          "sha256": "9aa71e807ad70d0ac6dde175bff6ea8596ef9bcadaee8bc0767cead426aae4ad",
+          "bytes": 103570,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:42:32 UTC"
+    },
+    {
+      "observation": "23-pre-close-continue",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\23-pre-close-continue.txt",
+        "sha256": "b684452014368200829b6393a3b3b71abc6611f65b4865772f9887b5abc714fa"
+      },
+      "images": [
+        {
+          "path": "native\\23-pre-close-continue-1.jpg",
+          "sha256": "b8bc7024cb5bee3f5e1ba6feb1c53703cd8933105cb79f836a52b6bd91e7282c",
+          "bytes": 114414,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:42:32 UTC"
+    },
+    {
+      "observation": "26-reopened-home",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\26-reopened-home.txt",
+        "sha256": "c6a38d09546e423cb362e6f3c94654f8e065008b4c35c8267c808a88706ec9d6"
+      },
+      "images": [
+        {
+          "path": "native\\26-reopened-home-1.jpg",
+          "sha256": "35d6405c30e71cf1dc7b741c9ac2f09ad19ebcfb963dc25f33937ce9bbd36703",
+          "bytes": 112967,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:42:32 UTC"
+    },
+    {
+      "observation": "27-reopened-identity",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\27-reopened-identity.txt",
+        "sha256": "9b986722b5082be041d6cca3bb4e96723fc2e04650ee413546fc2a2db3e5c45b"
+      },
+      "images": [
+        {
+          "path": "native\\27-reopened-identity-1.jpg",
+          "sha256": "3b768064f6b07c840602eb127b3ae2fb4e9682abee6c81412aa70b5305232945",
+          "bytes": 130496,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:42:32 UTC"
+    },
+    {
+      "observation": "29-reopened-result",
+      "original_tool_error": false,
+      "text": {
+        "path": "native\\29-reopened-result.txt",
+        "sha256": "26069deace395f06bb9390bdbc3e40fc611f9da35f987f697bf741cbde0a08e7"
+      },
+      "images": [
+        {
+          "path": "native\\29-reopened-result-1.jpg",
+          "sha256": "d7b421b27c955f2edae042fd2be005a48204ad1eea75d79ab285ed364aced913",
+          "bytes": 106893,
+          "mime_type": "image/jpeg"
+        }
+      ],
+      "tool_payload_saved_at": "2026-10-26 23:42:32 UTC"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "actions": {
+    "git_optional_locks": false,
+    "market_requests": 0,
+    "product_runs": 0,
+    "protected_data_writes": 0,
+    "source_edits": 0
+  },
+  "baseline_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-first-use-20261026\\preservation-before.json",
+  "baseline_sha256": "0dec52cdda5bee0ed326bae162e31aaa29114c163360bf90effc825b0276cb83",
+  "original_documents_diff": {
+    "bytes": 4565735,
+    "sha256": "b36528db38b0674c1639c4abed6a83644dbf9dd2a16544dda05238d853595cd4",
+    "unchanged": true
+  },
+  "original_documents_status": {
+    "bytes": 55592,
+    "lines": 603,
+    "sha256": "eb337ee966a77582d07f4f1416a1da7a6a9575b60549d769c62a466bd7b3888c",
+    "unchanged": true
+  },
+  "original_documents_untracked": {
+    "added": [],
+    "baseline_files": 566,
+    "changed": [],
+    "current_files": 566,
+    "missing": [],
+    "non_file_git_entries": [
+      "work/insights-github-delivery-20261022/patch-replay-exact/",
+      "work/insights-github-delivery-20261022/patch-replay/"
+    ],
+    "unchanged": true
+  },
+  "protected_roots": [
+    {
+      "added": [],
+      "baseline_files": 366,
+      "changed": [],
+      "current_files": 366,
+      "missing": [],
+      "root": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace",
+      "unchanged": true
+    },
+    {
+      "added": [],
+      "baseline_files": 440,
+      "changed": [],
+      "current_files": 440,
+      "missing": [],
+      "root": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-fixed-replay-20261026\\workspace",
+      "unchanged": true
+    },
+    {
+      "added": [],
+      "baseline_files": 509,
+      "changed": [],
+      "current_files": 509,
+      "missing": [],
+      "root": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-20261026",
+      "unchanged": true
+    },
+    {
+      "added": [],
+      "baseline_files": 512,
+      "changed": [],
+      "current_files": 512,
+      "missing": [],
+      "root": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-independent-holdout-feb-20261026\\workspace",
+      "unchanged": true
+    }
+  ],
+  "recorded_at": "2026-10-26T15:43:23.624642Z",
+  "schema_version": "first-use-preservation-check-v1",
+  "status": "PASS"
+}

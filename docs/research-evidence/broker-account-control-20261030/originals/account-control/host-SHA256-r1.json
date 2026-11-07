@@ -1,0 +1,16 @@
+{
+  "created_at": "2026-10-30T01:32:03.974010+00:00",
+  "head": "4ae90471f83afbdca9ef4e421e064690ede2b01d",
+  "node_version": "v22.23.4",
+  "sha256": {
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\hakimi_trade_electron\\terminal-package-runtime.js": "30782a6ab91b2622d18e92a240c093b60930a1518b8a1304c3fa2be2a0054847",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\hakimi_trade_electron\\main.js": "225fd51b60c236c5656bd167d46d1130d8af00e593675fa2c5831a0d4da9b04b",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\hakimi_trade_electron\\terminal-package-runtime.test.js": "1a6fe4195e1f8a9befc88b76f38764ae789d5d412361ef01d4c38f187204ba97",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\outputs\\hakimi_trade_electron\\desktop-lifecycle.test.js": "3b82260e3031ea7e58019142dca582ac3149d40b20165c258fe053185eacb00a",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-node22-targeted-r1.log": "e82f0d87c28fc34b6235243b7e3be50162b88542f9562ffbc3b0b8122187db75",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-node22-runtime-r1.log": "2e48b3405dde0422bb653511c25bbb4ff5d3d274806d4ac9c547c5e85a61d607",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-node22-python-identity-r1.log": "82dfb1176a70cf51664db144ee077d2eb601248e178454d783671238f6f76047",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-node22-checks-r1.log": "8d0dfb344203628b30645cca29884b922a0cde87a7ca967075ffb27bd5f19c93",
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\broker-account-control-20261030\\host-HANDOFF-r1.md": "171f2142cdc505f34f4c316b7e010ff1b0ee2c4e2266a0c36446260f947b8080"
+  }
+}

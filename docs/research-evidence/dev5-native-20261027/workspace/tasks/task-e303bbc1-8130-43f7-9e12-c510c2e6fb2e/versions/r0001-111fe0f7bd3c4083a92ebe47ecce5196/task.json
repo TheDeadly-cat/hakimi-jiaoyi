@@ -1,0 +1,43 @@
+{
+  "schema_version": "hakimi-offline-task-v2",
+  "strategy": "price.dual_ma@1",
+  "state": "ENABLED",
+  "snapshot": "inputs/snapshot.json",
+  "event_context": null,
+  "experiment": {
+    "schema_version": "us-equity-experiment-spec-v1",
+    "name": "双均线价格策略",
+    "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+    "score_start_session": "2026-10-15",
+    "score_end_session": "2026-10-26",
+    "strategy": {
+      "name": "dual_ma",
+      "params": {
+        "fast_window": 5,
+        "slow_window": 10,
+        "position_pct": 0.25,
+        "stop_loss_pct": 0.03,
+        "take_profit_pct": 0.06
+      }
+    },
+    "initial_cash": 10000,
+    "fee_rate": 0.0008,
+    "slippage_pct": 0.0005,
+    "risk": {
+      "max_position_pct": 0.25,
+      "max_single_loss_pct": 0.03,
+      "max_daily_loss_pct": 1.0,
+      "max_leverage": 1.0,
+      "min_cash_pct": 0.0
+    },
+    "end_policy": "MARK_TO_MARKET",
+    "purpose": "DESCRIPTIVE_DEVELOPMENT",
+    "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+    "execution_policy": "STANDARD_STRATEGY_RISK"
+  },
+  "output_dir": "../../../../runs",
+  "management": {
+    "family_id": "051add03c1a4439da748a63ca582a5a5",
+    "revision": "r0001-111fe0f7bd3c4083a92ebe47ecce5196"
+  }
+}

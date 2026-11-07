@@ -1,0 +1,87 @@
+{
+  "status": "PASS_RETAINED_REAL_INPUT_CHAIN_WITH_PRESERVED_HARNESS_FAILURES",
+  "scope": "R6_OFFICIAL_BOOTSTRAP_PACKAGED_MODULES_REAL_HTTP_UI_AND_RETAINED_NDAQ_IN_ISOLATED_TEMP_NOT_NATIVE_ELECTRON_WINDOW",
+  "commit": "e9e46fcd80b46f9c7ddf0e9453a1220c9c2bbbf8",
+  "original_snapshot_file_sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+  "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+  "saved_input_id": "canon-f7452c3c5a73b526a502757a0b1f7fbf",
+  "operation_id": "history-copy-736b98af-32b3-4540-850b-14d7761c622f",
+  "request_hash": "16170a13dd8278c6d7d682c0e6c612f8dff201eeec8ca24c39e4ad4100aa305f",
+  "source": {
+    "symbol": "NDAQ",
+    "currency": "USD",
+    "exchange": "XNAS",
+    "sessions": 20,
+    "start": "2026-09-29",
+    "end": "2026-10-26",
+    "evidence_kind": "IMPORTED_UNVERIFIED",
+    "source_authentication": "NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+    "source_truth_verified": false,
+    "original_files_unchanged": 37
+  },
+  "all_attempt_counts": {
+    "business_copy_posts": 1,
+    "successful_revoke_control_posts": 1,
+    "rejected_revoke_control_posts_in_r3": 1,
+    "new_inputs": 1,
+    "new_tasks": 0,
+    "new_research_runs": 0,
+    "new_market_requests": 0
+  },
+  "preservation": {
+    "original_hash_size_mtime_unchanged": true,
+    "copied_bytes_exact": true,
+    "same_operation_and_input_after_new_process_and_port": true,
+    "copied_input_and_receipt_files_unchanged_on_reopen": true,
+    "no_raw_original_in_evidence_or_git": true,
+    "temporary_copy_retained_locally": true
+  },
+  "limitations": [
+    "20 retained sessions do not meet the original nine strategies' usual 82-session minimum; longer strategies need more.",
+    "No new market request, source-authentication upgrade, task creation, strategy run, model call, broker or account connection.",
+    "Packaged QuantWorkspace and services were mounted in an isolated local HTTP harness; this is not an installed Electron native-window acceptance.",
+    "The source card was inspected at 1440 and 390 widths; copied-input readback and actual return-home step were inspected at 1440."
+  ],
+  "preserved_failures": [
+    "r1: external harness omitted the packaged supplemental module path; stopped before TEMP creation or any POST.",
+    "r2: UI copy succeeded exactly once, but external Python postcheck used the wrong daily.read resource name; source/package remained unchanged and owner closed.",
+    "r3: same saved input and receipt reopened, but extra return-home step issued the existing revoke control route, which an overly strict harness rejected; no second copy or business mutation.",
+    "r4: read-only reopening verification passed without navigating; retained as partial evidence, not counted as completion of the next step.",
+    "r5: original revoke route explicitly permitted and handled by QuantWorkspace; actual home navigation passed with no prepare/run and no additional business POST."
+  ],
+  "copied_input_and_receipt_file_count": 4,
+  "final_successful_sequence": {
+    "business_copy_posts": 1,
+    "normal_revoke_control_posts": 1,
+    "reopen_business_posts": 0,
+    "next_step": "Actual onUseTeaching returned to dashboard without preparing example or running research."
+  },
+  "copy_receipt": {
+    "operation_id": "history-copy-736b98af-32b3-4540-850b-14d7761c622f",
+    "request_hash": "16170a13dd8278c6d7d682c0e6c612f8dff201eeec8ca24c39e4ad4100aa305f",
+    "saved_input_id": "canon-f7452c3c5a73b526a502757a0b1f7fbf",
+    "source_truth_verified": false
+  },
+  "final_complete_package_verification": {
+    "status": "PASS",
+    "complete_r6_inventory_verified": true,
+    "package_file_count": 9089,
+    "bundle_id": "7c1b0258545af44abf8f17106f640c10e8542076ed22a6300ba43545741981d4",
+    "commit": "e9e46fcd80b46f9c7ddf0e9453a1220c9c2bbbf8",
+    "source_37_hash_size_mtime_unchanged": true
+  },
+  "source_limit_visible": true,
+  "retained_native_source_data_in_repository": false,
+  "copied_file_identity": {
+    "scope": "THE_ACCEPTED_SNAPSHOT_JSON_FILE_ONLY_NOT_SEPARATELY_EXPORTED_CSV_OR_PROVIDER_BLOB",
+    "schema_version": "us-equity-daily-snapshot-v1",
+    "source_relative_path": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+    "target_relative_current_workspace_path": "daily/data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+    "source_file_sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+    "target_file_sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+    "source_bytes": 104957,
+    "target_bytes": 104957,
+    "direct_byte_equality_verified": true,
+    "source_and_target_size_mtime_unchanged_during_hash_check": true
+  }
+}

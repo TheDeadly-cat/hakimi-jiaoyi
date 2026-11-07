@@ -1,0 +1,143 @@
+{
+  "schema_version": "fixed-month-replay-design-v1",
+  "recorded_at": "2026-10-25T21:08:08.162139Z",
+  "mode": "HISTORICAL_PREFIX_ISOLATION_REPLAY_NOT_BLIND_NOT_NATURAL_FORWARD",
+  "selection_rule": "Latest complete calendar month before the known baseline input begins (2026-09-16); selected from date metadata before inspecting historical test prices or outcomes. No outcome-based reselection.",
+  "score_start": "2026-08-03",
+  "score_end": "2026-08-31",
+  "score_sessions": [
+    "2026-08-03",
+    "2026-08-04",
+    "2026-08-05",
+    "2026-08-06",
+    "2026-08-07",
+    "2026-08-10",
+    "2026-08-11",
+    "2026-08-12",
+    "2026-08-13",
+    "2026-08-14",
+    "2026-08-17",
+    "2026-08-18",
+    "2026-08-19",
+    "2026-08-20",
+    "2026-08-21",
+    "2026-08-24",
+    "2026-08-25",
+    "2026-08-26",
+    "2026-08-27",
+    "2026-08-28",
+    "2026-08-31"
+  ],
+  "context_start": "2026-07-16",
+  "context_sessions": 12,
+  "context_dates": [
+    "2026-07-16",
+    "2026-07-17",
+    "2026-07-20",
+    "2026-07-21",
+    "2026-07-22",
+    "2026-07-23",
+    "2026-07-24",
+    "2026-07-27",
+    "2026-07-28",
+    "2026-07-29",
+    "2026-07-30",
+    "2026-07-31"
+  ],
+  "strategy": {
+    "name": "dual_ma",
+    "params": {
+      "fast_window": 5,
+      "position_pct": 0.25,
+      "slow_window": 10,
+      "stop_loss_pct": 0.03,
+      "take_profit_pct": 0.06
+    }
+  },
+  "initial_cash": 10000,
+  "fee_rate": 0.0008,
+  "slippage_pct": 0.0005,
+  "risk": {
+    "max_daily_loss_pct": 1.0,
+    "max_leverage": 1.0,
+    "max_position_pct": 0.25,
+    "max_single_loss_pct": 0.03,
+    "min_cash_pct": 0.0
+  },
+  "end_policy": "MARK_TO_MARKET",
+  "execution_policy": "STANDARD_STRATEGY_RISK",
+  "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+  "purpose": "DESCRIPTIVE_DEVELOPMENT",
+  "cost_multipliers": [
+    1,
+    2,
+    3
+  ],
+  "benchmarks": [
+    "cash",
+    "buy_and_hold"
+  ],
+  "sources": {
+    "NDAQ": {
+      "raw_source_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\updates\\check-7a2759cb-3092-4484-a487-5490af1c6804\\source-yahoo-chart.json",
+      "raw_sha256": "7b718813306a174eb8412e5f52bb553ef9ad237294c6600a5efeee2e79e57a71",
+      "baseline_snapshot_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\runs\\run-7871a14c400b274bcc89870eb55964f68acbbd8fb82366ab99184d5311854ca0\\inputs\\snapshot.json",
+      "baseline_sha256": "6988c83552fdd89889a03429a9a29658dede922493470490cb2e1fe4dcc894b8",
+      "retrieved_at": "2026-10-22T23:33:58.818302Z",
+      "reference": "https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?period1=1779163200&period2=1792728000&interval=1d&events=div%2Csplits&includePrePost=false",
+      "source_check_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\updates\\check-7a2759cb-3092-4484-a487-5490af1c6804\\check.json",
+      "source_check_sha256": "f89a6c8e473102e39aa1b434fd5dc415fe0c0011a4ad5477a22054886bcd2825",
+      "historical_identity_declaration": "A new importer declaration for retrospective historical replay only, based on symbol, currency and exchange metadata received on 2026-10-22. Historical identity continuity is not independently authenticated. Do not extend the old identity assertion or backdate acquisition."
+    },
+    "KO": {
+      "raw_source_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\updates\\check-0228f135-f270-4254-8f35-eb0ea8eb93f6\\source-yahoo-chart.json",
+      "raw_sha256": "37aebce807f53eb34b3f6c7878135efd63c4d39f1271ccaaae9c92a728f4bef6",
+      "baseline_snapshot_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\runs\\run-2b71a64b877747dae8b81a184c91a354de2d19277bf5470fdcdfd3037a038fdf\\inputs\\snapshot.json",
+      "baseline_sha256": "234ffdd7cc7d063405e7a4f6db685ffc0cf3892127ee0b481c171143326401fa",
+      "retrieved_at": "2026-10-22T23:35:26.234344Z",
+      "reference": "https://query1.finance.yahoo.com/v8/finance/chart/KO?period1=1779163200&period2=1792728000&interval=1d&events=div%2Csplits&includePrePost=false",
+      "source_check_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\updates\\check-0228f135-f270-4254-8f35-eb0ea8eb93f6\\check.json",
+      "source_check_sha256": "b523a15d74256b9f3d52fe9a8cd7ae878d2e3f1554c4dce6cd126c3de2b2dc7c",
+      "historical_identity_declaration": "A new importer declaration for retrospective historical replay only, based on symbol, currency and exchange metadata received on 2026-10-22. Historical identity continuity is not independently authenticated. Do not extend the old identity assertion or backdate acquisition."
+    }
+  },
+  "parameter_sources": {
+    "NDAQ": {
+      "run_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\runs\\run-7871a14c400b274bcc89870eb55964f68acbbd8fb82366ab99184d5311854ca0",
+      "run_id": "7871a14c400b274bcc89870eb55964f68acbbd8fb82366ab99184d5311854ca0",
+      "report_hash": "1cadeb4d2f7e96a8cf88f0577c8a9919406e1fa862e6cd57a96ba198f2e811f1",
+      "report_file_sha256": "af91dbe7da37951d99e0dab57a4203802ac1ef565e43bf05011edeeda995f5f8",
+      "original_task_id": "eb79fea984763a16291f2fafc2623facaa378797a0c48ec53f7aafbbe93012de",
+      "original_score_start": "2026-10-02",
+      "original_score_end": "2026-10-22"
+    },
+    "KO": {
+      "run_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\m32-data-continuity-20261025\\workspace\\runs\\run-2b71a64b877747dae8b81a184c91a354de2d19277bf5470fdcdfd3037a038fdf",
+      "run_id": "2b71a64b877747dae8b81a184c91a354de2d19277bf5470fdcdfd3037a038fdf",
+      "report_hash": "4e2dad16fa67028091f356225532647a78e5b7932289f3e835012868f65fb624",
+      "report_file_sha256": "11ab0b791395a38776a90e6b7c80d7f58a3bde2cc40ccca34467128037a5ed01",
+      "original_task_id": "f6f4e051d746ed882933ab5e31e32a8351e3123322af58fb37d819bad8b65c89",
+      "original_score_start": "2026-10-02",
+      "original_score_end": "2026-10-22"
+    }
+  },
+  "calendar_path": "C:\\Users\\Administrator\\.codex\\worktrees\\insights-github-20261022\\哈基米v2交易\\src\\hakimi_research\\resources\\us-equity-calendar-2026.json",
+  "calendar_sha256": "c367399cdb316fecae4e63b95d0d183b4959b61237145b8e01a0f3b1a2561491",
+  "execution_runtime_source_sha256": "4019649982caff0bcb1e5fa23b6b5aafc848ffd2d27bb42a0ae402193f16a537",
+  "execution_runtime_build": "4338490f26dec70c79778cd5d1a85a2aaa3474d5",
+  "execution_policy_notes": [
+    "Parameters and test dates will not change after result inspection.",
+    "Strategies receive only completed visible history; close decisions execute on a subsequent session open.",
+    "Every scenario starts from independent cash and empty positions; do not add scenario returns.",
+    "Missing data, actions, adjusted/raw mismatch or invalid identity stop the fixed window; do not choose another window to obtain a passing result.",
+    "Repeat verification is identified separately from original economic runs.",
+    "This is locally sealed retrospective replay, not global proof of unseen data or natural prospective evidence.",
+    "Existing October tasks, reports, ledgers and prior failures remain immutable."
+  ],
+  "permissions": {
+    "research_only": true,
+    "live_order_allowed": false,
+    "paid_model_allowed": false
+  },
+  "plan_hash": "807d0fafb21badc98f513ebd5b0362207ac0431faf741814388eb87c9158fdb0"
+}

@@ -1,0 +1,12 @@
+{
+  "python": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-daily-parent-venv\\Scripts\\python.exe",
+  "python_version": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+  "node": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node.exe",
+  "node_version": "v22.23.4",
+  "parent_head": "97d0e0a2db45d021f48fb0eda285b53ccaf73300",
+  "source_status": "DIRTY_INTEGRATION_CANDIDATE",
+  "source_file_count": 2082,
+  "source_hashes_define_tested_bytes": true,
+  "native_gui": false,
+  "economic_or_provider_probe": false
+}

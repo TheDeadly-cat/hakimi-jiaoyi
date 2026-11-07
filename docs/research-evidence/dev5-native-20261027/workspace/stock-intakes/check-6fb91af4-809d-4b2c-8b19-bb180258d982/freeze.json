@@ -1,0 +1,15 @@
+{
+  "schema_version": "workbench-stock-intake-freeze-v1",
+  "check_hash": "3e0addde37bf92dd0a6808d76d00425845bf679401e979d6d0d74554c2c49f70",
+  "security": {
+    "security_id": "IMPORTED:YAHOO:XNAS:NDAQ:check-6fb91af4-809d-4b2c-8b19-bb180258d982",
+    "symbol": "NDAQ",
+    "exchange": "XNAS",
+    "currency": "USD",
+    "instrument_type": "COMMON_STOCK"
+  },
+  "input_ref": "data/snapshots/f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd/91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c.json",
+  "input_file_sha256": "91e719ac1917c7aab83b6ab663f8108d1979ae6694f1d2da29a432ecb674b97c",
+  "snapshot_id": "f59ab691ef93f6ebef612933a7b4258d98bf63f9aaca4b9f00a7558f8fd47ffd",
+  "freeze_hash": "6d0e4d32a2046d1768c5eed26aaf48c85495ee08a2fc48ca904358f8908fab7f"
+}
