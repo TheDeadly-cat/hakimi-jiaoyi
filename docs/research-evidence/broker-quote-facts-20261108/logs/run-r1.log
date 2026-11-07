@@ -1,0 +1,65 @@
+test_injected_future_reprojection_preserves_original_bytes_and_expired_facts (__main__.ActualQuoteWorkerTests.test_injected_future_reprojection_preserves_original_bytes_and_expired_facts) ... FAIL
+test_shared_stop_after_runtime_prevents_later_quote_sends (__main__.ActualQuoteWorkerTests.test_shared_stop_after_runtime_prevents_later_quote_sends) ... FAIL
+test_three_quote_actions_persist_facts_and_reopen_without_tcp (__main__.ActualQuoteWorkerTests.test_three_quote_actions_persist_facts_and_reopen_without_tcp) ... FAIL
+test_wrong_security_retains_actual_response_without_typed_match (__main__.ActualQuoteWorkerTests.test_wrong_security_retains_actual_response_without_typed_match) ... FAIL
+
+======================================================================
+FAIL: test_injected_future_reprojection_preserves_original_bytes_and_expired_facts (__main__.ActualQuoteWorkerTests.test_injected_future_reprojection_preserves_original_bytes_and_expired_facts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 199, in test_injected_future_reprojection_preserves_original_bytes_and_expired_facts
+    first = self.launch("first")
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 102, in launch
+    self.assertEqual(self.poll(handle, initial=True)["kind"], "READY")
+                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 113, in poll
+    self.fail("quote worker ended before message: " + stderr)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: quote worker ended before message: 
+
+======================================================================
+FAIL: test_shared_stop_after_runtime_prevents_later_quote_sends (__main__.ActualQuoteWorkerTests.test_shared_stop_after_runtime_prevents_later_quote_sends)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 233, in test_shared_stop_after_runtime_prevents_later_quote_sends
+    first = self.launch("first")
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 102, in launch
+    self.assertEqual(self.poll(handle, initial=True)["kind"], "READY")
+                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 113, in poll
+    self.fail("quote worker ended before message: " + stderr)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: quote worker ended before message: 
+
+======================================================================
+FAIL: test_three_quote_actions_persist_facts_and_reopen_without_tcp (__main__.ActualQuoteWorkerTests.test_three_quote_actions_persist_facts_and_reopen_without_tcp)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 163, in test_three_quote_actions_persist_facts_and_reopen_without_tcp
+    first = self.launch("first")
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 102, in launch
+    self.assertEqual(self.poll(handle, initial=True)["kind"], "READY")
+                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 113, in poll
+    self.fail("quote worker ended before message: " + stderr)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: quote worker ended before message: 
+
+======================================================================
+FAIL: test_wrong_security_retains_actual_response_without_typed_match (__main__.ActualQuoteWorkerTests.test_wrong_security_retains_actual_response_without_typed_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 186, in test_wrong_security_retains_actual_response_without_typed_match
+    first = self.launch("first")
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 102, in launch
+    self.assertEqual(self.poll(handle, initial=True)["kind"], "READY")
+                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 113, in poll
+    self.fail("quote worker ended before message: " + stderr)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: quote worker ended before message: 
+
+----------------------------------------------------------------------
+Ran 4 tests in 84.956s
+
+FAILED (failures=4)

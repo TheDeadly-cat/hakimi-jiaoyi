@@ -1,0 +1,380 @@
+{
+  "schema_version": "hakimi-independent-quote-chain-review-v1",
+  "reviewed_at_utc": "2026-11-07T19:45:08.796859+00:00",
+  "verdict": "NO_BLOCKING_FINDING_WITH_STATED_LIMITS",
+  "reviewer": "publish_review",
+  "method": {
+    "source_and_evidence_read_only": true,
+    "test_reruns": 0,
+    "sdk_or_protobuf_loaded_by_reviewer": false,
+    "network_connections_by_reviewer": 0,
+    "sqlite_access": "mode=ro; SELECT original event bodies only; before/after file SHA checked"
+  },
+  "source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "afd0728309f8333664ab79cb1be2dc0f44b45cab6769d1a1f70ec9d2dc47eb8a",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "0d4e82f0e461554b21fa73eab5cfe302ed2c828a3932eead78efb1cdb8e0e5d5",
+    "outputs/python_quant_bot/tests/broker_quote_worker_fixture.py": "113206bc65d3222158ce98fc0b113696d65f736036ef04f0969f18d919cdb512",
+    "outputs/python_quant_bot/tests/test_terminal_broker_quote_facts.py": "a9644be1494ce675b45ffa3c3f4fd33a724737ca077f0c97c48a05f4938b4ddb",
+    "outputs/python_quant_bot/tests/test_terminal_broker_quote_integration.py": "930bf74f4dca45378705d089a2a9fb19cd845f6f003ee857469bc8ed9462563b",
+    "outputs/python_quant_bot/tests/test_terminal_broker_request_builder.py": "f151954345b7bf6736d5d5243fe0f416bacd85e17edf46398da0fe3c261a9f1f",
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_facts.py": "6689cb8abbc24fe757177c1bcbb6020ddf8432b5ffeefc8b4beda558cd9ae563",
+    "tools/run_terminal_contracts.py": "433b15aa5190109b63abe51bdd0b9fcb1f63f90ccc22b0593337c627ecba9cb6"
+  },
+  "source_material_files_checked": 1613,
+  "actual_runtime": {
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "package_bundle_id": "9720f8274d460c20662cf9551b15b6ddc9bed5d5ccc4c3cb0312d815d094c0cf",
+    "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "loaded_package_union_files_checked": 268,
+    "loaded_package_union_digest": "20b0995f8d1da89104644b21cb24d13b926968f6859cbe9f1b23ba0c40cbfdfa",
+    "original_private_loader_unchanged": true,
+    "application_preloaded_before_loader_with_cold_google_futu_pb2": true,
+    "private_loader_remains_first_no_post_loader_fallback": true,
+    "production_package_bootstrap_acceptance": false,
+    "r7_contains_current_source": false
+  },
+  "actual_cases": [
+    {
+      "case": "test_injected_future_reprojection_preserves_original_bytes_and_expired_facts",
+      "evidence_directory": "actual-protobuf/run-r4-full/cases/test_injected_future_reprojection_preserves_original_bytes_and_expired_facts",
+      "artifacts_checked": 45,
+      "accepts": 1,
+      "request_frames": 4,
+      "response_frames": 4,
+      "journal_event_counts": {
+        "ACTION": 5,
+        "OUTCOME": 5,
+        "VERIFIED_RESPONSE": 4
+      },
+      "verified_fact_actions": [
+        "quote_runtime",
+        "quote_security",
+        "quote_snapshot",
+        "quote_snapshot"
+      ],
+      "expired_reprojection_facts": 1,
+      "fact_action_request_response_hash_links_match": true,
+      "readonly_database_bytes_unchanged": true,
+      "worker_reports": {
+        "first-report": {
+          "actual_connects": 1,
+          "actual_io_steps": 6
+        },
+        "recovery-report": {
+          "actual_connects": 0,
+          "actual_io_steps": 0
+        }
+      },
+      "scenario_notes": [
+        {
+          "kind": "EXPLICIT_FUTURE_RECEIVED_AT_REPROJECTION_NOT_NETWORK_DELAY",
+          "clock_offset_seconds": 1200,
+          "original_fact_id": "10429fb88c4c766cadd8831d9f80bdeef9bc965225d504ab5a4a9d7185453a0e",
+          "reprojected_fact_id": "0a6d4507421962c6038c22e678bfcc940dfab08e85faea4a53215e3f6ae078d7",
+          "original_received_at": "2026-10-30T08:00:58.177152+00:00",
+          "injected_received_at": "2026-10-30T08:21:03.034023+00:00"
+        }
+      ]
+    },
+    {
+      "case": "test_shared_stop_after_runtime_prevents_later_quote_sends",
+      "evidence_directory": "actual-protobuf/run-r4-full/cases/test_shared_stop_after_runtime_prevents_later_quote_sends",
+      "artifacts_checked": 29,
+      "accepts": 1,
+      "request_frames": 2,
+      "response_frames": 2,
+      "journal_event_counts": {
+        "ACTION": 3,
+        "OUTCOME": 3,
+        "VERIFIED_RESPONSE": 1
+      },
+      "verified_fact_actions": [
+        "quote_runtime"
+      ],
+      "expired_reprojection_facts": 0,
+      "fact_action_request_response_hash_links_match": true,
+      "readonly_database_bytes_unchanged": true,
+      "worker_reports": {
+        "first-report": {
+          "actual_connects": 1,
+          "actual_io_steps": 4
+        }
+      },
+      "scenario_notes": []
+    },
+    {
+      "case": "test_three_quote_actions_persist_facts_and_reopen_without_tcp",
+      "evidence_directory": "actual-protobuf/run-r4-full/cases/test_three_quote_actions_persist_facts_and_reopen_without_tcp",
+      "artifacts_checked": 45,
+      "accepts": 1,
+      "request_frames": 4,
+      "response_frames": 4,
+      "journal_event_counts": {
+        "ACTION": 5,
+        "OUTCOME": 5,
+        "VERIFIED_RESPONSE": 3
+      },
+      "verified_fact_actions": [
+        "quote_runtime",
+        "quote_security",
+        "quote_snapshot"
+      ],
+      "expired_reprojection_facts": 0,
+      "fact_action_request_response_hash_links_match": true,
+      "readonly_database_bytes_unchanged": true,
+      "worker_reports": {
+        "first-report": {
+          "actual_connects": 1,
+          "actual_io_steps": 6
+        },
+        "recovery-report": {
+          "actual_connects": 0,
+          "actual_io_steps": 0
+        }
+      },
+      "scenario_notes": []
+    },
+    {
+      "case": "test_wrong_security_retains_actual_response_without_typed_match",
+      "evidence_directory": "actual-protobuf/run-r4-full/cases/test_wrong_security_retains_actual_response_without_typed_match",
+      "artifacts_checked": 45,
+      "accepts": 1,
+      "request_frames": 4,
+      "response_frames": 4,
+      "journal_event_counts": {
+        "ACTION": 5,
+        "OUTCOME": 5,
+        "VERIFIED_RESPONSE": 2
+      },
+      "verified_fact_actions": [
+        "quote_runtime",
+        "quote_security"
+      ],
+      "expired_reprojection_facts": 0,
+      "fact_action_request_response_hash_links_match": true,
+      "readonly_database_bytes_unchanged": true,
+      "worker_reports": {
+        "first-report": {
+          "actual_connects": 1,
+          "actual_io_steps": 6
+        },
+        "recovery-report": {
+          "actual_connects": 0,
+          "actual_io_steps": 0
+        }
+      },
+      "scenario_notes": []
+    }
+  ],
+  "case_artifacts_sha_checked": 164,
+  "total_actual_connects": 4,
+  "recovery_workers_with_zero_tcp": 3,
+  "provenance_stages": [
+    {
+      "stage": "STARTUP_COMMAND_AUDIT_MISMATCH",
+      "evidence_directory": "actual-protobuf/run-r1",
+      "tests_run": 4,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "original_worker_receipts": [
+        {
+          "status": "UNKNOWN",
+          "reasons": [
+            "LAUNCH_OR_IDENTITY_FAILED",
+            "EXIT_UNCONFIRMED",
+            "RESULT_MISSING"
+          ],
+          "spawn_count": 0,
+          "stdin_bytes_written": 0
+        },
+        {
+          "status": "UNKNOWN",
+          "reasons": [
+            "LAUNCH_OR_IDENTITY_FAILED",
+            "EXIT_UNCONFIRMED",
+            "RESULT_MISSING"
+          ],
+          "spawn_count": 0,
+          "stdin_bytes_written": 0
+        },
+        {
+          "status": "UNKNOWN",
+          "reasons": [
+            "LAUNCH_OR_IDENTITY_FAILED",
+            "EXIT_UNCONFIRMED",
+            "RESULT_MISSING"
+          ],
+          "spawn_count": 0,
+          "stdin_bytes_written": 0
+        },
+        {
+          "status": "UNKNOWN",
+          "reasons": [
+            "LAUNCH_OR_IDENTITY_FAILED",
+            "EXIT_UNCONFIRMED",
+            "RESULT_MISSING"
+          ],
+          "spawn_count": 0,
+          "stdin_bytes_written": 0
+        }
+      ]
+    },
+    {
+      "stage": "READY_WAIT_EXPIRED_DURING_PRIVATE_LOADER",
+      "evidence_directory": "actual-protobuf/run-r2-positive",
+      "tests_run": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "original_worker_receipts": [
+        {
+          "status": "UNKNOWN",
+          "reasons": [
+            "STOP_REQUESTED",
+            "EXIT_NOT_ZERO",
+            "RESULT_MISSING"
+          ],
+          "spawn_count": 1,
+          "stdin_bytes_written": 0
+        }
+      ]
+    },
+    {
+      "stage": "POSITIVE_ONLY_ACTUAL_DIAGNOSTIC",
+      "evidence_directory": "actual-protobuf/run-r3-positive",
+      "tests_run": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "original_worker_receipts": [
+        {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "reasons": [],
+          "spawn_count": 1,
+          "stdin_bytes_written": 1178
+        },
+        {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "reasons": [],
+          "spawn_count": 1,
+          "stdin_bytes_written": 773
+        }
+      ]
+    },
+    {
+      "stage": "ALL_FOUR_ACTUAL_CASES",
+      "evidence_directory": "actual-protobuf/run-r4-full",
+      "tests_run": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "original_worker_receipts": [
+        {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "reasons": [],
+          "spawn_count": 1,
+          "stdin_bytes_written": 1178
+        },
+        {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "reasons": [],
+          "spawn_count": 1,
+          "stdin_bytes_written": 773
+        },
+        {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "reasons": [],
+          "spawn_count": 1,
+          "stdin_bytes_written": 1178
+        },
+        {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "reasons": [],
+          "spawn_count": 1,
+          "stdin_bytes_written": 1178
+        },
+        {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "reasons": [],
+          "spawn_count": 1,
+          "stdin_bytes_written": 773
+        },
+        {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "reasons": [],
+          "spawn_count": 1,
+          "stdin_bytes_written": 1178
+        },
+        {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "reasons": [],
+          "spawn_count": 1,
+          "stdin_bytes_written": 773
+        }
+      ]
+    }
+  ],
+  "implementation_findings": [
+    "Actual layer requires real VerifiedProtobufBindings and matching runtime identity; no fake-class fallback. Parent synthetic response values are serialized by actual generated classes.",
+    "Original serve, supervisor, ActionCoordinator, SQLite journal and ScopedTransport perform the chain. ACTION is independently read back before factory/connect/send.",
+    "Three query frames are recovered from the test-only prebound byte registry and compared against original ACTIONs; journal and registry byte-read-only recovery is asserted.",
+    "Command, interpreter, one-time argv/list2cmdline, cwd and sanitized environment are bound to the original TestWorkerSpec. Child can connect only to its own held loopback listener.",
+    "Actual peer bytes, retained responses and VERIFIED_RESPONSE rows link to the original ACTION request and response hashes. No snapshot, claim, economic observation or order was created."
+  ],
+  "limitations": [
+    "Borrowed r7 private runtime plus hash-bound current source is controlled test assembly, not a feature already packaged in r7 or production bootstrap acceptance.",
+    "Package checks cover its unchanged manifest, SDK identity checks and the actual loaded/verified closure; this review did not rescan every file in the whole package.",
+    "Standard CI quote chain uses explicit JSON protocol fakes. Its passing tests are separate from the four actual protobuf cases and cannot replace them.",
+    "Recovery avoids re-encoding the three query frames, handshaking or dispatch; common fixture construction still encodes an unused init operation.",
+    "Expiry case is explicit future received_at reprojection of already retained bytes, not a delayed network response or a provider source-time freshness proof.",
+    "Facts remain test_only/source_authenticated=false; market permission, symbol trading session, currency, legal tick rules, cash/owner and fees remain outside admission.",
+    "No OpenD, SDK top-level context, real account, external endpoint or production PackageWorkerSpec was used."
+  ],
+  "actual_probe_budget": {
+    "worker_wall_seconds": 60,
+    "ready_wait_seconds": 30,
+    "message_wait_seconds": 15,
+    "exit_wait_seconds": 10,
+    "peer_lifetime_seconds": 100,
+    "outer_seconds": 420,
+    "standard_worker_wall_seconds": 8,
+    "standard_message_wait_seconds": 4,
+    "standard_exit_wait_seconds": 3,
+    "product_wire_limits_changed": false
+  },
+  "fullgate": {
+    "result": "PASS",
+    "tests_run": 913,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "root_run_not_repeated_by_reviewer": true,
+    "source8_hashes_match": true,
+    "log_sha256": "434e40044ebbdb9266894a4013c22db5d9e0d2c629cad046f5a2fbdb679f41ea"
+  },
+  "evidence_sha256": {
+    "actual-protobuf/run-r1/result.json": "fa81283c28885ec79beb0e5fdd1c0e892a95750c4a273294e0aba1b275bee4b3",
+    "actual-protobuf/run-r1/process-result.json": "481dd6e0f42c932626d500578bed2f523fd9f5b3e5ef9e22053821ee3daee73c",
+    "actual-protobuf/run-r1/actual-tests.log": "68ad2f326fcf7868db6af856e0a09929a202d6344bdd36208e9d1e735cff0147",
+    "actual-protobuf/run-r2-positive/result.json": "d5288afd44380b007422c5641315ae6f803659f934ee93fa66151c4a4ae7b319",
+    "actual-protobuf/run-r2-positive/process-result.json": "d1f63eadafbb19d05e4f2f95d280b2c72685634fd1b6c6715c37e229d0c03cf0",
+    "actual-protobuf/run-r2-positive/actual-tests.log": "3bb0a379c9ad2dcfbab95ea42ccc4958103faf49a2e1068090508fe8f3490d15",
+    "actual-protobuf/run-r3-positive/result.json": "e5a3fcadacc7d1d86b1d5dba25d55267a3e5102a3f7d8ca68ffc202ce6d53fcd",
+    "actual-protobuf/run-r3-positive/process-result.json": "6e040b4d3cdfb959f64c8e44e15d92b00219a0d46e775c16bb903efae5a43e33",
+    "actual-protobuf/run-r3-positive/actual-tests.log": "cfe8076b2f8549c5cfd291014fea37ab242f6ffa0b357e8bf0c11a06dfb7ad28",
+    "actual-protobuf/run-r4-full/result.json": "6736485a8481f595a3532afb054946409f70a1acdfe7bcc6868a002264b126a6",
+    "actual-protobuf/run-r4-full/process-result.json": "9c4f3cf27233cdc7a1efb6f58753fa1c4afbe52f3c7d2ba51ac8e15f9b2a891c",
+    "actual-protobuf/run-r4-full/actual-tests.log": "f24d780b99e0ad58b74ca4e8c5f9bd34e1c927ee314b8a5908d76da912e6ebc2",
+    "fullgate-terminal-r1.json": "04fff1279bb6ee16219223414da1315aa0e5c4f5e57fbdf695ed96961f2c88ac",
+    "fullgate-terminal-r1.log": "434e40044ebbdb9266894a4013c22db5d9e0d2c629cad046f5a2fbdb679f41ea",
+    "actual-protobuf/run-r4-full/input-spec.json": "0353a0bae5c513755445b9850b66cbad7220d190003387e268b2a2a68f268878",
+    "actual-protobuf/run-r4-full/scripts/private_quote_bootstrap.py": "5bb4437142de06c28c14ead925f3a2f997bcd63c4cb5f7a6db5132a0467baad4",
+    "actual-protobuf/run-r4-full/scripts/actual_quote_controller.py": "1e3e67fac55fea30f1df90ddf7f644238ec86c9f3f8b1e9895b6ea55678ca11e",
+    "actual-protobuf/run-r4-full/scripts/run_actual_quote_probe.py": "e2c681b6a14cc7360697b0384fdf9f6765ad14c958349c56ca8c3b43b7c4a0b4"
+  }
+}

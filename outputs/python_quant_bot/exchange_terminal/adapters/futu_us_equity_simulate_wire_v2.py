@@ -198,6 +198,38 @@ def _scope_equal(actual, expected, path=""):
     return type(actual) is type(expected) and actual == expected
 
 
+def _request_values(value, path=""):
+    """Convert the fixed request tree without rounding saved decimal terms."""
+    if type(value) is dict:
+        return {key: _request_values(item, path + "." + key) for key, item in value.items()}
+    if type(value) is list:
+        return [_request_values(item, path + "[]") for item in value]
+    if type(value) is Decimal:
+        _require(value.is_finite(), "request_decimal_not_exact")
+        converted = float(value)
+        _require(math.isfinite(converted) and Decimal(str(converted)) == value,
+                 "request_decimal_not_exact")
+        return converted
+    if path in (".c2s.qty", ".c2s.adjustSideAndLimit"):
+        _require(type(value) is int, "request_numeric_type_invalid")
+        try:
+            converted = float(value)
+        except OverflowError as error:
+            raise CodecError("request_integer_not_exact") from error
+        _require(math.isfinite(converted) and converted == value, "request_integer_not_exact")
+        return converted
+    _require(type(value) in (bool, int, str), "request_field_type_invalid")
+    return value
+
+
+def _verify_bindings(bindings, profile):
+    from .futu_verified_protobuf_loader import VerifiedProtobufBindings
+    _require(type(bindings) is VerifiedProtobufBindings, "typed_protobuf_bindings_required")
+    current = VerifiedProtobufBindings.verify_current(bindings)
+    _require(all(current.get(key) == profile["runtime"][key] for key in ("package", "sdk")),
+             "protobuf_binding_runtime_mismatch")
+
+
 @dataclass(frozen=True, slots=True)
 class DecodedResponse:
     raw_frame: bytes
@@ -229,6 +261,44 @@ class SimulateCodec:
                 _require(classes[protocol]().DESCRIPTOR.full_name == PROTO_NAMES[protocol] + "." + direction,
                          "protobuf_protocol_class_mismatch")
         self._requests, self._responses = dict(request_classes), dict(response_classes)
+        self._verified_bindings = None
+
+    @classmethod
+    def from_verified_bindings(cls, profile, session, bindings):
+        """Use already loaded private-worker classes; this never loads an SDK."""
+        _verify_bindings(bindings, _profile(profile))
+        instance = cls(profile, session, request_classes=bindings.request_classes,
+                       response_classes=bindings.response_classes)
+        instance._verified_bindings = bindings
+        return instance
+
+    def encode_request(self, profile, action, serial):
+        """Build one exact offline request; no session facts or permissions arise."""
+        _require(_profile(profile)["id"] == self._profile["id"], "codec_profile_changed")
+        _require(type(action) is str and action in WIRE_ACTIONS, "action_not_allowed")
+        _require(_uint(serial, 32), "request_serial_invalid")
+        bindings = self._verified_bindings
+        if bindings is not None:
+            _verify_bindings(bindings, self._profile)
+            _require(all(set(actual) == set(original) and all(actual[key] is original[key] for key in original)
+                         for actual, original in ((self._requests, bindings.request_classes),
+                                                  (self._responses, bindings.response_classes))),
+                     "protobuf_binding_classes_changed")
+        with self._session_lock:
+            expected = {"c2s": self._expected(action, serial)}
+            values = _request_values(expected)
+            protocol = WIRE_ACTIONS[action][1]
+            try:
+                message = self._requests[protocol](**values)
+                _require(message.IsInitialized(), "protobuf_required_fields_missing")
+                body = message.SerializeToString(deterministic=True)
+            except CodecError:
+                raise
+            except Exception as error:
+                raise CodecError("request_fields_invalid") from error
+            frame = pack_plaintext_frame(protocol, serial, body)
+            self.validate_request(profile, action, frame)
+            return frame
 
     def session_binding(self):
         with self._session_lock:

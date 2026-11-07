@@ -23,7 +23,9 @@ from .terminal_broker_wire_profile import VerifiedWireProfile, WIRE_ACTIONS
 
 SCHEMA = "hakimi-broker-response-facts-v2"
 SUPPORTED_ACTIONS = frozenset({"trade_submit", "trade_cancel", "trade_observe", "trade_accounts",
-                               "trade_funds", "trade_positions", "trade_fees"})
+                               "trade_funds", "trade_positions", "trade_fees",
+                               "quote_runtime", "quote_security", "quote_snapshot"})
+QUOTE_ACTIONS = frozenset({"quote_runtime", "quote_security", "quote_snapshot"})
 # Pinned Trd_Common_pb2 OrderStatus. Labels describe the source enum only; they
 # never establish fee finality, cash release, or exact cumulative fill notional.
 ORDER_STATUS_NAMES = MappingProxyType({
@@ -188,7 +190,136 @@ def _bind_request_order_id(codec, action, frame, expected_id):
              "original_action_request_order_id_mismatch")
 
 
+def _scalar(tree, name, kind, path, missing, *, required=False):
+    value = _field(tree, name, path, missing, required=required)
+    if value is not None:
+        _require(type(value) is kind, "response_scalar_invalid:" + path)
+        if kind is int:
+            _require(-(2**63) <= value < 2**64, "response_integer_out_of_range:" + path)
+        if kind is str:
+            _require(len(value) <= 256, "response_text_too_long:" + path)
+    return value
+
+
+def _quote_limitations(missing):
+    for field, reason in (("currency", "NOT_PROVIDED_BY_QUOTE_RESPONSE"),
+                          ("price_step", "PRICE_SPREAD_IS_NOT_ORDER_TICK_RULE"),
+                          ("target_market_state", "SECURITY_MARKET_STATE_NOT_QUERIED"),
+                          ("quote_rights", "QUOTE_RIGHTS_NOT_QUERIED")):
+        _missing(missing, field, reason, "external_trading_eligibility")
+    return {"currency": None, "expected_currency": "USD", "price_step": None,
+            "target_market_state": None, "quote_permission_verified": False,
+            "trading_eligibility_verified": False, "source_age_seconds": None,
+            "freshness_verified": False}
+
+
+def _quote_basic(s2c, list_name, profile, missing):
+    rows = _list(s2c, list_name, "s2c." + list_name, missing)
+    if not rows:
+        return None, "NOT_FOUND_UNCONFIRMED"
+    _require(len(rows) == 1, "duplicate_or_foreign_security_rows")
+    path = "s2c." + list_name + "[].basic"
+    basic = _field(rows[0], "basic", path, missing, required=True)
+    if basic is None:
+        return None, "INCOMPLETE_EVIDENCE"
+    security = _field(basic, "security", path + ".security", missing, required=True)
+    if security is None:
+        return None, "INCOMPLETE_EVIDENCE"
+    complete = True
+    for key, expected in {"market": 11, "code": profile["order"]["asset_code"][3:]}.items():
+        complete = _expect(security, key, expected, path + ".security." + key, missing) and complete
+    return basic, "READ_FACTS_MATCHED" if complete else "INCOMPLETE_EVIDENCE"
+
+
+def _project_quote(action, s2c, profile, missing):
+    """Observed values only: login/state/lot/spread are not trading admission."""
+    if action == "quote_runtime":
+        facts = {}
+        for target, source, kind in (("market_us_code", "marketUS", int),
+                ("quote_server_logged_in", "qotLogined", bool), ("trade_server_logged_in", "trdLogined", bool),
+                ("server_version", "serverVer", int), ("server_build", "serverBuildNo", int),
+                ("server_time_seconds", "time", int)):
+            facts[target] = _scalar(s2c, source, kind, "s2c." + source, missing, required=True)
+        complete = all(value is not None for value in facts.values())
+        local = _number(s2c, "localTime", "s2c.localTime", missing)
+        connection = _scalar(s2c, "connID", int, "s2c.connID", missing)
+        if connection is not None:
+            _uint(connection, "s2c.connID")
+        program = _field(s2c, "programStatus", "s2c.programStatus", missing)
+        program_type = None if program is None else _scalar(program, "type", int,
+            "s2c.programStatus.type", missing, required=True)
+        for key, value in (("s2c.localTime", local), ("s2c.connID", connection), ("s2c.programStatus", program)):
+            if value is None:
+                _missing(missing, key, required_for="runtime_observation")
+        _missing(missing, "target_market_state", "GLOBAL_MARKET_US_IS_NASDAQ_NOT_TARGET_SECURITY", "external_trading_eligibility")
+        _missing(missing, "quote_rights", "NOT_PROVIDED_BY_GET_GLOBAL_STATE", "external_trading_eligibility")
+        facts.update(market_us_scope="NASDAQ_GLOBAL", local_time_seconds=local,
+            quote_connection_id=str(connection) if connection is not None else None,
+            quote_connection_scope_matched=None, program_status_code=program_type,
+            server_time_scope="FUTU_SERVER_CURRENT_TIME_NOT_MARKET_SOURCE_TIME",
+            local_time_scope="OPEND_MACHINE_TIME_IF_PRESENT_NO_FALLBACK",
+            target_market_state=None, quote_permission_verified=False, trading_eligibility_verified=False,
+            source_age_seconds=None, freshness_verified=False)
+        return "READ_FACTS_MATCHED" if complete else "INCOMPLETE_EVIDENCE", facts, {}
+
+    list_name = "staticInfoList" if action == "quote_security" else "snapshotList"
+    basic, status = _quote_basic(s2c, list_name, profile, missing)
+    facts = _quote_limitations(missing)
+    if basic is None:
+        return status, facts, {}
+    path = "s2c." + list_name + "[].basic."
+    facts.update(market=_field(_field(basic, "security", path + "security", missing), "market", path + "security.market", missing),
+                 code=_field(_field(basic, "security", path + "security", missing), "code", path + "security.code", missing))
+    type_field = "secType" if action == "quote_security" else "type"
+    complete = _expect(basic, type_field, 3, path + type_field, missing) and status == "READ_FACTS_MATCHED"
+    security_type = _scalar(basic, type_field, int, path + type_field, missing, required=True)
+    lot = _scalar(basic, "lotSize", int, path + "lotSize", missing, required=True)
+    if lot is not None:
+        _require(lot > 0, "response_lot_size_invalid")
+    facts.update(security_type=security_type, lot_size=lot, lot_is_complete_trading_rule=False)
+    complete = complete and lot is not None
+    if action == "quote_security":
+        identity = _scalar(basic, "id", int, path + "id", missing, required=True)
+        if identity is not None:
+            _require(0 < identity < 2**63, "response_static_security_id_invalid")
+        delisting = _scalar(basic, "delisting", bool, path + "delisting", missing)
+        exchange = _scalar(basic, "exchType", int, path + "exchType", missing)
+        for name, value in (("delisting", delisting), ("exchType", exchange)):
+            if value is None:
+                _missing(missing, path + name, required_for="security_status_observation")
+        facts.update(static_security_id=str(identity) if identity is not None else None,
+                     delisting=delisting, exchange_type=exchange)
+        complete = complete and identity is not None
+    else:
+        suspend = _scalar(basic, "isSuspend", bool, path + "isSuspend", missing, required=True)
+        current = _number(basic, "curPrice", path + "curPrice", missing, required=True)
+        spread = _number(basic, "priceSpread", path + "priceSpread", missing, required=True)
+        update = _scalar(basic, "updateTime", str, path + "updateTime", missing, required=True)
+        if update == "":
+            _missing(missing, path + "updateTime", "EMPTY_SOURCE_TIME", "current_price_source_time")
+        timestamp = _number(basic, "updateTimestamp", path + "updateTimestamp", missing)
+        security_status = _scalar(basic, "secStatus", int, path + "secStatus", missing)
+        for name, value in (("updateTimestamp", timestamp), ("secStatus", security_status)):
+            if value is None:
+                _missing(missing, path + name, required_for="snapshot_observation")
+        facts.update(is_suspended=suspend, current_price=current, price_spread=spread,
+            price_spread_scope="ADJACENT_ASK_QUOTE_DIFFERENCE_NOT_ORDER_TICK",
+            current_price_update_time=update, current_price_update_timestamp=timestamp,
+            current_price_time_zone="America/New_York", source_time_scope="CURRENT_PRICE_ONLY",
+            source_time_utc=None, source_time_normalized=False,
+            ask_price=_number(basic, "askPrice", path + "askPrice", missing),
+            bid_price=_number(basic, "bidPrice", path + "bidPrice", missing),
+            security_status_code=security_status)
+        # Retain finite zero/negative prices as observations, not usable prices;
+        # this projection deliberately performs no clock, RTH or price-rule admission.
+        facts["current_price_positive"] = current is not None and Decimal(current) > 0
+        complete = complete and suspend is not None and current is not None and spread is not None and bool(update)
+    return "READ_FACTS_MATCHED" if complete else "INCOMPLETE_EVIDENCE", facts, {}
+
+
 def _project(action, s2c, profile, payload, missing, diagnostics):
+    if action in QUOTE_ACTIONS:
+        return _project_quote(action, s2c, profile, missing)
     order = profile["order"]
     facts, derived = {}, {}
     header_ok = True if action == "trade_accounts" else _header(s2c, profile, missing)
@@ -370,6 +501,11 @@ def verify_response_facts(*, profile, codec, action_receipt, expected_action_rec
                 status = "INCOMPLETE_EVIDENCE"
             else:
                 status, facts, derived = _project(action, s2c, value, payload, missing, diagnostics)
+                if action == "quote_runtime" and facts["quote_connection_id"] is not None:
+                    connection = codec.session_binding().as_dict()["quote_connection_id"]
+                    _require(connection is not None and str(connection) == facts["quote_connection_id"],
+                             "response_quote_connection_mismatch")
+                    facts["quote_connection_scope_matched"] = True
         result = {
             "schema_version": SCHEMA, "status": status, "profile_id": value["id"],
             "base_plan_id": value["base_plan_id"], "mode": value["mode"], "action": action,

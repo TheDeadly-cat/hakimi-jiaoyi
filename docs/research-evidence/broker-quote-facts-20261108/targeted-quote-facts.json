@@ -1,0 +1,16 @@
+{
+  "started_at": "2026-11-07T19:09:36.311572+00:00",
+  "finished_at": "2026-11-07T19:09:39.767185+00:00",
+  "seconds": 3.4555880000043544,
+  "tests_run": 64,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "0d4e82f0e461554b21fa73eab5cfe302ed2c828a3932eead78efb1cdb8e0e5d5",
+    "outputs/python_quant_bot/tests/test_terminal_broker_quote_facts.py": "a9644be1494ce675b45ffa3c3f4fd33a724737ca077f0c97c48a05f4938b4ddb",
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_facts.py": "6689cb8abbc24fe757177c1bcbb6020ddf8432b5ffeefc8b4beda558cd9ae563"
+  },
+  "inputs_unchanged": true,
+  "scope": "pure quote/trade facts plus existing real SQLite response recording; no actual protobuf/SDK/network or full gate"
+}

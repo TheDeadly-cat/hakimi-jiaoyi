@@ -1,0 +1,17 @@
+{
+  "scope": "Offline JSON fake request builder + existing fake codec + loader refusal/temp-source tests; not actual protobuf or OpenD acceptance",
+  "source_head": "68ecf1c3ec3013a29d46441b97177208f6e3efc3",
+  "source_files_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "afd0728309f8333664ab79cb1be2dc0f44b45cab6769d1a1f70ec9d2dc47eb8a",
+    "outputs/python_quant_bot/tests/test_terminal_broker_request_builder.py": "f151954345b7bf6736d5d5243fe0f416bacd85e17edf46398da0fe3c261a9f1f"
+  },
+  "interpreter": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-quote-venv\\Scripts\\python.exe",
+  "exit_code": 0,
+  "tests": 50,
+  "new_builder_tests": 13,
+  "sdk_imports": 0,
+  "protobuf_imports": 0,
+  "network_calls": 0,
+  "permission_changes": false,
+  "actual_protobuf": "PENDING_SEPARATE_PRIVATE_PROBE"
+}

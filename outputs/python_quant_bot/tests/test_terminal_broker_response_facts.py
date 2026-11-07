@@ -426,10 +426,10 @@ class ResponseFactsTests(unittest.TestCase):
 
     def test_other_valid_protocols_are_explicitly_outside_this_fact_projection(self):
         args = facts_fixture()
-        frame = request_frame("quote_runtime")
-        event = action_receipt(args["profile"], "quote_runtime", frame)
+        frame = request_frame("quote_init")
+        event = action_receipt(args["profile"], "quote_init", frame)
         args.update(action_receipt=event, expected_action_receipt_id=event["id"], request_frame=frame,
-                    response_frame=response_frame("quote_runtime"))
+                    response_frame=response_frame("quote_init"))
         with self.assertRaisesRegex(facts_module.ResponseFactsError, "response_action_unsupported"):
             facts_module.verify_response_facts(**args)
 

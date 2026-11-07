@@ -31,7 +31,7 @@ U02的准确候选已公开交付；**r7原生、独立Windows与3名新手仍�
 | U09 浏览器 | DOING | 实际HTTP首用、宽窄组件及r6包内NDAQ复制/重开/教学返回已验 | 与本机原生观察分别记录；两个显示修复已进4401d1f源码并通过整合桌面检查，新包/原生仍待验，不替代独立Windows |
 | U10 独立Windows | TODO | 用户已确认另一台Windows可使用普通用户，只复制程序包、不放源码；实际验收0次 | 使用同一公开r7完成任务/研究/本地计划，关闭重开找回同一记录；本机r6维护者试验不替代A19 |
 | U11 独立新手 | TODO | 可安排3位未参与开发的独立试用者；实际完成0人，旧T17证据保持原状态 | 使用r7任务卡，不演示按钮；记录计划保存/同ID找回、是否重复保存、5/10分钟目标、求助点和理解问题，A20未完成 |
-| U12 真实交易工程 | DOING | [协调器与受控worker](research-evidence/broker-action-coordinator-20261108/README.md)源码已入r7；后续[固定本机TCP连接](research-evidence/broker-loopback-socket-20261108/README.md)通过原账本/worker的真实OS整合及877项完整合同检查 | 本机TCP后续源码不在r7，默认生产入口仍拒绝；生产授权装配、包内worker启动、行情/证券/费用事实、经济核算、OpenD兼容及具体外部授权仍待完成 |
+| U12 真实交易工程 | DOING | [协调器与受控worker](research-evidence/broker-action-coordinator-20261108/README.md)源码已入r7；后续[固定本机TCP连接](research-evidence/broker-loopback-socket-20261108/README.md)及[锁定报文构造、3类查询资料保存](research-evidence/broker-quote-facts-20261108/README.md)通过原worker/账本整合；实际protobuf独立4项、完整terminal913项通过 | 两批后续源码均不在r7。资料匹配不表示可交易；目标证券状态、报价时效、价格/数量资格、可预留资金/归属持仓/费用、生产授权装配、包内worker、OpenD兼容及外部授权仍待完成 |
 
 ## 必须覆盖的20场景
 

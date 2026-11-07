@@ -1,0 +1,9 @@
+test_injected_future_reprojection_preserves_original_bytes_and_expired_facts (__main__.ActualQuoteWorkerTests.test_injected_future_reprojection_preserves_original_bytes_and_expired_facts) ... ok
+test_shared_stop_after_runtime_prevents_later_quote_sends (__main__.ActualQuoteWorkerTests.test_shared_stop_after_runtime_prevents_later_quote_sends) ... ok
+test_three_quote_actions_persist_facts_and_reopen_without_tcp (__main__.ActualQuoteWorkerTests.test_three_quote_actions_persist_facts_and_reopen_without_tcp) ... ok
+test_wrong_security_retains_actual_response_without_typed_match (__main__.ActualQuoteWorkerTests.test_wrong_security_retains_actual_response_without_typed_match) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 334.956s
+
+OK
