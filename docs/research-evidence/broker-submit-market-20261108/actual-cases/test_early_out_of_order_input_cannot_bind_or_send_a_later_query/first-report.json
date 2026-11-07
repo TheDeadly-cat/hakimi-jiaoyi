@@ -1,0 +1,102 @@
+{
+  "protocol_layer": "ACTUAL_PINNED_PROTOBUF_SYNTHETIC_VALUES",
+  "io_order": [
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "cde49c92cd744ac211855e91a19908109d5a2d8d8e6cca8a64c89902c679e66a"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "cde49c92cd744ac211855e91a19908109d5a2d8d8e6cca8a64c89902c679e66a"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_init",
+      "receipt_id": "eb07253148b3793e5f58e035b5077c8ed6d46def2ffda5a09b4bf06ee6ba14ea"
+    },
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "2cf706a2bf4e5569b46d52c54c9792da85ddad306c97dbc7ad36ae5574540b70"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "2cf706a2bf4e5569b46d52c54c9792da85ddad306c97dbc7ad36ae5574540b70"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-trade_init",
+      "receipt_id": "bbcb0d8b3d7d61092a2fa50aa33fabe3e778101b287ac9224db280587b51ee1b"
+    }
+  ],
+  "private_flags": {
+    "dont_write_bytecode": 1,
+    "isolated": 1,
+    "no_site": 1
+  },
+  "preparation_error": null,
+  "scenario_notes": [
+    {
+      "action": "quote_runtime",
+      "kind": "FIXED_NEXT_QUERY_BOUND",
+      "preparation_seconds": 4.396185300007346
+    }
+  ],
+  "original_report_sha256": "b52cbfe353da4d3225f4b45a37b7f85dfdba674590b6005f3b2bb9bbd90c5acf",
+  "actual_loader": {
+    "allowed_endpoint": {
+      "host": "127.0.0.1",
+      "port": 57577
+    },
+    "bootstrap_stages": [
+      {
+        "seconds": 0.006330599993816577,
+        "stage": "manifest_and_guards_ready"
+      },
+      {
+        "seconds": 1.3435252999915974,
+        "stage": "actual_package_identity_checked"
+      },
+      {
+        "seconds": 1.8590317999914987,
+        "stage": "application_closure_preloaded_protobuf_cold"
+      },
+      {
+        "seconds": 14.147905299992999,
+        "stage": "actual_verified_bindings_ready"
+      },
+      {
+        "seconds": 26.119771700003184,
+        "stage": "submit_market_fixture_bound"
+      }
+    ],
+    "cash_snapshots_allowed": "EXPLICIT_INDEPENDENT_SYNTHETIC_FIXTURE_ONLY",
+    "guard_counters": {
+      "database": 40,
+      "dns_denied": 0,
+      "external_endpoint_denied": 0,
+      "futu_import_denied": 0,
+      "socket_bind": 0,
+      "socket_connect": 2,
+      "subprocess": 0,
+      "writes": 21
+    },
+    "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "order_operations_allowed": "SYNTHETIC_OWNED_PEER_ONLY",
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "private_flags": {
+      "dont_write_bytecode": 1,
+      "ignore_environment": 1,
+      "isolated": 1,
+      "no_site": 1
+    },
+    "production_package_bootstrap_acceptance": false,
+    "r7_contains_current_source": false,
+    "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+    "source_authenticated": false,
+    "synthetic_values": true
+  }
+}

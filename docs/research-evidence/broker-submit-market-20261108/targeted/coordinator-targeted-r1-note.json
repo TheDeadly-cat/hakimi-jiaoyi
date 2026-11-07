@@ -1,0 +1,11 @@
+{
+  "scope": "Retrospective note from original tool transcript; no separate raw file was captured",
+  "tests_run": 9,
+  "failures": 1,
+  "errors": 0,
+  "process_exit": 1,
+  "failed_test": "test_expiry_after_action_is_rechecked_before_first_send_without_journal_read_in_barrier",
+  "reason": "Test incorrectly expected reservation >0; original NOT_DISPATCHED proves zero possible bytes and no write attempt, so reservation is released",
+  "production_code_changed": false,
+  "other_eight_tests_passed": true
+}

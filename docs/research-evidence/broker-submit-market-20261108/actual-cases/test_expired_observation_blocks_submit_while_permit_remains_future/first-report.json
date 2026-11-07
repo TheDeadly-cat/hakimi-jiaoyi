@@ -1,0 +1,143 @@
+{
+  "protocol_layer": "ACTUAL_PINNED_PROTOBUF_SYNTHETIC_VALUES",
+  "io_order": [
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "b27261685b61514ac40fc0c4b821483e10fad1daa47040d722a9986fca51fb59"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "b27261685b61514ac40fc0c4b821483e10fad1daa47040d722a9986fca51fb59"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_init",
+      "receipt_id": "4cd0a42948fccaa670341f01edc8c023731bb4833ed2b8fac16f53a1623a67bc"
+    },
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "5f210545d88ce9bdb2f318d4d47e1f7f82a0733c728e924564a6f21c97462649"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "5f210545d88ce9bdb2f318d4d47e1f7f82a0733c728e924564a6f21c97462649"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-trade_init",
+      "receipt_id": "dc45174ee95fd3346ea1f9f96e07486359190232228aa019845622702da624f1"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_runtime",
+      "receipt_id": "31c03eedeef1bf8ad215bbf458382f2ab26d33802914fbc2992d6dc290cdfe05"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_security",
+      "receipt_id": "592a55f23af6b70db0bc7102ab3bc2d18aa7a706efec760c99e7fabfd98e34f6"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_snapshot",
+      "receipt_id": "7f0953b37d2a6801335da864ad50addb50f6d9a0f42706f5e416aad910c0a6f2"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_market_state",
+      "receipt_id": "7dba9e0dc9e6d1c26cbb5eecb09753f3eab826af5746ea25ad03b786f29b3634"
+    }
+  ],
+  "private_flags": {
+    "dont_write_bytecode": 1,
+    "isolated": 1,
+    "no_site": 1
+  },
+  "preparation_error": null,
+  "scenario_notes": [
+    {
+      "action": "quote_runtime",
+      "kind": "FIXED_NEXT_QUERY_BOUND",
+      "preparation_seconds": 4.147499500002596
+    },
+    {
+      "action": "quote_security",
+      "kind": "FIXED_NEXT_QUERY_BOUND",
+      "preparation_seconds": 4.046376700003748
+    },
+    {
+      "action": "quote_snapshot",
+      "kind": "FIXED_NEXT_QUERY_BOUND",
+      "preparation_seconds": 4.480404300004011
+    },
+    {
+      "action": "quote_market_state",
+      "kind": "FIXED_NEXT_QUERY_BOUND",
+      "preparation_seconds": 4.47491929998796
+    },
+    {
+      "bundle_expires_at": "2026-10-30T08:01:35.708140+00:00",
+      "injected_now": "2026-10-30T08:01:36.708184+00:00",
+      "kind": "EXPLICIT_CLOCK_AFTER_BUNDLE_EXPIRY_PERMIT_STILL_FUTURE",
+      "permit_expires_at": "2026-10-30T08:10:00+00:00"
+    }
+  ],
+  "original_report_sha256": "ff6a511e832219de43129c4f4eff2a20c3cc494f1074625d9a284cfe789e5d47",
+  "actual_loader": {
+    "allowed_endpoint": {
+      "host": "127.0.0.1",
+      "port": 58627
+    },
+    "bootstrap_stages": [
+      {
+        "seconds": 0.00653020000027027,
+        "stage": "manifest_and_guards_ready"
+      },
+      {
+        "seconds": 1.3708680999989156,
+        "stage": "actual_package_identity_checked"
+      },
+      {
+        "seconds": 1.8862120999983745,
+        "stage": "application_closure_preloaded_protobuf_cold"
+      },
+      {
+        "seconds": 13.65679119998822,
+        "stage": "actual_verified_bindings_ready"
+      },
+      {
+        "seconds": 25.61626859998796,
+        "stage": "submit_market_fixture_bound"
+      }
+    ],
+    "cash_snapshots_allowed": "EXPLICIT_INDEPENDENT_SYNTHETIC_FIXTURE_ONLY",
+    "guard_counters": {
+      "database": 90,
+      "dns_denied": 0,
+      "external_endpoint_denied": 0,
+      "futu_import_denied": 0,
+      "socket_bind": 0,
+      "socket_connect": 2,
+      "subprocess": 0,
+      "writes": 41
+    },
+    "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "order_operations_allowed": "SYNTHETIC_OWNED_PEER_ONLY",
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "private_flags": {
+      "dont_write_bytecode": 1,
+      "ignore_environment": 1,
+      "isolated": 1,
+      "no_site": 1
+    },
+    "production_package_bootstrap_acceptance": false,
+    "r7_contains_current_source": false,
+    "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+    "source_authenticated": false,
+    "synthetic_values": true
+  }
+}

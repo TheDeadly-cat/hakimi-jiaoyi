@@ -1,0 +1,70 @@
+{
+  "attempts": [
+    {
+      "run": "run-r1-positive",
+      "process": {
+        "exit_code": 1,
+        "seconds": 96.09957389999181,
+        "outer_timeout_seconds": 420,
+        "source_inputs_unchanged": true,
+        "package_manifest_unchanged": true
+      },
+      "result": {
+        "status": "FAIL_PRESERVE_ORIGINALS",
+        "tests_run": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "diagnostic_subset": true
+      },
+      "original_result_sha256": "b7c1fbc66d4ac71c89ffdfc4eb2c6b91c8e8cbc435a4e5dde7e117f0e1802a71",
+      "original_input_spec_sha256": "b61893e8ba0ed3e8bee66fce071cc4c37c9b1b3f67f8c9eb1a86d57daf02e285"
+    },
+    {
+      "run": "run-r2-positive",
+      "process": {
+        "exit_code": 0,
+        "seconds": 129.61012359999586,
+        "outer_timeout_seconds": 420,
+        "source_inputs_unchanged": true,
+        "package_manifest_unchanged": true
+      },
+      "result": {
+        "status": "PASS_ACTUAL_PROTOBUF_ORIGINAL_WORKER_OWNED_TCP",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "diagnostic_subset": true
+      },
+      "original_result_sha256": "08dd98a5b53687e913bbb907a850c7afed5244be1390afdb14c59821ef82166a",
+      "original_input_spec_sha256": "0854ef809c6dc1bed9d97be13f542eaaee3c06e9979f6ccb48b0e30aea0f89d7"
+    }
+  ],
+  "coverage_is_not_sum_of_attempts": true,
+  "explanations": {
+    "run-r1-positive": {
+      "evidence": "actual-protobuf/run-r1-positive",
+      "cause_scope": "Test-only preparation batch encoded four real requests and repeated verified-bindings checks before next INPUT; exceeded the 15-second test message wait. This is not a product wire-RPC timeout.",
+      "observed": {
+        "tcp_accepts": 2,
+        "request_frames": 2,
+        "actions": 4,
+        "verified_responses": 2,
+        "snapshots": 0,
+        "claims": 0,
+        "worker_status": "UNKNOWN",
+        "worker_reasons": [
+          "STOP_REQUESTED",
+          "EXIT_NOT_ZERO",
+          "RESULT_MISSING"
+        ]
+      },
+      "repair_scope": "Only trusted test bootstrap changed to fixed-next request binding after prior original ACTION. No product bound extension, skipped verification, retry, or hidden reconnect. r2 is diagnostic positive-only and not added to final four-case coverage."
+    },
+    "run-r2-positive": "Diagnostic positive only, overlapping the final four cases.",
+    "run-r3-full": "Final four actual protobuf cases, with original product bounds unchanged.",
+    "coordinator-targeted-r1": "Retrospective tool-transcript note only, not a captured raw test log; expected reservation was corrected for proven zero-byte NOT_DISPATCHED.",
+    "targeted_files": "Historical intermediate source hashes/counts retained as-is; final full-terminal.json binds all final 16 inputs and final counts."
+  }
+}

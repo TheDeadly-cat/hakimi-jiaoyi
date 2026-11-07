@@ -18,14 +18,20 @@ from ..adapters import futu_us_equity_simulate_wire_v2 as codec_contract
 from ..adapters.futu_us_equity_simulate_wire_v2 import CodecError, SimulateCodec
 from . import terminal_broker_execution_plan as contract
 from . import terminal_broker_execution_journal as journal
-from .terminal_broker_wire_profile import VerifiedWireProfile, WIRE_ACTIONS
+from .terminal_broker_wire_profile import (
+    VerifiedWireProfile, WireProfileError, SCHEMA_V3 as PROFILE_SCHEMA_V3, actions_for_profile,
+)
 
 
 SCHEMA = "hakimi-broker-response-facts-v2"
+SCHEMA_V3 = "hakimi-broker-response-facts-v3"
 SUPPORTED_ACTIONS = frozenset({"trade_submit", "trade_cancel", "trade_observe", "trade_accounts",
                                "trade_funds", "trade_positions", "trade_fees",
                                "quote_runtime", "quote_security", "quote_snapshot"})
 QUOTE_ACTIONS = frozenset({"quote_runtime", "quote_security", "quote_snapshot"})
+HANDSHAKE_ACTIONS = frozenset({"quote_init", "trade_init"})
+QUOTE_ACTIONS_V3 = QUOTE_ACTIONS | {"quote_market_state"}
+SUPPORTED_ACTIONS_V3 = SUPPORTED_ACTIONS | HANDSHAKE_ACTIONS | {"quote_market_state"}
 # Pinned Trd_Common_pb2 OrderStatus. Labels describe the source enum only; they
 # never establish fee finality, cash release, or exact cumulative fill notional.
 ORDER_STATUS_NAMES = MappingProxyType({
@@ -45,6 +51,14 @@ class ResponseFactsError(ValueError):
 def _require(condition, code):
     if not condition:
         raise ResponseFactsError(code)
+
+
+def supported_actions_for_profile(profile_or_dict):
+    """Keep legacy initialization behavior; v3 alone records handshake facts."""
+    catalog = actions_for_profile(profile_or_dict)
+    value = profile_or_dict.as_dict() if type(profile_or_dict) is VerifiedWireProfile else profile_or_dict
+    supported = SUPPORTED_ACTIONS_V3 if value["schema_version"] == PROFILE_SCHEMA_V3 else SUPPORTED_ACTIONS
+    return frozenset(action for action in supported if action in catalog)
 
 
 def _missing(items, field, reason="NOT_PRESENT", required_for="scope_or_requested_fact"):
@@ -128,15 +142,17 @@ def _action_event(event, expected_id, profile, request_frame, received_at):
     contract._hash(event["previous"])
     journal.request(event["request_id"])
     payload, result = event["payload"], event["result"]
-    contract._fields(payload, {"profile", "action", "operation_id", "frame_sha256", "frame_bytes",
-                               "authorization_id", "broker_order_id"})
+    fields = {"profile", "action", "operation_id", "frame_sha256", "frame_bytes", "authorization_id", "broker_order_id"}
+    v3_submit = (profile["schema_version"] == PROFILE_SCHEMA_V3 and type(payload) is dict
+                 and payload.get("action") == "trade_submit")
+    contract._fields(payload, fields | {"submit_observation"} if v3_submit else fields)
     _require(contract.canonical_bytes(payload["profile"]) == contract.canonical_bytes(profile),
              "original_action_profile_changed")
     _require(payload["operation_id"] == event["request_id"], "original_action_request_mismatch")
     _require(event["request_hash"] == contract.digest({"kind": "ACTION", "payload": payload}),
              "original_action_request_hash_mismatch")
     action = payload["action"]
-    _require(type(action) is str and action in SUPPORTED_ACTIONS, "response_action_unsupported")
+    _require(type(action) is str and action in supported_actions_for_profile(profile), "response_action_unsupported")
     contract._hash(payload["authorization_id"])
     _require(type(payload["frame_bytes"]) is int and payload["frame_bytes"] == len(request_frame)
              and payload["frame_sha256"] == sha256(request_frame).hexdigest(), "original_request_frame_changed")
@@ -148,6 +164,16 @@ def _action_event(event, expected_id, profile, request_frame, received_at):
     at = contract._time(event["at"])
     _require(contract._time(profile["created_at"]) <= at < contract._time(profile["wire_bounds"]["valid_until"])
              and received_at >= at, "response_time_before_original_action")
+    if v3_submit:
+        # Replay the sealed admission at the original ACTION time. A late
+        # response does not re-authorize dispatch or refresh the observations.
+        from .terminal_broker_submit_observation import (
+            SubmitObservationError, validate_archived_submit_observation,
+        )
+        try:
+            validate_archived_submit_observation(profile, payload["submit_observation"], now=at)
+        except SubmitObservationError as error:
+            raise ResponseFactsError("original_submit_observation_invalid:" + str(error)) from error
     if action in ("trade_cancel", "trade_observe", "trade_fees"):
         _opaque(payload["broker_order_id"])
     else:
@@ -168,7 +194,7 @@ def _own_row(s2c, field, id_field, expected_id, missing):
     return row, "READ_FACTS_MATCHED"
 
 
-def _bind_request_order_id(codec, action, frame, expected_id):
+def _bind_request_order_id(codec, profile, action, frame, expected_id):
     """Bind journal ownership to the same exact decoded Request, not session lore.
 
     The codec currently exposes validation and FrameInfo, not a public request
@@ -177,7 +203,7 @@ def _bind_request_order_id(codec, action, frame, expected_id):
     """
     if action not in ("trade_cancel", "trade_observe", "trade_fees"):
         return
-    protocol = WIRE_ACTIONS[action][1]
+    protocol = actions_for_profile(profile)[action][1]
     message = codec_contract._decode(codec._requests[protocol], frame[codec_contract.HEADER_BYTES:], request=True)
     c2s = codec_contract._tree(message)["c2s"]
     if action == "trade_cancel":
@@ -233,6 +259,37 @@ def _quote_basic(s2c, list_name, profile, missing):
 
 def _project_quote(action, s2c, profile, missing):
     """Observed values only: login/state/lot/spread are not trading admission."""
+    if action == "quote_market_state":
+        facts = {"market_state_scope": "EXACT_TARGET_SECURITY", "currency": None,
+            "expected_currency": "USD", "source_time": None,
+            "source_time_scope": "NOT_PROVIDED_BY_MARKET_STATE", "source_age_seconds": None,
+            "freshness_verified": False, "quote_permission_verified": False,
+            "trading_eligibility_verified": False}
+        for name, reason in (("currency", "NOT_PROVIDED_BY_MARKET_STATE"),
+                             ("source_time", "NOT_PROVIDED_BY_MARKET_STATE"),
+                             ("quote_rights", "QUOTE_RIGHTS_NOT_QUERIED")):
+            _missing(missing, name, reason, "external_trading_eligibility")
+        rows = _list(s2c, "marketInfoList", "s2c.marketInfoList", missing)
+        if not rows:
+            return "NOT_FOUND_UNCONFIRMED", facts, {}
+        _require(len(rows) == 1, "duplicate_or_foreign_market_state_rows")
+        row, path = rows[0], "s2c.marketInfoList[]."
+        security = _field(row, "security", path + "security", missing, required=True)
+        if security is None:
+            return "INCOMPLETE_EVIDENCE", facts, {}
+        complete = True
+        for key, expected in {"market": 11, "code": profile["order"]["asset_code"][3:]}.items():
+            complete = _expect(security, key, expected, path + "security." + key, missing) and complete
+            facts[key] = _field(security, key, path + "security." + key, missing)
+        state = _scalar(row, "marketState", int, path + "marketState", missing, required=True)
+        if state is not None:
+            _require(-(2**31) <= state < 2**31, "response_market_state_out_of_int32_range")
+        name = _scalar(row, "name", str, path + "name", missing, required=True)
+        facts.update(market_state_code=state, security_name=name)
+        complete = complete and state is not None and name is not None
+        # Enum 5 identifies the provider's continuous US session; this pure
+        # response projection does not grant qualification or order permission.
+        return "READ_FACTS_MATCHED" if complete else "INCOMPLETE_EVIDENCE", facts, {}
     if action == "quote_runtime":
         facts = {}
         for target, source, kind in (("market_us_code", "marketUS", int),
@@ -317,8 +374,46 @@ def _project_quote(action, s2c, profile, missing):
     return "READ_FACTS_MATCHED" if complete else "INCOMPLETE_EVIDENCE", facts, {}
 
 
+def _project_handshake(s2c, missing):
+    values = {}
+    for target, source in (("connection_id", "connID"), ("user_id", "loginUserID"),
+                           ("server_version", "serverVer"), ("keep_alive_interval_seconds", "keepAliveInterval")):
+        value = _scalar(s2c, source, int, "s2c." + source, missing, required=True)
+        if value is not None:
+            if source in {"connID", "loginUserID"}:
+                _uint(value, "s2c." + source)
+                value = str(value)
+            else:
+                _require(0 < value < 2**31, "response_handshake_identity_scalar_invalid:" + source)
+        values[target] = value
+    complete = all(value is not None for value in values.values())
+    return "HANDSHAKE_IDENTITY_MATCHED" if complete else "INCOMPLETE_EVIDENCE", values, {}
+
+
+def _accepted_session_observation(codec, channel):
+    binding = codec.accepted_session_binding(channel).as_dict()
+    connection = _uint(binding[channel + "_connection_id"], "accepted_session.connection_id")
+    user = _uint(binding[channel + "_user_id"], "accepted_session.user_id")
+    return {"channel": channel, "connection_id": str(connection), "user_id": str(user),
+            "client_id": binding["client_id"], "client_version": binding["client_version"]}
+
+
+def _public_handshake_presence(presence):
+    """The complete AES/key-bearing frame stays in private transport evidence."""
+    result = {key: deepcopy(value) for key, value in presence.items() if key in {"retType", "errCode"}}
+    s2c = presence.get("s2c")
+    if s2c is not None:
+        result["s2c"] = deepcopy(s2c)
+        if s2c.get("present") is True:
+            result["s2c"]["value"] = {key: deepcopy(value) for key, value in s2c["value"].items()
+                if key in {"serverVer", "loginUserID", "connID", "keepAliveInterval"}}
+    return result
+
+
 def _project(action, s2c, profile, payload, missing, diagnostics):
-    if action in QUOTE_ACTIONS:
+    if action in HANDSHAKE_ACTIONS:
+        return _project_handshake(s2c, missing)
+    if action in QUOTE_ACTIONS_V3:
         return _project_quote(action, s2c, profile, missing)
     order = profile["order"]
     facts, derived = {}, {}
@@ -481,6 +576,8 @@ def verify_response_facts(*, profile, codec, action_receipt, expected_action_rec
         _require(type(profile) is VerifiedWireProfile and type(codec) is SimulateCodec,
                  "trusted_profile_and_codec_required")
         value = profile.as_dict()
+        catalog = actions_for_profile(value)
+        v3 = value["schema_version"] == PROFILE_SCHEMA_V3
         _require(value["mode"] == "OFFICIAL_SIMULATION" and
                  value["protocol_policy"]["production_transport_available"] is False,
                  "offline_simulate_response_only")
@@ -490,10 +587,11 @@ def verify_response_facts(*, profile, codec, action_receipt, expected_action_rec
             _require(type(frame) is bytes and 44 < len(frame) <= limit, "bounded_original_frame_required")
         action, payload = _action_event(action_receipt, expected_action_receipt_id, value, request_frame, received_at)
         request_info = codec.validate_request(profile, action, request_frame)
-        _bind_request_order_id(codec, action, request_frame, payload["broker_order_id"])
+        _bind_request_order_id(codec, value, action, request_frame, payload["broker_order_id"])
         response = codec.decode_response(profile, action, request_info.serial, response_frame)
         _require(type(response.ret_type) is int, "response_ret_type_invalid")
         presence, missing, diagnostics = response.fields(), [], []
+        session_observation = None
         facts, derived, status = {}, {}, "API_ERROR_RESPONSE"
         if response.ret_type == 0:
             s2c = _field(presence, "s2c", "s2c", missing, required=True)
@@ -506,10 +604,20 @@ def verify_response_facts(*, profile, codec, action_receipt, expected_action_rec
                     _require(connection is not None and str(connection) == facts["quote_connection_id"],
                              "response_quote_connection_mismatch")
                     facts["quote_connection_scope_matched"] = True
+        if v3:
+            channel = catalog[action][0]
+            if action not in HANDSHAKE_ACTIONS or status == "HANDSHAKE_IDENTITY_MATCHED":
+                session_observation = _accepted_session_observation(codec, channel)
+            if action in HANDSHAKE_ACTIONS:
+                if status == "HANDSHAKE_IDENTITY_MATCHED":
+                    _require(all(facts[key] == session_observation[key] for key in ("connection_id", "user_id")),
+                             "response_handshake_accepted_session_mismatch")
+                    facts.update(client_id=session_observation["client_id"], client_version=session_observation["client_version"])
+                presence = _public_handshake_presence(presence)
         result = {
-            "schema_version": SCHEMA, "status": status, "profile_id": value["id"],
+            "schema_version": SCHEMA_V3 if v3 else SCHEMA, "status": status, "profile_id": value["id"],
             "base_plan_id": value["base_plan_id"], "mode": value["mode"], "action": action,
-            "protocol": WIRE_ACTIONS[action][1], "serial": request_info.serial,
+            "protocol": catalog[action][1], "serial": request_info.serial,
             "journal_receipt_id": expected_action_receipt_id, "request_id": action_receipt["request_id"],
             "intent_scope_id": value["deduplication"]["intent_scope_id"],
             "account_scope_id": value["deduplication"]["account_scope_id"],
@@ -526,7 +634,9 @@ def verify_response_facts(*, profile, codec, action_receipt, expected_action_rec
             "received_at_is_source_update_time": False, "economic_acceptance": "NOT_INFERRED",
             "permissions": dict(contract.PERMISSIONS),
         }
+        if v3:
+            result["session_observation"] = session_observation
         sealed = {**result, "id": contract.digest(result)}
         return VerifiedResponseFacts(contract.canonical_bytes(sealed), _TOKEN)
-    except (contract.PlanError, journal.JournalError, CodecError) as error:
+    except (contract.PlanError, journal.JournalError, CodecError, WireProfileError) as error:
         raise ResponseFactsError("response_facts_invalid:" + str(error)) from error

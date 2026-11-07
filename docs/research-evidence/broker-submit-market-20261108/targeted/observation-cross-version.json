@@ -1,0 +1,26 @@
+{
+  "scope": "Actual original journal in new TEMP with JSON protobuf fakes; cross-version account/intent dedup, not broker acceptance",
+  "selected_test": "tests.test_terminal_broker_submit_observation.SubmitObservationTests.test_same_original_intent_cannot_claim_again_across_v2_and_v3_in_one_journal",
+  "subtests": [
+    "v2 claim then v3 six-fact bundle and refused claim",
+    "v3 six-fact bundle and claim then refused v2 claim"
+  ],
+  "invariants": [
+    "same candidate config, original intent, terms and dedup identity",
+    "original reservation and cash state unchanged by refused claim",
+    "original CLAIM and SNAPSHOT receipts unchanged",
+    "no new event from refused claim"
+  ],
+  "interpreter": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-submit-venv\\Scripts\\python.exe",
+  "exit_code": 0,
+  "inputs_stable": true,
+  "source_files_sha256": {
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_observation.py": "319c792d0554bb869e8f7633052a4865aecd206a9f4309dddebac9c09f481f89",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "67da6b5f4d16c448f6922d570c542a62f507ba015349ddc3bb141800bc6efc8d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_submit_observation.py": "e916eb53f6e2cd538bc4a71ab6b4089cc1bd6d691665c375bc706f372436acf0"
+  },
+  "production_source_changed": false,
+  "previous_receipts_preserved": true,
+  "outside_network": 0,
+  "actual_sdk_provider_acceptance": false
+}

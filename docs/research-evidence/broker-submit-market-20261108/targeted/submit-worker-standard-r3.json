@@ -1,0 +1,13 @@
+{
+  "scope": "STANDARD_JSON_FAKE_PROTOCOL_ORIGINAL_WORKER_OWNED_TCP_SQLITE",
+  "tests": 4,
+  "passed": 4,
+  "seconds": 7.764,
+  "log": "submit-worker-standard-r3.log",
+  "files": {
+    "outputs/python_quant_bot/tests/broker_submit_market_fixture.py": "2747094967991c6d4771a42ec904241142ba208dff02d00e105457ca266389be",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_worker.py": "d1a12ac757be3fa8195696b6b1828d3d25d0b5b386658d19e5d290cda1a7049f"
+  },
+  "change": "Fixed-next-query test bootstrap, preserving original API and budgets; early later-query INPUT cannot bind or send",
+  "actual_not_included": true
+}

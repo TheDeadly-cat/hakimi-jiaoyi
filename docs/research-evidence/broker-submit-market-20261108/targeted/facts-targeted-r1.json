@@ -1,0 +1,19 @@
+{
+  "tests_run": 65,
+  "counts": {
+    "tests.test_terminal_broker_response_facts": 27,
+    "tests.test_terminal_broker_quote_facts": 19,
+    "tests.test_terminal_broker_market_state_facts": 19
+  },
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 1.027870999998413,
+  "inputs_before": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "8803cc2f6555075fd78614a0c7c2296b6fba00ba9d0087ff53ffb0c90f9861b7",
+    "outputs/python_quant_bot/tests/test_terminal_broker_market_state_facts.py": "89188a7b734bf74c70f1bc9f77cbe35357bbc213ba22e21185e89d7b350d659e"
+  },
+  "inputs_unchanged": true,
+  "canonical": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-submit-market-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\src\\hakimi_research\\__init__.py",
+  "scope": "PURE_JSON_FAKE_FACTS_V2_V3_CONTRACTS_NOT_ACTUAL_PROTOBUF_OR_COMPLETE_GATE"
+}

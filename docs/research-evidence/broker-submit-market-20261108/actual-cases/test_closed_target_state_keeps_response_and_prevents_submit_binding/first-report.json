@@ -1,0 +1,137 @@
+{
+  "protocol_layer": "ACTUAL_PINNED_PROTOBUF_SYNTHETIC_VALUES",
+  "io_order": [
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "61bc05dc51bdb8cce4c794b5ccb0739a48e8ae12a02ccce29b777a280a3287d2"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "61bc05dc51bdb8cce4c794b5ccb0739a48e8ae12a02ccce29b777a280a3287d2"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_init",
+      "receipt_id": "0cc363c0a9e878bd58916d49fe651868dddd0384115f4db50487ea72bf35f2c4"
+    },
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "00e0d9247ee4f4edf5123cd11f6b13920648a7fe75ba021b719f7fd01fe5340b"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "00e0d9247ee4f4edf5123cd11f6b13920648a7fe75ba021b719f7fd01fe5340b"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-trade_init",
+      "receipt_id": "a63323f676e4c404277e4f8ec3ea20d31bcdc24dff4919deae3bad7524065fc8"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_runtime",
+      "receipt_id": "58a0035934aaf6e8ad0a291e697566e5d49344b6e7a9eca1d683658d3df92dd9"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_security",
+      "receipt_id": "811b41b7bad0b646d50c702ec54902730bb007f16d89509385d66f4e5cbc15a4"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_snapshot",
+      "receipt_id": "24b79e441009c0acbb871096e413efb3ed8c26afb471cd3551612a4472f2ef50"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_market_state",
+      "receipt_id": "b92a4d2dcc280c7c62f7f703032db7747aca54f851852d50c879aa1d3d4343d0"
+    }
+  ],
+  "private_flags": {
+    "dont_write_bytecode": 1,
+    "isolated": 1,
+    "no_site": 1
+  },
+  "preparation_error": "SubmitObservationError:submit_observation_target_market_not_continuous",
+  "scenario_notes": [
+    {
+      "action": "quote_runtime",
+      "kind": "FIXED_NEXT_QUERY_BOUND",
+      "preparation_seconds": 4.54079109999293
+    },
+    {
+      "action": "quote_security",
+      "kind": "FIXED_NEXT_QUERY_BOUND",
+      "preparation_seconds": 4.680678199991235
+    },
+    {
+      "action": "quote_snapshot",
+      "kind": "FIXED_NEXT_QUERY_BOUND",
+      "preparation_seconds": 4.258077000005869
+    },
+    {
+      "action": "quote_market_state",
+      "kind": "FIXED_NEXT_QUERY_BOUND",
+      "preparation_seconds": 4.137028500001179
+    }
+  ],
+  "original_report_sha256": "5a89ce9f3251ee1c81be0ec87a39e1713f7875b213a0a41d51323c1a8016619b",
+  "actual_loader": {
+    "allowed_endpoint": {
+      "host": "127.0.0.1",
+      "port": 61420
+    },
+    "bootstrap_stages": [
+      {
+        "seconds": 0.0060178999992785975,
+        "stage": "manifest_and_guards_ready"
+      },
+      {
+        "seconds": 1.3157511000026716,
+        "stage": "actual_package_identity_checked"
+      },
+      {
+        "seconds": 1.805647000001045,
+        "stage": "application_closure_preloaded_protobuf_cold"
+      },
+      {
+        "seconds": 13.578450000000885,
+        "stage": "actual_verified_bindings_ready"
+      },
+      {
+        "seconds": 24.765154499997152,
+        "stage": "submit_market_fixture_bound"
+      }
+    ],
+    "cash_snapshots_allowed": "EXPLICIT_INDEPENDENT_SYNTHETIC_FIXTURE_ONLY",
+    "guard_counters": {
+      "database": 89,
+      "dns_denied": 0,
+      "external_endpoint_denied": 0,
+      "futu_import_denied": 0,
+      "socket_bind": 0,
+      "socket_connect": 2,
+      "subprocess": 0,
+      "writes": 40
+    },
+    "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "order_operations_allowed": "SYNTHETIC_OWNED_PEER_ONLY",
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "private_flags": {
+      "dont_write_bytecode": 1,
+      "ignore_environment": 1,
+      "isolated": 1,
+      "no_site": 1
+    },
+    "production_package_bootstrap_acceptance": false,
+    "r7_contains_current_source": false,
+    "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+    "source_authenticated": false,
+    "synthetic_values": true
+  }
+}

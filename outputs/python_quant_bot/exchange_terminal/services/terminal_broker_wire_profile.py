@@ -17,12 +17,17 @@ from . import terminal_broker_execution_plan as original
 
 
 SCHEMA = "hakimi-broker-wire-profile-v2"
+SCHEMA_V3 = "hakimi-broker-wire-profile-v3"
 PINNED_SDK_NAME = "futu-api"
 PINNED_SDK_VERSION = "10.7.6708"
 PINNED_WHEEL_SHA256 = "a3bc7609fc7b60c0ca3cd2971bc8b81819338d3c88ad25d1bd3f647d781554b5"
 MODE_CONTRACTS = MappingProxyType({
     "OFFICIAL_SIMULATION": ("SIMULATE", "hakimi-futu-us-equity-simulate-wire-v2"),
     "LIVE_CANDIDATE": ("REAL", "hakimi-futu-us-equity-real-wire-v2"),
+})
+MODE_CONTRACTS_V3 = MappingProxyType({
+    "OFFICIAL_SIMULATION": ("SIMULATE", "hakimi-futu-us-equity-simulate-wire-v3"),
+    "LIVE_CANDIDATE": ("REAL", "hakimi-futu-us-equity-real-wire-v3"),
 })
 PERMISSIONS = MappingProxyType(dict(original.PERMISSIONS))
 PROTOCOL_POLICY = MappingProxyType({
@@ -59,6 +64,8 @@ PROTOCOL_LIMITS = MappingProxyType({
     "quote_subscribe": 0, "quote_push_registration": 0, "quote_reconnect": 0,
     "trade_reconnect": 0, "push_acceptance": 0, "unknown_protocol": 0, "application_retry": 0,
 })
+WIRE_ACTIONS_V3 = MappingProxyType({**WIRE_ACTIONS, "quote_market_state": ("quote", 3223)})
+PROTOCOL_LIMITS_V3 = MappingProxyType({**PROTOCOL_LIMITS, "quote_market_state": 1})
 WIRE_BOUND_FIELDS = frozenset({
     "valid_until", "endpoint", "actions", "wall_timeout_seconds", "connect_timeout_seconds",
     "handshake_timeout_seconds", "rpc_timeout_seconds", "cleanup_timeout_seconds",
@@ -92,15 +99,29 @@ def _validate_original(base_plan, *, candidate_config, candidate_intent,
         raise WireProfileError("base_plan_binding_invalid:" + str(error)) from error
 
 
-def _bounds(value, base_plan, now):
+def _catalogs(schema):
+    _require(type(schema) is str and schema in (SCHEMA, SCHEMA_V3), "wire_profile_schema_invalid")
+    return ((WIRE_ACTIONS, PROTOCOL_LIMITS, MODE_CONTRACTS) if schema == SCHEMA else
+            (WIRE_ACTIONS_V3, PROTOCOL_LIMITS_V3, MODE_CONTRACTS_V3))
+
+
+def actions_for_profile(profile_or_dict):
+    """Select an explicit version's immutable catalog, never grant admission."""
+    value = profile_or_dict.as_dict() if type(profile_or_dict) is VerifiedWireProfile else profile_or_dict
+    _require(type(value) is dict, "wire_profile_schema_invalid")
+    return _catalogs(value.get("schema_version"))[0]
+
+
+def _bounds(value, base_plan, now, *, schema=SCHEMA):
+    actions, limits, _ = _catalogs(schema)
     original._fields(value, WIRE_BOUND_FIELDS)
     original._fields(value["endpoint"], {"host", "port"})
     _require(value["endpoint"]["host"] == "127.0.0.1", "wire_local_endpoint_required")
     _integer(value["endpoint"]["port"], 1, 65535)
     _require(original.canonical_bytes(value["endpoint"]) ==
              original.canonical_bytes(base_plan["bounds"]["endpoint"]), "wire_endpoint_changed")
-    original._fields(value["actions"], WIRE_ACTIONS)
-    for action, limit in PROTOCOL_LIMITS.items():
+    original._fields(value["actions"], actions)
+    for action, limit in limits.items():
         _integer(value["actions"][action], 0, limit)
     for channel in ("quote", "trade"):
         _require(value["actions"][channel + "_connect"] == value["actions"][channel + "_init"],
@@ -129,7 +150,7 @@ def _bounds(value, base_plan, now):
     return deepcopy(value)
 
 
-def _budget_readiness(actions):
+def _budget_readiness(actions, *, schema=SCHEMA):
     """Describe disabled budget stages; this is never execution admission."""
     requirements = {
         "quote_preflight": ("quote_connect", "quote_init", "quote_runtime", "quote_security", "quote_snapshot"),
@@ -140,6 +161,10 @@ def _budget_readiness(actions):
         "cancel": ("trade_connect", "trade_init", "trade_cancel"),
         "actual_fees": ("trade_connect", "trade_init", "trade_fees"),
     }
+    _catalogs(schema)
+    if schema == SCHEMA_V3:
+        for name in ("quote_preflight", "submit"):
+            requirements[name] += ("quote_market_state",)
     stages = {name: {"budget_complete": all(actions[key] > 0 for key in keys),
                      "missing_actions": [key for key in keys if actions[key] == 0]}
               for name, keys in requirements.items()}
@@ -165,7 +190,27 @@ def prepare_wire_profile(*, base_plan, candidate_config, candidate_intent,
                          research_resolution, runtime_identity, control,
                          workspace_context, wire_bounds, now):
     """Bind a new explicitly supplied budget to exact v1 originals, without IO."""
+    return _prepare_wire_profile(base_plan=base_plan, candidate_config=candidate_config,
+        candidate_intent=candidate_intent, research_resolution=research_resolution,
+        runtime_identity=runtime_identity, control=control, workspace_context=workspace_context,
+        wire_bounds=wire_bounds, now=now, schema=SCHEMA)
+
+
+def prepare_wire_profile_v3(*, base_plan, candidate_config, candidate_intent,
+                            research_resolution, runtime_identity, control,
+                            workspace_context, wire_bounds, now):
+    """Seal explicit v3 observation requirements; no v2 upgrade or authority."""
+    return _prepare_wire_profile(base_plan=base_plan, candidate_config=candidate_config,
+        candidate_intent=candidate_intent, research_resolution=research_resolution,
+        runtime_identity=runtime_identity, control=control, workspace_context=workspace_context,
+        wire_bounds=wire_bounds, now=now, schema=SCHEMA_V3)
+
+
+def _prepare_wire_profile(*, base_plan, candidate_config, candidate_intent,
+                          research_resolution, runtime_identity, control,
+                          workspace_context, wire_bounds, now, schema):
     try:
+        _, _, mode_contracts = _catalogs(schema)
         now = original._now(now)
         original._hash(workspace_context)
         _validate_original(base_plan, candidate_config=candidate_config, candidate_intent=candidate_intent,
@@ -176,13 +221,13 @@ def prepare_wire_profile(*, base_plan, candidate_config, candidate_intent,
         _require(type(sdk) is dict and sdk.get("name") == PINNED_SDK_NAME and
                  sdk.get("version") == PINNED_SDK_VERSION and sdk.get("wheel_sha256") == PINNED_WHEEL_SHA256,
                  "wire_pinned_sdk_identity_required")
-        frozen_bounds = _bounds(wire_bounds, base_plan, now)
+        frozen_bounds = _bounds(wire_bounds, base_plan, now, schema=schema)
         mode = base_plan["mode"]
-        environment, contract = MODE_CONTRACTS[mode]
+        environment, contract = mode_contracts[mode]
         # v1 validates these exact provider/mode/account scopes. Workspace is
         # deliberately absent; another workspace cannot reset money or claims.
         profile = {
-            "schema_version": SCHEMA, "status": "OFFLINE_PROFILE_ONLY", "created_at": now.isoformat(),
+            "schema_version": schema, "status": "OFFLINE_PROFILE_ONLY", "created_at": now.isoformat(),
             "mode": mode, "sdk_environment": environment, "contract_id": contract,
             "workspace_context": workspace_context, "base_plan_id": base_plan["id"],
             **{key: deepcopy(base_plan[key]) for key in (
@@ -190,7 +235,7 @@ def prepare_wire_profile(*, base_plan, candidate_config, candidate_intent,
                 "research_eligibility", "deduplication", "control")},
             "wire_bounds": frozen_bounds,
             "protocol_policy": dict(PROTOCOL_POLICY),
-            "budget_readiness": _budget_readiness(frozen_bounds["actions"]),
+            "budget_readiness": _budget_readiness(frozen_bounds["actions"], schema=schema),
             "capability_gaps": ["WIRE_V2_ADAPTER_NOT_VERIFIED", "CROSS_WORKSPACE_JOURNAL_NOT_AVAILABLE",
                                 "SCOPED_AUTHORIZATION_NOT_PROVIDED"],
             "missing_evidence": deepcopy(base_plan["missing_evidence"]),
@@ -210,6 +255,17 @@ def prepare_wire_profile(*, base_plan, candidate_config, candidate_intent,
             },
             "permissions": dict(PERMISSIONS),
         }
+        if schema == SCHEMA_V3:
+            profile["submit_observation_policy"] = {
+                "schema_version": "hakimi-submit-observation-policy-v1",
+                "market_scope": "US_COMMON_STOCK",
+                "required_handshakes": ["quote_init", "trade_init"],
+                "required_actions": ["quote_runtime", "quote_security", "quote_snapshot", "quote_market_state"],
+                # Locked 10.7.6708 QotMarketState_Afternoon=5. The policy is
+                # a necessary US common-stock observation, not full eligibility.
+                "allowed_market_states": [5], "age_basis": "ORIGINAL_ACTION_QUERY_WINDOW",
+                "max_evidence_age_seconds": frozen_bounds["max_evidence_age_seconds"],
+            }
         sealed = {**profile, "id": original.digest(profile)}
         return VerifiedWireProfile(original.canonical_bytes(sealed), _TOKEN)
     except original.PlanError as error:
@@ -228,8 +284,8 @@ def validate_wire_profile(profile, *, expected_profile_id, base_plan, candidate_
     """
     try:
         value = profile.as_dict() if type(profile) is VerifiedWireProfile else profile
-        _require(type(value) is dict and value.get("schema_version") == SCHEMA,
-                 "wire_profile_schema_invalid")
+        actions_for_profile(value)
+        schema = value["schema_version"]
         original._hash(expected_profile_id)
         _require(value.get("id") == expected_profile_id, "wire_expected_profile_id_mismatch")
         current_time = original._now(now)
@@ -238,12 +294,13 @@ def validate_wire_profile(profile, *, expected_profile_id, base_plan, candidate_
         bindings = dict(base_plan=base_plan, candidate_config=candidate_config, candidate_intent=candidate_intent,
                         research_resolution=research_resolution, runtime_identity=runtime_identity,
                         control=control, workspace_context=workspace_context)
-        expected = prepare_wire_profile(**bindings, wire_bounds=value.get("wire_bounds"), now=created)
+        prepare = prepare_wire_profile if schema == SCHEMA else prepare_wire_profile_v3
+        expected = prepare(**bindings, wire_bounds=value.get("wire_bounds"), now=created)
         _require(original.canonical_bytes(value) == expected._data, "wire_profile_or_binding_changed")
         _validate_original(base_plan, candidate_config=candidate_config, candidate_intent=candidate_intent,
                            research_resolution=research_resolution, runtime_identity=runtime_identity,
                            control=control, now=current_time)
-        _bounds(value["wire_bounds"], base_plan, current_time)
+        _bounds(value["wire_bounds"], base_plan, current_time, schema=schema)
         return expected
     except original.PlanError as error:
         raise WireProfileError("wire_profile_invalid:" + str(error)) from error
