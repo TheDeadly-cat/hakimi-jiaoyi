@@ -1,0 +1,52 @@
+{
+  "protocol_layer": "ACTUAL_PINNED_PROTOBUF_SYNTHETIC_VALUES",
+  "io_order": [
+    {
+      "kind": "factory",
+      "operation_id": "quote-fixture-quote_connect",
+      "receipt_id": "7908b60a2986f84790992d2a19b8a60798791729f353c854405a5091881f59c2"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "quote-fixture-quote_connect",
+      "receipt_id": "7908b60a2986f84790992d2a19b8a60798791729f353c854405a5091881f59c2"
+    },
+    {
+      "kind": "send",
+      "operation_id": "quote-fixture-quote_init",
+      "receipt_id": "5cedc407c7783d51cdca9fec2222fafca3aae775533135d0e49fa98ad094440e"
+    },
+    {
+      "kind": "send",
+      "operation_id": "quote-fixture-quote_runtime",
+      "receipt_id": "469c4b419090bc2975477cc4381ed6ff1674ce0fdcad95aecb748623b3aca6ce"
+    }
+  ],
+  "private_flags": {
+    "dont_write_bytecode": 1,
+    "isolated": 1,
+    "no_site": 1
+  },
+  "original_report_sha256": "e659be7bdc29b71857efc83f8c8050c835f833aa7df5c61c1ec155670c7a1541",
+  "actual_loader": {
+    "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+    "guard_counters": {
+      "database": 39,
+      "dns_denied": 0,
+      "external_endpoint_denied": 0,
+      "futu_import_denied": 0,
+      "socket_bind": 0,
+      "socket_connect": 1,
+      "subprocess": 0,
+      "writes": 19
+    },
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "r7_contains_current_source": false,
+    "production_package_bootstrap_acceptance": false,
+    "source_authenticated": false,
+    "synthetic_values": true,
+    "order_operations_allowed": false,
+    "cash_snapshots_allowed": false
+  }
+}

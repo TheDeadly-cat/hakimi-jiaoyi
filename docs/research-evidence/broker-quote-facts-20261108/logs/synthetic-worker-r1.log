@@ -1,0 +1,58 @@
+test_late_original_response_facts_stay_observational_and_reopen_read_only (tests.test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_late_original_response_facts_stay_observational_and_reopen_read_only) ... ERROR
+test_shared_stop_after_runtime_prevents_later_quote_sends (tests.test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_shared_stop_after_runtime_prevents_later_quote_sends) ... ERROR
+test_three_quote_actions_persist_facts_and_reopen_without_tcp (tests.test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_three_quote_actions_persist_facts_and_reopen_without_tcp) ... ERROR
+test_wrong_security_retains_actual_response_without_typed_match (tests.test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_wrong_security_retains_actual_response_without_typed_match) ... ERROR
+
+======================================================================
+ERROR: test_late_original_response_facts_stay_observational_and_reopen_read_only (tests.test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_late_original_response_facts_stay_observational_and_reopen_read_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 217, in test_late_original_response_facts_stay_observational_and_reopen_read_only
+    self.assert_recovery(4)
+    ~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 158, in assert_recovery
+    self.assertEqual(len(self.assertions_no_economics()["response_facts"]), expected_facts)
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 137, in assertions_no_economics
+    self.assertIsNone(state["snapshot"])
+                      ~~~~~^^^^^^^^^^^^
+KeyError: 'snapshot'
+
+======================================================================
+ERROR: test_shared_stop_after_runtime_prevents_later_quote_sends (tests.test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_shared_stop_after_runtime_prevents_later_quote_sends)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 232, in test_shared_stop_after_runtime_prevents_later_quote_sends
+    self.assertEqual(len(self.assertions_no_economics()["response_facts"]), 1)
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 137, in assertions_no_economics
+    self.assertIsNone(state["snapshot"])
+                      ~~~~~^^^^^^^^^^^^
+KeyError: 'snapshot'
+
+======================================================================
+ERROR: test_three_quote_actions_persist_facts_and_reopen_without_tcp (tests.test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_three_quote_actions_persist_facts_and_reopen_without_tcp)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 167, in test_three_quote_actions_persist_facts_and_reopen_without_tcp
+    state = self.assertions_no_economics()
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 137, in assertions_no_economics
+    self.assertIsNone(state["snapshot"])
+                      ~~~~~^^^^^^^^^^^^
+KeyError: 'snapshot'
+
+======================================================================
+ERROR: test_wrong_security_retains_actual_response_without_typed_match (tests.test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_wrong_security_retains_actual_response_without_typed_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 190, in test_wrong_security_retains_actual_response_without_typed_match
+    state = self.assertions_no_economics()
+  File "C:\Users\Administrator\.codex\worktrees\broker-quote-facts-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_quote_integration.py", line 137, in assertions_no_economics
+    self.assertIsNone(state["snapshot"])
+                      ~~~~~^^^^^^^^^^^^
+KeyError: 'snapshot'
+
+----------------------------------------------------------------------
+Ran 4 tests in 5.431s
+
+FAILED (errors=4)

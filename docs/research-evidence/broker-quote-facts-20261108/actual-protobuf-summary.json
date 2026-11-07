@@ -1,0 +1,88 @@
+{
+  "status": "PASS_ACTUAL_PROTOBUF_ORIGINAL_WORKER_OWNED_TCP",
+  "tests_run": 4,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 339.5009394000008,
+  "test_case_names": [
+    "test_injected_future_reprojection_preserves_original_bytes_and_expired_facts",
+    "test_shared_stop_after_runtime_prevents_later_quote_sends",
+    "test_three_quote_actions_persist_facts_and_reopen_without_tcp",
+    "test_wrong_security_retains_actual_response_without_typed_match"
+  ],
+  "diagnostic_subset": false,
+  "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+  "private_flags": {
+    "isolated": 1,
+    "no_site": 1,
+    "ignore_environment": 1,
+    "dont_write_bytecode": 1
+  },
+  "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+  "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+  "production_package_bootstrap_acceptance": false,
+  "r7_contains_current_source": false,
+  "source_authenticated": false,
+  "synthetic_values": true,
+  "order_operations_allowed": false,
+  "cash_snapshots_allowed": false,
+  "future_case_scope": "EXPLICIT_FUTURE_RECEIVED_AT_REPROJECTION_NOT_NETWORK_DELAY",
+  "registry_scope": "TEST_ONLY_PREBOUND_ORIGINAL_FRAME_REGISTRY_NOT_A_PRODUCTION_LEDGER",
+  "package_bootstrap_scope": "CURRENT_SOURCE_TEST_ASSEMBLY_NOT_R7_FEATURE_OR_PRODUCTION_BOOTSTRAP_ACCEPTANCE",
+  "guard_counters": {
+    "socket_connect": 0,
+    "socket_bind": 4,
+    "dns_denied": 0,
+    "external_endpoint_denied": 0,
+    "futu_import_denied": 0,
+    "subprocess": 7,
+    "database": 42,
+    "writes": 76
+  },
+  "bootstrap_stages": [
+    {
+      "stage": "manifest_and_guards_ready",
+      "seconds": 0.006153299997095019
+    },
+    {
+      "stage": "actual_package_identity_checked",
+      "seconds": 1.2394617999962065
+    },
+    {
+      "stage": "application_closure_preloaded_protobuf_cold",
+      "seconds": 1.6287161000000197
+    },
+    {
+      "stage": "actual_verified_bindings_ready",
+      "seconds": 12.851777399999264
+    }
+  ],
+  "source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "afd0728309f8333664ab79cb1be2dc0f44b45cab6769d1a1f70ec9d2dc47eb8a",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "0d4e82f0e461554b21fa73eab5cfe302ed2c828a3932eead78efb1cdb8e0e5d5",
+    "outputs/python_quant_bot/tests/broker_quote_worker_fixture.py": "113206bc65d3222158ce98fc0b113696d65f736036ef04f0969f18d919cdb512",
+    "outputs/python_quant_bot/tests/test_terminal_broker_quote_facts.py": "a9644be1494ce675b45ffa3c3f4fd33a724737ca077f0c97c48a05f4938b4ddb",
+    "outputs/python_quant_bot/tests/test_terminal_broker_quote_integration.py": "930bf74f4dca45378705d089a2a9fb19cd845f6f003ee857469bc8ed9462563b",
+    "outputs/python_quant_bot/tests/test_terminal_broker_request_builder.py": "f151954345b7bf6736d5d5243fe0f416bacd85e17edf46398da0fe3c261a9f1f",
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_facts.py": "6689cb8abbc24fe757177c1bcbb6020ddf8432b5ffeefc8b4beda558cd9ae563",
+    "tools/run_terminal_contracts.py": "433b15aa5190109b63abe51bdd0b9fcb1f63f90ccc22b0593337c627ecba9cb6"
+  },
+  "actual_probe_changed_input_paths": [
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py",
+    "outputs/python_quant_bot/tests/broker_quote_worker_fixture.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_quote_facts.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_quote_integration.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_request_builder.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_response_facts.py"
+  ],
+  "original_result_sha256": "6736485a8481f595a3532afb054946409f70a1acdfe7bcc6868a002264b126a6",
+  "original_input_spec_sha256": "0353a0bae5c513755445b9850b66cbad7220d190003387e268b2a2a68f268878",
+  "original_guard_final_sha256": "a6ddec084ef5a044b8fb06cf09fca6ccbf905691b2f6f23b091994a68253a9f9",
+  "original_source_input_count": 1613,
+  "original_loaded_source_count": 46,
+  "original_loaded_package_count": 232,
+  "artifact_scope": "Compact derived metadata; full original inventory and SQLite copies retained externally",
+  "whole_package_reverification": false
+}

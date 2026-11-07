@@ -1,0 +1,31 @@
+{
+  "protocol_layer": "ACTUAL_PINNED_PROTOBUF_SYNTHETIC_VALUES",
+  "io_order": [],
+  "private_flags": {
+    "dont_write_bytecode": 1,
+    "isolated": 1,
+    "no_site": 1
+  },
+  "original_report_sha256": "1784b349d3dc22c2a70ef38d630652a09597bf63f27dc35ecc4d12bddfc7b99f",
+  "actual_loader": {
+    "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+    "guard_counters": {
+      "database": 3,
+      "dns_denied": 0,
+      "external_endpoint_denied": 0,
+      "futu_import_denied": 0,
+      "socket_bind": 0,
+      "socket_connect": 0,
+      "subprocess": 0,
+      "writes": 7
+    },
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "r7_contains_current_source": false,
+    "production_package_bootstrap_acceptance": false,
+    "source_authenticated": false,
+    "synthetic_values": true,
+    "order_operations_allowed": false,
+    "cash_snapshots_allowed": false
+  }
+}

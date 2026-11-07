@@ -2,7 +2,7 @@
 
 2026-11-08 当前可取得的试用候选为 **[r7公开预发布](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.7.0.dev3-r7)**，固定源码 `708ec3f`，CI177全部11项成功；程序包、试用说明与校验清单可直接下载。[发布身份与范围](research-evidence/terminal-070dev3-r7-release-20261108/README.md)单列包内检查与尚未进行的r7原生、独立Windows及三人试用。以下历次状态保留原时间和版本，不回填成新包验收。
 
-本分支后续的[本机TCP连接里程碑](research-evidence/broker-loopback-socket-20261108/README.md)通过原协调器、账本、停止屏障和worker完成真实OS整合，完整terminal合同877项通过。它不在已发布r7中，未启用生产派发；T29/T30继续DOING，工程与外部授权缺口分别记录。
+本分支后续的[本机TCP连接里程碑](research-evidence/broker-loopback-socket-20261108/README.md)通过原协调器、账本、停止屏障和worker完成真实OS整合，完整terminal合同877项通过。后续[请求构造与查询资料保存](research-evidence/broker-quote-facts-20261108/README.md)增加真实锁定protobuf构造及3类quote资料，原worker/TCP/账本4项实际类检查和完整terminal913项通过。两批均不在已发布r7中，未启用生产派发；目标证券交易状态、报价时效、资金/费用与生产装配仍缺，T29/T30继续DOING。
 
 2026-11-08 CI跟进：[Windows短路径工作区修复](research-evidence/ci175-workspace-path-20261108/README.md)。06d9744的CI175暴露真实路径别名问题，原失败保留；修复后普通/短路径专项各15项、完整短路径后端823项通过。
 

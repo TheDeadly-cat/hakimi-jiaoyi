@@ -1,0 +1,70 @@
+{
+  "attempts": [
+    {
+      "run": "run-r1",
+      "process": {
+        "exit_code": 1,
+        "seconds": 107.27813910000259,
+        "source_inputs_unchanged": true,
+        "package_manifest_unchanged": true
+      },
+      "result": {
+        "status": "FAIL_PRESERVE_ORIGINALS",
+        "tests_run": 4,
+        "failures": 4,
+        "errors": 0,
+        "skipped": 0,
+        "diagnostic_subset": null
+      },
+      "original_result_sha256": "fa81283c28885ec79beb0e5fdd1c0e892a95750c4a273294e0aba1b275bee4b3",
+      "original_input_spec_sha256": "86408c77cd373e851f446634115ee6512636a4a61a0cd6212ae12f2381efdf0d"
+    },
+    {
+      "run": "run-r2-positive",
+      "process": {
+        "exit_code": 1,
+        "seconds": 54.65770249999332,
+        "source_inputs_unchanged": true,
+        "package_manifest_unchanged": true
+      },
+      "result": {
+        "status": "FAIL_PRESERVE_ORIGINALS",
+        "tests_run": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "diagnostic_subset": true
+      },
+      "original_result_sha256": "d5288afd44380b007422c5641315ae6f803659f934ee93fa66151c4a4ae7b319",
+      "original_input_spec_sha256": "2b8cafd33cc697e535649da21785c8214855cfe0ac9de8f73cf08b9fc5f10551"
+    },
+    {
+      "run": "run-r3-positive",
+      "process": {
+        "exit_code": 0,
+        "seconds": 107.33968750000349,
+        "outer_timeout_seconds": 420,
+        "source_inputs_unchanged": true,
+        "package_manifest_unchanged": true
+      },
+      "result": {
+        "status": "PASS_ACTUAL_PROTOBUF_ORIGINAL_WORKER_OWNED_TCP",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "diagnostic_subset": true
+      },
+      "original_result_sha256": "e5a3fcadacc7d1d86b1d5dba25d55267a3e5102a3f7d8ca68ffc202ce6d53fcd",
+      "original_input_spec_sha256": "2cefd719dd0419ca4a164b268835686bcae23be4806dbe404345dc7ef0bff2fc"
+    }
+  ],
+  "coverage_is_not_sum_of_attempts": true,
+  "explanations": {
+    "synthetic-worker-r1": "Four fixture errors misread absent snapshot field; replaced assertion with original journal epoch=0.",
+    "run-r1": "Launch guard expected list but Windows audit provides an exact command-line string; no worker spawned, no TCP.",
+    "run-r2-positive": "Worker spawned; test READY wait of 12 seconds stopped before inputs or TCP; not a product wire timeout.",
+    "run-r3-positive": "One diagnostic positive case passed; overlaps the final four cases.",
+    "run-r4-full": "Final actual private test assembly uses evidenced bounded startup waits; production limits unchanged."
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "endpoint": {
+    "host": "127.0.0.1",
+    "port": 61522
+  },
+  "accepts": 1,
+  "accepted_client_addresses": [
+    [
+      "127.0.0.1",
+      49364
+    ]
+  ],
+  "errors": [],
+  "received_frames": [
+    {
+      "bytes": 91,
+      "sha256": "d0f1ab8eaf1da371e357f13e573d0edd26cd5d1876600f95fa540f55155606ef",
+      "hex": "4654e90300000000010000002f0000004a6fe43985a65d501dd5bc5eeae0046deb7a783200000000000000000a2d0864121066696374696f6e616c2d636c69656e74180020ffffffffffffffffff0128003206507974686f6e3800"
+    },
+    {
+      "bytes": 48,
+      "sha256": "cbdb973740efe92431fcd4a3728851efd7716d7fd8bf56a80d7b6484dc72f0ab",
+      "hex": "4654ea0300000000020000000400000044cb6aaf4cb55152cc3ebcd0ec86b6d16f0a457d00000000000000000a020816"
+    }
+  ],
+  "sent_response_frames": [
+    {
+      "bytes": 83,
+      "sha256": "a2f8ac35f879e1f3a2b6f2dc90f5bffbe3e83d29b4ee4df0d9fd3fb6d03f57c5",
+      "hex": "4654e90300000000010000002700000048712875f28ed30bead24548b57c9c0c3deb242700000000000000000800222308641016180b22196578706c696369742d73796e7468657469632d736563726574281e"
+    },
+    {
+      "bytes": 79,
+      "sha256": "91014849108614c0552a5ae0bddac6bcccef4ff833fc017a4483d3d1ea207a80",
+      "hex": "4654ea03000000000200000023000000c1e6285b2859bbf7ff0b2f49f6d003f46373bb6e00000000000000000800221f08061003180620062806300138004064480150809d91d7066202080a80010b"
+    }
+  ],
+  "protocol_layer": "ACTUAL_PINNED_PROTOBUF_SYNTHETIC_VALUES",
+  "synthetic_values": true,
+  "scenario_notes": []
+}

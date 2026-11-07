@@ -1,0 +1,6 @@
+test_three_quote_actions_persist_facts_and_reopen_without_tcp (__main__.ActualQuoteWorkerTests.test_three_quote_actions_persist_facts_and_reopen_without_tcp) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 85.282s
+
+OK
