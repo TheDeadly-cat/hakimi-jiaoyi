@@ -1,0 +1,23 @@
+test_six_original_observations_submit_ack_and_reopen_without_new_tcp (__main__.ActualSubmitMarketWorkerTests.test_six_original_observations_submit_ack_and_reopen_without_new_tcp) ... FAIL
+
+======================================================================
+FAIL: test_six_original_observations_submit_ack_and_reopen_without_new_tcp (__main__.ActualSubmitMarketWorkerTests.test_six_original_observations_submit_ack_and_reopen_without_new_tcp)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Administrator\.codex\worktrees\broker-submit-market-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_submit_market_worker.py", line 141, in test_six_original_observations_submit_ack_and_reopen_without_new_tcp
+    self.prepare(); first = self.launch("first"); self.initialize_and_query(first)
+                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\broker-submit-market-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_submit_market_worker.py", line 126, in initialize_and_query
+    response = self.send(handle, action)
+  File "C:\Users\Administrator\.codex\worktrees\broker-submit-market-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_submit_market_worker.py", line 108, in send
+    return self.poll(handle)
+           ~~~~~~~~~^^^^^^^^
+  File "C:\Users\Administrator\.codex\worktrees\broker-submit-market-20261108\哈基米v2交易\outputs\python_quant_bot\tests\test_terminal_broker_submit_market_worker.py", line 100, in poll
+    self.fail("bounded submit worker message wait expired")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: bounded submit worker message wait expired
+
+----------------------------------------------------------------------
+Ran 1 test in 73.878s
+
+FAILED (failures=1)

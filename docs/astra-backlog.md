@@ -2,7 +2,9 @@
 
 2026-11-08 当前可取得的试用候选为 **[r7公开预发布](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.7.0.dev3-r7)**，固定源码 `708ec3f`，CI177全部11项成功；程序包、试用说明与校验清单可直接下载。[发布身份与范围](research-evidence/terminal-070dev3-r7-release-20261108/README.md)单列包内检查与尚未进行的r7原生、独立Windows及三人试用。以下历次状态保留原时间和版本，不回填成新包验收。
 
-本分支后续的[本机TCP连接里程碑](research-evidence/broker-loopback-socket-20261108/README.md)通过原协调器、账本、停止屏障和worker完成真实OS整合，完整terminal合同877项通过。后续[请求构造与查询资料保存](research-evidence/broker-quote-facts-20261108/README.md)增加真实锁定protobuf构造及3类quote资料，原worker/TCP/账本4项实际类检查和完整terminal913项通过。两批均不在已发布r7中，未启用生产派发；目标证券交易状态、报价时效、资金/费用与生产装配仍缺，T29/T30继续DOING。
+本分支后续的[本机TCP连接里程碑](research-evidence/broker-loopback-socket-20261108/README.md)通过原协调器、账本、停止屏障和worker完成真实OS整合，完整terminal合同877项通过。[请求构造与查询资料保存](research-evidence/broker-quote-facts-20261108/README.md)随后增加锁定protobuf构造及3类quote资料，原worker/TCP/账本4项实际类检查和完整terminal913项通过。最新W3的[原发送必需观察条件](research-evidence/broker-submit-market-20261108/README.md)将原账本两次握手、四类查询绑定为同一观察包，资金认领、提交ACTION及每次实际写入均须核对；目标证券状态不符、原查询窗口届满或停止后不能继续新发送，重开仍只读恢复原记录。
+
+W3完整terminal **977/977通过**；锁定实际protobuf、原worker/协调器/SQLite与自持本机TCP的最终`run-r3-full` **4/4通过**，覆盖一次合成提交ACK及同ID恢复、目标关闭、显式注入观察过期、提前乱序输入。两组范围分别记账，不相加；首次测试装配失败及worker原UNKNOWN状态保留。上述后续源码均未打入公开r7，测试使用虚构报文与独立合成现金，不是OpenD或账户验收。生产真实权利、价格来源与时效、合法价量规则、真实资金/持仓来源、费用、生产装配及完整订单后续链仍待完成；r7原生、外机和三人试用也仍未完成，T29/T30继续DOING。
 
 2026-11-08 CI跟进：[Windows短路径工作区修复](research-evidence/ci175-workspace-path-20261108/README.md)。06d9744的CI175暴露真实路径别名问题，原失败保留；修复后普通/短路径专项各15项、完整短路径后端823项通过。
 
@@ -73,8 +75,8 @@
 | T26 | DONE | T24,T25 | 资金预留/owner持仓/时效/证券绑定检查通过；dev2原生BUY1@100预留101，可用9899，现金10000 | 前端预览只粗估，提交时服务端再次校验；外部权限关闭 |
 | T27 | DONE | T25,T26 | 合成中断/幂等/晚到成交合同通过；dev2正常关闭重开原订单和57文件不变，要求对账后恢复 | 本地范围；本次未执行原生成交/撤销/对账恢复，旧UNKNOWN/T3保留 |
 | T28 | DONE | T20,T25 | 已连可信报告/账户/计划只读路由，一次账本快照；六类说明、累计费用与未知项，原/核心真实新TEMP保存整链通过；完整门禁371、桌面通过 | 当前手工演练缺逐笔因果对应，收益差及贡献保持未知；界面主区显示版本N，原ID在详情 |
-| T29 | DOING | T25-T28 | 原离线计划/共享停止已入r5；默认拒绝的协调器源码已入r7。后续本机TCP adapter已接原journal/transport/worker，真实受控整合与877项完整合同通过 | 本机TCP后续源码未打入r7；生产授权装配、包内worker启动、实时行情/证券/费用事实、经济核算与OpenD兼容仍缺，具体账户授权另列 |
-| T30 | DOING | T29 | 模式及共享账户停止保留；后续实际本机TCP验证了同ID竞争唯一连接、等待响应时停止、部分发送后watchdog回收与原ID只读不重发 | 未交付真实券商执行；合成ACK不代表成交，UNKNOWN与占款保留。真实账户停止效果、外机/真人和资金步骤仍需各自验证及授权 |
+| T29 | DOING | T25-T28 | 原离线计划/共享停止已入r5；默认拒绝的协调器已入r7。后续W3[必需观察条件](research-evidence/broker-submit-market-20261108/README.md)已接原认领、提交与每次实际写入：两次已接受握手、四类原查询、精确证券/会话及原查询窗口必须一致；跨v2/v3不能重复认领原意图。完整terminal977/977通过 | W3及此前TCP/查询后续源码不在r7；生产账户/行情权利、价格来源新鲜度与合法价量、真实资金/归属持仓/费用、包内worker生产装配、OpenD兼容及完整订单后续链仍待完成 |
+| T30 | DOING | T29 | 原停止屏障和UNKNOWN保留。W3实际protobuf/原worker/自持TCP最终4/4通过：合成提交ACK后按原9个ID恢复，0新连接/发送；目标关闭、显式注入过期或提前乱序不能继续提交，恢复不刷新观察期限 | 未交付真实券商执行，W3未打入r7；ACK不代表成交或费用终局，部分/未知发送仍保留相应占款。真实账户停止、成交/撤单/费用/对账完整后续链尚未验收；r7原生、独立Windows和三人试用仍待完成 |
 
 历史离线候选 **dev3 r5 / b642227** 当时已完成构建与验包：[交付凭据](research-evidence/terminal-070dev3-r5-build-20261030/README.md)。9079程序文件、9080 ZIP项、15个界面及私有解释器实际样例通过；构建仅一个新SYNTHETIC_TEST运行，后续读取/验包不重算。7e1b的本机757门禁原件保持，b642仅文案差异经精确绑定与新完整desktop18.324秒验证；b642的[run172](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/40995991361)另已11/11成功，远端757及273通过。外部JS验收脚本漏建临时目录的首次FAIL保留，最小补齐后3项续查通过，未重建包或重跑样例。T29/T30离线子项随包交付；真实执行仍需工程和单独授权，不作为本次离线候选的无限前置。当时原生窗口、独立无源码环境、真人及真实股票资料链分别待办；后续证据保留各自身份。
 

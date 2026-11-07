@@ -1,0 +1,119 @@
+{
+  "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+  "production_package_bootstrap_acceptance": false,
+  "r7_contains_current_source": false,
+  "private_flags": {
+    "isolated": 1,
+    "no_site": 1,
+    "ignore_environment": 1,
+    "dont_write_bytecode": 1
+  },
+  "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+  "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+  "guard_counters": {
+    "socket_connect": 0,
+    "socket_bind": 4,
+    "dns_denied": 0,
+    "external_endpoint_denied": 0,
+    "futu_import_denied": 0,
+    "subprocess": 5,
+    "database": 33,
+    "writes": 64
+  },
+  "allowed_endpoint": null,
+  "source_authenticated": false,
+  "bootstrap_stages": [
+    {
+      "stage": "manifest_and_guards_ready",
+      "seconds": 0.005794400000013411
+    },
+    {
+      "stage": "actual_package_identity_checked",
+      "seconds": 1.2451527999946848
+    },
+    {
+      "stage": "application_closure_preloaded_protobuf_cold",
+      "seconds": 1.642224900002475
+    },
+    {
+      "stage": "actual_verified_bindings_ready",
+      "seconds": 12.917908300005365
+    }
+  ],
+  "synthetic_values": true,
+  "order_operations_allowed": "SYNTHETIC_OWNED_PEER_ONLY",
+  "cash_snapshots_allowed": "EXPLICIT_INDEPENDENT_SYNTHETIC_FIXTURE_ONLY",
+  "tests_run": 4,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 365.1722426000051,
+  "status": "PASS_ACTUAL_PROTOBUF_ORIGINAL_WORKER_OWNED_TCP",
+  "test_case_names": [
+    "test_closed_target_state_keeps_response_and_prevents_submit_binding",
+    "test_early_out_of_order_input_cannot_bind_or_send_a_later_query",
+    "test_expired_observation_blocks_submit_while_permit_remains_future",
+    "test_six_original_observations_submit_ack_and_reopen_without_new_tcp"
+  ],
+  "diagnostic_subset": false,
+  "expiry_case_scope": "EXPLICIT_LOGICAL_CLOCK_AFTER_BUNDLE_EXPIRY_WITH_PERMIT_STILL_FUTURE",
+  "registry_scope": "TEST_ONLY_PREBOUND_ORIGINAL_FRAME_REGISTRY_NOT_A_PRODUCTION_LEDGER",
+  "package_bootstrap_scope": "CURRENT_SOURCE_TEST_ASSEMBLY_NOT_R7_FEATURE_OR_PRODUCTION_BOOTSTRAP_ACCEPTANCE",
+  "source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "063d4cc2e4c798f1d35265b75f76983e8159bccd0ef57062759fda2134be766a",
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_verified_protobuf_loader.py": "74537545146b93d92805f09e7b93c6f7d6c9338caea33b817f25288d26e68acf",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py": "c442cdee6536fd20ae44e474cffaeca211b338433f2ad7de10286b9eea866335",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "67da6b5f4d16c448f6922d570c542a62f507ba015349ddc3bb141800bc6efc8d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "bf581d9da10c23b782514da90b3d3cdcc80aae9cd581d4dc340f4fb575e2d7db",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_scoped_transport.py": "c34155cbc898508fd387bb7d52e83131ea424bb1144881a263a8a5feaf8ef37f",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_submit_observation.py": "e916eb53f6e2cd538bc4a71ab6b4089cc1bd6d691665c375bc706f372436acf0",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "0fdacb1810e2ed005047ad55a7b24189b62f5cc7f6ed4e78d09081bfab3aa264",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "dff1675f6473ce9086a98d8716678ea1b916b93b57b08837cb321ec63f59c79e",
+    "outputs/python_quant_bot/tests/broker_submit_market_fixture.py": "2747094967991c6d4771a42ec904241142ba208dff02d00e105457ca266389be",
+    "outputs/python_quant_bot/tests/test_terminal_broker_market_state_facts.py": "22e507666efe479c5bf53d010126460e88d28d9ad0bc188425b67747da1f1ad3",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_coordinator.py": "08b14307d17925728bddd7cba9bb5a539eddd82f76ed864d2f2b001204737238",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_worker.py": "575ce9ae4978672be05a1ac136ae3715908760969b046b820e4b5068f96af020",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_observation.py": "319c792d0554bb869e8f7633052a4865aecd206a9f4309dddebac9c09f481f89",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_v3.py": "c357495f2b60d02b90fdb1fdc6fe004718346931baf0ca09d18a298a14bfcf24",
+    "tools/run_terminal_contracts.py": "0de8e560f88c9a6dfadb8c9262c0d9d751adb9d27a98d58f2922cda22c86574d"
+  },
+  "actual_probe_changed_input_paths": [
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py",
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_verified_protobuf_loader.py",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_scoped_transport.py",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_submit_observation.py",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py",
+    "outputs/python_quant_bot/tests/broker_submit_market_fixture.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_market_state_facts.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_coordinator.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_worker.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_observation.py",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_v3.py"
+  ],
+  "original_result_sha256": "c9d0f67457bb9d75517ba5b14aa40ee88182be63f6fb06f270edceaf8b98b292",
+  "original_input_spec_sha256": "8eead3a8c7468c019ec093e8f47c053f7c6b266f300943aedef2ec40046b3641",
+  "original_guard_final_sha256": "1e42ae88d6a22d9cd81864b2c561e4c0f3bf3b7d14a62cac3276b741ca97ca12",
+  "original_source_input_count": 1620,
+  "unittest_seconds": 360.336,
+  "controller_including_final_proof_seconds": 365.1722426000051,
+  "outer_seconds": 383.3299752000021,
+  "independent_loaded_scope": {
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "package_manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "package_bundle_id": "9720f8274d460c20662cf9551b15b6ddc9bed5d5ccc4c3cb0312d815d094c0cf",
+    "actual_protobuf_protocol_count": 12,
+    "loaded_current_source_union": 51,
+    "loaded_package_union": 269,
+    "counted_scope": "Union across r2/r3 parent result/guard-final and all first/recovery-report actual_loader maps: current-source map separately; package loaded_package_sha256 plus protobuf_bindings.loaded_files. Each current byte hash checked.",
+    "whole_package_revalidation": false,
+    "r7_contains_current_source": false,
+    "production_bootstrap_acceptance": false,
+    "guards": "Parent binds only owned 127.0.0.1:0; child connects only the retained owned endpoint, never 11111. Recorded DNS/external endpoint/futu top-level attempts zero. Actual worker cannot spawn or start background threads."
+  },
+  "artifact_scope": "Compact derived metadata; full original input inventory and SQLite copies retained externally",
+  "whole_package_reverification": false
+}

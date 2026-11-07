@@ -2,7 +2,7 @@
 
 2026-11-08 当前试用入口：**[r7公开预发布](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.7.0.dev3-r7)** · [下载Windows程序](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/HakimiTrade-0.7.0.dev3-candidate-r7.zip) · [下载试用说明与记录卡](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/HakimiTrade-0.7.0.dev3-r7-trial-materials.zip) · [SHA256清单](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/release-SHA256SUMS-r7.txt)。源码`708ec3f`与[CI177](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/42398287158)11/11成功绑定，9091程序文件/9092 ZIP项核对通过；[发布身份及验证范围](research-evidence/terminal-070dev3-r7-release-20261108/README.md)另列。
 
-U02的准确候选已公开交付；**r7原生、独立Windows与3名新手仍为0次实际验收**，全目标尚未完成。普通用户、只复制程序包不放源码的另一台Windows已确认可安排，三名未参与开发者也可安排。r6原生记录保留历史身份；后续本机回环连接工程未打入r7，不改变公开包的范围。
+U02的准确候选已公开交付；**r7原生、独立Windows与3名新手仍为0次实际验收**，全目标尚未完成。普通用户、只复制程序包不放源码的另一台Windows已确认可安排，三名未参与开发者也可安排。r6原生记录保留历史身份；后续本机回环、查询资料及W3提交必需观察条件均未打入r7，不改变公开包的范围。
 
 2026-11-08 CI跟进：[Windows短路径工作区修复](research-evidence/ci175-workspace-path-20261108/README.md)。06d9744的CI175暴露真实路径别名问题，原失败保留；修复后普通/短路径专项各15项、完整短路径后端823项通过。
 
@@ -31,7 +31,7 @@ U02的准确候选已公开交付；**r7原生、独立Windows与3名新手仍�
 | U09 浏览器 | DOING | 实际HTTP首用、宽窄组件及r6包内NDAQ复制/重开/教学返回已验 | 与本机原生观察分别记录；两个显示修复已进4401d1f源码并通过整合桌面检查，新包/原生仍待验，不替代独立Windows |
 | U10 独立Windows | TODO | 用户已确认另一台Windows可使用普通用户，只复制程序包、不放源码；实际验收0次 | 使用同一公开r7完成任务/研究/本地计划，关闭重开找回同一记录；本机r6维护者试验不替代A19 |
 | U11 独立新手 | TODO | 可安排3位未参与开发的独立试用者；实际完成0人，旧T17证据保持原状态 | 使用r7任务卡，不演示按钮；记录计划保存/同ID找回、是否重复保存、5/10分钟目标、求助点和理解问题，A20未完成 |
-| U12 真实交易工程 | DOING | [协调器与受控worker](research-evidence/broker-action-coordinator-20261108/README.md)源码已入r7；后续[固定本机TCP连接](research-evidence/broker-loopback-socket-20261108/README.md)及[锁定报文构造、3类查询资料保存](research-evidence/broker-quote-facts-20261108/README.md)通过原worker/账本整合；实际protobuf独立4项、完整terminal913项通过 | 两批后续源码均不在r7。资料匹配不表示可交易；目标证券状态、报价时效、价格/数量资格、可预留资金/归属持仓/费用、生产授权装配、包内worker、OpenD兼容及外部授权仍待完成 |
+| U12 真实交易工程 | DOING | [协调器与受控worker](research-evidence/broker-action-coordinator-20261108/README.md)已入r7；后续TCP/查询资料基础上，W3[提交必需观察条件](research-evidence/broker-submit-market-20261108/README.md)已接原认领、提交及每次实际写入：原账本两次握手、四类查询和目标证券状态必须匹配，截止瞬间即拒绝，重开不刷新期限。完整terminal977/977及实际protobuf/原worker/自持TCP最终4/4通过；合成ACK后原9个ID恢复无新连接/发送 | W3及此前后续源码均不在r7。虚构报文/合成现金试验不等于完整交易准入；生产账户/行情权利、价格来源及时效、合法价量、真实可预留资金/归属持仓/费用、生产装配、OpenD兼容与完整成交/撤单/对账链仍待完成。r7原生、独立Windows及三人试用仍待实际验收 |
 
 ## 必须覆盖的20场景
 

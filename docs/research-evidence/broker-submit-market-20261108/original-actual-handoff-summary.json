@@ -1,0 +1,359 @@
+{
+  "status": "PASS_ACTUAL_PROTOBUF_ORIGINAL_WORKER_OWNED_TCP",
+  "scope": "W3_CURRENT_SOURCE_TEST_ASSEMBLY_WITH_READ_ONLY_R7_RUNTIME_NOT_PRODUCTION_PACKAGE_BOOTSTRAP",
+  "source": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-submit-market-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+  "source_inputs": 1620,
+  "source_inputs_unchanged": true,
+  "owned_source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "bf581d9da10c23b782514da90b3d3cdcc80aae9cd581d4dc340f4fb575e2d7db",
+    "outputs/python_quant_bot/tests/test_terminal_broker_market_state_facts.py": "22e507666efe479c5bf53d010126460e88d28d9ad0bc188425b67747da1f1ad3",
+    "outputs/python_quant_bot/tests/broker_submit_market_fixture.py": "2747094967991c6d4771a42ec904241142ba208dff02d00e105457ca266389be",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_worker.py": "575ce9ae4978672be05a1ac136ae3715908760969b046b820e4b5068f96af020"
+  },
+  "actual": {
+    "run": "run-r3-full",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "test_seconds": 365.1722426000051,
+    "outer_seconds": 383.3299752000021,
+    "cases": [
+      {
+        "name": "test_closed_target_state_keeps_response_and_prevents_submit_binding",
+        "accepts": 2,
+        "request_frames": 6,
+        "response_frames": 6,
+        "errors": [],
+        "workers": [
+          {
+            "name": "first",
+            "elapsed_seconds": 49.46986630000174,
+            "status": "PROTOCOL_RESULT_RECEIVED",
+            "exit_code": 0,
+            "spawn_count": 1,
+            "restart_count": 0,
+            "cleanup_confirmed": true,
+            "io_events": 10,
+            "socket_connections": 2,
+            "scenario_notes": [
+              {
+                "action": "quote_runtime",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.54079109999293
+              },
+              {
+                "action": "quote_security",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.680678199991235
+              },
+              {
+                "action": "quote_snapshot",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.258077000005869
+              },
+              {
+                "action": "quote_market_state",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.137028500001179
+              }
+            ],
+            "preparation_error": "SubmitObservationError:submit_observation_target_market_not_continuous",
+            "bootstrap_stages": [
+              {
+                "seconds": 0.0060178999992785975,
+                "stage": "manifest_and_guards_ready"
+              },
+              {
+                "seconds": 1.3157511000026716,
+                "stage": "actual_package_identity_checked"
+              },
+              {
+                "seconds": 1.805647000001045,
+                "stage": "application_closure_preloaded_protobuf_cold"
+              },
+              {
+                "seconds": 13.578450000000885,
+                "stage": "actual_verified_bindings_ready"
+              },
+              {
+                "seconds": 24.765154499997152,
+                "stage": "submit_market_fixture_bound"
+              }
+            ]
+          }
+        ],
+        "retained_artifacts": 47
+      },
+      {
+        "name": "test_early_out_of_order_input_cannot_bind_or_send_a_later_query",
+        "accepts": 2,
+        "request_frames": 2,
+        "response_frames": 2,
+        "errors": [],
+        "workers": [
+          {
+            "name": "first",
+            "elapsed_seconds": 36.47537820000434,
+            "status": "UNKNOWN",
+            "exit_code": 1,
+            "spawn_count": 1,
+            "restart_count": 0,
+            "cleanup_confirmed": true,
+            "io_events": 6,
+            "socket_connections": 2,
+            "scenario_notes": [
+              {
+                "action": "quote_runtime",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.396185300007346
+              }
+            ],
+            "preparation_error": null,
+            "bootstrap_stages": [
+              {
+                "seconds": 0.006330599993816577,
+                "stage": "manifest_and_guards_ready"
+              },
+              {
+                "seconds": 1.3435252999915974,
+                "stage": "actual_package_identity_checked"
+              },
+              {
+                "seconds": 1.8590317999914987,
+                "stage": "application_closure_preloaded_protobuf_cold"
+              },
+              {
+                "seconds": 14.147905299992999,
+                "stage": "actual_verified_bindings_ready"
+              },
+              {
+                "seconds": 26.119771700003184,
+                "stage": "submit_market_fixture_bound"
+              }
+            ]
+          }
+        ],
+        "retained_artifacts": 31
+      },
+      {
+        "name": "test_expired_observation_blocks_submit_while_permit_remains_future",
+        "accepts": 2,
+        "request_frames": 6,
+        "response_frames": 6,
+        "errors": [],
+        "workers": [
+          {
+            "name": "first",
+            "elapsed_seconds": 54.706354800000554,
+            "status": "UNKNOWN",
+            "exit_code": 1,
+            "spawn_count": 1,
+            "restart_count": 0,
+            "cleanup_confirmed": true,
+            "io_events": 10,
+            "socket_connections": 2,
+            "scenario_notes": [
+              {
+                "action": "quote_runtime",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.147499500002596
+              },
+              {
+                "action": "quote_security",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.046376700003748
+              },
+              {
+                "action": "quote_snapshot",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.480404300004011
+              },
+              {
+                "action": "quote_market_state",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.47491929998796
+              },
+              {
+                "bundle_expires_at": "2026-10-30T08:01:35.708140+00:00",
+                "injected_now": "2026-10-30T08:01:36.708184+00:00",
+                "kind": "EXPLICIT_CLOCK_AFTER_BUNDLE_EXPIRY_PERMIT_STILL_FUTURE",
+                "permit_expires_at": "2026-10-30T08:10:00+00:00"
+              }
+            ],
+            "preparation_error": null,
+            "bootstrap_stages": [
+              {
+                "seconds": 0.00653020000027027,
+                "stage": "manifest_and_guards_ready"
+              },
+              {
+                "seconds": 1.3708680999989156,
+                "stage": "actual_package_identity_checked"
+              },
+              {
+                "seconds": 1.8862120999983745,
+                "stage": "application_closure_preloaded_protobuf_cold"
+              },
+              {
+                "seconds": 13.65679119998822,
+                "stage": "actual_verified_bindings_ready"
+              },
+              {
+                "seconds": 25.61626859998796,
+                "stage": "submit_market_fixture_bound"
+              }
+            ]
+          }
+        ],
+        "retained_artifacts": 47
+      },
+      {
+        "name": "test_six_original_observations_submit_ack_and_reopen_without_new_tcp",
+        "accepts": 2,
+        "request_frames": 7,
+        "response_frames": 7,
+        "errors": [],
+        "workers": [
+          {
+            "name": "first",
+            "elapsed_seconds": 56.56603059999179,
+            "status": "PROTOCOL_RESULT_RECEIVED",
+            "exit_code": 0,
+            "spawn_count": 1,
+            "restart_count": 0,
+            "cleanup_confirmed": true,
+            "io_events": 11,
+            "socket_connections": 2,
+            "scenario_notes": [
+              {
+                "action": "quote_runtime",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.585827600007178
+              },
+              {
+                "action": "quote_security",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.185284099992714
+              },
+              {
+                "action": "quote_snapshot",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.342909800005145
+              },
+              {
+                "action": "quote_market_state",
+                "kind": "FIXED_NEXT_QUERY_BOUND",
+                "preparation_seconds": 4.2729097999981605
+              }
+            ],
+            "preparation_error": null,
+            "bootstrap_stages": [
+              {
+                "seconds": 0.006566600000951439,
+                "stage": "manifest_and_guards_ready"
+              },
+              {
+                "seconds": 1.3519585999893025,
+                "stage": "actual_package_identity_checked"
+              },
+              {
+                "seconds": 1.8618877999979304,
+                "stage": "application_closure_preloaded_protobuf_cold"
+              },
+              {
+                "seconds": 14.8036424999882,
+                "stage": "actual_verified_bindings_ready"
+              },
+              {
+                "seconds": 27.011835699988296,
+                "stage": "submit_market_fixture_bound"
+              }
+            ]
+          },
+          {
+            "name": "recovery",
+            "elapsed_seconds": 23.17013689999294,
+            "status": "PROTOCOL_RESULT_RECEIVED",
+            "exit_code": 0,
+            "spawn_count": 1,
+            "restart_count": 0,
+            "cleanup_confirmed": true,
+            "io_events": 0,
+            "socket_connections": 0,
+            "scenario_notes": [],
+            "preparation_error": null,
+            "bootstrap_stages": [
+              {
+                "seconds": 0.006179200005135499,
+                "stage": "manifest_and_guards_ready"
+              },
+              {
+                "seconds": 1.3112492999935057,
+                "stage": "actual_package_identity_checked"
+              },
+              {
+                "seconds": 1.8309174000023631,
+                "stage": "application_closure_preloaded_protobuf_cold"
+              },
+              {
+                "seconds": 13.739128300003358,
+                "stage": "actual_verified_bindings_ready"
+              },
+              {
+                "seconds": 17.976901500005624,
+                "stage": "submit_market_fixture_bound"
+              }
+            ]
+          }
+        ],
+        "retained_artifacts": 59
+      }
+    ],
+    "verified_case_artifacts": 184,
+    "loaded_file_union": 283
+  },
+  "budgets": {
+    "actual_worker_wall_seconds": 60,
+    "actual_ready_seconds": 30,
+    "actual_message_seconds": 15,
+    "actual_exit_seconds": 10,
+    "actual_peer_lifetime_seconds": 100,
+    "actual_outer_seconds": 420,
+    "standard_worker_wall_seconds": 8,
+    "standard_ready_message_seconds": 4,
+    "standard_exit_seconds": 3,
+    "standard_peer_lifetime_seconds": 45,
+    "unchanged_product_wire_rpc_seconds": 15,
+    "unchanged_product_wire_cleanup_seconds": 5,
+    "unchanged_original_query_window_seconds": 30
+  },
+  "retained_runs": {
+    "r1": "Failed diagnostic: actual two handshakes; batching four request constructions exceeded test message wait; 0 query/cash/order. Preserved raw originals and STOP_REQUESTED/UNKNOWN supervisor receipt.",
+    "r2": "Successful one-case diagnostic; excluded from final four-case coverage.",
+    "r3": "Final four-case gate; includes actual early-order refusal as well as closed/expiry and submit+reopen."
+  },
+  "limitations": [
+    "All business values, account identifiers, cash snapshots, peers and permits are explicitly synthetic.",
+    "No SDK top-level import, OpenD, DNS, external endpoint, real account, model or production worker admission.",
+    "Actual generated messages are mandatory; no missing-package skip or fake fallback.",
+    "ACK_SCOPE_MATCHED is not a fill, fee finality or economic acceptance.",
+    "Market-source freshness, currency, tick/quantity rules, fees, entitlements and real authority remain unknown/unadmitted.",
+    "The original-byte registry is test prebinding data; original journal is the only business state; recovery uses original bytes/permit times and archived submit observation without new handshake/query/prepare.",
+    "Handshake private strings including retMsg remain only in raw private response evidence, not typed handshake facts.",
+    "Raw originals for actual cases remain copied in cases; ordinary standard-test TEMP roots were cleaned.",
+    "This is not an assertion that r7 contains W3 code or that production bootstrap/production throughput was accepted."
+  ],
+  "package": {
+    "source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "bundle_id": "9720f8274d460c20662cf9551b15b6ddc9bed5d5ccc4c3cb0312d815d094c0cf",
+    "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "manifest_unchanged": true
+  },
+  "primary_evidence_sha256": {
+    "actual-tests.log": "945f434bfe4c57be9b64ed28a9d99868e0227daea69b28929b12abfb017fc148",
+    "result.json": "c9d0f67457bb9d75517ba5b14aa40ee88182be63f6fb06f270edceaf8b98b292",
+    "process-result.json": "1b85559aa3a6ac6f5b4a9bc554b0bff638e52a06a2e99741fba8bb9b98550cff",
+    "input-spec.json": "8eead3a8c7468c019ec093e8f47c053f7c6b266f300943aedef2ec40046b3641"
+  }
+}

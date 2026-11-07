@@ -1,0 +1,6 @@
+test_same_original_intent_cannot_claim_again_across_v2_and_v3_in_one_journal (tests.test_terminal_broker_submit_observation.SubmitObservationTests.test_same_original_intent_cannot_claim_again_across_v2_and_v3_in_one_journal) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.741s
+
+OK

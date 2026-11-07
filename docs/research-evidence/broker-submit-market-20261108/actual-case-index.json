@@ -1,0 +1,194 @@
+[
+  {
+    "case": "test_closed_target_state_keeps_response_and_prevents_submit_binding",
+    "accepts": 2,
+    "received_frames": 6,
+    "errors": [],
+    "original_artifact_count": 47,
+    "workers": [
+      {
+        "report": "first-report.json",
+        "io_events": 10,
+        "socket_connect": 2
+      }
+    ],
+    "original_journal_review": {
+      "evidence": "actual-protobuf/run-r3-full/cases/test_closed_target_state_keeps_response_and_prevents_submit_binding",
+      "file_count": 47,
+      "db_sha256": "cef841ede897636335af0425b48eb16b77d65559ccb79310963f806bb058b2c5",
+      "event_counts": {
+        "ACTION": 8,
+        "OUTCOME": 8,
+        "VERIFIED_RESPONSE": 6,
+        "SNAPSHOT": 1
+      },
+      "accepts": 2,
+      "frames": 6,
+      "facts": [
+        "quote_init",
+        "trade_init",
+        "quote_runtime",
+        "quote_security",
+        "quote_snapshot",
+        "quote_market_state"
+      ],
+      "bundle_id": null,
+      "all_nine_recovered_without_io": false,
+      "worker": {
+        "first": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 49.46986630000174
+        }
+      },
+      "first_io_count": 10
+    }
+  },
+  {
+    "case": "test_early_out_of_order_input_cannot_bind_or_send_a_later_query",
+    "accepts": 2,
+    "received_frames": 2,
+    "errors": [],
+    "original_artifact_count": 31,
+    "workers": [
+      {
+        "report": "first-report.json",
+        "io_events": 6,
+        "socket_connect": 2
+      }
+    ],
+    "original_journal_review": {
+      "evidence": "actual-protobuf/run-r3-full/cases/test_early_out_of_order_input_cannot_bind_or_send_a_later_query",
+      "file_count": 31,
+      "db_sha256": "4bb55b61937fb5f315b6b7a69bc9914a25e75215d61c5a6b5bbdd460058900bc",
+      "event_counts": {
+        "ACTION": 4,
+        "OUTCOME": 4,
+        "VERIFIED_RESPONSE": 2
+      },
+      "accepts": 2,
+      "frames": 2,
+      "facts": [
+        "quote_init",
+        "trade_init"
+      ],
+      "bundle_id": null,
+      "all_nine_recovered_without_io": false,
+      "worker": {
+        "first": {
+          "status": "UNKNOWN",
+          "exit_code": 1,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 36.47537820000434
+        }
+      },
+      "first_io_count": 6
+    }
+  },
+  {
+    "case": "test_expired_observation_blocks_submit_while_permit_remains_future",
+    "accepts": 2,
+    "received_frames": 6,
+    "errors": [],
+    "original_artifact_count": 47,
+    "workers": [
+      {
+        "report": "first-report.json",
+        "io_events": 10,
+        "socket_connect": 2
+      }
+    ],
+    "original_journal_review": {
+      "evidence": "actual-protobuf/run-r3-full/cases/test_expired_observation_blocks_submit_while_permit_remains_future",
+      "file_count": 47,
+      "db_sha256": "5e706992a208994ad7b702338f7bd02ee3122413c6d5c6ba2b0baa77cf6fc181",
+      "event_counts": {
+        "ACTION": 8,
+        "OUTCOME": 8,
+        "VERIFIED_RESPONSE": 6,
+        "SNAPSHOT": 1
+      },
+      "accepts": 2,
+      "frames": 6,
+      "facts": [
+        "quote_init",
+        "trade_init",
+        "quote_runtime",
+        "quote_security",
+        "quote_snapshot",
+        "quote_market_state"
+      ],
+      "bundle_id": null,
+      "all_nine_recovered_without_io": false,
+      "worker": {
+        "first": {
+          "status": "UNKNOWN",
+          "exit_code": 1,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 54.706354800000554
+        }
+      },
+      "first_io_count": 10
+    }
+  },
+  {
+    "case": "test_six_original_observations_submit_ack_and_reopen_without_new_tcp",
+    "accepts": 2,
+    "received_frames": 7,
+    "errors": [],
+    "original_artifact_count": 59,
+    "workers": [
+      {
+        "report": "first-report.json",
+        "io_events": 11,
+        "socket_connect": 2
+      },
+      {
+        "report": "recovery-report.json",
+        "io_events": 0,
+        "socket_connect": 0
+      }
+    ],
+    "original_journal_review": {
+      "evidence": "actual-protobuf/run-r3-full/cases/test_six_original_observations_submit_ack_and_reopen_without_new_tcp",
+      "file_count": 59,
+      "db_sha256": "9cc3b68c135014138abe89074c19bd213e080a177cc58a994c7b4708f390031c",
+      "event_counts": {
+        "ACTION": 9,
+        "OUTCOME": 9,
+        "VERIFIED_RESPONSE": 7,
+        "SNAPSHOT": 1,
+        "CLAIM": 1
+      },
+      "accepts": 2,
+      "frames": 7,
+      "facts": [
+        "quote_init",
+        "trade_init",
+        "quote_runtime",
+        "quote_security",
+        "quote_snapshot",
+        "quote_market_state",
+        "trade_submit"
+      ],
+      "bundle_id": "5d40c472802d1f026e11550e6f268ff83fc56a493a1e8594186abfbfbb8a6701",
+      "all_nine_recovered_without_io": true,
+      "worker": {
+        "first": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 56.56603059999179
+        },
+        "recovery": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 23.17013689999294
+        }
+      },
+      "first_io_count": 11
+    }
+  }
+]

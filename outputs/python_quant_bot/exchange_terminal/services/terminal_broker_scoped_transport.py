@@ -19,7 +19,7 @@ from threading import Lock
 from types import MappingProxyType
 from typing import Protocol
 
-from .terminal_broker_wire_profile import VerifiedWireProfile, WIRE_ACTIONS
+from .terminal_broker_wire_profile import VerifiedWireProfile, WIRE_ACTIONS, actions_for_profile
 
 
 class TransportError(ValueError):
@@ -93,6 +93,7 @@ class ScopedTransport:
     def __init__(self, profile, *, factory, clock, gate, sink, codec):
         _require(type(profile) is VerifiedWireProfile, "typed_profile_required")
         value = profile.as_dict()
+        self._actions = actions_for_profile(value)
         _require(value["mode"] == "OFFICIAL_SIMULATION" and value["sdk_environment"] == "SIMULATE",
                  "simulate_only")
         _require(value.get("protocol_policy", {}).get("encryption_policy") == "PLAINTEXT_OFFLINE_CODEC_TEST",
@@ -154,7 +155,7 @@ class ScopedTransport:
         return lock
 
     def _consume(self, channel, action):
-        _require(WIRE_ACTIONS.get(action, (None,))[0] == channel, "action_channel_mismatch")
+        _require(self._actions.get(action, (None,))[0] == channel, "action_channel_mismatch")
         with self._budget_lock:
             used = self._counts.get(action, 0)
             _require(used < self._bounds["actions"].get(action, 0), "action_budget_exhausted")
@@ -276,7 +277,7 @@ class ScopedTransport:
             raise TransportError("unsolicited_or_trailing_data")
 
     def exchange(self, channel, action, frame, permit, deadline):
-        _require(type(action) is str and action in WIRE_ACTIONS, "unknown_action")
+        _require(type(action) is str and action in self._actions, "unknown_action")
         lock = self._lock(channel)
         try:
             slot = self._reserve_outcome()
@@ -293,7 +294,7 @@ class ScopedTransport:
             _require(action == channel + "_init" or channel in self._ready, "handshake_required")
             info = self._codec.validate_request(self.profile, action, frame)
             _require(info.serial not in self._serials[channel], "serial_already_used")
-            _require(WIRE_ACTIONS.get(action, (None,))[0] == channel, "action_channel_mismatch")
+            _require(self._actions.get(action, (None,))[0] == channel, "action_channel_mismatch")
             seconds = self._bounds["handshake_timeout_seconds" if action.endswith("_init") else "rpc_timeout_seconds"]
             deadline = self._deadline(channel, deadline, seconds)
             self._consume(channel, action)

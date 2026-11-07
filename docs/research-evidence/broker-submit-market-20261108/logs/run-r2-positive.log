@@ -1,0 +1,6 @@
+test_six_original_observations_submit_ack_and_reopen_without_new_tcp (__main__.ActualSubmitMarketWorkerTests.test_six_original_observations_submit_ack_and_reopen_without_new_tcp) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 107.345s
+
+OK

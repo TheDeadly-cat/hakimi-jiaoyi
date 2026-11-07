@@ -1,0 +1,9 @@
+test_closed_target_state_keeps_response_and_prevents_submit_binding (tests.test_terminal_broker_submit_market_worker.SyntheticSubmitMarketWorkerTests.test_closed_target_state_keeps_response_and_prevents_submit_binding) ... ok
+test_early_out_of_order_input_cannot_bind_or_send_a_later_query (tests.test_terminal_broker_submit_market_worker.SyntheticSubmitMarketWorkerTests.test_early_out_of_order_input_cannot_bind_or_send_a_later_query) ... ok
+test_expired_observation_blocks_submit_while_permit_remains_future (tests.test_terminal_broker_submit_market_worker.SyntheticSubmitMarketWorkerTests.test_expired_observation_blocks_submit_while_permit_remains_future) ... ok
+test_six_original_observations_submit_ack_and_reopen_without_new_tcp (tests.test_terminal_broker_submit_market_worker.SyntheticSubmitMarketWorkerTests.test_six_original_observations_submit_ack_and_reopen_without_new_tcp) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 7.764s
+
+OK

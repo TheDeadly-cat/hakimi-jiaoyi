@@ -243,8 +243,13 @@ class BrokerExecutionJournal:
         return state, receipts, previous
 
     def _admit_profile(self, state, profile, at):
-        require(profile.get("schema_version") == "hakimi-broker-wire-profile-v2"
+        require(profile.get("schema_version") in ("hakimi-broker-wire-profile-v2", "hakimi-broker-wire-profile-v3")
                 and profile.get("id") == contract.digest({k: v for k, v in profile.items() if k != "id"}), "journal_profile_identity_invalid")
+        if profile["schema_version"] == "hakimi-broker-wire-profile-v3":
+            from .terminal_broker_wire_profile import actions_for_profile
+            from .terminal_broker_submit_observation import _profile as observation_profile
+            actions_for_profile(profile)
+            observation_profile(profile)
         require(profile["mode"] == self.mode and profile["order"]["account_id"] == self.scope["account_id"]
                 and profile["deduplication"]["account_scope_id"] == self.account_scope_id, "journal_account_mode_mismatch")
         require(profile["permissions"] == PERMISSIONS, "journal_profile_does_not_grant_authority")
@@ -301,6 +306,13 @@ class BrokerExecutionJournal:
             profile = payload["profile"]
             self._admit_profile(state, profile, at)
             intent = profile["deduplication"]["intent_scope_id"]
+            observation_required = profile["schema_version"] == "hakimi-broker-wire-profile-v3"
+            if observation_required:
+                fields = ({"profile", "evidence_id", "authorization_id", "submit_observation"} if kind == "CLAIM" else
+                          {"profile", "action", "operation_id", "frame_sha256", "frame_bytes", "authorization_id", "broker_order_id"})
+                if kind == "ACTION" and payload["action"] == "trade_submit":
+                    fields.add("submit_observation")
+                contract._fields(payload, fields)
             if kind == "CLAIM":
                 contract._hash(payload["authorization_id"])
                 require(intent not in state["claims"], "journal_original_intent_already_claimed")
@@ -311,6 +323,8 @@ class BrokerExecutionJournal:
                         "journal_account_evidence_stale")
                 require(profile["wire_bounds"]["actions"]["trade_submit"] == 1, "journal_submit_budget_required")
                 require(not _financial(state)["reconciliation_required"], "journal_reconciliation_required")
+                if observation_required:
+                    self._check_submit_observation(state, profile, payload["submit_observation"], now)
                 claim = {"profile_id": profile["id"], "base_plan_id": profile["base_plan_id"], "intent_scope_id": intent,
                          "workspace_context": profile["workspace_context"], "owner_scope_id": profile["research"]["owner_scope_id"],
                          "order": deepcopy(profile["order"]), "fee_ceiling": profile["wire_bounds"]["max_total_fees"],
@@ -318,6 +332,8 @@ class BrokerExecutionJournal:
                          "state": "CLAIMED_RESERVED", "order_state": "OPEN", "broker_order_id": None,
                          "filled_quantity": 0, "filled_notional": "0", "fees": None, "fees_final": False,
                          "submit_started": False, "cancel_acknowledged": False}
+                if observation_required:
+                    claim["submit_observation"] = deepcopy(payload["submit_observation"])
                 state["claims"][intent] = claim
                 require(not _financial(state)["reconciliation_required"], "journal_shared_cash_or_owner_holdings_insufficient")
                 return {"status": "CLAIMED_RESERVED", "intent_scope_id": intent}
@@ -337,6 +353,9 @@ class BrokerExecutionJournal:
             if action == "trade_submit":
                 require(claim is not None and claim["profile_id"] == profile["id"] and not claim["submit_started"], "journal_unique_reserved_submit_required")
                 require(claim["authorization_id"] == payload["authorization_id"], "journal_submit_authorization_reference_changed")
+                if observation_required:
+                    require(payload["submit_observation"] == claim["submit_observation"], "journal_submit_observation_changed_since_claim")
+                    self._check_submit_observation(state, profile, payload["submit_observation"], now)
                 require(not _financial(state)["reconciliation_required"], "journal_reconciliation_required")
                 snapshot = state["snapshot"]
                 require(snapshot is not None and now < contract._time(snapshot["valid_until"]) and
@@ -350,6 +369,8 @@ class BrokerExecutionJournal:
             state["actions"][payload["operation_id"]] = {"profile_id": profile["id"], "intent_scope_id": intent, "action": action,
                 "frame_sha256": frame, "frame_bytes": payload["frame_bytes"], "authorization_id": payload["authorization_id"],
                 "state": "DISPATCH_INTENT", "outcome": None}
+            if observation_required and action == "trade_submit":
+                state["actions"][payload["operation_id"]]["submit_observation"] = deepcopy(payload["submit_observation"])
             return {"status": "DISPATCH_INTENT", "operation_id": payload["operation_id"], "action": action,
                     "attempt_count": count + 1, "dispatch_authorization_granted": False}
         if kind == "VERIFIED_RESPONSE":
@@ -478,7 +499,7 @@ class BrokerExecutionJournal:
     def _commit(self, connection):
         connection.commit()
 
-    def _write(self, kind, payload, request_id, barrier=None):
+    def _write(self, kind, payload, request_id, barrier=None, submit_context=None):
         request(request_id)
         payload = json.loads(raw(payload))
         fingerprint = contract.digest({"kind": kind, "payload": payload})
@@ -494,6 +515,9 @@ class BrokerExecutionJournal:
                 at = contract._now(self._clock()).isoformat()
                 require(state["last_event_at"] is None or contract._time(at) >= contract._time(state["last_event_at"]),
                         "journal_clock_regressed")
+                if submit_context is not None:
+                    from .terminal_broker_submit_observation import validate_submit_observation
+                    validate_submit_observation(*submit_context, now=contract._time(at))
                 result = self._reduce(state, kind, payload, at, previous)
                 event = seal({"schema_version": SCHEMA, "seq": len(receipts) + 1, "previous": previous, "at": at,
                               "kind": kind, "payload": payload, "request_id": request_id, "request_hash": fingerprint, "result": result})
@@ -521,14 +545,63 @@ class BrokerExecutionJournal:
         contract._hash(expected_head)
         return self._write("SNAPSHOT", {"snapshot": snapshot, "expected_head": expected_head, "reconciliation": reconciliation}, request_id)
 
-    def claim(self, profile, *, evidence_id, authorization_id, request_id, control_barrier):
-        return self._write("CLAIM", {"profile": _profile(profile), "evidence_id": evidence_id,
-                                   "authorization_id": authorization_id}, request_id, control_barrier)
+    @staticmethod
+    def _check_submit_observation(state, profile, observation, now):
+        from .terminal_broker_submit_observation import _validate_stored_submit_observation
+        return _validate_stored_submit_observation(profile, observation, state, now=now)
 
-    def begin_action(self, profile, action, *, request_id, frame_sha256, frame_bytes, authorization_id, control_barrier, broker_order_id=None):
-        return self._write("ACTION", {"profile": _profile(profile), "action": action, "operation_id": request_id,
+    def prepare_submit_observation(self, profile, session_binding):
+        """Read the original evidence only; preparing creates no event or store."""
+        from .terminal_broker_submit_observation import _prepare_submit_observation
+        with self._database() as connection:
+            state, _, _ = self._load(connection)
+            return _prepare_submit_observation(profile, state, session_binding, now=contract._now(self._clock()))
+
+    def read_submit_observation(self, operation_id):
+        """Restore only a replay-verified original submit bundle, without renewal."""
+        from .terminal_broker_submit_observation import _restore_submit_observation
+        request(operation_id)
+        with self._database() as connection:
+            _, receipts, _ = self._load(connection)
+            event = receipts.get(operation_id)
+            if event is None or event["kind"] != "ACTION":
+                return None
+            payload = event["payload"]
+            if (payload["action"] != "trade_submit" or
+                    payload["profile"]["schema_version"] != "hakimi-broker-wire-profile-v3"):
+                return None
+            return _restore_submit_observation(payload["profile"], payload["submit_observation"],
+                                               recorded_at=contract._time(event["at"]))
+
+    @staticmethod
+    def _submit_payload(profile, payload, observation, session_binding, *, required):
+        if not required:
+            require(observation is None and session_binding is None, "journal_submit_observation_not_applicable")
+            return None
+        from .terminal_broker_submit_observation import VerifiedSubmitObservation
+        from ..adapters.futu_us_equity_simulate_wire_v2 import CodecSessionBinding
+        require(type(observation) is VerifiedSubmitObservation and type(session_binding) is CodecSessionBinding,
+                "journal_typed_submit_observation_required")
+        payload["submit_observation"] = observation.as_dict()
+        return (profile, observation, session_binding)
+
+    def claim(self, profile, *, evidence_id, authorization_id, request_id, control_barrier,
+              submit_observation=None, session_binding=None):
+        value = _profile(profile)
+        payload = {"profile": value, "evidence_id": evidence_id, "authorization_id": authorization_id}
+        context = self._submit_payload(profile, payload, submit_observation, session_binding,
+            required=value["schema_version"] == "hakimi-broker-wire-profile-v3")
+        return self._write("CLAIM", payload, request_id, control_barrier, context)
+
+    def begin_action(self, profile, action, *, request_id, frame_sha256, frame_bytes, authorization_id, control_barrier,
+                     broker_order_id=None, submit_observation=None, session_binding=None):
+        value = _profile(profile)
+        payload = {"profile": value, "action": action, "operation_id": request_id,
             "frame_sha256": frame_sha256, "frame_bytes": frame_bytes, "authorization_id": authorization_id,
-            "broker_order_id": broker_order_id}, request_id, control_barrier)
+            "broker_order_id": broker_order_id}
+        context = self._submit_payload(profile, payload, submit_observation, session_binding,
+            required=value["schema_version"] == "hakimi-broker-wire-profile-v3" and action == "trade_submit")
+        return self._write("ACTION", payload, request_id, control_barrier, context)
 
     def outcome(self, operation_id, outcome, *, request_id):
         return self._write("OUTCOME", {"operation_id": request(operation_id), "outcome": outcome}, request_id)
@@ -563,10 +636,10 @@ class BrokerExecutionJournal:
     def _response(self, state, payload, at, previous):
         # The typed factory is checked at entry; replay validates the archived
         # identity and its binding to the original ACTION from this journal.
-        from .terminal_broker_response_facts import SCHEMA as FACTS_SCHEMA
+        from .terminal_broker_response_facts import SCHEMA as FACTS_SCHEMA, SCHEMA_V3 as FACTS_SCHEMA_V3
         contract._fields(payload, {"facts", "previous_evidence_id"})
         facts = payload["facts"]
-        require(type(facts) is dict and facts.get("schema_version") == FACTS_SCHEMA
+        require(type(facts) is dict and facts.get("schema_version") in (FACTS_SCHEMA, FACTS_SCHEMA_V3)
                 and facts.get("id") == contract.digest({k: v for k, v in facts.items() if k != "id"}),
                 "journal_response_facts_identity_invalid")
         require(self.domain == "SYNTHETIC_TEST" and facts["test_only"] is True
@@ -578,6 +651,8 @@ class BrokerExecutionJournal:
         require(operation is not None and facts["journal_receipt_id"] == operation["receipt_id"],
                 "journal_response_original_action_mismatch")
         profile = state["profiles"][operation["profile_id"]]
+        expected_schema = FACTS_SCHEMA_V3 if profile["schema_version"] == "hakimi-broker-wire-profile-v3" else FACTS_SCHEMA
+        require(facts["schema_version"] == expected_schema, "journal_response_profile_schema_mismatch")
         require(facts["profile_id"] == operation["profile_id"] and facts["action"] == operation["action"]
                 and facts["intent_scope_id"] == operation["intent_scope_id"]
                 and facts["base_plan_id"] == profile["base_plan_id"]

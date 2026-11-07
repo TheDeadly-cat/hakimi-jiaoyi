@@ -1,0 +1,368 @@
+{
+  "schema_version": "hakimi-broker-submit-market-independent-review-v1",
+  "reviewed_at": "2026-11-07T20:59:09.598012+00:00",
+  "status": "NO_BLOCKING_FINDING_WITHIN_REVIEWED_SCOPE",
+  "reviewer": "publish_review",
+  "method": "Static source review, retained evidence SHA256 verification and SQLite SELECT using mode=ro; no application imports, tests, sockets, SDK/OpenD or source edits by reviewer.",
+  "source_base_commit": "dd21e70d40173bdd1fd77ace2150f0b44524eb6e",
+  "frozen_inputs_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_us_equity_simulate_wire_v2.py": "063d4cc2e4c798f1d35265b75f76983e8159bccd0ef57062759fda2134be766a",
+    "outputs/python_quant_bot/exchange_terminal/adapters/futu_verified_protobuf_loader.py": "74537545146b93d92805f09e7b93c6f7d6c9338caea33b817f25288d26e68acf",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py": "c442cdee6536fd20ae44e474cffaeca211b338433f2ad7de10286b9eea866335",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_execution_journal.py": "67da6b5f4d16c448f6922d570c542a62f507ba015349ddc3bb141800bc6efc8d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "bf581d9da10c23b782514da90b3d3cdcc80aae9cd581d4dc340f4fb575e2d7db",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_scoped_transport.py": "c34155cbc898508fd387bb7d52e83131ea424bb1144881a263a8a5feaf8ef37f",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_submit_observation.py": "e916eb53f6e2cd538bc4a71ab6b4089cc1bd6d691665c375bc706f372436acf0",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_wire_profile.py": "0fdacb1810e2ed005047ad55a7b24189b62f5cc7f6ed4e78d09081bfab3aa264",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "dff1675f6473ce9086a98d8716678ea1b916b93b57b08837cb321ec63f59c79e",
+    "outputs/python_quant_bot/tests/broker_submit_market_fixture.py": "2747094967991c6d4771a42ec904241142ba208dff02d00e105457ca266389be",
+    "outputs/python_quant_bot/tests/test_terminal_broker_market_state_facts.py": "22e507666efe479c5bf53d010126460e88d28d9ad0bc188425b67747da1f1ad3",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_coordinator.py": "08b14307d17925728bddd7cba9bb5a539eddd82f76ed864d2f2b001204737238",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_worker.py": "575ce9ae4978672be05a1ac136ae3715908760969b046b820e4b5068f96af020",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_observation.py": "319c792d0554bb869e8f7633052a4865aecd206a9f4309dddebac9c09f481f89",
+    "outputs/python_quant_bot/tests/test_terminal_broker_wire_v3.py": "c357495f2b60d02b90fdb1fdc6fe004718346931baf0ca09d18a298a14bfcf24",
+    "tools/run_terminal_contracts.py": "0de8e560f88c9a6dfadb8c9262c0d9d751adb9d27a98d58f2922cda22c86574d"
+  },
+  "artifact_checks": {
+    "final_manifest_entries_verified": 319,
+    "current_source_inputs_verified": 1620,
+    "fullgate_inputs_verified": 16,
+    "case_database_bytes_unchanged_by_readonly_review": true
+  },
+  "source_review": [
+    {
+      "file": "outputs/python_quant_bot/tests/broker_submit_market_fixture.py",
+      "lines": [
+        64,
+        93,
+        118,
+        140,
+        174,
+        195,
+        204,
+        220,
+        231,
+        268
+      ],
+      "conclusion": "Original coordinator/journal/scoped transport and pinned socket; ACTION commit/readback before observed connect/send; fixed trusted next-query binding; recovery restores original request bytes/permit times and reads original submit bundle. Cash seed delegates to the original explicit synthetic fixture."
+    },
+    {
+      "file": "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_worker.py",
+      "lines": [
+        42,
+        59,
+        130,
+        140,
+        170,
+        185,
+        200
+      ],
+      "conclusion": "Original serve/supervisor, two owned TCP connections, six prerequisite facts, original claim/submit/ACK and all-nine-ID readback assertions. Ordinary JSON fixtures are explicitly separate from actual protobuf assembly."
+    },
+    {
+      "file": "actual-protobuf/run-r3-full/scripts/private_submit_bootstrap.py",
+      "lines": [
+        17,
+        55,
+        120,
+        193,
+        204
+      ],
+      "conclusion": "Private interpreter -I -S -B, exact preauthorized TestWorkerSpec command/environment, hashed finite application preload with google/futu/pb2 cold; restore private-only path before original verified loader. No patched loader fallback, production bootstrap anchor or PackageWorkerSpec admission."
+    }
+  ],
+  "actual_identity": {
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "package_manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "package_bundle_id": "9720f8274d460c20662cf9551b15b6ddc9bed5d5ccc4c3cb0312d815d094c0cf",
+    "actual_protobuf_protocol_count": 12,
+    "loaded_current_source_union": 51,
+    "loaded_package_union": 269,
+    "counted_scope": "Union across r2/r3 parent result/guard-final and all first/recovery-report actual_loader maps: current-source map separately; package loaded_package_sha256 plus protobuf_bindings.loaded_files. Each current byte hash checked.",
+    "whole_package_revalidation": false,
+    "r7_contains_current_source": false,
+    "production_bootstrap_acceptance": false,
+    "guards": "Parent binds only owned 127.0.0.1:0; child connects only the retained owned endpoint, never 11111. Recorded DNS/external endpoint/futu top-level attempts zero. Actual worker cannot spawn or start background threads."
+  },
+  "retained_runs": [
+    {
+      "evidence": "actual-protobuf/run-r1-positive",
+      "status": "FAIL_PRESERVE_ORIGINALS",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "unittest_seconds": 73.878,
+      "controller_including_final_proof_seconds": 78.31718040000123,
+      "outer_seconds": 96.09957389999181,
+      "exit_code": 1
+    },
+    {
+      "evidence": "actual-protobuf/run-r2-positive",
+      "status": "PASS_ACTUAL_PROTOBUF_ORIGINAL_WORKER_OWNED_TCP",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "unittest_seconds": 107.345,
+      "controller_including_final_proof_seconds": 111.74316260000342,
+      "outer_seconds": 129.61012359999586,
+      "exit_code": 0
+    },
+    {
+      "evidence": "actual-protobuf/run-r3-full",
+      "status": "PASS_ACTUAL_PROTOBUF_ORIGINAL_WORKER_OWNED_TCP",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "unittest_seconds": 360.336,
+      "controller_including_final_proof_seconds": 365.1722426000051,
+      "outer_seconds": 383.3299752000021,
+      "exit_code": 0
+    }
+  ],
+  "cases": [
+    {
+      "evidence": "actual-protobuf/run-r2-positive/cases/test_six_original_observations_submit_ack_and_reopen_without_new_tcp",
+      "file_count": 59,
+      "db_sha256": "662535115b015dba53b11f6bc5e40a0993ee1fe1419a9942b9387772b82d90ac",
+      "event_counts": {
+        "ACTION": 9,
+        "OUTCOME": 9,
+        "VERIFIED_RESPONSE": 7,
+        "SNAPSHOT": 1,
+        "CLAIM": 1
+      },
+      "accepts": 2,
+      "frames": 7,
+      "facts": [
+        "quote_init",
+        "trade_init",
+        "quote_runtime",
+        "quote_security",
+        "quote_snapshot",
+        "quote_market_state",
+        "trade_submit"
+      ],
+      "bundle_id": "ad3443ad539539dea114dc2e5d3fd2fe9f208ca8ba2cc2d1ee973eb18629a9fc",
+      "all_nine_recovered_without_io": true,
+      "worker": {
+        "first": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 51.66206700001203
+        },
+        "recovery": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 22.19897920000949
+        }
+      },
+      "first_io_count": 11
+    },
+    {
+      "evidence": "actual-protobuf/run-r3-full/cases/test_closed_target_state_keeps_response_and_prevents_submit_binding",
+      "file_count": 47,
+      "db_sha256": "cef841ede897636335af0425b48eb16b77d65559ccb79310963f806bb058b2c5",
+      "event_counts": {
+        "ACTION": 8,
+        "OUTCOME": 8,
+        "VERIFIED_RESPONSE": 6,
+        "SNAPSHOT": 1
+      },
+      "accepts": 2,
+      "frames": 6,
+      "facts": [
+        "quote_init",
+        "trade_init",
+        "quote_runtime",
+        "quote_security",
+        "quote_snapshot",
+        "quote_market_state"
+      ],
+      "bundle_id": null,
+      "all_nine_recovered_without_io": false,
+      "worker": {
+        "first": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 49.46986630000174
+        }
+      },
+      "first_io_count": 10
+    },
+    {
+      "evidence": "actual-protobuf/run-r3-full/cases/test_early_out_of_order_input_cannot_bind_or_send_a_later_query",
+      "file_count": 31,
+      "db_sha256": "4bb55b61937fb5f315b6b7a69bc9914a25e75215d61c5a6b5bbdd460058900bc",
+      "event_counts": {
+        "ACTION": 4,
+        "OUTCOME": 4,
+        "VERIFIED_RESPONSE": 2
+      },
+      "accepts": 2,
+      "frames": 2,
+      "facts": [
+        "quote_init",
+        "trade_init"
+      ],
+      "bundle_id": null,
+      "all_nine_recovered_without_io": false,
+      "worker": {
+        "first": {
+          "status": "UNKNOWN",
+          "exit_code": 1,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 36.47537820000434
+        }
+      },
+      "first_io_count": 6
+    },
+    {
+      "evidence": "actual-protobuf/run-r3-full/cases/test_expired_observation_blocks_submit_while_permit_remains_future",
+      "file_count": 47,
+      "db_sha256": "5e706992a208994ad7b702338f7bd02ee3122413c6d5c6ba2b0baa77cf6fc181",
+      "event_counts": {
+        "ACTION": 8,
+        "OUTCOME": 8,
+        "VERIFIED_RESPONSE": 6,
+        "SNAPSHOT": 1
+      },
+      "accepts": 2,
+      "frames": 6,
+      "facts": [
+        "quote_init",
+        "trade_init",
+        "quote_runtime",
+        "quote_security",
+        "quote_snapshot",
+        "quote_market_state"
+      ],
+      "bundle_id": null,
+      "all_nine_recovered_without_io": false,
+      "worker": {
+        "first": {
+          "status": "UNKNOWN",
+          "exit_code": 1,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 54.706354800000554
+        }
+      },
+      "first_io_count": 10
+    },
+    {
+      "evidence": "actual-protobuf/run-r3-full/cases/test_six_original_observations_submit_ack_and_reopen_without_new_tcp",
+      "file_count": 59,
+      "db_sha256": "9cc3b68c135014138abe89074c19bd213e080a177cc58a994c7b4708f390031c",
+      "event_counts": {
+        "ACTION": 9,
+        "OUTCOME": 9,
+        "VERIFIED_RESPONSE": 7,
+        "SNAPSHOT": 1,
+        "CLAIM": 1
+      },
+      "accepts": 2,
+      "frames": 7,
+      "facts": [
+        "quote_init",
+        "trade_init",
+        "quote_runtime",
+        "quote_security",
+        "quote_snapshot",
+        "quote_market_state",
+        "trade_submit"
+      ],
+      "bundle_id": "5d40c472802d1f026e11550e6f268ff83fc56a493a1e8594186abfbfbb8a6701",
+      "all_nine_recovered_without_io": true,
+      "worker": {
+        "first": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 56.56603059999179
+        },
+        "recovery": {
+          "status": "PROTOCOL_RESULT_RECEIVED",
+          "exit_code": 0,
+          "cleanup_confirmed": true,
+          "elapsed_seconds": 23.17013689999294
+        }
+      },
+      "first_io_count": 11
+    }
+  ],
+  "chain_checks": [
+    "Each retained fact request/response hash and length matched actual peer bytes and private raw-frame payload; journal_receipt_id and request-frame hash matched original ACTION.",
+    "Both positive runs bind the exact same six-reference bundle in original CLAIM and trade_submit ACTION. Each reference matches original facts ID, ACTION ID/time, serial, protocol, session and request/response bytes.",
+    "Positive effects: two connects, seven requests/responses, nine ACTIONs, seven VERIFIED_RESPONSE records, one explicit synthetic SNAPSHOT, one CLAIM, and 2202 ACK_SCOPE_MATCHED. No economic OBSERVATION/fill/fee-final event was inferred.",
+    "Closed state preserves exact-target state 6 response and one independent synthetic cash snapshot, then prepare raises submit_observation_target_market_not_continuous; no CLAIM/submit ACTION/2202.",
+    "Expiry case explicitly advances fixture logical UTC past bundle expiry while permit remains future; six facts and synthetic snapshot remain, no CLAIM/submit ACTION/2202, worker UNKNOWN/exit 1 retained.",
+    "Early out-of-order INPUT retains only two handshakes/four ACTIONs; no query, snapshot, CLAIM or submit. Worker UNKNOWN/exit 1 retained.",
+    "Positive recovery reads all nine original IDs with socket_connect=0 and io_order=[]; no recovery private frame directory. Frozen tests assert DB and registry byte equality and unchanged peer counts. Restore uses journal.read_submit_observation, not prepare or request encoding.",
+    "Both handshake raw responses/private presence retain fictional key/IV/free-text markers; typed journal contains none. Handshake typed presence excludes retMsg and key fields.",
+    "Cash=100 comes from base Fixture.seed and fixture-cash-snapshot with explicit synthetic evidence ID, not quote price conversion or broker funds query."
+  ],
+  "preserved_failure": {
+    "evidence": "actual-protobuf/run-r1-positive",
+    "cause_scope": "Test-only preparation batch encoded four real requests and repeated verified-bindings checks before next INPUT; exceeded the 15-second test message wait. This is not a product wire-RPC timeout.",
+    "observed": {
+      "tcp_accepts": 2,
+      "request_frames": 2,
+      "actions": 4,
+      "verified_responses": 2,
+      "snapshots": 0,
+      "claims": 0,
+      "worker_status": "UNKNOWN",
+      "worker_reasons": [
+        "STOP_REQUESTED",
+        "EXIT_NOT_ZERO",
+        "RESULT_MISSING"
+      ]
+    },
+    "repair_scope": "Only trusted test bootstrap changed to fixed-next request binding after prior original ACTION. No product bound extension, skipped verification, retry, or hidden reconnect. r2 is diagnostic positive-only and not added to final four-case coverage."
+  },
+  "full_terminal_gate": {
+    "evidence": "fullgate-terminal-r1.json",
+    "reviewed_not_rerun": true,
+    "tests": 977,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "source_unchanged": true,
+    "log_sha256": "fff986af46c8271c77b3a076c14d261df2fd2ab8386498327dc491d2af20635f",
+    "actual_protobuf_evidence_separate": true
+  },
+  "limitations": [
+    "Current W3 source plus read-only r7 private runtime/generated protobuf and synthetic owned peer. No OpenD compatibility, live/simulated account authorization, provider authentication, production package bootstrap or installation acceptance.",
+    "Six observations are necessary query/session checks. Source price age, quote rights, currency, legal order ticks/lot rules, fees, broker account/cash ownership and external research eligibility are not established.",
+    "Bundle keeps source_age_seconds null; freshness_verified, fees_known, source_authenticated and trading_authorization_granted false. ACK is not a fill or final fee confirmation.",
+    "Actual first worker wall 60s / READY30 / message15 / exit10 / peer100 / outer420 are controlled test budgets; product RPC15 / cleanup5 / ACTION-query-window30 unchanged. Positive first worker 56.566s is evidence under that bound, not production performance acceptance.",
+    "Recovery constructor may serialize unused synthetic response fixtures; assertion is no new request encoding, bundle preparation, journal mutation, connect or send.",
+    "Review is limited to frozen integration and retained evidence. It does not claim all package bytes, live sources, every schedule/interleaving or end-user strategy quality."
+  ],
+  "blocking_findings": [],
+  "evidence_sha256": {
+    "actual-protobuf/HANDOFF.md": "8be5cef1030006a8c92e0c3e4168477db796d8c5e24db7b4b03b58889ac97103",
+    "actual-protobuf/FINAL-SUMMARY.json": "36f50c15aa7465c5eaedc1b8769df6f14232d4d27c98d4b3ba3a39e7d6773f03",
+    "actual-protobuf/FINAL-SHA256.json": "0ac13fb5c63ec43774816d208cb5e94e39eac69fe813dd1cb8fc1e8bee46df0a",
+    "fullgate-preflight-r1.json": "9e5b1dbb4863f64cf3db8277abdf6e508d2c29f5330e3bf703729a37b7af87c0",
+    "fullgate-terminal-r1.json": "7eff4d0a4e770a1f5bf6abc9169c6a8b1b75b8d3f1725c721ad34ddbbd508b78",
+    "fullgate-terminal-r1.log": "fff986af46c8271c77b3a076c14d261df2fd2ab8386498327dc491d2af20635f",
+    "actual-protobuf/run-r1-positive/actual-tests.log": "baaeea7dabcc5074cfd4a79aeaa6dc8fdd88d515f26a5a9d7b429098963a5d5b",
+    "actual-protobuf/run-r1-positive/result.json": "b7c1fbc66d4ac71c89ffdfc4eb2c6b91c8e8cbc435a4e5dde7e117f0e1802a71",
+    "actual-protobuf/run-r1-positive/process-result.json": "b1a89f3407ab8cab31a26d7048b2d156521b1ef8e40ba5af3a1ee13782a0d5c4",
+    "actual-protobuf/run-r1-positive/guard-final.json": "4df2eaa313bbe35f3d2ea4f7e2f5bd9da3101af3e318c6b6dbc9f1238b040435",
+    "actual-protobuf/run-r2-positive/actual-tests.log": "cf1d87707ba37b0fdbc0f266dcb1353a20c5d3a2c3f4ddcb78e2739094ce9ed6",
+    "actual-protobuf/run-r2-positive/result.json": "08dd98a5b53687e913bbb907a850c7afed5244be1390afdb14c59821ef82166a",
+    "actual-protobuf/run-r2-positive/process-result.json": "1dcbc824626e015be82e2e746a1a5f45d38cf4d16078eed973264ed7486b4885",
+    "actual-protobuf/run-r2-positive/guard-final.json": "56c3c077ddfd0694760c7c179d1dbce3d023298be8c6f487cc6bc36063fc63cd",
+    "actual-protobuf/run-r3-full/actual-tests.log": "945f434bfe4c57be9b64ed28a9d99868e0227daea69b28929b12abfb017fc148",
+    "actual-protobuf/run-r3-full/result.json": "c9d0f67457bb9d75517ba5b14aa40ee88182be63f6fb06f270edceaf8b98b292",
+    "actual-protobuf/run-r3-full/process-result.json": "1b85559aa3a6ac6f5b4a9bc554b0bff638e52a06a2e99741fba8bb9b98550cff",
+    "actual-protobuf/run-r3-full/guard-final.json": "1e42ae88d6a22d9cd81864b2c561e4c0f3bf3b7d14a62cac3276b741ca97ca12"
+  }
+}

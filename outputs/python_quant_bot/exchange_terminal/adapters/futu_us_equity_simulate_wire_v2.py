@@ -16,7 +16,8 @@ import struct
 from threading import Lock
 
 from ..services.terminal_broker_wire_profile import (
-    PROTOCOL_POLICY, VerifiedWireProfile, WIRE_ACTIONS,
+    PROTOCOL_POLICY, VerifiedWireProfile, WIRE_ACTIONS, SCHEMA as PROFILE_SCHEMA,
+    SCHEMA_V3 as PROFILE_SCHEMA_V3, actions_for_profile,
 )
 
 HEADER = struct.Struct("<1s1sI2B2I20s8s")
@@ -26,6 +27,7 @@ PROTO_NAMES = {1001: "InitConnect", 1002: "GetGlobalState", 2001: "Trd_GetAccLis
     2101: "Trd_GetFunds", 2102: "Trd_GetPositionList", 3202: "Qot_GetStaticInfo",
     3203: "Qot_GetSecuritySnapshot", 2202: "Trd_PlaceOrder", 2201: "Trd_GetOrderList",
     2205: "Trd_ModifyOrder", 2225: "Trd_GetOrderFee"}
+PROTO_NAMES_V3 = {**PROTO_NAMES, 3223: "Qot_GetMarketState"}
 
 
 class CodecError(ValueError):
@@ -49,6 +51,7 @@ def _uint(value, bits=64):
 def _profile(profile):
     _require(type(profile) is VerifiedWireProfile, "typed_profile_required")
     value = profile.as_dict()
+    _require(value.get("schema_version") in (PROFILE_SCHEMA, PROFILE_SCHEMA_V3), "profile_schema_unsupported")
     _require(value["mode"] == "OFFICIAL_SIMULATION" and value["sdk_environment"] == "SIMULATE",
              "simulate_only")
     _require(value.get("protocol_policy") == dict(PROTOCOL_POLICY) and
@@ -226,6 +229,8 @@ def _verify_bindings(bindings, profile):
     from .futu_verified_protobuf_loader import VerifiedProtobufBindings
     _require(type(bindings) is VerifiedProtobufBindings, "typed_protobuf_bindings_required")
     current = VerifiedProtobufBindings.verify_current(bindings)
+    _require(current.get("profile_schema", PROFILE_SCHEMA) == profile["schema_version"],
+             "protobuf_binding_profile_schema_mismatch")
     _require(all(current.get(key) == profile["runtime"][key] for key in ("package", "sdk")),
              "protobuf_binding_runtime_mismatch")
 
@@ -247,18 +252,19 @@ class SimulateCodec:
 
     def __init__(self, profile, session, *, request_classes, response_classes):
         self._profile = _profile(profile)
+        self._actions = actions_for_profile(self._profile)
+        self._proto_names = PROTO_NAMES if self._profile["schema_version"] == PROFILE_SCHEMA else PROTO_NAMES_V3
         _require(type(session) is CodecSessionBinding, "typed_session_required")
         self._session = session.as_dict()
         self._session_binding = session
         self._session_lock = Lock()
         self._accepted_channels = set()
         _require(self._session["profile_id"] == self._profile["id"], "session_profile_changed")
-        protocols = {proto for _, proto in WIRE_ACTIONS.values() if proto is not None and
-                     proto in (1001, 1002, 2001, 2101, 2102, 3202, 3203, 2202, 2201, 2205, 2225)}
+        protocols = {proto for _, proto in self._actions.values() if proto in self._proto_names}
         _require(set(request_classes) == protocols == set(response_classes), "exact_codec_map_required")
         for protocol in protocols:
             for classes, direction in ((request_classes, "Request"), (response_classes, "Response")):
-                _require(classes[protocol]().DESCRIPTOR.full_name == PROTO_NAMES[protocol] + "." + direction,
+                _require(classes[protocol]().DESCRIPTOR.full_name == self._proto_names[protocol] + "." + direction,
                          "protobuf_protocol_class_mismatch")
         self._requests, self._responses = dict(request_classes), dict(response_classes)
         self._verified_bindings = None
@@ -275,7 +281,7 @@ class SimulateCodec:
     def encode_request(self, profile, action, serial):
         """Build one exact offline request; no session facts or permissions arise."""
         _require(_profile(profile)["id"] == self._profile["id"], "codec_profile_changed")
-        _require(type(action) is str and action in WIRE_ACTIONS, "action_not_allowed")
+        _require(type(action) is str and action in self._actions, "action_not_allowed")
         _require(_uint(serial, 32), "request_serial_invalid")
         bindings = self._verified_bindings
         if bindings is not None:
@@ -287,7 +293,7 @@ class SimulateCodec:
         with self._session_lock:
             expected = {"c2s": self._expected(action, serial)}
             values = _request_values(expected)
-            protocol = WIRE_ACTIONS[action][1]
+            protocol = self._actions[action][1]
             try:
                 message = self._requests[protocol](**values)
                 _require(message.IsInitialized(), "protobuf_required_fields_missing")
@@ -302,6 +308,13 @@ class SimulateCodec:
 
     def session_binding(self):
         with self._session_lock:
+            return self._session_binding
+
+    def accepted_session_binding(self, channel):
+        """Return safe session identity only after this codec accepted a handshake."""
+        _require(channel in ("quote", "trade"), "handshake_channel_invalid")
+        with self._session_lock:
+            _require(channel in self._accepted_channels, "accepted_handshake_required")
             return self._session_binding
 
     def accept_handshake(self, profile, channel, serial, raw_frame):
@@ -337,7 +350,7 @@ class SimulateCodec:
 
     def _expected(self, action, serial):
         order, session = self._profile["order"], self._session
-        channel, protocol = WIRE_ACTIONS.get(action, (None, None))
+        channel, protocol = self._actions.get(action, (None, None))
         _require(protocol in self._requests and self._profile["wire_bounds"]["actions"].get(action, 0) > 0,
                  "action_not_allowed")
         if action.endswith("_init"):
@@ -366,6 +379,8 @@ class SimulateCodec:
             return {"market": 0, "secType": 0, "securityList": security, "header": {"securityFirm": 0}}
         if action == "quote_snapshot":
             return {"securityList": security, "header": {"securityFirm": 0}}
+        if action == "quote_market_state":
+            return {"securityList": security, "header": {"securityFirm": 0}}
         packet = {"connID": conn, "serialNo": serial}
         if action == "trade_submit":
             return {"packetID": packet, "header": header, "trdSide": {"BUY": 1, "SELL": 2}[order["side"]],
@@ -390,7 +405,7 @@ class SimulateCodec:
     def validate_request(self, profile, action, frame):
         value = _profile(profile)
         _require(value["id"] == self._profile["id"], "codec_profile_changed")
-        protocol = WIRE_ACTIONS.get(action, (None, None))[1]
+        protocol = self._actions.get(action, (None, None))[1]
         _require(protocol in self._requests, "action_not_allowed")
         info = inspect_frame(frame, protocol=protocol, max_frame_bytes=value["wire_bounds"]["max_frame_bytes"])
         message = _decode(self._requests[protocol], frame[HEADER_BYTES:], request=True)
@@ -401,12 +416,12 @@ class SimulateCodec:
 
     def response_header(self, profile, action, serial, header):
         _require(_profile(profile)["id"] == self._profile["id"], "codec_profile_changed")
-        return parse_header(header, protocol=WIRE_ACTIONS[action][1], serial=serial,
+        return parse_header(header, protocol=self._actions[action][1], serial=serial,
                             max_frame_bytes=self._profile["wire_bounds"]["max_frame_bytes"])[1]
 
     def decode_response(self, profile, action, serial, frame):
         _require(_profile(profile)["id"] == self._profile["id"], "codec_profile_changed")
-        protocol = WIRE_ACTIONS[action][1]
+        protocol = self._actions[action][1]
         inspect_frame(frame, protocol=protocol, serial=serial,
                       max_frame_bytes=self._profile["wire_bounds"]["max_frame_bytes"])
         message = _decode(self._responses[protocol], frame[HEADER_BYTES:], request=False)

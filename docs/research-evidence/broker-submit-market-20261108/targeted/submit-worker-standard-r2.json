@@ -1,0 +1,30 @@
+{
+  "scope": "STANDARD_JSON_FAKE_PROTOCOL_WITH_REAL_WORKER_TCP_SQLITE_NOT_ACTUAL_PROTOBUF",
+  "files": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_response_facts.py": "bf581d9da10c23b782514da90b3d3cdcc80aae9cd581d4dc340f4fb575e2d7db",
+    "outputs/python_quant_bot/tests/test_terminal_broker_market_state_facts.py": "22e507666efe479c5bf53d010126460e88d28d9ad0bc188425b67747da1f1ad3",
+    "outputs/python_quant_bot/tests/broker_submit_market_fixture.py": "51c3084168849a0400c4c5f25a3a46f1b81f1e19486c6209f7dac2a64e628727",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_worker.py": "c5cc5aaee70bd7db2f23b042f8292aa2794ab4cf213438d9e2ccf966dafad9df"
+  },
+  "facts_revision": {
+    "tests": 19,
+    "passed": 19,
+    "seconds": 0.246,
+    "console_evidence_only": true,
+    "change": "V3 handshake retMsg omitted from typed presence; v2 golden unchanged"
+  },
+  "worker": {
+    "tests": 3,
+    "passed": 3,
+    "seconds": 6.468,
+    "log": "submit-worker-standard-r2.log"
+  },
+  "first_standard_run": {
+    "tests": 3,
+    "passed": 2,
+    "failures": 1,
+    "reason": "Test wrongly expected successful supervisor protocol status for deliberate exit 1; original supervisor correctly returned UNKNOWN. Corrected assertion only.",
+    "console_evidence_only": true
+  },
+  "source_runtime": "W3 actual editable installation; no SDK imported"
+}

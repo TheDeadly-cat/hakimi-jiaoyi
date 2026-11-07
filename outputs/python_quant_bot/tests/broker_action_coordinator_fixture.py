@@ -62,7 +62,7 @@ class Connection:
             if len(self.pending) == 44 + header[6]:
                 protocol, serial = header[2], header[5]
                 action = self.channel + "_init" if protocol == 1001 else next(
-                    k for k, v in wire.WIRE_ACTIONS.items() if v == (self.channel, protocol))
+                    k for k, v in wire.actions_for_profile(self.fixture.profile).items() if v == (self.channel, protocol))
                 response = self.fixture.responses.get(action)
                 if callable(response):
                     response = response(action, serial)
@@ -88,7 +88,8 @@ class Connection:
 
 class Fixture:
     def __init__(self, root, *, workspace="workspace-a", evidence="evidence-a", permits=True,
-                 initialize=True, record_domain="SYNTHETIC_TEST", wire_bounds_changes=None, endpoint=None):
+                 initialize=True, record_domain="SYNTHETIC_TEST", wire_bounds_changes=None, endpoint=None,
+                 profile_factory=None, codec_factory=None, initialize_operations=True):
         self.root = Path(root).resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         origin = self.root / "synthetic-clock-origin.txt"
@@ -124,11 +125,13 @@ class Fixture:
             intent = self.service._broker().prepare_intent(dict(mode=SIM, request_id="fictional-intent-0001",
                 config_id=saved["config_id"]))
             assert intent["intent"] == self.args["candidate_intent"]
-        self.profile = wire.prepare_wire_profile(**self.args)
-        self.codec = cf.make_codec(self.profile, quote_connection_id=None, quote_user_id=None,
-            trade_connection_id=None, trade_user_id=None)
+        self.profile = (profile_factory or wire.prepare_wire_profile)(**self.args)
+        self.codec = (codec_factory(self.profile) if codec_factory is not None else
+            cf.make_codec(self.profile, quote_connection_id=None, quote_user_id=None,
+                trade_connection_id=None, trade_user_id=None))
         self.operations = []
-        for index, action in enumerate(("trade_connect", "trade_init", "trade_submit", "trade_observe", "trade_cancel", "trade_fees")):
+        initial_actions = ("trade_connect", "trade_init", "trade_submit", "trade_observe", "trade_cancel", "trade_fees")
+        for index, action in enumerate(initial_actions if initialize_operations else ()):
             identity = "coordinator-" + action
             frame = b"" if action.endswith("_connect") else cf.request_frame(action, index)
             permit = coordinator.synthetic_test_permit(shared_root=self.bound, profile=self.profile,

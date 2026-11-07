@@ -19,9 +19,13 @@ import time
 from . import terminal_broker_execution_plan as contract
 from .terminal_broker_account_control import SharedBrokerRoot, _anchor
 from .terminal_broker_execution_journal import request as request_id
-from .terminal_broker_response_facts import SUPPORTED_ACTIONS, verify_response_facts
+from .terminal_broker_response_facts import supported_actions_for_profile, verify_response_facts
 from .terminal_broker_scoped_transport import ScopedTransport
-from .terminal_broker_wire_profile import VerifiedWireProfile, WIRE_ACTIONS
+from .terminal_broker_wire_profile import (
+    VerifiedWireProfile, WIRE_ACTIONS_V3, SCHEMA as PROFILE_SCHEMA,
+    SCHEMA_V3 as PROFILE_SCHEMA_V3, actions_for_profile,
+)
+from .terminal_broker_submit_observation import VerifiedSubmitObservation, validate_submit_observation
 from .terminal_workspace_history import _no_links, _safe
 
 
@@ -65,16 +69,35 @@ def synthetic_test_permit(*, shared_root, profile, operation_id, action, frame,
     The typed host root comes from the host, never a renderer-selected directory.
     Permission fields remain false and the grant is labelled synthetic throughout.
     """
+    return _synthetic_permit(shared_root=shared_root, profile=profile, operation_id=operation_id,
+        action=action, frame=frame, local_revision=local_revision, account_revision=account_revision,
+        issued_at=issued_at, expires_at=expires_at, profile_schema=PROFILE_SCHEMA)
+
+
+def synthetic_test_permit_v3(*, shared_root, profile, operation_id, action, frame,
+                             local_revision, account_revision, issued_at, expires_at,
+                             submit_observation=None, session_binding=None):
+    """Distinct synthetic v3 admission; submit cannot omit its original observations."""
+    return _synthetic_permit(shared_root=shared_root, profile=profile, operation_id=operation_id,
+        action=action, frame=frame, local_revision=local_revision, account_revision=account_revision,
+        issued_at=issued_at, expires_at=expires_at, profile_schema=PROFILE_SCHEMA_V3,
+        submit_observation=submit_observation, session_binding=session_binding)
+
+
+def _synthetic_permit(*, shared_root, profile, operation_id, action, frame, local_revision,
+                      account_revision, issued_at, expires_at, profile_schema,
+                      submit_observation=None, session_binding=None):
     _require(type(shared_root) is SharedBrokerRoot and shared_root.domain == "SYNTHETIC_TEST",
              "synthetic_host_root_required")
     _anchor(shared_root)
     _require(type(profile) is VerifiedWireProfile, "typed_profile_required")
     value = profile.as_dict()
+    _require(value["schema_version"] == profile_schema, "permit_profile_version_mismatch")
     _require(value["research_eligibility"]["offline_only"] and
              value["protocol_policy"]["production_transport_available"] is False,
              "synthetic_offline_profile_required")
     request_id(operation_id)
-    _require(action in WIRE_ACTIONS and type(frame) is bytes, "bounded_operation_required")
+    _require(action in actions_for_profile(value) and type(frame) is bytes, "bounded_operation_required")
     for revision in (local_revision, account_revision):
         _require(type(revision) is int and revision >= 0, "control_revision_required")
     start, end = contract._time(issued_at), contract._time(expires_at)
@@ -88,6 +111,16 @@ def synthetic_test_permit(*, shared_root, profile, operation_id, action, frame,
         frame_sha256=sha256(frame).hexdigest() if frame else None, frame_bytes=len(frame),
         local_revision=local_revision, account_revision=account_revision,
         issued_at=start.isoformat(), expires_at=end.isoformat(), permissions=dict(contract.PERMISSIONS))
+    if profile_schema == PROFILE_SCHEMA_V3:
+        body.update(schema_version="hakimi-scoped-action-permit-v2",
+            admission="SYNTHETIC_REQUIRED_OBSERVATIONS_V1", submit_observation_id=None)
+        if action == "trade_submit":
+            _require(type(submit_observation) is VerifiedSubmitObservation, "submit_observation_required")
+            validate_submit_observation(profile, submit_observation, session_binding=session_binding, now=start)
+            body["submit_observation_id"] = submit_observation.as_dict()["id"]
+        else:
+            _require(submit_observation is None and session_binding is None,
+                     "observation_not_applicable_to_operation")
     return ActionPermit(contract.canonical_bytes(dict(body, id=contract.digest(body))), _TOKEN)
 
 
@@ -100,10 +133,11 @@ class BoundOperation:
     permit: ActionPermit | None = None
     broker_order_id: str | None = None
     cash_evidence_id: str | None = None
+    submit_observation: VerifiedSubmitObservation | None = None
 
     def __post_init__(self):
         request_id(self.operation_id)
-        _require(type(self.action) is str and self.action in WIRE_ACTIONS and type(self.frame) is bytes,
+        _require(type(self.action) is str and self.action in WIRE_ACTIONS_V3 and type(self.frame) is bytes,
                  "bound_operation_invalid")
         connect = self.action in {"quote_connect", "trade_connect"}
         _require((connect and not self.frame) or (not connect and 44 < len(self.frame) <= 65536),
@@ -111,6 +145,8 @@ class BoundOperation:
         _require(self.permit is None or type(self.permit) is ActionPermit, "typed_permit_required")
         if self.cash_evidence_id is not None:
             contract._hash(self.cash_evidence_id)
+        _require(self.submit_observation is None or (self.action == "trade_submit"
+            and type(self.submit_observation) is VerifiedSubmitObservation), "typed_submit_observation_required")
 
 
 class _EvidenceSink:
@@ -158,7 +194,7 @@ class _DispatchGate:
         owner, operation = self.owner, self.owner._active
         _require(operation is not None and permit is operation.permit, "active_operation_required")
         owner._validate_permit(operation)
-        channel = WIRE_ACTIONS[operation.action][0]
+        channel = owner._actions[operation.action][0]
         _require(context["profile_id"] == owner.value["id"] and context["action"] == operation.action
             and context["channel"] == channel and context["mode"] == owner.value["mode"]
             and context["account_scope_id"] == owner.journal.account_scope_id
@@ -196,6 +232,7 @@ class ActionCoordinator:
         _require(type(service) is TerminalResearchService and type(profile) is VerifiedWireProfile,
                  "trusted_service_and_profile_required")
         self.service, self.profile, self.value, self.codec = service, profile, profile.as_dict(), codec
+        self._actions = actions_for_profile(self.value)
         self.clock, self.factory = clock or SystemClock(), connection_factory
         self.config_id = self.value["candidate_config"]["id"]
         self.journal = service.broker_execution_journal(mode=self.value["mode"], config_id=self.config_id)
@@ -222,6 +259,9 @@ class ActionCoordinator:
 
     def register(self, operation):
         _require(type(operation) is BoundOperation and not self._closed, "trusted_bound_operation_required")
+        _require(operation.action in self._actions, "operation_profile_version_mismatch")
+        if self.value["schema_version"] == PROFILE_SCHEMA:
+            _require(operation.submit_observation is None, "v2_observation_not_applicable")
         _require(operation.operation_id not in self._operations and len(self._operations) < 50,
                  "operation_already_bound_or_capacity")
         self._operations[operation.operation_id] = operation
@@ -247,7 +287,11 @@ class ActionCoordinator:
                  "permit_identity_changed")
         # Current production admission remains unavailable. This is a versioned
         # admission boundary, not an interpretation of false permission flags.
-        _require(self.journal.domain == "SYNTHETIC_TEST" and permit["admission"] == "SYNTHETIC_TEST_DEPENDENCY"
+        v3 = self.value["schema_version"] == PROFILE_SCHEMA_V3
+        expected_admission = "SYNTHETIC_REQUIRED_OBSERVATIONS_V1" if v3 else "SYNTHETIC_TEST_DEPENDENCY"
+        expected_schema = "hakimi-scoped-action-permit-v2" if v3 else "hakimi-scoped-action-permit-v1"
+        _require(self.journal.domain == "SYNTHETIC_TEST" and permit["admission"] == expected_admission
+            and permit["schema_version"] == expected_schema
             and permit["record_domain"] == self.journal.domain
             and self.value["research_eligibility"]["offline_only"]
             and self.value["protocol_policy"]["production_transport_available"] is False,
@@ -261,16 +305,45 @@ class ActionCoordinator:
             and permit["frame_bytes"] == len(operation.frame) and permit["permissions"] == contract.PERMISSIONS,
             "permit_scope_changed")
         now = contract._now(self.clock.utcnow())
+        previous_clock = self._last_clock
+        if v3:
+            # Remember denied future observations too: a clock correction must
+            # not resurrect a bundle already seen beyond its expiry.
+            self._last_clock = max(now, previous_clock) if previous_clock is not None else now
         _require(contract._time(permit["issued_at"]) <= now < contract._time(permit["expires_at"])
-            and (self._last_clock is None or now >= self._last_clock), "permit_expired_or_clock_regressed")
+            and (previous_clock is None or now >= previous_clock), "permit_expired_or_clock_regressed")
         self._last_clock = now
+        if v3:
+            if operation.action == "trade_submit":
+                _require(type(operation.submit_observation) is VerifiedSubmitObservation,
+                         "submit_observation_required")
+                _require(permit.get("submit_observation_id") == operation.submit_observation.as_dict()["id"],
+                         "permit_observation_binding_changed")
+                validate_submit_observation(self.profile, operation.submit_observation,
+                    session_binding=self._submit_session(), now=now)
+            else:
+                _require(permit.get("submit_observation_id") is None and operation.submit_observation is None,
+                         "observation_not_applicable_to_operation")
+
+    def _submit_session(self):
+        _require({"quote", "trade"} <= self._initialized and {"quote", "trade"} <= self._connected,
+                 "both_current_handshakes_required")
+        quote = self.codec.accepted_session_binding("quote")
+        trade = self.codec.accepted_session_binding("trade")
+        _require(quote.as_dict() == trade.as_dict(), "accepted_session_changed")
+        return quote
 
     def _expected_payload(self, operation):
         _require(type(operation.permit) is ActionPermit, "AUTHORIZATION_REQUIRED")
-        return dict(profile=self.value, action=operation.action, operation_id=operation.operation_id,
+        payload = dict(profile=self.value, action=operation.action, operation_id=operation.operation_id,
             frame_sha256=sha256(operation.frame).hexdigest() if operation.frame else None,
             frame_bytes=len(operation.frame), authorization_id=operation.permit.as_dict()["id"],
             broker_order_id=operation.broker_order_id)
+        if self.value["schema_version"] == PROFILE_SCHEMA_V3 and operation.action == "trade_submit":
+            _require(type(operation.submit_observation) is VerifiedSubmitObservation,
+                     "submit_observation_required")
+            payload["submit_observation"] = operation.submit_observation.as_dict()
+        return payload
 
     def read(self, operation_id):
         operation = self._operation(operation_id)
@@ -335,7 +408,7 @@ class ActionCoordinator:
             _require(not self._closed, "coordinator_closed")
             self._validate_permit(operation)
             _require(callable(self.factory), "CONNECTION_FACTORY_UNAVAILABLE")
-            channel = WIRE_ACTIONS[operation.action][0]
+            channel = self._actions[operation.action][0]
             if operation.frame:
                 _require(channel in self._connected, "NO_ACTIVE_CONNECTION_NO_RESTART")
                 _require(operation.action.endswith("_init") or channel in self._initialized,
@@ -347,19 +420,23 @@ class ActionCoordinator:
             _require(saved == self.value["candidate_config"] and intent == self.value["candidate_intent"],
                      "original_candidate_changed")
             try:
+                observation_arguments = {}
+                if self.value["schema_version"] == PROFILE_SCHEMA_V3 and operation.action == "trade_submit":
+                    observation_arguments = dict(submit_observation=operation.submit_observation,
+                        session_binding=self._submit_session())
                 if operation.action == "trade_submit":
                     contract._hash(operation.cash_evidence_id)
                     claim_id = "claim-" + sha256(operation_id.encode()).hexdigest()
                     claim = self.journal.claim(self.profile, evidence_id=operation.cash_evidence_id,
                         authorization_id=operation.permit.as_dict()["id"], request_id=claim_id,
-                        control_barrier=lambda: self._barrier(operation))
+                        control_barrier=lambda: self._barrier(operation), **observation_arguments)
                     if claim["replayed"]:
                         return dict(self.read(operation_id), status="UNKNOWN", reason="PRIOR_CLAIM_NO_AUTOMATIC_RESUME")
                 expected = self._expected_payload(operation)
                 action = self.journal.begin_action(self.profile, operation.action, request_id=operation_id,
                     frame_sha256=expected["frame_sha256"], frame_bytes=expected["frame_bytes"],
                     authorization_id=expected["authorization_id"], broker_order_id=operation.broker_order_id,
-                    control_barrier=lambda: self._barrier(operation))
+                    control_barrier=lambda: self._barrier(operation), **observation_arguments)
             except Exception as error:
                 # A failed reply is not proof of rollback, and even a recovered
                 # commit must never cause this invocation to begin transport.
@@ -396,7 +473,7 @@ class ActionCoordinator:
                     broker_order_id=None, write_attempted=bool(operation.frame) and outcome.status != "NOT_WRITTEN",
                     response_complete=outcome.status == "RESPONSE_RECEIVED")
                 self.journal.outcome(operation_id, observed, request_id="outcome-" + sha256(operation_id.encode()).hexdigest())
-                if outcome.status == "RESPONSE_RECEIVED" and operation.action in SUPPORTED_ACTIONS:
+                if outcome.status == "RESPONSE_RECEIVED" and operation.action in supported_actions_for_profile(self.value):
                     facts = verify_response_facts(profile=self.profile, codec=self.codec,
                         action_receipt=action["receipt"], expected_action_receipt_id=action["receipt"]["id"],
                         request_frame=operation.frame, response_frame=self._sink.response(operation),

@@ -25,7 +25,8 @@ from threading import RLock
 from types import MappingProxyType, ModuleType
 
 from ..services import terminal_broker_execution_plan as contract
-from ..services.terminal_broker_wire_profile import PINNED_SDK_VERSION, PINNED_WHEEL_SHA256
+from ..services.terminal_broker_wire_profile import (PINNED_SDK_VERSION, PINNED_WHEEL_SHA256,
+    SCHEMA as PROFILE_SCHEMA, SCHEMA_V3 as PROFILE_SCHEMA_V3)
 
 
 SCHEMA = "hakimi-verified-futu-protobuf-v1"
@@ -38,6 +39,7 @@ PROTO_NAMES = MappingProxyType({1001: "InitConnect", 1002: "GetGlobalState", 200
     2101: "Trd_GetFunds", 2102: "Trd_GetPositionList", 3202: "Qot_GetStaticInfo",
     3203: "Qot_GetSecuritySnapshot", 2202: "Trd_PlaceOrder", 2201: "Trd_GetOrderList",
     2205: "Trd_ModifyOrder", 2225: "Trd_GetOrderFee"})
+PROTO_NAMES_V3 = MappingProxyType({**PROTO_NAMES, 3223: "Qot_GetMarketState"})
 MAX_FILE = 64 * 1024 * 1024
 MAX_TOTAL = 128 * 1024 * 1024
 MAX_MEMBERS = 4096
@@ -333,7 +335,14 @@ class VerifiedProtobufBindings:
         return self.as_dict()
 
 
-def _load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_identity):
+def _protocols_for_schema(profile_schema):
+    _require(type(profile_schema) is str and profile_schema in (PROFILE_SCHEMA, PROFILE_SCHEMA_V3),
+             "PROFILE_SCHEMA_UNSUPPORTED")
+    return PROTO_NAMES if profile_schema == PROFILE_SCHEMA else PROTO_NAMES_V3
+
+
+def _load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_identity,
+                            profile_schema=PROFILE_SCHEMA):
     """Explicit trusted-worker call, once per fresh -I -S -B private process.
 
     The guard remains installed for this dedicated worker's lifetime. It never
@@ -342,6 +351,7 @@ def _load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_i
     """
     global _attempted
     _private_process()  # Reject ordinary host/repository calls before file IO.
+    protocols = _protocols_for_schema(profile_schema)
     _require(type(runtime_identity) is contract.VerifiedRuntimeIdentity, "TRUSTED_RUNTIME_IDENTITY_REQUIRED")
     with _lock:
         _require(not _attempted, "NEW_PRIVATE_WORKER_REQUIRED")
@@ -388,7 +398,7 @@ def _load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_i
                 if type(cached) is str and Path(cached).exists():
                     _require(Path(cached).is_relative_to(root), "PRELOADED_BYTECODE_OUTSIDE_PACKAGE")
                     files.read(Path(cached).relative_to(root).as_posix())
-        pending = [name + "_pb2" for name in PROTO_NAMES.values()]
+        pending = [name + "_pb2" for name in protocols.values()]
         pb, descriptors = {}, {}
         while pending:
             name = pending.pop()
@@ -423,7 +433,7 @@ def _load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_i
                 setattr(namespace, name, module)
                 sys.modules[namespace_name + "." + name] = module
             requests, responses = {}, {}
-            for proto, name in PROTO_NAMES.items():
+            for proto, name in protocols.items():
                 module = modules[name + "_pb2"]
                 _require(module.Request.DESCRIPTOR.full_name == name + ".Request" and
                          module.Response.DESCRIPTOR.full_name == name + ".Response", "PROTOCOL_CLASS_IDENTITY_MISMATCH")
@@ -449,7 +459,7 @@ def _load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_i
                              and module.DESCRIPTOR.serialized_pb == descriptors[name]
                              and pool.FindFileByName(name[:-4] + ".proto") is module.DESCRIPTOR,
                              "DESCRIPTOR_OR_ALIAS_CHANGED", name)
-                for proto, name in PROTO_NAMES.items():
+                for proto, name in protocols.items():
                     module = modules[name + "_pb2"]
                     _require(module.Request is requests[proto] and module.Response is responses[proto]
                              and pool.FindMessageTypeByName(name + ".Request") is requests[proto].DESCRIPTOR
@@ -466,9 +476,11 @@ def _load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_i
                     "sdk": runtime["sdk"], "protobuf": {"version": PROTOBUF_VERSION, "wheel_sha256": PROTOBUF_WHEEL_SHA256},
                     "namespace": namespace_name, "loaded_files": files.identities,
                     "protocols": {str(proto): {"name": name, "request": name + ".Request", "response": name + ".Response"}
-                                  for proto, name in PROTO_NAMES.items()},
+                                  for proto, name in protocols.items()},
                     "source_identity_only": True, "runtime_compatibility": "NOT_VERIFIED",
                     "production_transport_available": False, "permissions": dict(contract.PERMISSIONS)}
+            if profile_schema == PROFILE_SCHEMA_V3:
+                body["profile_schema"] = profile_schema
             body["id"] = contract.digest(body)
             return VerifiedProtobufBindings(requests, responses, contract.canonical_bytes(body), verify, _TOKEN)
         except ProtobufLoaderError:
@@ -477,7 +489,8 @@ def _load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_i
             raise ProtobufLoaderError("VERIFIED_PROTOBUF_IMPORT_FAILED", type(error).__name__) from error
 
 
-def load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_identity):
+def load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_identity,
+                           profile_schema=PROFILE_SCHEMA):
     """Load once in the trusted isolated worker; return byte-source identity only.
 
     Hashes and package_root must come from the worker/bootstrap, never an HTTP
@@ -486,7 +499,7 @@ def load_verified_protobuf(*, package_root, expected_manifest_sha256, runtime_id
     try:
         return _load_verified_protobuf(package_root=package_root,
                                       expected_manifest_sha256=expected_manifest_sha256,
-                                      runtime_identity=runtime_identity)
+                                      runtime_identity=runtime_identity, profile_schema=profile_schema)
     except ProtobufLoaderError:
         raise
     except (OSError, ValueError, TypeError, KeyError, SyntaxError) as error:
