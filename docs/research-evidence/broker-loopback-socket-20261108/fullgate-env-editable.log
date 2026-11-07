@@ -1,0 +1,13 @@
+Obtaining file:///C:/Users/Administrator/.codex/worktrees/broker-loopback-socket-20261108/%E5%93%88%E5%9F%BA%E7%B1%B3v2%E4%BA%A4%E6%98%93
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: hakimi-research
+  Building editable for hakimi-research (pyproject.toml): started
+  Building editable for hakimi-research (pyproject.toml): finished with status 'done'
+  Created wheel for hakimi-research: filename=hakimi_research-0.6.0.dev5-0.editable-py3-none-any.whl size=11345 sha256=239d849102753662c9989bfdf9215f35226a30538ef6706ecd32cb938c8268cc
+  Stored in directory: C:\Users\Administrator\AppData\Local\Temp\pip-ephem-wheel-cache-m23u5gv5\wheels\54\57\c1\15e5cee1d7531a145cacc7dd9723096f31129e7a777eb4f866
+Successfully built hakimi-research
+Installing collected packages: hakimi-research
+Successfully installed hakimi-research-0.6.0.dev5

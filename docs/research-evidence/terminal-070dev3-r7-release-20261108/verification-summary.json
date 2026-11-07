@@ -1,0 +1,136 @@
+{
+  "schema_version": "hakimi-public-release-verification-summary-v1",
+  "status": "PUBLISHED_CANDIDATE_VERIFIED",
+  "source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+  "release_id": 437755706,
+  "bundle_id": "9720f8274d460c20662cf9551b15b6ddc9bed5d5ccc4c3cb0312d815d094c0cf",
+  "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+  "source_ci": {
+    "run_id": 42398287158,
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/42398287158",
+    "source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "conclusion": "success",
+    "jobs_success": 11,
+    "evidence": "publication receipt"
+  },
+  "package": {
+    "status": "PASS",
+    "program_files": 9091,
+    "zip_members": 9092,
+    "source_provenance_files": 1058,
+    "source_copied_files": 1051,
+    "all_directory_and_zip_member_hashes_verified": true,
+    "exact_git_commit_bytes_verified": true,
+    "embedded_ui_count": 18,
+    "node_syntax_checks": 19,
+    "private_business_files": 0,
+    "private_guard_attempts": {
+      "socket": 0,
+      "subprocess": 0,
+      "sqlite": 0,
+      "server_import": 0,
+      "sdk_import": 0
+    },
+    "package_bytes_unchanged_after_checks": true
+  },
+  "execution_scope": {
+    "packaging_synthetic_runs": 1,
+    "additional_package_verification_economic_runs": 0,
+    "market_data_runs": 0,
+    "historical_replays": 0,
+    "provider_calls": 0,
+    "listening_servers": 0
+  },
+  "broker_default_denial": {
+    "untrusted_permit_denied": true,
+    "package_spec_identity_bound": true,
+    "in_process_bytesio_fixture": true,
+    "input_kind": "STOP_ONLY",
+    "input_operation_count": 0,
+    "dispatch_admission": "UNAVAILABLE",
+    "result_status": "PROTOCOL_COMPLETE",
+    "cleanup_confirmed": true,
+    "coordinator_instantiated": false,
+    "execute_called": false,
+    "launch_called": false,
+    "worker_process_started": false,
+    "economic_acceptance": "NOT_INFERRED"
+  },
+  "published_asset_checks": {
+    "publication_receipt_checks": [
+      {
+        "name": "HakimiTrade-0.7.0.dev3-candidate-r7.zip",
+        "github_digest_matches_frozen_file": true,
+        "unauthenticated_head_status": 200,
+        "unauthenticated_content_length": 193297558
+      },
+      {
+        "name": "HakimiTrade-0.7.0.dev3-r7-trial-materials.zip",
+        "github_digest_matches_frozen_file": true,
+        "unauthenticated_head_status": 200,
+        "unauthenticated_content_length": 444897
+      },
+      {
+        "name": "release-SHA256SUMS-r7.txt",
+        "github_digest_matches_frozen_file": true,
+        "unauthenticated_head_status": 200,
+        "unauthenticated_content_length": 444
+      }
+    ],
+    "live_get_metadata_rechecked": true,
+    "head_download_checks_repeated_for_docs": false,
+    "materials_files": 14,
+    "materials_match_frozen_files": true,
+    "original_materials_unchanged": true,
+    "extra_files_packaged": 0,
+    "databases_packaged": 0
+  },
+  "acceptance": {
+    "r7_native": "NOT_PERFORMED",
+    "independent_windows": "NOT_PERFORMED",
+    "independent_novice_trials_completed": 0,
+    "ordinary_user_source_free_environment_confirmed": true,
+    "three_non_developer_participants_arrangeable": true,
+    "r6_native": "HISTORICAL_R6_EVIDENCE_ONLY",
+    "loopback_socket_engineering_in_r7": false,
+    "publication_enabled_external_trading": false
+  },
+  "documentation_update": {
+    "product_tests_run": 0,
+    "application_started": false,
+    "release_or_asset_mutation": false,
+    "scope": "Summarize existing receipts and read public release metadata; no source or runtime change"
+  },
+  "retained_receipt_hashes": [
+    {
+      "scope": "publication",
+      "filename": "r7-publication-receipt-20261108.json",
+      "sha256": "27b95a456df47a68d285602469c15126245c97ff71467243de3ae57089703084"
+    },
+    {
+      "scope": "build",
+      "filename": "build-result.json",
+      "sha256": "19b0bfdd26a1fc5dfdcd917e4bef73e94c8be95200d6a3802734a9d41c796db2"
+    },
+    {
+      "scope": "package",
+      "filename": "package-verification-r1.json",
+      "sha256": "3ffc05e2f2b801ee859488f09f1be12ce25a07ecf46d66c1cd7325c3396c73be"
+    },
+    {
+      "scope": "attachments",
+      "filename": "release-attachment-verification-r1.json",
+      "sha256": "583589ec1cee5de37d3ab51f2fb0c7c79f7f0a92dc8ce48deb966e6d3ceb8b0f"
+    },
+    {
+      "scope": "handoff",
+      "filename": "handoff.json",
+      "sha256": "815913f1f5df5fb6fc2a8aef1bd1e7a1278dafeedc3af9babf978726d8c7035b"
+    },
+    {
+      "scope": "trial_readiness",
+      "filename": "novice-trial-readiness-20261108-r2.json",
+      "sha256": "c25a76b3cdb17ae7edd919ce92fabc29f03ad707c1c04815f5a6873f7b9ecd15"
+    }
+  ]
+}

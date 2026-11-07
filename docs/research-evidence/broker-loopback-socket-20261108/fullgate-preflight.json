@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-11-07T18:29:50.827151+00:00",
+  "interpreter": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-loopback-venv\\Scripts\\python.exe",
+  "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+  "canonical_import_path": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-loopback-socket-20261108\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+  "direct_url": {
+    "dir_info": {
+      "editable": true
+    },
+    "url": "file:///C:/Users/Administrator/.codex/worktrees/broker-loopback-socket-20261108/%E5%93%88%E5%9F%BA%E7%B1%B3v2%E4%BA%A4%E6%98%93"
+  },
+  "pythonpath": "",
+  "futu_sdk_installed": false,
+  "dependency_versions": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "python-dateutil": "2.9.0.post0",
+    "six": "1.17.0",
+    "tzdata": "2026.2",
+    "exchange-calendars": "4.13.2",
+    "pyluach": "2.3.0",
+    "toolz": "1.1.0",
+    "korean-lunar-calendar": "0.4.0",
+    "setuptools": "82.0.1"
+  },
+  "source_sha256": {
+    "tools/run_terminal_contracts.py": "fca42577ae104acfc8a267f4beff6412b598f58134d54c2e6ae7b60a642f970d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_loopback_socket.py": "f41fd513923c2a00e742e2153224a339b2ef76f0f8607ede464b1a4212933c4d",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "bb6fb09e727ee744f1048c28287d08f673831555bb2cf9748582a8c5929b82e6",
+    "outputs/python_quant_bot/tests/broker_loopback_server_fixture.py": "e4f8b2f20c320e40dfb8044b5c94ca124d72dec6f939c3f9db02af7c3d3f758f",
+    "outputs/python_quant_bot/tests/test_terminal_broker_loopback_socket.py": "c90e261a48f14a84845cf9e9f239cb4a7daefa48fcaa58f2274b42e6c14390de",
+    "outputs/python_quant_bot/tests/test_terminal_broker_loopback_integration.py": "2899a379e9ccdbd80e2eae7902d31c22794ecc64ef063cf6a92162ff212ed1dd"
+  },
+  "venv_config": "home = C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\ninclude-system-site-packages = false\nversion = 3.14.6\nexecutable = C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-action-venv\\Scripts\\python.exe\ncommand = C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-action-venv\\Scripts\\python.exe -m venv C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-broker-loopback-venv\n",
+  "test_type": "full terminal contract runner with editable canonical installation in independent venv; not packaged/runtime/production acceptance",
+  "pip_check": "No broken requirements found."
+}

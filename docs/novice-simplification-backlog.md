@@ -1,5 +1,9 @@
 # 新手使用整改与验收（U01–U12）
 
+2026-11-08 当前试用入口：**[r7公开预发布](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.7.0.dev3-r7)** · [下载Windows程序](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/HakimiTrade-0.7.0.dev3-candidate-r7.zip) · [下载试用说明与记录卡](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/HakimiTrade-0.7.0.dev3-r7-trial-materials.zip) · [SHA256清单](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/release-SHA256SUMS-r7.txt)。源码`708ec3f`与[CI177](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/42398287158)11/11成功绑定，9091程序文件/9092 ZIP项核对通过；[发布身份及验证范围](research-evidence/terminal-070dev3-r7-release-20261108/README.md)另列。
+
+U02的准确候选已公开交付；**r7原生、独立Windows与3名新手仍为0次实际验收**，全目标尚未完成。普通用户、只复制程序包不放源码的另一台Windows已确认可安排，三名未参与开发者也可安排。r6原生记录保留历史身份；后续本机回环连接工程未打入r7，不改变公开包的范围。
+
 2026-11-08 CI跟进：[Windows短路径工作区修复](research-evidence/ci175-workspace-path-20261108/README.md)。06d9744的CI175暴露真实路径别名问题，原失败保留；修复后普通/短路径专项各15项、完整短路径后端823项通过。
 
 目标来源：用户2026-11-07《哈基米交易：新手极简化检查与执行大纲》，原文SHA256 `8dd2c68429bd9dd3f15db4b599fb52e8928a720a5eca8b843f722013d77b38a1`。完整范围为12个工作包、20个验收场景；它补充[原30项清单](astra-backlog.md)，不改写历史任务的完成身份。
@@ -17,7 +21,7 @@
 | 包 | 状态 | 当前改动或事实 | 结案证据与下一步 |
 |---|---|---|---|
 | U01 收益卡 | DOING | 权益、净变化、收益率、回撤及现金/持仓首屏；单位分别处理，缺失不补零，费用不二扣 | 专项及组件通过；r6本机虚构教学显示100→98.97 USD、净变化−1.03、收益−1.03%、回撤1.03%，重开相同。真人理解待验 |
-| U02 准确且可取得的候选 | DOING | r6/e9e46fc已构建并备妥本机交付材料，9089程序文件/9090 ZIP项核对；未公开，r5保留 | 本机原生保存/重开已验证；两个显示问题的后续修复及新U12未在r6。公开交付、独立Windows与真人验收另列 |
+| U02 准确且可取得的候选 | DONE | r7/708ec3f已公开交付，9091程序文件/9092 ZIP项核对，CI177全部通过；程序、试用资料与校验清单可直接下载，r6/r5保留 | [公开候选及身份](research-evidence/terminal-070dev3-r7-release-20261108/README.md)已结案；此DONE仅指准确候选交付，r7原生、U10外机和U11真人验收仍待实际完成 |
 | U03 首用主线 | DOING | 教学输入→本金/任务→明确运行已在r6本机走通，只有一次虚构经济研究 | 浏览器草稿往返与同ID继续通过；r6仍有进度/空记录提示滞后，后续修复不能算入原包 |
 | U04 策略能力卡 | DOING | 九规则能力投影与3个教学模板已进入r6，完整目录保留 | 22项Python、14项界面及1440/390组件通过；量价趋势不支持本地模拟时钟，不作盈利排名。九卡逐项原生/真人待验 |
 | U05 本金贯穿 | DOING | 本金随任务冻结并传入实际包装器；演练并列研究本金，核对整股/费用 | 既有专项通过；r6本机保存100 USD任务和账户，200价格1股需201 USD、最多0股且确认禁用，0订单。其他本金/真人范围另验 |
@@ -25,9 +29,9 @@
 | U07 同一策略详情 | DOING | 精确报告/账户/计划在工作区持久保存，r6原生重开恢复同一版本与暂停状态 | 20业务文件不变，明确导航仅更新journey view/revision；新结果直接进入演练时名称/下拉显示缺陷另有源码修复，未进r6 |
 | U08 停止与剩余状态 | DOING | r6本机本地账户暂停后显示并保留100 USD、0持仓/订单/预留、1计划；重开仍暂停 | 39界面/26 Python及非零剩余组件证据保留；本次原生未发送订单或测试撤单/清仓，券商停止范围独立 |
 | U09 浏览器 | DOING | 实际HTTP首用、宽窄组件及r6包内NDAQ复制/重开/教学返回已验 | 与本机原生观察分别记录；两个显示修复已进4401d1f源码并通过整合桌面检查，新包/原生仍待验，不替代独立Windows |
-| U10 独立Windows | TODO | 另一台Windows可用；尚未记录无源码、非管理员环境实测 | 同一准确包完成一次任务/研究/计划并关闭重开；本机维护者试验不替代A19 |
-| U11 独立新手 | TODO | 可安排3位独立新手；尚无逐人实际结果，旧T17证据保持原状态 | 不演示按钮；5/10分钟目标、求助点和五个理解问题逐人记录，A20未完成 |
-| U12 真实交易工程 | DOING | [单操作协调器与受控worker](research-evidence/broker-action-coordinator-20261108/README.md)为partial里程碑，25项新增、848项完整门禁通过 | 不在r6；生产默认DENIED，实际socket/生产授权/前置事实/经济核算/OpenD兼容及单独外部授权仍缺 |
+| U10 独立Windows | TODO | 用户已确认另一台Windows可使用普通用户，只复制程序包、不放源码；实际验收0次 | 使用同一公开r7完成任务/研究/本地计划，关闭重开找回同一记录；本机r6维护者试验不替代A19 |
+| U11 独立新手 | TODO | 可安排3位未参与开发的独立试用者；实际完成0人，旧T17证据保持原状态 | 使用r7任务卡，不演示按钮；记录计划保存/同ID找回、是否重复保存、5/10分钟目标、求助点和理解问题，A20未完成 |
+| U12 真实交易工程 | DOING | [协调器与受控worker](research-evidence/broker-action-coordinator-20261108/README.md)源码已入r7；后续[固定本机TCP连接](research-evidence/broker-loopback-socket-20261108/README.md)通过原账本/worker的真实OS整合及877项完整合同检查 | 本机TCP后续源码不在r7，默认生产入口仍拒绝；生产授权装配、包内worker启动、行情/证券/费用事实、经济核算、OpenD兼容及具体外部授权仍待完成 |
 
 ## 必须覆盖的20场景
 

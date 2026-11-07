@@ -1,0 +1,29 @@
+{
+  "started_at": "2026-11-07T18:22:45.846719+00:00",
+  "finished_at": "2026-11-07T18:23:28.560239+00:00",
+  "seconds": 42.71279030000005,
+  "tests_run": 54,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "suite_counts": {
+    "test_terminal_broker_loopback_socket": 15,
+    "test_terminal_broker_loopback_integration": 14,
+    "test_terminal_broker_action_coordinator": 18,
+    "test_terminal_broker_worker_entrypoint": 7
+  },
+  "inputs_unchanged": true,
+  "source_base": "708ec3f08abdeeae2578726b765483c8c109daa9",
+  "source_worktree": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-loopback-socket-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+  "canonical_import_path": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-loopback-socket-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\src\\hakimi_research\\__init__.py",
+  "validation_scope": "targeted source contracts and owned loopback OS/worker; not complete gate or installed package",
+  "input_sha256": {
+    "tools/run_terminal_contracts.py": "fca42577ae104acfc8a267f4beff6412b598f58134d54c2e6ae7b60a642f970d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_loopback_socket.py": "f41fd513923c2a00e742e2153224a339b2ef76f0f8607ede464b1a4212933c4d",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "bb6fb09e727ee744f1048c28287d08f673831555bb2cf9748582a8c5929b82e6",
+    "outputs/python_quant_bot/tests/broker_loopback_server_fixture.py": "e4f8b2f20c320e40dfb8044b5c94ca124d72dec6f939c3f9db02af7c3d3f758f",
+    "outputs/python_quant_bot/tests/test_terminal_broker_loopback_socket.py": "c90e261a48f14a84845cf9e9f239cb4a7daefa48fcaa58f2274b42e6c14390de",
+    "outputs/python_quant_bot/tests/test_terminal_broker_loopback_integration.py": "2899a379e9ccdbd80e2eae7902d31c22794ecc64ef063cf6a92162ff212ed1dd"
+  },
+  "log_sha256": "f3e87f0871bdad40f64f357d9ecc180d7706f71c171bf7af5af91d90eb40b904"
+}
