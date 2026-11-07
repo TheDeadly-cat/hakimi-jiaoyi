@@ -1,0 +1,72 @@
+{
+  "schema_version": "hakimi-public-candidate-release-v1",
+  "status": "PUBLIC_PRERELEASE",
+  "repository": "TheDeadly-cat/hakimi-jiaoyi",
+  "release": {
+    "id": 437755706,
+    "tag": "v0.7.0.dev3-r7",
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.7.0.dev3-r7",
+    "source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "prerelease": true,
+    "draft": false,
+    "published_at_utc": "2026-11-07T18:22:05Z",
+    "published_date_asia_shanghai": "2026-11-08"
+  },
+  "metadata_rechecked": {
+    "method": "GitHub connector GET",
+    "observed_at_utc": "2026-11-07 18:35:53 UTC",
+    "tag_object_type": "commit",
+    "latest_stable_tag": "v0.2.1",
+    "endpoints": [
+      "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/releases/437755706",
+      "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/git/ref/tags/v0.7.0.dev3-r7",
+      "https://api.github.com/repos/TheDeadly-cat/hakimi-jiaoyi/releases/latest"
+    ]
+  },
+  "assets": [
+    {
+      "id": 721533075,
+      "name": "HakimiTrade-0.7.0.dev3-candidate-r7.zip",
+      "bytes": 193297558,
+      "sha256": "9d136498983732b915366242ddd0c347c0a6af833000ea182f3ea4e58247b45f",
+      "github_digest": "sha256:9d136498983732b915366242ddd0c347c0a6af833000ea182f3ea4e58247b45f",
+      "state": "uploaded",
+      "download_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/HakimiTrade-0.7.0.dev3-candidate-r7.zip"
+    },
+    {
+      "id": 721533077,
+      "name": "HakimiTrade-0.7.0.dev3-r7-trial-materials.zip",
+      "bytes": 444897,
+      "sha256": "dcf1c4dd6c2ea8c7052db499662fce0cc6caa5108821968038ba2fc191622deb",
+      "github_digest": "sha256:dcf1c4dd6c2ea8c7052db499662fce0cc6caa5108821968038ba2fc191622deb",
+      "state": "uploaded",
+      "download_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/HakimiTrade-0.7.0.dev3-r7-trial-materials.zip"
+    },
+    {
+      "id": 721533079,
+      "name": "release-SHA256SUMS-r7.txt",
+      "bytes": 444,
+      "sha256": "e3223aba13d4cb578c4c6fce3630e5de1658e8dcabe4200576697801e0b0cf6e",
+      "github_digest": "sha256:e3223aba13d4cb578c4c6fce3630e5de1658e8dcabe4200576697801e0b0cf6e",
+      "state": "uploaded",
+      "download_url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/release-SHA256SUMS-r7.txt"
+    }
+  ],
+  "source_ci": {
+    "run_id": 42398287158,
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/42398287158",
+    "source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "conclusion": "success",
+    "jobs_success": 11,
+    "evidence": "publication receipt"
+  },
+  "pull_request": {
+    "number": 26,
+    "url": "https://github.com/TheDeadly-cat/hakimi-jiaoyi/pull/26",
+    "state_at_publication": "open",
+    "draft_at_publication": true,
+    "merged_at_publication": false
+  },
+  "publication_enabled_external_trading": false,
+  "historical_materials_note": "The 14-file trial materials ZIP retains its frozen prepublication draft and identity; current publication status is this release identity."
+}

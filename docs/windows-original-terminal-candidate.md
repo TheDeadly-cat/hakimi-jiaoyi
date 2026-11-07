@@ -1,10 +1,28 @@
-# 哈基米交易 0.7.0.dev3：原终端候选
+# 哈基米交易 0.7.0.dev3 r7：Windows 试用候选
+
+当前可下载候选为 **r7 / 构建 `708ec3f`**，已于2026-11-08（北京时间）公开预发布：[Release 页面](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.7.0.dev3-r7)。这是试用候选；最新稳定版仍为 `v0.2.1`。
+
+| 下载 | 文件大小 |
+|---|---:|
+| [Windows 程序 ZIP](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/HakimiTrade-0.7.0.dev3-candidate-r7.zip) | 193,297,558 字节 |
+| [三步说明、外机验收卡和三人试用记录](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/HakimiTrade-0.7.0.dev3-r7-trial-materials.zip) | 444,897 字节 |
+| [SHA256 与大小清单](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/release-SHA256SUMS-r7.txt) | 444 字节 |
+
+程序 ZIP SHA256：`9d136498983732b915366242ddd0c347c0a6af833000ea182f3ea4e58247b45f`。把程序解压到新文件夹，打开 `HakimiTrade.exe`；试用资料和填写的记录留在程序文件夹外。
 
 这是包含整合原终端的 Windows x64 候选。入口是 `HakimiTrade.exe`，同一窗口内包含行情、研究任务、保存结果和原图表复盘。包内自带 Python、Electron、所需组件及资源，日常使用不依赖源码仓库或全局 Python。
 
-此页说明新候选的入口与操作。最终包身份以包内 `terminal-manifest.json` 的版本、构建提交和 bundle ID 为准；源码、打包探测、实际 Windows 操作和独立新手试用分别记录在 `astra-backlog.md`。尚未发布为正式 Release。
+最终包身份以包内 `terminal-manifest.json` 的版本、构建提交和 bundle ID 为准。r7 的[发布身份与验证摘要](research-evidence/terminal-070dev3-r7-release-20261108/README.md)绑定源码 `708ec3f08abdeeae2578726b765483c8c109daa9`；[CI177](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/42398287158) 已11/11成功，9,091个程序文件、9,092个ZIP条目、18个嵌入界面及19项脚本语法检查通过。三个公开附件的GitHub摘要与冻结文件一致，无认证下载入口已核对。
 
-当前已备妥供审查的候选为 **dev3 r6 / 构建 e9e46fc**，尚未公开发布。它包含教学首页、收益卡、本金设置、策略能力卡、旧行情明确复制和同一策略状态找回。9,089 个程序文件和 9,090 个 ZIP 条目逐项核对，18 个嵌入界面模块通过检查；完整身份与范围见[r6构建及本机验收](research-evidence/terminal-070dev3-r6-native-20261108/README.md)。
+r7 包含教学、收益、本金与状态找回功能，并修复r6发现的旧提示残留和进入演练时来源名称缺失。内部协调器仍默认拒绝外部派发；后续本机回环连接工程属于工作区的新源码，**不在r7中**。源码、打包、原生、独立Windows和新手理解分别验收。
+
+**r7原生流程、独立Windows和三人试用均尚未实测。** 用户已确认可安排普通用户、只复制程序包不放源码的另一台Windows，以及3名未参与开发者；准备好环境与人员不等于通过验收。r6维护者记录仅作为原版本历史。
+
+试用资料ZIP内的草稿和候选身份保留发布前冻结内容；当前公开状态以Release页面和本页发布摘要为准。试用任务包括保存本地演练计划、关闭重开找回同一计划并记录是否重复保存，不要求提交订单。
+
+## 历史候选与验收
+
+历史 **dev3 r6 / 构建 e9e46fc** 当时已备妥供审查、未公开发布，现保留原包和验收记录。它包含教学首页、收益卡、本金设置、策略能力卡、旧行情明确复制和同一策略状态找回。9,089 个程序文件和 9,090 个 ZIP 条目逐项核对，18 个嵌入界面模块通过检查；完整身份与范围见[r6构建及本机验收](research-evidence/terminal-070dev3-r6-native-20261108/README.md)。
 
 本机 r6 ZIP：`Downloads\Hakimi-Astra-Delivery-20261029\HakimiTrade-0.7.0.dev3-candidate-r6.zip`（193,287,621 字节）。SHA256：`b80c15efb69dadaaab749aa3e5502477057f343a3eb7d75dc8278413576b51e3`。Bundle：`7c1b0258545af44abf8f17106f640c10e8542076ed22a6300ba43545741981d4`。这是本地候选路径，不是已发布下载地址。
 
@@ -31,7 +49,7 @@
 ## 打开与第一次研究
 
 1. 把整个 ZIP 解压到新的文件夹，保留全部文件，双击 `HakimiTrade.exe`。不要用它覆盖旧 dev5 文件夹。
-2. 在研究工作台展开“工作区、版本与旧结果”，核对程序版本、构建提交和当前数据位置。默认新数据在 `%LOCALAPPDATA%\HakimiTradeTerminal\workspaces\default\runtime`；本次原生验收使用了独立的隔离工作区。
+2. 在研究工作台展开“工作区、版本与旧结果”，核对程序版本、构建提交和当前数据位置。默认新数据在 `%LOCALAPPDATA%\HakimiTradeTerminal\workspaces\default\runtime`；历史r6原生验收使用独立隔离工作区，r7原生流程仍待实际执行。
 3. 没有真实行情时，可明确点击“用示例体验一次”，再选策略和本金、保存任务；准备资料不会自动运行。示例是22日虚构教学资料，配套双均线2/4不改变标准默认值。原终端与股票核心的同名双均线规则身份不同，不能自动互换。
 4. 核对股票、数据、规则和费用。原终端九策略至少预热 80 条完整数据，还需两条用于执行窗口；长周期参数可能增加要求。界面显示已有、预热、可评分条数与区间。股票研究核心使用自己保存的规则要求，不套用原终端的 80 条。
 5. 保存后先确认任务名称和版本，再点击“运行这次回测”。保存、看详情和切换页面都不会自动计算。运行中不要重复点击。
