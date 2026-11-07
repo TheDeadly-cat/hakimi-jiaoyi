@@ -1,0 +1,16 @@
+{
+  "scope": "STANDARD_JSON_FAKE_PROTOCOL_ORIGINAL_WORKER_OWNED_TCP_SQLITE",
+  "tests": 4,
+  "passed": 4,
+  "unittest_seconds": 11.557,
+  "log": "order-worker-standard-r2.log",
+  "source": "C:\\Users\\Administrator\\.codex\\worktrees\\broker-order-identity-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+  "files": {
+    "outputs/python_quant_bot/tests/broker_order_identity_fixture.py": "2a706855ce0aba49a425787cc5c463691e977cbab32d6960f05f87df52f5d21d",
+    "outputs/python_quant_bot/tests/test_terminal_broker_order_identity_worker.py": "41ca5c2c452f2686a0eb92fe3c05565995cc947daa0c78d4a330a8d1205e4648",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_action_coordinator.py": "e1076551448c7547be3dda4dc8af7d06072928401f897641b207ac98cd58c8ad"
+  },
+  "actual_not_included": true,
+  "quote_loss_scope": "EXPLICIT_CONFIRMED_QUOTE_LOSS_STATE_INJECTION_AND_OWNED_SOCKET_CLOSE_NOT_PRODUCTION_FIN_DETECTION",
+  "product_deadlines_unchanged": true
+}

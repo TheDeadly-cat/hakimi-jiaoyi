@@ -1,0 +1,162 @@
+{
+  "adopted_identity_id": "ebfebae7d5d472212f61de71de754c77855df4c0b3521c48b7ad087d08840b40",
+  "final_broker_order_id": "fictional-order-44",
+  "initial_broker_order_id": null,
+  "io_order": [
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "06006371277bf1b7bf4fca4397563467c49bbab8cbf7ae4344ae207d60d377a4"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-quote_connect",
+      "receipt_id": "06006371277bf1b7bf4fca4397563467c49bbab8cbf7ae4344ae207d60d377a4"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_init",
+      "receipt_id": "e6128a63b5a44f2cba9c8461c79c3d4888eefd44b0cf6cce67dba298bfb7f7b2"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_runtime",
+      "receipt_id": "a72ae8deef5551f06aceb1153f77ac7e09a79af808ccf310b94db95c1772eac6"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_security",
+      "receipt_id": "4200fce92dd4f4a8b751406c956b3dfc159d5e1e2cd8a62adf378d2ed066df2b"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_snapshot",
+      "receipt_id": "b609fd2cceb9222179efee99073ea318cef6b7a14004aa74a8c55f6bebee6d95"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-quote_market_state",
+      "receipt_id": "ddbbc81a98b1e872901d9d11d04aa24201b3f994eaf1c67a12d2788b74c501ad"
+    },
+    {
+      "kind": "factory",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "e58ba980e50b3d52a6b3d04ddd23c209994acb009b354ac33e2673e5adb3cfb3"
+    },
+    {
+      "kind": "connect",
+      "operation_id": "submit-market-fixture-trade_connect",
+      "receipt_id": "e58ba980e50b3d52a6b3d04ddd23c209994acb009b354ac33e2673e5adb3cfb3"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-trade_init",
+      "receipt_id": "8813fcabdb4f05e9d481cdfbba5a2e170e66c7022f15f54d8923fc2eed366417"
+    },
+    {
+      "kind": "send",
+      "operation_id": "submit-market-fixture-trade_submit",
+      "receipt_id": "65500bbcb2d289318a0de96f3f8842b66402b3651c924b3c22680a3f8f5a26c3"
+    },
+    {
+      "kind": "send",
+      "operation_id": "order-identity-fixture-observe_before_cancel",
+      "receipt_id": "356621a1b16839f70134dd371a52b1d87e6d8d61f874fb714f73725733ab98c3"
+    }
+  ],
+  "preparation_error": null,
+  "private_flags": {
+    "dont_write_bytecode": 1,
+    "isolated": 1,
+    "no_site": 1
+  },
+  "protocol_layer": "ACTUAL_PINNED_PROTOBUF_SYNTHETIC_VALUES",
+  "scenario_notes": [
+    {
+      "action": "quote_runtime",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.286949400004232
+    },
+    {
+      "action": "quote_security",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.2305769000086
+    },
+    {
+      "action": "quote_snapshot",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.2901982000039425
+    },
+    {
+      "action": "quote_market_state",
+      "kind": "FIXED_NEXT_QUOTE_BOUND_BEFORE_TRADE_INIT",
+      "preparation_seconds": 4.43497760000173
+    },
+    {
+      "identity_id": "ebfebae7d5d472212f61de71de754c77855df4c0b3521c48b7ad087d08840b40",
+      "kind": "FIXED_FOLLOWUP_FROM_ORIGINAL_JOURNAL_IDENTITY",
+      "name": "observe_before_cancel",
+      "preparation_seconds": 4.388650699998834
+    },
+    {
+      "identity_id": "ebfebae7d5d472212f61de71de754c77855df4c0b3521c48b7ad087d08840b40",
+      "kind": "FIXED_FOLLOWUP_FROM_ORIGINAL_JOURNAL_IDENTITY",
+      "name": "cancel",
+      "preparation_seconds": 4.250238199994783
+    }
+  ],
+  "original_report_sha256": "9bac9e41379c05bf84bf72c86abee7e5922742a5c7c6668fbefc3e1529c6ba8e",
+  "actual_loader": {
+    "allowed_endpoint": {
+      "host": "127.0.0.1",
+      "port": 54994
+    },
+    "bootstrap_stages": [
+      {
+        "seconds": 0.006594099992071278,
+        "stage": "manifest_and_guards_ready"
+      },
+      {
+        "seconds": 1.3337713999935659,
+        "stage": "actual_package_identity_checked"
+      },
+      {
+        "seconds": 1.8524339999858057,
+        "stage": "application_closure_preloaded_protobuf_cold"
+      },
+      {
+        "seconds": 13.917251899998519,
+        "stage": "actual_verified_bindings_ready"
+      },
+      {
+        "seconds": 25.632455199985998,
+        "stage": "order_identity_fixture_bound"
+      }
+    ],
+    "cash_snapshots_allowed": "EXPLICIT_INDEPENDENT_SYNTHETIC_FIXTURE_ONLY",
+    "guard_counters": {
+      "database": 119,
+      "dns_denied": 0,
+      "external_endpoint_denied": 0,
+      "futu_import_denied": 0,
+      "socket_bind": 0,
+      "socket_connect": 2,
+      "subprocess": 0,
+      "writes": 51
+    },
+    "manifest_sha256": "db2e63e4b02a49d35bcfe612ce28e6a2dc26e1bf9677ffbf015a5d91a372859c",
+    "order_operations_allowed": "SYNTHETIC_OWNED_PEER_ONLY",
+    "package_source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+    "private_flags": {
+      "dont_write_bytecode": 1,
+      "ignore_environment": 1,
+      "isolated": 1,
+      "no_site": 1
+    },
+    "production_package_bootstrap_acceptance": false,
+    "r7_contains_current_source": false,
+    "scope": "R7_PRIVATE_RUNTIME_PLUS_HASHED_CURRENT_SOURCE_TEST_ASSEMBLY",
+    "source_authenticated": false,
+    "synthetic_values": true
+  }
+}

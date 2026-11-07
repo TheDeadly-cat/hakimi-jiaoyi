@@ -1,0 +1,79 @@
+[
+  {
+    "case": "test_foreign_order_response_is_retained_without_replacing_original_ack_identity",
+    "accepts": 2,
+    "received_frames": 8,
+    "errors": [],
+    "closed_channels": [
+      "quote",
+      "trade"
+    ],
+    "original_artifact_count": 55,
+    "workers": [
+      {
+        "report": "first-report.json",
+        "io_events": 12,
+        "socket_connect": 2
+      }
+    ]
+  },
+  {
+    "case": "test_injected_confirmed_quote_loss_preserves_trade_query_and_cancel_without_reconnect",
+    "accepts": 2,
+    "received_frames": 9,
+    "errors": [],
+    "closed_channels": [
+      "quote",
+      "trade"
+    ],
+    "original_artifact_count": 59,
+    "workers": [
+      {
+        "report": "first-report.json",
+        "io_events": 13,
+        "socket_connect": 2
+      }
+    ]
+  },
+  {
+    "case": "test_original_ack_identity_drives_observe_cancel_observe_and_read_only_recovery",
+    "accepts": 2,
+    "received_frames": 10,
+    "errors": [],
+    "closed_channels": [
+      "quote",
+      "trade"
+    ],
+    "original_artifact_count": 71,
+    "workers": [
+      {
+        "report": "first-report.json",
+        "io_events": 14,
+        "socket_connect": 2
+      },
+      {
+        "report": "recovery-report.json",
+        "io_events": 0,
+        "socket_connect": 0
+      }
+    ]
+  },
+  {
+    "case": "test_shared_stop_after_ack_preserves_original_identity_without_followup_send",
+    "accepts": 2,
+    "received_frames": 7,
+    "errors": [],
+    "closed_channels": [
+      "quote",
+      "trade"
+    ],
+    "original_artifact_count": 51,
+    "workers": [
+      {
+        "report": "first-report.json",
+        "io_events": 11,
+        "socket_connect": 2
+      }
+    ]
+  }
+]
