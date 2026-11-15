@@ -1,0 +1,11 @@
+{
+  "helper_sha256": "70796ca5076061ce4b9b055aa9dddf759deb1d9988a64953c4a88aed9af044eb",
+  "scenario_sha256": "3c9627bfb02d2483274045dab7a28ebf2330b096b4c9a6ad10f93ea4dd2a528d",
+  "readme_sha256": "3b00fb1862d8bf2d165668e3f3bc53822cd012714ec8469dcd4e775f9e137938",
+  "root_review": "ONE_LINE_MISSING_OLD_PROTECTED_ALIAS_BOTH_PATHS_ABSENT_AFTER_EXACT_MAPPING_AND_REPARSE_CHECK",
+  "retained_failures": [
+    "native-dev3-window-r7-20261108-r1/failure-prepare-baseline.json",
+    "native-dev3-window-r7-20261108-r2/failure-prepare-baseline.json"
+  ],
+  "native_started": false
+}

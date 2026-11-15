@@ -6,6 +6,7 @@
     const completedTasks = new Map();
     let completed = null;
     let savedTask = null;
+    let savedTaskMessage = null;
     let readSelection = 0;
     const validDetail = (value,id = value?.id) => Boolean(value && typeof id === "string" && id.length > 0
       && id.length <= 160 && value.id === id && value.summary?.id === id
@@ -158,6 +159,11 @@
       }
       completed=result;
       const taskId=recordedIdentity(result,"task_id");if(taskId)completedTasks.set(taskId,result);
+      // Retire only the earlier save guidance owned by this exact task. A late
+      // completion must not clear a newer task's message or an unrelated error.
+      if(taskId && savedTaskMessage?.taskId===taskId && state.message===savedTaskMessage.message) {
+        state.message=null;savedTaskMessage=null;
+      }
       const target=panel("completed");target.hidden=false;
       target.innerHTML=`<strong>股票研究回测已完成，结果已保存。</strong>${identityText(result)}${readButton("查看已保存结果",result.id)}`;
       // The operation receipt is a saved result even if the subsequent status
@@ -191,7 +197,13 @@
     }
     async function present(callback,result,action) {
       if(action==="run_task" && !validDetail(result))return;
-      try { await callback(result); if(action==="run_task")clearRenderedDetail(); }
+      try {
+        await callback(result);
+        if(["create_task","revise_task","copy_task"].includes(action) && identity(result?.task_id)
+          && state.message?.kind==="info" && ["任务已创建","任务新版本已保存"].includes(state.message.title))
+          savedTaskMessage={taskId:result.task_id,message:state.message};
+        if(action==="run_task")clearRenderedDetail();
+      }
       catch(error) {readFailure(action==="run_task"?"presentation":"refresh",error,result?.id);}
     }
     function operationError(action,job,error,target) {

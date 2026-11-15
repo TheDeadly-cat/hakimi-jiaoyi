@@ -156,6 +156,19 @@ class QuantWorkspaceTests(unittest.TestCase):
         self.assertEqual(self.terminal("guard-gated-request")["status"], "succeeded")
         self.assertEqual(len(service.calls), 1)
 
+    def test_accepted_context_is_readable_but_new_factors_require_derived_source_guard(self):
+        service = self.load()
+        self.module._mutation_guard = lambda: {"schema_version": "hakimi-runtime-build-v1", "status": "BLOCK", "restart_required": True}
+        context_path = "/api/quant/terminal_accepted_rule_context/%7B%7D"
+        factors_path = "/api/quant/terminal_accepted_factors/%7B%7D"
+        self.assertEqual(self.request(context_path)[0], 200)
+        status, _, raw = self.request(factors_path)
+        self.assertEqual(status, 400); self.assertIn("source_changed_restart_required", raw.decode())
+        self.assertEqual(service.calls, []); self.assertFalse(self.module.pending)
+        self.module._mutation_guard = lambda: {"schema_version": "hakimi-runtime-build-v1", "status": "PASS", "restart_required": False}
+        self.assertEqual(self.request(factors_path)[0], 200)
+        self.assertEqual(service.calls, []); self.assertFalse(self.module.pending)
+
     def test_exact_security_boundaries_precede_loading_and_writes(self):
         request = {"request_id": "quant-protected-request", "payload": {}}
         cases = [

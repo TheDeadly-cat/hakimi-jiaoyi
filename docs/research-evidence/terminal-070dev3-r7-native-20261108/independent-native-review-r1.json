@@ -1,0 +1,182 @@
+{
+  "schema_version": "hakimi-independent-native-evidence-review-v1",
+  "reviewed_at": "2026-11-07T23:03:18.175719+00:00",
+  "status": "MATCHES_SCOPED_NATIVE_SYNTHETIC_SAVE_REOPEN_SCENARIO",
+  "source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+  "bundle_id": "9720f8274d460c20662cf9551b15b6ddc9bed5d5ccc4c3cb0312d815d094c0cf",
+  "record_domain": "SYNTHETIC_TEST",
+  "method": {
+    "evidence_only": true,
+    "ui_operator": "root native window observations",
+    "independent_ui_json_review": "r7_helper_review",
+    "source_sqlite_opened": false,
+    "copied_sqlite_opened_by_reviewer": false,
+    "product_imports": false,
+    "business_api_calls": 0,
+    "app_launches_by_reviewer": 0,
+    "economic_runs_created_by_reviewer": 0,
+    "original_receipts_modified": false
+  },
+  "identities": {
+    "research": {
+      "run_id": "2045e955d5a62c781cdd5cfc841f7711d88f6e0fae3deb09d7f2da2be87a8ee2",
+      "task_id": "f21479c3ee0b5093725f8fc8e4b6facbf231ccfae3b303a1948c1a6fea5d5079",
+      "report_hash": "f94e5a1c98a3a87c3177367961eb7dd4a9988f089e827692749fd2aea1fa3b3c",
+      "version_id": "r0001-2015a52722bd4ca1a912b701c3c253be",
+      "input_id": "9ee0e617ef80a0a373fbb3d50f626d7784d51af9ea0e8dce00ae946960b7450b",
+      "evidence_kind": "SYNTHETIC_TEST",
+      "initial_cash": 100,
+      "core_run_id": "e1f269a5399bbcaa5c6f2c38"
+    },
+    "account_id": "sim-96054efc-cbb7-4273-a337-e4bd12a3d9c2",
+    "plan_id": "02a8415ccc124601c65f113783dc67543b516a6f7003a9ea3cdb9b96e606afb3",
+    "order_id": "9b3bf0885cc5d51b8ab677f2a623366803a8db2b7de8a951934f9b9ecd922e37"
+  },
+  "first_native_evidence": {
+    "teaching_input_rows": 22,
+    "saved_task_versions": 1,
+    "explicit_research_runs": 1,
+    "research_initial_cash": 100,
+    "research_final_equity": 98.97471115384614,
+    "ui_research_final_equity": "98.97 USD",
+    "insufficient_preview": {
+      "quantity": 1,
+      "limit_price": "200",
+      "available_cash": "100",
+      "required_including_fee_buffer": "201",
+      "confirmation_button_disabled": true,
+      "no_200_price_order_in_ledger": true
+    },
+    "accepted_local_order": {
+      "side": "BUY",
+      "quantity": 1,
+      "limit_price": "20",
+      "state": "ACCEPTED",
+      "filled": 0,
+      "charged_fee": "0",
+      "cancel_state": null
+    },
+    "cash": "100",
+    "reserved_cash": "21",
+    "available_cash": "79",
+    "reservation_basis": "1 * 20 + fee_buffer 1; reservation is not a fill or charged fee",
+    "paused": true,
+    "stop_reason": "用户在订单核对页明确暂停新增风险",
+    "recorded_actions": [
+      "CREATE_PLAN",
+      "SUBMIT_SYNTHETIC",
+      "STOP"
+    ],
+    "account_table_counts": {
+      "events": 5,
+      "fills": 0,
+      "marks": 1,
+      "meta": 1,
+      "observations": 0,
+      "opportunities": 1,
+      "orders": 1,
+      "plans": 1,
+      "positions": 0,
+      "requests": 3
+    }
+  },
+  "reopen_verification": {
+    "closed_snapshot_files_verified_per_copy": 21,
+    "business_file_sha256_and_bytes_unchanged": true,
+    "account_all_exported_schema_and_table_rows_unchanged": true,
+    "account_sqlite_sha256": "5319df4b0e9e2960ce74777b947b5c4c8bc64fb93914efa516b17d683b45e98e",
+    "all_research_plan_order_identities_unchanged": true,
+    "plan_report_version_input_bindings_verified": true,
+    "only_changed_file": "ui/strategy-journey-v1.sqlite3",
+    "journey_business_anchors_unchanged": true,
+    "journey_old_requests_preserved": 4,
+    "journey_new_navigation_requests": 1,
+    "journey_revision": [
+      4,
+      5
+    ],
+    "journey_view": [
+      "execution",
+      "results"
+    ],
+    "reopen_ui_requires_explicit_complete_reconciliation": true,
+    "no_automatic_resume_new_order_fill_cancel_or_research": true,
+    "full_plan_id_proof": "closed ledger and plan/report bindings; UI shows selected plan and count 1 but does not display full plan id",
+    "research_ui_identity": "first full run id; reopen same short id, task/version, original UTC run time and saved result"
+  },
+  "helper_protection_receipts": {
+    "both_closes_owned_processes_exited": true,
+    "both_closes_program_bytes_unchanged": true,
+    "old_protected_file_count": 306,
+    "old_protected_hash_size_mtime_unchanged": true,
+    "protection_basis": "frozen helper close receipts; reviewer did not rescan protected original paths",
+    "isolated_broker_shared_unchanged": true
+  },
+  "limits": [
+    "Saved-parameter and cutoff-date factor panel explicitly remains unavailable for this native report source; factor validation is NOT completed.",
+    "Native observation is a local isolated SYNTHETIC_TEST scenario, not an independent Windows ordinary-user device trial or an independent novice participant trial; their actual acceptance records remain separate.",
+    "No real broker/OpenD/market-data/model/account interaction or real order execution is established by this evidence.",
+    "Native UI shows the plan selection/count; complete plan identity is proved by closed evidence, not by an assumed visible full UI plan id.",
+    "This does not establish profitability or strategy effectiveness; the fictional research result is a saved synthetic calculation.",
+    "W3/W4 later broker engineering is not included in the fixed r7 source.",
+    "Historical r1 and r2 prepare failures remain preserved; successful r3 does not rewrite them."
+  ],
+  "evidence": {
+    "root-scenario-r1.json": {
+      "sha256": "3c9627bfb02d2483274045dab7a28ebf2330b096b4c9a6ad10f93ea4dd2a528d",
+      "bytes": 2654
+    },
+    "native_r7_tools.py": {
+      "sha256": "70796ca5076061ce4b9b055aa9dddf759deb1d9988a64953c4a88aed9af044eb",
+      "bytes": 39763
+    },
+    "root-tool-freeze-r3.json": {
+      "sha256": "7ed888b67acc9367b9df0f1ee688b61341c246f74db9c6b9c4e0eef4a6abb044",
+      "bytes": 586
+    },
+    "ui-first-observations.json": {
+      "sha256": "90d240f0953a6c8c28229df09e035b53612457ca2d0a6b4c3305421d2a062831",
+      "bytes": 477845
+    },
+    "ui-reopen-observations.json": {
+      "sha256": "e769acbf654010b512363410000ded0edb485efca5936088a3c2b6593670ba35",
+      "bytes": 94354
+    },
+    "first-closed.json": {
+      "sha256": "6d7f62dac680b1fe0629464623b93ce9b2e31af7d5c7046f0886942bcbb316cc",
+      "bytes": 10056
+    },
+    "reopen-closed.json": {
+      "sha256": "78955dd534413f7f34d92ecb757f6a372fb6fd308efac91bba349eec7cee6ce3",
+      "bytes": 12059
+    },
+    "first-closed/scenario-summary.json": {
+      "sha256": "2df85247053e99817ec4da16eba50b7c7316113a78e4eacbb5202bb0f9b5566e",
+      "bytes": 6567
+    },
+    "reopen-closed/scenario-summary.json": {
+      "sha256": "b2a4aed3a08ba6a3cfa916a493991586eca40a9d37a1f7184a586605c151feab",
+      "bytes": 6565
+    },
+    "first-closed/sqlite-evidence.json": {
+      "sha256": "01a4b886cd5bbd7e9efd9621693a922a05f790796e472f7a1b6beee56456fe8f",
+      "bytes": 21350
+    },
+    "reopen-closed/sqlite-evidence.json": {
+      "sha256": "3f77385abb486d56877a728c2078d50ed79917ac2448e7350c5341a2099e4f59",
+      "bytes": 22354
+    },
+    "first-closed/snapshot-proof.json": {
+      "sha256": "469d9fe1776854789f95e11dd60c80499ffe0aa4011dbb06ece893c78d88f15a",
+      "bytes": 11338
+    },
+    "reopen-closed/snapshot-proof.json": {
+      "sha256": "09272c4d0062356b41a8af8fe4a0ea1aaf00a7a533b439ae96ab0b5b7e7ba619",
+      "bytes": 11339
+    },
+    "reopen-closed/reopen-comparison.json": {
+      "sha256": "0d4cd8570a6c5c3cfd8f75bd63a86169bb71c911694d0916db6768c3c2148615",
+      "bytes": 1546
+    }
+  }
+}

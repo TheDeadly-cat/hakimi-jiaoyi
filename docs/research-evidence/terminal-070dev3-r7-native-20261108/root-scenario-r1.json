@@ -1,0 +1,45 @@
+{
+  "schema_version": "hakimi-native-trial-scenario-v1",
+  "status": "PLANNED_NOT_EXECUTED",
+  "candidate": "0.7.0.dev3-r7",
+  "source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+  "bundle_id": "9720f8274d460c20662cf9551b15b6ddc9bed5d5ccc4c3cb0312d815d094c0cf",
+  "scope": "MAINTAINER_NATIVE_WINDOW_ON_THIS_PC_NOT_INDEPENDENT_WINDOWS_OR_NOVICE_TRIAL",
+  "record_domain": "SYNTHETIC_TEST",
+  "task_name": "r7原生教学-100美元",
+  "account_label": "r7原生合成账户-100美元",
+  "actions": [
+    "Prepare the original 22-row fictional teaching example once through the native UI.",
+    "Save one original dual-MA 2/4 teaching task with initial capital 100 USD; inspect completed save and progress feedback.",
+    "Explicitly run once and inspect capital, total assets, net change, drawdown, fees and data/mode wording.",
+    "Enter local order practice from that same result; inspect that the original task name remains visible.",
+    "Create one local SYNTHETIC_TEST account with 100 USD and save one plan bound to the same report.",
+    "Preview 1 share at 200 USD; verify 201 USD including the 1 USD fee reserve exceeds capital and confirmation is disabled.",
+    "Preview 1 share at 20 USD with a fresh explicit fictional quote/time; record exactly one local synthetic response ACCEPTED, not filled.",
+    "Pause new risk, inspect 1 unfinished order, cash 100 USD, reserved 21 USD and available cash 79 USD; no fill, cancel or resume.",
+    "Close normally, collect closed evidence, reopen the same package/workspace, and read the original task/result/account/plan/order without creating another run or order.",
+    "Navigate to the original report if needed, then close normally and compare all business records; separate navigation-only changes."
+  ],
+  "expected_counts_if_completed": {
+    "teaching_inputs": 1,
+    "tasks": 1,
+    "research_runs": 1,
+    "local_accounts": 1,
+    "local_plans": 1,
+    "local_orders": 1,
+    "fill_observations": 0,
+    "external_broker_orders": 0
+  },
+  "financial_expectation": {
+    "currency": "USD",
+    "initial_cash": "100",
+    "cash_after_acceptance": "100",
+    "reserved_cash": "21",
+    "available_cash": "79",
+    "note": "An expected local synthetic reservation, not an observed result or real account balance; any mismatch must be reported, not substituted."
+  },
+  "ui_actions_by": "root through the Computer Use window APIs only",
+  "helper_scope": "Protection baseline, explicit isolated launch, and read-only closed-copy verification; no business imports, API mutations or research execution by the helper.",
+  "external_data_or_account_access": false,
+  "completed": false
+}

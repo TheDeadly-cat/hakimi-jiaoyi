@@ -2,7 +2,7 @@
 
 2026-11-08 当前试用入口：**[r7公开预发布](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.7.0.dev3-r7)** · [下载Windows程序](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/HakimiTrade-0.7.0.dev3-candidate-r7.zip) · [下载试用说明与记录卡](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/HakimiTrade-0.7.0.dev3-r7-trial-materials.zip) · [SHA256清单](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/download/v0.7.0.dev3-r7/release-SHA256SUMS-r7.txt)。源码`708ec3f`与[CI177](https://github.com/TheDeadly-cat/hakimi-jiaoyi/actions/runs/42398287158)11/11成功绑定，9091程序文件/9092 ZIP项核对通过；[发布身份及验证范围](research-evidence/terminal-070dev3-r7-release-20261108/README.md)另列。
 
-U02的准确候选已公开交付；r7原生验收仍待完成，**独立Windows与3名新手的实际验收记录尚未回收**，不据此推断是否已经开始，全目标尚未完成。普通用户、只复制程序包不放源码的另一台Windows已确认可安排，三名未参与开发者也可安排。r6原生记录保留历史身份；后续本机回环、查询资料、W3必需观察条件及W4原订单身份接线均未打入r7，不改变公开包的范围。
+U02的准确候选已公开交付；[r7本机维护者原生验收](research-evidence/terminal-070dev3-r7-native-20261108/README.md)已完成教学研究、合成订单接受、暂停及关闭重开，**独立Windows与3名新手的实际验收记录尚未回收**，不据此推断是否已经开始，全目标尚未完成。普通用户、只复制程序包不放源码的另一台Windows已确认可安排，三名未参与开发者也可安排。r6原生记录保留历史身份；后续本机回环、查询资料、W3必需观察条件及W4原订单身份接线均未打入r7，不改变公开包的范围。
 
 当前W4[原订单确认与后续请求接线](research-evidence/broker-order-identity-20261108/README.md)已从原journal完整ACK链取得可信编号，成功保存/读回后自动接入同一codec，再执行原订单查询、撤单、再次查询；原12个操作ID只读恢复无新增连接/发送。缺号、保存不明、错号及停止边界保留。已确认行情通道失联的故障注入中，交易通道查询/撤单继续；此项不证明新增生产FIN检测能力。v2及旧v3金样原件回读保持。
 
@@ -13,6 +13,8 @@ W4最终完整terminal **1016/1016** 与实际protobuf `run-r3-final` **4/4** �
 目标来源：用户2026-11-07《哈基米交易：新手极简化检查与执行大纲》，原文SHA256 `8dd2c68429bd9dd3f15db4b599fb52e8928a720a5eca8b843f722013d77b38a1`。完整范围为12个工作包、20个验收场景；它补充[原30项清单](astra-backlog.md)，不改写历史任务的完成身份。
 
 本轮起点：交付分支 `codex/p0-m32-research-integration-20261022`，干净提交 `76c0522eb12ad2c3b6adb506eca56bcefd5ae75b`；该提交CI174已实际核对11/11成功，PR正文的排队状态已改正。上一个目标轮产生源码提交、实际页面验证和GitHub更新，分类为“取得进展”。当前冻结r5目录仍为 `b642227`，不得在那里编辑。旧Documents、已安装包、历史报告、UNKNOWN/T3继续保留。
+
+2026-11-15 [默认教学结果的历史因子与完成提示修复](research-evidence/accepted-strategy-factors-20261115/README.md)：为原核心双均线结果接入独立的参数/截止日核对和前日、当日交叉解释；完成研究后移除同一任务的旧保存提示。实际HTTP页面已走通教学→结果→演练预览→两种持仓情景，并重开原记录只读核对；没有重复经济运行或订单。本批是后续源码，不在公开r7内，也不替代其他策略、外机、真人或真实交易验收。
 
 ## 工作包与证明要求
 
@@ -25,7 +27,7 @@ W4最终完整terminal **1016/1016** 与实际protobuf `run-r3-final` **4/4** �
 | 包 | 状态 | 当前改动或事实 | 结案证据与下一步 |
 |---|---|---|---|
 | U01 收益卡 | DOING | 权益、净变化、收益率、回撤及现金/持仓首屏；单位分别处理，缺失不补零，费用不二扣 | 专项及组件通过；r6本机虚构教学显示100→98.97 USD、净变化−1.03、收益−1.03%、回撤1.03%，重开相同。真人理解待验 |
-| U02 准确且可取得的候选 | DONE | r7/708ec3f已公开交付，9091程序文件/9092 ZIP项核对，CI177全部通过；程序、试用资料与校验清单可直接下载，r6/r5保留 | [公开候选及身份](research-evidence/terminal-070dev3-r7-release-20261108/README.md)已结案；此DONE仅指准确候选交付，r7原生、U10外机和U11真人验收仍待实际完成 |
+| U02 准确且可取得的候选 | DONE | r7/708ec3f已公开交付，9091程序文件/9092 ZIP项核对，CI177全部通过；程序、试用资料与校验清单可直接下载，r6/r5保留 | [公开候选及身份](research-evidence/terminal-070dev3-r7-release-20261108/README.md)已结案；此DONE仅指准确候选交付；r7本机维护者原生流程已完成，U10外机和U11真人仍待实际记录 |
 | U03 首用主线 | DOING | 教学输入→本金/任务→明确运行已在r6本机走通，只有一次虚构经济研究 | 浏览器草稿往返与同ID继续通过；r6仍有进度/空记录提示滞后，后续修复不能算入原包 |
 | U04 策略能力卡 | DOING | 九规则能力投影与3个教学模板已进入r6，完整目录保留 | 22项Python、14项界面及1440/390组件通过；量价趋势不支持本地模拟时钟，不作盈利排名。九卡逐项原生/真人待验 |
 | U05 本金贯穿 | DOING | 本金随任务冻结并传入实际包装器；演练并列研究本金，核对整股/费用 | 既有专项通过；r6本机保存100 USD任务和账户，200价格1股需201 USD、最多0股且确认禁用，0订单。其他本金/真人范围另验 |
@@ -35,7 +37,7 @@ W4最终完整terminal **1016/1016** 与实际protobuf `run-r3-final` **4/4** �
 | U09 浏览器 | DOING | 实际HTTP首用、宽窄组件及r6包内NDAQ复制/重开/教学返回已验 | 与本机原生观察分别记录；两个显示修复已进4401d1f源码并通过整合桌面检查，新包/原生仍待验，不替代独立Windows |
 | U10 独立Windows | TODO | 用户已确认另一台Windows可使用普通用户，只复制程序包、不放源码；实际验收记录尚未回收，不推断是否已经开始 | 使用同一公开r7完成任务/研究/本地计划，关闭重开找回同一记录；本机r6维护者试验不替代A19 |
 | U11 独立新手 | TODO | 可安排3位未参与开发的独立试用者；实际验收记录尚未回收，不推断是否已经开始，旧T17证据保持原状态 | 使用r7任务卡，不演示按钮；记录计划保存/同ID找回、是否重复保存、5/10分钟目标、求助点和理解问题，A20未完成 |
-| U12 真实交易工程 | DOING | [协调器与受控worker](research-evidence/broker-action-coordinator-20261108/README.md)已入r7；W3[必需观察条件](research-evidence/broker-submit-market-20261108/README.md)保持。W4[可信原订单身份](research-evidence/broker-order-identity-20261108/README.md)从完整journal ACK自动接入同一codec，已走原查询/撤单/再次查询与12原ID只读恢复；缺号、保存不明、错号及stop边界保留。最终terminal1016/1016、实际protobuf4/4通过；已确认quote-loss注入不阻断trade查询/撤单，非新增生产FIN检测 | W3/W4后续源码均不在r7。虚构报文/合成资金验证不等于完整交易准入；生产账户/行情权限、价格来源及时效、合法价量、真实资金/归属持仓/费用、生产装配、OpenD兼容及完整成交/经济核对链仍待完成。原生验收待完成，外机/真人记录尚未回收 |
+| U12 真实交易工程 | DOING | [协调器与受控worker](research-evidence/broker-action-coordinator-20261108/README.md)已入r7；W3[必需观察条件](research-evidence/broker-submit-market-20261108/README.md)保持。W4[可信原订单身份](research-evidence/broker-order-identity-20261108/README.md)从完整journal ACK自动接入同一codec，已走原查询/撤单/再次查询与12原ID只读恢复；缺号、保存不明、错号及stop边界保留。最终terminal1016/1016、实际protobuf4/4通过；已确认quote-loss注入不阻断trade查询/撤单，非新增生产FIN检测 | W3/W4后续源码均不在r7。虚构报文/合成资金验证不等于完整交易准入；生产账户/行情权限、价格来源及时效、合法价量、真实资金/归属持仓/费用、生产装配、OpenD兼容及完整成交/经济核对链仍待完成。r7本机维护者原生流程已完成；外机/真人记录尚未回收 |
 
 ## 必须覆盖的20场景
 

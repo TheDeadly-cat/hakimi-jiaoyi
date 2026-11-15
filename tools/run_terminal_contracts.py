@@ -27,6 +27,7 @@ TEST_FILES = (
     "test_terminal_ai_evidence.py",
     "test_terminal_ai_strategy_binding.py",
     "test_terminal_candidate_service.py",
+    "test_terminal_accepted_factors.py",
     "test_terminal_broker_candidate_service.py",
     "test_terminal_broker_account_control.py",
     "test_terminal_broker_account_control_integration.py",

@@ -1,0 +1,5 @@
+{
+  "scope": "ORIGINAL_GATE_WITH_FAILURE_ONLY_EXTERNAL_OBSERVATION",
+  "failures_captured": 0,
+  "unchanged_assertions_and_limits": true
+}

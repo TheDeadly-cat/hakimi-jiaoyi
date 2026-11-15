@@ -41,6 +41,34 @@ def limits(**changes):
     return worker.WorkerLimits(**values)
 
 
+def synthetic_initial_message(handle):
+    """Observe READY within this test worker's existing total deadline.
+
+    Import/setup time is already charged to the original worker wall budget.
+    This observer neither grants a new startup budget nor sends/retries input.
+    Business-message waits and the production supervisor stay unchanged.
+    """
+    deadline = handle._wall_deadline
+    while True:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            break
+        message = handle.poll_message(min(.1, remaining))
+        if time.monotonic() >= deadline:
+            break
+        if message is not None:
+            return message
+        if handle.finish(0) is not None:
+            break
+    result = handle.finish(0)
+    diagnostic = dict(elapsed_seconds=time.monotonic() - handle._started,
+        wall_seconds=handle.limits.wall_seconds, status=result.get("status") if result else None,
+        reasons=result.get("reasons") if result else None,
+        spawn_count=result.get("spawn_count") if result else None)
+    raise AssertionError("synthetic initial message not observed within original wall deadline: "
+                         + json.dumps(diagnostic, sort_keys=True))
+
+
 class WorkerSupervisorTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="new-worker-中文 space-")
@@ -184,6 +212,38 @@ emit('RESULT',{'fact':'protocol-only'})'''
         self.assertEqual(sha256(raw).hexdigest(), reference["sha256"])
         self.assertTrue(result["streams_complete"])
         self.assertEqual(handle.close(), result)
+
+    def test_initial_observer_accepts_ready_after_four_seconds_within_original_eight(self):
+        handle = self.launch("time.sleep(4.2); emit('READY'); sys.stdin.buffer.readline(); emit('RESULT')",
+                             wall_seconds=8)
+        original_deadline = handle._wall_deadline
+        ready = synthetic_initial_message(handle)
+        self.assertEqual(ready["kind"], "READY")
+        self.assertGreater(time.monotonic() - handle._started, 4)
+        self.assertLess(time.monotonic(), original_deadline)
+        self.assertEqual(handle._wall_deadline, original_deadline)
+        self.assertEqual(handle._counts["stdin"], 0)
+        self.assertEqual(handle.reply(self.message(kind="STOP"))["status"], "STDIN_WRITTEN_NOT_DISPATCH_ACK")
+        result = self.done(handle)
+        self.assertEqual(result["status"], "PROTOCOL_RESULT_RECEIVED")
+        self.assertEqual((result["spawn_count"], result["restart_count"]), (1, 0))
+
+    def test_initial_observer_keeps_expired_original_wall_unknown_without_input(self):
+        handle = self.launch("time.sleep(30); emit('READY')", wall_seconds=.6)
+        original_deadline = handle._wall_deadline
+        with self.assertRaisesRegex(AssertionError, "original wall deadline"):
+            synthetic_initial_message(handle)
+        self.assertEqual(handle._wall_deadline, original_deadline)
+        result = self.done(handle)
+        self.assertEqual(result["status"], "UNKNOWN")
+        self.assertIn("WALL_DEADLINE", result["reasons"])
+        self.assertEqual(result["messages"]["stdin"], 0)
+        self.assertEqual(result["restart_count"], 0)
+        receipt = (handle.run_dir / "result.json").read_bytes()
+        with self.assertRaisesRegex(AssertionError, "original wall deadline"):
+            synthetic_initial_message(handle)
+        self.assertEqual(handle.finish(0), result)
+        self.assertEqual((handle.run_dir / "result.json").read_bytes(), receipt)
 
     def test_stall_is_killed_by_wall_watchdog_without_any_parent_polling(self):
         handle = self.launch("emit('READY'); time.sleep(30)", wall_seconds=0.6)

@@ -1243,6 +1243,16 @@ class TerminalResearchService:
                 return self.judgments.read(resource, identity)
         if resource == "terminal_catalog":
             return self._catalog()
+        if resource in {"terminal_accepted_rule_context", "terminal_accepted_factors"}:
+            if type(identity) is not str or len(identity) > 8000:
+                raise ValueError("accepted_factor_configuration_required")
+            with self._lock:
+                from .terminal_accepted_factors import accepted_rule_context, accepted_factors
+                from .quant_workspace import _json_object
+                payload = json.loads(identity, object_pairs_hook=_json_object,
+                    parse_constant=lambda value: (_ for _ in ()).throw(ValueError("finite_json_required")))
+                return (accepted_rule_context(self, payload) if resource == "terminal_accepted_rule_context"
+                        else accepted_factors(self, payload))
         if resource == "terminal_strategy_candidates":
             if type(identity) is not str or len(identity) > 8000:
                 raise ValueError("terminal_strategy_candidates_configuration_required")

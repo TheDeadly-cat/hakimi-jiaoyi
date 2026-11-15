@@ -28,7 +28,7 @@ MAX_REQUEST = 24 * 1024 * 1024
 _VENDOR = Path(__file__).resolve().parents[2] / "vendor" / "research"
 _IMPORT_LOCK = RLock()
 _READ_RESOURCES = frozenset({"status", "strategies", "tasks", "inputs", "runs", "csv_templates",
-    "terminal_strategy_candidates",
+    "terminal_strategy_candidates", "terminal_accepted_rule_context", "terminal_accepted_factors",
     "terminal_daily_catalog", "terminal_daily_inputs", "terminal_daily_intakes", "terminal_daily_updates", "terminal_daily_tasks",
     "terminal_daily_supplement_context", "terminal_daily_supplements", "terminal_daily_supplement_requests",
     "terminal_history_input_requests",
@@ -533,7 +533,7 @@ class QuantWorkspace:
                     if resource not in _READ_RESOURCES:
                         self._fail(handler, ValueError("quant_route_not_found"), 404)
                         return True
-                    if resource == "terminal_strategy_candidates":
+                    if resource in {"terminal_strategy_candidates", "terminal_accepted_factors"}:
                         # Current-rule calculation must not pair already-loaded
                         # signals with a changed on-disk implementation identity.
                         # Saved historical reads deliberately remain available.

@@ -1,0 +1,7 @@
+test_real_tcp_inside_original_worker_and_same_id_reopen (test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_real_tcp_inside_original_worker_and_same_id_reopen) ... ok
+test_two_real_workers_race_original_id_and_only_one_os_connection_exists (test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_two_real_workers_race_original_id_and_only_one_os_connection_exists) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.972s
+
+OK

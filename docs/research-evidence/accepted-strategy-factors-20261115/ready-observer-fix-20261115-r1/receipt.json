@@ -1,0 +1,34 @@
+{
+  "scope": "SYNTHETIC_FIXTURE_INITIAL_READY_OBSERVER_ONLY_NOT_PRODUCTION_BUDGET_CHANGE",
+  "command": [
+    "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-accepted-factors-venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "tests.test_terminal_broker_worker_supervisor.WorkerSupervisorTests.test_initial_observer_accepts_ready_after_four_seconds_within_original_eight",
+    "tests.test_terminal_broker_worker_supervisor.WorkerSupervisorTests.test_initial_observer_keeps_expired_original_wall_unknown_without_input",
+    "tests.test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_real_tcp_inside_original_worker_and_same_id_reopen",
+    "tests.test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_two_real_workers_race_original_id_and_only_one_os_connection_exists",
+    "tests.test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_three_quote_actions_persist_facts_and_reopen_without_tcp",
+    "tests.test_terminal_broker_submit_market_worker.SyntheticSubmitMarketWorkerTests.test_early_out_of_order_input_cannot_bind_or_send_a_later_query"
+  ],
+  "source_before": {
+    "test_terminal_broker_worker_supervisor.py": "b4fad7ad02d445f188151242b7f365ba6c5b1ba3cca7ba7ee67f1c3fba1265e0",
+    "test_terminal_broker_loopback_integration.py": "22347430ccd78e3ab0eecbd725734f3839b10e5a7f2e7293a586d392d894cff0",
+    "test_terminal_broker_quote_integration.py": "faa78680d910c0fe43776d1f085c854a024ce48b93317d7e4bff0dec492bce92",
+    "test_terminal_broker_submit_market_worker.py": "16deba1808f0c0334e4449ecf10944b22713a014fe414bd252260af38b7d786f"
+  },
+  "source_after": {
+    "test_terminal_broker_worker_supervisor.py": "b4fad7ad02d445f188151242b7f365ba6c5b1ba3cca7ba7ee67f1c3fba1265e0",
+    "test_terminal_broker_loopback_integration.py": "22347430ccd78e3ab0eecbd725734f3839b10e5a7f2e7293a586d392d894cff0",
+    "test_terminal_broker_quote_integration.py": "faa78680d910c0fe43776d1f085c854a024ce48b93317d7e4bff0dec492bce92",
+    "test_terminal_broker_submit_market_worker.py": "16deba1808f0c0334e4449ecf10944b22713a014fe414bd252260af38b7d786f"
+  },
+  "source_unchanged": true,
+  "returncode": 0,
+  "elapsed_seconds": 13.67095739999786,
+  "status": "PASS",
+  "old_failures_preserved": true,
+  "new_economic_research_runs": 0
+}
