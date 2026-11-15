@@ -107,6 +107,8 @@ class QuoteChainChecks:
         return handle
 
     def poll(self, handle, *, initial=False):
+        if initial and self.context is None:
+            return worker_fixture.synthetic_initial_message(handle)
         deadline = time.monotonic() + (30 if initial and self.context else 15 if self.context else 4)
         while time.monotonic() < deadline:
             message = handle.poll_message(.1)

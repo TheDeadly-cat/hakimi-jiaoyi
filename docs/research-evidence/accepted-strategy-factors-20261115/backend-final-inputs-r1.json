@@ -1,0 +1,56 @@
+{
+  "scope": "W5_BACKEND_ONLY_TARGETED_NOT_FULL_GATE_OR_PACKAGE_NATIVE_ACCEPTANCE",
+  "source": "C:\\Users\\Administrator\\.codex\\worktrees\\accepted-strategy-factors-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+  "frozen_source_sha256": {
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_accepted_factors.py": "883a86514d0e4746a03d3446d47b34dc501cca81ab101cfc9bcd4c35ee930001",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": "48cc746242c2f2500a07ea0b15dbb754510242bc62a140d63222895c2e447be1",
+    "outputs/python_quant_bot/exchange_terminal/services/quant_workspace.py": "8e0646ac882427a240e9904ccb2a7cf3e56359ac291614c53bbad6321a168428",
+    "outputs/python_quant_bot/tests/test_terminal_accepted_factors.py": "3d167136e865d86be39377bd83af77cd3ebe4799c64744bde1497e58be94ef50",
+    "outputs/python_quant_bot/tests/test_quant_workspace.py": "491df19ffdb760988f4f62922f38a232d99fb80f96edcd6f0686ab0eec67f042",
+    "tools/run_terminal_contracts.py": "a63f673b9c196a54909f54359b99196374fbefec2ecc8deecb90e12b4d2a8a15"
+  },
+  "vendor_accepted_pin": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+  "vendor_original_unchanged": true,
+  "final_validation": {
+    "log": "backend-targeted-final-r1.log",
+    "top_level_tests": 23,
+    "top_level_seconds": 32.662,
+    "top_level_includes_one_isolated_child_wrapper": true,
+    "inner_accepted_cases": 8,
+    "inner_seconds": 22.385,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "do_not_sum_wrapper_and_children": true
+  },
+  "first_failure": {
+    "log": "backend-targeted-r1.log",
+    "errors": 6,
+    "boundary": "Before factor computation: real teaching-run preparation refused BUILD_MISSING from immutable checkout vendor, dependencies VERIFIED",
+    "correction": "Fresh isolated installed copy of exact accepted manifest files plus genuine byte-hashed test build receipt using existing mechanism; no vendor edit or VERIFIED patch"
+  },
+  "additional_evidence": [
+    "backend-targeted-r2.log",
+    "backend-new-cases-r3.log",
+    "backend-route-r1.log"
+  ],
+  "cross_layer_capture": {
+    "path": "real-accepted-factor-payload-r1.json",
+    "sha256": "d10f453d933ce2994aaa164fcdeac22a4f141c5137ac648b4c0a85722d493e7a",
+    "scope": "One already-required parity fixture saved report; no extra run for capture. Captured before final __globals__ binding check so adapter hash/context id belongs to that preceding revision; use for pure UI shape check only."
+  },
+  "behavior": [
+    "original core_run opaque ID stays separate from run ID and report hash",
+    "original score_end_session excludes later snapshot tail",
+    "only price.dual_ma@1 accepted context; no native ID/factor fallback",
+    "real previous/current SMA crossing, warmup, and original guarded generate_signal parity",
+    "explicit flat/holding scenario; ratios remain original fractions",
+    "original saved files unchanged after reads/reopen; stale/tampered/source mismatch refused",
+    "new factor GET protected by runtime derived guard; ordinary context GET keeps historical read path"
+  ],
+  "limits": [
+    "No full suite, service/browser/native acceptance, provider/SDK or real market/account requests run by this backend agent",
+    "Loaded-code checks cover actual rule/SMA/immediate bindings, not arbitrary same-process code or full dependency authenticity",
+    "No accepted vendor/r7/W4 changes; no commit/push"
+  ]
+}

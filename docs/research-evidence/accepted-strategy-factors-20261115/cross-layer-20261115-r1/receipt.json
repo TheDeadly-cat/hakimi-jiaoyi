@@ -1,0 +1,166 @@
+{
+  "status": "PASS",
+  "scope": "PURE_UI_VALIDATORS_AND_RENDERING_OF_PREVIOUS_BACKEND_CAPTURE_SHAPE_ONLY",
+  "source": "C:\\Users\\Administrator\\.codex\\worktrees\\accepted-strategy-factors-20261108\\哈基米v2交易",
+  "source_sha256": {
+    "ui": "5e0cc0b4a29e32be16a98f03a516d1ebff5b502f0f2d8057449ff581bb88163e",
+    "payload": "d10f453d933ce2994aaa164fcdeac22a4f141c5137ac648b4c0a85722d493e7a"
+  },
+  "source_bytes_unchanged": true,
+  "node": "v22.23.4",
+  "checks": [
+    "Real saved context accepted with distinct 24-char route and 64-char run/report identities",
+    "Real flat factors accepted and retain original cutoff before snapshot tail",
+    "Real flat factors render original risk units and historical explanation",
+    "Real flat factors rejected under opposite holding scenario",
+    "Real holding factors accepted and retain original cutoff before snapshot tail",
+    "Real holding factors render original risk units and historical explanation",
+    "Real holding factors rejected under opposite holding scenario",
+    "Payload and production UI bytes unchanged"
+  ],
+  "results": {
+    "flat": {
+      "action": "HOLD",
+      "reason": "no MA crossover",
+      "cutoff_session": "2024-11-29",
+      "snapshot_end": "2024-12-03",
+      "factors": [
+        {
+          "key": "warmup_sessions",
+          "label": "已有完整历史日数",
+          "value": 20,
+          "operator": ">=",
+          "threshold": 6,
+          "passed": true,
+          "unit": "sessions",
+          "role": "WARMUP",
+          "applies_to_position": true,
+          "cutoff_session": "2024-11-29"
+        },
+        {
+          "key": "entry_previous_not_above",
+          "label": "上日快均线不高于慢均线",
+          "value": 99,
+          "operator": "<=",
+          "threshold": 99,
+          "passed": true,
+          "unit": "price",
+          "role": "ENTRY",
+          "applies_to_position": true,
+          "cutoff_session": "2024-11-29"
+        },
+        {
+          "key": "entry_current_above",
+          "label": "当日快均线高于慢均线",
+          "value": 99,
+          "operator": ">",
+          "threshold": 99,
+          "passed": false,
+          "unit": "price",
+          "role": "ENTRY",
+          "applies_to_position": true,
+          "cutoff_session": "2024-11-29"
+        },
+        {
+          "key": "exit_previous_not_below",
+          "label": "上日快均线不低于慢均线",
+          "value": 99,
+          "operator": ">=",
+          "threshold": 99,
+          "passed": true,
+          "unit": "price",
+          "role": "EXIT",
+          "applies_to_position": false,
+          "cutoff_session": "2024-11-29"
+        },
+        {
+          "key": "exit_current_below",
+          "label": "当日快均线低于慢均线",
+          "value": 99,
+          "operator": "<",
+          "threshold": 99,
+          "passed": false,
+          "unit": "price",
+          "role": "EXIT",
+          "applies_to_position": false,
+          "cutoff_session": "2024-11-29"
+        }
+      ]
+    },
+    "holding": {
+      "action": "HOLD",
+      "reason": "no MA crossover",
+      "cutoff_session": "2024-11-29",
+      "snapshot_end": "2024-12-03",
+      "factors": [
+        {
+          "key": "warmup_sessions",
+          "label": "已有完整历史日数",
+          "value": 20,
+          "operator": ">=",
+          "threshold": 6,
+          "passed": true,
+          "unit": "sessions",
+          "role": "WARMUP",
+          "applies_to_position": true,
+          "cutoff_session": "2024-11-29"
+        },
+        {
+          "key": "entry_previous_not_above",
+          "label": "上日快均线不高于慢均线",
+          "value": 99,
+          "operator": "<=",
+          "threshold": 99,
+          "passed": true,
+          "unit": "price",
+          "role": "ENTRY",
+          "applies_to_position": false,
+          "cutoff_session": "2024-11-29"
+        },
+        {
+          "key": "entry_current_above",
+          "label": "当日快均线高于慢均线",
+          "value": 99,
+          "operator": ">",
+          "threshold": 99,
+          "passed": false,
+          "unit": "price",
+          "role": "ENTRY",
+          "applies_to_position": false,
+          "cutoff_session": "2024-11-29"
+        },
+        {
+          "key": "exit_previous_not_below",
+          "label": "上日快均线不低于慢均线",
+          "value": 99,
+          "operator": ">=",
+          "threshold": 99,
+          "passed": true,
+          "unit": "price",
+          "role": "EXIT",
+          "applies_to_position": true,
+          "cutoff_session": "2024-11-29"
+        },
+        {
+          "key": "exit_current_below",
+          "label": "当日快均线低于慢均线",
+          "value": 99,
+          "operator": "<",
+          "threshold": 99,
+          "passed": false,
+          "unit": "price",
+          "role": "EXIT",
+          "applies_to_position": true,
+          "cutoff_session": "2024-11-29"
+        }
+      ]
+    }
+  },
+  "original_context_id": "a4409bbbf753bfc59b1e85ced9bbfcadf68261330fea6b2c4a9d534e5cf1a085",
+  "captured_adapter_source_sha256": "a7f5db76cfe96263add3a90adc62ba7d954073ee2587a44b4960341f73d38377",
+  "limits": [
+    "Captured adapter hash belongs to a preceding backend revision; this is shape compatibility only.",
+    "No new research, service process, browser, order, provider, model, package, commit or CI was run.",
+    "Rendered HTML fragments do not establish browser visual acceptance."
+  ]
+}

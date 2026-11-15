@@ -1,0 +1,25 @@
+{
+  "changed_files": [
+    "ui/strategy-journey-v1.sqlite3"
+  ],
+  "unexpected_business_changes": [],
+  "business_file_bytes_unchanged": true,
+  "non_journey_sqlite_rows_unchanged": true,
+  "navigation": {
+    "business_anchors_unchanged": true,
+    "old_request_rows_unchanged": 4,
+    "added_navigation_requests": [
+      {
+        "id": "journey-8f955ca6-782f-4add-9a5a-4ed0b7c5efab",
+        "fingerprint": "762de34af61a0c303fec52e5ff63fb122c6433591b8e5a57a16bdbcadd931e29",
+        "receipt": "{\"automatic_retry\":false,\"external_calls\":0,\"new_economic_runs\":0,\"permissions\":{\"live_allowed\":false,\"order_allowed\":false,\"paper_allowed\":false,\"research_only\":true},\"read_only\":false,\"replayed\":false,\"request_id\":\"journey-8f955ca6-782f-4add-9a5a-4ed0b7c5efab\",\"revision\":5,\"saved\":true,\"schema_version\":\"hakimi-terminal-journey-v1\",\"selection\":{\"broker\":null,\"manual\":{\"account_id\":\"sim-96054efc-cbb7-4273-a337-e4bd12a3d9c2\",\"plan_id\":\"02a8415ccc124601c65f113783dc67543b516a6f7003a9ea3cdb9b96e606afb3\"},\"replay\":null,\"research\":{\"id\":\"e1f269a5399bbcaa5c6f2c38\",\"kind\":\"core_run\"},\"task\":null,\"view\":\"results\"},\"status\":\"SAVED\",\"workspace_context\":\"7ee83aed56dff6c0dae2eee8493945b577017abc8b5f8513bdfacc7cecf187c8\"}"
+      }
+    ],
+    "view_before": "execution",
+    "view_after": "results",
+    "revision_before": 4,
+    "revision_after": 5
+  },
+  "status": "BUSINESS_UNCHANGED_NAVIGATION_ACCOUNTED",
+  "isolated_broker_shared_unchanged": true
+}

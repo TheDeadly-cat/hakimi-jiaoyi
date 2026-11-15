@@ -1,0 +1,803 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(responses.filter(r=>r.body.schema_version==='hakimi-accepted-factors-v1').length>=3)\n",
+  "errors": [],
+  "external": [],
+  "posts": [
+    {
+      "url": "http://127.0.0.1:55840/api/quant/actions/terminal_prepare_teaching_input",
+      "body": {
+        "request_id": "819335dc-400c-4aa2-bfa6-a9da636d0ddc",
+        "payload": {}
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/actions/create_task",
+      "body": {
+        "request_id": "2b70244c-d2fa-4ac1-aa23-1c0465895304",
+        "payload": {
+          "name": "因子核对-默认教学-100美元",
+          "strategy": "price.dual_ma@1",
+          "params": {
+            "fast_window": 2,
+            "slow_window": 4,
+            "position_pct": 0.25,
+            "stop_loss_pct": 0.03,
+            "take_profit_pct": 0.06
+          },
+          "risk": {
+            "max_daily_loss_pct": 1,
+            "max_leverage": 1,
+            "max_position_pct": 0.25,
+            "max_single_loss_pct": 0.03,
+            "min_cash_pct": 0
+          },
+          "initial_cash": 100,
+          "fee_rate": 0.0008,
+          "slippage_pct": 0.0005,
+          "snapshot_id": "db3fa90eb8f56a5e0deaaf0f"
+        }
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/journey-selection",
+      "body": {
+        "request_id": "journey-e042ed06-e58b-48af-99b6-27b115983047",
+        "workspace_context": "9bb3a6bdc13ef645229e7ce526e1b4ea5d27529701ae325671ded9493e2db0f2",
+        "expected_revision": 0,
+        "selection": {
+          "task": {
+            "kind": "core_task",
+            "id": "478c64e11e065d8408e43afe",
+            "task_id": "227a19c20f054f570eb117b9adc6cb0938780e302d1f304bdeac7e1781b82988"
+          },
+          "research": null,
+          "view": "results",
+          "replay": null,
+          "manual": null,
+          "broker": null
+        }
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/actions/run_task",
+      "body": {
+        "request_id": "2e418b44-7975-4404-86a9-3d0e8405eda5",
+        "payload": {
+          "task_id": "478c64e11e065d8408e43afe",
+          "expected_task_id": "227a19c20f054f570eb117b9adc6cb0938780e302d1f304bdeac7e1781b82988"
+        }
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/journey-selection",
+      "body": {
+        "request_id": "journey-8103134b-8348-4dd3-976f-9f403c4b85e5",
+        "workspace_context": "9bb3a6bdc13ef645229e7ce526e1b4ea5d27529701ae325671ded9493e2db0f2",
+        "expected_revision": 1,
+        "selection": {
+          "task": null,
+          "research": {
+            "kind": "core_run",
+            "id": "2a3205598548ee9b63936e76"
+          },
+          "view": "execution",
+          "replay": null,
+          "manual": null,
+          "broker": null
+        }
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/actions/terminal_execution_create_account",
+      "body": {
+        "request_id": "68bf2bfd-52d8-4209-a8c8-1eb397846952",
+        "payload": {
+          "client_request_id": "execution-8063e8b0-0567-4f18-a9cd-e71c7e688147",
+          "account_id": "sim-7d5e3489-81c6-4a27-bbdd-456d6cb9defa",
+          "label": "因子核对合成账户",
+          "evidence_kind": "SYNTHETIC_TEST",
+          "initial_cash": "100",
+          "securities": {
+            "SYNTHETIC:RESEARCH:TEST": {
+              "symbol": "TEST",
+              "tick_size": "0.01"
+            }
+          },
+          "rules": {
+            "max_order_notional": "1000",
+            "max_total_exposure": "10000",
+            "max_security_exposure": "5000",
+            "cash_floor": "0",
+            "fee_buffer": "1",
+            "max_account_loss": "1000",
+            "quote_max_age_ms": 60000
+          }
+        }
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/journey-selection",
+      "body": {
+        "request_id": "journey-76f757d1-706a-447e-b345-e26a94468ab4",
+        "workspace_context": "9bb3a6bdc13ef645229e7ce526e1b4ea5d27529701ae325671ded9493e2db0f2",
+        "expected_revision": 2,
+        "selection": {
+          "broker": null,
+          "manual": {
+            "account_id": "sim-7d5e3489-81c6-4a27-bbdd-456d6cb9defa",
+            "plan_id": null
+          },
+          "replay": null,
+          "research": {
+            "kind": "core_run",
+            "id": "2a3205598548ee9b63936e76"
+          },
+          "task": null,
+          "view": "execution"
+        }
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/actions/terminal_execution_create_plan",
+      "body": {
+        "request_id": "d3be13f6-a067-42e3-b5cf-e6dfc972e076",
+        "payload": {
+          "client_request_id": "execution-c12db5d2-53fc-4039-91e0-128ea146fe56",
+          "account_id": "sim-7d5e3489-81c6-4a27-bbdd-456d6cb9defa",
+          "account_context": "Um1Kd1gVYhPCFFe4pcsnl1IeH3bAOB09Jot1dhmhIvI",
+          "reference": {
+            "kind": "core_run",
+            "id": "2a3205598548ee9b63936e76"
+          },
+          "stage": "SIMULATION"
+        }
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/journey-selection",
+      "body": {
+        "request_id": "journey-02d52e2b-0ab1-4722-ad34-5f4e8077819e",
+        "workspace_context": "9bb3a6bdc13ef645229e7ce526e1b4ea5d27529701ae325671ded9493e2db0f2",
+        "expected_revision": 3,
+        "selection": {
+          "broker": null,
+          "manual": {
+            "account_id": "sim-7d5e3489-81c6-4a27-bbdd-456d6cb9defa",
+            "plan_id": "d489273364d725d6badbb01522a0e500ea83bc03db9e422f81600d83732c654b"
+          },
+          "replay": null,
+          "research": {
+            "kind": "core_run",
+            "id": "2a3205598548ee9b63936e76"
+          },
+          "task": null,
+          "view": "execution"
+        }
+      }
+    }
+  ],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:55840/api/quant/terminal_accepted_rule_context/%7B%22kind%22%3A%22core_run%22%2C%22id%22%3A%222a3205598548ee9b63936e76%22%7D",
+      "status": 200,
+      "body": {
+        "data": {
+          "accepted_source_identity": {
+            "accepted_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+            "disk_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+            "loaded_rule_code_sha256": "96d25f2bc6002f6cb60aee7ae6195bab05318601ae22475e81bb9f31e3092e12",
+            "loaded_rule_verified": true,
+            "recorded_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+            "verification_scope": "PINNED_PACKAGE_DISK_AND_LOADED_RULE_SMA_BINDINGS"
+          },
+          "adapter_source_sha256": "883a86514d0e4746a03d3446d47b34dc501cca81ab101cfc9bcd4c35ee930001",
+          "context_id": "4199530377c3d948466ae7724a98be2c5326cac1912c265333efc74756f875e1",
+          "cost_units": "FRACTION_RATIOS",
+          "costs": {
+            "fee_rate": 0.0008,
+            "slippage_pct": 0.0005
+          },
+          "currency": "USD",
+          "cutoff_session": "2024-12-03",
+          "data_start": "2024-11-01",
+          "engine_id": "research.accepted-equity",
+          "execution_model": "signal-close-next-open-ohlc-v6",
+          "execution_risk": {
+            "max_daily_loss_pct": 1,
+            "max_leverage": 1,
+            "max_position_pct": 0.25,
+            "max_single_loss_pct": 0.03,
+            "min_cash_pct": 0
+          },
+          "explanation_scope": "NEW_READ_ONLY_SCORE_END_CLOSE_EXPLANATION_NOT_RETAINED_REPORT_FACTORS",
+          "fingerprint": "6e96e53ba76ea7d1a6a7e83c18f6d0ef1029a74a44363cb4f407f891646707eb",
+          "initial_cash": 100,
+          "input_data_hash": "d9bfd5d82250edecbdc6162bc2bc8ffc3a494e72814cf0642899aff9083389e1",
+          "input_id": "9ee0e617ef80a0a373fbb3d50f626d7784d51af9ea0e8dce00ae946960b7450b",
+          "new_economic_runs": 0,
+          "parameter_units": {
+            "fast_window": "sessions",
+            "position_pct": "ratio",
+            "slow_window": "sessions",
+            "stop_loss_pct": "ratio",
+            "take_profit_pct": "ratio"
+          },
+          "permissions": {
+            "live_allowed": false,
+            "order_allowed": false,
+            "paper_allowed": false,
+            "research_only": true
+          },
+          "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+          "read_only": true,
+          "reference": {
+            "id": "2a3205598548ee9b63936e76",
+            "kind": "core_run"
+          },
+          "report_hash": "2f415714f93dc0d03d2320521f666aa3af56bb27a538e0b6219b02148e1a93c6",
+          "report_id": "221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f",
+          "risk_units": "FRACTION_RATIOS",
+          "schema_version": "hakimi-accepted-rule-context-v1",
+          "score_start_session": "2024-11-11",
+          "security_id": "SYNTHETIC:RESEARCH:TEST",
+          "snapshot_end": "2024-12-03",
+          "source_digest": "c0a84b28de9fec4d38df696d89658c0f45df7d9e7dad01d17dc935cb95daf606",
+          "source_hash": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+          "spec_hash": "5462d169b0cab3e1af4c15340b319e327d40fd10cbf683f01a31245ec4ee0052",
+          "strategy_id": "price.dual_ma@1",
+          "strategy_params": {
+            "fast_window": 2,
+            "position_pct": 0.25,
+            "slow_window": 4,
+            "stop_loss_pct": 0.03,
+            "take_profit_pct": 0.06
+          },
+          "symbol": "TEST",
+          "task_id": "227a19c20f054f570eb117b9adc6cb0938780e302d1f304bdeac7e1781b82988",
+          "task_version": "r0001-d2096f5d44b04660ab162c68b7d6b58c"
+        },
+        "ok": true
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/terminal_accepted_factors/%7B%22reference%22%3A%7B%22id%22%3A%222a3205598548ee9b63936e76%22%2C%22kind%22%3A%22core_run%22%7D%2C%22context_id%22%3A%224199530377c3d948466ae7724a98be2c5326cac1912c265333efc74756f875e1%22%2C%22position_context%22%3A%7B%22has_position%22%3Afalse%7D%7D",
+      "status": 200,
+      "body": {
+        "data": {
+          "context_id": "4199530377c3d948466ae7724a98be2c5326cac1912c265333efc74756f875e1",
+          "new_economic_runs": 0,
+          "permissions": {
+            "live_allowed": false,
+            "order_allowed": false,
+            "paper_allowed": false,
+            "research_only": true
+          },
+          "read_only": true,
+          "reference": {
+            "id": "2a3205598548ee9b63936e76",
+            "kind": "core_run"
+          },
+          "row": {
+            "accepted_source_identity": {
+              "accepted_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+              "disk_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+              "loaded_rule_code_sha256": "96d25f2bc6002f6cb60aee7ae6195bab05318601ae22475e81bb9f31e3092e12",
+              "loaded_rule_verified": true,
+              "recorded_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+              "verification_scope": "PINNED_PACKAGE_DISK_AND_LOADED_RULE_SMA_BINDINGS"
+            },
+            "adapter_source_sha256": "883a86514d0e4746a03d3446d47b34dc501cca81ab101cfc9bcd4c35ee930001",
+            "context_id": "4199530377c3d948466ae7724a98be2c5326cac1912c265333efc74756f875e1",
+            "cost_units": "FRACTION_RATIOS",
+            "costs": {
+              "fee_rate": 0.0008,
+              "slippage_pct": 0.0005
+            },
+            "currency": "USD",
+            "cutoff_session": "2024-12-03",
+            "data_start": "2024-11-01",
+            "decision_matches_factors": true,
+            "diagnostic_id": "23030f8ee85f29212106674ae40da51e29c914fbf91d6820cbc4ff73b2c820ea",
+            "effective_windows": {
+              "fast_window": 2,
+              "slow_window": 4,
+              "warmup_sessions": 6
+            },
+            "engine_id": "research.accepted-equity",
+            "execution_model": "signal-close-next-open-ohlc-v6",
+            "execution_risk": {
+              "max_daily_loss_pct": 1,
+              "max_leverage": 1,
+              "max_position_pct": 0.25,
+              "max_single_loss_pct": 0.03,
+              "min_cash_pct": 0
+            },
+            "explanation_scope": "NEW_READ_ONLY_SCORE_END_CLOSE_EXPLANATION_NOT_RETAINED_REPORT_FACTORS",
+            "factors": [
+              {
+                "applies_to_position": true,
+                "cutoff_session": "2024-12-03",
+                "key": "warmup_sessions",
+                "label": "已有完整历史日数",
+                "operator": ">=",
+                "passed": true,
+                "role": "WARMUP",
+                "threshold": 6,
+                "unit": "sessions",
+                "value": 22
+              },
+              {
+                "applies_to_position": true,
+                "cutoff_session": "2024-12-03",
+                "key": "entry_previous_not_above",
+                "label": "上日快均线不高于慢均线",
+                "operator": "<=",
+                "passed": true,
+                "role": "ENTRY",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              },
+              {
+                "applies_to_position": true,
+                "cutoff_session": "2024-12-03",
+                "key": "entry_current_above",
+                "label": "当日快均线高于慢均线",
+                "operator": ">",
+                "passed": false,
+                "role": "ENTRY",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              },
+              {
+                "applies_to_position": false,
+                "cutoff_session": "2024-12-03",
+                "key": "exit_previous_not_below",
+                "label": "上日快均线不低于慢均线",
+                "operator": ">=",
+                "passed": true,
+                "role": "EXIT",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              },
+              {
+                "applies_to_position": false,
+                "cutoff_session": "2024-12-03",
+                "key": "exit_current_below",
+                "label": "当日快均线低于慢均线",
+                "operator": "<",
+                "passed": false,
+                "role": "EXIT",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              }
+            ],
+            "fingerprint": "6e96e53ba76ea7d1a6a7e83c18f6d0ef1029a74a44363cb4f407f891646707eb",
+            "freshness": {
+              "context": "SAVED_HISTORICAL_INPUT",
+              "cutoff_session": "2024-12-03",
+              "live_quote_verified": false
+            },
+            "initial_cash": 100,
+            "input_data_hash": "d9bfd5d82250edecbdc6162bc2bc8ffc3a494e72814cf0642899aff9083389e1",
+            "input_id": "9ee0e617ef80a0a373fbb3d50f626d7784d51af9ea0e8dce00ae946960b7450b",
+            "new_economic_runs": 0,
+            "parameter_units": {
+              "fast_window": "sessions",
+              "position_pct": "ratio",
+              "slow_window": "sessions",
+              "stop_loss_pct": "ratio",
+              "take_profit_pct": "ratio"
+            },
+            "permissions": {
+              "live_allowed": false,
+              "order_allowed": false,
+              "paper_allowed": false,
+              "research_only": true
+            },
+            "position_context": {
+              "has_position": false
+            },
+            "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+            "read_only": true,
+            "reference": {
+              "id": "2a3205598548ee9b63936e76",
+              "kind": "core_run"
+            },
+            "report_hash": "2f415714f93dc0d03d2320521f666aa3af56bb27a538e0b6219b02148e1a93c6",
+            "report_id": "221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f",
+            "risk_units": "FRACTION_RATIOS",
+            "schema_version": "hakimi-accepted-strategy-diagnostic-v1",
+            "score_start_session": "2024-11-11",
+            "security_id": "SYNTHETIC:RESEARCH:TEST",
+            "signal": {
+              "action": "HOLD",
+              "reason": "no MA crossover"
+            },
+            "snapshot_end": "2024-12-03",
+            "source_digest": "c0a84b28de9fec4d38df696d89658c0f45df7d9e7dad01d17dc935cb95daf606",
+            "source_hash": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+            "spec_hash": "5462d169b0cab3e1af4c15340b319e327d40fd10cbf683f01a31245ec4ee0052",
+            "status": "READY",
+            "strategy_id": "price.dual_ma@1",
+            "strategy_params": {
+              "fast_window": 2,
+              "position_pct": 0.25,
+              "slow_window": 4,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.06
+            },
+            "symbol": "TEST",
+            "task_id": "227a19c20f054f570eb117b9adc6cb0938780e302d1f304bdeac7e1781b82988",
+            "task_version": "r0001-d2096f5d44b04660ab162c68b7d6b58c"
+          },
+          "schema_version": "hakimi-accepted-factors-v1"
+        },
+        "ok": true
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/terminal_accepted_factors/%7B%22reference%22%3A%7B%22id%22%3A%222a3205598548ee9b63936e76%22%2C%22kind%22%3A%22core_run%22%7D%2C%22context_id%22%3A%224199530377c3d948466ae7724a98be2c5326cac1912c265333efc74756f875e1%22%2C%22position_context%22%3A%7B%22has_position%22%3Atrue%7D%7D",
+      "status": 200,
+      "body": {
+        "data": {
+          "context_id": "4199530377c3d948466ae7724a98be2c5326cac1912c265333efc74756f875e1",
+          "new_economic_runs": 0,
+          "permissions": {
+            "live_allowed": false,
+            "order_allowed": false,
+            "paper_allowed": false,
+            "research_only": true
+          },
+          "read_only": true,
+          "reference": {
+            "id": "2a3205598548ee9b63936e76",
+            "kind": "core_run"
+          },
+          "row": {
+            "accepted_source_identity": {
+              "accepted_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+              "disk_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+              "loaded_rule_code_sha256": "96d25f2bc6002f6cb60aee7ae6195bab05318601ae22475e81bb9f31e3092e12",
+              "loaded_rule_verified": true,
+              "recorded_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+              "verification_scope": "PINNED_PACKAGE_DISK_AND_LOADED_RULE_SMA_BINDINGS"
+            },
+            "adapter_source_sha256": "883a86514d0e4746a03d3446d47b34dc501cca81ab101cfc9bcd4c35ee930001",
+            "context_id": "4199530377c3d948466ae7724a98be2c5326cac1912c265333efc74756f875e1",
+            "cost_units": "FRACTION_RATIOS",
+            "costs": {
+              "fee_rate": 0.0008,
+              "slippage_pct": 0.0005
+            },
+            "currency": "USD",
+            "cutoff_session": "2024-12-03",
+            "data_start": "2024-11-01",
+            "decision_matches_factors": true,
+            "diagnostic_id": "dd9552db16a8f0ec74d7b217e930de3a6f4a9593e34678dab13c1d313c63465b",
+            "effective_windows": {
+              "fast_window": 2,
+              "slow_window": 4,
+              "warmup_sessions": 6
+            },
+            "engine_id": "research.accepted-equity",
+            "execution_model": "signal-close-next-open-ohlc-v6",
+            "execution_risk": {
+              "max_daily_loss_pct": 1,
+              "max_leverage": 1,
+              "max_position_pct": 0.25,
+              "max_single_loss_pct": 0.03,
+              "min_cash_pct": 0
+            },
+            "explanation_scope": "NEW_READ_ONLY_SCORE_END_CLOSE_EXPLANATION_NOT_RETAINED_REPORT_FACTORS",
+            "factors": [
+              {
+                "applies_to_position": true,
+                "cutoff_session": "2024-12-03",
+                "key": "warmup_sessions",
+                "label": "已有完整历史日数",
+                "operator": ">=",
+                "passed": true,
+                "role": "WARMUP",
+                "threshold": 6,
+                "unit": "sessions",
+                "value": 22
+              },
+              {
+                "applies_to_position": false,
+                "cutoff_session": "2024-12-03",
+                "key": "entry_previous_not_above",
+                "label": "上日快均线不高于慢均线",
+                "operator": "<=",
+                "passed": true,
+                "role": "ENTRY",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              },
+              {
+                "applies_to_position": false,
+                "cutoff_session": "2024-12-03",
+                "key": "entry_current_above",
+                "label": "当日快均线高于慢均线",
+                "operator": ">",
+                "passed": false,
+                "role": "ENTRY",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              },
+              {
+                "applies_to_position": true,
+                "cutoff_session": "2024-12-03",
+                "key": "exit_previous_not_below",
+                "label": "上日快均线不低于慢均线",
+                "operator": ">=",
+                "passed": true,
+                "role": "EXIT",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              },
+              {
+                "applies_to_position": true,
+                "cutoff_session": "2024-12-03",
+                "key": "exit_current_below",
+                "label": "当日快均线低于慢均线",
+                "operator": "<",
+                "passed": false,
+                "role": "EXIT",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              }
+            ],
+            "fingerprint": "6e96e53ba76ea7d1a6a7e83c18f6d0ef1029a74a44363cb4f407f891646707eb",
+            "freshness": {
+              "context": "SAVED_HISTORICAL_INPUT",
+              "cutoff_session": "2024-12-03",
+              "live_quote_verified": false
+            },
+            "initial_cash": 100,
+            "input_data_hash": "d9bfd5d82250edecbdc6162bc2bc8ffc3a494e72814cf0642899aff9083389e1",
+            "input_id": "9ee0e617ef80a0a373fbb3d50f626d7784d51af9ea0e8dce00ae946960b7450b",
+            "new_economic_runs": 0,
+            "parameter_units": {
+              "fast_window": "sessions",
+              "position_pct": "ratio",
+              "slow_window": "sessions",
+              "stop_loss_pct": "ratio",
+              "take_profit_pct": "ratio"
+            },
+            "permissions": {
+              "live_allowed": false,
+              "order_allowed": false,
+              "paper_allowed": false,
+              "research_only": true
+            },
+            "position_context": {
+              "has_position": true
+            },
+            "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+            "read_only": true,
+            "reference": {
+              "id": "2a3205598548ee9b63936e76",
+              "kind": "core_run"
+            },
+            "report_hash": "2f415714f93dc0d03d2320521f666aa3af56bb27a538e0b6219b02148e1a93c6",
+            "report_id": "221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f",
+            "risk_units": "FRACTION_RATIOS",
+            "schema_version": "hakimi-accepted-strategy-diagnostic-v1",
+            "score_start_session": "2024-11-11",
+            "security_id": "SYNTHETIC:RESEARCH:TEST",
+            "signal": {
+              "action": "HOLD",
+              "reason": "no MA crossover"
+            },
+            "snapshot_end": "2024-12-03",
+            "source_digest": "c0a84b28de9fec4d38df696d89658c0f45df7d9e7dad01d17dc935cb95daf606",
+            "source_hash": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+            "spec_hash": "5462d169b0cab3e1af4c15340b319e327d40fd10cbf683f01a31245ec4ee0052",
+            "status": "READY",
+            "strategy_id": "price.dual_ma@1",
+            "strategy_params": {
+              "fast_window": 2,
+              "position_pct": 0.25,
+              "slow_window": 4,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.06
+            },
+            "symbol": "TEST",
+            "task_id": "227a19c20f054f570eb117b9adc6cb0938780e302d1f304bdeac7e1781b82988",
+            "task_version": "r0001-d2096f5d44b04660ab162c68b7d6b58c"
+          },
+          "schema_version": "hakimi-accepted-factors-v1"
+        },
+        "ok": true
+      }
+    },
+    {
+      "url": "http://127.0.0.1:55840/api/quant/terminal_accepted_factors/%7B%22reference%22%3A%7B%22id%22%3A%222a3205598548ee9b63936e76%22%2C%22kind%22%3A%22core_run%22%7D%2C%22context_id%22%3A%224199530377c3d948466ae7724a98be2c5326cac1912c265333efc74756f875e1%22%2C%22position_context%22%3A%7B%22has_position%22%3Afalse%7D%7D",
+      "status": 200,
+      "body": {
+        "data": {
+          "context_id": "4199530377c3d948466ae7724a98be2c5326cac1912c265333efc74756f875e1",
+          "new_economic_runs": 0,
+          "permissions": {
+            "live_allowed": false,
+            "order_allowed": false,
+            "paper_allowed": false,
+            "research_only": true
+          },
+          "read_only": true,
+          "reference": {
+            "id": "2a3205598548ee9b63936e76",
+            "kind": "core_run"
+          },
+          "row": {
+            "accepted_source_identity": {
+              "accepted_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+              "disk_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+              "loaded_rule_code_sha256": "96d25f2bc6002f6cb60aee7ae6195bab05318601ae22475e81bb9f31e3092e12",
+              "loaded_rule_verified": true,
+              "recorded_sha256": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+              "verification_scope": "PINNED_PACKAGE_DISK_AND_LOADED_RULE_SMA_BINDINGS"
+            },
+            "adapter_source_sha256": "883a86514d0e4746a03d3446d47b34dc501cca81ab101cfc9bcd4c35ee930001",
+            "context_id": "4199530377c3d948466ae7724a98be2c5326cac1912c265333efc74756f875e1",
+            "cost_units": "FRACTION_RATIOS",
+            "costs": {
+              "fee_rate": 0.0008,
+              "slippage_pct": 0.0005
+            },
+            "currency": "USD",
+            "cutoff_session": "2024-12-03",
+            "data_start": "2024-11-01",
+            "decision_matches_factors": true,
+            "diagnostic_id": "23030f8ee85f29212106674ae40da51e29c914fbf91d6820cbc4ff73b2c820ea",
+            "effective_windows": {
+              "fast_window": 2,
+              "slow_window": 4,
+              "warmup_sessions": 6
+            },
+            "engine_id": "research.accepted-equity",
+            "execution_model": "signal-close-next-open-ohlc-v6",
+            "execution_risk": {
+              "max_daily_loss_pct": 1,
+              "max_leverage": 1,
+              "max_position_pct": 0.25,
+              "max_single_loss_pct": 0.03,
+              "min_cash_pct": 0
+            },
+            "explanation_scope": "NEW_READ_ONLY_SCORE_END_CLOSE_EXPLANATION_NOT_RETAINED_REPORT_FACTORS",
+            "factors": [
+              {
+                "applies_to_position": true,
+                "cutoff_session": "2024-12-03",
+                "key": "warmup_sessions",
+                "label": "已有完整历史日数",
+                "operator": ">=",
+                "passed": true,
+                "role": "WARMUP",
+                "threshold": 6,
+                "unit": "sessions",
+                "value": 22
+              },
+              {
+                "applies_to_position": true,
+                "cutoff_session": "2024-12-03",
+                "key": "entry_previous_not_above",
+                "label": "上日快均线不高于慢均线",
+                "operator": "<=",
+                "passed": true,
+                "role": "ENTRY",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              },
+              {
+                "applies_to_position": true,
+                "cutoff_session": "2024-12-03",
+                "key": "entry_current_above",
+                "label": "当日快均线高于慢均线",
+                "operator": ">",
+                "passed": false,
+                "role": "ENTRY",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              },
+              {
+                "applies_to_position": false,
+                "cutoff_session": "2024-12-03",
+                "key": "exit_previous_not_below",
+                "label": "上日快均线不低于慢均线",
+                "operator": ">=",
+                "passed": true,
+                "role": "EXIT",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              },
+              {
+                "applies_to_position": false,
+                "cutoff_session": "2024-12-03",
+                "key": "exit_current_below",
+                "label": "当日快均线低于慢均线",
+                "operator": "<",
+                "passed": false,
+                "role": "EXIT",
+                "threshold": 99,
+                "unit": "price",
+                "value": 99
+              }
+            ],
+            "fingerprint": "6e96e53ba76ea7d1a6a7e83c18f6d0ef1029a74a44363cb4f407f891646707eb",
+            "freshness": {
+              "context": "SAVED_HISTORICAL_INPUT",
+              "cutoff_session": "2024-12-03",
+              "live_quote_verified": false
+            },
+            "initial_cash": 100,
+            "input_data_hash": "d9bfd5d82250edecbdc6162bc2bc8ffc3a494e72814cf0642899aff9083389e1",
+            "input_id": "9ee0e617ef80a0a373fbb3d50f626d7784d51af9ea0e8dce00ae946960b7450b",
+            "new_economic_runs": 0,
+            "parameter_units": {
+              "fast_window": "sessions",
+              "position_pct": "ratio",
+              "slow_window": "sessions",
+              "stop_loss_pct": "ratio",
+              "take_profit_pct": "ratio"
+            },
+            "permissions": {
+              "live_allowed": false,
+              "order_allowed": false,
+              "paper_allowed": false,
+              "research_only": true
+            },
+            "position_context": {
+              "has_position": false
+            },
+            "quantity_policy": "FRACTIONAL_SHARES_RESEARCH_APPROXIMATION",
+            "read_only": true,
+            "reference": {
+              "id": "2a3205598548ee9b63936e76",
+              "kind": "core_run"
+            },
+            "report_hash": "2f415714f93dc0d03d2320521f666aa3af56bb27a538e0b6219b02148e1a93c6",
+            "report_id": "221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f",
+            "risk_units": "FRACTION_RATIOS",
+            "schema_version": "hakimi-accepted-strategy-diagnostic-v1",
+            "score_start_session": "2024-11-11",
+            "security_id": "SYNTHETIC:RESEARCH:TEST",
+            "signal": {
+              "action": "HOLD",
+              "reason": "no MA crossover"
+            },
+            "snapshot_end": "2024-12-03",
+            "source_digest": "c0a84b28de9fec4d38df696d89658c0f45df7d9e7dad01d17dc935cb95daf606",
+            "source_hash": "ca42fd0370854f65ef7fc82d654f7b9cc7b67de3f776865fbcffcae1b8f26918",
+            "spec_hash": "5462d169b0cab3e1af4c15340b319e327d40fd10cbf683f01a31245ec4ee0052",
+            "status": "READY",
+            "strategy_id": "price.dual_ma@1",
+            "strategy_params": {
+              "fast_window": 2,
+              "position_pct": 0.25,
+              "slow_window": 4,
+              "stop_loss_pct": 0.03,
+              "take_profit_pct": 0.06
+            },
+            "symbol": "TEST",
+            "task_id": "227a19c20f054f570eb117b9adc6cb0938780e302d1f304bdeac7e1781b82988",
+            "task_version": "r0001-d2096f5d44b04660ab162c68b7d6b58c"
+          },
+          "schema_version": "hakimi-accepted-factors-v1"
+        },
+        "ok": true
+      }
+    }
+  ]
+}

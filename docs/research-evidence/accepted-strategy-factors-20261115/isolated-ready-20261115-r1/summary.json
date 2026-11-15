@@ -1,0 +1,288 @@
+{
+  "scope": "TWO_ORIGINAL_FAILURES_ONCE_WITH_PARENT_TIMING_NO_DEADLINE_OR_ASSERTION_CHANGE",
+  "tests": [
+    "test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_three_quote_actions_persist_facts_and_reopen_without_tcp",
+    "test_terminal_broker_submit_market_worker.SyntheticSubmitMarketWorkerTests.test_early_out_of_order_input_cannot_bind_or_send_a_later_query"
+  ],
+  "tests_run": 2,
+  "success": true,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "elapsed_seconds": 2.6468167999992147,
+  "interpreter": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-accepted-factors-venv\\Scripts\\python.exe",
+  "canonical_location": "C:\\Users\\Administrator\\.codex\\worktrees\\accepted-strategy-factors-20261108\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+  "source_before": {
+    "outputs/python_quant_bot/tests/test_terminal_broker_quote_integration.py": "930bf74f4dca45378705d089a2a9fb19cd845f6f003ee857469bc8ed9462563b",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_worker.py": "575ce9ae4978672be05a1ac136ae3715908760969b046b820e4b5068f96af020",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": "0220adfc0c6aae6a2d89ce4ca446ed0f184f83e1380c129987c76f65aaef260f",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "dff1675f6473ce9086a98d8716678ea1b916b93b57b08837cb321ec63f59c79e",
+    "outputs/python_quant_bot/tests/broker_loopback_server_fixture.py": "e4f8b2f20c320e40dfb8044b5c94ca124d72dec6f939c3f9db02af7c3d3f758f",
+    "outputs/python_quant_bot/tests/broker_quote_worker_fixture.py": "113206bc65d3222158ce98fc0b113696d65f736036ef04f0969f18d919cdb512",
+    "outputs/python_quant_bot/tests/broker_submit_market_fixture.py": "2747094967991c6d4771a42ec904241142ba208dff02d00e105457ca266389be",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_entrypoint.py": "4ea4c6f3d005923582df0d5db47783265fb30f0ef1c79b13e4aaed63f3466bbd",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_loopback_socket.py": "f41fd513923c2a00e742e2153224a339b2ef76f0f8607ede464b1a4212933c4d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": "48cc746242c2f2500a07ea0b15dbb754510242bc62a140d63222895c2e447be1"
+  },
+  "source_after": {
+    "outputs/python_quant_bot/tests/test_terminal_broker_quote_integration.py": "930bf74f4dca45378705d089a2a9fb19cd845f6f003ee857469bc8ed9462563b",
+    "outputs/python_quant_bot/tests/test_terminal_broker_submit_market_worker.py": "575ce9ae4978672be05a1ac136ae3715908760969b046b820e4b5068f96af020",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": "0220adfc0c6aae6a2d89ce4ca446ed0f184f83e1380c129987c76f65aaef260f",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "dff1675f6473ce9086a98d8716678ea1b916b93b57b08837cb321ec63f59c79e",
+    "outputs/python_quant_bot/tests/broker_loopback_server_fixture.py": "e4f8b2f20c320e40dfb8044b5c94ca124d72dec6f939c3f9db02af7c3d3f758f",
+    "outputs/python_quant_bot/tests/broker_quote_worker_fixture.py": "113206bc65d3222158ce98fc0b113696d65f736036ef04f0969f18d919cdb512",
+    "outputs/python_quant_bot/tests/broker_submit_market_fixture.py": "2747094967991c6d4771a42ec904241142ba208dff02d00e105457ca266389be",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_entrypoint.py": "4ea4c6f3d005923582df0d5db47783265fb30f0ef1c79b13e4aaed63f3466bbd",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_loopback_socket.py": "f41fd513923c2a00e742e2153224a339b2ef76f0f8607ede464b1a4212933c4d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": "48cc746242c2f2500a07ea0b15dbb754510242bc62a140d63222895c2e447be1"
+  },
+  "source_bytes_unchanged": true,
+  "archives": [
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\new-worker-中文 space-7xjwlvu3",
+      "settled_before_copy": true,
+      "archive": "owned-fixture-1",
+      "files": {
+        "fixture/first.py": {
+          "bytes": 1678,
+          "sha256": "2e333ed0cf039ea162f73c5d094edcfc3c224561cb65b724465c976d121ec927"
+        },
+        "fixture/recovery.py": {
+          "bytes": 1683,
+          "sha256": "f90ca7b6f87dee9bce4ae3a00df4c025ef9172081a14780b53f05f8cb38187df"
+        },
+        "outputs/first/invocation.json": {
+          "bytes": 1309,
+          "sha256": "a91b7fc811e457cc58477c3edaef02bebbc584855345910203520a9fdd072548"
+        },
+        "outputs/first/result.json": {
+          "bytes": 1280,
+          "sha256": "dd171bb882ce240ac59a72953dcdd366460d13eac982c484f742659a07fae526"
+        },
+        "outputs/first/stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs/first/stdin.bin": {
+          "bytes": 1178,
+          "sha256": "6dfa7ba230972dc2982d37fc858695152d6d4a09ae3f7c8266019ec875ef00f6"
+        },
+        "outputs/first/stdout.bin": {
+          "bytes": 2437,
+          "sha256": "edaa62af5dce1c8e1fbf60de4187dcf164ebb22e0b980f642905124c9978a5e9"
+        },
+        "outputs/recovery/invocation.json": {
+          "bytes": 1312,
+          "sha256": "eb96f28262dcfa4510d1ed1666d0b8bd7f20754a6d012efd9ea649d7d58b02b3"
+        },
+        "outputs/recovery/result.json": {
+          "bytes": 1275,
+          "sha256": "37860f879abd53ac930a3265fdedfeeea3be14a8cb0079e038b86596cdefc9e3"
+        },
+        "outputs/recovery/stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs/recovery/stdin.bin": {
+          "bytes": 773,
+          "sha256": "6202c7650994c50d74fdebeb0f9eeed0137c0ce2147f601ac8fc60c8f52c56c4"
+        },
+        "outputs/recovery/stdout.bin": {
+          "bytes": 1690,
+          "sha256": "395d470282cb81e589d2c1f016cda582a0342242b344700905c8a2fc282a7c2e"
+        }
+      }
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\new-worker-中文 space-yb0wf_aj",
+      "settled_before_copy": true,
+      "archive": "owned-fixture-2",
+      "files": {
+        "fixture/first.py": {
+          "bytes": 1791,
+          "sha256": "fe0aea9df7c2a35de78f9340508c7b3cdba677e971c42d2474b9577fbd5cbab8"
+        },
+        "outputs/first/invocation.json": {
+          "bytes": 1313,
+          "sha256": "beea6e11a2833e2383210a4c9d960d16803561861af3034855a1dfce029cee3c"
+        },
+        "outputs/first/result.json": {
+          "bytes": 1282,
+          "sha256": "dfa6b85dade0eafb6b604e475e55af7292c52bbc04f482ec5734314caa652722"
+        },
+        "outputs/first/stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs/first/stdin.bin": {
+          "bytes": 1065,
+          "sha256": "5498ed8fbdeae01492366a55ce5b68fe708c841d9841301392aa66d6f26bf462"
+        },
+        "outputs/first/stdout.bin": {
+          "bytes": 2122,
+          "sha256": "417e4bd2983f6c4e8395831f933a9ea7ae59e044c4dc122a35514f120deda414"
+        }
+      }
+    }
+  ],
+  "launches": [
+    {
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-accepted-factors-venv\\Scripts\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-u",
+        "-X",
+        "utf8",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\new-worker-中文 space-7xjwlvu3\\fixture\\first.py",
+        "--run-id",
+        "quote-fixture-run",
+        "--request-id",
+        "quote-fixture-request"
+      ],
+      "start_monotonic": 72788.52504,
+      "pid": 19040,
+      "return_monotonic": 72788.5313089
+    },
+    {
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-accepted-factors-venv\\Scripts\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-u",
+        "-X",
+        "utf8",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\new-worker-中文 space-7xjwlvu3\\fixture\\recovery.py",
+        "--run-id",
+        "quote-fixture-run",
+        "--request-id",
+        "quote-fixture-request"
+      ],
+      "start_monotonic": 72789.5184218,
+      "pid": 7728,
+      "return_monotonic": 72789.5261064
+    },
+    {
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-accepted-factors-venv\\Scripts\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-u",
+        "-X",
+        "utf8",
+        "C:\\Users\\Administrator\\AppData\\Local\\Temp\\new-worker-中文 space-yb0wf_aj\\fixture\\first.py",
+        "--run-id",
+        "submit-fixture-run",
+        "--request-id",
+        "submit-fixture-request"
+      ],
+      "start_monotonic": 72790.2223885,
+      "pid": 38268,
+      "return_monotonic": 72790.2282808
+    }
+  ],
+  "initial_polls": [
+    {
+      "kind": "INITIAL_READY_POLL",
+      "run_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\new-worker-中文 space-7xjwlvu3\\outputs\\first",
+      "worker_started_monotonic": 72788.5222605,
+      "poll_start_monotonic": 72788.5234923,
+      "returned_kind": "READY",
+      "poll_end_monotonic": 72788.9311608,
+      "ready_flag": true,
+      "launcher_done": true,
+      "reasons": [],
+      "worker_pid": 19040,
+      "worker_exit": null,
+      "messages": {
+        "stdin": 0,
+        "stdout": 1,
+        "stderr": 0
+      },
+      "bytes_seen": {
+        "stdin": 0,
+        "stdout": 252,
+        "stderr": 0
+      },
+      "thread_states": {
+        "worker-deadline": true,
+        "worker-launch": false,
+        "worker-stdout": true,
+        "worker-stderr": true
+      },
+      "ready_or_failure_from_worker_start_seconds": 0.40890029999718536
+    },
+    {
+      "kind": "INITIAL_READY_POLL",
+      "run_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\new-worker-中文 space-7xjwlvu3\\outputs\\recovery",
+      "worker_started_monotonic": 72789.5152568,
+      "poll_start_monotonic": 72789.5166352,
+      "returned_kind": "READY",
+      "poll_end_monotonic": 72789.9454301,
+      "ready_flag": true,
+      "launcher_done": true,
+      "reasons": [],
+      "worker_pid": 7728,
+      "worker_exit": null,
+      "messages": {
+        "stdin": 0,
+        "stdout": 1,
+        "stderr": 0
+      },
+      "bytes_seen": {
+        "stdin": 0,
+        "stdout": 252,
+        "stderr": 0
+      },
+      "thread_states": {
+        "worker-deadline": true,
+        "worker-launch": false,
+        "worker-stdout": true,
+        "worker-stderr": true
+      },
+      "ready_or_failure_from_worker_start_seconds": 0.4301732999883825
+    },
+    {
+      "kind": "INITIAL_READY_POLL",
+      "run_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\new-worker-中文 space-yb0wf_aj\\outputs\\first",
+      "worker_started_monotonic": 72790.219581,
+      "poll_start_monotonic": 72790.2209333,
+      "returned_kind": "READY",
+      "poll_end_monotonic": 72790.5942858,
+      "ready_flag": true,
+      "launcher_done": true,
+      "reasons": [],
+      "worker_pid": 38268,
+      "worker_exit": null,
+      "messages": {
+        "stdin": 0,
+        "stdout": 1,
+        "stderr": 0
+      },
+      "bytes_seen": {
+        "stdin": 0,
+        "stdout": 254,
+        "stderr": 0
+      },
+      "thread_states": {
+        "worker-deadline": true,
+        "worker-launch": false,
+        "worker-stdout": true,
+        "worker-stderr": true
+      },
+      "ready_or_failure_from_worker_start_seconds": 0.3747048000077484
+    }
+  ],
+  "artifact_capture": "Wrap existing cleanup after original resource settle; original Popen and poll delegated unchanged with in-memory timestamps.",
+  "production_limits_unchanged": true,
+  "fixture_poll_seconds": 4,
+  "fixture_worker_wall_seconds": 8,
+  "fixture_worker_cleanup_seconds": 1,
+  "original_full_gate_result": "Second full gate FAIL 2 / 1018, unchanged",
+  "limits": "Isolated repeat cannot prove the prior full-gate timeout cause or replace that full-gate result."
+}

@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "source_inputs": 3028,
+  "sources_unchanged": true,
+  "checks": [
+    {
+      "name": "terminal-full",
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-accepted-factors-venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\accepted-strategy-factors-20261108-r1\\diagnostic_terminal_20261115.py"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\accepted-strategy-factors-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+      "exit_code": 0,
+      "seconds": 289.09
+    }
+  ],
+  "scope": "FROZEN_SOURCE_INTEGRATION_NOT_PACKAGE_NATIVE_OR_INDEPENDENT_USER_ACCEPTANCE"
+}

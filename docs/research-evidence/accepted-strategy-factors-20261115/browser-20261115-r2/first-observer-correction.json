@@ -1,0 +1,9 @@
+{
+  "status": "ORIGINAL_FAIL_PRESERVED_CORRECT_ENVELOPE_VERIFIED_OFFLINE",
+  "previous": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\accepted-strategy-factors-20261108-r1\\browser-20261115-r1",
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(responses.filter(r=>r.body.schema_version==='hakimi-accepted-factors-v1').length>=3)\n",
+  "actual_envelope": "body.ok + body.data.schema_version",
+  "factor_reads": 3,
+  "new_research_runs_for_correction": 0,
+  "original_flow_reached_all_preceding_UI_assertions": true
+}

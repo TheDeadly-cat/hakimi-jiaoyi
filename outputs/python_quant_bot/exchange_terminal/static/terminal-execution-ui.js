@@ -76,13 +76,88 @@
       throw Error("因子回复与保存报告的历史截止日、持仓情景、参数或源码不一致，或资料仍不足；无法取得一致解释。");
     return clone(row);
   }
+  const acceptedReference=value=>plain(value)&&value.kind==="core_run"&&typeof value.id==="string"&&/^[a-f0-9]{24}$/.test(value.id)&&Object.keys(value).length===2;
+  const finite=value=>typeof value==="number"&&Number.isFinite(value);
+  const acceptedParams=value=>plain(value)&&Object.entries(value).every(([key,v])=>
+    finite(v)||(key==="fixed_take_profit_policy"&&["FIXED_PCT","DISABLED"].includes(v)));
+  const acceptedSourceIdentity=value=>plain(value)&&["recorded_sha256","accepted_sha256","disk_sha256","loaded_rule_code_sha256"].every(key=>isHash(value[key]))
+    &&value.recorded_sha256===value.accepted_sha256&&value.recorded_sha256===value.disk_sha256&&value.loaded_rule_verified===true&&value.verification_scope==="PINNED_PACKAGE_DISK_AND_LOADED_RULE_SMA_BINDINGS";
+  function acceptedReadError(error){const message=readableError(error);return message.includes("accepted_factor_strategy_unsupported")?"这份保存结果的策略暂未支持历史因子解释；不会套用其他引擎的同名策略。":message.includes("accepted_factor_recorded_source_changed")?"这份保存结果的原规则版本与当前核对规则不同，暂不能提供历史因子解释；原报告仍可查看，不会套用当前规则。":message;}
+  function acceptedSavedRuleContext(value,research,ref) {
+    const b=research?.binding,capital=researchCapital(research);
+    if(!acceptedReference(ref)||!sameReference(research?.reference,ref)||value?.schema_version!=="hakimi-accepted-rule-context-v1"
+      ||!equal(value.reference,ref)||!isHash(value.context_id)||value.read_only!==true||value.new_economic_runs!==0||!factorPermissions(value.permissions)
+      ||b?.status!=="COMPLETED"||value.engine_id!=="research.accepted-equity"||value.engine_id!==b.engine_id||value.strategy_id!=="price.dual_ma@1"||value.strategy_id!==b.strategy_id
+      ||!["task_id","input_id","report_id","report_hash","source_hash"].every(key=>isHash(value[key])&&value[key]===b[key])||value.task_version!==b.task_version||typeof value.task_version!=="string"||!value.task_version
+      ||!acceptedParams(value.strategy_params)||!equal(value.strategy_params,b.strategy_params)||!equal(value.execution_risk,b.risk)||!equal(value.costs,b.costs)
+      ||![value.source_digest,value.input_data_hash,value.spec_hash,value.fingerprint].every(isHash)||!acceptedSourceIdentity(value.accepted_source_identity)||value.accepted_source_identity.recorded_sha256!==value.source_hash
+      ||value.risk_units!=="FRACTION_RATIOS"||value.cost_units!=="FRACTION_RATIOS"||!plain(value.parameter_units)||!equal(Object.keys(value.parameter_units).sort(),Object.keys(value.strategy_params).sort())
+      ||Object.entries(value.parameter_units).some(([key,unit])=>unit!==({fast_window:"sessions",slow_window:"sessions",position_pct:"ratio",stop_loss_pct:"ratio",take_profit_pct:"ratio",fixed_take_profit_policy:"enum"})[key])
+      ||value.security_id!==b.security_id||value.security_id!==research.display?.security_id||value.symbol!==research.display?.symbol||!value.symbol||value.currency!=="USD"||value.currency!==research.display?.currency
+      ||!finite(value.initial_cash)||value.initial_cash<=0||(capital&&capital.initial_cash!==value.initial_cash)
+      ||value.quantity_policy!=="FRACTIONAL_SHARES_RESEARCH_APPROXIMATION"||typeof value.execution_model!=="string"||!value.execution_model
+      ||value.explanation_scope!=="NEW_READ_ONLY_SCORE_END_CLOSE_EXPLANATION_NOT_RETAINED_REPORT_FACTORS"
+      ||![value.data_start,value.score_start_session,value.cutoff_session,value.snapshot_end].every(recordedDay)||value.data_start>value.score_start_session||value.score_start_session>value.cutoff_session||value.cutoff_session>value.snapshot_end)
+      throw Error("保存结果的引擎、原任务、输入、参数或源码身份不完整，无法取得一致解释。");
+    return clone(value);
+  }
+  function acceptedSavedFactorContext(value,context,hasPosition) {
+    const row=value?.row,reason=row?.signal?.reason;
+    if(context?.schema_version!=="hakimi-accepted-rule-context-v1"||value?.schema_version!=="hakimi-accepted-factors-v1"||value.read_only!==true||value.new_economic_runs!==0||!factorPermissions(value.permissions)
+      ||value.context_id!==context.context_id||!equal(value.reference,context.reference)||row?.schema_version!=="hakimi-accepted-strategy-diagnostic-v1"||!isHash(row.diagnostic_id)
+      ||!Object.keys(context).filter(key=>key!=="schema_version").every(key=>equal(row[key],context[key]))
+      ||!equal(row.position_context,{has_position:hasPosition})||!equal(row.freshness,{context:"SAVED_HISTORICAL_INPUT",cutoff_session:context.cutoff_session,live_quote_verified:false})
+      ||!["READY","INSUFFICIENT_HISTORY"].includes(row.status)||row.decision_matches_factors!==true||!['BUY','EXIT','HOLD'].includes(row.signal?.action)
+      ||!['fast MA crossed above slow MA','fast MA crossed below slow MA','no MA crossover','not enough data'].includes(reason)
+      ||(row.status==="INSUFFICIENT_HISTORY"&&(row.signal.action!=="HOLD"||reason!=="not enough data"))
+      ||(row.status==="READY"&&(reason==="not enough data"||row.signal.action==="BUY"&&(hasPosition||reason!=="fast MA crossed above slow MA")||row.signal.action==="EXIT"&&(!hasPosition||reason!=="fast MA crossed below slow MA")||row.signal.action==="HOLD"&&reason!=="no MA crossover"))
+      ||!acceptedFactorsMatch(row,context,hasPosition))
+      throw Error("因子回复与保存结果的引擎、参数、历史截止日、持仓情景或源码不一致，无法取得一致解释。");
+    return clone(row);
+  }
+  function acceptedFactorsMatch(row,context,holding) {
+    const expected={warmup_sessions:[">=","sessions","WARMUP",true],entry_previous_not_above:["<=","price","ENTRY",!holding],entry_current_above:[">","price","ENTRY",!holding],exit_previous_not_below:[">=","price","EXIT",holding],exit_current_below:["<","price","EXIT",holding]};
+    const windows=row.effective_windows;
+    if(!plain(windows)||!equal(Object.keys(windows).sort(),["fast_window","slow_window","warmup_sessions"])||![windows.fast_window,windows.slow_window,windows.warmup_sessions].every(Number.isSafeInteger)||windows.fast_window<1||windows.slow_window<1||windows.warmup_sessions!==windows.slow_window+2
+      ||["fast_window","slow_window"].some(key=>context.strategy_params[key]!==undefined&&context.strategy_params[key]!==windows[key]))return false;
+    if(!Array.isArray(row.factors)||row.factors.length!==5||!equal(row.factors.map(f=>f?.key).sort(),Object.keys(expected).sort()))return false;
+    const factors=Object.fromEntries(row.factors.map(f=>[f.key,f])),compare=(op,a,b)=>({"<=":a<=b,"<":a<b,">=":a>=b,">":a>b})[op];
+    for(const f of row.factors){
+      if(!plain(f)||typeof f.label!=="string"||!f.label||f.cutoff_session!==context.cutoff_session||!equal([f.operator,f.unit,f.role,f.applies_to_position],expected[f.key])||![true,false,null].includes(f.passed))return false;
+      if(f.key==="warmup_sessions"){
+        if(!Number.isSafeInteger(f.value)||f.value<0||f.threshold!==windows.warmup_sessions||f.passed!==(f.value>=f.threshold))return false;
+      }else if(row.status==="INSUFFICIENT_HISTORY"){
+        if(f.value!==null||f.threshold!==null||f.passed!==null)return false;
+      }else if(!finite(f.value)||!finite(f.threshold)||f.passed!==compare(f.operator,f.value,f.threshold))return false;
+    }
+    if((row.status==="READY")!==factors.warmup_sessions.passed)return false;
+    for(const [a,b] of [["entry_previous_not_above","exit_previous_not_below"],["entry_current_above","exit_current_below"]])if(factors[a].value!==factors[b].value||factors[a].threshold!==factors[b].threshold)return false;
+    const action=row.status!=="READY"?"HOLD":holding?(factors.exit_previous_not_below.passed&&factors.exit_current_below.passed?"EXIT":"HOLD"):(factors.entry_previous_not_above.passed&&factors.entry_current_above.passed?"BUY":"HOLD");
+    return row.signal.action===action;
+  }
   const parameterLabels={fast_window:"快均线周期",slow_window:"慢均线周期",window:"观察周期",std_mult:"标准差倍数",fast:"快线周期",slow:"慢线周期",signal:"信号周期",oversold:"超卖阈值",overbought:"超买阈值",threshold:"动量阈值",pivot_window:"关键点观察周期",confirm_pct:"突破确认幅度",entry_window:"入场通道周期",exit_window:"退出通道周期",box_window:"箱体观察周期",trend_window:"趋势周期",breakout_window:"突破周期",volume_window:"成交量周期",atr_window:"ATR 周期",volume_ratio:"成交量倍数",min_atr_pct:"最低 ATR 比例",max_atr_pct:"最高 ATR 比例",max_extension_pct:"最大偏离幅度"};
   const percentParameters=new Set(['threshold','confirm_pct','min_atr_pct','max_atr_pct','max_extension_pct']);
   const compatibilityLabels={position_pct:"旧仓位比例",stop_loss_pct:"旧止损比例",take_profit_pct:"旧止盈比例"};
   const shownNumber=value=>typeof value==="number"&&Number.isFinite(value)?value.toLocaleString("zh-CN",{maximumSignificantDigits:10}):"未记录";
-  function factorValue(value,unit){return Array.isArray(value)?value.map(v=>factorValue(v,unit)).join(" 至 "):typeof value!=="number"||!Number.isFinite(value)?"未记录":unit==="ratio"?shownNumber(value*100)+"%":shownNumber(value)+({percent:"%",volume:" 股",rsi:" 点",oscillator_points:" 点",multiple:" 倍",multiplier:" 倍"}[unit]||"");}
+  function factorValue(value,unit){return Array.isArray(value)?value.map(v=>factorValue(v,unit)).join(" 至 "):typeof value!=="number"||!Number.isFinite(value)?"未记录":unit==="ratio"?shownNumber(value*100)+"%":shownNumber(value)+({percent:"%",volume:" 股",rsi:" 点",oscillator_points:" 点",multiple:" 倍",multiplier:" 倍",sessions:" 个交易日"}[unit]||"");}
+  function renderAcceptedRuleReview(context,review) {
+    const names={...parameterLabels,position_pct:"策略仓位比例",stop_loss_pct:"策略止损比例",take_profit_pct:"策略止盈比例",fixed_take_profit_policy:"固定止盈设置"};
+    const value=(key,v)=>typeof v==="string"?({FIXED_PCT:"按保存比例止盈",DISABLED:"关闭固定止盈"}[v]||"未识别的保存设置"):factorValue(v,key.endsWith("_pct")?"ratio":"");
+    const riskNames={max_position_pct:"最大仓位比例",max_single_loss_pct:"最大止损距离",max_daily_loss_pct:"日亏损后暂停新买入",min_cash_pct:"最低现金比例",max_leverage:"有效杠杆"};
+    const row=review?.row,insufficient=row?.status==="INSUFFICIENT_HISTORY";
+    const why=!row?"尚未核对该历史日的因子；不会据此推定买入、卖出或策略有效。":insufficient?"历史资料不足，无法核对前一日到当日的均线交叉；本次保持不动作（HOLD），不是条件已核对为不满足。":row.signal.action==="BUY"?"前日快均线不高于慢均线，当日升至慢均线上方：在未持仓情景下满足历史开仓条件（BUY）。":row.signal.action==="EXIT"?"前日快均线不低于慢均线，当日降至慢均线下方：在已有持仓情景下满足历史退出条件（EXIT）。":row.position_context.has_position?"没有出现从前日到当日的向下交叉，因此本次保持不动作（HOLD）；仅当日快均线较低，不等于发生了交叉。":"没有出现从前日到当日的向上交叉，因此本次保持不动作（HOLD）；仅当日快均线较高，不等于发生了交叉。";
+    return `<div class="tex-rule-review" data-tex-accepted-rule><p><strong>历史数据截至 ${esc(context.cutoff_session)}</strong> · ${esc(context.symbol)}<br>保存区间 ${esc(context.data_start)} 至 ${esc(context.cutoff_session)}；评估从 ${esc(context.score_start_session)} 开始，不是当前报价。</p>
+      <details open data-tex-signal-params><summary>这份保存结果的策略参数</summary>${Object.keys(context.strategy_params).length?`<dl class="kv">${Object.entries(context.strategy_params).map(([k,v])=>`<dt>${esc(names[k]||k)}</dt><dd>${esc(value(k,v))}</dd>`).join("")}</dl>`:"<p>原报告未显式记录策略参数；不补写省略值。</p>"}</details>
+      <div data-tex-saved-risk><strong>本报告保存的执行风险设置：</strong><dl class="kv">${Object.entries(riskNames).map(([k,label])=>`<dt>${label}</dt><dd>${esc(factorValue(context.execution_risk?.[k],k==="max_leverage"?"multiple":"ratio"))}</dd>`).join("")}</dl><p class="section-note">止损距离不是账户损失保证；达到日亏损条件只暂停新买入。这些原回测设置不替代当前合成账户的风险限制，未记录的设置保持未知。</p></div>
+      <p>${row?`<strong>${row.position_context.has_position?"已有持仓":"未持仓"}诊断情景</strong> · `:""}${esc(why)}</p>
+      ${row?`<p class="section-note">本次原规则实际使用快均线 ${esc(row.effective_windows.fast_window)} 个交易日、慢均线 ${esc(row.effective_windows.slow_window)} 个交易日；交叉判断至少需要 ${esc(row.effective_windows.warmup_sessions)} 个完整历史交易日。这是本次解释的实际窗口，不补写原报告参数。</p>`:""}
+      <p class="section-note">这是按保存行情和原策略规则生成的新只读历史诊断，不是原报告已保存的因子，不是当前报价、买入指令或盈利预测。情景不代表账户实际持仓；不会修改订单方向、价格或数量。判断使用原始精度，数值仅作显示。</p>
+      ${row?`<div class="tex-factor-table"><table><thead><tr><th>因子</th><th>历史值</th><th>判定条件</th><th>规则判断</th></tr></thead><tbody>${row.factors.map(f=>`<tr><th scope="row">${esc(f.label)}</th><td>${esc(factorValue(f.value,f.unit))}</td><td>${esc(({"<=":"不高于","<":"低于",">=":"不低于",">":"高于"})[f.operator])} ${esc(factorValue(f.threshold,f.unit))}</td><td>${f.passed===true?"满足":f.passed===false?"未满足":"资料不足"}${f.applies_to_position===false?"（另一持仓情景）":""}</td></tr>`).join("")}</tbody></table></div>`:""}
+      <details><summary>查看只读解释依据身份</summary><p>原报告 ${esc(context.report_hash)}<br>原任务 ${esc(context.task_id)}<br>输入 ${esc(context.input_id)}<br>原引擎 ${esc(context.engine_id)}<br>上下文 ${esc(context.context_id)}${row?`<br>诊断 ${esc(row.diagnostic_id)}`:""}<br>规则指纹 ${esc(context.fingerprint)}</p></details></div>`;
+  }
   function renderRuleReview(context,review) {
     if(!context)return '<p class="section-note">尚未取得身份一致的保存报告参数和历史截止日。因子解释不可用，不影响已生成的订单预览。</p>';
+    if(context.schema_version==="hakimi-accepted-rule-context-v1")return renderAcceptedRuleReview(context,review);
     const entries=Object.entries(context.strategy_params),signals=entries.filter(([k])=>Object.hasOwn(parameterLabels,k)),compatibility=entries.filter(([k])=>Object.hasOwn(compatibilityLabels,k)),other=entries.filter(([k])=>!Object.hasOwn(parameterLabels,k)&&!Object.hasOwn(compatibilityLabels,k));
     const parameterRows=(rows,names,unit)=>rows.map(([k,v])=>`<dt>${esc(names[k]||k)}</dt><dd>${esc(typeof v==="boolean"?(v?"是":"否"):factorValue(v,unit(k)))}</dd>`).join("");
     const params=parameterRows(signals,parameterLabels,k=>percentParameters.has(k)?"ratio":"");
@@ -202,7 +277,7 @@
       sourceRuleContext:null,sourceRuleBindingStamp:null,sourceRuleError:"",sourceName:"",sourceNameError:"",sourceNameLoading:false,factorPosition:"",factorReview:null,factorError:"",factorBusy:false,factorReadStamp:null};
     let accountSequence=0,sourceSequence=0,listSequence=0,comparisonSequence=0,sourceRuleSequence=0,factorSequence=0;
     function ruleStamp(){return JSON.stringify(ordered({reference:state.sourceReference,binding:state.source?.binding}));}
-    function factorStamp(){return JSON.stringify(ordered({source:ruleStamp(),account_id:state.accountId,account_context:state.account?.account_context,
+    function factorStamp(){return JSON.stringify(ordered({source:ruleStamp(),rule_context:state.sourceRuleContext,account_id:state.accountId,account_context:state.account?.account_context,
       revision:state.account?.ledger?.revision,stale:state.accountStale,plan:state.account?.ledger?.plans.find(p=>p.plan_id===state.planId),position:state.factorPosition}));}
     const emit=()=>{if(state.orderPreview&&state.orderPreview.stamp!==previewStamp())state.orderPreview=null;
       if(state.sourceRuleContext&&state.sourceRuleBindingStamp!==ruleStamp()){state.sourceRuleContext=null;state.sourceRuleBindingStamp=null;}
@@ -250,11 +325,20 @@
     async function readSavedRuleContext() {
       const ref=state.sourceReference&&clone(state.sourceReference),research=state.source&&clone(state.source),stamp=ruleStamp(),seq=++sourceRuleSequence;
       const current=()=>seq===sourceRuleSequence&&stamp===ruleStamp();
+      if(ref?.kind==="core_run"){factorSequence++;state.sourceRuleContext=null;state.sourceRuleBindingStamp=null;state.factorReview=null;state.factorBusy=false;state.factorReadStamp=null;state.factorError="";emit();}
       try{
-        if(ref?.kind!=="terminal_run"||!isHash(ref.id))throw Error("此来源暂没有可核对的原生保存报告身份；不会套用其他引擎的因子。");
-        const report=await api("terminal_runs/"+encodeURIComponent(ref.id));if(!current())return;
-        const context=savedRuleContext(report,research,ref);state.sourceRuleContext=context;state.sourceRuleBindingStamp=stamp;state.sourceRuleError="";emit();return context;
-      }catch(error){if(current()){state.sourceRuleError="保存参数与截止日读取未完成："+readableError(error);emit();}}
+        let context;
+        if(ref?.kind==="core_run"){
+          if(!acceptedReference(ref))throw Error("保存结果引用不完整，无法读取这份结果的历史因子；不会套用其他引擎。");
+          const report=await api(requestPath("terminal_accepted_rule_context",ref));if(!current())return;
+          context=acceptedSavedRuleContext(report,research,ref);
+        }else{
+          if(ref?.kind!=="terminal_run"||!isHash(ref.id))throw Error("此来源暂没有可核对的原生保存报告身份；不会套用其他引擎的因子。");
+          const report=await api("terminal_runs/"+encodeURIComponent(ref.id));if(!current())return;
+          context=savedRuleContext(report,research,ref);
+        }
+        state.sourceRuleContext=context;state.sourceRuleBindingStamp=stamp;state.sourceRuleError="";emit();return context;
+      }catch(error){if(current()){state.sourceRuleError="保存参数与截止日读取未完成："+(ref?.kind==="core_run"?acceptedReadError(error):readableError(error));emit();}}
     }
     function setFactorPosition(value){if(!["","flat","holding"].includes(value))throw Error("请明确选择未持仓或已有持仓的诊断情景。");if(value!==state.factorPosition){factorSequence++;state.factorPosition=value;state.factorReview=null;state.factorError="";state.factorBusy=false;state.factorReadStamp=null;emit();}}
     async function readFactors() {
@@ -263,9 +347,10 @@
       if(!["flat","holding"].includes(state.factorPosition)){state.factorError="请先明确选择诊断情景，不默认未持仓或买入。";emit();return;}
       const context=clone(state.sourceRuleContext),hasPosition=state.factorPosition==="holding",stamp=factorStamp(),seq=++factorSequence,preview=state.orderPreview;
       const current=()=>seq===factorSequence&&stamp===factorStamp()&&preview===state.orderPreview;state.factorReview=null;state.factorError="";state.factorBusy=true;state.factorReadStamp=stamp;emit();
-      try{const result=await api(requestPath("terminal_strategy_candidates",{input_id:context.input_id,strategy_id:context.strategy_id,strategy_params:clone(context.strategy_params),cutoff_session:context.cutoff_session,position_context:{has_position:hasPosition}}));
-        if(!current())return;const row=savedFactorContext(result,context,hasPosition);state.factorReview={stamp,row,reference:clone(context.reference),report_hash:context.report_hash};emit();return row;
-      }catch(error){if(current()){state.factorError="因子核对未完成："+readableError(error)+" 已有订单预览仍保留，不会运行研究或提交订单。";emit();}}
+      try{const accepted=context.schema_version==="hakimi-accepted-rule-context-v1";
+        const result=await api(accepted?requestPath("terminal_accepted_factors",{reference:clone(context.reference),context_id:context.context_id,position_context:{has_position:hasPosition}}):requestPath("terminal_strategy_candidates",{input_id:context.input_id,strategy_id:context.strategy_id,strategy_params:clone(context.strategy_params),cutoff_session:context.cutoff_session,position_context:{has_position:hasPosition}}));
+        if(!current())return;const row=accepted?acceptedSavedFactorContext(result,context,hasPosition):savedFactorContext(result,context,hasPosition);state.factorReview={stamp,row,reference:clone(context.reference),report_hash:context.report_hash};emit();return row;
+      }catch(error){if(current()){state.factorError="因子核对未完成："+(context.schema_version==="hakimi-accepted-rule-context-v1"?acceptedReadError(error):readableError(error))+" 已有订单预览仍保留，不会运行研究或提交订单。";emit();}}
       finally{if(current()){state.factorBusy=false;state.factorReadStamp=null;emit();}}
     }
     async function refreshAccounts() {
@@ -535,7 +620,7 @@
       $("tex-source-detail").innerHTML=research?`<strong>${esc(savedResultTitle(sourceLabel(state.sourceReference),research.binding.task_version))}</strong><p>${d.symbol?esc(d.symbol):"证券身份未记录"}</p>${state.sourceNameError&&!state.sources.some(item=>sameReference(item,state.sourceReference))?`<p class="notice warning" role="status">${esc(state.sourceNameError)}</p>`:""}<p>${readyResearch(research)?"已读取原保存身份；报价和成交仍需另行合成输入。":"缺少可核验的美元股票身份，暂不能新建账户或计划。"}</p><details><summary>查看保存的规则与完整身份</summary><dl class="kv"><dt>规则</dt><dd>${esc(research.binding.strategy_id)}</dd><dt>引擎</dt><dd>${esc(research.binding.engine_id)}</dd><dt>原版本身份</dt><dd>${esc(research.binding.task_version??"未记录")}</dd><dt>原任务</dt><dd>${esc(research.binding.task_id)}</dd><dt>原结果</dt><dd>${esc(research.binding.report_id)}</dd></dl></details>`:"选择后只读取原结果，不重新回测。";
       $("tex-factor-position").value=state.factorPosition;$("tex-rule-read-error").hidden=!state.sourceRuleError;$("tex-rule-read-error").textContent=state.sourceRuleError;
       $("tex-factor-read-error").hidden=!state.factorError;$("tex-factor-read-error").textContent=state.factorError;
-      $("tex-factor-status").textContent=state.factorBusy?"正在只读核对保存截止日的规则，不运行回测或订单。":state.factorReview?"本次只读因子解释已核对；不是原报告保存的因子，也不是当前买入指令。":"选择诊断情景后可核对因子；不默认买入，也不把手选情景当作账户持仓。";
+      $("tex-factor-status").textContent=state.factorBusy?"正在只读核对保存截止日的规则，不运行回测或订单。":state.factorReview?.row.status==="INSUFFICIENT_HISTORY"?"历史资料不足，尚不能核对均线交叉；不是已确认的买入或退出条件。":state.factorReview?"本次只读因子解释已核对；不是原报告保存的因子，也不是当前买入指令。":"选择诊断情景后可核对因子；不默认买入，也不把手选情景当作账户持仓。";
       section.querySelector('[data-tex-action="read-factors"]').textContent=state.factorBusy?"正在核对该历史截止日…":state.factorError?"重新核对同一结果与情景的因子":"核对该历史截止日的因子";
       if(lastFactorPosition!==state.factorPosition){$("tex-confirm-order").checked=false;lastFactorPosition=state.factorPosition;}
       $("tex-saved-rule-review").innerHTML=renderRuleReview(state.sourceRuleContext,state.factorReview);
@@ -561,7 +646,7 @@
       for(const id of ["tex-source","tex-account","tex-plan","tex-order"])$(id).disabled=locked;
       section.querySelectorAll("button").forEach(button=>{const action=button.dataset.texAction;button.disabled=locked&&!["check-pending","refresh"].includes(action);});
       $("tex-create-account").disabled=locked||!readyResearch(research);
-      $("tex-factor-position").disabled=locked;section.querySelector('[data-tex-action="read-rule"]').disabled=locked||state.sourceReference?.kind!=="terminal_run";
+      $("tex-factor-position").disabled=locked;section.querySelector('[data-tex-action="read-rule"]').disabled=locked||!(state.sourceReference?.kind==="terminal_run"||acceptedReference(state.sourceReference));
       section.querySelector('[data-tex-action="read-factors"]').disabled=locked||state.factorBusy||!state.sourceRuleContext||!state.factorPosition;
       const orderBlocked=locked||!available||!planMatchesResearch(plan,research)||account.reconciliation_required||account.deficiencies?.length>0||(account.paused&&v("tex-side")==="BUY");
       $("tex-preview-order").disabled=orderBlocked;$("tex-submit-order").disabled=orderBlocked||!state.orderPreview||state.orderPreview.affordability?.blocking!==false;
@@ -658,7 +743,7 @@
     render();
     return {setSources:controller.setSources,refresh:controller.refresh,reveal:()=>{section.hidden=false;section.scrollIntoView({block:"start"});},hide:()=>{section.hidden=true;},controller,element:section};
   }
-  const api={createController,install:installTerminalExecutionUI,reconciliationIdentities,readyResearch,accountMatchesResearch,renderExecutionExplanation,displayVersion,savedResultTitle,savedRuleContext,savedFactorContext,renderRuleReview,wholeShareAffordability,researchCapital,capitalComparison,remainingSnapshot,renderRemainingState,renderStrategyStage};
+  const api={createController,install:installTerminalExecutionUI,reconciliationIdentities,readyResearch,accountMatchesResearch,renderExecutionExplanation,displayVersion,savedResultTitle,savedRuleContext,savedFactorContext,acceptedSavedRuleContext,acceptedSavedFactorContext,renderRuleReview,wholeShareAffordability,researchCapital,capitalComparison,remainingSnapshot,renderRemainingState,renderStrategyStage};
   root.installTerminalExecutionUI=installTerminalExecutionUI;
   if(typeof module==="object"&&module.exports)module.exports=api;
 })(typeof globalThis!=="undefined"?globalThis:window);

@@ -1,0 +1,179 @@
+{
+  "scope": "TWO_ORIGINAL_FAILURES_ONCE_ISOLATED_NO_DEADLINE_OR_ASSERTION_CHANGE",
+  "tests": [
+    "test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_real_tcp_inside_original_worker_and_same_id_reopen",
+    "test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_two_real_workers_race_original_id_and_only_one_os_connection_exists"
+  ],
+  "tests_run": 2,
+  "success": true,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "elapsed_seconds": 2.9813276000058977,
+  "interpreter": "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-accepted-factors-venv\\Scripts\\python.exe",
+  "canonical_location": "C:\\Users\\Administrator\\.codex\\worktrees\\accepted-strategy-factors-20261108\\哈基米v2交易\\src\\hakimi_research\\__init__.py",
+  "source_before": {
+    "outputs/python_quant_bot/tests/test_terminal_broker_loopback_integration.py": "2899a379e9ccdbd80e2eae7902d31c22794ecc64ef063cf6a92162ff212ed1dd",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": "0220adfc0c6aae6a2d89ce4ca446ed0f184f83e1380c129987c76f65aaef260f",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "dff1675f6473ce9086a98d8716678ea1b916b93b57b08837cb321ec63f59c79e",
+    "outputs/python_quant_bot/tests/broker_loopback_server_fixture.py": "e4f8b2f20c320e40dfb8044b5c94ca124d72dec6f939c3f9db02af7c3d3f758f",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_entrypoint.py": "4ea4c6f3d005923582df0d5db47783265fb30f0ef1c79b13e4aaed63f3466bbd",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_loopback_socket.py": "f41fd513923c2a00e742e2153224a339b2ef76f0f8607ede464b1a4212933c4d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": "48cc746242c2f2500a07ea0b15dbb754510242bc62a140d63222895c2e447be1"
+  },
+  "source_after": {
+    "outputs/python_quant_bot/tests/test_terminal_broker_loopback_integration.py": "2899a379e9ccdbd80e2eae7902d31c22794ecc64ef063cf6a92162ff212ed1dd",
+    "outputs/python_quant_bot/tests/test_terminal_broker_worker_supervisor.py": "0220adfc0c6aae6a2d89ce4ca446ed0f184f83e1380c129987c76f65aaef260f",
+    "outputs/python_quant_bot/tests/broker_action_coordinator_fixture.py": "dff1675f6473ce9086a98d8716678ea1b916b93b57b08837cb321ec63f59c79e",
+    "outputs/python_quant_bot/tests/broker_loopback_server_fixture.py": "e4f8b2f20c320e40dfb8044b5c94ca124d72dec6f939c3f9db02af7c3d3f758f",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_supervisor.py": "a0171cad253111d0ff857be935140377e0083376bcbd1084203c7e0c62475837",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_worker_entrypoint.py": "4ea4c6f3d005923582df0d5db47783265fb30f0ef1c79b13e4aaed63f3466bbd",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_broker_loopback_socket.py": "f41fd513923c2a00e742e2153224a339b2ef76f0f8607ede464b1a4212933c4d",
+    "outputs/python_quant_bot/exchange_terminal/services/terminal_research.py": "48cc746242c2f2500a07ea0b15dbb754510242bc62a140d63222895c2e447be1"
+  },
+  "source_bytes_unchanged": true,
+  "archives": [
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\new-worker-中文 space-fkj1lukp",
+      "archive": "owned-fixture-1",
+      "settled_before_copy": true,
+      "files": {
+        "fixture/actual-tcp-first.py": {
+          "bytes": 1132,
+          "sha256": "b365fa04af2fcad0ea8e25e3502c48a617a2a6e8054e6370771cf6fc77cb3946"
+        },
+        "fixture/actual-tcp-reopen.py": {
+          "bytes": 1133,
+          "sha256": "6c89d8c3612ffb8282e62ff43fa700955bf647ef233be64a272b65cee64a7b39"
+        },
+        "outputs/actual-tcp-first/invocation.json": {
+          "bytes": 1304,
+          "sha256": "1aa06ad91df2b13cb4ef66650e11d11fc1ab9cb3df1732d9647f2f3a917598f9"
+        },
+        "outputs/actual-tcp-first/result.json": {
+          "bytes": 1264,
+          "sha256": "4a3c60ac4eb6ca18a3a86cc6f9ce229bd0c7933772a33de09472b4f325c2e7b1"
+        },
+        "outputs/actual-tcp-first/stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs/actual-tcp-first/stdin.bin": {
+          "bytes": 729,
+          "sha256": "eb6ea7b3578ab0e22d66e4ec181d63127c0d1943c510eceb25b9fd861d91dcae"
+        },
+        "outputs/actual-tcp-first/stdout.bin": {
+          "bytes": 1645,
+          "sha256": "84e2a44c3951cc6af1827ff6b7a38f3f9696ee4e1fadf01d2a821ddb43d883d7"
+        },
+        "outputs/actual-tcp-reopen/invocation.json": {
+          "bytes": 1305,
+          "sha256": "e1c77ecf847e687b47df9a7b0b2e9846ec0b2bee9a57abd1c0961c68f97a0e15"
+        },
+        "outputs/actual-tcp-reopen/result.json": {
+          "bytes": 1262,
+          "sha256": "11bd1f52f418517f3f1b7fa92b7cacb00ba867a22252d3672d216b9314519ddd"
+        },
+        "outputs/actual-tcp-reopen/stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs/actual-tcp-reopen/stdin.bin": {
+          "bytes": 344,
+          "sha256": "98c4632ec6fe77d631e8a1a63777e44e0ef50aa9e8ee98438fe7e7afc1233557"
+        },
+        "outputs/actual-tcp-reopen/stdout.bin": {
+          "bytes": 918,
+          "sha256": "21adb77a9d788ee0a1b52f38bee6d62120481ccebe809d23fde3b0c9515520f1"
+        }
+      }
+    },
+    {
+      "source": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\new-worker-中文 space-suqpnuia",
+      "archive": "owned-fixture-2",
+      "settled_before_copy": true,
+      "files": {
+        "fixture/actual-tcp-race-one.py": {
+          "bytes": 1571,
+          "sha256": "1b42501b7fab71916fdf3cfe5530a1436deacc11c734bc90641e4c196ccc822b"
+        },
+        "fixture/actual-tcp-race-read-original.py": {
+          "bytes": 1145,
+          "sha256": "9821d2e9d128c74572e136b13f991da60c45c15e5697a8ad0fb849675e91396b"
+        },
+        "fixture/actual-tcp-race-two.py": {
+          "bytes": 1571,
+          "sha256": "b21a28ca5d2406cb039c5eeb2a2d36e37d146972ae2c3ac1fd715f0b27dff78e"
+        },
+        "outputs/actual-tcp-race-one/invocation.json": {
+          "bytes": 1307,
+          "sha256": "231ef033ec33d03cbda6fea84090245c01d4b98000113d16a34e31cc994ef999"
+        },
+        "outputs/actual-tcp-race-one/result.json": {
+          "bytes": 1261,
+          "sha256": "ad7d6bd04cd126cefea631b1ad6180e10d78be03fbfcbccaef1048a570757391"
+        },
+        "outputs/actual-tcp-race-one/stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs/actual-tcp-race-one/stdin.bin": {
+          "bytes": 345,
+          "sha256": "d2af056f95481c659ab6dd2b26fa06e0a69f2458dbd880e2b5d200c3d365420a"
+        },
+        "outputs/actual-tcp-race-one/stdout.bin": {
+          "bytes": 916,
+          "sha256": "6d57844a07b83494b0ae7194eb8fe8d10348509a4227e01e58544a5e235377ab"
+        },
+        "outputs/actual-tcp-race-read-original/invocation.json": {
+          "bytes": 1317,
+          "sha256": "2466706ae047e33760ce333e3b6e1496099a8776f7987ecd23560eed3f035e79"
+        },
+        "outputs/actual-tcp-race-read-original/result.json": {
+          "bytes": 1257,
+          "sha256": "0316f5ca71950bc74d07d2e0ab01e919f805072828931029649e216059ef3787"
+        },
+        "outputs/actual-tcp-race-read-original/stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs/actual-tcp-race-read-original/stdin.bin": {
+          "bytes": 345,
+          "sha256": "d2af056f95481c659ab6dd2b26fa06e0a69f2458dbd880e2b5d200c3d365420a"
+        },
+        "outputs/actual-tcp-race-read-original/stdout.bin": {
+          "bytes": 916,
+          "sha256": "83e9211adb60090855c703132e9b16511738ad0ceb985fbf2f3a54108150d30d"
+        },
+        "outputs/actual-tcp-race-two/invocation.json": {
+          "bytes": 1307,
+          "sha256": "8578f55d799d218acedfbacb430f2e44da5630f095e9fd820ef781d87290b254"
+        },
+        "outputs/actual-tcp-race-two/result.json": {
+          "bytes": 1260,
+          "sha256": "9aa31cad5f0782bd1382e8c0e1bcb0470a1650fd87b134557ca5b1bccf857f64"
+        },
+        "outputs/actual-tcp-race-two/stderr.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs/actual-tcp-race-two/stdin.bin": {
+          "bytes": 345,
+          "sha256": "d2af056f95481c659ab6dd2b26fa06e0a69f2458dbd880e2b5d200c3d365420a"
+        },
+        "outputs/actual-tcp-race-two/stdout.bin": {
+          "bytes": 914,
+          "sha256": "4c5942807aaf726790f2325563a0c5c3553427f7ee154273a5a09a896e26db15"
+        }
+      }
+    }
+  ],
+  "artifact_capture": "Only wrap existing fixture temporary cleanup to copy closed worker streams before original deletion.",
+  "production_limits_unchanged": true,
+  "fixture_poll_seconds": 3,
+  "fixture_worker_wall_seconds": 8,
+  "fixture_worker_cleanup_seconds": 1,
+  "original_full_gate_result": "FAIL 2 / 1018, unchanged",
+  "limits": "Isolated repeat cannot prove the cause of the prior full-gate timeout or replace the full gate."
+}

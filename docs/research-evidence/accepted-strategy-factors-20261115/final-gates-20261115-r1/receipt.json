@@ -1,0 +1,72 @@
+{
+  "status": "FAIL",
+  "source_inputs": 3028,
+  "sources_unchanged": true,
+  "checks": [
+    {
+      "name": "coverage",
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-accepted-factors-venv\\Scripts\\python.exe",
+        "-B",
+        "tools/run_terminal_contracts.py",
+        "--check-coverage"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\accepted-strategy-factors-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+      "exit_code": 0,
+      "seconds": 0.191
+    },
+    {
+      "name": "gate-runner",
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-accepted-factors-venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools",
+        "-p",
+        "test_terminal_ci_gate.py",
+        "-v"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\accepted-strategy-factors-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+      "exit_code": 0,
+      "seconds": 0.224
+    },
+    {
+      "name": "terminal-full",
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\gate-accepted-factors-venv\\Scripts\\python.exe",
+        "-B",
+        "tools/run_terminal_contracts.py"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\accepted-strategy-factors-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+      "exit_code": 1,
+      "seconds": 302.668
+    },
+    {
+      "name": "desktop-full",
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node.exe",
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node_modules\\npm\\bin\\npm-cli.js",
+        "run",
+        "check"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\accepted-strategy-factors-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613\\outputs\\hakimi_trade_electron",
+      "exit_code": 0,
+      "seconds": 57.439
+    },
+    {
+      "name": "candle-completion",
+      "command": [
+        "C:\\Users\\Administrator\\Downloads\\Hakimi-Astra-Delivery-20261029\\CI147-node22-crash-20261029\\portable\\node-v22.23.4-win-x64\\node.exe",
+        "--test",
+        "outputs/python_quant_bot/exchange_terminal/static/candle-completion.test.js"
+      ],
+      "cwd": "C:\\Users\\Administrator\\.codex\\worktrees\\accepted-strategy-factors-20261108\\\u54c8\u57fa\u7c73v2\u4ea4\u6613",
+      "exit_code": 0,
+      "seconds": 0.133
+    }
+  ],
+  "scope": "FROZEN_SOURCE_INTEGRATION_NOT_PACKAGE_NATIVE_OR_INDEPENDENT_USER_ACCEPTANCE"
+}

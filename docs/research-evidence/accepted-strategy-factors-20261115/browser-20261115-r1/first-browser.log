@@ -1,0 +1,12 @@
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(responses.filter(r=>r.body.schema_version==='hakimi-accepted-factors-v1').length>=3)
+
+    at C:\Users\Administrator\Downloads\Hakimi-Astra-Delivery-20261029\accepted-strategy-factors-20261108-r1\browser_flow.cjs:72:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

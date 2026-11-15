@@ -322,10 +322,12 @@ class LoopbackOwnedWorkerTests(unittest.TestCase):
         handle = supervisor.launch(spec, output_parent=self.worker.outputs, run_dir=self.worker.outputs.path / name,
             run_id="owned-tcp-run", request_id="owned-tcp-request", limits=worker_fixture.limits(wall_seconds=wall_seconds, cleanup_seconds=1))
         self.worker.handles.append(handle); self.sequence[id(handle)] = 0
-        self.assertEqual(self.poll(handle)["kind"], "READY")
+        self.assertEqual(self.poll(handle, initial=True)["kind"], "READY")
         return handle
 
-    def poll(self, handle):
+    def poll(self, handle, *, initial=False):
+        if initial:
+            return worker_fixture.synthetic_initial_message(handle)
         deadline = time.monotonic() + 3
         while time.monotonic() < deadline:
             message = handle.poll_message(.1)

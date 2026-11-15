@@ -1,0 +1,197 @@
+{
+  "schema_version": "hakimi-maintainer-native-outcome-v1",
+  "at": "2026-11-07T23:02:54.051Z",
+  "status": "PLANNED_MAINTAINER_SYNTHETIC_FLOW_COMPLETED_WITH_RECORDED_LIMITATIONS",
+  "candidate": "0.7.0.dev3-r7",
+  "source_commit": "708ec3f08abdeeae2578726b765483c8c109daa9",
+  "bundle_id": "9720f8274d460c20662cf9551b15b6ddc9bed5d5ccc4c3cb0312d815d094c0cf",
+  "scope": "THIS_PC_MAINTAINER_NATIVE_UI_NOT_INDEPENDENT_WINDOWS_OR_NOVICE_ACCEPTANCE",
+  "ui_findings": {
+    "teaching_preparation_and_task_save_feedback_completed": true,
+    "result_task_name_retained_in_practice": true,
+    "initial_cash_usd": "100.00",
+    "final_equity_usd": "98.97",
+    "net_change_usd": "-1.03",
+    "return_pct": "-1.03",
+    "max_drawdown_pct": "1.03",
+    "recorded_research_fee_usd": "0.0392",
+    "insufficient_one_share_at_200_preview": {
+      "available_cash_usd": "100",
+      "required_with_fee_buffer_usd": "201",
+      "submit_button_disabled": true,
+      "submit_not_clicked": true
+    },
+    "synthetic_order_acceptance_not_fill": true,
+    "paused_cash_reserved_available_usd": [
+      "100",
+      "21",
+      "79"
+    ],
+    "reopened_same_report_account_plan_order_and_pause": true
+  },
+  "research": {
+    "run_id": "2045e955d5a62c781cdd5cfc841f7711d88f6e0fae3deb09d7f2da2be87a8ee2",
+    "task_id": "f21479c3ee0b5093725f8fc8e4b6facbf231ccfae3b303a1948c1a6fea5d5079",
+    "report_hash": "f94e5a1c98a3a87c3177367961eb7dd4a9988f089e827692749fd2aea1fa3b3c",
+    "version_id": "r0001-2015a52722bd4ca1a912b701c3c253be",
+    "input_id": "9ee0e617ef80a0a373fbb3d50f626d7784d51af9ea0e8dce00ae946960b7450b",
+    "evidence_kind": "SYNTHETIC_TEST",
+    "initial_cash": 100,
+    "core_run_id": "e1f269a5399bbcaa5c6f2c38"
+  },
+  "account_id": "sim-96054efc-cbb7-4273-a337-e4bd12a3d9c2",
+  "plan_id": "02a8415ccc124601c65f113783dc67543b516a6f7003a9ea3cdb9b96e606afb3",
+  "order_id": "9b3bf0885cc5d51b8ab677f2a623366803a8db2b7de8a951934f9b9ecd922e37",
+  "account_counts": {
+    "orders": 1,
+    "fills": 0,
+    "plans": 1,
+    "positions": 0,
+    "observations": 0
+  },
+  "remaining_state": {
+    "paused": true,
+    "cash": "100",
+    "reserved_cash": "21",
+    "available_cash": "79"
+  },
+  "comparison": {
+    "changed_files": [
+      "ui/strategy-journey-v1.sqlite3"
+    ],
+    "unexpected_business_changes": [],
+    "business_file_bytes_unchanged": true,
+    "non_journey_sqlite_rows_unchanged": true,
+    "navigation": {
+      "business_anchors_unchanged": true,
+      "old_request_rows_unchanged": 4,
+      "added_navigation_requests": [
+        {
+          "id": "journey-8f955ca6-782f-4add-9a5a-4ed0b7c5efab",
+          "fingerprint": "762de34af61a0c303fec52e5ff63fb122c6433591b8e5a57a16bdbcadd931e29",
+          "receipt": "{\"automatic_retry\":false,\"external_calls\":0,\"new_economic_runs\":0,\"permissions\":{\"live_allowed\":false,\"order_allowed\":false,\"paper_allowed\":false,\"research_only\":true},\"read_only\":false,\"replayed\":false,\"request_id\":\"journey-8f955ca6-782f-4add-9a5a-4ed0b7c5efab\",\"revision\":5,\"saved\":true,\"schema_version\":\"hakimi-terminal-journey-v1\",\"selection\":{\"broker\":null,\"manual\":{\"account_id\":\"sim-96054efc-cbb7-4273-a337-e4bd12a3d9c2\",\"plan_id\":\"02a8415ccc124601c65f113783dc67543b516a6f7003a9ea3cdb9b96e606afb3\"},\"replay\":null,\"research\":{\"id\":\"e1f269a5399bbcaa5c6f2c38\",\"kind\":\"core_run\"},\"task\":null,\"view\":\"results\"},\"status\":\"SAVED\",\"workspace_context\":\"7ee83aed56dff6c0dae2eee8493945b577017abc8b5f8513bdfacc7cecf187c8\"}"
+        }
+      ],
+      "view_before": "execution",
+      "view_after": "results",
+      "revision_before": 4,
+      "revision_after": 5
+    },
+    "status": "BUSINESS_UNCHANGED_NAVIGATION_ACCOUNTED",
+    "isolated_broker_shared_unchanged": true
+  },
+  "protected_old_files": 306,
+  "program_bytes_unchanged": true,
+  "normal_closes": 2,
+  "explicit_research_runs": 1,
+  "explicit_synthetic_submissions": 1,
+  "external_broker_orders": 0,
+  "reopen_business_mutations": 0,
+  "known_limitations": [
+    "Default accepted-equity teaching result has no supported native report identity for the current factor-review UI; its unavailable state was observed, not repaired or passed.",
+    "The initial results page still contained the older task-created guidance alongside completed-result feedback; clicking View saved result correctly located the financial summary.",
+    "Independent ordinary-user source-free Windows and three novice participant records have not been received.",
+    "This was synthetic local practice; no provider, OpenD, real account, market effectiveness or profitability acceptance."
+  ],
+  "retained_preparation_failures": [
+    "../native-dev3-window-r7-20261108-r1/failure-prepare-baseline.json",
+    "../native-dev3-window-r7-20261108-r2/failure-prepare-baseline.json"
+  ],
+  "evidence": [
+    {
+      "path": "root-tool-freeze-r3.json",
+      "bytes": 586,
+      "sha256": "7ed888b67acc9367b9df0f1ee688b61341c246f74db9c6b9c4e0eef4a6abb044"
+    },
+    {
+      "path": "root-scenario-r1.json",
+      "bytes": 2654,
+      "sha256": "3c9627bfb02d2483274045dab7a28ebf2330b096b4c9a6ad10f93ea4dd2a528d"
+    },
+    {
+      "path": "baseline.json",
+      "bytes": 2517382,
+      "sha256": "28f9c55a27910db38757d2d17d589090cc0ac838e8c61384984609190c7ec392"
+    },
+    {
+      "path": "first-launch.json",
+      "bytes": 1590,
+      "sha256": "41e5e697a28714e38b5e1234f74882e0fc030db39d444f6f5149fe2f907925b8"
+    },
+    {
+      "path": "first-closed.json",
+      "bytes": 10056,
+      "sha256": "6d7f62dac680b1fe0629464623b93ce9b2e31af7d5c7046f0886942bcbb316cc"
+    },
+    {
+      "path": "reopen-launch.json",
+      "bytes": 1591,
+      "sha256": "2f123fb30c687ae6c7935603ee28df2066a1f52354ef5e28150cf078a6e0073c"
+    },
+    {
+      "path": "reopen-closed.json",
+      "bytes": 12059,
+      "sha256": "78955dd534413f7f34d92ecb757f6a372fb6fd308efac91bba349eec7cee6ce3"
+    },
+    {
+      "path": "first-closed/scenario-summary.json",
+      "bytes": 6567,
+      "sha256": "2df85247053e99817ec4da16eba50b7c7316113a78e4eacbb5202bb0f9b5566e"
+    },
+    {
+      "path": "reopen-closed/scenario-summary.json",
+      "bytes": 6565,
+      "sha256": "b2a4aed3a08ba6a3cfa916a493991586eca40a9d37a1f7184a586605c151feab"
+    },
+    {
+      "path": "reopen-closed/reopen-comparison.json",
+      "bytes": 1546,
+      "sha256": "0d4cd8570a6c5c3cfd8f75bd63a86169bb71c911694d0916db6768c3c2148615"
+    },
+    {
+      "path": "ui-first-observations.json",
+      "bytes": 477845,
+      "sha256": "90d240f0953a6c8c28229df09e035b53612457ca2d0a6b4c3305421d2a062831"
+    },
+    {
+      "path": "ui-reopen-observations.json",
+      "bytes": 94354,
+      "sha256": "e769acbf654010b512363410000ded0edb485efca5936088a3c2b6593670ba35"
+    },
+    {
+      "path": "ui-result-summary.png",
+      "bytes": 179081,
+      "sha256": "368911a24853dca60169c800620737c12439ab528251de0605c7f192af72979e"
+    },
+    {
+      "path": "ui-insufficient-capital.png",
+      "bytes": 174651,
+      "sha256": "25c784016ea72b3c7cd54c6a4c024a69078783c60c34f478329dcafb9f114b16"
+    },
+    {
+      "path": "ui-accepted-not-filled.png",
+      "bytes": 166220,
+      "sha256": "994435c3d6c9f7b014f409b8d9a2e2b2500c3f8a307e6d7b554438d7372b2edf"
+    },
+    {
+      "path": "ui-pause-remaining.png",
+      "bytes": 186149,
+      "sha256": "c1e022594677fc118446fbbebe8c96ba4fbd0e02484517f8e4b38ff883d4206d"
+    },
+    {
+      "path": "ui-first-final-identity.png",
+      "bytes": 184093,
+      "sha256": "2a8af747a780926e8ed77f0dd6b0a82b46c1f0a46866998cdc90e04b1e5896e6"
+    },
+    {
+      "path": "ui-reopen-order.png",
+      "bytes": 188166,
+      "sha256": "d24ddc775a44c1a8a294d396a418069513efe03b1eb4030ce43b576f7629347f"
+    },
+    {
+      "path": "ui-reopen-report.png",
+      "bytes": 178936,
+      "sha256": "47edaee1ac627ba2a8647eb09434e3bfccd675ff8dda0b4fd08e4dc4bf8d26b0"
+    }
+  ]
+}

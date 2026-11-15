@@ -1,0 +1,107 @@
+{
+  "workspace.json": {
+    "sha256": "73dd798923ad7d6425e65c25d1ad59390b0ee17640bd594799de3f9b613096e1",
+    "bytes": 270,
+    "mtime_ns": 1794711247345642500
+  },
+  "ui/strategy-journey-v1.sqlite3": {
+    "sha256": "664807773c2c43d06de53c8cfa3d70f483aa943e1b0f71d79853f530cbe1192d",
+    "bytes": 16384,
+    "mtime_ns": 1794711258041580000
+  },
+  "tasks/.task-locks/因子核对-默认教学-100美元.lock": {
+    "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "bytes": 1,
+    "mtime_ns": 1794711249621022000
+  },
+  "tasks/因子核对-默认教学-100美元/family.json": {
+    "sha256": "3caba15aead68124a54db3f883def237369d10a0c77af8ac50f0b86bd092373c",
+    "bytes": 234,
+    "mtime_ns": 1794711249621022000
+  },
+  "tasks/因子核对-默认教学-100美元/journal/000001.json": {
+    "sha256": "26097ea752fcde9caab20a5fbb3405fe479fcd0c9f68ac4f97ae030481da52b9",
+    "bytes": 410,
+    "mtime_ns": 1794711249767146000
+  },
+  "tasks/因子核对-默认教学-100美元/versions/r0001-d2096f5d44b04660ab162c68b7d6b58c/task.json": {
+    "sha256": "f347bf0f355cd09c10d3605eb0098b773461853c911bb94db3b51b9cfc2afceb",
+    "bytes": 1274,
+    "mtime_ns": 1794711249710884500
+  },
+  "tasks/因子核对-默认教学-100美元/versions/r0001-d2096f5d44b04660ab162c68b7d6b58c/version.json": {
+    "sha256": "64f21b80245e0714ac98d654ba6d80e2895aedfa661042ebbcb6829184fa2340",
+    "bytes": 482,
+    "mtime_ns": 1794711249730037200
+  },
+  "tasks/因子核对-默认教学-100美元/versions/r0001-d2096f5d44b04660ab162c68b7d6b58c/inputs/snapshot.json": {
+    "sha256": "c0a84b28de9fec4d38df696d89658c0f45df7d9e7dad01d17dc935cb95daf606",
+    "bytes": 31342,
+    "mtime_ns": 1794711249650190600
+  },
+  "runs/.run-locks/run-221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f.lock": {
+    "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "bytes": 1,
+    "mtime_ns": 1794711251892473400
+  },
+  "runs/run-221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f/index.html": {
+    "sha256": "37fe333ff45117b3b0840f22e4689359f01b60870713e749575a1e2e8761f5c9",
+    "bytes": 4664,
+    "mtime_ns": 1794711252217955800
+  },
+  "runs/run-221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f/inputs.json": {
+    "sha256": "aec009c4c30d073fe32647e0c33b12492f4855a62ef0eae762bfa1b00343665e",
+    "bytes": 21951,
+    "mtime_ns": 1794711251980260600
+  },
+  "runs/run-221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f/preparation.json": {
+    "sha256": "30d18eeca8a2c0239afaee3e90be68aec4657b35d19620a890b275bed0d7206e",
+    "bytes": 266,
+    "mtime_ns": 1794711251892473400
+  },
+  "runs/run-221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f/report.json": {
+    "sha256": "7ab96097cf6f90f3ee9dc1fb5274048e44eaa0543531a8d9bd861f689f1ffd27",
+    "bytes": 47229,
+    "mtime_ns": 1794711252132135000
+  },
+  "runs/run-221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f/started.json": {
+    "sha256": "8c2db345a62100fed684933fb20d2bd5c8669c06c60872573eb331a9e869fc6f",
+    "bytes": 135,
+    "mtime_ns": 1794711251990520600
+  },
+  "runs/run-221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f/inputs/snapshot.json": {
+    "sha256": "c0a84b28de9fec4d38df696d89658c0f45df7d9e7dad01d17dc935cb95daf606",
+    "bytes": 31342,
+    "mtime_ns": 1794711251954596400
+  },
+  "runs/run-221c7fd328e4a3ffdbc28d62835e227fdea73a2af7b664a2a609f6a52ea9841f/inputs/task-presentation.json": {
+    "sha256": "40c94a2ce7d5b0aa7b1db7bd337cc1d4ea1b61e627d063f97f7427171a9431f3",
+    "bytes": 361,
+    "mtime_ns": 1794711251966998400
+  },
+  "offline-execution/sim-7d5e3489-81c6-4a27-bbdd-456d6cb9defa/account.json": {
+    "sha256": "957a9d147c8d6d5f4bf8f8dd47ddf0cf4d1e3deaa2adc25e3475752d8005d966",
+    "bytes": 767,
+    "mtime_ns": 1794711254208291700
+  },
+  "offline-execution/sim-7d5e3489-81c6-4a27-bbdd-456d6cb9defa/account.sqlite": {
+    "sha256": "59d3c8f4eb1ca46b3bb7b85d2c93d60f042cf4b596277f3dc90dc6f02e87ccb5",
+    "bytes": 81920,
+    "mtime_ns": 1794711260516411300
+  },
+  "offline-execution/sim-7d5e3489-81c6-4a27-bbdd-456d6cb9defa/creation-intent.json": {
+    "sha256": "a989d69415c5c3390c3764a770266684519e6eb27f70073f62e11d303a1b0429",
+    "bytes": 776,
+    "mtime_ns": 1794711254180995500
+  },
+  "offline-execution/sim-7d5e3489-81c6-4a27-bbdd-456d6cb9defa/plan-links/d489273364d725d6badbb01522a0e500ea83bc03db9e422f81600d83732c654b.json": {
+    "sha256": "f4931d9c329a88f597ee06cc2c57cf06ce0d00f69b304f7caf940d7c7fcc1838",
+    "bytes": 523,
+    "mtime_ns": 1794711256288180000
+  },
+  "data/snapshots/9ee0e617ef80a0a373fbb3d50f626d7784d51af9ea0e8dce00ae946960b7450b/c0a84b28de9fec4d38df696d89658c0f45df7d9e7dad01d17dc935cb95daf606.json": {
+    "sha256": "c0a84b28de9fec4d38df696d89658c0f45df7d9e7dad01d17dc935cb95daf606",
+    "bytes": 31342,
+    "mtime_ns": 1794711247355391600
+  }
+}

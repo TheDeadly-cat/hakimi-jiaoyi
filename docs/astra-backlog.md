@@ -2,9 +2,11 @@
 
 2026-11-08 当前可取得的试用候选为 **[r7公开预发布](https://github.com/TheDeadly-cat/hakimi-jiaoyi/releases/tag/v0.7.0.dev3-r7)**，固定源码 `708ec3f`，CI177全部11项成功；程序包、试用说明与校验清单可直接下载。[发布身份与范围](research-evidence/terminal-070dev3-r7-release-20261108/README.md)单列包内检查与r7原生、独立Windows及三人试用的验收范围。当前外机/真人实际验收记录尚未回收，不据此推断是否已经开始。以下历次状态保留原时间和版本，不回填成新包验收。
 
+2026-11-15：归档[r7本机维护者原生结果](research-evidence/terminal-070dev3-r7-native-20261108/README.md)，其教学、合成订单、暂停及重开流程已完成；外机和真人范围保持待验。随后[默认教学历史因子与完成提示修复](research-evidence/accepted-strategy-factors-20261115/README.md)接入原规则的只读交叉解释，不修改原报告或订单。该后续源码未打入r7。
+
 本分支后续的[本机TCP连接里程碑](research-evidence/broker-loopback-socket-20261108/README.md)通过原协调器、账本、停止屏障和worker完成真实OS整合，完整terminal合同877项通过。[请求构造与查询资料保存](research-evidence/broker-quote-facts-20261108/README.md)随后增加锁定protobuf构造及3类quote资料，原worker/TCP/账本4项实际类检查和完整terminal913项通过。最新W3的[原发送必需观察条件](research-evidence/broker-submit-market-20261108/README.md)将原账本两次握手、四类查询绑定为同一观察包，资金认领、提交ACTION及每次实际写入均须核对；目标证券状态不符、原查询窗口届满或停止后不能继续新发送，重开仍只读恢复原记录。
 
-W3完整terminal **977/977通过**；锁定实际protobuf、原worker/协调器/SQLite与自持本机TCP的最终`run-r3-full` **4/4通过**，覆盖一次合成提交ACK及同ID恢复、目标关闭、显式注入观察过期、提前乱序输入。两组范围分别记账，不相加；首次测试装配失败及worker原UNKNOWN状态保留。上述后续源码均未打入公开r7，测试使用虚构报文与独立合成现金，不是OpenD或账户验收。生产真实权利、价格来源与时效、合法价量规则、真实资金/持仓来源、费用、生产装配及完整订单后续链仍待完成；r7原生、外机和三人试用也仍未完成，T29/T30继续DOING。
+W3完整terminal **977/977通过**；锁定实际protobuf、原worker/协调器/SQLite与自持本机TCP的最终`run-r3-full` **4/4通过**，覆盖一次合成提交ACK及同ID恢复、目标关闭、显式注入观察过期、提前乱序输入。两组范围分别记账，不相加；首次测试装配失败及worker原UNKNOWN状态保留。上述后续源码均未打入公开r7，测试使用虚构报文与独立合成现金，不是OpenD或账户验收。生产真实权利、价格来源与时效、合法价量规则、真实资金/持仓来源、费用、生产装配及完整订单后续链仍待完成；r7本机维护者原生流程后续已完成（见下方独立记录），外机和三人试用记录仍待回收，T29/T30继续DOING。
 
 在上述W3之后，当前W4[原订单确认与后续请求接线](research-evidence/broker-order-identity-20261108/README.md)已让原journal完整ACK身份在成功保存、读回后自动接入同一codec，后续原订单查询、撤单、再次查询使用原字符串编号；原12个操作ID可只读恢复，0新增连接/发送。缺号、保存结果不明、错号或冲突确认不能取得可信身份，停止后仍不能继续新请求。已确认行情通道失联的故障注入中，交易通道查询/撤单继续；这不是新增生产FIN检测器。v2原合同与旧v3金样原件的读取、同ID重放保持。
 

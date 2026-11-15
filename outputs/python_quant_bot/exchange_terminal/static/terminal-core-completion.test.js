@@ -142,6 +142,27 @@ const capturedIdentities={run_id:"48f3eec5ddf94eb20cdeeeac541fba00d347529c4e8b12
 const capturedCoreResult={id:"02173ce8cfea48874488e6de",summary:{id:"02173ce8cfea48874488e6de",...capturedIdentities,symbol:"TEST"},identities:capturedIdentities,operation:"RUN_REQUEST_COMPLETED"};
 const capturedRevision={...capturedCoreTask,task_id:"3d4ed4127c4fbdecf168a4a3874b947150829bb685bfddebe9cdc15c772113c3",revisions:[...capturedCoreTask.revisions,"r0002-e4b30cceefae43b0a40b4f959d756ba8"],selected_revision:"r0002-e4b30cceefae43b0a40b4f959d756ba8"};
 
+test("confirmed run retires only its own stale save guidance before auxiliary reads",async()=>{
+  const f=fixture({resultOverride:capturedCoreResult,refreshFailure:true});
+  f.context.coreCompletion.confirm("create_task",capturedCoreTask);
+  await f.context.coreCompletion.present(()=>{f.S.message={title:"任务已创建",message:"可以运行回测。",kind:"info"};},capturedCoreTask,"create_task");
+  assert.ok(f.S.message);
+  await f.run(()=>assert.equal(f.S.message,null));
+  assert.equal(f.S.message,null);assert.equal(f.calls.filter(x=>x.method==="POST").length,1);
+  assert.equal(f.document.getElementById("core-read-completed").hidden,false);
+});
+
+test("late old completion preserves a newer task save notice and unrelated warnings",async()=>{
+  for(const newerTask of [true,false]) {
+    const f=fixture({resultOverride:capturedCoreResult}),task=newerTask?capturedRevision:capturedCoreTask;
+    f.context.coreCompletion.confirm("create_task",task);
+    await f.context.coreCompletion.present(()=>{f.S.message={title:"任务已创建",kind:"info"};},task,"create_task");
+    if(!newerTask)f.S.message={title:"本地记录未能读取",kind:"warning"};
+    const retained=f.S.message;f.context.coreCompletion.confirm("run_task",capturedCoreResult);
+    assert.equal(f.S.message,retained);assert.equal(f.calls.length,0);
+  }
+});
+
 test("actual core success replaces the saved-version Run action and displays report identity before auxiliary failure",async()=>{
   const f=fixture({resultOverride:capturedCoreResult,refreshFailure:true});f.context.coreCompletion.confirm("copy_task",capturedCoreTask);
   assert.match(f.document.getElementById("core-read-saved-task").innerHTML,/data-core-run-task/);

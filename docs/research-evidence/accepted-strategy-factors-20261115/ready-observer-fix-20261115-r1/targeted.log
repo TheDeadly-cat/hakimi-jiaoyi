@@ -1,0 +1,11 @@
+test_initial_observer_accepts_ready_after_four_seconds_within_original_eight (tests.test_terminal_broker_worker_supervisor.WorkerSupervisorTests.test_initial_observer_accepts_ready_after_four_seconds_within_original_eight) ... ok
+test_initial_observer_keeps_expired_original_wall_unknown_without_input (tests.test_terminal_broker_worker_supervisor.WorkerSupervisorTests.test_initial_observer_keeps_expired_original_wall_unknown_without_input) ... ok
+test_real_tcp_inside_original_worker_and_same_id_reopen (tests.test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_real_tcp_inside_original_worker_and_same_id_reopen) ... ok
+test_two_real_workers_race_original_id_and_only_one_os_connection_exists (tests.test_terminal_broker_loopback_integration.LoopbackOwnedWorkerTests.test_two_real_workers_race_original_id_and_only_one_os_connection_exists) ... ok
+test_three_quote_actions_persist_facts_and_reopen_without_tcp (tests.test_terminal_broker_quote_integration.SyntheticQuoteWorkerTests.test_three_quote_actions_persist_facts_and_reopen_without_tcp) ... ok
+test_early_out_of_order_input_cannot_bind_or_send_a_later_query (tests.test_terminal_broker_submit_market_worker.SyntheticSubmitMarketWorkerTests.test_early_out_of_order_input_cannot_bind_or_send_a_later_query) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 13.141s
+
+OK
