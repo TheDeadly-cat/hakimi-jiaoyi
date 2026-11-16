@@ -1,0 +1,72 @@
+{
+  "schema": "factor-stage4-public-handoff-v1",
+  "status": "WIP_NOT_FOR_MERGE",
+  "remote_base_commit": "e33c1ef324f142be3889bbef44b663b6b5f54a1a",
+  "source_baseline_commit": "62d5451cf74a27dd9b25fbf6565390d5895eacce",
+  "source_baseline_available_on_remote": false,
+  "original_changed_file_count": 7,
+  "published_patch_file_count": 6,
+  "files": [
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/index.html",
+      "operation": "MODIFY",
+      "before_sha256": "29afbb817db5187f75e59dd2bc226853e864ebe0f59f2cf451fc102fda0af581",
+      "after_sha256": "532c3ff109a7e936c1bf03639d96d478225b78cbd9373c305d0a993471753906",
+      "bytes": 120095
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/factor-research.html",
+      "operation": "ADD",
+      "before_sha256": null,
+      "after_sha256": "d9516c4e417a4380633737aa8aad41742dd7f985d74e67e248ad3c385fbacce2",
+      "bytes": 2938
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/factor-research.css",
+      "operation": "ADD",
+      "before_sha256": null,
+      "after_sha256": "57f7844d9af416e9e03aed2272a11a72a82b89fddb59b9d1ce0252c60a53d240",
+      "bytes": 4571
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/factor-research.js",
+      "operation": "ADD",
+      "before_sha256": null,
+      "after_sha256": "61298c0dfb7410bfffe2914e1897b532f4d7d8735253d93dfa4da655bb5a61a4",
+      "bytes": 3341
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/factor-research-model.js",
+      "operation": "ADD",
+      "before_sha256": null,
+      "after_sha256": "94d7a49f28360c792484a7489c6ea523ade12848e654fa1c644d5129877b85aa",
+      "bytes": 2742
+    },
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/factor-research-entry.js",
+      "operation": "ADD",
+      "before_sha256": null,
+      "after_sha256": "d3b38267975d3f295691f05628144b983b838ec38afcc84c8ad11aea7e94b00f",
+      "bytes": 1856
+    }
+  ],
+  "excluded": [
+    {
+      "path": "outputs/python_quant_bot/exchange_terminal/static/factor-research-binding.v1.json",
+      "reason": "Contains private file-service identifiers and research provenance. Public redistribution was not established. Entire payload omitted; no substitute data generated."
+    }
+  ],
+  "patch_sha256": "248d1ba7e0ec28e9d839cacf0045123d61776a1a469d4228635971cd65aa60ea",
+  "verification": {
+    "patch_check": "PASS on a disposable fixture containing the hash-verified local baseline index only; core.autocrlf=false and core.eol=lf",
+    "patch_reconstruction": "PASS for all six included target files with LF preserved; output SHA-256 equals the local candidate",
+    "javascript_syntax": "PASS for the three included JavaScript files with Node.js v24.16.0 --check in module mode",
+    "remote_main_applicability": "NOT_TESTED; no claim that the patch applies to remote main",
+    "backend_startup": "FAILED in prior isolated attempt; module import error; search-path fix not applied",
+    "native_electron_acceptance": "NOT_PASSED; prior record only reached the boot page",
+    "ui_behavior": "NOT_TESTED",
+    "test_process_current_state": "UNKNOWN",
+    "full_repository_tests": "NOT_RUN",
+    "remote_ci": "NOT_RUN at artifact preparation"
+  }
+}
