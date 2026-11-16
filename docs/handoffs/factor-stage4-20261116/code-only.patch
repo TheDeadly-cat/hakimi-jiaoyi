@@ -1,0 +1,147 @@
+diff --git a/outputs/python_quant_bot/exchange_terminal/static/factor-research-entry.js b/outputs/python_quant_bot/exchange_terminal/static/factor-research-entry.js
+new file mode 100644
+index 0000000..ca04300
+--- /dev/null
++++ b/outputs/python_quant_bot/exchange_terminal/static/factor-research-entry.js
+@@ -0,0 +1,20 @@
++/* Fixed research assets only. The terminal keeps its own stock and workspace state. */
++(()=>{'use strict';
++ const link=document.getElementById('factorResearchOpen'),ticker=document.getElementById('activeSymbol');if(!link)return;
++ const sync=()=>{const raw=String(ticker?.textContent||'').trim();const symbol=/^[A-Z0-9][A-Z0-9.-]{0,39}$/.test(raw)?raw:'UNKNOWN';
++  const url=new URL('./factor-research.html',location.href);url.searchParams.set('symbol',symbol);link.href=url.href;link.dataset.factorContext=symbol;};
++ sync();if(ticker)new MutationObserver(sync).observe(ticker,{childList:true,characterData:true,subtree:true});
++ let dialog,frame,heading,close;
++ link.addEventListener('click',event=>{if(event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
++  if(typeof HTMLDialogElement==='undefined')return;
++  event.preventDefault();sync();
++  if(!dialog){dialog=document.createElement('dialog');dialog.className='factor-research-dialog';dialog.setAttribute('aria-label','因子研究资产');
++   const header=document.createElement('header');header.className='factor-research-dialog-head';heading=document.createElement('strong');
++   close=document.createElement('button');close.type='button';close.className='factor-research-entry';close.textContent='关闭研究资产';close.addEventListener('click',()=>dialog.close());
++   frame=document.createElement('iframe');frame.title='固定因子研究资产';frame.referrerPolicy='no-referrer';header.append(heading,close);dialog.append(header,frame);document.body.append(dialog);
++   dialog.addEventListener('close',()=>{frame.removeAttribute('src');link.focus();});}
++  heading.textContent='因子研究资产 · '+link.dataset.factorContext;
++  const url=new URL(link.href);url.searchParams.set('embedded','1');frame.src=url.href;
++  dialog.showModal();close.focus();
++ });
++})();
+diff --git a/outputs/python_quant_bot/exchange_terminal/static/factor-research-model.js b/outputs/python_quant_bot/exchange_terminal/static/factor-research-model.js
+new file mode 100644
+index 0000000..aeca936
+--- /dev/null
++++ b/outputs/python_quant_bot/exchange_terminal/static/factor-research-model.js
+@@ -0,0 +1,24 @@
++export function canonical(value){if(value===null||typeof value!=='object')return JSON.stringify(value);if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';return '{'+Object.keys(value).sort().map(key=>JSON.stringify(key)+':'+canonical(value[key])).join(',')+'}';}
++export function validateSnapshot(document){
++  const fail=message=>{throw new Error(message);};
++  if(!document||document.schema_version!=='hakimi.factor-research-binding@1')fail('研究快照版本不受支持');
++  if(!/^[a-f0-9]{64}$/.test(document.payload_sha256||''))fail('研究快照缺少指纹');
++  const p=document.payload;
++  if(!p||p.snapshot_id!=='library-U-20261114-binding-v1'||p.universe?.length!==1||p.universe[0]!=='QQQ')fail('研究身份或适用范围不符');
++  if(p.experiments?.['HK-F001']?.status!=='FAILED_ADMISSION'||p.experiments?.['HK-F002']?.status!=='DATA_HOLD')fail('固定研究状态被改变');
++  for(const id of ['HK-F001','HK-F002'])if(p.experiments[id].project_binding!=='NOT_CONFIRMED')fail('不能自动确认项目接入');
++  for(const key of ['decision_available','execution_authorized','training_requested','option_decision_available'])if(p.capabilities?.[key]!==false)fail('研究快照不能开启决策或执行');
++  if(!Array.isArray(p.factors)||p.factors.length!==10||new Set(p.factors.map(x=>x.factor_id)).size!==10)fail('因子身份集合不符');
++  const required=['momentum_5','momentum_20','trend_20_60','rsi_14','atr_14_pct','realized_vol_20','relative_volume_20','close_location','drawdown_60','regime.close_sma60_sign'];
++  for(const id of required){const f=p.factors.find(x=>x.factor_id===id);if(!f||typeof f.formula!=='string'||!f.formula||!/^[a-f0-9]{64}$/.test(f.source_sha256||'')||f.project_binding!=='NOT_CONFIRMED')fail('因子公式或来源不完整');}
++  if(p.new_economic_oos_events!==0||p.new_option_quote_paths!==0)fail('固定审计不能冒充新增经济样本');
++  return p;
++}
++export function normalizedSymbol(value){return typeof value==='string'&&/^[A-Z0-9][A-Z0-9.-]{0,39}$/.test(value)?value:'UNKNOWN';}
++export function deriveView(symbol,document){
++  const payload=validateSnapshot(document),selected=normalizedSymbol(symbol),covered=payload.universe.includes(selected);
++  return {symbol:selected,applicability:covered?'RESEARCH_UNIVERSE_ONLY':'NO_APPROVED_APPLICABILITY',
++    title:covered?'研究标的一致，接入仍未确认':'尚未建立适用映射',
++    message:covered?'QQQ 属于固定研究范围；同标的不代表通过验证，也不代表已接入当前内核。':`固定研究针对 QQQ；没有证据将九因子组合或过滤器用于 ${selected}。`,
++    decision_available:false,execution_authorized:false,signal_status:'UNAVAILABLE_RESEARCH_ONLY',payload};
++}
+diff --git a/outputs/python_quant_bot/exchange_terminal/static/factor-research.css b/outputs/python_quant_bot/exchange_terminal/static/factor-research.css
+new file mode 100644
+index 0000000..635a60d
+--- /dev/null
++++ b/outputs/python_quant_bot/exchange_terminal/static/factor-research.css
+@@ -0,0 +1,6 @@
++.factor-research-entry{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 16px;border:1px solid #53645d;border-radius:6px;background:#151918;color:#edf2ef;font:600 14px/1.4 "Segoe UI","Microsoft YaHei",sans-serif;text-decoration:none;white-space:nowrap}.factor-research-entry:hover{border-color:#19c37d;background:#1a2821}.factor-research-entry:focus-visible,.factor-research-page summary:focus-visible{outline:3px solid #19c37d;outline-offset:4px}
++.factor-research-page{margin:0;background:#070807;color:#edf2ef;font:16px/1.65 "Segoe UI","Microsoft YaHei",sans-serif}.factor-research-page *{box-sizing:border-box}.factor-research-shell{max-width:1080px;margin:0 auto;padding:36px 32px 44px}.factor-research-page h1,.factor-research-page h2,.factor-research-page p{margin:0}.factor-research-page h1{font-size:32px;line-height:1.3}.factor-research-page h2{font-size:24px;line-height:1.4}.factor-research-heading{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:24px}.factor-research-heading p,.factor-research-muted{color:#aab9b1}.factor-research-notice{padding:13px 18px;border-left:3px solid #f5b642;background:#211b10;color:#f6d18b}.factor-research-context{padding:30px 0 26px;border-bottom:1px solid #344139}.factor-research-context>p:first-child{color:#aab9b1;margin-bottom:6px}.factor-research-context h2{font-size:30px;margin-bottom:8px}.factor-research-experiments{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #344139}.factor-research-experiments article{padding:24px 24px 24px 0}.factor-research-experiments article+article{padding-left:24px;border-left:1px solid #344139}.factor-research-experiments h2{color:#f5b642;margin:3px 0 8px}.factor-research-experiments p{font-size:15px}.factor-research-section{padding:24px 0;border-bottom:1px solid #344139}.factor-research-section>h2{margin-bottom:8px}.factor-research-page summary{min-height:44px;padding:10px 0;font-weight:600;cursor:pointer}.factor-research-page ul{padding-left:22px;margin:10px 0 0}.factor-research-page li{margin:6px 0}.factor-research-row{display:grid;grid-template-columns:210px 1fr;gap:24px;padding:16px 0;border-top:1px solid #344139}.factor-research-row strong{display:block}.factor-research-row code,.factor-research-hash{font:13px/1.65 Consolas,monospace;overflow-wrap:anywhere}.factor-research-row p{color:#b9c7be;font-size:14px}.factor-research-row .factor-research-formula{color:#edf2ef;font:14px/1.7 Consolas,monospace;overflow-wrap:anywhere}.factor-research-provenance{padding:12px 0;border-top:1px solid #344139;overflow-wrap:anywhere}.factor-research-provenance p{font-size:14px}.factor-research-hash{color:#aab9b1}.factor-research-footer{padding-top:24px;font-size:14px;color:#aab9b1}.factor-research-error{padding:20px 0;color:#ffb8bb}.factor-research-entry-demo{display:flex;align-items:center;flex-wrap:wrap;gap:16px;padding:24px}.factor-research-page button{min-height:44px;font:inherit;padding:8px 14px;cursor:pointer}
++.factor-research-page[data-research-loaded="error"] .factor-research-section,.factor-research-page[data-research-loaded="error"] .factor-research-experiments article>p:last-child{display:none}
++@media(max-width:640px){.factor-research-shell{padding:24px 18px 32px}.factor-research-heading{align-items:flex-start;gap:12px}.factor-research-page h1{font-size:26px}.factor-research-heading .factor-research-entry{padding:8px 10px;font-size:13px}.factor-research-context h2{font-size:25px}.factor-research-experiments{grid-template-columns:1fr}.factor-research-experiments article+article{border-left:0;border-top:1px solid #344139;padding-left:0}.factor-research-row{grid-template-columns:1fr;gap:6px}.factor-research-page h2{font-size:22px}}
++
++.factor-research-dialog{width:min(1120px,calc(100vw - 40px));height:min(850px,calc(100vh - 40px));max-width:none;max-height:none;padding:0;border:1px solid #53645d;border-radius:8px;background:#070807;color:#edf2ef;box-shadow:0 22px 70px #0009}.factor-research-dialog::backdrop{background:#000a}.factor-research-dialog[open]{display:flex;flex-direction:column}.factor-research-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 20px;border-bottom:1px solid #344139;font:600 16px/1.5 "Segoe UI","Microsoft YaHei",sans-serif}.factor-research-dialog iframe{flex:1;min-height:0;width:100%;border:0;background:#070807}.factor-research-snapshot{margin-top:16px!important;color:#f6d18b;font-size:14px}.factor-research-page[data-embedded="true"] #factorResearchReturn{display:none}
+diff --git a/outputs/python_quant_bot/exchange_terminal/static/factor-research.html b/outputs/python_quant_bot/exchange_terminal/static/factor-research.html
+new file mode 100644
+index 0000000..7a2b183
+--- /dev/null
++++ b/outputs/python_quant_bot/exchange_terminal/static/factor-research.html
+@@ -0,0 +1,15 @@
++<!doctype html>
++<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
++<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
++<title>因子研究资产 · 哈基米</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./factor-research.css?v=1"><script type="module" src="./factor-research.js?v=1"></script></head>
++<body class="factor-research-page"><main class="factor-research-shell">
++<header class="factor-research-heading"><div><h1>因子研究资产</h1><p>固定研究产物 · 仅登记</p></div><a id="factorResearchReturn" class="factor-research-entry" href="./index.html">返回工作台</a></header>
++<div class="factor-research-notice">此页不训练、不计算当前行情，不产生交易信号或订单。</div>
++<p id="researchSnapshotAge" class="factor-research-snapshot" role="status">固定历史快照；不提供当前行情有效期。</p>
++<section class="factor-research-context" aria-live="polite"><p id="researchSymbol">当前标的：待确认</p><h2 id="researchApplicability">正在核对研究快照</h2><p id="researchContextMessage">读取固定资产身份、版本与验证状态。</p></section>
++<section class="factor-research-experiments" aria-label="组合研究状态"><article><p>HK-F001</p><h2 id="f001Status">待核验</h2><p id="f001Version"></p><p>九因子已在历史研究中拟合；组合未通过准入。</p></article><article><p>HK-F002</p><h2 id="f002Status">待核验</h2><p id="f002Version"></p><p>过滤器已预登记，缺少合格独立样本和期权报价。</p></article></section>
++<section class="factor-research-section"><h2>九个计算因子与一个研究过滤器</h2><p class="factor-research-muted">公式身份已核对；计算存在、组合有效性和项目接入分别记录。</p><details id="researchFactors"><summary>展开固定公式与版本</summary><div id="researchFactorRows"></div></details></section>
++<section class="factor-research-section"><h2>接入仍待确认</h2><ul><li>固定研究针对 QQQ；未核准其他股票的适用映射。</li><li>60日收盘方向过滤器不等于20/60均线交叉；不自动替换当前策略。</li><li>2022年已被研究使用，不能重新称为 HK-F002 的新盲测。</li><li>0.65 为失败后诊断门槛，不能解释为65%真实胜率。</li><li>最新固定审计新增合格经济样本0笔、真实期权报价路径0份。</li></ul></section>
++<details class="factor-research-section"><summary>查看固定产物来源与核验范围</summary><div id="researchProvenance"></div></details>
++<p id="researchError" class="factor-research-error" role="alert" hidden></p><footer class="factor-research-footer">未确认接入 · 无当前多空判断 · 无期权期限或杠杆选择</footer>
++</main></body></html>
+diff --git a/outputs/python_quant_bot/exchange_terminal/static/factor-research.js b/outputs/python_quant_bot/exchange_terminal/static/factor-research.js
+new file mode 100644
+index 0000000..552b6de
+--- /dev/null
++++ b/outputs/python_quant_bot/exchange_terminal/static/factor-research.js
+@@ -0,0 +1,24 @@
++import{canonical,validateSnapshot,deriveView}from'./factor-research-model.js';
++const $=id=>document.getElementById(id),node=(tag,text,cls)=>{const element=document.createElement(tag);if(text!==undefined)element.textContent=text;if(cls)element.className=cls;return element;};
++if(new URLSearchParams(location.search).get('embedded')==='1')document.body.dataset.embedded='true';
++async function load(){try{
++ const response=await fetch('./factor-research-binding.v1.json',{cache:'no-store'});if(!response.ok)throw new Error('快照读取失败');const snapshot=await response.json();
++ const payload=validateSnapshot(snapshot),bytes=new TextEncoder().encode(canonical(payload));
++ const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(x=>x.toString(16).padStart(2,'0')).join('');
++ if(digest!==snapshot.payload_sha256)throw new Error('快照指纹不符');
++ $('researchSnapshotAge').textContent='固定历史资产，截至 '+payload.latest_available.newest_modified_at+'；不代表当前行情或后续研究更新。';
++ const view=deriveView(new URLSearchParams(location.search).get('symbol'),snapshot);
++ $('researchSymbol').textContent='当前标的：'+view.symbol;$('researchApplicability').textContent=view.title;$('researchContextMessage').textContent=view.message;
++ $('f001Status').textContent='组合未通过准入';$('f001Version').textContent=payload.experiments['HK-F001'].model_version+' · 接入未确认';
++ $('f002Status').textContent='DATA_HOLD';$('f002Version').textContent=payload.experiments['HK-F002'].preregistration_version+' · 接入未确认';
++ const rows=$('researchFactorRows');rows.replaceChildren();for(const factor of payload.factors){const row=node('div',undefined,'factor-research-row'),id=node('div'),formula=node('div');
++ id.append(node('strong',factor.title),node('code',factor.factor_id),node('p',factor.definition_version+' · 接入未确认'));
++ formula.append(node('p',factor.formula,'factor-research-formula'),node('p',factor.status==='PREREGISTERED_DATA_HOLD'?'已预登记；DATA_HOLD':'计算模块存在；未单独验证'));
++ row.append(id,formula);rows.append(row);}
++ const provenance=$('researchProvenance');provenance.append(node('p',`本次可访问 Library 目录共 ${payload.latest_available.total_listed} 项，最新固定审计 ${payload.latest_available.audit_id}。`));
++ provenance.append(node('p','只核对固定文件字节与原有记录；没有重新训练或重跑研究经济结果。'));
++ provenance.append(node('p',`项目范围扫描 ${payload.project_scan.scanned_files} 个源文件，未找到显式研究身份绑定；这不证明运行记录或整个项目都没有接入。`));
++ for(const source of payload.provenance){const item=node('div',undefined,'factor-research-provenance');item.append(node('p',source.name),node('p',source.sha256,'factor-research-hash'));provenance.append(item);}
++ document.body.dataset.researchLoaded='true';
++ }catch(error){$('researchApplicability').textContent='研究快照不可用';$('researchContextMessage').textContent='未生成任何当前因子或交易判断。';$('f001Status').textContent='未知';$('f002Status').textContent='未知';$('researchError').hidden=false;$('researchError').textContent='加载或核验失败：'+error.message;document.body.dataset.researchLoaded='error';}}
++load();
+diff --git a/outputs/python_quant_bot/exchange_terminal/static/index.html b/outputs/python_quant_bot/exchange_terminal/static/index.html
+index 7306d1c..0d17ed2 100644
+--- a/outputs/python_quant_bot/exchange_terminal/static/index.html
++++ b/outputs/python_quant_bot/exchange_terminal/static/index.html
+@@ -22,6 +22,7 @@
+     }
+   </style>
+   <link rel="stylesheet" href="./quant-module.css?v=20261020-integrated-1">
++  <link rel="stylesheet" href="./factor-research.css?v=2">
+ </head>
+ <body>
+   <div class="app-shell">
+@@ -123,6 +124,7 @@
+         </div>
+         <button id="commandOpen" class="command-trigger">搜索 / 命令</button>
+         <div class="interface-switch" id="interfaceModeSwitch">
++          <a id="factorResearchOpen" class="factor-research-entry" href="./factor-research.html?symbol=UNKNOWN" target="_self" aria-haspopup="dialog" title="查看固定研究资产；不训练、不下单">因子研究资产</a>
+           <button class="active" data-interface-view="platform">研究总控</button>
+           <button data-interface-view="trade">行情</button>
+           <button data-interface-view="marketai">AI分析</button>
+@@ -2124,6 +2126,7 @@
+   <script src="./quant-module.js?v=20261020-integrated-1"></script>
+   <script src="./market-websocket.js?v=20261029-integrated-1"></script>
+   <script src="./app.js?v=20261029-astra-1"></script>
++  <script src="./factor-research-entry.js?v=2"></script>
+ </body>
+ </html>
+ 
