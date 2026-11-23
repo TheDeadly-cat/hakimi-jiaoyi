@@ -1,0 +1,195 @@
+.market-native-part, .desk-divider { display: none; }
+
+body.terminal-market-mode {
+  --desk-bg: #101318;
+  --desk-surface: #13161c;
+  --desk-edge: #2b323e;
+  --desk-text: #eff0f2;
+  --desk-muted: #a2a6ad;
+  --desk-gold: #f3bc51;
+  background: var(--desk-bg);
+  min-width: 0;
+  color: var(--desk-text);
+  font-family: "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.terminal-market-mode .app-shell {
+  position: relative;
+  left: 0;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  padding: 0;
+  gap: 0;
+  grid-template-columns: var(--desk-watch-width, clamp(212px, 21.5vw, 344px)) minmax(0, 1fr);
+  background: var(--desk-bg);
+}
+.terminal-market-mode .app-shell > .market-rail {
+  position: sticky;
+  top: 0;
+  grid-column: 1;
+  grid-row: 1;
+  height: 100vh;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+  border: 0;
+  border-right: 1px solid var(--desk-edge);
+  background: var(--desk-surface);
+}
+.terminal-market-mode .market-rail > :not(.brand-row):not(#terminalWatchPane),
+.terminal-market-mode .terminal > :not(.desktop-statusbar):not(.workspace-grid):not(.command-overlay),
+.terminal-market-mode .workspace-grid > :not(.chart-panel):not(.right-stack):not(.desk-divider),
+.terminal-market-mode .chart-panel > :not(.market-native-part):not(.desk-divider),
+.terminal-market-mode .right-stack > :not(#terminalBookPane),
+.terminal-market-mode .desktop-statusbar > :not(.interface-switch):not(.terminal-desk-status) { display: none !important; }
+.terminal-market-mode .brand-row {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  padding: 0 16px;
+  margin: 0;
+  gap: 10px;
+  background: #191b1f;
+  border-bottom: 1px solid var(--desk-edge);
+}
+.terminal-market-mode .brand-mark { width: 26px; height: 26px; border-radius: 5px; background: var(--desk-gold); color: #201a0f; }
+.terminal-market-mode .brand-name { color: var(--desk-text); font-size: 17px; letter-spacing: .02em; }
+.terminal-market-mode .brand-sub { display: none; }
+.terminal-market-mode .app-shell > .terminal {
+  display: block;
+  grid-column: 2;
+  grid-row: 1;
+  padding: 0;
+  min-width: 0;
+  overflow: visible;
+  background: var(--desk-bg);
+}
+.terminal-market-mode .terminal > .desktop-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 52px;
+  min-height: 52px;
+  padding: 0 16px;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid var(--desk-edge);
+  background: #191b1f;
+  box-shadow: none;
+}
+.terminal-market-mode #interfaceModeSwitch {
+  display: flex; flex-wrap: nowrap; align-items: stretch; gap: 4px;
+  border: 0; background: transparent; padding: 0; overflow-x: auto; min-width: 0; height: 100%;
+}
+.terminal-market-mode #interfaceModeSwitch button {
+  flex: 0 0 auto; min-height: 32px; padding: 0 12px; margin: 0;
+  border: 0; border-radius: 0; box-shadow: none; background: transparent;
+  color: #abb0b6; font: 500 13px "Segoe UI", "Microsoft YaHei UI", sans-serif;
+}
+.terminal-market-mode #interfaceModeSwitch button.active { color: var(--desk-gold); box-shadow: inset 0 -2px var(--desk-gold); }
+.terminal-market-mode #interfaceModeSwitch button:hover { color: #fff; }
+.terminal-market-mode #interfaceModeSwitch [data-interface-view="trade"] { order: -2; }
+.terminal-market-mode #factorResearchOpen { order: -1; }
+.terminal-market-mode .terminal-desk-status { display: flex; align-items: center; gap: 7px; color: var(--desk-muted); white-space: nowrap; font-size: 12px; }
+.terminal-desk-status > span { width: 6px; height: 6px; border-radius: 50%; background: var(--desk-gold); }
+.terminal-market-mode .terminal .workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--desk-book-width, clamp(232px, 22.5vw, 350px));
+  position: relative;
+  align-items: start; grid-template-rows: auto; gap: 0; padding: 0; margin: 0; border: 0;
+  background: var(--desk-bg); min-height: calc(100vh - 52px);
+}
+.terminal-market-mode .terminal .workspace-grid > .chart-panel,
+.terminal-market-mode .terminal .workspace-grid > .right-stack {
+  display: block; position: static; grid-row: 1; min-width: 0; width: auto; min-height: 0; max-height: none;
+  padding: 0; margin: 0; border-radius: 0; box-shadow: none; overflow: visible;
+}
+.terminal-market-mode .terminal .workspace-grid > .chart-panel {
+  grid-column: 1; border: 0; background: var(--desk-bg);
+}
+.terminal-market-mode .terminal .workspace-grid > .right-stack {
+  grid-column: 2; align-self: stretch; border: 0; border-left: 1px solid var(--desk-edge); background: var(--desk-surface);
+}
+.terminal-market-mode #terminalWatchPane, .terminal-market-mode #terminalCandlePane,
+.terminal-market-mode #terminalInlineResearch, .terminal-market-mode #terminalBookPane {
+  display: block; min-width: 0; margin: 0; border: 0; border-radius: 0;
+}
+.terminal-market-mode #terminalInlineResearch { border-top: 1px solid var(--desk-edge); }
+.terminal-market-mode .terminal-research-pane {
+  --trp-base: #16181b; --trp-raised: #202329; --trp-line: #373a40;
+  --trp-text: #e8eaed; --trp-muted: #a6abb3; --trp-gold: var(--desk-gold);
+}
+.terminal-market-mode .terminal-book-pane {
+  --tb-rule: var(--desk-edge); --tb-muted: var(--desk-muted);
+  background: var(--desk-surface);
+}
+.terminal-option-ref details { border-block: 1px solid #373b42; padding: 8px 0; margin-block: 8px; }
+.terminal-option-ref summary { cursor: pointer; color: var(--desk-text); font-weight: 600; }
+.terminal-option-ref summary small { color: var(--desk-muted); font-weight: 400; margin-left: 8px; }
+.terminal-option-ref .tor-inner { margin-top: 10px; }
+.terminal-option-ref .tor-controls { display:flex; align-items: end; flex-wrap:wrap; gap:8px; }
+.terminal-option-ref .tor-controls label { display:grid; gap:4px; }
+.terminal-option-ref [data-ref=status] { overflow-wrap:anywhere; color:var(--desk-muted); font-size:12px; }
+.terminal-option-ref table { border-collapse:collapse; width:100%; margin-top:8px; font-size:13px; }
+.terminal-option-ref th, .terminal-option-ref td { text-align:right; padding:5px 8px; border-bottom:1px solid #303339; }
+.terminal-option-ref td:first-child, .terminal-option-ref th:first-child { text-align:left; }
+.terminal-option-ref td button { color:var(--desk-gold); }
+.terminal-market-mode :focus-visible { outline: 2px solid var(--desk-gold); outline-offset: -2px; }
+@media (min-width:1051px) {
+  .terminal-market-mode .desk-divider[aria-orientation="vertical"] {
+    position:absolute; display:block; inset-block:0; width:7px; z-index:7; cursor:col-resize;
+    touch-action:none; user-select:none; outline:0;
+  }
+  .terminal-market-mode #deskWatchDivider { left:calc(var(--desk-watch-width) - 3px); }
+  .terminal-market-mode #deskBookDivider { right:calc(var(--desk-book-width) - 3px); }
+  .terminal-market-mode .desk-divider::after {
+    content:""; position:absolute; pointer-events:none; background:var(--desk-edge);
+  }
+  .terminal-market-mode .desk-divider[aria-orientation="vertical"]::after { inset:0 3px; }
+  .terminal-market-mode .desk-divider:hover::after,
+  .terminal-market-mode .desk-divider:focus-visible::after,
+  .terminal-market-mode .desk-divider.dragging::after { background:var(--desk-gold); }
+}
+@media (min-width: 1120px) {
+  .terminal-market-mode .terminal .workspace-grid > .right-stack { position: sticky; top: 0; align-self: start; min-height: calc(100vh - 52px); }
+}
+@media (min-width: 1051px) and (min-height: 640px) {
+  .terminal-market-mode .terminal .workspace-grid { height: calc(100dvh - 52px); min-height: 0; }
+  .terminal-market-mode .terminal .workspace-grid > .chart-panel {
+    display:grid; grid-template-rows: auto 6px minmax(0,1fr); gap:0; height:100%; overflow:hidden;
+  }
+  .terminal-market-mode .terminal .workspace-grid > .right-stack {
+    position:static; height:100%; min-height:0; overflow-y:auto;
+  }
+  .terminal-market-mode .tmk-chart .tmk-plot { height:var(--desk-plot-height, clamp(195px, calc(50dvh - 143px), 376px)); }
+  .terminal-market-mode #deskChartDivider {
+    display:block; position:relative; width:100%; height:6px; cursor:row-resize;
+    touch-action:none; user-select:none; outline:0;
+  }
+  .terminal-market-mode #deskChartDivider::after { inset:2px 0 3px; }
+  .terminal-market-mode #terminalInlineResearch { min-height:0; border-top:0; overflow-y:auto; overscroll-behavior:contain; }
+  .terminal-market-mode #terminalInlineResearch .trp-tabs {
+    position:sticky; top:-12px; z-index:2; padding-top:6px; background:var(--trp-base);
+  }
+}
+@media (max-width: 1050px) {
+  .terminal-market-mode .app-shell { grid-template-columns: 184px minmax(0, 1fr); }
+  .terminal-market-mode .terminal .workspace-grid { grid-template-columns: minmax(0, 1fr) 215px; }
+  .terminal-market-mode #interfaceModeSwitch button { padding: 0 8px; }
+}
+@media (max-width: 750px) {
+  .terminal-market-mode .app-shell { display: block; }
+  .terminal-market-mode .app-shell > .market-rail { position: static; height: auto; overflow: visible; border: 0; }
+  .terminal-market-mode .brand-row { height: 44px; }
+  .terminal-market-mode .terminal > .desktop-statusbar { padding: 0 8px; height: 42px; min-height: 42px; }
+  .terminal-market-mode .terminal .workspace-grid { display: flex; flex-direction: column; }
+  .terminal-market-mode .terminal .workspace-grid > .chart-panel,
+  .terminal-market-mode .terminal .workspace-grid > .right-stack { width: 100%; border-left: 0; }
+  .terminal-market-mode .terminal .workspace-grid > .right-stack { border-top: 1px solid var(--desk-edge); }
+  .terminal-market-mode .terminal-desk-status { display: none; }
+  .terminal-market-mode #terminalWatchPane { max-height: 188px; overflow-y: auto; }
+}

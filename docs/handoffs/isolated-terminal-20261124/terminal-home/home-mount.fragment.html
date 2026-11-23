@@ -1,0 +1,22 @@
+<!-- Excerpts from the existing home screen, grouped by their actual parent. -->
+<div class="app-shell">
+  <aside class="market-rail">
+    <section id="terminalWatchPane" class="market-native-part" aria-label="自选行情"></section>
+  </aside>
+  <div id="deskWatchDivider" class="desk-divider" tabindex="0" role="separator" aria-orientation="vertical" aria-label="自选栏宽度" aria-controls="terminalWatchPane" title="拖动调整自选栏宽度。双击恢复默认，方向键微调。"></div>
+  <main class="terminal">
+    <!-- This action belongs to the terminal toolbar. -->
+    <button type="button" id="factorResearchOpen" aria-controls="terminalInlineResearch">因子与模拟</button>
+    <section class="workspace-grid">
+      <div id="deskBookDivider" class="desk-divider" tabindex="0" role="separator" aria-orientation="vertical" aria-label="盘口栏宽度" aria-controls="terminalBookPane" title="拖动调整盘口栏宽度。双击恢复默认，方向键微调。"></div>
+      <section class="chart-panel">
+        <section id="terminalCandlePane" class="market-native-part" aria-label="所选标的K线"></section>
+        <div id="deskChartDivider" class="desk-divider" tabindex="0" role="separator" aria-orientation="horizontal" aria-label="K线与模拟区高度" aria-controls="terminalCandlePane terminalInlineResearch" title="拖动调整图表与研究区高度。双击恢复默认，方向键微调。"></div>
+        <section id="terminalInlineResearch" class="market-native-part" aria-label="因子、工具比较与模拟"></section>
+      </section>
+      <aside class="right-stack">
+        <section id="terminalBookPane" class="market-native-part" aria-label="所选标的报价和盘口"></section>
+      </aside>
+    </section>
+  </main>
+</div>

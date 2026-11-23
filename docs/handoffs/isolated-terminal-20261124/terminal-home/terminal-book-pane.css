@@ -1,0 +1,88 @@
+.terminal-book-pane {
+  --tb-ink: var(--text, #edf2ef);
+  --tb-muted: var(--muted, #9b9e97);
+  --tb-rule: var(--line, #303630);
+  --tb-gold: var(--yellow, #f5b642);
+  --tb-bid: var(--up, #ff606e);
+  --tb-ask: var(--down, #32c791);
+  --tb-mono: "Cascadia Mono", Consolas, "Microsoft YaHei", monospace;
+  min-width: 0;
+  padding: 12px 14px;
+  background: var(--panel, #101312);
+  color: var(--tb-ink);
+  font: 12px/1.45 "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+}
+.terminal-book-pane *, .terminal-book-pane *::before, .terminal-book-pane *::after { box-sizing: border-box; }
+.terminal-book-pane .tbp-head, .terminal-book-pane .tbp-line, .terminal-book-pane .tbp-id,
+.terminal-book-pane .tbp-price, .terminal-book-pane .tbp-trade { display: flex; align-items: baseline; flex-wrap: wrap; gap: 5px 8px; }
+.terminal-book-pane .tbp-head, .terminal-book-pane .tbp-line { justify-content: space-between; align-items: center; }
+.terminal-book-pane h2, .terminal-book-pane h3 { margin: 0; padding: 0; line-height: 1.4; color: var(--tb-ink); }
+.terminal-book-pane h2 { font-size: 15px; }
+.terminal-book-pane h3 { font-size: 13px; }
+.terminal-book-pane .tbp-symbol { font: bold 13px var(--tb-mono); color: var(--tb-gold); }
+.terminal-book-pane .tbp-read {
+  min-width: 0; min-height: 28px; height: auto; margin: 0; padding: 4px 8px; border: 1px solid var(--tb-gold);
+  border-radius: 4px; background: transparent; color: var(--tb-gold);
+  font-family: inherit; font-weight: 600; font-size: 11px; line-height: 1.45; cursor: pointer;
+}
+.terminal-book-pane .tbp-read:disabled { opacity: .55; cursor: default; }
+.terminal-book-pane .tbp-read:focus-visible, .terminal-book-pane summary:focus-visible { outline: 2px solid var(--tb-gold); outline-offset: 2px; }
+.terminal-book-pane .tbp-origin, .terminal-book-pane .tbp-chip { color: var(--tb-gold); font-size: 11px; }
+.terminal-book-pane .tbp-origin { margin: 9px 0 3px; }
+.terminal-book-pane .tbp-label, .terminal-book-pane .tbp-time, .terminal-book-pane .tbp-hint,
+.terminal-book-pane .tbp-details, .terminal-book-pane .tbp-trade time { color: var(--tb-muted); }
+.terminal-book-pane .tbp-price strong { font: 700 clamp(23px, 2.1vw, 32px)/1.1 var(--tb-mono); letter-spacing: -.06em; color: var(--tb-ink); }
+.terminal-book-pane .tbp-price > span:last-child { font: 600 11px var(--tb-mono); }
+.terminal-book-pane .tbp-label, .terminal-book-pane .tbp-time, .terminal-book-pane .tbp-trade time { font-size: 11px; }
+.terminal-book-pane .tbp-time { margin: 4px 0 8px; }
+.terminal-book-pane .tbp-hint, .terminal-book-pane .tbp-notice { margin: 8px 0; }
+.terminal-book-pane .tbp-notice { color: var(--tb-gold); }
+.terminal-book-pane .tbp-up, .terminal-book-pane .tbp-bid { color: var(--tb-bid); }
+.terminal-book-pane .tbp-down, .terminal-book-pane .tbp-ask { color: var(--tb-ask); }
+.terminal-book-pane .tbp-metrics { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.terminal-book-pane .tbp-metrics div { flex: 1 0 45px; }
+.terminal-book-pane .tbp-metrics div:last-child { flex-basis: 78px; }
+.terminal-book-pane .tbp-metrics div, .terminal-book-pane .tbp-metrics dt, .terminal-book-pane .tbp-metrics dd { margin: 0; }
+.terminal-book-pane .tbp-metrics dt { color: var(--tb-muted); font-size: 10px; }
+.terminal-book-pane .tbp-metrics dd { font: 600 12px/1.55 var(--tb-mono); white-space: nowrap; }
+.terminal-book-pane .tbp-trade { padding: 8px 0; margin-top: 6px; border-block: 1px solid var(--tb-rule); font-size: 11px; }
+.terminal-book-pane .tbp-trade strong { font: 600 12px var(--tb-mono); }
+.terminal-book-pane .tbp-line { margin: 8px 0 4px; }
+.terminal-book-pane .tbp-table { width: 100%; border-collapse: collapse; table-layout: fixed; font: 12px var(--tb-mono); }
+.terminal-book-pane .tbp-table th, .terminal-book-pane .tbp-table td {
+  border: 0; padding: 3px 2px; text-align: right; white-space: nowrap; color: inherit; font: inherit; background: transparent;
+}
+.terminal-book-pane .tbp-table thead th { font: 10px/1.5 "Microsoft YaHei", sans-serif; color: var(--tb-muted); }
+.terminal-book-pane .tbp-table th:first-child { text-align: left; width: 8%; color: var(--tb-muted); font-size: 10px; }
+.terminal-book-pane .tbp-table td.tbp-bid { color: var(--tb-bid); }
+.terminal-book-pane .tbp-table td.tbp-ask { color: var(--tb-ask); }
+.terminal-book-pane .tbp-table tbody tr:nth-child(odd) { background: var(--panel-2, #171b18); }
+.terminal-book-pane .tbp-best {
+  display: grid; grid-template-columns: minmax(0,1fr) minmax(0,.9fr) minmax(0,1fr);
+  grid-template-areas: "bid spread ask"; align-items: start; gap: 4px;
+  border-block: 1px solid var(--tb-rule); padding: 6px 0; margin: 6px 0 3px;
+}
+.terminal-book-pane .tbp-best-side, .terminal-book-pane .tbp-spread { display:grid; gap:1px; min-width:0; }
+.terminal-book-pane .tbp-best-bid { grid-area:bid; }
+.terminal-book-pane .tbp-best-ask { grid-area:ask; text-align:right; }
+.terminal-book-pane .tbp-spread { grid-area:spread; text-align:center; }
+.terminal-book-pane .tbp-best strong { font:600 14px/1.35 var(--tb-mono); overflow-wrap:anywhere; }
+.terminal-book-pane .tbp-best small { font-size:10px; color:var(--tb-muted); }
+.terminal-book-pane .tbp-depth-choice {
+  display:flex; align-items:center; justify-content:flex-end; gap:5px;
+  font-size:11px; color:var(--tb-muted); margin:4px 0;
+}
+.terminal-book-pane .tbp-depth-choice select {
+  width:auto; min-height:25px; padding:1px 4px; color:var(--tb-ink);
+  font:inherit; background:var(--panel-2,#202329); border:1px solid var(--tb-rule); border-radius:3px;
+}
+.terminal-book-pane .tbp-quantity { position:relative; overflow:hidden; }
+.terminal-book-pane .tbp-depth-bar { position:absolute; top:2px; bottom:2px; opacity:.22; pointer-events:none; }
+.terminal-book-pane .tbp-quantity-bid .tbp-depth-bar { right:0; background:var(--tb-bid); }
+.terminal-book-pane .tbp-quantity-ask .tbp-depth-bar { left:0; background:var(--tb-ask); }
+.terminal-book-pane .tbp-quantity-value { position:relative; }
+.terminal-book-pane .tbp-details { margin-top: 7px; font-size: 10px; border-top: 1px solid var(--tb-rule); padding-top: 5px; }
+.terminal-book-pane .tbp-details summary { cursor: pointer; }
+.terminal-book-pane .tbp-details p { margin: 3px 0; overflow-wrap: anywhere; }

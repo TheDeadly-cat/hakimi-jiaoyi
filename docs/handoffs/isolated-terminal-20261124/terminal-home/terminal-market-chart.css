@@ -1,0 +1,106 @@
+/* Original terminal inline market surfaces. */
+.tmk-watch,.tmk-chart {
+  --tmk-bg:#17191d;--tmk-surface:#202329;--tmk-line:#32353c;--tmk-muted:#a8adb5;
+  --tmk-gold:#f0ba52;--tmk-up:#f06468;--tmk-down:#39bd96;
+  color:#e7e9ed;background:var(--tmk-bg);min-width:0;box-sizing:border-box;
+  font:13px/1.45 "Segoe UI","Microsoft YaHei UI","Microsoft YaHei",sans-serif;
+  font-variant-numeric:tabular-nums;
+}
+.tmk-chart *,.tmk-watch *{box-sizing:border-box}
+.tmk-chart [hidden],.tmk-watch [hidden]{display:none!important}
+.tmk-chart button,.tmk-watch button,.tmk-chart select,.tmk-watch input {
+  min-height:28px;height:auto;border:1px solid var(--tmk-line);border-radius:4px;
+  color:#d8dce2;background:var(--tmk-surface);padding:3px 8px;box-shadow:none;
+  font:inherit;font-size:12px;line-height:1.4;letter-spacing:normal;
+}
+.tmk-chart button,.tmk-watch button,.tmk-chart select{cursor:pointer}
+.tmk-chart button:focus-visible,.tmk-chart select:focus-visible,.tmk-watch button:focus-visible,.tmk-watch input:focus-visible,.tmk-plot:focus-visible{outline:2px solid var(--tmk-gold);outline-offset:-2px}
+.tmk-chart button:hover,.tmk-watch button:hover{color:#fff;border-color:#70644c}
+.tmk-up{color:var(--tmk-up)!important}.tmk-down{color:var(--tmk-down)!important}.tmk-flat{color:var(--tmk-muted)!important}
+.tmk-watch{padding:14px 10px;container-type:inline-size;container-name:watchlist}
+.tmk-watch-head,.tmk-watch-label,.tmk-chart-head,.tmk-identity,.tmk-price,.tmk-tools,.tmk-group,.tmk-indicators,.tmk-readout{display:flex;align-items:center}
+.tmk-watch-head,.tmk-watch-label{justify-content:space-between}
+.tmk-watch-head{padding:0 4px 10px}
+.tmk-watch-head h2,.tmk-chart .tmk-ticker{margin:0;color:#f0f1f3;font-weight:700;line-height:1.2}
+.tmk-watch-head h2{font-size:17px}
+.tmk-count{color:var(--tmk-gold);font-size:12px}
+.tmk-search{display:flex;gap:4px;margin:0 0 12px}
+.tmk-search input{width:0;min-width:0;flex:1;background:#111317;color:#ebedf0}
+.tmk-search input::placeholder{color:#a0a5ad}
+.tmk-search button{flex:none;color:var(--tmk-gold);background:#302a20;border-color:#57492e}
+.tmk-watch{--tmk-watch-columns:minmax(0,1fr) minmax(44px,.64fr) minmax(46px,.68fr)}
+.tmk-watch-label,.tmk-watch .tmk-watch-row{display:grid;grid-template-columns:var(--tmk-watch-columns);align-items:center;gap:4px}
+.tmk-watch-label{padding:0 4px 3px 6px;border-bottom:1px solid var(--tmk-line)}
+.tmk-watch .tmk-watch-label button{min-height:24px;min-width:0;padding:0;border:0;background:transparent;color:var(--tmk-muted);font-size:11px;white-space:nowrap;text-align:right}
+.tmk-watch .tmk-watch-label button:first-child{text-align:left}
+.tmk-watch .tmk-watch-label button[aria-pressed=true]{color:var(--tmk-gold)}
+.tmk-watch .tmk-watch-row{width:100%;text-align:right;border:0;border-bottom:1px solid #2c2f35;border-left:2px solid transparent;
+  border-radius:0;background:transparent;padding:6px 4px;min-height:40px}
+.tmk-watch .tmk-watch-row:hover{background:#26272a}
+.tmk-watch .tmk-watch-row[aria-pressed="true"]{background:#302b21;border-left-color:var(--tmk-gold)}
+.tmk-watch-row>span:first-child{display:grid;gap:2px;min-width:0;text-align:left}
+.tmk-watch-row strong,.tmk-watch-row b{font-size:13px;font-weight:600;line-height:1.22;color:#f1f2f4}
+.tmk-watch-row small{font-size:11px;color:var(--tmk-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tmk-watch-row .tmk-pct,.tmk-watch-row .tmk-amount{font-size:12px;white-space:nowrap}
+.tmk-watch .tmk-watch-row .tmk-amount,.tmk-watch .tmk-watch-label [data-sort=amount]{display:none}
+.tmk-watch-dates{margin:5px 3px 0;color:var(--tmk-muted);font-size:10px}
+.tmk-watch-dates:empty{display:none}
+@container watchlist (min-width:258px){
+  .tmk-watch-label,.tmk-watch .tmk-watch-row{grid-template-columns:minmax(65px,1fr) minmax(52px,.66fr) minmax(48px,.66fr) minmax(52px,.68fr)}
+  .tmk-watch .tmk-watch-row .tmk-amount,.tmk-watch .tmk-watch-label [data-sort=amount]{display:block}
+}
+.tmk-watch-status,.tmk-list-empty{color:var(--tmk-muted);font-size:11px;padding:4px;margin:0}
+.tmk-watch-status:empty{display:none}
+.tmk-chart{padding:14px 16px 8px}
+.tmk-chart-head{gap:9px;flex-wrap:wrap}
+.tmk-identity{gap:9px;flex-wrap:wrap}
+.tmk-chart .tmk-ticker{font-size:clamp(21px,2.2vw,31px);letter-spacing:-.035em}
+.tmk-instrument{color:#c4c9d0;font-size:13px}
+.tmk-chart .tmk-star{min-height:23px;padding:1px 6px;background:transparent;color:var(--tmk-muted);font-size:11px}
+.tmk-chart .tmk-star[aria-pressed=true]{border-color:#564a32;color:var(--tmk-gold)}
+.tmk-price{margin-left:auto;gap:5px;align-items:baseline;flex-wrap:wrap}
+.tmk-price strong{font-weight:650;font-size:clamp(22px,2.4vw,34px);line-height:1;letter-spacing:-.04em;color:#f2f3f4}
+.tmk-price small,.tmk-meta,.tmk-chart-foot{color:var(--tmk-muted)}
+.tmk-price small{font-size:11px}.tmk-price>span{font-size:13px;font-weight:600}
+.tmk-meta{margin:5px 0 10px;font-size:11px;overflow-wrap:anywhere}
+.tmk-tools{gap:8px;flex-wrap:wrap;border-top:1px solid var(--tmk-line);padding-top:9px}
+.tmk-group{gap:2px}
+.tmk-group button{border-color:transparent;background:transparent;color:#aeb4be}
+.tmk-group button[aria-pressed=true]{border-color:#554931;color:var(--tmk-gold);background:#312b20}
+.tmk-chart .tmk-source{margin-left:auto;max-width:100%;color:#d6d8dc;background:#202328}
+.tmk-chart .tmk-futu-read{color:var(--tmk-gold);border-color:#635238;background:#30291c}
+.tmk-chart .tmk-futu-read:disabled{cursor:wait;opacity:.72}
+.tmk-manual-status{margin:5px 0 0;color:var(--tmk-muted);font-size:11px;overflow-wrap:anywhere}
+.tmk-manual-status:empty{display:none}
+.tmk-indicators{gap:8px;margin:9px 0 4px}
+.tmk-chart .tmk-indicators button{border:0;background:none;padding:1px 2px;min-height:22px;color:#9b9fa7;font-size:11px;opacity:.85;text-decoration:line-through}
+.tmk-chart .tmk-indicators button::before{content:"";display:inline-block;width:11px;height:2px;margin-right:4px;background:currentColor;vertical-align:middle}
+.tmk-chart .tmk-ma5[aria-pressed=true]{color:#e6b554;opacity:1;text-decoration:none}
+.tmk-chart .tmk-ma20[aria-pressed=true]{color:#79a9ed;opacity:1;text-decoration:none}
+.tmk-readout{min-height:22px;flex-wrap:wrap;gap:3px 12px;color:var(--tmk-muted);font-size:11px}
+.tmk-readout b,.tmk-date{font-weight:550;color:#e1e4e8}
+.tmk-plotframe{position:relative;width:100%;min-width:0;background:#16181b;border:1px solid #2b2e34;border-radius:3px;margin-top:5px;overflow:hidden}
+.tmk-chart .tmk-plot{position:static;display:block;width:100%;height:clamp(260px,38vh,412px);background:transparent;cursor:crosshair;touch-action:pan-y}
+.tmk-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:#17191d;color:var(--tmk-muted);font-size:13px;text-align:center;padding:14px}
+.tmk-chart-foot{margin:6px 0 0;line-height:1.4;font-size:11px}
+.tmk-chart .tmk-plot.tmk-dragging{cursor:grabbing}
+.tmk-chart-navigation{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin:4px 0;color:var(--tmk-muted);font-size:11px}
+.tmk-chart-navigation .tmk-ranges{margin-right:4px;gap:1px}
+.tmk-chart .tmk-chart-navigation .tmk-ranges button{border-color:transparent}
+.tmk-chart .tmk-chart-navigation .tmk-ranges button[aria-pressed=true]{border-color:#554931;color:var(--tmk-gold);background:#312b20}
+.tmk-chart-navigation .tmk-period{display:flex;align-items:center;flex:1;gap:7px;min-width:0;font-size:11px}
+.tmk-chart-navigation .tmk-pan{
+  appearance:none;flex:1;min-width:40px;height:18px;padding:0;border:0;border-radius:0;cursor:ew-resize;
+  background:linear-gradient(to right,#30343b 0 var(--tmk-window-start,0%),#8c7548 var(--tmk-window-start,0%) var(--tmk-window-end,100%),#30343b var(--tmk-window-end,100%) 100%) center / 100% 5px no-repeat;
+}
+.tmk-chart-navigation .tmk-pan::-webkit-slider-thumb{appearance:none;width:14px;height:13px;background:#c0a66e;border:1px solid #d7bd85;border-radius:2px}
+.tmk-chart-navigation .tmk-pan:disabled{cursor:default;opacity:.65}
+.tmk-chart .tmk-chart-navigation button{min-height:24px;padding:0 7px;background:transparent;color:#c5cad2;font-size:12px}
+.tmk-chart .tmk-chart-navigation button:disabled{opacity:.45;cursor:default}
+@media(max-width:640px){
+  .tmk-chart{padding:10px 8px 8px}.tmk-watch{padding:10px 8px}
+  .tmk-watch .tmk-watch-row{min-height:41px;padding:5px 4px}
+  .tmk-price{margin-left:0}.tmk-tools{gap:4px}.tmk-group button{padding:4px 6px}
+  .tmk-chart .tmk-source{margin-left:0}.tmk-readout{gap:3px 8px}
+  .tmk-chart .tmk-plot{height:280px}
+}
